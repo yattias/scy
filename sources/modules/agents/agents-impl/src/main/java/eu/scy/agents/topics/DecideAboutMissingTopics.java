@@ -36,10 +36,10 @@ public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getTupleSpace().waitToRead(getTemplateTuple(),
+			Tuple tuple = getCommandSpace().waitToRead(getTemplateTuple(),
 					AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
-				Tuple topicTuple = getTupleSpace().waitToRead(
+				Tuple topicTuple = getCommandSpace().waitToRead(
 						new Tuple(TopicAgents.TOPIC_DETECTOR, String.class,
 								Field.createWildCardField()), 10 * 1000);
 				if (topicTuple != null) {
@@ -82,7 +82,7 @@ public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 			response.add(missingTopic);
 		}
 		try {
-			getTupleSpace().write(response);
+			getCommandSpace().write(response);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

@@ -66,7 +66,7 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
         examinedVarName = "Mtot";
         initLogger();
         try {
-            cbSeq = getTupleSpace().eventRegister(Command.WRITE, scySimTemplate, this, true);
+            cbSeq = getCommandSpace().eventRegister(Command.WRITE, scySimTemplate, this, true);
             logger.log(Level.FINEST, "Callback registered");
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
         status = Status.Stopping;
         if (cbSeq != 0) {
             try {
-                getTupleSpace().eventDeRegister(cbSeq);
+                getCommandSpace().eventDeRegister(cbSeq);
             } catch (TupleSpaceException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
@@ -150,8 +150,8 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
                     Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "first level scaffold", 50);
                     Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
                     try {
-                        getTupleSpace().write(scaffoldQuery);
-                        getTupleSpace().waitToTake(scaffoldResponse, 1000);
+                        getCommandSpace().write(scaffoldQuery);
+                        getCommandSpace().waitToTake(scaffoldResponse, 1000);
                     } catch (TupleSpaceException e) {
                         e.printStackTrace();
                     }
@@ -161,8 +161,8 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
                     Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "second level scaffold", 50);
                     Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
                     try {
-                        getTupleSpace().write(scaffoldQuery);
-                        getTupleSpace().waitToTake(scaffoldResponse, 1000);
+                        getCommandSpace().write(scaffoldQuery);
+                        getCommandSpace().waitToTake(scaffoldResponse, 1000);
                     } catch (TupleSpaceException e) {
                         e.printStackTrace();
                     }
@@ -172,8 +172,8 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
                     Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "second level scaffold", 50);
                     Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
                     try {
-                        getTupleSpace().write(scaffoldQuery);
-                        getTupleSpace().waitToTake(scaffoldResponse, 1000);
+                        getCommandSpace().write(scaffoldQuery);
+                        getCommandSpace().waitToTake(scaffoldResponse, 1000);
                     } catch (TupleSpaceException e) {
                         e.printStackTrace();
                     }

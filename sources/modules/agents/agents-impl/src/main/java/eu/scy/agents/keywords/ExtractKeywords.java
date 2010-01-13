@@ -21,13 +21,19 @@ public class ExtractKeywords extends AbstractRequestAgent {
 
 	public ExtractKeywords(Map<String, Object> params) {
 		super(NAME, params);
+		if (params.containsKey("tsHost")) {
+			host = (String) params.get("tsHost");
+		}
+		if (params.containsKey("tsPort")) {
+			port = (Integer) params.get("tsPort");
+		}
 		activationTuple = new Tuple(EXTRACT_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
 		while (status == Status.Running) {
-			Tuple tuple = getTupleSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+			Tuple tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
 				ArrayList<String> tfIdfKeywords = getTfIdfKeywords(tuple);
 				ArrayList<String> topicKeywords = getTopicKeywords(tuple);
@@ -44,7 +50,7 @@ public class ExtractKeywords extends AbstractRequestAgent {
 		Tuple notificationTuple = new Tuple();
 		notificationTuple.add("notification");
 		notificationTuple.add(new VMID().toString());
-		notificationTuple.add("obama");
+		notificationTuple.add("jeremy@scy.collide.info/Smack");
 		notificationTuple.add("scymapper");
 		notificationTuple.add("Sender");
 		notificationTuple.add("Mission");
@@ -53,7 +59,7 @@ public class ExtractKeywords extends AbstractRequestAgent {
 			notificationTuple.add("keyword=" + keyword);
 		}
 		try {
-			getTupleSpace().write(notificationTuple);
+			getCommandSpace().write(notificationTuple);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -71,9 +77,9 @@ public class ExtractKeywords extends AbstractRequestAgent {
 		String queryId = new VMID().toString();
 		ArrayList<String> result = new ArrayList<String>();
 		try {
-			getTupleSpace().write(
+			getCommandSpace().write(
 					new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, queryId, text));
-			Tuple response = getTupleSpace().waitToTake(
+			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId,
 							String.class));
 			String keywordString = (String) response.getField(3).getValue();
@@ -92,10 +98,10 @@ public class ExtractKeywords extends AbstractRequestAgent {
 		String queryId = new VMID().toString();
 		ArrayList<String> result = new ArrayList<String>();
 		try {
-			getTupleSpace().write(
+			getCommandSpace().write(
 					new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY,
 							queryId, text));
-			Tuple response = getTupleSpace().waitToTake(
+			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE,
 							queryId, String.class));
 			String keywordString = (String) response.getField(3).getValue();

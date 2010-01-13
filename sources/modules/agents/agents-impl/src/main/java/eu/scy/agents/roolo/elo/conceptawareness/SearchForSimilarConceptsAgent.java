@@ -77,7 +77,7 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple(),
+				Tuple trigger = getCommandSpace().waitToTake(getTemplateTuple(),
 						AgentProtocol.ALIVE_INTERVAL);
 				if (trigger == null) {
 					continue;
@@ -128,7 +128,7 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent
 				Tuple notificationTuple = new Tuple("searchSimilarElosAgent",
 						relatedUserList.toString().trim(), user, eloUri
 								.toString());
-				getTupleSpace().write(notificationTuple);
+				getCommandSpace().write(notificationTuple);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			} catch (TupleSpaceException e) {

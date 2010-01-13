@@ -2,6 +2,7 @@ package eu.scy.agents;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.After;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IExtensionManager;
@@ -52,34 +54,39 @@ public class AbstractTestFixture {
 	private TupleSpace tupleSpace;
 
 	protected void setUp() throws Exception {
-		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-				AgentProtocol.COMMAND_SPACE_NAME);
+		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
 
 		agentMap.clear();
 
 		agentList = new ArrayList<String>();
 
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"test-config.xml");
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("test-config.xml");
 
 		typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
 		extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
 		repository = (IRepository) applicationContext.getBean("localRepository");
 	}
 
+	@After
+	public void tearDown() throws AgentLifecycleException {
+		if (tupleSpace != null) {
+			try {
+				tupleSpace.disconnect();
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
-		elo
-				.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
-						.getId()));
+		elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		return elo;
 	}
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-		elo
-				.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
-						.getId()));
+		elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(
 				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
 		titleContainer.setValue(title);
@@ -102,9 +109,7 @@ public class AbstractTestFixture {
 	}
 
 	protected static void stopTupleSpaceServer() {
-		// if (STANDALONE) {
 		Server.stopServer();
-		// }
 	}
 
 	public void startAgentFramework(Map<String, Map<String, Object>> agents) {

@@ -40,7 +40,7 @@ public class SearchForSimilarConceptNotificationAgent extends
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(
+				Tuple trigger = getCommandSpace().waitToTake(
 						new Tuple("searchSimilarElosAgent", String.class,
 								String.class, String.class),
 						AgentProtocol.ALIVE_INTERVAL);

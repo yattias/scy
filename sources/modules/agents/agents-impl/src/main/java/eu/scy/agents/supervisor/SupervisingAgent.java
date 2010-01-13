@@ -78,11 +78,11 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         // register callbacks
         try {
             // Does that transaction work?
-            getTupleSpace().beginTransaction();
-            cbSeq[0] = getTupleSpace().eventRegister(Command.ALL, alive_template, this, true);
-            cbSeq[1] = getTupleSpace().eventRegister(Command.WRITE, query_template, this, true);
-            cbSeq[2] = getTupleSpace().eventRegister(Command.WRITE, response_template, this, true);
-            getTupleSpace().commitTransaction();
+            getCommandSpace().beginTransaction();
+            cbSeq[0] = getCommandSpace().eventRegister(Command.ALL, alive_template, this, true);
+            cbSeq[1] = getCommandSpace().eventRegister(Command.WRITE, query_template, this, true);
+            cbSeq[2] = getCommandSpace().eventRegister(Command.WRITE, response_template, this, true);
+            getCommandSpace().commitTransaction();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -241,9 +241,9 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
             final Tuple identifyQuery = AgentProtocol.getIdentifyTuple(agentId, agentName, queryId);
             String id = identifyQuery.getField(2).getValue().toString();
             try {
-                getTupleSpace().write(identifyQuery);
+                getCommandSpace().write(identifyQuery);
                 Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId.toString(), id, agentName, Field.createWildCardField());
-                Tuple identifyResponse = getTupleSpace().waitToTake(t, ident_timeout);
+                Tuple identifyResponse = getCommandSpace().waitToTake(t, ident_timeout);
                 if (identifyResponse == null) {
                     logger.log(Level.WARNING, "QID: " + queryId.toString() + "Agent " + agentName + " with ID=" + agentId + " does not respond on identify query...");
                 } else {
@@ -304,7 +304,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         for (Integer seq : cbMap.keySet()) {
             if (seq != 0) {
                 try {
-                    getTupleSpace().eventDeRegister(seq);
+                    getCommandSpace().eventDeRegister(seq);
                 } catch (TupleSpaceException e) {
                     logger.log(Level.SEVERE, e.getMessage());
                 }

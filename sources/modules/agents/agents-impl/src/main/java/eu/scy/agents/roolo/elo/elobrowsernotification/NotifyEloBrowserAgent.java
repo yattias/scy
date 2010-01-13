@@ -42,7 +42,7 @@ public class NotifyEloBrowserAgent extends AbstractThreadedAgent {
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple());
+				Tuple trigger = getCommandSpace().waitToTake(getTemplateTuple());
 
 				String eloUri = (String) trigger.getField(1).getValue();
 

@@ -29,7 +29,7 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 	}
 
 	@AfterClass
-	public static void tearDown() {
+	public static void afterAll() {
 		stopTupleSpaceServer();
 	}
 
@@ -40,11 +40,9 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 
 		elo = createNewElo("TestELO", "scy/scymapping");
 
-		IMetadataValueContainer uriContainer = elo.getMetadata()
-				.getMetadataValueContainer(
-						typeManager.getMetadataKey("identifier"));
-		uriContainer.setValue(new URI(
-				"http://unittest.conceptmapsavedagent.de/1/bla.scymapping"));
+		IMetadataValueContainer uriContainer = elo.getMetadata().getMetadataValueContainer(
+				typeManager.getMetadataKey("identifier"));
+		uriContainer.setValue(new URI("http://unittest.conceptmapsavedagent.de/1/bla.scymapping"));
 		String agentId = new VMID().toString();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", agentId);
@@ -59,13 +57,11 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 	public void testProcessElo() throws TupleSpaceException {
 		agent.processElo(elo);
 
-		Tuple t = getTupleSpace().waitToTake(
-				new Tuple("scymapper", Long.class, String.class), 5 * 1000);
+		Tuple t = getTupleSpace().waitToTake(new Tuple("scymapper", Long.class, String.class), 5 * 1000);
 		assertNotNull("no tuple written", t);
 		assertEquals("scymapper", t.getField(0).getValue());
-		assertEquals(
-				"http://unittest.conceptmapsavedagent.de/1/bla.scymapping",
-				// "roolo://memory/0/testELO.scy",
+		assertEquals("http://unittest.conceptmapsavedagent.de/1/bla.scymapping",
+		// "roolo://memory/0/testELO.scy",
 				t.getField(2).getValue());
 	}
 }

@@ -40,7 +40,7 @@ public class MisspellingNotificationAgent extends AbstractThreadedAgent {
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple(),
+				Tuple trigger = getCommandSpace().waitToTake(getTemplateTuple(),
 						AgentProtocol.ALIVE_INTERVAL);
 				String uri = (String) trigger.getField(1).getValue();
 				Integer numberOfErrors = (Integer) trigger.getField(3)

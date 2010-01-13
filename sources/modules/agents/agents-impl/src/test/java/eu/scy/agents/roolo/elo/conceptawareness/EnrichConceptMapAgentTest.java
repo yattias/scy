@@ -26,12 +26,12 @@ public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 		startTupleSpaceServer();
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		elo = createNewElo("test", "scy/scymapping");
-		elo.setContent(new BasicContent(
-				ConceptMapAgentsTestFixture.CONCEPT_MAP_CONTENT));
+		elo.setContent(new BasicContent(ConceptMapAgentsTestFixture.CONCEPT_MAP_CONTENT));
 
 		String agentId = new VMID().toString();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -44,11 +44,9 @@ public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 	@Test
 	public void testProcessElo() {
 		agent.processElo(elo);
-		IMetadataValueContainer nodeLabelsContainer = elo.getMetadata()
-				.getMetadataValueContainer(
-						typeManager.getMetadataKey("nodeLabel"));
-		List<String> nodeLabels = (List<String>) nodeLabelsContainer
-				.getValueList();
+		IMetadataValueContainer nodeLabelsContainer = elo.getMetadata().getMetadataValueContainer(
+				typeManager.getMetadataKey("nodeLabel"));
+		List<String> nodeLabels = (List<String>) nodeLabelsContainer.getValueList();
 		assertEquals(8, nodeLabels.size());
 		assertEquals("total moment", nodeLabels.get(0));
 		assertEquals("moment child 1", nodeLabels.get(1));
@@ -59,11 +57,9 @@ public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 		assertEquals("balance state", nodeLabels.get(6));
 		assertEquals("distance", nodeLabels.get(7));
 
-		IMetadataValueContainer linkLabelsContainer = elo.getMetadata()
-				.getMetadataValueContainer(
-						typeManager.getMetadataKey("linkLabel"));
-		List<String> linkLabels = (List<String>) linkLabelsContainer
-				.getValueList();
+		IMetadataValueContainer linkLabelsContainer = elo.getMetadata().getMetadataValueContainer(
+				typeManager.getMetadataKey("linkLabel"));
+		List<String> linkLabels = (List<String>) linkLabelsContainer.getValueList();
 		assertEquals(5, linkLabels.size());
 		assertEquals("-", linkLabels.get(0));
 		assertEquals("+", linkLabels.get(1));

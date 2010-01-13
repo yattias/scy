@@ -54,7 +54,7 @@ public class ConceptMapSavedAgent extends AbstractELOAgent {
 		System.err.println("concept map elo saved");
 
 		try {
-			getTupleSpace().write(
+			getCommandSpace().write(
 					new Tuple("scymapper", System.currentTimeMillis(), elo
 							.getUri().toString()));
 		} catch (TupleSpaceException e) {

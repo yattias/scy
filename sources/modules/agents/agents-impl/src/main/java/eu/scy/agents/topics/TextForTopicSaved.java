@@ -29,7 +29,7 @@ public class TextForTopicSaved extends AbstractELOAgent {
 			if (isValidType(elo)) {
 				URI eloUri = elo.getUri();
 				try {
-					getTupleSpace().write(
+					getCommandSpace().write(
 							new Tuple(TopicAgents.TOPIC_DETECTOR, eloUri
 									.toString()));
 				} catch (TupleSpaceException e) {
