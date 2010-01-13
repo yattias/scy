@@ -14,13 +14,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 
 import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import roolo.api.IRepository;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 
 /**
@@ -28,32 +36,33 @@ import java.awt.Dimension;
  */
 
  // place your code here
-public class DrawingNode extends CustomNode, Resizable {
+public class DrawingNode extends CustomNode, Resizable, ScyToolFX {
+   def logger = Logger.getLogger(this.getClass());
+   def scyDrawingType = "scy/drawing";
+   def jdomStringConversion = new JDomStringConversion();
 
    public-init var whiteboardPanel:WhiteboardPanel;
-   public-init var eloDrawingActionWrapper:EloDrawingActionWrapper;
-	public var scyWindow:ScyWindow on replace {
-		setScyWindowTitle()};
+   public var eloFactory:IELOFactory;
+   public var metadataTypeManager: IMetadataTypeManager;
+   public var repository:IRepository;
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
    var wrappedWhiteboardPanel:SwingComponent;
+   var technicalFormatKey: IMetadataKey;
+
+   var elo:IELO;
 
    def spacing = 5.0;
 
-public function loadElo(uri:URI){
-      eloDrawingActionWrapper.loadElo(uri);
-		setScyWindowTitle();
+   public override function initialize(windowContent: Boolean):Void{
+      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
-	function setScyWindowTitle(){
-		if (scyWindow == null)
-		return;
-		scyWindow.title = eloDrawingActionWrapper.getDocName();
-		var eloUri = eloDrawingActionWrapper.getEloUri();
-      scyWindow.eloUri = eloUri;
-	};
+   public override function loadElo(uri:URI){
+      doLoadElo(uri);
+   }
 
    public override function create(): Node {
       wrappedWhiteboardPanel = SwingComponent.wrap(whiteboardPanel);
@@ -69,31 +78,15 @@ public function loadElo(uri:URI){
                      spacing:spacing;
                      content:[
                         Button {
-                           text: "New"
-                           action: function() {
-                              eloDrawingActionWrapper.newDrawingAction();
-										setScyWindowTitle();
-                           }
-                        }
-                        Button {
-                           text: "Load"
-                           action: function() {
-                              eloDrawingActionWrapper.loadDrawingAction();
-										setScyWindowTitle();
-                           }
-                        }
-                        Button {
                            text: "Save"
                            action: function() {
-                              eloDrawingActionWrapper.saveDrawingAction();
-										setScyWindowTitle();
+                              doSaveElo();
                            }
                         }
                         Button {
                            text: "Save as"
                            action: function() {
-                              eloDrawingActionWrapper.saveAsDrawingAction();
-										setScyWindowTitle();
+										doSaveAsElo();
                            }
                         }
                      ]
@@ -103,6 +96,42 @@ public function loadElo(uri:URI){
             }
          ]
       };
+   }
+
+   function doLoadElo(eloUri:URI)
+   {
+      logger.info("Trying to load elo {eloUri}");
+      var newElo = repository.retrieveELO(eloUri);
+      if (newElo != null)
+      {
+         whiteboardPanel.deleteAllWhiteboardContainers();
+         whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
+         logger.info("elo loaded");
+         elo = newElo;
+      }
+   }
+
+   function doSaveElo(){
+      var savedElo = eloSaver.eloUpdate(getElo());
+      if (savedElo!=null){
+         elo = savedElo;
+      }
+   }
+
+   function doSaveAsElo(){
+      var savedElo = eloSaver.eloSaveAs(getElo());
+      if (savedElo!=null){
+         elo = savedElo;
+      }
+   }
+
+   function getElo():IELO{
+      if (elo==null){
+         elo = eloFactory.createELO();
+         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyDrawingType);
+      }
+      elo.getContent().setXmlString(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
+      return elo;
    }
 
    function resizeContent(){
@@ -123,4 +152,12 @@ public function loadElo(uri:URI){
       return whiteboardPanel.getPreferredSize().getWidth();
    }
 
+
+   public override function getMinHeight() : Number{
+      return 60;
+   }
+
+   public override function getMinWidth() : Number{
+      return 140;
+   }
 }

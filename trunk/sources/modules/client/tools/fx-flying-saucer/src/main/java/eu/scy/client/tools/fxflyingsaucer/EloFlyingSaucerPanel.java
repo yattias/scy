@@ -4,6 +4,9 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import java.net.URI;
 import java.net.URL;
@@ -25,7 +28,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
  *
  * @author sikkenj
  */
-public class EloFlyingSaucerPanel extends FlyingSaucerPanel
+public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
 {
 
    private static final Logger logger = Logger.getLogger(EloFlyingSaucerPanel.class);
@@ -37,6 +40,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
    private IMetadataTypeManager metadataTypeManager;
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
+   private EloSaver eloSaver;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
 
    public void addEloSavedListener(EloSavedListener eloSavedListener)
@@ -85,6 +89,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
       this.eloFactory = eloFactory;
    }
 
+   public void setEloSaver(EloSaver eloSaver)
+   {
+      this.eloSaver = eloSaver;
+   }
+
    public void setHomeElo(URI uri)
    {
       IELO elo = repository.retrieveELO(uri);
@@ -103,16 +112,23 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
       super.saveUrlAsHome(url);
       if (url != null)
       {
-         String name = JOptionPane.showInputDialog("Enter url home name:");
-         if (name != null && name.length() > 0)
+         IELO newHomeElo = eloFactory.createELO();
+         newHomeElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyUrlType);
+         setUrlInContent(newHomeElo.getContent(), url.toString());
+         if (eloSaver != null)
          {
-            IELO newHomeElo = eloFactory.createELO();
-            newHomeElo.getMetadata().getMetadataValueContainer(titleKey).setValue(name);
-            newHomeElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyUrlType);
-            setUrlInContent(newHomeElo.getContent(), url.toString());
-            IMetadata newMetadata = repository.addNewELO(newHomeElo);
-            eloFactory.updateELOWithResult(newHomeElo, newMetadata);
-            sendEloSavedMessage(newHomeElo, name);
+            eloSaver.eloSaveAs(newHomeElo);
+         }
+         else
+         {
+            String name = JOptionPane.showInputDialog("Enter url home name:");
+            if (name != null && name.length() > 0)
+            {
+               newHomeElo.getMetadata().getMetadataValueContainer(titleKey).setValue(name);
+               IMetadata newMetadata = repository.addNewELO(newHomeElo);
+               eloFactory.updateELOWithResult(newHomeElo, newMetadata);
+               sendEloSavedMessage(newHomeElo, name);
+            }
          }
       }
    }
@@ -128,5 +144,78 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
       Element contentXml = new Element(urlTagName);
       contentXml.setText(url);
       content.setXmlString(jdomStringConversion.xmlToString(contentXml));
+   }
+
+   @Override
+   public void initialize(boolean windowContent)
+   {
+   }
+
+   @Override
+   public void postInitialize()
+   {
+   }
+
+   @Override
+   public void newElo()
+   {
+   }
+
+   @Override
+   public void loadElo(URI eloUri)
+   {
+      setHomeElo(eloUri);
+   }
+
+   @Override
+   public void loadedEloChanged(URI eloUri)
+   {
+   }
+
+   @Override
+   public void onGotFocus()
+   {
+   }
+
+   @Override
+   public void onLostFocus()
+   {
+   }
+
+   @Override
+   public void onMinimized()
+   {
+   }
+
+   @Override
+   public void onUnMinimized()
+   {
+   }
+
+   @Override
+   public boolean aboutToClose()
+   {
+      return true;
+   }
+
+   @Override
+   public void onClosed()
+   {
+   }
+
+   @Override
+   public void setMyEloChanged(MyEloChanged myEloChanged)
+   {
+   }
+
+   @Override
+   public boolean canAcceptDrop(Object object)
+   {
+      return false;
+   }
+
+   @Override
+   public void acceptDrop(Object object)
+   {
    }
 }
