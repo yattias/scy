@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.junit.Ignore;
+
 
 public class PresenceModuleXMPPTestCase {
 
@@ -19,7 +21,7 @@ public class PresenceModuleXMPPTestCase {
     }
 
 
-    @org.junit.Before
+    @Ignore
     public void presenceModuleSetup() {
         logger.fine("presenceModuleSetup");
         if (presenceModule == null) {
