@@ -27,7 +27,7 @@ public class AwarenessMUCTest {
 	private String pass2 = "djed11";
 	private String tail = "@scy.intermedia.uio.no";
 	private String conferenceExtension = "conference.scy.intermedia.uio.no";
-	@Before
+	@Ignore
 	public void setUp() throws Exception {
 
 		tbi = new ToolBrokerImpl(user2, pass2);
@@ -38,6 +38,11 @@ public class AwarenessMUCTest {
 		Random r = new Random();
 		String token = Long.toString(Math.abs(r.nextLong()), 36);
 		//ELOUri = token;
+	}
+	
+	@Test
+	public void testDefault () {
+		System.out.println("this is the MUC test");
 	}
 
 	
