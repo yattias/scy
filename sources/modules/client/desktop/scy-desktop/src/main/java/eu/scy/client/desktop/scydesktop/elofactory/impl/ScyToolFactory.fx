@@ -20,7 +20,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.Exception;
 
 /**
@@ -88,8 +88,8 @@ public class ScyToolFactory extends ContentFactory {
 
       checkIfServicesInjected(toolNode);
       servicesInjector.injectServiceIfWanted(toolNode, scyWindow.getClass(), "scyWindow", scyWindow);
-      if (toolNode instanceof ScyToolGetterPresent) {
-         var scyTool = (toolNode as ScyToolGetterPresent).getScyTool();
+      if (toolNode instanceof ScyToolGetter) {
+         var scyTool = (toolNode as ScyToolGetter).getScyTool();
          if (scyTool!=null){
             checkIfServicesInjected(scyTool);
             servicesInjector.injectServiceIfWanted(scyTool, scyWindow.getClass(), "scyWindow", scyWindow);

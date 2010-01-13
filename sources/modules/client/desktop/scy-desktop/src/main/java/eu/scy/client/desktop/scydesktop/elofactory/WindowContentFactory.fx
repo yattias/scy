@@ -37,7 +37,7 @@ import javafx.ext.swing.SwingComponent;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.String;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;

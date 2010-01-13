@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.IllegalStateException;
 import java.lang.Object;
 import java.lang.Void;
@@ -49,8 +49,8 @@ public class ScyToolsList extends ScyTool {
          insert (node as ScyTool) into scyToolList;
 //         logger.debug("add node as ScyTool {sizeof scyToolList}");
       }
-      else if (node instanceof ScyToolGetterPresent){
-         insert (node as ScyToolGetterPresent).getScyTool() into scyToolList;
+      else if (node instanceof ScyToolGetter){
+         insert (node as ScyToolGetter).getScyTool() into scyToolList;
 //         logger.debug("add node.getScyTool as ScyTool {sizeof scyToolList}");
       }
    }
