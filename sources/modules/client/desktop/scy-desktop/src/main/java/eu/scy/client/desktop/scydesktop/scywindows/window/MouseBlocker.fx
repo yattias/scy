@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.lang.IllegalStateException;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author sikkenj
@@ -21,13 +22,30 @@ var theStage:Stage;
 
 def testBorder = 0;
 
-var mouseBlockNode = Rectangle {
+var mouseBlockNode:Rectangle = Rectangle {
    blocksMouse:true;
    x: testBorder, y: testBorder
    width: 100, height: 100
 //   fill: Color.color(.5,.5,.5,.5)
    fill: Color.TRANSPARENT
-   stroke:null
+//   stroke:null
+   stroke:Color.color(.5,.5,.5,.5)
+   strokeWidth:3.0
+   onMouseClicked: function (e: MouseEvent): Void {
+      if (mouseBlockingActive){
+         println("mouse blocking disabled, by clicking on the mouseBlockNode");
+         stopMouseBlocking();
+      }
+   }
+   onMouseReleased: function (e: MouseEvent): Void {
+      // there are situations that the normal mouse drag sequence is not ended by onMouseReleased
+      // this happens when dragging action to open an window is stopped, before the window tools are created
+      // the onMouseReleased action is then recieved by this node
+      if (mouseBlockingActive){
+         stopMouseBlocking();
+      }
+   }
+
 }
 
 var mouseBlockingActive = false;
