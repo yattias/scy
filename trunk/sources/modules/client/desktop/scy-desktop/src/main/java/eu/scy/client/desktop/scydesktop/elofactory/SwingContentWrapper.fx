@@ -20,7 +20,7 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 import javafx.scene.layout.Resizable;
 
 import java.awt.Dimension;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 
 /**
@@ -29,7 +29,7 @@ import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 
 // place your code here
 
-public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetterPresent {
+public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter {
    def logger = Logger.getLogger(this.getClass());
 
    public var swingContent: JComponent;
@@ -91,8 +91,8 @@ public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetterPre
       if (swingContent instanceof ScyTool){
          return swingContent as ScyTool;
       }
-      else if (swingContent instanceof ScyToolGetterPresent){
-         return (swingContent as ScyToolGetterPresent).getScyTool();
+      else if (swingContent instanceof ScyToolGetter){
+         return (swingContent as ScyToolGetter).getScyTool();
       }
       return null;
    }
