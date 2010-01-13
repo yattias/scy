@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 
-
 /**
  * @author sikken
  */
@@ -23,7 +22,7 @@ public class TextEditorScyToolContentCreator extends ScyToolCreatorFX {
    }
 
 	function createTextEditorNode():ScyTextEditorNode{
-//      Thread.sleep(5000);
+//      Thread.sleep(3000);
 		var textEditor = new TextEditor();
 		return ScyTextEditorNode{
 			textEditor:textEditor;

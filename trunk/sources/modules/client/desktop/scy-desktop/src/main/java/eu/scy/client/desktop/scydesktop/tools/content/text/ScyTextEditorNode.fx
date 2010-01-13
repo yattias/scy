@@ -22,14 +22,12 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
-
-import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import org.jdom.Element;
-
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 
 /**
  * @author sikken
@@ -44,7 +42,6 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
    def jdomStringConversion = new JDomStringConversion();
 
    public-init var textEditor:TextEditor;
-   public-init var eloTextEditorActionWrapper:EloTextEditorActionWrapper;
 
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
