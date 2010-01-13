@@ -184,7 +184,7 @@ public class SaveELOResource {
                 log.info("Metadata set");
                 
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
-                String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
+                String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> "+annotations+" </annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
                 IContent eloContent = configLoader.getEloFactory().createContent();
                 eloContent.setXmlString(content);
                 elo.setContent(eloContent);
