@@ -2,6 +2,7 @@ package eu.scy.client.tools.fxwebresourcer.highlighter;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -27,7 +28,12 @@ public class XMLData {
             title = root.getChild("title")
                             .getText();
             //System.out.println(title);
-            bullets = root.getChildren("summary");
+            List<Element> items = root.getChild("summary").getChildren("bullet");
+            bullets = new ArrayList<String>();
+            for(Element item:items) {
+                bullets.add(item.getText());
+
+            }
             //System.out.println(bullets);
             comments = root.getChild("comments")
                             .getText();
@@ -35,6 +41,7 @@ public class XMLData {
             sources = root.getChild("sources")
                             .getText();
             //System.out.println(sources);
+
     }
 
     public String getTitle() {

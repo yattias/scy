@@ -124,6 +124,7 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
         var xmlData:XMLData = new XMLData(input);
         myContent.clearQuotations();
         myContent.setTitle(xmlData.getTitle());
+        
         for(bullet in xmlData.getBullets()) {
              myContent.addQuotation(bullet);
         }
@@ -173,9 +174,6 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
             eloWebResourceActionWrapper.setMetadataTypeManager(metadataTypeManager);
             eloWebResourceActionWrapper.setEloFactory(eloFactory);
             eloWebResourceActionWrapper.setDocName(scyWindow.title);
-            System.out.println("foo, bar");
-
-            System.out.println("bar, foo");
     }
 
     override function newElo():Void {
@@ -218,6 +216,8 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
     override function setMyEloChanged(myEloChanged:MyEloChanged) {
 
     }
+
+
 
     override function getPrefHeight(width:Number):Number {
         return 500;
