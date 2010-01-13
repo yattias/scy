@@ -19,13 +19,14 @@
 	<bean id="agentFrameworkComponent" class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent" singleton="true">
 		<property name="initialAgents">
 			<set>
-				<!--  ref bean="supervisor" /-->
-				<!--ref bean="votat" />
+				<!-- ref bean="supervisor" /-->
+				
 				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
 				<ref bean="topicdetector" />
 				<ref bean="scysim" />
-				<ref bean="toolexperience" /-->
+				<ref bean="votat" />
+				<ref bean="toolexperience" />
 			</set>
 		</property>
 	</bean>
