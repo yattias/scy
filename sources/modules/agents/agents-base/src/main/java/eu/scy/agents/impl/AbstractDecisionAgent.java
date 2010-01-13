@@ -49,7 +49,7 @@ public abstract class AbstractDecisionAgent extends AbstractThreadedAgent
 
 	private void sendNotificationTuple(Tuple notificationTuple) {
 		try {
-			getTupleSpace().write(notificationTuple);
+			getCommandSpace().write(notificationTuple);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
