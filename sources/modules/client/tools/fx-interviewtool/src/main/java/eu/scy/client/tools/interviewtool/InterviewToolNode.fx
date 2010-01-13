@@ -48,6 +48,9 @@ import javax.swing.JOptionPane;
 import java.util.List;
 import javafx.scene.layout.Resizable;
 
+import eu.scy.actionlogging.SystemOutActionLogger;
+import eu.scy.actionlogging.DevNullActionLogger;
+
 /**
  * @author kaido
  */
@@ -97,6 +100,7 @@ def upperFrameHeight = upperFrameHeightBase - 2*scrollableAreaOffset;
 def lowerFrameHeight = lowerFrameHeightBase - 2*scrollableAreaOffset;
 def hPadding = 10;
 def leftFrameWrappingWidth = leftFrameWidth - 2*hPadding;
+var log = true;
 function getScrollViewWidth(node: Node, height: Number, width: Number) : Number {
     if (node.layoutBounds.maxY>height)
         return width-scrollBarThickness;
@@ -343,6 +347,7 @@ function refreshStage() {
 */
 }
 function showHome() : Void {
+    interviewLogger.logBasicAction(InterviewLogger.SHOW_HOME);
     upperNodes =
         Text {
             font : titleFont
@@ -380,6 +385,7 @@ function showHome() : Void {
     refreshStage();
 }
 function showPrepare() : Void {
+    interviewLogger.logBasicAction(InterviewLogger.SHOW_PREPARE);
     upperNodes =
         Text {
             font : titleFont
@@ -391,7 +397,10 @@ function showPrepare() : Void {
     refreshStage();
 }
 var question: String;
+var questionBefore: String;
+var questionAfter: String on replace {if (not questionBefore.equals(questionAfter)) {interviewLogger.logQuestionChange(questionBefore,questionAfter);}};
 function showQuestion() {
+    interviewLogger.logBasicAction(InterviewLogger.SHOW_QUESTION);
     upperNodes =
         Text {
             font : labelFont
@@ -415,6 +424,8 @@ function showQuestion() {
                 translateY: 50
                 font: normalFont
                 text: bind question with inverse
+                textBefore: bind questionBefore with inverse
+                textAfter: bind questionAfter with inverse
             }
     ]};
     refreshStage();
@@ -439,7 +450,9 @@ var refreshTree: function() =
                 selectedValue.value==(node.getUserObject() as InterviewTreeCell).value and
                 selectedValue.topic.id==(node.getUserObject() as InterviewTreeCell).topic.id and
                 selectedValue.indicator.id==(node.getUserObject() as InterviewTreeCell).indicator.id) {
+                log = false;
                 activateTreeNode(node);
+                log = true;
                 found = true;
                 break;
             }
@@ -464,6 +477,8 @@ var refreshTopicsAndTree: function() =
 var nextID: Integer = 1;
 var objects: InterviewObject[];
 function showTopics() : Void {
+    if (log)
+        interviewLogger.logBasicAction(InterviewLogger.SHOW_TOPICS);
     upperNodes = VBox {
         translateX: hPadding
         translateY: 20
@@ -495,6 +510,7 @@ function showTopics() : Void {
         headerText: "Topics we need information about"
         nextID: bind nextID with inverse
         refreshAction: refreshTopicsAndTree
+        logAction: interviewLogger.logTopicAction
         width: leftFrameWrappingWidth
         height: 150
         font: normalFont
@@ -509,6 +525,8 @@ var refreshTopicAndTree: function() =
     };
 var topicNo: Integer;
 function showTopic(cell: InterviewTreeCell) {
+    if (log)
+        interviewLogger.logShowIndicators(cell.topic.topic);
     topicNo = cell.topicNo;
     upperNodes = VBox {
         translateX: hPadding
@@ -533,6 +551,7 @@ function showTopic(cell: InterviewTreeCell) {
         ]
     };
     objects = cell.topic.indicators;
+    interviewLogger.topic = cell.topic.topic;
     lowerNodes = InterviewTableEditor {
         translateX: hPadding
         translateY: 10
@@ -541,6 +560,7 @@ function showTopic(cell: InterviewTreeCell) {
         headerText: "Indicators of \"{cell.topic.topic}\""
         nextID: bind nextID with inverse
         refreshAction: refreshTopicAndTree
+        logAction: interviewLogger.logIndicatorAction
         width: leftFrameWrappingWidth
         height: 150
         font: normalFont
@@ -556,6 +576,8 @@ var refreshIndicator: function() =
 var indicatorNo: Integer;
 var namely: Boolean;
 function showIndicator(cell: InterviewTreeCell) {
+    if (log)
+        interviewLogger.logShowAnswers(cell.topic.topic,cell.indicator.indicator);
     topicNo = cell.topicNo;
     indicatorNo = cell.indicatorNo;
     upperNodes = VBox {
@@ -582,6 +604,8 @@ function showIndicator(cell: InterviewTreeCell) {
     };
     objects = cell.indicator.answers;
     namely = cell.indicator.answerIncludeNamely;
+    interviewLogger.topic = cell.topic.topic;
+    interviewLogger.indicator = cell.indicator.indicator;
     lowerNodes = InterviewTableEditor {
         translateX: hPadding
         translateY: 10
@@ -590,6 +614,8 @@ function showIndicator(cell: InterviewTreeCell) {
         headerText: "Answer options for \"{cell.indicator.indicator}\""
         nextID: bind nextID with inverse
         refreshAction: refreshIndicator
+        logAction: interviewLogger.logAnswerAction
+        logNamelyAction: interviewLogger.logOtherNamelyAction
         width: leftFrameWrappingWidth
         height: 150
         font: normalFont
@@ -602,7 +628,14 @@ function showIndicator(cell: InterviewTreeCell) {
 var formulation: String on replace {
         topics[topicNo-1].indicators[indicatorNo-1].formulation = formulation;
     };
+var formulationBefore: String;
+var formulationAfter: String on replace {
+    if (not formulationBefore.equals(formulationAfter)) {
+        interviewLogger.logFormulationChange(formulationBefore,formulationAfter);
+    }
+};
 function showIndicatorFormulate(cell: InterviewTreeCell) {
+    interviewLogger.logShowFormulation(cell.topic.topic,cell.indicator.indicator);
     topicNo = cell.topicNo;
     indicatorNo = cell.indicatorNo;
     formulation = cell.indicator.formulation;
@@ -629,11 +662,14 @@ function showIndicatorFormulate(cell: InterviewTreeCell) {
                 translateY: 50
                 font: normalFont
                 text: bind formulation with inverse
+                textBefore: bind formulationBefore with inverse
+                textAfter: bind formulationAfter with inverse
             }
     ]};
     refreshStage();
 }
 function showIndicatorStatus(cell: InterviewTreeCell) {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_STATUS);
     upperNodes =
         Text {
             font : labelFont
@@ -646,6 +682,7 @@ function showIndicatorStatus(cell: InterviewTreeCell) {
     refreshStage();
 }
 function showDesign() {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
     upperNodes = VBox {
         translateX: hPadding
         translateY: 20
@@ -681,6 +718,7 @@ function showDesign() {
         Hyperlink {
             text: "Interview schema"
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.SHOW_INTERVIEW_SCHEMA);
                 var nl = "\n";
                 var i: String = "Interview Schema{nl}{nl}";
                 i = "{i}Introduction{nl}";
@@ -712,6 +750,7 @@ function showDesign() {
     refreshStage();
 }
 function showConduct() {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT);
     upperNodes =
         Text {
             font : titleFont
@@ -723,6 +762,7 @@ function showConduct() {
     refreshStage();
 }
 function showConductPreparation() {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT_PREPARATION);
     upperNodes = VBox {
         translateX: hPadding
         translateY: 20
@@ -744,6 +784,7 @@ function showConductPreparation() {
     refreshStage();
 }
 function showConductRecommendations() {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT_RECOMMENDATIONS);
     upperNodes = VBox {
         translateX: hPadding
         translateY: 20
@@ -774,6 +815,7 @@ function showConductRecommendations() {
         Hyperlink {
             text: "Interview guidelines.doc"
             action: function() {
+                interviewLogger.logBasicAction(interviewLogger.SHOW_GUIDELINES_DOC);
                 var bs : BasicService = ServiceManager.lookup("javax.jnlp.BasicService") as BasicService;
                 var url : java.net.URL = new java.net.URL("http://bio.edu.ee/scy/tools/interviewtool/Interview_guidelines.doc");
                 bs.showDocument(url);
@@ -783,6 +825,7 @@ function showConductRecommendations() {
         Hyperlink {
             text: "Interview guidelines.pdf"
             action: function() {
+                interviewLogger.logBasicAction(interviewLogger.SHOW_GUIDELINES_PDF);
                 var bs : BasicService = ServiceManager.lookup("javax.jnlp.BasicService") as BasicService;
                 var url : java.net.URL = new java.net.URL("http://bio.edu.ee/scy/tools/interviewtool/Interview_guidelines.pdf");
                 bs.showDocument(url);
@@ -794,6 +837,7 @@ function showConductRecommendations() {
     refreshStage();
 }
 function showAnalyze() {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_ANALYZE);
     upperNodes =
         Text {
             font : titleFont
@@ -805,6 +849,7 @@ function showAnalyze() {
     refreshStage();
 }
 function showAnalyzeNotIncluded() {
+    interviewLogger.logBasicAction(interviewLogger.SHOW_ANALYZE_NOT_INCLUDED);
     upperNodes =
         Text {
             font : labelFont
@@ -871,33 +916,40 @@ var content: Node[] = [
         Button {
             text: "Open"
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.OPEN_ELO);
                 openElo();
             }
         }
         Button {
             text: "Save"
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.SAVE_ELO);
                 doSaveElo();
             }
         }
         Button {
             text: "Save as..."
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.SAVE_AS_ELO);
                 doSaveAsElo();
             }
         }
         Button {
             text: "Zoom tree in/out"
             action: function() {
-                if (interviewTree.width==stageWidth)
-                    interviewTree.width=treeWidth
-                else
+                if (interviewTree.width==stageWidth) {
+                    interviewTree.width=treeWidth;
+                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
+                } else {
                     interviewTree.width=stageWidth;
+                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
+                }
             }
         }
         Button {
             text: "Back"
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.BACK_CLICKED);
                 var e : Enumeration = (interviewTree.model.getRoot() as DefaultMutableTreeNode).preorderEnumeration();
                 var prevNode: DefaultMutableTreeNode = null;
                 // skip root
@@ -919,12 +971,14 @@ var content: Node[] = [
         Button {
             text: "Home"
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.HOME_CLICKED);
                 activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
             }
         }
         Button {
             text: "Next"
             action: function() {
+                interviewLogger.logBasicAction(InterviewLogger.NEXT_CLICKED);
                 var e : Enumeration = (interviewTree.model.getRoot() as DefaultMutableTreeNode).preorderEnumeration();
                 var found = false;
                 while (e.hasMoreElements()) {
@@ -959,13 +1013,14 @@ var content: Node[] = [
             Button {
                 text: "Copy all to clipboard"
                 action: function() {
+                   interviewLogger.logCopyInterviewSchemaToClipboard(interviewSchema);
                     var cs : ClipboardService = null;
                     try {
                         cs = ServiceManager.lookup("javax.jnlp.ClipboardService") as ClipboardService;
                     } catch (e : UnavailableServiceException) {
                         cs = null;
                     }
-                     if (cs != null) {
+                    if (cs != null) {
                         var ss: java.awt.datatransfer.StringSelection =
                             new java.awt.datatransfer.StringSelection(interviewSchema);
                         cs.setContents(ss);
@@ -975,6 +1030,7 @@ var content: Node[] = [
             Button {
                 text: "Close interview schema"
                 action: function() {
+                    interviewLogger.logBasicAction(InterviewLogger.CLOSE_INTERVIEW_SCHEMA);
                     interviewSchemaVisible = false;
                 }
             }
@@ -1014,6 +1070,14 @@ var stage = Stage {
    public var repository:IRepository;
    var elo:IELO;
    var technicalFormatKey: IMetadataKey;
+   var interviewLogger: InterviewLogger = InterviewLogger{
+//       actionLogger: new SystemOutActionLogger()
+       actionLogger: new DevNullActionLogger()
+       username: "username"
+       toolname: "interviewtool"
+       missionname: "missionname"
+       sessionname: "sessionname"
+   };
 
    public override function initialize(windowContent:Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
