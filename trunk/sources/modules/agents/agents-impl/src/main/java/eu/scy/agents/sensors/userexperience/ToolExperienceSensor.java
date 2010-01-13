@@ -75,9 +75,9 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
     public ToolExperienceSensor(Map<String, Object> map) {
         super("eu.scy.agents.serviceprovider.userexperience.ToolExperienceSensor", (String) map.get("id"), "localhost", 2525);
         try {
-            sensorSpace = new TupleSpace(new User(getName()), host, port, false, false, SENSOR_SPACE);
-            actionSpace = new TupleSpace(new User(getName()), host, port, false, false, ACTION_SPACE);
-            toolAliveSpace = new TupleSpace(new User(getName()), host, port, false, false, TOOL_ALIVE_SPACE);
+            sensorSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, SENSOR_SPACE);
+            actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, ACTION_SPACE);
+            toolAliveSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, TOOL_ALIVE_SPACE);
             init();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
