@@ -1,5 +1,6 @@
 package eu.scy.server.pedagogicalplan;
 
+import eu.scy.core.model.auth.SessionInfo;
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
@@ -35,6 +36,11 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
         tool.setName(name);
         tool.setDescription(description);
         return tool;
+    }
+
+    @Override
+    public SessionInfo login(String username, String password) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
