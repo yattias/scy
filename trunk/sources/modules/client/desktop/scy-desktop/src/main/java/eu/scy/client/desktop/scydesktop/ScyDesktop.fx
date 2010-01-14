@@ -313,6 +313,7 @@ public class ScyDesktop extends CustomNode {
       var pleaseWait = PleaseWait{};
       window.scyContent = pleaseWait;
       FX.deferAction(function(){
+         // one defer does not seem to be enough to show the please wait content
          FX.deferAction(function(){
                realFillNewScyWindow2(window);
             });
