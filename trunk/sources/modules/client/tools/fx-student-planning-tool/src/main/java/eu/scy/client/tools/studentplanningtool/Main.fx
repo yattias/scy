@@ -44,19 +44,19 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
     var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
     var eloUri = "z168fb1jo51y";
-//    var chatController = new ChatController(awarenessService, eloUri);
+   var chatController = new ChatController(awarenessService, eloUri);
 
     logger.info("awarenessService exists: {awarenessService.isConnected()}");
     scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-//                chatController: chatController;
+                chatController: chatController;
                 },
             scychatId);
     scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolPresenceDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-//                chatController: chatController;
+                chatController: chatController;
             },
             scychatpresenceId);
 
