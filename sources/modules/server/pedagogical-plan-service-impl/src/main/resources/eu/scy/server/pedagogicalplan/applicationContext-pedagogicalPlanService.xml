@@ -7,6 +7,8 @@
     <bean id="pedagogicalPlanService" class="eu.scy.server.pedagogicalplan.PedagogicalPlanServiceImpl">
         <property name="scenarioService" ref="scenarioService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="userService" ref="userService"/>
+
     </bean>
 
     <bean id="studentPpedagogicalPlanService" class="eu.scy.server.pedagogicalplan.StudentPedagogicalPlanServiceImpl">

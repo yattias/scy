@@ -32,5 +32,10 @@
             <artifactId>scy-useradmin-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>tool-broker-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
     </dependencies>
 </project>

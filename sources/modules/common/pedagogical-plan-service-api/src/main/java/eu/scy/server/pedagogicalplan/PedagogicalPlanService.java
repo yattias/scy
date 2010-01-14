@@ -1,6 +1,6 @@
 package eu.scy.server.pedagogicalplan;
 
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.core.model.auth.SessionInfo;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Tool;
@@ -15,6 +15,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface PedagogicalPlanService {
+
+    public SessionInfo login(String username, String password);
 
     public List <Tool> getTools();
 

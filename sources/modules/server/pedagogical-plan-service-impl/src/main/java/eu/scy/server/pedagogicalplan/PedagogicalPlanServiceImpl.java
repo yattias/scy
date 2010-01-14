@@ -2,6 +2,10 @@ package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
+import eu.scy.core.UserService;
+import eu.scy.core.model.User;
+import eu.scy.core.model.auth.SessionInfo;
+import eu.scy.core.model.impl.auth.SessionInfoImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Tool;
@@ -51,4 +55,5 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
     public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
         this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
     }
+
 }
