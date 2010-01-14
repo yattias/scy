@@ -43,6 +43,7 @@ public class BasicConfig implements Config
    private List<NewEloDescription> newEloDescriptions;
    private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
    private URI activeMissionAnchorUri;
+   private List<URI> templateEloUris;
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
    private String backgroundImageFileName;
@@ -305,6 +306,17 @@ public class BasicConfig implements Config
          logger.info("no next anchor names for " + missionAnchorUri);
       }
       return nextMissionAnchors;
+   }
+
+   public void setTemplateEloUris(List<URI> templateEloUris)
+   {
+      this.templateEloUris = templateEloUris;
+   }
+
+   @Override
+   public List<URI> getTemplateEloUris()
+   {
+      return templateEloUris;
    }
 
    @Override

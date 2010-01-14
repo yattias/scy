@@ -79,7 +79,7 @@ public class OptionPaneEloSaverFX extends EloSaver {
       var suggestedEloTitle = currentEloTitle;
       if (suggestedEloTitle==null){
          var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
-         suggestedEloTitle = newTitleGenerator.generateNewTitle(eloType);
+         suggestedEloTitle = newTitleGenerator.generateNewTitleFromType(eloType);
       }
       if (forking){
          suggestedEloTitle = "Fork of {suggestedEloTitle}";

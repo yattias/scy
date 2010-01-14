@@ -42,6 +42,8 @@ public interface Config {
 
    public List<NewEloDescription> getNewEloDescriptions();
 
+   public List<URI> getTemplateEloUris();
+
    public File getLoggingDirectory();
    public boolean isRedirectSystemStreams();
 
