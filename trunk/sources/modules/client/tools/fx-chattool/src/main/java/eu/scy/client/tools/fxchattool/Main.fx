@@ -3,17 +3,18 @@ package eu.scy.client.tools.fxchattool;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
-import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
-
+import eu.scy.chat.controller.ChatController;
+import java.util.logging.Logger;
+import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
+import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.Initializer;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.awareness.IAwarenessService;
 
-import org.apache.log4j.Logger;
 /*
  * Main.fx
  *
@@ -21,8 +22,8 @@ import org.apache.log4j.Logger;
  * @author jeremyt
  */
 var initializer = Initializer {
-        scyDesktopConfigFile: "config/scyDesktopChatTestConfig.xml"
-        loginType:"remote"
+        scyDesktopConfigFile: "config/scyDesktopChatTestConfig.xml";
+        loginType:"remote";
 };
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
 
@@ -38,10 +39,24 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
               userName: userName;
            }
 
+    
     var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+    var eloUri = "z168fb1jo51y";
+    var chatController = new ChatController(awarenessService, eloUri);
+
     logger.info("awarenessService exists: {awarenessService.isConnected()}");
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {awarenessService: awarenessService;}, scychatId);
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {awarenessService: awarenessService;}, scychatpresenceId);
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatController: chatController;
+                },
+            scychatId);
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolPresenceDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatController: chatController;
+            },
+            scychatpresenceId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
