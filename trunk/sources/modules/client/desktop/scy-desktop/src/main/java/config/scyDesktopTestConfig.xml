@@ -123,6 +123,13 @@
 
       <property name="activeMissionAnchorUri" value="roolo://memory/0/0/Mission_description.text"/>
 
+      <property name="templateEloUris">
+         <list>
+            <value>roolo://memory/2/0/help_elo_1.text</value>
+            <value>roolo://memory/3/0/help_elo_2.text</value>
+         </list>
+      </property>
+
       <property name="backgroundImageFileName" value="bckgrnd2.jpg"/>
       <property name="backgroundImageFileNameRelative" value="true"/>
 

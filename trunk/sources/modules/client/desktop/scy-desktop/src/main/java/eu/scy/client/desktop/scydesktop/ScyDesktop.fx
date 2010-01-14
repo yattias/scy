@@ -129,7 +129,7 @@ public class ScyDesktop extends CustomNode {
    def windows: WindowManager = WindowManagerImpl{
          activeAnchor: bind missionModelFX.activeAnchor;
       };
-   def tooltipManager:TooltipManager = SimpleTooltipManager{};
+   public def tooltipManager:TooltipManager = SimpleTooltipManager{};
    def dragAndDropManager:DragAndDropManager = SimpleDragAndDropManager{
          windowManager:windows;
       };

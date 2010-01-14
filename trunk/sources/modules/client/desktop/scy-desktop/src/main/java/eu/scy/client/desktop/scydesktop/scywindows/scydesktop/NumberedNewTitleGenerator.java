@@ -32,17 +32,23 @@ public class NumberedNewTitleGenerator implements NewTitleGenerator{
    }
 
    @Override
-   public String generateNewTitle(String eloType)
+   public String generateNewTitleFromType(String eloType)
    {
-      Integer counter = typeCounters.get(eloType);
+      return generateNewTitleFromName(newEloCreationRegistry.getEloTypeName(eloType));
+   }
+
+   @Override
+   public String generateNewTitleFromName(String nameBase)
+   {
+      Integer counter = typeCounters.get(nameBase);
       if (counter==null){
          counter = 1;
       }
       else{
          counter = counter+1;
       }
-      typeCounters.put(eloType, counter);
-      return untitledName + " " + newEloCreationRegistry.getEloTypeName(eloType) + " " + counter;
+      typeCounters.put(nameBase, counter);
+      return untitledName + " " + nameBase + " " + counter;
    }
 
 }

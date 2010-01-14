@@ -9,7 +9,6 @@ package eu.scy.client.desktop.scydesktop.corners.tools;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javax.swing.JOptionPane;
@@ -22,6 +21,7 @@ import roolo.cms.repository.search.BasicSearchOperations;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IELOFactory;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
@@ -33,7 +33,7 @@ import roolo.api.search.ISearchResult;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
-import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * @author sikkenj
@@ -49,32 +49,59 @@ public class NewScyWindowTool extends CustomNode {
    public var repository:IRepository;
    public var titleKey : IMetadataKey;
    public var technicalFormatKey : IMetadataKey;
+   public var eloFactory:IELOFactory;
+   public var templateEloUris:List;
+   public var tooltipManager: TooltipManager;
 
    init{
+      if (eloFactory==null){
+         eloFactory = scyDesktop.config.getEloFactory();
+      }
       if (scyWindowControl==null){
          scyWindowControl = scyDesktop.scyWindowControl;
       }
+      if (tooltipManager==null){
+         tooltipManager = scyDesktop.tooltipManager;
+      }
+      if (templateEloUris==null){
+         templateEloUris = scyDesktop.config.getTemplateEloUris();
+      }
+      newButton.disable = templateEloUris==null or templateEloUris.isEmpty();
    }
 
 
 //   var newWindowCounter = 0;
-   var newButton:Button;
-   var loadButton:Button;
+   var newButton:ButtonWithTooltip;
+   var loadButton:ButtonWithTooltip;
+   var createButton:ButtonWithTooltip;
 
    public override function create(): Node {
+      newButton = ButtonWithTooltip {
+         text: "New"
+         tooltip:"Fork from template"
+         action: createNewScyWindowFromTemplate
+ //        disable:templateEloUris==null or templateEloUris.isEmpty()
+      }
+      loadButton = ButtonWithTooltip {
+         text: "Search"
+         action: loadElo
+      }
+      createButton = ButtonWithTooltip {
+         text: "Create (Dev/Author)"
+         tooltip:"Create new\nOnly for developers and authors"
+         action: createNewScyWindow
+      }
+      tooltipManager.registerNode(newButton, newButton);
+      tooltipManager.registerNode(loadButton, loadButton);
+      tooltipManager.registerNode(createButton, createButton);
       return Group {
          content: [
             VBox{
                spacing:5;
                content:[
-                  newButton = Button {
-                     text: "New"
-                     action: createNewScyWindow
-                  }
-                  loadButton = Button {
-                     text: "Search"
-                     action: loadElo
-                  }
+                  newButton,
+                  loadButton,
+                  createButton
                ]
             }
 
@@ -88,7 +115,7 @@ public class NewScyWindowTool extends CustomNode {
       if (eloTypeName!=null){
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
-            var title = scyDesktop.newTitleGenerator.generateNewTitle(eloType);
+            var title = scyDesktop.newTitleGenerator.generateNewTitleFromType(eloType);
             var scyWindow = scyWindowControl.addOtherScyWindow(eloType);
             scyWindow.title = title;
          }
@@ -98,7 +125,7 @@ public class NewScyWindowTool extends CustomNode {
    // TODO, make the checkStatus called automaticly, so that the state is always up to date
    function checkStatus():Boolean{
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
-      newButton.disable = typeNames.length==0;
+      createButton.disable = typeNames.length==0;
       loadButton.disable = typeNames.length==0;
       return typeNames.length>0;
    }
@@ -115,7 +142,7 @@ public class NewScyWindowTool extends CustomNode {
 
    function loadElo(){
       if (not checkStatus()) return;
-      var eloTypeName = getNewEloTypeName("Open ELO");
+      var eloTypeName = getNewEloTypeName("Search for ELOs");
       if (eloTypeName!=null){
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
@@ -123,20 +150,20 @@ public class NewScyWindowTool extends CustomNode {
             var results = repository.search(typeQuery);
             logger.info("Nr of elos found: {results.size()}");
             if (results!=null and results.size()>0){
-               var eloUri = askUri(results);
+               var eloUri = askUriFromSearchResults(results);
                if (eloUri!=null){
                   scyWindowControl.addOtherScyWindow(eloUri);
                }
             }
             else{
-               JOptionPane.showMessageDialog(null, "No ELOs found","Open ELO",JOptionPane.PLAIN_MESSAGE);
+               JOptionPane.showMessageDialog(null, "No ELOs found","Search for ELOs",JOptionPane.PLAIN_MESSAGE);
             }
 
          }
       }
    }
 
-   function askUri(searchResults: List):URI{
+   function askUriFromSearchResults(searchResults: List):URI{
       var displayUris:String[];
       for (result in searchResults){
          var searchResult = result as ISearchResult;
@@ -148,7 +175,36 @@ public class NewScyWindowTool extends CustomNode {
          return new URI(selectedUri as String);
       }
       return null;
-
    }
+
+   function askUri(uris: List):URI{
+      var displayUris:String[];
+      for (uri in uris){
+         insert "{uri as URI}" into displayUris;
+      }
+      var selectedUri = JOptionPane.showInputDialog(null,"Select elo to copy","Create new ELO",
+         JOptionPane.QUESTION_MESSAGE,null,displayUris,null);
+      if (selectedUri!=null){
+         return new URI(selectedUri as String);
+      }
+      return null;
+   }
+
+   function createNewScyWindowFromTemplate(){
+      var eloUri = askUri(templateEloUris);
+      if (eloUri!=null){
+         var newElo = repository.retrieveELO(eloUri);
+         if (newElo!=null){
+            var titleContainer = newElo.getMetadata().getMetadataValueContainer(titleKey);
+            var templateTitle = titleContainer.getValue() as String;
+            titleContainer.setValue(scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
+            var metadata = repository.addForkedELO(newElo);
+            eloFactory.updateELOWithResult(newElo,metadata);
+            scyWindowControl.addOtherScyWindow(newElo.getUri());
+         }
+         logger.error("can't find template elo, with uri: {eloUri}");
+      }
+   }
+
 }
 

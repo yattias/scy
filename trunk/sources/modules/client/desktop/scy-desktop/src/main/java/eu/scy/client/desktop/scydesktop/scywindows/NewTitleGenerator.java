@@ -11,5 +11,8 @@ package eu.scy.client.desktop.scydesktop.scywindows;
  */
 public interface NewTitleGenerator {
 
-   public String generateNewTitle(String eloType);
+   public String generateNewTitleFromType(String eloType);
+
+   public String generateNewTitleFromName(String nameBase);
+   
 }
