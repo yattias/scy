@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
@@ -53,13 +54,13 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
         // see if the buddy is already there
         
         for (IAwarenessUser au : buddies) {
-            if (au.getUsername().equals(username)) {
+            if (au.getJid().equals(username)) {
                 throw new AwarenessServiceException("buddy already added");
             }
         }
         
         IAwarenessUser user = new AwarenessUser();
-        user.setUsername(username);
+        user.setJid(username);
         user.setPresence(IAwarePresenceEvent.OFFLINE);
         
         buddies.add(user);
@@ -77,7 +78,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
         boolean removed = false;
         IAwarenessUser toRemove = null;
         for (IAwarenessUser au : buddies) {
-            if (au.getUsername().equals(username)) {
+            if (au.getNickName().equals(username)) {
                 toRemove = au;
             }
         }
@@ -173,6 +174,67 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 		
 	}
 
+	
+
+
+
+	@Override
+	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void joinMUCRoom(String ELOUri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean doesRoomExist(String ELOUri) {
+		return false;
+	}
+
+	public boolean hasJoinedRoom(String ELOUri, String user) {
+		return false;
+	}
+
+	public void destoryMUCRoom(String ELOUri) {
+	}
+
+	
+
+	public String getMUCConferenceExtension() {
+		return null;
+	}
+
+	public void setMUCConferenceExtension(String CONFERENCE_EXT) {
+	}
+
+	@Override
+	public void sendMUCMessage(String ELOUri, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MultiUserChat getMultiUserChat(String ELOUri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public void updateChatTool(List<IAwarenessUser> users) {
 		// TODO Auto-generated method stub
@@ -183,6 +245,12 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 	public void updatePresenceTool(List<IAwarenessUser> users) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public XMPPConnection getConnection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

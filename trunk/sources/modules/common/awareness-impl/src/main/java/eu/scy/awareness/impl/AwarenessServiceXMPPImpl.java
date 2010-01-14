@@ -2,22 +2,35 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
-import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.util.StringUtils;
+import org.jivesoftware.smackx.Form;
+import org.jivesoftware.smackx.FormField;
+import org.jivesoftware.smackx.muc.Affiliate;
+import org.jivesoftware.smackx.muc.DiscussionHistory;
+import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.Occupant;
+import org.jivesoftware.smackx.muc.RoomInfo;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
@@ -36,22 +49,24 @@ import eu.scy.awareness.tool.ChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
 
-public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
+public class AwarenessServiceXMPPImpl implements IAwarenessService,
+		PacketListener {
 
-	private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
+	protected String CONFERENCE_EXT = "@conference.scy.intermedia.uio.no";
+	private final static Logger logger = Logger
+			.getLogger(AwarenessServiceXMPPImpl.class.getName());
 	private ConnectionConfiguration config;
-	private XMPPConnection xmppConnection;
 	private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
-	private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
+	private List<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
 	private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
 	private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private Roster roster;
-
+	public Map<String, MultiUserChat> joinedMUCRooms = new HashMap<String, MultiUserChat>();
+	private XMPPConnection xmppConnection;
 
 	public AwarenessServiceXMPPImpl() {
 	}
-
 
 	@Override
 	public boolean isConnected() {
@@ -61,74 +76,124 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		return false;
 	}
 
+	public void setMUCConferenceExtension(String CONFERENCE_EXT) {
+		this.CONFERENCE_EXT = "@" + CONFERENCE_EXT;
+	}
+
+	public String getMUCConferenceExtension() {
+		return this.CONFERENCE_EXT;
+	}
 
 	@Override
-	public void sendMessage(String recipient, String message) {
-		Chat chat = xmppConnection.getChatManager().createChat(recipient, this);
+	public void sendMessage(String recipient, String message)
+			throws AwarenessServiceException {
+		Chat chat = xmppConnection.getChatManager().createChat(recipient,
+				(MessageListener) this);
 		try {
 			chat.sendMessage(message);
 		} catch (XMPPException e) {
-			logger.error("sendMessage: XMPPException: "+e);
+			logger.error("sendMessage: XMPPException: " + e);
 			e.printStackTrace();
 		}
 	}
 
+	@Override
+	public void sendMUCMessage(String ELOUri, String message)
+			throws AwarenessServiceException {
 
-	public void processMessage(Chat chat, Message message) {
-		if (message.getType() == Message.Type.chat) {
-			logger.debug("processMessage: "+chat.getParticipant() + " says: " + message.getBody());
-			
-			for (IAwarenessMessageListener al : messageListeners) {
-				if (al != null && message.getBody() != null) {
-					
-					String participant = chat.getParticipant();
-					
-					IAwarenessUser aw = new AwarenessUser();
-					aw.setUsername(participant);
-					
-					
-					IAwarenessEvent awarenessEvent = new AwarenessEvent(this,aw , message.getBody());
-					al.handleAwarenessMessageEvent(awarenessEvent);
-				}
-			}
+		MultiUserChat muc = joinedMUCRooms.get(ELOUri);
+
+		try {
+			muc.sendMessage(message);
+			System.out.println("message sent for MUC: " + ELOUri);
+		} catch (XMPPException e) {
+			logger.error("sendMessage: XMPPException MUC: " + e);
+			e.printStackTrace();
 		}
 	}
 
+	@Override
+	public void processPacket(Packet packet) {
+		System.out.println("MUC packet " + packet);
+		if (packet instanceof Message) {
+			Message message = (Message) packet;
+			System.out.println("body : " + message.getBody());
+			String nickName = StringUtils.parseResource(message.getFrom());
+			processMessage(message, nickName);
+		}
+
+	}
+
+	public void processMessage(Chat chat, Message message) {
+		if (message.getType() == Message.Type.chat) {
+			processMessage(message, chat.getParticipant());
+		}
+	}
+
+	protected void processMessage(final Message message,
+			final String participant) {
+
+		logger.debug("processMessage: " + participant + " says: "
+				+ message.getBody());
+
+		
+			for (IAwarenessMessageListener al : messageListeners) {
+				if (al != null && message.getBody() != null) {
+	
+					IAwarenessUser aw = new AwarenessUser();
+					if(org.apache.commons.lang.StringUtils.stripToNull(participant) == null)
+						aw.setNickName("SCYBot: 	");
+					else
+						aw.setNickName(participant);
+	
+					IAwarenessEvent awarenessEvent = new AwarenessEvent(this, aw,
+							message.getBody());
+					try {
+						System.out.println("hit it ---------------------------------------------------------------------");
+						al.handleAwarenessMessageEvent(awarenessEvent);
+					} catch (RuntimeException e) {
+						e.printStackTrace();
+					}
+	
+				}
+			}
+				
+	}
 
 	@Override
-	public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener) {
+	public void addAwarenessMessageListener(
+			IAwarenessMessageListener awarenessMessageListener) {
 		messageListeners.add(awarenessMessageListener);
 	}
 
-
 	@Override
-	public void addAwarenessRosterListener(IAwarenessRosterListener awarenessListListener) {
+	public void addAwarenessRosterListener(
+			IAwarenessRosterListener awarenessListListener) {
 		rosterListeners.add(awarenessListListener);
 	}
 
-
 	@Override
-	public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+	public void addAwarenessPresenceListener(
+			IAwarenessPresenceListener awarenessPresenceListener) {
 		presenceListeners.add(awarenessPresenceListener);
 	}
 
-
-	public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+	public void removeAwarenessPresenceListener(
+			IAwarenessPresenceListener awarenessPresenceListener) {
 		presenceListeners.remove(awarenessPresenceListener);
 	}
-
 
 	@Override
 	public void addBuddy(String buddyName) throws AwarenessServiceException {
 		roster = this.xmppConnection.getRoster();
 		Collection<RosterEntry> rosterEntries = roster.getEntries();
 		try {
-			roster.createEntry(buddyName, buddyName, new String[] { "everybody" });
+			roster.createEntry(buddyName, buddyName,
+					new String[] { "everybody" });
 		} catch (XMPPException e) {
-			logger.error("addBuddy: XMPPException: "+e);
+			logger.error("addBuddy: XMPPException: " + e);
 		}
 	}
-
 
 	@Override
 	public void removeBuddy(String buddyName) throws AwarenessServiceException {
@@ -136,7 +201,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		try {
 			xmppConnection.getRoster().removeEntry(entry);
 		} catch (XMPPException e) {
-			logger.error("removeBuddy: XMPPException: "+e);
+			logger.error("removeBuddy: XMPPException: " + e);
 		}
 		Presence unsubbed = new Presence(Presence.Type.unsubscribed);
 		unsubbed.setTo(buddyName);
@@ -144,43 +209,38 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 	}
 
-
 	@Override
-	public ArrayList<IAwarenessUser> getBuddies() throws AwarenessServiceException {
+	public ArrayList<IAwarenessUser> getBuddies()
+			throws AwarenessServiceException {
 		roster = this.xmppConnection.getRoster();
-		if(roster != null || !roster.getEntries().isEmpty()) {
+		if (roster != null || !roster.getEntries().isEmpty()) {
 			Collection<RosterEntry> rosterEntries = roster.getEntries();
 			ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
 			for (RosterEntry buddy : rosterEntries) {
 				IAwarenessUser au = new AwarenessUser();
-				au.setName(buddy.getName());
-				au.setUsername(buddy.getUser());
+				au.setJid(buddy.getUser());
+				au.setNickName(buddy.getName());
 				au.setPresence(roster.getPresence(buddy.getUser()).toString());
 				buddies.add(au);
 			}
-			return buddies;			
-		}
-		else {
+			return buddies;
+		} else {
 			return null;
 		}
 	}
-
 
 	@Override
 	public void disconnect() {
 		this.xmppConnection.disconnect();
 	}
 
-
 	protected Roster getRoster() {
 		return this.xmppConnection.getRoster();
 	}
 
-
 	protected ChatManager getChatManager() {
 		return this.xmppConnection.getChatManager();
 	}
-
 
 	@Override
 	public void init(XMPPConnection connection) {
@@ -190,82 +250,112 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 			@Override
 			public void entriesAdded(Collection<String> addresses) {
-				logger.debug("init: entriesAdded: "+addresses);
+				logger.debug("init: entriesAdded: " + addresses);
 
 				for (IAwarenessRosterListener rosterListener : rosterListeners) {
 					if (rosterListener != null) {
-						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
-								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.ADD,
+						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
+								AwarenessServiceXMPPImpl.this,
+								AwarenessServiceXMPPImpl.this.xmppConnection
+										.getUser(), IAwarenessRosterEvent.ADD,
 								addresses);
 						rosterListener.handleAwarenessRosterEvent(rosterEvent);
 					}
 				}
 
 			}
-
 
 			@Override
 			public void entriesDeleted(Collection<String> addresses) {
-				logger.debug("init: entriesDeleted: "+addresses);
+				logger.debug("init: entriesDeleted: " + addresses);
 				for (IAwarenessRosterListener rosterListener : rosterListeners) {
 					if (rosterListener != null) {
-						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
-								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.REMOVE,
-								addresses);
+						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
+								AwarenessServiceXMPPImpl.this,
+								AwarenessServiceXMPPImpl.this.xmppConnection
+										.getUser(),
+								IAwarenessRosterEvent.REMOVE, addresses);
 						rosterListener.handleAwarenessRosterEvent(rosterEvent);
 					}
 				}
 			}
-
 
 			@Override
 			public void entriesUpdated(Collection<String> addresses) {
-				logger.debug("init: entriesUpdated: "+addresses);
+				logger.debug("init: entriesUpdated: " + addresses);
 				for (IAwarenessRosterListener rosterListener : rosterListeners) {
 					if (rosterListener != null) {
-						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
-								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.UPDATED,
-								addresses);
+						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
+								AwarenessServiceXMPPImpl.this,
+								AwarenessServiceXMPPImpl.this.xmppConnection
+										.getUser(),
+								IAwarenessRosterEvent.UPDATED, addresses);
 						rosterListener.handleAwarenessRosterEvent(rosterEvent);
 					}
 				}
 			}
 
-
 			@Override
 			public void presenceChanged(Presence presence) {
-				logger.debug("init: presenceChanged: "+presence);
+				logger.debug("init: presenceChanged: " + presence);
 				if (presence == null) {
-					return;					
+					return;
 				}
 
 				for (IAwarenessPresenceListener presenceListener : presenceListeners) {
 					if (presenceListener != null) {
-						
+
 						IAwarenessUser aw = new AwarenessUser();
-						aw.setUsername(presence.getFrom());
+						aw.setJid(presence.getFrom());
 						aw.setPresence(presence.getType().toString());
-						
-						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, aw , "updated from awareness service", presence.getType().toString(), presence.getStatus());
-						presenceListener.handleAwarenessPresenceEvent(presenceEvent);
+
+						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
+								AwarenessServiceXMPPImpl.this, aw,
+								"updated from awareness service", presence
+										.getType().toString(), presence
+										.getStatus());
+						presenceListener
+								.handleAwarenessPresenceEvent(presenceEvent);
 					}
 				}
 
 			}
 
 		});
-
-		//Added by Jeremy Toussaint to track non-initialized chats
-		
-		getChatManager().addChatListener(new ChatManagerListener() {
-			
-			@Override
-			public void chatCreated(Chat chat, boolean local) {
-				chat.addMessageListener(AwarenessServiceXMPPImpl.this);
-			}
-		});
 	}
 
+	public boolean hasJoinedRoom(String ELOUri, String user) {
+		Iterator<String> jrooms = MultiUserChat.getJoinedRooms(xmppConnection,
+				user);
+
+		for (Iterator i = jrooms; jrooms.hasNext();) {
+			String room = (String) i.next();
+			if (room.equals(ELOUri))
+				return true;
+		}
+
+		return false;
+		// joinedMUCRooms = new ArrayList<String>();
+		//		
+		// for (Iterator i = jrooms; jrooms.hasNext(); ) {
+		// joinedMUCRooms.add((String) i.next());
+		// }
+		//		
+		// return joinedMUCRooms.contains(ELOUri);
+	}
+
+	public boolean doesRoomExist(String ELOUri) {
+		RoomInfo info;
+		try {
+			info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri
+					+ CONFERENCE_EXT);
+		} catch (XMPPException e) {
+			// e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 
 	@Override
 	public void setStatus(String status) throws AwarenessServiceException {
@@ -274,25 +364,23 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 	}
 
-
 	@Override
-	public void setPresence(String presenceString) throws AwarenessServiceException {
+	public void setPresence(String presenceString)
+			throws AwarenessServiceException {
 		// Presence p = getRoster().getPresence(xmppConnection.getUser());
 	}
-
 
 	@Override
 	public void addChatToolListener(IChatPresenceToolListener listener) {
 		chatToolListeners.add(listener);
-		
-	}
 
+	}
 
 	@Override
 	public void addPresenceToolListener(IChatPresenceToolListener listener) {
 		presenceToolListeners.add(listener);
 	}
-	
+
 	public void updateChatTool(List<IAwarenessUser> users) {
 		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
 		icpte.setMessage("presence tool calling with updates");
@@ -302,7 +390,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			}
 		}
 	}
-	
+
 	public void updatePresenceTool(List<IAwarenessUser> users) {
 		logger.debug("Received something from Chattool");
 		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
@@ -312,6 +400,171 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				icptl.handleChatPresenceToolEvent(icpte);
 			}
 		}
+	}
+
+	public void destoryMUCRoom(String ELOUri) {
+		if (doesRoomExist(ELOUri)) {
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
+					+ CONFERENCE_EXT);
+			try {
+				muc.destroy("hate this room", null);
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@Override
+	public void joinMUCRoom(String ELOUri) {
+		// first look of the muc to see if it as been create first
+
+		if (ELOUri != null) {
+
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
+					+ CONFERENCE_EXT);
+			DiscussionHistory history = new DiscussionHistory();
+			muc.addMessageListener(this);
+			try {
+
+				// first check if the room exists
+				if (doesRoomExist(ELOUri)) {
+					// am i joined
+					if (hasJoinedRoom(ELOUri, xmppConnection.getUser()) == false)
+						muc.join(xmppConnection.getUser(), null, history,
+								SmackConfiguration.getPacketReplyTimeout());
+
+				} else {
+					// create it
+					// we need to create
+					muc.create(ELOUri);
+
+					// Get the the room's configuration form
+					Form form = muc.getConfigurationForm();
+					// Create a new form to submit based on the original form
+					Form submitForm = form.createAnswerForm();
+					// Add default answers to the form to submit
+					for (Iterator fields = form.getFields(); fields.hasNext();) {
+						FormField field = (FormField) fields.next();
+						if (!FormField.TYPE_HIDDEN.equals(field.getType())
+								&& field.getVariable() != null) {
+							// Sets the default value as the answer
+							submitForm.setDefaultAnswer(field.getVariable());
+						}
+					}
+					// Sets the new owner of the room
+					// List owners = new ArrayList();
+					// owners.add("djed11");
+					submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+					// Send the completed form (with default values) to the
+					// server to configure the room
+					muc.sendConfigurationForm(submitForm);
+					// if( joinedMUCRooms.contains(ELOUri) == false )
+					// joinedMUCRooms.add(ELOUri);
+				}
+			} catch (XMPPException e) {
+				e.printStackTrace();
+				return;
+			}
+
+			joinedMUCRooms.put(ELOUri, muc);
+
+		}
+
+	}
+
+	@Override
+	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
+		if (ELOUri != null) {
+			List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
+					+ CONFERENCE_EXT);
+			Iterator<String> occupants = muc.getOccupants();
+			try {
+				Collection<Occupant> participants = muc.getParticipants();
+				for (Occupant occupant : participants) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setNickName(occupant.getNick());
+					user.setJid(occupant.getJid());
+					users.add(user);
+				}
+
+				Collection<Affiliate> members = muc.getMembers();
+				for (Affiliate affiliate : members) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setNickName(affiliate.getNick());
+					user.setJid(affiliate.getJid());
+					users.add(user);
+				}
+
+				Collection<Occupant> moderators = muc.getModerators();
+				for (Occupant occupant : moderators) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setNickName(occupant.getNick());
+					user.setJid(occupant.getJid());
+					users.add(user);
+				}
+
+				Collection<Affiliate> admins = muc.getAdmins();
+				for (Affiliate affiliate : admins) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setJid(affiliate.getNick());
+					user.setNickName(affiliate.getJid());
+					users.add(user);
+				}
+				System.out.println();
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
+			return users;
+		}
+		return null;
+	}
+
+	@Override
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) {
+		if (ELOUri != null) {
+
+			// check to see if the room exists
+			if (this.doesRoomExist(ELOUri)) {
+				MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
+				try {
+					muc.join(buddy.getJid());
+				} catch (XMPPException e) {
+					e.printStackTrace();
+				}
+			} else {
+				// the room does not exist.
+			}
+
+		}
+
+	}
+
+	@Override
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) {
+		if (ELOUri != null) {
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
+			try {
+				muc.kickParticipant(buddy.getJid(), "had to go");
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public MultiUserChat getMultiUserChat(String ELOUri) {
+
+		if (!joinedMUCRooms.isEmpty())
+			return joinedMUCRooms.get(ELOUri);
+
+		return null;
+	}
+
+	@Override
+	public XMPPConnection getConnection() {
+		return this.xmppConnection;
 	}
 
 }
