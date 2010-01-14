@@ -26,7 +26,7 @@ public class ChatToolNode extends CustomNode {
     public var wrappedSPTPanel:SwingComponent;
     public var chatTool:ChatPanelMain;
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle();
+//        setScyWindowTitle();
     };
 
     public function loadElo(uri:URI){

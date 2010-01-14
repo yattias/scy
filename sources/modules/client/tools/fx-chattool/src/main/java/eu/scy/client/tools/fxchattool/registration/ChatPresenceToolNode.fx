@@ -26,7 +26,7 @@ public class ChatPresenceToolNode extends CustomNode {
     public var wrappedSPTPanel:SwingComponent;
     public var chatPresenceTool:ChatPresencePanelMain;
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle();
+//        setScyWindowTitle();
     };
 
     public function loadElo(uri:URI){
