@@ -310,16 +310,12 @@ public class ScyDesktop extends CustomNode {
    }
 
    function fillNewScyWindow2(window:ScyWindow):Void{
-      var pleaseWait = Text {
-            font : Font {
-               size: 14
-            }
-            x: 5, y: 20
-            content: "Loading, please wait..."
-         }
+      var pleaseWait = PleaseWait{};
       window.scyContent = pleaseWait;
       FX.deferAction(function(){
-            realFillNewScyWindow2(window);
+         FX.deferAction(function(){
+               realFillNewScyWindow2(window);
+            });
          });
    }
 
