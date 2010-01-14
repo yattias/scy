@@ -15,6 +15,7 @@ import eu.scy.awareness.tool.IChatPresenceToolListener;
 import java.util.ArrayList;
 import java.util.List;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 
 /**
  *
@@ -107,6 +108,72 @@ public class DummyAwarenessService implements IAwarenessService  {
    @Override
    public void updatePresenceTool(List<IAwarenessUser> users)
    {
+   }
+
+   @Override
+   public XMPPConnection getConnection()
+   {
+      return null;
+   }
+
+   @Override
+   public void sendMUCMessage(String ELOUri, String message) throws AwarenessServiceException
+   {
+   }
+
+   @Override
+   public void joinMUCRoom(String ELOUri)
+   {
+   }
+
+   @Override
+   public List<IAwarenessUser> getChatBuddies(String ELOUri)
+   {
+      return new ArrayList<IAwarenessUser>();
+   }
+
+   @Override
+   public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri)
+   {
+   }
+
+   @Override
+   public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri)
+   {
+   }
+
+   @Override
+   public boolean hasJoinedRoom(String ELOUri, String user)
+   {
+      return false;
+   }
+
+   @Override
+   public boolean doesRoomExist(String ELOUri)
+   {
+      return true;
+   }
+
+   @Override
+   public void destoryMUCRoom(String ELOUri)
+   {
+   }
+
+   @Override
+   public void setMUCConferenceExtension(String CONFERENCE_EXT)
+   {
+   }
+
+   @Override
+   public String getMUCConferenceExtension()
+   {
+      return "ext";
+   }
+
+   @Override
+   public MultiUserChat getMultiUserChat(String ELOUri)
+   {
+      return null;
    }
 
 }
