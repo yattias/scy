@@ -27,14 +27,11 @@ This module implements a pedagogical agent which counts how often a learner runs
 a (system dynamics) model and how often a different model is run.  The output
 is returned as a tuple with the following fields:
 
-  | UUID |
-  | feedback |
-  | Date |
-  | same_model_run |
+  | votat |
   | Learner |
   | Tool |
   | Mission |
-  | <same_model_run runs="#runs" unique="#unique"/> |
+  | VotatValue |
 
 The pedagogical relevance is, of course, that learners should not run the
 same model many times (as they get no new information from doing so).  For
@@ -44,11 +41,6 @@ models in 50 runs.
 @author	Stefan Weinbrenner
 */
 
-
-%%	same_model_run_agent(-TS:handle) is det.
-%
-%	Starts the agent by connecting to the TupleSpaces and registering that
-%	agent is interested in =run_model= actions from the SCY Dynamics tool.
 
 votat_agent :-
 	agent_connect(InTS, _, [user('votat agent')]),
@@ -60,13 +52,6 @@ votat_agent :-
 		       ]).
 
 
-%%	same_model_run_callback(+Command:atom, +SeqId:int, +Before:list, +After:list) is det.
-%
-%	This function is called when a =run_model= action is written in the
-%	TupleSpace.  We extract the run_model Action itself and from the action
-%	the Model being run.  Then the evaluation is performed and a feedback
-%	tuple is put in the TupleSpace.
-	
 ignore_vars(['Mtot']).
 
 change_variables_callback(write, _SeqId, [], [Tuple]) :-
@@ -87,15 +72,8 @@ change_variables_callback(Arg1, Arg2, Arg3, Arg4) :-
 	thread_detach(Thread).
 
 
-%%	same_model_run_evaluation(+Model:atom, +Learner:atom, -NoRuns:int, -NoUnique:int) is det.
-%
-%	Model is the model of the current run, it is added to the model run
-%	history for this learner.  Then count the total number of runs
-%	(NoRuns) and the number of unique runs (NoUnique).  The hard
-%	work is performed by sdm_model_identical/3, which is in the SDM library.
-
 :- dynamic
-	var_change/5.	% Learner x Model
+	var_change/5.
 
 vc_timeout_min(1).
 
@@ -142,12 +120,6 @@ remove_old_changes(Time) :-
 	get_time(CurrTime),
 	findall(DelVC, (DelVC = var_change(Learner, Tool, Session, Time, VarName), Time < CurrTime - Timeout * 60 * 1000), DelVCs),
 	forall(member(DelVC, DelVCs), retract(DelVC)).
-
-
-%%	same_model_run_feedback(+NoRuns:int, +NoUnique:int, +Tuple:term) is det.
-%
-%	Creates a feedback tuple using the original action Tuple as template
-%	for some of the fields.
 
 change_variables_feedback(Learner, Tool, Session, Votat) :-
 	% Create fields for the feedback 
