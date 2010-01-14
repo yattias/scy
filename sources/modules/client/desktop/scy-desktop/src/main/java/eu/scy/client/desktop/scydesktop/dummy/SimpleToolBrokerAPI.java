@@ -100,7 +100,7 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI
    @Override
    public void registerForNotifications(INotifiable notifiable)
    {
-      throw new UnsupportedOperationException("Not supported yet.");
+//      throw new UnsupportedOperationException("Not supported yet.");
    }
 
    public void setAwarenessService(IAwarenessService awarenessService)
