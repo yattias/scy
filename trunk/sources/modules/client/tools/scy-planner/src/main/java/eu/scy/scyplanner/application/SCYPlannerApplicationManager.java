@@ -1,5 +1,6 @@
 package eu.scy.scyplanner.application;
 
+import eu.scy.core.model.auth.SessionInfo;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
@@ -49,54 +50,33 @@ public class SCYPlannerApplicationManager {
 
         //String url = JOptionPane.showInputDialog("Input host (for example localhost)");
         String username = JOptionPane.showInputDialog("Enter your freakin username");
+        String password = JOptionPane.showInputDialog("Enter your freakin pw");
 
         PedagogicalPlanService service = createPedagogicalPlanService();
+        SessionInfo sessionInfo = service.login(username, password);
+        if (sessionInfo == null) {
+            log.info("Not logged in!");
+        } else {
+            List pedagogicalPlans = service.getPedagogicalPlanTemplates();
+            for (int i = 0; i < pedagogicalPlans.size(); i++) {
+                PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlans.get(i);
+                System.out.println("TEMPLATE:" + pedagogicalPlanTemplate.getName());
+            }
+
+
+            List scenarios = service.getScenarios();
+            System.out.println("SECARIO COUNT: " + scenarios.size());
+            for (int i = 0; i < scenarios.size(); i++) {
+                Scenario scenario = (Scenario) scenarios.get(i);
+                System.out.println("SCENARIO: " + scenario.getName());
+            }
+
+            this.pedagogicalPlanService = service;
+
+        }
         /*StudentPedagogicalPlanService studentService = createStudentPedagogicalPlanService();
         if(studentService == null) throw new RuntimeException("STUDENT SERVICE IS NULL!");
         studentService.createStudentPlan(null, null);
-        */
-        List pedagogicalPlans = service.getPedagogicalPlanTemplates();
-        for (int i = 0; i < pedagogicalPlans.size(); i++) {
-            PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlans.get(i);
-            System.out.println("TEMPLATE:" + pedagogicalPlanTemplate.getName());
-        }
-
-
-
-        List scenarios = service.getScenarios();
-        System.out.println("SECARIO COUNT: " + scenarios.size());
-        for (int i = 0; i < scenarios.size(); i++) {
-            Scenario scenario = (Scenario) scenarios.get(i);
-            System.out.println("SCENARIO: " + scenario.getName());
-        }
-
-        this.pedagogicalPlanService = service;
-        /*
-        toolBrokerAPI = new ToolBrokerImpl(username, username);
-        //XMPPConnection connection = toolBrokerAPI.getConnection("henrikh11", "henrikh11");
-        //XMPPConnection connection = toolBrokerAPI.getConnection(username, username);
-        //IActionLogger actionLogger = toolBrokerAPI.getActionLogger();
-        //service = toolBrokerAPI.getPedagogicalPlanService();
-        List scenarios = service.getScenarios();
-        for (int i = 0; i < scenarios.size(); i++) {
-            Scenario scenario = (Scenario) scenarios.get(i);
-            System.out.println(scenario.getName());
-            System.out.println(scenario.getLearningActivitySpace().getName());
-            System.out.println("size: " + scenario.getLearningActivitySpace().getActivities().size());
-            if (scenario.getLearningActivitySpace().getActivities().size() > 0) {
-                Activity activity = scenario.getLearningActivitySpace().getActivities().get(0);
-                System.out.println("ACTIVITY: " + activity.getName());
-                if(activity.getLearningActivitySpaceToolConfigurations() != null) {
-                    Set configurations = (Set) activity.getLearningActivitySpaceToolConfigurations();
-                    Iterator it = configurations.iterator();
-                    while (it.hasNext()) {
-                        LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = (LearningActivitySpaceToolConfiguration) it.next();
-                        System.out.println("Configuration:"+ learningActivitySpaceToolConfiguration.getName());
-                    }
-                            
-                }
-            }
-        }
         */
 
     }
@@ -118,7 +98,6 @@ public class SCYPlannerApplicationManager {
         StudentPedagogicalPlanService service = (StudentPedagogicalPlanService) fb.getObject();
         return service;
     }
-
 
 
     public static SCYPlannerApplicationManager getApplicationManager() {

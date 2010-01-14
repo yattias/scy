@@ -37,55 +37,67 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @Override
     @Column(name="account_not_expired")
     public boolean isAccountNotExpired() {
         return accountNotExpired;
     }
 
+    @Override
     public void setAccountNotExpired(boolean accountNotExpired) {
         this.accountNotExpired = accountNotExpired;
     }
 
+    @Override
     @Column (name="account_not_locked")
     public boolean isAccoundNotLocked() {
         return accoundNotLocked;
     }
 
+    @Override
     public void setAccoundNotLocked(boolean accoundNotLocked) {
         this.accoundNotLocked = accoundNotLocked;
     }
 
+    @Override
     @Column (name="credentials_not_expired")
     public boolean isCredentialsNotExpired() {
         return credentialsNotExpired;
     }
 
+    @Override
     public void setCredentialsNotExpired(boolean credentialsNotExpired) {
         this.credentialsNotExpired = credentialsNotExpired;
     }
 
 
+    @Override
     @Column (name="enabled")
     public boolean isEnabled() {
         return enabled;
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
