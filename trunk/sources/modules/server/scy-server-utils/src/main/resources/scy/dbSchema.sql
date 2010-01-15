@@ -97,7 +97,7 @@ CREATE TABLE `pedagogicalplan` (
 	PRIMARY KEY  (`primKey`),
     KEY `pedPlanToTemplate` (`pedagogicalPlanTemplate_primKey`),
     KEY `pedPlanToScenario` (`scenario_primKey`),
-    CONSTRAINT `pedagogicalPlanRefTemplate` FOREIGN KEY (`pedagogicalPlanTemplate_primKey`) REFERENCES `pedagogicalPlan` (`primKey`),
+    CONSTRAINT `pedagogicalPlanRefTemplate` FOREIGN KEY (`pedagogicalPlanTemplate_primKey`) REFERENCES `pedagogicalplan` (`primKey`),
     CONSTRAINT `pedagogicalPlanRefScenario` FOREIGN KEY (`scenario_primKey`) REFERENCES `scenario` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
