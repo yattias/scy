@@ -1,6 +1,7 @@
 package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.model.auth.SessionInfo;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Tool;
@@ -23,6 +24,8 @@ public interface PedagogicalPlanService {
     public List<Scenario> getScenarios();
 
     public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates();
+
+    public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template);
 
 
 }

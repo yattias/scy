@@ -47,11 +47,18 @@ public class DummyDataGenerator implements InitializingBean {
         scenario.setName("Scenario 1 - Exploration");
 
         LearningActivitySpace orientation = createLAS("LAS Orientation");
-        scenario.setLearningActivitySpace(orientation);
-        addActivity(orientation, "Identify goal states");
-        addActivity(orientation, "Identify learning goals");
-
         LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
+        scenario.setLearningActivitySpace(orientation);
+        Activity activity1 = addActivity(orientation, "Identify goal states");
+        Activity activity2 = addActivity(orientation, "Identify learning goals");
+
+        AnchorELO elo1 = createAnchorELO("Concept map");
+        activity1.setAnchorELO(elo1);
+        elo1.setInputTo(conceptualization);
+
+
+
+
         addActivity(conceptualization, "Build a model");
         addActivity(conceptualization, "Give and classify examples");
 
@@ -93,8 +100,8 @@ public class DummyDataGenerator implements InitializingBean {
         conceptualisation.addActivity(conceptualizationActivity);
         addToolToActivity(conceptualizationActivity, "SCYMapper", "A concept mapping tool");
 
-        //AnchorELO conceptualizationELO = createAnchorELO("ConceptualisationELO");
-        //conceptualizationActivity.setAnchorELO(conceptualizationELO);
+        AnchorELO conceptualizationELO = createAnchorELO("ConceptualisationELO");
+        conceptualizationActivity.setAnchorELO(conceptualizationELO);
         */
         //getScenarioService().createScenario(scenario);
         return scenario;
