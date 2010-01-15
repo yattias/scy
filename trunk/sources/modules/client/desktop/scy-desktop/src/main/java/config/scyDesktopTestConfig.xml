@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
    <!--<import resource="localRooloConfig.xml"/>-->
    <!--<import resource="localWrappedRooloConfig.xml"/> -->
    <!--<import resource="localRooloTemporaryConfig.xml"/>-->
-	<!-- <import resource="remoteRooloConfig.xml"/> -->
+   <!-- <import resource="remoteRooloConfig.xml"/> -->
 
 <!--
    <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
       <constructor-arg index="0" ref="metadataTypeManager"/>
    </bean>
 -->
-   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig">
+
+   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
       <!--
       <property name="repository" ref="repository"/>
       <property name="extensionManager" ref="extensionManager"/>
@@ -33,6 +34,110 @@
          </list>
       </property>
 
+      <property name="logicalTypeDisplayNames">
+         <bean class="eu.scy.client.desktop.scydesktop.config.BasicDisplayNames" init-method="initialize">
+            <property name="name" value="logical types"/>
+            <property name="typeNameSets">
+               <list>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="conceptMap"/>
+                     <property name="name" value="Concept Map"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="dataset"/>
+                     <property name="name" value="Dataset"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="structuredText"/>
+                     <property name="name" value="Structured Text"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="drawing"/>
+                     <property name="name" value="Drawing"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="richText"/>
+                     <property name="name" value="Rich Text"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="richTextImages"/>
+                     <property name="name" value="Rich Text with images"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="presentation"/>
+                     <property name="name" value="Presentation"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="table"/>
+                     <property name="name" value="Table"/>
+                  </bean>
+               </list>
+            </property>
+         </bean>
+      </property>
+
+      <property name="functionalTypeDisplayNames">
+         <bean class="eu.scy.client.desktop.scydesktop.config.BasicDisplayNames" init-method="initialize">
+            <property name="name" value="functional types"/>
+            <property name="typeNameSets">
+               <list>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="conceptMap"/>
+                     <property name="name" value="Concept Map"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="initialIdeasMap"/>
+                     <property name="name" value="Initial ideas"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="keyIdeasMap"/>
+                     <property name="name" value="Key ideas map"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="manualDataset"/>
+                     <property name="name" value="Manual dataset"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="automaticDataset"/>
+                     <property name="name" value="Automatic dataset"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="experimentalDesign"/>
+                     <property name="name" value="Experimental design"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="disgnDrawing"/>
+                     <property name="name" value="Design drawing"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="hypothesis"/>
+                     <property name="name" value="Hopothesis"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="disgnDocument"/>
+                     <property name="name" value="Design document"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="evaluationReport"/>
+                     <property name="name" value="Evaluation report"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="finalPresentation"/>
+                     <property name="name" value="Final presentation"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="finalReport"/>
+                     <property name="name" value="Final report"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="reflectionDocument"/>
+                     <property name="name" value="Reflection document"/>
+                  </bean>
+               </list>
+            </property>
+         </bean>
+      </property>
+
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
@@ -41,6 +146,18 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="test"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <!--
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>geen idee</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>geen idee</value>
+                  </list>
+               </property>
+               -->
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/tst"/>

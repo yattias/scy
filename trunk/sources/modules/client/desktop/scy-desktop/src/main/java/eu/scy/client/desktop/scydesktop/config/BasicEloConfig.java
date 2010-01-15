@@ -4,6 +4,8 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
+import java.util.List;
+
 /**
  *
  * @author sikkenj
@@ -19,6 +21,8 @@ public class BasicEloConfig implements EloConfig
    private String rightDrawerCreatorId;
    private String bottomDrawerCreatorId;
    private String leftDrawerCreatorId;
+   private List<String> logicalTypeNames;
+   private List<String> functionalTypeNames;
 
    @Override
    public String toString()
@@ -26,6 +30,26 @@ public class BasicEloConfig implements EloConfig
       return "type=" + type + "display=" + display + "creatable=" + creatable + ", contentCreatorId=" + contentCreatorId + ", topDrawerCreatorId=" + topDrawerCreatorId
          + ", rightDrawerCreatorId=" + rightDrawerCreatorId + ", bottomDrawerCreatorId=" + bottomDrawerCreatorId
          + ", leftDrawerCreatorId=" + leftDrawerCreatorId;
+   }
+
+   public void checkTypeNames(DisplayNames logicalTypeDisplayNames, DisplayNames functionalTypeDisplayNames)
+   {
+      checkTyleTypeNames(logicalTypeNames, logicalTypeDisplayNames, "logicalTypeNames");
+      checkTyleTypeNames(functionalTypeNames, functionalTypeDisplayNames, "functionalTypeNames");
+   }
+
+   private void checkTyleTypeNames(List<String> typeNames, DisplayNames displayNames, String label)
+   {
+      if (typeNames != null)
+      {
+         for (String typeName : typeNames)
+         {
+            if (!displayNames.typeExists(typeName))
+            {
+               throw new IllegalArgumentException("Type name defined in " + label + " in eloConfig " + type + " is not defined: " + typeName);
+            }
+         }
+      }
    }
 
    public String getType()
@@ -111,5 +135,27 @@ public class BasicEloConfig implements EloConfig
    public void setTopDrawerCreatorId(String topDrawerCreatorId)
    {
       this.topDrawerCreatorId = topDrawerCreatorId;
+   }
+
+   @Override
+   public List<String> getFunctionalTypeNames()
+   {
+      return functionalTypeNames;
+   }
+
+   public void setFunctionalTypeNames(List<String> functionalTypeNames)
+   {
+      this.functionalTypeNames = functionalTypeNames;
+   }
+
+   @Override
+   public List<String> getLogicalTypeNames()
+   {
+      return logicalTypeNames;
+   }
+
+   public void setLogicalTypeNames(List<String> logicalTypeNames)
+   {
+      this.logicalTypeNames = logicalTypeNames;
    }
 }

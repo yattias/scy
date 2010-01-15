@@ -44,6 +44,9 @@ public interface Config {
 
    public List<URI> getTemplateEloUris();
 
+   public DisplayNames getLogicalTypeDisplayNames();
+   public DisplayNames getFunctionalTypeDisplayNames();
+
    public File getLoggingDirectory();
    public boolean isRedirectSystemStreams();
 
