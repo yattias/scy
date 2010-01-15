@@ -56,7 +56,7 @@ CREATE TABLE `activity` (
     KEY `activitylas_key` (`learningActivitySpace_primKey`),
     KEY `anchorElo_primKey_key` (`anchorElo_primKey`),
     CONSTRAINT `activity_las` FOREIGN KEY (`learningActivitySpace_primKey`) REFERENCES `learningactivityspace` (`primKey`),
-    CONSTRAINT `anchorElo_primKey_const` FOREIGN KEY (`anchorElo_primKey`) REFERENCES `anrhorelo` (`primKey`)
+    CONSTRAINT `anchorElo_primKey_const` FOREIGN KEY (`anchorElo_primKey`) REFERENCES `anchorelo` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `toolconfiguration`;
