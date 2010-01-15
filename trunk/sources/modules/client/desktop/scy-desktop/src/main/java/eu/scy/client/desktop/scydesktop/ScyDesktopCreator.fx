@@ -12,8 +12,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
-import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
 
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
 import eu.scy.client.desktop.scydesktop.config.MissionModelUtils;
@@ -23,7 +21,6 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFXImpl;
 
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
@@ -40,6 +37,7 @@ import roolo.cms.repository.search.BasicSearchOperations;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorRegistryFXImpl;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 
 /**
  * @author sikkenj
@@ -75,7 +73,7 @@ public class ScyDesktopCreator {
          }
       }
       if (windowStyler == null) {
-         windowStyler = DummyWindowStyler {
+         windowStyler = ImageWindowStyler {
             eloInfoControl: eloInfoControl;
          };
       }

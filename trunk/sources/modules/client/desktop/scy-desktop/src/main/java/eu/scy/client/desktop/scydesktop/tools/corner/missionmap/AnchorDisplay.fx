@@ -79,7 +79,7 @@ public class AnchorDisplay extends CustomNode {
          layoutX: bind anchor.xPos;
          layoutY: bind anchor.yPos;
          content: [
-            eloContour,
+            //eloContour,
             eloIcon
          ],
          onMouseClicked: function( e: MouseEvent ):Void {
@@ -109,14 +109,14 @@ public class AnchorDisplay extends CustomNode {
          dragEloIcon.selected = eloIcon.selected;
          var dragNode = Group{
             content:[
-               EloContour{
-                  width: size;
-                  height: size;
-                  controlLength: 5;
-                  borderWidth: 2;
-                  borderColor: anchor.color;
-                  fillColor: contentColor;
-               }
+//               EloContour{
+//                  width: size;
+//                  height: size;
+//                  controlLength: 5;
+//                  borderWidth: 2;
+//                  borderColor: anchor.color;
+//                  fillColor: contentColor;
+//               }
                dragEloIcon
             ]
          }

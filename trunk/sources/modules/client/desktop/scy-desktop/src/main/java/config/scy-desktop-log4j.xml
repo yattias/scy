@@ -31,7 +31,7 @@
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.elofactory">
-		<level value="debug" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.elofactory.ServicesInjector">
