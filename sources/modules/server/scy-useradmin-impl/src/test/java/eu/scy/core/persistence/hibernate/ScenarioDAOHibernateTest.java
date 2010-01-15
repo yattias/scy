@@ -5,10 +5,8 @@ import eu.scy.core.model.impl.pedagogicalplan.ToolImpl;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.ScenarioDAO;
 import org.junit.Test;
-import org.springframework.test.AbstractTransactionalSpringContextTests;
 
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,7 +48,7 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
 
     @Test
     public void testSaveScenarioWithLAS() {
-        Scenario scenario = createPedagogicalPlan();
+        Scenario scenario = createScenario();
         LearningActivitySpace las = scenario.getLearningActivitySpace();
 
         getScenarioDAO().save(scenario);
@@ -61,7 +59,7 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
 
     @Test
     public void testSaveScenarioWithLASAndActivity() {
-        Scenario scenario = createPedagogicalPlan();
+        Scenario scenario = createScenario();
         LearningActivitySpace las = scenario.getLearningActivitySpace();
 
         getScenarioDAO().save(scenario);
@@ -93,7 +91,7 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
     }
 
 
-    private Scenario createPedagogicalPlan() {
+    private Scenario createScenario() {
         Scenario scenario = new ScenarioImpl();
         scenario.setName("Freakin Scenario");
 
@@ -137,5 +135,16 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
 
         return activity;
     }
+
+    @Test
+    public void testLoadAllActivititesForLAS() {
+        Scenario scenario = createScenario();
+        getScenarioDAO().save(scenario);
+        LearningActivitySpace las = scenario.getLearningActivitySpace();
+
+
+        List <Activity> activities = getScenarioDAO().getAllActivitiesForLAS(las);
+    }
+
 
 }

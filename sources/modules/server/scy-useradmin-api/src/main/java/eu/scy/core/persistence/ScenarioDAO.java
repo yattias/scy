@@ -1,5 +1,6 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 
@@ -18,4 +19,5 @@ public interface ScenarioDAO extends SCYBaseDAO{
 
     public List<Scenario> getScenarios();
 
+    List<Activity> getAllActivitiesForLAS(LearningActivitySpace las);
 }

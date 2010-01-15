@@ -5,6 +5,8 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -26,5 +28,11 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
 
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) {
         return getStudentPedagogicalPlanPersistenceService().createStudentPlan(pedagogicalPlan, user);
+    }
+
+    @Override
+    public List<StudentPlanELO> getStudentPlans(User user) {
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlans(user);
+
     }
 }

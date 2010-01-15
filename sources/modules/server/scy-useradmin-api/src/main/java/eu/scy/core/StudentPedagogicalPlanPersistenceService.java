@@ -4,6 +4,8 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -15,4 +17,5 @@ public interface StudentPedagogicalPlanPersistenceService {
 
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user);
 
+    public List getStudentPlans(User user);
 }

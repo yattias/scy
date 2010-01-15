@@ -6,6 +6,8 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.persistence.StudentPedagogicalPlanPersistenceDAO;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -22,5 +24,11 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         plan.setUser(user);
         save(plan);
         return plan;
+    }
+
+    public List getStudentPlans(User user) {
+        return getSession().createQuery("from StudentPlanELOImpl where user = :user")
+                .setEntity("user", user)
+                .list();
     }
 }
