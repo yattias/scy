@@ -28,18 +28,33 @@ public class DummyDataGenerator implements InitializingBean {
 
     private void generatePedagogicalPlanTemplates() {
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
-        template.setName("Mission 1");
+        template.setName("CO2 House - home of the wild!");
         template.setDescription("A pedagogical plan for people with white teeth");
         template.setScenario(generateScenario());
+        saveAndCreatePedagogicalPlan(template);
+
+        PedagogicalPlanTemplate ecosystems = new PedagogicalPlanTemplateImpl();
+        ecosystems.setName("Ecosystems");
+        ecosystems.setDescription("I haven't got a clue about what this will be about - but sounds freakin cool!");
+        ecosystems.setScenario(generateScenario());
+        saveAndCreatePedagogicalPlan(ecosystems);
+
+        PedagogicalPlanTemplate canteenCuisine = new PedagogicalPlanTemplateImpl();
+        canteenCuisine.setName("Canteen Cuisine");
+        canteenCuisine.setDescription("Canteen Cuisine: I haven't got a clue about what this will be about - but sounds freakin cool!");
+        canteenCuisine.setScenario(generateScenario());
+        saveAndCreatePedagogicalPlan(canteenCuisine);
+
+    }
+
+    private void saveAndCreatePedagogicalPlan(PedagogicalPlanTemplate template) {
         if (getPedagogicalPlanPersistenceService().getPedagogicalPlanByName(template.getName()) == null) {
             log.info("Did not find a default plan - creating one...");
             getPedagogicalPlanPersistenceService().save(template);
             getPedagogicalPlanPersistenceService().createPedagogicalPlan(template);
         } else {
             log.info("The default plan is already added - will not create any more!");
-        } 
-
-
+        }
     }
 
     private Scenario generateScenario() {

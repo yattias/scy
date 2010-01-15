@@ -40,6 +40,10 @@ public class ServerDataInitializer implements InitializingBean {
     private void generateDummyUsers() {
         addUserIfNotExists("Henrik", "von Schlanbusch", "hillary", "clinton");
         addUserIfNotExists("Adam", "Gizzy", "adie", "aaad");
+
+        addUserIfNotExists("Luke", "ScyWalker", "luke", "scy");
+        addUserIfNotExists("Darth", "Vader", "digital", "face");
+        addUserIfNotExists("Storm", "Trooper", "printer", "masquerade");
     }
 
     private void addUserIfNotExists(String firstName, String lastName, String userName, String password) {
