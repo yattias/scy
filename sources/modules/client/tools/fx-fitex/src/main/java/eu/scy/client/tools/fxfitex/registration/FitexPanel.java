@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.tools.fxfitex;
+package eu.scy.client.tools.fxfitex.registration;
 
 import java.awt.BorderLayout;
 import java.io.File;
@@ -31,7 +31,11 @@ import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.logger.FitexLog;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
+import java.io.File;
 import eu.scy.toolbroker.ToolBrokerImpl;
+import javax.swing.JFileChooser;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -48,6 +52,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
+    private File lastUsedFileImport = null;
 
     private ToolBrokerAPI tbi;
     private ISyncSession session = null;
@@ -74,8 +79,10 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
     /* initialization action logger */
     private void initActionLogger(){
-        //actionLogger = tbi.getActionLogger();
-        actionLogger = new DevNullActionLogger();
+        if(tbi != null)
+            actionLogger = tbi.getActionLogger();
+        else
+            actionLogger = new DevNullActionLogger();
     }
 
     private void initCollaborationService() {
@@ -155,8 +162,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         dataProcessPanel = new DataProcessToolPanel(true);
         dataProcessPanel.addActionCopexButton(this);
         add(dataProcessPanel, BorderLayout.CENTER);
-//        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
-//        setPreferredSize(getSize());
+        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
+        setPreferredSize(getSize());
     }
 
     public void load(){
@@ -230,6 +237,42 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
         //
+    }
+
+    public void synchronizeTool(){
+        String mucID = JOptionPane.showInputDialog("Enter session ID:", "");
+        if (StringUtils.hasText(mucID)){
+            joinSession(mucID);
+        }
+    }
+
+    public DataSet importCsvFile() {
+        JFileChooser aFileChooser = new JFileChooser();
+        aFileChooser.setFileFilter(new MyFileFilterCSV());
+	if (lastUsedFileImport != null){
+            aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileImport);
+        }
+	int userResponse = aFileChooser.showOpenDialog(null);
+	if (userResponse == JFileChooser.APPROVE_OPTION){
+		File file = aFileChooser.getSelectedFile();
+                if(!isCSVFile(file)){
+                    JOptionPane.showMessageDialog(this ,"Error: the file must be a csv file." , "Error Import csv",JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+                lastUsedFileImport = file;
+                if(lastUsedFileImport != null)
+                    return importCSVFile(file);
+	}
+
+        return null;
+    }
+
+    public static boolean isCSVFile(File file){
+        int id = file.getName().lastIndexOf(".");
+        if(id == -1 || id==file.getName().length()-1)
+            return false;
+        return file.getName().substring(id+1).equals("csv");
     }
 
 }

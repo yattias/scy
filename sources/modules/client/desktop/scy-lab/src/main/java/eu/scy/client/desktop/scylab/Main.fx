@@ -12,8 +12,8 @@ import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
-import eu.scy.client.tools.fxfitex.FitexContentCreator;
-import eu.scy.client.tools.fxcopex.CopexContentCreator;
+import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
+import eu.scy.client.tools.fxcopex.registration.CopexToolCreatorFX;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
 import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 
@@ -77,9 +77,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(DrawingToolCreatorFX{}, scyDrawingId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator {}, scyFitexId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FitexToolCreatorFX{}, scyFitexId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(CopexContentCreator {}, scyCopexId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(CopexToolCreatorFX{}, scyCopexId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {}, scyMapperId);
 
