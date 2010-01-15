@@ -10,7 +10,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
-import javafx.scene.image.Image;
 
 /**
  * @author sikken
@@ -31,6 +30,9 @@ public class ImageWindowStyler extends WindowStyler{
    public def videoType = "scy/video";
    public def interviewType = "scy/interview";
    public def xprocType = "scy/xproc";
+   public def hypotheseType = "scy/xproc";
+   public def modelEditorType = "scy/xproc";
+   public def studentPlanningType = "scy/xproc";
 
    public def scyGreen = Color.web("#8db800");
    public def scyPurple = Color.web("#7243db");
@@ -39,55 +41,30 @@ public class ImageWindowStyler extends WindowStyler{
    public def scyBlue = Color.web("#0042f1");
    public def scyMagenta = Color.web("#0ea7bf");
 
-   def conceptMapImageAct = Image{
-      url:"{__DIR__}/images/con_map_inact.png"
-   };
-   def conceptMapImageInact = Image{
-      url:"{__DIR__}/images/con_map_inact.png"
-   };
-   def drawingImageAct = Image{
-      url:"{__DIR__}/images/dr_tool_act.png"
-   };
-   def drawingImageInact = Image{
-      url:"{__DIR__}/images/dr_tool_inact.png"
-   };
-   def hypotheseImageAct = Image{
-      url:"{__DIR__}/images/hypoth_act.png"
-   };
-   def hypotheseImageInact = Image{
-      url:"{__DIR__}/images/hypoth_inact.png"
-   };
-   def modelEditorImageAct = Image{
-      url:"{__DIR__}/images/mod_editor_act.png"
-   };
-   def modelEditorImageInact = Image{
-      url:"{__DIR__}/images/mod_editor_inact.png"
-   };
-   def simulatorImageAct = Image{
-      url:"{__DIR__}/images/sim_act.png"
-   };
-   def simulatorImageInact = Image{
-      url:"{__DIR__}/images/sim_inact.png"
-   };
-   def studentPlanningImageAct = Image{
-      url:"{__DIR__}/images/st_plan_tool_act.png"
-   };
-   def studentPlanningImageInact = Image{
-      url:"{__DIR__}/images/st_plan_tool_inact.png"
-   };
-   def videoImageAct = Image{
-      url:"{__DIR__}/images/video_act.png"
-   };
-   def videoImageInact = Image{
-      url:"{__DIR__}/images/video_inact.png"
-   };
-   def webBrowserImageAct = Image{
-      url:"{__DIR__}/images/web_br_act.png"
-   };
-   def webBrowserImageInact = Image{
-      url:"{__DIR__}/images/web_br_inact.png"
-   };
-
+   def conceptMapImageSet = EloImageSet{
+      name:"con_map"
+   }
+   def drawingImageSet = EloImageSet{
+      name:"dr_tool"
+   }
+   def hypotheseImageSet = EloImageSet{
+      name:"hypoth"
+   }
+   def modelEditorImageSet = EloImageSet{
+      name:"mod_editor"
+   }
+   def simulatorImageSet = EloImageSet{
+      name:"sim"
+   }
+   def studentPlanningToolImageSet = EloImageSet{
+      name:"st_plan_tool"
+   }
+   def videoImageSet = EloImageSet{
+      name:"video"
+   }
+   def webBrowserImageSet = EloImageSet{
+      name:"web_br"
+   }
 
    public override function getScyColor(type:String):Color{
       var scyColor = scyMagenta;
@@ -98,7 +75,7 @@ public class ImageWindowStyler extends WindowStyler{
       else if (type == simulationConfigType)
          scyColor = scyPink
       else if (type == mappingType)
-         scyColor = scyGreen
+         scyColor = scyBlue
       else if (type == imageType)
          scyColor = scyOrange
       else if (type == videoType)
@@ -148,13 +125,37 @@ public class ImageWindowStyler extends WindowStyler{
    }
 
    public override function getScyEloIcon(type:String):EloIcon{
-      var eloIcon:EloIcon;
-      if (eloIcon==null){
-         eloIcon = CharacterEloIcon{
+      var eloImageSet:EloImageSet;
+      if (type == mappingType)
+         eloImageSet = conceptMapImageSet
+      else if (type == drawingType)
+         eloImageSet = drawingImageSet
+       else if (type == hypotheseType)
+         eloImageSet = hypotheseImageSet
+       else if (type == modelEditorType)
+         eloImageSet = modelEditorImageSet
+      else if (type == simulationConfigType)
+         eloImageSet = simulatorImageSet
+      else if (type == studentPlanningType)
+         eloImageSet = studentPlanningToolImageSet
+      else if (type == videoType)
+         eloImageSet = videoImageSet
+      else if (type == urlType)
+         eloImageSet = webBrowserImageSet;
+//      else if (type == textType)
+//         eloImageSet = webBrowserImageSet;
+
+      if (eloImageSet!=null){
+         ImageEloIcon{
+            activeImage:eloImageSet.activeImage;
+            inactiveImage:eloImageSet.inactiveImage;
+         }
+      }
+      else{
+         CharacterEloIcon{
             iconCharacter:getScyIconCharacter(type);
             color:getScyColor(type)
          };
       }
-      return eloIcon;
    }
 }

@@ -20,7 +20,10 @@ public class BasicMissionAnchorConfig {
    private float yPosition;
    private List<String> nextMissionAnchorNames;
    private List<String> relationNames;
+   private List<URI> intermediateEloUris;
    private List<URI> helpEloUris;
+   private List<URI> resourceEloUris;
+   private List<URI> assignmentEloUris;
    private List<String> inputMissionAnchorNames;
    private List<URI> supportEloUris;
    private boolean mainAnchorElo;
@@ -63,6 +66,36 @@ public class BasicMissionAnchorConfig {
    public void setRelationNames(List<String> relationNames)
    {
       this.relationNames = relationNames;
+   }
+
+   public List<URI> getAssignmentEloUris()
+   {
+      return assignmentEloUris;
+   }
+
+   public void setAssignmentEloUris(List<URI> assignmentEloUris)
+   {
+      this.assignmentEloUris = assignmentEloUris;
+   }
+
+   public List<URI> getIntermediateEloUris()
+   {
+      return intermediateEloUris;
+   }
+
+   public void setIntermediateEloUris(List<URI> intermediateEloUris)
+   {
+      this.intermediateEloUris = intermediateEloUris;
+   }
+
+   public List<URI> getResourceEloUris()
+   {
+      return resourceEloUris;
+   }
+
+   public void setResourceEloUris(List<URI> resourceEloUris)
+   {
+      this.resourceEloUris = resourceEloUris;
    }
 
    public List<URI> getHelpEloUris()
