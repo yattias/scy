@@ -22,7 +22,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * User: Bjoerge
@@ -178,6 +177,8 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 
 		JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
 		palettePane.setPreferredSize(new Dimension(120, 0));
+		palettePane.setSize(palettePane.getPreferredSize());
+		palettePane.setMinimumSize(palettePane.getPreferredSize());
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, palettePane, cmapPanel);
 

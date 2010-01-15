@@ -574,7 +574,7 @@ public class SCYMapperStandalone extends JFrame {
 				throw new IllegalAccessException("Already logged in");
 			}
 
-			toolBroker = new ToolBrokerImpl(username, password, CONTEXT_CONFIG_CLASS_PATH_LOCATION);
+			toolBroker = new ToolBrokerImpl(username, password);
 			dataSyncService = toolBroker.getDataSyncService();
 			setTitle(username + " / " + getTitle());
 			((JLabel)loginStatus).setIcon(onlineIcon);
