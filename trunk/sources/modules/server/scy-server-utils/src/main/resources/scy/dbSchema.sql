@@ -120,7 +120,7 @@ CREATE TABLE `assessment` (
     `assessmentStrategy_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
     KEY `assessmentToAStrategy` (`assessmentStrategy_primKey`),
-    CONSTRAINT `assessmentToAStrategyConst` FOREIGN KEY (`assessmentStrategy_primKey`) REFERENCES `assessmentStrategy` (`primKey`)
+    CONSTRAINT `assessmentToAStrategyConst` FOREIGN KEY (`assessmentStrategy_primKey`) REFERENCES `assessmentstrategy` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `assessmentstrategy`;
