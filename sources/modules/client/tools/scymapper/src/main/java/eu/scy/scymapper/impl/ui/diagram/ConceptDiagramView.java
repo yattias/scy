@@ -48,6 +48,9 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
 		initializeGUI();
 
+		setBackground(Color.white);
+		setOpaque(true);
+
 		// Register myself as observer for changes in the model
 		this.model.addDiagramListener(this);
 		setAutoscrolls(true);
