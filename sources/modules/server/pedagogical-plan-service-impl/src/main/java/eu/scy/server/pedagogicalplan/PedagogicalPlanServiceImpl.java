@@ -6,6 +6,7 @@ import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.auth.SessionInfo;
 import eu.scy.core.model.impl.auth.SessionInfoImpl;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Tool;
@@ -38,6 +39,11 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
 
     public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates() {
         return getPedagogicalPlanPersistenceService().getPedagogicalPlanTemplates();
+    }
+
+    @Override
+    public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {
+        return getPedagogicalPlanPersistenceService().createPedagogicalPlan(template);
     }
 
     public ScenarioService getScenarioService() {
