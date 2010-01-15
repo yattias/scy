@@ -5,6 +5,8 @@
 
 package eu.scy.client.desktop.scydesktop.config;
 
+import java.util.List;
+
 /**
  *
  * @author sikkenj
@@ -18,4 +20,7 @@ public interface EloConfig {
    public String getRightDrawerCreatorId();
    public String getBottomDrawerCreatorId();
    public String getLeftDrawerCreatorId();
+
+   public List<String> getLogicalTypeNames();
+   public List<String> getFunctionalTypeNames();
 }

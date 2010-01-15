@@ -39,15 +39,38 @@ public class BasicConfig implements Config
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
    private RegisterContentCreators[] registerContentCreators;
+   private List<BasicEloConfig> eloConfigList;
    private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
    private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
    private URI activeMissionAnchorUri;
    private List<URI> templateEloUris;
+   private DisplayNames logicalTypeDisplayNames;
+   private DisplayNames functionalTypeDisplayNames;
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
    private String backgroundImageFileName;
    private boolean backgroundImageFileNameRelative;
+
+   public void initialize(){
+     parseEloConfigs();
+   }
+
+   public void parseEloConfigs()
+   {
+      eloConfigs = new HashMap<String, EloConfig>();
+      List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
+      for (BasicEloConfig basicEloConfig : eloConfigList)
+      {
+         basicEloConfig.checkTypeNames(logicalTypeDisplayNames, functionalTypeDisplayNames);
+         eloConfigs.put(basicEloConfig.getType(), basicEloConfig);
+         if (basicEloConfig.isCreatable())
+         {
+            realNewDescriptions.add(new NewEloDescription(basicEloConfig.getType(), basicEloConfig.getDisplay()));
+         }
+      }
+      newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
+   }
 
    @Override
    public IELOFactory getEloFactory()
@@ -159,17 +182,7 @@ public class BasicConfig implements Config
 
    public void setEloConfigs(List<BasicEloConfig> eloConfigList)
    {
-      eloConfigs = new HashMap<String, EloConfig>();
-      List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
-      for (BasicEloConfig basicEloConfig : eloConfigList)
-      {
-         eloConfigs.put(basicEloConfig.getType(), basicEloConfig);
-         if (basicEloConfig.isCreatable())
-         {
-            realNewDescriptions.add(new NewEloDescription(basicEloConfig.getType(), basicEloConfig.getDisplay()));
-         }
-      }
-      newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
+      this.eloConfigList = eloConfigList;
    }
 
    @Override
@@ -317,6 +330,28 @@ public class BasicConfig implements Config
    public List<URI> getTemplateEloUris()
    {
       return templateEloUris;
+   }
+
+   @Override
+   public DisplayNames getFunctionalTypeDisplayNames()
+   {
+      return functionalTypeDisplayNames;
+   }
+
+   public void setFunctionalTypeDisplayNames(DisplayNames functionalTypeDisplayNames)
+   {
+      this.functionalTypeDisplayNames = functionalTypeDisplayNames;
+   }
+
+   @Override
+   public DisplayNames getLogicalTypeDisplayNames()
+   {
+      return logicalTypeDisplayNames;
+   }
+
+   public void setLogicalTypeDisplayNames(DisplayNames logicalTypeDisplayNames)
+   {
+      this.logicalTypeDisplayNames = logicalTypeDisplayNames;
    }
 
    @Override
