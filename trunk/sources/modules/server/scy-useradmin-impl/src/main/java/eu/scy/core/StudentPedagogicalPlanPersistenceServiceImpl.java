@@ -5,6 +5,8 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.persistence.hibernate.StudentPedagogicalPlanPersistenceDAOHibernate;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -27,5 +29,10 @@ public class StudentPedagogicalPlanPersistenceServiceImpl implements StudentPeda
     @Override
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) {
         return getStudentPedagogicalPlanPersistenceDAO().createStudentPlan(pedagogicalPlan, user);
+    }
+
+    @Override
+    public List getStudentPlans(User user) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlans(user);
     }
 }
