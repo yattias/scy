@@ -43,7 +43,7 @@ import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
-           loginType:"local"
+           loginType:"remote"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:true

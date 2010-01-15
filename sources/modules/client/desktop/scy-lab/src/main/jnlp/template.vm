@@ -28,6 +28,8 @@
         <argument>config/localReadOnlyScyServices.xml</argument>
         <argument>-enableLocalLogging</argument>
         <argument>false</argument>
+        <argument>-loginType</argument>
+        <argument>remote</argument>
     </application-desc>
     <update check="always"/>
 </jnlp>
