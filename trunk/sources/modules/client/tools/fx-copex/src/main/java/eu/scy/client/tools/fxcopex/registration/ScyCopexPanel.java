@@ -3,12 +3,13 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.tools.fxcopex;
+package eu.scy.client.tools.fxcopex.registration;
 
 import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -18,6 +19,7 @@ import eu.scy.tools.copex.logger.CopexLog;
 import eu.scy.tools.copex.logger.CopexProperty;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
 import org.jdom.Element;
@@ -42,9 +44,11 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         initTBI();
         initActionLogger();
         copex = new CopexPanel(true);
+        setPreferredSize(new Dimension(550,350));
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
         copex.loadData();
+        copex.setQuestionDialog();
     }
 
     /* tbi initialization*/
@@ -53,8 +57,10 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     }
     /* initialization action logger */
     private void initActionLogger(){
-        //actionLogger = tbi.getActionLogger();
-        actionLogger = new DevNullActionLogger();
+        if(tbi != null)
+            actionLogger = tbi.getActionLogger();
+        else
+            actionLogger = new DevNullActionLogger();
     }
 
     /* load ELO into copex */
@@ -82,7 +88,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     @Override
     public void logAction(String type, List<CopexProperty> attribute) {
         // action
-        Action action = new Action();
+        IAction action = new Action();
         action.setUser(username);
         action.setType(type);
 		action.addContext(ContextConstants.tool, CopexLog.toolName);

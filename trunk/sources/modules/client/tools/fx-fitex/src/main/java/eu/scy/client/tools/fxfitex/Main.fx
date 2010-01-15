@@ -12,9 +12,11 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
+import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.scene.image.ImageView;
 
 /**
  * @author Marjolaine
@@ -24,7 +26,6 @@ var initializer = Initializer {
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
-//def scyFitexType = "scy/fitex";
    def scyFitexId = "fitex";
 
    var scyDesktopCreator = ScyDesktopCreator {
@@ -33,9 +34,8 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
               userName: userName;
            }
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator {}, scyFitexId);
-//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFitexType,"fitex");
 
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FitexToolCreatorFX{}, scyFitexId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
@@ -53,12 +53,19 @@ var stage: Stage;
 var scene: Scene;
 
 stage = Stage {
-   title: "Data Processing Tool"
+   title: "SCY desktop with fitex"
    width: 400
    height: 300
    scene: scene = Scene {
       content: [
-         initializer.getBackgroundImageView(scene),
+//         initializer.getBackgroundImageView(scene),
+          ImageView {
+            image: initializer.backgroundImage
+            fitWidth: bind scene.width
+            fitHeight: bind scene.height
+            preserveRatio: false
+            cache: true
+         }
          LoginDialog {
             createScyDesktop: createScyDesktop
             initializer: initializer;
