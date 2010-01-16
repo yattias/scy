@@ -1,10 +1,11 @@
 /*
- * ScyToolViewerCreator.fx
+ * PropertiesViewerCreator.fx
  *
- * Created on 12-jan-2010, 15:35:15
+ * Created on 16-jan-2010, 13:24:43
  */
 
-package eu.scy.client.desktop.scydesktop.tools.scytoolviewer;
+package eu.scy.client.desktop.scydesktop.tools.propertiesviewer;
+
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -14,11 +15,12 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  */
 
 // place your code here
-public class ScyToolViewerCreator extends ScyToolCreatorFX{
 
+public class PropertiesViewerCreator extends ScyToolCreatorFX{
     override public function createScyToolNode (type:String, scyWindow:ScyWindow) : Node {
-        ScyToolViewer{
-
+        PropertiesViewer{
+            scyWindow:scyWindow;
         }
+
     }
 }

@@ -165,6 +165,7 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="tst"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/scytoolviewer"/>
@@ -173,6 +174,7 @@
                <property name="contentCreatorId" value="scyToolViewer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/text"/>
@@ -181,6 +183,7 @@
                <property name="contentCreatorId" value="text"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/ppt"/>
@@ -188,6 +191,7 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="ppt"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
          </list>
       </property>

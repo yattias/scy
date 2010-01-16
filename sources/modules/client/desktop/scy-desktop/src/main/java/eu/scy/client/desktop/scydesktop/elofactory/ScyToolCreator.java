@@ -18,7 +18,7 @@ public interface ScyToolCreator
     *
     * @return
     */
-   public JComponent createScyToolComponent();
+   public JComponent createScyToolComponent(String type);
 
    /**
     * Check if the creator supports the given type

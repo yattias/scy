@@ -19,7 +19,7 @@ public mixin class ScyToolCreatorFX {
     * Create a new Node to display/edit an new ELO
     *
     */
-   public abstract function createScyToolNode():Node;
+   public abstract function createScyToolNode(type:String, window:ScyWindow):Node;
 
    /**
     * Check if the creator supports the given type

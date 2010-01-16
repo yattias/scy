@@ -12,6 +12,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import eu.scy.client.desktop.scydesktop.elofactory.ServicesInjector;
 import eu.scy.client.desktop.scydesktop.elofactory.SwingContentWrapper;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author sikken
@@ -34,8 +35,8 @@ public class ScyToolCreatorWrapper extends ScyToolCreatorFX {
    }
 
 
-    override public function createScyToolNode () : Node {
-      var component = scyToolCreator.createScyToolComponent();
+    override public function createScyToolNode (type:String, scyWindow:ScyWindow) : Node {
+      var component = scyToolCreator.createScyToolComponent(type);
       SwingContentWrapper{
          swingContent:component;
       }
