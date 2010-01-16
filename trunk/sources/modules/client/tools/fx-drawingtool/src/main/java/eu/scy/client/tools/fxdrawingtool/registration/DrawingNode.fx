@@ -21,6 +21,7 @@ import javafx.scene.layout.Resizable;
 
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -42,6 +43,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX {
    def jdomStringConversion = new JDomStringConversion();
 
    public-init var whiteboardPanel:WhiteboardPanel;
+   public-init var scyWindow:ScyWindow;
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
@@ -56,6 +58,11 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX {
 
    def spacing = 5.0;
 
+//   def cached = bind scyWindow.cache on replace {
+//         wrappedWhiteboardPanel.cache = cached;
+//         println("changed wrappedWhiteboardPanel.cache to {wrappedWhiteboardPanel.cache}");
+//      }
+
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
@@ -66,8 +73,10 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX {
 
    public override function create(): Node {
       wrappedWhiteboardPanel = SwingComponent.wrap(whiteboardPanel);
+      //wrappedWhiteboardPanel.cache = true;
       return Group {
          blocksMouse:true;
+//         cache: bind scyWindow.cache
          content: [
             VBox{
                translateY:spacing;

@@ -106,6 +106,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	private CopyOnWriteArrayList<WhiteboardContainerChangedListener> whiteboardContainerChangedListeners = new CopyOnWriteArrayList<WhiteboardContainerChangedListener>();
 	private CopyOnWriteArrayList<WhiteboardContainerListChangedListener> whiteboardContainerListChangedListeners = new CopyOnWriteArrayList<WhiteboardContainerListChangedListener>();
 
+   private long paintCounter = 0;
 	private static WhiteboardPanel whiteBoardPanel;
 
 	/**
@@ -580,6 +581,8 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	@Override
 	protected void paintComponent(Graphics g)
 	{
+      ++paintCounter;
+//      System.out.println("WhiteboardPanel.paintComponent " + paintCounter);
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
