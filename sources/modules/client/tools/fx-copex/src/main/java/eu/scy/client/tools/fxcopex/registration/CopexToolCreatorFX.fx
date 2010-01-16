@@ -8,12 +8,13 @@ package eu.scy.client.tools.fxcopex.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import javafx.scene.Node;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 /**
  * @author Marjolaine
  */
 
 public class CopexToolCreatorFX extends ScyToolCreatorFX{
-    override public function createScyToolNode () : Node {
+    override public function createScyToolNode (type:String, scyWindow:ScyWindow) : Node {
         CopexNode{
            scyCopexPanel: new ScyCopexPanel();
         }

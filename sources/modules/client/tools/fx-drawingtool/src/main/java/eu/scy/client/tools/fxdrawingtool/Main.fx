@@ -18,6 +18,8 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import javafx.scene.image.ImageView;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 
 /**
  * @author sikkenj
@@ -28,6 +30,9 @@ var initializer = Initializer {
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
    def scyDrawingId = "drawing";
+   def eloXmlViewerId = "xmlViewer";
+   def scyToolViewerId = "scyToolViewer";
+   def propertiesViewerId = "propertiesViewer";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -38,7 +43,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 //   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator {}, scyDrawingId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(DrawingToolCreatorFX{}, scyDrawingId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new PropertiesViewerCreator(), propertiesViewerId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 

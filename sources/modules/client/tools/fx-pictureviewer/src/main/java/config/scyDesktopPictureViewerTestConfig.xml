@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig">
+   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
 
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
