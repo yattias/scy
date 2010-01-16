@@ -45,7 +45,7 @@ public class ScyToolFactory extends ContentFactory {
       if (scyToolCreator != null) {
          try {
             checkIfServicesInjected(scyToolCreator);
-            toolNode = scyToolCreator.createScyToolNode();
+            toolNode = scyToolCreator.createScyToolNode(type,scyWindow);
          } catch (e: Exception) {
             toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator));
          }

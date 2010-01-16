@@ -68,6 +68,14 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    def spacing = 5.0;
    def dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
 
+   init{
+      addMessage("class init");
+   }
+
+   postinit {
+      addMessage("class postinit");
+   }
+
    public override function create(): Node {
       addMessage("CustomNode.create");
       textEditor.setEditable(false);

@@ -154,10 +154,11 @@ public class ScyDesktopCreator {
             registerContentCreators.registerNewEloCreation(newEloCreationRegistry);
          }
       }
-      for (newEloDescription in config.getNewEloDescriptions()) {
-         newEloCreationRegistry.registerEloCreation(newEloDescription.getType(), newEloDescription.getDisplay());
+      if (config.getNewEloDescriptions() != null){
+         for (newEloDescription in config.getNewEloDescriptions()) {
+            newEloCreationRegistry.registerEloCreation(newEloDescription.getType(), newEloDescription.getDisplay());
+         }
       }
-
    }
 
    function readMissionModel() {

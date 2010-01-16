@@ -188,6 +188,7 @@ public class StandardScyWindow extends ScyWindow {
       setRightDrawer();
       setBottomDrawer();
       setLeftDrawer();
+      this.cache =true;
    }
 
    function scyContentChanged(){
