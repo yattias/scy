@@ -18,8 +18,11 @@ public mixin class ScyToolCreatorFX {
    /**
     * Create a new Node to display/edit an new ELO
     *
+    * @param type - the technical type for which the tool should be created
+    * @param window - the ScyWindow where the tool will be placed in
+    * @param windowContent - true if the tool will be placed in the window, other is will be placed in a drawer
     */
-   public abstract function createScyToolNode(type:String, window:ScyWindow):Node;
+   public abstract function createScyToolNode(type:String, window:ScyWindow, windowContent: Boolean):Node;
 
    /**
     * Check if the creator supports the given type

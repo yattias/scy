@@ -18,7 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 // place your code here
 public class TextEditorScyToolContentCreator extends ScyToolCreatorFX {
 
-   public override function createScyToolNode(type:String, scyWindow:ScyWindow):Node{
+   public override function createScyToolNode(type:String, scyWindow:ScyWindow,windowContent:Boolean):Node{
       return createTextEditorNode();
    }
 
