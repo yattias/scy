@@ -17,7 +17,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 // place your code here
 
 public class DrawingToolCreatorFX extends ScyToolCreatorFX{
-    override public function createScyToolNode (type:String, scyWindow:ScyWindow) : Node {
+    override public function createScyToolNode (type:String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
         DrawingNode{
            whiteboardPanel: new WhiteboardPanel();
            scyWindow:scyWindow

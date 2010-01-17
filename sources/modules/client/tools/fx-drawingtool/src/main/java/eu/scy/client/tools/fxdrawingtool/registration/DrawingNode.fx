@@ -150,7 +150,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX {
       // setSize is not visual needed
       // but set it, so the component react to it
       whiteboardPanel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+//      println("resized whiteboardPanel to ({width},{height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
