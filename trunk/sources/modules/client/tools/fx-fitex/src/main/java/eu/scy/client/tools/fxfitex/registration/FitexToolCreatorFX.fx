@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  */
 
 public class FitexToolCreatorFX extends ScyToolCreatorFX{
-    override public function createScyToolNode (type:String, scyWindow:ScyWindow) : Node {
+    override public function createScyToolNode (type:String, scyWindow:ScyWindow, windowContent:Boolean) : Node {
         FitexNode{
            fitexPanel: new FitexPanel();
         }
