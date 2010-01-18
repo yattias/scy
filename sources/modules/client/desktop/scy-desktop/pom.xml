@@ -103,9 +103,9 @@
             <includes>
                <include>**/*.jpg</include>
                <include>**/*.png</include>
-               <!--
+         <!--
                <include>config/*.*</include>
-               -->
+         -->
             </includes>
          </resource>
       </resources>

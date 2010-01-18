@@ -133,6 +133,18 @@
                      <property name="type" value="reflectionDocument"/>
                      <property name="name" value="Reflection document"/>
                   </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="resource"/>
+                     <property name="name" value="Resource"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="assignment"/>
+                     <property name="name" value="Assignment"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="help"/>
+                     <property name="name" value="Helpt"/>
+                  </bean>
                </list>
             </property>
          </bean>
@@ -146,18 +158,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="test"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <!--
-               <property name="logicalTypeNames">
-                  <list>
-                     <value>geen idee</value>
-                  </list>
-               </property>
-               <property name="functionalTypeNames">
-                  <list>
-                     <value>geen idee</value>
-                  </list>
-               </property>
-               -->
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/tst"/>
@@ -184,6 +184,21 @@
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>structuredText</value>
+                     <value>richText</value>
+                     <value>presentation</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>disgnDocument</value>
+                     <value>evaluationReport</value>
+                     <value>finalReport</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/ppt"/>
