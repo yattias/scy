@@ -68,6 +68,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
 
    public override function create(): Node {
       wrappedTextEditor = SwingComponent.wrap(textEditor);
+      FX.deferAction(resizeContent);
       return Group {
          blocksMouse:true;
          content: [
