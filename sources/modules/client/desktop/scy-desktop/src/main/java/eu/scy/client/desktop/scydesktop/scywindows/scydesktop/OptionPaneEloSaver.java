@@ -5,6 +5,7 @@
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import java.net.URI;
 import javax.swing.JOptionPane;
@@ -47,7 +48,7 @@ public class OptionPaneEloSaver implements EloSaver
    }
 
    @Override
-   public IELO eloSaveAs(IELO elo)
+   public void eloSaveAs(IELO elo, EloSaverCallBack eloSaverCallBack)
    {
       String currentEloTitle = (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue();
       String newEloTitle = JOptionPane.showInputDialog("Enter title:", currentEloTitle);
@@ -61,13 +62,16 @@ public class OptionPaneEloSaver implements EloSaver
          IMetadata newMetadata = repository.addNewELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
          myEloChanged.myEloChanged(elo);
-         return elo;
+         if (eloSaverCallBack!=null){
+            eloSaverCallBack.eloSaved(elo);
+         }
+         return;
       }
-      return null;
+      eloSaverCallBack.eloSaveCancelled(elo);
    }
 
    @Override
-   public IELO eloUpdate(IELO elo)
+   public void eloUpdate(IELO elo, EloSaverCallBack eloSaverCallBack)
    {
       if (elo.getUri() != null)
       {
@@ -75,16 +79,18 @@ public class OptionPaneEloSaver implements EloSaver
          IMetadata newMetadata = repository.updateELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
             myEloChanged.myEloChanged(elo);
-         return elo;
+         if (eloSaverCallBack!=null){
+            eloSaverCallBack.eloSaved(elo);
+         }
       }
       else
       {
-         return eloSaveAs(elo);
+         eloSaveAs(elo,eloSaverCallBack);
       }
    }
 
    @Override
-   public IELO otherEloSaveAs(IELO elo)
+   public void otherEloSaveAs(IELO elo, EloSaverCallBack eloSaverCallBack)
    {
       String currentEloTitle = (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue();
       String newEloTitle = JOptionPane.showInputDialog("Enter title:", currentEloTitle);
@@ -97,9 +103,12 @@ public class OptionPaneEloSaver implements EloSaver
          }
          IMetadata newMetadata = repository.addNewELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
-         return elo;
+         if (eloSaverCallBack!=null){
+            eloSaverCallBack.eloSaved(elo);
+         }
+         return;
       }
-      return null;
+      eloSaverCallBack.eloSaveCancelled(elo);
    }
 
 }

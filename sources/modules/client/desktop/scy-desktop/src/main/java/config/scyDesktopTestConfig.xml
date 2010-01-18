@@ -111,7 +111,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                      <property name="type" value="hypothesis"/>
-                     <property name="name" value="Hopothesis"/>
+                     <property name="name" value="Hypothesis"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                      <property name="type" value="disgnDocument"/>

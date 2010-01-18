@@ -10,17 +10,18 @@ import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 
 import javax.swing.JOptionPane;
-import org.springframework.util.StringUtils;
-import roolo.elo.api.IELO;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+import eu.scy.client.desktop.scydesktop.utils.StringUtils;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 
-import roolo.elo.api.IMetadata;
 
 /**
  * @author sikken
@@ -36,7 +37,7 @@ public class OptionPaneEloSaverFX extends EloSaver {
    public var technicalFormatKey: IMetadataKey;
    public var window:ScyWindow;
 
-   public override function eloSaveAs(elo: IELO):IELO{
+   public override function eloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack):Void{
       var forking = elo.getUri()!=null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
       var suggestedEloTitle = currentEloTitle;
@@ -56,24 +57,25 @@ public class OptionPaneEloSaverFX extends EloSaver {
          var newMetadata = repository.addNewELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
          myEloChanged.myEloChanged(elo);
-         return elo;
+         eloSaverCallBack.eloSaved(elo);
+         return;
       }
-      return null;
+      eloSaverCallBack.eloSaveCancelled(elo);
    }
 
-   public override function eloUpdate(elo: IELO):IELO{
+   public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack):Void{
       if (elo.getUri() != null) {
          var oldUri = elo.getUri();
          var newMetadata = repository.updateELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
          myEloChanged.myEloChanged(elo);
-         return elo;
+         eloSaverCallBack.eloSaved(elo);
       }
       else {
-         return eloSaveAs(elo);
+         eloSaveAs(elo,eloSaverCallBack);
       }
    }
-   public override function otherEloSaveAs(elo: IELO):IELO{
+   public override function otherEloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack):Void{
       var forking = elo.getUri()!=null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
       var suggestedEloTitle = currentEloTitle;
@@ -96,9 +98,9 @@ public class OptionPaneEloSaverFX extends EloSaver {
          }
          eloFactory.updateELOWithResult(elo, newMetadata);
          myEloChanged.myEloChanged(elo);
-         return elo;
+         eloSaverCallBack.eloSaved(elo);
       }
-      return null;
+      eloSaverCallBack.eloSaveCancelled(elo);
    }
 
 

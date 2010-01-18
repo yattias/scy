@@ -23,9 +23,9 @@ public interface EloSaver {
     * The saved elo information will be updated in the scy-dekstop administation. It is assumed that the tool will display the saved elo.
     *
     * @param elo
-    * @return the saved elo or null, if the user canceled the save
+    * @param eloSaverCallBack - if not null, the saved elo is returned or save cancelled is reported
     */
-   public IELO eloSaveAs(IELO elo);
+   public void eloSaveAs(IELO elo, EloSaverCallBack eloSaverCallBack);
 
    /**
     * does an save or update of the elo in the tool.
@@ -35,9 +35,9 @@ public interface EloSaver {
     * The saved elo information will be updated in the scy-dekstop administation.
     *
     * @param elo
-    * @return the saved elo or null, if the user canceled the save
+    * @param eloSaverCallBack - if not null, the saved elo is returned or save cancelled is reported
     */
-   public IELO eloUpdate(IELO elo);
+   public void eloUpdate(IELO elo, EloSaverCallBack eloSaverCallBack);
 
    /**
     * does a save as of an elo, which is not the THE elo in the tool.
@@ -45,7 +45,7 @@ public interface EloSaver {
     * The elo will be saved as a fork (IRepository.addForkedELO), when it is an existing elo. Otherwise it will just be saved as a new elo (IRepository.addNewELO).
     *
     * @param elo
-    * @return the saved elo or null, if the user canceled the save
+    * @param eloSaverCallBack - if not null, the saved elo is returned or save cancelled is reported
     */
-   public IELO otherEloSaveAs(IELO elo);
+   public void otherEloSaveAs(IELO elo, EloSaverCallBack eloSaverCallBack);
 }

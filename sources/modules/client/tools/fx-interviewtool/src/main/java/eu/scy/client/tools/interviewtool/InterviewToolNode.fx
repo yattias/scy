@@ -28,6 +28,7 @@ import eu.scy.client.tools.interviewtool.interviewtable.*;
 import javafx.scene.control.Label;
 import javax.jnlp.*;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import roolo.api.IRepository;
@@ -55,7 +56,7 @@ import eu.scy.actionlogging.DevNullActionLogger;
  * @author kaido
  */
 
-public class InterviewToolNode extends CustomNode, Resizable, ScyToolFX {
+public class InterviewToolNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 def normalFont = Font {
     name: "Arial"
     size: 12
@@ -1113,18 +1114,19 @@ var stage = Stage {
 
    function doSaveElo(){
       elo.getContent().setXmlString(interviewToEloContentXml());
-      var savedElo = eloSaver.eloUpdate(getElo());
-      if (savedElo!=null){
-         elo = savedElo;
-      }
+      eloSaver.eloUpdate(getElo(),this);
    }
 
    function doSaveAsElo(){
-      var savedElo = eloSaver.eloSaveAs(getElo());
-      if (savedElo!=null){
-         elo = savedElo;
-      }
+     eloSaver.eloSaveAs(getElo(),this);
    }
+
+    override public function eloSaveCancelled (elo : IELO) : Void {
+    }
+
+    override public function eloSaved (elo : IELO) : Void {
+        this.elo = elo;
+    }
 
    function getElo():IELO{
       if (elo==null){

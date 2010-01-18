@@ -28,12 +28,15 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author sikken
  */
 
-public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
+public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+
    def logger = Logger.getLogger(this.getClass());
 
    def scyTextType = "scy/text";
@@ -124,17 +127,11 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
 
    function doSaveElo(){
       elo.getContent().setXmlString(textToEloContentXml(textEditor.getText()));
-      var savedElo = eloSaver.eloUpdate(getElo());
-      if (savedElo!=null){
-         elo = savedElo;
-      }
+      eloSaver.eloUpdate(getElo(),this);
    }
 
    function doSaveAsElo(){
-      var savedElo = eloSaver.eloSaveAs(getElo());
-      if (savedElo!=null){
-         elo = savedElo;
-      }
+      eloSaver.eloSaveAs(getElo(),this);
    }
 
    function getElo():IELO{
@@ -160,6 +157,13 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
       }
       return textElement.getTextTrim();
    }
+
+    override public function eloSaveCancelled (elo : IELO) : Void {
+    }
+
+    override public function eloSaved (elo : IELO) : Void {
+        this.elo = elo;
+    }
 
    function resizeContent(){
       var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
