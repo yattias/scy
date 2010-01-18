@@ -12,7 +12,6 @@ import javax.persistence.*;
  * User: Henrik
  * Date: 09.des.2009
  * Time: 06:49:08
- * To change this template use File | Settings | File Templates.
  */
 @Entity
 @Table(name="pedagogicalplan")
@@ -24,7 +23,8 @@ public abstract class PedagogicalPlanBaseImpl extends BaseObjectImpl implements 
     private Scenario scenario;
     private PortfolioTemplate portfolioTemplate;
 
-    @Transient
+    @OneToOne  (targetEntity = MissionImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="mission_primKey")
     public Mission getMission() {
         return mission;
     }

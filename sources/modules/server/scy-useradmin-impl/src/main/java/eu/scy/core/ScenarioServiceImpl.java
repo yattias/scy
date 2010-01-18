@@ -13,7 +13,6 @@ import java.util.logging.Logger;
  * User: Henrik
  * Date: 16.okt.2009
  * Time: 06:20:59
- * To change this template use File | Settings | File Templates.
  */
 public class ScenarioServiceImpl implements ScenarioService{
 
@@ -22,7 +21,6 @@ public class ScenarioServiceImpl implements ScenarioService{
     private ScenarioDAO scenarioDAO;
 
     public List getScenarios() {
-        if(scenarioDAO == null) log.warning("SCENARIO DAO IS NULL!!!");
         return scenarioDAO.getScenarios();
     }
 
