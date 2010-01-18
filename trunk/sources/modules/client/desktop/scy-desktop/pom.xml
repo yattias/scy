@@ -71,7 +71,21 @@
          <type>jar</type>
          <scope>compile</scope>
       </dependency>
-
+<!--
+      <dependency>
+         <groupId>org.jfxtras</groupId>
+         <artifactId>jfxtras-common</artifactId>
+         <version>0.6-preview</version>
+         <classifier>preview</classifier>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jfxtras</groupId>
+         <artifactId>jfxtras-controls</artifactId>
+         <version>0.6-preview</version>
+         <classifier>preview</classifier>
+      </dependency>
+-->
       <dependency>
          <groupId>eu.scy.common</groupId>
          <artifactId>tool-broker-api</artifactId>
@@ -103,7 +117,7 @@
             <includes>
                <include>**/*.jpg</include>
                <include>**/*.png</include>
-         <!--
+               <!--
                <include>config/*.*</include>
          -->
             </includes>

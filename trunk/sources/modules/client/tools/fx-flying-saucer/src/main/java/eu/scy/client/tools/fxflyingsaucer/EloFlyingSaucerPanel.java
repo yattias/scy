@@ -5,6 +5,7 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -89,6 +90,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
       this.eloFactory = eloFactory;
    }
 
+   @Override
    public void setEloSaver(EloSaver eloSaver)
    {
       this.eloSaver = eloSaver;
@@ -117,7 +119,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
          setUrlInContent(newHomeElo.getContent(), url.toString());
          if (eloSaver != null)
          {
-            eloSaver.eloSaveAs(newHomeElo);
+            eloSaver.eloSaveAs(newHomeElo,null);
          }
          else
          {

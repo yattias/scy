@@ -19,6 +19,7 @@ import javafx.scene.layout.Resizable;
 
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -33,7 +34,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
  * @author Marjolaine
  */
 
-public class FitexNode extends CustomNode, Resizable, ScyToolFX {
+public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
    def logger = Logger.getLogger(this.getClass());
    def scyFitexType = "scy/pds";
    def jdomStringConversion = new JDomStringConversion();
@@ -126,17 +127,11 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX {
    }
 
    function doSaveElo(){
-      var savedElo = eloSaver.eloUpdate(getElo());
-      if (savedElo!=null){
-         elo = savedElo;
-      }
+      eloSaver.eloUpdate(getElo(),this);
    }
 
    function doSaveAsElo(){
-      var savedElo = eloSaver.eloSaveAs(getElo());
-      if (savedElo!=null){
-         elo = savedElo;
-      }
+      eloSaver.eloSaveAs(getElo(),this);
    }
 
    function getElo():IELO{
@@ -147,6 +142,13 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX {
       elo.getContent().setXmlString(jdomStringConversion.xmlToString(fitexPanel.getPDS()));
       return elo;
    }
+
+    override public function eloSaveCancelled (elo : IELO) : Void {
+    }
+
+    override public function eloSaved (elo : IELO) : Void {
+        this.elo = elo;
+    }
 
    function doSynchronizeTool(){
        // get the mucID to join simulator session

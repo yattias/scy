@@ -53,7 +53,6 @@ import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 
-import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
 import eu.scy.client.desktop.scydesktop.config.EloConfig;
 import eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler;
@@ -101,8 +100,8 @@ import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManage
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyDesktopEloSaver;
 
 /**
  * @author sikkenj
@@ -337,7 +336,8 @@ public class ScyDesktop extends CustomNode {
          technicalFormatKey:config.getTechnicalFormatKey();
       }
 
-      var optionPaneEloSaver = OptionPaneEloSaverFX{
+      var optionPaneEloSaver = ScyDesktopEloSaver{
+         config:config
          repository:config.getRepository()
          eloFactory:config.getEloFactory()
          titleKey:config.getTitleKey()
