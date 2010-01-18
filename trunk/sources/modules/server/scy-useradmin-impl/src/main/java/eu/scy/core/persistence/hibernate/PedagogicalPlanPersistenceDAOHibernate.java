@@ -3,6 +3,7 @@ package eu.scy.core.persistence.hibernate;
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
+import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 
 import java.util.List;
@@ -38,5 +39,5 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .setString("name", name)
                 .setMaxResults(1)
                 .uniqueResult();
-    }
+    }        
 }

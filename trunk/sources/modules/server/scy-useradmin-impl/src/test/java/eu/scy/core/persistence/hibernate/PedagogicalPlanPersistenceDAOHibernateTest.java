@@ -32,9 +32,13 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogi
         PedagogicalPlanTemplateImpl template = new PedagogicalPlanTemplateImpl();
         ScenarioImpl scenario = new ScenarioImpl();
         assertNull(scenario.getId());
+        MissionImpl mission = new MissionImpl();
+        assertNull(mission.getId());
         template.setScenario(scenario);
+        template.setMission(mission);
         getPedagogicalPlanPersistenceDAO().save(template);
         assertNotNull(scenario.getId());
+        assertNotNull(mission.getId());
     }
 
     @Test

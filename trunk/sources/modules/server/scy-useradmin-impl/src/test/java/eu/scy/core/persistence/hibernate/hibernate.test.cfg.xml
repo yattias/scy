@@ -12,6 +12,7 @@
         <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
         <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
 
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.MissionImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ActivityImpl"/>
