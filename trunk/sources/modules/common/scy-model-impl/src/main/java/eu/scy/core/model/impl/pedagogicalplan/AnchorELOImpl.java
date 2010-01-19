@@ -24,6 +24,9 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
 
     private boolean obligatoryInPortfolio = false;
 
+    private int xPos;
+    private int yPos;
+
     public void setAssessment(Assessment assessment) {
         this.assessment = assessment;
     }
@@ -67,5 +70,21 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
     @Transient
     public boolean getObligatoryInPortfolio() {
         return this.obligatoryInPortfolio;
+    }
+
+    public int getXPos() {
+        return xPos;
+    }
+
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getYPos() {
+        return yPos;
+    }
+
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
     }
 }

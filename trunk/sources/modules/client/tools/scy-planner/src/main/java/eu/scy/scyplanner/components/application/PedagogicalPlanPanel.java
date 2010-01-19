@@ -4,7 +4,6 @@ import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.DefaultNode;
-import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
@@ -34,7 +33,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     public PedagogicalPlanPanel(PedagogicalPlan pedagogicalPlan) {
         Mission mission = pedagogicalPlan.getMission();
         Scenario scenario = pedagogicalPlan.getScenario();
-        System.out.println("Creating pedagogical plan based on mission: " +mission.getName() + " and scenario: " + scenario.getName());
+        System.out.println("Creating pedagogical plan based on mission: " + mission.getName() + " and scenario: " + scenario.getName());
         final JTabbedPane tabbedPane = new JTabbedPane();
 
         diagramModel = getInitialPedagogicalPlanModel(mission, scenario);
@@ -49,7 +48,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
                 if (model instanceof LearningActivitySpace) {
                     tabbedPane.addTab(model.toString(), new LASOverviewPanel((LearningActivitySpace) model));
-                    tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
+                    tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
                 } else {
                     JOptionPane.showMessageDialog(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame(), "Error, I do not know how to handle objects of type " + model.getClass().getName(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -66,15 +65,10 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
     private IDiagramModel getInitialPedagogicalPlanModel(final Mission mission, final Scenario scenario) {
         SCYPlannerDiagramModel pedagogicalPlan = new SCYPlannerDiagramModel();
-        DefaultNode orientationLas = createLASElement(scenario.getLearningActivitySpace(), 10, 100);
-
-        //INodeModel producedByOrientationELO = createELOElement("ELO", 150, 100);
-
         LearningActivitySpace firstLas = scenario.getLearningActivitySpace();
 
-        DefaultNode firstLasNode = createLASElement(firstLas, 150,100);
-        addNode(pedagogicalPlan,firstLasNode);
-        addAnchorEloNode(firstLasNode, firstLas, pedagogicalPlan);
+        createLASElement(firstLas, firstLas.getXPos(), firstLas.getYPos(), pedagogicalPlan);
+
 
         //connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO);
 
@@ -82,32 +76,55 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     }
 
 
-    private void addAnchorEloNode(INodeModel lasNode, LearningActivitySpace las , SCYPlannerDiagramModel pedagogicalPlan) {
-        java.util.List <Activity> activities = las.getActivities();
+    private void addAnchorEloNode(INodeModel lasNode, LearningActivitySpace las, SCYPlannerDiagramModel pedagogicalPlan) {
+        java.util.List<Activity> activities = las.getActivities();
+        System.out.println("ADDING LAS: " + las.getName() + " has " + activities.size() + " activities");
         for (int i = 0; i < activities.size(); i++) {
             Activity activity = activities.get(i);
-            if(activity.getAnchorELO() != null) {
-                INodeModel anchorNodeModel = createELOElement(activity.getAnchorELO(), (int) (lasNode.getLocation().getY() + lasNode.getSize().getWidth() + 50) , (int)(lasNode.getLocation().getY() + (100*i)));
-                addNode(pedagogicalPlan,anchorNodeModel);
-                connectNodes(pedagogicalPlan, lasNode, anchorNodeModel);
-                if(activity.getAnchorELO().getInputTo() != null) addLASNode(anchorNodeModel, activity.getAnchorELO(), pedagogicalPlan);
+            if (activity.getAnchorELO() != null) {
+                INodeModel anchorNodeModel = createELOElement(activity.getAnchorELO(), activity.getAnchorELO().getXPos(), activity.getAnchorELO().getYPos());
+                if (!pedagogicalPlan.checkIfNodeHasBeenAdded(anchorNodeModel)) {
+                    addNode(pedagogicalPlan, anchorNodeModel);
+                    connectNodes(pedagogicalPlan, lasNode, anchorNodeModel);
+                    if (activity.getAnchorELO().getInputTo() != null) {
+                        addLASNode(anchorNodeModel, activity.getAnchorELO(), pedagogicalPlan);
+                    }
+
+                }
+
+            } else {
+                System.out.println("Activity: " + activity.getName() + " does note have any elos");
             }
         }
     }
 
-    private void addLASNode(INodeModel anchorEloNode, AnchorELO elo, SCYPlannerDiagramModel pedagogicalPlan ) {
+    private void addLASNode(INodeModel anchorEloNode, AnchorELO elo, SCYPlannerDiagramModel pedagogicalPlan) {
         LearningActivitySpace las = elo.getInputTo();
-        DefaultNode lasModel = createLASElement(las, 500, 300);
-        connectNodes(pedagogicalPlan, anchorEloNode, lasModel);
-        addNode(pedagogicalPlan, lasModel);
+
+        DefaultNode lasModel = createLASElement(las, las.getXPos(), las.getYPos(), pedagogicalPlan);
+        if (!pedagogicalPlan.getIsAlreadyConnected(anchorEloNode, lasModel)) {
+            connectNodes(pedagogicalPlan, anchorEloNode, lasModel);
+            addNode(pedagogicalPlan, lasModel);
+        }
+
+        //java.util.List<Activity> activityList = las.getActivities();
+        /*System.out.println("LAS: " + las.getName() + " has " + activityList.size() + " activities");
+        for (int i = 0; i < activityList.size(); i++) {
+            Activity activity = activityList.get(i);
+            System.out.println("Activity: " + activity + " " + activity.getAnchorELO());
+        } */
+
     }
 
     private void addNode(SCYPlannerDiagramModel pedagogicalPlan, INodeModel node) {
-        node.addListener(this);
-        pedagogicalPlan.addNode(node);
+        if (node != null) {
+            node.addListener(this);
+            pedagogicalPlan.addNode(node);
+        }
+
     }
 
-    private DefaultNode createLASElement(LearningActivitySpace learningActivitySpace, Integer xPos, Integer yPos) {
+    private DefaultNode createLASElement(LearningActivitySpace learningActivitySpace, Integer xPos, Integer yPos, SCYPlannerDiagramModel pedagogicalPlan) {
         DefaultNode las = new DefaultNode();
         las.setObject(learningActivitySpace);
         URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/LASShape.svg");
@@ -120,10 +137,11 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
             System.err.println("File not found: /eu/scy/scyplanner/impl/shapes/LASShape.svg");
         }
 
-        //las.setLabel(name);
-
         las.setLocation(new Point(xPos, yPos));
         las.setSize(new Dimension(142, 73));
+        addNode(pedagogicalPlan, las);
+
+        addAnchorEloNode(las, learningActivitySpace, pedagogicalPlan);
         return las;
     }
 
@@ -142,7 +160,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         }
 
         eloNodeModel.setLocation(new Point(xPos, yPos));
-        eloNodeModel.setSize(new Dimension(75,75));
+        eloNodeModel.setSize(new Dimension(75, 75));
         eloNodeModel.setLabelHidden(true);
 
         return eloNodeModel;

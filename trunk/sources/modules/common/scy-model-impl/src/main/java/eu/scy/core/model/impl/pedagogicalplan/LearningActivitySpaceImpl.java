@@ -24,6 +24,9 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
     private List activities;
     private Set produces;
 
+    private int xPos;
+    private int yPos;
+
     @Transient
     public Assessment getAssessment() {
         return assessment;
@@ -84,5 +87,21 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
     @Override
     public void setLearninigActivitySpaceScaffoldConfigurations(Set<LearningActivitySpaceScaffoldConfiguration> learninigActivitySpaceScaffoldConfigurations) {
 
+    }
+
+    public int getXPos() {
+        return xPos;
+    }
+
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getYPos() {
+        return yPos;
+    }
+
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
     }
 }

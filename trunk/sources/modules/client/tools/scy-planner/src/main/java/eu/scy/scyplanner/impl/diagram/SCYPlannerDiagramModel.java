@@ -1,12 +1,11 @@
 package eu.scy.scyplanner.impl.diagram;
 
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.scymapper.api.diagram.model.*;
+import eu.scy.scymapper.impl.model.DefaultNode;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: Bjoerge Naess
@@ -14,7 +13,7 @@ import java.util.Set;
  * Time: 10:58:49
  */
 public class SCYPlannerDiagramModel implements IDiagramModel {
-private String name;
+    private String name;
     private Set<INodeModel> nodes;
     private Set<ILinkModel> links;
     private transient Collection<IDiagramListener> listeners;
@@ -23,6 +22,41 @@ private String name;
         listeners = new ArrayList<IDiagramListener>();
         nodes = new HashSet<INodeModel>();
         links = new HashSet<ILinkModel>();
+    }
+
+    public boolean checkIfNodeHasBeenAdded(Object modelObject) {
+        Iterator it = nodes.iterator();
+        while (it.hasNext()) {
+            DefaultNode defaultNode = (DefaultNode) it.next();
+            if (defaultNode.getObject().equals(modelObject)) {
+                System.out.println("WARNING: " + modelObject + " has already been added to plan!");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean getIsAlreadyConnected(INodeModel from, INodeModel to) {
+        Iterator it = links.iterator();
+        while (it.hasNext()) {
+            ILinkModel iLinkModel = (ILinkModel) it.next();
+            if(iLinkModel.getFrom().equals(from) && iLinkModel.getTo().equals(to)) return true;
+        }
+
+        return false;
+
+    }
+
+    public DefaultNode getNodeFor(LearningActivitySpace learningActivitySpace) {
+        Iterator it = nodes.iterator();
+        while (it.hasNext()) {
+            DefaultNode defaultNode = (DefaultNode) it.next();
+            if (defaultNode.getObject().equals(learningActivitySpace)) {
+                return defaultNode;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -34,18 +68,22 @@ private String name;
     public String getName() {
         return name;
     }
+
     @Override
     public void addNode(INodeModel n) {
-        nodes.add(n);
-        notifyNodeAdded(n);
+        if (!checkIfNodeHasBeenAdded(n)) {
+            nodes.add(n);
+            notifyNodeAdded(n);
+        }
+
     }
 
-	@Override
-	public void addNode(INodeModel n, boolean preventOverlap) {
-		addNode(n);
-	}
+    @Override
+    public void addNode(INodeModel n, boolean preventOverlap) {
+        addNode(n);
+    }
 
-	@Override
+    @Override
     public void removeNode(INodeModel n) {
         nodes.remove(n);
         notifyNodeRemoved(n);
@@ -57,13 +95,13 @@ private String name;
         notifyLinkAdded(l);
     }
 
-	@Override
-	public void removeLink(ILinkModel l) {
+    @Override
+    public void removeLink(ILinkModel l) {
         links.remove(l);
         notifyLinkRemoved(l);
-	}
+    }
 
-	@Override
+    @Override
     public Set<ILinkModel> getLinks() {
         return links;
     }
@@ -139,7 +177,10 @@ private String name;
         for (INodeModel node : nodes) addNode(node);
     }
 
-	public IDiagramElement getElementById(String id) {
-		return null;
-	}
+    public IDiagramElement getElementById(String id) {
+        return null;
+    }
+
+
+
 }
