@@ -10,7 +10,7 @@ import java.util.List;
  * Time: 11:20:42
  * To change this template use File | Settings | File Templates.
  */
-public interface LearningActivitySpace extends LearningActivitySpaceBase, Assessable {
+public interface LearningActivitySpace extends LearningActivitySpaceBase, Assessable, PositionedObject {
 
     public LearningActivitySpaceTemplate getLearningActivitySpaceTemplate();
     public void setLearningActivitySpaceTemplate(LearningActivitySpaceTemplate learningActivitiSpaceTemplate);

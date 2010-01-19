@@ -8,7 +8,7 @@ package eu.scy.core.model.pedagogicalplan;
  *
  * The AnchorELO represents a planned ELO that should be the outcome of for instance a LAS, one Activity, etc, and that the teacher can decide should be included in the portfolio.
  */
-public interface AnchorELO extends PlannedELO, Assessable {
+public interface AnchorELO extends PlannedELO, Assessable, PositionedObject {
 
     /**
      * Returns the Activity that the AnchorELo should be produced by
