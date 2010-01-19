@@ -28,7 +28,7 @@
                 <prop key="hibernate.connection.autocommit">false</prop>
                 <prop key="hibernate.connection.release_mode">auto</prop>
                 <prop key="hibernate.cache.use_query_cache">false</prop>
-                <!--prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop-->
+                <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</prop>
                 <prop key="hibernate.connection.isolation">2</prop>
                 <prop key="hibernate.max_fetch_depth">1</prop>
                 <prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
@@ -145,7 +145,7 @@
             <value>root</value>
         </property>
         <property name="password">
-            <value />
+            <value></value>
         </property>
     </bean>
 
