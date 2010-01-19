@@ -1,6 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
+import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
@@ -40,4 +41,18 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .setMaxResults(1)
                 .uniqueResult();
     }        
+
+    @Override
+    public List<Scenario> getCompatibleScenarios(Mission mission) {
+        return getSession().createQuery("select plan.scenario from PedagogicalPlanImpl as plan where plan.mission = :mission")
+                .setEntity("mission", mission)
+                .list();
+    }
+
+    @Override
+    public List<Mission> getCompatibleMissions(Scenario scenario) {
+        return getSession().createQuery("select plan.mission from PedagogicalPlanImpl as plan where plan.scenario = :scenario")
+                .setEntity("scenario" ,scenario)
+                .list();
+    }
 }

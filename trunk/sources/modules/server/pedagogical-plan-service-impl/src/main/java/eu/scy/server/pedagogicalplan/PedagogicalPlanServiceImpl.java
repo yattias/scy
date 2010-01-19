@@ -6,10 +6,7 @@ import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.auth.SessionInfo;
 import eu.scy.core.model.impl.auth.SessionInfoImpl;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.pedagogicalplan.Scenario;
-import eu.scy.core.model.pedagogicalplan.Tool;
+import eu.scy.core.model.pedagogicalplan.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -60,6 +57,16 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
 
     public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
         this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
+    }
+
+    public List <Scenario> getCompatibleScenarios(Mission mission) {
+        return this.pedagogicalPlanPersistenceService.getCompatibleScenarios(mission);
+        
+    }
+
+    @Override
+    public List<Mission> getCompatibleMissions(Scenario scenario) {
+        return this.getPedagogicalPlanPersistenceService().getCompatibleMissions(scenario);
     }
 
 }
