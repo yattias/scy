@@ -51,8 +51,8 @@ public class MissionModelFX {
          }
       }
       for (anchor in anchors){
-         anchor.helpEloUris = updateEloUri(anchor.helpEloUris,oldEloUri,newEloUri);
-         anchor.supportEloUris = updateEloUri(anchor.supportEloUris,oldEloUri,newEloUri);
+         anchor.intermediateEloUris = updateEloUri(anchor.intermediateEloUris,oldEloUri,newEloUri);
+         anchor.resourceEloUris = updateEloUri(anchor.resourceEloUris,oldEloUri,newEloUri);
       }
       if (contentChanged){
           updateElo();

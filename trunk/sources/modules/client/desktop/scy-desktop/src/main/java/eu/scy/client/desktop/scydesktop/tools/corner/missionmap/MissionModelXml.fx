@@ -28,8 +28,8 @@ def mainAnchorName = "mainAnchor";
 def toolTipName = "toolTip";
 def nextAnchorsName = "nextAnchors";
 def inputAnchorsName = "inputAnchors";
-def supportElosName = "supportElos";
-def helpElosName = "helpElos";
+def resourceElosName = "resourceElos";
+def intermediateElosName = "intermediateElos";
 def relationsName = "relations";
 def relationName = "relation";
 
@@ -65,8 +65,8 @@ function createMissionAnchorXml(missionAnchor:MissionAnchorFX):Element{
    root.addContent(createElement(toolTipName, "{missionAnchor.toolTip}"));
    root.addContent(createAnchorListXml(nextAnchorsName,missionAnchor.nextAnchors));
    root.addContent(createAnchorListXml(inputAnchorsName,missionAnchor.inputAnchors));
-   root.addContent(createEloUriListXml(supportElosName,missionAnchor.supportEloUris));
-   root.addContent(createEloUriListXml(helpElosName,missionAnchor.helpEloUris));
+   root.addContent(createEloUriListXml(resourceElosName,missionAnchor.resourceEloUris));
+   root.addContent(createEloUriListXml(intermediateElosName,missionAnchor.intermediateEloUris));
    root.addContent(createStringListXml(relationsName,missionAnchor.relationNames));
    return root;
 }
@@ -132,8 +132,8 @@ function createMissionAnchor(root:Element):MissionAnchorFX{
       yPos: java.lang.Float.parseFloat(root.getChildText(yPosName));
       mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
       toolTip: root.getChildText(toolTipName)
-      supportEloUris: createEloUriList(root.getChild(supportElosName))
-      helpEloUris: createEloUriList(root.getChild(helpElosName))
+      resourceEloUris: createEloUriList(root.getChild(resourceElosName))
+      intermediateEloUris: createEloUriList(root.getChild(intermediateElosName))
       relationNames: createStringList(root.getChild(relationsName))
    }
    return missionAnchor;

@@ -139,15 +139,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (relationName in activeAnchor.relationNames){
          // add the related elos
       }
-      for (helpEloUri in activeAnchor.helpEloUris){
-            var helpEloWindow = getScyWindow(helpEloUri);
-            windowManager.addScyWindow(helpEloWindow);
-            windowPositioner.addHelpWindow(helpEloWindow);
+      for (resourceEloUri in activeAnchor.resourceEloUris){
+            var resourceEloWindow = getScyWindow(resourceEloUri);
+            windowManager.addScyWindow(resourceEloWindow);
+            windowPositioner.addResourceWindow(resourceEloWindow);
       }
-      for (supportEloUri in activeAnchor.supportEloUris){
-            var supportEloWindow = getScyWindow(supportEloUri);
-            windowManager.addScyWindow(supportEloWindow);
-            windowPositioner.addSupportWindow(supportEloWindow);
+      for (intermediateEloUri in activeAnchor.intermediateEloUris){
+            var intermediateEloWindow = getScyWindow(intermediateEloUri);
+            windowManager.addScyWindow(intermediateEloWindow);
+            windowPositioner.addIntermediateWindow(intermediateEloWindow);
       }
       if (desktopState!=null){
          // add the user elos

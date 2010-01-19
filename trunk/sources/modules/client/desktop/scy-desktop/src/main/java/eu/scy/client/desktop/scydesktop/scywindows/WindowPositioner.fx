@@ -37,6 +37,13 @@ public mixin class WindowPositioner {
     public abstract function setActiveAnchorWindow(window:ScyWindow):Void;
 
     /**
+    * adds a intermediate window.
+    *
+    * Positioning could be postphoned until positionWindows is called
+    */
+    public abstract function addIntermediateWindow(window:ScyWindow):Void;
+
+    /**
     * adds a next anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
@@ -58,18 +65,11 @@ public mixin class WindowPositioner {
     public abstract function addInputAnchorWindow(window:ScyWindow, direction:Number):Void;
 
     /**
-    * adds a help window.
+    * adds a resource window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addHelpWindow(window:ScyWindow):Void;
-
-    /**
-    * adds a support window.
-    *
-    * Positioning could be postphoned until positionWindows is called
-    */
-    public abstract function addSupportWindow(window:ScyWindow):Void;
+    public abstract function addResourceWindow(window:ScyWindow):Void;
 
     /**
     * adds an other window.

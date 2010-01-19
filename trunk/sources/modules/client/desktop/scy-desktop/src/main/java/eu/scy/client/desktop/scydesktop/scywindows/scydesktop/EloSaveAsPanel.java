@@ -261,6 +261,10 @@ public class EloSaveAsPanel extends javax.swing.JPanel
             comboBox.addItem(displayNames.getDisplayName(type));
          }
          comboBox.setEnabled(!types.isEmpty());
+         if (types.size() == 1)
+         {
+            comboBox.setSelectedIndex(1);
+         }
       }
    }
 

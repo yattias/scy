@@ -52,8 +52,9 @@ public class BasicConfig implements Config
    private String backgroundImageFileName;
    private boolean backgroundImageFileNameRelative;
 
-   public void initialize(){
-     parseEloConfigs();
+   public void initialize()
+   {
+      parseEloConfigs();
    }
 
    public void parseEloConfigs()
@@ -251,23 +252,8 @@ public class BasicConfig implements Config
          missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
          missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
          missionAnchor.setToolTip(basicMissionAnchorConfig.getToolTip());
-         List<URI> helpEloUris = new ArrayList<URI>();
-         if (basicMissionAnchorConfig.getHelpEloUris() != null)
-         {
-            for (URI helpEloUri : basicMissionAnchorConfig.getHelpEloUris())
-            {
-               IMetadata helpEloMetadata = repository.retrieveMetadata(helpEloUri);
-               if (helpEloMetadata != null)
-               {
-                  helpEloUris.add(helpEloUri);
-               }
-               else
-               {
-                  logger.error("Could not find help elo uri: " + helpEloUri + " for mission anchor " + basicMissionAnchorConfig.getName());
-               }
-            }
-         }
-         missionAnchor.setHelpEloUris(helpEloUris);
+         missionAnchor.setIntermediateEloUris(createExistingUriList(basicMissionAnchorConfig.getIntermediateEloUris(), "intermdiate", basicMissionAnchorConfig.getName()));
+         missionAnchor.setResourceEloUris(createExistingUriList(basicMissionAnchorConfig.getResourceEloUris(), "resource", basicMissionAnchorConfig.getName()));
          basicMissionAnchors.add(missionAnchor);
          if (basicMissionAnchorsMap.containsKey(basicMissionAnchorConfig.getName()))
          {
@@ -284,8 +270,8 @@ public class BasicConfig implements Config
          BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getName());
          if (missionAnchor != null)
          {
-            missionAnchor.setNextMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getNextMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri()));
-            missionAnchor.setInputMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getInputMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri()));
+            missionAnchor.setNextMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getNextMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri(), "next"));
+            missionAnchor.setInputMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getInputMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri(), "input"));
          }
       }
       // "convert" the list
@@ -296,29 +282,65 @@ public class BasicConfig implements Config
       return missionAnchors;
    }
 
-   private List<MissionAnchor> createMissionAnchorList(List<String> names, Map<String, BasicMissionAnchor> basicMissionAnchorsMap, URI missionAnchorUri)
+   private List<URI> createExistingUriList(List<URI> uris, String label, String anchorName)
    {
-      List<MissionAnchor> nextMissionAnchors = new ArrayList<MissionAnchor>();
+      List<URI> existingUris = new ArrayList<URI>();
+      if (uris != null)
+      {
+         for (URI uri : uris)
+         {
+            IMetadata eloMetadata = repository.retrieveMetadata(uri);
+            if (eloMetadata != null)
+            {
+               if (!existingUris.contains(uri))
+               {
+                  existingUris.add(uri);
+               }
+               else
+               {
+                  logger.error("Duplicate " + label + " elo uri: " + uri + " for mission anchor " + anchorName);
+
+               }
+            }
+            else
+            {
+               logger.error("Could not find " + label + " elo uri: " + uri + " for mission anchor " + anchorName);
+            }
+         }
+      }
+      return existingUris;
+   }
+
+   private List<MissionAnchor> createMissionAnchorList(List<String> names, Map<String, BasicMissionAnchor> basicMissionAnchorsMap, URI missionAnchorUri, String label)
+   {
+      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
       if (names != null)
       {
          for (String name : names)
          {
-            BasicMissionAnchor nextMissionAnchor = basicMissionAnchorsMap.get(name);
-            if (nextMissionAnchor != null)
+            BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(name);
+            if (missionAnchor != null)
             {
-               nextMissionAnchors.add(nextMissionAnchor);
+               if (!missionAnchors.contains(missionAnchor))
+               {
+                  missionAnchors.add(missionAnchor);
+               }
+               else
+               {
+                  logger.error("Duplicate " + label + " mission anchor with name: " + name + " for mission anchor " + name);
+               }
             }
             else
             {
-               logger.error("can't find next mission anchor with name: " + name + " for mission anchor " + name);
+               logger.error("can't find " + label + " mission anchor with name: " + name + " for mission anchor " + name);
             }
          }
       }
       else
       {
-         logger.info("no next anchor names for " + missionAnchorUri);
+         logger.info("no " + label + " anchor names for " + missionAnchorUri);
       }
-      return nextMissionAnchors;
+      return missionAnchors;
    }
 
    public void setTemplateEloUris(List<URI> templateEloUris)
