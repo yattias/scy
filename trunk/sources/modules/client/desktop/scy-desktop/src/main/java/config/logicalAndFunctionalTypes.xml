@@ -25,6 +25,10 @@
                <property name="name" value="Drawing"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="plainText"/>
+               <property name="name" value="Plain Text"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="richText"/>
                <property name="name" value="Rich Text"/>
             </bean>
@@ -73,6 +77,10 @@
                <property name="name" value="Automatic dataset"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="datasetProcessed"/>
+               <property name="name" value="Processed dataset"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="experimentalDesign"/>
                <property name="name" value="Experimental design"/>
             </bean>
@@ -83,6 +91,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="hypothesis"/>
                <property name="name" value="Hypothesis"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="interview"/>
+               <property name="name" value="Interview"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="documentDisign"/>
