@@ -1,6 +1,7 @@
 package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface ScenarioService {
     public List getScenarios();
 
     public void createScenario(Scenario scenario);
+
+    public List<Mission> getMissions();
 
 }

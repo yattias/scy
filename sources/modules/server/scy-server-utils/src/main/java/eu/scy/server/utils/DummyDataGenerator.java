@@ -30,27 +30,29 @@ public class DummyDataGenerator implements InitializingBean {
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
         template.setName("CO2 House - home of the wild!");
         template.setDescription("A pedagogical plan for people with white teeth");
-        template.setScenario(generateScenario());
-        template.setMission(generateMission());
+        template.setScenario(generateScenario("Exploration", "A new way of thinking...."));
+        template.setMission(generateMission("C02 friendly house"));
         saveAndCreatePedagogicalPlan(template);
 
         PedagogicalPlanTemplate ecosystems = new PedagogicalPlanTemplateImpl();
         ecosystems.setName("Ecosystems");
         ecosystems.setDescription("I haven't got a clue about what this will be about - but sounds freakin cool!");
-        ecosystems.setScenario(generateScenario());
+        ecosystems.setScenario(generateScenario("Practical Scruffy nuffy (PSN)", "Whole new way of thinking"));
+        ecosystems.setMission(generateMission("Eco systems mission"));
         saveAndCreatePedagogicalPlan(ecosystems);
 
         PedagogicalPlanTemplate canteenCuisine = new PedagogicalPlanTemplateImpl();
         canteenCuisine.setName("Canteen Cuisine");
         canteenCuisine.setDescription("Canteen Cuisine: I haven't got a clue about what this will be about - but sounds freakin cool!");
-        canteenCuisine.setScenario(generateScenario());
+        canteenCuisine.setScenario(generateScenario("Transitive Accumulative Mutations", "Based on Reinbergers classic theory"));
+        canteenCuisine.setMission(generateMission("Canteen Cusine"));
         saveAndCreatePedagogicalPlan(canteenCuisine);
 
     }
 
-    private Mission generateMission() {
+    private Mission generateMission(String name) {
         Mission mission = new MissionImpl();
-        mission.setName("The first mission");
+        mission.setName(name);
         return mission;
 
     }
@@ -65,10 +67,10 @@ public class DummyDataGenerator implements InitializingBean {
         }
     }
 
-    private Scenario generateScenario() {
+    private Scenario generateScenario(String name, String description) {
         Scenario scenario = new ScenarioImpl();
-        scenario.setName("Scenario 1 - Exploration");
-        scenario.setDescription("Exploring the facts of life and other important stuff");
+        scenario.setName(name);
+        scenario.setDescription(description);
 
         LearningActivitySpace orientation = createLAS("LAS Orientation");
         LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
