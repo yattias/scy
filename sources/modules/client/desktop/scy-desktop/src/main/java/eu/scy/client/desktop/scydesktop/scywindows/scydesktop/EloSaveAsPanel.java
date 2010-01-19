@@ -210,6 +210,10 @@ public class EloSaveAsPanel extends javax.swing.JPanel
    {
       if (comboBox.getItemCount() > 0)
       {
+         if (comboBox.getItemCount() == 1)
+         {
+            return comboBox.getSelectedIndex() == 0;
+         }
          return comboBox.getSelectedIndex() > 0;
       }
       return true;
@@ -263,9 +267,11 @@ public class EloSaveAsPanel extends javax.swing.JPanel
          comboBox.setEnabled(!types.isEmpty());
          if (types.size() == 1)
          {
-            comboBox.setSelectedIndex(1);
+            comboBox.removeItemAt(0);
+            comboBox.setSelectedIndex(0);
          }
       }
+      setSaveButtonState();
    }
 
    public void setTitle(String title)

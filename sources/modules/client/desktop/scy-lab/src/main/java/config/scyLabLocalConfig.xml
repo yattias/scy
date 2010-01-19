@@ -14,6 +14,9 @@
       <constructor-arg index="0" ref="metadataTypeManager"/>
    </bean>
 -->
+
+   <import resource="logicalAndFunctionalTypes.xml"/>
+
    <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
       <!--
       <property name="repository" ref="repository"/>
@@ -23,6 +26,10 @@
       <property name="titleKey" ref="titleKey"/>
       <property name="technicalFormatKey" ref="technicalFormatKey"/>
       -->
+
+      <property name="logicalTypeDisplayNames" ref="logicalTypeDisplayNames"/>
+
+      <property name="functionalTypeDisplayNames" ref="functionalTypeDisplayNames"/>
 
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
@@ -35,6 +42,16 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>drawing</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>drawingDisign</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/studentplanningtool"/>
@@ -55,6 +72,18 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>dataset</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>datasetManual</value>
+                     <value>datasetAutomatic</value>
+                     <value>datasetProcessed</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/xproc"/>
@@ -65,6 +94,16 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>structuredText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>experimentalDesign</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/simconfig"/>
@@ -75,6 +114,15 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>sourceData</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/model"/>
@@ -85,6 +133,15 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>sourceData</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/url"/>
@@ -95,6 +152,18 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>information</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>informationResource</value>
+                     <value>informationAssignment</value>
+                     <value>informationHelp</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/mapping"/>
@@ -105,6 +174,18 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>conceptMap</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>mapConcept</value>
+                     <value>mapInitialIdeas</value>
+                     <value>mapKeyIdeas</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/text"/>
@@ -115,6 +196,20 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>plainText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>documentDisign</value>
+                     <value>reportEvaluation</value>
+                     <value>reportFinal</value>
+                     <value>documentReflection</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/interview"/>
@@ -125,6 +220,16 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>structuredText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>interview</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/video"/>
@@ -135,6 +240,18 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>information</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>informationResource</value>
+                     <value>informationAssignment</value>
+                     <value>informationHelp</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/webresourcer"/>
@@ -145,6 +262,18 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>information</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>informationResource</value>
+                     <value>informationAssignment</value>
+                     <value>informationHelp</value>
+                  </list>
+               </property>
             </bean>
          </list>
       </property>
@@ -170,13 +299,13 @@
                   <list>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/37/0/Glossary.url</value>
                      <value>roolo://memory/59/0/Technasium.video</value>
                   </list>
                </property>
-               <property name="supportEloUris">
+               <property name="intermediateEloUris">
                   <list>
                   </list>
                </property>
@@ -190,7 +319,7 @@
                   <list>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
                      <value>roolo://memory/14/0/Global_Warming.url</value>
@@ -210,7 +339,7 @@
                      <value>researchQuestions</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/13/0/First_ideas.url</value>
                      <value>roolo://memory/39/0/CO2_friendly_house.url</value>
@@ -230,7 +359,7 @@
                      <value>hypothesis</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -251,7 +380,7 @@
                      <value>interview</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -269,7 +398,7 @@
                      <value>processedData_E</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -286,7 +415,7 @@
                      <value>conclusion</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
                      <value>roolo://memory/41/0/expertResearch.url</value>
@@ -306,7 +435,7 @@
                      <value>critic</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -324,7 +453,7 @@
                      <value>conclusion</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -341,7 +470,7 @@
                      <value>conclusion</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -358,7 +487,7 @@
                      <value>webInformation</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -376,7 +505,7 @@
                      <value>expertConceptMap</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/41/0/expertResearch.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -393,7 +522,7 @@
                      <value>expertPresentation</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/48/0/Expert_CMap.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -410,7 +539,7 @@
                      <value>inventorySolution</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/23/0/Expert_presentation.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -427,7 +556,7 @@
                      <value>firstChoices</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -445,7 +574,7 @@
                      <value>houseDrawing</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -462,7 +591,7 @@
                      <value>processedData_D</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -479,7 +608,7 @@
                   <list>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/19/0/Draw_your_house.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -497,7 +626,7 @@
                      <value>presentationDesign</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -517,7 +646,7 @@
                      -->
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                   </list>
                </property>
@@ -532,7 +661,7 @@
                      <value>report</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/21/0/Presentation_of_design.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -549,7 +678,7 @@
                      <!--<value>reflection2</value>-->
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/24/0/Individual_report.url</value>
                      <value>roolo://memory/37/0/Glossary.url</value>
@@ -582,7 +711,7 @@
                      <value>hypothesis</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
                      <value>roolo://memory/13/0/First_ideas.url</value>
@@ -608,7 +737,7 @@
                   <list>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
                      <value>roolo://memory/13/0/First_ideas.url</value>
@@ -628,7 +757,7 @@
                      <value>webData</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
                      <value>roolo://memory/13/0/First_ideas.url</value>
@@ -650,7 +779,7 @@
                      <value>unknown2</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
                      <value>roolo://memory/17/0/Manual_for_converter.url</value>
@@ -668,7 +797,7 @@
                      <value>conclusion</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
                      <value>roolo://memory/17/0/Manual_for_converter.url</value>
@@ -688,7 +817,7 @@
                      <value>houseAnalysis</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                   </list>
                </property>
@@ -703,7 +832,7 @@
                      <value>webData</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                   </list>
                </property>
@@ -719,7 +848,7 @@
                      <value>simulator</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/19/0/Draw_your_house.url</value>
                   </list>
@@ -736,7 +865,7 @@
                      <value>houseDrawing</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</value>
                   </list>
@@ -754,7 +883,7 @@
                      <value>houseAnalysis</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
                      <value>roolo://memory/17/0/Manual_for_converter.url</value>
@@ -775,7 +904,7 @@
                      <value>unknown2</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                   </list>
                </property>
@@ -789,7 +918,7 @@
                   <list>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/21/0/Presentation_of_design.url</value>
                      <value>roolo://memory/22/0/Expert_Concept_Map.url</value>
@@ -807,7 +936,7 @@
                   <list>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/21/0/Presentation_of_design.url</value>
                      <value>roolo://memory/22/0/Expert_Concept_Map.url</value>
@@ -826,7 +955,7 @@
                      <value>design</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/21/0/Presentation_of_design.url</value>
                      <value>roolo://memory/22/0/Expert_Concept_Map.url</value>
