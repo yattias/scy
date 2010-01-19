@@ -35,4 +35,6 @@ public interface PedagogicalPlanPersistenceService {
     public List<Scenario> getCompatibleScenarios(Mission mission);
 
     public List<Mission> getCompatibleMissions(Scenario scenario);
+
+    public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario);
 }

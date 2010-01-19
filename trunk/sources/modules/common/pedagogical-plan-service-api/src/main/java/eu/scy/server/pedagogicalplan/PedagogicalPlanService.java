@@ -18,7 +18,17 @@ public interface PedagogicalPlanService {
 
     public List <Tool> getTools();
 
+    /**
+     * Returns all available scenarios
+     * @return
+     */
     public List<Scenario> getScenarios();
+
+    /**
+     * returns all available missions
+     * @return
+     */
+    public List<Mission> getMissions();
 
     public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates();
 
@@ -27,4 +37,12 @@ public interface PedagogicalPlanService {
     public List <Scenario> getCompatibleScenarios(Mission mission);
 
     public List <Mission> getCompatibleMissions(Scenario scenario);
+
+    /**
+     * retrieves the pedagogical plan that is composed of the mission and scenario
+     * @param mission
+     * @param scenario
+     * @return
+     */
+    public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario);
 }

@@ -7,6 +7,7 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -56,5 +57,18 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         return getSession().createQuery("select plan.mission from PedagogicalPlanImpl as plan where plan.scenario = :scenario")
                 .setEntity("scenario" ,scenario)
                 .list();
+    }
+
+    @Override
+    public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
+        log.info("Searching for plan for " + mission + " and " + scenario);
+        List pedagogicalPlans = getSession().createQuery("from PedagogicalPlanImpl as plan where plan.scenario = :scenario and plan.mission = :mission order by plan.name")
+                .setEntity("mission", mission)
+                .setEntity("scenario", scenario)
+                .list();
+        log.info("===== ====== =======Found " + pedagogicalPlans.size() + " pedagogical plans - returning the first");
+        if(pedagogicalPlans.size() > 0) return (PedagogicalPlan) pedagogicalPlans.get(0);
+        return null;
+
     }
 }

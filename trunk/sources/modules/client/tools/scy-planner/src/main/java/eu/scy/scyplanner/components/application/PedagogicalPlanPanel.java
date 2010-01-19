@@ -31,7 +31,10 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     private INodeModel selectedNode;
     private JLabel selectedLabel;
 
-    public PedagogicalPlanPanel(final Mission mission, final Scenario scenario) {
+    public PedagogicalPlanPanel(PedagogicalPlan pedagogicalPlan) {
+        Mission mission = pedagogicalPlan.getMission();
+        Scenario scenario = pedagogicalPlan.getScenario();
+        System.out.println("Creating pedagogical plan based on mission: " +mission.getName() + " and scenario: " + scenario.getName());
         final JTabbedPane tabbedPane = new JTabbedPane();
 
         diagramModel = getInitialPedagogicalPlanModel(mission, scenario);

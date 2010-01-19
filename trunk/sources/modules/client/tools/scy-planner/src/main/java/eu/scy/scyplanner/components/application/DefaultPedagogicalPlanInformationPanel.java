@@ -1,5 +1,6 @@
 package eu.scy.scyplanner.components.application;
 
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.scyplanner.components.frontpage.StartUpInformationItem;
 import eu.scy.scyplanner.components.frontpage.StartUpMenuItem;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
@@ -65,7 +66,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
                     buffer.append("</ol>");
                     label.setDescription(buffer.toString());
                     List compatibleScenarios = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getCompatibleScenarios(mission);
-                    System.out.println("Found  "+ compatibleScenarios.size() + " scenarios");
+                    System.out.println("Found  " + compatibleScenarios.size() + " scenarios");
                 }
             }
         });
@@ -97,8 +98,14 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
 
         @Override
         protected void doActionPerformed(ActionEvent actionEvent) {
-            PedagogicalPlanPanel panel = new PedagogicalPlanPanel(mission, scenario);
-            SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent("Pedagogical plan", panel);
+            System.out.println("Searching for plan for: " + mission + " and " + scenario);
+            PedagogicalPlan plan = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getPedagogicalPlan(mission, scenario);
+            if (plan != null) {
+                PedagogicalPlanPanel panel = new PedagogicalPlanPanel(plan);
+
+                SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent("Pedagogical plan", panel);
+            }
+
         }
 
         public Mission getMission() {
@@ -136,7 +143,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
 
         @Override
         public boolean isEnabled() {
-            return scenario!= null && mission != null;
+            return scenario != null && mission != null;
         }
     }
 }

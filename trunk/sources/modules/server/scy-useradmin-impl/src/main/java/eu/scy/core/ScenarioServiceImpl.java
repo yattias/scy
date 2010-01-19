@@ -1,6 +1,7 @@
 package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.ScenarioDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,11 @@ public class ScenarioServiceImpl implements ScenarioService{
     @Transactional
     public void createScenario(Scenario scenario) {
         scenarioDAO.createScenario(scenario);
+    }
+
+    @Override
+    public List<Mission> getMissions() {
+        return scenarioDAO.getMissions();
     }
 
     public ScenarioDAO getScenarioDAO() {

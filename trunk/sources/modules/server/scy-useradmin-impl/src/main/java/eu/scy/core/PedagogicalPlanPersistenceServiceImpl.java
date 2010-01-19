@@ -56,4 +56,9 @@ public class PedagogicalPlanPersistenceServiceImpl implements PedagogicalPlanPer
     public List<Mission> getCompatibleMissions(Scenario scenario) {
         return getPedagogicalPlanPersistenceDAO().getCompatibleMissions(scenario);
     }
+
+    @Override
+    public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
+        return getPedagogicalPlanPersistenceDAO().getPedagogicalPlan(mission, scenario);
+    }
 }

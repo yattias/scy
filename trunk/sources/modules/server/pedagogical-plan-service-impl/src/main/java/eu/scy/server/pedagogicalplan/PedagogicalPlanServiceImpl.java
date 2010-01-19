@@ -34,6 +34,11 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
         return getScenarioService().getScenarios();
     }
 
+    @Override
+    public List<Mission> getMissions() {
+        return getScenarioService().getMissions();
+    }
+
     public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates() {
         return getPedagogicalPlanPersistenceService().getPedagogicalPlanTemplates();
     }
@@ -67,6 +72,11 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
     @Override
     public List<Mission> getCompatibleMissions(Scenario scenario) {
         return this.getPedagogicalPlanPersistenceService().getCompatibleMissions(scenario);
+    }
+
+    @Override
+    public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
+        return getPedagogicalPlanPersistenceService().getPedagogicalPlan(mission, scenario);
     }
 
 }
