@@ -83,6 +83,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
             Activity activity = activities.get(i);
             if (activity.getAnchorELO() != null) {
                 INodeModel anchorNodeModel = createELOElement(activity.getAnchorELO(), activity.getAnchorELO().getXPos(), activity.getAnchorELO().getYPos());
+                anchorNodeModel.addListener(this);
                 if (!pedagogicalPlan.checkIfNodeHasBeenAdded(anchorNodeModel)) {
                     addNode(pedagogicalPlan, anchorNodeModel);
                     connectNodes(pedagogicalPlan, lasNode, anchorNodeModel);
