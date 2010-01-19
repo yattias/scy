@@ -25,10 +25,11 @@ public class BasicMissionAnchor implements MissionAnchor
    private float xPosition;
    private float yPosition;
    private boolean existing;
+   private List<URI> intermediateEloUris;
    private List<MissionAnchor> nextMissionAnchors;
    private List<MissionAnchor> inputMissionAnchors;
    private List<String> relationNames;
-   private List<URI> helpEloUris;
+   private List<URI> resourceEloUris;
    private IMetadata metadata;
 
    @Override
@@ -84,6 +85,17 @@ public class BasicMissionAnchor implements MissionAnchor
    public void setIconCharacter(char iconCharacter)
    {
       this.iconCharacter = iconCharacter;
+   }
+
+   public void setIntermediateEloUris(List<URI> intermediateEloUris)
+   {
+      this.intermediateEloUris = intermediateEloUris;
+   }
+
+   @Override
+   public List<URI> getIntermediateEloUris()
+   {
+      return intermediateEloUris;
    }
 
    @Override
@@ -163,15 +175,14 @@ public class BasicMissionAnchor implements MissionAnchor
       this.yPosition = yPosition;
    }
 
-   @Override
-   public List<URI> getHelpEloUris()
+   public List<URI> getResourceEloUris()
    {
-      return helpEloUris;
+      return resourceEloUris;
    }
 
-   public void setHelpEloUris(List<URI> helpEloUris)
+   public void setResourceEloUris(List<URI> resourceEloUris)
    {
-      this.helpEloUris = helpEloUris;
+      this.resourceEloUris = resourceEloUris;
    }
 
    public void setMetadata(IMetadata metadata)

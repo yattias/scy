@@ -46,14 +46,13 @@ public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelF
             xPos: missionAnchor.getXPosition()
             yPos: missionAnchor.getYPosition()
             exists:missionAnchor.isExisting();
+            intermediateEloUris: toUriSequence(missionAnchor.getIntermediateEloUris())
+            resourceEloUris: toUriSequence(missionAnchor.getResourceEloUris())
             relationNames: toStringSequence(missionAnchor.getRelationNames())
             metadata:missionAnchor.getMetadata()
          }
          missionAnchorFXMap.put(missionAnchorFX.eloUri, missionAnchorFX);
          insert missionAnchorFX into missionModelFX.anchors;
-         for (uriObject in missionAnchor.getHelpEloUris()){
-            insert uriObject as URI into missionAnchorFX.helpEloUris;
-         }
       }
       // fill in the sequences of next anchors
       for (missionAnchor in missionAnchors)
@@ -65,6 +64,16 @@ public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelF
       missionModelFX.findPreviousMissionAnchorLinks();
    }
    return missionModelFX;
+}
+
+function toUriSequence(uris:List):URI[]{
+   var uriSequence:URI[];
+   if (uris!=null){
+      for (uri in uris){
+         insert uri as URI into uriSequence;
+      }
+   }
+   return uriSequence;
 }
 
 function toStringSequence(names:List):String[]{

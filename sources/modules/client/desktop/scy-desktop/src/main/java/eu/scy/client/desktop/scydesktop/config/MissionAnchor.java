@@ -25,9 +25,10 @@ public interface MissionAnchor {
    public float getXPosition();
    public float getYPosition();
    public boolean isExisting();
+   public List<URI> getIntermediateEloUris();
    public List<MissionAnchor> getNextMissionAnchors();
    public List<MissionAnchor> getInputMissionAnchors();
    public List<String> getRelationNames();
-   public List<URI> getHelpEloUris();
+   public List<URI> getResourceEloUris();
    public IMetadata getMetadata();
 }

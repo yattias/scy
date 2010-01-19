@@ -18,14 +18,11 @@ public class BasicMissionAnchorConfig {
    private URI uri;
    private float xPosition;
    private float yPosition;
+   private List<URI> intermediateEloUris;
    private List<String> nextMissionAnchorNames;
    private List<String> relationNames;
-   private List<URI> intermediateEloUris;
-   private List<URI> helpEloUris;
    private List<URI> resourceEloUris;
-   private List<URI> assignmentEloUris;
    private List<String> inputMissionAnchorNames;
-   private List<URI> supportEloUris;
    private boolean mainAnchorElo;
 
    public String getName()
@@ -68,16 +65,6 @@ public class BasicMissionAnchorConfig {
       this.relationNames = relationNames;
    }
 
-   public List<URI> getAssignmentEloUris()
-   {
-      return assignmentEloUris;
-   }
-
-   public void setAssignmentEloUris(List<URI> assignmentEloUris)
-   {
-      this.assignmentEloUris = assignmentEloUris;
-   }
-
    public List<URI> getIntermediateEloUris()
    {
       return intermediateEloUris;
@@ -98,16 +85,6 @@ public class BasicMissionAnchorConfig {
       this.resourceEloUris = resourceEloUris;
    }
 
-   public List<URI> getHelpEloUris()
-   {
-      return helpEloUris;
-   }
-
-   public void setHelpEloUris(List<URI> helpEloUris)
-   {
-      this.helpEloUris = helpEloUris;
-   }
-
    public List<String> getInputMissionAnchorNames()
    {
       return inputMissionAnchorNames;
@@ -116,16 +93,6 @@ public class BasicMissionAnchorConfig {
    public void setInputMissionAnchorNames(List<String> inputMissionAnchorNames)
    {
       this.inputMissionAnchorNames = inputMissionAnchorNames;
-   }
-
-   public List<URI> getSupportEloUris()
-   {
-      return supportEloUris;
-   }
-
-   public void setSupportEloUris(List<URI> supportEloUris)
-   {
-      this.supportEloUris = supportEloUris;
    }
 
    public boolean isMainAnchorElo()

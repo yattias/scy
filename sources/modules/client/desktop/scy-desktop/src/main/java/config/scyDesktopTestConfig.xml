@@ -71,6 +71,10 @@
                      <property name="type" value="table"/>
                      <property name="name" value="Table"/>
                   </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="information"/>
+                     <property name="name" value="Information"/>
+                  </bean>
                </list>
             </property>
          </bean>
@@ -82,23 +86,23 @@
             <property name="typeNameSets">
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="conceptMap"/>
+                     <property name="type" value="mapConcept"/>
                      <property name="name" value="Concept Map"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="initialIdeasMap"/>
+                     <property name="type" value="mapInitialIdeas"/>
                      <property name="name" value="Initial ideas"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="keyIdeasMap"/>
+                     <property name="type" value="mapKeyIdeas"/>
                      <property name="name" value="Key ideas map"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="manualDataset"/>
+                     <property name="type" value="datasetManual"/>
                      <property name="name" value="Manual dataset"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="automaticDataset"/>
+                     <property name="type" value="datasetAutomatic"/>
                      <property name="name" value="Automatic dataset"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
@@ -106,7 +110,7 @@
                      <property name="name" value="Experimental design"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="disgnDrawing"/>
+                     <property name="type" value="drawingDisign"/>
                      <property name="name" value="Design drawing"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
@@ -114,36 +118,40 @@
                      <property name="name" value="Hypothesis"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="disgnDocument"/>
+                     <property name="type" value="documentDisign"/>
                      <property name="name" value="Design document"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="evaluationReport"/>
+                     <property name="type" value="reportEvaluation"/>
                      <property name="name" value="Evaluation report"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="finalPresentation"/>
+                     <property name="type" value="presentationFinal"/>
                      <property name="name" value="Final presentation"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="finalReport"/>
+                     <property name="type" value="reportFinal"/>
                      <property name="name" value="Final report"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="reflectionDocument"/>
+                     <property name="type" value="documentReflection"/>
                      <property name="name" value="Reflection document"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="resource"/>
+                     <property name="type" value="informationResource"/>
                      <property name="name" value="Resource"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="assignment"/>
+                     <property name="type" value="informationAssignment"/>
                      <property name="name" value="Assignment"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-                     <property name="type" value="help"/>
-                     <property name="name" value="Helpt"/>
+                     <property name="type" value="informationHelp"/>
+                     <property name="name" value="Help"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+                     <property name="type" value="sourceData"/>
+                     <property name="name" value="Data source"/>
                   </bean>
                </list>
             </property>
@@ -224,7 +232,19 @@
                      <value>missionIntro</value>
                   </list>
                </property>
-               <property name="helpEloUris">
+               <property name="inputMissionAnchorNames">
+                  <list>
+                     <value>missionBackground</value>
+                     <value>missionIntro</value>
+                  </list>
+               </property>
+               <property name="intermediateEloUris">
+                  <list>
+                     <value>roolo://memory/2/0/help_elo_1.text</value>
+                     <value>roolo://memory/3/0/help_elo_2.text</value>
+                  </list>
+               </property>
+               <property name="resourceEloUris">
                   <list>
                      <value>roolo://memory/2/0/help_elo_1.text</value>
                      <value>roolo://memory/3/0/help_elo_2.text</value>

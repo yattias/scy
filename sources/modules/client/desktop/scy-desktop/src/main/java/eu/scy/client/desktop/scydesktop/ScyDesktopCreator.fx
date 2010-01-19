@@ -264,7 +264,18 @@ public class ScyDesktopCreator {
             else{
                logger.error("failed to load existing anchor elo, uri: {missionAnchor.eloUri}");
             }
-
+            var forkedIntermediateEloUris = for (intermediateEloUri in missionAnchor.intermediateEloUris){
+               var forkedIntermediateElo = config.getRepository().retrieveELO(intermediateEloUri);
+               if (forkedIntermediateElo!=null){
+                  var forkedIntermediateEloMetadata = config.getRepository().addForkedELO(forkedIntermediateElo);
+                  config.getEloFactory().updateELOWithResult(forkedIntermediateElo,forkedIntermediateEloMetadata);
+                  forkedIntermediateElo.getUri();
+               }
+               else{
+                  null;
+               }
+            }
+            missionAnchor.intermediateEloUris = forkedIntermediateEloUris;
          }
       }
       missionModel.elo = config.getEloFactory().createELO();
