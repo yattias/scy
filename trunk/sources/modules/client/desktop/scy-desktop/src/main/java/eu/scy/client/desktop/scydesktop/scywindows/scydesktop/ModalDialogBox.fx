@@ -76,6 +76,7 @@ public class ModalDialogBox extends CustomNode {
       var sceneContentList = targetScene.content;
       insert this into sceneContentList;
       targetScene.content = sceneContentList;
+      this.requestFocus();
       center();
    }
 
