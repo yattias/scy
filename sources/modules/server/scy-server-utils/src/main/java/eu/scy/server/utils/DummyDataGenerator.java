@@ -31,6 +31,7 @@ public class DummyDataGenerator implements InitializingBean {
         template.setName("CO2 House - home of the wild!");
         template.setDescription("A pedagogical plan for people with white teeth");
         template.setScenario(generateScenario());
+        template.setMission(generateMission());
         saveAndCreatePedagogicalPlan(template);
 
         PedagogicalPlanTemplate ecosystems = new PedagogicalPlanTemplateImpl();
@@ -47,6 +48,13 @@ public class DummyDataGenerator implements InitializingBean {
 
     }
 
+    private Mission generateMission() {
+        Mission mission = new MissionImpl();
+        mission.setName("The first mission");
+        return mission;
+
+    }
+
     private void saveAndCreatePedagogicalPlan(PedagogicalPlanTemplate template) {
         if (getPedagogicalPlanPersistenceService().getPedagogicalPlanByName(template.getName()) == null) {
             log.info("Did not find a default plan - creating one...");
@@ -60,6 +68,7 @@ public class DummyDataGenerator implements InitializingBean {
     private Scenario generateScenario() {
         Scenario scenario = new ScenarioImpl();
         scenario.setName("Scenario 1 - Exploration");
+        scenario.setDescription("Exploring the facts of life and other important stuff");
 
         LearningActivitySpace orientation = createLAS("LAS Orientation");
         LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
