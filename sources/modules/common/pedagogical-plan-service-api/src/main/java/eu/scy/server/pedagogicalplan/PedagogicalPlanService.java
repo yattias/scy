@@ -1,10 +1,7 @@
 package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.model.auth.SessionInfo;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.pedagogicalplan.Scenario;
-import eu.scy.core.model.pedagogicalplan.Tool;
+import eu.scy.core.model.pedagogicalplan.*;
 
 import java.util.List;
 
@@ -27,5 +24,7 @@ public interface PedagogicalPlanService {
 
     public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template);
 
+    public List <Scenario> getCompatibleScenarios(Mission mission);
 
+    public List <Mission> getCompatibleMissions(Scenario scenario);
 }

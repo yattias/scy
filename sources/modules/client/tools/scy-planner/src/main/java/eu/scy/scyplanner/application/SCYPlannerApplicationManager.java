@@ -70,7 +70,7 @@ public class SCYPlannerApplicationManager {
                 Scenario scenario = (Scenario) scenarios.get(i);
                 System.out.println("SCENARIO: " + scenario.getName());
             }
-
+                                                                           
             this.pedagogicalPlanService = service;
 
         }
@@ -84,7 +84,8 @@ public class SCYPlannerApplicationManager {
     private PedagogicalPlanService createPedagogicalPlanService() {
         HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
         fb.setServiceInterface(PedagogicalPlanService.class);
-        fb.setServiceUrl("http://localhost:8080/server-external-components/remoting/pedagogicalPlan-httpinvoker");
+        fb.setServiceUrl("http://scy.collide.info:8080/extcomp/remoting/pedagogicalPlan-httpinvoker");
+        //fb.setServiceUrl("http://localhost:8080/server-external-components/remoting/pedagogicalPlan-httpinvoker");
         fb.afterPropertiesSet();
         PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
         return service;
