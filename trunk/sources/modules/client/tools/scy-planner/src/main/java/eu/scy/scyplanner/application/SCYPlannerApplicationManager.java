@@ -3,6 +3,7 @@ package eu.scy.scyplanner.application;
 import eu.scy.core.model.auth.SessionInfo;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
+import eu.scy.scyplanner.components.application.SCYPlannerLogin;
 import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
@@ -34,7 +35,7 @@ public class SCYPlannerApplicationManager {
     private SCYPlannerFrame scyPlannerFrame = null;
     private WindowMenu windowMenu = null;
 
-    ToolBrokerAPI toolBrokerAPI = null;//new ToolBrokerImpl();
+    private ToolBrokerAPI toolBrokerAPI = null;//new ToolBrokerImpl();
 
     private PedagogicalPlanService pedagogicalPlanService;
 
@@ -49,25 +50,23 @@ public class SCYPlannerApplicationManager {
         */
 
         //String url = JOptionPane.showInputDialog("Input host (for example localhost)");
-        String username = JOptionPane.showInputDialog("Enter your freakin username");
-        String password = JOptionPane.showInputDialog("Enter your freakin pw");
 
-        PedagogicalPlanService service = createPedagogicalPlanService();
-        SessionInfo sessionInfo = service.login(username, password);
-        if (sessionInfo == null) {
-            log.info("Not logged in!");
+        PedagogicalPlanService service = SCYPlannerLogin.logIn();
+        if (service == null) {
+            log.info("Not logged in, exiting!");
+            System.exit(0);
         } else {
             List pedagogicalPlans = service.getPedagogicalPlanTemplates();
-            for (int i = 0; i < pedagogicalPlans.size(); i++) {
-                PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlans.get(i);
+            for (Object pedagogicalPlan : pedagogicalPlans) {
+                PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlan;
                 System.out.println("TEMPLATE:" + pedagogicalPlanTemplate.getName());
             }
 
 
             List scenarios = service.getScenarios();
             System.out.println("SECARIO COUNT: " + scenarios.size());
-            for (int i = 0; i < scenarios.size(); i++) {
-                Scenario scenario = (Scenario) scenarios.get(i);
+            for (Object scenario1 : scenarios) {
+                Scenario scenario = (Scenario) scenario1;
                 System.out.println("SCENARIO: " + scenario.getName());
             }
                                                                            
