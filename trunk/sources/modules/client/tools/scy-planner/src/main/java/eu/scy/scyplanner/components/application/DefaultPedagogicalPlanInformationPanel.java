@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -63,6 +64,8 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
                     }
                     buffer.append("</ol>");
                     label.setDescription(buffer.toString());
+                    List compatibleScenarios = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getCompatibleScenarios(mission);
+                    System.out.println("Found  "+ compatibleScenarios.size() + " scenarios");
                 }
             }
         });
@@ -76,6 +79,8 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
                     action.setScenario(scenario);
                     label.setTitle(scenario.getName());
                     label.setDescription(scenario.getDescription());
+                    List compatibleMissions = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getCompatibleMissions(scenario);
+                    System.out.println("FOund " + compatibleMissions.size() + " missions");
                 }
             }
         });

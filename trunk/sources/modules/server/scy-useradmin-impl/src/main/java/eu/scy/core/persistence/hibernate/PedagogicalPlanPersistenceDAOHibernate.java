@@ -30,6 +30,8 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         plan.setName(template.getName());
         template.addPedagogicalPlan(plan);
         plan.setTemplate(template);
+        plan.setScenario(template.getScenario());
+        plan.setMission(template.getMission());
         save(template);
         save(plan);
         return plan;

@@ -72,7 +72,7 @@ public class NewPedagogicalPlanPanel extends JPanel {
         List <Scenario> scenarios = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getScenarios();
         for (Scenario scenario: scenarios) {
             model.addElement(scenario);
-            System.out.println("adding " + scenario.getName());
+            System.out.println("adding " + scenario.getName() + " " + scenario.getDescription());
         }
 /*
         model.addElement(createScenario("Design Challenge", "A desing never seen before", new LearningActivitySpaceImpl(), "Orientation"));
