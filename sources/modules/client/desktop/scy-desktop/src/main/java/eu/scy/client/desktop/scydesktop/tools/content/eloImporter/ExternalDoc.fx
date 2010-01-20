@@ -16,7 +16,6 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import java.net.URI;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import javafx.scene.layout.Tile;
 import javax.swing.JFileChooser;
 import java.io.File;
 import javafx.stage.Stage;
@@ -28,9 +27,11 @@ import roolo.elo.api.IELO;
 import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.Resizable;
 import javafx.scene.control.TextBox;
+import javafx.scene.control.CheckBox;
 
 
 /**
@@ -56,59 +57,112 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
     var fileName:String = "?";
     var filePath:String = "?";
     var fileLastModified:String = "?";
-    var fileBytes:Byte[];
+    var syncState:String;
+    var reloadPossible = false;
     var fileContent = new FileContent();
 
-    def nrOfColumns = 50;
+    def nrOfColumns = 40;
+    def valueOffset = 90.0;
+    def labelOffset = 4.0;
+   def spacing = 5.0;
 
     var mainContent:Group = Group{
          content: [
-                Tile{
-                 hgap:5
-                 vgap:5
-                 columns:2
-                 content: [
-                     Label {
-                        text: "File name"
-                     }
-                     TextBox {
-                        text: bind fileName
-                        columns: nrOfColumns
-                        selectOnFocus: true
-                        editable:false
-                     }
-
-//                     Label {
-//                        text: bind fileName
-//                     }
-                     Label {
-                        text: "File path"
-                     }
-                     TextBox {
-                        text: bind filePath
-                        columns: nrOfColumns
-                        selectOnFocus: true
-                        editable:false
-                     }
-//                     Label {
-//                        text: bind filePath
-//                     }
-                     Label {
-                        text: "Last modified"
-                     }
-                     TextBox {
-                        text: bind fileLastModified
-                        columns: nrOfColumns
-                        selectOnFocus: true
-                        editable:false
-                     }
-//                     Label {
-//                        text: bind fileLastModified
-//                     }
+            VBox{
+               layoutX:spacing
+               spacing:spacing
+               content: [
+                  Group{
+                     content:[
+                        Label {
+                           layoutY:labelOffset
+                           text: "File name"
+                        }
+                        TextBox {
+                           layoutX:valueOffset
+                           text: bind fileName
+                           columns: nrOfColumns
+                           selectOnFocus: true
+                           editable:false
+                        }
                      ]
-                 }
-                 ];
-         };
+                  }
+                  Group{
+                     content:[
+                        Label {
+                           layoutY:labelOffset
+                           text: "File path"
+                        }
+                        TextBox {
+                           layoutX:valueOffset
+                           text: bind filePath
+                           columns: nrOfColumns
+                           selectOnFocus: true
+                           editable:false
+                        }
+                     ]
+                  }
+                  Group{
+                     content:[
+                        Label {
+                           layoutY:labelOffset
+                           text: "Last modified"
+                        }
+                        TextBox {
+                           layoutX:valueOffset
+                           text: bind fileLastModified
+                           columns: nrOfColumns
+                           selectOnFocus: true
+                           editable:false
+                        }
+                     ]
+                  }
+                  Group{
+                     content:[
+                        Label {
+                           layoutY:labelOffset
+                           text: "Sync state"
+                        }
+                        TextBox {
+                           layoutX:valueOffset
+                           text: bind syncState
+                           columns: nrOfColumns
+                           selectOnFocus: true
+                           editable:false
+                        }
+                     ]
+                  }
+                  Group{
+                     content:[
+                        Label {
+                           layoutY:labelOffset
+                           text: "Sync actions"
+                        }
+                        HBox{
+                           layoutX:valueOffset
+                           spacing:2*spacing
+                           content:[
+                              CheckBox {
+                                 translateY:labelOffset-1
+                                 text: "Auto reload"
+                                 allowTriState: false
+                                 selected: false
+                              }
+                              Button {
+                                 disable:bind file==null or not reloadPossible
+                                 text: "Reload"
+                                 action: function() {
+
+                                 }
+                              }
+                           ]
+                        }
+                     ]
+                  }
+                ]
+             }
+          ];
+      };
 
    var technicalFormatKey: IMetadataKey;
 
@@ -120,18 +174,18 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       doLoadElo(uri);
    }
 
-   def spacing = 5.0;
 
    public override function create(): Node {
       return Group {
          blocksMouse:true;
          content: [
             VBox{
+               translateX:spacing;
                translateY:spacing;
                spacing:spacing;
                content:[
                   HBox{
-                     translateX:spacing;
+                     //translateX:spacing;
                      spacing:spacing;
                      content:[
                         Button {
@@ -215,7 +269,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
          file = fileChooser.getSelectedFile();
          fileName = file.getName();
          filePath = file.getParentFile().getAbsolutePath();
-         fileLastModified = "{file.lastModified()}";
+         fileLastModified = "{%tc file.lastModified()}";
          fileContent.setBytes(ImportUtils.getBytesFromFile(file));
       }
    }
