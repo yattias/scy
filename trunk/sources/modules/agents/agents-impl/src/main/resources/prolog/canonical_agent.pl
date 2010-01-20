@@ -130,12 +130,14 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, _) :-
 
 change_variables_feedback(Learner, Tool, Session, IncChange) :-
 	% Create fields for the feedback 
+	get_time(Time),
 	tspl_actual_field(string, inc_change, F0),
 	tspl_actual_field(string, Learner, F1),
 	tspl_actual_field(string, Tool, F2),
 	tspl_actual_field(string, Session, F3),
 	tspl_actual_field(double, IncChange, F4),
-	tspl_tuple([F0,F1,F2,F3,F4], Response),
+	tspl_actual_field(long, Time, F5),
+	tspl_tuple([F0,F1,F2,F3,F4,F5], Response),
 	out_ts(TS),
 	tspl_write(TS, Response).
 
