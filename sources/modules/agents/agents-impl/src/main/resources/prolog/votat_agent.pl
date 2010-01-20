@@ -46,7 +46,6 @@ votat_agent :-
 	agent_connect(InTS, _, [user('votat agent')]),
 	agent_register(InTS,
 		       [ tuple_type(action),
-			 tool('scysimulatorNo: 1'),
 			 action_type('value_changed'),
 			 callback(change_variables_callback)
 		       ]).
@@ -159,7 +158,7 @@ field(data, 9).		% the data itself (arbitrary)
  *------------------------------------------------------------*/
 
 in_space(actions).			% scydynamics_actionlog
-out_space(sensordata).			% scydynamics_actionlog
+out_space(command).			% scydynamics_actionlog
 host('localhost').		% localhost
 port(2525).
 user('sqlspaces').
