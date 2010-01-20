@@ -85,10 +85,10 @@ public class DummyAwarenessService implements IAwarenessService  {
    {
    }
 
-   @Override
-   public void sendMessage(String recipient, String message) throws AwarenessServiceException
-   {
-   }
+//   @Override
+//   public void sendMessage(String recipient, String message) throws AwarenessServiceException
+//   {
+//   }
 
    @Override
    public void setPresence(String presence) throws AwarenessServiceException
@@ -126,11 +126,11 @@ public class DummyAwarenessService implements IAwarenessService  {
    {
    }
 
-   @Override
-   public List<IAwarenessUser> getChatBuddies(String ELOUri)
-   {
-      return new ArrayList<IAwarenessUser>();
-   }
+//   @Override
+//   public List<IAwarenessUser> getChatBuddies(String ELOUri)
+//   {
+//      return new ArrayList<IAwarenessUser>();
+//   }
 
    @Override
    public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri)
@@ -174,6 +174,17 @@ public class DummyAwarenessService implements IAwarenessService  {
    public MultiUserChat getMultiUserChat(String ELOUri)
    {
       return null;
+   }
+
+   @Override
+   public void sendMessage(IAwarenessUser recipient, String message) throws AwarenessServiceException
+   {
+   }
+
+   @Override
+   public List<IAwarenessUser> getMUCBuddies(String ELOUri) throws AwarenessServiceException
+   {
+      return new ArrayList<IAwarenessUser>();
    }
 
 }
