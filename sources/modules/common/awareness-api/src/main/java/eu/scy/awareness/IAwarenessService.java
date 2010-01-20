@@ -3,12 +3,12 @@ package eu.scy.awareness;
 import java.util.List;
 
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
-import org.jivesoftware.smackx.muc.MultiUserChat;
 
 /**
  * Awareness Service Interface
@@ -35,7 +35,7 @@ public interface IAwarenessService {
      * @param message
      * @throws AwarenessServiceException
      */
-    public void sendMessage(String recipient, String message) throws AwarenessServiceException;
+    public void sendMessage(IAwarenessUser recipient, String message) throws AwarenessServiceException;
     
     
     /**
@@ -162,7 +162,7 @@ public interface IAwarenessService {
 	 * @param ELOUri
 	 * @param buddies
 	 */
-	public void joinMUCRoom(String ELOUri);
+	public void joinMUCRoom(String ELOUri) throws AwarenessServiceException;;
 	
 	/**
 	 * get the chat buddies
@@ -170,21 +170,21 @@ public interface IAwarenessService {
 	 * @param ELOUri
 	 * @return
 	 */
-	public List<IAwarenessUser> getChatBuddies(String ELOUri);
+	public List<IAwarenessUser> getMUCBuddies(String ELOUri) throws AwarenessServiceException;
    
 	/**
 	 * add the buddy to MUC
 	 * 
 	 * @param buddy
 	 */
-	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri);
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) throws AwarenessServiceException;
 	
 	/**
 	 * removes a buddy from the MUC
 	 * 
 	 * @param buddy
 	 */
-	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri);
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) throws AwarenessServiceException;
 
 	/**
 	 * checks to see if chat room is joined
@@ -193,7 +193,7 @@ public interface IAwarenessService {
 	 * @param user
 	 * @return
 	 */
-	public boolean hasJoinedRoom(String ELOUri, String user);
+	public boolean hasJoinedRoom(String ELOUri, String user) throws AwarenessServiceException;
 	
 	/**
 	 * checks to see if the room exists
@@ -201,14 +201,14 @@ public interface IAwarenessService {
 	 * @param ELOUri
 	 * @return
 	 */
-	public boolean doesRoomExist(String ELOUri);
+	public boolean doesRoomExist(String ELOUri) throws AwarenessServiceException;
 
 	/**
 	 * destroy destroy
 	 * 
 	 * @param ELOUri
 	 */
-	public void destoryMUCRoom(String ELOUri);
+	public void destoryMUCRoom(String ELOUri) throws AwarenessServiceException;
 
 	/**
 	 * sets the address of the confernce extension for MUC
@@ -231,6 +231,6 @@ public interface IAwarenessService {
 	 * @param ELOUri
 	 * @return
 	 */
-	public MultiUserChat getMultiUserChat(String ELOUri);
+	public MultiUserChat getMultiUserChat(String ELOUri) throws AwarenessServiceException;
 
 }

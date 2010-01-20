@@ -28,4 +28,10 @@ public interface IAwarenessRosterEvent extends IAwarenessEvent {
      */
     public void setAddresses(Collection<String> addresses);
     
+    /**
+     * print out the user info
+     * @return
+     */
+    public String toString();
+    
 }
