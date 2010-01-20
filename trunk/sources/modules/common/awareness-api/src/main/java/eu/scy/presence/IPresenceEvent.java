@@ -10,6 +10,9 @@ import java.util.Collection;
  */
 public interface IPresenceEvent {
     
+	public static String AVAILABLE = "available";
+	public static String UNAVAILABLE = "unavailable";
+	
     /**
      * Gets the user
      * @return

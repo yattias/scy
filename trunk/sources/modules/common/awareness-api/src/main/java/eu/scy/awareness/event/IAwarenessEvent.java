@@ -17,6 +17,13 @@ public interface IAwarenessEvent {
    public IAwarenessUser getUser();
    
    /**
+    * sets the user
+    * 
+    * @param user
+    */
+   public void setUser(IAwarenessUser user);
+   
+   /**
     * Gets the message associated with this event
     * 
     * @return
