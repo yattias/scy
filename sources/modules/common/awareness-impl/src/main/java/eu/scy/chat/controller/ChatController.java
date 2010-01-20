@@ -1,201 +1,117 @@
 package eu.scy.chat.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
-import org.jivesoftware.smack.util.StringUtils;
-
 import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.event.IAwarenessEvent;
-import eu.scy.awareness.event.IAwarenessMessageListener;
 
-public class ChatController {
+/**
+ * interface for MUC and OOO one on one chats
+ * 
+ * @author anthonjp
+ *
+ */
+public interface ChatController {
 
-	private static final Logger logger = Logger.getLogger(ChatController.class
-			.getName());
-	private DefaultListModel buddyList = new DefaultListModel();
-	private IAwarenessService awarenessService;
-	private String ELOUri;
-	private boolean isTempMUCRoom;
+	/**
+	 * Get the current user that is logged into the xmpp connection
+	 * 
+	 * @return
+	 */
+	public abstract String getCurrentUser();
 
-	public ChatController(IAwarenessService awarenessService, String ELOUri) {
-		logger.debug("ChatController: starting ... ");
-		logger.debug("ChatController: populateBuddyList: awarenessService.isConnected(): "+ awarenessService.isConnected());
-		this.ELOUri = ELOUri;
-		this.awarenessService = awarenessService;
-	}
+	/**
+	 * Send a Message with an ELOUri, this is for MUC
+	 * 
+	 * @param ELOUri
+	 * @param message
+	 */
+	public abstract void sendMessage(final String ELOUri, final String message);
+
+	/**
+	 * for OOO sends a message to the recipient
+	 * 
+	 * @param recipient
+	 * @param message
+	 */
+	public void sendMessage(IAwarenessUser recipient, final String message);
 	
-	public String getCurrentUser() {
-		String user = getAwarenessService().getConnection().getUser();
-		if( user != null)
-			return StringUtils.parseName(user);
-		
-		return "NO ONE";
-	}
+	/**
+	 * add a buddy to the list
+	 * 
+	 * @param user
+	 */
+	public abstract void addBuddy(final AwarenessUser user);
+
+	/**
+	 * remove a buddy from the llist
+	 * 
+	 * @param user
+	 */
+	public abstract void removeBuddy(final AwarenessUser user);
+
+	/**
+	 * register chat are to recieve updates
+	 * 
+	 * @param chatArea
+	 */
+	public abstract void registerChatArea(final JTextArea chatArea);
+
+	/**
+	 * connect to a room specificed in the constructor
+	 * 
+	 */
+	public abstract void connectToRoom();
+
+	/**
+	 * sets the awareness service
+	 * 
+	 * @param awarenessService
+	 */
+	public abstract void setAwarenessService(IAwarenessService awarenessService);
+
+	/**
+	 * gets teh awareness service
+	 * 
+	 * @return
+	 */
+	public abstract IAwarenessService getAwarenessService();
+
+	/**
+	 * sets elo uri
+	 * 
+	 * @param eLOUri
+	 */
+	public abstract void setELOUri(String eLOUri);
+
+	/**
+	 * get the elo uri
+	 * 
+	 * @return
+	 */
+	public abstract String getELOUri();
+
+	/**
+	 * sets the list model
+	 * 
+	 * @param buddyListModel
+	 */
+	public abstract void setBuddyListModel(DefaultListModel buddyListModel);
+
+	/**
+	 * Gets the list model
+	 * 
+	 * @return
+	 */
+	public abstract DefaultListModel getBuddyListModel();
+
 	
 
-	public AbstractListModel populateBuddyList() {
-		// get this from the awareness service
-		
-		buddyList = new DefaultListModel();
-		
-		List<IAwarenessUser> buddies = null;
-		if (getAwarenessService() != null && getAwarenessService().isConnected()) {
-			try {
-				buddies = getAwarenessService().getBuddies();
-			} catch (AwarenessServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			if (buddies != null) {
-				logger
-						.debug("ChatController: populateBuddyList: num of buddies: "
-								+ buddies.size());
-				for (IAwarenessUser b : buddies) {
-					b.setNickName(b.getNickName());
-					buddyList.addElement(b);
-					logger
-							.debug("ChatController: populateBuddyList: buddy name: "
-									+ b.getNickName());
-				}
-			}
-		} else {
-			//buddyList.addElement("no buddies");
-			logger.debug("ChatController: populateBuddyList: ####################### No buddies ###########################");
-		}
-		logger.debug("ChatController: populateBuddyList: ####################### end ###########################");
-		return buddyList;
-	}
-
-	
-
-	public AbstractListModel getBuddyList() {
-		return buddyList;
-	}
-
-	public Vector<IAwarenessUser> getBuddyListArray() {
-		Vector<IAwarenessUser> vec;
-		if (buddyList == null) {
-			return null;
-		} else {
-			vec = new Vector<IAwarenessUser>();
-			for (int i = 0; i < buddyList.getSize(); i++) {
-				vec.addElement((IAwarenessUser) buddyList.elementAt(i));
-			}
-			return vec;
-		}
-	}
-	
-	public void sendMUCMessage(final String ELOUri, final String message){
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					awarenessService.sendMUCMessage(ELOUri, message);
-				} catch (AwarenessServiceException e) {
-					logger.error("ChatController: sendMessageMUC: AwarenessServiceException for ELOUri:" + ELOUri + " " + e);
-				}
-			}
-		});
-		
-	}
-
-	public void sendMessage(Object recipient, final String message) {
-		// send a message to the awareness server
-		if (recipient != null) {
-			final IAwarenessUser user = (IAwarenessUser) recipient;
-			// awarenessService.sendMessage(user.getUsername(), message);
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						awarenessService.sendMessage(user.getJid(),
-								message);
-					} catch (AwarenessServiceException e) {
-						logger.error("ChatController: sendMessage: AwarenessServiceException: "+e);
-					}
-				}
-			});
-		}
-	}
-
-	public void addBuddy(final String buddy) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				buddyList.addElement(buddy);				
-			}
-		});
-	}
-
-	public void removeBuddy(final String buddy) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				buddyList.removeElement(buddy);
-			}
-		});
-	}
-
-	public void registerChatArea(final JTextArea chatArea) {
-		
-		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
-			@Override
-			public void handleAwarenessMessageEvent(final IAwarenessEvent awarenessEvent) {
-			
-				System.out.println("calling message event");
-				
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							
-							String oldText = chatArea.getText();
-							List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
-							
-							if(awarenessEvent.getMessage() != null) {
-								chatArea.setText(oldText + awarenessEvent.getUser().getNickName() + ": " + awarenessEvent.getMessage() + "\n");	
-								logger.debug("message sent from: " + awarenessEvent.getUser().getNickName() + " message: " + awarenessEvent.getMessage());
-							}	
-							
-							users.add(awarenessEvent.getUser());
-							awarenessService.updatePresenceTool(users);
-						}
-					});
-			
-			}
-		});
-		
-		
-	
-		
-	}
-	
-	public void connectToRoom() {
-		logger.debug("ChatController: Joining room with ELOUri: "+ getELOUri());
-		this.getAwarenessService().setMUCConferenceExtension("conference.scy.intermedia.uio.no");
-		this.getAwarenessService().joinMUCRoom(this.ELOUri);
-	}
-
-	public void setAwarenessService(IAwarenessService awarenessService) {
-		this.awarenessService = awarenessService;
-	}
-
-	public IAwarenessService getAwarenessService() {
-		return awarenessService;
-	}
-
-	public void setELOUri(String eLOUri) {
-		ELOUri = eLOUri;
-	}
-
-	public String getELOUri() {
-		return ELOUri;
-	}
 }

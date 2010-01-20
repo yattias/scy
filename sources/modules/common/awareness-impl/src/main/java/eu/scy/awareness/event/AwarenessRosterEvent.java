@@ -2,6 +2,7 @@ package eu.scy.awareness.event;
 
 import java.util.Collection;
 
+import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessUser;
 
 
@@ -17,6 +18,9 @@ public class AwarenessRosterEvent extends AwarenessEvent implements IAwarenessRo
     public AwarenessRosterEvent(Object source, String user, String message, Collection<String> addresses) {
         super(source, message);
         setAddresses(addresses);
+        IAwarenessUser a = new AwarenessUser();
+        a.setJid(user);
+        setUser(a);
     }
 
     @Override

@@ -2,7 +2,6 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +26,7 @@ import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.Affiliate;
+import org.jivesoftware.smackx.muc.DefaultParticipantStatusListener;
 import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.Occupant;
@@ -49,7 +49,7 @@ import eu.scy.awareness.tool.ChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
 
-public class AwarenessServiceXMPPImpl implements IAwarenessService,
+public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener,
 		PacketListener {
 
 	protected String CONFERENCE_EXT = "@conference.scy.intermedia.uio.no";
@@ -85,9 +85,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 	}
 
 	@Override
-	public void sendMessage(String recipient, String message)
+	public void sendMessage(IAwarenessUser recipient, String message)
 			throws AwarenessServiceException {
-		Chat chat = xmppConnection.getChatManager().createChat(recipient,
+		Chat chat = xmppConnection.getChatManager().createChat(recipient.getJid(),
 				(MessageListener) this);
 		try {
 			chat.sendMessage(message);
@@ -120,8 +120,31 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 			System.out.println("body : " + message.getBody());
 			String nickName = StringUtils.parseResource(message.getFrom());
 			processMessage(message, nickName);
+		} else if( packet instanceof Packet ){
+			Presence presence = (Presence)packet;
+			
+			processPresence(presence);
 		}
 
+	}
+
+	private void processPresence(Presence presence) {
+		System.out.println("presence of " + presence.toString());
+		for (IAwarenessPresenceListener presenceListener : presenceListeners) {
+			if (presenceListener != null) {
+
+				IAwarenessUser aw = new AwarenessUser();
+				aw.setJid(presence.getTo());
+				aw.setPresence(presence.getType().toString());
+
+				System.out.println("awareness user: " + aw);
+				IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
+						AwarenessServiceXMPPImpl.this, aw,
+						"updated from awareness service", presence.getType()
+								.toString(), presence.getStatus());
+				presenceListener.handleAwarenessPresenceEvent(presenceEvent);
+			}
+		}
 	}
 
 	public void processMessage(Chat chat, Message message) {
@@ -324,7 +347,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 		});
 	}
 
-	public boolean hasJoinedRoom(String ELOUri, String user) {
+	public boolean hasJoinedRoom(String ELOUri, String user) throws AwarenessServiceException {
 		Iterator<String> jrooms = MultiUserChat.getJoinedRooms(xmppConnection,
 				user);
 
@@ -402,7 +425,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 		}
 	}
 
-	public void destoryMUCRoom(String ELOUri) {
+	public void destoryMUCRoom(String ELOUri) throws AwarenessServiceException {
 		if (doesRoomExist(ELOUri)) {
 			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
 					+ CONFERENCE_EXT);
@@ -416,7 +439,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 	}
 
 	@Override
-	public void joinMUCRoom(String ELOUri) {
+	public void joinMUCRoom(String ELOUri) throws AwarenessServiceException {
 		// first look of the muc to see if it as been create first
 
 		if (ELOUri != null) {
@@ -424,7 +447,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
 					+ CONFERENCE_EXT);
 			DiscussionHistory history = new DiscussionHistory();
+			
+			muc.addParticipantListener(this);
 			muc.addMessageListener(this);
+			muc.addParticipantStatusListener(new AwarenessParticipantListener());
 			try {
 
 				// first check if the room exists
@@ -433,7 +459,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 					if (hasJoinedRoom(ELOUri, xmppConnection.getUser()) == false)
 						muc.join(xmppConnection.getUser(), null, history,
 								SmackConfiguration.getPacketReplyTimeout());
-
+						
 				} else {
 					// create it
 					// we need to create
@@ -472,9 +498,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 		}
 
 	}
-
+	
 	@Override
-	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
+	public List<IAwarenessUser> getMUCBuddies(String ELOUri)
+			throws AwarenessServiceException {
 		if (ELOUri != null) {
 			List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
 			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
@@ -522,7 +549,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 	}
 
 	@Override
-	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) {
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) throws AwarenessServiceException {
 		if (ELOUri != null) {
 
 			// check to see if the room exists
@@ -542,7 +569,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 	}
 
 	@Override
-	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) {
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) throws AwarenessServiceException {
 		if (ELOUri != null) {
 			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
 			try {
@@ -554,7 +581,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 	}
 
 	@Override
-	public MultiUserChat getMultiUserChat(String ELOUri) {
+	public MultiUserChat getMultiUserChat(String ELOUri) throws AwarenessServiceException {
 
 		if (!joinedMUCRooms.isEmpty())
 			return joinedMUCRooms.get(ELOUri);
@@ -566,5 +593,60 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService,
 	public XMPPConnection getConnection() {
 		return this.xmppConnection;
 	}
+	
+	public class AwarenessParticipantListener extends
+			DefaultParticipantStatusListener {
+	
+		public void banned(String arg0, String arg1, String arg2) {
+		}
+
+		public void joined(String participant) {
+			System.out
+					.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined()");
+			participant = participant.substring(participant.indexOf("/") + 1);
+			for (IAwarenessRosterListener rosterListener : rosterListeners) {
+				if (rosterListener != null) {
+					
+					List<String> addresses = new ArrayList<String>();
+					addresses.add(participant);
+					if( !participant.equals(AwarenessServiceXMPPImpl.this.getConnection().getUser())){
+							IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(this,AwarenessServiceXMPPImpl.this.getConnection().getUser(), IAwarenessRosterEvent.ADD, addresses);
+		//					IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
+		//							AwarenessServiceXMPPImpl.this,
+		//							AwarenessServiceXMPPImpl.this.xmppConnection
+		//									.getUser(), IAwarenessRosterEvent.ADD,
+		//							addresses);
+							rosterListener.handleAwarenessRosterEvent(rosterEvent);
+					}
+				}
+			}
+		}
+
+		public void kicked(String participant, String arg1, String arg2) {
+			removeParticipant(participant);
+		}
+
+		private void removeParticipant(String participant) {
+			participant = participant.substring(participant.indexOf("/") + 1);
+			for (IAwarenessRosterListener rosterListener : rosterListeners) {
+				if (rosterListener != null) {
+					
+					List<String> addresses = new ArrayList<String>();
+					addresses.add(participant);
+					IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(this,AwarenessServiceXMPPImpl.this.getConnection().getUser(), IAwarenessRosterEvent.REMOVE, addresses);
+					rosterListener.handleAwarenessRosterEvent(rosterEvent);
+				}
+			}
+		}
+
+		public void left(String participant) {
+			removeParticipant(participant);
+		}
+
+		public void nicknameChanged(String arg0, String arg1) {
+		}
+	}
+	
+	
 
 }
