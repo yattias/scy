@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 
 /**
  * @author sikkenj
@@ -36,6 +37,7 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    def eloXmlViewerId = "xmlViewer";
    def scyToolViewerId = "scyToolViewer";
    def propertiesViewerId = "propertiesViewer";
+   def presentationViewerId = "presentationUpload";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -47,6 +49,7 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new PropertiesViewerCreator(), propertiesViewerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{}, presentationViewerId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
