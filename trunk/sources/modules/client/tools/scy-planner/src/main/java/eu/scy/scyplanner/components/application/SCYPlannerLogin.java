@@ -1,6 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.core.model.auth.SessionInfo;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.utilities.LabelComponent;
 import eu.scy.scyplanner.components.utilities.LabeledComponentsPanel;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
@@ -39,9 +40,9 @@ public class SCYPlannerLogin {
         password.setCaretPosition(0);
         JComboBox box = new JComboBox(urls);
         LabelComponent[] fields = new LabelComponent[]{
-                new LabelComponent("Username", userName),
-                new LabelComponent("Password", password),
-                new LabelComponent("Server", box)
+                new LabelComponent(Strings.getString("Username"), userName),
+                new LabelComponent(Strings.getString("Password"), password),
+                new LabelComponent(Strings.getString("Server"), box)
         };
         LabeledComponentsPanel panel = new LabeledComponentsPanel(fields);
 
@@ -55,7 +56,7 @@ public class SCYPlannerLogin {
                 fb.setServiceInterface(PedagogicalPlanService.class);
 
         while (cont) {
-            int result = JOptionPane.showConfirmDialog(null, panel, "Confirm Log On", JOptionPane.OK_CANCEL_OPTION);
+            int result = JOptionPane.showConfirmDialog(null, panel, Strings.getString("Confirm Log On"), JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
                 log.info((String) box.getSelectedItem());
                 fb.setServiceUrl((String) box.getSelectedItem());
@@ -69,11 +70,11 @@ public class SCYPlannerLogin {
                 if (returnValue) {
                     cont = false;
                 } else {
-                    JOptionPane.showMessageDialog(null, "User name and / or password was incorect. Plase try again.", "User and / or password not found", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, Strings.getString("User name and / or password was incorect. Plase try again."), Strings.getString("User and / or password not found"), JOptionPane.INFORMATION_MESSAGE);
                 }
             } else if (result == JOptionPane.CANCEL_OPTION) {
                 cont = false;
-                JOptionPane.showMessageDialog(null, "Log in cancelled.", "Log in cancelled", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, Strings.getString("Log in cancelled."), Strings.getString("Log in cancelled"), JOptionPane.INFORMATION_MESSAGE);
                 log.info("Log in cancelled by user");
             }
         }

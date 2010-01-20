@@ -2,6 +2,7 @@ package eu.scy.scyplanner.action.demo;
 
 import eu.scy.scyplanner.action.AbstractSCYPlannerAction;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.demo.SCYPlannerDemo;
 
 import java.awt.event.ActionEvent;
@@ -16,11 +17,11 @@ import javax.swing.Action;
  */
 public class OpenSCYPlannerDemo extends AbstractSCYPlannerAction {
     public OpenSCYPlannerDemo() {
-        super("Open SCYPlanner demo", null, "Dummy-data that demonstrates how the SCYPlanner might work in the future");        
+        super(Strings.getString("Open SCYPlanner demo"), null, Strings.getString("Dummy-data that demonstrates how the SCYPlanner might work in the future"));
     }
 
     @Override
     protected void doActionPerformed(ActionEvent actionEvent) {        
-        SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent("SCYPlanner demo", new SCYPlannerDemo());
+        SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent(Strings.getString("SCYPlanner demo"), new SCYPlannerDemo());
     }
 }

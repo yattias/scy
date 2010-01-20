@@ -2,6 +2,7 @@ package eu.scy.scyplanner.action;
 
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 
+import eu.scy.scyplanner.application.Strings;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.*;
@@ -40,7 +41,7 @@ public abstract class AbstractSCYPlannerAction extends AbstractAction {
             JTextArea textArea = new JTextArea();
             textArea.setPreferredSize(new Dimension(350, 150));
             textArea.setText(throwable.toString());
-            JOptionPane.showMessageDialog(null, textArea, "Exception occured", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, textArea, Strings.getString("Exception occured"), JOptionPane.ERROR_MESSAGE);
             SCYPlannerApplicationManager.getApplicationManager().showDefaultCursor();
         }
         SCYPlannerApplicationManager.getApplicationManager().showDefaultCursor();

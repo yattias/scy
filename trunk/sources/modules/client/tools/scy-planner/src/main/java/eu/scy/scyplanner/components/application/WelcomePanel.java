@@ -1,5 +1,6 @@
 package eu.scy.scyplanner.components.application;
 
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.frontpage.StartUpMenuItem;
 import eu.scy.scyplanner.components.frontpage.StartUpInformationItem;
 import eu.scy.scyplanner.components.titled.TitledPanel;
@@ -20,10 +21,10 @@ public class WelcomePanel extends JPanel {
         JPanel panel = getPanel(new BorderLayout());
 
         JPanel infoPanel = getPanel(new GridLayout(0, 1));        
-        infoPanel.add(new StartUpInformationItem("Welcome to SCYPlanner - the teacher's best friend", "Click on any action to continue", null));
+        infoPanel.add(new StartUpInformationItem(Strings.getString("Welcome to SCYPlanner - the teacher's best friend"), Strings.getString("Click on any action to continue"), null));
         panel.add(BorderLayout.NORTH, infoPanel);
 
-        TitledPanel actionPanel = new TitledPanel("Actions", new GridLayout(0, 1));
+        TitledPanel actionPanel = new TitledPanel(Strings.getString("Actions"), new GridLayout(0, 1));
         actionPanel.setBackground(SCYPlannerApplicationManager.getAlternativeBackgroundColor());
         actionPanel.add(new StartUpMenuItem(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_CREATE_NEW_PEDAGOGICAL_PLAN_PANEL_ACTION), null));
         //actionPanel.add(new StartUpMenuItem(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_SCY_PLANNER_DEMO_ACTION), null));

@@ -2,6 +2,7 @@ package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 
+import eu.scy.scyplanner.application.Strings;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyVetoException;
@@ -18,7 +19,7 @@ public class SCYPlannerFrame extends JFrame {
     private JDesktopPane desktop = new JDesktopPane();
 
     public SCYPlannerFrame() throws HeadlessException {
-        super("SCYPlanner");
+        super(Strings.getString("SCYPlanner"));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1024, 748);
@@ -31,7 +32,7 @@ public class SCYPlannerFrame extends JFrame {
         getContentPane().add(BorderLayout.NORTH, new SCYPlannerToolBar());
 
         setContentPane(desktop);
-        setContent("SCYPlanner", new WelcomePanel(), true, false, true, false, true);
+        setContent(Strings.getString("SCYPlanner"), new WelcomePanel(), true, false, true, false, true);
         currentComponentInsideContentArea = defaultScreen;
     }
 

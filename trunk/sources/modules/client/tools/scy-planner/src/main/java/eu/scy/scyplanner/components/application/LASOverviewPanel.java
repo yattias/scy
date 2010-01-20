@@ -4,6 +4,7 @@ import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.table.Table;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import java.awt.BorderLayout;
@@ -59,13 +60,13 @@ public class LASOverviewPanel extends JPanel {
         }
 
         Vector columns = new Vector();
-        columns.add("Name");
-        columns.add("AnchorELO");
-        columns.add("Tool#");
-        columns.add("Work arrangement");
-        columns.add("Teacher role");
+        columns.add(Strings.getString("Name"));
+        columns.add(Strings.getString("AnchorELO"));
+        columns.add(Strings.getString("Tool#"));
+        columns.add(Strings.getString("Work arrangement"));
+        columns.add(Strings.getString("Teacher role"));
 
-        return new TablePanel("Activities", data, columns);
+        return new TablePanel(Strings.getString("Activities"), data, columns);
     }
 
     private JComponent createAssessmentPanel(LearningActivitySpace las) {
@@ -79,9 +80,9 @@ public class LASOverviewPanel extends JPanel {
             data.add(assessmentData);
 
             Vector columns = new Vector();
-            columns.add("Name");
-            columns.add("Description");
-            columns.add("Strategy");
+            columns.add(Strings.getString("Name"));
+            columns.add(Strings.getString("Description"));
+            columns.add(Strings.getString("Strategy"));
 
             return new TablePanel("Assessment", data, columns);
         } else {
@@ -103,13 +104,13 @@ public class LASOverviewPanel extends JPanel {
             }
 
             Vector columns = new Vector();
-            columns.add("Name");
-            columns.add("Assessment");
-            columns.add("In portfolio?");
+            columns.add(Strings.getString("Name"));
+            columns.add(Strings.getString("Assessment"));
+            columns.add(Strings.getString("In portfolio?"));
 
-            return new TablePanel("Anchor ELOs", data, columns);
+            return new TablePanel(Strings.getString("Anchor ELOs"), data, columns);
         } else {
-            return new MissingDataPanel("Anchor ELOs", "Anchor ELOs not specified");
+            return new MissingDataPanel(Strings.getString("Anchor ELOs"), "Strings.getString(Anchor ELOs not specified");
         }
     }
 

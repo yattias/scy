@@ -1,6 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.frontpage.StartUpInformationItem;
 import eu.scy.scyplanner.components.frontpage.StartUpMenuItem;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
@@ -37,10 +38,10 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(0, 1));
 
-        StartUpInformationItem missionInfo = new StartUpInformationItem("Mission", "Not selected", null);
+        StartUpInformationItem missionInfo = new StartUpInformationItem(Strings.getString("Mission"), Strings.getString("Not selected"), null);
         panel.add(missionInfo);
 
-        StartUpInformationItem scenarioInfo = new StartUpInformationItem("Scenario", "Not selected", null);
+        StartUpInformationItem scenarioInfo = new StartUpInformationItem(Strings.getString("Scenario"), Strings.getString("Not selected"), null);
         panel.add(scenarioInfo);
 
         add(BorderLayout.NORTH, panel);
@@ -57,7 +58,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
                     action.setMission(mission);
                     label.setTitle(mission.getName());
                     StringBuffer buffer = new StringBuffer("<i>").append(mission.getDescription()).append("</i>");
-                    buffer.append("<br/><br/>Learning goals:<br/>");
+                    buffer.append("<br/><br/>").append(Strings.getString("Learning goals:")).append("<br/>");
                     Iterator<LearningGoal> learningGoals = mission.getLearningGoals().iterator();
                     buffer.append("<ol>");
                     while (learningGoals.hasNext()) {
@@ -93,7 +94,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
         private StartUpMenuItem item = null;
 
         private CreateNewPedagogicalPlanFromDefaultPedagogicalPlan() {
-            super("Create New Pedagogical Plan", null, "Copies the default selected pedagogical plan that is available for the selected combination of mission and scenario. You can use the copy directly without any changes or fine-tune it according to your needs");
+            super(Strings.getString("Create New Pedagogical Plan"), null, Strings.getString("Copies the default selected pedagogical plan that is available for the selected combination of mission and scenario. You can use the copy directly without any changes or fine-tune it according to your needs"));
         }
 
         @Override

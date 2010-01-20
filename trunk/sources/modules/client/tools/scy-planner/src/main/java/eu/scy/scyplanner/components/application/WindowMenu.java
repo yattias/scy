@@ -3,6 +3,7 @@ package eu.scy.scyplanner.components.application;
 import eu.scy.scyplanner.action.AbstractSCYPlannerAction;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 
+import eu.scy.scyplanner.application.Strings;
 import javax.swing.*;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.event.InternalFrameEvent;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 public class WindowMenu extends JMenu implements InternalFrameListener {
     private HashMap map = new HashMap<JMenuItem,JInternalFrame>();
     public WindowMenu() {
-        super("Window");
+        super(Strings.getString("Window"));
         SCYPlannerApplicationManager.getApplicationManager().setWindowMenu(this);
     }
 
