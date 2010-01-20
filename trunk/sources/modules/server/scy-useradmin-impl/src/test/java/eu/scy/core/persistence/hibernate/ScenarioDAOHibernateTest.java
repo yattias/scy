@@ -95,12 +95,10 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
         Scenario scenario = new ScenarioImpl();
         scenario.setName("Freakin Scenario");
 
-        LearningActivitySpace las = new LearningActivitySpaceImpl();
-        las.setName("LAS 1");
+        LearningActivitySpace las = createLAS("LAS 1");
         scenario.setLearningActivitySpace(las);
 
-        LearningActivitySpace las2 = new LearningActivitySpaceImpl();
-        las2.setName("LAS 1");
+        LearningActivitySpace las2 = createLAS("LAS 2");
 
         AnchorELO anchorElo = new AnchorELOImpl();
         las.addAnchorELO(anchorElo);

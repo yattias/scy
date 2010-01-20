@@ -1,8 +1,6 @@
 package eu.scy.server.utils;
 
-import eu.scy.core.PedagogicalPlanPersistenceService;
-import eu.scy.core.ScenarioService;
-import eu.scy.core.UserService;
+import eu.scy.core.*;
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,9 +21,18 @@ public class DummyDataGenerator implements InitializingBean {
     private ScenarioService scenarioService;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private UserService userService;
+    private ToolService toolService;
+    private LASService lasService;
 
 
     private void generatePedagogicalPlanTemplates() {
+
+        Tool scyMapper = createTool("SCYMapper", "A concept bla bla");
+        Tool scySim = createTool ("SCYSim", "Simulating simulations is a recursive expression");
+
+        getToolService().save(scyMapper);
+        getToolService().save(scySim);
+
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
         template.setName("CO2 House - home of the wild!");
         template.setDescription("A pedagogical plan for people with white teeth");
@@ -46,6 +53,8 @@ public class DummyDataGenerator implements InitializingBean {
         canteenCuisine.setScenario(generateScenario("Transitive Accumulative Mutations", "Based on Reinbergers classic theory"));
         canteenCuisine.setMission(generateMission("Canteen Cusine"));
         saveAndCreatePedagogicalPlan(canteenCuisine);
+
+
 
     }
 
@@ -82,6 +91,12 @@ public class DummyDataGenerator implements InitializingBean {
         LearningActivitySpace design= createLAS("Design", 400, 200);
         LearningActivitySpace construction= createLAS("Construction", 400, 200);
         LearningActivitySpace reporting= createLAS("Reporting", 400, 200);
+
+
+        Tool scyMapper = getToolService().findToolByName("SCYMapper");
+        if(scyMapper != null) {
+            getLasService().addToolToLAS(scyMapper, orientation);
+        }
 
 
         scenario.setLearningActivitySpace(orientation);
@@ -212,6 +227,13 @@ public class DummyDataGenerator implements InitializingBean {
         return elo;
     }
 
+    private Tool createTool(String name, String description){
+        Tool tool = new ToolImpl();
+        tool.setName(name);
+        tool.setDescription(description);
+        return tool;
+    }
+
 
     public ScenarioService getScenarioService() {
         return scenarioService;
@@ -227,6 +249,22 @@ public class DummyDataGenerator implements InitializingBean {
 
     public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
         this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
+    }
+
+    public ToolService getToolService() {
+        return toolService;
+    }
+
+    public void setToolService(ToolService toolService) {
+        this.toolService = toolService;
+    }
+
+    public LASService getLasService() {
+        return lasService;
+    }
+
+    public void setLasService(LASService lasService) {
+        this.lasService = lasService;
     }
 
     public UserService getUserService() {
@@ -245,6 +283,7 @@ public class DummyDataGenerator implements InitializingBean {
         log.info("============================================================================");
         log.info("============================================================================");
         generatePedagogicalPlanTemplates();
+
         //generateDummyUsers();
     }
 

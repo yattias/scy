@@ -1,0 +1,32 @@
+package eu.scy.core;
+
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.core.model.pedagogicalplan.Tool;
+import eu.scy.core.persistence.LASDAO;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Henrik
+ * Date: 20.jan.2010
+ * Time: 11:32:48
+ * To change this template use File | Settings | File Templates.
+ */
+public class LASServiceImpl implements LASService{
+
+    private LASDAO lasDAO;
+
+    public LASDAO getLasDAO() {
+        return lasDAO;
+    }
+
+    public void setLasDAO(LASDAO lasDAO) {
+        this.lasDAO = lasDAO;
+    }
+
+
+
+    @Override
+    public void addToolToLAS(Tool tool, LearningActivitySpace las) {
+        lasDAO.addToolToLAS(tool, las);
+    }
+}

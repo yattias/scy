@@ -71,12 +71,15 @@ CREATE TABLE `toolconfiguration` (
     `timeCreated` bigint(20) NOT NULL default '0',
     `toolid` varchar(250) default NULL,
     `activity_primKey` varchar(55) default NULL,
+    `las_primKey` varchar(55) default NULL,
     `tool_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
     KEY `tooconfigactivity_key` (`activity_primKey`),
     KEY `tooconfigtool_key` (`tool_primKey`),
+    KEY `tooconfiglas_key` (`las_primKey`),
     CONSTRAINT `toolconfiguration_activity` FOREIGN KEY (`activity_primKey`) REFERENCES `activity` (`primKey`),
-    CONSTRAINT `toolconfiguration_tool` FOREIGN KEY (`tool_primKey`) REFERENCES `tool` (`primKey`)
+    CONSTRAINT `toolconfiguration_tool` FOREIGN KEY (`tool_primKey`) REFERENCES `tool` (`primKey`),
+    CONSTRAINT `toolconfiguration_las` FOREIGN KEY (`las_primKey`) REFERENCES `learningactivityspace` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tool`;

@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService{
 
     private static Logger log = Logger.getLogger("UserServiceImpl.class");
 
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
 
 

@@ -19,5 +19,13 @@
     <bean id="userService" class="eu.scy.core.UserServiceImpl">
         <property name="userDAO" ref="userDAO"/>
     </bean>
+    
+    <bean id="toolService" class="eu.scy.core.ToolServiceImpl">
+        <property name="toolDAO" ref="toolDAO"/>
+    </bean>
+
+    <bean id="lasService" class="eu.scy.core.LASServiceImpl">
+        <property name="lasDAO" ref="lasDAO"/>
+    </bean>
 
 </beans>

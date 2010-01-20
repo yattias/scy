@@ -28,5 +28,13 @@
     <bean id="userDAO" class="eu.scy.core.persistence.hibernate.UserDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="toolDAO" class="eu.scy.core.persistence.hibernate.ToolDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/> 
+    </bean>
+    
+    <bean id="lasDAO" class="eu.scy.core.persistence.hibernate.LASDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
 </beans>
