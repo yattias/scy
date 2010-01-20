@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.chat.controller.ChatController;
+import eu.scy.chat.controller.OOOChatController;
+import eu.scy.chat.controller.MUCChatController;
 import eu.scy.client.tools.chattool.ChatPanel;
 import eu.scy.client.tools.chattool.ChatPresencePanel;
 import eu.scy.toolbroker.ToolBrokerImpl;
@@ -49,13 +51,13 @@ public static void main(String[] args) {
 //		String eloUri = Long.toString(Math.abs(r.nextLong()), 36);
 //	
 		String eloUri = "z168fb1jo51y";
-		ChatController chatController = new ChatController(aService, eloUri);
+		ChatController mucChatController = new MUCChatController(aService, eloUri);
 		
 		
-		ChatPanel cmp = new ChatPanel(chatController);
+		ChatPanel cmp = new ChatPanel(mucChatController);
 		
 		
-		ChatPresencePanel cpm = new ChatPresencePanel(chatController);
+		ChatPresencePanel cpm = new ChatPresencePanel(mucChatController);
 		frame.getContentPane().setLayout(new GridLayout(1,2));
 		frame.getContentPane().add(cpm);
 		frame.getContentPane().add(cmp);
