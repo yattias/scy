@@ -276,16 +276,16 @@ public class EloSaveAsPanel extends javax.swing.JPanel
             typeDisplayNames.add(displayNames.getDisplayName(type));
          }
          list.setEnabled(!types.isEmpty());
-         if (types.size() == 1)
-         {
-            list.setSelectedIndex(0);
-         }
       }
       else
       {
          list.setEnabled(false);
       }
       list.setListData(typeDisplayNames);
+      if (typeDisplayNames.size() == 1)
+      {
+         list.setSelectedIndex(0);
+      }
       setSaveButtonState();
    }
 
