@@ -32,6 +32,7 @@ public class ScenarioImpl extends BaseObjectImpl implements Scenario {
 
     public void setLearningActivitySpace(LearningActivitySpace learningActivitySpace) {
         this.learningActivitySpace = learningActivitySpace;
+        //learningActivitySpace.setParticipatesIn(this);
     }
 
     @Transient

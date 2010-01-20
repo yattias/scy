@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface StudentPedagogicalPlanPersistenceService {
 
+    public StudentPlanELO assignStudentPlanToStudent(User student, PedagogicalPlan pedagogicalPlan);
+
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user);
 
     public List getStudentPlans(User user);

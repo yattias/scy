@@ -35,15 +35,18 @@ CREATE TABLE `anchorelo` (
 DROP TABLE IF EXISTS `learningactivityspace`;
 CREATE TABLE `learningactivityspace` (
 	`primKey` varchar(55) NOT NULL default '',
+	`participatesInScenario_primKey` varchar(55) NOT NULL default '',
 	`name` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `xPos` bigint(20) NOT NULL default '0',
     `yPos` bigint(20) NOT NULL default '0',
     `inputAnchorELO_primKey` varchar(55) default NULL,
-	PRIMARY KEY  (`primKey`),
+    PRIMARY KEY  (`primKey`),
     KEY `input_anchor_elo_key` (`inputAnchorELO_primKey`),
-    CONSTRAINT `las_input_anchor_elo` FOREIGN KEY (`inputAnchorELO_primKey`) REFERENCES `anchorelo` (`primKey`)
+    KEY `participates_in_scenario_key` (`participatesInScenario_primKey`),
+    CONSTRAINT `las_input_anchor_elo` FOREIGN KEY (`inputAnchorELO_primKey`) REFERENCES `anchorelo` (`primKey`),
+    CONSTRAINT `las_participates_in_scenario` FOREIGN KEY (`participatesInScenario_primKey`) REFERENCES `scenario` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

@@ -21,4 +21,5 @@ public interface ScenarioService {
 
     public List<Mission> getMissions();
 
+    void save(Scenario scenario);
 }

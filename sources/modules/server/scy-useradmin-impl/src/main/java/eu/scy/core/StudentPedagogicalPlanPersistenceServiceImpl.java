@@ -27,6 +27,11 @@ public class StudentPedagogicalPlanPersistenceServiceImpl implements StudentPeda
     }
 
     @Override
+    public StudentPlanELO assignStudentPlanToStudent(User student, PedagogicalPlan pedagogicalPlan) {
+        return studentPedagogicalPlanPersistenceDAO.assignStudentPlanToStudent(student, pedagogicalPlan);
+    }
+
+    @Override
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) {
         return getStudentPedagogicalPlanPersistenceDAO().createStudentPlan(pedagogicalPlan, user);
     }
