@@ -24,6 +24,7 @@ import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
 import eu.scy.chat.controller.ChatController;
+import eu.scy.chat.controller.MUCChatController;
 
 /**
  * @author jeremyt
@@ -38,16 +39,15 @@ public class ChatPanel extends JXTitledPanel {
 	private JTextArea chatArea;
 	private JXTitledPanel chatAreaPanel;
 	protected JTextField sendMessageTextField;
-	private ChatController chatController;
+	private ChatController chatControler;
 	private String ELOUri;
 
-	public ChatPanel(ChatController chatController) {
-		this.chatController = chatController;
+	public ChatPanel(ChatController mucChatController) {
+		this.chatControler = mucChatController;
 		initGUI();
-		this.chatController.registerChatArea(chatArea);
-		this.chatController.connectToRoom();
-		this.initListners();
-		this.setTitle(this.chatController.getCurrentUser());
+		this.chatControler.registerChatArea(chatArea);
+		this.chatControler.connectToRoom();
+		this.setTitle(this.chatControler.getCurrentUser());
 		//this.setTitleForeground(Colors.White.color());
 		this.setTitlePainter(getTitlePainter());
 
@@ -84,7 +84,7 @@ public class ChatPanel extends JXTitledPanel {
 				final String oldText = getChatArea().getText();
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						getChatController().sendMUCMessage( chatController.getELOUri(),sendMessageTextField.getText());
+						getChatController().sendMessage( chatControler.getELOUri(),sendMessageTextField.getText());
 						sendMessageTextField.setText("");
 					}
 				});
@@ -92,30 +92,6 @@ public class ChatPanel extends JXTitledPanel {
 		});
 
 		p.add(sendMessageTextField, "align left, grow");
-	}
-
-	private void initListners() {
-		chatController.getAwarenessService().addPresenceToolListener(
-				new IChatPresenceToolListener() {
-					@Override
-					public void handleChatPresenceToolEvent(
-							IChatPresenceToolEvent event) {
-						System.out
-								.println("ChatPanel.initListners().new IChatPresenceToolListener() {...}.handleChatPresenceToolEvent() -------------------------------");
-						logger
-								.debug("ChatPanelMain: registerChatArea: handleChatPresenceToolEvent "
-										+ event.getUsers()
-										+ "message "
-										+ event.getMessage());
-						((DefaultListModel) chatController.getBuddyList())
-								.removeAllElements();
-						for (IAwarenessUser au : event.getUsers()) {
-							((DefaultListModel) chatController.getBuddyList())
-									.addElement(au);
-						}
-					}
-				});
-
 	}
 
 	public void setChatArea(JTextArea chatArea) {
@@ -127,10 +103,10 @@ public class ChatPanel extends JXTitledPanel {
 	}
 
 	public void setChatController(ChatController chatController) {
-		this.chatController = chatController;
+		this.chatControler = chatController;
 	}
 
 	public ChatController getChatController() {
-		return chatController;
+		return chatControler;
 	}
 }
