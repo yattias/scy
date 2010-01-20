@@ -66,7 +66,7 @@ change_variables_callback(write, _SeqId, [], [Tuple]) :-
 	thread_self(Thread),
 	thread_detach(Thread).
 
-change_variables_callback(Arg1, Arg2, Arg3, Arg4) :-
+change_variables_callback(_, _, _, _) :-
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -117,17 +117,19 @@ most_often(VarName, VarNames, MaxCount) :-
 remove_old_changes(Time) :-
 	vc_timeout_min(Timeout),
 	get_time(CurrTime),
-	findall(DelVC, (DelVC = var_change(Learner, Tool, Session, Time, VarName), Time < CurrTime - Timeout * 60 * 1000), DelVCs),
+	findall(DelVC, (DelVC = var_change(_, _, _, Time, _), Time < CurrTime - Timeout * 60 * 1000), DelVCs),
 	forall(member(DelVC, DelVCs), retract(DelVC)).
 
 change_variables_feedback(Learner, Tool, Session, Votat) :-
 	% Create fields for the feedback 
+	get_time(Time),
 	tspl_actual_field(string, votat, F0),
 	tspl_actual_field(string, Learner, F1),
 	tspl_actual_field(string, Tool, F2),
 	tspl_actual_field(string, Session, F3),
 	tspl_actual_field(double, Votat, F4),
-	tspl_tuple([F0,F1,F2,F3,F4], Response),
+	tspl_actual_field(long, Time, F5),
+	tspl_tuple([F0,F1,F2,F3,F4,F5], Response),
 	out_ts(TS),
 	tspl_write(TS, Response).
 
