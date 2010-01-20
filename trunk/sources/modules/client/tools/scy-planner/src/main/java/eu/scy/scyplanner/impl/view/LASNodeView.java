@@ -21,15 +21,15 @@ public class LASNodeView extends NodeViewComponent {
 		JLabel labelComp = new JLabel(model.getLabel());
 		labelComp.setOpaque(false);
 
-		JScrollPane sp = new JScrollPane(labelComp);
+		/*JScrollPane sp = new JScrollPane(labelComp);
 		sp.getViewport().setOpaque(false);
 		sp.setOpaque(false);
 
 		System.out.println("sp.getBorder() = " + sp.getBorder());
 
-		sp.setBorder(BorderFactory.createEmptyBorder());
+		sp.setBorder(BorderFactory.createEmptyBorder());*/
 
 		getInsets().set(5, 5, 5, 5);
-		add(sp);
+		add(labelComp);
 	}
 }
