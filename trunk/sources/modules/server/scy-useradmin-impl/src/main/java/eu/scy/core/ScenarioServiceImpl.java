@@ -35,6 +35,11 @@ public class ScenarioServiceImpl implements ScenarioService{
         return scenarioDAO.getMissions();
     }
 
+    @Override
+    public void save(Scenario scenario) {
+        scenarioDAO.save(scenario);
+    }
+
     public ScenarioDAO getScenarioDAO() {
         return scenarioDAO;
     }

@@ -80,17 +80,19 @@ public class DummyDataGenerator implements InitializingBean {
         scenario.setName(name);
         scenario.setDescription(description);
 
-        LearningActivitySpace orientation = createLAS("Orientation", 10 , 10 );
-        LearningActivitySpace conceptualisation = createLAS("Conceptualization", 500, 60);
-        LearningActivitySpace experiment = createLAS("Experiment", conceptualisation.getXPos() - 200, conceptualisation.getYPos() + 200);
-        LearningActivitySpace information= createLAS("Information", conceptualisation.getXPos() + 200, conceptualisation.getYPos() + 200);
+        getScenarioService().save(scenario);
+
+        LearningActivitySpace orientation = createLAS("Orientation", 10 , 10, scenario);
+        LearningActivitySpace conceptualisation = createLAS("Conceptualization", 500, 60, scenario);
+        LearningActivitySpace experiment = createLAS("Experiment", conceptualisation.getXPos() - 200, conceptualisation.getYPos() + 200, scenario);
+        LearningActivitySpace information= createLAS("Information", conceptualisation.getXPos() + 200, conceptualisation.getYPos() + 200, scenario);
 
 
-        LearningActivitySpace reflection= createLAS("Reflection", 400, 200);
-        LearningActivitySpace evaluation= createLAS("Evaluation", 400, 200);
-        LearningActivitySpace design= createLAS("Design", 400, 200);
-        LearningActivitySpace construction= createLAS("Construction", 400, 200);
-        LearningActivitySpace reporting= createLAS("Reporting", 400, 200);
+        LearningActivitySpace reflection= createLAS("Reflection", 400, 200, scenario);
+        LearningActivitySpace evaluation= createLAS("Evaluation", 400, 200, scenario);
+        LearningActivitySpace design= createLAS("Design", 400, 200, scenario);
+        LearningActivitySpace construction= createLAS("Construction", 400, 200, scenario);
+        LearningActivitySpace reporting= createLAS("Reporting", 400, 200, scenario);
 
         Tool scyMapper = getToolService().findToolByName("SCYMapper");
         Tool scySim = getToolService().findToolByName("SCYSim");
@@ -99,6 +101,7 @@ public class DummyDataGenerator implements InitializingBean {
 
 
         scenario.setLearningActivitySpace(orientation);
+
 
         AnchorELO outputFromOrientationELO = createAnchorELO("Output from Orientation");
         outputFromOrientationELO.setXPos(orientation.getXPos() + 200);
@@ -198,11 +201,12 @@ public class DummyDataGenerator implements InitializingBean {
         return act;
     }
 
-    private LearningActivitySpace createLAS(String name, int xPos, int yPos) {
+    private LearningActivitySpace createLAS(String name, int xPos, int yPos, Scenario scenario) {
         LearningActivitySpace las = new LearningActivitySpaceImpl();
         las.setName(name);
         las.setXPos(xPos);
         las.setYPos(yPos);
+        las.setParticipatesIn(scenario);
         return las;
     }
 

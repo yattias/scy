@@ -49,6 +49,8 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
     @Test
     public void testSaveScenarioWithLAS() {
         Scenario scenario = createScenario();
+        getScenarioDAO().save(scenario);
+
         LearningActivitySpace las = scenario.getLearningActivitySpace();
 
         getScenarioDAO().save(scenario);
@@ -95,10 +97,15 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
         Scenario scenario = new ScenarioImpl();
         scenario.setName("Freakin Scenario");
 
+        getScenarioDAO().save(scenario);
+
         LearningActivitySpace las = createLAS("LAS 1");
         scenario.setLearningActivitySpace(las);
+        las.setParticipatesIn(scenario);
+
 
         LearningActivitySpace las2 = createLAS("LAS 2");
+        las2.setParticipatesIn(scenario);
 
         AnchorELO anchorElo = new AnchorELOImpl();
         las.addAnchorELO(anchorElo);
@@ -110,7 +117,7 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
         las.addActivity(firstActivity);
         firstActivity.setAnchorELO(anchorElo);
 
-
+        getScenarioDAO().save(scenario);
         return scenario;
 
 

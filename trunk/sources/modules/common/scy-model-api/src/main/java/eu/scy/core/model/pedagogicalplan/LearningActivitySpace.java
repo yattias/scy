@@ -29,4 +29,8 @@ public interface LearningActivitySpace extends LearningActivitySpaceBase, Assess
 
 
     void addActivity(Activity activity);
+
+    Scenario getParticipatesIn();
+
+    void setParticipatesIn(Scenario participatesIn);
 }

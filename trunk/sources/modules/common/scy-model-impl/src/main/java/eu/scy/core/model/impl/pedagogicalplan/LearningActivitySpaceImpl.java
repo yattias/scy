@@ -18,6 +18,8 @@ import java.util.List;
 @Table(name="learningactivityspace")
 public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl implements LearningActivitySpace, Assessable {
 
+    private Scenario participatesIn;
+
     private Assessment assessment = null;
     private LearningActivitySpaceTemplate learningActivitySpaceTemplate = null;
 
@@ -103,5 +105,17 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
 
     public void setYPos(int yPos) {
         this.yPos = yPos;
+    }
+
+    @Override
+    @ManyToOne(targetEntity = ScenarioImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "participatesInScenario_primKey")
+    public Scenario getParticipatesIn() {
+        return participatesIn;
+    }
+
+    @Override
+    public void setParticipatesIn(Scenario participatesIn) {
+        this.participatesIn = participatesIn;
     }
 }
