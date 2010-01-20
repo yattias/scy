@@ -15,8 +15,8 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name="toolconfiguration")
-@Inheritance( strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "toolconfiguration")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "toolid")
 @DiscriminatorValue("general")
 public class LearningActivitySpaceToolConfigurationImpl extends BaseObjectImpl implements LearningActivitySpaceToolConfiguration {
@@ -32,8 +32,8 @@ public class LearningActivitySpaceToolConfigurationImpl extends BaseObjectImpl i
         this.learningActivitySpace = learningActivitySpace;
     }
 
-    @Transient
-    @Override
+    @ManyToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "las_primKey")
     public LearningActivitySpace getLearningActivitySpace() {
         return learningActivitySpace;
     }
