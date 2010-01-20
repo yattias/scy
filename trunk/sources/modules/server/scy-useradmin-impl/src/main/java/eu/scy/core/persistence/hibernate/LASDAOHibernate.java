@@ -1,9 +1,13 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl;
+import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
 import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.core.persistence.LASDAO;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,5 +24,22 @@ public class LASDAOHibernate extends ScyBaseDAOHibernate implements LASDAO {
         configuration.setTool(tool);
         configuration.setLearningActivitySpace(las);
         save(configuration);
+    }
+
+    @Override
+    public void addToolToActivity(Tool tool, Activity activity) {
+        LearningActivitySpaceToolConfigurationImpl configuration = new LearningActivitySpaceToolConfigurationImpl();
+        configuration.setTool(tool);
+        configuration.setLearningActivitySpace(activity.getLearningActivitySpace());
+        configuration.setActivity(activity);
+        save(configuration);
+
+    }
+
+    @Override
+    public List<LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace) {
+        return getSession().createQuery("from LearningActivitySpaceToolConfiguration where learningActivitySpace = :las")
+                .setEntity("las", learningActivitySpace)
+                .list();
     }
 }

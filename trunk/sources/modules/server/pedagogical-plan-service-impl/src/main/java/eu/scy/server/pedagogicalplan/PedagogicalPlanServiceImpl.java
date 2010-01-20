@@ -1,5 +1,6 @@
 package eu.scy.server.pedagogicalplan;
 
+import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
 import eu.scy.core.UserService;
@@ -24,6 +25,15 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
 
     private ScenarioService scenarioService = null;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
+    private LASService lasService;
+
+    public LASService getLasService() {
+        return lasService;
+    }
+
+    public void setLasService(LASService lasService) {
+        this.lasService = lasService;
+    }
 
     @Override
     public List<Tool> getTools() {
@@ -77,6 +87,11 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
     @Override
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
         return getPedagogicalPlanPersistenceService().getPedagogicalPlan(mission, scenario);
+    }
+
+    @Override
+    public List<LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace) {
+        return getLasService().getToolConfigurations(learningActivitySpace);
     }
 
 }

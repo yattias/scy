@@ -1,7 +1,11 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
 import eu.scy.core.model.pedagogicalplan.Tool;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,4 +19,7 @@ public interface LASDAO extends SCYBaseDAO{
     public void addToolToLAS(Tool tool, LearningActivitySpace las);
 
 
+    void addToolToActivity(Tool tool, Activity activity);
+
+    List<LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace);
 }

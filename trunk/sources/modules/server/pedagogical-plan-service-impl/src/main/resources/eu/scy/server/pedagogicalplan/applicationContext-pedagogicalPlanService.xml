@@ -8,6 +8,7 @@
         <property name="scenarioService" ref="scenarioService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="userService" ref="userService"/>
+        <property name="lasService" ref="lasService"/>
 
     </bean>
 

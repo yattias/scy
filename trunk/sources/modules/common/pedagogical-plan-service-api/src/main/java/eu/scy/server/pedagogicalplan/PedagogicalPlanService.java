@@ -45,4 +45,6 @@ public interface PedagogicalPlanService {
      * @return
      */
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario);
+
+    public List <LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace); 
 }
