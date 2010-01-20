@@ -185,33 +185,29 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void setSimConfig(String xmlSimConfig) {
-        SimConfig config;
+        try {
+            SimConfig config = new SimConfig(xmlSimConfig);
+            setSimConfig(config);
+        } catch (JDOMException ex) {
+            JOptionPane.showMessageDialog(this, "Could not parse the SimConfig; the current simulation will not be changed.", "Parsing problem", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void setSimConfig(SimConfig config) {
         ModelVariable var;
         try {
-            config = new SimConfig(xmlSimConfig);
             if (config.getSimulationName().equals(getSimQuestViewer().getApplication().getTopic(0).getName())) {
-                // for (Iterator<ModelVariable> variables =
-                // getSimulationVariables().iterator(); variables.hasNext();) {
-                // var = variables.next();
-                // // if the variable name cannot be found in the config, a
-                // nullpointerex. is thrown
-                // var.setValue(config.getVariables().get(var.getName()));
-                // }
-
                 for (Iterator<Entry<String, String>> it = config.getVariables().entrySet().iterator(); it.hasNext();) {
                     Entry<String, String> entry = it.next();
                     var = getVariableByName(entry.getKey());
                     if (var != null) {
                         var.setValue(entry.getValue());
                     }
-
                 }
             } else {
                 // the simulation names doesn't match
                 JOptionPane.showMessageDialog(this, "The name of the current simulation and the config doesn't match - nothing loaded.", "Config file problem", JOptionPane.WARNING_MESSAGE);
             }
-        } catch (JDOMException ex) {
-            JOptionPane.showMessageDialog(this, "Could not parse the SimConfig; the current simulation will not be changed.", "Parsing problem", JOptionPane.WARNING_MESSAGE);
         } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(this, "Could not update the Simulation with this Configuration. Do they really match?", "Update problem", JOptionPane.WARNING_MESSAGE);
         }
