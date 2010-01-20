@@ -54,7 +54,6 @@ canonical_agent :-
 	agent_connect(InTS, _, [user('canonical agent')]),
 	agent_register(InTS,
 		       [ tuple_type(action),
-			 tool('scysimulatorNo: 1'),
 			 action_type('value_changed'),
 			 callback(change_variables_callback)
 		       ]).
@@ -111,10 +110,10 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, IncChange)
 	retract(inc_change(Learner, Tool, Session, VarNameOld, DiffOld)),
 	assert(inc_change(Learner, Tool, Session, VarName, Diff)),
 	VarName == VarNameOld,
-	max_list([Diff, DiffOld], Big),
-	min_list([Diff, DiffOld], Small),
-	IncChange is Small / Big,
-	write(Small), write(' / '), write(Big), write(' => '), writeln(IncChange).
+	(   Diff == DiffOld
+	->  IncChange = 100
+	;   IncChange = 0
+	).
 
 change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, _) :-
 	write('asserting first for '), writeln(VarName),
@@ -167,7 +166,7 @@ field(data, 9).		% the data itself (arbitrary)
  *------------------------------------------------------------*/
 
 in_space(actions).			% scydynamics_actionlog
-out_space(sensordata).			% scydynamics_actionlog
+out_space(command).			% scydynamics_actionlog
 host('localhost').		% localhost
 port(2525).
 user('sqlspaces').
