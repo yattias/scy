@@ -21,6 +21,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/model</value>
+               </key>
+               <value>.scymodel</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/dataset</value>
                </key>
                <value>.scydataset</value>
