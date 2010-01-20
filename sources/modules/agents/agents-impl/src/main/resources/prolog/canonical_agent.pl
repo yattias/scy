@@ -88,7 +88,7 @@ change_variables_callback(write, _SeqId, [], [Tuple]) :-
 	thread_self(Thread),
 	thread_detach(Thread).
 
-change_variables_callback(Arg1, Arg2, Arg3, Arg4) :-
+change_variables_callback(_, _, _, _) :-
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -169,7 +169,7 @@ field(data, 9).		% the data itself (arbitrary)
 
 in_space(actions).			% scydynamics_actionlog
 out_space(command).			% scydynamics_actionlog
-host('localhost').		% localhost
+host('scy.collide.info').		% localhost
 port(2525).
 user('sqlspaces').
 
