@@ -13,7 +13,9 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 import eu.scy.client.desktop.scydesktop.config.DisplayNames;
 import eu.scy.client.desktop.scydesktop.config.EloConfig;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 
 /**
  *
@@ -43,11 +45,13 @@ public class EloSaveAsPanel extends javax.swing.JPanel
       jScrollPane1 = new javax.swing.JScrollPane();
       descriptionField = new javax.swing.JTextArea();
       jLabel3 = new javax.swing.JLabel();
-      logicalTypeComboBox = new javax.swing.JComboBox();
       jLabel4 = new javax.swing.JLabel();
-      functionalTypeComboBox = new javax.swing.JComboBox();
       cancelButton = new javax.swing.JButton();
       saveButton = new javax.swing.JButton();
+      jScrollPane2 = new javax.swing.JScrollPane();
+      logicalTypeList = new javax.swing.JList();
+      jScrollPane3 = new javax.swing.JScrollPane();
+      functionalTypeList = new javax.swing.JList();
 
       setBackground(new java.awt.Color(255, 255, 255));
 
@@ -67,23 +71,7 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
       jLabel3.setText("Logical type");
 
-      logicalTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-      logicalTypeComboBox.setEnabled(false);
-      logicalTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            logicalTypeComboBoxActionPerformed(evt);
-         }
-      });
-
       jLabel4.setText("Functional type");
-
-      functionalTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-      functionalTypeComboBox.setEnabled(false);
-      functionalTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            functionalTypeComboBoxActionPerformed(evt);
-         }
-      });
 
       cancelButton.setText("Cancel");
       cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +87,32 @@ public class EloSaveAsPanel extends javax.swing.JPanel
          }
       });
 
+      logicalTypeList.setModel(new javax.swing.AbstractListModel() {
+         String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+         public int getSize() { return strings.length; }
+         public Object getElementAt(int i) { return strings[i]; }
+      });
+      logicalTypeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      logicalTypeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+         public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            logicalTypeListValueChanged(evt);
+         }
+      });
+      jScrollPane2.setViewportView(logicalTypeList);
+
+      functionalTypeList.setModel(new javax.swing.AbstractListModel() {
+         String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+         public int getSize() { return strings.length; }
+         public Object getElementAt(int i) { return strings[i]; }
+      });
+      functionalTypeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      functionalTypeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+         public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            functionalTypeListValueChanged(evt);
+         }
+      });
+      jScrollPane3.setViewportView(functionalTypeList);
+
       org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
       this.setLayout(layout);
       layout.setHorizontalGroup(
@@ -112,19 +126,19 @@ public class EloSaveAsPanel extends javax.swing.JPanel
                      .add(jLabel1))
                   .add(25, 25, 25)
                   .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                     .add(titleField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)))
-               .add(layout.createSequentialGroup()
-                  .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                     .add(jLabel4)
-                     .add(jLabel3))
-                  .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                  .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                     .add(logicalTypeComboBox, 0, 270, Short.MAX_VALUE)
-                     .add(functionalTypeComboBox, 0, 270, Short.MAX_VALUE)))
+                     .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                           .add(jLabel3)
+                           .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(20, 20, 20)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                           .add(jLabel4)
+                           .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                     .add(titleField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)))
                .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                   .add(saveButton)
-                  .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                  .add(28, 28, 28)
                   .add(cancelButton)))
             .addContainerGap())
       );
@@ -140,18 +154,18 @@ public class EloSaveAsPanel extends javax.swing.JPanel
                .add(jLabel2)
                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 67, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                .add(jLabel3)
-               .add(logicalTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+               .add(jLabel4))
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-               .add(jLabel4)
-               .add(functionalTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .add(15, 15, 15)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+               .add(jScrollPane3, 0, 0, Short.MAX_VALUE)
+               .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                .add(saveButton)
                .add(cancelButton))
-            .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap())
       );
    }// </editor-fold>//GEN-END:initComponents
 
@@ -170,25 +184,27 @@ public class EloSaveAsPanel extends javax.swing.JPanel
        eloSaveAsActionListener.eloSaveCancelled();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void logicalTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_logicalTypeComboBoxActionPerformed
-    {//GEN-HEADEREND:event_logicalTypeComboBoxActionPerformed
+    private void logicalTypeListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_logicalTypeListValueChanged
+    {//GEN-HEADEREND:event_logicalTypeListValueChanged
        setSaveButtonState();
-    }//GEN-LAST:event_logicalTypeComboBoxActionPerformed
+    }//GEN-LAST:event_logicalTypeListValueChanged
 
-    private void functionalTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_functionalTypeComboBoxActionPerformed
-    {//GEN-HEADEREND:event_functionalTypeComboBoxActionPerformed
+    private void functionalTypeListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_functionalTypeListValueChanged
+    {//GEN-HEADEREND:event_functionalTypeListValueChanged
        setSaveButtonState();
-    }//GEN-LAST:event_functionalTypeComboBoxActionPerformed
+    }//GEN-LAST:event_functionalTypeListValueChanged
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton cancelButton;
    private javax.swing.JTextArea descriptionField;
-   private javax.swing.JComboBox functionalTypeComboBox;
+   private javax.swing.JList functionalTypeList;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JScrollPane jScrollPane1;
-   private javax.swing.JComboBox logicalTypeComboBox;
+   private javax.swing.JScrollPane jScrollPane2;
+   private javax.swing.JScrollPane jScrollPane3;
+   private javax.swing.JList logicalTypeList;
    private javax.swing.JButton saveButton;
    private javax.swing.JTextField titleField;
    // End of variables declaration//GEN-END:variables
@@ -201,20 +217,16 @@ public class EloSaveAsPanel extends javax.swing.JPanel
    private void setSaveButtonState()
    {
       boolean titlePass = titleField.getText().trim().length() > 0;
-      boolean logicalTypePass = typePass(logicalTypeComboBox);
-      boolean functionalTypePass = typePass(functionalTypeComboBox);
+      boolean logicalTypePass = typePass(logicalTypeList);
+      boolean functionalTypePass = typePass(functionalTypeList);
       saveButton.setEnabled(titlePass && logicalTypePass && functionalTypePass);
    }
 
-   private boolean typePass(JComboBox comboBox)
+   private boolean typePass(JList list)
    {
-      if (comboBox.getItemCount() > 0)
+      if (list.getModel().getSize() > 0)
       {
-         if (comboBox.getItemCount() == 1)
-         {
-            return comboBox.getSelectedIndex() == 0;
-         }
-         return comboBox.getSelectedIndex() > 0;
+         return list.getSelectedIndex() >= 0;
       }
       return true;
    }
@@ -232,14 +244,14 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
    public void setFunctinalTypeDisplayNames(DisplayNames functinalTypeDisplayNames)
    {
-      functionalTypeComboBox.removeAllItems();
+      logicalTypeList.setListData(new String[0]);
       this.functinalTypeDisplayNames = functinalTypeDisplayNames;
       addAllTypes();
    }
 
    public void setLogicalTypeDisplayNames(DisplayNames logicalTypeDisplayNames)
    {
-      logicalTypeComboBox.removeAllItems();
+      functionalTypeList.setListData(new String[0]);
       this.logicalTypeDisplayNames = logicalTypeDisplayNames;
       addAllTypes();
    }
@@ -248,29 +260,32 @@ public class EloSaveAsPanel extends javax.swing.JPanel
    {
       if (!typesAdded && eloConfig != null && functinalTypeDisplayNames != null && logicalTypeDisplayNames != null)
       {
-         addTypes(logicalTypeComboBox, eloConfig.getLogicalTypeNames(), logicalTypeDisplayNames);
-         addTypes(functionalTypeComboBox, eloConfig.getFunctionalTypeNames(), functinalTypeDisplayNames);
+         addTypes(logicalTypeList, eloConfig.getLogicalTypeNames(), logicalTypeDisplayNames);
+         addTypes(functionalTypeList, eloConfig.getFunctionalTypeNames(), functinalTypeDisplayNames);
          typesAdded = true;
       }
    }
 
-   private void addTypes(JComboBox comboBox, List<String> types, DisplayNames displayNames)
+   private void addTypes(JList list, List<String> types, DisplayNames displayNames)
    {
-      comboBox.removeAllItems();
-      comboBox.addItem("");
+      Vector<String> typeDisplayNames = new Vector<String>();
       if (types != null)
       {
          for (String type : types)
          {
-            comboBox.addItem(displayNames.getDisplayName(type));
+            typeDisplayNames.add(displayNames.getDisplayName(type));
          }
-         comboBox.setEnabled(!types.isEmpty());
+         list.setEnabled(!types.isEmpty());
          if (types.size() == 1)
          {
-            comboBox.removeItemAt(0);
-            comboBox.setSelectedIndex(0);
+            list.setSelectedIndex(0);
          }
       }
+      else
+      {
+         list.setEnabled(false);
+      }
+      list.setListData(typeDisplayNames);
       setSaveButtonState();
    }
 
@@ -297,21 +312,31 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
    public void setLogicalType(String type)
    {
-      logicalTypeComboBox.setSelectedItem(type);
+      logicalTypeList.setSelectedValue(logicalTypeDisplayNames.getDisplayName(type), true);
    }
 
    public String getLogicalType()
    {
-      return (String) logicalTypeComboBox.getSelectedItem();
+      int selectedIndex = logicalTypeList.getSelectedIndex();
+      if (selectedIndex >= 0)
+      {
+         return eloConfig.getLogicalTypeNames().get(selectedIndex);
+      }
+      return null;
    }
 
    public void setFunctionalType(String type)
    {
-      functionalTypeComboBox.setSelectedItem(type);
+      functionalTypeList.setSelectedValue(functinalTypeDisplayNames.getDisplayName(type), true);
    }
 
    public String getFunctionalType()
    {
-      return (String) functionalTypeComboBox.getSelectedItem();
+      int selectedIndex = functionalTypeList.getSelectedIndex();
+      if (selectedIndex >= 0)
+      {
+         return eloConfig.getFunctionalTypeNames().get(selectedIndex);
+      }
+      return null;
    }
 }
