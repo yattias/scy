@@ -8,6 +8,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.presence.IPresenceEvent;
 
 public class BuddyListRenderer extends JLabel implements ListCellRenderer {
 
@@ -24,15 +25,17 @@ public class BuddyListRenderer extends JLabel implements ListCellRenderer {
 		
 		IAwarenessUser user = (IAwarenessUser) value;
 		
-		if( user.getPresence().equals("available")) {
-			this.setIcon(availIcon);
-		} else {
-			this.setIcon(awayIcon);
-		}
-		
+
 		if( user.getPresence() != null) {
+			if( user.getPresence().equals(IPresenceEvent.AVAILABLE)) {
+				this.setIcon(availIcon);
+			} else {
+				this.setIcon(awayIcon);
+			}
+			
 			this.setToolTipText(user.getPresence());
 		} else {
+			this.setIcon(awayIcon);
 			this.setToolTipText("status not available");
 		}
 		this.setText(user.getNickName());
