@@ -15,6 +15,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.input.KeyEvent;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 
 /**
  * @author sikken
@@ -26,6 +27,8 @@ public class ModalDialogBox extends CustomNode {
    public var content:Node;
    public var targetScene:Scene;
    public var title:String;
+   public var eloIcon : EloIcon;
+   public var color:Color;
 
    var dialogWindow:ScyWindow;
 
@@ -38,6 +41,8 @@ public class ModalDialogBox extends CustomNode {
       dialogWindow = StandardScyWindow{
          scyContent:content;
          title:title
+         eloIcon:eloIcon;
+         color:color
 //         layoutX:scene.width-content.layoutBounds.width/2
 //         layoutY:scene.height-content.layoutBounds.height/2
          closedAction:function(window:ScyWindow){

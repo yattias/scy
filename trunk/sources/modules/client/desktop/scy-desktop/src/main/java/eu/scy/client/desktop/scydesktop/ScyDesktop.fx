@@ -344,6 +344,7 @@ public class ScyDesktop extends CustomNode {
          window:window;
          myEloChanged:myEloChanged;
          newTitleGenerator:newTitleGenerator
+         windowStyler:windowStyler
       };
 
       window.scyToolsList.setEloSaver(optionPaneEloSaver);

@@ -27,6 +27,9 @@ import javafx.ext.swing.SwingComponent;
 
 import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 
 /**
  * @author sikken
@@ -74,6 +77,7 @@ public class ScyDesktopEloSaver extends EloSaver {
    public var technicalFormatKey: IMetadataKey;
    public var window:ScyWindow;
    public var config:Config;
+   public var windowStyler:WindowStyler;
 
    def logicalTypeDisplayNames = config.getLogicalTypeDisplayNames();
    def functionalTypeDisplayNames = config.getFunctionalTypeDisplayNames();
@@ -94,64 +98,6 @@ public class ScyDesktopEloSaver extends EloSaver {
          suggestedEloTitle = "Fork of {suggestedEloTitle}";
       }
       showEloSaveAsPanel(elo,suggestedEloTitle,eloSaverCallBack);
-
-//      var eloSaveAsPanel = new EloSaveAsPanel();
-//      eloSaveAsPanel.setEloConfig(config.getEloConfig(window.eloType));
-//      eloSaveAsPanel.setLogicalTypeDisplayNames(logicalTypeDisplayNames);
-//      eloSaveAsPanel.setFunctinalTypeDisplayNames(functionalTypeDisplayNames);
-//
-//      eloSaveAsPanel.setTitle(suggestedEloTitle);
-//      if (elo.getMetadata().metadataKeyExists(descriptionKey)){
-//         eloSaveAsPanel.setDescription(elo.getMetadata().getMetadataValueContainer(descriptionKey).getValue() as String);
-//      }
-//      if (elo.getMetadata().metadataKeyExists(logicalTypeKey)){
-//         eloSaveAsPanel.setLogicalType(elo.getMetadata().getMetadataValueContainer(logicalTypeKey).getValue() as String);
-//      }
-//      if (elo.getMetadata().metadataKeyExists(functionalTypeKey)){
-//         eloSaveAsPanel.setFunctionalType(elo.getMetadata().getMetadataValueContainer(functionalTypeKey).getValue() as String);
-//      }
-//      var modalDialogBox = ModalDialogBox{
-//         content: Group{
-//               content: SwingComponent.wrap(eloSaveAsPanel);
-//            }
-//         targetScene:window.scene
-//         title:"Enter ELO specification"
-//      }
-//      eloSaveAsPanel.setEloSaveAsActionListener(EloSaveAsActionHandler{
-//            elo:elo;
-//            eloSaveAsPanel:eloSaveAsPanel
-//            myEloChanged:myEloChanged
-//            modalDialogBox:modalDialogBox
-//            eloSaverCallBack:eloSaverCallBack
-//         });
-
-
-//      var eloConfig = config.getEloConfig(window.eloType);
-//      var eloSaveAs = EloSaveAs{};
-//      eloSaveAs.logicalTypesListView.items = getTypeDisplayNameList(eloConfig.getLogicalTypeNames(),logicalTypeDisplayNames);
-//      eloSaveAs.functionalTypesListView.items = getTypeDisplayNameList(eloConfig.getFunctionalTypeNames(),functionalTypeDisplayNames);
-//      //var modalDialogBox = ModalDialogBox.placeInModalDialogBox(eloSaveAs.getDesignRootNodes(),window.scene);
-//      var modalDialogBox = ModalDialogBox{
-//         content: Group{
-//               content: eloSaveAs.getDesignRootNodes()
-//            }
-//         targetScene:window.scene
-//         title:"Enter ELO specification"
-//      }
-
-//      var newEloTitle = JOptionPane.showInputDialog("Enter title:", suggestedEloTitle);
-//      if (StringUtils.hasText(newEloTitle)){
-//         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(newEloTitle);
-//         if (elo.getUri() != null)
-//         {
-//            eloFactory.detachELO(elo);
-//         }
-//         var newMetadata = repository.addNewELO(elo);
-//         eloFactory.updateELOWithResult(elo, newMetadata);
-//         myEloChanged.myEloChanged(elo);
-//         return elo;
-//      }
-//      return null;
    }
 
    function showEloSaveAsPanel(elo:IELO, suggestedEloTitle:String, eloSaverCallBack: EloSaverCallBack):Void{
@@ -170,12 +116,26 @@ public class ScyDesktopEloSaver extends EloSaver {
       if (elo.getMetadata().metadataKeyExists(functionalTypeKey)){
          eloSaveAsPanel.setFunctionalType(elo.getMetadata().getMetadataValueContainer(functionalTypeKey).getValue() as String);
       }
+      var eloIcon:EloIcon;
+      var color:Color;
+      if (window.eloUri!=null){
+         eloIcon = windowStyler.getScyEloIcon(window.eloUri);
+         color = windowStyler.getScyColor(window.eloUri);
+      }
+      else{
+         eloIcon = windowStyler.getScyEloIcon(window.eloType);
+         color = windowStyler.getScyColor(window.eloType);
+      }
+
+
       var modalDialogBox = ModalDialogBox{
          content: Group{
                content: SwingComponent.wrap(eloSaveAsPanel);
             }
          targetScene:window.scene
          title:"Enter ELO specification"
+         eloIcon:eloIcon
+         color:color
       }
       eloSaveAsPanel.setEloSaveAsActionListener(EloSaveAsActionHandler{
             elo:elo;
