@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -42,21 +41,9 @@ public class LoginDialog extends CustomNode {
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
 
-//   def loginColor = Color.web("#0ea7bf");
    init {
       FX.deferAction(function () {
          MouseBlocker.initMouseBlocker(scene.stage);
-//         FX.deferAction(function(){
-//            if (initializer.autoLogin){
-//               if (loginNode.loginEnabled){
-//                  loginNode.login();
-//               }
-//               else{
-//                  println("autoLogin, but login is not enabled");
-//               }
-//            }
-//         });
-
       });
    }
 
@@ -75,8 +62,6 @@ public class LoginDialog extends CustomNode {
          }
          color: loginColor
          drawerColor: loginColor;
-//         height: loginHeight;
-//         width: loginWidth;
          scyContent: loginNode
          allowClose: false;
          allowResize: false;

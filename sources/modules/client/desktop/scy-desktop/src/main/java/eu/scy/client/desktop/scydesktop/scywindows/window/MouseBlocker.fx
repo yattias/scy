@@ -13,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.lang.IllegalStateException;
 import javafx.scene.input.MouseEvent;
+import java.lang.IllegalArgumentException;
 
 /**
  * @author sikkenj
@@ -51,8 +52,11 @@ var mouseBlockNode:Rectangle = Rectangle {
 var mouseBlockingActive = false;
 
 public function initMouseBlocker(stage:Stage):Void{
+   if (stage==null){
+      throw new IllegalArgumentException("stage may not be null");
+   }
+
    theStage = stage;
-//   println("");
 }
 
 public function startMouseBlocking(){
