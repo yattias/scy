@@ -92,11 +92,10 @@ public class DummyDataGenerator implements InitializingBean {
         LearningActivitySpace construction= createLAS("Construction", 400, 200);
         LearningActivitySpace reporting= createLAS("Reporting", 400, 200);
 
-
         Tool scyMapper = getToolService().findToolByName("SCYMapper");
-        if(scyMapper != null) {
-            getLasService().addToolToLAS(scyMapper, orientation);
-        }
+        Tool scySim = getToolService().findToolByName("SCYSim");
+
+
 
 
         scenario.setLearningActivitySpace(orientation);
@@ -105,12 +104,14 @@ public class DummyDataGenerator implements InitializingBean {
         outputFromOrientationELO.setXPos(orientation.getXPos() + 200);
         outputFromOrientationELO.setYPos(orientation.getYPos());
         Activity identifyGoalStates = addActivity(orientation, "Identify goal states", outputFromOrientationELO);
-        outputFromOrientationELO.setInputTo(conceptualisation);
 
+        outputFromOrientationELO.setInputTo(conceptualisation);
+        getLasService().addToolToActivity(scyMapper, identifyGoalStates);
         AnchorELO outputFromConceptualisation = createAnchorELO("Output from Conceptualisation");
         outputFromConceptualisation.setXPos(conceptualisation.getXPos() - 200);
         outputFromConceptualisation.setYPos(conceptualisation.getYPos() + 100);
         Activity createSimulation =  addActivity(conceptualisation, "Create simulation", outputFromConceptualisation);
+        getLasService().addToolToActivity(scySim, createSimulation);
         outputFromConceptualisation.setInputTo(experiment);
 
         AnchorELO outputFromConceptualisation2 = createAnchorELO("Output from Conceptualisation 2");
@@ -217,6 +218,8 @@ public class DummyDataGenerator implements InitializingBean {
         scyPlanner.setName(toolName);
         scyPlanner.setDescription(toolDescription);
         configuration.setTool(scyPlanner);
+        configuration.setActivity(activity);
+        configuration.setLearningActivitySpace(activity.getLearningActivitySpace());
         activity.addLearningActivitySpaceToolConfiguration(configuration);
         return configuration;
     }

@@ -1,10 +1,7 @@
 package eu.scy.core;
 
 import eu.scy.core.model.ScyBase;
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 
 import java.util.List;
@@ -61,4 +58,5 @@ public class PedagogicalPlanPersistenceServiceImpl implements PedagogicalPlanPer
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlan(mission, scenario);
     }
+
 }

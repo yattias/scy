@@ -2,10 +2,7 @@ package eu.scy.core;
 
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.ScyBaseObject;
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 
 import java.util.List;
 
@@ -37,4 +34,5 @@ public interface PedagogicalPlanPersistenceService {
     public List<Mission> getCompatibleMissions(Scenario scenario);
 
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario);
+
 }
