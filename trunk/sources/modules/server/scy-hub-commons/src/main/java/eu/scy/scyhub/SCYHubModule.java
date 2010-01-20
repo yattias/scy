@@ -75,7 +75,7 @@ public abstract class SCYHubModule {
 	 * 
 	 * @param packet the {@link Packet} to be processed
 	 */
-	protected final void process(Packet packet) {
+	protected synchronized final void process(Packet packet) {
 		PacketExtension extension = packet.getExtension(transformer.getElementname(), transformer.getNamespace());
 		if(extension != null && extension instanceof WhacketExtension) {
 			process(packet, (WhacketExtension)extension);
