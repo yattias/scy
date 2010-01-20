@@ -58,7 +58,7 @@ public class ModalDialogBox extends CustomNode {
                        blocksMouse:true
                         x: 0, y: 0
                         width: bind scene.width, height: bind scene.height
-                        fill: Color.color(0.5, 0.5, 0.5, 0.5)
+                        fill: Color.color(1.0, 1.0, 1.0, 0.5)
                         onKeyPressed: function (e: KeyEvent): Void {
                         }
                         onKeyReleased: function (e: KeyEvent): Void {
