@@ -161,7 +161,7 @@ field(data, 9).		% the data itself (arbitrary)
 
 in_space(actions).			% scydynamics_actionlog
 out_space(command).			% scydynamics_actionlog
-host('localhost').		% localhost
+host('scy.collide.info').		% localhost
 port(2525).
 user('sqlspaces').
 
