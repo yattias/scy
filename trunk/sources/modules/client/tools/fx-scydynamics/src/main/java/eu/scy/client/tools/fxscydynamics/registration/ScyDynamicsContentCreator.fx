@@ -1,32 +1,27 @@
 package eu.scy.client.tools.fxscydynamics.registration;
 
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import java.net.URI;
-import java.util.Properties;
-import roolo.api.IRepository;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import java.util.Properties;
 
-public class ScyDynamicsContentCreator extends WindowContentCreatorFX {
+public class ScyDynamicsContentCreator extends ScyToolCreatorFX {
         
-   public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
+   //public var eloFactory:IELOFactory;
+   //public var metadataTypeManager: IMetadataTypeManager;
+   //public var repository:IRepository;
 
-   public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-      var scyDynamicsNode:ScyDynamicsNode = createScyDynamicsNode(scyWindow);
-      scyDynamicsNode.loadElo(eloUri);
-      return scyDynamicsNode;
-   }
+    override public function createScyToolNode (type:String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
+        var props:Properties = new Properties();
+        props.put("show.filetoolbar", "false");
+        ScyDynamicsNode{
+           modelEditor: new ModelEditor(props);
+           scyWindow:scyWindow
+        }
+    }
 
-   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
-      return createScyDynamicsNode(scyWindow);
-   }
-
-   function createScyDynamicsNode(scyWindow:ScyWindow):ScyDynamicsNode{
+   /*function createScyDynamicsNode(scyWindow:ScyWindow):ScyDynamicsNode{
       setWindowProperties(scyWindow);
       var props:Properties = new Properties();
       props.put("show.filetoolbar", "false");
@@ -46,5 +41,15 @@ public class ScyDynamicsContentCreator extends WindowContentCreatorFX {
       scyWindow.minimumWidth = 320;
       scyWindow.minimumHeight = 100;
    }
+
+      public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
+      var scyDynamicsNode:ScyDynamicsNode = createScyDynamicsNode(scyWindow);
+      scyDynamicsNode.loadElo(eloUri);
+      return scyDynamicsNode;
+   }
+
+   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
+      return createScyDynamicsNode(scyWindow);
+   }*/
 
 }
