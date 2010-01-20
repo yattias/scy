@@ -10,7 +10,7 @@ import eu.scy.awareness.IAwarenessUser;
 
 public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 
-    protected String message;
+    private String message;
     protected IAwarenessUser user;
 
     public AwarenessEvent(Object source, IAwarenessUser user, String message){
@@ -19,13 +19,17 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
         this.message = message;
     }
     
-    public AwarenessEvent(Object source,String user) {
+    public AwarenessEvent(Object source,String message) {
     	super(source);
-		// TODO Auto-generated constructor stub
+    	this.setMessage(message);
 	}
 
 
-    @Override
+    public void setMessage(String message) {
+		this.message = message;
+	}
+
+	@Override
     public String getMessage() {
        return this.message;
     }
@@ -34,6 +38,11 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
     public IAwarenessUser getUser() {
         return this.user;
     }
+    
+    @Override
+	public void setUser(IAwarenessUser user) {
+		this.user = user;		
+	}
     
     @Override
     public String toString() {
@@ -48,6 +57,8 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 		this.user = user;
 		
 	}
+
+	
     
 
    

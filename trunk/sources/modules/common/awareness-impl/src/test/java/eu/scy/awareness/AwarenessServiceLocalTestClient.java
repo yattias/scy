@@ -53,7 +53,7 @@ public class AwarenessServiceLocalTestClient {
             awarenessService.setPresence(IAwarePresenceEvent.ONLINE);
             awarenessService.removeBuddy("mccain");
             
-            awarenessService.sendMessage("obama", "howdy!");
+            
             
             
         } catch (AwarenessServiceException e) {

@@ -93,7 +93,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     }
     
     @Override
-    public void sendMessage(String username, String message) throws AwarenessServiceException {
+    public void sendMessage(IAwarenessUser user, String message) throws AwarenessServiceException {
         //pretend to send message quick and dirty 
         
         //tell every one that a message was send
@@ -174,17 +174,6 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 		
 	}
 
-	
-
-
-
-	@Override
-	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	@Override
 	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) {
 		// TODO Auto-generated method stub
@@ -249,6 +238,13 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 
 	@Override
 	public XMPPConnection getConnection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IAwarenessUser> getMUCBuddies(String ELOUri)
+			throws AwarenessServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -31,7 +31,7 @@ public class AwarenessUser implements IAwarenessUser {
     
     @Override
     public String toString() {
-        return this.nickName + " [" + presence + "]";
+        return this.nickName + " [" + presence + "] jid: " + this.jid ;
     }
 
 	@Override
@@ -51,6 +51,9 @@ public class AwarenessUser implements IAwarenessUser {
 		this.jid = jid;
 		//create nick name
 		this.nickName = StringUtils.parseName(jid);
+		if( this.nickName == null ){
+			this.nickName = this.jid;
+		}
 	}
 	@Override
 	public void setNickName(String nickName) {
