@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
-import eu.scy.chat.controller.ChatController;
+import eu.scy.chat.controller.*;
 import java.util.logging.Logger;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
@@ -42,7 +42,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
     
     var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
     var eloUri = "z168fb1jo51y";
-    var chatController = new ChatController(awarenessService, eloUri);
+    var chatController = new MUCChatController(awarenessService, eloUri);
 
     logger.info("awarenessService exists: {awarenessService.isConnected()}");
     scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
