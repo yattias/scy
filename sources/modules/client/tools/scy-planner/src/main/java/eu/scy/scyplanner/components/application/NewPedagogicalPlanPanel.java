@@ -1,5 +1,6 @@
 package eu.scy.scyplanner.components.application;
 
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.titled.TitledList;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
@@ -23,8 +24,8 @@ public class NewPedagogicalPlanPanel extends JPanel {
     public NewPedagogicalPlanPanel() {
         super(new BorderLayout());
 
-        TitledList missionList = new TitledList("Available missions", createMissionListModel(), BorderFactory.createEmptyBorder(0, 0, SCYPlannerApplicationManager.getDefaultBorderSize(), 0));
-        TitledList scenarioList = new TitledList("Available scenarios", createScenarioListModel());
+        TitledList missionList = new TitledList(Strings.getString("Available missions"), createMissionListModel(), BorderFactory.createEmptyBorder(0, 0, SCYPlannerApplicationManager.getDefaultBorderSize(), 0));
+        TitledList scenarioList = new TitledList(Strings.getString("Available scenarios"), createScenarioListModel());
         add(createMissionScenarioPanel(missionList, scenarioList), BorderLayout.WEST);
 
         add(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorderForTitledPanel(new TitledPanel("Default pedagogical plan", new BorderLayout(), new DefaultPedagogicalPlanInformationPanel(missionList.getList(), scenarioList.getList()), BorderLayout.CENTER)));

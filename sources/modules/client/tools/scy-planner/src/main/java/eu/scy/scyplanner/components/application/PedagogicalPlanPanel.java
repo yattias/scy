@@ -7,6 +7,7 @@ import eu.scy.scymapper.impl.model.DefaultNode;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
@@ -50,7 +51,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
                     tabbedPane.addTab(model.toString(), new LASOverviewPanel((LearningActivitySpace) model));
                     tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
                 } else {
-                    JOptionPane.showMessageDialog(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame(), "Error, I do not know how to handle objects of type " + model.getClass().getName(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame(), Strings.getString("Error, I do not know how to handle objects of type ") + model.getClass().getName(), Strings.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 }
 
             }
@@ -59,7 +60,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         setLayout(new BorderLayout());
         add(tabbedPane, BorderLayout.CENTER);
 
-        selectedLabel = new JLabel("No node selected yet");
+        selectedLabel = new JLabel(Strings.getString("No node selected yet"));
         add(selectedLabel, BorderLayout.PAGE_END);
     }
 

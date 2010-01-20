@@ -7,6 +7,7 @@ import eu.scy.scymapper.impl.shapes.concepts.RoundRectangle;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.concepts.Star;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
@@ -38,7 +39,7 @@ public class SCYPlannerDemo extends JPanel {
 		// The view should be created before nodes are added to the model because it creates its node views when
 		// IDiagramListener.nodeAdded is invoked by the model
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
-        tabbedPane.addTab("Test", view);
+        tabbedPane.addTab(Strings.getString("Test"), view);
         view.addObserver(new Observer() {
             public void update(Observable observable, Object object) {
                 INodeModel model = (INodeModel) object;
@@ -61,7 +62,7 @@ public class SCYPlannerDemo extends JPanel {
         add(tabbedPane, BorderLayout.CENTER);
         //add(testButton, BorderLayout.PAGE_START);
 
-        selectedLabel = new JLabel("No node selected yet");
+        selectedLabel = new JLabel(Strings.getString("No node selected yet"));
         add(selectedLabel, BorderLayout.PAGE_END);
     }
 

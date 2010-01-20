@@ -2,6 +2,7 @@ package eu.scy.scyplanner.action.create;
 
 import eu.scy.scyplanner.action.AbstractSCYPlannerAction;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
+import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.application.NewPedagogicalPlanPanel;
 
 import javax.swing.*;
@@ -15,11 +16,11 @@ import java.awt.event.ActionEvent;
  */
 public class OpenCreateNewPedagogicalPlanAction extends AbstractSCYPlannerAction {
     public OpenCreateNewPedagogicalPlanAction() {
-        super("Create New Pedagogical Plan", null, "Select mission and scenario to compose a new default pedagogical plan to be fine-tuned by you");        
+        super(Strings.getString("Create New Pedagogical Plan"), null, Strings.getString("Select mission and scenario to compose a new default pedagogical plan to be fine-tuned by you"));
     }
 
     @Override
     protected void doActionPerformed(ActionEvent actionEvent) {
-        SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent("Pedagogical Plan", new NewPedagogicalPlanPanel());
+        SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent(Strings.getString("Pedagogical Plan"), new NewPedagogicalPlanPanel());
     }
 }

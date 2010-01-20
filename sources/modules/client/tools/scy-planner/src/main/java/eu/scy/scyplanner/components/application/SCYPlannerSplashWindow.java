@@ -2,6 +2,7 @@ package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 
+import eu.scy.scyplanner.application.Strings;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class SCYPlannerSplashWindow extends JWindow {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(SCYPlannerApplicationManager.getAlternativeBackgroundColor());
 
-        TitledLabel titledLabel = new TitledLabel("SCYPlanner", 70, true, true, Color.LIGHT_GRAY);
+        TitledLabel titledLabel = new TitledLabel(Strings.getString("SCYPlanner"), 70, true, true, Color.LIGHT_GRAY);
         add(BorderLayout.NORTH, titledLabel);
 
 

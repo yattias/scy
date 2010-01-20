@@ -3,6 +3,7 @@ package eu.scy.scyplanner.components.application;
 import eu.scy.scyplanner.action.demo.OpenSCYPlannerDemo;
 import eu.scy.scyplanner.application.SCYPlannerActionManager;
 
+import eu.scy.scyplanner.application.Strings;
 import javax.swing.*;
 
 /**
@@ -15,7 +16,7 @@ public class SCYPlannerMenu extends JMenuBar {
     public SCYPlannerMenu() {
         super();
 
-        JMenu menu = new JMenu("Menu");
+        JMenu menu = new JMenu(Strings.getString("Menu"));
         addItemToMenu(menu, SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_CREATE_NEW_PEDAGOGICAL_PLAN_PANEL_ACTION));
         addItemToMenu(menu, SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_SCY_PLANNER_DEMO_ACTION));
 
