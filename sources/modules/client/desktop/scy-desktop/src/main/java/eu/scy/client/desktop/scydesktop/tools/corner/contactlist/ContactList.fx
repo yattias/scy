@@ -20,15 +20,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import com.sun.javafx.scene.control.caspian.ScrollBarSkin;
+import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 /**
  * @author Sven
  */
 public class ContactList extends CustomNode {
 
-    public override
+    public-init var dragAndDropManager:DragAndDropManager;
+    public-init var awarenessService:IAwarenessService;
 
-     var clip =
+    public override var clip =
             Rectangle {
                 width: bind this.width
                 height: bind this.height
@@ -63,12 +67,25 @@ public class ContactList extends CustomNode {
                         onMousePressed: function (e: MouseEvent) {
                             contactFrame.expand();
                             unexpandOtherFrames(contactFrame);
+                            startDragging(e,contactFrame);
                         };
                     };
             insert contactFrame into contactFrames;
         }
         insert dummyContact into contactFrames;
     }
+
+    function startDragging(e:MouseEvent, dragObject:ContactFrame){
+        var dragNode = Group{
+	content:[
+                ContactFrame{
+                        contact: dragObject.contact
+                        }
+            ]
+        }
+        dragAndDropManager.startDrag(dragNode, dragObject,this,e);
+    }
+
 
     function unexpandOtherFrames(contactFrame: ContactFrame): Void {
         for (frame in contactFrames[node | not contactFrame.equals(node)]) {
@@ -122,6 +139,7 @@ public class ContactList extends CustomNode {
     override var onMouseWheelMoved = function (e: MouseEvent) {
                 scrollBar.adjustValue(e.wheelRotation);
             }
+
     override var onKeyPressed = function (e) {
                 if (e.code == KeyCode.VK_UP) {
                     scrollBar.adjustValue(-1);

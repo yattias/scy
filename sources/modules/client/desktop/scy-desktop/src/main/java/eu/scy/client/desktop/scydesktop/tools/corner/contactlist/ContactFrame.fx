@@ -41,7 +41,7 @@ public class ContactFrame extends CustomNode {
 
     public var contact: Contact;
     public def INITIAL_SIZE:WindowSize = WindowSize.SMALL;
-    var size: WindowSize = INITIAL_SIZE on replace {
+    public-read var size: WindowSize = INITIAL_SIZE on replace {
                 updateView();
             };
     public var borderSize = 4;
