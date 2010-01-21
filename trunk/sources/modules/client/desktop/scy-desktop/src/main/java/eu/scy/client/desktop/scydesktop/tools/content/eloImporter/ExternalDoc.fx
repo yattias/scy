@@ -18,6 +18,7 @@ import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import javax.swing.JFileChooser;
 import java.io.File;
+import java.awt.Component;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -32,6 +33,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Resizable;
 import javafx.scene.control.TextBox;
 import javafx.scene.control.CheckBox;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 
 /**
@@ -53,12 +56,15 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
     var eloImporterModel:EloImporterModel = new EloImporterModel();
     def fileChooser = new JFileChooser();
+    var lastUsedDirectory:File;
     var file:File;
     var fileName:String = "?";
     var filePath:String = "?";
-    var fileLastModified:String = "?";
+    var fileLastModified:Long;
+    var fileSize:Long;
     var syncState:String;
     var reloadPossible = false;
+    var autoReload = true;
     var fileContent = new FileContent();
 
     def nrOfColumns = 40;
@@ -110,7 +116,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                         }
                         TextBox {
                            layoutX:valueOffset
-                           text: bind fileLastModified
+                           text: bind if (file!=null) "{%tD fileLastModified}, {%tT fileLastModified}" else ""
                            columns: nrOfColumns
                            selectOnFocus: true
                            editable:false
@@ -146,14 +152,19 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                                  translateY:labelOffset-1
                                  text: "Auto reload"
                                  allowTriState: false
-                                 selected: false
+                                 selected: bind autoReload with inverse
                               }
                               Button {
                                  disable:bind file==null or not reloadPossible
                                  text: "Reload"
-                                 action: function() {
-
+                                 action: function():Void{
+                                    reloadFile();
                                  }
+
+                              }
+                              Button {
+                                 text: "Chack state"
+                                 action: updateSyncState
                               }
                            ]
                         }
@@ -165,9 +176,53 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       };
 
    var technicalFormatKey: IMetadataKey;
+   var titleKey: IMetadataKey;
+   
+   var autoSyncStateUpdateer = Timeline {
+         repeatCount: Timeline.INDEFINITE
+         keyFrames : [
+            KeyFrame {
+               time : 1s
+               canSkip : true
+               action:updateSyncState
+            }
+         ]
+      }
+
+   init{
+      autoSyncStateUpdateer.play();
+   }
+
+
+   function updateSyncState():Void{
+      reloadPossible = false;
+      if (file==null){
+         syncState = "no file uploaded"
+      }
+      else if (not file.exists()){
+         syncState = "file not found"
+      }
+      else if (file.lastModified()<fileLastModified){
+         syncState = "file older";
+         reloadPossible = true;
+      }
+      else if (file.lastModified()>fileLastModified){
+         syncState = "file newer";
+         reloadPossible = true;
+      }
+      else if (file.length()!=fileSize){
+         syncState = "file size changed";
+         reloadPossible = true;
+      }
+      else{
+         syncState = "equal";
+      }
+
+   }
 
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
    }
 
    public override function loadElo(uri:URI){
@@ -224,6 +279,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       };
    }
 
+
    function doLoadElo(eloUri:URI)
    {
       logger.info("Trying to load elo {eloUri}");
@@ -259,23 +315,57 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType);
       }
-      elo.getContent().setBytes(fileContent.getBytes());
+      if (file!=null){
+         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(fileName);
+         if (reloadPossible and autoReload){
+            reloadFile();
+         }
+         elo.getContent().setBytes(fileContent.getBytes());
+      }
       return elo;
    }
 
    function importFile():Void{
-      if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(null)) {
+      fileChooser.setCurrentDirectory(lastUsedDirectory);
+      if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getParentComponent())) {
          //getting the file from the fileChooser
-         file = fileChooser.getSelectedFile();
-         fileName = file.getName();
-         filePath = file.getParentFile().getAbsolutePath();
-         fileLastModified = "{%tc file.lastModified()}";
-         fileContent.setBytes(ImportUtils.getBytesFromFile(file));
+         lastUsedDirectory = fileChooser.getCurrentDirectory();
+         loadFile(fileChooser.getSelectedFile(),true);
       }
    }
 
+   function reloadFile():Void{
+      loadFile(file,true);
+   }
+
+
+   function loadFile(newFile: File, readBytes: Boolean){
+      logger.info("new file {newFile.getAbsolutePath()}");
+      file = newFile;
+      fileName = file.getName();
+      filePath = file.getParentFile().getAbsolutePath();
+      fileLastModified = file.lastModified();
+      fileSize = file.length();
+      if (readBytes){
+         fileContent.setBytes(ImportUtils.getBytesFromFile(file));
+      }
+      updateSyncState();
+   }
+
+
    function exportFile():Void{
-      
+      fileChooser.setCurrentDirectory(lastUsedDirectory);
+      if (JFileChooser.APPROVE_OPTION == fileChooser.showSaveDialog(getParentComponent())) {
+         //getting the file from the fileChooser
+         lastUsedDirectory = fileChooser.getCurrentDirectory();
+         var newFile = fileChooser.getSelectedFile();
+         ImportUtils.saveBytesToFile(fileContent.getBytes(), newFile);
+         loadFile(newFile,false);
+      }
+   }
+
+   function getParentComponent():Component{
+      return null;
    }
 
 
