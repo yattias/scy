@@ -21,7 +21,6 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
 
-    private static final String ACTION = "action";
 
     private TupleSpace commandSpace;
 
@@ -50,7 +49,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
     private static final double MAX_EXP_TIME = 1 * 60 * 60 * 1000;
 
 
-    protected ScySimBehaviourClassifier(Map<String, Object> map) {
+    public ScySimBehaviourClassifier(Map<String, Object> map) {
         super("eu.scy.agents.serviceprovider.userexperience.ScySimBehaviourClassifier", (String) map.get("id"), "scy.collide.info", 2525);
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
@@ -91,7 +90,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
 
     @Override
     protected Tuple getIdentifyTuple(String queryId) {
-        // TODO This agent is just a sensor and therefore it don't need to identify....
+        //  This agent is just a sensor and therefore it don't need to identify....
         return null;
     }
 
