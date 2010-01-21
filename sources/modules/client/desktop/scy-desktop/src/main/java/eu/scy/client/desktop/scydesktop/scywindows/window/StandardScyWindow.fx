@@ -25,13 +25,17 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+
+import java.lang.System;
+import eu.scy.client.desktop.scydesktop.edges.Edge;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
+import java.lang.Void;
 
 /**
  * @author sikkenj
@@ -178,6 +182,7 @@ public class StandardScyWindow extends ScyWindow {
 
    public var missionModelFX:MissionModelFX;
 
+   public-read var edges:Edge[];
    var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
  
    postinit {
@@ -190,6 +195,33 @@ public class StandardScyWindow extends ScyWindow {
       setLeftDrawer();
       this.cache =true;
    }
+
+
+    public override function addEdge(edge:Edge):Void {
+         //System.out.println("adding edge {edge}");
+        insert edge into edges;
+    }
+
+    public override function removeEdge(edge:Edge):Void {
+            //System.out.println("removing edge {edge}");
+        delete edge from edges;
+    }
+
+    public override function repaintEdges():Void {
+            //System.out.println("trying to repaint..");
+        for(edge:Edge in edges) {
+            //System.out.println("painting {edge}");
+            edge.paintEdge();
+        }
+    }
+
+    function deleteEdges() {
+         //System.out.println("deleting all edges.");
+        for(edge:Edge in edges) {
+            edge.deleteMe();
+        }
+
+    }
 
    function scyContentChanged(){
       if (scyContent instanceof Resizable){
@@ -436,6 +468,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
 	function doDrag(e: MouseEvent) {
+        repaintEdges();
       printMousePos("drag",e);
       if (isInvalidMousePos(e))
 		return;
@@ -450,6 +483,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
 	function doResize(e: MouseEvent) {
+                repaintEdges();
       printMousePos("resize",e);
       if (isInvalidMousePos(e))
 		return;

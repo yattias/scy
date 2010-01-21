@@ -105,6 +105,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyDesktopEloSaver
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
+import javafx.scene.layout.HBox;
+import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 
 /**
  * @author sikkenj
@@ -313,6 +315,8 @@ public class ScyDesktop extends CustomNode {
 
     }
 
+    var edgesManager:EdgesManager = EdgesManager { }
+  
    public override function create(): Node {
       logger.info("create");
       checkProperties();
@@ -325,12 +329,26 @@ public class ScyDesktop extends CustomNode {
 //                fill:Color.BLACK
 //            },
             backgroundImageView,
+            edgesManager,
             windows.scyWindows,
             topLeftCorner,
             topRightCorner,
             bottomRightCorner,
             bottomLeftCorner,
-            Rectangle{fill:Color.BLACK,x:100,y:100, width:boundsInLocal.width, height:boundsInLocal.height}
+            Rectangle{fill:Color.BLACK,x:100,y:100, width:boundsInLocal.width, height:boundsInLocal.height},
+           /*
+           HBox {
+                content: [
+                        Button {
+                            text: "add an edge ";
+                            action: function() {
+                                edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
+                            }
+                         }
+                ]
+                translateX: 210;
+            }
+            */
          ]
       }
    }

@@ -18,6 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import javafx.scene.CustomNode;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
+import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 
 /**
@@ -90,6 +91,11 @@ public abstract class ScyWindow extends CustomNode {
 
    public abstract function addChangesListener(wcl:WindowChangesListener):Void;
    public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
+
+
+    public abstract function addEdge(edge:Edge):Void;
+    public abstract function removeEdge(edge:Edge):Void;
+    public abstract function repaintEdges():Void;
 
    public abstract function canAcceptDrop(object:Object):Boolean;
    public abstract function acceptDrop(object:Object):Void;
