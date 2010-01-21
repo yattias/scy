@@ -82,10 +82,10 @@ public class WhacketExtension extends PacketExtension {
 		}
 	}
 	
-	public synchronized Object getPojo() {
+	public Object getPojo() {
 		pathCounter = new HashMap<String, Integer>();
 		String namespace = element.getNamespace().getText();
-		SCYPacketTransformer transformer = transformers.get(namespace);
+		SCYPacketTransformer transformer = transformers.get(namespace).newInstance();
 		transformer.resetParser();
 		
 		// detach nested element from root extension element x
