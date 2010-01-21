@@ -174,4 +174,19 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 		pojo = (SyncAction) object;
 	}
 
+	@Override
+	public void endNode(String path) {
+		// ignore
+	}
+
+	@Override
+	public void startNode(String path) {
+		// ignore
+	}
+
+	@Override
+	public SCYPacketTransformer newInstance() {
+		return new SyncActionPacketTransformer();
+	}
+
 }
