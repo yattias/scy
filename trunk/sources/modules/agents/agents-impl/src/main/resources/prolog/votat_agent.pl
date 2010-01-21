@@ -79,7 +79,7 @@ vc_timeout_min(1).
 % Calculate from last
 change_variables_evaluation_last(Learner, Tool, Session, VarName, Time, Votat) :-
 	assert(var_change(Learner,Tool, Session, Time, VarName)),
-	remove_old_changes(Time),
+	remove_old_changes,
 	findall(var_change(Learner, Tool, Session, TimeX, VarNameX), var_change(Learner, Tool, Session, TimeX, VarNameX), VCs),
 	findall(var_change(Learner, Tool, Session, TimeX, VarName), (member(var_change(Learner, Tool, Session, TimeX, VarName), VCs)), SameVCs),
 	length(VCs, VCsLength),
@@ -91,7 +91,7 @@ change_variables_evaluation_last(Learner, Tool, Session, VarName, Time, Votat) :
 % Calculate from average
 change_variables_evaluation(Learner, Tool, Session, VarName, Time, Votat) :-
 	assert(var_change(Learner,Tool, Session, Time, VarName)),
-	remove_old_changes(Time),
+	remove_old_changes,
 	findall(VarNameX, var_change(Learner, Tool, Session, _, VarNameX), VarNames),
 	most_often(_, VarNames, Count),
 	length(VarNames, VarNamesLength),
@@ -114,10 +114,10 @@ most_often(VarName, VarNames, MaxCount) :-
 	retractall(count(_, _)).
 
 
-remove_old_changes(Time) :-
+remove_old_changes :-
 	vc_timeout_min(Timeout),
 	get_time(CurrTime),
-	findall(DelVC, (DelVC = var_change(_, _, _, Time, _), Time < CurrTime - Timeout * 60 * 1000), DelVCs),
+	findall(var_change(L, T, S, Time, V), (var_change(L, T, S, Time, V), Time < CurrTime - Timeout * 60), DelVCs),
 	forall(member(DelVC, DelVCs), retract(DelVC)).
 
 change_variables_feedback(Learner, Tool, Session, Votat) :-
