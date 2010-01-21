@@ -83,9 +83,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {}, scyMapperId);
 
-   var simulationUriString: String = "http://www.scy-lab.eu/sqzx/HouseNew.sqzx";
-//var simulationUriString:String = "http://www.scy-lab.eu/sqzx/balance.sqzx";
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SimulatorContentCreator {simulationUriString: simulationUriString}, scySimulatorId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SimulatorContentCreator {}, scySimulatorId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
 
