@@ -12,9 +12,9 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.config.DisplayNames;
 import eu.scy.client.desktop.scydesktop.config.EloConfig;
+import eu.scy.client.desktop.scydesktop.utils.StringUtils;
 import java.util.List;
 import java.util.Vector;
-import javax.swing.JComboBox;
 import javax.swing.JList;
 
 /**
@@ -312,7 +312,9 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
    public void setLogicalType(String type)
    {
-      logicalTypeList.setSelectedValue(logicalTypeDisplayNames.getDisplayName(type), true);
+      if (logicalTypeDisplayNames!=null && StringUtils.hasText(type)){
+         logicalTypeList.setSelectedValue(logicalTypeDisplayNames.getDisplayName(type), true);
+      }
    }
 
    public String getLogicalType()
@@ -327,7 +329,9 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
    public void setFunctionalType(String type)
    {
-      functionalTypeList.setSelectedValue(functinalTypeDisplayNames.getDisplayName(type), true);
+      if (functinalTypeDisplayNames!=null && StringUtils.hasText(type)){
+         functionalTypeList.setSelectedValue(functinalTypeDisplayNames.getDisplayName(type), true);
+      }
    }
 
    public String getFunctionalType()
