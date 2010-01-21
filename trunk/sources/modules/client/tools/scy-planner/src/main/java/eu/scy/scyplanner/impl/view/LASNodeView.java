@@ -4,6 +4,7 @@ import eu.scy.scymapper.api.diagram.controller.INodeController;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalBorders;
 import java.awt.*;
@@ -14,22 +15,14 @@ import java.awt.*;
  */
 public class LASNodeView extends NodeViewComponent {
 	public LASNodeView(INodeController controller, INodeModel model) {
-		super(controller, model);
+		super(controller, model, true);
 		setOpaque(false);
-		setLayout(new BorderLayout(0,0));
+		setLayout(new BorderLayout());
+        setBorder(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorder());
 
 		JLabel labelComp = new JLabel(model.getLabel());
 		labelComp.setOpaque(false);
 
-		/*JScrollPane sp = new JScrollPane(labelComp);
-		sp.getViewport().setOpaque(false);
-		sp.setOpaque(false);
-
-		System.out.println("sp.getBorder() = " + sp.getBorder());
-
-		sp.setBorder(BorderFactory.createEmptyBorder());*/
-
-		getInsets().set(5, 5, 5, 5);
-		add(labelComp);
+		add(labelComp, BorderLayout.NORTH);
 	}
 }
