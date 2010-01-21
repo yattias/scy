@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.BaseObject;
 import eu.scy.core.model.pedagogicalplan.PlannedELO;
 
@@ -79,13 +80,16 @@ public interface StudentPlannedActivity extends BaseObject {
 	 * 
 	 * @param elo
 	 */
-	public void setAssoicatedELO(PlannedELO elo);
+	public void setAssoicatedELO(AnchorELO elo);
 	
 	/**
 	 * Gets the elo that is associated with this activity
 	 * 
 	 * @return
 	 */
-	public PlannedELO getAssoicatedELO();
-	
+	public AnchorELO getAssoicatedELO();
+
+    StudentPlanELO getStudentPlan();
+
+    void setStudentPlan(StudentPlanELO studentPlan);
 }

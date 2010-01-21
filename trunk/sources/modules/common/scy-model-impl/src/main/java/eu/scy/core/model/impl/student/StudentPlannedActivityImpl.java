@@ -4,105 +4,100 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
+import eu.scy.core.model.impl.pedagogicalplan.BaseObjectImpl;
+import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PlannedELO;
+import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
 
 /**
  * Implementation of the studentplannedactivity
- * 
- * @author anthonjp
  *
+ * @author anthonjp
  */
-public class StudentPlannedActivityImpl implements StudentPlannedActivity {
+@Entity
+@Table(name = "studentplannedactivity")
+public class StudentPlannedActivityImpl extends BaseObjectImpl implements StudentPlannedActivity {
 
-	private List<User> members = new ArrayList<User>();
-	private PlannedELO associatedELO;
-	private Date endDate;
-	private String note;
-	private Date startDate;
-	private String description;
-	private String name;
-	
-	
-	@Override
-	public void addMember(User member) {
-		members.add(member);
-	}
+    private List<User> members = new ArrayList<User>();
+    private AnchorELO associatedELO;
+    private Date endDate;
+    private String note;
+    private Date startDate;
+    private String description;
+    private String name;
+    private StudentPlanELO studentPlan;
 
-	@OneToOne(targetEntity = PlannedELO.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="associatedelo_primKey")
-    public PlannedELO getAssoicatedELO() {
-		return associatedELO;
-	}
 
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
+    @Override
+    public void addMember(User member) {
+        members.add(member);
+    }
 
-	@OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "members", fetch = FetchType.LAZY)
-	public List<User> getMembers() {
-		return members;
-	}
+    @OneToOne(targetEntity = AnchorELOImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "associatedelo_primKey")
+    public AnchorELO getAssoicatedELO() {
+        return associatedELO;
+    }
 
-	@Override
-	public String getNote() {
-		return note;
-	}
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
+    //OneToMany(targetEntity = SCYUserImpl.class, fetch = FetchType.LAZY)
 
-	@Override
-	public void setAssoicatedELO(PlannedELO elo) {
-		this.associatedELO = elo;
-	}
+    @Transient
+    public List<User> getMembers() {
+        return members;
+    }
 
-	@Override
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    @Override
+    public String getNote() {
+        return note;
+    }
 
-	@Override
-	public void setNote(String note) {
-		this.note = note;
-	}
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	@Override
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    @Override
+    public void setAssoicatedELO(AnchorELO elo) {
+        this.associatedELO = elo;
+    }
 
-	@Override
-	public String getDescription() {
-		return description;
-	}
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public void setNote(String note) {
+        this.note = note;
+    }
 
-	@Override
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Override
+    @ManyToOne(targetEntity = StudentPlanELOImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "studentplanelo_primKey")
+    public StudentPlanELO getStudentPlan() {
+        return studentPlan;
+    }
 
+    @Override
+    public void setStudentPlan(StudentPlanELO studentPlan) {
+        this.studentPlan = studentPlan;
+    }
 }

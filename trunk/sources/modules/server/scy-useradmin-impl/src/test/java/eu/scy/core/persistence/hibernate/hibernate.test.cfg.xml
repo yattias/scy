@@ -22,6 +22,7 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanTemplateImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl"/>
         <mapping class="eu.scy.core.model.impl.student.StudentPlanELOImpl"/>
+        <mapping class="eu.scy.core.model.impl.student.StudentPlannedActivityImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentStrategyImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.PeerToPeerAssessmentStrategyImpl"/>

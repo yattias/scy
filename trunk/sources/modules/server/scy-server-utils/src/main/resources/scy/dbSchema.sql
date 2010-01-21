@@ -152,10 +152,31 @@ CREATE TABLE `studentplanelo` (
 	`name` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
-    `user_primKey` varchar(55) NOT NULL default '',
+    `user_primKey` bigint(20) NULL,
+    `pedagogicalPlan_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
 	KEY `studentplaneloToUser` (`user_primKey`),
-	CONSTRAINT `studentplaneloToUserConst` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`)
+	KEY `studentplaneloToPedPlanr` (`pedagogicalPlan_primKey`),
+	CONSTRAINT `studentplaneloToPedPlanConst` FOREIGN KEY (`pedagogicalPlan_primKey`) REFERENCES `pedagogicalplan` (`primKey`)
+
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `studentplannedactivity`;
+CREATE TABLE `studentplannedactivity` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+	`note` text,
+	`startDate` datetime default NULL,
+	`endDate` datetime default NULL,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `associatedelo_primKey` varchar(55) default NULL,
+    `studentplanelo_primKey` varchar(55) default NULL,
+	PRIMARY KEY  (`primKey`),
+	KEY `plannedactivitytoelo` (`associatedelo_primKey`),
+	KEY `plannedactivitytoplan` (`studentplanelo_primKey`),
+	CONSTRAINT `plannedactivitytoeloconst` FOREIGN KEY (`associatedelo_primKey`) REFERENCES `anchorelo` (`primKey`),
+	CONSTRAINT `plannedactivitytoplanconst` FOREIGN KEY (`studentplanelo_primKey`) REFERENCES `studentplanelo` (`primKey`)
 
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -2,11 +2,10 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.student.StudentPlanELOImpl;
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.impl.student.StudentPlannedActivityImpl;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.StudentPedagogicalPlanPersistenceDAO;
 
 import java.util.Collections;
@@ -25,34 +24,57 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
      * @param student
      * @param pedagogicalPlan
      */
-    public StudentPlanELO assignStudentPlanToStudent(User student, PedagogicalPlan pedagogicalPlan) {
-        StudentPlanELO studentPlan = createStudentPlan(pedagogicalPlan,student );
+    public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User student) {
+        assert(pedagogicalPlan != null);
+        assert(student != null);
+        save(student);
+        StudentPlanELO plan = new StudentPlanELOImpl();
+        plan.setPedagogicalPlan(pedagogicalPlan);
+        plan.setUser(student);
+        save(plan);
+
+        plan = assignStudentPlanToStudent(plan ,pedagogicalPlan);
+        return plan;
+    }
+
+
+
+
+    private StudentPlanELO assignStudentPlanToStudent(StudentPlanELO studentPlan, PedagogicalPlan pedagogicalPlan) {
         List <Activity> activities = getActivities(pedagogicalPlan);
-        return null;
+        for (int i = 0; i < activities.size(); i++) {
+            Activity activity = activities.get(i);
+            StudentPlannedActivity plannedActivity = new StudentPlannedActivityImpl();
+            //plannedActivity = (StudentPlannedActivity) save(plannedActivity);
+            plannedActivity.setName(activity.getName());
+            plannedActivity.setDescription(activity.getDescription());
+            //AnchorELO anchorElo = activity.getAnchorELO();
+            //anchorElo = (AnchorELO) getHibernateTemplate().merge(anchorElo);
+            //plannedActivity.setStudentPlan(studentPlan);
+            //plannedActivity.setAssoicatedELO(activity.getAnchorELO());
+            studentPlan.addStudentPlannedActivity(plannedActivity);
+            getHibernateTemplate().saveOrUpdate(plannedActivity);
+            getHibernateTemplate().saveOrUpdate(studentPlan);
+        }
+
+        save(studentPlan);
+
+        return studentPlan;
     }
 
     private List<Activity> getActivities(PedagogicalPlan pedagogicalPlan) {
         List <LearningActivitySpace> lass = getLearningActivitySpaces(pedagogicalPlan);
-        return Collections.EMPTY_LIST;//getSession().createQuery("From ActivityImpl where learningActivitySpace = :las")
-                //.setEntity("las", learningActivitySpace)
+        return getSession().createQuery("from ActivityImpl as activity where activity.learningActivitySpace in (:lass)")
+                .setParameterList("lass", lass)
+                .list();
     }
 
     private List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
         Scenario scenario = pedagogicalPlan.getScenario();
-        LearningActivitySpace las = scenario.getLearningActivitySpace();
-        List Activities = las.getActivities();
-        return null;
+        return getSession().createQuery("from LearningActivitySpaceImpl as las where las.participatesIn = :scenario")
+                .setEntity("scenario", scenario)
+                .list();
         
-    }
-
-    public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) {
-        assert(pedagogicalPlan != null);
-        assert(user != null);
-        StudentPlanELOImpl plan = new StudentPlanELOImpl();
-        plan.setPedagogicalPlan(pedagogicalPlan);
-        plan.setUser(user);
-        save(plan);
-        return plan;
     }
 
     public List getStudentPlans(User user) {

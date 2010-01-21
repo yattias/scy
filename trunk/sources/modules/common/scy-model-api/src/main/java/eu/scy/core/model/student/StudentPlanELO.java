@@ -56,4 +56,6 @@ public interface StudentPlanELO extends PlannedELO {
 	 * @return
 	 */
 	public List<StudentPlannedActivity> getStudentPlannedActivities();
+
+    void setStudentPlannedActivities(List<StudentPlannedActivity> studentPlannedActivities);
 }

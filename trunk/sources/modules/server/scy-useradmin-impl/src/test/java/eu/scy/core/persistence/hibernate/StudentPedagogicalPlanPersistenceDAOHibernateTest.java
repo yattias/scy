@@ -2,9 +2,11 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.student.StudentPlanELOImpl;
+import eu.scy.core.model.impl.student.StudentPlannedActivityImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.UserDAO;
 import org.junit.Test;
 
@@ -14,7 +16,7 @@ import org.junit.Test;
  * Date: 12.jan.2010
  * Time: 12:06:45
  */
-public class StudentPedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogicalPlanRelatedTest{
+public class StudentPedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogicalPlanRelatedTest {
 
     private StudentPedagogicalPlanPersistenceDAOHibernate studentPedagogicalPlanPersistenceDAOHibernate;
 
@@ -47,8 +49,9 @@ public class StudentPedagogicalPlanPersistenceDAOHibernateTest extends AbstractP
 
         User student = getUserDAOHibernate().createUser("Hilly", "damageINC");
         assertNotNull(student);
+        assertNotNull(student.getId());
 
-        StudentPlanELOImpl studentPlan = (StudentPlanELOImpl) getStudentPedagogicalPlanPersistenceDAOHibernate().createStudentPlan(pedagogicalPlan, student );
+        StudentPlanELOImpl studentPlan = (StudentPlanELOImpl) getStudentPedagogicalPlanPersistenceDAOHibernate().createStudentPlan(pedagogicalPlan, student);
         assertNotNull(studentPlan);
         assertNotNull(studentPlan.getId());
         assertNotNull(studentPlan.getPedagogicalPlan());
@@ -63,8 +66,18 @@ public class StudentPedagogicalPlanPersistenceDAOHibernateTest extends AbstractP
         User student = getUserDAOHibernate().createUser("Hilly", "damageINC");
         assertNotNull(student);
 
-        StudentPlanELOImpl studentPlan = (StudentPlanELOImpl) getStudentPedagogicalPlanPersistenceDAOHibernate().createStudentPlan(pedagogicalPlan, student );
+        StudentPlanELOImpl studentPlan = (StudentPlanELOImpl) getStudentPedagogicalPlanPersistenceDAOHibernate().createStudentPlan(pedagogicalPlan, student);
         assertNotNull(studentPlan.getId());
+        assertNotNull(studentPlan.getStudentPlannedActivities());
+        assert(studentPlan.getStudentPlannedActivities().size() > 0);
+
+        assert(studentPlan.getPedagogicalPlan() != null);
+
+        for (int i = 0; i < studentPlan.getStudentPlannedActivities().size(); i++) {
+            StudentPlannedActivityImpl studentPlannedActivity = (StudentPlannedActivityImpl) studentPlan.getStudentPlannedActivities().get(i);
+            //assertNotNull(studentPlannedActivity.getAssoicatedELO());
+            assertNotNull(studentPlannedActivity.getId());
+        }
 
 
     }

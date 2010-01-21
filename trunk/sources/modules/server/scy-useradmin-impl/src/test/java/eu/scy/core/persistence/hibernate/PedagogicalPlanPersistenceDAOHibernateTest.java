@@ -64,7 +64,6 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogi
     @Test
     public void testGetPlansThatExtendsATemplate() {
         PedagogicalPlanTemplateImpl template = createPedagogicalPlanTemplate("A template with a bunch of plans");
-        assertNull(template.getId());
 
         PedagogicalPlanImpl plan1 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
         PedagogicalPlanImpl plan2 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
@@ -87,7 +86,6 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogi
     public void testGetPedagogicalPlanByName() {
         final String NAME = "PlanName";
         PedagogicalPlanTemplateImpl template = createPedagogicalPlanTemplate(NAME);
-        assertNull(template.getId());
 
         PedagogicalPlanImpl plan1 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
         PedagogicalPlan loadedPlan = (PedagogicalPlan) pedagogicalPlanPersistenceDAO.getPedagogicalPlanByName(NAME);
@@ -102,7 +100,6 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogi
         String plan1Name = "A freakin overridden name!";
 
         PedagogicalPlanTemplateImpl template = createPedagogicalPlanTemplate("A template with a bunch of plans");
-        assertNull(template.getId());
 
         PedagogicalPlanImpl plan1 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
         PedagogicalPlanImpl plan2 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
