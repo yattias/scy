@@ -255,7 +255,10 @@ public class ScyDesktop extends CustomNode {
       def contactContent = [contact1, contact2];
       
       //The frontend to thecontact list
-      def contactList:ContactList = ContactList {contacts: contactContent};
+      def contactList:ContactList = ContactList {
+              contacts: contactContent,
+              dragAndDropManager:dragAndDropManager
+              };
 
       missionMap = MissionMap{
          missionModel: missionModelFX
