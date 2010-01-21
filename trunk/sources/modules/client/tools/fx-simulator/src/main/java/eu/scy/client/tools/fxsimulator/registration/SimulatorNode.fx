@@ -44,21 +44,18 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     public var metadataTypeManager: IMetadataTypeManager;
     public var repository: IRepository;
     public var toolBrokerAPI: ToolBrokerAPI;
-
     public override var width on replace {
                 resizeContent()
             };
-
     public override var height on replace {
                 resizeContent()
             };
-            
     var wrappedSimquestPanel: SwingComponent;
     var technicalFormatKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
     var elo: IELO;
     var dataCollector: DataCollector;
-    var jdomStringConversion:JDomStringConversion = new JDomStringConversion();
+    var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
 
     public override function initialize(windowContent: Boolean): Void {
@@ -77,7 +74,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
-        }      
+        }
     }
 
     public override function loadElo(uri: URI) {
@@ -141,56 +138,60 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                 logger.info("setting simconfig {newElo}");
                 dataCollector.setSimConfig(simConfig);
             } else {
-                logger.info("datacollector = null, can't load ");
+                logger.info("datacollector == null, can't load ");
             }
-
             logger.info("elo loaded");
             elo = newElo;
         }
     }
 
     function loadSimulation(simulationUri: String) {
-                    var fileUri = new URI(simulationUri);
-                    // the flag "false" configures the SQV for memory usage (instead of disk usage)
-                    var simquestViewer = new SimQuestViewer(false);
-                    logger.info("trying to load simulation: {fileUri.toString()}");
-                    simquestViewer.setFile(fileUri);
-                    simquestViewer.createFrame(false);
-                    dataCollector = null;
-                    try {
-                        simquestViewer.run();
-                        simquestPanel.setLayout(new BorderLayout());
-                        // TODO: infering correct dimension rather than guessing
-                        simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450, 450));
-                        simquestPanel.removeAll();
-                        simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
-                        dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
-                        simquestPanel.add(dataCollector, BorderLayout.SOUTH);
-                    } catch (e: java.lang.Exception) {
+        logger.info("toolBrokerAPI: {toolBrokerAPI}");
+        logger.info("tbi.getRepository: {toolBrokerAPI.getRepository()}");
+        logger.info("repository: {repository}");
+        logger.info("tbi.getActionLogger: {toolBrokerAPI.getActionLogger()}");
+        var fileUri = new URI(simulationUri);
+        // the flag "false" configures the SQV for memory usage (instead of disk usage)
+        var simquestViewer = new SimQuestViewer(false);
+        logger.info("trying to load simulation: {fileUri.toString()}");
+        simquestViewer.setFile(fileUri);
+        simquestViewer.createFrame(false);
+        dataCollector = null;
+        try {
+            simquestViewer.run();
+            simquestPanel.setLayout(new BorderLayout());
+            // TODO: infering correct dimension rather than guessing
+            simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450, 450));
+            simquestPanel.removeAll();
+            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
+            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+        } catch (e: java
+            .lang.Exception) {
                         logger.info("SimQuestNode.createSimQuestNode(). exception caught: {e.getMessage()}");
-                        var info = new JTextArea(4, 42);
-                        info.append("Simulation could not be loaded.\n");
-                        info.append("Probably the simulation file was not found,\n");
-                        info.append("it was expected at:\n");
-                        info.append(fileUri.toString());
-                        simquestPanel.add(info);
-                    }
+            var info = new JTextArea(4, 42);
+            info.append("Simulation could not be loaded.\n");
+            info.append("Probably the simulation file was not found,\n");
+            info.append("it was expected at:\n");
+            info.append(fileUri.toString());
+            simquestPanel.add(info);
+        }
     }
 
     function doSaveSimconfig() {
-        eloSaver.eloUpdate(getSimconfig(),this);
+        eloSaver.eloUpdate(getSimconfig(), this);
     }
 
     function doSaveAsSimconfig() {
-        eloSaver.eloSaveAs(getSimconfig(),this);
+        eloSaver.eloSaveAs(getSimconfig(), this);
     }
 
     function doSaveDataset() {
-        eloSaver.eloUpdate(getDataset(),this);
+        eloSaver.eloUpdate(getDataset(), this);
     }
 
     function doSaveAsDataset() {
-        eloSaver.eloSaveAs(getDataset(),this);
+        eloSaver.eloSaveAs(getDataset(), this);
     }
 
     function getSimconfig(): IELO {
