@@ -28,23 +28,17 @@ import java.util.logging.SimpleFormatter;
 import javax.swing.Timer;
 
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.ActionXMLTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
+import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.supervisor.SupervisingAgent;
 
 public class ToolExperienceSensor extends AbstractThreadedAgent implements ActionListener {
-
-    // TODO gather that info from tbi?
-    private static final String ACTION_SPACE = "actionSpace";
-
-    private static final String SENSOR_SPACE = "sensorSpace";
 
     private static final String TOOL_ALIVE_SPACE = "toolAliveSpace";
 
@@ -52,7 +46,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private TupleSpace actionSpace;
 
-    private TupleSpace sensorSpace;
+    private TupleSpace commandSpace;
 
     private HashMap<String, UserToolExperienceModel> userModels;
 
@@ -60,7 +54,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private static final Level DEBUGLEVEL = Level.FINE;
 
-    private static final Logger logger = Logger.getLogger(SupervisingAgent.class.getName());
+    private static final Logger logger = Logger.getLogger(ToolExperienceSensor.class.getName());
 
     private Timer timer;
 
@@ -73,11 +67,11 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
     private TupleSpace toolAliveSpace;
 
     public ToolExperienceSensor(Map<String, Object> map) {
-        super("eu.scy.agents.serviceprovider.userexperience.ToolExperienceSensor", (String) map.get("id"), "localhost", 2525);
+        super("eu.scy.agents.serviceprovider.userexperience.ToolExperienceSensor", (String) map.get("id"), "scy.collide.info", 2525);
         try {
-            sensorSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, SENSOR_SPACE);
-            actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, ACTION_SPACE);
-            toolAliveSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, TOOL_ALIVE_SPACE);
+            commandSpace = new TupleSpace(new User(getName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
+            actionSpace = new TupleSpace(new User(getName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
+            toolAliveSpace = new TupleSpace(new User(getName()), host, port, false, false, TOOL_ALIVE_SPACE);
             init();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -109,7 +103,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private synchronized void rebuildFromSpace() throws TupleSpaceException, DocumentException, ParseException, IOException {
 
-        Tuple[] userExpTuples = sensorSpace.readAll(new Tuple("user_exp", Field.createWildCardField()));
+        Tuple[] userExpTuples = commandSpace.readAll(new Tuple("user_exp", Field.createWildCardField()));
         long lastActionTime = 0L;
         for (Tuple tuple : userExpTuples) {
             String userName = (String) tuple.getField(1).getValue();
@@ -129,7 +123,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             }
             UserToolExperienceModel model = userModels.get(userName);
             if (model == null) {
-                model = new UserToolExperienceModel(userName, sensorSpace, toolAliveSpace, starts, stops);
+                model = new UserToolExperienceModel(userName, commandSpace, toolAliveSpace, starts, stops);
                 userModels.put(userName, model);
             }
             model.setToolTime(tool, expTime);
@@ -165,9 +159,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
                 logger.log(Level.FINE, m.getUserName() + " has exp in Tool: " + string + " of " + m.getExperience(string));
             }
-
         }
-
     }
 
     private void startedInitialization() {
@@ -191,7 +183,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel userModel = userModels.get(a.getUser());
             if (userModel == null) {
-                userModel = new UserToolExperienceModel(a.getUser(), sensorSpace, toolAliveSpace, 1, 0);
+                userModel = new UserToolExperienceModel(a.getUser(), commandSpace, toolAliveSpace, 1, 0);
                 userModels.put(a.getUser(), userModel);
                 logger.log(Level.FINE, "new usermodel for " + a.getUser() + " created");
             } else {
@@ -213,7 +205,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             long focusTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser());
             if (exp == null) {
-                exp = new UserToolExperienceModel(a.getUser(), sensorSpace, toolAliveSpace, 1, 0);
+                exp = new UserToolExperienceModel(a.getUser(), commandSpace, toolAliveSpace, 1, 0);
                 userModels.put(a.getUser(), exp);
                 logger.log(Level.FINE, "new usermodel for " + a.getUser() + " created");
             } 
@@ -235,7 +227,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             sendAliveUpdate();
             Thread.sleep(5000);
         }
-
     }
 
     @Override
@@ -245,12 +236,13 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             try {
                 actionSpace.eventDeRegister(cbSeq);
                 actionSpace.disconnect();
-                sensorSpace.disconnect();
+                commandSpace.disconnect();
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
 
         }
+        isStopped=true;
 
     }
 
@@ -269,8 +261,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-            Element element;
-
             Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
             try {
                 processAction(a, false);
@@ -279,10 +269,8 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -292,7 +280,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             UserToolExperienceModel user = userModel.getValue();
             user.updateActiveToolExperience(UPDATE_INTERVAL, System.currentTimeMillis());
         }
-
     }
 
     private void initLogger() {
@@ -303,5 +290,4 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         logger.setLevel(DEBUGLEVEL);
         logger.addHandler(cH);
     }
-
 }
