@@ -63,28 +63,28 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 		} else if(path.equals(syncCommandPath + "/" + "message")) {
 			return pojo.getMessage();
 		} else if(path.startsWith(syncObjectPath)) {
-			Integer index = parseIndex(path);
-			if(index != null) {
-				String key = path.substring(path.indexOf("]") + 1);
-				if ("@id".equals(key)) {
-					return pojo.getSyncObjects().get(index).getID();
-				} else if ("@toolname".equals(key)) {
-					return pojo.getSyncObjects().get(index).getToolname();
-				} else if ("@creator".equals(key)) {
-					return pojo.getSyncObjects().get(index).getCreator();
-				} else if ("@lastmodificator".equals(key)) {
-					return pojo.getSyncObjects().get(index).getLastModificator();
-				} else if ("@creationtime".equals(key)) {
-					return Long.toString(pojo.getSyncObjects().get(index).getCreationTime());
-				} else if ("@lastmodificationtime".equals(key)) {
-					return Long.toString(pojo.getSyncObjects().get(index).getLastModificationTime());
-				} else if (key.startsWith("/properties")) {
-					key = key.substring(key.lastIndexOf("/") + 1);
-					if(key != null) {
-						return pojo.getSyncObjects().get(index).getProperty(key);
-					}
-				}
-			}
+//			Integer index = parseIndex(path);
+//			if(index != null) {
+//				String key = path.substring(path.indexOf("]") + 1);
+//				if ("@id".equals(key)) {
+//					return pojo.getSyncObjects().get(index).getID();
+//				} else if ("@toolname".equals(key)) {
+//					return pojo.getSyncObjects().get(index).getToolname();
+//				} else if ("@creator".equals(key)) {
+//					return pojo.getSyncObjects().get(index).getCreator();
+//				} else if ("@lastmodificator".equals(key)) {
+//					return pojo.getSyncObjects().get(index).getLastModificator();
+//				} else if ("@creationtime".equals(key)) {
+//					return Long.toString(pojo.getSyncObjects().get(index).getCreationTime());
+//				} else if ("@lastmodificationtime".equals(key)) {
+//					return Long.toString(pojo.getSyncObjects().get(index).getLastModificationTime());
+//				} else if (key.startsWith("/properties")) {
+//					key = key.substring(key.lastIndexOf("/") + 1);
+//					if(key != null) {
+//						return pojo.getSyncObjects().get(index).getProperty(key);
+//					}
+//				}
+//			}
 		}
 		return null;
 	}
