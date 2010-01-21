@@ -18,6 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 // place your code here
 
 public class ImageWindowStyler extends WindowStyler{
+   public-init var impagesPath = "{__DIR__}images/";
    public def drawingType = "scy/drawing";
    public def datasetType = "scy/dataset";
    public def simulationConfigType = "scy/simconfig";
@@ -42,27 +43,35 @@ public class ImageWindowStyler extends WindowStyler{
    public def scyMagenta = Color.web("#0ea7bf");
 
    def conceptMapImageSet = EloImageSet{
+      path:impagesPath;
       name:"con_map"
    }
    def drawingImageSet = EloImageSet{
+      path:impagesPath;
       name:"dr_tool"
    }
    def hypotheseImageSet = EloImageSet{
+      path:impagesPath;
       name:"hypoth"
    }
    def modelEditorImageSet = EloImageSet{
+      path:impagesPath;
       name:"mod_editor"
    }
    def simulatorImageSet = EloImageSet{
+      path:impagesPath;
       name:"sim"
    }
    def studentPlanningToolImageSet = EloImageSet{
+      path:impagesPath;
       name:"st_plan_tool"
    }
    def videoImageSet = EloImageSet{
+      path:impagesPath;
       name:"video"
    }
    def webBrowserImageSet = EloImageSet{
+      path:impagesPath;
       name:"web_br"
    }
 

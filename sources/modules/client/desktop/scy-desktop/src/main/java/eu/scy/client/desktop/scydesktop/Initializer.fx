@@ -50,6 +50,7 @@ public class Initializer {
    public-init var scyDesktopConfigFile: String;
    public-init var storeElosOnDisk = true;
    public-init var createPersonalMissionMap = true;
+   public-init var eloImagesPath = "{__DIR__}/imagewindowstyler/images/";;
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -74,6 +75,7 @@ public class Initializer {
    def scyDesktopConfigFileOption = "scyDesktopConfigFile";
    def storeElosOnDiskOption = "storeElosOnDisk";
    def createPersonalMissionMapOption = "createPersonalMissionMap";
+   def eloImagesPathOption = "eloImagesPath";
 
    init {
       parseApplicationParameters();
@@ -152,6 +154,9 @@ public class Initializer {
             } else if (option == createPersonalMissionMapOption.toLowerCase()) {
                createPersonalMissionMap = argumentsList.nextBooleanValue(createPersonalMissionMapOption);
                logger.info("app: {createPersonalMissionMapOption}: {createPersonalMissionMap}");
+            } else if (option == eloImagesPathOption.toLowerCase()) {
+               eloImagesPath = argumentsList.nextStringValue(eloImagesPathOption);
+               logger.info("app: {eloImagesPathOption}: {eloImagesPath}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -177,6 +182,7 @@ public class Initializer {
       scyDesktopConfigFile = getWebstartParameterStringValue(scyDesktopConfigFileOption, scyDesktopConfigFile);
       storeElosOnDisk = getWebstartParameterBooleanValue(storeElosOnDiskOption, storeElosOnDisk);
       createPersonalMissionMap = getWebstartParameterBooleanValue(createPersonalMissionMapOption, createPersonalMissionMap);
+      eloImagesPath = getWebstartParameterStringValue(eloImagesPathOption, eloImagesPath);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
