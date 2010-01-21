@@ -7,6 +7,7 @@
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 import javafx.scene.image.Image;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import javafx.scene.paint.Color;
 
 /**
  * @author sikken
@@ -20,6 +21,7 @@ public class EloImageSet {
    public-init var extension = ".png";
    public-init var activeName = "_act";
    public-init var inactiveName = "_inact";
+   public-init var color:Color;
    public-read var activeImage:Image;
    public-read var inactiveImage:Image;
 

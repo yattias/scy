@@ -28,8 +28,10 @@ var initializer = Initializer{
    loginType:"local"
    storeElosOnDisk:false
    createPersonalMissionMap:true
-           enableLocalLogging:false
-           redirectSystemStream:false
+   enableLocalLogging:false
+   redirectSystemStream:false
+//   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
+//   eloImagesPath:"file:eloImages/"
 }
 
 function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {

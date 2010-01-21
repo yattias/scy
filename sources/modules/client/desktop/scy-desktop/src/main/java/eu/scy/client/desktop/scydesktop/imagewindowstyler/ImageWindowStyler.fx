@@ -32,8 +32,9 @@ public class ImageWindowStyler extends WindowStyler{
    public def interviewType = "scy/interview";
    public def xprocType = "scy/xproc";
    public def hypotheseType = "scy/xproc";
-   public def modelEditorType = "scy/xproc";
+   public def modelEditorType = "scy/model";
    public def studentPlanningType = "scy/xproc";
+   public def presentationType = "scy/xproc";
 
    public def scyGreen = Color.web("#8db800");
    public def scyPurple = Color.web("#7243db");
@@ -45,39 +46,78 @@ public class ImageWindowStyler extends WindowStyler{
    def conceptMapImageSet = EloImageSet{
       path:impagesPath;
       name:"con_map"
+      color:scyBlue
+   }
+   def datasetImageSet = EloImageSet{
+      path:impagesPath;
+      name:"dataset"
+      color:scyGreen
+   }
+   def documentImageSet = EloImageSet{
+      path:impagesPath;
+      name:"doc"
+      color:scyPink
    }
    def drawingImageSet = EloImageSet{
       path:impagesPath;
-      name:"dr_tool"
+      name:"drawing"
+      color:scyBlue
+   }
+   def experimentalDesignImageSet = EloImageSet{
+      path:impagesPath;
+      name:"exp_design"
+      color:scyOrange
    }
    def hypotheseImageSet = EloImageSet{
       path:impagesPath;
       name:"hypoth"
+      color:scyOrange
+   }
+   def informationImageSet = EloImageSet{
+      path:impagesPath;
+      name:"info"
+      color:scyMagenta
+   }
+   def interviewImageSet = EloImageSet{
+      path:impagesPath;
+      name:"interview"
+      color:scyOrange
    }
    def modelEditorImageSet = EloImageSet{
       path:impagesPath;
       name:"mod_editor"
+      color:scyBlue
    }
    def simulatorImageSet = EloImageSet{
       path:impagesPath;
       name:"sim"
+      color:scyOrange
    }
    def studentPlanningToolImageSet = EloImageSet{
       path:impagesPath;
-      name:"st_plan_tool"
+      name:"pl_tool"
+      color:scyGreen
    }
-   def videoImageSet = EloImageSet{
+   def presentaionToolImageSet = EloImageSet{
       path:impagesPath;
-      name:"video"
+      name:"pres"
+      color:scyPink
    }
-   def webBrowserImageSet = EloImageSet{
-      path:impagesPath;
-      name:"web_br"
-   }
+//   def videoImageSet = EloImageSet{
+//      path:impagesPath;
+//      name:"video"
+//   }
+//   def webBrowserImageSet = EloImageSet{
+//      path:impagesPath;
+//      name:"web_br"
+//   }
 
    public override function getScyColor(type:String):Color{
       var scyColor = scyMagenta;
-      if (type == drawingType)
+      var eloImageSet:EloImageSet = getEloImageSet(type);
+      if (eloImageSet!=null)
+         scyColor = eloImageSet.color
+      else if (type == drawingType)
          scyColor = scyGreen
       else if (type == datasetType)
          scyColor = scyPurple
@@ -134,25 +174,7 @@ public class ImageWindowStyler extends WindowStyler{
    }
 
    public override function getScyEloIcon(type:String):EloIcon{
-      var eloImageSet:EloImageSet;
-      if (type == mappingType)
-         eloImageSet = conceptMapImageSet
-      else if (type == drawingType)
-         eloImageSet = drawingImageSet
-       else if (type == hypotheseType)
-         eloImageSet = hypotheseImageSet
-       else if (type == modelEditorType)
-         eloImageSet = modelEditorImageSet
-      else if (type == simulationConfigType)
-         eloImageSet = simulatorImageSet
-      else if (type == studentPlanningType)
-         eloImageSet = studentPlanningToolImageSet
-      else if (type == videoType)
-         eloImageSet = videoImageSet
-      else if (type == urlType)
-         eloImageSet = webBrowserImageSet;
-//      else if (type == textType)
-//         eloImageSet = webBrowserImageSet;
+      var eloImageSet:EloImageSet = getEloImageSet(type);
 
       if (eloImageSet!=null){
          ImageEloIcon{
@@ -167,4 +189,41 @@ public class ImageWindowStyler extends WindowStyler{
          };
       }
    }
+
+   function getEloImageSet(type:String):EloImageSet{
+      var eloImageSet:EloImageSet;
+      if (type == mappingType)
+         eloImageSet = conceptMapImageSet
+      else if (type == datasetType)
+         eloImageSet = datasetImageSet
+      else if (type == textType)
+         eloImageSet = documentImageSet
+      else if (type == drawingType)
+         eloImageSet = drawingImageSet
+      else if (type == xprocType)
+         eloImageSet = experimentalDesignImageSet
+      else if (type == hypotheseType)
+         eloImageSet = hypotheseImageSet
+      else if (type == urlType)
+         eloImageSet = informationImageSet
+      else if (type == videoType)
+         eloImageSet = informationImageSet
+      else if (type == imageType)
+         eloImageSet = informationImageSet
+      else if (type == meloType)
+         eloImageSet = informationImageSet
+      else if (type == interviewType)
+         eloImageSet = interviewImageSet
+      else if (type == modelEditorType)
+         eloImageSet = modelEditorImageSet
+      else if (type == simulationConfigType)
+         eloImageSet = simulatorImageSet
+      else if (type == studentPlanningType)
+         eloImageSet = studentPlanningToolImageSet
+      else if (type == presentationType)
+         eloImageSet = presentaionToolImageSet;
+
+      return eloImageSet;
+   }
+
 }
