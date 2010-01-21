@@ -23,36 +23,35 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+
    def logger = Logger.getLogger(this.getClass());
    def scyDynamicsType = "scy/model";
    def jdomStringConversion = new JDomStringConversion();
 
-   public-init var modelEditor:ModelEditor;
-   public-init var scyWindow:ScyWindow;
-   public var eloFactory:IELOFactory;
+   public-init var modelEditor: ModelEditor;
+   public-init var scyWindow: ScyWindow;
+   public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
+   public var repository: IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI;
+   public var actionLogger: IActionLogger;
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
    var wrappedModelEditor:SwingComponent;
    var technicalFormatKey: IMetadataKey;
-
    var elo:IELO;
-
    def spacing = 5.0;
-
-//   def cached = bind scyWindow.cache on replace {
-//         wrappedWhiteboardPanel.cache = cached;
-//         println("changed wrappedWhiteboardPanel.cache to {wrappedWhiteboardPanel.cache}");
-//      }
 
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), "dummy_user");
    }
 
    public override function loadElo(uri:URI){
@@ -60,10 +59,11 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
    }
 
    public override function create(): Node {
+      // note: the injected services are not yet available here
+      // e.g., use the initialize(..) method
       wrappedModelEditor = SwingComponent.wrap(modelEditor);
       return Group {
          blocksMouse:true;
-//         cache: bind scyWindow.cache
          content: [
             VBox{
                translateY:spacing;
@@ -101,7 +101,6 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
       if (newElo != null)
       {
          modelEditor.setNewModel();
-         //xmlModel:JxmModel = );
 	 modelEditor.setXmModel(JxmModel.readStringXML(newElo.getContent().getXmlString()));
          logger.info("elo loaded");
          elo = newElo;
@@ -156,7 +155,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 
 
    public override function getMinHeight() : Number{
-      return 60;
+      return 140;
    }
 
    public override function getMinWidth() : Number{
