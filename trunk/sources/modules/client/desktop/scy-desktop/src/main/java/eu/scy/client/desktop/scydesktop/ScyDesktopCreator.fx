@@ -75,6 +75,7 @@ public class ScyDesktopCreator {
       if (windowStyler == null) {
          windowStyler = ImageWindowStyler {
             eloInfoControl: eloInfoControl;
+            impagesPath:initializer.eloImagesPath
          };
       }
       var scyToolCreatorRegistryFXImpl = ScyToolCreatorRegistryFXImpl{
