@@ -6,7 +6,6 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
@@ -28,8 +26,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class UserToolExperienceModel {
-
-    private static final String USER_EXP_CHART = "user_exp_chart";
 
     private static final String USER_EXP = "user_exp";
 
@@ -57,7 +53,6 @@ public class UserToolExperienceModel {
 
     private static JFreeChart chart;
 
-    private Map<String, TupleID> charts;
 
     private Map<String, XYSeries> series;
 
@@ -77,7 +72,6 @@ public class UserToolExperienceModel {
         this.toolAliveSpace = toolAliveSpace;
         toolTimeMap = new HashMap<String, Long>();
         toolTIDMap = new HashMap<String, TupleID>();
-        charts = new HashMap<String, TupleID>();
         series = new HashMap<String, XYSeries>();
     }
 
@@ -86,7 +80,6 @@ public class UserToolExperienceModel {
     }
 
     public long getExperience(String tool) {
-        System.out.println("looking for tool "+tool);
         return toolTimeMap.get(tool);
     }
 
@@ -96,11 +89,9 @@ public class UserToolExperienceModel {
 
     public void setActiveTool(String tool, long startTime, boolean started) throws TupleSpaceException, IOException {
         lock.lock();
-        // requestAliveTuple();
         startCount = (started) ? startCount + 1 : startCount;
         activeTool = tool;
         this.startTime = startTime;
-        //updateChart(tool);
         lock.unlock();
     }
 
@@ -124,12 +115,13 @@ public class UserToolExperienceModel {
 
             }
             long newTime = oldTime + timeToAdd;
+            long timeOccured = endTime;
             logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] TimeToAdd: " + timeToAdd);
             toolTimeMap.put(tool, newTime);
             TupleID tupleID = toolTIDMap.get(tool);
             if (tupleID != null) {
                 try {
-                    toolTIDMap.put(tool,sensorSpace.write( new Tuple(USER_EXP, this.getUserName(), endTime, tool, newTime, startCount, stopCount)));
+                    toolTIDMap.put(tool,sensorSpace.write( new Tuple(USER_EXP, this.getUserName(), endTime, tool, newTime, startCount, stopCount,timeOccured)));
 //                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), endTime, tool, newTime, startCount, stopCount));
                 } catch (TupleSpaceException e) {
                     e.printStackTrace();
@@ -161,7 +153,7 @@ public class UserToolExperienceModel {
             TupleID tupleID = toolTIDMap.get(activeTool);
            // if (tupleID != null) {
                 try {
-                   toolTIDMap.put(activeTool,  sensorSpace.write( new Tuple(USER_EXP, this.getUserName(), updateTime, activeTool, newTime, startCount, stopCount)));
+                   toolTIDMap.put(activeTool,  sensorSpace.write( new Tuple(USER_EXP, this.getUserName(), updateTime, activeTool, newTime, startCount, stopCount, System.currentTimeMillis())));
 //                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), updateTime, activeTool, newTime, startCount, stopCount));
                 updateChart(activeTool);
                 } catch (TupleSpaceException e) {
@@ -291,8 +283,6 @@ public class UserToolExperienceModel {
         }
         if (chart == null) {
             dataset = createDataset();
-            JFreeChart chart = createChart(dataset);
-            this.chart = chart;
         }
         if (!series.containsKey(getUserName() + "/" + tool)) {
             createSeries(tool);
@@ -300,24 +290,5 @@ public class UserToolExperienceModel {
         XYSeries s = series.get(getUserName() + "/" + tool);
         s.add( getExperience(tool),System.currentTimeMillis()-ustemStartTime);
         System.out.println("added");
-        getChart(sensorSpace, tool);
-
     }
-
-    public void getChart(TupleSpace sensorSpace, String tool) throws IOException, TupleSpaceException {
-        BufferedImage image = null;
-        if (this.chart != null) {
-            image = chart.createBufferedImage(800, 600);
-            byte[] encodeAsPNG = ChartUtilities.encodeAsPNG(image);
-            Tuple t = new Tuple(USER_EXP_CHART, encodeAsPNG);
-            if (charts.get(tool) != null) {
-                sensorSpace.update(charts.get(tool), t);
-            } else {
-
-                TupleID write = sensorSpace.write(t);
-                charts.put(tool,write);
-            }
-        }
-    }
-
 }
