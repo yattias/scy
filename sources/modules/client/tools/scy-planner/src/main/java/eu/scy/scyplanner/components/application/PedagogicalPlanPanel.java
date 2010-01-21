@@ -13,12 +13,15 @@ import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceLinkModel;
 
+import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * User: Bjoerge Naess
@@ -26,6 +29,7 @@ import java.util.Observer;
  * Time: 12:28:20
  */
 public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, INodeModelListener {
+    private static Logger log = Logger.getLogger("eu.scy.scyplanner.components.application.PedagogicalPlanPanel");
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
@@ -34,22 +38,28 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     public PedagogicalPlanPanel(PedagogicalPlan pedagogicalPlan) {
         Mission mission = pedagogicalPlan.getMission();
         Scenario scenario = pedagogicalPlan.getScenario();
-        System.out.println("Creating pedagogical plan based on mission: " + mission.getName() + " and scenario: " + scenario.getName());
+        log.info("Creating pedagogical plan based on mission: " + mission.getName() + " and scenario: " + scenario.getName());
         final JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+
+            }
+        });
 
         diagramModel = getInitialPedagogicalPlanModel(mission, scenario);
 
         diagramModel.addDiagramListener(this);
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
-        tabbedPane.addTab("Overview", view);
+        tabbedPane.addTab(Strings.getString("Overview"), view);
         view.addObserver(new Observer() {
             public void update(Observable observable, Object object) {
                 Object model = (((DefaultNode) object).getObject());
 
                 if (model instanceof LearningActivitySpace) {
-                    tabbedPane.addTab(model.toString(), new LASOverviewPanel((LearningActivitySpace) model));
-                    tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+                    addTab(tabbedPane, new LASOverviewPanel((LearningActivitySpace) model), model);
+                } else if (model instanceof AnchorELO) {
+                    addTab(tabbedPane, new AnchorELOOverviewPanel((AnchorELO) model), model);
                 } else {
                     JOptionPane.showMessageDialog(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame(), Strings.getString("Error, I do not know how to handle objects of type ") + model.getClass().getName(), Strings.getString("Error"), JOptionPane.ERROR_MESSAGE);
                 }
@@ -64,14 +74,16 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         add(selectedLabel, BorderLayout.PAGE_END);
     }
 
+    private void addTab(JTabbedPane tabbedPane, JComponent component, Object model) {
+        tabbedPane.addTab(model.toString(), component);
+        tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+    }
+
     private IDiagramModel getInitialPedagogicalPlanModel(final Mission mission, final Scenario scenario) {
         SCYPlannerDiagramModel pedagogicalPlan = new SCYPlannerDiagramModel();
         LearningActivitySpace firstLas = scenario.getLearningActivitySpace();
 
         createLASElement(firstLas, firstLas.getXPos(), firstLas.getYPos(), pedagogicalPlan);
-
-
-        //connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO);
 
         return pedagogicalPlan;
     }
@@ -79,7 +91,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
     private void addAnchorEloNode(INodeModel lasNode, LearningActivitySpace las, SCYPlannerDiagramModel pedagogicalPlan) {
         java.util.List<Activity> activities = las.getActivities();
-        System.out.println("ADDING LAS: " + las.getName() + " has " + activities.size() + " activities");
+        log.info("ADDING LAS: " + las.getName() + " has " + activities.size() + " activities");
         for (int i = 0; i < activities.size(); i++) {
             Activity activity = activities.get(i);
             if (activity.getAnchorELO() != null) {
@@ -95,7 +107,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
                 }
 
             } else {
-                System.out.println("Activity: " + activity.getName() + " does note have any elos");
+                log.info("Activity: " + activity.getName() + " does note have any elos");
             }
         }
     }
@@ -110,10 +122,10 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         }
 
         //java.util.List<Activity> activityList = las.getActivities();
-        /*System.out.println("LAS: " + las.getName() + " has " + activityList.size() + " activities");
+        /*log.info("LAS: " + las.getName() + " has " + activityList.size() + " activities");
         for (int i = 0; i < activityList.size(); i++) {
             Activity activity = activityList.get(i);
-            System.out.println("Activity: " + activity + " " + activity.getAnchorELO());
+            log.info("Activity: " + activity + " " + activity.getAnchorELO());
         } */
 
     }
@@ -200,7 +212,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
     @Override
     public void nodeSelected(INodeModel n) {
-        System.out.println("PedagogicalPlanPanel.nodeSelected");
+        log.info("PedagogicalPlanPanel.nodeSelected");
     }
 
     @Override
