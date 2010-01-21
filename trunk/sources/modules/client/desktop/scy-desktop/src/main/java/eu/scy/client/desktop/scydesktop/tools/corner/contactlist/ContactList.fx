@@ -21,8 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import com.sun.javafx.scene.control.caspian.ScrollBarSkin;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
+import eu.scy.awareness.IAwarenessService;
 
 /**
  * @author Sven
