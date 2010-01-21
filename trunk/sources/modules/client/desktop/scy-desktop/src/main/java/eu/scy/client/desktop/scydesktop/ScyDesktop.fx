@@ -337,16 +337,12 @@ public class ScyDesktop extends CustomNode {
             bottomLeftCorner,
             Rectangle{fill:Color.BLACK,x:100,y:100, width:boundsInLocal.width, height:boundsInLocal.height},
            /*
-           HBox {
-                content: [
-                        Button {
-                            text: "add an edge ";
-                            action: function() {
-                                edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
-                            }
-                         }
-                ]
+            Button {
+                text: "add an edge ";
                 translateX: 210;
+                action: function() {
+                  edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
+                }
             }
             */
          ]

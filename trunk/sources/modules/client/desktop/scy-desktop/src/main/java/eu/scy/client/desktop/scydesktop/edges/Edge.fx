@@ -19,14 +19,21 @@ import java.util.Random;
  * @author pg
  */
 
-public class Edge extends CustomNode, IEdge {
+public class Edge extends CustomNode {
 
     public-init var manager: EdgesManager;
     
     public-init var start:ScyWindow;
     public-init var end:ScyWindow;
     var rand = Random{};
-    var edge:Line;
+    public-read var line:Line = Line {
+            startX: bind (start as StandardScyWindow).layoutX + (start.width/2);
+            startY: bind (start as StandardScyWindow).layoutY + (start.height/2);
+
+            endX: bind (end as StandardScyWindow).layoutX + (end.width/2);
+            endY: bind (end as StandardScyWindow).layoutY + (end.height/2);
+    }
+
     var label:EdgeLabel = EdgeLabel {
             edge: this;
             labelText: "i am a label! {rand.nextInt(1337)}"
@@ -34,7 +41,8 @@ public class Edge extends CustomNode, IEdge {
 
 
     var length:Number;
-    override function paintEdge():Void {
+    public function paintEdge():Void {
+            /*
             var startX:Number = (start as StandardScyWindow).layoutX;
             var startY:Number = (start as StandardScyWindow).layoutY;
             var startHeight:Number = start.height;
@@ -57,22 +65,14 @@ public class Edge extends CustomNode, IEdge {
 
             label.x = (edge.startX+edge.endX) / 2;
             label.y = (edge.startY+edge.endY) / 2;
-            
+            */
             //System.out.println(length);
     }
 
-    /*
-    public function kill():Void {
-        System.out.println("killing myelf.");
-        label = null;
-    }
-    */
-
-    override public function deleteMe () : Void {
+    public public function deleteMe () : Void {
             manager.removeEdge(start, end, this);
             start = null;
             end = null;
-            //kill();
     }
 
 
@@ -80,7 +80,7 @@ public class Edge extends CustomNode, IEdge {
     override protected function create () : Node {
         var g:Group = Group {
             content: bind [
-                    edge,
+                    line,
                     label,
                     ]
             ;
