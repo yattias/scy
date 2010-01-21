@@ -102,6 +102,9 @@ import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyDesktopEloSaver;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
 
 /**
  * @author sikkenj
@@ -232,6 +235,27 @@ public class ScyDesktop extends CustomNode {
          drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
          config:config;
       }
+     //TODO remove contacts and connect to user management
+    def contact1 = Contact {
+                currentMission: "Testmission";
+                imageURL: "img/buddyicon.png";
+                name: "Sven Manske";
+                onlineState: OnlineState.ONLINE;
+                progress: 1.0;
+            };
+
+    def contact2 = Contact {
+                currentMission: "Another Mission";
+                imageURL: "img/buddyicon.png";
+                name: "Adam G";
+                onlineState: OnlineState.AWAY;
+                progress: 0.1;
+            };
+      //The contact list (users)
+      def contactContent = [contact1, contact2];
+      
+      //The frontend to thecontact list
+      def contactList:ContactList = ContactList {contacts: contactContent};
 
       missionMap = MissionMap{
          missionModel: missionModelFX
@@ -244,7 +268,7 @@ public class ScyDesktop extends CustomNode {
       }
       missionMap.scyWindowControl=scyWindowControl;
       topLeftCorner = TopLeftCorner{
-         content:topLeftCornerTool;
+         content:contactList;
          color:Color.RED;
       }
       topRightCorner = TopRightCorner{
