@@ -8,7 +8,7 @@
                 <ref local="sqlSpacesComponent"/>
                 <ref local="swatComponent"/>
 				<ref local="scyHubExternalComponent"/>
-				<ref local="agentFrameworkComponent"/>
+				<!--ref local="agentFrameworkComponent"/-->
 			</list>
 		</property>
 	</bean>
