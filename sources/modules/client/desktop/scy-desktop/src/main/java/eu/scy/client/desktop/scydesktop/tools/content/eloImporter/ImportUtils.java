@@ -6,8 +6,10 @@ package eu.scy.client.desktop.scydesktop.tools.content.eloImporter;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
@@ -26,22 +28,42 @@ public class ImportUtils {
      * @throws IOException
      */
     public static byte[] getBytesFromFile(File file) throws IOException {
-        InputStream is = new FileInputStream(file);
-        long length = file.length();
-        if (length > Integer.MAX_VALUE) {
-            new Exception ("Maximum filesize reached.");
+        InputStream is = null;
+        try{
+           is = new FileInputStream(file);
+           long length = file.length();
+           if (length > Integer.MAX_VALUE) {
+               new Exception ("Maximum filesize reached.");
+           }
+           byte[] bytes = new byte[(int) length];
+           int offset = 0;
+           int numRead = 0;
+           while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+               offset += numRead;
+           }
+           if (offset < bytes.length) {
+               throw new IOException("Could not completely read file " + file.getName());
+           }
+           return bytes;
         }
-        byte[] bytes = new byte[(int) length];
-        int offset = 0;
-        int numRead = 0;
-        while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-            offset += numRead;
+        finally{
+          if (is!=null){
+             is.close();
+          }
         }
-        if (offset < bytes.length) {
-            throw new IOException("Could not completely read file " + file.getName());
-        }
-        is.close();
-        return bytes;
+    }
+
+    public static void saveBytesToFile(byte[] bytes, File file) throws IOException{
+       OutputStream out = null;
+       try{
+          out = new FileOutputStream(file);
+          out.write(bytes);
+       }
+       finally{
+          if (out!=null){
+             out.close();
+          }
+       }
     }
 
     /**
