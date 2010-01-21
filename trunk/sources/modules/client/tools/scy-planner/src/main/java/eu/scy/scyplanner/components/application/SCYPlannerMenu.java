@@ -1,6 +1,5 @@
 package eu.scy.scyplanner.components.application;
 
-import eu.scy.scyplanner.action.demo.OpenSCYPlannerDemo;
 import eu.scy.scyplanner.application.SCYPlannerActionManager;
 
 import eu.scy.scyplanner.application.Strings;

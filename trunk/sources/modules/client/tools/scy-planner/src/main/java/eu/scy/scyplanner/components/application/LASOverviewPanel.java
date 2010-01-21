@@ -5,19 +5,13 @@ import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.application.Strings;
-import eu.scy.scyplanner.components.table.Table;
-import eu.scy.scyplanner.components.titled.TitledPanel;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,11 +19,11 @@ import javax.swing.table.DefaultTableModel;
  * Date: 09.des.2009
  * Time: 11:02:22
  */
-public class LASOverviewPanel extends JPanel {
+public class LASOverviewPanel extends SCYPlannerOverviewPanel {
     private final static String EMPTY_STRING = "";
     private final static String YES = "Yes";
     private final static String NO = "No";
-    
+
     private LearningActivitySpace las = null;
 
     public LASOverviewPanel(LearningActivitySpace las) {
@@ -37,7 +31,7 @@ public class LASOverviewPanel extends JPanel {
         setBackground(SCYPlannerApplicationManager.getAlternativeBackgroundColor());
         setLayout(new BorderLayout());
 
-        JPanel p = new JPanel(new GridLayout(0,1));
+        JPanel p = new JPanel(new GridLayout(0, 1));
         p.setOpaque(false);
         p.add(createDummyPanel(createActivityPanel(las)));
         p.add(createDummyPanel(createAssessmentPanel(las)));
@@ -110,47 +104,7 @@ public class LASOverviewPanel extends JPanel {
 
             return new TablePanel(Strings.getString("Anchor ELOs"), data, columns);
         } else {
-            return new MissingDataPanel(Strings.getString("Anchor ELOs"), "Strings.getString(Anchor ELOs not specified");
+            return new MissingDataPanel(Strings.getString("Anchor ELOs"), Strings.getString("Anchor ELOs not specified"));
         }
-    }
-
-    private JPanel createDummyPanel(JComponent component) {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setOpaque(false);
-        panel.setBorder(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorder());
-        panel.add(BorderLayout.CENTER, component);
-
-        return panel;
-    }
-
-    private class TablePanel extends TitledPanel {
-        private TablePanel(String title, Vector data, Vector columns) {
-            super(title);
-            setOpaque(false);
-            Table table = new Table();
-            table.setModel(new DefaultTableModel(data, columns));
-
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setOpaque(false);
-            scrollPane.getViewport().setOpaque(false);
-            scrollPane.setPreferredSize(new Dimension(200, 125));
-            add(BorderLayout.CENTER, scrollPane);
-        }
-    }
-
-    private class MissingDataPanel extends TitledPanel {
-        private MissingDataPanel(String title, String message) {
-            super(title);
-            setOpaque(false);
-            add(BorderLayout.NORTH, new JLabel(message));
-        }
-    }
-
-    private String booleanText(boolean value) {
-        if (value == false) {
-            return NO;
-        }
-
-        return YES;
     }
 }

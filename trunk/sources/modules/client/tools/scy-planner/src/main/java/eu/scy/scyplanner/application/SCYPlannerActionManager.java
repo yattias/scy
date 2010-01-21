@@ -1,6 +1,5 @@
 package eu.scy.scyplanner.application;
 
-import eu.scy.scyplanner.action.demo.OpenSCYPlannerDemo;
 import eu.scy.scyplanner.action.create.OpenCreateNewPedagogicalPlanAction;
 
 import javax.swing.*;
@@ -20,7 +19,6 @@ public class SCYPlannerActionManager {
     private final static HashMap actionMap = new HashMap<Action, String>();
 
     private SCYPlannerActionManager() {
-        actionMap.put(OPEN_SCY_PLANNER_DEMO_ACTION, new OpenSCYPlannerDemo());
         actionMap.put(OPEN_CREATE_NEW_PEDAGOGICAL_PLAN_PANEL_ACTION, new OpenCreateNewPedagogicalPlanAction());
     }
 

@@ -13,11 +13,10 @@ import eu.scy.scymapper.impl.ui.diagram.ConceptLinkView;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.impl.view.LASNodeView;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -25,7 +24,7 @@ import javax.swing.JPanel;
  * Date: 28.aug.2009
  * Time: 11:40:29
  */
-public class SCYPlannerDiagramView extends JPanel implements IDiagramListener, MouseListener {
+public class SCYPlannerDiagramView extends JPanel implements IDiagramListener {
     private IDiagramModel model;
     private IDiagramController controller;
 
@@ -63,7 +62,19 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener, M
 
     private void addNode(INodeModel node) {
         NodeViewComponent view = new LASNodeView(new NodeController(node), node);
-        view.addMouseListener(this);
+        view.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                Component c = e.getComponent();
+                if (c instanceof LASNodeView) {
+                    if (e.getClickCount() >= 2) {
+                        LASNodeView node = (LASNodeView) c;
+                        observable.observableChanged();
+                        observable.notifyObservers(node.getModel());
+                        observable.clearObservableChanged();
+                    }
+                }
+            }
+        });
         add(view);
     }
 
@@ -71,6 +82,12 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener, M
         ConceptLinkView view = new ConceptLinkView(new LinkController(link), link);
         add(view);
     }
+
+    @Override
+    public void nodeRemoved(INodeModel n) {
+        System.out.println("ConceptDiagramView.nodeRemoved");
+    }
+
 
     @Override
     public void updated(IDiagramModel diagramModel) {
@@ -95,44 +112,6 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener, M
     @Override
     public void linkRemoved(ILinkModel link) {
         System.out.println("ConceptDiagramView.linkRemoved");
-    }
-
-    @Override
-    public void nodeRemoved(INodeModel n) {
-        System.out.println("ConceptDiagramView.nodeRemoved");
-    }
-
-    public void mouseClicked(MouseEvent e) {
-        Component c = e.getComponent();
-        System.out.println(c);
-        if (c instanceof LASNodeView) {
-            if (e.getClickCount() >= 2) {
-                LASNodeView node = (LASNodeView) c;
-                observable.observableChanged();
-                observable.notifyObservers(node.getModel());
-                observable.clearObservableChanged();
-            }
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 
     private class ObservableView extends Observable {
