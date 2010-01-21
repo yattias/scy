@@ -48,6 +48,12 @@ public abstract class SCYPacketTransformer {
 
 	public abstract void resetParser();
 
+	public abstract void startNode(String path);
+
+	public abstract void endNode(String path);
+	
+	public abstract SCYPacketTransformer newInstance();
+
 	public String toXML() throws ParserConfigurationException,
 			TransformerFactoryConfigurationError, TransformerException,
 			IOException {
@@ -132,7 +138,7 @@ public abstract class SCYPacketTransformer {
 		return item;
 	}
 
-	private Integer parseIndex(String s) {
+	protected Integer parseIndex(String s) {
 		if(s.contains("[") && s.contains("]")) {
 			return Integer.parseInt(s.substring(s.indexOf('[') + 1, s.indexOf(']')));
 		} else {

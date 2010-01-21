@@ -127,4 +127,19 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
 		pojo = (Notification) object;
 	}
 
+	@Override
+	public void endNode(String path) {
+		// ignore
+	}
+
+	@Override
+	public void startNode(String path) {
+		// ignore
+	}
+
+	@Override
+	public SCYPacketTransformer newInstance() {
+		return new NotificationPacketTransformer();
+	}
+
 }

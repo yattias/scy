@@ -5,6 +5,8 @@ package eu.scy.common.message;
 
 import java.util.ArrayList;
 
+import eu.scy.common.datasync.ISyncObject;
+import eu.scy.common.datasync.SyncObject;
 import eu.scy.common.message.SyncMessage.Event;
 import eu.scy.common.message.SyncMessage.Response;
 import eu.scy.common.message.SyncMessage.Type;
@@ -17,8 +19,14 @@ import eu.scy.common.packetextension.SCYPacketTransformer;
 public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 
 	private static final String syncCommandPath = "/" + SyncMessage.PATH; 
+
+	private static final String syncObjectsPath =  syncCommandPath + "/" + SyncObject.PATH + "s"; // s for the plural
+
+	private static final String syncObjectPath = syncObjectsPath + "/" + SyncObject.PATH;
 	
 	private SyncMessage pojo;
+	
+	private ISyncObject currentObject;
 	
 	public DataSyncMessagePacketTransformer() {
 		super(SyncMessage.PATH);
@@ -54,6 +62,29 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 			return (pojo.getResponse() != null ? pojo.getResponse().toString() : null);
 		} else if(path.equals(syncCommandPath + "/" + "message")) {
 			return pojo.getMessage();
+		} else if(path.startsWith(syncObjectPath)) {
+			Integer index = parseIndex(path);
+			if(index != null) {
+				String key = path.substring(path.indexOf("]") + 1);
+				if ("@id".equals(key)) {
+					return pojo.getSyncObjects().get(index).getID();
+				} else if ("@toolname".equals(key)) {
+					return pojo.getSyncObjects().get(index).getToolname();
+				} else if ("@creator".equals(key)) {
+					return pojo.getSyncObjects().get(index).getCreator();
+				} else if ("@lastmodificator".equals(key)) {
+					return pojo.getSyncObjects().get(index).getLastModificator();
+				} else if ("@creationtime".equals(key)) {
+					return Long.toString(pojo.getSyncObjects().get(index).getCreationTime());
+				} else if ("@lastmodificationtime".equals(key)) {
+					return Long.toString(pojo.getSyncObjects().get(index).getLastModificationTime());
+				} else if (key.startsWith("/properties")) {
+					key = key.substring(key.lastIndexOf("/") + 1);
+					if(key != null) {
+						return pojo.getSyncObjects().get(index).getProperty(key);
+					}
+				}
+			}
 		}
 		return null;
 	}
@@ -73,6 +104,17 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 		paths.add(syncCommandPath + "/" + "type");
 		paths.add(syncCommandPath + "/" + "response");
 		paths.add(syncCommandPath + "/" + "message");
+		for (int i = 0; i < pojo.getSyncObjects().size(); i++) {
+			paths.add(syncObjectPath + "[" + i + "]" + "@id");
+			paths.add(syncObjectPath + "[" + i + "]" + "@toolname");
+			paths.add(syncObjectPath + "[" + i + "]" + "@creator");
+			paths.add(syncObjectPath + "[" + i + "]" + "@lastmodificator");
+			paths.add(syncObjectPath + "[" + i + "]" + "@creationtime");
+			paths.add(syncObjectPath + "[" + i + "]" + "@lastmodificationtime");
+			for (String key : pojo.getSyncObjects().get(i).getProperties().keySet()) {
+				paths.add(syncObjectPath + "[" + i + "]" +  "/properties/" + key);
+			}
+		}
 		return (String[]) paths.toArray(new String[paths.size()]);
 	}
 
@@ -112,4 +154,23 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 		pojo = (SyncMessage) object;
 	}
 
+	@Override
+	public void startNode(String path) {
+		if(syncObjectPath.equals(path)) {
+			currentObject = new SyncObject();
+		}
+	}
+	
+	@Override
+	public void endNode(String path) {
+		if(syncObjectPath.equals(path)) {
+			pojo.getSyncObjects().add(currentObject);
+			currentObject = null;
+		}
+	}
+
+	@Override
+	public SCYPacketTransformer newInstance() {
+		return new DataSyncMessagePacketTransformer();
+	}
 }

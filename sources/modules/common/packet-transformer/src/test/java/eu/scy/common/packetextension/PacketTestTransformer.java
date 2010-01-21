@@ -74,4 +74,21 @@ public class PacketTestTransformer extends SCYPacketTransformer {
 		this.pojo = (ActionTestPojo) object;
 	}
 
+	@Override
+	public void endNode(String path) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startNode(String path) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SCYPacketTransformer newInstance() {
+		return new PacketTestTransformer();
+	}
+
 }

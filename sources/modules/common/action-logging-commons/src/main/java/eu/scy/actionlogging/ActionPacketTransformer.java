@@ -117,4 +117,19 @@ public class ActionPacketTransformer extends SCYPacketTransformer {
         pojo = (Action) object;
     }
 
+	@Override
+	public void endNode(String path) {
+		// ignore
+	}
+
+	@Override
+	public void startNode(String path) {
+		// ignore
+	}
+
+	@Override
+	public SCYPacketTransformer newInstance() {
+		return new ActionPacketTransformer();
+	}
+
 }
