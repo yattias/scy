@@ -111,7 +111,7 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, IncChange)
 	assert(inc_change(Learner, Tool, Session, VarName, Diff)),
 	VarName == VarNameOld,
 	(   Diff == DiffOld
-	->  IncChange = 100
+	->  IncChange = 1
 	;   IncChange = 0
 	).
 
@@ -130,7 +130,7 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, _) :-
 
 change_variables_feedback(Learner, Tool, Session, IncChange) :-
 	% Create fields for the feedback 
-	get_time(Time),
+	get_time(T1), T is T1 * 1000, sformat(Time, '~0f', [T]),
 	tspl_actual_field(string, inc_change, F0),
 	tspl_actual_field(string, Learner, F1),
 	tspl_actual_field(string, Tool, F2),
@@ -204,7 +204,7 @@ test(Tuple) :-
 log_key_value(Tuple, Key, Value) :-
 	string_concat(Key, '=', KeyEq),
 	tspl_tuple_field(Tuple, Num, FieldVal),
-	Num > 9,
+	Num > 7,
 	string_concat(KeyEq, ValueStr, FieldVal),
 	string_to_atom(ValueStr, Value).
 
