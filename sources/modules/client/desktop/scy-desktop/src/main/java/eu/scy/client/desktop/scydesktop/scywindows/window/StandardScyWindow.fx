@@ -207,16 +207,7 @@ public class StandardScyWindow extends ScyWindow {
         delete edge from edges;
     }
 
-    public override function repaintEdges():Void {
-            //System.out.println("trying to repaint..");
-        for(edge:Edge in edges) {
-            //System.out.println("painting {edge}");
-            edge.paintEdge();
-        }
-    }
-
     function deleteEdges() {
-         //System.out.println("deleting all edges.");
         for(edge:Edge in edges) {
             edge.deleteMe();
         }
@@ -468,7 +459,6 @@ public class StandardScyWindow extends ScyWindow {
    }
 
 	function doDrag(e: MouseEvent) {
-        repaintEdges();
       printMousePos("drag",e);
       if (isInvalidMousePos(e))
 		return;
@@ -483,7 +473,6 @@ public class StandardScyWindow extends ScyWindow {
    }
 
 	function doResize(e: MouseEvent) {
-                repaintEdges();
       printMousePos("resize",e);
       if (isInvalidMousePos(e))
 		return;

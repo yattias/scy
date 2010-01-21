@@ -22,8 +22,9 @@ public class EdgeLabel extends CustomNode {
     public-init var edge:Edge;
 
     public var labelText:String;
-    public var x:Number;
-    public var y:Number;
+    //todo: label is not realy in the center.
+    var x:Number = bind (edge.line.startX+edge.line.endX) / 2;
+    var y:Number= bind (edge.line.startY+edge.line.endY) / 2;
     public-read var width:Number = bind border.width;
     public-read var height:Number = bind border.height;
     
@@ -36,7 +37,6 @@ public class EdgeLabel extends CustomNode {
     var border:Rectangle = Rectangle {
         translateX: bind x;
         translateY: bind y;
-
         height: bind label.boundsInParent.height+5;
         width: bind label.boundsInParent.width+5;
         fill: Color.WHITE;
@@ -54,7 +54,6 @@ public class EdgeLabel extends CustomNode {
         onMouseReleased: function(e:MouseEvent):Void {
             edge.deleteMe();
         }
-
     }
 
 
