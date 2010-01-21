@@ -12,9 +12,8 @@ import java.awt.*;
  */
 public class ELONodeView extends NodeViewComponent {
 	public ELONodeView(INodeController controller, INodeModel model) {
-		super(controller, model);
+		super(controller, model, true);
 	}
-
 
 	@Override
 	public void paintComponent(Graphics g) {

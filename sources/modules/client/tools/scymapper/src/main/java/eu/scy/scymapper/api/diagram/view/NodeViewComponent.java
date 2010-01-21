@@ -29,6 +29,14 @@ public class NodeViewComponent extends JComponent {
 		setSize(model.getSize());
 		setLocation(model.getLocation());
 	}
+
+    public NodeViewComponent(INodeController controller, INodeModel model, boolean toolTip) {
+		this(controller, model);
+        if (toolTip) {
+            setToolTipText(model.getLabel());
+        }
+	}
+
 	public INodeController getController() {
 		return controller;
 	}

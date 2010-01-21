@@ -60,7 +60,7 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener {
         }
     }
 
-    private void addNode(INodeModel node) {
+    private void addNode(INodeModel node) {        
         NodeViewComponent view = new LASNodeView(new NodeController(node), node);
         view.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
