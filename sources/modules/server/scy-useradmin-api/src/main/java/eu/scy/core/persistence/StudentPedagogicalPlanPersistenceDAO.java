@@ -15,7 +15,5 @@ import eu.scy.core.model.student.StudentPlanELO;
  */
 public interface StudentPedagogicalPlanPersistenceDAO extends SCYBaseDAO{
 
-    public StudentPlanELO assignStudentPlanToStudent(User student, PedagogicalPlan pedagogicalPlan);
-
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) ;
 }

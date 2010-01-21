@@ -8,6 +8,7 @@
         <property name="userService" ref="userService"/>
         <property name="lasService" ref="lasService"/>
         <property name="toolService" ref="toolService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
     </bean>
 
     <bean id="serverDataInitializer" class="eu.scy.server.utils.ServerDataInitializer">

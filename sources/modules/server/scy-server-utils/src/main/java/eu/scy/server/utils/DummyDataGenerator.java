@@ -1,6 +1,7 @@
 package eu.scy.server.utils;
 
 import eu.scy.core.*;
+import eu.scy.core.model.User;
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,6 +21,7 @@ public class DummyDataGenerator implements InitializingBean {
 
     private ScenarioService scenarioService;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
+    private StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService;
     private UserService userService;
     private ToolService toolService;
     private LASService lasService;
@@ -69,10 +71,39 @@ public class DummyDataGenerator implements InitializingBean {
         if (getPedagogicalPlanPersistenceService().getPedagogicalPlanByName(template.getName()) == null) {
             log.info("Did not find a default plan - creating one...");
             getPedagogicalPlanPersistenceService().save(template);
-            getPedagogicalPlanPersistenceService().createPedagogicalPlan(template);
+            PedagogicalPlan plan = getPedagogicalPlanPersistenceService().createPedagogicalPlan(template);
+            assignStudentsToPlan(plan);
+
         } else {
             log.info("The default plan is already added - will not create any more!");
         }
+    }
+
+    private void assignStudentsToPlan(PedagogicalPlan plan) {
+        assignStudent("Willy", "Wonka", "i3ii5wiwo" , "scy", plan);
+        assignStudent("Dare", "Devil", "ii53idade", "scy", plan);
+        assignStudent("Donald", "Duck", "i35iidodu", "scy", plan);
+        assignStudent("Uber", "Dude", "ii35iubdu", "scy", plan);
+        assignStudent("Harry", "Klein", "ii53ihakl", "scy", plan);
+        assignStudent("Hercule", "Poirot", "ii35ihepo", "scy", plan);
+    }
+
+    private User assignStudent(String firstName, String lastName, String username, String password, PedagogicalPlan pedagogicalPlan) {
+        User student1 = addUserIfNotExists(firstName, lastName, username + Math.random(), password);
+        if(student1 != null) {
+            getStudentPedagogicalPlanPersistenceService().createStudentPlan(pedagogicalPlan, student1);
+        }
+        return student1;
+
+    }
+
+
+    private User addUserIfNotExists(String firstName, String lastName, String userName, String password) {
+        log.info("ADding user if not exists: " + firstName + " " + lastName + " " + userName + " shhhhh " + password);
+        if (getUserService().getUser(userName) == null) {
+            return getUserService().createUser(userName, password);
+        }
+        return null;
     }
 
     private Scenario generateScenario(String name, String description) {
@@ -280,6 +311,14 @@ public class DummyDataGenerator implements InitializingBean {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public StudentPedagogicalPlanPersistenceService getStudentPedagogicalPlanPersistenceService() {
+        return studentPedagogicalPlanPersistenceService;
+    }
+
+    public void setStudentPedagogicalPlanPersistenceService(StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService) {
+        this.studentPedagogicalPlanPersistenceService = studentPedagogicalPlanPersistenceService;
     }
 
     @Override

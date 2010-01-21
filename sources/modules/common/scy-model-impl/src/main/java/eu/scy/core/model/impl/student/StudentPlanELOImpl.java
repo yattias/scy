@@ -35,7 +35,8 @@ public class StudentPlanELOImpl extends BaseObjectImpl implements StudentPlanELO
 
 	@Override
 	public void addStudentPlannedActivity(StudentPlannedActivity activity) {
-		studentPlannedActivities.add(activity);
+		getStudentPlannedActivities().add(activity);
+        activity.setStudentPlan(this);
 	}
 
     @OneToOne(targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -44,13 +45,17 @@ public class StudentPlanELOImpl extends BaseObjectImpl implements StudentPlanELO
 		return pedagogicalPlan;
 	}
 
-    //OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentplannedactivity", fetch = FetchType.LAZY)
-    @Transient
+    @OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentPlan", fetch = FetchType.LAZY)
 	public List<StudentPlannedActivity> getStudentPlannedActivities() {
 		return studentPlannedActivities;
 	}
 
-	@ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @Override
+    public void setStudentPlannedActivities(List<StudentPlannedActivity> studentPlannedActivities) {
+        this.studentPlannedActivities = studentPlannedActivities;
+    }
+
+    @ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_primKey")
     public User getUser() {
 		return user;
