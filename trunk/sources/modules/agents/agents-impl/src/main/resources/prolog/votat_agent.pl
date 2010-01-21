@@ -122,7 +122,7 @@ remove_old_changes(Time) :-
 
 change_variables_feedback(Learner, Tool, Session, Votat) :-
 	% Create fields for the feedback 
-	get_time(Time),
+	get_time(T1), T is T1 * 1000, sformat(Time, '~0f', [T]),
 	tspl_actual_field(string, votat, F0),
 	tspl_actual_field(string, Learner, F1),
 	tspl_actual_field(string, Tool, F2),
@@ -197,7 +197,7 @@ test(Tuple) :-
 log_key_value(Tuple, Key, Value) :-
 	string_concat(Key, '=', KeyEq),
 	tspl_tuple_field(Tuple, Num, FieldVal),
-	Num > 9,
+	Num > 7,
 	string_concat(KeyEq, ValueStr, FieldVal),
 	string_to_atom(ValueStr, Value).
 
