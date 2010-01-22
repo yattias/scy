@@ -9,9 +9,10 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.controller.NodeController;
-import eu.scy.scymapper.impl.ui.diagram.ConceptLinkView;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.impl.view.LASNodeView;
+import eu.scy.scyplanner.impl.view.SCYPlannerLinkView;
+
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -79,7 +80,7 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener {
     }
 
     private void addLink(INodeLinkModel link) {
-        ConceptLinkView view = new ConceptLinkView(new LinkController(link), link);
+        SCYPlannerLinkView view = new SCYPlannerLinkView(new LinkController(link), link);
         add(view);
     }
 
