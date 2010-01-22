@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import eu.scy.agents.api.IPersistentStorage;
 
@@ -23,13 +24,15 @@ import eu.scy.agents.api.IPersistentStorage;
  */
 public class PersistentStorage implements IPersistentStorage {
 
+	private static Logger logger = Logger.getLogger("PersistentStorage");
+
 	// private static final String TSHOST = "localhost";
 	private static final String TSHOST = "localhost";
 	private static final int TSPORT = 2525;
 	private static final String PERSISTENT_STORAGE = "persistent_storage_1_0";
 	private TupleSpace tupleSpace;
 
-	private HashMap<String, TupleID> key2TupleId;
+	private static HashMap<String, TupleID> key2TupleId = new HashMap<String, TupleID>();;
 
 	/**
 	 * Create a new {@link PersistentStorage} instance.
@@ -45,7 +48,6 @@ public class PersistentStorage implements IPersistentStorage {
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
-		key2TupleId = new HashMap<String, TupleID>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,6 +55,10 @@ public class PersistentStorage implements IPersistentStorage {
 	public <T> T get(String key) {
 		try {
 			Tuple t = tupleSpace.read(new Tuple(PERSISTENT_STORAGE, key, Field.createWildCardField()));
+			if (t == null) {
+				logger.info("Tuple for key " + key + " is null.");
+				return null;
+			}
 			byte[] byteArray = (byte[]) t.getField(2).getValue();
 			ByteArrayInputStream byteIn = new ByteArrayInputStream(byteArray);
 			ObjectInputStream objectIn = new ObjectInputStream(byteIn);
