@@ -69,10 +69,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
         xmlOutputter = new XMLOutputter();
         // TODO: these properties have to be fetched from the SCY environment
         // username = System.getProperty("user.name")+" No: "+ COUNT;
-        username = "astrid";
-        missionname = "mission 1";
-        toolname = "scysimulator" + "No: " + COUNT;
-        sessionname = "testsession";
+        username = "jan";
+        missionname = "C02 neutral house";
+        toolname = "SCY Simulator";
+        sessionname = "l33ts3ss10n";
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
         // find input variables
         inputVariables = getVariables(ModelVariable.VK_INPUT);
@@ -115,6 +115,9 @@ public class ScySimLogger implements ActionListener, IDataClient {
         actionLogger = logger;
         // actionLogger = new DevNullActionLogger();
     }
+    public ScySimLogger(DataServer dataServer){
+        this(dataServer,new DevNullActionLogger());
+    }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
         return getVariables(mv, null);
@@ -147,12 +150,14 @@ public class ScySimLogger implements ActionListener, IDataClient {
     @Override
     public void updateClient() {
         for (int i = 0; i < inputVariables.size(); i++) {
-            if (inputVariables.get(i).getValue() != oldInputValues.get(i)) {
+            Double d = inputVariables.get(i).getValue();
+            if (!d.equals(oldInputValues.get(i))) {
                 logValueChanged(inputVariables.get(i).getName(), oldInputValues.get(i), inputVariables.get(i).getValue());
             }
         }
         for (int i = 0; i < outputVariables.size(); i++) {
-            if (outputVariables.get(i).getValue() != oldOutputValues.get(i)) {
+            Double d = outputVariables.get(i).getValue();
+            if (!d.equals(oldOutputValues.get(i))) {
                 logValueChanged(outputVariables.get(i).getName(), oldOutputValues.get(i), outputVariables.get(i).getValue());
             }
         }
@@ -227,8 +232,8 @@ public class ScySimLogger implements ActionListener, IDataClient {
         write(action);
     }
 
-    private void write(IAction action) {
-
+    private synchronized void write(IAction action) {
+        System.out.println(action.toString());
         actionLogger.log(action);
         // outputter.output(action.getXML(), System.out);
     }
