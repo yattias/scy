@@ -12,7 +12,6 @@ import java.util.logging.Logger;
  * User: Henrik
  * Date: 09.des.2009
  * Time: 05:37:28
- * To change this template use File | Settings | File Templates.
  */
 public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl implements PedagogicalPlanPersistenceService {
 
@@ -63,5 +62,4 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
     public List<PedagogicalPlan> getPedagogicalPlans() {
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlans();
     }
-
 }

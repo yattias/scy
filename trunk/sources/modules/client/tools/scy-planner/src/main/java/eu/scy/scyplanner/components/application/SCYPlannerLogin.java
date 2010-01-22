@@ -54,7 +54,6 @@ public class SCYPlannerLogin {
 
         HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
                 fb.setServiceInterface(PedagogicalPlanService.class);
-
         while (cont) {
             int result = JOptionPane.showConfirmDialog(null, panel, Strings.getString("Confirm Log On"), JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {

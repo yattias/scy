@@ -6,7 +6,6 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -43,20 +42,29 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .setString("name", name)
                 .setMaxResults(1)
                 .uniqueResult();
-    }        
+    }
 
     @Override
     public List<Scenario> getCompatibleScenarios(Mission mission) {
-        return getSession().createQuery("select plan.scenario from PedagogicalPlanImpl as plan where plan.mission = :mission")
+        List<Scenario> scenarios = getSession().createQuery("select plan.scenario from PedagogicalPlanImpl as plan where plan.mission = :mission")
                 .setEntity("mission", mission)
                 .list();
+
+        if (!scenarios.isEmpty()) {
+            scenarios = getSession().createQuery("select distinct (scenario) from ScenarioImpl as scenario where scenario in(:scenarios)")
+                    .setParameterList("scenarios", scenarios)
+                    .list();
+        }
+
+        return scenarios;
     }
 
     @Override
     public List<Mission> getCompatibleMissions(Scenario scenario) {
-        return getSession().createQuery("select plan.mission from PedagogicalPlanImpl as plan where plan.scenario = :scenario")
-                .setEntity("scenario" ,scenario)
+        return getSession().createQuery("select distinct(plan.mission) from PedagogicalPlanImpl as plan where plan.scenario = :scenario")
+                .setEntity("scenario", scenario)
                 .list();
+
     }
 
     @Override
@@ -67,7 +75,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .setEntity("scenario", scenario)
                 .list();
         log.info("===== ====== =======Found " + pedagogicalPlans.size() + " pedagogical plans - returning the first");
-        if(pedagogicalPlans.size() > 0) return (PedagogicalPlan) pedagogicalPlans.get(0);
+        if (pedagogicalPlans.size() > 0) return (PedagogicalPlan) pedagogicalPlans.get(0);
         return null;
 
     }
