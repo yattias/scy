@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,6 +21,7 @@ import org.junit.Test;
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
 
@@ -59,6 +61,18 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		startAgentFramework(agentMap);
 	}
 
+	@Override
+	@After
+	public void tearDown() {
+		try {
+			getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+			removeTopicModel();
+			super.tearDown();
+		} catch (AgentLifecycleException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void initDfModel() throws ClassNotFoundException, IOException {
 		InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
 		ObjectInputStream in = new ObjectInputStream(inStream);
@@ -72,7 +86,7 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		getTupleSpace().write(
 				new Tuple(ExtractKeywords.EXTRACT_KEYWORDS, AgentProtocol.QUERY, queryId.toString(), TEXT));
 
-		Tuple response = getTupleSpace().waitToRead(
+		Tuple response = getTupleSpace().waitToTake(
 				new Tuple("notification", String.class, "jeremy@scy.collide.info/Smack", "scymapper", "Sender",
 						"Mission", "Session", Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no response received", response);

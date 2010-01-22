@@ -33,6 +33,8 @@ import eu.scy.agents.impl.manager.AgentManager;
 
 public class AbstractTestFixture {
 
+	private static final String TM_MODEL_NAME = "co2_scy_english";
+
 	protected static final String TSHOST = "localhost";
 	// protected static String TSHOST = "scy.collide.info";
 
@@ -54,6 +56,8 @@ public class AbstractTestFixture {
 
 	private TupleSpace tupleSpace;
 
+	private PersistentStorage storage;
+
 	@Before
 	public void setUp() throws Exception {
 		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
@@ -67,11 +71,14 @@ public class AbstractTestFixture {
 		typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
 		extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
 		repository = (IRepository) applicationContext.getBean("localRepository");
+
+		storage = getPersistentStorage();
 	}
 
+	@SuppressWarnings("unused")
 	@After
 	public void tearDown() throws AgentLifecycleException {
-		System.out.println("super.tearDown");
+		System.err.println("super.tearDown");
 		if (tupleSpace != null) {
 			try {
 				tupleSpace.disconnect();
@@ -79,6 +86,10 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	protected void removeTopicModel() {
+		storage.remove(TM_MODEL_NAME);
 	}
 
 	protected IELO createNewElo() {
@@ -152,8 +163,7 @@ public class AbstractTestFixture {
 			in = new ObjectInputStream(inStream);
 			TopicModelParameter model = (TopicModelParameter) in.readObject();
 			in.close();
-			PersistentStorage storage = getPersistentStorage();
-			storage.put("co2_scy_english", model);
+			storage.put(TM_MODEL_NAME, model);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

@@ -41,6 +41,7 @@ public class ExtractKeywords extends AbstractRequestAgent {
 				ArrayList<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
 
 				sendNotification(mergedKeywords);
+				System.err.println("************ Run *****************");
 			}
 			sendAliveUpdate();
 		}

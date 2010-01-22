@@ -3,6 +3,7 @@ package eu.scy.agents.keywords;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -74,6 +75,10 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		Document document = convertTextToDocument(text);
+		if (dfModel == null) {
+			System.out.println(dfModel);
+			return new HashSet<String>();
+		}
 
 		Operator extractKeywordsOperator = new ExtractTfIdfKeywordsWorkflow().getOperator("Main");
 		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);

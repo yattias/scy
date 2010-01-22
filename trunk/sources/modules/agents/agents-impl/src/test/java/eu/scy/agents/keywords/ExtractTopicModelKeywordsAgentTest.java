@@ -2,6 +2,7 @@ package eu.scy.agents.keywords;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -56,6 +57,14 @@ public class ExtractTopicModelKeywordsAgentTest extends AbstractTestFixture {
 	@Override
 	@After
 	public void tearDown() throws AgentLifecycleException {
+		try {
+			getTupleSpace().take(
+					new Tuple("persistent_storage_1_0", KeywordConstants.DOCUMENT_FREQUENCY_MODEL, Field
+							.createWildCardField()));
+			removeTopicModel();
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 		stopAgentFrameWork();
 		super.tearDown();
 	}
