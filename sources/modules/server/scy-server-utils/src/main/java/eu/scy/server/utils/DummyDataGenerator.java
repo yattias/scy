@@ -80,16 +80,16 @@ public class DummyDataGenerator implements InitializingBean {
     }
 
     private void assignStudentsToPlan(PedagogicalPlan plan) {
-        assignStudent("Willy", "Wonka", "i3ii5wiwo" , "scy", plan);
-        assignStudent("Dare", "Devil", "ii53idade", "scy", plan);
-        assignStudent("Donald", "Duck", "i35iidodu", "scy", plan);
-        assignStudent("Uber", "Dude", "ii35iubdu", "scy", plan);
-        assignStudent("Harry", "Klein", "ii53ihakl", "scy", plan);
-        assignStudent("Hercule", "Poirot", "ii35ihepo", "scy", plan);
+        assignStudent("Willy", "Wonka", "wiwo" , "scy", plan);
+        assignStudent("Dare", "Devil", "dade", "scy", plan);
+        assignStudent("Donald", "Duck", "dodu", "scy", plan);
+        assignStudent("Uber", "Dude", "ubdu", "scy", plan);
+        assignStudent("Harry", "Klein", "hakl", "scy", plan);
+        assignStudent("Hercule", "Poirot", "hepo", "scy", plan);
     }
 
     private User assignStudent(String firstName, String lastName, String username, String password, PedagogicalPlan pedagogicalPlan) {
-        User student1 = addUserIfNotExists(firstName, lastName, username + Math.random(), password);
+        User student1 = addUserIfNotExists(firstName, lastName, username, password);
         if(student1 != null) {
             getStudentPedagogicalPlanPersistenceService().createStudentPlan(pedagogicalPlan, student1);
         }
@@ -238,6 +238,14 @@ public class DummyDataGenerator implements InitializingBean {
         las.setXPos(xPos);
         las.setYPos(yPos);
         las.setParticipatesIn(scenario);
+
+        Assessment assessment = new AssessmentImpl();
+        assessment.setName("Assessment for " + name);
+        las.setAssessment(assessment);
+
+        AssessmentStrategy strategy = new PeerToPeerAssessmentStrategyImpl();
+        assessment.setAssessmentStrategy(strategy);
+
         return las;
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
  * Time: 11:32:48
  * To change this template use File | Settings | File Templates.
  */
-public class LASServiceImpl implements LASService{
+public class LASServiceImpl extends BaseServiceImpl implements LASService{
 
     private LASDAO lasDAO;
 

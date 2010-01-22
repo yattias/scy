@@ -29,7 +29,8 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
     private int xPos;
     private int yPos;
 
-    @Transient
+    @OneToOne(targetEntity = AssessmentImpl.class, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn (name = "assessment_primKey")
     public Assessment getAssessment() {
         return assessment;
     }

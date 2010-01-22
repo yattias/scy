@@ -14,7 +14,7 @@ import java.util.List;
  * Time: 11:28:23
  * To change this template use File | Settings | File Templates.
  */
-public interface LASService {
+public interface LASService extends BaseService{
 
     public void addToolToLAS(Tool tool, LearningActivitySpace las);
 

@@ -171,6 +171,10 @@
     <bean id="lasDAO" class="eu.scy.core.persistence.hibernate.LASDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <bean id="assessmentDAO" class="eu.scy.core.persistence.hibernate.AssessmentDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     
     
 

@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 05:36:46
  * To change this template use File | Settings | File Templates.
  */
-public interface PedagogicalPlanPersistenceService {
+public interface PedagogicalPlanPersistenceService extends BaseService{
 
     public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates();
 

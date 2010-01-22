@@ -9,7 +9,7 @@ import eu.scy.core.model.pedagogicalplan.Tool;
  * Time: 11:07:39
  * To change this template use File | Settings | File Templates.
  */
-public interface ToolService {
+public interface ToolService extends BaseService{
 
     public void save(Tool tool);
 

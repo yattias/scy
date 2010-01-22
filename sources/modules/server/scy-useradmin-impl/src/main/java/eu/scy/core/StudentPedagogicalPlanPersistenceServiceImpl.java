@@ -14,7 +14,7 @@ import java.util.List;
  * Time: 13:28:09
  * To change this template use File | Settings | File Templates.
  */
-public class StudentPedagogicalPlanPersistenceServiceImpl implements StudentPedagogicalPlanPersistenceService{
+public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl implements StudentPedagogicalPlanPersistenceService{
 
     private StudentPedagogicalPlanPersistenceDAOHibernate studentPedagogicalPlanPersistenceDAO;
 

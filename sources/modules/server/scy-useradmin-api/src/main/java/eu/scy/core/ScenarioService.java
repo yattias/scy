@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 06:20:00
  * To change this template use File | Settings | File Templates.
  */
-public interface ScenarioService {
+public interface ScenarioService extends BaseService{
 
     public List getScenarios();
 

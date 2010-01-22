@@ -28,4 +28,8 @@
         <property name="lasDAO" ref="lasDAO"/>
     </bean>
 
+    <bean id="assessmentService" class="eu.scy.core.AssessmentServiceImpl">
+        <property name="assessmentDAO" ref="assessmentDAO"/>
+    </bean>
+
 </beans>

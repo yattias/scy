@@ -9,7 +9,7 @@ import eu.scy.core.model.User;
  * Time: 10:25:49
  * To change this template use File | Settings | File Templates.
  */
-public interface UserService {
+public interface UserService extends BaseService{
 
     public User getUser(String username);
 

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Time: 10:26:07
  * To change this template use File | Settings | File Templates.
  */
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl extends BaseServiceImpl implements UserService{
 
     private static Logger log = Logger.getLogger("UserServiceImpl.class");
 
