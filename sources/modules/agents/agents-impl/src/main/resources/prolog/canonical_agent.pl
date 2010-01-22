@@ -51,7 +51,7 @@ models in 50 runs.
 %	agent is interested in =run_model= actions from the SCY Dynamics tool.
 
 canonical_agent :-
-	agent_connect(InTS, _, [user('canonical agent')]),
+	agent_connect(InTS, _, [user('canonical')]),
 	agent_register(InTS,
 		       [ tuple_type(action),
 			 action_type('value_changed'),
@@ -75,6 +75,7 @@ change_variables_callback(write, _SeqId, [], [Tuple]) :-
 	tspl_tuple_field(Tuple, 2, Time),
 	tspl_tuple_field(Tuple, 4, Learner),
 	tspl_tuple_field(Tuple, 5, Tool),
+	tspl_tuple_field(Tuple, 6, Mission),
 	tspl_tuple_field(Tuple, 7, Session),
 	log_key_value(Tuple, name, VarName),
 	not(member(VarName, IgVars)),
@@ -84,7 +85,7 @@ change_variables_callback(write, _SeqId, [], [Tuple]) :-
 	term_to_atom(OldValue, OldValueStr),
 	Diff is abs(OldValue - NewValue),
 	change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChange),
-	change_variables_feedback(Learner, Tool, Session, IncChange), !,
+	change_variables_feedback(Learner, Tool, Mission, Session, IncChange), !,
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -128,16 +129,17 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, _) :-
 %	Creates a feedback tuple using the original action Tuple as template
 %	for some of the fields.
 
-change_variables_feedback(Learner, Tool, Session, IncChange) :-
+change_variables_feedback(Learner, Tool, Mission, Session, IncChange) :-
 	% Create fields for the feedback 
 	get_time(T1), T is T1 * 1000, sformat(Time, '~0f', [T]),
 	tspl_actual_field(string, inc_change, F0),
 	tspl_actual_field(string, Learner, F1),
 	tspl_actual_field(string, Tool, F2),
-	tspl_actual_field(string, Session, F3),
-	tspl_actual_field(double, IncChange, F4),
+	tspl_actual_field(string, Mission, F3),
+	tspl_actual_field(string, Session, F4),
 	tspl_actual_field(long, Time, F5),
-	tspl_tuple([F0,F1,F2,F3,F4,F5], Response),
+	tspl_actual_field(double, IncChange, F6),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6], Response),
 	out_ts(TS),
 	tspl_write(TS, Response).
 
@@ -159,8 +161,7 @@ field(user, 4).		% user name (should be unique!)
 field(tool, 5).		% tool name
 field(mission, 6).	% mission name
 field(session, 7).	% session id
-field(datatype, 8).	% datatype of the data
-field(data, 9).		% the data itself (arbitrary)
+field(data, 8).		% the data itself (arbitrary)
 
 
 /*------------------------------------------------------------
@@ -193,13 +194,6 @@ agent_connect(InTS, OutTS, Options) :-
 /*------------------------------------------------------------
  *  Access key-value pairs
  *------------------------------------------------------------*/
-
-test(Tuple) :-
-	in_ts(TS),
-	tspl_actual_field(string, action, F0),
-	tspl_wildcard_field(F1),
-	tspl_tuple([F0, F1], T),
-	tspl_read(TS, T, Tuple).
 
 log_key_value(Tuple, Key, Value) :-
 	string_concat(Key, '=', KeyEq),
@@ -242,19 +236,11 @@ agent_register(TS, Options) :-
 	->  tspl_actual_field(string, Mission, F6)
 	;   tspl_formal_field(string, F6)
 	),
-	(   memberchk(session(Action), Options)
-	->  tspl_actual_field(string, Action, F7)
+	(   memberchk(session(Session), Options)
+	->  tspl_actual_field(string, Session, F7)
 	;   tspl_formal_field(string, F7)
 	),
-	(   memberchk(datatype(Action), Options)
-	->  tspl_actual_field(string, Action, F8)
-	;   tspl_formal_field(string, F8)
-	),
-	(   memberchk(data(Action), Options)
-	->  tspl_actual_field(string, Action, F9)
-	;   tspl_formal_field(string, F9)
-	),
-	tspl_wildcard_field(F10),
-	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8,F9,F10], Query),
+	tspl_wildcard_field(F8),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8], Query),
 	memberchk(callback(Call), Options),
 	tspl_event_register(TS, write, Query, Call, _).
