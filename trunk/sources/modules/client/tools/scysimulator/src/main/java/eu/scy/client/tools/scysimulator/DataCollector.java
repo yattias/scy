@@ -171,7 +171,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         // URL imageUrl = this.getClass().getResource("pc.gif");
         // ImageIcon notificationImage = new ImageIcon(imageUrl);
 
-        notifyButton = new JButton("?");
+        notifyButton = new JButton("!");
         notifyButton.setFont(notifyButton.getFont().deriveFont(Font.BOLD));
         notifyButton.setVisible(false);
         notifyButton.setActionCommand("notification");
@@ -573,7 +573,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     float downFontSize = notifyButton.getFont().getSize();
                     float currentFontSize = downFontSize;
                     double updateMillis = 2;
-                    double cycleLengthInMillis = 100;
+                    double cycleLengthInMillis = 1000;
                     int count = 0;
                     double step = cycleLengthInMillis / updateMillis;
                     while (notify) {
