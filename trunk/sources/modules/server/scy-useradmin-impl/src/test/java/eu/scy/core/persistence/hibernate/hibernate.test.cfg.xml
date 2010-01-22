@@ -28,6 +28,8 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.PeerToPeerAssessmentStrategyImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ToolImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl"/>
+        <!--mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalImpl"/-->
+        <!--mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalContainerImpl"/-->
 
 
     </session-factory>

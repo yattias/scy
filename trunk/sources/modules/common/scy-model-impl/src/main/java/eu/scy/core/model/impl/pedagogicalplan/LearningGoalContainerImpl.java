@@ -4,7 +4,8 @@ import eu.scy.core.model.pedagogicalplan.BaseObject;
 import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
 
-import javax.persistence.*;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,12 +16,12 @@ import java.util.HashSet;
  * Date: 23.sep.2009
  * Time: 15:08:34
  */
-@Entity
-public abstract class LearningGoalContainerImpl extends BaseObjectImpl implements LearningGoalContainer {
+@MappedSuperclass
+public class LearningGoalContainerImpl extends BaseObjectImpl implements LearningGoalContainer {
 
     private Set<LearningGoal> learningGoals = new HashSet<LearningGoal>();
 
-    //OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.EAGER)
+    @Transient
     public Set<LearningGoal> getLearningGoals() {
         return learningGoals;
     }

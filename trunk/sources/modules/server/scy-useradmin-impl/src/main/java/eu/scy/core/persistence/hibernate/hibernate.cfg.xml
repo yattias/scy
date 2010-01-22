@@ -28,6 +28,7 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentStrategyImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.PeerToPeerAssessmentStrategyImpl"/>
+        <!--mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalImpl"/-->
 
     </session-factory>
 </hibernate-configuration>

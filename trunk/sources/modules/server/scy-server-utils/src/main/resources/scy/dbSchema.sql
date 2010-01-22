@@ -127,6 +127,18 @@ CREATE TABLE `mission` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `learninggoal`;
+CREATE TABLE `learninggoal` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `learningGoalContainer_primKey` varchar(55) NOT NULL default '',
+	PRIMARY KEY  (`primKey`),
+	KEY `learninggoaltomission` (`learningGoalContainer_primKey`),
+	CONSTRAINT `learninggoaltomissionconst` FOREIGN KEY (`learningGoalContainer_primKey`) REFERENCES `mission` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `assessment`;
 CREATE TABLE `assessment` (
 	`primKey` varchar(55) NOT NULL default '',
