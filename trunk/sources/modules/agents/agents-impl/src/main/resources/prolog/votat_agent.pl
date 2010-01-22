@@ -43,7 +43,7 @@ models in 50 runs.
 
 
 votat_agent :-
-	agent_connect(InTS, _, [user('votat agent')]),
+	agent_connect(InTS, _, [user('votat')]),
 	agent_register(InTS,
 		       [ tuple_type(action),
 			 action_type('value_changed'),
@@ -58,11 +58,12 @@ change_variables_callback(write, _SeqId, [], [Tuple]) :-
 	tspl_tuple_field(Tuple, 2, Time),
 	tspl_tuple_field(Tuple, 4, Learner),
 	tspl_tuple_field(Tuple, 5, Tool),
+	tspl_tuple_field(Tuple, 6, Mission),
 	tspl_tuple_field(Tuple, 7, Session),
 	log_key_value(Tuple, name, VarName),
 	not(member(VarName, IgVars)),
 	change_variables_evaluation(Learner, Tool, Session, VarName, Time, Votat),
-	change_variables_feedback(Learner, Tool, Session, Votat), !,
+	change_variables_feedback(Learner, Tool, Mission, Session, Votat), !,
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -113,46 +114,26 @@ most_often(VarName, VarNames, MaxCount) :-
 	count(VarName, MaxCount),
 	retractall(count(_, _)).
 
-
 remove_old_changes :-
 	vc_timeout_min(Timeout),
 	get_time(CurrTime),
-	findall(var_change(L, T, S, Time, V), (var_change(L, T, S, Time, V), Time < CurrTime - Timeout * 60), DelVCs),
+	findall(var_change(L, T, S, Time, V), (var_change(L, T, S, Time, V), Time < CurrTime * 1000 - Timeout * 60000), DelVCs),
+	write('Expiring: '), writeln(DelVCs),
 	forall(member(DelVC, DelVCs), retract(DelVC)).
 
-change_variables_feedback(Learner, Tool, Session, Votat) :-
+change_variables_feedback(Learner, Tool, Mission, Session, Votat) :-
 	% Create fields for the feedback 
 	get_time(T1), T is T1 * 1000, sformat(Time, '~0f', [T]),
 	tspl_actual_field(string, votat, F0),
 	tspl_actual_field(string, Learner, F1),
 	tspl_actual_field(string, Tool, F2),
-	tspl_actual_field(string, Session, F3),
-	tspl_actual_field(double, Votat, F4),
+	tspl_actual_field(string, Mission, F3),
+	tspl_actual_field(string, Session, F4),
 	tspl_actual_field(long, Time, F5),
-	tspl_tuple([F0,F1,F2,F3,F4,F5], Response),
+	tspl_actual_field(double, Votat, F6),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6], Response),
 	out_ts(TS),
 	tspl_write(TS, Response).
-
-
-/*************************************************************
-  ALL CODE THAT FOLLOWS IS SHARED BY ALL PROLOG BASED AGENTS
- ************************************************************/
-
-
-/*------------------------------------------------------------
- *  Fields of an action tuple
- *------------------------------------------------------------*/
-
-field(tuple_type, 0).	% =action= for learner actions and =feedback= for feedback to the tool
-field(id, 1).		% uuid
-field(date, 2).		% date and time in DC format
-field(action_type, 3).	% type of the action (depends on tool)
-field(user, 4).		% user name (should be unique!)
-field(tool, 5).		% tool name
-field(mission, 6).	% mission name
-field(session, 7).	% session id
-field(datatype, 8).	% datatype of the data
-field(data, 9).		% the data itself (arbitrary)
 
 
 /*------------------------------------------------------------
@@ -177,22 +158,14 @@ agent_connect(InTS, OutTS, Options) :-
 	(memberchk(host(Host), Options); host(Host)),
 	(memberchk(port(Port), Options); port(Port)),
 	(memberchk(user(User), Options); user(User)),
-	tspl_connect_to_ts(InSpace, Host, Port, User, password, InTS), !,
-	tspl_connect_to_ts(OutSpace, Host, Port, User, password, OutTS), !,
+	tspl_connect_to_ts(InSpace, Host, Port, User, '', InTS), !,
+	tspl_connect_to_ts(OutSpace, Host, Port, User, '', OutTS), !,
 	assert(in_ts(InTS)),
 	assert(out_ts(OutTS)).
 
 /*------------------------------------------------------------
  *  Access key-value pairs
  *------------------------------------------------------------*/
-
-test(Tuple) :-
-	in_ts(TS),
-	tspl_actual_field(string, action, F0),
-	tspl_wildcard_field(F1),
-	tspl_semiformal_field('newValue=*', F2),
-	tspl_tuple([F0, F1, F2], T),
-	tspl_read(TS, T, Tuple).
 
 log_key_value(Tuple, Key, Value) :-
 	string_concat(Key, '=', KeyEq),
@@ -235,19 +208,11 @@ agent_register(TS, Options) :-
 	->  tspl_actual_field(string, Mission, F6)
 	;   tspl_formal_field(string, F6)
 	),
-	(   memberchk(session(Action), Options)
-	->  tspl_actual_field(string, Action, F7)
+	(   memberchk(session(Session), Options)
+	->  tspl_actual_field(string, Session, F7)
 	;   tspl_formal_field(string, F7)
 	),
-	(   memberchk(datatype(Action), Options)
-	->  tspl_actual_field(string, Action, F8)
-	;   tspl_formal_field(string, F8)
-	),
-	(   memberchk(data(Action), Options)
-	->  tspl_actual_field(string, Action, F9)
-	;   tspl_formal_field(string, F9)
-	),
-	tspl_wildcard_field(F10),
-	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8,F9,F10], Query),
+	tspl_wildcard_field(F8),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8], Query),
 	memberchk(callback(Call), Options),
 	tspl_event_register(TS, write, Query, Call, _).
