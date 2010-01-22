@@ -20,7 +20,7 @@ public abstract class LearningGoalContainerImpl extends BaseObjectImpl implement
 
     private Set<LearningGoal> learningGoals = new HashSet<LearningGoal>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.EAGER)
+    //OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.EAGER)
     public Set<LearningGoal> getLearningGoals() {
         return learningGoals;
     }

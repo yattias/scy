@@ -18,8 +18,8 @@ public class LearningGoalImpl extends BaseObjectImpl implements LearningGoal {
 
     private LearningGoalContainer learningGoalContainer;
 
-    @ManyToOne(targetEntity = LearningGoalContainer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "learningGoalContainer_primKey")
+    //ManyToOne(targetEntity = LearningGoalContainer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //JoinColumn(name = "learningGoalContainer_primKey")
     public LearningGoalContainer getLearningGoalContainer() {
         return learningGoalContainer;
     }
