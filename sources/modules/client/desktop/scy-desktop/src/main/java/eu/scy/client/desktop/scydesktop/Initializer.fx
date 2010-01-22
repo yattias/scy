@@ -50,7 +50,8 @@ public class Initializer {
    public-init var scyDesktopConfigFile: String;
    public-init var storeElosOnDisk = true;
    public-init var createPersonalMissionMap = true;
-   public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";;
+//   public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
+   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
