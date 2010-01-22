@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * Date: 16.okt.2009
  * Time: 06:20:59
  */
-public class ScenarioServiceImpl implements ScenarioService{
+public class ScenarioServiceImpl extends BaseServiceImpl implements ScenarioService{
 
     private static Logger log = Logger.getLogger("ScenarioServiceImpl.class");
 

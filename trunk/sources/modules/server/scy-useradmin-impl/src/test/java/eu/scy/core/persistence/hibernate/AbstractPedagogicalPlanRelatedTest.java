@@ -22,12 +22,6 @@ public class AbstractPedagogicalPlanRelatedTest extends AbstractDAOTest {
     protected LASDAO lasdao;
     protected ToolDAO toolDAO;
 
-    protected Assessment createAssessment(String name) {
-        Assessment assessment = new AssessmentImpl();
-        assessment.setName(name);
-        return assessment;
-    }
-
     public PedagogicalPlanPersistenceDAO getPedagogicalPlanPersistenceDAO() {
         return pedagogicalPlanPersistenceDAO;
     }
@@ -58,11 +52,6 @@ public class AbstractPedagogicalPlanRelatedTest extends AbstractDAOTest {
 
     public void setToolDAO(ToolDAO toolDAO) {
         this.toolDAO = toolDAO;
-    }
-
-    protected AssessmentStrategy createAssessmentStrategy() {
-        PeerToPeerAssessmentStrategy strategy = new PeerToPeerAssessmentStrategyImpl();
-        return strategy;
     }
 
     protected PedagogicalPlanTemplateImpl createPedagogicalPlanTemplate(String name) {

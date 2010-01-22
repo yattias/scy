@@ -154,7 +154,7 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogi
     public void testStoringAssessments() {
         AssessmentImpl assessment = (AssessmentImpl) createAssessment("Default Assessment");
         assertNotNull(assessment);
-        assessment.setAssessmentStrategy(createAssessmentStrategy());
+        //assessment.setAssessmentStrategy(createAssessmentStrategy());
         getPedagogicalPlanPersistenceDAO().save(assessment);
         assertNotNull(assessment.getId());
         assertNotNull(((AssessmentStrategyImpl)assessment.getAssessmentStrategy()).getId());

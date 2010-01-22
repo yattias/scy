@@ -1,9 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ToolImpl;
+import eu.scy.core.model.impl.pedagogicalplan.*;
+import eu.scy.core.model.pedagogicalplan.Assessment;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.persistence.LASDAO;
 import org.junit.Test;
@@ -35,13 +33,23 @@ public class LASDAOHibernateTest extends AbstractDAOTest{
     @Test
     public void testAddToolToLAS() {
         ToolImpl tool = new ToolImpl();
-        ScenarioImpl scenario = new ScenarioImpl();
-        lasdao.save(scenario);
+
         LearningActivitySpaceImpl las = (LearningActivitySpaceImpl) createLAS("A LAS");
-        las.setParticipatesIn(scenario);
         lasdao.addToolToLAS(tool, las);
         assertNotNull(tool.getId());
         assertNotNull(las.getId());
+    }
+
+    @Test
+    public void testAddAssessmentToLAS() {
+        LearningActivitySpaceImpl las = (LearningActivitySpaceImpl) createLAS("LAS with assessmnet");
+        AssessmentImpl assessment = (AssessmentImpl) createAssessment(las.getName());
+        las.setAssessment(assessment);
+        assertNull(assessment.getId());
+        lasdao.save(las);
+        assertNotNull(las.getId());
+        assertNotNull(assessment.getId());
+
     }
 
 }

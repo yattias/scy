@@ -10,7 +10,7 @@ import eu.scy.core.persistence.ToolDAO;
  * Time: 11:08:14
  * To change this template use File | Settings | File Templates.
  */
-public class ToolServiceImpl implements ToolService{
+public class ToolServiceImpl extends BaseServiceImpl implements ToolService{
 
     private ToolDAO toolDAO;
 

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Time: 05:37:28
  * To change this template use File | Settings | File Templates.
  */
-public class PedagogicalPlanPersistenceServiceImpl implements PedagogicalPlanPersistenceService {
+public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl implements PedagogicalPlanPersistenceService {
 
     private static Logger log = Logger.getLogger("PedagogicalPlanPersistenceServiceImpl.class");
 

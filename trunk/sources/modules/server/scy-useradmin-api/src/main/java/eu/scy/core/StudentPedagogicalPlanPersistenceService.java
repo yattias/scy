@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 11:55:12
  * To change this template use File | Settings | File Templates.
  */
-public interface StudentPedagogicalPlanPersistenceService {
+public interface StudentPedagogicalPlanPersistenceService extends BaseService{
 
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user);
 
