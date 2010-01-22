@@ -6,5 +6,6 @@ package eu.scy.core.model.pedagogicalplan;
  * Date: 10.sep.2009
  * Time: 11:22:57
  */
+
 public interface LearningGoal extends BaseObject {
 }

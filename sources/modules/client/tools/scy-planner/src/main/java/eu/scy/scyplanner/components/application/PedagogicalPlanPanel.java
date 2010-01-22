@@ -6,6 +6,8 @@ import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.DefaultNode;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scymapper.impl.shapes.links.Arrowhead;
+import eu.scy.scymapper.impl.shapes.links.QuadCurvedLine;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
@@ -186,7 +188,13 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         link.getStyle().setColor(new Color(0x4f81bc));
         link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));
 
-        link.setShape(new Arrow());
+        Arrowhead head = new Arrowhead();
+        head.setLength(7);
+        Arrow arrow = new Arrow();
+        arrow.setLineShape(new QuadCurvedLine());
+        arrow.setHead(head);
+
+        link.setShape(arrow);
         diagramModel.addLink(link);
     }
 
