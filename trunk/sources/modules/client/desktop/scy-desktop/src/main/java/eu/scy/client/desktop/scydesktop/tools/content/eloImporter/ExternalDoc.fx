@@ -317,16 +317,23 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       if (newElo != null)
       {
          var metadata = newElo.getMetadata();
-//         IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
-//         // TODO fixe the locale problem!!!
-//         Object titleObject = metadataValueContainer.getValue();
-//         Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-//         Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-//
-//         setDocName(titleObject3.toString());
-//         var text = eloContentXmlToText(newElo.getContent().getXmlString());
-//         textEditor.setText(text);
-         logger.info("elo text loaded");
+         var externalDocAnnotation = elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
+         if (externalDocAnnotation!=null){
+            assignment = externalDocAnnotation.getAssignment();
+            fileName = externalDocAnnotation.getFileName();
+            filePath = externalDocAnnotation.getFilePath();
+            fileLastModified = externalDocAnnotation.getFileLastModified();
+            fileSize = externalDocAnnotation.getFileSize();
+            if (fileSize>=0){
+               fileContent.setBytes(elo.getContent().getBytes());
+            }
+            file =new File(filePath,fileName);
+         }
+         else{
+            logger.warn("there is no externalDocAnnotation found");
+         }
+
+         logger.info("elo loaded");
          elo = newElo;
       }
    }
@@ -359,6 +366,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
          }
          elo.getContent().setBytes(fileContent.getBytes());
       }
+
       return elo;
    }
 
