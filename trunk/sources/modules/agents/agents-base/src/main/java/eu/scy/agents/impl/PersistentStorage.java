@@ -111,6 +111,7 @@ public class PersistentStorage implements IPersistentStorage {
 			TupleID tupleId = key2TupleId.get(key);
 			try {
 				tupleSpace.takeTupleById(tupleId);
+				key2TupleId.remove(key);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
