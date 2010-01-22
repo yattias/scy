@@ -19,7 +19,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
+public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements Callback {
 
 
     private TupleSpace commandSpace;
@@ -53,10 +53,9 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
         super("eu.scy.agents.serviceprovider.userexperience.ScySimBehaviourClassifier", (String) map.get("id"), "scy.collide.info", 2525);
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
-            SessionCallback cb = new SessionCallback();
-            userExpSeq = commandSpace.eventRegister(Command.WRITE, USER_EXP_TEMPLATE, cb, false);
-            votatSeq = commandSpace.eventRegister(Command.WRITE, VOTAT_TEMPLATE, cb, false);
-            canoSeq = commandSpace.eventRegister(Command.WRITE, CANONICAL_TEMPLATE, cb, false);
+            userExpSeq = commandSpace.eventRegister(Command.WRITE, USER_EXP_TEMPLATE, this, true);
+            votatSeq = commandSpace.eventRegister(Command.WRITE, VOTAT_TEMPLATE, this, true);
+            canoSeq = commandSpace.eventRegister(Command.WRITE, CANONICAL_TEMPLATE, this, true);
             userModels = new HashMap<String, BehavioralModel>();
             initLogger();
         } catch (TupleSpaceException e) {
@@ -99,36 +98,6 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
         return isStopped;
     }
 
-    class SessionCallback implements Callback {
-
-        @Override
-        public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-            String user = null;
-            String tool = null;
-            String mission = null;
-            String session = null;
-            BehavioralModel model = null;
-            if (seqnum == votatSeq) {
-                int newVotat = ((Double) afterTuple.getField(4).getValue()).intValue();
-                model = getModel(user, tool, mission, session);
-                model.updateVotat(newVotat);
-
-            } else if (seqnum == userExpSeq) {
-                int newUserExp = ((Double) afterTuple.getField(4).getValue()).intValue();
-                int l =(int) (newUserExp / MAX_EXP_TIME * 100);
-                model = getModel(user, tool, mission, session);
-                model.updateUserExp(l);
-
-            } else if (seqnum == canoSeq) {
-                int newCanonical = ((Double) afterTuple.getField(4).getValue()).intValue();
-                model = getModel(user, tool, mission, session);
-                model.updateCanonical(newCanonical);
-
-            } else {
-                System.err.println("Callback without registered seqnum arrived!");
-            }
-        }
-    }
 
     private void initLogger() {
         ConsoleHandler cH = new ConsoleHandler();
@@ -142,11 +111,39 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent {
     public BehavioralModel getModel(String user, String tool, String session, String mission) {
         BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session);
         if (model == null) {
-            model = new BehavioralModel(name, tool, mission, session, 0, 0, 0, commandSpace);
-            logger.log(Level.FINE, "New Model for " + name + " with tool " + tool + " created...");
+            model = new BehavioralModel(user, tool, mission, session, 0, 0, 0, commandSpace);
+            userModels.put(user + "/" + tool + "/" + mission + "/" + session, model);
+            logger.log(Level.FINE, "New Model for " + user + " with tool " + tool + " created...");
         }
         return model;
 
+    }
+    @Override
+    public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
+        String user = afterTuple.getField(1).getValue().toString();
+        String tool = afterTuple.getField(2).getValue().toString();
+        String mission =  afterTuple.getField(3).getValue().toString();
+        String session =  afterTuple.getField(4).getValue().toString();
+        BehavioralModel model = null;
+        if (seqnum == votatSeq) {
+            int newVotat = ((Double) afterTuple.getField(6).getValue()).intValue();
+            model = getModel(user, tool, mission, session);
+            model.updateVotat(newVotat);
+
+        } else if (seqnum == userExpSeq) {
+            int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
+            int l =(int) (newUserExp / MAX_EXP_TIME * 100);
+            model = getModel(user, tool, mission, session);
+            model.updateUserExp(l);
+
+        } else if (seqnum == canoSeq) {
+            int newCanonical = ((Double) afterTuple.getField(6).getValue()).intValue();
+            model = getModel(user, tool, mission, session);
+            model.updateCanonical(newCanonical);
+
+        } else {
+            System.err.println("Callback without registered seqnum arrived!");
+        }
     }
 
 }
