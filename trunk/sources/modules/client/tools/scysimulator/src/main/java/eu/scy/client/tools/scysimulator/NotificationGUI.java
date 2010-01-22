@@ -9,20 +9,18 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,6 +33,50 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class NotificationGUI extends JDialog implements ActionListener {
+
+    private final class NotificationCellRenderer implements ListCellRenderer {
+
+        private List<Entry<String, String>> texts;
+        private Frame parentFrame;
+
+        public NotificationCellRenderer(List<Entry<String, String>> texts, Frame parentFrame) {
+           this.texts = texts;
+           this.parentFrame=parentFrame;
+        }
+
+        @Override
+        public Component getListCellRendererComponent(final JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            String text = (String) value;
+            JButton but = new JButton(text);
+            but.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    SwingUtilities.invokeLater(new Runnable() {
+//                      
+                      @Override
+                      public void run() {
+                          Entry<String, String> entry = texts.get(list.getSelectedIndex());
+                          JOptionPane.showMessageDialog(parentFrame, entry.getValue());
+                      
+                      }
+                  });
+                
+                }
+            });
+            if (isSelected) {
+                but.setBackground(Color.RED);
+                but.setForeground(Color.RED);
+                but.setFont(but.getFont().deriveFont(Font.BOLD));
+            } else {
+                Color defaultColor = (Color) UIManager.get("button.background");
+                but.setForeground(defaultColor);
+                but.setBackground(defaultColor);
+                but.setFont(but.getFont().deriveFont(Font.PLAIN));
+            }
+            return but;
+        }
+    }
 
     private JButton okButton;
 
@@ -68,33 +110,7 @@ public class NotificationGUI extends JDialog implements ActionListener {
             
             model.addElement(text.getKey());
         }
-        hintList.setCellRenderer(new ListCellRenderer() {
-
-            @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                String text = (String) value;
-                JButton but = new JButton(text);
-                but.addActionListener(new ActionListener() {
-                    
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                  
-                    
-                    }
-                });
-                if (isSelected) {
-                    but.setBackground(Color.RED);
-                    but.setForeground(Color.RED);
-                    but.setFont(but.getFont().deriveFont(Font.BOLD));
-                } else {
-                    Color defaultColor = (Color) UIManager.get("button.background");
-                    but.setForeground(defaultColor);
-                    but.setBackground(defaultColor);
-                    but.setFont(but.getFont().deriveFont(Font.PLAIN));
-                }
-                return but;
-            }
-        });
+        hintList.setCellRenderer(new NotificationCellRenderer(texts,parentFrame));
 
         hintList.setSelectionBackground(Color.RED);
         // hintList.setEnabled(false);
@@ -108,11 +124,11 @@ public class NotificationGUI extends JDialog implements ActionListener {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 final JList source = (JList) e.getSource();
+                int componentCount = source.getComponentCount();
                 SwingUtilities.invokeLater(new Runnable() {
                     
                     @Override
                     public void run() {
-                    // TODO Auto-generated method stub
                         Entry<String, String> entry = texts.get(source.getSelectedIndex());
                         JOptionPane.showMessageDialog(parentFrame, entry.getValue());
                     
@@ -120,6 +136,8 @@ public class NotificationGUI extends JDialog implements ActionListener {
                 });
 
             }
+
+            
         });
         JScrollPane scrollPane = new JScrollPane(hintList);
         annotationTF = new JTextField(12);
