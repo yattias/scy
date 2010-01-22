@@ -16,6 +16,8 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
+
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 
 import eu.scy.agents.AbstractTestFixture;
@@ -78,6 +80,7 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
+	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
 		getTupleSpace().write(
