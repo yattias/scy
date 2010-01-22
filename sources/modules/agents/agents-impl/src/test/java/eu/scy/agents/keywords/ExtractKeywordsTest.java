@@ -80,7 +80,7 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
-	@Test
+	@Test(timeout = 10000)
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
 		getTupleSpace().write(
