@@ -26,6 +26,8 @@
             <ref bean="logicalTypeKey"/>
             <ref bean="functionalTypeKey"/>
 
+            <ref bean="externalDocAnnotationKey"/>
+
             <ref bean="lineCountKey"/>
             <ref bean="rectangleCountKey"/>
             <ref bean="ovalCountKey"/>
@@ -161,7 +163,16 @@
       <constructor-arg index="4" ref="defaultStringValidator"/>
    </bean>
 
-  <bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+    <bean name="externalDocAnnotationKey" class="roolo.elo.metadata.keys.ExternalDocAnnotationKey">
+      <constructor-arg index="0" value="externalDoc"/>
+      <constructor-arg index="1" value="/lom/annotation"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultStringValidator"/>
+   </bean>
+
+	
+	<bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
       <constructor-arg index="0" value='testStringList'/>
       <constructor-arg index="1" value='/test/list'/>
       <constructor-arg index="2" value="SPECIFIC"/>
