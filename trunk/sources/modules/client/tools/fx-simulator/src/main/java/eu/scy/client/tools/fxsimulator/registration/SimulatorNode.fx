@@ -83,7 +83,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     override public function processNotification (note: INotification): Void {
         if (dataCollector != null) {
                 logger.info("process notification, forwarding to DataCollector");
-                dataCollector.processNotification(note
+                dataCollector.processNotification(note);
         } else {
             logger.info("notification not processed, DataCollector == null");
         }
@@ -177,7 +177,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             simquestPanel.removeAll();
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
-            toolBrokerAPI.registerForNotifications(this);
+            toolBrokerAPI.registerForNotifications(this as INotifiable);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
         } catch (e: java
             .lang.Exception) {
