@@ -133,10 +133,10 @@ CREATE TABLE `learninggoal` (
 	`name` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
-    `learningGoalContainer_primKey` varchar(55) NOT NULL default '',
+    `mission_primKey` varchar(55) default NULL ,
 	PRIMARY KEY  (`primKey`),
-	KEY `learninggoaltomission` (`learningGoalContainer_primKey`),
-	CONSTRAINT `learninggoaltomissionconst` FOREIGN KEY (`learningGoalContainer_primKey`) REFERENCES `mission` (`primKey`)
+	KEY `learninggoaltomission` (`mission_primKey`),
+	CONSTRAINT `learninggoaltomissionconst` FOREIGN KEY (`mission_primKey`) REFERENCES `mission` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `assessment`;

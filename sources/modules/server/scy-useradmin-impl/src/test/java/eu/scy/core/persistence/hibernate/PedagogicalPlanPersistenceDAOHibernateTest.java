@@ -88,8 +88,8 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogi
         PedagogicalPlanTemplateImpl template = createPedagogicalPlanTemplate(NAME);
 
         PedagogicalPlanImpl plan1 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
-        //PedagogicalPlan loadedPlan = (PedagogicalPlan) pedagogicalPlanPersistenceDAO.getPedagogicalPlanByName(NAME);
-        //assertNotNull(loadedPlan);
+        PedagogicalPlan loadedPlan = (PedagogicalPlan) pedagogicalPlanPersistenceDAO.getPedagogicalPlanByName(NAME);
+        assertNotNull(loadedPlan);
 
 
     }

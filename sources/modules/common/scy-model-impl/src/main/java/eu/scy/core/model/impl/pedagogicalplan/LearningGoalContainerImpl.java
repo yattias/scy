@@ -1,14 +1,12 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
-import eu.scy.core.model.pedagogicalplan.BaseObject;
-import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
+import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-import java.util.Set;
-import java.util.HashMap;
+import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,24 +15,9 @@ import java.util.HashSet;
  * Time: 15:08:34
  */
 @MappedSuperclass
-public class LearningGoalContainerImpl extends BaseObjectImpl implements LearningGoalContainer {
+public abstract class LearningGoalContainerImpl extends BaseObjectImpl implements LearningGoalContainer {
 
-    private Set<LearningGoal> learningGoals = new HashSet<LearningGoal>();
+    //public abstract List<LearningGoal> getLearningGoals() ;
 
-    @Transient
-    public Set<LearningGoal> getLearningGoals() {
-        return learningGoals;
-    }
-
-    public void setLearningGoals(Set<LearningGoal> learningGoals) {
-        this.learningGoals = learningGoals;
-    }
-
-    public void addLearningGoal(LearningGoal learningGoal) {
-        learningGoals.add(learningGoal);
-    }
-
-    public void removeLearningGoal(LearningGoal learningGoal) {
-        learningGoals.remove(learningGoal);
-    }
+   
 }
