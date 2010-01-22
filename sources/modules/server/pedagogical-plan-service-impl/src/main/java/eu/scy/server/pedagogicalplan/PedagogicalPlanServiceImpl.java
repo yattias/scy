@@ -94,4 +94,9 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
         return getLasService().getToolConfigurations(learningActivitySpace);
     }
 
+    @Override
+    public List<PedagogicalPlan> getPedagogicalPlans() {
+        return getPedagogicalPlanPersistenceService().getPedagogicalPlans();
+    }
+
 }

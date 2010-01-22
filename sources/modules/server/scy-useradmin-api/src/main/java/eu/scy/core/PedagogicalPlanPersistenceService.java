@@ -35,4 +35,10 @@ public interface PedagogicalPlanPersistenceService extends BaseService{
 
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario);
 
+    /**
+     * retrieves all pedagogical plans the current user has access to
+     * @return
+     */
+    public List<PedagogicalPlan> getPedagogicalPlans();
+
 }
