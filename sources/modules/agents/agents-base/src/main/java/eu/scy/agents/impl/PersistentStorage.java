@@ -32,7 +32,7 @@ public class PersistentStorage implements IPersistentStorage {
 	private static final String PERSISTENT_STORAGE = "persistent_storage_1_0";
 	private TupleSpace tupleSpace;
 
-	private static HashMap<String, TupleID> key2TupleId = new HashMap<String, TupleID>();;
+	private static HashMap<String, TupleID> key2TupleId = new HashMap<String, TupleID>();
 
 	/**
 	 * Create a new {@link PersistentStorage} instance.
