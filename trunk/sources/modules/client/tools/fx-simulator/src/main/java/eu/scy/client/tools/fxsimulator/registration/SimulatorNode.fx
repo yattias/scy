@@ -32,8 +32,11 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.awt.event.ActionEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import javax.swing.JLabel;
+import eu.scy.notification.api.INotifiable;
+import java.lang.UnsupportedOperationException;
+import eu.scy.notification.api.INotification;
 
-public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener {
+public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     def simconfigType = "scy/simconfig";
@@ -74,6 +77,15 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
+        }
+    }
+
+    override public function processNotification (note: INotification): Void {
+        if (dataCollector != null) {
+                logger.info("process notification, forwarding to DataCollector");
+                dataCollector.processNotification(note
+        } else {
+            logger.info("notification not processed, DataCollector == null");
         }
     }
 
@@ -165,6 +177,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             simquestPanel.removeAll();
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
+            toolBrokerAPI.registerForNotifications(this);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
         } catch (e: java
             .lang.Exception) {

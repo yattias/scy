@@ -33,6 +33,12 @@
          <version>${pom.version}</version>
       </dependency>
 
+       <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>notification-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
    </dependencies>
 
    <build>
