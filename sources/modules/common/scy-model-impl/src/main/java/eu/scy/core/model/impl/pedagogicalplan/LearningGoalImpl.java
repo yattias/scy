@@ -12,13 +12,14 @@ import javax.persistence.*;
  * Time: 15:09:52
  */
 
-@Entity
-@Table(name="learninggoal")
+//Entity
+//Table(name="learninggoal")
 public class LearningGoalImpl extends BaseObjectImpl implements LearningGoal {
 
     private LearningGoalContainer learningGoalContainer;
 
-    //ManyToOne(targetEntity = LearningGoalContainer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Transient
+    //ManyToOne(targetEntity = LearningGoalContainerImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //JoinColumn(name = "learningGoalContainer_primKey")
     public LearningGoalContainer getLearningGoalContainer() {
         return learningGoalContainer;

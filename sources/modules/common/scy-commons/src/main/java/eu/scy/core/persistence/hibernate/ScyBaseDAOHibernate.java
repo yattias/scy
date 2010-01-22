@@ -19,6 +19,8 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
         return getHibernateTemplate().get(clazz, id);
     }
 
+
+
     /**
      * Dangerous method - need to use ACL to be sure this one does not mess up a lot!
      */
