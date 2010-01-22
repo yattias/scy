@@ -38,9 +38,12 @@ public class WindowTitleBar extends WindowElement {
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
    public var iconCharacter = "?";
    public var activated = true on replace{eloIcon.selected = activated;};
-   public var iconSize = 16.0;
+   public var iconSize = 17.0;
    public var iconGap = 2.0;
+   public var textIconSpace = 2.0;
    public var closeBoxWidth = 0.0;
+   public var textInset = 1.0;
+   public var rectangleAntialiasOffset = 1.0;
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def eloTypeFontsize = 14;
@@ -63,21 +66,21 @@ public class WindowTitleBar extends WindowElement {
          content:[
             eloIcon,
             Rectangle{
-							x: iconSize
-							y: 0
-							width: bind width - iconSize
-							height: iconSize
+							x: iconSize+textIconSpace
+							y: rectangleAntialiasOffset
+							width: bind width - iconSize - textIconSpace
+							height: iconSize-rectangleAntialiasOffset
 							fill: bind mainColor
 						},
             Text { // title
                font: textFont
                textOrigin:TextOrigin.BOTTOM;
-               x: iconSize + iconGap,
-               y: iconSize
+               x: iconSize + textIconSpace+textInset,
+               y: iconSize-textInset
                clip:Rectangle{
-                  x: iconSize
+                  x: iconSize+textIconSpace
                   y: 0
-                  width: bind width - iconSize - closeBoxWidth
+                  width: bind width - iconSize - textIconSpace - closeBoxWidth
                   height: iconSize
                   fill: bind mainColor
                }
