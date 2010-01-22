@@ -38,7 +38,7 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener {
         setBackground(SCYPlannerApplicationManager.getAlternativeBackgroundColor());
 
         // Register myself as observer for changes in the model
-        this.model.addDiagramListener(this);
+        model.addDiagramListener(this);
 
         setLayout(null);
 

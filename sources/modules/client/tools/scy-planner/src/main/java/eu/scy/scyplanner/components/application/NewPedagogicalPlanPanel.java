@@ -24,8 +24,8 @@ public class NewPedagogicalPlanPanel extends JPanel {
     public NewPedagogicalPlanPanel() {
         super(new BorderLayout());
 
-        TitledList missionList = new TitledList(Strings.getString("Available missions"), createMissionListModel(), BorderFactory.createEmptyBorder(0, 0, SCYPlannerApplicationManager.getDefaultBorderSize(), 0));
-        TitledList scenarioList = new TitledList(Strings.getString("Available scenarios"), createScenarioListModel());
+        TitledList missionList = new TitledList(Strings.getString("Available missions"), createMissionListModel(), true, BorderFactory.createEmptyBorder(0, 0, SCYPlannerApplicationManager.getDefaultBorderSize(), 0));
+        TitledList scenarioList = new TitledList(Strings.getString("Available scenarios"), createScenarioListModel(), true);
         add(createMissionScenarioPanel(missionList, scenarioList), BorderLayout.WEST);
 
         add(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorderForTitledPanel(new TitledPanel("Default pedagogical plan", new BorderLayout(), new DefaultPedagogicalPlanInformationPanel(missionList.getList(), scenarioList.getList()), BorderLayout.CENTER)));
@@ -56,11 +56,9 @@ public class NewPedagogicalPlanPanel extends JPanel {
 
     private DefaultListModel createScenarioListModel() {
         DefaultListModel model = new DefaultListModel();
-        System.out.println("GETTING SCENIS!");
         List <Scenario> scenarios = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getScenarios();
         for (Scenario scenario: scenarios) {
             model.addElement(scenario);
-            System.out.println("adding " + scenario.getName() + " " + scenario.getDescription());
         }
         return model;
     }

@@ -3,6 +3,7 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
+import java.util.List;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -36,15 +37,16 @@ public class ScenarioImpl extends BaseObjectImpl implements Scenario {
     }
 
     @Transient
-    public Set<LearningGoal> getLearningGoals() {
-        return this.learningGoals;
+    @Override
+    public List<LearningGoal> getLearningGoals() {
+        return null;
     }
 
-
-    public void setLearningGoals(Set<LearningGoal> learningGoals) {
-        this.learningGoals = learningGoals;
+    @Override
+    public void setLearningGoals(List<LearningGoal> learningGoals) {
 
     }
+
 
     public void addLearningGoal(LearningGoal learningGoal) {
         getLearningGoals().add(learningGoal);

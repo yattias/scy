@@ -76,6 +76,10 @@ public class ScyBaseObject implements ScyBase, Serializable {
 
         ScyBaseObject that = (ScyBaseObject) o;
 
+        if (this.getId() != null && that.getId() != null) {
+            return this.getId().equals(that.getId());
+        }
+
         if (timeCreated != null ? !timeCreated.equals(that.timeCreated) : that.timeCreated != null) return false;
 
         return true;
@@ -86,6 +90,7 @@ public class ScyBaseObject implements ScyBase, Serializable {
         return timeCreated != null ? timeCreated.hashCode() : 0;
     }
 
+    
     /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;

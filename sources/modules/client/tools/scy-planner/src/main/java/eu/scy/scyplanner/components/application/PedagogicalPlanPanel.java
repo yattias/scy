@@ -34,9 +34,6 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     private static Logger log = Logger.getLogger("eu.scy.scyplanner.components.application.PedagogicalPlanPanel");
     private IDiagramModel diagramModel;
 
-    private INodeModel selectedNode;
-    private JLabel selectedLabel;
-
     public PedagogicalPlanPanel(PedagogicalPlan pedagogicalPlan) {
         Mission mission = pedagogicalPlan.getMission();
         Scenario scenario = pedagogicalPlan.getScenario();
@@ -53,7 +50,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         diagramModel.addDiagramListener(this);
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
-        tabbedPane.addTab(Strings.getString("Overview"), view);
+        tabbedPane.addTab(Strings.getString("Overview"), new JScrollPane(view));
         view.addObserver(new Observer() {
             public void update(Observable observable, Object object) {
                 Object model = (((DefaultNode) object).getObject());
@@ -71,9 +68,6 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
         setLayout(new BorderLayout());
         add(tabbedPane, BorderLayout.CENTER);
-
-        selectedLabel = new JLabel(Strings.getString("No node selected yet"));
-        add(selectedLabel, BorderLayout.PAGE_END);
     }
 
     private void addTab(JTabbedPane tabbedPane, JComponent component, Object model) {
