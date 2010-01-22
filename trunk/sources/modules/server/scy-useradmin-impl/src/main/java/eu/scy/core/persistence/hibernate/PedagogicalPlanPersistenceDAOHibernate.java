@@ -71,4 +71,10 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         return null;
 
     }
+
+    @Override
+    public List<PedagogicalPlan> getPedagogicalPlans() {
+        return getSession().createQuery("from PedagogicalPlanImpl order by name")
+                .list();
+    }
 }
