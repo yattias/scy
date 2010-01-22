@@ -133,6 +133,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         } else if (seqnum == userExpSeq) {
             int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
             int l =(int) (newUserExp / MAX_EXP_TIME * 100);
+            l=Math.min(l, 100);
             model = getModel(user, tool, mission, session);
             model.updateUserExp(l);
 
