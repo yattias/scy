@@ -135,6 +135,7 @@ public class AbstractPedagogicalPlanRelatedTest extends AbstractDAOTest {
     private Mission generateMission(String name) {
         Mission mission = new MissionImpl();
         mission.setName(name);
+        getScenarioDAO().save(mission);
         return mission;
 
     }

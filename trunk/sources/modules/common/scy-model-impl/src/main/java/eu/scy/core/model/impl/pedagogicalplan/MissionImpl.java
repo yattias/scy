@@ -1,11 +1,12 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.pedagogicalplan.LearningGoal;
 import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.LearningMaterial;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,6 +19,10 @@ import java.util.Set;
 @Entity
 @Table(name = "mission")
 public class MissionImpl extends LearningGoalContainerImpl implements Mission {
+
+
+
+    private List<LearningGoal> learningGoals;
 
     @Transient
     public Set<? extends LearningMaterial> getLearningMaterials() {
@@ -47,5 +52,22 @@ public class MissionImpl extends LearningGoalContainerImpl implements Mission {
     @Transient
     public String getTargetGroup() {
         return null;
+    }
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.EAGER)
+    public List<LearningGoal> getLearningGoals() {
+        return learningGoals;
+    }
+
+     public void setLearningGoals(List<LearningGoal> learningGoals) {
+        this.learningGoals = learningGoals;
+    }
+
+    public void addLearningGoal(LearningGoal learningGoal) {
+        learningGoals.add(learningGoal);
+    }
+
+    public void removeLearningGoal(LearningGoal learningGoal) {
+        learningGoals.remove(learningGoal);
     }
 }

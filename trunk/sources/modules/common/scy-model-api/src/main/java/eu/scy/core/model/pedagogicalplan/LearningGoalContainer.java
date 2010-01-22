@@ -1,5 +1,6 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,8 +12,8 @@ import java.util.Set;
  */
 public interface LearningGoalContainer extends BaseObject {
 
-    public Set<LearningGoal> getLearningGoals();
-    public void setLearningGoals(Set <LearningGoal> learningGoals);
+    public List<LearningGoal> getLearningGoals();
+    public void setLearningGoals(List <LearningGoal> learningGoals);
 
     public void addLearningGoal(LearningGoal learningGoal);
     public void removeLearningGoal(LearningGoal learningGoal);
