@@ -28,6 +28,7 @@ import roolo.elo.api.IELO;
 import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.ExternalDocAnnotation;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Resizable;
@@ -35,6 +36,9 @@ import javafx.scene.control.TextBox;
 import javafx.scene.control.CheckBox;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 
 
 /**
@@ -58,14 +62,16 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
     def fileChooser = new JFileChooser();
     var lastUsedDirectory:File;
     var file:File;
-    var fileName:String = "?";
-    var filePath:String = "?";
+    var fileName:String = "";
+    var filePath:String = "";
     var fileLastModified:Long;
-    var fileSize:Long;
+    var fileSize:Long = -1;
     var syncState:String;
     var reloadPossible = false;
     var autoReload = true;
     var fileContent = new FileContent();
+
+    var assignment:String;
 
     def nrOfColumns = 40;
     def valueOffset = 90.0;
@@ -78,6 +84,28 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                layoutX:spacing
                spacing:spacing
                content: [
+                  Text {
+                     font : Font {
+                        size: 12
+                     }
+                     x: 10, y: 10
+                     content: "Here you can import and export a document, which is the content of this ELO."
+                  }
+                  Group{
+                     content:[
+                        Label {
+                           layoutY:labelOffset
+                           text: "Assignment"
+                        }
+                        TextBox {
+                           layoutX:valueOffset
+                           text: bind assignment
+                           columns: nrOfColumns
+                           selectOnFocus: true
+                           editable:true
+                        }
+                     ]
+                  }
                   Group{
                      content:[
                         Label {
@@ -177,6 +205,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
    var technicalFormatKey: IMetadataKey;
    var titleKey: IMetadataKey;
+   var externalDocAnnotationKey:IMetadataKey;
    
    var autoSyncStateUpdateer = Timeline {
          repeatCount: Timeline.INDEFINITE
@@ -223,6 +252,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+      externalDocAnnotationKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.EXTERNAL_DOC);
    }
 
    public override function loadElo(uri:URI){
@@ -245,14 +275,14 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      content:[
                         Button {
                            text: "Save"
-                           disable:bind file==null
+                           //disable:bind file==null
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
                            text: "Save as"
-                           disable:bind file==null
+                           //disable:bind file==null
                            action: function() {
 										doSaveAsElo();
                            }
@@ -315,6 +345,13 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType);
       }
+      var externalDocAnnotation = new ExternalDocAnnotation();
+      externalDocAnnotation.setAssignment(assignment);
+      externalDocAnnotation.setFileName(fileName);
+      externalDocAnnotation.setFilePath(filePath);
+      externalDocAnnotation.setFileLastModified(fileLastModified);
+      externalDocAnnotation.setFileSize(fileSize);
+      elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).setValue(externalDocAnnotation);
       if (file!=null){
          elo.getMetadata().getMetadataValueContainer(titleKey).setValue(fileName);
          if (reloadPossible and autoReload){
