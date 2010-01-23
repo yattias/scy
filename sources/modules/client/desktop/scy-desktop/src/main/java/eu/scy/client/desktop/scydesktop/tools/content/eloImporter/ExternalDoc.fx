@@ -17,14 +17,15 @@ import java.net.URI;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import javax.swing.JFileChooser;
+//import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.awt.Component;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
+import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IELO;
 import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -53,7 +54,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
    public var technicalType:String;
-   public var extensions:String[];
+   public-init var extensions:String[];
 
    var elo:IELO;
 
@@ -99,7 +100,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                         }
                         TextBox {
                            layoutX:valueOffset
-                           text: bind assignment
+                           text: bind assignment with inverse
                            columns: nrOfColumns
                            selectOnFocus: true
                            editable:true
@@ -219,6 +220,11 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       }
 
    init{
+      if (sizeof extensions > 0){
+         // TODO, find out out why netbeans does not use java 1.6
+         //fileChooser.setFileFilter(new FileNameExtensionFilter("description",extensions));
+      }
+
       autoSyncStateUpdateer.play();
    }
 
@@ -317,7 +323,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       if (newElo != null)
       {
          var metadata = newElo.getMetadata();
-         var externalDocAnnotation = elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
+         var externalDocAnnotation = newElo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
          if (externalDocAnnotation!=null){
             assignment = externalDocAnnotation.getAssignment();
             fileName = externalDocAnnotation.getFileName();
@@ -326,8 +332,13 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
             fileSize = externalDocAnnotation.getFileSize();
             if (fileSize>=0){
                fileContent.setBytes(elo.getContent().getBytes());
+               file =new File(filePath,fileName);
             }
-            file =new File(filePath,fileName);
+            else{
+               file=null;
+            }
+            logger.info("externalDocAnnotation retrieved: {externalDocAnnotation}");
+
          }
          else{
             logger.warn("there is no externalDocAnnotation found");
@@ -358,6 +369,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       externalDocAnnotation.setFilePath(filePath);
       externalDocAnnotation.setFileLastModified(fileLastModified);
       externalDocAnnotation.setFileSize(fileSize);
+      logger.info("externalDocAnnotation to save: {externalDocAnnotation}");
       elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).setValue(externalDocAnnotation);
       if (file!=null){
          elo.getMetadata().getMetadataValueContainer(titleKey).setValue(fileName);
