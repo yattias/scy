@@ -27,7 +27,7 @@ var initializer = Initializer{
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"local"
    storeElosOnDisk:false
-   createPersonalMissionMap:true
+   createPersonalMissionMap:false
    enableLocalLogging:false
    redirectSystemStream:false
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"

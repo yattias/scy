@@ -24,6 +24,7 @@ public class EloImageSet {
    public-init var color:Color;
    public-read var activeImage:Image;
    public-read var inactiveImage:Image;
+   public-read var errorsLoadingImage=false;
 
    init{
       activeImage = loadImage(activeName);
@@ -37,6 +38,7 @@ public class EloImageSet {
       }
       if (image.error){
          logger.error("failed to load image {image.url}");
+         errorsLoadingImage = true;
       }
       return image;
    }

@@ -34,7 +34,7 @@ public class ImageWindowStyler extends WindowStyler{
    public def hypotheseType = "scy/xproc";
    public def modelEditorType = "scy/model";
    public def studentPlanningType = "scy/xproc";
-   public def presentationType = "scy/xproc";
+   public def presentationType = "scy/ppt";
 
    public def scyGreen = Color.web("#8db800");
    public def scyPurple = Color.web("#7243db");
@@ -176,7 +176,7 @@ public class ImageWindowStyler extends WindowStyler{
    public override function getScyEloIcon(type:String):EloIcon{
       var eloImageSet:EloImageSet = getEloImageSet(type);
 
-      if (eloImageSet!=null){
+      if (eloImageSet!=null and not eloImageSet.errorsLoadingImage){
          ImageEloIcon{
             activeImage:eloImageSet.activeImage;
             inactiveImage:eloImageSet.inactiveImage;
