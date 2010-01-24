@@ -25,6 +25,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 public class AwarenessServiceWrapper {
 
         public-init var contactlist:ContactList;
+        
 
         def awarenessService:IAwarenessService = bind contactlist.scyDesktop.config.getToolBrokerAPI().getAwarenessService();
 
@@ -39,6 +40,7 @@ public class AwarenessServiceWrapper {
 
         public function awarenessUsersToContacts():Contact[]{
             var contacts:Contact[];
+            var offlineContacts:Contact[];
             def buddies = awarenessService.getBuddies();
             for (buddy in buddies){
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
@@ -52,10 +54,17 @@ public class AwarenessServiceWrapper {
                         (if(presence.equals("idle")) "img/buddyicon_idle.png" else "img/buddyicon_online.png" );
                     }
                 //XXX only insert online/idle contacts
-                if (not presence.equals("unavailable")){
+                if (presence.equals("unavailable")){
+                    insert contact into offlineContacts;
+                } else {
                     insert contact into contacts;
                 }
+                
                 }
+                if (contactlist.showOfflineContacts){
+                    insert offlineContacts into contacts;
+                }
+
             return contacts;
         }
 

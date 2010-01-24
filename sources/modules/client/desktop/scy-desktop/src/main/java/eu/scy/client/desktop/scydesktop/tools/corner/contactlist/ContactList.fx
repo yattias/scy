@@ -35,6 +35,7 @@ public class ContactList extends CustomNode {
 
     public-init var dragAndDropManager:DragAndDropManager;
     public-init var scyDesktop:ScyDesktop;
+    public-init var showOfflineContacts:Boolean = false;
 
     var awarenessServiceWrapper:AwarenessServiceWrapper;
 
@@ -64,6 +65,13 @@ public class ContactList extends CustomNode {
                 onMousePressed: function (e: MouseEvent) {
                 };
             };
+
+    def backgroundDummy:Node = Rectangle {
+        width: bind this.width
+        height: bind ((sizeof contactFrames) + 2)* WindowSize.SMALL.getImageHeight();
+        fill:Color.BLUE;
+    }
+
 
     function createContactFrames(): Void {
         //TODO check if inserting contacts at runtime affects this in a negative way
@@ -142,7 +150,7 @@ public class ContactList extends CustomNode {
                 spacing: 0
                 translateX: 2
                 translateY: bind -(scrollBar.value) + 2
-                content: bind content;
+                content: bind [content];
                 focusTraversable: false
             };
     override var onMouseWheelMoved = function (e: MouseEvent) {
