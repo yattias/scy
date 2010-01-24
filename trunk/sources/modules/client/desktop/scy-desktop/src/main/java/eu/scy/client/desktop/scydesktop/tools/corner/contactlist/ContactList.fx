@@ -22,6 +22,11 @@ import javafx.scene.paint.Color;
 import com.sun.javafx.scene.control.caspian.ScrollBarSkin;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.awareness.IAwarenessService;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+
+import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
+import java.lang.Override;
 
 /**
  * @author Sven
@@ -29,7 +34,12 @@ import eu.scy.awareness.IAwarenessService;
 public class ContactList extends CustomNode {
 
     public-init var dragAndDropManager:DragAndDropManager;
-    public-init var awarenessService:IAwarenessService;
+    public-init var scyDesktop:ScyDesktop;
+
+    var awarenessServiceWrapper:AwarenessServiceWrapper;
+
+    public var toolBrokerAPI;
+    public var awarenessService:IAwarenessService;
 
     public override var clip =
             Rectangle {
@@ -43,7 +53,7 @@ public class ContactList extends CustomNode {
                 fill: Color.TRANSPARENT;
             }
     public var contacts: Contact[] on replace {
-                createContactFrames()
+                createContactFrames();
             };
     def dummyContact:ContactFrame = ContactFrame {
                 contact: Contact {};
@@ -105,9 +115,9 @@ public class ContactList extends CustomNode {
             };
     //public var twoColumnContent: Node[] = bind calculateMultiColumnContent(2);
     //public var content:Node[] = twoColumnContent;
-    public var content: ContactFrame[] = contactFrames;
+    public var content: ContactFrame[] = bind contactFrames;
     public var width = WindowSize.DEFAULT_ITEM_WIDTH;
-    public var height = 500;
+    public var height = 300;
 //    public var listItem : ListItem[];
     public var itemHeight = if ((sizeof contactFrames) > 0) contactFrames[0].height else 10;
     public var itemWidth = WindowSize.DEFAULT_WIDTH;
@@ -132,7 +142,7 @@ public class ContactList extends CustomNode {
                 spacing: 0
                 translateX: 2
                 translateY: bind -(scrollBar.value) + 2
-                content: content;
+                content: bind content;
                 focusTraversable: false
             };
     override var onMouseWheelMoved = function (e: MouseEvent) {
@@ -191,7 +201,11 @@ public class ContactList extends CustomNode {
     }
 
     init {
-
+        toolBrokerAPI = scyDesktop.config.getToolBrokerAPI();
+        awarenessService = toolBrokerAPI.getAwarenessService();
+        awarenessServiceWrapper = AwarenessServiceWrapper{
+          contactlist:this;
+        };
     }
 }
 
