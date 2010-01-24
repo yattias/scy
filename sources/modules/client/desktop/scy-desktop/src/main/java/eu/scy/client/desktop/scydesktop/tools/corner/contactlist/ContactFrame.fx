@@ -99,18 +99,21 @@ public class ContactFrame extends CustomNode {
                 opacity: (if(size==WindowSize.NORMAL)1 else 0);
                 visible: (if(size==WindowSize.NORMAL)true else false);
             };
-    def progressBar: ProgressBar = ProgressBar {
-                progress: bind contact.progress;
-                width: bind this.width - imageView.boundsInParent.width - 3 * borderSize;
-                height: 15;
-                opacity: (if(size==WindowSize.NORMAL)1 else 0);
-                visible: (if(size==WindowSize.NORMAL)true else false);
-                onMouseEntered: this.onMouseEntered;
-            };
+    //XXX information not available from awareness service
+    //def progressBar: ProgressBar = ProgressBar {
+    //            progress: bind contact.progress;
+    //            width: bind this.width - imageView.boundsInParent.width - 3 * borderSize;
+    //            height: 15;
+    //            opacity: (if(size==WindowSize.NORMAL)1 else 0);
+    //            visible: (if(size==WindowSize.NORMAL)true else false);
+    //            onMouseEntered: this.onMouseEntered;
+    //        };
     def infoBox = bind VBox {
                 translateX: bind 2 * borderSize + size.getImageWidth();
                 translateY: borderSize;
-                content: [nameLabel,stateLabel, missionLabel, progressBar]
+                //content: [nameLabel,stateLabel, missionLabel, progressBar]
+                //XXX mission-progress not available from Awareness service
+                content: [nameLabel,stateLabel, missionLabel]
             };
 
     //public var imageSize: Number = 64;
@@ -158,18 +161,20 @@ public class ContactFrame extends CustomNode {
                 Timeline {
                     keyFrames: [
                         at(0.05s){
-                            progressBar.opacity => (if(size==WindowSize.NORMAL) 1 else 0) tween SimpleInterpolator.LINEAR;
-                            progressBar.visible => (if(size==WindowSize.NORMAL) true else false) tween SimpleInterpolator.LINEAR;
+                            //progressBar.opacity => (if(size==WindowSize.NORMAL) 1 else 0) tween SimpleInterpolator.LINEAR;
+                            //progressBar.visible => (if(size==WindowSize.NORMAL) true else false) tween SimpleInterpolator.LINEAR;
                             missionLabel.opacity => (if(size==WindowSize.NORMAL) 1 else 0) tween SimpleInterpolator.LINEAR;
                             missionLabel.visible => (if(size==WindowSize.NORMAL) true else false) tween SimpleInterpolator.LINEAR;
                             stateLabel.opacity => (if(size==WindowSize.NORMAL) 1 else 0) tween SimpleInterpolator.LINEAR;
                             stateLabel.visible => (if(size==WindowSize.NORMAL) true else false) tween SimpleInterpolator.LINEAR;
                             nameLabel.font => (if(size==WindowSize.NORMAL or size == WindowSize.HOVER) boldFont else normalFont) tween SimpleInterpolator.LINEAR;
-                        }
-                        at(0.1s){
                             imageScaler.x => calcScaleX() tween SimpleInterpolator.LINEAR;
                             imageScaler.y => calcScaleY() tween SimpleInterpolator.LINEAR;
                         }
+                        //at(0.1s){
+                        //    imageScaler.x => calcScaleX() tween SimpleInterpolator.LINEAR;
+                        //    imageScaler.y => calcScaleY() tween SimpleInterpolator.LINEAR;
+                        //}
                      ]
                     }.play();
             }
@@ -179,7 +184,7 @@ public class ContactFrame extends CustomNode {
         background.fill = HOVER_COLOR;
         background.opacity = HOVER_COLOR_OPACITY;
         hover();
-        //FIXME scoll down if the expansion of the contact frame will be outside of clipping area
+        //FIXME scroll down if the expansion of the contact frame will be outside of clipping area
     }
 
     public function unmarkContact(){
@@ -196,7 +201,7 @@ public class ContactFrame extends CustomNode {
  
     init {
         size = INITIAL_SIZE;
-        progressBar.onMouseEntered =  onMouseEntered;
+        //progressBar.onMouseEntered =  onMouseEntered;
     }
 }
 

@@ -260,7 +260,12 @@ public class ScyDesktop extends CustomNode {
       def contactList:ContactList = ContactList {
               contacts: contactContent,
               dragAndDropManager:dragAndDropManager
+              scyDesktop:this
+              height:400
+              width: 200
               };
+
+      contactList.height = 400;
 
       missionMap = MissionMap{
          missionModel: missionModelFX
