@@ -105,7 +105,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyDesktopEloSaver
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
-import javafx.scene.layout.HBox;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 
 /**
@@ -258,11 +257,12 @@ public class ScyDesktop extends CustomNode {
       
       //The frontend to thecontact list
       def contactList:ContactList = ContactList {
-              contacts: contactContent,
+              contacts: contactContent
               dragAndDropManager:dragAndDropManager
               scyDesktop:this
               height:400
-              width: 200
+              showOfflineContacts:true
+              width: 150
               };
 
       contactList.height = 400;
@@ -277,6 +277,7 @@ public class ScyDesktop extends CustomNode {
 //         translateY:40;
       }
       missionMap.scyWindowControl=scyWindowControl;
+
       topLeftCorner = TopLeftCorner{
          content:contactList;
          color:Color.RED;
