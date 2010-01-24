@@ -34,9 +34,6 @@ public class AwarenessServiceWrapper {
 
         postinit{
             contactlist.contacts = awarenessUsersToContacts();
-            for (contact in contactlist.contacts){
-                println("postinit - contact: {contact.name}");
-            }
         }
 
 
@@ -45,14 +42,19 @@ public class AwarenessServiceWrapper {
             def buddies = awarenessService.getBuddies();
             for (buddy in buddies){
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
+                def presence = awarenessUser.getPresence();
                 def contact:Contact = Contact{
                     currentMission: awarenessUser.getStatus();    //Not sure
                     name: awarenessUser.getNickName();
-                    imageURL: "img/buddyicon.png";
-                    onlineState: if (awarenessUser.getPresence().equals("unavailable")) OnlineState.OFFLINE else
-                        (if(awarenessUser.getPresence().equals("idle")) OnlineState.AWAY else OnlineState.ONLINE );
+                    onlineState: if (presence.equals("unavailable")) OnlineState.OFFLINE else
+                        (if(presence.equals("idle")) OnlineState.AWAY else OnlineState.ONLINE );
+                    imageURL: if (presence.equals("unavailable")) "img/buddyicon_offline.png" else
+                        (if(presence.equals("idle")) "img/buddyicon_idle.png" else "img/buddyicon_online.png" );
                     }
-                insert contact into contacts;
+                //XXX only insert online/idle contacts
+                if (not presence.equals("unavailable")){
+                    insert contact into contacts;
+                }
                 }
             return contacts;
         }
