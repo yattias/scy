@@ -29,7 +29,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
 
 public class AnchorDisplay extends CustomNode {
-   def size = 19.0;
+   def size = 21.0;
    def defaultTitleColor = Color.WHITE;
    def defaultContentColor = Color.GRAY;
 
@@ -40,6 +40,7 @@ public class AnchorDisplay extends CustomNode {
    public var selected = false on replace {
       setColors();
       eloIcon.selected = selected;
+      eloContour.visible = selected;
    };
    public var selectionAction: function(AnchorDisplay):Void;
    public var dragAndDropManager: DragAndDropManager;
@@ -54,6 +55,7 @@ public class AnchorDisplay extends CustomNode {
 		borderWidth: 2;
 		borderColor: bind anchor.color;
 		fillColor: bind contentColor;
+      visible:selected;
 	}
 
    function setColors(){
@@ -79,7 +81,7 @@ public class AnchorDisplay extends CustomNode {
          layoutX: bind anchor.xPos;
          layoutY: bind anchor.yPos;
          content: [
-            //eloContour,
+            eloContour,
             eloIcon
          ],
          onMouseClicked: function( e: MouseEvent ):Void {
@@ -109,14 +111,15 @@ public class AnchorDisplay extends CustomNode {
          dragEloIcon.selected = eloIcon.selected;
          var dragNode = Group{
             content:[
-//               EloContour{
-//                  width: size;
-//                  height: size;
-//                  controlLength: 5;
-//                  borderWidth: 2;
-//                  borderColor: anchor.color;
-//                  fillColor: contentColor;
-//               }
+               EloContour{
+                  width: size;
+                  height: size;
+                  controlLength: 5;
+                  borderWidth: 2;
+                  borderColor: anchor.color;
+                  fillColor: contentColor;
+                  visible: selected;
+               }
                dragEloIcon
             ]
          }

@@ -53,7 +53,8 @@ var mouseBlockingActive = false;
 
 public function initMouseBlocker(stage:Stage):Void{
    if (stage==null){
-      throw new IllegalArgumentException("stage may not be null");
+      println("initMouseBlocker called with a null stage!");
+      //throw new IllegalArgumentException("stage may not be null");
    }
 
    theStage = stage;
