@@ -68,7 +68,7 @@ public class PrologAgent extends AbstractForeignAgent {
         try {
             URL url = PrologAgent.class.getResource("/" + PROLOG_SRC_DIR);
             if (url.getProtocol().equals("file")) {
-                return new File(url.getFile());
+                return new File(url.getFile().replaceAll("%20", " "));
             } else {
                 String file = url.getFile();
                 url = new URL(file);
@@ -101,6 +101,7 @@ public class PrologAgent extends AbstractForeignAgent {
                     fw.write(prologSources.get(fileName));
                     fw.close();
                 }
+                System.out.println("Prologdir is " + prologTmpDir);
                 return prologTmpDir;
             }
         } catch (MalformedURLException e) {
