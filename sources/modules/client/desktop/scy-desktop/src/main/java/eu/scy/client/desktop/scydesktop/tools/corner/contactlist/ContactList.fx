@@ -125,7 +125,7 @@ public class ContactList extends CustomNode {
     //public var content:Node[] = twoColumnContent;
     public var content: ContactFrame[] = bind contactFrames;
     public var width = WindowSize.DEFAULT_ITEM_WIDTH;
-    public var height = 300;
+    public var height = 250;
 //    public var listItem : ListItem[];
     public var itemHeight = if ((sizeof contactFrames) > 0) contactFrames[0].height else 10;
     public var itemWidth = WindowSize.DEFAULT_WIDTH;

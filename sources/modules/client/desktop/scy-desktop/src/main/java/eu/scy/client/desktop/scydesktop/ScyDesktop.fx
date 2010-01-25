@@ -260,12 +260,12 @@ public class ScyDesktop extends CustomNode {
               contacts: contactContent
               dragAndDropManager:dragAndDropManager
               scyDesktop:this
-              height:400
+              height:250
               showOfflineContacts:true
               width: 150
               };
 
-      contactList.height = 400;
+      contactList.height = 250;
 
       missionMap = MissionMap{
          missionModel: missionModelFX
@@ -576,8 +576,8 @@ function run(){
    Stage {
       title : "ScyDestop Test"
       scene: Scene {
-         width: 400
-         height: 300
+         width: 800
+         height: 600
          content: [
             scyDesktop
 
