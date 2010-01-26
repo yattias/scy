@@ -60,6 +60,7 @@ public class Configuration {
 		props.setProperty("sqlspaces.server.host", "scy.collide.info");
 		props.setProperty("sqlspaces.server.port", "2525");
 		props.setProperty("openfire.host", "scy.collide.info");
+		props.setProperty("openfire.conference", "conference.scy.collide.info");
 		props.setProperty("openfire.client.port", "5222");
 		props.setProperty("openfire.externalcomponent.port", "5275");
 		props.setProperty("openfire.externalcomponent.secretkey", "java");
@@ -81,6 +82,10 @@ public class Configuration {
 	// ### OpenFireServer
 	public String getOpenFireHost() {
 		return props.getProperty("openfire.host");
+	}
+	
+	public String getOpenFireConference() {
+		return props.getProperty("openfire.conference");
 	}
 
 	public int getOpenFirePort() {
