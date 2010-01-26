@@ -5,8 +5,6 @@
 
 package eu.scy.client.tools.fxwebresourcer;
 
-import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
-import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
@@ -54,7 +52,6 @@ public class EloWebResourceActionWrapper {
     private File lastUsedFile = null;
     private String docName = untitledDocName;
     private IELO elo = null;
-    private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
     private ILoadXML target;
     public EloWebResourceActionWrapper(ILoadXML target) {
         this.target = target;
@@ -192,10 +189,10 @@ public class EloWebResourceActionWrapper {
             IMetadata metadata = newElo.getMetadata();
             IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
             // TODO fixe the locale problem!!!
-            Object titleObject = metadataValueContainer.getValue();
-            Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-            Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-            setDocName(titleObject3.toString());
+            //Object titleObject = metadataValueContainer.getValue();
+            //Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
+            //Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
+            //setDocName(titleObject3.toString());
             //this.webPanel.loadElo(newElo.getContent().getXmlString());
             //System.out.println("loading..");
             //System.out.println(newElo.getContent().getXmlString());
