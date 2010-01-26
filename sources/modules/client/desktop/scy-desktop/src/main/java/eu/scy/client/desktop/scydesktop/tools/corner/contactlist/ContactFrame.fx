@@ -70,7 +70,8 @@ public class ContactFrame extends CustomNode {
        y:calcScaleY();
    }
 
-   def background = Rectangle{
+   //XXX background removed
+   public def background = Rectangle{
        width:bind this.width;
        height:bind this.height;
        fill: Color.TRANSPARENT;
@@ -133,7 +134,7 @@ public class ContactFrame extends CustomNode {
     override protected function create(): Node {
         Group {
             content: bind [
-                background,
+                //background,
                 imageView,
                 infoBox
             ];
