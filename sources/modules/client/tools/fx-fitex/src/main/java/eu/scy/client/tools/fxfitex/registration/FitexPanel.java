@@ -73,6 +73,10 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         load();
     }
 
+    public void setTBI(ToolBrokerAPI tbi) {
+        this.tbi = tbi;
+    }
+
     /* tbi initialization*/
     private void initTBI(){
         //tbi=  new ToolBrokerImpl(username, password);
