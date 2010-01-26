@@ -18,13 +18,21 @@ public class XMLData {
     private SAXBuilder sb;
 
     public XMLData(String input) throws JDOMException, IOException {
+
+        //System.out.println(input);
             sb = new SAXBuilder();
             //read first data block:
-            doc = sb.build(new StringReader("<data>"+input+"</data>"));
-            Element root = doc.getRootElement();
+            //doc = sb.build(new StringReader("<data>"+input+"</data>"));
+            //Element root = doc.getRootElement();
             //read what's inside of <![CDATA[ - should that not be <![PCDATA[ ?
-            doc = sb.build(new StringReader(root.getChild("annotations").getText()));
-            root = doc.getRootElement();
+            //ugly dirty hack:
+            int start = input.indexOf("<annotations>");
+            int stop = input.indexOf("</annotations>");
+            String piece = input.substring(start+13, stop);
+            //System.out.println(piece);
+            //doc = sb.build(new StringReader(root.getChild("annotations").getText()));
+            doc = sb.build(new StringReader(piece));
+            Element root = doc.getRootElement();
             title = root.getChild("title")
                             .getText();
             //System.out.println(title);
