@@ -100,7 +100,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         // AwarenessService
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
         awarenessService.init(xmppConnection);
-        awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference());
+        awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference()+"."+Configuration.getInstance().getOpenFireHost());
         logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
         
         // DataSyncService
