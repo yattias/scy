@@ -43,6 +43,7 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI;
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
@@ -56,6 +57,7 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      fitexPanel.setTBI(toolBrokerAPI);
    }
 
    public override function loadElo(uri:URI){
