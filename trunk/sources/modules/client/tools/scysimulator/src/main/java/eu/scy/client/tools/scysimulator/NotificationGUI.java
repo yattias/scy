@@ -8,19 +8,20 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -80,13 +81,15 @@ public class NotificationGUI extends JDialog implements ActionListener {
 
     private JButton okButton;
 
-    private JList hintList;
+//    private JList hintList;
 
-    private DefaultListModel model;
+    //private DefaultListModel model;
 
     private JTextField annotationTF;
 
     private JCheckBox showMessageAgain;
+
+    private JPanel hintPanel;
 
     /**
      * The constructor for a ScenarioSaveDialog. This Dialog extends JDialog to provide a custom save dialog
@@ -96,7 +99,7 @@ public class NotificationGUI extends JDialog implements ActionListener {
      * @param title
      *            The title of this Dialog
      */
-    public NotificationGUI(final Frame parentFrame, String title, final List<Entry<String,String>> texts, int highlightPos) {
+    public NotificationGUI(final Frame parentFrame, String title, final Map<String,String> texts, int highlightPos) {
         super(parentFrame, title, true);
         setResizable(false);
         setLocationRelativeTo(parentFrame);
@@ -104,42 +107,60 @@ public class NotificationGUI extends JDialog implements ActionListener {
         JPanel controlPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         inputPanel.setLayout(gbl);
-        hintList = new JList();
-        model = new DefaultListModel();
-        for (Entry<String,String> text : texts) {
+        
+        hintPanel =new JPanel(new GridLayout(texts.size(), 1));
+        int count = 0;
+        //hintList = new JList();
+       // model = new DefaultListModel();
+        for (final String text : texts.keySet()) {
             
-            model.addElement(text.getKey());
+            JButton hintButton = new JButton(text);
+            hintButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String value = texts.get(text);
+                    JOptionPane.showMessageDialog(parentFrame,value);
+                
+                }
+            });
+            if (count==highlightPos){
+                hintButton.setForeground(Color.RED);
+            }
+            count++;
+            hintPanel.add(hintButton);
+            //model.addElement(text.getKey());
         }
-        hintList.setCellRenderer(new NotificationCellRenderer(texts,parentFrame));
+        //hintList.setCellRenderer(new NotificationCellRenderer(texts,parentFrame));
 
-        hintList.setSelectionBackground(Color.RED);
+        //hintList.setSelectionBackground(Color.RED);
         // hintList.setEnabled(false);
 
-        hintList.setModel(model);
-        if (highlightPos != -1) {
-            hintList.setSelectedIndex(highlightPos);
-        }
-        hintList.addListSelectionListener(new ListSelectionListener() {
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                final JList source = (JList) e.getSource();
-                int componentCount = source.getComponentCount();
-                SwingUtilities.invokeLater(new Runnable() {
-                    
-                    @Override
-                    public void run() {
-                        Entry<String, String> entry = texts.get(source.getSelectedIndex());
-                        JOptionPane.showMessageDialog(parentFrame, entry.getValue());
-                    
-                    }
-                });
-
-            }
-
-            
-        });
-        JScrollPane scrollPane = new JScrollPane(hintList);
+//        hintList.setModel(model);
+//        if (highlightPos != -1) {
+//            hintList.setSelectedIndex(highlightPos);
+//        }
+//        hintList.addListSelectionListener(new ListSelectionListener() {
+//
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                final JList source = (JList) e.getSource();
+//                int componentCount = source.getComponentCount();
+//                SwingUtilities.invokeLater(new Runnable() {
+//                    
+//                    @Override
+//                    public void run() {
+//                        Entry<String, String> entry = texts.get(source.getSelectedIndex());
+//                        JOptionPane.showMessageDialog(parentFrame, entry.getValue());
+//                    
+//                    }
+//                });
+//
+//            }
+//
+//            
+//        });
+        JScrollPane scrollPane = new JScrollPane(hintPanel);
         annotationTF = new JTextField(12);
         annotationTF.addKeyListener(new KeyListener() {
 
