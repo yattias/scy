@@ -294,6 +294,10 @@ public abstract  class CopexTask implements Cloneable {
     public char getDrawRight(){
         return taskRight.getDrawRight();
     }
+     /* retourne le droit repeat */
+    public char getRepeatRight(){
+        return taskRight.getRepeatRight();
+    }
      /* met le droit editer */
     public void setEditRight(char right){
         taskRight.setEditRight(right);
@@ -317,6 +321,10 @@ public abstract  class CopexTask implements Cloneable {
      /* met le droit draw */
     public void setDrawRight(char right){
         taskRight.setDrawRight(right);
+    }
+     /* met le droit repeat */
+    public void setRepeatRight(char right){
+        taskRight.setRepeatRight(right);
     }
 
     /* retourne vrai s'il s'agit d'une tache repetable */

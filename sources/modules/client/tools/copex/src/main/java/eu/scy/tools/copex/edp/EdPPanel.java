@@ -12,6 +12,7 @@ import eu.scy.tools.copex.utilities.*;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.IllegalComponentStateException;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
@@ -1335,7 +1336,11 @@ public class EdPPanel extends JPanel {
     
     /* retourne le point pour afficher la boite de dialogue */
     public Point getLocationDialog(){
+        try{
         return new Point( (int)this.getLocationOnScreen().getX() +(this.getWidth() /3), (int)this.getLocationOnScreen().getY()+this.menuBar.getHeight());
+        }catch(IllegalComponentStateException e){
+            return new Point(100,100);
+        }
     }
 
     

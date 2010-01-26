@@ -197,7 +197,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
             labelComment = new JLabel();
             labelComment.setName("labelComment");
             labelComment.setFont(new java.awt.Font("Tahoma", 1, 11));
-            labelComment.setText(edP.getBundleString("LABEL_COMMENT"));
+            labelComment.setText(edP.getBundleString("LABEL_COMMENTS"));
             int width = CopexUtilities.lenghtOfString(this.labelComment.getText(), getFontMetrics(this.labelComment.getFont()));
             labelComment.setBounds(labelName.getX(), scrollDescription.getY()+scrollDescription.getHeight()+20, width, 14);
         }

@@ -896,8 +896,9 @@ public class TaskFromDB {
             char moveR = task.getMoveRight();
             char parentR = task.getParentRight();
             char drawR = task.getDrawRight();
-            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT)" +
-                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"') ; ";
+            char repeatR = task.getRepeatRight();
+            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT, REPEAT_RIGHT)" +
+                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"', '"+repeatR+"') ; ";
            
         // enregistre le lien proc /tache
         v2 = new ArrayList();
@@ -1066,8 +1067,9 @@ public class TaskFromDB {
             char moveR = task.getMoveRight();
             char parentR = task.getParentRight();
             char drawR = task.getDrawRight();
-            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT)" +
-                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"') ; ";
+            char repeatR = task.getRepeatRight();
+            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT, REPEAT_RIGHT)" +
+                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"', '"+repeatR+"') ; ";
            
             
             // enregistre le lien proc /tache
@@ -1310,9 +1312,7 @@ public class TaskFromDB {
         String principle = "";
         String query = "UPDATE COPEX_TASK SET DESCRIPTION = '"+description+"' , COMMENTS = '"+comments+"'" +
                 " WHERE ID_TASK = "+dbKeyOldTask+" ;";
-        String queryQ = "UPDATE QUESTION SET HYPOTHESIS = '"+hypothesis+"', GENERAL_PRINCIPLE = '"+principle+"' " +
-                " WHERE ID_QUESTION = "+dbKeyOldTask+" ;";
-       String queryA = "";
+        String queryA = "";
         if (newTask instanceof CopexAction){
            InitialNamedAction oldA = null;
            InitialNamedAction newA = null;
@@ -1411,7 +1411,6 @@ public class TaskFromDB {
         String[] querys = new String [nbQ] ;
         if (newTask instanceof Question){
             querys[0] = query ;
-            querys[1] = queryQ ;
         }else{
             querys[0] = query ;
             if (nbQ > 1)
@@ -1597,8 +1596,9 @@ public class TaskFromDB {
             char moveR = question.getMoveRight();
             char parentR = question.getParentRight();
             char drawR = question.getDrawRight();
-            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT)" +
-                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"') ; ";
+            char repeatR = question.getRepeatRight();
+            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT, REPEAT_RIGHT)" +
+                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"', '"+repeatR+"') ; ";
            
             
         // question
@@ -1657,8 +1657,9 @@ public class TaskFromDB {
             char moveR = task.getMoveRight();
             char parentR = task.getParentRight();
             char drawR = task.getDrawRight();
-            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT)" +
-                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"') ; ";
+            char repeatR = task.getRepeatRight();
+            String queryRight = "INSERT INTO TASK_RIGHT (ID_TASK, EDIT_RIGHT, DELETE_RIGHT, COPY_RIGHT, MOVE_RIGHT, PARENT_RIGHT, DRAW_RIGHT, REPEAT_RIGHT)" +
+                    "VALUES ("+dbKey+", '"+editR+"', '"+deleteR+"', '"+copyR+"', '"+moveR+"', '"+parentR+"', '"+drawR+"', '"+repeatR+"') ; ";
             // enregistre le lien proc /tache
             int question = 0;
             if (task.isQuestionRoot())

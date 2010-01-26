@@ -113,6 +113,9 @@ public class OpenCopexDialog  extends JDialog  {
             this.add(getCbMissionOpen());
             this.add(getLabelProcOpen());
             this.add(getCbProcOpen());
+            if(cbMissionOpen.getItemCount()>0)
+                this.cbMissionOpen.setSelectedIndex(0);
+            changeMissionOpen();
         }
 
         // largeur
@@ -256,7 +259,7 @@ public class OpenCopexDialog  extends JDialog  {
             labelProcOpen.setText(owner.getBundleString("LABEL_PROC"));
             labelProcOpen.setFont(new java.awt.Font("Tahoma", 1, 11));
             labelProcOpen.setSize(CopexUtilities.lenghtOfString(this.labelProcOpen.getText(), getFontMetrics(this.labelProcOpen.getFont())), 14);
-            labelProcOpen.setBounds(10, labelMissionOpen.getY()+labelMissionOpen.getHeight()+5, labelProcOpen.getWidth(), labelProcOpen.getHeight());
+            labelProcOpen.setBounds(10, cbMissionOpen.getY()+cbMissionOpen.getHeight()+10, labelProcOpen.getWidth(), labelProcOpen.getHeight());
         }
         return labelProcOpen;
      }
@@ -329,14 +332,17 @@ public class OpenCopexDialog  extends JDialog  {
 
 
     private void changeMissionOpen(){
+        System.out.println("changeMissionOpen");
         // mise a jour de la liste des protocoles en fonction de la mission choisie
         cbProcOpen.removeAllItems();
         int id = cbMissionOpen.getSelectedIndex();
+        System.out.println("id : "+id);
         if (id != -1){
             ArrayList<LearnerProcedure> list = this.listAllProc.get(id);
             if (list != null){
                 // initialisation liste des missions
                 int nb = list.size();
+                System.out.println("nbList : "+nb);
                 for (int i=0; i<nb; i++){
                     LearnerProcedure p = list.get(i);
                     cbProcOpen.addItem(p.getName(owner.getLocale()));

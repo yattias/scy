@@ -334,7 +334,7 @@ public class CopexPanel extends JPanel {
         this.add(getCopexTabbedPane(), BorderLayout.CENTER);
         int nb = listProc.size();
         for (int i=0; i<nb; i++){
-            addCopexPanel(listProc.get(i));
+            addCopexPanel(listProc.get(i), false);
         }
 //        revalidate();
 //        repaint();
@@ -347,11 +347,12 @@ public class CopexPanel extends JPanel {
         return copexTabbedPane;
     }
 
-    private void addCopexPanel(LearnerProcedure proc){
+    private void addCopexPanel(LearnerProcedure proc, boolean addProc){
         EdPPanel copex = new EdPPanel(this, proc, controller, proc.getMission(), proc.getMission().getListInitialProc(), listPhysicalQuantity);
         activCopex = copex;
         listCopexPanel.add(copex);
-        listProc.add(proc);
+        if(addProc)
+            listProc.add(proc);
         if(scyMode){
             //System.out.println("addCopexpanel, scyMode");
             this.add(copex, BorderLayout.CENTER);
@@ -425,7 +426,7 @@ public class CopexPanel extends JPanel {
             help.setVisible(true);
         }else{
             if (getIdProc(helpProc.getDbKey()) == -1)
-                addCopexPanel(helpProc);
+                addCopexPanel(helpProc, true);
             else
                 getCopexTabbedPane().setSelected(helpProc);
         }
@@ -462,7 +463,7 @@ public class CopexPanel extends JPanel {
     
 
     public void createProc(LearnerProcedure proc){
-        addCopexPanel(proc);
+        addCopexPanel(proc, true);
     }
     public void updateProc(LearnerProcedure proc){
         int id = getIdProc(proc.getDbKey());

@@ -97,7 +97,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
         this.modeAdd = false;
         this.addComponentListener(this);
         setListMaterial();
-        if(materialStrategy.canAddMaterial() && listMaterialUsed.size() == 0)
+        if(materialStrategy.canAddMaterial() )
             setCreateMaterial();
         if(procRight == MyConstants.NONE_RIGHT){
             panelButtons.remove(buttonOk);
