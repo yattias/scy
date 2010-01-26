@@ -36,6 +36,14 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.api.IRepository;
+import roolo.api.IExtensionManager;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -1069,19 +1077,30 @@ var stage = Stage {
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
+   public var toolBrokerAPI:ToolBrokerAPI;
+   public var extensionManager:IExtensionManager;
+   public var actionLogger:IActionLogger;
+   public var awarenessService:IAwarenessService;
+   public var dataSyncService:IDataSyncService;
+   public var pedagogicalPlanService:PedagogicalPlanService;
+   public var scyWindow:ScyWindow;
    var elo:IELO;
    var technicalFormatKey: IMetadataKey;
-   var interviewLogger: InterviewLogger = InterviewLogger{
-//       actionLogger: new SystemOutActionLogger()
-       actionLogger: new DevNullActionLogger()
-       username: "username"
-       toolname: "interviewtool"
-       missionname: "missionname"
-       sessionname: "sessionname"
-   };
+   var interviewLogger: InterviewLogger;
 
    public override function initialize(windowContent:Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      if (actionLogger==null) {
+         actionLogger = new DevNullActionLogger();
+      }
+      interviewLogger = InterviewLogger{
+//       actionLogger: new SystemOutActionLogger()
+         actionLogger: actionLogger
+         username: "username"
+         toolname: "interviewtool"
+         missionname: "missionname"
+         sessionname: "sessionname"
+      };
    }
 
    public override function loadElo(uri:URI){
@@ -1248,5 +1267,20 @@ var stage = Stage {
    public override function getMinWidth() : Number {
        return stageWidth+20;
    }
-
+/*
+   var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+   var chatController = new MUCChatController(awarenessService, eloUri);
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+       ChattoolDrawerContentCreatorFX {
+           awarenessService: awarenessService;
+           chatController: chatController;
+       },
+       scychatId);
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+       ChattoolPresenceDrawerContentCreatorFX {
+           awarenessService: awarenessService;
+           chatController: chatController;
+       },
+       scychatpresenceId);
+*/
 }
