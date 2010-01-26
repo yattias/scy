@@ -179,7 +179,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             labelComments = new JLabel();
             labelComments.setName("labelComments");
             labelComments.setFont(new Font("Tahoma",Font.BOLD, 11));
-            labelComments.setText(edP.getBundleString("LABEL_COMMENT"));
+            labelComments.setText(edP.getBundleString("LABEL_COMMENTS"));
             int w = CopexUtilities.lenghtOfString(this.labelComments.getText(), getFontMetrics(this.labelComments.getFont()));
             int y =scrollPaneDescription.getY()+scrollPaneDescription.getHeight()+10;
             if(labelType1 != null){

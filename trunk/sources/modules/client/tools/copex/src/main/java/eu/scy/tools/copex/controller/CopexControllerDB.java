@@ -2187,8 +2187,8 @@ public class CopexControllerDB implements ControllerInterface {
             if(cr.isError()){
                 return cr;
             }
-            long dbKeyMat = (Long)v2.get(0);
-            listMaterialToCreate.get(i).getMaterial().setDbKey(dbKeyMat);
+            Material m = (Material)v2.get(0);
+            listMaterialToCreate.get(i).setMaterial(m);
         }
         CopexReturn cr = ExperimentalProcedureFromDB.createListMaterialUsedInDB(db.getDbC(), getLocale(), listProc.get(idProc).getDbKey(), listMaterialToCreate);
         if(cr.isError())

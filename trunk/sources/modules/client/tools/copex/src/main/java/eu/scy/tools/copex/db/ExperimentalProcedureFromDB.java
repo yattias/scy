@@ -1501,6 +1501,90 @@ public class ExperimentalProcedureFromDB {
         return new CopexReturn();
     }
 
+    /* chargement du materiel associe a un proc  :
+     * - en v[0] : la liste du materiel
+     */
+    public static CopexReturn getProcMaterialFromDB(DataBaseCommunication dbC,Locale locale, long dbKey,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
+        // recuperation des types de materiel
+        ArrayList v2 = new ArrayList();
+       CopexReturn cr = getAllTypeMaterialFromDB_xml(dbC, locale,v2);
+       if (cr.isError())
+           return cr;
+       ArrayList<TypeMaterial> listTypeMat = (ArrayList<TypeMaterial>)v2.get(0);
+       ArrayList<Material> listM = new ArrayList();
+
+        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION FROM " +
+               "MATERIAL M, MATERIAL_USED M2 WHERE " +
+               "M2.ID_PROC = "+dbKey+" AND M2.ID_MATERIAL = M.ID_MATERIAL ORDER BY M.MATERIAL_NAME  ;" ;
+
+        ArrayList v3 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("M.ID_MATERIAL");
+        listFields.add("M.MATERIAL_NAME");
+        listFields.add("M.DESCRIPTION");
+
+        cr = dbC.sendQuery(query, listFields, v3);
+        if (cr.isError())
+            return cr;
+        int nbR = v3.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v3.get(i);
+            String s = rs.getColumnData("M.ID_MATERIAL");
+            if (s == null)
+                continue;
+            long idMat = Long.parseLong(s);
+            String matName = rs.getColumnData("M.MATERIAL_NAME");
+            if (matName == null)
+                continue;
+            String description = rs.getColumnData("M.DESCRIPTION");
+            if (description == null)
+                continue;
+
+            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale));
+            // on recupere les parametres
+            ArrayList v4 = new ArrayList();
+            cr = getMaterialParametersFromDB_xml(dbC, locale,idMat, listPhysicalQuantity, v4);
+            if (cr.isError())
+                return cr;
+
+            ArrayList<Parameter> listP = (ArrayList<Parameter>)v4.get(0);
+            if (listP != null)
+                m.setListParameters(listP);
+            // on associe le type de materiel au materiel
+
+            ArrayList<TypeMaterial> listT = new ArrayList();
+            String query2 = "SELECT ID_TYPE FROM LINK_TYPE_MATERIAL WHERE " +
+                       "ID_MATERIAL = "+idMat+" ;";
+
+            v4 = new ArrayList();
+            ArrayList<String> listFields2 = new ArrayList();
+            listFields2.add("ID_TYPE");
+
+            cr = dbC.sendQuery(query2, listFields2, v4);
+            if (cr.isError())
+                return cr;
+            int nbR2 = v4.size();
+            for (int j=0; j<nbR2; j++){
+                ResultSetXML rs2 = (ResultSetXML)v4.get(j);
+                s = rs2.getColumnData("ID_TYPE");
+                if (s == null)
+                    continue;
+                long idT = Long.parseLong(s);
+                TypeMaterial t = TypeMaterial.getTypeMaterial(listTypeMat, idT);
+                if (t != null)
+                    listT.add(t);
+            }
+
+            m.setListType(listT);
+            // ajoute a la liste
+            listM.add(m);
+        }
+
+        v.add(listM);
+        v.add(listTypeMat);
+        return new CopexReturn();
+    }
+
      /* charge tous les types de materiel */
     public static CopexReturn getAllTypeMaterialFromDB_xml(DataBaseCommunication dbC, Locale locale,ArrayList v){
         ArrayList<TypeMaterial> listT = new ArrayList();
@@ -1870,7 +1954,7 @@ public class ExperimentalProcedureFromDB {
             draw = CopexUtilities.xmlToString(principle.getDrawing());
         }
         String query = "INSERT INTO GENERAL_PRINCIPLE (ID_PRINCIPLE, GENERAL_PRINCIPLE, PRINCIPLE_COMMENT,PRINC_HIDE, PRINCIPLE_DRAWING) " +
-                    " VALUES (NULL,'"+gp+"' , "+hide+",'"+comment+"', "+draw+"'); ";
+                    " VALUES (NULL,'"+gp+"' , "+hide+",'"+comment+"', '"+draw+"'); ";
         String queryID = "SELECT max(last_insert_id(`ID_PRINCIPLE`))   FROM GENERAL_PRINCIPLE ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -2066,7 +2150,7 @@ public class ExperimentalProcedureFromDB {
         ArrayList<MaterialUsed> listMaterialUsed = new ArrayList();
         // charge le materiel lie au proc
         ArrayList v3 = new ArrayList();
-        CopexReturn cr = getInitialProcMaterialFromDB(dbC, locale, dbKeyProc, listPhysicalQuantity, v3);
+        CopexReturn cr = getProcMaterialFromDB(dbC, locale, dbKeyProc, listPhysicalQuantity, v3);
         if(cr.isError())
             return cr;
         ArrayList<Material> listMaterialProc = (ArrayList<Material>)v3.get(0);

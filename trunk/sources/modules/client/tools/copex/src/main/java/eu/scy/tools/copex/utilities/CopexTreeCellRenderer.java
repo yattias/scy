@@ -375,7 +375,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     public JTextArea getTextNode(){
         if (this.textNode == null){
             this.textNode = new JTextArea();
-            this.textNode.setEnabled(false);
+            this.textNode.setEnabled(true);
             this.textNode.setLineWrap(true);
             this.textNode.setWrapStyleWord(true);
             this.textNode.setMinimumSize(new Dimension(0,0));

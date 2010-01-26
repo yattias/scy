@@ -141,8 +141,10 @@ public class CopexUnit implements Cloneable{
             CopexUnit unit = (CopexUnit) super.clone() ;
 
             unit.setDbKey(this.dbKey);
-            unit.setFactor(new Double(this.factor));
-            unit.setId(new String(this.id));
+            if( ! Double.isNaN(factor))
+                unit.setFactor(new Double(this.factor));
+            if(id != null)
+                unit.setId(new String(this.id));
             List<LocalText> listNameC = new LinkedList();
             for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
                 listNameC.add((LocalText)t.next().clone());
