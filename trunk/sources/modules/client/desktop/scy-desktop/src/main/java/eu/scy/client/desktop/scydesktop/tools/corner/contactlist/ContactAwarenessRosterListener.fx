@@ -12,14 +12,15 @@ import eu.scy.awareness.event.IAwarenessRosterListener;
 /**
  * @author svenmaster
  */
-
+ 
 public class ContactAwarenessRosterListener extends IAwarenessRosterListener {
 
        public-init var awarenessServiceWrapper:AwarenessServiceWrapper ;
-       public-init var contactlist:ContactList = bind awarenessServiceWrapper.contactlist;
         
         override public function handleAwarenessRosterEvent(e:IAwarenessRosterEvent):Void{
-                contactlist.contacts = awarenessServiceWrapper.awarenessUsersToContacts();
+                println("RosterEvent fired");
+                delete awarenessServiceWrapper.contactlist.contacts;
+                awarenessServiceWrapper.contactlist.contacts = awarenessServiceWrapper.awarenessUsersToContacts();
 			}
 
         postinit{

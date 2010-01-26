@@ -48,11 +48,13 @@ public class ContactList extends CustomNode {
                 height: bind this.height
                 fill: Color.BLUE;
             };
-    public def background = Rectangle {
-                width: bind this.width;
-                height: bind this.height
-                fill: Color.TRANSPARENT;
-            }
+
+    //XXX Background removed
+    //public def background = Rectangle {
+    //            width: bind this.width;
+    //            height: bind this.height
+    //            fill: Color.TRANSPARENT;
+    //        }
     public var contacts: Contact[] on replace {
                 createContactFrames();
             };
@@ -201,7 +203,8 @@ public class ContactList extends CustomNode {
         Group {
             content: [
                 Group {
-                    content: [background, listView]
+                    //content: [background, listView]
+                    content: [listView]
                 },
                 scrollBar
             ]
