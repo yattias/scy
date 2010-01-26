@@ -176,9 +176,6 @@ public class EloWebResourceActionWrapper {
 
     public void loadElo(URI eloUri) {
         logger.info("Trying to load elo " + eloUri);
-        //System.out.println("loading: "+eloUri);
-        //.out.println(repository);
-        //System.out.println(repository.retrieveELO(eloUri));
         IELO newElo = repository.retrieveELO(eloUri);
         if (newElo != null)
         {
@@ -186,22 +183,26 @@ public class EloWebResourceActionWrapper {
             if (!scyWebType.equals(eloType) ) {
                 throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
             }
-            IMetadata metadata = newElo.getMetadata();
-            IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
-            // TODO fixe the locale problem!!!
-            //Object titleObject = metadataValueContainer.getValue();
-            //Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-            //Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-            //setDocName(titleObject3.toString());
-            //this.webPanel.loadElo(newElo.getContent().getXmlString());
-            //System.out.println("loading..");
-            //System.out.println(newElo.getContent().getXmlString());
+            IContent content = newElo.getContent();
+            if(content != null) {
+                System.out.println("content loaded");
+                String xml = content.getXmlString();
+                if(xml != null) {
+                    System.out.println("xml loaded.");
+                   this.target.loadXML(xml);
+                }
+                else {
+                    System.out.println("ERROR: could not load xml, xml == null");
+                }
+            }
+            else {
+                System.out.println("ERROR: could not load content, content == null");
+            }
             this.target.loadXML(newElo.getContent().getXmlString());
             elo = newElo;
-            //sendEloLoadedChangedListener();
         }
         else {
-            //System.out.println("loadElo() - you should never read this. oops.");
+            System.out.println("ERROR: could not retrieve elo.");
         }
     }
 
