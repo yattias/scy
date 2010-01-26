@@ -237,6 +237,8 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
     }
 
     private void updateMaterialUsed(){
+        if(listMaterialPanel == null)
+            return;
         ArrayList<MaterialUsed> list = listMaterialPanel.getListMaterialUsed();
         int nb = list.size();
         for(int i=0; i<nb; i++){
