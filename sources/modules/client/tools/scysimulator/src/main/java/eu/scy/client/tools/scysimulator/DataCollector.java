@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -111,6 +112,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private boolean notThreadRunning = false;
 
     private Vector<String> shownMessages;
+
+    private String notificationSender;
 
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi) {
         // initialize the logger(s)
@@ -248,8 +251,14 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             } else if (notificationMessage.equals(SCAFFOLD.SHOWBUTTON.name())) {
                 highlight = -1;
             } else {
-                List<Entry<String,String>> message = new ArrayList<Entry<String,String>>();
-                message.add(new SimpleEntry <String,String> ("notification",notificationMessage));
+                Map<String,String> message = new LinkedHashMap<String,String>();
+                if (notificationSender!=null){
+                    
+                    message.put("Notification from "+notificationSender,notificationMessage);
+                }else{
+                    
+                    message.put("Notification",notificationMessage);
+                }
                 highlight = 0;
                 NotificationGUI notiGUI = new NotificationGUI(simquestViewer.getMainFrame(), "Notification", message, highlight);
                 notiGUI.prompt();
@@ -271,19 +280,18 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         }
     }
 
-    private List<Entry<String,String>> getNotificationTexts() {
-        String votat = "If a variable is not relevant for the hypothesis under, \ntest then hold that variable constant, or vary one thing at a time (VOTAT), or If not varying a variable, then pick the same value as used in the previous experiment";
+    private Map<String,String> getNotificationTexts() {
+        String votat = "If a variable is not relevant for the hypothesis under, \ntest then hold that variable constant, or vary one thing at a time (VOTAT), or If not varying a variable, then pick the same value as used in the previous experiment\n\nHey dudes and dudettes, \nA short hi from Duisburg. I hope you're doing ok over there in Toronto!\n Best wishes from Jan";
         String equalIncrement = "If choosing a third value for a variable, \nthen choose an equal increment as between first and second values. Or if manipulating a variable, then choose simple, canonical manipulations ";
         String extemevalues = "Try some extreme values to see if there are limits on the proposed relationship";
         String confirmHypothesis = "Generate several additional cases in an attempt \nto either confirm or disconfirm the hypothesized relation";
         String identifyHypothesis = "Generate a small amount of data and examine for a candidate rule or relation";
-        SimpleEntry<String, String> d;
-        List<Entry<String,String>> texts = new ArrayList<Entry<String,String>>();
-        texts.add(new SimpleEntry <String,String> ("Vary only one thing at a time. (Click for more information)",votat));
-        texts.add(new SimpleEntry <String,String> ("Use equal increments when varying variables. (Click for more information)",equalIncrement));
-        texts.add(new SimpleEntry <String,String> ("Try some extreme values. (Click for more information)", extemevalues));
-        texts.add(new SimpleEntry <String,String> ("Try to confirm your hypothesis. (Click for more information)",confirmHypothesis));
-        texts.add(new SimpleEntry <String,String> ("Try to indentify a hypothesis. (Click for more information)",identifyHypothesis));
+        Map<String,String> texts = new LinkedHashMap<String,String>();
+        texts.put("Vary only one thing at a time.",votat);
+        texts.put("Use equal increments when varying variables.",equalIncrement);
+        texts.put("Try some extreme values.", extemevalues);
+        texts.put("Try to confirm your hypothesis.",confirmHypothesis);
+        texts.put("Try to indentify a hypothesis.",identifyHypothesis);
         return texts;
 
     }
@@ -537,6 +545,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
             } else {
                 startNotifyThread();
+                notificationSender = notification.getSender();
                 notificationMessage = message;
             }
         } else if (type != null && props.get("level") != null && !shownMessages.contains(props.get("level"))) {
