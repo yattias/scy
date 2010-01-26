@@ -52,7 +52,7 @@ import eu.scy.awareness.tool.IChatPresenceToolListener;
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener,
 		PacketListener {
 
-	protected String CONFERENCE_EXT = "@conference.scy.intermedia.uio.no";
+	private String CONFERENCE_EXT = null;
 	private final static Logger logger = Logger
 			.getLogger(AwarenessServiceXMPPImpl.class.getName());
 	private ConnectionConfiguration config;
