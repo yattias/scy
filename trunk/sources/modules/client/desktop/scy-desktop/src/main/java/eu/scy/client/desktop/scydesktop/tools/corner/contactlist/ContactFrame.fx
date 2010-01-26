@@ -52,7 +52,7 @@ public class ContactFrame extends CustomNode {
                     width: size.getDefaultImageWidth();
                     height: size.getDefaultImageHeight();
                     preserveRatio: false;
-                    url: "{__DIR__}{contact.imageURL}";
+                    url: contact.imageURL;
                 }
                 
     def imageView: ImageView = ImageView {
