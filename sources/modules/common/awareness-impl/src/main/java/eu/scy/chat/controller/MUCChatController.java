@@ -188,7 +188,6 @@ public class MUCChatController implements ChatController {
 	
 	public void connectToRoom() {
 		logger.debug("ChatController: Joining room with ELOUri: "+ getELOUri());
-		this.getAwarenessService().setMUCConferenceExtension("conference.scy.intermedia.uio.no");
 		try {
 			this.getAwarenessService().joinMUCRoom(this.ELOUri);
 		} catch (AwarenessServiceException e) {
