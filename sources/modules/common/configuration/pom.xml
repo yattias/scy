@@ -45,7 +45,7 @@
 				<sqlspaces.server.port>2525</sqlspaces.server.port>
 
 				<openfire.host>scy.collide.info</openfire.host>
-				<openfire.conference>conference.scy.collide.info</openfire.conference>
+				<openfire.conference>conference</openfire.conference>
 				<openfire.client.port>5222</openfire.client.port>
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
@@ -68,7 +68,7 @@
 				<sqlspaces.server.port>2525</sqlspaces.server.port>
 
 				<openfire.host>scy.intermedia.uio.no</openfire.host>
-				<openfire.conference>conference.scy.intermedia.uio.no</openfire.conference>
+				<openfire.conference>conference</openfire.conference>
 				<openfire.client.port>5222</openfire.client.port>
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
@@ -91,7 +91,7 @@
 				<sqlspaces.server.port>2525</sqlspaces.server.port>
 
 				<openfire.host>scy.collide.info</openfire.host>
-				<openfire.conference>conference.scy.collide.info</openfire.conference>
+				<openfire.conference>conference</openfire.conference>
 				<openfire.client.port>5222</openfire.client.port>
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
