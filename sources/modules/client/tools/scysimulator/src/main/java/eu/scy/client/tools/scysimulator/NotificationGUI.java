@@ -66,7 +66,7 @@ public class NotificationGUI extends JDialog implements ActionListener {
             });
             if (isSelected) {
                 but.setBackground(Color.RED);
-                but.setForeground(Color.RED);
+//                but.setForeground(Color.RED);
                 but.setFont(but.getFont().deriveFont(Font.BOLD));
             } else {
                 Color defaultColor = (Color) UIManager.get("button.background");

@@ -234,7 +234,9 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     private synchronized void write(IAction action) {
        //TODO Dirty workaround for toronto
-        if (action.getAttribute("name")!=null&&!action.getAttribute("name").trim().toLowerCase().equals("mtot")){
+        if (action.getType() != null && action.getType().equals("value_changed") && action.getAttribute("name")!=null&& action.getAttribute("name").trim().toLowerCase().equals("mtot")){
+            // no evil mtot logging ...
+        } else {
             System.out.println(action.toString());
             actionLogger.log(action);
         }
