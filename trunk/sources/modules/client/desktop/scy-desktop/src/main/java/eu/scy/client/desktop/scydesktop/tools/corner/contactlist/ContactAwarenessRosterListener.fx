@@ -18,12 +18,13 @@ public class ContactAwarenessRosterListener extends IAwarenessRosterListener {
        public-init var awarenessServiceWrapper:AwarenessServiceWrapper ;
         
         override public function handleAwarenessRosterEvent(e:IAwarenessRosterEvent):Void{
-                println("RosterEvent fired");
-                delete awarenessServiceWrapper.contactlist.contacts;
-                awarenessServiceWrapper.contactlist.contacts = awarenessServiceWrapper.awarenessUsersToContacts();
-			}
+            println("RosterEvent fired");
+            FX.deferAction(function():Void {
+                    delete awarenessServiceWrapper.contactlist.contacts;
+                    awarenessServiceWrapper.contactlist.contacts = awarenessServiceWrapper.awarenessUsersToContacts();
+                });
+            }
 
-        postinit{
-        }
+        postinit{}
 
 }
