@@ -388,6 +388,7 @@ public class ScyDesktop extends CustomNode {
          repository:config.getRepository()
          eloFactory:config.getEloFactory()
          titleKey:config.getTitleKey()
+         technicalFormatKey:config.getTechnicalFormatKey()
          window:window;
          myEloChanged:myEloChanged;
          newTitleGenerator:newTitleGenerator
