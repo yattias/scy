@@ -14,7 +14,6 @@ import javafx.ext.swing.SwingComponent;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
-import java.lang.Exception;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
@@ -22,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryF
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.Exception;
+import java.lang.System;
 
 /**
  * @author sikken
@@ -39,6 +39,8 @@ public class ScyToolFactory extends ContentFactory {
          // no tool specified
          return null;
       }
+      var startNanos = System.nanoTime();
+      var toolTypeCreated = "?";
       var toolNode: Node;
 
       var scyToolCreator = scyToolCreatorRegistryFX.getScyToolCreatorFX(id);
@@ -46,8 +48,10 @@ public class ScyToolFactory extends ContentFactory {
          try {
             checkIfServicesInjected(scyToolCreator);
             toolNode = scyToolCreator.createScyToolNode(type,scyWindow, not drawer);
+            toolTypeCreated = "ScyTool";
          } catch (e: Exception) {
             toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator));
+            toolTypeCreated = "ErrorScyTool";
          }
       }
       if (toolNode == null) {
@@ -57,8 +61,10 @@ public class ScyToolFactory extends ContentFactory {
                checkIfServicesInjected(drawerContentCreator);
                try {
                   toolNode = drawerContentCreator.getDrawerContent(eloUri, scyWindow);
+                  toolTypeCreated = "DrawerTool";
                } catch (e: Exception) {
                   toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, true, drawerContentCreator));
+                  toolTypeCreated = "ErrorDrawerTool";
                }
             }
          } else {
@@ -68,15 +74,19 @@ public class ScyToolFactory extends ContentFactory {
                try {
                   if (windowContentCreator instanceof ScyToolWindowContentCreatorFX) {
                      toolNode = (windowContentCreator as ScyToolWindowContentCreatorFX).createScyToolWindowContent();
+                     toolTypeCreated = "ScyToolWindow";
                   } else {
                      if (eloUri != null) {
                         toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+                        toolTypeCreated = "WindowToolExisting";
                      } else {
                         toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+                        toolTypeCreated = "WindowToolNew";
                      }
                   }
                } catch (e: Exception) {
                   toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator));
+                  toolTypeCreated = "ErrorWindowTool";
                }
             }
          }
@@ -84,6 +94,7 @@ public class ScyToolFactory extends ContentFactory {
 
       if (toolNode == null) {
          toolNode = createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}");
+         toolTypeCreated = "NotFoundTool";
       }
 
       checkIfServicesInjected(toolNode);
@@ -95,7 +106,8 @@ public class ScyToolFactory extends ContentFactory {
             servicesInjector.injectServiceIfWanted(scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
          }
       }
-
+      var nanosUsed = System.nanoTime()-startNanos;
+      println("Created {toolTypeCreated} for type {type} in {if (drawer) 'drawer' else 'content'} in {nanosUsed/1e6} ms");
       return toolNode;
    }
 

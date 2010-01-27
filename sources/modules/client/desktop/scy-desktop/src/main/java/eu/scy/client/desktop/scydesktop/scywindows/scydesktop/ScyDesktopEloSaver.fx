@@ -87,10 +87,10 @@ public class ScyDesktopEloSaver extends EloSaver {
    def functionalTypeDisplayNames = config.getFunctionalTypeDisplayNames();
 
    def descriptionKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION);
-//   def logicalTypeKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.LOGICAL_TYPE);
-//   def functionalTypeKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE);
-   var logicalTypeKey: IMetadataKey;
-   var functionalTypeKey: IMetadataKey;
+   def logicalTypeKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.LOGICAL_TYPE.getId());
+   def functionalTypeKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
+//   var logicalTypeKey: IMetadataKey;
+//   var functionalTypeKey: IMetadataKey;
 
    public override function eloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack):Void{
       var forking = elo.getUri()!=null;

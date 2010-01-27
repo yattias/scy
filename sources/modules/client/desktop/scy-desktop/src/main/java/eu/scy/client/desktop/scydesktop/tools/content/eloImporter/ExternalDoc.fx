@@ -258,7 +258,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
-      externalDocAnnotationKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.EXTERNAL_DOC);
+      externalDocAnnotationKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.EXTERNAL_DOC.getId());
    }
 
    public override function loadElo(uri:URI){
@@ -323,7 +323,10 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       if (newElo != null)
       {
          var metadata = newElo.getMetadata();
-         var externalDocAnnotation = newElo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
+         var externalDocAnnotation:ExternalDocAnnotation;
+         if (externalDocAnnotationKey!=null){
+            externalDocAnnotation = newElo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
+         }
          if (externalDocAnnotation!=null){
             assignment = externalDocAnnotation.getAssignment();
             fileName = externalDocAnnotation.getFileName();
@@ -370,7 +373,9 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
       externalDocAnnotation.setFileLastModified(fileLastModified);
       externalDocAnnotation.setFileSize(fileSize);
       logger.info("externalDocAnnotation to save: {externalDocAnnotation}");
-      elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).setValue(externalDocAnnotation);
+      if (externalDocAnnotationKey!=null){
+         elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).setValue(externalDocAnnotation);
+      }
       if (file!=null){
          elo.getMetadata().getMetadataValueContainer(titleKey).setValue(fileName);
          if (reloadPossible and autoReload){
