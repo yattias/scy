@@ -43,7 +43,7 @@ public class StudentPlanningToolNode extends CustomNode {
             return;
         }
 
-        scyWindow.title = "StudenPlanningTool: {eloChatActionWrapper.getDocName()}";
+        scyWindow.title = "Student Planning Tool: {eloChatActionWrapper.getDocName()}";
         var eloUri = eloChatActionWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
