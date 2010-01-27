@@ -602,7 +602,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 		public void joined(String participant) {
 			System.out
-					.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined()");
+					.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined() " + participant);
 			participant = participant.substring(participant.indexOf("/") + 1);
 			for (IAwarenessRosterListener rosterListener : rosterListeners) {
 				if (rosterListener != null) {
@@ -627,6 +627,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		}
 
 		private void removeParticipant(String participant) {
+			System.out
+					.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.removeParticipant() " + participant);
 			participant = participant.substring(participant.indexOf("/") + 1);
 			for (IAwarenessRosterListener rosterListener : rosterListeners) {
 				if (rosterListener != null) {
