@@ -228,10 +228,8 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
     override public function eloSaved(elo: IELO): Void {
         if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(simconfigType)) {
-            dataCollector.getTextArea().append("simconfig elo updated.\n");
             this.eloSimconfig = elo;
         } else if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(datasetType)) {
-            dataCollector.getTextArea().append("dataset elo updated.\n");
             this.eloDataset = elo;
         }
     }
