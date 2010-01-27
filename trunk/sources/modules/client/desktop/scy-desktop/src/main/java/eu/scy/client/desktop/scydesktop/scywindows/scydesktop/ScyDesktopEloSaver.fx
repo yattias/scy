@@ -41,6 +41,7 @@ class EloSaveAsActionHandler extends EloSaveAsActionListener{
    var myEloChanged: MyEloChanged;
    var modalDialogBox:ModalDialogBox;
    var eloSaverCallBack: EloSaverCallBack;
+   var myElo:Boolean;
 
    public override function eloSaved():Void{
       elo.getMetadata().getMetadataValueContainer(titleKey).setValue(eloSaveAsPanel.getTitle());
@@ -57,7 +58,9 @@ class EloSaveAsActionHandler extends EloSaveAsActionListener{
       }
       var newMetadata = repository.addNewELO(elo);
       eloFactory.updateELOWithResult(elo, newMetadata);
-      myEloChanged.myEloChanged(elo);
+      if (myElo){
+         myEloChanged.myEloChanged(elo);
+      }
       eloSaverCallBack.eloSaved(elo);
       modalDialogBox.close();
 
@@ -102,10 +105,10 @@ public class ScyDesktopEloSaver extends EloSaver {
       if (forking){
          suggestedEloTitle = "Fork of {suggestedEloTitle}";
       }
-      showEloSaveAsPanel(elo,suggestedEloTitle,eloSaverCallBack);
+      showEloSaveAsPanel(elo,suggestedEloTitle,true,eloSaverCallBack);
    }
 
-   function showEloSaveAsPanel(elo:IELO, suggestedEloTitle:String, eloSaverCallBack: EloSaverCallBack):Void{
+   function showEloSaveAsPanel(elo:IELO, suggestedEloTitle:String, myElo:Boolean, eloSaverCallBack: EloSaverCallBack):Void{
       var eloSaveAsPanel = new EloSaveAsPanel();
       eloSaveAsPanel.setEloConfig(config.getEloConfig(window.eloType));
       eloSaveAsPanel.setLogicalTypeDisplayNames(logicalTypeDisplayNames);
@@ -152,6 +155,7 @@ public class ScyDesktopEloSaver extends EloSaver {
             myEloChanged:myEloChanged
             modalDialogBox:modalDialogBox
             eloSaverCallBack:eloSaverCallBack
+            myElo:myElo
          });
    }
 
@@ -189,7 +193,7 @@ public class ScyDesktopEloSaver extends EloSaver {
       if (forking){
          suggestedEloTitle = "Fork of {suggestedEloTitle}";
       }
-      showEloSaveAsPanel(elo,suggestedEloTitle,eloSaverCallBack);
+      showEloSaveAsPanel(elo,suggestedEloTitle,false,eloSaverCallBack);
 
 //      var newEloTitle = JOptionPane.showInputDialog("Enter title:", suggestedEloTitle);
 //      if (StringUtils.hasText(newEloTitle)){
