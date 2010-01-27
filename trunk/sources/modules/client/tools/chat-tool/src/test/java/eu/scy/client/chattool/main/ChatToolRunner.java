@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import eu.scy.client.tools.chattool.ChatPresencePanel;
 import org.apache.log4j.Logger;
 
 import eu.scy.awareness.IAwarenessService;
@@ -14,7 +15,6 @@ import eu.scy.chat.controller.ChatController;
 import eu.scy.chat.controller.OOOChatController;
 import eu.scy.chat.controller.MUCChatController;
 import eu.scy.client.tools.chattool.ChatPanel;
-import eu.scy.client.tools.chattool.ChatPresencePanel;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 public class ChatToolRunner {
