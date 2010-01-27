@@ -112,9 +112,12 @@ public class MUCChatController implements ChatController {
 		
 		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {		
 			@Override
-			public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
+			public void handleAwarenessPresenceEvent(final IAwarePresenceEvent e) {
 				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e.getUser().getNickName()+" : "+e.getUser().getPresence());				
 				
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						
 				
 				IAwarenessUser awarenessUser = e.getUser();
 				
@@ -128,6 +131,8 @@ public class MUCChatController implements ChatController {
 						isFound = true;
 					}
 				}
+					}
+				});
 				
 			}
 		});
