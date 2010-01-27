@@ -48,6 +48,12 @@
 			<artifactId>tool-broker</artifactId>
 			<version>${pom.version}</version>
 		</dependency>		
+
+		<dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>chat-presence-tool</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
 	</dependencies>
 
 </project>
