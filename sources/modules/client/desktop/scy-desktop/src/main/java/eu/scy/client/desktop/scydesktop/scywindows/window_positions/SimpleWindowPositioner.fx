@@ -101,6 +101,9 @@ public class SimpleWindowPositioner extends WindowPositioner {
       // assume enough space to place to closed window, assume enough space for the opened window
       var windowWidth = (1-2*centerWidthFactor)*width;
       var windowHeigth = (1-2*centerHeightFactor)*height;
+      println("center window size: {windowWidth}*{windowHeigth}");
+      window.desiredWidth = windowWidth;
+      window.desiredHeight = windowHeigth;
       if (window.isClosed){
          window.openWindow(windowWidth, windowHeigth);
       }
