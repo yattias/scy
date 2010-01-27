@@ -104,7 +104,7 @@
    <build>
       <resources>
          <resource>
-            <targetPath></targetPath>
+            <!--targetPath></targetPath-->
             <directory>src/main/resources</directory>
          </resource>
          <resource>
@@ -112,11 +112,11 @@
             <directory>src/main/java/config</directory>
          </resource>
          <resource>
-            <targetPath></targetPath>
+            <!--targetPath></targetPath-->
             <directory>src/main/java</directory>
             <includes>
-               <include>**/*.jpg</include>
-               <include>**/*.png</include>
+               <include>**/*</include>
+               <!--include>**/*.png</include-->
                <!--
                <include>config/*.*</include>
          -->
