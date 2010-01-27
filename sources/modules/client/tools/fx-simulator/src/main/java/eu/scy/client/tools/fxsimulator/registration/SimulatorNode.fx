@@ -56,7 +56,8 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     var wrappedSimquestPanel: SwingComponent;
     var technicalFormatKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
-    var elo: IELO;
+    var eloSimconfig: IELO;
+    var eloDataset: IELO;
     var dataCollector: DataCollector;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
@@ -119,12 +120,12 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                                                 doSaveAsSimconfig();
                                             }
                                         }
-                                        Button {
+                                        /*Button {
                                             text: "Save Dataset"
                                             action: function () {
                                                 doSaveDataset();
                                             }
-                                        }
+                                        }*/
                                         Button {
                                             text: "SaveAs Dataset"
                                             action: function () {
@@ -153,15 +154,11 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                 logger.info("datacollector == null, can't load ");
             }
             logger.info("elo loaded");
-            elo = newElo;
+            eloSimconfig = newElo;
         }
     }
 
     function loadSimulation(simulationUri: String) {
-        logger.info("toolBrokerAPI: {toolBrokerAPI}");
-        logger.info("tbi.getRepository: {toolBrokerAPI.getRepository()}");
-        logger.info("repository: {repository}");
-        logger.info("tbi.getActionLogger: {toolBrokerAPI.getActionLogger()}");
         var fileUri = new URI(simulationUri);
         // the flag "false" configures the SQV for memory usage (instead of disk usage)
         var simquestViewer = new SimQuestViewer(false);
@@ -199,37 +196,44 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         eloSaver.eloSaveAs(getSimconfig(), this);
     }
 
-    function doSaveDataset() {
-        eloSaver.eloUpdate(getDataset(), this);
-    }
+    //function doSaveDataset() {
+        //eloSaver.eloUpdate(getDataset(), this);
+    //}
 
     function doSaveAsDataset() {
-        eloSaver.eloSaveAs(getDataset(), this);
+        eloSaver.otherEloSaveAs(getDataset(), this);
     }
 
     function getSimconfig(): IELO {
-        if (elo == null) {
-            elo = eloFactory.createELO();
-            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(simconfigType);
+        if (eloSimconfig == null) {
+            eloSimconfig = eloFactory.createELO();
+            eloSimconfig.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(simconfigType);
         }
-        elo.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
-        return elo;
+        eloSimconfig.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
+        return eloSimconfig;
     }
 
     function getDataset(): IELO {
-        if (elo == null) {
-            elo = eloFactory.createELO();
-            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
+        if (eloDataset == null) {
+            eloDataset = eloFactory.createELO();
+            eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
+            //dataCollector.getTextArea().append("OOO {eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue()}\n");
         }
-        elo.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
-        return elo;
+        eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
+        return eloDataset;
     }
 
     override public function eloSaveCancelled(elo: IELO): Void {
     }
 
     override public function eloSaved(elo: IELO): Void {
-        this.elo = elo;
+        if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(simconfigType)) {
+            dataCollector.getTextArea().append("simconfig elo updated.\n");
+            this.eloSimconfig = elo;
+        } else if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(datasetType)) {
+            dataCollector.getTextArea().append("dataset elo updated.\n");
+            this.eloDataset = elo;
+        }
     }
 
     function resizeContent() {
