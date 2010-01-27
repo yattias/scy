@@ -39,8 +39,11 @@ public abstract class ScyWindow extends CustomNode {
 	public var width: Number = 150;
 	public var height: Number = 100;
 
-   public var minimumWidth: Number = 150;
-   public var minimumHeight: Number = 50;
+   public var desiredWidth: Number = 150;
+	public var desiredHeight: Number = 100;
+
+   public var minimumWidth: Number = -1;
+   public var minimumHeight: Number = -1;
 
    public var maximumWidth: Number = Number.MAX_VALUE;
    public var maximumHeight: Number = Number.MAX_VALUE;

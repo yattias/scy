@@ -217,8 +217,14 @@ public class StandardScyWindow extends ScyWindow {
    function scyContentChanged(){
       if (scyContent instanceof Resizable){
          var resizableContent = scyContent as Resizable;
-         width = Math.max(resizableContent.getPrefWidth(width), minimumWidth);
-         height = Math.max(resizableContent.getPrefWidth(height), minimumHeight);
+         var prefWidth = Math.max(resizableContent.getPrefWidth(desiredWidth), minimumWidth);
+         var prefHeight = Math.max(resizableContent.getPrefWidth(desiredHeight), minimumHeight);
+         if (desiredWidth>0 and desiredHeight>0){
+            prefWidth = desiredWidth;
+            prefHeight = desiredHeight;
+         }
+         width = prefWidth;
+         height = prefHeight;
          allowResize = true;
       }
       else{
@@ -256,7 +262,7 @@ public class StandardScyWindow extends ScyWindow {
          limittedHeight = closedHeight;
       }
 
-      //println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
+      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
       return Point2D{
          x:limittedWidth;
          y:limittedHeight
