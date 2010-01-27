@@ -31,8 +31,8 @@ public class CharacterEloIcon extends EloIcon {
    public var iconGap = 2.0;
    public var iconFont = Font.font("Verdana", FontWeight.BOLD, 14);
 
-   def mainColor = bind if (selected) color else backgroundColor;
-   def bgColor = bind if (selected) backgroundColor else color;
+   def mainColor = bind if (not selected) color else backgroundColor;
+   def bgColor = bind if (not selected) backgroundColor else color;
 
     public override function create(): Node {
      return Group {
