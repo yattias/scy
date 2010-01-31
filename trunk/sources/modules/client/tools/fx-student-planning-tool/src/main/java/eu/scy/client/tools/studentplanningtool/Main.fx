@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.IAwarenessService;
 import org.apache.log4j.Logger;
@@ -33,6 +34,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scychatId = "chat";
    def scychatpresenceId = "presence";
    def scystudentplanningId = "studentplanningtool";
+   def scyTextId = "text";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -62,7 +64,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
 
-   var scyDesktop = scyDesktopCreator.createScyDesktop();
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
+
+var scyDesktop = scyDesktopCreator.createScyDesktop();
 
    scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
       scyDesktop: scyDesktop;
