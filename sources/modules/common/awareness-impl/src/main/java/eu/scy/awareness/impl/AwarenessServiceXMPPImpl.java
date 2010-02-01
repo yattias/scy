@@ -161,7 +161,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 			String roomId = StringUtils.parseName(message.getFrom());
 		
-			logger.debug("room ID: " + roomId);
+			logger.debug("PARSED room ID: " + roomId);
 			
 			for (IAwarenessMessageListener al : messageListeners) {
 				if (al != null && message.getBody() != null) {
@@ -176,7 +176,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 							message.getBody());
 					
 					
-					logger.debug("room ID: " + roomId);
+					logger.debug("PARSED IN LOOP room ID: " + roomId);
 					
 					awarenessEvent.setRoomId(roomId);
 					try {
