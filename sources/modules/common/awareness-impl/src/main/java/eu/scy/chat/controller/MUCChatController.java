@@ -98,12 +98,15 @@ public class MUCChatController implements ChatController {
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-
-								if( !awarenessEvent.getRoomId().equals(ELOUri) ) {
-									System.out.println( "message not for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
-									
+								System.out.println( "checking room id" );
+								
+								String eloUriLower = org.apache.commons.lang.StringUtils.lowerCase(ELOUri);
+							
+								if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEvent.getRoomId()) ) {									
+									logger.debug( "message ISSSS for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
 								} else {
-									System.out.println( "message ISSSS for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
+									logger.debug( "message not for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
+									return;
 								}
 								String oldText = chatArea.getText();
 								List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
@@ -114,7 +117,7 @@ public class MUCChatController implements ChatController {
 													.getNickName() + ": "
 											+ awarenessEvent.getMessage()
 											+ "\n");
-									logger.debug("message sent from: "
+									logger.debug("text set in chatarea: "
 											+ awarenessEvent.getUser()
 													.getNickName()
 											+ " message: "
