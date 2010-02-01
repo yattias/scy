@@ -37,6 +37,7 @@ public class MUCChatController implements ChatController {
 	private IAwarenessService awarenessService;
 	private String ELOUri;
 	private boolean isTempMUCRoom;
+	private JTextArea chatArea;
 
 	public MUCChatController(IAwarenessService awarenessService, String ELOUri) {
 		logger.debug("MUC ChatController: starting ... ");
@@ -85,7 +86,8 @@ public class MUCChatController implements ChatController {
 		});
 	}
 
-	public void registerChatArea(final JTextArea chatArea) {
+	public void registerChatArea(JTextArea registerArea) {
+		this.chatArea = registerArea;
 
 		awarenessService
 				.addAwarenessMessageListener(new IAwarenessMessageListener() {
@@ -94,7 +96,7 @@ public class MUCChatController implements ChatController {
 							final IAwarenessEvent awarenessEvent) {
 
 				
-						System.out.println("calling message event");
+						logger.debug( "calling message event the new chat");
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
@@ -286,5 +288,13 @@ public class MUCChatController implements ChatController {
 
 	public void sendMessage(IAwarenessUser recipient, String message) {
 		// for OOO chat
+	}
+
+	public void setChatArea(JTextArea chatArea) {
+		this.chatArea = chatArea;
+	}
+
+	public JTextArea getChatArea() {
+		return chatArea;
 	}
 }
