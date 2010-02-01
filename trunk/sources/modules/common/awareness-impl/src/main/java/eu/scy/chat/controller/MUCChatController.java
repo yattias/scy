@@ -98,33 +98,32 @@ public class MUCChatController implements ChatController {
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-								System.out.println( "checking room id" );
+								System.out.println( "Checking room id" );
 								
-								String eloUriLower = org.apache.commons.lang.StringUtils.lowerCase(ELOUri);
-							
 								if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEvent.getRoomId()) ) {									
-									logger.debug( "message ISSSS for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
-								} else {
-									logger.debug( "message not for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
-									return;
-								}
-								String oldText = chatArea.getText();
-								List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
+									logger.debug( "MATCHED ELOURI " + ELOUri + " roomid " + awarenessEvent.getRoomId() );
+									
+									String oldText = chatArea.getText();
+									List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
 
-								if (awarenessEvent.getMessage() != null) {
-									chatArea.setText(oldText
-											+ awarenessEvent.getUser()
-													.getNickName() + ": "
-											+ awarenessEvent.getMessage()
-											+ "\n");
-									logger.debug("text set in chatarea: "
-											+ awarenessEvent.getUser()
-													.getNickName()
-											+ " message: "
-											+ awarenessEvent.getMessage());
-									logger.debug("chat area refreshing");
-									chatArea.revalidate();
+									if (awarenessEvent.getMessage() != null) {
+										chatArea.setText(oldText
+												+ awarenessEvent.getUser()
+														.getNickName() + ": "
+												+ awarenessEvent.getMessage()
+												+ "\n");
+										logger.debug("text set in chatarea: "
+												+ awarenessEvent.getUser()
+														.getNickName()
+												+ " message: "
+												+ awarenessEvent.getMessage());
+										logger.debug("chat area refreshing");
+										chatArea.revalidate();
+									}
+								} else {
+									logger.debug( "ELOURI MISS MATCH " + ELOUri + " roomid " + awarenessEvent.getRoomId() );
 								}
+								
 
 							}
 						});
