@@ -49,8 +49,7 @@ import eu.scy.awareness.tool.ChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
 
-public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener,
-		PacketListener {
+public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
 
 	private String CONFERENCE_EXT = null;
 	private final static Logger logger = Logger
@@ -103,29 +102,22 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 		MultiUserChat muc = joinedMUCRooms.get(ELOUri);
 
-		try {
-			muc.sendMessage(message);
-			System.out.println("message sent for MUC: " + ELOUri);
-		} catch (XMPPException e) {
-			logger.error("sendMessage: XMPPException MUC: " + e);
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void processPacket(Packet packet) {
-		System.out.println("MUC packet " + packet);
-		if (packet instanceof Message) {
-			Message message = (Message) packet;
-			System.out.println("body : " + message.getBody());
-			String nickName = StringUtils.parseResource(message.getFrom());
-			processMessage(message, nickName);
-		} else if( packet instanceof Packet ){
-			Presence presence = (Presence)packet;
+		if( muc.isJoined() ) {
 			
-			processPresence(presence);
-		}
+			logger.debug("sendMESSAGE Awareness Service isJoined:" + muc.isJoined() );
+			Message createMessage = muc.createMessage();
 
+			createMessage.setBody(message);
+			
+			try {
+				muc.sendMessage(createMessage);
+				System.out.println("message sent for MUC: " + ELOUri);
+			} catch (XMPPException e) {
+				logger.error("sendMessage: XMPPException MUC: " + e);
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	private void processPresence(Presence presence) {
@@ -459,8 +451,29 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					+ CONFERENCE_EXT);
 			DiscussionHistory history = new DiscussionHistory();
 			
-			muc.addParticipantListener(this);
-			muc.addMessageListener(this);
+			muc.addParticipantListener(new PacketListener() {
+				
+				@Override
+				public void processPacket(Packet packet) {
+					if( packet instanceof Packet ) {
+						Presence presence = (Presence)packet;
+						processPresence(presence);
+					}
+				}
+			});
+			muc.addMessageListener(new PacketListener() {
+				
+				@Override
+				public void processPacket(Packet packet) {
+					logger.debug("proessing packact in awareness service ");
+					if (packet instanceof Message) {
+						Message message = (Message) packet;
+						logger.debug("this message is from:" + message.getFrom() + " to: " + message.getTo() + "with body: " + message.getBody());
+						String nickName = StringUtils.parseResource(message.getFrom());
+						processMessage(message, nickName);
+					}
+				}
+			});
 			muc.addParticipantStatusListener(new AwarenessParticipantListener());
 			try {
 

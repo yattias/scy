@@ -111,6 +111,7 @@ public class MUCChatController implements ChatController {
 								if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
 									//need to parse it text@conference.org
 									awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+									logger.debug( "NEW ROOMID " + awarenessEventRoomId);
 								}
 								
 								if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {									
@@ -259,6 +260,7 @@ public class MUCChatController implements ChatController {
 					public void run() {
 						MUCChatController.this.sendMessage( ELOUri,sourceTextField.getText());
 						sourceTextField.setText("");
+						chatArea.revalidate();
 					}
 				});
 			}
