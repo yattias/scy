@@ -134,6 +134,7 @@ public class LoginDialog extends CustomNode {
                KeyFrame {
                   time : 1000ms
                   action:function(){
+                     scene.stage.title = "{scene.stage.title} : {userName}";
                      placeScyDescktop(toolBrokerAPI, userName);
                   }
                }
