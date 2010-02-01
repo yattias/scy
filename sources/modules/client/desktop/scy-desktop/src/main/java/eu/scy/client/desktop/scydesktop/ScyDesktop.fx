@@ -43,12 +43,10 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 
-import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 
 
-import eu.scy.client.desktop.scydesktop.config.EloConfig;
 import eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler;
 
 import javafx.scene.Group;
@@ -68,8 +66,6 @@ import java.lang.String;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
 
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 
@@ -311,6 +307,7 @@ public class ScyDesktop extends CustomNode {
           repository:config.getRepository();
           metadataTypeManager:config.getMetadataTypeManager();
           setScyContent:fillNewScyWindow2;
+          tooltipManager:tooltipManager
       };
 
     }

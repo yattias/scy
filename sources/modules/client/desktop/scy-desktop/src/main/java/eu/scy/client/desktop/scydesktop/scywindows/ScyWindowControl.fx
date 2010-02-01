@@ -17,6 +17,7 @@ import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * ScyWindowControl controls which windows (elos) are shown on the desktop
@@ -36,6 +37,7 @@ public mixin class ScyWindowControl {
    public var metadataTypeManager: IMetadataTypeManager;
    public var extensionManager: IExtensionManager;
    public var repository: IRepository;
+   public var tooltipManager:TooltipManager;
 
    public var setScyContent:function(window: ScyWindow):Void;
    //   public var edgesManager: EdgesManager;

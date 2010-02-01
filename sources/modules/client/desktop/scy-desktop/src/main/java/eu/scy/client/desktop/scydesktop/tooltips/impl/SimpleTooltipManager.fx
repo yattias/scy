@@ -22,6 +22,10 @@ import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Scene;
 import javafx.scene.Group;
+import javafx.geometry.Bounds;
+import javafx.util.Math;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Point2D;
 
 /**
  * @author sikken
@@ -130,21 +134,104 @@ public class SimpleTooltipManager extends TooltipManager {
       if (sourceNode != currentSourceNode) {
          try {
             var tooltipCreator = sourceNodes.get(sourceNode) as TooltipCreator;
-            currentSourceNode = sourceNode;
-            currentTooltip = tooltipCreator.createTooltipNode(currentSourceNode);
-            currentTooltip.opacity = 0.0;
-            //insert currentTooltip into currentSourceNode.scene.content;
-            insert currentTooltip into tooltipGroup.content;
-//            var contentList = currentSourceNode.scene.content;
-//            insert currentTooltip into contentList;
-//            currentSourceNode.scene.content = contentList;
-            var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-            currentTooltip.layoutX = sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
-            currentTooltip.layoutY = sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
+            var newTooltip = tooltipCreator.createTooltipNode(sourceNode);
+            if (newTooltip!=null){
+               currentTooltip = newTooltip;
+               currentSourceNode = sourceNode;
+               currentTooltip.opacity = 0.0;
+               //insert currentTooltip into currentSourceNode.scene.content;
+               insert currentTooltip into tooltipGroup.content;
+   //            var contentList = currentSourceNode.scene.content;
+   //            insert currentTooltip into contentList;
+   //            currentSourceNode.scene.content = contentList;
+
+               positionTooltip();
+
+//               var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
+//               currentTooltip.layoutX = sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
+//               currentTooltip.layoutY = sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
+            }
          } catch (e: Exception) {
             logger.error("exception during tooltip creation", e);
          }
 
       }
    }
+
+   function positionTooltip(){
+      var sceneBounds = BoundingBox{
+         width:currentSourceNode.scene.width;
+         height:currentSourceNode.scene.height
+      }
+      var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
+
+      var positionFunctions = [calculateBottomRightLayout,calculateBottomLeftLayout,calculateTopLeftLayout,calculateTopRightLayout];
+
+      var outsideArea = Number.MAX_VALUE;
+      var toolTipLayout:Point2D;
+      for (positionFunction in positionFunctions){
+         var newTooltipLayout = positionFunction();
+         var newOutsideArea = calculateTooltipAreaOutsideScene(currentTooltip,newTooltipLayout,sceneBounds);
+         if (newOutsideArea<outsideArea){
+            outsideArea = newOutsideArea;
+            toolTipLayout = newTooltipLayout;
+         }
+      }
+      currentTooltip.layoutX = toolTipLayout.x;
+      currentTooltip.layoutY = toolTipLayout.y;
+   }
+
+   function calculateTopLeftLayout():Point2D{
+      var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
+      Point2D{
+         x:sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
+         y:sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
+      }
+   }
+
+   function calculateTopRightLayout():Point2D{
+      var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
+      Point2D{
+         x:sourceSceneBounds.maxX;
+         y:sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
+      }
+   }
+
+   function calculateBottomRightLayout():Point2D{
+      var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
+      Point2D{
+         x:sourceSceneBounds.maxX;
+         y:sourceSceneBounds.maxY;
+      }
+   }
+
+   function calculateBottomLeftLayout():Point2D{
+      var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
+      Point2D{
+         x:sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
+         y:sourceSceneBounds.maxY;
+      }
+   }
+
+   function calculateTooltipAreaOutsideScene(node:Node,layout:Point2D,sceneBounds:Bounds):Number{
+      node.layoutX = layout.x;
+      node.layoutY = layout.y;
+      var nodeBounds = node.localToScene(node.layoutBounds);
+      var intersection = calculateRectangleIntersection(nodeBounds,sceneBounds);
+      return nodeBounds.width*nodeBounds.height-intersection;
+   }
+
+   function calculateRectangleIntersection(rect1:Bounds,rect2:Bounds):Number{
+      if (rect1.intersects(rect2)){
+         var xLength = calculateIntersectionLength(rect1.minX,rect1.maxX,rect2.minX,rect2.maxX);
+         var yLength = calculateIntersectionLength(rect1.minY,rect1.maxY,rect2.minY,rect2.maxY);
+         return xLength * yLength;
+      }
+      return 0.0;
+   }
+
+   function calculateIntersectionLength(min1:Number,max1:Number,min2:Number,max2:Number):Number{
+      return Math.min(max1, max2) - Math.max(min1,min2);
+   }
+
 }

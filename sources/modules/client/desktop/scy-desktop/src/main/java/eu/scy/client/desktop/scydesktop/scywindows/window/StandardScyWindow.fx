@@ -32,16 +32,16 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
-import java.lang.System;
 import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
-import java.lang.Void;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 
 /**
  * @author sikkenj
  */
 
-public class StandardScyWindow extends ScyWindow {
+public class StandardScyWindow extends ScyWindow, TooltipCreator {
    def logger = Logger.getLogger(this.getClass()); 
 	def scyWindowAttributeDevider = 3.0;
 
@@ -262,7 +262,7 @@ public class StandardScyWindow extends ScyWindow {
          limittedHeight = closedHeight;
       }
 
-      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
+//      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
       return Point2D{
          x:limittedWidth;
          y:limittedHeight
@@ -289,6 +289,27 @@ public class StandardScyWindow extends ScyWindow {
    public override function acceptDrop(object:Object):Void{
       scyToolsList.acceptDrop(object);
    }
+
+   public override function createTooltipNode(sourceNode:Node):Node{
+      var tooltip:Node;
+      if (isClosed or isMinimized){
+         var titleTextWidth = windowTitleBar.titleTextWidth;
+         var titleDisplayWidth = windowTitleBar.titleDisplayWidth;
+         if (closeElement.visible){
+            titleDisplayWidth -= closeElement.layoutBounds.width;
+         }
+         //println("titleTextWidth:{titleTextWidth}, titleDisplayWidth:{titleDisplayWidth}, closeElement.visible:{closeElement.visible}");
+         if (titleTextWidth>titleDisplayWidth){
+            tooltip = ColoredTextTooltip{
+               content:title
+               color:color
+            }
+         }
+      }
+
+      return tooltip;
+   }
+
 
 
    override function addChangesListener(wcl:WindowChangesListener) {

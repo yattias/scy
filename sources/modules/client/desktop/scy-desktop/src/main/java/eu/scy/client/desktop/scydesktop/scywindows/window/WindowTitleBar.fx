@@ -30,9 +30,7 @@ import javafx.scene.control.Button;
 // place your code here
 public class WindowTitleBar extends WindowElement {
 
-   public
-      var width
-            = 100.0;
+   public var width = 100.0;
 //   public var height = 20.0;
    public var title = "very very long title";
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
@@ -55,6 +53,12 @@ public class WindowTitleBar extends WindowElement {
 
    var nodeGroup:Group;
 //   var fixedGroup:Group;
+   var titleText:Text;
+   var clipRect:Rectangle;
+   var textClipWidth = bind width - iconSize - textIconSpace;
+
+   public-read var titleTextWidth = bind titleText.layoutBounds.maxX;
+   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
 
    function eloIconChanged(oldEloIcon:EloIcon){
       delete oldEloIcon from nodeGroup.content;
@@ -65,14 +69,14 @@ public class WindowTitleBar extends WindowElement {
       nodeGroup = Group{
          content:[
             eloIcon,
-            Rectangle{
+            clipRect= Rectangle{
 							x: iconSize+textIconSpace
 							y: rectangleAntialiasOffset
-							width: bind width - iconSize - textIconSpace
+							width: bind textClipWidth
 							height: iconSize-rectangleAntialiasOffset
 							fill: bind mainColor
 						},
-            Text { // title
+            titleText = Text { // title
                font: textFont
                textOrigin:TextOrigin.BOTTOM;
                x: iconSize + textIconSpace+textInset,
