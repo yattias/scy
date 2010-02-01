@@ -1,5 +1,7 @@
 package eu.scy.chat.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -11,6 +13,7 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
@@ -38,6 +41,7 @@ public class MUCChatController implements ChatController {
 	private String ELOUri;
 	private boolean isTempMUCRoom;
 	private JTextArea chatArea;
+	private JTextField textField;
 
 	public MUCChatController(IAwarenessService awarenessService, String ELOUri) {
 		logger.debug("MUC ChatController: starting ... ");
@@ -238,6 +242,23 @@ public class MUCChatController implements ChatController {
 
 	}
 
+	@Override
+	public void registerTextField(JTextField sendMessageTextField) {
+		this.textField = sendMessageTextField;
+		this.textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				final JTextField sourceTextField  = (JTextField) e.getSource();
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						MUCChatController.this.sendMessage( ELOUri,sourceTextField.getText());
+						sourceTextField.setText("");
+					}
+				});
+			}
+		});
+		
+	}
+	
 	protected int getIndexOfBuddy(IAwarenessUser awarenessUser) {
 		Enumeration<?> elements = buddyListModel.elements();
 		while (elements.hasMoreElements()) {
@@ -296,5 +317,15 @@ public class MUCChatController implements ChatController {
 
 	public JTextArea getChatArea() {
 		return chatArea;
+	}
+
+	
+
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+
+	public JTextField getTextField() {
+		return textField;
 	}
 }

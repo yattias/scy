@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import eu.scy.awareness.AwarenessServiceException;
@@ -111,6 +112,13 @@ public interface ChatController {
 	 * @return
 	 */
 	public abstract DefaultListModel getBuddyListModel();
+
+	/**
+	 * Registers textfield
+	 * 
+	 * @param sendMessageTextField
+	 */
+	public abstract void registerTextField(JTextField sendMessageTextField);
 
 	
 
