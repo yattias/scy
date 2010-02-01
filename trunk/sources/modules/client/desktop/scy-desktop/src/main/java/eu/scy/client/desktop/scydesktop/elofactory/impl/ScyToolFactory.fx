@@ -107,7 +107,7 @@ public class ScyToolFactory extends ContentFactory {
          }
       }
       var nanosUsed = System.nanoTime()-startNanos;
-      println("Created {toolTypeCreated} for type {type} in {if (drawer) 'drawer' else 'content'} in {nanosUsed/1e6} ms");
+      println("Created {toolTypeCreated} for id {id} in {if (drawer) 'drawer' else 'content'} in {nanosUsed/1e6} ms");
       return toolNode;
    }
 

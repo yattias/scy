@@ -5,6 +5,7 @@
  */
 
 package eu.scy.client.desktop.scydesktop.tools.content.eloImporter;
+
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
