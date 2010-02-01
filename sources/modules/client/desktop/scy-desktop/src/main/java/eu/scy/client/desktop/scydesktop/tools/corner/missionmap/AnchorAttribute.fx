@@ -41,12 +41,12 @@ public class AnchorAttribute extends ScyWindowAttribute {
 
    function setColors(){
       if (selected){
-         titleColor = anchorDisplay.anchor.color;
-         contentColor = defaultTitleColor;
-      }
-      else {
          titleColor = defaultTitleColor;
          contentColor = anchorDisplay.anchor.color;
+      }
+      else {
+         titleColor = anchorDisplay.anchor.color;
+         contentColor = defaultTitleColor;
       }
    }
 
