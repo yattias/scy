@@ -36,9 +36,9 @@ public class ChatPanel extends JXTitledPanel {
 	private static final Logger logger = Logger.getLogger(ChatPanel.class
 			.getName());
 
-	private JTextArea chatArea;
+	private JTextArea chatArea = new JTextArea();
+	private JTextField sendMessageTextField = new JTextField();
 	private JXTitledPanel chatAreaPanel;
-	protected JTextField sendMessageTextField;
 	private ChatController chatControler;
 	private String ELOUri;
 
@@ -46,6 +46,7 @@ public class ChatPanel extends JXTitledPanel {
 		this.chatControler = mucChatController;
 		initGUI();
 		this.chatControler.registerChatArea(chatArea);
+		this.chatControler.registerTextField(sendMessageTextField);
 		this.chatControler.connectToRoom();
 		this.setTitle(this.chatControler.getCurrentUser());
 		//this.setTitleForeground(Colors.White.color());
@@ -69,27 +70,15 @@ public class ChatPanel extends JXTitledPanel {
 		JXPanel p = new JXPanel(new MigLayout("insets 1 1 1 1,wrap 1"));
 		p.setBackground(Color.white);
 		this.add(p);
-		chatArea = new JTextArea();
 		chatArea.setEditable(false);
-		p.add(chatArea);
 		JScrollPane chatAreaScroll = new JScrollPane(chatArea);
 
 		p.add(chatAreaScroll);
 		chatAreaScroll.setPreferredSize(new Dimension(350, 250));
-		sendMessageTextField = new JTextField();
+		
 		sendMessageTextField.setEditable(true);
 		sendMessageTextField.setEnabled(true);
-		sendMessageTextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				final String oldText = getChatArea().getText();
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						getChatController().sendMessage( chatControler.getELOUri(),sendMessageTextField.getText());
-						sendMessageTextField.setText("");
-					}
-				});
-			}
-		});
+		
 
 		p.add(sendMessageTextField, "align left, grow");
 	}
