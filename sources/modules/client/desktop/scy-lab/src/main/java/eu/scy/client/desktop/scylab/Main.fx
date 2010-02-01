@@ -36,6 +36,9 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.chat.controller.MUCChatController;
 
 /**
  * @author sikkenj
@@ -46,8 +49,8 @@ var initializer = Initializer {
            loginType:"remote"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
-           redirectSystemStream:true
-           enableLocalLogging:true
+           redirectSystemStream:false
+           enableLocalLogging:false
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -66,6 +69,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyInterviewId = "interview";
    def scyVideoId = "video";
    def scyWebresourceId = "webresource";
+   def presentationViewerId = "presentationUpload";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -97,11 +101,30 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{}, presentationViewerId);
 
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {}, scychatId);
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {}, scychatpresenceId);
+scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
+    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+    var eloUri = "z168fb1jo51y";
+   var chatController = new MUCChatController(awarenessService, eloUri);
+
+//    logger.info("awarenessService exists: {awarenessService.isConnected()}");
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatController: chatController;
+                },
+            scychatId);
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolPresenceDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatController: chatController;
+            },
+            scychatpresenceId);
+
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {}, scychatId);
+//   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {}, scychatpresenceId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
