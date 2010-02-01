@@ -14,7 +14,7 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class ExtractKeywords extends AbstractRequestAgent {
 
-	public static final String NAME = "eu.scy.agents.keywords.ExtractKeywords";
+	public static final String NAME = ExtractKeywords.class.getName();
 	public static final Object EXTRACT_KEYWORDS = "ExtractKeywords";
 
 	private Tuple activationTuple;
