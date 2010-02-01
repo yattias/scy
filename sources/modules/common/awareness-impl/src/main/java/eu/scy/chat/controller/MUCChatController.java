@@ -106,8 +106,15 @@ public class MUCChatController implements ChatController {
 							public void run() {
 								System.out.println( "Checking room id" );
 								
-								if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEvent.getRoomId()) ) {									
-									logger.debug( "MATCHED ELOURI " + ELOUri + " roomid " + awarenessEvent.getRoomId() );
+								
+								String awarenessEventRoomId = awarenessEvent.getRoomId();
+								if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+									//need to parse it text@conference.org
+									awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+								}
+								
+								if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {									
+									logger.debug( "MATCHED ELOURI " + ELOUri + " roomid " + awarenessEventRoomId );
 									
 									String oldText = chatArea.getText();
 									List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
@@ -127,7 +134,7 @@ public class MUCChatController implements ChatController {
 										chatArea.revalidate();
 									}
 								} else {
-									logger.debug( "ELOURI MISS MATCH " + ELOUri + " roomid " + awarenessEvent.getRoomId() );
+									logger.debug( "ELOURI MISS MATCH " + ELOUri + " roomid " + awarenessEventRoomId );
 								}
 								
 
