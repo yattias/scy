@@ -4,11 +4,16 @@
  */
 package eu.scy.client.desktop.scydesktop;
 
+import java.io.File;
 import java.io.PrintStream;
+import java.security.AccessControlException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  *
@@ -22,6 +27,7 @@ public class JavaProperties
    private static final String libraryPathPropName = "java.library.path";
    private static final String sunBootClassPathPropName = "sun.boot.class.path";
    private static final String sunBootLibraryPathPropName = "sun.boot.library.path";
+   private static final SimpleDateFormat modifiedFormat = new SimpleDateFormat("yyyy.MM.dd, HH:mm:ss");
 
    /**
     * Writes the value of some system properties accessible to applications to the Java console.
@@ -31,9 +37,22 @@ public class JavaProperties
    public static void writePropertiesForApplication()
    {
       System.out.println("System properties");
-      Enumeration<?> enumeration = System.getProperties().propertyNames();
       ArrayList<String> propNames = new ArrayList<String>();
       int maxPropNameLength = 0;
+      Enumeration<?> enumeration;
+      try
+      {
+         enumeration = System.getProperties().propertyNames();
+      }
+      catch (AccessControlException e)
+      {
+         Vector<String> pathNames = new Vector<String>();
+         pathNames.add(classPathPropName);
+         pathNames.add(libraryPathPropName);
+         pathNames.add(sunBootClassPathPropName);
+         pathNames.add(sunBootLibraryPathPropName);
+         enumeration = pathNames.elements();
+      }
       while (enumeration.hasMoreElements())
       {
          String propName = (String) enumeration.nextElement();
@@ -48,7 +67,7 @@ public class JavaProperties
             || sunBootClassPathPropName.equals(propName)
             || sunBootLibraryPathPropName.equals(propName))
          {
-            writeClassPath(label, System.out);
+            writeClassPath(label, propName, System.out);
          }
          else
          {
@@ -58,23 +77,47 @@ public class JavaProperties
       System.out.println();
    }
 
-   protected static void writeClassPath(String label, PrintStream out)
+   protected static void writeClassPath(String label, String propName, PrintStream out)
    {
-      String classPath = System.getProperty("java.class.path");
+      String classPath;
+      try
+      {
+         classPath = System.getProperty(propName);
+      }
+      catch (AccessControlException e)
+      {
+         classPath = "access denied";
+      }
+      if (classPath == null)
+      {
+         classPath = "";
+      }
       StringTokenizer tokens = new StringTokenizer(classPath, System.getProperty("path.separator"));
       boolean firstLine = true;
       while (tokens.hasMoreTokens())
       {
+         String fileName = tokens.nextToken();
+         String fileModified = getFileLastModified(fileName);
          if (firstLine)
          {
-            out.println(label + ": " + tokens.nextToken());
+            out.println(label + ": " + fileName + " (" + fileModified + ")");
             firstLine = false;
          }
          else
          {
-            out.println(spaces.substring(0, label.length()) + "  " + tokens.nextToken());
+            out.println(spaces.substring(0, label.length()) + "  " + fileName + " (" + fileModified + ")");
          }
       }
+   }
+
+   private static String getFileLastModified(String fileName)
+   {
+      File file = new File(fileName);
+      if (file.exists())
+      {
+         return modifiedFormat.format(new Date(file.lastModified()));
+      }
+      return "does not exists";
    }
 
    public static void writeApplicationParameters(String[] args)
