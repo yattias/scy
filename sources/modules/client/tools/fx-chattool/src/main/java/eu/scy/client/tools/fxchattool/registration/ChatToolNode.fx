@@ -13,6 +13,9 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 import javafx.ext.swing.SwingComponent;
+import java.util.*;
+import java.lang.*;
+
 
 import eu.scy.client.tools.chattool.ChatPanel;
 /**
@@ -26,12 +29,12 @@ public class ChatToolNode extends CustomNode {
     public var wrappedSPTPanel:SwingComponent;
     public var chatTool:ChatPanel;
     public var scyWindow:ScyWindow on replace {
-//        setScyWindowTitle();
+        //setScyWindowTitle();
     };
 
     public function loadElo(uri:URI){
         eloChatActionWrapper.loadElo(uri);
-        setScyWindowTitle();
+        //setScyWindowTitle();
     }
 
     function setScyWindowTitle(){
@@ -39,13 +42,17 @@ public class ChatToolNode extends CustomNode {
             return;
         }
 
-        scyWindow.title = "StudenPlanningTool: {eloChatActionWrapper.getDocName()}";
+        scyWindow.title = "ChatTool: {eloChatActionWrapper.getDocName()}";
         var eloUri = eloChatActionWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
         }
         else {
-            scyWindow.id = "";
+            var r = new Random(System.currentTimeMillis());
+            var v = Long.toString(Math.abs(r.nextLong()), Math.random());
+
+       
+            scyWindow.id = v;
         }
     };
 
