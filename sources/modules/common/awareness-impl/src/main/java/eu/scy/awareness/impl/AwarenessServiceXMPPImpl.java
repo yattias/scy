@@ -276,6 +276,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	@Override
 	public void init(XMPPConnection connection) {
 		this.xmppConnection = connection;
+		if( getRoster() == null)
+			return;
+		
 		getRoster().setSubscriptionMode(Roster.SubscriptionMode.accept_all);
 		getRoster().addRosterListener(new RosterListener() {
 

@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
@@ -192,5 +193,11 @@ public class OOOChatController implements ChatController {
 
 	public void setBuddyListModel(DefaultListModel buddyListModel) {
 		this.buddyList = buddyListModel;
+	}
+
+	@Override
+	public void registerTextField(JTextField sendMessageTextField) {
+		// TODO Auto-generated method stub
+		
 	}
 }
