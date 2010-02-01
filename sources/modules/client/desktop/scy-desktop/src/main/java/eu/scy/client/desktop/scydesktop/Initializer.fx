@@ -80,6 +80,7 @@ public class Initializer {
    def eloImagesPathOption = "eloImagesPath";
 
    init {
+      JavaProperties.writePropertiesForApplication();
       parseApplicationParameters();
       parseWebstartParameters();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
