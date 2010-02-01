@@ -21,8 +21,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
+import java.lang.Void;
 
 
 /**
@@ -196,7 +195,9 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          title: eloInfoControl.getEloTitle(eloUri);
          setScyContent:setScyContent;
          missionModelFX:missionModel
+         tooltipManager:tooltipManager
       }
+      tooltipManager.registerNode(scyWindow, scyWindow);
       var anchor = getAnchor(eloUri);
       if (anchor!=null){
           scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
@@ -213,7 +214,9 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          eloType: eloType;
          setScyContent:setScyContent;
          missionModelFX:missionModel
+         tooltipManager:tooltipManager
       }
+      tooltipManager.registerNode(scyWindow, scyWindow);
       windowStyler.style(scyWindow);
       insert scyWindow into scyWindows;
       return scyWindow;

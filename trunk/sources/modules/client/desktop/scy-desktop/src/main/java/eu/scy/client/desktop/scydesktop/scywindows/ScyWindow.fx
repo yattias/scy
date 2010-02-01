@@ -9,7 +9,6 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
@@ -20,6 +19,7 @@ import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * @author sikkenj
@@ -77,6 +77,8 @@ public abstract class ScyWindow extends CustomNode {
 	public var setScyContent: function(ScyWindow):Void;
 	public var aboutToCloseAction: function(ScyWindow):Boolean;
 	public var closedAction: function(ScyWindow):Void;
+
+   public var tooltipManager:TooltipManager;
 
 	// status variables
 	public-read protected var isMinimized = false;
