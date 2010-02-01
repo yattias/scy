@@ -93,11 +93,18 @@ public class MUCChatController implements ChatController {
 					public void handleAwarenessMessageEvent(
 							final IAwarenessEvent awarenessEvent) {
 
+				
 						System.out.println("calling message event");
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
 
+								if( !awarenessEvent.getRoomId().equals(ELOUri) ) {
+									System.out.println( "message not for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
+									
+								} else {
+									System.out.println( "message ISSSS for ELOURI " + ELOUri + "roomid " + awarenessEvent.getRoomId() );
+								}
 								String oldText = chatArea.getText();
 								List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
 
