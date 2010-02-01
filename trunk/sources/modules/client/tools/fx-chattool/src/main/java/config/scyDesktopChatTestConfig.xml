@@ -18,6 +18,14 @@
                <property name="bottomDrawerCreatorId" value="eloXmlViewerId"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
+             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/text"/>
+               <property name="display" value="Text"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="text"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="topDrawerCreatorId" value="presence"/>
+           </bean>
          </list>
       </property>
    </bean>

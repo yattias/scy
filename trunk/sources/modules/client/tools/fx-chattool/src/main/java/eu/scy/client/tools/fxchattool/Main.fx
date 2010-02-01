@@ -7,6 +7,7 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorF
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 import eu.scy.chat.controller.*;
 import java.util.logging.Logger;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.Initializer;
@@ -14,6 +15,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.IAwarenessService;
+import java.util.HashMap;
 
 /*
  * Main.fx
@@ -32,6 +34,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    def scychatId = "chat";
    def scychatpresenceId = "presence";
+    def scyTextId = "text";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -41,24 +44,30 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
     
     var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
-    var eloUri = "z168fb1jo51y";
-    var chatController = new MUCChatController(awarenessService, eloUri);
-
+    
+    var chatControllerMap = new HashMap();
     logger.info("awarenessService exists: {awarenessService.isConnected()}");
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-                chatController: chatController;
+                chatControllerMap: chatControllerMap;
                 },
             scychatId);
+            
     scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolPresenceDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-                chatController: chatController;
+                chatControllerMap: chatControllerMap;
             },
             scychatpresenceId);
 
+
+ 
+
    var scyDesktop = scyDesktopCreator.createScyDesktop();
+
+    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
    scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
       scyDesktop: scyDesktop;

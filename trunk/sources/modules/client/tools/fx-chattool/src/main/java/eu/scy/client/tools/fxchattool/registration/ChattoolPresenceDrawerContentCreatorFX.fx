@@ -16,6 +16,9 @@ import eu.scy.client.tools.chattool.ChatPresencePanel;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
+import java.util.*;
+import eu.scy.chat.controller.*;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author jeremyt
@@ -23,21 +26,43 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 
 public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreatorFX {
     override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
-         return createChatPresenceToolNode(scyWindow);
+
+
+         return createChatPresenceToolNode(scyWindow,eloUri);
     }
 
     public var node:Node;
     public var awarenessService:IAwarenessService;
     public var chatController:ChatController;
+    public var eloId:String;
+    public var chatControllerMap:HashMap;
    
-    function createChatPresenceToolNode(scyWindow:ScyWindow):ChatPresenceToolNode{
+    function createChatPresenceToolNode(scyWindow:ScyWindow,eloUri:URI):ChatPresenceToolNode{
 
-        //needs to be the same awareness service as the one initized with chatpanelmain
-        var chatPresenceTool = new ChatPresencePanel(chatController);
+        var chatPresenceTool;
+
+        var s = eloUri.toString();
+
+        s = StringUtils.remove(s, "/");
+        s = StringUtils.remove(s, ".");
+        s = StringUtils.remove(s, ":");
+
+        println("new string presence drawer: {s}" );
+        var controller = chatControllerMap.get(s) as ChatController;
+
+        if( controller != null ) {
+            chatPresenceTool = new ChatPresencePanel(controller);
+        } else {
+            var chatController = new MUCChatController(awarenessService, s);
+            chatControllerMap.put(s, chatController);
+            chatPresenceTool = new ChatPresencePanel(chatController);
+        }
+        
+        
 
         return ChatPresenceToolNode{
             chatPresenceTool:chatPresenceTool;
 
-         }
+         };
    }
 }
