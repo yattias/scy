@@ -12,6 +12,7 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 
     private String message;
     protected IAwarenessUser user;
+	private String roomId;
 
     public AwarenessEvent(Object source, IAwarenessUser user, String message){
         super(source);
@@ -56,6 +57,16 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 	public void setIAwarenessUser(IAwarenessUser user) {
 		this.user = user;
 		
+	}
+
+	@Override
+	public String getRoomId() {
+		return this.roomId;
+	}
+
+	@Override
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
 
 	

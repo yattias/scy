@@ -10,6 +10,20 @@ import eu.scy.awareness.IAwarenessUser;
  */
 public interface IAwarenessEvent {
     
+	
+	/**
+	 * gets the room id
+	 * 
+	 * @return
+	 */
+	public String getRoomId();
+	
+	/**
+	 * sets the room id
+	 * 
+	 */
+	public void setRoomId(String roomId);
+	
     /**
      * Gets the user
      * @return

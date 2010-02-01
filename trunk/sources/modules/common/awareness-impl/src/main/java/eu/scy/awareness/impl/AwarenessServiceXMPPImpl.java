@@ -159,7 +159,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		logger.debug("processMessage: " + participant + " says: "
 				+ message.getBody());
 
+			String roomId = StringUtils.parseName(message.getFrom());
 		
+			logger.debug("room ID: " + roomId);
+			
 			for (IAwarenessMessageListener al : messageListeners) {
 				if (al != null && message.getBody() != null) {
 	
@@ -171,8 +174,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	
 					IAwarenessEvent awarenessEvent = new AwarenessEvent(this, aw,
 							message.getBody());
+					
+					
+					logger.debug("room ID: " + roomId);
+					
+					awarenessEvent.setRoomId(roomId);
 					try {
-						System.out.println("hit it ---------------------------------------------------------------------");
+						logger.debug("going to fire awareness event ---------------------------------------------------------------------");
 						al.handleAwarenessMessageEvent(awarenessEvent);
 					} catch (RuntimeException e) {
 						e.printStackTrace();
