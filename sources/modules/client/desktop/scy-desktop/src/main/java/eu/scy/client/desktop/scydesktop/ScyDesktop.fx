@@ -25,7 +25,6 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
@@ -35,9 +34,6 @@ import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentFactory;
-
 import eu.scy.client.desktop.scydesktop.config.Config;
 
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
@@ -45,9 +41,7 @@ import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
-import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFXImpl;
 
 import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
 
@@ -138,8 +132,8 @@ public class ScyDesktop extends CustomNode {
       };
 
    var scyToolFactory : ScyToolFactory;
-   var windowContentFactory: WindowContentFactory;
-   var drawerContentFactory: DrawerContentFactory;
+//   var windowContentFactory: WindowContentFactory;
+//   var drawerContentFactory: DrawerContentFactory;
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl:ScyWindowControl;
    public-read var newTitleGenerator:NewTitleGenerator;
@@ -227,15 +221,15 @@ public class ScyDesktop extends CustomNode {
          config:config;
          newTitleGenerator:newTitleGenerator;
       }
-      windowContentFactory = WindowContentFactory{
-         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-         config:config;
-         newTitleGenerator:newTitleGenerator;
-      }
-      drawerContentFactory = DrawerContentFactory{
-         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
-         config:config;
-      }
+//      windowContentFactory = WindowContentFactory{
+//         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+//         config:config;
+//         newTitleGenerator:newTitleGenerator;
+//      }
+//      drawerContentFactory = DrawerContentFactory{
+//         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
+//         config:config;
+//      }
      //TODO remove contacts and connect to user management
     def contact1 = Contact {
                 currentMission: "Testmission";
@@ -306,7 +300,7 @@ public class ScyDesktop extends CustomNode {
           height: bind scene.height;
       }
       scyWindowControl = ScyWindowControlImpl{
-          windowContentFactory: windowContentFactory;
+          windowContentFactory: scyToolFactory;
           windowManager: windows;
           windowPositioner:windowPositioner;
           missionModel: missionModelFX;
@@ -408,45 +402,45 @@ public class ScyDesktop extends CustomNode {
       window.scyToolsList.loadedEloChanged(window.eloUri);
    }
 
-   function XfillNewScyWindow(window: ScyWindow):Void{
-      var eloConfig = config.getEloConfig(window.eloType);
-      if (window.eloUri==null){
-         var pleaseWait = Text {
-               font : Font {
-                  size: 14
-               }
-               x: 5, y: 20
-               content: "Loading, please wait..."
-            }
-         window.scyContent = pleaseWait;
-
-         FX.deferAction(function(){
-               windowContentFactory.fillWindowContent(window,eloConfig.getContentCreatorId());
-            });
-      }
-      else{
-         windowContentFactory.fillWindowContent(window.eloUri,window,eloConfig.getContentCreatorId());
-      }
-      addDrawerTools(window,eloConfig);
-   }
-
-    function addDrawerTools(window:ScyWindow,eloConfig:EloConfig):Void{
-       if (window.eloUri==null){
-          // no elo, no drawer tools
-          //return;
-       }
-       if (window.eloType==null){
-
-       }
-//       println("retrieving eloConfig for type {window.eloType}");
-       if (eloConfig==null){
-          //return;
-       }
-       window.topDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getTopDrawerCreatorId(), window);
-       window.rightDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getRightDrawerCreatorId(), window);
-       window.bottomDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getBottomDrawerCreatorId(), window);
-       window.leftDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getLeftDrawerCreatorId(), window);
-    }
+//   function XfillNewScyWindow(window: ScyWindow):Void{
+//      var eloConfig = config.getEloConfig(window.eloType);
+//      if (window.eloUri==null){
+//         var pleaseWait = Text {
+//               font : Font {
+//                  size: 14
+//               }
+//               x: 5, y: 20
+//               content: "Loading, please wait..."
+//            }
+//         window.scyContent = pleaseWait;
+//
+//         FX.deferAction(function(){
+//               windowContentFactory.fillWindowContent(window,eloConfig.getContentCreatorId());
+//            });
+//      }
+//      else{
+//         windowContentFactory.fillWindowContent(window.eloUri,window,eloConfig.getContentCreatorId());
+//      }
+//      addDrawerTools(window,eloConfig);
+//   }
+//
+//    function addDrawerTools(window:ScyWindow,eloConfig:EloConfig):Void{
+//       if (window.eloUri==null){
+//          // no elo, no drawer tools
+//          //return;
+//       }
+//       if (window.eloType==null){
+//
+//       }
+////       println("retrieving eloConfig for type {window.eloType}");
+//       if (eloConfig==null){
+//          //return;
+//       }
+//       window.topDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getTopDrawerCreatorId(), window);
+//       window.rightDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getRightDrawerCreatorId(), window);
+//       window.bottomDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getBottomDrawerCreatorId(), window);
+//       window.leftDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getLeftDrawerCreatorId(), window);
+//    }
 
  }
 
@@ -537,13 +531,13 @@ function run(){
       technicalFormatKey:config.getTechnicalFormatKey();
    }
 
-   var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
-         };
-
-   windowContentCreatorRegistryFX.registerWindowContentCreator(new SwingSizeTestPanelCreator(), "size");
-
-   var drawerContentCreatorRegistryFX:DrawerContentCreatorRegistryFX =DrawerContentCreatorRegistryFXImpl{
-         };
+//   var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
+//         };
+//
+//   windowContentCreatorRegistryFX.registerWindowContentCreator(new SwingSizeTestPanelCreator(), "size");
+//
+//   var drawerContentCreatorRegistryFX:DrawerContentCreatorRegistryFX =DrawerContentCreatorRegistryFXImpl{
+//         };
 
 //   drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
    var scyDesktop:ScyDesktop = ScyDesktop{
@@ -553,9 +547,9 @@ function run(){
       };
       windowStyler:DummyWindowStyler{
       };
-      windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-      newEloCreationRegistry: NewEloCreationRegistryImpl{};
-      drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
+//      windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+//      newEloCreationRegistry: NewEloCreationRegistryImpl{};
+//      drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
 //      topLeftCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }

@@ -24,7 +24,7 @@ import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
-import javax.swing.UIManager.LookAndFeelInfo;
+//import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
  * @author sikken
@@ -36,7 +36,8 @@ public class Initializer {
 
    public-init var log4JInitFile = "";
    public-init var javaUtilLoggingInitFile = "";
-   public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
+   public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2.jpg";
+//   public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
    public-init var enableLocalLogging = true;
    public-init var loggingDirectoryName = "logging";
    public-init var redirectSystemStream = false;
@@ -50,8 +51,8 @@ public class Initializer {
    public-init var scyDesktopConfigFile: String;
    public-init var storeElosOnDisk = true;
    public-init var createPersonalMissionMap = true;
-//   public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
-   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
+   public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
+//   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -300,7 +301,7 @@ public class Initializer {
          // its a class name
          return lookAndFeel;
       } else {
-         var lookAndFeelInfos: LookAndFeelInfo[] = UIManager.getInstalledLookAndFeels();
+         var lookAndFeelInfos: javax.swing.UIManager.LookAndFeelInfo[] = UIManager.getInstalledLookAndFeels();
          for (lookAndFeelInfo in lookAndFeelInfos) {
             if (lookAndFeel.equalsIgnoreCase(lookAndFeelInfo.getName())) {
                return lookAndFeelInfo.getClassName();

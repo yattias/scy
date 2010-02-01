@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.elofactory.impl;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.elofactory.ContentFactory;
 import javafx.scene.Node;
 import javafx.ext.swing.SwingComponent;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;

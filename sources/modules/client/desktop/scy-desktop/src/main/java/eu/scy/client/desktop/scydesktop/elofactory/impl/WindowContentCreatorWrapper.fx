@@ -12,11 +12,7 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
-
-
 import eu.scy.client.desktop.scydesktop.config.Config;
-import eu.scy.client.desktop.scydesktop.elofactory.ServicesInjector;
-import eu.scy.client.desktop.scydesktop.elofactory.SwingContentWrapper;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 

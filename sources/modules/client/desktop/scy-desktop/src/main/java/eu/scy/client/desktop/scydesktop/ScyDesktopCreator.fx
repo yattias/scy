@@ -19,7 +19,7 @@ import java.lang.IllegalStateException;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 
-import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
+import eu.scy.client.desktop.scydesktop.elofactory.impl.NewEloCreationRegistryImpl;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 
 import eu.scy.toolbrokerapi.ToolBrokerAPI;

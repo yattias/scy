@@ -9,8 +9,6 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
-import eu.scy.client.desktop.scydesktop.elofactory.ServicesInjector;
-import eu.scy.client.desktop.scydesktop.elofactory.SwingContentWrapper;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
