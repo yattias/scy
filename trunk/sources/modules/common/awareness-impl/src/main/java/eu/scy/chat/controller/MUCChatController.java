@@ -122,6 +122,8 @@ public class MUCChatController implements ChatController {
 													.getNickName()
 											+ " message: "
 											+ awarenessEvent.getMessage());
+									logger.debug("chat area refreshing");
+									chatArea.revalidate();
 								}
 
 							}
