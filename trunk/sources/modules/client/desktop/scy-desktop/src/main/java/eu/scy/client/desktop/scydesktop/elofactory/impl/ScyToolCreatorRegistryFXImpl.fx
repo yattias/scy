@@ -7,8 +7,6 @@ package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.config.Config;
-import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorWrapper;
-import eu.scy.client.desktop.scydesktop.elofactory.BasicContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
@@ -18,10 +16,6 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.elofactory.impl.DrawerContentCreatorWrapper;
-import eu.scy.client.desktop.scydesktop.elofactory.impl.WindowContentCreatorWrapper;
-import java.lang.String;
-import java.lang.Void;
 
 /**
  * @author sikken

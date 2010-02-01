@@ -14,8 +14,6 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
-import eu.scy.client.desktop.scydesktop.elofactory.ServicesInjector;
-import eu.scy.client.desktop.scydesktop.elofactory.SwingContentWrapper;
 
 /**
  * @author sikkenj

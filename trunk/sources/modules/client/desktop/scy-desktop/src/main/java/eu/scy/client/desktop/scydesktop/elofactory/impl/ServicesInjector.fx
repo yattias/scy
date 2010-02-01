@@ -3,7 +3,7 @@
  *
  * Created on 8-jul-2009, 16:20:24
  */
-package eu.scy.client.desktop.scydesktop.elofactory;
+package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
 
@@ -25,7 +25,6 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
-import java.lang.IllegalAccessException;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 

@@ -4,7 +4,7 @@
  * Created on 6-jul-2009, 11:01:54
  */
 
-package eu.scy.client.desktop.scydesktop.elofactory;
+package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;

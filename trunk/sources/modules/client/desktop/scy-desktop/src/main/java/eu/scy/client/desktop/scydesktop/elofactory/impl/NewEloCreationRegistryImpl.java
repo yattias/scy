@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.scy.client.desktop.scydesktop.elofactory;
+package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
+import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -4,7 +4,7 @@
  * Created on 24-sep-2009, 9:21:33
  */
 
-package eu.scy.client.desktop.scydesktop.elofactory;
+package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import java.lang.IllegalArgumentException;
 import java.util.HashMap;

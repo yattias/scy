@@ -4,7 +4,7 @@
  * Created on 23-sep-2009, 14:55:35
  */
 
-package eu.scy.client.desktop.scydesktop.elofactory;
+package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
 import java.util.HashSet;

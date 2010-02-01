@@ -7,7 +7,6 @@
 package eu.scy.client.desktop.scydesktop.scywindows;
 
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
@@ -17,6 +16,7 @@ import java.net.URI;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 
 /**
  * ScyWindowControl controls which windows (elos) are shown on the desktop
@@ -27,7 +27,7 @@ import roolo.elo.api.IMetadataTypeManager;
 public mixin class ScyWindowControl {
    public var missionModel: MissionModelFX;
    public var missionMap: MissionMap;
-   public var windowContentFactory: WindowContentFactory;
+   public var windowContentFactory: ScyToolFactory;
    public var windowStyler: WindowStyler;
    public var windowManager: WindowManager;
    public var windowPositioner: WindowPositioner;
