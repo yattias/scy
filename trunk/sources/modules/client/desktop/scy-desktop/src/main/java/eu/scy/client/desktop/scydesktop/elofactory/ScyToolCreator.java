@@ -16,11 +16,14 @@ public interface ScyToolCreator
    /**
     * Create a new JComponent to display/edit an existing ELO.
     *
-    * @param type - the technical type for which the tool should be created
+    * The eloType and creatorId can be used to determine what JComponent to return, in case the creator is capable of returning multiple types.
+    *
+    * @param eloType - the technical type of the elo in the window
+    * @param creatorId - the id of the registered creator
     * @param windowContent - true if the tool will be placed in the window, other is will be placed in a drawer
     * @return
     */
-   public JComponent createScyToolComponent(String type, boolean windowContent);
+   public JComponent createScyToolComponent(String eloType, String creatorId, boolean windowContent);
 
    /**
     * Check if the creator supports the given type
