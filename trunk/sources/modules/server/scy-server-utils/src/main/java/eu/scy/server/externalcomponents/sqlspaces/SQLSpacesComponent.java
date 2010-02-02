@@ -27,6 +27,11 @@ public class SQLSpacesComponent implements IExternalComponent {
         Configuration.getConfiguration().setDbPassword("sqlspaces");
         Configuration.getConfiguration().setWebEnabled(false);
         Configuration.getConfiguration().setWebServicesEnabled(false);
+        Configuration.getConfiguration().setOpenFireHost("scy.collide.info");
+        Configuration.getConfiguration().setOpenFirePortClient(5222);
+        Configuration.getConfiguration().setOpenFirePortExternal(5275);
+        Configuration.getConfiguration().setXMPPServiceName("sqlspaces");
+        Configuration.getConfiguration().setXMPPServiceSecret("sqlspaces");
         Level level = Logger.getLogger("").getLevel();
         Server.startServer();
         Logger.getLogger("").setLevel(level);
