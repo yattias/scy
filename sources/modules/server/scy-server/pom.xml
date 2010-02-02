@@ -68,7 +68,7 @@
 										<groupId>net.sf.sail</groupId>
 										<artifactId>webapp</artifactId>
 										<properties>
-											<context>/portal</context>
+											<context>/webapp</context>
 										</properties>
 										<type>war</type>
 									</deployable>
@@ -131,7 +131,7 @@
 										<groupId>net.sf.sail</groupId>
 										<artifactId>webapp</artifactId>
 										<properties>
-											<context>/portal</context>
+											<context>/webapp</context>
 										</properties>
 										<type>war</type>
 									</deployable>
