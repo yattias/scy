@@ -18,8 +18,6 @@ public interface PedagogicalPlanPersistenceService extends BaseService{
 
     public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template);
 
-    public void save(ScyBase scyBaseObject);
-
     /**
      * retrieves a pedagogical plan based on its name
      * @param name

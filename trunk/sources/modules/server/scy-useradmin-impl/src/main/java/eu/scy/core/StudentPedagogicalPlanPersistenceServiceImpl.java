@@ -19,7 +19,7 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     private StudentPedagogicalPlanPersistenceDAOHibernate studentPedagogicalPlanPersistenceDAO;
 
     public StudentPedagogicalPlanPersistenceDAOHibernate getStudentPedagogicalPlanPersistenceDAO() {
-        return studentPedagogicalPlanPersistenceDAO;
+        return (StudentPedagogicalPlanPersistenceDAOHibernate) getScyBaseDAO();
     }
 
     public void setStudentPedagogicalPlanPersistenceDAO(StudentPedagogicalPlanPersistenceDAOHibernate studentPedagogicalPlanPersistenceDAO) {

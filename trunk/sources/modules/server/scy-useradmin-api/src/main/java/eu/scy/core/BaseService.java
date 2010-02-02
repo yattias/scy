@@ -1,5 +1,7 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ScyBase;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -8,4 +10,7 @@ package eu.scy.core;
  * To change this template use File | Settings | File Templates.
  */
 public interface BaseService {
+
+    void save(ScyBase scyBaseObject);
+
 }

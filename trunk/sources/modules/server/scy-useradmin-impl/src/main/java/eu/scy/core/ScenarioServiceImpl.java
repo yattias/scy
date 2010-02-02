@@ -22,26 +22,27 @@ public class ScenarioServiceImpl extends BaseServiceImpl implements ScenarioServ
     private ScenarioDAO scenarioDAO;
 
     public List getScenarios() {
-        return scenarioDAO.getScenarios();
+        return getScenarioDAO().getScenarios();
     }
 
     @Transactional
     public void createScenario(Scenario scenario) {
-        scenarioDAO.createScenario(scenario);
+
+        getScenarioDAO().createScenario(scenario);
     }
 
     @Override
     public List<Mission> getMissions() {
-        return scenarioDAO.getMissions();
+        return getScenarioDAO().getMissions();
     }
 
     @Override
     public void save(Scenario scenario) {
-        scenarioDAO.save(scenario);
+        getScenarioDAO().save(scenario);
     }
 
     public ScenarioDAO getScenarioDAO() {
-        return scenarioDAO;
+        return (ScenarioDAO) getScyBaseDAO();
     }
 
     public void setScenarioDAO(ScenarioDAO scenarioDAO) {

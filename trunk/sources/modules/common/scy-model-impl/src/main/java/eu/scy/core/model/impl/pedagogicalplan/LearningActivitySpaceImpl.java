@@ -24,12 +24,11 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
     private LearningActivitySpaceTemplate learningActivitySpaceTemplate = null;
 
     private List activities;
-    private Set produces;
 
     private int xPos;
     private int yPos;
 
-    @OneToOne(targetEntity = AssessmentImpl.class, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToOne(targetEntity = AssessmentImpl.class, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn (name = "assessment_primKey")
     public Assessment getAssessment() {
         return assessment;
@@ -48,23 +47,8 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
         this.learningActivitySpaceTemplate = learningActivitySpaceTemplate;
     }
 
-    @Transient
-    public Set<AnchorELO> getProduces() {
-        return produces;
-    }
 
-    public void setProduces(Set<AnchorELO> anchorELOs) {
-        this.produces = anchorELOs;
-    }
-
-    public void addAnchorELO(AnchorELO anchorELO) {
-        if(produces == null) {
-            produces = new HashSet();
-        }
-        produces.add(anchorELO);
-    }
-
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningActivitySpace", targetEntity = ActivityImpl.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningActivitySpace", targetEntity = ActivityImpl.class, fetch = FetchType.LAZY)
     public List<Activity> getActivities() {
         if(activities == null) {
             activities = new LinkedList();

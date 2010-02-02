@@ -15,7 +15,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl implements Assessment
     private AssessmentDAO assessmentDAO;
 
     public AssessmentDAO getAssessmentDAO() {
-        return assessmentDAO;
+        return (AssessmentDAO) getScyBaseDAO();
     }
 
     public void setAssessmentDAO(AssessmentDAO assessmentDAO) {

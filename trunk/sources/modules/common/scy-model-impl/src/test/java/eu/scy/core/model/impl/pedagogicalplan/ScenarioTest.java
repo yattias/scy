@@ -29,13 +29,13 @@ public class ScenarioTest extends AbstractPedagogicalPlanTest{
         learningActivitySpace.addActivity(createActivity("Activity 1", "Use your SCYMapper here"));
         learningActivitySpace.addActivity(createActivity("Activity 2", "Here we go - create a presentation with your personal SCYPresentation Tool"));
 
-        AnchorELO anchorElo = new AnchorELOImpl();
-        learningActivitySpace.addAnchorELO(anchorElo);
+        //AnchorELO anchorElo = new AnchorELOImpl();
+        //learningActivitySpace.addAnchorELO(anchorElo);
 
         assert(scenario.getLearningActivitySpace() != null);
         assert(learningActivitySpace.getActivities().size() ==2);
 
-        assert(learningActivitySpace.getProduces().contains(anchorElo));
+        //assert(learningActivitySpace.getProduces().contains(anchorElo));
 
 
 

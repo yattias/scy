@@ -5,9 +5,7 @@ import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.LearningMaterial;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,8 +52,9 @@ public class MissionImpl extends LearningGoalContainerImpl implements Mission {
         return null;
     }
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.LAZY)
     public List<LearningGoal> getLearningGoals() {
+        if(learningGoals == null) learningGoals = new LinkedList();
         return learningGoals;
     }
 
@@ -64,10 +63,11 @@ public class MissionImpl extends LearningGoalContainerImpl implements Mission {
     }
 
     public void addLearningGoal(LearningGoal learningGoal) {
-        learningGoals.add(learningGoal);
+        getLearningGoals().add(learningGoal);
+        learningGoal.setLearningGoalContainer(this);
     }
 
     public void removeLearningGoal(LearningGoal learningGoal) {
-        learningGoals.remove(learningGoal);
+        getLearningGoals().remove(learningGoal);
     }
 }

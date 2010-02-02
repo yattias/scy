@@ -4,7 +4,9 @@ import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.DefaultNode;
+import eu.scy.scymapper.impl.shapes.concepts.RoundRectangle;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
+import eu.scy.scymapper.impl.shapes.concepts.Triangle;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.impl.shapes.links.Arrowhead;
 import eu.scy.scymapper.impl.shapes.links.QuadCurvedLine;
@@ -14,6 +16,7 @@ import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceLinkModel;
+import eu.scy.scyplanner.impl.shapes.NewELOShape;
 
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -141,9 +144,11 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
         try {
 
-            INodeShape s = new SVGConcept(theurl);
+            RoundRectangle rectangle = new RoundRectangle();
+            
+            INodeShape s = new RoundRectangle();//SVGConcept(theurl);
             las.setShape(s);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("File not found: /eu/scy/scyplanner/impl/shapes/LASShape.svg");
         }
 
@@ -163,9 +168,9 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/ELOShape.svg");
 
         try {
-            INodeShape s = new SVGConcept(theurl);
+            INodeShape s = new NewELOShape();//new SVGConcept(theurl);
             eloNodeModel.setShape(s);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("File not found /eu/scy/scyplanner/impl/shapes/ELOShape.svg");
         }
 

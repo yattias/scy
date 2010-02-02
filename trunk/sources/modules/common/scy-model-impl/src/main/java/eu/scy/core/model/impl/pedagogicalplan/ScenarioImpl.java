@@ -3,11 +3,11 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
-import java.util.List;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,15 +18,15 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name="scenario")
+@Table(name = "scenario")
 public class ScenarioImpl extends BaseObjectImpl implements Scenario {
 
     private LearningActivitySpace learningActivitySpace = null;
 
-    private Set<LearningGoal> learningGoals;
+    private List<LearningGoal> learningGoals;
 
-    @OneToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="learningActivitySpace_primKey")
+    @OneToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "learningActivitySpace_primKey")
     public LearningActivitySpace getLearningActivitySpace() {
         return learningActivitySpace;
     }
@@ -36,17 +36,20 @@ public class ScenarioImpl extends BaseObjectImpl implements Scenario {
         //learningActivitySpace.setParticipatesIn(this);
     }
 
-    @Transient
+
+
+
+
     @Override
+    @Transient
     public List<LearningGoal> getLearningGoals() {
-        return null;
+        return learningGoals;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void setLearningGoals(List<LearningGoal> learningGoals) {
-
+        this.learningGoals = learningGoals;
     }
-
 
     public void addLearningGoal(LearningGoal learningGoal) {
         getLearningGoals().add(learningGoal);

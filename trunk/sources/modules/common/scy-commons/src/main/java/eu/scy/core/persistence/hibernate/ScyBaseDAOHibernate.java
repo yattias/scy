@@ -4,6 +4,7 @@ import eu.scy.core.persistence.SCYBaseDAO;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.ScyBaseObject;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,9 +15,15 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  */
 public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseDAO {
 
+    private TransactionTemplate transactionTemplate;
 
     public Object getObject(Class clazz, String id) {
         return getHibernateTemplate().get(clazz, id);
+    }
+
+
+    public void save(ScyBase scyBase) {
+        save((Object) scyBase);
     }
 
 
@@ -52,5 +59,14 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
 
         return object;
     }
+
+    public TransactionTemplate getTransactionTemplate() {
+        return transactionTemplate;
+    }
+
+    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
+    }
+
 
 }

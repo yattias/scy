@@ -41,7 +41,7 @@ public class StudentPlannedActivityImpl extends BaseObjectImpl implements Studen
         members.add(member);
     }
 
-    @OneToOne(targetEntity = AnchorELOImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = AnchorELOImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "associatedelo_primKey")
     public AnchorELO getAssoicatedELO() {
         return associatedELO;
@@ -90,7 +90,7 @@ public class StudentPlannedActivityImpl extends BaseObjectImpl implements Studen
     }
 
     @Override
-    @ManyToOne(targetEntity = StudentPlanELOImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = StudentPlanELOImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "studentplanelo_primKey")
     public StudentPlanELO getStudentPlan() {
         return studentPlan;

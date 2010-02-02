@@ -31,7 +31,7 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
     }
 
 
-    @OneToOne  (targetEntity = AnchorELOImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne  (targetEntity = AnchorELOImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="anchorElo_primKey")
     public AnchorELO getAnchorELO() {
         return anchorELO;
@@ -49,7 +49,7 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
     }
 
     @Transient
-    //OneToMany(cascade = {CascadeType.ALL}, mappedBy = "activity", targetEntity = LearningActivitySpaceToolConfigurationImpl.class, fetch = FetchType.EAGER)
+    //OneToMany(cascade = {CascadeType.ALL}, mappedBy = "activity", targetEntity = LearningActivitySpaceToolConfigurationImpl.class, fetch = FetchType.LAZY)
     public Set<LearningActivitySpaceToolConfiguration> getLearningActivitySpaceToolConfigurations() {
         return learningActivitySpaceToolConfigurations;
     }

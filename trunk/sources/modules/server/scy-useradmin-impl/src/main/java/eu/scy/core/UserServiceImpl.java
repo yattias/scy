@@ -34,7 +34,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
     }
 
     public UserDAO getUserDAO() {
-        return userDAO;
+        return (UserDAO) getScyBaseDAO();
     }
 
     public void setUserDAO(UserDAO userDAO) {

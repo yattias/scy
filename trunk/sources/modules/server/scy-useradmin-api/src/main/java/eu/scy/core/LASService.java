@@ -1,9 +1,6 @@
 package eu.scy.core;
 
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
-import eu.scy.core.model.pedagogicalplan.Tool;
+import eu.scy.core.model.pedagogicalplan.*;
 
 import java.util.List;
 
@@ -26,5 +23,7 @@ public interface LASService extends BaseService{
     public void addToolToActivity(Tool tool, Activity activity);
 
     public List<LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace );
+
+    public List <AnchorELO> getAnchorELOsProducedByLAS(LearningActivitySpace learningActivitySpace);
 
 }

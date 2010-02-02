@@ -49,4 +49,6 @@ public interface PedagogicalPlanService {
     public List <LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace);
 
     public List <PedagogicalPlan> getPedagogicalPlans();
+
+    public List <AnchorELO> getAnchorELOsProducedBy(LearningActivitySpace learningActivitySpace);
 }

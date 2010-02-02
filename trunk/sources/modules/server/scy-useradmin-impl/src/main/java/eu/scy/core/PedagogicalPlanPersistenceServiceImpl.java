@@ -20,7 +20,7 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
     private PedagogicalPlanPersistenceDAO pedagogicalPlanPersistenceDAO;
 
     public PedagogicalPlanPersistenceDAO getPedagogicalPlanPersistenceDAO() {
-        return pedagogicalPlanPersistenceDAO;
+        return (PedagogicalPlanPersistenceDAO) getScyBaseDAO();
     }
 
     public void setPedagogicalPlanPersistenceDAO(PedagogicalPlanPersistenceDAO pedagogicalPlanPersistenceDAO) {

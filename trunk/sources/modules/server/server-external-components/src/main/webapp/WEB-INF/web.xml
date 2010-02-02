@@ -14,7 +14,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/applicationcontext-externalcomponents.xml,
-            /WEB-INF/agents.xml,                                   
+            /WEB-INF/agents.xml,
             classpath:eu/scy/server/pedagogicalplan/applicationContext-pedagogicalPlanService.xml,
             classpath:eu/scy/core/applicationContext-service.xml,
             classpath:eu/scy/core/persistence/hibernate/applicationContext-dao.xml,
@@ -54,7 +54,7 @@
 		<servlet-name>JnlpDownloadServlet</servlet-name>
 		<servlet-class>jnlp.sample.servlet.JnlpDownloadServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>JnlpDownloadServlet</servlet-name>
 		<url-pattern>*.jnlp</url-pattern>

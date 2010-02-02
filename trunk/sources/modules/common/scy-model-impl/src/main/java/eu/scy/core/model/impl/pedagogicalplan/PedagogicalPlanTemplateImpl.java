@@ -19,7 +19,7 @@ public class PedagogicalPlanTemplateImpl extends PedagogicalPlanBaseImpl impleme
 
     private List<PedagogicalPlan> pedagogicalPlans;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "template", targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "template", targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.LAZY)
     public List<PedagogicalPlan> getPedagogicalPlans() {
         if(pedagogicalPlans == null) pedagogicalPlans = new LinkedList<PedagogicalPlan>();
         return pedagogicalPlans;

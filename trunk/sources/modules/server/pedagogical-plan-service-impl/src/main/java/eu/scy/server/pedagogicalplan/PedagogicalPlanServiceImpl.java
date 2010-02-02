@@ -99,4 +99,9 @@ public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService i
         return getPedagogicalPlanPersistenceService().getPedagogicalPlans();
     }
 
+    @Override
+    public List<AnchorELO> getAnchorELOsProducedBy(LearningActivitySpace learningActivitySpace) {
+        return getLasService().getAnchorELOsProducedByLAS(learningActivitySpace);
+    }
+
 }

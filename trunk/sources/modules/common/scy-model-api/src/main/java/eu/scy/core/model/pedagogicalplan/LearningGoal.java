@@ -8,4 +8,8 @@ package eu.scy.core.model.pedagogicalplan;
  */
 
 public interface LearningGoal extends BaseObject {
+
+    Mission getLearningGoalContainer();
+
+    void setLearningGoalContainer(Mission learningGoalContainer);
 }

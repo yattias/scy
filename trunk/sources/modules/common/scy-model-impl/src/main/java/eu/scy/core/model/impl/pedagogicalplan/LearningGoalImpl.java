@@ -2,6 +2,7 @@ package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
 import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
+import eu.scy.core.model.pedagogicalplan.Mission;
 
 import javax.persistence.*;
 
@@ -16,15 +17,17 @@ import javax.persistence.*;
 @Table(name="learninggoal")
 public class LearningGoalImpl extends BaseObjectImpl implements LearningGoal {
 
-    private LearningGoalContainer learningGoalContainer;
+    private Mission learningGoalContainer;
 
+    @Override
     @ManyToOne(targetEntity = MissionImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "mission_primKey")
-    public LearningGoalContainer getLearningGoalContainer() {
+    public Mission getLearningGoalContainer() {
         return learningGoalContainer;
     }
 
-    public void setLearningGoalContainer(LearningGoalContainer learningGoalContainer) {
+    @Override
+    public void setLearningGoalContainer(Mission learningGoalContainer) {
         this.learningGoalContainer = learningGoalContainer;
     }
 }

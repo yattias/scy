@@ -182,7 +182,8 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .setMaxResults(1)
                 .uniqueResult();
         if(loadedRole == null) {
-            loadedRole = (Role) save(role);
+            getHibernateTemplate().saveOrUpdate(role);
+            loadedRole = (Role) getHibernateTemplate().get(Role.class, role.getId());
         }
 
         /*UserRole userRole = new UserRoleImpl();
