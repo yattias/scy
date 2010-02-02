@@ -58,8 +58,6 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
             chatPresenceTool = new ChatPresencePanel(chatController);
         }
         
-        
-
         return ChatPresenceToolNode{
             chatPresenceTool:chatPresenceTool;
 
