@@ -53,6 +53,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     public override var height on replace {
                 resizeContent()
             };
+    var fixedDimension = new Dimension(575,275);
     var wrappedSimquestPanel: SwingComponent;
     var technicalFormatKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
@@ -170,12 +171,19 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             simquestViewer.run();
             simquestPanel.setLayout(new BorderLayout());
             // TODO: infering correct dimension rather than guessing
-            simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450, 450));
+            //simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450, 450));
+            //suestViewer.getInterfacePanel().
             simquestPanel.removeAll();
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
             toolBrokerAPI.registerForNotifications(this as INotifiable);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+            fixedDimension = simquestViewer.getRealSize();
+            if (fixedDimension.width < 555) {
+                    fixedDimension.width = 555;
+            }
+            fixedDimension.height = fixedDimension.height + 220;
+            scyWindow.open();
         } catch (e: java
             .lang.Exception) {
                         logger.info("SimQuestNode.createSimQuestNode(). exception caught: {e.getMessage()}");
@@ -245,18 +253,18 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     public override function getPrefHeight(width: Number): Number {
-        return simquestPanel.getPreferredSize().getHeight();
+        return fixedDimension.height;
     }
 
     public override function getPrefWidth(width: Number): Number {
-        return simquestPanel.getPreferredSize().getWidth();
+        return fixedDimension.width;
     }
 
     public override function getMinHeight(): Number {
-        return 256;
+        return fixedDimension.height;
     }
 
     public override function getMinWidth(): Number {
-        return 580;
+        return fixedDimension.width;
     }
 }
