@@ -19,6 +19,21 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 import java.util.*;
 import eu.scy.chat.controller.*;
 import org.apache.commons.lang.StringUtils;
+import roolo.api.IRepository;
+import roolo.api.search.IMetadataQuery;
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.Contribute;
 
 /**
  * @author jeremyt
@@ -36,12 +51,21 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
     public var chatController:ChatController;
     public var eloId:String;
     public var chatControllerMap:HashMap;
+    public var repository:IRepository;
+    public var metadataTypeManager: IMetadataTypeManager;
    
     function createChatPresenceToolNode(scyWindow:ScyWindow,eloUri:URI):ChatPresenceToolNode{
 
         var chatPresenceTool;
 
-        var s = eloUri.toString();
+        
+        var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
+
+        var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+        var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
+         
+        var s = firstVersionELOURI.toString();
+
 
         s = StringUtils.remove(s, "/");
         s = StringUtils.remove(s, ".");
