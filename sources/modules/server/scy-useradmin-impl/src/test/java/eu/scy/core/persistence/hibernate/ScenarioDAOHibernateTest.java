@@ -108,7 +108,6 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
         las2.setParticipatesIn(scenario);
 
         AnchorELO anchorElo = new AnchorELOImpl();
-        las.addAnchorELO(anchorElo);
         anchorElo.setInputTo(las2);
 
 
@@ -117,6 +116,7 @@ public class ScenarioDAOHibernateTest extends AbstractDAOTest {
         las.addActivity(firstActivity);
         firstActivity.setAnchorELO(anchorElo);
 
+        
         getScenarioDAO().save(scenario);
         return scenario;
 

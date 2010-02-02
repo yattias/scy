@@ -6,6 +6,7 @@ import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.application.Strings;
 import eu.scy.scyplanner.components.table.Table;
+import eu.scy.scyplanner.components.text.SCYPlannerTextArea;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -35,6 +36,7 @@ public class AnchorELOOverviewPanel extends SCYPlannerOverviewPanel {
         setLayout(new BorderLayout());
 
         add(BorderLayout.NORTH, new JLabel(anchorELO.toString()));
+        add(BorderLayout.CENTER, new SCYPlannerTextArea(anchorELO.getDescription()));
     }
 
 }

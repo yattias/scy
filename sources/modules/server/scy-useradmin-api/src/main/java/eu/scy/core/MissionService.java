@@ -1,5 +1,7 @@
 package eu.scy.core;
 
+import eu.scy.core.model.pedagogicalplan.BaseObject;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -8,4 +10,6 @@ package eu.scy.core;
  * To change this template use File | Settings | File Templates.
  */
 public interface MissionService extends BaseService{
+
+    void save(BaseObject baseObject);
 }

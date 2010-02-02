@@ -15,16 +15,11 @@ public class ToolServiceImpl extends BaseServiceImpl implements ToolService{
     private ToolDAO toolDAO;
 
     public ToolDAO getToolDAO() {
-        return toolDAO;
+        return (ToolDAO) getScyBaseDAO();
     }
 
     public void setToolDAO(ToolDAO toolDAO) {
         this.toolDAO = toolDAO;
-    }
-
-    @Override
-    public void save(Tool tool) {
-        getToolDAO().save(tool);
     }
 
     @Override

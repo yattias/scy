@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class AssessmentImpl extends BaseObjectImpl implements Assessment {
     private AssessmentStrategy assessmentStrategy = null;
 
-    @OneToOne(targetEntity = AssessmentStrategyImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = AssessmentStrategyImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="assessmentStrategy_primKey")
     public AssessmentStrategy getAssessmentStrategy() {
         return assessmentStrategy;

@@ -21,7 +21,7 @@ public class SCYProjectImpl extends ScyBaseObject implements SCYProject {
     private List<SCYGroup> groups;
     private List<User>  users;
 
-    @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public List<SCYGroup> getGroups() {
         if(groups == null) {
             groups = new LinkedList<SCYGroup>();

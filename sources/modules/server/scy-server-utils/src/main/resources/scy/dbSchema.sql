@@ -26,9 +26,12 @@ CREATE TABLE `anchorelo` (
     `xPos` bigint(20) NOT NULL default '0',
     `yPos` bigint(20) NOT NULL default '0',
     `inputTo_primKey` varchar(55) default NULL,
+    `outputFrom_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
     KEY `inputTo_primKey_key` (`inputTo_primKey`),
-    CONSTRAINT `anchorelo_las` FOREIGN KEY (`inputTo_primKey`) REFERENCES `learningactivityspace` (`primKey`)
+    KEY `outputFrom_primKey_key` (`outputFrom_primKey`),
+    CONSTRAINT `anchorelo_las` FOREIGN KEY (`inputTo_primKey`) REFERENCES `learningactivityspace` (`primKey`),
+    CONSTRAINT `outputFrom_const_las` FOREIGN KEY (`outputFrom_primKey`) REFERENCES `learningactivityspace` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -86,6 +89,22 @@ CREATE TABLE `toolconfiguration` (
     CONSTRAINT `toolconfiguration_activity` FOREIGN KEY (`activity_primKey`) REFERENCES `activity` (`primKey`),
     CONSTRAINT `toolconfiguration_tool` FOREIGN KEY (`tool_primKey`) REFERENCES `tool` (`primKey`),
     CONSTRAINT `toolconfiguration_las` FOREIGN KEY (`las_primKey`) REFERENCES `learningactivityspace` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `lasconfiguration`;
+CREATE TABLE `lasconfiguration` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `configurationtype` varchar(250) default NULL,
+    `las_primKey` varchar(55) default NULL,
+    `agent_primKey` varchar(55) default NULL,
+	PRIMARY KEY  (`primKey`),
+    KEY `lasconfiguration_key` (`las_primKey`),
+    KEY `lasconfiguration_agent_key` (`agent_primKey`),
+    CONSTRAINT `lasconfiguration_cons` FOREIGN KEY (`las_primKey`) REFERENCES `learningactivityspace` (`primKey`),
+    CONSTRAINT `lasconfiguration_agent_cons` FOREIGN KEY (`agent_primKey`) REFERENCES `agent` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tool`;
@@ -193,6 +212,15 @@ CREATE TABLE `studentplannedactivity` (
 	CONSTRAINT `plannedactivitytoeloconst` FOREIGN KEY (`associatedelo_primKey`) REFERENCES `anchorelo` (`primKey`),
 	CONSTRAINT `plannedactivitytoplanconst` FOREIGN KEY (`studentplanelo_primKey`) REFERENCES `studentplanelo` (`primKey`)
 
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `agent`;
+CREATE TABLE `agent` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

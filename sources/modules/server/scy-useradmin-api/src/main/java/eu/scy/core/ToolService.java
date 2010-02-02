@@ -11,8 +11,6 @@ import eu.scy.core.model.pedagogicalplan.Tool;
  */
 public interface ToolService extends BaseService{
 
-    public void save(Tool tool);
-
     public Tool findToolByName(String name);
 
 }

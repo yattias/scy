@@ -175,7 +175,14 @@
     <bean id="assessmentDAO" class="eu.scy.core.persistence.hibernate.AssessmentDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    
+
+    <bean id="missionDAO" class="eu.scy.core.persistence.hibernate.MissionDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="agentDAO" class="eu.scy.core.persistence.hibernate.AgentDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     
 
 

@@ -20,6 +20,8 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
 
     private LearningActivitySpace inputTo = null;
 
+    private LearningActivitySpace outputFrom = null;
+
     private boolean includedInPortfolio = false;
 
     private boolean obligatoryInPortfolio = false;
@@ -87,4 +89,6 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
     public void setYPos(int yPos) {
         this.yPos = yPos;
     }
+
+
 }

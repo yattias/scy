@@ -23,7 +23,7 @@ public abstract class PedagogicalPlanBaseImpl extends BaseObjectImpl implements 
     private Scenario scenario;
     private PortfolioTemplate portfolioTemplate;
 
-    @OneToOne  (targetEntity = MissionImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne  (targetEntity = MissionImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="mission_primKey")
     public Mission getMission() {
         return mission;
@@ -33,7 +33,7 @@ public abstract class PedagogicalPlanBaseImpl extends BaseObjectImpl implements 
         this.mission = mission;
     }
 
-    @OneToOne  (targetEntity = ScenarioImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne  (targetEntity = ScenarioImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="scenario_primKey")
     public Scenario getScenario() {
         return scenario;

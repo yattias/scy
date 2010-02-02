@@ -1,9 +1,6 @@
 package eu.scy.core;
 
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
-import eu.scy.core.model.pedagogicalplan.Tool;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.LASDAO;
 
 import java.util.List;
@@ -20,7 +17,7 @@ public class LASServiceImpl extends BaseServiceImpl implements LASService{
     private LASDAO lasDAO;
 
     public LASDAO getLasDAO() {
-        return lasDAO;
+        return (LASDAO) getScyBaseDAO();
     }
 
     public void setLasDAO(LASDAO lasDAO) {
@@ -31,16 +28,21 @@ public class LASServiceImpl extends BaseServiceImpl implements LASService{
 
     @Override
     public void addToolToLAS(Tool tool, LearningActivitySpace las) {
-        lasDAO.addToolToLAS(tool, las);
+        getLasDAO().addToolToLAS(tool, las);
     }
 
     @Override
     public void addToolToActivity(Tool tool, Activity activity) {
-        lasDAO.addToolToActivity(tool, activity);
+        getLasDAO().addToolToActivity(tool, activity);
     }
 
     @Override
     public List<LearningActivitySpaceToolConfiguration> getToolConfigurations(LearningActivitySpace learningActivitySpace) {
-        return lasDAO.getToolConfigurations(learningActivitySpace);
+        return getLasDAO().getToolConfigurations(learningActivitySpace);
+    }
+
+    @Override
+    public List<AnchorELO> getAnchorELOsProducedByLAS(LearningActivitySpace learningActivitySpace) {
+        return getLasDAO().getAnchorELOsProducedByLAS(learningActivitySpace);
     }
 }

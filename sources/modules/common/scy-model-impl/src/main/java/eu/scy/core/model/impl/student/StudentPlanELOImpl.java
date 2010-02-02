@@ -39,7 +39,7 @@ public class StudentPlanELOImpl extends BaseObjectImpl implements StudentPlanELO
         activity.setStudentPlan(this);
 	}
 
-    @OneToOne(targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="pedagogicalPlan_primKey")
 	public PedagogicalPlan getPedagogicalPlan() {
 		return pedagogicalPlan;

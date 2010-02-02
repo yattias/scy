@@ -7,6 +7,7 @@ import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.application.Strings;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -85,8 +86,10 @@ public class LASOverviewPanel extends SCYPlannerOverviewPanel {
     }
 
     private JComponent createProducedAnchorELO(LearningActivitySpace las) {
-        if (las.getProduces() != null) {
-            Iterator<AnchorELO> elements = las.getProduces().iterator();
+        List <AnchorELO> anchorELOs = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getAnchorELOsProducedBy(las);
+
+        if (!anchorELOs.isEmpty()) {
+            Iterator<AnchorELO> elements = anchorELOs.iterator();
             Vector data = new Vector();
             while (elements.hasNext()) {
                 AnchorELO element = elements.next();

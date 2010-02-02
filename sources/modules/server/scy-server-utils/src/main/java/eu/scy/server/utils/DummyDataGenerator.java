@@ -25,12 +25,20 @@ public class DummyDataGenerator implements InitializingBean {
     private UserService userService;
     private ToolService toolService;
     private LASService lasService;
+    private MissionService missionService;
+    private AgentService agentService;
 
 
     private void generatePedagogicalPlanTemplates() {
 
         Tool scyMapper = createTool("SCYMapper", "A concept bla bla");
         Tool scySim = createTool ("SCYSim", "Simulating simulations is a recursive expression");
+
+        Agent coolAgent = createAgent("CoolAgent", "A rather cool agent");
+        Agent jamesBond = createAgent("James", "Bond");
+
+        getAgentService().save(coolAgent);
+        getAgentService().save(jamesBond);
 
         getToolService().save(scyMapper);
         getToolService().save(scySim);
@@ -60,11 +68,30 @@ public class DummyDataGenerator implements InitializingBean {
 
     }
 
+    private Agent createAgent(String name, String description) {
+        Agent agent = new AgentImpl();
+        agent.setName(name);
+        agent.setDescription(description);
+        return agent;
+    }
+
     private Mission generateMission(String name) {
         Mission mission = new MissionImpl();
         mission.setName(name);
+
+        mission.addLearningGoal(createLearningGoal("Learning Goal for " + name + "1"));
+        mission.addLearningGoal(createLearningGoal("Learning Goal for " + name + " 2"));
+
+        getMissionService().save(mission);
+
         return mission;
 
+    }
+
+    private LearningGoal createLearningGoal(String name) {
+        LearningGoal goal = new LearningGoalImpl();
+        goal.setName(name);
+        return goal;
     }
 
     private void saveAndCreatePedagogicalPlan(PedagogicalPlanTemplate template) {
@@ -107,6 +134,10 @@ public class DummyDataGenerator implements InitializingBean {
     }
 
     private Scenario generateScenario(String name, String description) {
+
+        Agent agent1 = getAgentService().getAgentByName("CoolAgent");
+
+
         Scenario scenario = new ScenarioImpl();
         scenario.setName(name);
         scenario.setDescription(description);
@@ -118,6 +149,10 @@ public class DummyDataGenerator implements InitializingBean {
         LearningActivitySpace experiment = createLAS("Experiment", conceptualisation.getXPos() - 200, conceptualisation.getYPos() + 200, scenario);
         LearningActivitySpace information= createLAS("Information", conceptualisation.getXPos() + 200, conceptualisation.getYPos() + 200, scenario);
 
+        if(agent1 != null ) {
+            getAgentService().addAgentToLearningActivitySpace(orientation, agent1);
+            getAgentService().addAgentToLearningActivitySpace(experiment, agent1);   
+        }
 
         LearningActivitySpace reflection= createLAS("Reflection", 400, 200, scenario);
         LearningActivitySpace evaluation= createLAS("Evaluation", 400, 200, scenario);
@@ -134,21 +169,21 @@ public class DummyDataGenerator implements InitializingBean {
         scenario.setLearningActivitySpace(orientation);
 
 
-        AnchorELO outputFromOrientationELO = createAnchorELO("Output from Orientation");
+        AnchorELO outputFromOrientationELO = createAnchorELO("Output from Orientation", "We are the world");
         outputFromOrientationELO.setXPos(orientation.getXPos() + 200);
         outputFromOrientationELO.setYPos(orientation.getYPos());
         Activity identifyGoalStates = addActivity(orientation, "Identify goal states", outputFromOrientationELO);
 
         outputFromOrientationELO.setInputTo(conceptualisation);
         getLasService().addToolToActivity(scyMapper, identifyGoalStates);
-        AnchorELO outputFromConceptualisation = createAnchorELO("Output from Conceptualisation");
+        AnchorELO outputFromConceptualisation = createAnchorELO("Output from Conceptualisation", "Conceptualize me");
         outputFromConceptualisation.setXPos(conceptualisation.getXPos() - 200);
         outputFromConceptualisation.setYPos(conceptualisation.getYPos() + 100);
         Activity createSimulation =  addActivity(conceptualisation, "Create simulation", outputFromConceptualisation);
         getLasService().addToolToActivity(scySim, createSimulation);
         outputFromConceptualisation.setInputTo(experiment);
 
-        AnchorELO outputFromConceptualisation2 = createAnchorELO("Output from Conceptualisation 2");
+        AnchorELO outputFromConceptualisation2 = createAnchorELO("Output from Conceptualisation 2", "me too");
         outputFromConceptualisation2.setXPos(conceptualisation.getXPos() + 200);
         outputFromConceptualisation2.setYPos(conceptualisation.getYPos() + 100);
         Activity doSomeInformationActivity = addActivity(conceptualisation, "Create some information", outputFromConceptualisation2);
@@ -267,8 +302,9 @@ public class DummyDataGenerator implements InitializingBean {
         return configuration;
     }
 
-    private AnchorELO createAnchorELO(String name) {
+    private AnchorELO createAnchorELO(String name, String description) {
         AnchorELO elo = new AnchorELOImpl();
+        elo.setDescription(description);
         elo.setName(name);
         return elo;
     }
@@ -327,6 +363,22 @@ public class DummyDataGenerator implements InitializingBean {
 
     public void setStudentPedagogicalPlanPersistenceService(StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService) {
         this.studentPedagogicalPlanPersistenceService = studentPedagogicalPlanPersistenceService;
+    }
+
+    public MissionService getMissionService() {
+        return missionService;
+    }
+
+    public void setMissionService(MissionService missionService) {
+        this.missionService = missionService;
+    }
+
+    public AgentService getAgentService() {
+        return agentService;
+    }
+
+    public void setAgentService(AgentService agentService) {
+        this.agentService = agentService;
     }
 
     @Override

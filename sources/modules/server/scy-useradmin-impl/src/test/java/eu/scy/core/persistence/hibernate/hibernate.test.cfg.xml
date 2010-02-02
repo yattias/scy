@@ -30,6 +30,9 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalContainerImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LASConfiguration"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl"/>
 
 
     </session-factory>

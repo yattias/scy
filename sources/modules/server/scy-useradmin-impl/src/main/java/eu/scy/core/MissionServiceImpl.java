@@ -1,5 +1,8 @@
 package eu.scy.core;
 
+import eu.scy.core.model.pedagogicalplan.BaseObject;
+import eu.scy.core.persistence.MissionDAO;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -8,4 +11,19 @@ package eu.scy.core;
  * To change this template use File | Settings | File Templates.
  */
 public class MissionServiceImpl extends BaseServiceImpl implements MissionService{
+
+    private MissionDAO missionDAO;
+
+    public MissionDAO getMissionDAO() {
+        return (MissionDAO) getScyBaseDAO();
+    }
+
+    public void setMissionDAO(MissionDAO missionDAO) {
+        this.missionDAO = missionDAO;
+    }
+
+    @Override
+    public void save(BaseObject baseObject) {
+        getMissionDAO().save(baseObject);
+    }
 }

@@ -1,9 +1,6 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.impl.pedagogicalplan.AssessmentImpl;
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
-import eu.scy.core.model.impl.pedagogicalplan.PeerToPeerAssessmentStrategyImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
+import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 
@@ -44,5 +41,18 @@ public abstract class AbstractDAOTest extends AbstractTransactionalSpringContext
     protected AssessmentStrategy createAssessmentStrategy() {
         PeerToPeerAssessmentStrategy strategy = new PeerToPeerAssessmentStrategyImpl();
         return strategy;
+    }
+
+    protected Mission createMission(String name) {
+        Mission mission = new MissionImpl();
+        mission.setName(name);
+        return mission;
+
+    }
+
+    protected Agent createAgent(String name) {
+        Agent agent = new AgentImpl();
+        agent.setName(name);
+        return agent;
     }
 }
