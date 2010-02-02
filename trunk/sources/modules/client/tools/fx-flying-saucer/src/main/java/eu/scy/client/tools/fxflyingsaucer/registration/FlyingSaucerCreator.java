@@ -16,7 +16,7 @@ import javax.swing.JComponent;
 public class FlyingSaucerCreator implements ScyToolCreator {
 
    @Override
-   public JComponent createScyToolComponent(String type, boolean windowContent)
+   public JComponent createScyToolComponent(String eloType, String creatorId, boolean windowContent)
    {
       return new EloFlyingSaucerPanel();
    }
