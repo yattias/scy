@@ -16,6 +16,9 @@ import javafx.ext.swing.SwingComponent;
 
 import eu.scy.client.tools.chattool.ChatPresencePanel;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.Font;
 /**
  * @author jeremyt
  */
@@ -51,16 +54,26 @@ public class ChatPresenceToolNode extends CustomNode {
     };
 
    public override function create(): Node {
-     //initTBI();
-    // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
+      if(chatPresenceTool == null) {
+        return Group {
+            content: [
+            Text {
+                font: Font { size: 22 }
+                x: 20, y: 90
+                textAlignment: TextAlignment.CENTER
+                content:"Chat can  ELO is need for Chat"
+                fill: Color.BLACK
+            }]
+        };
+     } else {
         wrappedSPTPanel = SwingComponent.wrap(chatPresenceTool);
         wrappedSPTPanel.foreground = Color.WHITE;
-
-     return Group {
-         
+        return Group {
          blocksMouse:false;
          content:
             wrappedSPTPanel;
       };
+     }
+
    }
 }

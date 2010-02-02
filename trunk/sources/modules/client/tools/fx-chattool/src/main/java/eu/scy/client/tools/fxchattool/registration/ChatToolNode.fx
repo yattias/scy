@@ -18,6 +18,9 @@ import java.lang.*;
 
 
 import eu.scy.client.tools.chattool.ChatPanel;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.paint.Color;
 /**
  * @author jeremyt
  */
@@ -57,11 +60,13 @@ public class ChatToolNode extends CustomNode {
     };
 
    public override function create(): Node {
-    wrappedSPTPanel = SwingComponent.wrap(chatTool);
-     return Group {
+  
+        wrappedSPTPanel = SwingComponent.wrap(chatTool);
+        return Group {
          blocksMouse:false;
          content:
             wrappedSPTPanel;
       };
+    
    }
 }

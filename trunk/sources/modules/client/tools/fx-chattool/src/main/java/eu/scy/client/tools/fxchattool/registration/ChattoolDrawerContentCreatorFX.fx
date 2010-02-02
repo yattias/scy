@@ -43,7 +43,7 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
    // public var repository:IRepository;
 
     function createChatToolNode(scyWindow:ScyWindow,eloUri:URI):ChatToolNode {
-
+        
         println("ELO ID nooooode {eloUri.toString()}");
 
         var s = eloUri.toString();
