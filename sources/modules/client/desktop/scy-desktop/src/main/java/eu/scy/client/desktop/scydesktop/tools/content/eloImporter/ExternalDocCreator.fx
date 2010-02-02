@@ -16,9 +16,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 public class ExternalDocCreator extends ScyToolCreatorFX {
    public-init var extensions:String[];
-    override public function createScyToolNode (type : String, window : ScyWindow, windowContent : Boolean) : Node {
+    override public function createScyToolNode (eloType : String, creatorId:String,  window : ScyWindow, windowContent : Boolean) : Node {
         ExternalDoc{
-           technicalType:type;
+           technicalType:eloType;
            extensions: extensions;
         }
 
