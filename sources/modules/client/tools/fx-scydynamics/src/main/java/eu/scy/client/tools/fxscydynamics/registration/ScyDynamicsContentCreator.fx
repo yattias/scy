@@ -9,7 +9,7 @@ import java.awt.Dimension;
 
 public class ScyDynamicsContentCreator extends ScyToolCreatorFX {
 
-    override public function createScyToolNode (type:String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
+    override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
         var props:Properties = new Properties();
         props.put("show.filetoolbar", "false");
         var editor:ModelEditor = new ModelEditor(props);

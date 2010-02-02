@@ -8,7 +8,7 @@ import java.awt.BorderLayout;
 
 public class SimulatorContentCreator extends ScyToolCreatorFX {
 
-    override public function createScyToolNode (type:String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
+    override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
         var panel:JPanel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setVisible(true);

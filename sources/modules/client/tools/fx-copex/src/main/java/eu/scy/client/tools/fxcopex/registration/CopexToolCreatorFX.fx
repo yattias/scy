@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  */
 
 public class CopexToolCreatorFX extends ScyToolCreatorFX{
-    override public function createScyToolNode (type:String, scyWindow:ScyWindow, windowContent:Boolean) : Node {
+    override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent:Boolean) : Node {
         CopexNode{
            scyCopexPanel: new ScyCopexPanel();
         }
