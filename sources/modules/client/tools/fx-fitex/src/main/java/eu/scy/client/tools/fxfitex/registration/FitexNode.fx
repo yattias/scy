@@ -78,7 +78,7 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                      spacing:spacing;
                      content:[
                         Button {
-                           text: "Import csv file"
+                           text: "Import data"
                            action: function() {
                               doImportCSVFile();
                            }
@@ -96,7 +96,7 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                            }
                         }
                         Button {
-                           text: "Save copy"
+                           text: "Save as"
                            action: function() {
                                 doSaveAsElo();
                            }

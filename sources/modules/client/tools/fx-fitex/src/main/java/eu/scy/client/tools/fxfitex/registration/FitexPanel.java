@@ -6,7 +6,6 @@
 package eu.scy.client.tools.fxfitex.registration;
 
 import java.awt.BorderLayout;
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -36,7 +35,6 @@ import java.io.File;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import javax.swing.JFileChooser;
 import org.springframework.util.StringUtils;
-
 
 /**
  *
@@ -278,5 +276,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
             return false;
         return file.getName().substring(id+1).equals("csv");
     }
+
+   
 
 }
