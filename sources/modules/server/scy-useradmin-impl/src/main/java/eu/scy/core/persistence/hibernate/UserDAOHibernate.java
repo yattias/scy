@@ -22,7 +22,6 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     private static Logger log = Logger.getLogger("UserDAOHibernate.class");
 
-   
 
     public User getUser(Long id) {
         log.finest("Getting user with id: " + id);
@@ -40,23 +39,49 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     @Override
-    public User createUser(String username, String password) {
+    public User createUser(String username, String password, String role) {
+        String suggestedUserName = generateUserNameIfAlreadyExists(username);
         SCYUserImpl newUser = new SCYUserImpl();
         SCYUserDetails userDetails = new SCYUserDetails();
-        userDetails.setUsername(username);
+        userDetails.setUsername(suggestedUserName);
         userDetails.setPassword(password);
         newUser.setUserDetails(userDetails);
+
+        SCYGrantedAuthority authority = getAuthority("ROLE_ADMINISTRATOR");
+        if (authority != null) {
+            userDetails.addAuthority(authority);
+        }
+
         save(newUser);
         log.info("CREATED USER : " + userDetails.getUsername() + " " + userDetails.getId());
         return newUser;
     }
 
+    public SCYGrantedAuthority getAuthority(String authority) {
+        return (SCYGrantedAuthority) getSession().createQuery("select ga from eu.scy.core.model.impl.SCYGrantedAuthorityImpl ga where ga.authority = :authority")
+                .setString("authority", authority)
+                .setMaxResults(1)
+                .uniqueResult();
+
+    }
+
+    private String generateUserNameIfAlreadyExists(String username) {
+        if (getUserByUsername(username) != null) {
+            Long userCount = (Long) getSession().createQuery("select count(username) from SCYUserImpl")
+                    .uniqueResult();
+            return username + userCount;
+        }
+
+        return username;
+
+    }
+
 
     public User getUserByUsername(String username) {
-        User user =  (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
+        User user = (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
                 .setString("username", username)
                 .uniqueResult();
-        log.info("FOUND USER: " + user + " from username: "+ username);
+        log.info("FOUND USER: " + user + " from username: " + username);
         return user;
     }
 
@@ -105,7 +130,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     }
 
-    
+
     public List getUsers() {
         return getSession().createQuery("from SCYUserImpl user order by user.userDetails.username")
                 .list();
@@ -181,7 +206,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .setString("name", role.getName())
                 .setMaxResults(1)
                 .uniqueResult();
-        if(loadedRole == null) {
+        if (loadedRole == null) {
             getHibernateTemplate().saveOrUpdate(role);
             loadedRole = (Role) getHibernateTemplate().get(Role.class, role.getId());
         }
@@ -200,7 +225,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .setString("name", roleName)
                 .setMaxResults(1)
                 .uniqueResult();
-        if(persistentRole == null) {
+        if (persistentRole == null) {
             persistentRole = new RoleImpl();
             persistentRole.setName(roleName);
         }

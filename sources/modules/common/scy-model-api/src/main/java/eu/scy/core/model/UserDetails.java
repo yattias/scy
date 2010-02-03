@@ -1,5 +1,7 @@
 package eu.scy.core.model;
 
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -31,4 +33,16 @@ public interface UserDetails {
     boolean isEnabled();
 
     void setEnabled(boolean enabled);
+
+    SCYGrantedAuthority[] getAuthorities();
+
+    void setAuthorities(SCYGrantedAuthority[] authorities);
+
+    Set<SCYGrantedAuthority> getGrantedAuthorities();
+
+    void setGrantedAuthorities(Set<SCYGrantedAuthority> grantedAuthorities);
+
+    void addAuthority(SCYGrantedAuthority authority);
+
+    boolean hasGrantedAuthority(String authority);
 }

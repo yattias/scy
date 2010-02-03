@@ -1,8 +1,12 @@
 package eu.scy.core.model.impl;
 
+import eu.scy.core.model.SCYGrantedAuthority;
 import eu.scy.core.model.UserDetails;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -13,8 +17,8 @@ import javax.persistence.*;
  * Overridden details class in order to add SCY specific user fields
  */
 @Entity(name = "eu.scy.core.model.impl.SCYUserDetails")
-@Table(name="user_details")
-public class SCYUserDetails implements UserDetails/*extends StudentUserDetails */{
+@Table(name = "user_details")
+public class SCYUserDetails implements UserDetails/*extends StudentUserDetails */ {
 
     private Long id;
 
@@ -25,6 +29,7 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
     private boolean credentialsNotExpired = Boolean.TRUE;
     private boolean enabled = Boolean.TRUE;
 
+    private Set<SCYGrantedAuthority> grantedAuthorities = null;
 
 
     @Id
@@ -58,7 +63,7 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
     }
 
     @Override
-    @Column(name="account_not_expired")
+    @Column(name = "account_not_expired")
     public boolean isAccountNotExpired() {
         return accountNotExpired;
     }
@@ -69,7 +74,7 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
     }
 
     @Override
-    @Column (name="account_not_locked")
+    @Column(name = "account_not_locked")
     public boolean isAccoundNotLocked() {
         return accoundNotLocked;
     }
@@ -80,7 +85,7 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
     }
 
     @Override
-    @Column (name="credentials_not_expired")
+    @Column(name = "credentials_not_expired")
     public boolean isCredentialsNotExpired() {
         return credentialsNotExpired;
     }
@@ -92,7 +97,7 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
 
 
     @Override
-    @Column (name="enabled")
+    @Column(name = "enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -121,4 +126,55 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
         result = 31 * result + password.hashCode();
         return result;
     }
+
+
+    @Override
+    @Transient
+    public SCYGrantedAuthority[] getAuthorities() {
+        // Used by Acegi Security. This implements the required method from
+        // Acegi Security. This implementation does not obtain the values
+        // directly from the data store.
+        return this.getGrantedAuthorities().toArray(new SCYGrantedAuthority[0]);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public synchronized void setAuthorities(SCYGrantedAuthority[] authorities) {
+        this.setGrantedAuthorities(new HashSet(Arrays.asList(authorities)));
+    }
+
+    // EJB3 spec annotations require the use of a java <code>Collection</code>.
+    // However, Acegi Security deals with an array. There are internal methods
+    // to convert to and from the different data structures.
+    @ManyToMany(targetEntity = SCYGrantedAuthorityImpl.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_details_related_to_roles", joinColumns = {@JoinColumn(name = "user_details_fk", nullable = false)}, inverseJoinColumns = @JoinColumn(name = "granted_authorities_fk", nullable = false))
+    
+    public Set<SCYGrantedAuthority> getGrantedAuthorities() {
+        /* Used only for persistence */
+        return this.grantedAuthorities;
+    }
+
+    @Override
+    @SuppressWarnings("unused")
+    public synchronized void setGrantedAuthorities(Set<SCYGrantedAuthority> grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
+    }
+
+    @Override
+    public synchronized void addAuthority(SCYGrantedAuthority authority) {
+        if (this.grantedAuthorities == null)
+            this.grantedAuthorities = new HashSet<SCYGrantedAuthority>();
+        this.grantedAuthorities.add(authority);
+    }
+
+	@Override
+    public boolean hasGrantedAuthority(String authority) {
+		for (SCYGrantedAuthority grantedAuthority : this.grantedAuthorities) {
+			if (grantedAuthority.getAuthority().equals(authority)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

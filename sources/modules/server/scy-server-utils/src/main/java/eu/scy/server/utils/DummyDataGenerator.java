@@ -116,7 +116,7 @@ public class DummyDataGenerator implements InitializingBean {
     }
 
     private User assignStudent(String firstName, String lastName, String username, String password, PedagogicalPlan pedagogicalPlan) {
-        User student1 = addUserIfNotExists(firstName, lastName, username, password);
+        User student1 = addUserIfNotExists(firstName, lastName, username, password, "ROLE_STUDENT");
         if(student1 != null) {
             getStudentPedagogicalPlanPersistenceService().createStudentPlan(pedagogicalPlan, student1);
         }
@@ -125,10 +125,10 @@ public class DummyDataGenerator implements InitializingBean {
     }
 
 
-    private User addUserIfNotExists(String firstName, String lastName, String userName, String password) {
+    private User addUserIfNotExists(String firstName, String lastName, String userName, String password, String role) {
         log.info("ADding user if not exists: " + firstName + " " + lastName + " " + userName + " shhhhh " + password);
         if (getUserService().getUser(userName) == null) {
-            return getUserService().createUser(userName, password);
+            return getUserService().createUser(userName, password, role);
         }
         return null;
     }

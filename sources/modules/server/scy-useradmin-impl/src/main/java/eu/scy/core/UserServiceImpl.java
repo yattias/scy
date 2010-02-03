@@ -28,9 +28,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public User createUser(String username, String password) {
+    public User createUser(String username, String password, String role) {
         log.info("Creating user :" + username);
-        return getUserDAO().createUser(username, password);
+        return getUserDAO().createUser(username, password, role);
     }
 
     public UserDAO getUserDAO() {

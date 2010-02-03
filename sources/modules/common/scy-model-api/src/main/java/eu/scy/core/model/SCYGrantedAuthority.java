@@ -9,4 +9,11 @@ package eu.scy.core.model;
  */
 public interface SCYGrantedAuthority {
 
+    Long getId();
+
+    void setId(Long id);
+
+    String getAuthority();
+
+    void setAuthority(String authority);
 }
