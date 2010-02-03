@@ -3,35 +3,43 @@
 
 body{
 	font-family:Verdana, Geneva, sans-serif;
-	font-size:10px
+	font-size:10px;
+	padding:20px;
+	margin:20px;	
+	background-image:url(bgImage.png);
+	background-repeat:repeat-x;
+	
 }
 
 h1,.mainTitle{
 	font-size:14px;
-	font-weight:bold
+	font-weight:bold;
+	color:#156c0f;
 }
 
 h2,.subTitle{
 	font-size:12px;
-	font-weight:bold
+	font-weight:bold;
+	color:#288f21;
 }
 
 h3,.minorTitle{
 	font-size:10px;
 	font-weight:bold;
 	margin-bottom: 0px;
+	color:#156c0f;
 }
 
 img{
     display: block;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
 }
 
 a,a.internal{
-	color:#30F
+	color:#30F;
 }
 
 a.external{
-	color:#F00000
+	color:#F00000;
 }
