@@ -36,7 +36,7 @@ public class Initializer {
 
    public-init var log4JInitFile = "";
    public-init var javaUtilLoggingInitFile = "";
-   public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2.jpg";
+   public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2l.jpg";
 //   public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
    public-init var enableLocalLogging = true;
    public-init var loggingDirectoryName = "logging";
