@@ -146,7 +146,7 @@ public class SCYUserDetails implements UserDetails/*extends StudentUserDetails *
     // EJB3 spec annotations require the use of a java <code>Collection</code>.
     // However, Acegi Security deals with an array. There are internal methods
     // to convert to and from the different data structures.
-    @ManyToMany(targetEntity = SCYGrantedAuthorityImpl.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = eu.scy.core.model.impl.SCYGrantedAuthorityImpl.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_details_related_to_roles", joinColumns = {@JoinColumn(name = "user_details_fk", nullable = false)}, inverseJoinColumns = @JoinColumn(name = "granted_authorities_fk", nullable = false))
     
     public Set<SCYGrantedAuthority> getGrantedAuthorities() {
