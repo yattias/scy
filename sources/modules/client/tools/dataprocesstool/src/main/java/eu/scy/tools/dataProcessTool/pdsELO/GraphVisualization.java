@@ -35,14 +35,8 @@ public class GraphVisualization extends Visualization {
     public final static String TAG_VISUALIZATION_FUNCTIONS_MODEL="functions";
     
 
-    /* id x_axis*/
-    private int x_axis;
-    /* id y_axis */
-    private int y_axis;
-    /* x_name */
-    private String xName;
-    /* y_name */
-    private String yName;
+    /* axis*/
+    private List<XYAxis> axis;
     /* xmin*/
     private double xMin;
     /* xMax*/
@@ -57,12 +51,9 @@ public class GraphVisualization extends Visualization {
     /* function model */
     private List<FunctionModel> listFunctionModel;
 
-    public GraphVisualization(String type, String name, boolean isOnCol, int x_axis, int y_axis, String xName, String yName, double xMin, double xMax, double deltaX, double yMin, double yMax, double deltaY, int colorR, int colorG, int colorB, List<FunctionModel> listFunctionModel) {
-        super(type, name, isOnCol);
-        this.x_axis = x_axis;
-        this.y_axis = y_axis;
-        this.xName = xName;
-        this.yName = yName;
+    public GraphVisualization(String type, String name, List<XYAxis> axis, double xMin, double xMax, double deltaX, double yMin, double yMax, double deltaY, int colorR, int colorG, int colorB, List<FunctionModel> listFunctionModel) {
+        super(type, name);
+        this.axis = axis;
         this.xMin = xMin;
         this.xMax = xMax;
         this.deltaX = deltaX;
@@ -77,34 +68,45 @@ public class GraphVisualization extends Visualization {
 
 
      public GraphVisualization(Element xmlElem) throws JDOMException {
-		super(xmlElem);
+        super(xmlElem);
         if (xmlElem.getName().equals(TAG_VISUALIZATION)) {
             this.type =xmlElem.getChild(TAG_VISUALIZATION_TYPE).getText() ;
             //DEFINITION
             Element elDef = xmlElem.getChild(TAG_VISUALIZATION_DEFINITION);
             this.name = elDef.getChild(TAG_VISUALIZATION_DEF_NAME).getText() ;
-            Element elXAxis = elDef.getChild(TAG_VISUALIZATION_DEF_X_AXIS);
-            Element el = elXAxis.getChild(TAG_VISUALIZATION_DEF_ID_COL);
-            this.isOnCol =el !=null;
-            if (el == null)
-                el = elXAxis.getChild(TAG_VISUALIZATION_DEF_ID_ROW);
-            try{
-                this.x_axis = Integer.parseInt(el.getText());
-            }catch(NumberFormatException e){
-                throw(new JDOMException("Graph visualization xAxis expects id as Integer ."));
+            axis = new LinkedList();
+            for (Iterator<Element> variableElem = elDef.getChildren(XYAxis.TAG_VISUALIZATION_XY_AXIS).iterator(); variableElem.hasNext();) {
+                axis.add(new XYAxis(variableElem.next()));
             }
-            Element elYAxis = elDef.getChild(TAG_VISUALIZATION_DEF_Y_AXIS);
-            el = elYAxis.getChild(TAG_VISUALIZATION_DEF_ID_COL);
-            this.isOnCol =el !=null;
-            if (el == null)
-                el = elYAxis.getChild(TAG_VISUALIZATION_DEF_ID_ROW);
-            try{
-                this.y_axis = Integer.parseInt(el.getText());
-            }catch(NumberFormatException e){
-                throw(new JDOMException("Graph visualization yAxis expects id as Integer ."));
+            if(axis.size() == 0){
+                int x_axis=-1;
+                int y_axis = -1;
+                String x_name = "";
+                String y_name = "";
+                Element elXAxis = elDef.getChild(TAG_VISUALIZATION_DEF_X_AXIS);
+                if(elXAxis != null){
+                    // conserve l'ancien format au  cas ou, pour compatibilite
+                    Element el = elXAxis.getChild(TAG_VISUALIZATION_DEF_ID_COL);
+                    try{
+                        x_axis = Integer.parseInt(el.getText());
+                    }catch(NumberFormatException e){
+                        throw(new JDOMException("Graph visualization xAxis expects id as Integer ."));
+                    }
+                    Element elYAxis = elDef.getChild(TAG_VISUALIZATION_DEF_Y_AXIS);
+                    el = elYAxis.getChild(TAG_VISUALIZATION_DEF_ID_COL);
+                    try{
+                        y_axis = Integer.parseInt(el.getText());
+                    }catch(NumberFormatException e){
+                        throw(new JDOMException("Graph visualization yAxis expects id as Integer ."));
+                    }
+                    x_name = elDef.getChild(TAG_VISUALIZATION_DEF_X_NAME).getText();
+                    y_name = elDef.getChild(TAG_VISUALIZATION_DEF_Y_NAME).getText();
+                }
+                if(x_axis != -1 && y_axis!=-1){
+                    axis.add(new XYAxis(x_axis, y_axis, x_name, y_name));
+                }
+
             }
-            this.xName = elDef.getChild(TAG_VISUALIZATION_DEF_X_NAME).getText();
-            this.yName = elDef.getChild(TAG_VISUALIZATION_DEF_Y_NAME).getText();
             //PARAMETRES 
             Element elParam = xmlElem.getChild(TAG_VISUALIZATION_PARAM);
             try{
@@ -176,14 +178,7 @@ public class GraphVisualization extends Visualization {
         return xMin;
     }
 
-    public String getXName() {
-        return xName;
-    }
-
-    public int getX_axis() {
-        return x_axis;
-    }
-
+    
     public double getYMax() {
         return yMax;
     }
@@ -192,13 +187,11 @@ public class GraphVisualization extends Visualization {
         return yMin;
     }
 
-    public String getYName() {
-        return yName;
+    public List<XYAxis> getAxis() {
+        return axis;
     }
 
-    public int getY_axis() {
-        return y_axis;
-    }
+    
 
      // toXML
     @Override
@@ -208,20 +201,9 @@ public class GraphVisualization extends Visualization {
         //DEFINITION
         Element elDef = new Element(TAG_VISUALIZATION_DEFINITION);
         elDef.addContent(new Element(TAG_VISUALIZATION_DEF_NAME).setText(this.name));
-        Element elId = new Element(TAG_VISUALIZATION_DEF_ID_ROW);
-        if (this.isOnCol)
-            elId = new Element(TAG_VISUALIZATION_DEF_ID_COL);
-        Element elXAxis = new Element(TAG_VISUALIZATION_DEF_X_AXIS);
-        elXAxis.addContent(elId.setText(Integer.toString(this.x_axis)));
-        elDef.addContent(elXAxis);
-        elId = new Element(TAG_VISUALIZATION_DEF_ID_ROW);
-        if (this.isOnCol)
-            elId = new Element(TAG_VISUALIZATION_DEF_ID_COL);
-        Element elYAxis = new Element(TAG_VISUALIZATION_DEF_Y_AXIS);
-        elYAxis.addContent(elId.setText(Integer.toString(this.y_axis)));
-        elDef.addContent(elYAxis);
-        elDef.addContent(new Element(TAG_VISUALIZATION_DEF_X_NAME).setText(this.xName));
-        elDef.addContent(new Element(TAG_VISUALIZATION_DEF_Y_NAME).setText(this.yName));
+        for(Iterator<XYAxis> a = axis.iterator();a.hasNext();){
+            elDef.addContent(a.next().toXML());
+        }
         element.addContent(elDef);
         // PARAMETRES
         Element elParam = new Element(TAG_VISUALIZATION_PARAM);

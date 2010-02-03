@@ -7,7 +7,9 @@
 package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.common.DataHeader;
+import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
+import eu.scy.tools.dataProcessTool.utilities.ActionPlot;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
@@ -20,7 +22,7 @@ import javax.swing.JPanel;
  * Dialog which allows to the user to choose between the different types of visual
  * @author  Marjolaine Bodin
  */
-public class CreateDataVisualDialog extends javax.swing.JDialog {
+public class CreateDataVisualDialog extends javax.swing.JDialog implements ActionPlot {
 
     // PROPERTY 
     /* owner */
@@ -29,17 +31,12 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
     private TypeVisualization[] tabTypes;
     /* liste des colonnes */
     private DataHeader[] listCol;
-    /* liste des colonnes pour le deuxieme axe*/
-    private DataHeader[] listCol2;
 
     private JPanel panelData;
     private JLabel labelDataChoice;
-    private JLabel labelX;
-    private JLabel labelY;
-    private JComboBox cbData1;
-    private JComboBox cbData2;
+    private JComboBox cbData;
 
-    private ArrayList<JPanel> listPanelPlot;
+    private PlotPanel plotPanel;
 
     
     // CONSTRUCTOR
@@ -77,7 +74,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
       selectVisualType();
       setSize(380,200);
       setPreferredSize(getSize());
-      repaint();
+      resizePanel();
     }
 
     private void selectVisualType(){
@@ -87,64 +84,51 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         if (id != -1){
             TypeVisualization typeVis = tabTypes[id];
             if (typeVis.getNbColParam() < 2){
-                if(cbData2 != null){
-                    panelData.remove(this.cbData2);
-                    panelData.remove(this.labelX);
-                    panelData.remove(labelY);
-                    this.labelDataChoice.setText(owner.getBundleString("LABEL_DATA_CHOICE"));
-                    this.labelDataChoice.setSize(MyUtilities.lenghtOfString(this.labelDataChoice.getText(), getFontMetrics(this.labelDataChoice.getFont())), this.labelDataChoice.getHeight());
+                if(plotPanel != null){
+                    panelData.remove(plotPanel);
                 }
-                cbData2 = null;
-                labelX = null;
-                labelY = null;
+                if(labelDataChoice == null){
+                    panelData.add(getLabelDataChoice());
+                    panelData.add(getCbData());
+                }
+                plotPanel = null;
                 int x = labelDataChoice.getX()+labelDataChoice.getWidth()+5;
                 x = Math.max(x, fieldName.getX()-10);
-                cbData1.setBounds(x,cbData1.getY(),cbData1.getWidth(),cbData1.getHeight());
+                cbData.setBounds(x,cbData.getY(),cbData.getWidth(),cbData.getHeight());
+                panelData.setSize(cbData.getX()+cbData.getWidth()+20, 30);
             }else{
-                if(cbData2 == null)  {
-                    panelData.add(getLabelX());
-                    panelData.add(getLabelY());
-                    panelData.add(getCbData2());
+                if(labelDataChoice != null){
+                    panelData.remove(labelDataChoice);
+                    panelData.remove(cbData);
                 }
-                String s = owner.getBundleString("LABEL_AXIS_CHOICE");
-               //s  = MyUtilities.replace(s, 0, "0");
-                this.labelDataChoice.setText(s);
-                this.labelDataChoice.setSize(MyUtilities.lenghtOfString(this.labelDataChoice.getText(), getFontMetrics(this.labelDataChoice.getFont())), this.labelDataChoice.getHeight());
-                int x = labelDataChoice.getX()+labelDataChoice.getWidth()+5;
-                x = Math.max(x, fieldName.getX()-10);
-                labelX.setBounds(x, labelX.getY(), labelX.getWidth(), labelX.getHeight());
-                cbData1.setBounds(labelX.getX()+labelX.getWidth()+5,cbData1.getY(),cbData1.getWidth(),cbData1.getHeight());
-                labelY.setBounds(cbData1.getX()+cbData1.getWidth()+5, labelY.getY(), labelY.getWidth(), labelY.getHeight());
-                cbData2.setBounds(labelY.getX()+labelY.getWidth()+5,cbData2.getY(),cbData2.getWidth(),cbData2.getHeight());
-                cbData1.setSelectedIndex(0);
+                labelDataChoice = null;
+                cbData = null;
+                if(plotPanel == null)  {
+                    panelData.add(getPlotPanel());
+                }
+                plotPanel.setBounds(0, plotPanel.getY(), plotPanel.getWidth(), plotPanel.getHeight());
+                panelData.setSize(plotPanel.getWidth()+plotPanel.getX()+20, plotPanel.getHeight());
             }
         }
         panelData.revalidate();
-        panelData.repaint();
+        resizePanel();
     }
 
-    /* mise a jour des axes */
-    private void updateCbData2(){
-        if(cbData2 == null)
-            return;
-        this.listCol2 = new DataHeader[this.listCol.length - 1];
-        int id1 = cbData1.getSelectedIndex() ;
-        int j=0;
-        for (int i=0; i<this.listCol.length; i++){
-            if (i != id1){
-                this.listCol2[j] = this.listCol[i];
-                j++;
-            }
-        }
-        cbData2.removeAllItems();
-        for (int i=0; i<listCol2.length; i++){
-            if(listCol2[i] != null){
-                cbData2.addItem(listCol2[i].getValue());
-            }
-        }
-        cbData2.setSelectedIndex(0);
-        repaint();
+    private void resizePanel(){
+        buttonOk.setBounds(buttonOk.getX(), panelData.getY()+panelData.getHeight()+20, buttonOk.getWidth(), buttonOk.getHeight());
+        buttonCancel.setBounds(buttonCancel.getX(), buttonOk.getY(), buttonCancel.getWidth(), buttonCancel.getHeight());
+        setSize(getWidth(), buttonOk.getY()+buttonOk.getHeight()+40);
     }
+
+    private PlotPanel getPlotPanel(){
+        if(plotPanel == null){
+            plotPanel = new PlotPanel(owner, listCol);
+            plotPanel.setBounds(0, 0, plotPanel.getWidth(), plotPanel.getHeight());
+            plotPanel.addActionPlot(this);
+        }
+        return plotPanel;
+    }
+    
 
 
     /* creation d'un nouveau type */
@@ -168,18 +152,15 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         int id = cbType.getSelectedIndex() ;
         TypeVisualization typeVis= tabTypes[id];
         // recupere les axes
-        int id1 = cbData1.getSelectedIndex() ;
-        DataHeader dataHeader = listCol[id1];
-        DataHeader dataHeader2 = null;
-        if (typeVis.getNbColParam() > 1){
-            int id2 = cbData2.getSelectedIndex() ;
-            dataHeader2 = listCol2[id2];
-//            if (id1 == id2){
-//                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-//                return ;
-//            }
+        DataHeader dataHeader = null;
+        if(cbData != null){
+            int id1 = cbData.getSelectedIndex() ;
+            dataHeader = listCol[id1];
         }
-        boolean isOk = owner.createVisualization(name, typeVis, dataHeader, dataHeader2);
+        ArrayList<PlotXY> listPlot = new ArrayList();
+        if(plotPanel != null)
+            listPlot = plotPanel.getListPlotXY();
+        boolean isOk = owner.createVisualization(name, typeVis, dataHeader, listPlot);
         if (isOk)
             this.dispose();
     }
@@ -289,11 +270,8 @@ private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:e
             panelData.setName("panelData");
             panelData.setLayout(null);
             panelData.add(getLabelDataChoice());
-            panelData.add(getLabelX());
-            panelData.add(getCbData1());
-            panelData.add(getLabelY());
-            panelData.add(getCbData2());
-            int w = cbData2.getX()+cbData2.getWidth()+5;
+            panelData.add(getCbData());
+            int w = cbData.getX()+cbData.getWidth()+20;
             panelData.setBounds(10, 70, w,30);
         }
         return panelData;
@@ -303,7 +281,7 @@ private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:e
         if(labelDataChoice == null){
             labelDataChoice = new JLabel();
             labelDataChoice.setName("labelDataChoice");
-            String s = owner.getBundleString("LABEL_AXIS_CHOICE");
+            String s = owner.getBundleString("LABEL_DATA_CHOICE");
             //s  = MyUtilities.replace(s, 0, "0");
             labelDataChoice.setText(s);
             labelDataChoice.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -313,57 +291,28 @@ private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:e
         return labelDataChoice;
     }
 
-    private JLabel getLabelX(){
-        if(labelX == null){
-            labelX = new JLabel();
-            labelX.setName("labelX");
-            labelX.setText(owner.getBundleString("LABEL_X"));
-            labelX.setFont(new java.awt.Font("Tahoma", 1, 11));
-            this.labelX.setSize(MyUtilities.lenghtOfString(this.labelX.getText(), getFontMetrics(this.labelX.getFont())), 14);
-            int x = labelDataChoice.getX()+labelDataChoice.getWidth()+5;
-            x = Math.max(x, fieldName.getX()-10);
-            labelX.setBounds(x, 3, labelX.getWidth(), labelX.getHeight());
-        }
-        return labelX;
-    }
-    private JComboBox getCbData1(){
-        if(cbData1 == null){
-            cbData1 = new JComboBox();
-            cbData1.setName("cbData1");
-            cbData1.setBounds(labelX.getX()+labelX.getWidth()+5, 0, 80, 20);
+    
+    private JComboBox getCbData(){
+        if(cbData == null){
+            cbData = new JComboBox();
+            cbData.setName("cbData");
+            cbData.setBounds(labelDataChoice.getX()+labelDataChoice.getWidth()+5, 0, 80, 20);
             for (int i=0; i<listCol.length; i++){
                 if(listCol[i] != null){
-                    cbData1.addItem(listCol[i].getValue());
+                    cbData.addItem(listCol[i].getValue());
                 }
             }
-            cbData1.addItemListener(new java.awt.event.ItemListener() {
-                public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                    updateCbData2();
-                }
-            });
         }
-        return cbData1;
+        return cbData;
+    }
+
+    @Override
+    public void updatePlotPanel() {
+        plotPanel.setBounds(0, plotPanel.getY(), plotPanel.getWidth(), plotPanel.getHeight());
+        panelData.setSize(plotPanel.getWidth()+plotPanel.getX()+20, plotPanel.getHeight());
+        resizePanel();
     }
 
 
-    private JLabel getLabelY(){
-        if(labelY == null){
-            labelY = new JLabel();
-            labelY.setName("labelY");
-            labelY.setText(owner.getBundleString("LABEL_Y"));
-            labelY.setFont(new java.awt.Font("Tahoma", 1, 11));
-            this.labelY.setSize(MyUtilities.lenghtOfString(this.labelY.getText(), getFontMetrics(this.labelY.getFont())), 14);
-            labelY.setBounds(cbData1.getX()+cbData1.getWidth()+10, 3, labelY.getWidth(), labelY.getHeight());
-        }
-        return labelY;
-    }
-    private JComboBox getCbData2(){
-        if(cbData2 == null){
-            cbData2 = new JComboBox();
-            cbData2.setName("cbData2");
-            cbData2.setBounds(labelY.getX()+labelY.getWidth()+5, 0, 80, 20);
-            updateCbData2();
-        }
-        return cbData2;
-    }
+    
 }

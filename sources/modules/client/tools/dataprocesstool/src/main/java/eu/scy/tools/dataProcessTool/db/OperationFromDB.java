@@ -119,7 +119,6 @@ public class OperationFromDB {
             return new CopexReturn("ERROR Locale null", false);
         String lib = "LIBELLE_"+locale.getLanguage() ;
         String query = "SELECT NB_PARAM, "+lib+" FROM TYPE_OPERATION_PARAM WHERE ID_TYPE_OPERATION_PARAM  = "+dbKeyOp+" ;";
-        System.out.println("getTypeOperationParamFromDB : "+query);
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("NB_PARAM");

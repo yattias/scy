@@ -14,31 +14,34 @@ package eu.scy.tools.dataProcessTool.dataTool;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.Visualization;
+import eu.scy.tools.dataProcessTool.utilities.ActionPlot;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Dimension;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 /**
  *
  * @author Marjolaine
  */
-public class GraphParamDialog extends javax.swing.JDialog {
+public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot {
 
     /* owner */
     private FitexToolPanel dataToolPanel;
     private Visualization vis;
-    private DecimalFormat decimalFormat;
+    private NumberFormat numberFormat;
     private DataHeader[] listCol;
-    /* liste des colonnes pour le deuxieme axe*/
-    private DataHeader[] listCol2;
+    private PlotPanel plotPanel;
 
     public GraphParamDialog(FitexToolPanel dataToolPanel, Visualization vis){
         super();
         this.dataToolPanel = dataToolPanel;
         this.vis = vis;
+        this.numberFormat = dataToolPanel.getNumberFormat();
         initComponents();
         initGUI();
         setLocationRelativeTo(dataToolPanel);
@@ -49,8 +52,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
         super();
         this.dataToolPanel = dataToolPanel;
         this.vis = vis;
-        this.decimalFormat = new DecimalFormat();
-        this.decimalFormat.setDecimalSeparatorAlwaysShown(false);
+        this.numberFormat = dataToolPanel.getNumberFormat();
         this.listCol = listCol;
         initComponents();
         initGUI();
@@ -72,28 +74,26 @@ public class GraphParamDialog extends javax.swing.JDialog {
     }
 
     private void initGUI(){
+        this.add(getPlotPanel());
         // nom de la visualization
         fieldName.setText(this.vis.getName());
         if(isGraph()){
-            String s = dataToolPanel.getBundleString("LABEL_AXIS_CHOICE");
-            labelPlot1.setText(s);
-            resizeElements();
-            for (int i=0; i<listCol.length; i++){
-                if(listCol[i] != null){
-                    cbXAxis.addItem(listCol[i].getValue());
-                }
-            }
-            cbXAxis.setSelectedIndex(0);
             if (vis != null && ((Graph)vis).getParamGraph() != null){
                 ParamGraph paramGraph = ((Graph)vis).getParamGraph();
-                cbXAxis.setSelectedItem(paramGraph.getHeaderX().getValue());
-                textFieldXMin.setText(""+decimalFormat.format(paramGraph.getX_min()));
-                textFieldXMax.setText(""+decimalFormat.format(paramGraph.getX_max()));
-                textFieldDeltaX.setText(""+decimalFormat.format(paramGraph.getDeltaX()));
+                plotPanel.setSelectedPlots(paramGraph.getPlots());
+                textFieldXMin.setText(""+numberFormat.format(paramGraph.getX_min()));
+                textFieldXMax.setText(""+numberFormat.format(paramGraph.getX_max()));
+                textFieldDeltaX.setText(""+numberFormat.format(paramGraph.getDeltaX()));
                 //cbYAxis.setSelectedItem(paramGraph.getY_name());
-                textFieldYMin.setText(""+decimalFormat.format(paramGraph.getY_min()));
-                textFieldYMax.setText(""+decimalFormat.format(paramGraph.getY_max()));
-                textFieldDeltaY.setText(""+decimalFormat.format(paramGraph.getDeltaY()));
+                textFieldYMin.setText(""+numberFormat.format(paramGraph.getY_min()));
+                textFieldYMax.setText(""+numberFormat.format(paramGraph.getY_max()));
+                textFieldDeltaY.setText(""+numberFormat.format(paramGraph.getDeltaY()));
+//                textFieldXMin.setText(""+paramGraph.getX_min());
+//                textFieldXMax.setText(""+paramGraph.getX_max());
+//                textFieldDeltaX.setText(""+paramGraph.getDeltaX());
+//                textFieldYMin.setText(""+paramGraph.getY_min());
+//                textFieldYMax.setText(""+paramGraph.getY_max());
+//                textFieldDeltaY.setText(""+paramGraph.getDeltaY());
             }
         }else{
             remove(labelXMin);
@@ -108,27 +108,34 @@ public class GraphParamDialog extends javax.swing.JDialog {
             remove(textFieldYMax);
             remove(labelDeltaY);
             remove(textFieldDeltaY);
-            remove(labelPlot1);
-            remove(labelXNameAxis);
-            remove(cbXAxis);
-            remove(labelYNameAxis);
-            remove(cbYAxis);
+            remove(plotPanel);
             resizeElements();
         }
     }
 
+    private PlotPanel getPlotPanel(){
+        if(plotPanel == null){
+            plotPanel = new PlotPanel(dataToolPanel, listCol);
+            plotPanel.setBounds(10, textFieldYMin.getY()+textFieldYMin.getHeight()+20, plotPanel.getWidth(), plotPanel.getHeight());
+            plotPanel.addActionPlot(this);
+        }
+        return plotPanel;
+    }
+
+    private void resizePanel(){
+        this.buttonOk.setBounds(this.buttonOk.getX(), this.plotPanel.getY()+this.plotPanel.getHeight()+10, this.buttonOk.getWidth(), this.buttonOk.getHeight());
+        this.buttonCancel.setBounds(this.buttonCancel.getX(), this.buttonOk.getY(), this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
+        setSize(getWidth(), buttonOk.getY()+buttonOk.getHeight()+40);
+    }
     private void resizeElements(){
         this.labelName.setSize(MyUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont())), this.labelName.getHeight());
         this.fieldName.setBounds(labelName.getX()+labelName.getWidth()+10, fieldName.getY(), fieldName.getWidth(), fieldName.getHeight());
         if(isGraph()){
-            this.labelPlot1.setSize(MyUtilities.lenghtOfString(this.labelPlot1.getText(), getFontMetrics(this.labelPlot1.getFont())), this.labelPlot1.getHeight());
             // x
-            this.labelXNameAxis.setSize(MyUtilities.lenghtOfString(this.labelXNameAxis.getText(), getFontMetrics(this.labelXNameAxis.getFont())), this.labelXNameAxis.getHeight());
             this.labelXMin.setSize(MyUtilities.lenghtOfString(this.labelXMin.getText(), getFontMetrics(this.labelXMin.getFont())), this.labelXMin.getHeight());
             this.labelXMax.setSize(MyUtilities.lenghtOfString(this.labelXMax.getText(), getFontMetrics(this.labelXMax.getFont())), this.labelXMax.getHeight());
             this.labelDeltaX.setSize(MyUtilities.lenghtOfString(this.labelDeltaX.getText(), getFontMetrics(this.labelDeltaX.getFont())), this.labelDeltaX.getHeight());
             //y
-            this.labelYNameAxis.setSize(MyUtilities.lenghtOfString(this.labelYNameAxis.getText(), getFontMetrics(this.labelYNameAxis.getFont())), this.labelYNameAxis.getHeight());
             this.labelYMin.setSize(MyUtilities.lenghtOfString(this.labelYMin.getText(), getFontMetrics(this.labelYMin.getFont())), this.labelYMin.getHeight());
             this.labelYMax.setSize(MyUtilities.lenghtOfString(this.labelYMax.getText(), getFontMetrics(this.labelYMax.getFont())), this.labelYMax.getHeight());
             this.labelDeltaY.setSize(MyUtilities.lenghtOfString(this.labelDeltaY.getText(), getFontMetrics(this.labelDeltaY.getFont())), this.labelDeltaY.getHeight());
@@ -176,7 +183,6 @@ public class GraphParamDialog extends javax.swing.JDialog {
             return;
         }
         // x
-        DataHeader headerX = listCol[cbXAxis.getSelectedIndex()];
         String s = textFieldXMin.getText();
         s = s.replace(",", ".");
         double xMin;
@@ -204,8 +210,11 @@ public class GraphParamDialog extends javax.swing.JDialog {
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
+        if(deltaX == 0){
+            dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
         //y
-        DataHeader headerY = listCol2[cbYAxis.getSelectedIndex()];
         s = textFieldYMin.getText();
         s = s.replace(",", ".");
         double yMin;
@@ -233,14 +242,19 @@ public class GraphParamDialog extends javax.swing.JDialog {
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
+        if(deltaY == 0){
+            dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
         //controle la coherence des axes
         if (xMin>=xMax || yMin>=yMax) {
              dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
              return;
         }
+        ArrayList<PlotXY> plots = plotPanel.getListPlotXY();
         //
         ParamGraph paramGraph = ((Graph)vis).getParamGraph();
-        ParamGraph newParamGraph = new ParamGraph(headerX, headerY, xMin, xMax, yMin, yMax, deltaX, deltaY, paramGraph == null ? false : paramGraph.isAutoscale());
+        ParamGraph newParamGraph = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, paramGraph == null ? false : paramGraph.isAutoscale());
         boolean isOk = dataToolPanel.updateGraphParam(((Graph)vis), name, newParamGraph);
         if(isOk){
             this.dispose();
@@ -273,11 +287,6 @@ public class GraphParamDialog extends javax.swing.JDialog {
         textFieldDeltaY = new javax.swing.JTextField();
         buttonOk = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
-        labelXNameAxis = new javax.swing.JLabel();
-        labelYNameAxis = new javax.swing.JLabel();
-        cbXAxis = new javax.swing.JComboBox();
-        cbYAxis = new javax.swing.JComboBox();
-        labelPlot1 = new javax.swing.JLabel();
         labelName = new javax.swing.JLabel();
         fieldName = new javax.swing.JTextField();
 
@@ -288,7 +297,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        labelXMin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelXMin.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelXMin.setText(dataToolPanel.getBundleString("LABEL_XMIN"));
         getContentPane().add(labelXMin);
         labelXMin.setBounds(10, 50, 50, 14);
@@ -360,32 +369,6 @@ public class GraphParamDialog extends javax.swing.JDialog {
         getContentPane().add(buttonCancel);
         buttonCancel.setBounds(270, 190, 99, 23);
 
-        labelXNameAxis.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelXNameAxis.setText(dataToolPanel.getBundleString("LABEL_X"));
-        getContentPane().add(labelXNameAxis);
-        labelXNameAxis.setBounds(80, 130, 30, 14);
-
-        labelYNameAxis.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelYNameAxis.setText(dataToolPanel.getBundleString("LABEL_Y"));
-        getContentPane().add(labelYNameAxis);
-        labelYNameAxis.setBounds(250, 130, 30, 14);
-
-        cbXAxis.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbXAxisItemStateChanged(evt);
-            }
-        });
-        getContentPane().add(cbXAxis);
-        cbXAxis.setBounds(110, 127, 90, 20);
-
-        getContentPane().add(cbYAxis);
-        cbYAxis.setBounds(280, 127, 90, 20);
-
-        labelPlot1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelPlot1.setText("jLabel1");
-        getContentPane().add(labelPlot1);
-        labelPlot1.setBounds(10, 130, 60, 14);
-
         labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelName.setText(dataToolPanel.getBundleString("LABEL_NAME"));
         getContentPane().add(labelName);
@@ -405,10 +388,6 @@ public class GraphParamDialog extends javax.swing.JDialog {
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         quitParamGraph();
     }//GEN-LAST:event_buttonCancelActionPerformed
-
-    private void cbXAxisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbXAxisItemStateChanged
-        cbXAxisChange();
-    }//GEN-LAST:event_cbXAxisItemStateChanged
 
     /**
     * @param args the command line arguments
@@ -430,19 +409,14 @@ public class GraphParamDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonOk;
-    private javax.swing.JComboBox cbXAxis;
-    private javax.swing.JComboBox cbYAxis;
     private javax.swing.JTextField fieldName;
     private javax.swing.JLabel labelDeltaX;
     private javax.swing.JLabel labelDeltaY;
     private javax.swing.JLabel labelName;
-    private javax.swing.JLabel labelPlot1;
     private javax.swing.JLabel labelXMax;
     private javax.swing.JLabel labelXMin;
-    private javax.swing.JLabel labelXNameAxis;
     private javax.swing.JLabel labelYMax;
     private javax.swing.JLabel labelYMin;
-    private javax.swing.JLabel labelYNameAxis;
     private javax.swing.JTextField textFieldDeltaX;
     private javax.swing.JTextField textFieldDeltaY;
     private javax.swing.JTextField textFieldXMax;
@@ -452,28 +426,11 @@ public class GraphParamDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
 
-    private void cbXAxisChange(){
-        if(cbYAxis == null)
-            return;
-        this.listCol2 = new DataHeader[this.listCol.length - 1];
-        int id1 = cbXAxis.getSelectedIndex() ;
-        int j=0;
-        for (int i=0; i<this.listCol.length; i++){
-            if (i != id1){
-                this.listCol2[j] = this.listCol[i];
-                j++;
-            }
-        }
-        cbYAxis.removeAllItems();
-        for (int i=0; i<listCol2.length; i++){
-            if(listCol2[i] != null){
-                cbYAxis.addItem(listCol2[i].getValue());
-            }
-        }
-        cbYAxis.setSelectedIndex(0);
-        if(this.vis != null && ((Graph)vis).getParamGraph() != null){
-            cbYAxis.setSelectedItem(((Graph)vis).getParamGraph().getHeaderY().getValue());
-        }
-        repaint();
+    
+
+    @Override
+    public void updatePlotPanel() {
+        plotPanel.setBounds(plotPanel.getX(), plotPanel.getY(), plotPanel.getWidth(), plotPanel.getHeight());
+        resizePanel();
     }
 }

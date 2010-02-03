@@ -67,7 +67,8 @@ public interface ControllerInterface {
     public CopexReturn renameDataset(Dataset ds, String name);
 
     /* suppression de donnees et ou d'operations dans un dataset */
-    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v);
+    //public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v);
+    public CopexReturn  deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol, ArrayList<DataOperation> listOperation,  ArrayList v);
 
     /* ajout ou modification d'une fonction modeme */
     public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
@@ -106,4 +107,6 @@ public interface ControllerInterface {
 
     /* maj dataset */
     public CopexReturn updateDataset(Dataset ds, ArrayList v);
+    /* maj d'une operation */
+    public CopexReturn updateOperation(Dataset ds, DataOperation operation , ArrayList v);
 }

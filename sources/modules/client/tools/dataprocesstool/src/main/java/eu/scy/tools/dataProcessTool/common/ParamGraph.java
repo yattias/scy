@@ -5,6 +5,8 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.jdom.Element;
 
 /**
@@ -13,8 +15,6 @@ import org.jdom.Element;
  */
 public class ParamGraph implements Cloneable{
     private final static String TAG_PARAM_GRAPH = "graph_param";
-    private final static String TAG_HEADER_X = "header_x";
-    private final static String TAG_HEADER_Y = "header_y";
     private final static String TAG_X_MIN = "x_min";
     private final static String TAG_X_MAX = "x_max";
     private final static String TAG_DELTA_X = "delta_x";
@@ -22,10 +22,8 @@ public class ParamGraph implements Cloneable{
     private final static String TAG_Y_MAX = "y_max";
     private final static String TAG_DELTA_Y = "delta_y";
     private final static String TAG_AUTOSCALE = "autoscale";
-    /* axe x*/
-    private DataHeader headerX;
-    /* axe y */
-    private DataHeader headerY;
+    /*axes */
+    private ArrayList<PlotXY> plots;
     /* x min*/
     private double x_min;
     /* x max */
@@ -42,9 +40,19 @@ public class ParamGraph implements Cloneable{
     private boolean autoscale;
 
     // CONSTRUCTOR 
-    public ParamGraph(DataHeader headerX, DataHeader headerY,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
-        this.headerX = headerX;
-        this.headerY = headerY;
+    public ParamGraph(PlotXY plot,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
+        this.plots = new ArrayList();
+        this.plots.add(plot);
+        this.x_min = x_min;
+        this.x_max = x_max;
+        this.y_min = y_min;
+        this.y_max = y_max;
+        this.deltaX = deltaX;
+        this.deltaY = deltaY;
+        this.autoscale = autoscale;
+    }
+    public ParamGraph(ArrayList<PlotXY> plots,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
+        this.plots = plots;
         this.x_min = x_min;
         this.x_max = x_max;
         this.y_min = y_min;
@@ -113,29 +121,42 @@ public class ParamGraph implements Cloneable{
         this.autoscale = autoscale;
     }
 
-    public DataHeader getHeaderX() {
-        return headerX;
+    public ArrayList<PlotXY> getPlots() {
+        return plots;
     }
 
-    public void setHeaderX(DataHeader headerX) {
-        this.headerX = headerX;
+    public void setPlots(ArrayList<PlotXY> plots) {
+        this.plots = plots;
     }
 
-    public DataHeader getHeaderY() {
-        return headerY;
+    public PlotXY getPlot1() {
+        if(plots.size() > 0)
+            return plots.get(0);
+        else return null;
     }
 
-    public void setHeaderY(DataHeader headerY) {
-        this.headerY = headerY;
-    }
+   public void setPlot1(PlotXY plot){
+       plots = new ArrayList();
+       plots.add(plot);
+   }
+   public void updatePlot1(PlotXY plot){
+       if(plots == null)
+           setPlot1(plot);
+       if(plots.size() > 0)
+           plots.set(0, plot);
+       else
+           plots.add(plot);
+   }
 
     // CLONE
     @Override
     public Object clone()  {
         try {
             ParamGraph param = (ParamGraph) super.clone() ;
-            DataHeader hX = (DataHeader)this.headerX.clone();
-            DataHeader hY = (DataHeader)this.headerY.clone();
+            ArrayList plotsC = new ArrayList();
+            for(Iterator<PlotXY> p = plots.iterator();p.hasNext();){
+                plotsC.add((PlotXY)p.next().clone());
+            }
             double x_minC = this.x_min ;
             double x_maxC = this.x_max ;
             double y_minC = this.y_min ;
@@ -143,8 +164,7 @@ public class ParamGraph implements Cloneable{
             double deltaXC = this.deltaX ;
             double deltayC = this.deltaY ;
 
-            param.setHeaderX(hX);
-            param.setHeaderY(hY);
+            param.setPlots(plotsC);
             param.setX_min(x_minC);
             param.setY_min(y_minC);
             param.setX_max(x_maxC);
@@ -160,10 +180,13 @@ public class ParamGraph implements Cloneable{
 	}
     }
 
+
+
     public Element toXML(){
         Element element = new Element(TAG_PARAM_GRAPH);
-        element.addContent(new Element(TAG_HEADER_X).setText(Integer.toString(headerX.getNoCol())));
-        element.addContent(new Element(TAG_HEADER_Y).setText(Integer.toString(headerY.getNoCol())));
+        for(Iterator<PlotXY> p = plots.iterator();p.hasNext();){
+            element.addContent(p.next().toXML());
+        }
         element.addContent(new Element(TAG_X_MIN).setText(Double.toString(x_min)));
         element.addContent(new Element(TAG_X_MAX).setText(Double.toString(x_max)));
         element.addContent(new Element(TAG_DELTA_X).setText(Double.toString(deltaX)));
@@ -173,5 +196,24 @@ public class ParamGraph implements Cloneable{
         element.addContent(new Element(TAG_AUTOSCALE).setText(autoscale ? "true":"false"));
         return element;
     }
+
+    public boolean removePlotWithNo(int no){
+        boolean remove = false;
+        int nb = plots.size();
+        for (int i=nb-1; i>=0; i--){
+            if(plots.get(i).isOnNo(no)){
+                plots.remove(i);
+                remove = true;
+            }
+        }
+        return remove;
+    }
+
+    public void updateNoCol(int no, int delta){
+        for(Iterator<PlotXY> plot = plots.iterator();plot.hasNext();){
+            plot.next().updateNoCol(no, delta);
+        }
+    }
+    
 
 }

@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -41,6 +42,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -56,13 +58,13 @@ public class FitexPanel extends javax.swing.JPanel {
     private Locale locale;
     private ResourceBundle bundle;
     /* donnees */
-    private DefaultTableModel datas;
+    private DefaultTableModel[] datas = null;
     /* action fitexPanel */
     private ActionFitex actionFitex;
 
     /* zone dessinee */
-    private DrawPanel zoneDeTrace;
-    private ParamGraph paramGraph;
+    private DrawPanel zoneDeTrace = null;
+    private ParamGraph paramGraph = null;
     // parametres de la zone graphique
     //private Graphics g ;
     private int width ;
@@ -83,14 +85,8 @@ public class FitexPanel extends javax.swing.JPanel {
     private JRadioButton rbBlack;
     private JLabel labelFct;
     private JTextField textFieldFct;
+    private DistancePanel[] tabPanelDist;
     private JPanel panelDist;
-    private JLabel labelDist;
-    private JPanel panelDistBlue;
-    private JPanel panelDistGreen;
-    private JPanel panelDistBlack;
-    private JLabel labelKBlue;
-    private JLabel labelKGreen;
-    private JLabel labelKBlack;
 
     private JPanel panelFctParam;
     private JPanel parametresFn;
@@ -99,28 +95,21 @@ public class FitexPanel extends javax.swing.JPanel {
 
 
 
-    public FitexPanel(){
-        super();
-        this.locale = Locale.FRANCE ;
-        this.datas = new DefaultTableModel();
-        this.paramGraph = new ParamGraph(null, null, -10, 10, -10, 10, 1, 1, false);
-        initGUI(null);
-    }
-
-
+    
     /** Creates new form FitexPanel */
-    public FitexPanel(Locale locale, DefaultTableModel datas, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
+    public FitexPanel(Locale locale, DefaultTableModel[] datas, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
         super();
         this.locale = locale;
         this.datas = datas ;
         this.paramGraph = pg;
+        tabPanelDist = new DistancePanel[datas.length];
         initGUI(listFunctionModel);
     }
 
     private void initGUI(ArrayList<FunctionModel> listFunctionModel){
         this.setLayout(new BorderLayout());
         // i18n
-        locale = Locale.getDefault();
+        //locale = Locale.getDefault();
         try{
             this.bundle = ResourceBundle.getBundle("FitexBundle", locale);
         }catch(MissingResourceException e){
@@ -145,9 +134,14 @@ public class FitexPanel extends javax.swing.JPanel {
         this.add(zoneDeTrace, BorderLayout.CENTER);
         //this.add(getPanelFctModel(), BorderLayout.NORTH);
         setInitialListFunction(listFunctionModel);
+
     }
 
 
+    @Override
+    public Locale getLocale(){
+        return this.locale;
+    }
     public DrawPanel getDrawPanel(){
         return this.zoneDeTrace ;
     }
@@ -296,12 +290,15 @@ public class FitexPanel extends javax.swing.JPanel {
             panelFctParam.removeAll();
             panelFctModel.remove(panelFctParam);
             panelFctParam = null;
+            for(int d=0; d<tabPanelDist.length; d++){
+                tabPanelDist[d] = null;
+            }
             panelDist = null;
             parametresFn = null;
             scrollPaneParametresFn = null;
         }
         panelFctModel.add(getPanelFctParam(), BorderLayout.CENTER);
-         panelFctModel.revalidate();
+        panelFctModel.revalidate();
         panelFctModel.repaint();
         recupererFn();
         formComponentResized(null);
@@ -309,140 +306,24 @@ public class FitexPanel extends javax.swing.JPanel {
 
 
     private JPanel getPanelDist(){
-        if (panelDist == null){
+        if(panelDist == null){
             panelDist = new JPanel();
             panelDist.setName("panelDist");
-            panelDist.setMaximumSize(new Dimension(32767, 25));
-            panelDist.setMinimumSize(new Dimension(50, 25));
-            panelDist.setLayout(new FlowLayout(FlowLayout.LEFT));
-            panelDist.add(getLabelDist());
-            panelDist.add(getPanelDistBlue());
-            panelDist.add(getPanelDistGreen());
-            panelDist.add(getPanelDistBlack());
+            panelDist.setLayout(new BoxLayout(panelDist, BoxLayout.Y_AXIS));
+            for(int d=0; d<tabPanelDist.length; d++){
+               panelDist.add(getPanelDist(d));
+           }
         }
         return panelDist;
     }
-
-    private JLabel getLabelDist(){
-        if(labelDist == null){
-            labelDist = new JLabel();
-            labelDist.setName("labelDist");
-            labelDist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-            labelDist.setText(getBundleString("LABEL_DISTANCE"));
+    private DistancePanel getPanelDist(int id){
+        if (tabPanelDist[id] == null){
+            tabPanelDist[id] = new DistancePanel(this, id);
         }
-        return labelDist;
+        return tabPanelDist[id];
     }
 
-    private JPanel getPanelDistBlue(){
-        if(panelDistBlue == null){
-            panelDistBlue = new JPanel();
-            panelDistBlue.setName("panelDistBlue");
-            panelDistBlue.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-            panelDistBlue.setMinimumSize(new java.awt.Dimension(60, 20));
-            panelDistBlue.setPreferredSize(new java.awt.Dimension(60, 20));
-            javax.swing.GroupLayout panelDistBlueLayout = new javax.swing.GroupLayout(panelDistBlue);
-            panelDistBlue.setLayout(panelDistBlueLayout);
-            getLabelKBlue();
-            panelDistBlueLayout.setHorizontalGroup(
-                panelDistBlueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDistBlueLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(labelKBlue)
-                    .addContainerGap(34, Short.MAX_VALUE))
-            );
-            panelDistBlueLayout.setVerticalGroup(
-                panelDistBlueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDistBlueLayout.createSequentialGroup()
-                    .addComponent(labelKBlue)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
-        }
-        return panelDistBlue;
-    }
-
-    private JLabel getLabelKBlue(){
-        if (labelKBlue == null){
-            labelKBlue = new JLabel();
-            labelKBlue.setName("labelKBlue");
-            labelKBlue.setForeground(java.awt.Color.BLUE);
-            labelKBlue.setText("...");
-        }
-        return labelKBlue ;
-    }
-
-    private JPanel getPanelDistGreen(){
-        if(panelDistGreen == null){
-            panelDistGreen = new JPanel();
-            panelDistGreen.setName("panelDistGreen");
-            panelDistGreen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-            panelDistGreen.setMinimumSize(new java.awt.Dimension(60, 20));
-            panelDistGreen.setPreferredSize(new java.awt.Dimension(60, 20));
-            javax.swing.GroupLayout panelDistGreenLayout = new javax.swing.GroupLayout(panelDistGreen);
-            panelDistGreen.setLayout(panelDistGreenLayout);
-            getLabelKGreen();
-            panelDistGreenLayout.setHorizontalGroup(
-                panelDistGreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDistGreenLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(labelKGreen)
-                    .addContainerGap(34, Short.MAX_VALUE))
-            );
-            panelDistGreenLayout.setVerticalGroup(
-                panelDistGreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDistGreenLayout.createSequentialGroup()
-                    .addComponent(labelKGreen)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
-        }
-        return panelDistGreen;
-    }
-
-    private JLabel getLabelKGreen(){
-        if (labelKGreen == null){
-            labelKGreen = new JLabel();
-            labelKGreen.setName("labelKGreen");
-            labelKGreen.setForeground(new java.awt.Color(51, 153, 0));
-            labelKGreen.setText("...");
-        }
-        return labelKGreen ;
-    }
-
-    private JPanel getPanelDistBlack(){
-        if(panelDistBlack == null){
-            panelDistBlack = new JPanel();
-            panelDistBlack.setName("panelDistBlack");
-            panelDistBlack.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-            panelDistBlack.setMinimumSize(new java.awt.Dimension(60, 20));
-            panelDistBlack.setPreferredSize(new java.awt.Dimension(60, 20));
-            javax.swing.GroupLayout panelDistBlackLayout = new javax.swing.GroupLayout(panelDistBlack);
-            panelDistBlack.setLayout(panelDistBlackLayout);
-            getLabelKBlack();
-            panelDistBlackLayout.setHorizontalGroup(
-                panelDistBlackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDistBlackLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(labelKBlack)
-                    .addContainerGap(34, Short.MAX_VALUE))
-            );
-            panelDistBlackLayout.setVerticalGroup(
-                panelDistBlackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDistBlackLayout.createSequentialGroup()
-                    .addComponent(labelKBlack)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
-        }
-        return panelDistBlack;
-    }
-
-    private JLabel getLabelKBlack(){
-        if (labelKBlack == null){
-            labelKBlack = new JLabel();
-            labelKBlack.setName("labelKBlack");
-            labelKBlack.setText("...");
-        }
-        return labelKBlack ;
-    }
-
+    
 
 
    /**
@@ -492,15 +373,22 @@ public class FitexPanel extends javax.swing.JPanel {
 
     }
 
-   
+   private boolean isRows(){
+       for(int i=0; i<datas.length; i++){
+           if(datas[i].getRowCount() > 0)
+               return true;
+       }
+       return false;
+   }
     /* mise a jour de fonctions initiales  */
     private void setInitialListFunction(ArrayList<FunctionModel> listFunctionModel){
         if (listFunctionModel == null)
             return;
         int nb = listFunctionModel.size() ;
         // si il n'existe pas, creation de l'objet fonction
-        if (this.datas.getRowCount() == 0)
+        if (!isRows())
             return ;
+        isPanelFunction = true;
         if(panelFctModel == null)
             this.add(getPanelFctModel(), BorderLayout.NORTH);
         drawFct();
@@ -508,7 +396,9 @@ public class FitexPanel extends javax.swing.JPanel {
             FunctionModel fm = listFunctionModel.get(i);
             Function f = new Function(locale, fm.getDescription(), datas);
             int nbP = fm.getListParam().size();
+            System.out.println("*******");
             for (int k=0; k<nbP; k++){
+                System.out.println("setInitial : "+fm.getListParam().get(k).toString());
                 f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
             }
             mapDesFonctions.put(fm.getColor(), f);
@@ -535,7 +425,7 @@ public class FitexPanel extends javax.swing.JPanel {
         this.paramGraph.setY_max(y_max);
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(paramGraph) ;
-        actionFitex.setParam(paramGraph.getHeaderX(), paramGraph.getHeaderY(), paramGraph.isAutoscale(), x_min, x_max, paramGraph.getDeltaX(), y_min, y_max, paramGraph.getDeltaY());
+        actionFitex.setParam(paramGraph.getPlots(), paramGraph.isAutoscale(), x_min, x_max, paramGraph.getDeltaX(), y_min, y_max, paramGraph.getDeltaY());
     }
     
 
@@ -549,24 +439,26 @@ public class FitexPanel extends javax.swing.JPanel {
     /** affichage des tous les K definis */
     public void affichageK(Color coul) {
         Double k;
-        DecimalFormat formatE = new DecimalFormat("0.###E0");
-        DecimalFormat format = new DecimalFormat("####.####");
-        javax.swing.JLabel jLab ;
-
-        if (coul == Color.BLUE) jLab = labelKBlue ;
-        else if (coul == DARK_GREEN ) jLab = labelKGreen ;
-        else jLab = labelKBlack ;
-
-        if(jLab != null){
-            if (mapDesFonctions.get(coul)==null || mapDesFonctions.get(coul).getRF()==null)
-                jLab.setText("...");
-            else {
-                k = (mapDesFonctions.get(coul)).getRF() ;
-                k = chiffresSignificatifs(k,3) ;
-                if (k != 0 && (k>-0.1 && k<0.1) || k>=1000 || k<=-1000)
-                    jLab.setText(formatE.format(k));
-                else
-                    jLab.setText(format.format(k));
+        NumberFormat nfE = NumberFormat.getNumberInstance(locale);
+        DecimalFormat formatE = (DecimalFormat)nfE;
+        formatE.applyPattern("0.#####E0");
+        NumberFormat nf = NumberFormat.getNumberInstance(locale);
+        DecimalFormat format = (DecimalFormat)nf;
+        format.applyPattern("###.#####");
+        //DecimalFormat formatE = new DecimalFormat("0.####E0");
+        //DecimalFormat format = new DecimalFormat("####.#####");
+        for (int d=0; d<tabPanelDist.length; d++){
+            if(tabPanelDist[d] != null){
+                if (mapDesFonctions.get(coul)==null || mapDesFonctions.get(coul).getRF()[d]==null)
+                    tabPanelDist[d].setText(coul, "...");
+                else {
+                    k = (mapDesFonctions.get(coul)).getRF()[d] ;
+                    k = chiffresSignificatifs(k,4) ;
+                    if (k != 0 && (k>-0.1 && k<0.1) || k>=1000 || k<=-1000)
+                        tabPanelDist[d].setText(coul, formatE.format(k));
+                    else
+                        tabPanelDist[d].setText(coul, format.format(k));
+                }
             }
         }
     }
@@ -584,7 +476,7 @@ public class FitexPanel extends javax.swing.JPanel {
     /** methode pour recuperer la fonction et l'inserer dans les hashMaps */
     public void recupererFn() {
         // si il n'existe pas, creation de l'objet fonction
-        if (this.datas.getRowCount() == 0)
+        if (!isRows())
             return ;
         if (mapDesFonctions.get(couleurSelect) == null)
             mapDesFonctions.put(couleurSelect, new Function(locale, textFieldFct.getText(), datas));
@@ -629,9 +521,11 @@ public class FitexPanel extends javax.swing.JPanel {
                 mapDesSpinners.get(param).setValue(valParam) ;
                 // on etire le panel qui accueille le box
                 heightPanel = mapDesSpinners.get(param).getHauteur() ;
-                heightPanel = 50;
+                heightPanel = 35;
             }
         }
+        if(parametresFn.getPreferredSize().getWidth() > getWidth())
+            heightPanel = 50;
         dim.setSize(getWidth(), heightPanel) ;
         scrollPaneParametresFn.setPreferredSize(dim);
         scrollPaneParametresFn.setMinimumSize(dim);
@@ -649,6 +543,15 @@ public class FitexPanel extends javax.swing.JPanel {
         // calculer et afficher k
         mapDesFonctions.get(couleurSelect).majRF();
         affichageK(couleurSelect);
+        // parcours de tous les parametres
+        ArrayList<FunctionParam> listParam = new ArrayList();
+        for (String p:mapDesFonctions.get(couleurSelect).getMapParametre().keySet()) {
+            double valParam = mapDesFonctions.get(couleurSelect).getMapParametre().get(p).valeur() ;
+            FunctionParam fp = new FunctionParam(-1, p, valParam);
+            listParam.add(fp);
+        }
+        if(actionFitex != null)
+            actionFitex.setFunctionModel(mapDesFonctions.get(couleurSelect).getIntitule(), couleurSelect,listParam );
     }
 
     /** methode  appelee lors d'un changement de couleur de fonction */
@@ -694,6 +597,9 @@ public class FitexPanel extends javax.swing.JPanel {
            panelFctModel = null;
            panelFct = null;
            panelFctParam = null;
+           for(int d=0; d<tabPanelDist.length; d++){
+               tabPanelDist[d] = null;
+           }
            panelDist = null;
            parametresFn = null;
            scrollPaneParametresFn = null;
@@ -727,6 +633,7 @@ public class FitexPanel extends javax.swing.JPanel {
            scrollPaneParametresFn = new JScrollPane();
            scrollPaneParametresFn.setName("scrollPaneParametresFn");
            scrollPaneParametresFn.setViewportView(getParametresFn());
+           scrollPaneParametresFn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
        }
        return scrollPaneParametresFn;
    }

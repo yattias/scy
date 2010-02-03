@@ -124,11 +124,13 @@ public class BoxSpinner extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void previousMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMousePressed
+        updateValue();
         value = value - step ;
         majParametre() ;
     }//GEN-LAST:event_previousMousePressed
 
     private void nextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMousePressed
+        updateValue();
         value = value + step ;
         majParametre() ;
     }//GEN-LAST:event_nextMousePressed
@@ -162,7 +164,7 @@ public class BoxSpinner extends javax.swing.JPanel {
         owner.maJParametreDansFonction(label.getText(), value);
     }
     
-    /** fonction appeliee uniquement lors de l'affichage ou du reaffichage du box
+    /** fonction appelee uniquement lors de l'affichage ou du reaffichage du box
      */
     public void setValue(double val) {
         value= val ;

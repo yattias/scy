@@ -10,6 +10,7 @@ import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionModel;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.utilities.ActionMenu;
@@ -180,19 +181,14 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
     }
 
     private void constructGraph(){
-        TypeVisualization type = visualization.getType() ;
-        DataHeader header1 = dataset.getDataHeader(visualization.getTabNo()[0]);
-        DataHeader header2 = null;
         cGraph = null;
-        if (type.getNbColParam() ==2){
-            header2 = dataset.getDataHeader(visualization.getTabNo()[1]);
-        }
+        TypeVisualization type = visualization.getType() ;
         if (type.getCode() == DataConstants.VIS_PIE){
-            cGraph = constructPieGraph(header1);
+            cGraph = constructPieGraph();
         }else if (type.getCode() == DataConstants.VIS_BAR){
-            cGraph = constructBarGraph(header1);
+            cGraph = constructBarGraph();
         }else if (type.getCode() == DataConstants.VIS_GRAPH){
-            cGraph = constructXYGraph(header1, header2);
+            cGraph = constructXYGraph();
             updateMenuGraph();
         }
         scrollPane = new JScrollPane(cGraph);
@@ -200,15 +196,16 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         this.panelGraph.add(scrollPane);
     }
 
-    private CopexGraph constructPieGraph(DataHeader header1){
+    private CopexGraph constructPieGraph(){
+        DataHeader header = dataset.getDataHeader(((SimpleVisualization)visualization).getNoCol());
         DefaultPieDataset pieDataset = new DefaultPieDataset();
         for (int i=0; i<dataset.getNbRows(); i++){
             int no = i+1;
-            if (dataset.getData(i, header1.getNoCol()) != null && !dataset.getData(i, header1.getNoCol()).isIgnoredData())
-                pieDataset.setValue(""+no, dataset.getData(i, header1.getNoCol()).getValue());
+            if (dataset.getData(i, header.getNoCol()) != null && !dataset.getData(i, header.getNoCol()).isIgnoredData())
+                pieDataset.setValue(""+no, dataset.getData(i, header.getNoCol()).getValue());
         }
 
-        JFreeChart pieChart = ChartFactory.createPieChart(header1.getValue(), pieDataset, true, true, true);
+        JFreeChart pieChart = ChartFactory.createPieChart(header.getValue(), pieDataset, true, true, true);
         ChartPanel cPanel = new ChartPanel(pieChart, false);
         // in a panel for the resize
         JPanel p = new JPanel();
@@ -218,15 +215,16 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         return  new CopexGraph(fitex, dataset.getDbKey(), visualization, p) ;
     }
 
-    private CopexGraph constructBarGraph(DataHeader header1){
+    private CopexGraph constructBarGraph(){
+        DataHeader header = dataset.getDataHeader(((SimpleVisualization)visualization).getNoCol());
         DefaultCategoryDataset ds = new DefaultCategoryDataset();
         for (int i=0; i<dataset.getNbRows(); i++){
             int no = i+1;
-            if (dataset.getData(i, header1.getNoCol()) != null && !dataset.getData(i, header1.getNoCol()).isIgnoredData())
-                ds.addValue(dataset.getData(i, header1.getNoCol()).getValue(), ""+no, ""+no);
+            if (dataset.getData(i, header.getNoCol()) != null && !dataset.getData(i, header.getNoCol()).isIgnoredData())
+                ds.addValue(dataset.getData(i, header.getNoCol()).getValue(), ""+no, ""+no);
         }
 
-        JFreeChart barChart = ChartFactory.createBarChart(header1.getValue(), "",
+        JFreeChart barChart = ChartFactory.createBarChart(header.getValue(), "",
                 "", ds, PlotOrientation.VERTICAL, true, true, false);
         ChartPanel cPanel = new ChartPanel(barChart);
         JPanel p = new JPanel();
@@ -236,19 +234,26 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         return new CopexGraph(fitex,dataset.getDbKey(), visualization, p) ;
     }
 
-    private CopexGraph constructXYGraph(DataHeader header1, DataHeader header2){
-        int id1 = header1.getNoCol() ;
-        int id2 = header2.getNoCol();
-        Object[][] datas = new Object[dataset.getNbRows()][3];
-        for (int i=0; i<dataset.getNbRows(); i++){
-            if (dataset.getData(i, id1) != null && dataset.getData(i, id2) !=null ){
-                datas[i][0] = dataset.getData(i, id1).getValue();
-                datas[i][1] = dataset.getData(i, id2).getValue();
-                datas[i][2] = dataset.getData(i, id1).isIgnoredData() || dataset.getData(i, id2).isIgnoredData() ;
-             }
+    private CopexGraph constructXYGraph(){
+        int nbPlots = ((Graph)visualization).getNbPlots();
+        DefaultTableModel[] datamodel = new DefaultTableModel[nbPlots];
+        int nbRows = dataset.getNbRows();
+        for (int d=0; d<nbPlots; d++){
+            DataHeader header1 = dataset.getDataHeader(((Graph)visualization).getParamGraph().getPlots().get(d).getHeaderX().getNoCol());
+            DataHeader header2 = dataset.getDataHeader(((Graph)visualization).getParamGraph().getPlots().get(d).getHeaderY().getNoCol());
+            int id1 = header1.getNoCol() ;
+            int id2 = header2.getNoCol();
+            Object[][] datas = new Object[dataset.getNbRows()][3];
+            for (int i=0; i<nbRows; i++){
+                if (dataset.getData(i, id1) != null && dataset.getData(i, id2) !=null ){
+                    datas[i][0] = dataset.getData(i, id1).getValue();
+                    datas[i][1] = dataset.getData(i, id2).getValue();
+                    datas[i][2] = dataset.getData(i, id1).isIgnoredData() || dataset.getData(i, id2).isIgnoredData() ;
+                }
+            }
+            String[] columnNames = new String[3];
+            datamodel[d] = new DefaultTableModel(datas, columnNames);
         }
-        String[] columnNames = new String[3];
-        DefaultTableModel datamodel = new DefaultTableModel(datas, columnNames);
         ArrayList<FunctionModel> listFunctionModel = ((Graph)visualization).getListFunctionModel() ;
         ParamGraph pg = ((Graph)visualization).getParamGraph() ;
         FitexPanel gPanel = new FitexPanel(fitex.getLocale(), datamodel, listFunctionModel,pg) ;
@@ -269,15 +274,7 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         return visualization;
     }
 
-    public void modifyVisualization(Visualization vis){
-        if(cGraph.getGraphComponent() instanceof FitexPanel && vis instanceof Graph){
-            panelGraph.removeAll();
-            this.visualization = vis;
-            constructGraph();
-        }
-        panelGraph.revalidate();
-        panelGraph.repaint();
-    }
+    
 
 
     public void updateVisualization(Visualization vis){

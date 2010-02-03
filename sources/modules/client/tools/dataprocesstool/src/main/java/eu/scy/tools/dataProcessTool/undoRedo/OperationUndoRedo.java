@@ -49,11 +49,8 @@ public class OperationUndoRedo extends DataUndoRedo {
         super.undo();
         ArrayList<DataOperation> listOp = new ArrayList();
         listOp.add(operation);
-        ArrayList<Integer>[] tabSel  = new ArrayList[2];
-        tabSel[0] = new ArrayList();
-        tabSel[1] = new ArrayList();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.deleteData(false, getDataset(), new ArrayList(), listOp, tabSel, v);
+        CopexReturn cr = this.controller.deleteData(false, getDataset(), new ArrayList(), new ArrayList(), new ArrayList(), listOp,  v);
         if(cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;

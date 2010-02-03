@@ -23,4 +23,7 @@ public class MyConstants {
     public final static int DB_COPEX_DATA = 2 ;
 
     public final static int MAX_LENGHT_DATASET_NAME=32;
+
+    /* nombre max de plots */
+    public final static int MAX_PLOT = 4;
 }

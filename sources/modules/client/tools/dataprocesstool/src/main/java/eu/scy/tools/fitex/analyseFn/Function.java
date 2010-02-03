@@ -35,14 +35,15 @@ public class Function
     // liste tampon des paramietres pour pouvoir garder les anciennes valeurs de parametres
     private HashMap<String,Parametre> newMapDesParametres  = new HashMap<String,Parametre>() ;
     // la table par rapport ie laquelle il faut calculer la distance
-    private DefaultTableModel data ;
+    private DefaultTableModel[] data ;
     // la distance de la fonction avec les donniees
-    private Double reliabilityFactor ;
+    private Double[] reliabilityFactor ;
     
     /** Creates a new instance of Function */
-    public Function(Locale locale, String intitule, DefaultTableModel data) {
+    public Function(Locale locale, String intitule, DefaultTableModel[] data) {
         this.data = data ;
         this.locale = locale;
+        this.reliabilityFactor = new Double[data.length];
         maJFonction(intitule) ;
     }
     
@@ -93,39 +94,41 @@ public class Function
 
         // parcours et mesure de la distance ie tous les points diefinis dans le tableau de donniees
         // la tableModel du tableau qui contient les donnees :
-        DefaultTableModel tableModel = data;
+        for(int d=0; d<data.length; d++){
+            DefaultTableModel tableModel = data[d];
 
-        reliabilityFactor = 0.0 ;
-        if (expression != null) {
-            for (int i=0; i<tableModel.getRowCount(); i++) {
-                // riecupieration des valeurs de la ligne
-                x=(Double)tableModel.getValueAt(i,0);
-                y=(Double)tableModel.getValueAt(i,1);
-                ignore=(Boolean)tableModel.getValueAt(i,2);
-                if (ignore==null) ignore=false;
+            reliabilityFactor[d] = 0.0 ;
+            if (expression != null) {
+                for (int i=0; i<tableModel.getRowCount(); i++) {
+                    // riecupieration des valeurs de la ligne
+                    x=(Double)tableModel.getValueAt(i,0);
+                    y=(Double)tableModel.getValueAt(i,1);
+                    ignore=(Boolean)tableModel.getValueAt(i,2);
+                    if (ignore==null) ignore=false;
 
-                if((x!=null) && (y!=null) && (!ignore)) {
-                    nbPts++;
-                    // ajout de la distance au carrie
-                    reliabilityFactor = reliabilityFactor + Math.pow((y-expression.valeur(x)),2) ;
-                    sommeYCarre = sommeYCarre + Math.pow((y),2) ;
+                    if((x!=null) && (y!=null) && (!ignore)) {
+                        nbPts++;
+                        // ajout de la distance au carrie
+                        reliabilityFactor[d] = reliabilityFactor[d] + Math.pow((y-expression.valeur(x)),2) ;
+                        sommeYCarre = sommeYCarre + Math.pow((y),2) ;
+                    }
                 }
             }
+            // si l'expression n'est pas definie
+            // si il n'y a pas de points diefinis dans la table,
+            // si la fonction n'est pas definie sur certains points,
+            // il ne faut pas afficher la distance
+            if (expression == null || nbPts==0 || Double.isNaN(reliabilityFactor[d])) reliabilityFactor[d]=null ;
+            // sinon on calcule la MOYENNE des carres
+            else reliabilityFactor[d] = reliabilityFactor[d] / sommeYCarre ;
         }
-        // si l'expression n'est pas definie        
-        // si il n'y a pas de points diefinis dans la table,
-        // si la fonction n'est pas definie sur certains points,
-        // il ne faut pas afficher la distance
-        if (expression == null || nbPts==0 || Double.isNaN(reliabilityFactor)) reliabilityFactor=null ;
-        // sinon on calcule la MOYENNE des carres
-        else reliabilityFactor = reliabilityFactor / sommeYCarre ;
     }
     
     public String getIntitule(){
         return intitule ;
     }
     
-    public void setData(DefaultTableModel data ){
+    public void setData(DefaultTableModel[] data ){
         this.data = data ;
     }
     
@@ -153,7 +156,7 @@ public class Function
         mapDesParametres.get(nomParam).setValeur(valeur) ;
     }
     
-    public Double getRF(){
+    public Double[] getRF(){
         return reliabilityFactor ;
     }  
 }

@@ -76,4 +76,9 @@ public class FunctionParam implements Cloneable{
         return element;
     }
 
+    @Override
+    public String toString(){
+        return param+" : "+Double.toString(value);
+    }
+
 }

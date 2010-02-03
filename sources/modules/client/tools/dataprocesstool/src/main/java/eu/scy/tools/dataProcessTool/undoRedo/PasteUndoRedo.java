@@ -89,7 +89,7 @@ public class PasteUndoRedo extends DataUndoRedo {
         }
         // suppression des eventuelles lignes/colonnes
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.deleteData(true, getDataset(), new ArrayList(), new ArrayList(), listRowAndCol, v);
+        CopexReturn cr = this.controller.deleteData(true, getDataset(), new ArrayList(), listRowAndCol[0], listRowAndCol[1], new ArrayList(),  v);
         if(cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;

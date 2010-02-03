@@ -17,8 +17,8 @@ public class BarVisualization extends Visualization {
     /* id row/col */
     private int id;
 
-    public BarVisualization(String type, String name, boolean isOnCol, int id) {
-        super(type, name, isOnCol);
+    public BarVisualization(String type, String name,  int id) {
+        super(type, name);
         this.id = id;
     }
 
@@ -29,9 +29,6 @@ public class BarVisualization extends Visualization {
             Element elDef = xmlElem.getChild(TAG_VISUALIZATION_DEFINITION);
             this.name = elDef.getChild(TAG_VISUALIZATION_DEF_NAME).getText() ;
             Element el = elDef.getChild(TAG_VISUALIZATION_DEF_ID_COL) ;
-			this.isOnCol = el !=null;
-            if (el == null)
-                el = elDef.getChild(TAG_VISUALIZATION_DEF_ID_ROW);
             try{
                 this.id = Integer.parseInt(el.getText());
             } catch(NumberFormatException e){
@@ -59,10 +56,7 @@ public class BarVisualization extends Visualization {
         element.addContent(new Element(TAG_VISUALIZATION_TYPE).setText(this.type));
         Element elDef = new Element(TAG_VISUALIZATION_DEFINITION);
         elDef.addContent(new Element(TAG_VISUALIZATION_DEF_NAME).setText(this.name));
-        Element elId = new Element(TAG_VISUALIZATION_DEF_ID_ROW);
-        if (this.isOnCol)
-            elId = new Element(TAG_VISUALIZATION_DEF_ID_COL);
-        elDef.addContent(elId.setText(Integer.toString(this.id)));
+        elDef.addContent(new Element(TAG_VISUALIZATION_DEF_ID_COL).setText(Integer.toString(this.id)));
         element.addContent(elDef);
 
 		return element;

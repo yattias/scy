@@ -14,6 +14,8 @@ import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.common.PlotXY;
+import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.TypeOperation;
 import eu.scy.tools.dataProcessTool.common.TypeOperationParam;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
@@ -47,7 +49,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -179,6 +183,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     @Override
     public Locale getLocale(){
         return dataProcessToolPanel.getLocale();
+    }
+
+    public NumberFormat getNumberFormat(){
+        return dataProcessToolPanel.getNumberFormat();
     }
 
     public URL getHelpManualPage(){
@@ -683,22 +691,14 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* creation d'un graphique */
-    public boolean createVisualization(String name, TypeVisualization typeVis, DataHeader header1, DataHeader header2){
-         if (header1 == null)
-            return false;
-        int[] tabNo;
-        if (typeVis.getNbColParam() > 1){
-            tabNo = new int[2];
-            tabNo[0] = header1.getNoCol() ;
-            tabNo[1] = header2.getNoCol() ;
-        }else{
-            tabNo = new int[1];
-            tabNo[0] = header1.getNoCol() ;
-        }
-        Visualization vis = new Visualization(-1, name, typeVis, tabNo, true) ;
+    public boolean createVisualization(String name, TypeVisualization typeVis, DataHeader header1, ArrayList<PlotXY> listPlot){
+        Visualization vis = null;
+        if(header1 != null){
+            vis = new SimpleVisualization(-1, name, typeVis, header1.getNoCol()) ;
+        }else
         if (typeVis.getCode() == DataConstants.VIS_GRAPH){
-            ParamGraph paramGraph = new ParamGraph(header1, header2, -10, 10,  -10,10,1,1, true);
-            vis = new Graph(-1, name, typeVis, tabNo, true, paramGraph, null);
+            ParamGraph paramGraph = new ParamGraph(listPlot, -10, 10,  -10,10,1,1, true);
+            vis = new Graph(-1, name, typeVis, paramGraph, null);
         }
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.createVisualization(dataset, vis,true, v) ;
@@ -778,6 +778,27 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             if(vis != null)
                 listGraphFrame.get(i).updateDataset(ds, vis, update);
         }
+        // ferme les vis qui n'existent plus
+        for(int i=nb-1; i>=0; i--){
+            long dbKeyVis = listGraphFrame.get(i).getVisualization().getDbKey();
+            Visualization vis = ds.getVisualization(dbKeyVis);
+            if(vis == null){
+                InternalGraphFrame gFrame = getInternalFrame(dbKeyVis);
+                if(gFrame != null){
+                    listGraphFrame.remove(gFrame);
+                    gFrame.dispose();
+                }
+            }
+        }
+        // ouvre les vis nouvelles
+        for(Iterator<Visualization> v = ds.getListVisualization().iterator();v.hasNext();){
+            Visualization vis = v.next();
+            InternalGraphFrame gFrame = getInternalFrame(vis.getDbKey());
+            if(gFrame == null){
+                createInternalGraphFrame(vis);
+            }
+        }
+
     }
 
     /* nouvelle operation sur le dataset */
@@ -837,7 +858,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         DataHeader newHeader = nds.getDataHeader(colIndex);
         dataset = nds;
-        datasetTable.updateDataset(nds, true);
+        //datasetTable.updateDataset(nds, true);
+        updateDataset(nds);
         datasetModif = true;
         datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex));
         dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
@@ -934,9 +956,35 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* suppression de donnees et d'operations */
-    public void deleteData(Dataset ds, ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
+    public void deleteData(Dataset ds,  ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.deleteData(false, ds, listData, listOperation, listRowAndCol, v);
+        ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
+        ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
+        ArrayList<DataOperation> listOperationToDel = new ArrayList();
+        ArrayList<Visualization> listVisualizationToDel = new ArrayList();
+        // marque les anciennes donnees
+        ArrayList<Data> oldListData = new ArrayList();
+        for(Iterator<Data> d = listData.iterator();d.hasNext();){
+            oldListData.add((Data)d.next().clone());
+        }
+        for(Iterator<Integer> i=listRowAndCol[0].iterator();i.hasNext();){
+            int id = i.next();
+            for(int j=0; j<dataset.getNbCol(); j++){
+                Data data = dataset.getData(id, j);
+                if(data != null)
+                    oldListData.add((Data)data.clone());
+            }
+        }
+        for(Iterator<Integer> j=listRowAndCol[1].iterator();j.hasNext();){
+            int id = j.next();
+            for(int i=0; i<dataset.getNbRows(); i++){
+                Data data = dataset.getData(i, id);
+                if(data != null && oldListData.indexOf(data) == -1)
+                    oldListData.add((Data)data.clone());
+            }
+        }
+        // appel au noyau
+        CopexReturn cr = this.controller.deleteData(false, ds, listData, listRowAndCol[0], listRowAndCol[1],listOperation,  v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -944,7 +992,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             v = new ArrayList();
             boolean isOk = displayError(cr, getBundleString("TITLE_DIALOG_CONFIRM"));
             if (isOk){
-                cr = this.controller.deleteData(true, ds, listData, listOperation, listRowAndCol, v);
+                cr = this.controller.deleteData(true, ds, listData, listRowAndCol[0], listRowAndCol[1],listOperation,  v);
                 if (cr.isError()){
                     displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                     return;
@@ -954,6 +1002,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 //suppression
             }else{
                 Dataset newDs = (Dataset)v.get(0);
+                ArrayList[] tabDel = (ArrayList[])v.get(1);
+                listOperationToUpdate =  (ArrayList<DataOperation>)tabDel[0];
+                listOperationToDel = (ArrayList<DataOperation>)tabDel[1];
+                listVisualizationToUpdate = (ArrayList<Visualization>)tabDel[2];
+                listVisualizationToDel = (ArrayList<Visualization>)tabDel[3];
                 updateDataset(newDs);
             }
         }else{
@@ -961,12 +1014,17 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 //suppression
             }else{
                 Dataset newDs = (Dataset)v.get(0);
+                ArrayList[] tabDel = (ArrayList[])v.get(1);
+                listOperationToUpdate =  (ArrayList<DataOperation>)tabDel[0];
+                listOperationToDel = (ArrayList<DataOperation>)tabDel[1];
+                listVisualizationToUpdate = (ArrayList<Visualization>)tabDel[2];
+                listVisualizationToDel = (ArrayList<Visualization>)tabDel[3];
                 updateDataset(newDs);
             }
         }
         datasetModif = true;
         updateMenuData();
-        datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, listData, listHeader, listRowAndCol, listOperation));
+        datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, oldListData,listData, listHeader, listRowAndCol, listOperation, listOperationToUpdate, listOperationToDel,listVisualizationToUpdate, listVisualizationToDel));
         //log
         ArrayList<Integer> listIdRows = listRowAndCol[0];
         ArrayList<Integer> listIdColumns = listRowAndCol[1];
@@ -1154,11 +1212,24 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         if(!graph.getName().equals(graphName)){
             updateVisualizationName(graph, graphName);
         }
-        DataHeader hxold = graph.getParamGraph().getHeaderX();
-        DataHeader hyold = graph.getParamGraph().getHeaderY();
-        DataHeader hx = pg.getHeaderX();
-        DataHeader hy = pg.getHeaderY();
-        boolean sameAxis = hxold.getDbKey()== hx.getDbKey() && hyold.getDbKey() == hy.getDbKey();
+        // same axis ?
+        boolean sameAxis = true;
+        int nbOld =graph.getParamGraph().getPlots().size();
+        int nbNew = pg.getPlots().size();
+        if(nbOld != nbNew)
+            sameAxis = false;
+        else{
+            for(int i=0; i<nbOld; i++){
+                DataHeader hxold = graph.getParamGraph().getPlots().get(i).getHeaderX();
+                DataHeader hyold = graph.getParamGraph().getPlots().get(i).getHeaderY();
+                DataHeader hx = pg.getPlots().get(i).getHeaderX();
+                DataHeader hy = pg.getPlots().get(i).getHeaderY();
+                if(hxold.getNoCol()!= hx.getNoCol() || hyold.getNoCol() != hy.getNoCol()){
+                    sameAxis = false;
+                    break;
+                }
+            }
+        }
         ArrayList v = new ArrayList();
         if(dataset == null)
             return false;
@@ -1168,7 +1239,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return false ;
         }
         Visualization newvis = (Visualization)v.get(0);
-
         int idVis = dataset.getIdVisualization(graph.getDbKey());
         if (idVis == -1)
             return true;
@@ -1179,7 +1249,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             if(sameAxis)
                 gFrame.updateVisualization(newvis);
             else
-                gFrame.modifyVisualization(newvis);
+                gFrame.updateDataset(dataset, newvis, true);
         }
         dataProcessToolPanel.logUpdateGraphParam(dataset, oldName, newvis);
         return true;

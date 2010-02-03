@@ -26,18 +26,15 @@ public class Visualization {
     public final static String TAG_VISUALIZATION_DEFINITION = "definition";
     public final static String TAG_VISUALIZATION_DEF_NAME="name";
     public final static String TAG_VISUALIZATION_DEF_ID_COL="column";
-    public final static String TAG_VISUALIZATION_DEF_ID_ROW="row";
     
 
     /* type */
     protected String type;
     protected String name;
-    protected boolean isOnCol;
 
-    public Visualization(String type, String name, boolean isOnCol) {
+    public Visualization(String type, String name) {
         this.type = type;
         this.name = name;
-        this.isOnCol = isOnCol;
     }
 
     public Visualization(Element xmlElem) throws JDOMException {
@@ -49,9 +46,6 @@ public class Visualization {
 		this(new JDomStringConversion().stringToXml(xmlString));
 	}
 
-    public boolean isIsOnCol() {
-        return isOnCol;
-    }
 
     public String getName() {
         return name;
@@ -65,8 +59,7 @@ public class Visualization {
     public Element toXML(){
         Element element = new Element(TAG_VISUALIZATION);
         element.addContent(new Element(TAG_VISUALIZATION_TYPE).setText(this.type));
-
-		return element;
+        return element;
     }
 
 

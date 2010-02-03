@@ -6,6 +6,7 @@
 package eu.scy.tools.dataProcessTool.db;
 
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
+import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
@@ -103,15 +104,20 @@ public class VisualizationFromDB {
         // liens
         String query1 = "INSERT INTO LINK_DATASET_VISUALIZATION (ID_DATASET, ID_DATA_VISUALIZATION) VALUES ("+dbKeyDs+", "+dbKey+") ;";
         String query2 = "INSERT INTO LINK_VISUALIZATION_TYPE (ID_DATA_VISUALIZATION, ID_TYPE_VISUALIZATION) VALUES ("+dbKey+", "+visualization.getType().getDbKey()+") ;";
-        int nb = visualization.getTabNo().length ;
+        int nb = 0 ;
+        if(visualization instanceof SimpleVisualization){
+            nb = 1 ;
+        }
         int nbQ = nb+2 ;
         String[] querys = new String[nbQ];
         int i=0;
         querys[i++] = query1;
         querys[i++] = query2;
-        for (int k=0; k<nb; k++){
-            String query3 = "INSERT INTO LIST_NO_VISUALIZATION (ID_DATA_VISUALIZATION, NO) VALUES ("+dbKey+", "+visualization.getTabNo()[k]+"); ";
-            querys[i++] = query3;
+        if(visualization instanceof SimpleVisualization){
+            for (int k=0; k<nb; k++){
+                String query3 = "INSERT INTO LIST_NO_VISUALIZATION (ID_DATA_VISUALIZATION, NO) VALUES ("+dbKey+", "+((SimpleVisualization)visualization).getNoCol()+"); ";
+                querys[i++] = query3;
+            }
         }
         // graphe ?
         v2 = new ArrayList();
@@ -124,6 +130,9 @@ public class VisualizationFromDB {
     public static CopexReturn deleteVisualizationFromDB(DataBaseCommunication dbC, long dbKeyVis){
         ArrayList v = new ArrayList();
         String[] querys = new String[7];
+        CopexReturn cr = deletePlotsXYInDB(dbC, dbKeyVis);
+        if(cr.isError())
+            return cr;
         // suppression des visualisations associees
         String queryDelVisType = "DELETE FROM LINK_VISUALIZATION_TYPE WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
         String queryDelVisNo = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
@@ -143,9 +152,25 @@ public class VisualizationFromDB {
         querys[i++] = queryDelVis ;
         querys[i++] = queryDelLinkVis ;
 
-        CopexReturn cr = dbC.executeQuery(querys, v);
+        cr = dbC.executeQuery(querys, v);
         return cr;
     }
+
+    /* suppression plots */
+    private static CopexReturn deletePlotsXYInDB(DataBaseCommunication dbC, long dbKeyVis){
+        ArrayList v = new ArrayList();
+        String[] querys = new String[2];
+        String query = "DELETE FROM PLOT_XY_GRAPH WHERE ID_PLOT IN (SELECT ID_PLOT FROM LINK_GRAPH_PLOT WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+") ; ";
+        String queryDel = "DELETE FROM LINK_GRAPH_PLOT WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
+        int i=0;
+        querys[i++] = query;
+        querys[i++] = queryDel ;
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
+
+
+    }
+
 
     /* ajout d'une fonction modele, en v[0] le nouvel id  */
     public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v){
@@ -279,9 +304,8 @@ public class VisualizationFromDB {
             return cr;
         ArrayList<String> listQ = new ArrayList();
         for (int i=0; i<nbVis; i++){
-            int n = listVisualization.get(i).getTabNo().length ;
-            for (int j=0; j<n; j++){
-                listQ.add("INSERT INTO LIST_NO_VISUALIZATION (ID_DATA_VISUALIZATION, NO) VALUES ("+listVisualization.get(i).getDbKey()+", "+listVisualization.get(i).getTabNo()[j]+") ;");
+            if(listVisualization.get(i) instanceof SimpleVisualization){
+                listQ.add("INSERT INTO LIST_NO_VISUALIZATION (ID_DATA_VISUALIZATION, NO) VALUES ("+listVisualization.get(i).getDbKey()+", "+((SimpleVisualization)listVisualization.get(i)).getNoCol()+") ;");
             }
         }
         int nb = listQ.size();

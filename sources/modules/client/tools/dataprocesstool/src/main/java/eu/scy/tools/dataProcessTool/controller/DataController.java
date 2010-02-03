@@ -26,6 +26,7 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import java.util.List;
 import java.util.Locale;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
+import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.print.DataPrint;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.Color;
@@ -35,11 +36,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bouncycastle.asn1.x509.V2TBSCertListGenerator;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
@@ -60,6 +64,7 @@ public class DataController implements ControllerInterface{
     private TypeVisualization[] tabTypeVisual;
     /* dataset */
     private ArrayList<Dataset> listDataset;
+    private ArrayList<Integer> listNoDefaultCol;
     long idDataSet;
     long idOperation;
     long idDataHeader;
@@ -79,6 +84,7 @@ public class DataController implements ControllerInterface{
     public DataController(DataProcessToolPanel dataToolPanel) {
         this.dataToolPanel = dataToolPanel;
         this.listDataset = new ArrayList();
+        this.listNoDefaultCol = new ArrayList();
     }
 
 
@@ -161,6 +167,7 @@ public class DataController implements ControllerInterface{
         }
         // creation ds
         Dataset dataset = new Dataset(idDataSet++, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        listNoDefaultCol.add(nbCol);
         listDataset.add(dataset);
         v.add(dataset.clone());
         return new CopexReturn();
@@ -176,6 +183,7 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FLOAT_VALUE"), false);
         }
        this.listDataset.add(ds);
+       this.listNoDefaultCol.add(1);
        this.dataToolPanel.setDataset((Dataset)ds.clone());
         return new CopexReturn();
     }
@@ -244,7 +252,7 @@ public class DataController implements ControllerInterface{
         int nbCols = header.getColumnCount() ;
         DataHeader[] dataHeader = new DataHeader[nbCols];
         for (int i=0; i<nbCols; i++){
-            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getType(), i) ;
+            dataHeader[i] = new DataHeader(idDataHeader++, header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getType(), i) ;
         }
         // data
         List<DataSetRow> listRows = eloDs.getValues() ;
@@ -262,7 +270,7 @@ public class DataController implements ControllerInterface{
                     }catch(NumberFormatException e){
                         return null;
                     }
-                    data[i][j] = new Data(-1, value, i, j, false);
+                    data[i][j] = new Data(idData++, value, i, j, false);
                 }
             }
         }
@@ -310,21 +318,19 @@ public class DataController implements ControllerInterface{
             eu.scy.tools.dataProcessTool.pdsELO.Visualization vis = listVis.get(i);
             TypeVisualization type = getTypeVisualization(vis.getType());
             Visualization myVis = null;
-            int[] tabNo  = new int[1];
             if (vis instanceof BarVisualization){
-                tabNo[0] =((BarVisualization)vis).getId();
-                 myVis = new Visualization(idVisualization++, vis.getName(), type, tabNo, vis.isIsOnCol()) ;
+                 myVis = new SimpleVisualization(idVisualization++, vis.getName(), type,((BarVisualization)vis).getId() ) ;
             } else if (vis instanceof PieVisualization){
-                tabNo[0] =((PieVisualization)vis).getId();
-                myVis = new Visualization(idVisualization++, vis.getName(), type, tabNo, vis.isIsOnCol()) ;
+                myVis = new SimpleVisualization(idVisualization++, vis.getName(), type, ((PieVisualization)vis).getId()) ;
             } else if(vis instanceof GraphVisualization){
                 GraphVisualization g = ((GraphVisualization)vis);
-                tabNo = new int[2];
-                tabNo[0] = g.getX_axis();
-                tabNo[1] = g.getY_axis();
-                DataHeader hX =dataHeader[g.getX_axis()];
-                DataHeader hY =dataHeader[g.getY_axis()];
-                ParamGraph paramGraph = new ParamGraph(hX, hY, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), true);
+                List<XYAxis> listAxis = g.getAxis();
+                ArrayList<PlotXY> plots = new ArrayList();
+                for (Iterator<XYAxis> a = listAxis.iterator();a.hasNext();){
+                    XYAxis axis = a.next();
+                    plots.add(new PlotXY(dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()]));
+                }
+                ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), true);
                 ArrayList<FunctionModel> listFunctionModel  = null;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> lfm = g.getListFunctionModel();
                 if (lfm != null){
@@ -340,7 +346,7 @@ public class DataController implements ControllerInterface{
                         listFunctionModel.add(fm);
                     }
                 }
-                myVis = new Graph(idVisualization++, vis.getName(), type, tabNo, vis.isIsOnCol(), paramGraph, listFunctionModel);
+                myVis = new Graph(idVisualization++, vis.getName(), type,  paramGraph, listFunctionModel);
             }
             listVisualization.add(myVis);
         }
@@ -509,24 +515,79 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         Dataset dataset = listDataset.get(idDs);
+
+
         // header existe t il deja ?
         DataHeader header = dataset.getDataHeader(colIndex);
         if(header == null){
             // header n'existe pas : on le cree
             dataset.setDataHeader(new DataHeader(idDataHeader++, title, unit, colIndex), colIndex);
         }else{
+            // controle des unites par rapport / graphes existants
+            CopexReturn cr = controlGraphUnit(dataset, colIndex, unit);
+            if(cr.isError())
+                return cr;
             // header existe => on le modifie
             header.setValue(title);
             header.setUnit(unit);
             dataset.setDataHeader(header, header.getNoCol());
         }
-
+        // mies a jour vis
+        for(Iterator<Visualization> vis = dataset.getListVisualization().iterator();vis.hasNext();){
+            Visualization visu = vis.next();
+            if(visu instanceof Graph){
+                ArrayList<PlotXY> plots = ((Graph)visu).getParamGraph().getPlots();
+                for(Iterator<PlotXY> p = plots.iterator(); p.hasNext();){
+                    PlotXY plot = p.next();
+                    if(plot.getHeaderX().getNoCol() == colIndex){
+                        plot.getHeaderX().setValue(title);
+                        plot.getHeaderX().setUnit(unit);
+                    }else if (plot.getHeaderY().getNoCol() == colIndex){
+                        plot.getHeaderY().setValue(title);
+                        plot.getHeaderY().setUnit(unit);
+                    }
+                }
+            }
+        }
         // en v[0] : le nouveau dataset
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn();
     }
 
+    /* control de la coherence des axes / unite lors d'un chamgenet d'unite */
+    private CopexReturn controlGraphUnit(Dataset dataset, int colIndex, String unit){
+        for(Iterator<Visualization> vis = dataset.getListVisualization().iterator();vis.hasNext();){
+            Visualization visu = vis.next();
+            if(visu instanceof Graph){
+                if(((Graph)visu).isOnNo(colIndex)){
+                    String unitX = ((Graph)visu).getParamGraph().getPlot1().getHeaderX().getUnit();
+                    String unitY = ((Graph)visu).getParamGraph().getPlot1().getHeaderY().getUnit();
+                    if(((Graph)visu).getParamGraph().getPlot1().getHeaderX().getNoCol() == colIndex){
+                        unitX = unit;
+                    }else if(((Graph)visu).getParamGraph().getPlot1().getHeaderY().getNoCol() == colIndex){
+                        unitY = unit;
+                    }
+                    ArrayList<PlotXY> plots = ((Graph)visu).getParamGraph().getPlots();
+                    int nbP = plots.size();
+                    for (int i=1; i<nbP; i++){
+                        PlotXY plot = plots.get(i);
+                        String ux = plot.getHeaderX().getUnit();
+                        String uy = plot.getHeaderY().getUnit();
+                        if(plot.getHeaderX().getNoCol() == colIndex){
+                            ux = unit;
+                        }else if(plot.getHeaderY().getNoCol() == colIndex){
+                            uy = unit;
+                        }
+                        if(!ux.equals(unitX) || !uy.equals(unitY)){
+                            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_AXIS_COHERENCE"), false);
+                        }
+                    }
+                }
+            }
+        }
+        return new CopexReturn();
+    }
     /* mise a jour d'une valeur : titre operation */
     @Override
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v){
@@ -585,6 +646,7 @@ public class DataController implements ControllerInterface{
             }
         }
         // en v[0] : le nouveau dataset
+        //System.out.println("dataset apres updateData : "+dataset.toString());
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn();
@@ -648,6 +710,11 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         Dataset dataset = listDataset.get(idDs);
+        if(vis instanceof Graph){
+            CopexReturn cr = controlAxis(((Graph)vis).getParamGraph());
+            if(cr.isError())
+                return cr;
+        }
         if (vis instanceof Graph && findAxisParam){
            ArrayList v2 = new ArrayList();
            CopexReturn cr = findAxisParam(ds, ((Graph)vis), v2);
@@ -667,6 +734,36 @@ public class DataController implements ControllerInterface{
         return new CopexReturn();
     }
 
+
+    private CopexReturn controlAxis(ParamGraph pg){
+        String unitX = pg.getPlot1().getHeaderX().getUnit();
+        String unitY = pg.getPlot1().getHeaderY().getUnit();
+        int nbP = pg.getPlots().size();
+        for (int i=1; i<nbP; i++){
+            PlotXY plot = pg.getPlots().get(i);
+            if(!plot.getHeaderX().getUnit().equals(unitX)){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UNIT_X"), false);
+            }
+            if(!plot.getHeaderY().getUnit().equals(unitY)){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UNIT_Y"), false);
+            }
+        }
+        // recherche de 2 plots identiques
+        boolean samePlot = false;
+        for(int i=0; i<nbP;i++ ){
+            PlotXY plot = pg.getPlots().get(i);
+            for(int j=i+1; j<nbP; j++){
+                if(plot.getHeaderX().getNoCol() == pg.getPlots().get(j).getHeaderX().getNoCol() &&
+                            plot.getHeaderY().getNoCol() == pg.getPlots().get(j).getHeaderY().getNoCol()){
+                    samePlot = true;
+                    break;
+                }
+            }
+        }
+        if(samePlot)
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_SAME_PLOT"), false);
+        return new CopexReturn();
+    }
     /* update nom graphe */
     @Override
     public CopexReturn updateVisualizationName(Dataset ds, Visualization vis, String newName){
@@ -694,26 +791,20 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         listDataset.remove(idDs);
+        listNoDefaultCol.remove(idDs);
         return new CopexReturn();
     }
 
-
     /* suppression de donnees et/ou operation sur un dataset */
     @Override
-    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v){
+    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData,  ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol,ArrayList<DataOperation> listOperation,  ArrayList v){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         Dataset dataset = listDataset.get(idDs);
-        // suppression des operations
-        int nbOp = listOperation.size();
-        for (int i=0; i<nbOp; i++){
-            DataOperation op = listOperation.get(i);
-            dataset.removeOperation(op);
-        }
-        int nbRowsSel = listRowAndCol[0].size();
-        int nbColsSel = listRowAndCol[1].size();
+        int nbRowsSel = listNoDataRow.size();
+        int nbColsSel = listNoDataCol.size();
         // suppression de donnees :
         // si toutes les colonnes ou toutes les lignes sont sel : on supprime tout le dataset apres confirmation
         boolean allData = nbRowsSel == dataset.getNbRows() || nbColsSel == dataset.getNbCol();
@@ -723,7 +814,7 @@ public class DataController implements ControllerInterface{
                 CopexReturn cr = deleteDataset(dataset);
                 if (cr.isError())
                     return cr;
-                //dataToolPanel.removeDataset(ds);
+                dataToolPanel.deleteDataset(ds);
             }else{
                 CopexReturn cr = new CopexReturn(dataToolPanel.getBundleString("MSG_CONFIRM_DELETE_DATASET"), true);
                 cr.setConfirm(dataToolPanel.getBundleString("MSG_CONFIRM_DELETE_DATASET"), true);
@@ -731,109 +822,186 @@ public class DataController implements ControllerInterface{
             }
         }else{
             //suppression d'une partie des donnees
-            // si il y a des colonnes / lignes entieres => on supprime eventuellement les operations sur ces colonnes ou les visualization sur ces colonnes
-            //ArrayList<DataHeader> listDataHeader = new ArrayList();
-            ArrayList<Integer> listNoHeader = new ArrayList();
-            ArrayList listNoToDel = new ArrayList();
-            ArrayList<DataOperation> listOperationToDel = new ArrayList();
-            ArrayList<Visualization> listVisualizationToDel = new ArrayList();
-            if(nbColsSel > 0){
-                // suppression header
-                for (int i=0; i<nbColsSel; i++){
-                    //listDataHeader.add(myDs.getDataHeader(listRowAndCol[1].get(i)));
-                    listNoHeader.add(listRowAndCol[1].get(i)) ;
-                }
+            // suppression des operations
+            int nbOp = listOperation.size();
+            for (int i=0; i<nbOp; i++){
+                DataOperation op = listOperation.get(i);
+                dataset.removeOperation(op);
             }
-            if (nbRowsSel > 0 || nbColsSel > 0){
-                // on supprime les operations liees a ces colonnes ou ces lignes
-                // puis on supprime les operations qui ne portent plus sur aucune colonne ou ligne
-                ArrayList<DataOperation> myListOp = dataset.getListOperation();
-                int nbTotOp = myListOp.size();
-                ArrayList<DataOperation> copyListOp = new ArrayList();
-                for (int i=0; i<nbTotOp; i++){
-                    copyListOp.add((DataOperation)myListOp.get(i).clone());
-                }
-                for (int i=0; i<nbRowsSel; i++){
-                    for (int j=0; j<nbTotOp; j++){
-                        if (!myListOp.get(j).isOnCol() && myListOp.get(j).getListNo().contains(listRowAndCol[0].get(i))){
-                            ArrayList toDel = new ArrayList();
-                            toDel.add(myListOp.get(j).getDbKey());
-                            toDel.add(listRowAndCol[0].get(i));
-                            listNoToDel.add(toDel);
-                            copyListOp.get(j).getListNo().remove(listRowAndCol[0].get(i));
-                        }
-                    }
-                }
-                for (int i=0; i<nbColsSel; i++){
-                    for (int j=0; j<nbTotOp; j++){
-                        if (myListOp.get(j).isOnCol() && myListOp.get(j).getListNo().contains(listRowAndCol[1].get(i))){
-                            ArrayList toDel = new ArrayList();
-                            toDel.add(myListOp.get(j).getDbKey());
-                            toDel.add(listRowAndCol[1].get(i));
-                            listNoToDel.add(toDel);
-                            copyListOp.get(j).getListNo().remove(listRowAndCol[1].get(i));
-                        }
-                    }
-                }
-                
-                // si des operations ne portent plus sur rien on les supprime
-                for (int i=0; i<nbTotOp; i++){
-                    if (copyListOp.get(i).getListNo().size() == 0){
-                        listOperationToDel.add(copyListOp.get(i));
-                    }
-                }
-                // visualization : si porte sur la ligne ou la colonne => suppression
-                ArrayList<Visualization> myListVis = dataset.getListVisualization();
-                int nbTotVis = myListVis.size();
-                for (int i=0; i<nbRowsSel; i++){
-                    for (int j=0; j<nbTotVis; j++){
-                        if (!myListVis.get(j).isOnCol() && myListVis.get(j).isOnNo(listRowAndCol[0].get(i))){
-                            listVisualizationToDel.add(myListVis.get(j));
-                        }
-                    }
-                }
-                for (int i=0; i<nbColsSel; i++){
-                    for (int j=0; j<nbTotVis; j++){
-                        if (myListVis.get(j).isOnCol() && myListVis.get(j).isOnNo(listRowAndCol[1].get(i))){
-                            listVisualizationToDel.add(myListVis.get(j));
-                        }
-                    }
-                }
-
+            //suppression des lignes :
+            ArrayList[] tabDel = dataset.removeRows(listNoDataRow);
+            // supression des colonnes
+            ArrayList[] tabDel2 = dataset.removeCols(listNoDataCol);
+            ArrayList<DataOperation> listOpToDel = (ArrayList<DataOperation>)tabDel[1];
+            ArrayList<Visualization> listVisToDel = (ArrayList<Visualization>)tabDel[3];
+            ArrayList<DataOperation> listOpToUpdate = (ArrayList<DataOperation>)tabDel[0];
+            ArrayList<Visualization> listVisToUpdate = (ArrayList<Visualization>)tabDel[2];
+            for(Iterator<DataOperation> o = ((ArrayList<DataOperation>)tabDel2[0]).iterator();o.hasNext();){
+                listOpToUpdate.add(o.next());
             }
-            // suppression des donnees
-            // mise a jour en memoire et appel de l'applet
-            //remove listDataHeader
-           /*for (int i=0; i<listDataHeader.size(); i++){
-                myDs.removeHeader(listDataHeader.get(i));
-            }*/
-            for (int i=0; i<listNoHeader.size(); i++){
-                dataset.removeHeader(listNoHeader.get(i));
+            for(Iterator<DataOperation> o = ((ArrayList<DataOperation>)tabDel2[1]).iterator();o.hasNext();){
+                listOpToDel.add(o.next());
             }
-            //remove listNoToDel
-            for (int i=0; i<listNoToDel.size(); i++){
-                long dbKeyOp = (Long)((ArrayList)listNoToDel.get(i)).get(0);
-                int no = (Integer)((ArrayList)listNoToDel.get(i)).get(1);
-                dataset.removeNoOperation(dbKeyOp, no);
+            for(Iterator<Visualization> o = ((ArrayList<Visualization>)tabDel2[2]).iterator();o.hasNext();){
+                listVisToUpdate.add(o.next());
             }
-            //remove listOperationToDel
-            for(int i=0; i<listOperationToDel.size(); i++){
-                dataset.removeOperation(listOperationToDel.get(i));
+            for(Iterator<Visualization> o = ((ArrayList<Visualization>)tabDel2[3]).iterator();o.hasNext();){
+                listVisToDel.add(o.next());
             }
-             //remove listVisualizationToDel
-            for(int i=0; i<listVisualizationToDel.size(); i++){
-                dataset.removeVisualization(listVisualizationToDel.get(i));
-            }
-            //remove data
-            dataset.removeData(listRowAndCol);
+            tabDel[0] = listOpToUpdate;
+            tabDel[1] = listOpToDel;
+            tabDel[2] = listVisToUpdate;
+            tabDel[3] = listVisToDel;
+            // suprresion des données
+            dataset.removeData(listData);
             dataset.calculateOperation();
-            // appel applet
+            //System.out.println("dataset apres remove : "+dataset.toString());
             listDataset.set(idDs, dataset);
             v.add((Dataset)dataset.clone());
+            v.add(tabDel);
         }
         return new CopexReturn();
 
     }
+
+    /* suppression de donnees et/ou operation sur un dataset */
+//    @Override
+//    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v){
+//        ArrayList<Visualization> listVisualizationToDel = new ArrayList();
+//        int idDs = getIdDataset(ds.getDbKey());
+//        if(idDs == -1){
+//            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+//        }
+//        Dataset dataset = listDataset.get(idDs);
+//        // suppression des operations
+//        int nbOp = listOperation.size();
+//        for (int i=0; i<nbOp; i++){
+//            DataOperation op = listOperation.get(i);
+//            dataset.removeOperation(op);
+//        }
+//        int nbRowsSel = listRowAndCol[0].size();
+//        int nbColsSel = listRowAndCol[1].size();
+//        // suppression de donnees :
+//        // si toutes les colonnes ou toutes les lignes sont sel : on supprime tout le dataset apres confirmation
+//        boolean allData = nbRowsSel == dataset.getNbRows() || nbColsSel == dataset.getNbCol();
+//        if (allData){
+//            if (confirm){
+//                // suppression du dataset
+//                CopexReturn cr = deleteDataset(dataset);
+//                if (cr.isError())
+//                    return cr;
+//                //dataToolPanel.removeDataset(ds);
+//            }else{
+//                CopexReturn cr = new CopexReturn(dataToolPanel.getBundleString("MSG_CONFIRM_DELETE_DATASET"), true);
+//                cr.setConfirm(dataToolPanel.getBundleString("MSG_CONFIRM_DELETE_DATASET"), true);
+//                return cr;
+//            }
+//        }else{
+//            //suppression d'une partie des donnees
+//            // si il y a des colonnes / lignes entieres => on supprime eventuellement les operations sur ces colonnes ou les visualization sur ces colonnes
+//            //ArrayList<DataHeader> listDataHeader = new ArrayList();
+//            ArrayList<Integer> listNoHeader = new ArrayList();
+//            ArrayList listNoToDel = new ArrayList();
+//            ArrayList<DataOperation> listOperationToDel = new ArrayList();
+//            if(nbColsSel > 0){
+//                // suppression header
+//                for (int i=0; i<nbColsSel; i++){
+//                    //listDataHeader.add(myDs.getDataHeader(listRowAndCol[1].get(i)));
+//                    int id = listNoHeader.size();
+//                    for(int j=0; j<listNoHeader.size(); j++){
+//                        if(listNoHeader.get(j)> listRowAndCol[1].get(i)){
+//                            id = j;
+//                            break;
+//                        }
+//                    }
+//                    listNoHeader.add(id,listRowAndCol[1].get(i)) ;
+//                }
+//            }
+//            if (nbRowsSel > 0 || nbColsSel > 0){
+//                // on supprime les operations liees a ces colonnes ou ces lignes
+//                // puis on supprime les operations qui ne portent plus sur aucune colonne ou ligne
+//                ArrayList<DataOperation> myListOp = dataset.getListOperation();
+//                int nbTotOp = myListOp.size();
+//                ArrayList<DataOperation> copyListOp = new ArrayList();
+//                for (int i=0; i<nbTotOp; i++){
+//                    copyListOp.add((DataOperation)myListOp.get(i).clone());
+//                }
+//                for (int i=0; i<nbRowsSel; i++){
+//                    for (int j=0; j<nbTotOp; j++){
+//                        if (!myListOp.get(j).isOnCol() && myListOp.get(j).getListNo().contains(listRowAndCol[0].get(i))){
+//                            ArrayList toDel = new ArrayList();
+//                            toDel.add(myListOp.get(j).getDbKey());
+//                            toDel.add(listRowAndCol[0].get(i));
+//                            listNoToDel.add(toDel);
+//                            copyListOp.get(j).getListNo().remove(listRowAndCol[0].get(i));
+//                        }
+//                    }
+//                }
+//                for (int i=0; i<nbColsSel; i++){
+//                    for (int j=0; j<nbTotOp; j++){
+//                        if (myListOp.get(j).isOnCol() && myListOp.get(j).getListNo().contains(listRowAndCol[1].get(i))){
+//                            ArrayList toDel = new ArrayList();
+//                            toDel.add(myListOp.get(j).getDbKey());
+//                            toDel.add(listRowAndCol[1].get(i));
+//                            listNoToDel.add(toDel);
+//                            copyListOp.get(j).getListNo().remove(listRowAndCol[1].get(i));
+//                        }
+//                    }
+//                }
+//
+//                // si des operations ne portent plus sur rien on les supprime
+//                for (int i=0; i<nbTotOp; i++){
+//                    if (copyListOp.get(i).getListNo().size() == 0){
+//                        listOperationToDel.add(copyListOp.get(i));
+//                    }
+//                }
+//                // visualization : si porte sur la ligne ou la colonne => suppression
+//                ArrayList<Visualization> myListVis = dataset.getListVisualization();
+//                int nbTotVis = myListVis.size();
+//                for (int i=0; i<nbColsSel; i++){
+//                    for (int j=0; j<nbTotVis; j++){
+//                        if (myListVis.get(j).isOnNo(listRowAndCol[1].get(i))){
+//                            listVisualizationToDel.add(myListVis.get(j));
+//                        }
+//                    }
+//                }
+//
+//            }
+//            // suppression des donnees
+//            // mise a jour en memoire et appel de l'applet
+//            //remove listDataHeader
+//           /*for (int i=0; i<listDataHeader.size(); i++){
+//                myDs.removeHeader(listDataHeader.get(i));
+//            }*/
+//            int nbH = listNoHeader.size();
+//            for (int i=nbH-1; i>=0; i--){
+//                dataset.removeHeader(listNoHeader.get(i));
+//            }
+//            //remove listNoToDel
+//            for (int i=0; i<listNoToDel.size(); i++){
+//                long dbKeyOp = (Long)((ArrayList)listNoToDel.get(i)).get(0);
+//                int no = (Integer)((ArrayList)listNoToDel.get(i)).get(1);
+//                dataset.removeNoOperation(dbKeyOp, no);
+//            }
+//            //remove listOperationToDel
+//            for(int i=0; i<listOperationToDel.size(); i++){
+//                dataset.removeOperation(listOperationToDel.get(i));
+//            }
+//             //remove listVisualizationToDel
+////            for(int i=0; i<listVisualizationToDel.size(); i++){
+////                dataset.removeVisualization(listVisualizationToDel.get(i));
+////            }
+//            //remove data
+//            dataset.removeData(listRowAndCol);
+//            dataset.calculateOperation();
+//            // appel applet
+//            listDataset.set(idDs, dataset);
+//            v.add((Dataset)dataset.clone());
+//            v.add(listVisualizationToDel);
+//        }
+//        return new CopexReturn();
+//
+//    }
 
     @Override
     public Element getPDS(Dataset ds){
@@ -888,13 +1056,23 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         Dataset dataset = listDataset.get(idDs);
-        if (isOnCol)
+        if (isOnCol){
             dataset.insertCol(nb, idBefore);
+            for(int j=0; j<nb; j++){
+                ArrayList v2 = new ArrayList();
+                int no = listNoDefaultCol.get(idDs);
+                CopexReturn cr= updateDataHeader(ds, idBefore+j, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+" "+(no+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), v2);
+                if(cr.isError())
+                    return cr;
+                listNoDefaultCol.set(idDs, no+1);
+            }
+        }
         else
             dataset.insertRow(nb, idBefore);
 
         v.add(dataset.clone());
         listDataset.set(idDs, dataset);
+        //System.out.println("dataset apres insertData : "+dataset.toString());
         return new CopexReturn();
     }
 
@@ -955,6 +1133,7 @@ public class DataController implements ControllerInterface{
         // creation ds
         Dataset ds = new Dataset(idDataSet++, name, nbCol, nbRows, tabHeader,  data, listOp, listVis);
         listDataset.add(ds);
+        listNoDefaultCol.add(1);
         v.add(ds.clone());
         return new CopexReturn();
     }
@@ -1005,6 +1184,9 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
         Visualization vis = dataset.getListVisualization().get(idVis);
         if (vis instanceof Graph){
+            CopexReturn cr = controlAxis(paramGraph);
+            if(cr.isError())
+                return cr;
             ((Graph)vis).setParamGraph(paramGraph);
 //            if (paramGraph.isAutoscale()){
 //                ArrayList v2 = new ArrayList();
@@ -1023,14 +1205,15 @@ public class DataController implements ControllerInterface{
 
     /*recherche des axes */
     private CopexReturn findAxisParam(Dataset ds, Graph vis, ArrayList v){
-        int[] tabNo = vis.getTabNo();
         ArrayList<Double> listX = new ArrayList();
         ArrayList<Double> listY = new ArrayList();
-        if (vis.isOnCol()){
+        ArrayList<PlotXY> plots = vis.getParamGraph().getPlots();
+        for(Iterator<PlotXY> p = plots.iterator();p.hasNext();){
+            PlotXY plot = p.next();
             for (int i=0; i<ds.getNbRows(); i++){
-                if(ds.getData(i, tabNo[0]) != null && ds.getData(i, tabNo[1]) != null ){
-                    listX.add(ds.getData(i, tabNo[0]).getValue());
-                    listY.add(ds.getData(i, tabNo[1]).getValue());
+                if(ds.getData(i, plot.getHeaderX().getNoCol()) != null && ds.getData(i, plot.getHeaderY().getNoCol()) != null ){
+                    listX.add(ds.getData(i, plot.getHeaderX().getNoCol()).getValue());
+                    listY.add(ds.getData(i, plot.getHeaderY().getNoCol()).getValue());
                 }
             }
         }
@@ -1064,7 +1247,7 @@ public class DataController implements ControllerInterface{
                 deltaX = 0.0001;
             if(deltaY == 0)
                 deltaY = 0.0001;
-            pg = new ParamGraph(vis.getParamGraph().getHeaderX(), vis.getParamGraph().getHeaderY(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
+            pg = new ParamGraph(vis.getParamGraph().getPlots(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
         }
         v.add(pg);
         return new CopexReturn();
@@ -1151,16 +1334,19 @@ public class DataController implements ControllerInterface{
         int nVis = listVis.size();
         for (int i=0; i<nVis; i++){
             Visualization vis = listVis.get(i);
-            int[] tabNo = new int[vis.getTabNo().length];
-            for (int j=0; j<vis.getTabNo().length; j++){
-                tabNo[j] = vis.getTabNo()[j]+nbCols1 ;
-            }
-            if (vis instanceof Graph ){
-                Graph g = new Graph(idVisualization++, vis.getName(), vis.getType(), tabNo, vis.isOnCol(), ((Graph)vis).getParamGraph(),((Graph)vis).getListFunctionModel() );
-                dataset.addVisualization(g);
-            }else{
-                Visualization v = new Visualization(idVisualization++, vis.getName(), vis.getType(), tabNo, vis.isOnCol());
+            if(vis instanceof SimpleVisualization){
+                int noCol = ((SimpleVisualization)vis).getNoCol()+nbCols1;
+                SimpleVisualization v = new SimpleVisualization(idVisualization++, vis.getName(), vis.getType(),noCol);
                 dataset.addVisualization(v);
+            }else if(vis instanceof Graph){
+                ArrayList<PlotXY> listPlots = new ArrayList();
+                for (Iterator<PlotXY> p = ((Graph)vis).getParamGraph().getPlots().iterator();p.hasNext();){
+                    PlotXY plot = p.next();
+                    listPlots.add(new PlotXY(dataset.getDataHeader(plot.getHeaderX().getNoCol()+nbCols1), dataset.getDataHeader(plot.getHeaderY().getNoCol()+nbCols1)));
+                }
+                ParamGraph pg = new ParamGraph(listPlots, ((Graph)vis).getParamGraph().getX_min(),((Graph)vis).getParamGraph().getX_max(), ((Graph)vis).getParamGraph().getX_min(), ((Graph)vis).getParamGraph().getY_max(), ((Graph)vis).getParamGraph().getDeltaX(), ((Graph)vis).getParamGraph().getDeltaY(), ((Graph)vis).getParamGraph().isAutoscale());
+                Graph g = new Graph(idVisualization++, vis.getName(), vis.getType(),pg,((Graph)vis).getListFunctionModel());
+                dataset.addVisualization(g);
             }
         }
         //mise a jour graphique
@@ -1432,6 +1618,26 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         this.listDataset.remove(id);
+        this.listNoDefaultCol.remove(id);
+        return new CopexReturn();
+    }
+
+    /* maj d'une operation */
+    @Override
+    public CopexReturn updateOperation(Dataset ds, DataOperation operation , ArrayList v){
+        int id = getIdDataset(ds.getDbKey());
+        if(id == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = this.listDataset.get(id);
+        int idOp = dataset.getIdOperation(operation.getDbKey());
+        if(idOp == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        DataOperation myOp = dataset.getListOperation().get(idOp);
+        myOp.setListNo(operation.getListNo());
+        dataset.calculateOperation();
+        v.add(dataset.clone());
         return new CopexReturn();
     }
 }
