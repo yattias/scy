@@ -5,16 +5,13 @@ import eu.scy.tools.copex.edp.CopexTree;
 import eu.scy.tools.copex.edp.MyWhiteBoardPanel;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FocusTraversalPolicy;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -236,10 +233,11 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             icon.setIcon(evaluationIcon);
         
         // labelNode :
-        String txtLabel = ((CopexTree)tree).getIntituleValue(value, true);
+        String txtLabel = ((CopexTree)tree).getIntituleValue(value);
         labelNode.setText(txtLabel);
         labelNode.setSize(CopexUtilities.lenghtOfString(labelNode.getText(), labelNode.getFontMetrics(labelNode.getFont())), 14);
         labelNode.setBounds(0, 5, labelNode.getWidth(), labelNode.getHeight());
+        labelNode.setForeground(CopexTreeCellRenderer.TITLE_NODE_COLOR);
         if(txtLabel.equals("")){
             labelNode.setSize(0,0);
             labelNode.setBounds(0,0,0,0);

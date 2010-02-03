@@ -12,6 +12,7 @@ import java.awt.Point;
 import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.util.Locale;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -21,6 +22,8 @@ import javax.swing.tree.TreePath;
  * @author MBO
  */
 public class TreeTransferHandler extends TransferHandler {
+    private boolean debug = false;
+
 
     /* type d'actions supportees */
     @Override
@@ -70,26 +73,43 @@ public class TreeTransferHandler extends TransferHandler {
                         boolean markNode = (Boolean)v.get(1);
                         // si le noeud insertion appartient au sous arbre => on refuse le drag and drop
                         if (subTreeToMove.containNode(insertNode)){
+                            if(debug)
+                                System.out.println("containNode");
                             return false;
                         }
                         if (subTreeToMove.isQuestion() && !insertNode.isQuestion()){
+                            if(debug)
+                                System.out.println("is question");
                             return false;
                         }
                         boolean nodeCanBeParent = (insertNode.isManipulation() &&subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT  ) ||
                                 (!insertNode.isManipulation() && insertNode.canBeParent());
+                        if(debug)
+                            System.out.println("nodeCanBeParent : "+nodeCanBeParent);
                         boolean parentNodeCanBeParent = insertNode.getParent() != null &&
                             ( ((CopexNode)insertNode.getParent()).isManipulation() && subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT)
                             || (! ((CopexNode)insertNode.getParent()).isManipulation() && ((CopexNode)insertNode.getParent()).canBeParent());
+                        if(debug)
+                            System.out.println("parentNodeCanBeParent : "+parentNodeCanBeParent);
                         // si le noeud d'insertion ne peut avoir d'enfants => on refuse
                         //if ((! brother && !insertNode.canBeParent() ) || (brother && insertNode.getParent() != null && !((CopexNode)insertNode.getParent()).canBeParent()))
-                        if((!brother && !nodeCanBeParent) || (brother && !parentNodeCanBeParent))
+                        if((!brother && !nodeCanBeParent) || (brother && !parentNodeCanBeParent)){
+                            if(debug)
+                                System.out.println("pbl parent");
                             return false;
+                        }
                         // si on deplace des taches qui contiennent des materials produits apres => on refuse
-                        if (isProblemWithMaterialProd(insertNode, subTreeToMove))
+                        if (isProblemWithMaterialProd(insertNode, subTreeToMove)){
+                            if(debug)
+                                System.out.println("pbl with material");
                             return false;
+                        }
                         // si on deplace des taches qui contiennent des data produits apres => on refuse
-                        if (isProblemWithDataProd(insertNode, subTreeToMove))
+                        if (isProblemWithDataProd(insertNode, subTreeToMove)){
+                            if(debug)
+                                System.out.println("pbl with data");
                             return false;
+                        }
                         // on entoure le noeud parent, uniquement lorsqu'on met la tache dans une action
                         subTreeToMove.getOwner().refreshMouseOver();
                         /*if(brother){
@@ -140,80 +160,112 @@ public class TreeTransferHandler extends TransferHandler {
         CopexNode insertNode = null;
         TreePath tp = dropLocation.getPath();
         Point point = dropLocation.getDropPoint();
-        // tp est en fait le parent ou il faut inserer => recherche index ou inserer 
+        // tp est en fait le parent ou il faut inserer => recherche index ou inserer
         int id = dropLocation.getChildIndex();
         // Attention id =0 peut signifier qu'on insere en tant que frere ou en tant que premier enfant
         CopexNode node = (CopexNode)tp.getLastPathComponent();
         insertNode = node;
-        if (id  > 0)
-            insertNode = (CopexNode)node.getChildAt(id-1);
-        //System.out.println("*****insertNode : "+insertNode.getDebug(tree.getLocale()));
-        TreePath path = tree.getPathForLocation((int)point.getX(), (int)point.getY());
-        boolean markNode = false;
-//        if (path != null){
-//            CopexTreeNode realNode = (CopexTreeNode)path.getLastPathComponent();
-//            System.out.println("realNode : "+realNode.getTask().getDescription());
-//            // cas d'ajout en fin d'une etape / ss question
-//            if (!insertNode.isAction() && insertNode.getChildCount() > 0 && insertNode.getChildAt(insertNode.getChildCount() -1).equals(realNode)){
-//                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
+//        if (id  > 0)
+//            insertNode = (CopexNode)node.getChildAt(id-1);
+//        if(debug)
+//            System.out.println("*****insertNode : "+insertNode.getDebug(tree.getLocale()));
+//        TreePath path = tree.getPathForLocation((int)point.getX(), (int)point.getY());
+//        boolean markNode = false;
+////        if (path != null){
+////            CopexTreeNode realNode = (CopexTreeNode)path.getLastPathComponent();
+////            System.out.println("realNode : "+realNode.getTask().getDescription());
+////            // cas d'ajout en fin d'une etape / ss question
+////            if (!insertNode.isAction() && insertNode.getChildCount() > 0 && insertNode.getChildAt(insertNode.getChildCount() -1).equals(realNode)){
+////                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
+////                brother = true;
+////            }
+////            //cas drag and drop sur dossier => ajoute a la fin
+////            if (!insertNode.isAction() && realNode.equals(insertNode) && insertNode.getChildCount() > 0){
+////                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
+////                brother = true;
+////                markNode = true;
+////            }
+////            if(!insertNode.isAction() && !realNode.isAction() && insertNode.getTask().getDbKeyBrother() == realNode.getTask().getDbKey() && realNode.getChildCount() == 0){
+////                insertNode = realNode;
+////                brother = false;
+////            }
+////            // cas de l'insertion entre 2 freres etapes
+////            CopexTreeNode parent = (CopexTreeNode)insertNode.getParent();
+////            if (!insertNode.isAction() && parent != null && parent.getChildAfter(insertNode) != null && parent.getChildAfter(insertNode).equals(realNode))
+////                brother = true;
+////
+////        }else{
+////                //System.out.println("path null");
+////                if (!insertNode.isAction())
+////                    brother = true;
+////
+////        }
+//         if(insertNode.isAction()){
+//             brother = true;
+//         }else{
+//            if (path == null){
 //                brother = true;
-//            }
-//            //cas drag and drop sur dossier => ajoute a la fin
-//            if (!insertNode.isAction() && realNode.equals(insertNode) && insertNode.getChildCount() > 0){
-//                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
-//                brother = true;
-//                markNode = true;
-//            }
-//            if(!insertNode.isAction() && !realNode.isAction() && insertNode.getTask().getDbKeyBrother() == realNode.getTask().getDbKey() && realNode.getChildCount() == 0){
-//                insertNode = realNode;
-//                brother = false;
-//            }
-//            // cas de l'insertion entre 2 freres etapes
-//            CopexTreeNode parent = (CopexTreeNode)insertNode.getParent();
-//            if (!insertNode.isAction() && parent != null && parent.getChildAfter(insertNode) != null && parent.getChildAfter(insertNode).equals(realNode))
-//                brother = true;
+//            }else{
+//                CopexNode realNode = (CopexNode)path.getLastPathComponent();
+//                if(debug)
+//                    System.out.println("realNode : "+realNode.getDebug(tree.getLocale()));
+//                // si node =realNode => sur dossier => a la fin de node
+//                if(realNode.equals(insertNode)){
+//                    if(insertNode.getChildCount() != 0){
+//                        insertNode = (CopexNode)insertNode.getChildAt(insertNode.getChildCount() -1);
+//                        brother = true;
+//                        markNode = true;
+//                    }
+//                }
+//                // si realNode = 1° enfant de node => position 0
+//                else if (insertNode.getChildCount() > 0 && insertNode.getChildAt(0).equals(realNode)){
 //
-//        }else{
-//                //System.out.println("path null");
-//                if (!insertNode.isAction())
+//                }
+//                // si realnode = dernier enfant => frere de node
+//                else if (insertNode.getChildCount() > 0 && insertNode.getChildAt(insertNode.getChildCount()-1).equals(realNode)){
 //                    brother = true;
-//
-//        }
-         if(insertNode.isAction()){
-             brother = true;
-         }else{
-            if (path == null){
-                brother = true;
+//                }
+//                // si realNode = frere de node => frere de node
+//                else if (insertNode.getTask() != null && realNode.getTask() != null && insertNode.getTask().getDbKeyBrother() == realNode.getTask().getDbKey()){
+//                    brother = true;
+//                }
+//            }
+//         }
+//          //System.out.println("brother : "+brother);
+//          v.add(brother);
+//          v.add(markNode);
+//          if(debug)
+//            System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
+//          return insertNode;
+        boolean markNode = false;
+        if(id==-1 || id > insertNode.getChildCount()){
+            id = insertNode.getChildCount();
+            if(id==0){
+                markNode = true;
             }else{
-                CopexNode realNode = (CopexNode)path.getLastPathComponent();
-                //System.out.println("realNode : "+realNode.getDebug(tree.getLocale()));
-                // si node =realNode => sur dossier => a la fin de node
-                if(realNode.equals(insertNode)){
-                    if(insertNode.getChildCount() != 0){
-                        insertNode = (CopexNode)insertNode.getChildAt(insertNode.getChildCount() -1);
-                        brother = true;
-                        markNode = true;
-                    }
-                }
-                // si realNode = 1° enfant de node => position 0
-                else if (insertNode.getChildCount() > 0 && insertNode.getChildAt(0).equals(realNode)){
-
-                }
-                // si realnode = dernier enfant => frere de node
-                else if (insertNode.getChildCount() > 0 && insertNode.getChildAt(insertNode.getChildCount()-1).equals(realNode)){
-                    brother = true;
-                }
-                // si realNode = frere de node => frere de node
-                else if (insertNode.getTask() != null && realNode.getTask() != null && insertNode.getTask().getDbKeyBrother() == realNode.getTask().getDbKey()){
-                    brother = true;
-                }
+                insertNode = (CopexNode)node.getChildAt(id-1);
+                brother = true;
             }
-         }
-          //System.out.println("brother : "+brother);
-          v.add(brother);
-          v.add(markNode);
-          //System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
-          return insertNode;     
+
+        }else if(id == 0){
+            brother = false;
+        }else{
+            insertNode = (CopexNode)node.getChildAt(id-1);
+            brother = true;
+        }
+        if(insertNode.isManipulation() || insertNode.isQuestion() && brother){
+            if(insertNode.getChildCount() == 0){
+                brother = false;
+            }else{
+                insertNode = (CopexNode)insertNode.getChildAt(insertNode.getChildCount()-1);
+            }
+        }
+
+        v.add(brother);
+        v.add(markNode);
+        //System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
+        return insertNode;
+
     }
     
     @Override

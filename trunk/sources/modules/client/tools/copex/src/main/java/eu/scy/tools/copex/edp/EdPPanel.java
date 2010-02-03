@@ -1486,7 +1486,7 @@ public class EdPPanel extends JPanel {
          scrollPaneTree.getVerticalScrollBar().setValue(value);
          if(openQuestion){
              copexTree.setQuestionEditor();
-             //openQuestion = false;
+             openQuestion = false;
          }
      }
 

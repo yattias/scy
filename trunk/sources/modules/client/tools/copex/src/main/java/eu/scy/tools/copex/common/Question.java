@@ -56,6 +56,8 @@ public class Question extends CopexTask implements Cloneable{
 
     public Question(Element xmlElem, long idTask) throws JDOMException {
         super(xmlElem);
+        this.dbKeyBrother = -1;
+        this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_QUESTION)) {
 			dbKey = idTask;
             setRoot(true);

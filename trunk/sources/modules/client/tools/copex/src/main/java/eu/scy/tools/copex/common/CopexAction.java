@@ -48,6 +48,8 @@ public class CopexAction extends CopexTask implements Cloneable {
     }
     public CopexAction(Element xmlElem, long idTask, long idRepeat, long idParam, long idValue, long idActionParam, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, List<InitialParamData> listInitialParamData, List<InitialParamMaterial> listInitialParamMaterial, List<InitialParamQuantity> listInitialParamQuantity, List<InitialAcquisitionOutput> listInitialAcquisitionOutput, List<InitialManipulationOutput> listInitialManipulationOutput, List<InitialTreatmentOutput> listInitialTreatmentOutput, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
         super(xmlElem);
+        this.dbKeyBrother = -1;
+        this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION)) {
 			dbKey = idTask;
             listName = new LinkedList<LocalText>();
