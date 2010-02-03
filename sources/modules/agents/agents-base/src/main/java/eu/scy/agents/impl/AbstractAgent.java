@@ -16,6 +16,7 @@ public abstract class AbstractAgent implements IAgent {
 	private static final String DEFAULT_HOST = "localhost";
 
 	private TupleSpace tupleSpace;
+	private TupleSpace actionSpace;
 
 	private boolean runAutonomous;
 
@@ -99,31 +100,28 @@ public abstract class AbstractAgent implements IAgent {
 	 * @return The global instance of the tuple space.
 	 */
 	public TupleSpace getActionSpace() {
-		if (tupleSpace == null) {
+		if (actionSpace == null) {
 			try {
-				tupleSpace = new TupleSpace(new User(getSimpleName()), host, port,
-						runAutonomous, false, AgentProtocol.COMMAND_SPACE_NAME);
+				actionSpace = new TupleSpace(new User(getSimpleName()), host, port, runAutonomous, false,
+						AgentProtocol.COMMAND_SPACE_NAME);
 				String simpleName = getName();
 				simpleName = simpleName.substring(simpleName.lastIndexOf('.') + 1);
-				tupleSpace = new TupleSpace(new User(simpleName), host, port, runAutonomous, false,
+				actionSpace = new TupleSpace(new User(simpleName), host, port, runAutonomous, false,
 						AgentProtocol.ACTION_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
 		}
-		return tupleSpace;
+		return actionSpace;
 	}
 
 	public String getSimpleName() {
-            if (getName().contains(".")) {
-                return getName().substring(getName().lastIndexOf('.') + 1);
-            } else {
-                return getName();
-            }
-   
+		if (getName().contains(".")) {
+			return getName().substring(getName().lastIndexOf('.') + 1);
+		}
+		return getName();
 	}
-	
-	
+
 	@Override
 	public String getName() {
 		return name;
