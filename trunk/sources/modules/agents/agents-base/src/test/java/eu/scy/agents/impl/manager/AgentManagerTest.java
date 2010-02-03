@@ -116,6 +116,7 @@ public class AgentManagerTest {
 	 * @throws TupleSpaceException Is thrown if something went wrong inside the {@link TupleSpace}.
 	 */
 	@SuppressWarnings("deprecation")
+	@Test
 	public void testIdentify() throws AgentLifecycleException, InterruptedException, TupleSpaceException {
 
 		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
