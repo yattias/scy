@@ -65,6 +65,10 @@ public class Configuration {
 		props.setProperty("openfire.externalcomponent.port", "5275");
 		props.setProperty("openfire.externalcomponent.secretkey", "java");
 		props.setProperty("scyhub.name", "scyhub");
+        props.setProperty("sail.db.name", "sail_database");
+        props.setProperty("sail.db.host", "localhost");
+        props.setProperty("sail.db.username", "root");
+        props.setProperty("sail.db.password", "root");
 		return props;
 	}
 	
@@ -114,4 +118,22 @@ public class Configuration {
 	public String getSQLSpacesServerHost() {
 		return props.getProperty("sqlspaces.server.host");
 	}
+
+    // ### SAIL
+    public String getSailDBHost() {
+        return props.getProperty("sail.db.host");
+    }
+
+    // ### SAIL
+    public String getSailDBName() {
+        return props.getProperty("sail.db.name");
+    }
+
+    public String getSailDBUserName() {
+        return props.getProperty("sail.db.username");
+    }
+
+    public String getSailDBPassword() {
+        return props.getProperty("sail.db.password");
+    }
 }
