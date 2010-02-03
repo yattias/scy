@@ -10,6 +10,9 @@ import eu.scy.core.model.pedagogicalplan.Tool;
  * To change this template use File | Settings | File Templates.
  */
 public class SCYMapperTool implements Tool {
+
+    private String id;
+
     @Override
     public String getName() {
         return "SCYMapper";
@@ -21,8 +24,18 @@ public class SCYMapperTool implements Tool {
     }
 
     @Override
+    public String getId() {
+        return id;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public String getDescription() {
         return "SCYMapper is a concept mapping tool";
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
