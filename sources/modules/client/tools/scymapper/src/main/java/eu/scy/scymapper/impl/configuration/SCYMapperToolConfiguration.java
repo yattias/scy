@@ -26,6 +26,7 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     private List<INodeModel> predefinedNodes;
 	private static ISCYMapperToolConfiguration INSTANCE;
 	private boolean debugMode;
+    private String id;
 
 	private SCYMapperToolConfiguration() {
 
@@ -68,8 +69,18 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     }
 
     @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
