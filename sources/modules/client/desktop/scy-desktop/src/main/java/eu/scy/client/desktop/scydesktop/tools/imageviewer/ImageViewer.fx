@@ -46,6 +46,7 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
    public var repository:IRepository;
    public var technicalType:String;
    public var scyWindow : ScyWindow;
+   public var preserveRatio = true;
    public-init var extensions:String[];
 
    public override var width on replace {resizeContent()};
@@ -101,8 +102,8 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
          image: Image {
             url: imageUrl
          }
+         preserveRatio:preserveRatio
       }
-//      window.scyContent = image;
       contentGroup.content = image;
       scyWindow.open();
    }
@@ -120,7 +121,7 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
       elo = repository.retrieveELO(uri);
       if (elo == null)
       {
-         logger.error("the home elo does not exists: {uri}");
+         logger.error("the elo does not exists: {uri}");
          return;
       }
       showImage(getUrlFromContent(elo.getContent()));
