@@ -68,7 +68,7 @@ public class Configuration {
         props.setProperty("sail.db.name", "sail_database");
         props.setProperty("sail.db.host", "localhost");
         props.setProperty("sail.db.username", "root");
-        props.setProperty("sail.db.password", "root");
+        props.setProperty("sail.db.password", "");
 		return props;
 	}
 	
