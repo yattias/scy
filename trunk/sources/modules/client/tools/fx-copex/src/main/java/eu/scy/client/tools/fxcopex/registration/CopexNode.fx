@@ -81,7 +81,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                            }
                         }
                         Button {
-                           text: "Save copy"
+                           text: "Save as"
                            action: function() {
 			      doSaveAsElo();
                            }
