@@ -359,6 +359,11 @@ public class ScyDesktop extends CustomNode {
 
    function realFillNewScyWindow2(window:ScyWindow):Void{
       var eloConfig = config.getEloConfig(window.eloType);
+      if (eloConfig==null){
+         logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
+         return;
+      }
+
       // don't place the window content tool in the window, let the please wait message stay until every thing is created
       var scyContent = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
       window.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(),window.eloType, window.eloUri, window, true);

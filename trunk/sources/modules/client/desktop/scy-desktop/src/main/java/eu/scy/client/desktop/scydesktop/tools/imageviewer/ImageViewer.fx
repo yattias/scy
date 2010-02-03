@@ -28,11 +28,13 @@ import javafx.scene.image.Image;
 import javafx.scene.Group;
 import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import java.lang.UnsupportedOperationException;
+import java.io.File;
 
 /**
  * @author sikken
  */
+
+var lastUsedDirectory:File;
 
 public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBack {
 
@@ -55,7 +57,7 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
    var image: ImageView;
    def jdomStringConversion = new JDomStringConversion();
    def imageUrlTagName = "imageUrl";
-   def scyImageype = "scy/imaget";
+   def scyImageype = "scy/image";
    def contentGroup = Group{
 
    }
@@ -81,9 +83,11 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
 
    function askUserForFile():Void{
       var fileChooser = new JFileChooser();
+      fileChooser.setCurrentDirectory(lastUsedDirectory);
       if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getParentComponent())) {
          //getting the file from the fileChooser
          //lastUsedDirectory = fileChooser.getCurrentDirectory();
+         lastUsedDirectory = fileChooser.getCurrentDirectory();
          var imageUrl = "{fileChooser.getSelectedFile().toURL()}";
          showImage(imageUrl);
          getElo().getMetadata().getMetadataValueContainer(titleKey).setValue(fileChooser.getSelectedFile().getName());
@@ -92,6 +96,7 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
    }
 
    function showImage(imageUrl:String){
+      println("showImage({imageUrl})");
       image = ImageView {
          image: Image {
             url: imageUrl
