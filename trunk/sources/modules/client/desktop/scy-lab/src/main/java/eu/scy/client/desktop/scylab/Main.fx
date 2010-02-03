@@ -38,7 +38,7 @@ import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.awareness.IAwarenessService;
-import eu.scy.chat.controller.MUCChatController;
+import java.util.HashMap;
 
 /**
  * @author sikkenj
@@ -103,23 +103,22 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{}, presentationViewerId);
 
-scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
-    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
-    var eloUri = "z168fb1jo51y";
-   var chatController = new MUCChatController(awarenessService, eloUri);
 
-//    logger.info("awarenessService exists: {awarenessService.isConnected()}");
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+   var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+   var chatControllerMap = new HashMap();
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-                chatController: chatController;
+                chatControllerMap: chatControllerMap;
                 },
             scychatId);
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolPresenceDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-                chatController: chatController;
+                chatControllerMap: chatControllerMap;
             },
             scychatpresenceId);
 
