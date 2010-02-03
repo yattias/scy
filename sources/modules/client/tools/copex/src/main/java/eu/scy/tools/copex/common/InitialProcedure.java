@@ -94,6 +94,8 @@ public class InitialProcedure extends ExperimentalProcedure {
             principleMode = xmlElem.getChild(TAG_INITIAL_PROC_PRINCIPLE_MODE).getText().charAt(0);
             drawPrinciple = xmlElem.getChild(TAG_INITIAL_PROC_DRAW_PRINCIPLE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             evaluationMode = xmlElem.getChild(TAG_INITIAL_PROC_EVALUATION_MODE).getText().charAt(0);
+            // at the moment evaluation is not take into account
+            evaluationMode = MyConstants.MODE_MENU_NO;
             //manipulation = new Manipulation(xmlElem.getChild(Manipulation.TAG_MANIPULATION), idTask);
             materials = new MaterialProc(new LinkedList());
             listMaterial = new ArrayList<Material>();

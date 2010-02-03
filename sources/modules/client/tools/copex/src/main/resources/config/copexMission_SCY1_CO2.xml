@@ -19,7 +19,7 @@
         <name language="en">Procedure</name>
         <hypothesis_mode>M</hypothesis_mode>
         <principle_mode>M</principle_mode>
-        <evaluation_mode>M</evaluation_mode>
+        <evaluation_mode>N</evaluation_mode>
         <draw_principle>false</draw_principle>
         <is_task_repeat>false</is_task_repeat>
         <is_free_action>true</is_free_action>

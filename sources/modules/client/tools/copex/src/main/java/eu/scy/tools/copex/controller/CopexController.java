@@ -1440,14 +1440,14 @@ public class CopexController implements ControllerInterface {
     /* drag and drop */
     @Override
     public CopexReturn move(TaskSelected taskSel, SubTree subTree, char undoRedo) {
-//        System.out.println("***MOVE CONTROLLER***");
-//        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
-//        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
-//        if (taskSel.getTaskBrother() != null){
-//            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
-//        }else if (taskSel.getTaskParent() != null){
-//            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
-//        }
+        System.out.println("***MOVE CONTROLLER***");
+        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
+        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
+        if (taskSel.getTaskBrother() != null){
+            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
+        }else if (taskSel.getTaskParent() != null){
+            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
+        }
         ExperimentalProcedure proc = taskSel.getProc();
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1)
@@ -1465,6 +1465,7 @@ public class CopexController implements ControllerInterface {
         }
         List<TaskTreePosition> listPosition = getTaskPosition(expProc, listTask);
         // on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee
+        System.out.println("on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee");
         CopexTask taskBranch = listTask.get(0);
         int idTaskBranch = getId(expProc.getListTask(), taskBranch.getDbKey());
         CopexTask lastTaskBranch = listTask.get(subTree.getIdLastTask());
@@ -1506,21 +1507,21 @@ public class CopexController implements ControllerInterface {
         if (parent != null){
              expProc.getListTask().get(idParent).setDbKeyChild(-1);
             // on branche le premier petit frere 
-            if (subTree.getLastBrother() != -1){
-                
+            if (subTree.getLastBrother() != -1 && subTree.getLastBrother() != expProc.getListTask().get(idParent).getDbKey()){
                 expProc.getListTask().get(idParent).setDbKeyChild(subTree.getLastBrother());
             }
         }
         // on rebranche eventuellement les freres
         if (oldBrother != null){
             expProc.getListTask().get(idOldBrother).setDbKeyBrother(-1);
-            if (subTree.getLastBrother() != -1){
+            if (subTree.getLastBrother() != -1 && subTree.getLastBrother() != expProc.getListTask().get(idOldBrother).getDbKey()){
                 expProc.getListTask().get(idOldBrother).setDbKeyBrother(subTree.getLastBrother());
             }
         }
         expProc.getListTask().get(idLastTaskBranch).setDbKeyBrother(-1);
         printRecap(expProc);
-        // le sous arbre est deconnecte => on l'insere au bon endroit 
+        // le sous arbre est deconnecte => on l'insere au bon endroit
+        System.out.println("le sous arbre est deconnecte => on l'insere au bon endroit ");
         if (taskBrother == null){
             // branche en parent
             long firstChild = expProc.getListTask().get(idB).getDbKeyChild();
@@ -1550,7 +1551,7 @@ public class CopexController implements ControllerInterface {
         subTree.setLastBrother(lastTaskBranch.getDbKeyBrother());
         updateDatasheetProd(expProc);
         expProc.lockMaterialUsed();
-        //System.out.println("*** FIN MOVE CONTROLLER***");
+        System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
             TaskTreePosition insertPosition = expProc.getTaskTreePosition(taskBranch);
@@ -1568,23 +1569,23 @@ public class CopexController implements ControllerInterface {
     }
 
     private void printRecap(LearnerProcedure proc){
-//        List<CopexTask> listTask = proc.getListTask();
-//        int n = listTask.size();
-//        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
-//        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
-//        for (int k=0; k<n; k++){
-//            CopexTask task = listTask.get(k);
-//            String frere = " sans frere ";
-//            String enfant = " sans enfant ";
-//            if (task.getDbKeyBrother() != -1)
-//                frere = " "+task.getDbKeyBrother()+" ";
-//            if (task.getDbKeyChild() != -1)
-//                enfant = " "+task.getDbKeyChild()+" ";
-//            String visible = task.isVisible() ? "visible" :"cachee";
-//            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
-//
-//        }
-//        System.out.println("********************************************************");
+        List<CopexTask> listTask = proc.getListTask();
+        int n = listTask.size();
+        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
+        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
+        for (int k=0; k<n; k++){
+            CopexTask task = listTask.get(k);
+            String frere = " sans frere ";
+            String enfant = " sans enfant ";
+            if (task.getDbKeyBrother() != -1)
+                frere = " "+task.getDbKeyBrother()+" ";
+            if (task.getDbKeyChild() != -1)
+                enfant = " "+task.getDbKeyChild()+" ";
+            String visible = task.isVisible() ? "visible" :"cachee";
+            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
+
+        }
+        System.out.println("********************************************************");
         
     }
     

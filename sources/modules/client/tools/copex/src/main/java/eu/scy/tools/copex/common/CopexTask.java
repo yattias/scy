@@ -52,11 +52,11 @@ public abstract  class CopexTask implements Cloneable {
     protected TaskRight taskRight;
     
     /* identifiant frere */
-    private long dbKeyBrother;
+    protected long dbKeyBrother;
     /* identifiant enfant */
-    private long dbKeyChild;
+    protected long dbKeyChild;
     /* boolean indiquant s'il s'agit de la racine ou non */
-    private boolean root;
+    protected boolean root;
     /* repetition - null sinon */
     protected TaskRepeat taskRepeat;
 

@@ -51,6 +51,8 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
 
     public CopexActionManipulation(Element xmlElem, long idTask, List<InitialNamedAction> listInitialNamedAction,long idMaterial, long idRepeat, long idParam, long idValue, long idActionParam, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, List<InitialParamData> listInitialParamData, List<InitialParamMaterial> listInitialParamMaterial, List<InitialParamQuantity> listInitialParamQuantity, List<InitialAcquisitionOutput> listInitialAcquisitionOutput, List<InitialManipulationOutput> listInitialManipulationOutput, List<InitialTreatmentOutput> listInitialTreatmentOutput, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
         super(xmlElem);
+        this.dbKeyBrother = -1;
+        this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION_MANIPULATION)) {
 			dbKey = idTask;
             listName = new LinkedList<LocalText>();

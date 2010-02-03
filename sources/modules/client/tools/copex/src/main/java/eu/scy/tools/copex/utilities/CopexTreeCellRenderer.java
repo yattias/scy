@@ -42,9 +42,10 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     static public Color BG_COLOR = Color.WHITE;
     static public Color COMMENT_COLOR = Color.LIGHT_GRAY;
     static public Color SELECTED_COLOR = new Color(167, 225, 255);
+    static public Color TITLE_NODE_COLOR = new Color(85,112,138);
     static public Font FONT_COMMENT = new Font("Dialog", Font.ITALIC, 10);
     static public Font FONT_NODE = new Font("Dialog", Font.PLAIN, 11);
-     static public Font FONT_QUESTION = new Font("Dialog", Font.PLAIN, 12);
+    static public Font FONT_QUESTION = new Font("Dialog", Font.PLAIN, 12);
     static public Font FONT_NODE_DEFAULT_TEXT = new Font("Dialog", Font.ITALIC, 11);
     static public Font FONT_INTITULE= new Font("Dialog", Font.ITALIC,13);
     /* longueur minimum du texte dans l'arbre, avant declenchement scroll*/
@@ -185,9 +186,10 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         }else if (value instanceof TaskTreeNode && ((TaskTreeNode)value).isStep())
             icon.setIcon(stepIcon);
         // labelNode :
-        String txtLabel = ((CopexTree)tree).getIntituleValue(value, false);
+        String txtLabel = ((CopexTree)tree).getIntituleValue(value);
         labelNode.setText(txtLabel);
         labelNode.setSize(CopexUtilities.lenghtOfString(labelNode.getText(), labelNode.getFontMetrics(labelNode.getFont())), 14);
+        labelNode.setForeground(TITLE_NODE_COLOR);
         labelNode.setBounds(0, 5, labelNode.getWidth(), labelNode.getHeight());
         if(txtLabel.equals("")){
             labelNode.setSize(0,0);

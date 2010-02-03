@@ -45,8 +45,8 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexTreeCellRenderer;
 import eu.scy.tools.copex.utilities.CopexTreeSelectionListener;
 import eu.scy.tools.copex.utilities.CopexUtilities;
+import eu.scy.tools.copex.utilities.MyBasicTreeUI;
 import eu.scy.tools.copex.utilities.MyConstants;
-import eu.scy.tools.copex.utilities.TaskBasicTreeUI;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -113,7 +113,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
         setShowsRootHandles(false);
         this.setRowHeight(0);
-        this.setUI(new TaskBasicTreeUI(this));
+        this.setUI(new MyBasicTreeUI(this));
         this.setEditable(true);
         if(proc.getRight() == MyConstants.NONE_RIGHT)
             setEditable(false);
@@ -124,7 +124,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         setDragEnabled(true);
         transferHandler  = new TreeTransferHandler();
         setTransferHandler(transferHandler);
-        setDropMode(DropMode.INSERT);
+        //setDropMode(DropMode.INSERT);
+        setDropMode(DropMode.ON_OR_INSERT);
         ToolTipManager.sharedInstance().registerComponent(this);
         undoManager = new CopexUndoManager(this);
         int level = getLevelTree();
@@ -364,16 +365,13 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
    }
 
    // retourne l'intitule dans l'arbre
-   public String getIntituleValue(Object value, boolean editionMode){
+   public String getIntituleValue(Object value){
        if (value instanceof CopexNode ){
             CopexNode node =  (CopexNode)value;
             if (node == null)
                     return "";
             if(node.isQuestion()){
-                if(editionMode)
-                    return owner.getBundleString("TREE_QUESTION");
-                else
-                    return "";
+                return owner.getBundleString("TREE_QUESTION");
             }else if(node.isHypothesis()){
                 return owner.getBundleString("TREE_HYPOTHESIS");
             }else if(node.isGeneralPrinciple()){
@@ -606,7 +604,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
     private void openHelpManipulationDialog(){
-        HelpManipulationDialog helpD = new HelpManipulationDialog(owner, proc.isTaskProc());
+        HelpManipulationDialog helpD = new HelpManipulationDialog(owner, proc.isTaskProc(), !proc.isValidQuestion(owner.getLocale()));
         helpD.setVisible(true);
     }
 
@@ -1194,33 +1192,34 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
                 }
             }else{
             if (brotherNode == null){
-                if(insertIn == MyConstants.INSERT_TASK_UNDEF || insertIn == MyConstants.INSERT_TASK_IN)  {
-                    taskParent = selNode.getTask();
+                if(selNode.isManipulation()){
+                    taskParent = proc.getQuestion();
                     parentNode = selNode;
-                    if(selNode.isManipulation()){
-                        taskParent = proc.getQuestion();
-                    }
                 }else{
-                    // insertIn == INSERT_TASK_AFTER
-                    brotherNode = selNode;
-                     taskBrother = brotherNode.getTask();
-                     if(selNode.isManipulation())
-                         taskBrother = proc.getQuestion();
+                    if(insertIn == MyConstants.INSERT_TASK_UNDEF || insertIn == MyConstants.INSERT_TASK_IN)  {
+                        taskParent = selNode.getTask();
+                        parentNode = selNode;
+                    }else{
+                        // insertIn == INSERT_TASK_AFTER
+                        brotherNode = selNode;
+                        taskBrother = brotherNode.getTask();
+                    }
                 }
              }else{
-                taskBrother = brotherNode.getTask();
-                 if ((!taskBrother.isVisible() && (insertIn != MyConstants.INSERT_TASK_IN)) || insertIn == MyConstants.INSERT_TASK_AFTER){
-                     // etape fermee
-                     brotherNode = selNode;
-                     taskBrother = brotherNode.getTask();
-                     if(selNode.isManipulation())
-                         taskBrother = proc.getQuestion();
-                 }
-                if(insertIn == MyConstants.INSERT_TASK_IN){
-                    taskParent = selNode.getTask();
-                    parentNode = selNode;
-                    if(selNode.isManipulation()){
-                      taskParent = proc.getQuestion();
+                if(selNode.isManipulation()){
+                    taskBrother = brotherNode.getTask();
+
+                }else{
+                    taskBrother = brotherNode.getTask();
+                    if ((!taskBrother.isVisible() && (insertIn != MyConstants.INSERT_TASK_IN)) || insertIn == MyConstants.INSERT_TASK_AFTER){
+                        // etape fermee
+                        brotherNode = selNode;
+                        taskBrother = brotherNode.getTask();
+                    }
+                    if(insertIn == MyConstants.INSERT_TASK_IN ){
+                        taskParent = selNode.getTask();
+                        parentNode = selNode;
+                        taskBrother = null;
                     }
                 }
              }

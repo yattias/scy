@@ -231,7 +231,11 @@ public class LearnerProcedure extends ExperimentalProcedure{
 
 
     public TaskTreePosition getTaskTreePosition(CopexTask task){
+        if(task==null)
+            return new TaskTreePosition(-1, -1);
         CopexTask parentTask = getParentTask(task);
+        if(parentTask == null)
+            return new TaskTreePosition(-1, -1);
         List<CopexTask> listChild = getListChild(parentTask);
         int idChild = getIdChild(listChild, task);
         return new TaskTreePosition(parentTask.getDbKey(), idChild);
