@@ -21,8 +21,8 @@ public class Graph extends Visualization implements Cloneable {
     private ArrayList<FunctionModel> listFunctionModel;
 
     // CONSTRUCTOR
-    public Graph(long dbKey, String name, TypeVisualization type, int[] tabNo, boolean isOnCol, ParamGraph paramGraph, ArrayList<FunctionModel> listFunctionModel) {
-        super(dbKey, name, type, tabNo, isOnCol);
+    public Graph(long dbKey, String name, TypeVisualization type, ParamGraph paramGraph, ArrayList<FunctionModel> listFunctionModel) {
+        super(dbKey, name, type);
         this.paramGraph = paramGraph;
         this.listFunctionModel = listFunctionModel ;
     }
@@ -113,5 +113,39 @@ public class Graph extends Visualization implements Cloneable {
                 element.addContent(f.next().toXML());
             }
         return element;
+    }
+
+     /* affichage console */
+    @Override
+     public String toString(){
+        String s = "";
+        for(Iterator<PlotXY> p = paramGraph.getPlots().iterator();p.hasNext();){
+            PlotXY plot = p.next();
+            s += "("+plot.getHeaderX().getNoCol()+","+plot.getHeaderY().getNoCol()+"), ";
+        }
+         String toString = this.getName()+ " ("+this.getType().getCode()+") on col " + s+"\n";
+         return toString;
+     }
+
+    @Override
+    public boolean isOnNo(int no){
+          for(Iterator<PlotXY> p = paramGraph.getPlots().iterator();p.hasNext();){
+            PlotXY plot = p.next();
+            if(plot.getHeaderX().getNoCol() == no || plot.getHeaderY().getNoCol() == no)
+                return true;
+          }
+          return false;
+     }
+
+    public int getNbPlots(){
+        return paramGraph.getPlots().size();
+    }
+
+    public boolean removePlotWithNo(int no){
+        return  paramGraph.removePlotWithNo(no);
+    }
+
+    public void updateNoCol(int no, int delta){
+        paramGraph.updateNoCol(no, delta);
     }
 }

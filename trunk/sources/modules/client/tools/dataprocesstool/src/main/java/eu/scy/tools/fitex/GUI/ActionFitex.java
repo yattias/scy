@@ -1,7 +1,7 @@
 package eu.scy.tools.fitex.GUI;
 
-import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
+import eu.scy.tools.dataProcessTool.common.PlotXY;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public interface ActionFitex {
     public void openDatas();
 
     /* mise a jour des parametres */
-    public void setParam(DataHeader headerX, DataHeader headerY, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY);
+    public void setParam(ArrayList<PlotXY> plots, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY);
 
     /* mise a jour auto scale */
     public void setAutoScale(boolean autoScale);

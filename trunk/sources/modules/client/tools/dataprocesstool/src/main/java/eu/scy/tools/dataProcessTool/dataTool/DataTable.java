@@ -395,9 +395,36 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         boolean rowSel = isLineRowSel();
         boolean colSel = isLineColSel();
         return ((colSel && !rowSel) || (rowSel && !colSel) );
+        
+    }
+    /* retourne vrai si au moins une   ligne ou une  colonne est selectionnee */
+    private boolean isADataLineSel(){
+        boolean aLine = false;
+        ArrayList<int[]> cellsSel = getSelectedCells();
+        for(Iterator<int[]> c = cellsSel.iterator();c.hasNext();){
+            int[] cell = c.next();
+            boolean h = isValueHeader(cell[0], cell[1]);
+            boolean r = isValueNoRow(cell[0], cell[1]);
+            if( (h && !r) || (!h && r) )
+                aLine = true;
+            else if(h && r)
+                aLine = false;
+        }
+        return aLine;
     }
 
 
+    /* retourne vrai si une operation -ligne ou col- est selectionnee */
+    private boolean isOperationSelected(){
+        ArrayList<int[]> cellsSel = getSelectedCells();
+        for(Iterator<int[]> c = cellsSel.iterator();c.hasNext();){
+            int[] cell = c.next();
+           if (isValueTitleOperation(cell[0], cell[1]) ){
+               return true;
+           }
+        }
+        return false;
+    }
 
     /* retourne vrai si une ou plusieurs colonnes sont selectionnees */
     private boolean isLineRowSel(){
@@ -469,7 +496,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     
     /* retourne vrai si suppr est possible */
     public boolean canSuppr(){
-        return isALineSel() ;
+        //return isALineSel() ;
+        return isAtLeastElementsDataSel() || isOperationSelected();
     }
     
     /* retourne vrai si copy est possible */
@@ -489,7 +517,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* retourne vrai si on peut insere une colonne ou une ligne */
     public boolean canInsert(){
-        return isALineSel();
+        return isALineSel()  ;
     }
 
     /* retourne vrai si on peut ignorer ou non des donnees */
@@ -499,7 +527,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* retourne vrai si on peut effectuer des operations */
     public boolean canOperations(){
-        return isALineSel();
+        return isADataLineSel();
     }
 
     /* clic sur ignorer data */
@@ -590,7 +618,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* suppression de lignes ou de colonnes */
     public void delete(){
         ArrayList<int[]> listSelCell = getSelectedCells();
-        owner.deleteData(dataset, tableModel.getSelectedData(listSelCell), tableModel.getSelectedHeader(listSelCell), tableModel.getSelectedOperation(listSelCell), tableModel.getSelectedRowAndCol(listSelCell));
+        ArrayList<Integer>[] listRowAndCol = tableModel.getSelectedRowAndCol(listSelCell);
+        owner.deleteData(dataset, tableModel.getSelectedDataAlone(listSelCell,listRowAndCol ), tableModel.getSelectedHeader(listSelCell), tableModel.getSelectedOperation(listSelCell), listRowAndCol);
     }
 
     /* mise a jour dataset */

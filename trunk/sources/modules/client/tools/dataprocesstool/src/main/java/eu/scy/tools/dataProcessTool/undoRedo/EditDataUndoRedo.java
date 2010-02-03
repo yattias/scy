@@ -70,8 +70,14 @@ public class EditDataUndoRedo extends DataUndoRedo{
         Element element = new Element("undoRedoEditData");
         element.addContent(new Element("no_row").setText(Integer.toString(idR)));
         element.addContent(new Element("no_col").setText(Integer.toString(idC)));
-        element.addContent(new Element("old_value").setText(Double.toString(oldValue)));
-        element.addContent(new Element("new_value").setText(Double.toString(newValue)));
+        if(oldValue == null)
+            element.addContent(new Element("old_value").setText(""));
+        else
+            element.addContent(new Element("old_value").setText(Double.toString(oldValue)));
+        if(newValue == null )
+            element.addContent(new Element("new_value").setText(""));
+        else
+            element.addContent(new Element("new_value").setText(Double.toString(newValue)));
         return element;
     }
 

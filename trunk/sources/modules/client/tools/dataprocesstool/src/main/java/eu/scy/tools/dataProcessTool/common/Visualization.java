@@ -15,7 +15,7 @@ import org.jdom.Element;
 public class Visualization implements Cloneable {
     private final static String TAG_VISUALIZATION = "visualization";
     private final static String TAG_VIS_TYPE = "type";
-    private final static String TAG_VIS_ID = "id";
+    
 
     /* identifiant*/
     protected long dbKey;
@@ -23,20 +23,14 @@ public class Visualization implements Cloneable {
     protected String name;
     /* type de visuliazation */
     protected TypeVisualization type;
-    /*liste des colonnes/ lignes surlesquelles s'applique */
-    protected int[] tabNo;
-    /* indique si en colonne ou non  */
-    protected boolean isOnCol;
     /* indique si ouvert ou non */
     protected boolean isOpen;
 
     // CONSTRUCTOR
-    public Visualization(long dbKey,String name, TypeVisualization type, int[] tabNo, boolean isOnCol) {
+    public Visualization(long dbKey,String name, TypeVisualization type ) {
         this.dbKey = dbKey;
         this.name = name;
         this.type = type;
-        this.tabNo = tabNo ;
-        this.isOnCol = isOnCol;
         this.isOpen = true;
     }
 
@@ -57,21 +51,7 @@ public class Visualization implements Cloneable {
         this.dbKey = dbKey;
     }
 
-    public int[] getTabNo() {
-        return tabNo;
-    }
-
-    public void setTabNo(int[] tabNo) {
-        this.tabNo = tabNo;
-    }
-
-    public boolean isOnCol() {
-        return isOnCol;
-    }
-
-    public void setOnCol(boolean isOnCol) {
-        this.isOnCol = isOnCol;
-    }
+    
 
     public TypeVisualization getType() {
         return type;
@@ -97,16 +77,9 @@ public class Visualization implements Cloneable {
             long dbKeyC = this.dbKey;
             String nameC = new String(this.name);
             TypeVisualization typeC = (TypeVisualization)this.type.clone();
-            int[] tabNoC = new int[this.tabNo.length];
-            for (int i=0; i<tabNo.length; i++){
-                tabNoC[i] = tabNo[i];
-            }
-            boolean isOnColC = this.isOnCol ;
             vis.setDbKey(dbKeyC);
             vis.setName(nameC);
             vis.setType(typeC);
-            vis.setTabNo(tabNoC);
-            vis.setOnCol(isOnColC);
             vis.setOpen(isOpen);
             return vis;
         } catch (CloneNotSupportedException e) { 
@@ -118,29 +91,14 @@ public class Visualization implements Cloneable {
      //METHOD
      /* retourne vrai si la visualization porte sur un  numero donne */
      public boolean isOnNo(int no){
-         for (int i=0; i<tabNo.length; i++){
-             if (tabNo[i] == no)
-                 return true;
-         }
          return false;
      }
 
-     /* affichage console */
-    @Override
-     public String toString(){
-         String s = "";
-         for (int i=0; i<tabNo.length; i++)
-             s += tabNo[i] + " / ";
-         String toString = this.getName()+ " ("+this.getType().getCode()+") on "+(this.isOnCol ? "col " : "row ") + s+"\n";
-         return toString;
-     }
+    
 
     public Element toXMLLog(){
         Element element = new Element(TAG_VISUALIZATION);
         element.addContent(new Element(TAG_VIS_TYPE).setText(type.getName()));
-        for(int i=0; i<tabNo.length; i++){
-            element.addContent(new Element(TAG_VIS_ID).setText(Integer.toString(tabNo[i])));
-        }
         return element;
     }
     

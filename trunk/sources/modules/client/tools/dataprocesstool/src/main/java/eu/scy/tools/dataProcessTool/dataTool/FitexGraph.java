@@ -9,6 +9,7 @@ import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.fitex.GUI.ActionFitex;
 import eu.scy.tools.fitex.GUI.FitexPanel;
@@ -38,8 +39,8 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
     }
 
     @Override
-    public void setParam(DataHeader headerX, DataHeader headerY, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY) {
-        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(headerX, headerY,  xmin, xmax, ymin, ymax, deltaX, deltaY, autoScale));
+    public void setParam(ArrayList<PlotXY> plots, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY) {
+        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(plots,  xmin, xmax, ymin, ymax, deltaX, deltaY, autoScale));
     }
 
     @Override

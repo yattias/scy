@@ -24,6 +24,8 @@ import java.util.HashMap;
 
 import eu.scy.tools.fitex.dataStruct.Expression;
 import java.awt.Font;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,7 +35,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DrawPanel extends javax.swing.JPanel {
     /* couleur points graphique */
-    public static final Color SCATTER_PLOT_COLOR = Color.RED ;
+    public static final Color SCATTER_PLOT_COLOR_1 = Color.RED ;
+    public static final Color SCATTER_PLOT_COLOR_2 = new Color(153,0,153);
+    public static final Color SCATTER_PLOT_COLOR_3 = new Color(255,120,0);
+    public static final Color SCATTER_PLOT_COLOR_4 = new Color(102,51,0);
     /*font axes */
     private final static Font axisFont = new Font("dialog", Font.ITALIC, 10);
     private final static Font axisNameFont = new Font("dialog", Font.BOLD, 10);
@@ -44,7 +49,7 @@ public class DrawPanel extends javax.swing.JPanel {
     /* graph panel */
     private FitexPanel fitexPanel;
     /* donnees */
-    private DefaultTableModel datas;
+    private DefaultTableModel[] datas = null;
 
     //zoom mode ou move   mode
     private char graphMode;
@@ -57,8 +62,12 @@ public class DrawPanel extends javax.swing.JPanel {
     private Double y_max=10.0 ;
     private Double delta_y =1.0;
     // nom des axes
-    private String x_axisName;
-    private String y_axisName;
+    private ArrayList<String> x_axisName;
+    private ArrayList<Color> x_color;
+    private ArrayList<String> y_axisName;
+    private ArrayList<Color> y_color;
+    private String x_axisUnit;
+    private String y_axisUnit;
     // paramietres du rectangle de zoom
     private int x_zoom1 ;
     private int y_zoom1 ;
@@ -93,20 +102,13 @@ public class DrawPanel extends javax.swing.JPanel {
     private DecimalFormat decimalFormat;
 
 
-    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel datas, ParamGraph pg, int width, int height) {
+    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel[] datas, ParamGraph pg, int width, int height) {
         super();
-        this.decimalFormat = new DecimalFormat();
-        this.decimalFormat.setDecimalSeparatorAlwaysShown(false);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(fitexPanel.getLocale());
+        this.decimalFormat = (DecimalFormat)numberFormat;
         this.fitexPanel = fitexPanel;
         this.datas = datas;
-        this.x_min = pg.getX_min();
-        this.x_max = pg.getX_max();
-        this.delta_x = pg.getDeltaX();
-        this.y_min = pg.getY_min();
-        this.y_max = pg.getY_max();
-        this.delta_y = pg.getDeltaY();
-        this.x_axisName = pg.getHeaderX().getValue() ;
-        this.y_axisName = pg.getHeaderY().getValue() ;
+        setParamWithoutRepaint(pg);
         this.width = width;
         this.height = height;
         isZoom = false;
@@ -123,16 +125,44 @@ public class DrawPanel extends javax.swing.JPanel {
 
    
     /* */
-    public void setParam(ParamGraph pg){
+    private void setParamWithoutRepaint(ParamGraph pg){
+        this.x_axisUnit = "("+pg.getPlot1().getHeaderX().getUnit()+")";
+        this.y_axisUnit = "("+pg.getPlot1().getHeaderY().getUnit()+")";
+        this.x_axisName = new ArrayList();
+        this.x_color = new ArrayList();
+        this.y_axisName = new ArrayList();
+        this.y_color = new ArrayList();
+        for(int d=0; d<datas.length; d++){
+            String s = pg.getPlots().get(d).getHeaderX().getValue();
+            int id = x_axisName.indexOf(s);
+            if(id == -1){
+                x_axisName.add(s);
+                x_color.add(getAxisColor(d));
+            }else{
+                x_color.set(id, Color.GRAY);
+            }
+            s = pg.getPlots().get(d).getHeaderY().getValue();
+            id = y_axisName.indexOf(s);
+            if(id == -1){
+                y_axisName.add(s);
+                y_color.add(getAxisColor(d));
+            }else{
+                y_color.set(id, Color.GRAY);
+            }
+        }
         this.x_min = pg.getX_min();
         this.x_max = pg.getX_max();
         this.delta_x = pg.getDeltaX();
         this.y_min = pg.getY_min();
         this.y_max = pg.getY_max();
         this.delta_y = pg.getDeltaY();
-        repaint();
     }
 
+
+    public void setParam(ParamGraph pg){
+        setParamWithoutRepaint(pg);
+        repaint();
+    }
    
 
     
@@ -159,7 +189,7 @@ public class DrawPanel extends javax.swing.JPanel {
         g.drawRect(Math.min(x_zoom1,x_zoom2) , Math.min(y_zoom1,y_zoom2) , Math.abs(x_zoom1-x_zoom2) , Math.abs(y_zoom1-y_zoom2));
     }
 
-    public void setData(DefaultTableModel datas) {
+    public void setData(DefaultTableModel[] datas) {
         this.datas = datas;
     }
 
@@ -195,17 +225,26 @@ public class DrawPanel extends javax.swing.JPanel {
         // parcours et tracie de tous les points diefinis dans le tableau de donniees
         // la tableModel du tableau qui contient les donnees :
         //DefaultTableModel tableModel = data.getTableModel();
-        int nbR = datas.getRowCount();
-        for (int i=0; i<nbR; i++) {
-            // riecupieration des valeurs de la ligne
-            x=(Double)datas.getValueAt(i,0);
-            y=(Double)datas.getValueAt(i,1);
-            ignore=(Boolean)datas.getValueAt(i,2);
-
-            if((x!=null) && (y!=null)) {
-                // tracie du point
-                if (ignore) tracerPoint(g, SCATTER_PLOT_COLOR, "cross", x, y) ; // point non pris en compte
-                    else tracerPoint(g, SCATTER_PLOT_COLOR, "circle", x, y) ; // point pris en compte
+        for(int d=0; d<datas.length; d++){
+            int nbR = datas[d].getRowCount();
+            for (int i=0; i<nbR; i++) {
+                // recuperation des valeurs de la ligne
+                x=(Double)datas[d].getValueAt(i,0);
+                y=(Double)datas[d].getValueAt(i,1);
+                ignore=(Boolean)datas[d].getValueAt(i,2);
+                Color plotColor  = SCATTER_PLOT_COLOR_1;
+                if(d == 1)
+                    plotColor = SCATTER_PLOT_COLOR_2;
+                else if(d ==2){
+                    plotColor = SCATTER_PLOT_COLOR_3;
+                }else if(d==3){
+                    plotColor = SCATTER_PLOT_COLOR_4;
+                }
+                if((x!=null) && (y!=null)) {
+                    // tracie du point
+                    if (ignore) tracerPoint(g, plotColor, "cross", x, y) ; // point non pris en compte
+                        else tracerPoint(g, plotColor, "circle", x, y) ; // point pris en compte
+                }
             }
         }
 
@@ -279,17 +318,21 @@ public class DrawPanel extends javax.swing.JPanel {
 
         // tracie des graduations
         // axe des X
-        k0=(int)Math.ceil(x_min/delta_x) ;
-        k1=(int)Math.floor(x_max/delta_x);
-        for(int i=k0 ; i<=k1 ; i++) {
-            tracerSegment(g, Color.LIGHT_GRAY, i*delta_x, y_min, i*delta_x, y_max);
+        if(delta_x != 0){
+            k0=(int)Math.ceil(x_min/delta_x) ;
+            k1=(int)Math.floor(x_max/delta_x);
+            for(int i=k0 ; i<=k1 ; i++) {
+                tracerSegment(g, Color.LIGHT_GRAY, i*delta_x, y_min, i*delta_x, y_max);
+            }
         }
 
         // axe des Y
-        k0=(int)Math.ceil(y_min/delta_y) ;
-        k1=(int)Math.floor(y_max/delta_y);
-        for(int i=k0 ; i<=k1 ; i++) {
-            tracerSegment(g, Color.LIGHT_GRAY, x_min, i*delta_y, x_max, i*delta_y);
+        if(delta_y != 0){
+            k0=(int)Math.ceil(y_min/delta_y) ;
+            k1=(int)Math.floor(y_max/delta_y);
+            for(int i=k0 ; i<=k1 ; i++) {
+                tracerSegment(g, Color.LIGHT_GRAY, x_min, i*delta_y, x_max, i*delta_y);
+            }
         }
 
         // trace des axes
@@ -312,16 +355,33 @@ public class DrawPanel extends javax.swing.JPanel {
             int l = MyUtilities.lenghtOfString(s, g.getFontMetrics());
             int x =xToXEcran(x_max)-l-10;
             g.drawString(s, x, y);
-            //nom axe x
+            // unite axe x
             g.setFont(axisNameFont);
-            l = MyUtilities.lenghtOfString(x_axisName, g.getFontMetrics());
+            l = MyUtilities.lenghtOfString(x_axisUnit, g.getFontMetrics());
             x =xToXEcran(x_max)-l-5;
             y = yToYEcran(0)+10;
             if(decal)
                 y = yToYEcran(0)+20;
             if(y> yToYEcran(y_min))
                 y = yToYEcran(0)-20;
-            g.drawString(x_axisName,x, y);
+            g.drawString(x_axisUnit,x, y);
+            //nom axe x
+            int nbDx = x_axisName.size();
+            int maxL = 0;
+            g.setFont(axisNameFont);
+            for(int d=0; d<nbDx; d++){
+                maxL = Math.max(maxL, MyUtilities.lenghtOfString(x_axisName.get(d), g.getFontMetrics()));
+            }
+            for(int d=0; d<nbDx;d++){
+                g.setColor(x_color.get(d));
+                x =xToXEcran(x_max)-maxL-5;
+                y = yToYEcran(0)+20+10*d;
+                if(decal)
+                    y = yToYEcran(0)+30+10*d;
+                if(y> yToYEcran(y_min))
+                    y = yToYEcran(0)-30-10*d;
+                g.drawString(x_axisName.get(d),x, y);
+            }
         }
         // axe des Y
         if (x_min*x_max<=0) { // la zone de tracie contient l'axe des y
@@ -342,9 +402,9 @@ public class DrawPanel extends javax.swing.JPanel {
                 x = xToXEcran(0)-l-40;
             y =yToYEcran(y_max)+10;
             g.drawString(""+decimalFormat.format(y_max), x, y);
-            //nom axe y
+            //unite axe y
             g.setFont(axisNameFont);
-            l = MyUtilities.lenghtOfString(y_axisName, g.getFontMetrics());
+            l = MyUtilities.lenghtOfString(y_axisUnit, g.getFontMetrics());
             x = xToXEcran(0)-l-5;
             if(decalX && decal)
                 x = xToXEcran(0)-l-40;
@@ -356,10 +416,42 @@ public class DrawPanel extends javax.swing.JPanel {
             if(decal)
                 y = yToYEcran(y_max)+20;
             //g.drawString(y_axisName, xToXEcran(-0.2)-l, y);
-            g.drawString(y_axisName,x, y);
+            g.drawString(y_axisUnit,x, y);
+            //nom axe y
+            int nbDy = y_axisName.size();
+            int maxL = 0;
+            for(int d=0; d<nbDy; d++){
+                maxL = Math.max(maxL, MyUtilities.lenghtOfString(y_axisName.get(d), g.getFontMetrics()));
+            }
+            for(int d=0; d<nbDy;d++){
+                g.setFont(axisNameFont);
+                g.setColor(y_color.get(d));
+                x = xToXEcran(0)-l-5;
+                if(decalX && decal)
+                    x = xToXEcran(0)-maxL-40;
+                if(x < xToXEcran(x_min)){
+                    x = xToXEcran(0)+5;
+                    decal = true;
+                }
+                y = yToYEcran(y_max)+20+10*d;
+                if(decal)
+                    y = yToYEcran(y_max)+30+10*d;
+                g.drawString(y_axisName.get(d),x, y);
+            }
         }
     }
 
+    private Color getAxisColor(int id){
+        if(id ==0)
+            return SCATTER_PLOT_COLOR_1;
+        else if(id==1)
+            return SCATTER_PLOT_COLOR_2;
+        else if(id==2)
+            return SCATTER_PLOT_COLOR_3;
+        else if(id ==3)
+            return SCATTER_PLOT_COLOR_4;
+        return Color.BLACK;
+    }
      /** methode permettant de realiser le trace d'une courbe avec une certaine couleur*/
     public void tracerUneCourbe(Graphics g, Color couleur, Expression fonction) {
         // les coordonees des segments (coordonnees du repere)
@@ -561,8 +653,14 @@ public class DrawPanel extends javax.swing.JPanel {
         int evtY = evt.getY();
         Double x = chiffresSignificatifs(xEcranToX(evtX) , 3);
         Double y = chiffresSignificatifs(yEcranToY(evtY) , 3);
-        DecimalFormat formatE = new DecimalFormat("0.#####E0");
-        DecimalFormat format = new DecimalFormat("###.###");
+        NumberFormat nfE = NumberFormat.getNumberInstance(fitexPanel.getLocale());
+        DecimalFormat formatE = (DecimalFormat)nfE;
+        formatE.applyPattern("0.#####E0");
+        NumberFormat nf = NumberFormat.getNumberInstance(fitexPanel.getLocale());
+        DecimalFormat format = (DecimalFormat)nf;
+        format.applyPattern("###.###");
+        //DecimalFormat formatE = new DecimalFormat("0.#####E0");
+        //DecimalFormat format = new DecimalFormat("###.###");
 
         if ((x>-0.1 && x<0.1) || x>=10000 || x<=-10000){
             coordX = formatE.format(x);

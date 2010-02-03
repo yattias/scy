@@ -36,6 +36,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -78,7 +80,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* ressource bundle */
     private ResourceBundle bundle;
     /* version */
-    private String version = "3.0";
+    private String version = "3.1";
+    /* number format */
+    private NumberFormat numberFormat;
 
     // NOYAU
     private boolean scyMode;
@@ -137,6 +141,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         // i18n
         locale = Locale.getDefault();
         locale = new Locale("en", "GB");
+        //locale = new Locale("fr", "FR");
         try{
             this.bundle = ResourceBundle.getBundle("DataToolBundle" , locale);
         }catch(MissingResourceException e){
@@ -151,7 +156,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return;
             }
         }
-        
+        //
+        initNumberFormat();
         // noyau
         if(url == null){
             this.controller = new DataController(this);
@@ -217,6 +223,14 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     }
 
+    private void initNumberFormat(){
+        numberFormat = NumberFormat.getNumberInstance(getLocale());
+        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+        numberFormat.setGroupingUsed(false);
+    }
+    public NumberFormat getNumberFormat(){
+        return numberFormat;
+    }
     /* affichage des erreurs*/
     public boolean displayError(CopexReturn dr, String title) {
         if (dr.mustConfirm ()){
@@ -393,6 +407,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         logDeleteDataset(dataset);
         fitexTabbedPane.removeDataset(dataset);
         return true;
+    }
+
+    /* appel par le noyau suppression du dataset */
+    public void deleteDataset(Dataset dataset ){
+        fitexTabbedPane.removeDataset(dataset);
     }
 
 

@@ -77,7 +77,7 @@ public class InsertUndoRedo extends DataUndoRedo {
             }
         }
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.deleteData(true, getDataset(), listData, new ArrayList(), listRowAndCol, v);
+        CopexReturn cr = this.controller.deleteData(true, getDataset(), listData, listRowAndCol[0], listRowAndCol[1],new ArrayList(),v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;

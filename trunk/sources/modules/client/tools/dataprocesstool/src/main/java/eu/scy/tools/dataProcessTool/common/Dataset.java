@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
+import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.fitex.GUI.DrawPanel;
 import java.util.Iterator;
@@ -288,7 +289,7 @@ public class Dataset implements Cloneable{
         List<DataSetHeader> headers = new LinkedList<DataSetHeader>() ;
         List<DataSetColumn> variables = new LinkedList<DataSetColumn>();
         for (int j=0; j<nbC; j++){
-            DataSetColumn dsCol = new DataSetColumn(getDataHeader(j) == null ?"" : getDataHeader(j).getValue(), "", "double") ;
+            DataSetColumn dsCol = new DataSetColumn(getDataHeader(j) == null ?"" : getDataHeader(j).getValue(), "", getDataHeader(j) == null ?"" : getDataHeader(j).getUnit()) ;
             variables.add(dsCol);
         }
         DataSetHeader header = new DataSetHeader(variables, locale);
@@ -350,14 +351,14 @@ public class Dataset implements Cloneable{
                 Graph g = (Graph)myVis ;
                 ParamGraph pg = g.getParamGraph() ;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> listFunction = getListFunctionModel(g.getListFunctionModel());
-                vis = new GraphVisualization(DataConstants.TYPE_VIS_GRAPH, myVis.getName(), myVis.isOnCol,g.getTabNo()[0], g.getTabNo()[1],
-                        pg.getHeaderX().getValue(), pg.getHeaderY().getValue(), pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
-                        DrawPanel.SCATTER_PLOT_COLOR.getRed(), DrawPanel.SCATTER_PLOT_COLOR.getGreen(), DrawPanel.SCATTER_PLOT_COLOR.getBlue(),
+                List<XYAxis> axis = getAxis(pg);
+                vis = new GraphVisualization(DataConstants.TYPE_VIS_GRAPH, myVis.getName(), axis, pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
+                        DrawPanel.SCATTER_PLOT_COLOR_1.getRed(), DrawPanel.SCATTER_PLOT_COLOR_1.getGreen(), DrawPanel.SCATTER_PLOT_COLOR_1.getBlue(),
                         listFunction);
             }else if (type.getCode() == DataConstants.VIS_PIE){
-                vis = new eu.scy.tools.dataProcessTool.pdsELO.PieVisualization(DataConstants.TYPE_VIS_PIE, myVis.getName(), myVis.isOnCol, myVis.getTabNo()[0]);
+                vis = new eu.scy.tools.dataProcessTool.pdsELO.PieVisualization(DataConstants.TYPE_VIS_PIE, myVis.getName(),  ((SimpleVisualization)myVis).getNoCol());
             }else if (type.getCode() == DataConstants.VIS_BAR){
-                vis = new eu.scy.tools.dataProcessTool.pdsELO.BarVisualization(DataConstants.TYPE_VIS_BAR, myVis.getName(), myVis.isOnCol, myVis.getTabNo()[0]);
+                vis = new eu.scy.tools.dataProcessTool.pdsELO.BarVisualization(DataConstants.TYPE_VIS_BAR, myVis.getName(),  ((SimpleVisualization)myVis).getNoCol());
             }
             if(vis != null)
                 listVisualizations.add(vis);
@@ -365,6 +366,16 @@ public class Dataset implements Cloneable{
         ProcessedData pds = new ProcessedData(this.name, iData, listOperations, listVisualizations);
         ProcessedDatasetELO pdsELO = new ProcessedDatasetELO(ds, pds);
         return pdsELO ;
+    }
+
+    private List<XYAxis> getAxis(ParamGraph pg){
+        List<XYAxis> axis = new LinkedList();
+        for (Iterator<PlotXY> p = pg.getPlots().iterator();p.hasNext();){
+            PlotXY plot = p.next();
+            XYAxis a = new XYAxis(plot.getHeaderX().getNoCol(), plot.getHeaderY().getNoCol(), plot.getHeaderX().getValue(), plot.getHeaderY().getValue());
+            axis.add(a);
+        }
+        return axis;
     }
 
     private List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> getListFunctionModel(ArrayList<FunctionModel> listFm){
@@ -450,24 +461,172 @@ public class Dataset implements Cloneable{
     }
     
     /* supprime des donnees et met a jour le nombre de lignes et de colonnes */
-    public void removeData(ArrayList<Integer>[] listRowAndCol){
-        int nbRowsSel = listRowAndCol[0].size();
-        int nbColsSel = listRowAndCol[1].size();
-        // suppression des colonnes, on commence par le numero le plus grand
-        ArrayList<Integer> listCol = getSortList(listRowAndCol[1]);
-        for (int i=0; i<nbColsSel; i++){
-            deleteCol(listCol.get(i));
-        }
-        // suppression des lignes, on commence par le numero le plus grand
-        ArrayList<Integer> listRow = getSortList(listRowAndCol[0]);
-        for (int i=0; i<nbRowsSel; i++){
-            deleteRow(listRow.get(i));
-        }
+//    public void removeData(ArrayList<Integer>[] listRowAndCol){
+//        int nbRowsSel = listRowAndCol[0].size();
+//        int nbColsSel = listRowAndCol[1].size();
+//        // suppression des colonnes, on commence par le numero le plus grand
+//        ArrayList<Integer> listCol = getSortList(listRowAndCol[1]);
+//        for (int i=0; i<nbColsSel; i++){
+//            deleteCol(listCol.get(i));
+//        }
+//        // suppression des lignes, on commence par le numero le plus grand
+//        ArrayList<Integer> listRow = getSortList(listRowAndCol[0]);
+//        for (int i=0; i<nbRowsSel; i++){
+//            deleteRow(listRow.get(i));
+//        }
+//
+//    }
 
+    /* supprime des donnees*/
+    public void removeData(ArrayList<Data> listData){
+        for(Iterator<Data> d = listData.iterator();d.hasNext();){
+            Data adata = d.next();
+            setData(null,adata.getNoRow(), adata.getNoCol());
+        }
+    }
+
+    /* suppression de lignes */
+    public ArrayList[] removeRows(ArrayList<Integer> listRow){
+        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList<DataOperation> listOpToDel = new ArrayList();
+        ArrayList<Visualization> listVisToDel = new ArrayList();
+        ArrayList<DataOperation> listOpToUpdate = new ArrayList();
+        ArrayList<Visualization> listVisToUpdate = new ArrayList();
+        int nbRowsSel = listRow.size();
+        ArrayList<Integer> list = getSortList(listRow);
+        for (int i=0; i<nbRowsSel; i++){
+            ArrayList[] listV = deleteRow(list.get(i));
+            for(Iterator<DataOperation> l = listV[0].iterator();l.hasNext();){
+                listOpToUpdate.add(l.next());
+            }
+            for(Iterator<DataOperation> l = listV[1].iterator();l.hasNext();){
+                listOpToDel.add(l.next());
+            }
+            for(Iterator<Visualization> l = listV[2].iterator();l.hasNext();){
+                listVisToUpdate.add(l.next());
+            }
+            for(Iterator<Visualization> l = listV[3].iterator();l.hasNext();){
+                listVisToDel.add(l.next());
+            }
+        }
+        tabDel[0] = listOpToUpdate;
+        tabDel[1] = listOpToDel;
+        tabDel[2] = listVisToUpdate;
+        tabDel[3] = listVisToDel;
+        return tabDel;
+    }
+
+    /* suppression de colonnes */
+    public ArrayList[] removeCols(ArrayList<Integer> listCol){
+        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList<DataOperation> listOpToDel = new ArrayList();
+        ArrayList<Visualization> listVisToDel = new ArrayList();
+        ArrayList<DataOperation> listOpToUpdate = new ArrayList();
+        ArrayList<Visualization> listVisToUpdate = new ArrayList();
+        int nbColsSel = listCol.size();
+        ArrayList<Integer> list = getSortList(listCol);
+        for (int i=0; i<nbColsSel; i++){
+            ArrayList[] listV = deleteCol(list.get(i));
+            for(Iterator<DataOperation> l = listV[0].iterator();l.hasNext();){
+                listOpToUpdate.add(l.next());
+            }
+            for(Iterator<DataOperation> l = listV[1].iterator();l.hasNext();){
+                listOpToDel.add(l.next());
+            }
+            for(Iterator<Visualization> l = listV[2].iterator();l.hasNext();){
+                listVisToUpdate.add(l.next());
+            }
+            for(Iterator<Visualization> l = listV[3].iterator();l.hasNext();){
+                listVisToDel.add(l.next());
+            }
+        }
+        tabDel[0] = listOpToUpdate;
+        tabDel[1] = listOpToDel;
+        tabDel[2] = listVisToUpdate;
+        tabDel[3] = listVisToDel;
+        return tabDel;
     }
 
     /* suppression d'une colonne  */
-    private void deleteCol(int no){
+    private ArrayList[] deleteCol(int no){
+        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
+        ArrayList<DataOperation> listOperationToDel = new ArrayList();
+        ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
+        ArrayList<Visualization> listVisualizationToDel = new ArrayList();
+        // maj list operation
+        // clone les operations
+        ArrayList<DataOperation> listOpC = new ArrayList();
+        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
+            listOpC.add((DataOperation)o.next().clone());
+        }
+        int nbOp = listOperation.size();
+        for (int i=0; i<nbOp; i++){
+            if (listOperation.get(i).isOnCol()){
+                ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
+                int idNo = listNo.indexOf(new Integer(no));
+                boolean remove = listNo.remove(new Integer(no));
+                int size = listNo.size();
+                for (int k=0; k<size; k++){
+                    if (listNo.get(k) > no)
+                        listNo.set(k, new Integer(listNo.get(k) -1 ));
+                }
+                if(size > 0 && remove)
+                    listOperationToUpdate.add(listOpC.get(i));
+                if (remove && i<listOperationResult.size()){
+                    listOperationResult.get(i).remove(idNo);
+                }
+
+            }
+        }
+        // suppresssion des operations qui n'ont pas lieu d'etre
+        for (int i=nbOp-1; i>=0; i--){
+            if (listOperation.get(i).isOnCol()){
+                ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
+                int size = listNo.size();
+                if(size == 0){
+                    listOperationToDel.add(listOpC.get(i));
+                    removeOperation(listOperation.get(i));
+                }
+            }
+        }
+        // clone les vis
+        ArrayList<Visualization> listVisC = new ArrayList();
+        for(Iterator<Visualization> o = listVisualization.iterator();o.hasNext();){
+            listVisC.add((Visualization)o.next().clone());
+        }
+        // maj list visualization
+        int nbVis = listVisualization.size();
+        for (int i=nbVis-1; i>=0; i--){
+            Visualization v = listVisualization.get(i);
+            if (v.isOnNo(no)){
+                if(v instanceof SimpleVisualization){
+                    listVisualization.remove(i);
+                    listVisualizationToDel.add(listVisC.get(i));
+                }else if(v instanceof Graph){
+                    boolean remove = ((Graph)v).removePlotWithNo(no);
+                    int nb = ((Graph)v).getNbPlots();
+                    if(nb==0){
+                        listVisualizationToDel.add(listVisC.get(i));
+                        listVisualization.remove(i);
+                    }else if(remove)
+                        listVisualizationToUpdate.add(listVisC.get(i));
+                }
+            }
+        }
+        for(int i=0; i<listVisualization.size(); i++){
+            Visualization v = listVisualization.get(i);
+            if(v instanceof SimpleVisualization){
+                int n = ((SimpleVisualization)v).getNoCol();
+                if ( n > no){
+                    ((SimpleVisualization)v).setNoCol(n-1);
+                }
+            }else if (v instanceof Graph){
+                //((Graph)v).updateNoCol(no, -1);
+            }
+        }
+        // maj header
+        removeHeader(no);
         Data[][] newData = new Data[this.nbRows][this.nbCol-1];
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCol; j++){
@@ -482,10 +641,31 @@ public class Dataset implements Cloneable{
             }
         }
         setData(newData);
+        
+        // maj nb Col
+        this.nbCol = this.nbCol-1;
+        tabDel[0] = listOperationToUpdate;
+        tabDel[1] = listOperationToDel;
+        tabDel[2] = listVisualizationToUpdate;
+        tabDel[3] = listVisualizationToDel;
+        return tabDel;
+    }
+
+    /* suppression d'une ligne  */
+    private ArrayList[] deleteRow(int no){
+        ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
+        ArrayList<DataOperation> listOperationToDel = new ArrayList();
+        ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
+        ArrayList<Visualization> listVisualizationToDel = new ArrayList();
         // maj list operation
+        // clone les operations
+        ArrayList<DataOperation> listOpC = new ArrayList();
+        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
+            listOpC.add((DataOperation)o.next().clone());
+        }
         int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
-            if (listOperation.get(i).isOnCol()){
+            if (!listOperation.get(i).isOnCol()){
                 ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
                 int idNo = listNo.indexOf(new Integer(no));
                 boolean remove = listNo.remove(new Integer(no));
@@ -494,37 +674,25 @@ public class Dataset implements Cloneable{
                     if (listNo.get(k) > no)
                         listNo.set(k, new Integer(listNo.get(k) -1 ));
                 }
-                if (remove && i<listOperationResult.size()){
+                if(size > 0 && remove)
+                    listOperationToUpdate.add(listOpC.get(i));
+                if (remove){
                     listOperationResult.get(i).remove(idNo);
                 }
 
             }
         }
-        // maj list visualization
-        int nbVis = listVisualization.size();
-        for (int i=0; i<nbVis; i++){
-            if (listVisualization.get(i).isOnCol ){
-                int[] tabNo = listVisualization.get(i).getTabNo() ;
-                int size = tabNo.length;
-                if (listVisualization.get(i).isOnNo(no))
-                    size--;
-                int[] newTab = new int[size];
-                int id = 0;
-                for (int k=0; k<tabNo.length; k++){
-                    if (tabNo[k] <no)
-                        newTab[id++] = tabNo[k];
-                    else if (tabNo[k] > no)
-                        newTab[id++] = tabNo[k]-1;
+        // suppresssion des operations qui n'ont pas lieu d'etre
+        for (int i=nbOp-1; i>=0; i--){
+            if (!listOperation.get(i).isOnCol()){
+                ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
+                int size = listNo.size();
+                if(size == 0){
+                    listOperationToDel.add(listOpC.get(i));
+                    removeOperation(listOperation.get(i));
                 }
-                listVisualization.get(i).setTabNo(newTab);
             }
         }
-        // maj nb Col
-        this.nbCol = this.nbCol-1;
-    }
-
-    /* suppression d'une ligne  */
-    private void deleteRow(int no){
         Data[][] newData = new Data[this.nbRows-1][this.nbCol];
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCol; j++){
@@ -539,45 +707,15 @@ public class Dataset implements Cloneable{
             }
         }
         setData(newData);
-        // maj list operation
-        int nbOp = listOperation.size();
-        for (int i=0; i<nbOp; i++){
-            if (!listOperation.get(i).isOnCol()){
-                ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
-                int idNo = listNo.indexOf(new Integer(no));
-                boolean remove = listNo.remove(new Integer(no));
-                int size = listNo.size();
-                for (int k=0; k<size; k++){
-                    if (listNo.get(k) > no)
-                        listNo.set(k, new Integer(listNo.get(k) -1 ));
-                }
-                if (remove){
-                    listOperationResult.get(i).remove(idNo);
-                }
-
-            }
-        }
-        // maj list visualization
-        int nbVis = listVisualization.size();
-        for (int i=0; i<nbVis; i++){
-            if (!listVisualization.get(i).isOnCol ){
-                int[] tabNo = listVisualization.get(i).getTabNo() ;
-                int size = tabNo.length;
-                if (listVisualization.get(i).isOnNo(no))
-                    size--;
-                int[] newTab = new int[size];
-                int id = 0;
-                for (int k=0; k<tabNo.length; k++){
-                    if (tabNo[k] <no)
-                        newTab[id++] = tabNo[k];
-                    else if (tabNo[k] > no)
-                        newTab[id++] = tabNo[k]-1;
-                }
-                listVisualization.get(i).setTabNo(newTab);
-            }
-        }
+        
         // maj nb Row
         this.nbRows = this.nbRows-1;
+        ArrayList[] tab = new ArrayList[4];
+        tab[0] = listOperationToUpdate;
+        tab[1] = listOperationToDel;
+        tab[2] = listVisualizationToUpdate;
+        tab[3] = listVisualizationToDel;
+        return tab;
     }
 
    /* tri la liste du plus grand au plus petit */
@@ -610,6 +748,9 @@ public class Dataset implements Cloneable{
                    newData[i][j] = this.data[i][j];
                }else {
                    newData[i+nbRowsToInsert][j] = this.data[i][j];
+                   if(newData[i+nbRowsToInsert][j] != null){
+                       newData[i+nbRowsToInsert][j].setNoRow(i+nbRowsToInsert);
+                   }
                }
            }
        }
@@ -624,18 +765,6 @@ public class Dataset implements Cloneable{
                 for (int k=0; k<size; k++){
                     if (listNo.get(k) >= idBefore)
                         listNo.set(k, new Integer(listNo.get(k) +nbRowsToInsert ));
-                }
-            }
-        }
-       // list visualization : mise a jour des no
-       int nbVis = listVisualization.size();
-        for (int i=0; i<nbVis; i++){
-            if (!listVisualization.get(i).isOnCol()){
-                int[] listNo = listVisualization.get(i).getTabNo() ;
-                int size = listNo.length;
-                for (int k=0; k<size; k++){
-                    if (listNo[k] >= idBefore)
-                        listNo[k] =listNo[k] +nbRowsToInsert ;
                 }
             }
         }
@@ -655,8 +784,8 @@ public class Dataset implements Cloneable{
                    newData[i][j] = this.data[i][j];
                }else {
                    newData[i][j+nbColsToInsert] = this.data[i][j];
-                   if(newData[i][j] != null){
-                       newData[i][j].setNoCol(j);
+                   if(newData[i][j+nbColsToInsert] != null){
+                       newData[i][j+nbColsToInsert].setNoCol(j+nbColsToInsert);
                    }
                }
            }
@@ -690,12 +819,22 @@ public class Dataset implements Cloneable{
        // list visualization : mise a jour des no
        int nbVis = listVisualization.size();
         for (int i=0; i<nbVis; i++){
-            if (listVisualization.get(i).isOnCol()){
-                int[] listNo = listVisualization.get(i).getTabNo() ;
-                int size = listNo.length;
-                for (int k=0; k<size; k++){
-                    if (listNo[k] >= idBefore)
-                        listNo[k] =listNo[k] +nbColsToInsert ;
+            Visualization v = listVisualization.get(i);
+            if(v instanceof SimpleVisualization){
+                int n= ((SimpleVisualization)v).getNoCol();
+                if(n >= idBefore){
+                    ((SimpleVisualization)v).setNoCol(n+nbColsToInsert);
+                }
+            }else if (v instanceof Graph){
+                ArrayList<PlotXY> plots = ((Graph)v).getParamGraph().getPlots();
+                for(Iterator<PlotXY> p = plots.iterator();p.hasNext();){
+                    PlotXY plot = p.next();
+                    if(plot.getHeaderX().getNoCol() >= idBefore){
+                        plot.getHeaderX().setNoCol(plot.getHeaderX().getNoCol()+ nbColsToInsert);
+                    }
+                    if(plot.getHeaderY().getNoCol() >= idBefore){
+                        plot.getHeaderY().setNoCol(plot.getHeaderY().getNoCol()+ nbColsToInsert);
+                    }
                 }
             }
         }
@@ -800,7 +939,7 @@ public class Dataset implements Cloneable{
         toString += "\n" ;
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCol; j++){
-                toString += (data[i][j] == null ? " " : data[i][j].getValue())+" / ";
+                toString += (data[i][j] == null ? " " : data[i][j].getValue()+" ("+data[i][j].getNoRow()+", "+data[i][j].getNoCol()+") / ");
             }
             toString += "\n" ;
         }
@@ -952,17 +1091,6 @@ public class Dataset implements Cloneable{
             }
         }
         // visualizations
-        int nbVis = listVisualization.size();
-        for (int i=0; i<nbVis; i++){
-            if (!listVisualization.get(i).isOnCol()){
-                int[] tabNo = listVisualization.get(i).getTabNo() ;
-                int[]newTabNo = new int[tabNo.length];
-                for (int k=0; k<tabNo.length; k++){
-                    newTabNo[k] = (Integer)exchange.get(tabNo[k]);
-                }
-                listVisualization.get(i).setTabNo(newTabNo);
-            }
-        }
         calculateOperation();
     }
 

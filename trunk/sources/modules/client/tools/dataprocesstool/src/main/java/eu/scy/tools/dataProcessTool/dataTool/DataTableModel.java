@@ -11,7 +11,7 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -50,7 +50,7 @@ public class DataTableModel extends AbstractTableModel {
     /* liste des numeros des lignes */
     private Integer[]tabNoRow;
 
-    private DecimalFormat decimalFormat;
+    private NumberFormat numberFormat;
 
     
     // CONSTRUCTOR
@@ -59,9 +59,7 @@ public class DataTableModel extends AbstractTableModel {
         this.owner = owner;
         this.table = table;
         this.dataset = dataset;
-        this.decimalFormat = new DecimalFormat();
-        this.decimalFormat.setDecimalSeparatorAlwaysShown(false);
-
+        this.numberFormat = owner.getNumberFormat();
         loadData();
     }
 
@@ -121,7 +119,7 @@ public class DataTableModel extends AbstractTableModel {
             tabNoRow[i] = i+1;
             this.tabData[i+1][0] = i+1;
             for (int j=0; j<nbColDs; j++){
-                this.tabData[i+1][j+1] = this.datas[i][j] == null ? "" :decimalFormat.format(this.datas[i][j].getValue());
+                this.tabData[i+1][j+1] = this.datas[i][j] == null ? "" :numberFormat.format(this.datas[i][j].getValue());
             }
         }
         
@@ -206,6 +204,7 @@ public class DataTableModel extends AbstractTableModel {
             owner.updateDataOperation(dataset, v1, operation);
         }else if (isValueData(rowIndex, columnIndex)){
             Double val = null;
+            v1 = v1.replace(",", ".");
             try{
                 if(v1 != null && !v1.equals("")){
                     val = Double.parseDouble(v1);
@@ -230,7 +229,7 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbColDs; i++){
             int id = listNo.indexOf(i);
             if (id !=-1 && !isIgnoredCol(i)){
-                this.tabData[noR][1+i] = decimalFormat.format(this.dataset.getListOperationResult(operation).get(id));
+                this.tabData[noR][1+i] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[noR][1+i] = "-" ;
         }
@@ -276,7 +275,7 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbRowDs; i++){
             int id = listNo.indexOf(i);
             if (id != -1 && !isIgnoredRow(i)){
-                this.tabData[1+i][noC] = decimalFormat.format(this.dataset.getListOperationResult(operation).get(id));
+                this.tabData[1+i][noC] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[1+i][noC] = "-" ;
         }
@@ -397,6 +396,22 @@ public class DataTableModel extends AbstractTableModel {
                 data = datas[selCell[0]-1][selCell[1]-1];
             }
             if (data != null)
+                listSelectedData.add(data);
+        }
+        return listSelectedData ;
+    }
+
+    /* retourne les data selectionnees, hors lignes completes ou colonnes complete */
+    public ArrayList<Data> getSelectedDataAlone(ArrayList<int[]> listSelected, ArrayList<Integer>[] listRowAndCol){
+        ArrayList<Data> listSelectedData = new ArrayList();
+        int nb = listSelected.size();
+        for (int i=0; i<nb; i++){
+            int[] selCell = listSelected.get(i);
+            Data data = null;
+            if (isValueData(selCell[0], selCell[1])){
+                data = datas[selCell[0]-1][selCell[1]-1];
+            }
+            if (data != null && listRowAndCol[0].indexOf(selCell[0]-1) == -1 && listRowAndCol[1].indexOf(selCell[1]-1) == -1)
                 listSelectedData.add(data);
         }
         return listSelectedData ;
@@ -546,6 +561,8 @@ public class DataTableModel extends AbstractTableModel {
             if (lastCol){
                 idBefore = this.nbColDs ;
                 nbInsert++;
+            }else if(listSelectedCol.size() == 0){
+                idBefore = this.nbColDs;
             }else{
                 idBefore = listSelectedCol.get(0);
             }
@@ -554,6 +571,8 @@ public class DataTableModel extends AbstractTableModel {
             if (lastRow){
                 idBefore = this.nbRowDs ;
                 nbInsert++;
+            }else if(listSelectedRow.size() == 0){
+                idBefore = this.nbRowDs;
             }else{
                 idBefore = listSelectedRow.get(0);
             }
