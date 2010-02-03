@@ -2,11 +2,8 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.student.StudentPlanELOImpl;
-import eu.scy.core.model.impl.student.StudentPlannedActivityImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.student.StudentPlanELO;
-import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.UserDAO;
 import org.junit.Test;
 
@@ -47,7 +44,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernateTest extends AbstractP
         PedagogicalPlanTemplate template = createPedagogicalPlanTemplate("The coolest template ever");
         PedagogicalPlan pedagogicalPlan = createPedagogicalPlan(template);
 
-        User student = getUserDAOHibernate().createUser("Hilly", "damageINC");
+        User student = getUserDAOHibernate().createUser("Hilly", "damageINC", "ROLE_ADMINISTRATOR");
         assertNotNull(student);
         assertNotNull(student.getId());
 

@@ -2,7 +2,6 @@ package eu.scy.server.utils;
 
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
-import eu.scy.core.model.impl.SCYUserImpl;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.logging.Logger;
@@ -34,7 +33,7 @@ public class ServerDataInitializer implements InitializingBean {
     }
 
     private User createUser(String username, String password) {
-        return getUserService().createUser(username, password);
+        return getUserService().createUser(username, password, "STUDENT_ROLE");
     }
 
     private void generateDummyUsers() {
@@ -49,7 +48,7 @@ public class ServerDataInitializer implements InitializingBean {
     private void addUserIfNotExists(String firstName, String lastName, String userName, String password) {
         log.info("ADding user if not exists: " + firstName + " " + lastName + " " + userName + " shhhhh " + password);
         if (getUserService().getUser(userName) == null) {
-            getUserService().createUser(userName, password);
+            getUserService().createUser(userName, password, "STUDENT_ROLE");
         }
     }
 

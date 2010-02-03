@@ -3,7 +3,6 @@ package eu.scy.core.persistence.hibernate;
 import eu.scy.core.model.User;
 import eu.scy.core.persistence.UserDAO;
 import org.junit.Test;
-import org.springframework.test.AbstractTransactionalSpringContextTests;
 
 
 /**
@@ -33,7 +32,7 @@ public class UserDAOHibernateTest extends AbstractDAOTest {
 
     @Test
     public void testCreateUser() {
-        User user = getUserDAO().createUser("Henrik", "Hillary");
+        User user = getUserDAO().createUser("Henrik", "Hillary", "ROLE_ADMINISTRATOR");
         assert(user != null);
         assert(user.getUserDetails() != null);
     }
@@ -42,7 +41,7 @@ public class UserDAOHibernateTest extends AbstractDAOTest {
     public void testLoadUser() {
         final String USER_NAME = "henrikthecoolestmanonearth";
         final String LAST_NAME = "sshhhhh-secret";
-        User u = getUserDAO().createUser(USER_NAME,LAST_NAME);
+        User u = getUserDAO().createUser(USER_NAME,LAST_NAME, "ROLE_ADMINISTRATOR");
 
         User user = getUserDAO().getUserByUsername(USER_NAME);
         assertNotNull(user);
