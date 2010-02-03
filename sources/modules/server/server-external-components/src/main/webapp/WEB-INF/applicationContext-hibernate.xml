@@ -134,7 +134,7 @@
 
     <bean id="sessionRegistry" class="org.springframework.security.concurrent.SessionRegistryImpl"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <!--bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">
             <value>com.mysql.jdbc.Driver</value>
         </property>
@@ -145,9 +145,14 @@
             <value>root</value>
         </property>
         <property name="password">
-            <value></value>
+            <value>root</value>
         </property>
-    </bean>
+    </bean-->
+
+<bean id="dataSource" class="eu.scy.server.datasource.ConfigurableDataSource"/>
+
+    
+
 
     <bean id="scenarioDAO" class="eu.scy.core.persistence.hibernate.ScenarioDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
