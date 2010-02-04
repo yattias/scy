@@ -57,6 +57,7 @@ import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javax.swing.JTable;
 
 /**
  * This class collects datapoints from a SimQuest simulation and stores them as an ELO.
@@ -65,6 +66,8 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  * 
  */
 public class DataCollector extends JPanel implements ActionListener, IDataClient, WindowListener {
+    private JScrollPane pane;
+    private JTable table;
 
     public enum SCAFFOLD {
         VOTAT,
@@ -77,7 +80,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     private ISimQuestViewer simquestViewer;
 
-    private JTextArea text = new JTextArea(5, 20);
+    //private JTextArea text = new JTextArea(5, 20);
 
     private SCYDataAgent dataAgent;
 
@@ -88,6 +91,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private JCheckBox checkbox;
 
     private DataSet dataset;
+
+    private DatasetTableModel tableModel;
 
     private JToggleButton sandboxbutton;
 
@@ -127,6 +132,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger());
         }
+        setSelectedVariables(new ArrayList<ModelVariable>());
         // initialize user interface
         initGUI();
         logger.toolStarted();
@@ -134,9 +140,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
-        setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
-        setSelectedVariables(new ArrayList<ModelVariable>());
-
+        //setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
+        
         // register agent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
         dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
@@ -186,15 +191,20 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         buttonPanel.add(notifyButton);
         this.add(buttonPanel, BorderLayout.NORTH);
 
-        JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        pane.setViewportView(text);
-        this.add(pane, BorderLayout.CENTER);
-
+        tableModel = new DatasetTableModel(getSelectedVariables());
+        table = new JTable(tableModel);
+        //table.setSize(550, 200);
+	table.setFillsViewportHeight(true);
+        pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        pane.setSize(550, 140);
+        pane.setPreferredSize(new Dimension(550,140));
+        pane.setMaximumSize(new Dimension(550,140));
+        pane.setViewportView(table);
+        this.add(pane, BorderLayout.SOUTH);
     }
 
     public void setRotation(double angle) {
         balanceSlider.setRotationAngle(angle);
-        // System.out.println("DataCollector.setRotation(): "+angle);
     }
 
     public void addCurrentDatapoint() {
@@ -207,11 +217,14 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
             var = vars.next();
             values.add(var.getValueString());
-            text.append(var.getExternalName() + ":" + var.getValueString() + " / ");
+            //text.append(var.getExternalName() + ":" + var.getValueString() + " / ");
         }
-        text.append("\n");
+        //text.append("\n");
         DataSetRow newRow = new DataSetRow(values);
         dataset.addRow(newRow);
+        tableModel.addRow(newRow);
+        //table.repaint();
+        pane.setViewportView(table);
         logger.logAddRow(newRow);
         if (sandboxbutton.isSelected()) {
             sandbox.sendDataSetRow(newRow);
@@ -232,7 +245,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 sandbox.disconnect();
                 // sandbox.clear();
                 sandbox = null;
-                text.append("sandbox and session disconnected.\n");
+                //text.append("sandbox and session disconnected.\n");
             }
         } else if (evt.getActionCommand().equals("notification")) {
             notify = false;
@@ -301,7 +314,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         if (sandbox != null) {
             initSandbox();
         }
-        text.setText("");
+        //text.setText("");
     }
 
     public DataSet getDataSet() {
@@ -372,13 +385,21 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         }
         datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
         dataset = new DataSet(datasetheaders);
+        tableModel = new DatasetTableModel(selectedVariables);
+        table = new JTable(tableModel);
+        table.setFillsViewportHeight(true);
+        if (pane != null) {
+            pane.setViewportView(table);
+            //pane.repaint();
+            //table.repaint();
+        }
         if (sandbox != null) {
             sandbox.clear();
             sandbox.sendHeaderMessage();
         }
-        if (text != null) {
-            text.setText("");
-        }
+        //if (text != null) {
+        //    text.setText("");
+        //}
     }
 
     public void setSelectedVariables(List<ModelVariable> selection) {
@@ -405,13 +426,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 throw new CollaborationServiceException("no datasyncservice available");
             }
             sandbox = new DatasetSandbox(this, tbi);
-            text.append("sandbox initialised.\n");
+            //text.append("sandbox initialised.\n");
             ISyncSession session = sandbox.createSession();
-            text.append("session created: " + session.getId() + "\n");
+            //text.append("session created: " + session.getId() + "\n");
             JOptionPane.showMessageDialog(this, "A sychronised session has been created; use the identifier\n in the text box below to join this session", "Session created", JOptionPane.INFORMATION_MESSAGE);
         } catch (CollaborationServiceException ex) {
-            text.append("could not initialise sandbox.\n");
-            text.append(ex.getMessage() + "\n");
+            //text.append("could not initialise sandbox.\n");
+            //text.append(ex.getMessage() + "\n");
             sandboxbutton.setSelected(false);
             JOptionPane.showMessageDialog(this, "A synchronised session could not be created.\nIs a DataSyncService really available?", "Session not created", JOptionPane.WARNING_MESSAGE);
         }
