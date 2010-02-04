@@ -12,7 +12,7 @@
                 </constructor-arg>
         </bean>
         <bean id="scysim" class="eu.scy.agents.impl.AgentStartConfiguration">
-                <constructor-arg index="0" value="eu.scy.agents.tools.scysim.ScySimAgent" />
+                <constructor-arg index="0" value="eu.scy.agents.sensors.behaviourclassifier.ScySimBehaviourClassifier" />
                 <constructor-arg index="1">
                         <map />
                 </constructor-arg>
