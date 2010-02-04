@@ -34,6 +34,7 @@ public class ChatPresencePanel extends JPanel {
 	JXTitledPanel chatAreaPanel;
 	private ChatController chatController;
 	private DefaultListModel model = new DefaultListModel();
+	private JScrollPane buddyListScroll;
 
 	
 	public ChatPresencePanel(ChatController mucChatController) {
@@ -55,7 +56,7 @@ public class ChatPresencePanel extends JPanel {
 	protected JPanel createBuddyListPanel() {
 		//JPanel buddyPanel = new JPanel(new MigLayout("insets 0 0 0 0,wrap 1"));
 		JPanel buddyPanel = new JPanel();
-		buddyPanel.setBackground(Color.white);
+		buddyPanel.setBackground(Color.red);
 		//buddyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		buddyList = new JList(chatController.getBuddyListModel());
 		buddyList.setBorder(BorderFactory.createEmptyBorder());
@@ -65,12 +66,16 @@ public class ChatPresencePanel extends JPanel {
 		buddyList.setCellRenderer(new BuddyListRenderer());
 		//updateModel();
 
-		JScrollPane buddyListScroll = new JScrollPane(buddyList);
+		buddyListScroll = new JScrollPane(buddyList);
 		buddyListScroll.setBorder(BorderFactory.createEmptyBorder());
 		buddyListScroll.setPreferredSize(new Dimension(200, 75));
 
 		buddyPanel.add(buddyListScroll);
 		return buddyPanel;
+	}
+	
+	public void resizeChat(int newWidth, int newHeight) {
+		this.buddyListScroll.setPreferredSize(new Dimension(newWidth, newHeight));
 	}
 
 	public void setChatController(ChatController chatController) {
