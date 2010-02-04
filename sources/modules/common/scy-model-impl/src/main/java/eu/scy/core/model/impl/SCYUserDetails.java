@@ -16,8 +16,11 @@ import java.util.Set;
  * Time: 12:23:59
  * Overridden details class in order to add SCY specific user fields
  */
-@Entity(name = "eu.scy.core.model.impl.SCYUserDetails")
+//Entity(name = "eu.scy.core.model.impl.SCYUserDetails")
+//Table(name = "user_details")
+    @Entity
 @Table(name = "user_details")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class SCYUserDetails implements UserDetails/*extends StudentUserDetails */ {
 
     private Long id;

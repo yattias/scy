@@ -14,7 +14,7 @@ public interface UserService extends BaseService{
 
     public User getUser(String username);
 
-
-
     User createUser(String username, String password, String role);
+
+    public User save(User user);
 }

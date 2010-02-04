@@ -33,6 +33,12 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
         return getUserDAO().createUser(username, password, role);
     }
 
+    @Transactional
+    @Override
+    public User save(User user) {
+        return (User) getUserDAO().save(user);
+    }
+
     public UserDAO getUserDAO() {
         return (UserDAO) getScyBaseDAO();
     }

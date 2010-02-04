@@ -1,5 +1,6 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.model.impl.SCYStudentUserDetails;
 import eu.scy.core.model.impl.SCYUserDetails;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.impl.RoleImpl;
@@ -42,9 +43,18 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     public User createUser(String username, String password, String role) {
         String suggestedUserName = generateUserNameIfAlreadyExists(username);
         SCYUserImpl newUser = new SCYUserImpl();
-        SCYUserDetails userDetails = new SCYUserDetails();
+        SCYStudentUserDetails userDetails = new SCYStudentUserDetails();
         userDetails.setUsername(suggestedUserName);
         userDetails.setPassword(password);
+        userDetails.setFirstname("");
+        userDetails.setLastname("");
+        userDetails.setAccountQuestion("q");
+        userDetails.setAccountAnswer("a");
+        userDetails.setBirthday(new Date());
+        userDetails.setGender(1);
+        userDetails.setLastLoginTime(new Date());
+        userDetails.setSignupdate(new Date());
+        userDetails.setNumberOfLogins(0);
         newUser.setUserDetails(userDetails);
 
         SCYGrantedAuthority authority = getAuthority("ROLE_ADMINISTRATOR");
