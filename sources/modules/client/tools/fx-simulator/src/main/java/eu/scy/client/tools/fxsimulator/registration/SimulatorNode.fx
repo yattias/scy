@@ -182,7 +182,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             if (fixedDimension.width < 555) {
                     fixedDimension.width = 555;
             }
-            fixedDimension.height = fixedDimension.height + 220;
+            fixedDimension.height = fixedDimension.height + 240;
             scyWindow.open();
         } catch (e: java
             .lang.Exception) {
