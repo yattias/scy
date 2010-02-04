@@ -67,7 +67,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     private String generateUserNameIfAlreadyExists(String username) {
         if (getUserByUsername(username) != null) {
-            Long userCount = (Long) getSession().createQuery("select count(username) from SCYUserImpl")
+            Long userCount = (Long) getSession().createQuery("select count(user) from SCYUserImpl as user")
                     .uniqueResult();
             return username + userCount;
         }
