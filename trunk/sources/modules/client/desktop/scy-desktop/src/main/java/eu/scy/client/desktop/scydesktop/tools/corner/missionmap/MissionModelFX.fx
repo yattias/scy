@@ -11,7 +11,6 @@ import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
-import java.util.HashMap;
 
 /**
  * @author sikken
@@ -22,6 +21,8 @@ public def eloType = "scy/missionmodel";
 public class MissionModelFX {
    def logger = Logger.getLogger(this.getClass());
 
+   public var missionId:String;
+   public var missionName:String;
    public var anchors:MissionAnchorFX[];
    public var activeAnchor:MissionAnchorFX on replace{
          logger.debug("new activeAncher {activeAnchor}");

@@ -42,6 +42,8 @@ public class BasicConfig implements Config
    private List<BasicEloConfig> eloConfigList;
    private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
+   private String missionId;
+   private String missionName;
    private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
    private URI activeMissionAnchorUri;
    private List<URI> templateEloUris;
@@ -196,6 +198,28 @@ public class BasicConfig implements Config
    public List<NewEloDescription> getNewEloDescriptions()
    {
       return newEloDescriptions;
+   }
+
+   public void setMissionId(String missionId)
+   {
+      this.missionId = missionId;
+   }
+
+   @Override
+   public String getMissionId()
+   {
+      return missionId;
+   }
+
+   public void setMissionName(String missionName)
+   {
+      this.missionName = missionName;
+   }
+
+   @Override
+   public String getMissionName()
+   {
+      return missionName;
    }
 
    public void setBasicMissionAnchorConfigs(List<BasicMissionAnchorConfig> basicMissionAnchorConfigs)
