@@ -107,14 +107,19 @@ change_variables_callback(_, _, _, _) :-
 vc_timeout_min(1).
 
 change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, IncChange) :-
+	retract(inc_change(Learner, Tool, Session, VarName, DiffOld)),
 	write('next run for '), writeln(VarName),
-	retract(inc_change(Learner, Tool, Session, VarNameOld, DiffOld)),
+	write('OldDiff: '), writeln(DiffOld),
 	assert(inc_change(Learner, Tool, Session, VarName, Diff)),
-	VarName == VarNameOld,
-	(   Diff == DiffOld
-	->  IncChange = 1
-	;   IncChange = 0
-	).
+	write('NewDiff: '), writeln(Diff),
+	term_to_atom(DO, DiffOld),
+	term_to_atom(D, Diff),
+	(   DO =:= D
+	->  IncChange is 1
+	;   IncChange is 0
+	),
+	write('inc_change: '), writeln(IncChange),
+	!.
 
 change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, _) :-
 	write('asserting first for '), writeln(VarName),
