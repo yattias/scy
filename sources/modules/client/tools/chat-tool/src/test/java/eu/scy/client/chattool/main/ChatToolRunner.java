@@ -64,7 +64,6 @@ public static void main(String[] args) {
 		frame.setSize(600, 450);
 		frame.pack();
 		frame.setVisible(true);
-		
 	}
 
 }

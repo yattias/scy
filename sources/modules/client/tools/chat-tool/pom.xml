@@ -54,6 +54,13 @@
 			<artifactId>chat-presence-tool</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.swing-layout</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		
 	</dependencies>
 
 </project>

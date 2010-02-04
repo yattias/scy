@@ -3,14 +3,10 @@ package eu.scy.client.tools.chattool;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.LinearGradientPaint;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -20,11 +16,7 @@ import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
-import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.tool.IChatPresenceToolEvent;
-import eu.scy.awareness.tool.IChatPresenceToolListener;
 import eu.scy.chat.controller.ChatController;
-import eu.scy.chat.controller.MUCChatController;
 
 /**
  * @author jeremyt
@@ -33,14 +25,14 @@ import eu.scy.chat.controller.MUCChatController;
 public class ChatPanel extends JXTitledPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(ChatPanel.class
-			.getName());
+	private static final Logger logger = Logger.getLogger(ChatPanel.class.getName());
 
 	private JTextArea chatArea = new JTextArea();
 	private JTextField sendMessageTextField = new JTextField();
-	private JXTitledPanel chatAreaPanel;
 	private ChatController chatControler;
-	private String ELOUri;
+	private JScrollPane chatAreaScroll;
+	private JXPanel p;
+	private int setWidth = 350;
 
 	public ChatPanel(ChatController mucChatController) {
 		this.chatControler = mucChatController;
@@ -66,21 +58,26 @@ public class ChatPanel extends JXTitledPanel {
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
 	}
+
+	
 	protected void initGUI() {
-		JXPanel p = new JXPanel(new MigLayout("insets 1 1 1 1,wrap 1"));
+		p = new JXPanel(new MigLayout("insets 1 1 1 1,wrap 1"));
 		p.setBackground(Color.white);
 		this.add(p);
 		chatArea.setEditable(false);
-		JScrollPane chatAreaScroll = new JScrollPane(chatArea);
+		chatAreaScroll = new JScrollPane(chatArea);
 
 		p.add(chatAreaScroll);
-		chatAreaScroll.setPreferredSize(new Dimension(350, 250));
+		chatAreaScroll.setPreferredSize(new Dimension(setWidth, 250));
 		
 		sendMessageTextField.setEditable(true);
 		sendMessageTextField.setEnabled(true);
 		
-
 		p.add(sendMessageTextField, "align left, grow");
+	}
+	
+	public void resizeChat(int newWidth, int newHeight) {
+		this.chatAreaScroll.setPreferredSize(new Dimension(newWidth, newHeight));
 	}
 
 	public void setChatArea(JTextArea chatArea) {
