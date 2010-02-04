@@ -56,7 +56,7 @@ public class ChatPresencePanel extends JPanel {
 	protected JPanel createBuddyListPanel() {
 		//JPanel buddyPanel = new JPanel(new MigLayout("insets 0 0 0 0,wrap 1"));
 		JPanel buddyPanel = new JPanel();
-		buddyPanel.setBackground(Color.red);
+		buddyPanel.setBackground(Color.white);
 		//buddyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		buddyList = new JList(chatController.getBuddyListModel());
 		buddyList.setBorder(BorderFactory.createEmptyBorder());
