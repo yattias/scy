@@ -68,7 +68,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 
     private void initDataProcessTool(){
         dataProcessPanel = new DataProcessToolPanel(false);
-        setTitle("FITEX "+dataProcessPanel.getVersion());
+        setTitle("SCYDataViewer "+dataProcessPanel.getVersion());
         setIconImage(dataProcessPanel.getIconDialog());
         dataProcessPanel.addActionCopexButton(this);
         add(dataProcessPanel, BorderLayout.CENTER);
@@ -80,7 +80,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
         this.addWindowListener(this);
         setMinimumSize(new Dimension(565, 330));
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("FITEX ");
+        setTitle("SCYDataViewer ");
         setLayout(new BorderLayout());
     }
 
