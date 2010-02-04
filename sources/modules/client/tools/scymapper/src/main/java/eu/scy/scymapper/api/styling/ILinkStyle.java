@@ -11,65 +11,53 @@ import java.awt.*;
  * It currently supports color, selection color and stroke
  */
 public interface ILinkStyle {
-    /**
-     * Returns the color of this link
-     *
-     * @return the color
-     */
-    Color getColor();
+	/**
+	 * Returns the color of this link
+	 *
+	 * @return the color
+	 */
+	Color getBackground();
 
-    /**
-     * Set / change color of this link
-     *
-     * @param c the color
-     */
-    void setColor(Color c);
+	/**
+	 * Set / change color of this link
+	 *
+	 * @param c the color
+	 */
+	void setBackground(Color c);
 
-    /**
-     * Set stroke
-     *
-     * @param s stroke object
-     * @see java.awt.Stroke
-     */
-    void setStroke(Stroke s);
+	Color getForeground();
 
-    /**
-     * Returns the current stroke object
-     *
-     * @return the stroke
-     */
-    Stroke getStroke();
+	void setForeground(Color foregroundColor);
 
-    /**
-     * Allow clients to add a listener for changes in style
-     *
-     * @param l the style listener
-     */
-    void addStyleListener(ILinkStyleListener l);
+	/**
+	 * Set stroke
+	 *
+	 * @param s stroke object
+	 * @see java.awt.Stroke
+	 */
+	void setStroke(Stroke s);
 
-    /**
-     * @param l the style listener
-     */
-    void removeStyleListener(ILinkStyleListener l);
+	/**
+	 * Returns the current stroke object
+	 *
+	 * @return the stroke
+	 */
+	Stroke getStroke();
 
-    /**
-     * Notify listeners about change in style
-     *
-     * @param s the changed style
-     */
-    void notifyStyleChanged(ILinkStyle s);
+	/**
+	 * Allow clients to add a listener for changes in style
+	 *
+	 * @param l the style listener
+	 */
+	void addStyleListener(ILinkStyleListener l);
 
-    /**
-     * Return the selection color
-     *
-     * @return the color that this link should be painted with if it is selected
-     */
-    Color getSelectionColor();
+	/**
+	 * @param l the style listener
+	 */
+	void removeStyleListener(ILinkStyleListener l);
 
-    /**
-     * Set the selection color
-     *
-     * @param c the color that this link should be painted with if it is selected
-     */
-    void setSelectionColor(Color c);
+	/**
+	 * Notify listeners about change in style
+	 */
+	void notifyStyleChanged();
 }

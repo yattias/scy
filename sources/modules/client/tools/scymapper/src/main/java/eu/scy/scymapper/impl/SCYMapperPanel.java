@@ -14,7 +14,9 @@ import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.SlideNotificator;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
+import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -33,11 +35,10 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 	private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 
 	private ToolBrokerAPI toolBroker;
-	private JSplitPane splitPane;
 	private IConceptMap conceptMap;
 	private ISCYMapperToolConfiguration configuration;
 	private ConceptDiagramView conceptDiagramView;
-	private JTextField sessionID;
+	private JTextField sessionId;
 	private ISyncSession currentSession;
 	private SlideNotificator notificator;
 
@@ -76,13 +77,13 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("--- NOTIFICATION ---").append("\n\n").
-			append("ToolID:	").append(notification.getToolId()).append("\n").
-			append("Mission:	").append(notification.getMission()).append("\n").
-			append("Sender:	").append(notification.getSender()).append("\n").
-			append("UserId:	").append(notification.getUserId()).append("\n").
-			append("ToolId:	").append(notification.getToolId()).append("\n").
-			append("Session:	").append(notification.getSession()).append("\n").
-			append("Properties --------------\n");
+				append("ToolID:	").append(notification.getToolId()).append("\n").
+				append("Mission:	").append(notification.getMission()).append("\n").
+				append("Sender:	").append(notification.getSender()).append("\n").
+				append("UserId:	").append(notification.getUserId()).append("\n").
+				append("ToolId:	").append(notification.getToolId()).append("\n").
+				append("Session:	").append(notification.getSession()).append("\n").
+				append("Properties --------------\n");
 
 		for (Map.Entry<String, String> entry : notification.getProperties().entrySet()) {
 			sb.append("  ").append(entry.getKey()).append(":	").append(entry.getValue()).append("\n");
@@ -113,13 +114,22 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 
 	private void initComponents() {
 
-		JPanel sessionPanel = new JPanel();
-		//sessionPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
-		sessionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		sessionPanel.add(new JLabel("Session: "));
-		sessionID = new JTextField("No session");
-		sessionID.setEditable(false);
+		JPanel topToolBarPanel = new JPanel(new MigLayout("flowy", "[left,grow,fill]"));
+		//topToolBarPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
 
+		JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+		sessionId = new JTextField("No session");
+		sessionId.setEditable(false);
+		sessionId.setPreferredSize(new Dimension(200, 20));
+
+		JButton joinSessionButton = new JButton("Join session");
+		joinSessionButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				joinSession();
+			}
+		});
 		JButton createSessionButton = new JButton("Create session");
 		createSessionButton.addActionListener(new ActionListener() {
 			@Override
@@ -127,15 +137,8 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 				createSession();
 			}
 		});
-		JButton joinSessionButton = new JButton("Join session");
-		joinSessionButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				joinSession();
-			}
-		});
-		sessionPanel.add(sessionID);
+		sessionPanel.add(new JLabel("Session: "));
+		sessionPanel.add(sessionId);
 		sessionPanel.add(createSessionButton);
 		sessionPanel.add(joinSessionButton);
 
@@ -169,20 +172,21 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		});
 		sessionPanel.add(hideNotificationButton);
 
-		add(BorderLayout.NORTH, sessionPanel);
+		topToolBarPanel.add(sessionPanel);
 
 		ConceptMapPanel cmapPanel = new ConceptMapPanel(conceptMap);
 		cmapPanel.setBackground(Color.WHITE);
 		conceptDiagramView = cmapPanel.getDiagramView();
 
-		JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
-		palettePane.setPreferredSize(new Dimension(120, 0));
-		palettePane.setSize(palettePane.getPreferredSize());
-		palettePane.setMinimumSize(palettePane.getPreferredSize());
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, palettePane, cmapPanel);
+		JToolBar toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView.getController());
+		topToolBarPanel.add(toolBar);
 
-		add(splitPane, BorderLayout.CENTER);
+		JToolBar palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
+
+		add(BorderLayout.NORTH, topToolBarPanel);
+		add(BorderLayout.WEST, palettePane);
+		add(BorderLayout.CENTER, cmapPanel);
 
 	}
 
@@ -199,7 +203,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 
 	@Override
 	public void syncObjectAdded(ISyncObject syncObject) {
-		//To change body of implemented methods use File | Settings | File Templates.
+
 	}
 
 	@Override
@@ -231,7 +235,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 	}
 
 	private void displaySessionId() {
-		sessionID.setText(currentSession.getId());
+		sessionId.setText(currentSession.getId());
 	}
 
 	private class ShowSessionIDAction extends AbstractAction {
@@ -267,7 +271,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		if (sessId != null) {
 			currentSession = toolBroker.getDataSyncService().joinSession(sessId, SCYMapperPanel.this);
 			joinSession(currentSession);
-			sessionID.setText(sessId);
+			sessionId.setText(sessId);
 		}
 	}
 

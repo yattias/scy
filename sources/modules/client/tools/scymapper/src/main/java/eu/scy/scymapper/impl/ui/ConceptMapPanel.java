@@ -6,9 +6,6 @@ import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,50 +16,22 @@ import java.net.URL;
  * and the concept map diagram view itself.
  */
 public class ConceptMapPanel extends JPanel {
-    private JToolBar toolBar;
-    private IConceptMap model;
-    private ConceptDiagramView conceptDiagramView;
+	private JToolBar toolBar;
+	private IConceptMap model;
+	private ConceptDiagramView conceptDiagramView;
 
-    public ConceptMapPanel(IConceptMap model) {
-        this.model = model;
-        initComponents();
-        initToolBar();
-    }
+	public ConceptMapPanel(IConceptMap model) {
+		this.model = model;
+		initComponents();
+	}
 
-    private void initComponents() {
-        setLayout(new BorderLayout());
-        conceptDiagramView = new ConceptDiagramView(new DiagramController(model.getDiagram()), model.getDiagram(), model.getDiagramSelectionModel());
-        add(new JScrollPane(conceptDiagramView));
-    }
+	private void initComponents() {
+		setLayout(new BorderLayout());
+		conceptDiagramView = new ConceptDiagramView(new DiagramController(model.getDiagram()), model.getDiagram(), model.getDiagramSelectionModel());
+		add(new JScrollPane(conceptDiagramView));
+	}
 
-    public ConceptDiagramView getDiagramView() {
-        return conceptDiagramView;
-    }
-
-    private void initToolBar() {
-        toolBar = new JToolBar();
-
-        JButton clearConceptMapBtn = new JButton("Clear");
-        URL url = getClass().getResource("icons/clear.png");
-        if (url != null) clearConceptMapBtn.setIcon(new ImageIcon(url));
-
-        clearConceptMapBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will removeNode all concepts from the current concept map. Are you sure you would like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
-                    conceptDiagramView.getController().removeAll();
-            }
-        });
-        toolBar.add(clearConceptMapBtn);
-
-        JButton removeConceptBtn = new JButton("Remove", new ImageIcon(getClass().getResource("icons/delete.png")));
-        removeConceptBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                conceptDiagramView.confirmAndRemoveSelectedObjects();
-            }
-        });
-        toolBar.add(removeConceptBtn);
-        add(toolBar, BorderLayout.NORTH);
-    }
+	public ConceptDiagramView getDiagramView() {
+		return conceptDiagramView;
+	}
 }

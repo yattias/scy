@@ -177,7 +177,7 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 			labelTextarea.setOpaque(false);
 		} else {
 			labelTextarea.setOpaque(true);
-			labelTextarea.setForeground(editable ? Color.BLACK : getModel().getStyle().getColor());
+			labelTextarea.setForeground(editable ? Color.BLACK : getModel().getStyle().getForeground());
 			labelTextarea.setBackground(editable ? Color.WHITE : new Color(255, 255, 255, 150));
 		}
 		if (editable) {
@@ -308,9 +308,11 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		if (conf.isDebug()) {
 			labelPos = Math.min(Integer.parseInt(labelTextarea.getText()), 100) / 100d;
 		}
+		labelTextarea.setForeground(m.getStyle().getForeground());
 
 		super.updated(m);
 		layoutComponents();
+		repaint();
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class NodeViewComponent extends JComponent {
 
 	private final static Logger logger = Logger.getLogger(NodeViewComponent.class);
 
-    private static final INodeStyle DEFAULT_NODESTYLE = new DefaultNodeStyle();
+	private static final INodeStyle DEFAULT_NODESTYLE = new DefaultNodeStyle();
 
 	private INodeController controller;
 	private INodeModel model;
@@ -30,11 +30,11 @@ public class NodeViewComponent extends JComponent {
 		setLocation(model.getLocation());
 	}
 
-    public NodeViewComponent(INodeController controller, INodeModel model, boolean toolTip) {
+	public NodeViewComponent(INodeController controller, INodeModel model, boolean toolTip) {
 		this(controller, model);
-        if (toolTip) {
-            setToolTipText(model.getLabel());
-        }
+		if (toolTip) {
+			setToolTipText(model.getLabel());
+		}
 	}
 
 	public INodeController getController() {
@@ -67,6 +67,10 @@ public class NodeViewComponent extends JComponent {
 			logger.warn("No shape defined, painting boring rectangle instead");
 			g2.drawRect(getX(), getY(), getWidth(), getHeight());
 		}
+
+		// Paint border
+		style.getBorder().paintBorder(this, g2, 0, 0, getWidth(), getHeight());
+
 		// Continue painting any other components
 		super.paintComponent(g);
 	}

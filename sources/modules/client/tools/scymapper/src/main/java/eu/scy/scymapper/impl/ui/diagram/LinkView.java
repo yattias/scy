@@ -22,16 +22,13 @@ public class LinkView extends LinkViewComponent implements ILinkModelListener {
 	public LinkView(ILinkController controller, ILinkModel model) {
 		super(controller, model);
 		model.addListener(this);
-//		 {
-//		return false;
-//	}
 	}
 
-    @Override
-    public void updated(ILinkModel m) {
-        super.updatePosition();
-        repaint();
-    }
+	@Override
+	public void updated(ILinkModel m) {
+		super.updatePosition();
+		repaint();
+	}
 
 	@Override
 	public void selectionChanged(ILinkModel link) {

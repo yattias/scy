@@ -17,144 +17,144 @@ import java.util.UUID;
  * Time: 15:46:06
  */
 public class SimpleLink implements ILinkModel, ILinkStyleListener {
-    protected Point from;
-    protected Point to;
-    private String label;
-    private ILinkShape shape;
+	protected Point from;
+	protected Point to;
+	private String label;
+	private ILinkShape shape;
 
-    private transient java.util.List<ILinkModelListener> listeners;
+	private transient java.util.List<ILinkModelListener> listeners;
 
-    private ILinkStyle style;
-    private boolean labelHidden = false;
-    private transient boolean selected;
-    private String id = UUID.randomUUID().toString();
+	private ILinkStyle style;
+	private boolean labelHidden = false;
+	private transient boolean selected;
+	private String id = UUID.randomUUID().toString();
 
-    private Object readResolve() {
-        listeners = new ArrayList<ILinkModelListener>();
-        return this;
-    }
+	private Object readResolve() {
+		listeners = new ArrayList<ILinkModelListener>();
+		return this;
+	}
 
-    public SimpleLink() {
-        listeners = new ArrayList<ILinkModelListener>();
-    }
+	public SimpleLink() {
+		listeners = new ArrayList<ILinkModelListener>();
+	}
 
-    public SimpleLink(ILinkShape shape) {
-        this();
-        this.shape = shape;
-    }
+	public SimpleLink(ILinkShape shape) {
+		this();
+		this.shape = shape;
+	}
 
-    @Override
-    public String getLabel() {
-        return label;
-    }
+	@Override
+	public String getLabel() {
+		return label;
+	}
 
-    @Override
-    public void setLabel(String label) {
-        this.label = label;
-        notifyUpdated();
-    }
+	@Override
+	public void setLabel(String label) {
+		this.label = label;
+		notifyUpdated();
+	}
 
-    @Override
-    public Point getFrom() {
-        return from;
-    }
+	@Override
+	public Point getFrom() {
+		return from;
+	}
 
-    @Override
-    public void setFrom(Point p) {
-        this.from = p;
-        notifyUpdated();
-    }
+	@Override
+	public void setFrom(Point p) {
+		this.from = p;
+		notifyUpdated();
+	}
 
-    @Override
-    public Point getTo() {
-        return to;
-    }
+	@Override
+	public Point getTo() {
+		return to;
+	}
 
-    @Override
-    public void setTo(Point p) {
-        this.to = p;
-        notifyUpdated();
-    }
+	@Override
+	public void setTo(Point p) {
+		this.to = p;
+		notifyUpdated();
+	}
 
-    @Override
-    public ILinkShape getShape() {
-        return shape;
-    }
+	@Override
+	public ILinkShape getShape() {
+		return shape;
+	}
 
-    @Override
-    public void setShape(ILinkShape shape) {
-        this.shape = shape;
-    }
+	@Override
+	public void setShape(ILinkShape shape) {
+		this.shape = shape;
+		notifyUpdated();
+	}
 
-    @Override
-    public void setStyle(ILinkStyle style) {
-        this.style = style;
-    }
+	@Override
+	public void setStyle(ILinkStyle style) {
+		this.style = style;
+		style.addStyleListener(this);
+	}
 
-    @Override
-    public ILinkStyle getStyle() {
-        if (this.style == null) this.style = new DefaultLinkStyle();
-        return this.style;
-    }
+	@Override
+	public ILinkStyle getStyle() {
+		if (this.style == null) setStyle(new DefaultLinkStyle());
+		return this.style;
+	}
 
-    @Override
-    public void addListener(ILinkModelListener listener) {
-        listeners.add(listener);
-    }
+	@Override
+	public void addListener(ILinkModelListener listener) {
+		listeners.add(listener);
+	}
 
-    @Override
-    public void removeListener(ILinkModelListener listener) {
-        listeners.remove(listener);
-    }
+	@Override
+	public void removeListener(ILinkModelListener listener) {
+		listeners.remove(listener);
+	}
 
-    @Override
-    public void notifyUpdated() {
-        for (ILinkModelListener listener : listeners) {
-            listener.updated(this);
-        }
-    }
+	@Override
+	public void notifyUpdated() {
+		for (ILinkModelListener listener : listeners) {
+			listener.updated(this);
+		}
+	}
 
-    @Override
-    public boolean isSelected() {
-        return selected;
-    }
+	@Override
+	public boolean isSelected() {
+		return selected;
+	}
 
-    @Override
-    public void setSelected(boolean b) {
-        selected = b;
-        notifySelectionChanged();
-    }
+	@Override
+	public void setSelected(boolean b) {
+		selected = b;
+		notifySelectionChanged();
+	}
 
-    private void notifySelectionChanged() {
-        for (ILinkModelListener listener : listeners) {
-            listener.selectionChanged(this);
-        }
-    }
+	private void notifySelectionChanged() {
+		for (ILinkModelListener listener : listeners) {
+			listener.selectionChanged(this);
+		}
+	}
 
-    @Override
-    public void styleChanged(ILinkStyle s) {
-        for (ILinkModelListener listener : listeners) {
-            listener.updated(this);
-        }
-    }
+	@Override
+	public void styleChanged(ILinkStyle s) {
+		notifyUpdated();
+	}
 
-    @Override
-    public boolean isLabelHidden() {
-        return labelHidden;
-    }
+	@Override
+	public boolean isLabelHidden() {
+		return labelHidden;
+	}
 
-    @Override
-    public void setLabelHidden(boolean labelHidden) {
-        this.labelHidden = labelHidden;
-    }
+	@Override
+	public void setLabelHidden(boolean labelHidden) {
+		this.labelHidden = labelHidden;
+	}
 
-    @Override
-    public String getId() {
-        return id;
-    }
+	@Override
+	public String getId() {
+		return id;
+	}
 
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
 }
