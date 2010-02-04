@@ -13,7 +13,6 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 		IActionLogger {
 
 	private XMPPConnection connection;
-	private ActionPacketTransformer transformer;
 
 	/**
 	 * simple constructor for an actionlogger
@@ -22,7 +21,7 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 	 *            user throwing actions (NOT! the tool)
 	 */
 	public ActionLogger() {
-		transformer = new ActionPacketTransformer();
+		
 	}
 
 	/**
@@ -40,6 +39,8 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 		packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 
 		action.setUser(connection.getUser());
+		// creating new instances of transformer instead of reusing because of racing conditions
+		ActionPacketTransformer transformer = new ActionPacketTransformer();
 		transformer.setObject(action);
 
 		packet.addExtension(new SmacketExtension(transformer));
