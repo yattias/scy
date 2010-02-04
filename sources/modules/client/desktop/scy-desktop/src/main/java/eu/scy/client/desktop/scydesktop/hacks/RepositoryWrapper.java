@@ -4,6 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.hacks;
 
+import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,6 +18,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
 import roolo.elo.metadata.keys.Contribute;
 
 /**
@@ -28,6 +30,8 @@ public class RepositoryWrapper implements IRepository
 
    private final static Logger logger = Logger.getLogger(RepositoryWrapper.class);
 //	private final static String meloType = "scy/melo";
+   private String missionId;
+   private String lasId;
    private String userId;
    private URI anchorEloUri;
    private IRepository repository;
@@ -37,6 +41,9 @@ public class RepositoryWrapper implements IRepository
    private IMetadataKey authorKey;
    private IMetadataKey dateCreatedKey;
    private IMetadataKey dateLastModifiedKey;
+   private IMetadataKey missionKey;
+   private IMetadataKey lasKey;
+   private IMetadataKey activeAnchorEloKey;
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
@@ -105,6 +112,16 @@ public class RepositoryWrapper implements IRepository
       this.userId = userId;
    }
 
+   public void setLasId(String lasId)
+   {
+      this.lasId = lasId;
+   }
+
+   public void setMissionId(String missionId)
+   {
+      this.missionId = missionId;
+   }
+
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
    {
       this.metadataTypeManager = metadataTypeManager;
@@ -112,14 +129,14 @@ public class RepositoryWrapper implements IRepository
       authorKey = getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
       dateCreatedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED);
       dateLastModifiedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED);
-//		typeKey = getMetadataKey("type");
-//		annotatesRelationKey = getMetadataKey("annotates");
-//		  System.out.println("AddGeneralMetadataRepositoryWrapper found:\n- authorKey: " + authorKey + "\n-annotatesRelationKey: " + annotatesRelationKey);
+      missionKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION);
+      lasKey = getMetadataKey(ScyRooloMetadataKeyIds.LAS);
+      activeAnchorEloKey = getMetadataKey(ScyRooloMetadataKeyIds.ACTIVE_ANCHOR_ELO);
    }
 
-   private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId)
+   private IMetadataKey getMetadataKey(IMetadataKeyIdDefinition keyId)
    {
-      IMetadataKey key = metadataTypeManager.getMetadataKey(keyId);
+      IMetadataKey key = metadataTypeManager.getMetadataKey(keyId.getId());
       if (key == null)
       {
          logger.error("Couldn't get metadata key named: " + keyId);
@@ -134,7 +151,7 @@ public class RepositoryWrapper implements IRepository
 
    private void addGeneralMetadata(IELO elo)
    {
-      if (elo==null)
+      if (elo == null)
       {
          return;
       }
@@ -148,6 +165,15 @@ public class RepositoryWrapper implements IRepository
          elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
       }
       elo.getMetadata().getMetadataValueContainer(dateLastModifiedKey).setValue(System.currentTimeMillis());
+      if (missionId != null)
+      {
+         elo.getMetadata().getMetadataValueContainer(missionKey).setValue(missionId);
+      }
+      if (lasId != null)
+      {
+         elo.getMetadata().getMetadataValueContainer(missionKey).setValue(lasId);
+      }
+      // TODO store active anchor relation
 //		else
 //		{
 //			elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(User.instance.getUsername(), System.currentTimeMillis()));
