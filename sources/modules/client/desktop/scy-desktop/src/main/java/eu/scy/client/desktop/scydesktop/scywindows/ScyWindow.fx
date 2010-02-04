@@ -20,6 +20,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 
 /**
  * @author sikkenj
@@ -79,6 +80,7 @@ public abstract class ScyWindow extends CustomNode {
 	public var closedAction: function(ScyWindow):Void;
 
    public var tooltipManager:TooltipManager;
+   public var dragAndDropManager:DragAndDropManager;
 
 	// status variables
 	public-read protected var isMinimized = false;

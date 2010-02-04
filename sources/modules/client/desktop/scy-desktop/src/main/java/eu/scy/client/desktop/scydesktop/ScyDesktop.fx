@@ -123,7 +123,7 @@ public class ScyDesktop extends CustomNode {
          activeAnchor: bind missionModelFX.activeAnchor;
       };
    public def tooltipManager:TooltipManager = SimpleTooltipManager{};
-   def dragAndDropManager:DragAndDropManager = SimpleDragAndDropManager{
+   public def dragAndDropManager:DragAndDropManager = SimpleDragAndDropManager{
          windowManager:windows;
       };
 
@@ -308,6 +308,7 @@ public class ScyDesktop extends CustomNode {
           metadataTypeManager:config.getMetadataTypeManager();
           setScyContent:fillNewScyWindow2;
           tooltipManager:tooltipManager
+          dragAndDropManager:dragAndDropManager
       };
 
     }

@@ -21,7 +21,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import java.lang.Void;
 
 
 /**
@@ -196,6 +195,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          setScyContent:setScyContent;
          missionModelFX:missionModel
          tooltipManager:tooltipManager
+         dragAndDropManager:dragAndDropManager
       }
       tooltipManager.registerNode(scyWindow, scyWindow);
       var anchor = getAnchor(eloUri);
@@ -215,6 +215,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          setScyContent:setScyContent;
          missionModelFX:missionModel
          tooltipManager:tooltipManager
+         dragAndDropManager:dragAndDropManager
       }
       tooltipManager.registerNode(scyWindow, scyWindow);
       windowStyler.style(scyWindow);
