@@ -18,6 +18,8 @@ public class MissionModelXml {
 }
 
 def missionModelName = "missionModel";
+def missionIdName = "missionId";
+def missionNameName = "missionName";
 def activeAnchorName = "activeAnchor";
 def anchorsName = "anchors";
 def anchorName = "anchor";
@@ -37,6 +39,8 @@ def jdomStringConversion = new JDomStringConversion();
 
 public function convertToXml(missionModel:MissionModelFX):String{
    var root = new Element(missionModelName);
+   root.addContent(createElement(missionIdName,missionModel.missionId));
+   root.addContent(createElement(missionNameName,missionModel.missionName));
    var activeAnchorUri = "";
    if (missionModel.activeAnchor != null){
       activeAnchorUri = missionModel.activeAnchor.eloUri.toString();
@@ -99,6 +103,8 @@ public function convertToMissionModel(xml: String): MissionModelFX {
    var missionModel = MissionModelFX {
            };
    var root = jdomStringConversion.stringToXml(xml);
+   missionModel.missionId = root.getChildTextTrim(missionIdName);
+   missionModel.missionName = root.getChildTextTrim(missionNameName);
    var missionAnchors = root.getChild(anchorsName);
    var missionAnchorChildren = missionAnchors.getChildren(anchorName);
    var missionAnchorsMap = new HashMap();

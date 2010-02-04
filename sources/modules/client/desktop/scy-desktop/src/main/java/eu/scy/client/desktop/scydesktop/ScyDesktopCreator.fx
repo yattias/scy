@@ -180,6 +180,8 @@ public class ScyDesktopCreator {
             } else {
                logger.error("specified active anchor elo does not exists: {activeAnchor.eloUri}");
             }
+            missionModelFX.missionId = config.getMissionId();
+            missionModelFX.missionName = config.getMissionName();
             addEloStatusInformationToMissionModel(missionModelFX);
             if (initializer.createPersonalMissionMap){
                makeItMyMissionModel(missionModelFX);

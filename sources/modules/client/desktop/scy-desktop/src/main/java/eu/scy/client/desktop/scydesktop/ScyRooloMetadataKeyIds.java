@@ -13,6 +13,9 @@ import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
 public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
 {
 
+   MISSION("mission"),
+   LAS("las"),
+   ACTIVE_ANCHOR_ELO("activeAnchorElo"),
    LOGICAL_TYPE("logicalType"),
    FUNCTIONAL_TYPE("functionalType"),
    EXTERNAL_DOC("externalDoc");

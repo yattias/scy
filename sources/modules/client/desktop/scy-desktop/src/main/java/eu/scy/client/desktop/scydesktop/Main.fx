@@ -27,8 +27,8 @@ var initializer = Initializer{
    javaUtilLoggingInitFile:"/config/scy-desktop-java-util-logging.properties"
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"local"
-   storeElosOnDisk:true
-   createPersonalMissionMap:false
+   storeElosOnDisk:false
+   createPersonalMissionMap:true
    enableLocalLogging:false
    redirectSystemStream:false
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
