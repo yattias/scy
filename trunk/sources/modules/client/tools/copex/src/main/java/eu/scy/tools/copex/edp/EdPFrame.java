@@ -68,7 +68,7 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("COPEX- Experimental Design Tool");
+        setTitle("SCYExperimentalDesign");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
