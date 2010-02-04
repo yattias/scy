@@ -31,7 +31,7 @@ public class Configuration {
             Properties sysprops = System.getProperties();
             int counter = 0;
             for (Object key : sysprops.keySet()) {
-                logger.info("PROP: " + key.toString());
+                logger.info("PROP: " + key.toString() + " ----> '" + sysprops.get(key) + "'");
                 if (key.toString().startsWith("scyconfig.")) {
                 	counter++;
                     String keyString = key.toString();
