@@ -19,13 +19,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.Font;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Resizable;
+import java.awt.Dimension;
 /**
  * @author jeremyt
  */
 
-public class ChatPresenceToolNode extends CustomNode {
+public class ChatPresenceToolNode extends CustomNode, Resizable {
+    public override var width on replace {resizeContent()};
+    public override var height on replace {resizeContent()};
+
     public-init var eloChatActionWrapper:EloChatActionWrapper;
 
+    def spacing = 5.0;
 
     public var wrappedSPTPanel:SwingComponent;
     public var chatPresenceTool:ChatPresencePanel;
@@ -68,12 +75,34 @@ public class ChatPresenceToolNode extends CustomNode {
      } else {
         wrappedSPTPanel = SwingComponent.wrap(chatPresenceTool);
         wrappedSPTPanel.foreground = Color.WHITE;
-        return Group {
+        return HBox {
          blocksMouse:false;
          content:
             wrappedSPTPanel;
       };
      }
 
+   }
+
+   function resizeContent(){
+//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
+//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
+//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
+      var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
+      // setPreferredSize is needed
+      chatPresenceTool.setPreferredSize(size);
+      chatPresenceTool.resizeChat(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
+      // setSize is not visual needed
+      // but set it, so the component react to it
+      chatPresenceTool.setSize(size);
+      //println("resized whiteboardPanel to ({width},{height})");
+   }
+
+   public override function getPrefHeight(width: Number) : Number{
+      return chatPresenceTool.getPreferredSize().getHeight();
+   }
+
+   public override function getPrefWidth(width: Number) : Number{
+      return chatPresenceTool.getPreferredSize().getWidth();
    }
 }
