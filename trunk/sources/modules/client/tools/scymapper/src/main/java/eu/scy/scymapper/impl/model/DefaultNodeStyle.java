@@ -3,6 +3,8 @@ package eu.scy.scymapper.impl.model;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
 
+import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -16,97 +18,89 @@ public class DefaultNodeStyle implements INodeStyle {
 
 	private Color foregroundColor = new Color(0x000000);
 
-	private Color backgroundColor = new Color(0xaaaaaa);
+	private Color backgroundColor = new Color(112, 128, 144);
 
-    private Stroke stroke = new BasicStroke(2f);
-    private Color selectionColor = new Color(0x2244ff);
+	private Stroke stroke = new BasicStroke(2f);
 
-    private boolean opaque = true;
+	private boolean opaque = true;
 
 	private int minWidth = 60;
 
 	private int minHeight = 60;
 
-    private transient java.util.List<INodeStyleListener> listeners = new ArrayList<INodeStyleListener>();
+	private Border border = BorderFactory.createEmptyBorder();
 
-    private Object readResolve() {
+	private transient java.util.List<INodeStyleListener> listeners = new ArrayList<INodeStyleListener>();
+
+	private Object readResolve() {
 		listeners = new ArrayList<INodeStyleListener>();
 		return this;
 	}
+
 	public DefaultNodeStyle() {
 
-    }
+	}
 
-    @Override
-    public Color getForeground() {
-        return foregroundColor;
-    }
+	@Override
+	public Color getForeground() {
+		return foregroundColor;
+	}
 
-    @Override
-    public void setForeground(Color c) {
-        foregroundColor = c;
+	@Override
+	public void setForeground(Color c) {
+		foregroundColor = c;
 		notifyStyleChanged(this);
-    }
+	}
 
-    @Override
-    public Color getBackground() {
-        return backgroundColor;
-    }
+	@Override
+	public Color getBackground() {
+		return backgroundColor;
+	}
 
-    @Override
-    public void setBackground(Color c) {
-        backgroundColor = c;
+	@Override
+	public void setBackground(Color c) {
+		backgroundColor = c;
 		notifyStyleChanged(this);
-    }
+	}
 
-    @Override
-    public void setStroke(Stroke s) {
-        stroke = s;
+	@Override
+	public void setStroke(Stroke s) {
+		stroke = s;
 		notifyStyleChanged(this);
-    }
+	}
 
-    @Override
-    public Stroke getStroke() {
-        return stroke;
-    }
+	@Override
+	public Stroke getStroke() {
+		return stroke;
+	}
 
-    @Override
-    public void setOpaque(boolean b) {
-        opaque = b;
+	@Override
+	public void setOpaque(boolean b) {
+		opaque = b;
 		notifyStyleChanged(this);
-    }
+	}
 
-    @Override
-    public boolean isOpaque() {
-        return opaque;
-    }
+	@Override
+	public boolean isOpaque() {
+		return opaque;
+	}
 
-    @Override
-    public void addStyleListener(INodeStyleListener o) {
-        listeners.add(o);
-    }
+	@Override
+	public void addStyleListener(INodeStyleListener o) {
+		listeners.add(o);
+	}
 
-    @Override
-    public void removeStyleListener(INodeStyleListener o) {
-        listeners.remove(o);
-    }
+	@Override
+	public void removeStyleListener(INodeStyleListener o) {
+		listeners.remove(o);
+	}
 
-    @Override
-    public void notifyStyleChanged(INodeStyle s) {
-        for (INodeStyleListener listener : listeners) {
-            listener.styleChanged(s);
-        }
-    }
-
-    @Override
-    public Color getSelectionColor() {
-        return selectionColor;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void setSelectionColor(Color c) {
-        selectionColor = c;
-    }
+	@Override
+	public void notifyStyleChanged(INodeStyle s) {
+		for (INodeStyleListener listener : listeners) {
+			listener.styleChanged(s);
+		}
+	}
 
 	@Override
 	public int getMinHeight() {
@@ -126,5 +120,15 @@ public class DefaultNodeStyle implements INodeStyle {
 	@Override
 	public void setMinWidth(int w) {
 		minWidth = w;
+	}
+
+	@Override
+	public void setBorder(Border border) {
+
+		this.border = border;
+	}
+
+	public Border getBorder() {
+		return border;
 	}
 }

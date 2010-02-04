@@ -280,6 +280,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
 	@Override
 	public void styleChanged(INodeStyle s) {
+		System.out.println("RichNodeView.styleChanged");
+		labelTextarea.setForeground(s.getForeground());
 		repaint();
 	}
 }

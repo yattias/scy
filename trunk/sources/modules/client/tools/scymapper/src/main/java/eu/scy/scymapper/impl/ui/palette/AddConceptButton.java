@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.ui.palette;
 
-import eu.scy.scymapper.api.IConceptType;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 
@@ -15,14 +15,13 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class AddConceptButton extends JToggleButton {
-    private IConceptType type;
+	private INodeModel concept;
 
-    public AddConceptButton(IConceptType type) {
-        super();
-        setIcon(new ShapedIcon(20, 20));
-        this.type = type;
-        setText(type.getName());
-    }
+	public AddConceptButton(INodeModel concept) {
+		super();
+		setIcon(new ShapedIcon(20, 20));
+		this.concept = concept;
+	}
 
 	class ShapedIcon implements Icon {
 		private int iconHeight;
@@ -37,16 +36,16 @@ public class AddConceptButton extends JToggleButton {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			Graphics2D g2d = (Graphics2D) g.create();
 
-            INodeStyle style = type.getNodeStyle();
-            INodeShape shape = type.getNodeShape();
+			INodeStyle nodeStyle = AddConceptButton.this.concept.getStyle();
+			INodeShape shape = AddConceptButton.this.concept.getShape();
 
-			g2d.setColor(style.getBackground());
+			g2d.setColor(nodeStyle.getBackground());
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			Rectangle rect = new Rectangle(x, y, iconWidth, iconHeight);
-            shape.setMode(style.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
+			shape.setMode(nodeStyle.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
 //            g2d.drawRect(rect.x, rect.y, rect.width, rect.height);
-            shape.paint(g2d, rect);
-            g2d.dispose();
+			shape.paint(g2d, rect);
+			g2d.dispose();
 		}
 
 		@Override

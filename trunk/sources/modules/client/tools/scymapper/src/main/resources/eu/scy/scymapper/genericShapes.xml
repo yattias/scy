@@ -5,18 +5,18 @@
 	   default-autowire="byName">
 
 
-	<bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.concepts.RoundRectangle"/>
-	<bean id="starshape" class="eu.scy.scymapper.impl.shapes.concepts.Star"/>
-	<bean id="diamondshape" class="eu.scy.scymapper.impl.shapes.concepts.Diamond"/>
-	<bean id="triangle" class="eu.scy.scymapper.impl.shapes.concepts.Triangle"/>
-	<bean id="ellipse" class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
+	<bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle"/>
+	<bean id="starshape" class="eu.scy.scymapper.impl.shapes.nodes.Star"/>
+	<bean id="diamondshape" class="eu.scy.scymapper.impl.shapes.nodes.Diamond"/>
+	<bean id="triangle" class="eu.scy.scymapper.impl.shapes.nodes.Triangle"/>
+	<bean id="ellipse" class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
 
 	<bean id="line" class="eu.scy.scymapper.impl.shapes.links.Line"/>
-    <bean id="cubicCurvedLine" class="eu.scy.scymapper.impl.shapes.links.CubicCurvedLine"/>
-    <bean id="quadCurvedLine2" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine">
+	<bean id="cubicCurvedLine" class="eu.scy.scymapper.impl.shapes.links.CubicCurvedLine"/>
+	<bean id="quadCurvedLine2" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine">
 		<property name="curving" value="0.25"/>
 	</bean>
-    <bean id="quadCurvedLine" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine"/>
+	<bean id="quadCurvedLine" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine"/>
 	<bean id="arrow" class="eu.scy.scymapper.impl.shapes.links.Arrow">
 		<property name="head">
 			<bean class="eu.scy.scymapper.impl.shapes.links.Arrowhead">

@@ -7,278 +7,133 @@
 	<import resource="genericShapes.xml"/>
 	<import resource="mockShapes.xml"/>
 
-	<alias name="genericConfiguration" alias="configuration"/>
+	<alias name="simpleConfiguration" alias="configuration"/>
 
-	<bean id="genericConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration" factory-method="getInstance">
-
-		<property name="debug" value="false"/>
-
-		<property name="availableConceptTypes">
+	<bean id="simpleConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration"
+		  factory-method="getInstance">
+		<property name="nodeFactories">
 			<list>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value=""/>
-					<property name="nodeShape" ref="starshape"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="red"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value=""/>
-					<property name="nodeShape" ref="starshape"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Star"/>
+					</property>
 					<property name="nodeStyle">
 						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="green"/>
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value=""/>
-					<property name="nodeShape" ref="starshape"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Triangle">
+						</bean>
+					</property>
 					<property name="nodeStyle">
 						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="blue"/>
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value=""/>
-					<property name="nodeShape" ref="starshape"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Diamond">
+						</bean>
+					</property>
 					<property name="nodeStyle">
 						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="gold"/>
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value=""/>
-					<property name="nodeShape" ref="diamondshape"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="red"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse">
 						</bean>
 					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="diamondshape"/>
 					<property name="nodeStyle">
 						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="green"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="diamondshape"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="blue"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="diamondshape"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="gold"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="ellipse"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="red"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="ellipse"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="green"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="ellipse"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="blue"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="ellipse"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="gold"/>
-						</bean>
-					</property>
-				</bean>
-				<bean id="defaultConcept" class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="description" value=""/>
-					<property name="nodeShape" ref="roundRectangle"/>
-					<property name="height" value="75"/>
-					<property name="width" value="150"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="red"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="description" value=""/>
-					<property name="nodeShape" ref="roundRectangle"/>
-					<property name="height" value="75"/>
-					<property name="width" value="150"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="green"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="description" value=""/>
-					<property name="nodeShape" ref="roundRectangle"/>
-					<property name="height" value="75"/>
-					<property name="width" value="150"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="blue"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="description" value=""/>
-					<property name="nodeShape" ref="roundRectangle"/>
-					<property name="height" value="75"/>
-					<property name="width" value="150"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="gold"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="triangle"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="red"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="triangle"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="green"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="triangle"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="blue"/>
-						</bean>
-					</property>
-				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
-					<property name="name" value=""/>
-					<property name="nodeShape" ref="triangle"/>
-					<property name="nodeStyle">
-						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
-							<property name="background" ref="gold"/>
 						</bean>
 					</property>
 				</bean>
 			</list>
 		</property>
-		<property name="availableLinkTypes">
+		<property name="linkFactories">
 			<list>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="arrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="bidirectional_arrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="line"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedLine2"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedLine"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedBiDirArrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedBiDirArrow2"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedArrow2"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedArrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedBiDirArrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedArrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedLine"/>
 				</bean>
 			</list>
 		</property>
 	</bean>
-
 	<bean id="mockConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration">
-		<property name="availableConceptTypes">
+		<property name="nodeFactories">
 			<list>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Factory"/>
 					<property name="nodeShape">
-						<bean class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.SVGShape">
 							<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/factory.svg"/>
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Star"/>
 					<property name="nodeShape" ref="starshape"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Red non-filled star"/>
 					<property name="nodeShape" ref="starshape"/>
 					<property name="nodeStyle">
@@ -288,11 +143,11 @@
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Diamond"/>
 					<property name="nodeShape" ref="diamondshape"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Pollution"/>
 					<property name="description" value=""/>
 					<property name="nodeShape" ref="roundRectangle"/>
@@ -305,7 +160,7 @@
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Safe to eat"/>
 					<property name="description" value=""/>
 					<property name="nodeShape" ref="roundRectangle"/>
@@ -318,39 +173,39 @@
 					<property name="height" value="75"/>
 					<property name="width" value="175"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value="Egg"/>
 					<property name="nodeShape" ref="eggShape"/>
 				</bean>
-				<!--bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<!--bean class="eu.scy.scymapper.impl.configuration.ConceptFactoryory">
 					<property name="name" value="Bacon"/>
 					<property name="nodeShape">
-						<bean name="baconShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+						<bean name="baconShape" class="eu.scy.scymapper.impl.shapes.nodesGShape
 							<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/bacon.svg"/>
 						</bean>
 					</property>
 				</bean-->
 			</list>
 		</property>
-		<property name="availableLinkTypes">
+		<property name="linkFactories">
 			<list>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value="Leads to"/>
 					<property name="linkShape" ref="arrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value="Consequence of"/>
 					<property name="linkShape" ref="arrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value="Causes"/>
 					<property name="linkShape" ref="arrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value="Mutually influences"/>
 					<property name="linkShape" ref="bidirectional_arrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value="Related to"/>
 					<property name="linkShape" ref="line"/>
 				</bean>

@@ -6,10 +6,10 @@
 
 	<import resource="genericShapes.xml"/>
 
-	<bean id="redcircle" class="eu.scy.scymapper.impl.configuration.ConceptType">
+	<bean id="redcircle" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 		<property name="name" value="Red circle"/>
 		<property name="nodeShape">
-			<bean class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
 		</property>
 		<property name="nodeStyle">
 			<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
@@ -20,10 +20,10 @@
 		<property name="width" value="100"/>
 		<property name="height" value="100"/>
 	</bean>
-	<bean id="greenoval" class="eu.scy.scymapper.impl.configuration.ConceptType">
+	<bean id="greenoval" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 		<property name="name" value="Green Oval"/>
 		<property name="nodeShape">
-			<bean class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
 		</property>
 		<property name="nodeStyle">
 			<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
@@ -39,20 +39,20 @@
 		<property name="height" value="75"/>
 	</bean>
 
-	<bean id="bergen" class="eu.scy.scymapper.impl.configuration.ConceptType">
+	<bean id="bergen" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 		<property name="name" value="Bergen"/>
 		<property name="nodeShape">
-			<bean class="eu.scy.scymapper.impl.shapes.concepts.ImageShape">
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
 				<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/bergen.jpg"/>
 			</bean>
 		</property>
 		<property name="width" value="125"/>
 		<property name="height" value="83"/>
 	</bean>
-	<bean id="flood" class="eu.scy.scymapper.impl.configuration.ConceptType">
+	<bean id="flood" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 		<property name="name" value="Flood"/>
 		<property name="nodeShape">
-			<bean class="eu.scy.scymapper.impl.shapes.concepts.ImageShape">
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
 				<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/flood.jpg"/>
 			</bean>
 		</property>
@@ -92,10 +92,10 @@
 			</bean>
 		</property>
 	</bean>
-	<bean name="eggShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+	<bean name="eggShape" class="eu.scy.scymapper.impl.shapes.nodes.SVGShape">
 		<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/egg.svg"/>
 	</bean>
-	<bean name="houseShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+	<bean name="houseShape" class="eu.scy.scymapper.impl.shapes.nodes.SVGShape">
 		<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/house.svg"/>
 	</bean>
 </beans>

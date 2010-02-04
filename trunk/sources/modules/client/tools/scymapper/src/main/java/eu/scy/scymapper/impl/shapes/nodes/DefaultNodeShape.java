@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.shapes.concepts;
+package eu.scy.scymapper.impl.shapes.nodes;
 
 /**
  * User: Bjoerge Naess

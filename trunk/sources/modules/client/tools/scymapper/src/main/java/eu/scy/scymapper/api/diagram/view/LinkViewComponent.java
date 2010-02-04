@@ -21,10 +21,10 @@ public class LinkViewComponent extends JComponent {
 	private ILinkController controller;
 	private ILinkModel model;
 
-	protected int marginLeft 	= 100;
-	protected int marginTop 	= 100;
-	protected int marginRight 	= 100;
-	protected int marginBottom 	= 100;
+	protected int marginLeft = 100;
+	protected int marginTop = 100;
+	protected int marginRight = 100;
+	protected int marginBottom = 100;
 
 	private final static Logger logger = Logger.getLogger(LinkViewComponent.class);
 
@@ -67,8 +67,7 @@ public class LinkViewComponent extends JComponent {
 				if (distance < minDist) {
 					minDist = distance;
 				}
-			}
-			else
+			} else
 				prev = new Point2D.Double();
 
 			prev.x = coords[0];
@@ -101,6 +100,7 @@ public class LinkViewComponent extends JComponent {
 		ILinkStyle style = model.getStyle();
 
 		g2.setStroke(style.getStroke());
+		g2.setColor(style.getBackground());
 
 		model.getShape().paint(g2, relFrom, relTo);
 

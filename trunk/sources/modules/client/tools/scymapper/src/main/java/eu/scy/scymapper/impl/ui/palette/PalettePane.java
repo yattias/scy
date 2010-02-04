@@ -1,11 +1,9 @@
 package eu.scy.scymapper.impl.ui.palette;
 
+import eu.scy.scymapper.api.IConceptFactory;
 import eu.scy.scymapper.api.IConceptMap;
-import eu.scy.scymapper.api.IConceptType;
-import eu.scy.scymapper.api.ILinkType;
+import eu.scy.scymapper.api.ILinkFactory;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
-import eu.scy.scymapper.api.diagram.controller.IDiagramSelectionListener;
-import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.shapes.ILinkShape;
@@ -13,7 +11,6 @@ import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
-import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
@@ -21,7 +18,6 @@ import eu.scy.scymapper.impl.ui.diagram.LinkView;
 import eu.scy.scymapper.impl.ui.diagram.RichNodeView;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
-import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -29,61 +25,50 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * User: Bjoerge Naess
  * Date: 03.sep.2009
  * Time: 13:24:59
  */
-public class PalettePane extends JPanel {
+public class PalettePane extends JToolBar {
 	private final static Logger logger = Logger.getLogger(PalettePane.class);
 
 	private ConceptMapPanel conceptMapPanel;
-	private List<ILinkType> linkProtoTypes;
-	private List<IConceptType> conceptTypes;
+	private List<ILinkFactory> linkFactories;
+	private List<IConceptFactory> conceptFactories;
 	private AddLinkButton selectedButton;
 	//private FillStyleCheckbox opaqueCheckbox;
 	//private volatile NodeColorChooserPanel nodeColorChooser;
 
 	public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
+		super("Palette");
 		this.conceptMapPanel = conceptMapPanel;
-		this.linkProtoTypes = conf.getAvailableLinkTypes();
-		this.conceptTypes = conf.getAvailableConceptTypes();
+		this.linkFactories = conf.getLinkFactories();
+		this.conceptFactories = conf.getNodeFactories();
 		initComponents();
 	}
 
 	private void initComponents() {
+		//setLayout(new MigLayout("wrap, center", "[grow,fill]"));
+		//setLayout(new GridLayout(0, 1));
 
-		//setBorder(new TitledBorder("Palette"));
-		setLayout(new GridLayout(0, 1));
+		setOrientation(JToolBar.VERTICAL);
 
-//        nodeColorChooser = new NodeColorChooserPanel();
-//        JPanel nodeStylePanel = new JPanel();
-//        nodeStylePanel.add(nodeColorChooser);
-//        nodeStylePanel.setBorder(BorderFactory.createTitledBorder("Style"));
-//
-//        opaqueCheckbox = new FillStyleCheckbox();
-//        nodeStylePanel.add(opaqueCheckbox);
-
-		JPanel nodePanel = new JPanel(new MigLayout("wrap 2", "[grow]"));
-
-		for (final IConceptType conceptType : conceptTypes) {
-			final AddConceptButton button = new AddConceptButton(conceptType);
-			button.setHorizontalAlignment(JButton.LEFT);
+		for (final IConceptFactory conceptFactory : conceptFactories) {
+			INodeModel concept = conceptFactory.create();
+			final AddConceptButton button = new AddConceptButton(concept);
+			button.setHorizontalAlignment(JButton.CENTER);
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					conceptMapPanel.getDiagramView().addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							INodeModel node = new NodeModel();
-							node.setLabel(conceptType.getName());
-							node.setShape(conceptType.getNodeShape());
-							int w = conceptType.getWidth();
-							int h = conceptType.getHeight();
+							INodeModel node = conceptFactory.create();
+							int w = node.getWidth();
+							int h = node.getHeight();
 							node.setSize(new Dimension(w, h));
-							node.setStyle(conceptType.getNodeStyle());
 							Point loc = new Point(e.getPoint());
 							loc.translate(w / -2, h / -2);
 							node.setLocation(loc);
@@ -94,16 +79,17 @@ public class PalettePane extends JPanel {
 							button.setSelected(false);
 						}
 					});
-					conceptMapPanel.getDiagramView().setCursor(createShapeCursor(conceptType));
+					conceptMapPanel.getDiagramView().setCursor(createShapeCursor(conceptFactory));
 				}
 			});
-			nodePanel.add(button);
+			add(button);
 		}
+		add(new Separator());
+		for (final ILinkFactory linkFactory : linkFactories) {
+			ILinkModel btnLink = linkFactory.create();
 
-		JPanel linkPanel = new JPanel(new MigLayout("wrap 2", "[grow]"));
-		for (final ILinkType linkType : linkProtoTypes) {
-			final AddLinkButton button = new AddLinkButton(linkType.getLabel(), linkType.getLinkShape());
-			button.setHorizontalAlignment(JButton.LEFT);
+			final AddLinkButton button = new AddLinkButton(btnLink.getLabel(), btnLink.getShape());
+			button.setHorizontalAlignment(JButton.CENTER);
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -119,122 +105,20 @@ public class PalettePane extends JPanel {
 
 					ILinkModel link = new SimpleLink();
 					link.setTo(new Point(0, 0));
-					link.setLabel(linkType.getLabel());
-					link.setShape(linkType.getLinkShape());
+					ILinkModel model = linkFactory.create();
+					link.setLabel(model.getLabel());
+					link.setShape(model.getShape());
 
 					conceptMapPanel.getDiagramView().setMode(new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkConnectorController(link), link)));
 
 					conceptMapPanel.getDiagramView().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 				}
 			});
-			linkPanel.add(button);
+			add(button);
 		}
 
 		//add(nodeStylePanel);
-		JScrollPane nodeScrollPane = new JScrollPane(nodePanel);
-		nodeScrollPane.setBorder(BorderFactory.createTitledBorder("Concepts"));
-
-		JScrollPane linkScrollPane = new JScrollPane(linkPanel);
-		linkScrollPane.setBorder(BorderFactory.createTitledBorder("Links"));
-		add(nodeScrollPane);
-		add(linkScrollPane);
-
-	}
-
-	private static class NodeColorChooserPanel extends JPanel implements ActionListener, IDiagramSelectionListener {
-		private JButton bgColorButton;
-		private JButton fgColorButton;
-		private IDiagramSelectionModel selectionModel;
-
-		public NodeColorChooserPanel() {
-			setLayout(null);
-
-			ColorChooser colorChooser = new ColorChooser();
-			add(colorChooser);
-
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton source = (JButton) e.getSource();
-			if (source == fgColorButton)
-				selectFgColor();
-			else if (source == bgColorButton)
-				selectBgColor();
-		}
-
-		@Override
-		public void selectionChanged(IDiagramSelectionModel s) {
-
-//            bgColorButton.setEnabled(selectionModel.hasSelection());
-//            fgColorButton.setEnabled(selectionModel.hasSelection());
-//            if (selectionModel.hasNodeSelection()) {
-//                bgColorButton.setBackground(selectionModel.getSelectedNode().getStyle().getBackground());
-//                fgColorButton.setBackground(selectionModel.getSelectedNode().getStyle().getForeground());
-//            } else {
-//                bgColorButton.setBackground(null);
-//                fgColorButton.setBackground(null);
-//            }
-		}
-
-		void selectFgColor() {
-			if (selectionModel.hasSelection()) {
-				Stack<INodeModel> selectedNodes = selectionModel.getSelectedNodes();
-				Color c = JColorChooser.showDialog(this, "Choose a color", selectionModel.getSelectedNode().getStyle().getForeground());
-				if (c == null) return;
-				for (INodeModel node : selectedNodes) {
-					node.getStyle().setForeground(c);
-				}
-				fgColorButton.setBackground(c);
-			}
-		}
-
-		void selectBgColor() {
-			if (selectionModel.hasSelection()) {
-				Stack<INodeModel> selectedNodes = selectionModel.getSelectedNodes();
-				Color c = JColorChooser.showDialog(this, "Choose a color", selectionModel.getSelectedNode().getStyle().getBackground());
-				if (c == null) return;
-				for (INodeModel node : selectedNodes) {
-					node.getStyle().setBackground(c);
-				}
-				bgColorButton.setBackground(c);
-			}
-		}
-
-		public void setSelectionModel(IDiagramSelectionModel selectionModel) {
-			this.selectionModel = selectionModel;
-			this.selectionModel.removeSelectionListener(this);
-			this.selectionModel.addSelectionListener(this);
-			selectionChanged(selectionModel);
-		}
-	}
-
-	private static class FillStyleCheckbox extends JCheckBox implements ActionListener, IDiagramSelectionListener {
-		private IDiagramSelectionModel selectionModel;
-
-		public FillStyleCheckbox() {
-			setText("Opaque");
-			addActionListener(this);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-		}
-
-		@Override
-		public void selectionChanged(IDiagramSelectionModel s) {
-			setEnabled(selectionModel.hasNodeSelection());
-			if (selectionModel.hasNodeSelection()) {
-
-			}
-		}
-
-		public void setSelectionModel(IDiagramSelectionModel selectionModel) {
-			this.selectionModel = selectionModel;
-			this.selectionModel.removeSelectionListener(this);
-			this.selectionModel.addSelectionListener(this);
-			selectionChanged(selectionModel);
-		}
+		JScrollPane nodeScrollPane = new JScrollPane(this);
 	}
 
 	class ConnectMode implements IDiagramMode {
@@ -358,13 +242,16 @@ public class PalettePane extends JPanel {
 		return (AlphaComposite.getInstance(type, alpha));
 	}
 
-	Cursor createShapeCursor(IConceptType conceptType) {
+	Cursor createShapeCursor(IConceptFactory conceptFactory) {
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension size = tk.getBestCursorSize(conceptType.getWidth(), conceptType.getHeight());
 
-		INodeStyle style = conceptType.getNodeStyle();
-		INodeShape shape = conceptType.getNodeShape();
+		INodeModel node = conceptFactory.create();
+
+		Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
+
+		INodeStyle style = node.getStyle();
+		INodeShape shape = node.getShape();
 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gs = ge.getDefaultScreenDevice();
@@ -385,12 +272,14 @@ public class PalettePane extends JPanel {
 		return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
 	}
 
-	Cursor createShapeCursor(ILinkType linkType) {
+	Cursor createShapeCursor(ILinkFactory linkFactory) {
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension size = tk.getBestCursorSize(30, 30);
 
-		ILinkShape shape = linkType.getLinkShape();
+		ILinkModel link = linkFactory.create();
+
+		ILinkShape shape = link.getShape();
 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gs = ge.getDefaultScreenDevice();
@@ -404,8 +293,8 @@ public class PalettePane extends JPanel {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		g2d.setColor(Color.black);
-		shape.paint(g2d, new Point(0, size.height/2), new Point(size.width, size.height/2));
+		shape.paint(g2d, new Point(0, size.height / 2), new Point(size.width, size.height / 2));
 
-		return tk.createCustomCursor(i, new Point(size.width-1, size.height/2), "Place shape here");
+		return tk.createCustomCursor(i, new Point(size.width - 1, size.height / 2), "Place shape here");
 	}
 }
