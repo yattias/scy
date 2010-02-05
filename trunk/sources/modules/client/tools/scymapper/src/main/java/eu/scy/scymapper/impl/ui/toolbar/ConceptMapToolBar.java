@@ -51,8 +51,7 @@ public class ConceptMapToolBar extends JToolBar {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will remove the selected concepts from the current concept map. Are you sure you would like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
-				diagramController.removeAll();
+			diagramView.confirmAndRemoveSelectedObjects();
 		}
 	}
 
@@ -197,8 +196,8 @@ public class ConceptMapToolBar extends JToolBar {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will remove all concepts from the current concept map. Are you sure you would like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
-				diagramController.removeAll();
+			diagramView.confirmAndRemoveAll();
+			;
 		}
 	}
 
