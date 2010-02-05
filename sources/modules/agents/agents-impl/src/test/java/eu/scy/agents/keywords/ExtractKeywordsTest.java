@@ -83,12 +83,12 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
-		getTupleSpace().write(
+		getCommandSpace().write(
 				new Tuple(ExtractKeywords.EXTRACT_KEYWORDS, AgentProtocol.QUERY, queryId.toString(), TEXT));
 
-		Tuple response = getTupleSpace().waitToTake(
+		Tuple response = getCommandSpace().waitToTake(
 				new Tuple("notification", String.class, "jeremy@scy.collide.info/Smack", "scymapper", "Sender",
-						"Mission", "Session", Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+						"Mission", "Session", Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL * 2);
 		assertNotNull("no response received", response);
 		for (int i = 7; i < response.getNumberOfFields(); i++) {
 			String keyword = (String) response.getField(i).getValue();

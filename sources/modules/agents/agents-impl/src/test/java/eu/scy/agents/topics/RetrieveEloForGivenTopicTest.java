@@ -109,8 +109,8 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 	@Test
 	public void testSearchForTopicElos() throws TupleSpaceException {
 		String queryId = new VMID().toString();
-		getTupleSpace().write(new Tuple("getTopicElos", AgentProtocol.QUERY, queryId, SEARCHED_TOPIC, 0.1));
-		Tuple response = getTupleSpace().waitToTake(
+		getCommandSpace().write(new Tuple("getTopicElos", AgentProtocol.QUERY, queryId, SEARCHED_TOPIC, 0.1));
+		Tuple response = getCommandSpace().waitToTake(
 				new Tuple("getTopicElos", AgentProtocol.RESPONSE, queryId, Integer.class, Field.createWildCardField()),
 				5000);
 		assertNotNull("response empty", response);

@@ -2,6 +2,11 @@ package eu.scy.agents.topics;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.rmi.dgc.VMID;
+import java.util.HashMap;
+import java.util.UUID;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -11,52 +16,53 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
 
 public class TextForTopicSavedTest extends AbstractTestFixture {
 
-	private TextForTopicSaved agent;
-	private IELO elo;
+	public String eloUri = "roolo://memory/1/testElo.scytext";
 
 	@BeforeClass
 	public static void startTS() {
+		startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void stopTS() {
-//		stopTupleSpaceServer();
+		stopTupleSpaceServer();
 	}
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
-                startTupleSpaceServer();
 		super.setUp();
 
-		agent = new TextForTopicSaved(TSHOST, TSPORT);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", new VMID());
+		params.put("tsHost", TSHOST);
+		params.put("tsPort", TSPORT);
+		agentMap.put(TextForTopicSaved.NAME, params);
 
-		agent.setMetadataTypeManager(typeManager);
-
-		elo = createNewElo("testElo", "scy/text");
-		IMetadata data = repository.addNewELO(elo);
-		elo.setMetadata(data);
+		startAgentFramework(agentMap);
 	}
 
 	@Test
 	public void testProcessElo() throws TupleSpaceException {
-		agent.processElo(elo);
+		getActionSpace().write(
+				getTestActionTuple(eloUri, "scy/text", System.currentTimeMillis(), UUID.randomUUID().toString()));
 
-		Tuple tuple = getTupleSpace().waitToRead(new Tuple("topicDetector", String.class), 5000);
+		Tuple tuple = getCommandSpace().waitToTake(new Tuple(TopicAgents.TOPIC_DETECTOR, String.class),
+				AgentProtocol.ALIVE_INTERVAL);
 
 		assertNotNull("no tuple sent", tuple);
-		getTupleSpace().takeTupleById(tuple.getTupleID());
-		assertEquals("Uri not the same", elo.getUri().toString(), tuple.getField(1).getValue());
+		assertEquals("Uri not the same", eloUri, tuple.getField(1).getValue());
 	}
 
+	@Override
 	@After
-	public void tearDown() {
-		super.stopTupleSpaceServer();
+	public void tearDown() throws AgentLifecycleException {
+		stopAgentFrameWork();
 	}
 }
