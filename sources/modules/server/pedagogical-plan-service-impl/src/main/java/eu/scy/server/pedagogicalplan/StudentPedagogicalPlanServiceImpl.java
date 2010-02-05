@@ -35,4 +35,9 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
         return getStudentPedagogicalPlanPersistenceService().getStudentPlans(user);
 
     }
+
+    @Override
+    public List<StudentPlanELO> getStudentPlans(String username) {
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlans(username);
+    }
 }

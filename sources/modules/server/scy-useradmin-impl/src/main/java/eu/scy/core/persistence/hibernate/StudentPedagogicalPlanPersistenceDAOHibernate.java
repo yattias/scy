@@ -82,4 +82,16 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
                 .setEntity("user", user)
                 .list();
     }
+
+    public List<StudentPlanELO> getStudentPlans(String username) {
+        return getStudentPlans(getUserByUsername(username));
+    }
+
+    public User getUserByUsername(String username) {
+        User user = (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
+                .setString("username", username)
+                .uniqueResult();
+        return user;
+    }
+
 }
