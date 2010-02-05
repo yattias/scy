@@ -11,25 +11,24 @@ import eu.scy.actionlogging.api.IAction;
 
 public class ActionTupleTransformer {
 
+	private static final int ATTRIBUTES_START = 8;
+
 	public static IAction getActionFromTuple(Tuple actionAsTuple) {
 		Action actionAsPojo = new Action((String) actionAsTuple.getField(1).getValue());
 		actionAsPojo.setUser((String) actionAsTuple.getField(4).getValue());
 		actionAsPojo.setType((String) actionAsTuple.getField(3).getValue());
 		actionAsPojo.setTimeInMillis((Long) actionAsTuple.getField(2).getValue());
+
 		// creating the context information
 		actionAsPojo.addContext(ContextConstants.tool, (String) actionAsTuple.getField(5).getValue());
 		actionAsPojo.addContext(ContextConstants.mission, (String) actionAsTuple.getField(6).getValue());
 		actionAsPojo.addContext(ContextConstants.session, (String) actionAsTuple.getField(7).getValue());
-		// Datatype and data
-		/*actionAsPojo.setDataType((String) actionAsTuple.getField(8).getValue());
-		actionAsPojo.setData((String) actionAsTuple.getField(9).getValue());*/
 
 		// creating the attribute list (key/value)
-
-		for (int i = 10; i < actionAsTuple.getNumberOfFields(); i++) {
+		for (int i = ATTRIBUTES_START; i < actionAsTuple.getNumberOfFields(); i++) {
 			String att = (String) actionAsTuple.getField(i).getValue();
 			int index = att.indexOf('=');
-			String key = att.substring(0, index - 1);
+			String key = att.substring(0, index);
 			String value = att.substring(index + 1, att.length());
 			actionAsPojo.addAttribute(key, value);
 		}
@@ -43,19 +42,10 @@ public class ActionTupleTransformer {
 		actionAsTuple.add(new Field(actionAsPojo.getTimeInMillis()));
 		actionAsTuple.add(new Field(actionAsPojo.getType()));
 		actionAsTuple.add(new Field(actionAsPojo.getUser()));
+
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.tool)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.mission)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.session)));
-		/*if(actionAsPojo.getDataType()!=null) {
-			actionAsTuple.add(new Field(actionAsPojo.getDataType()));
-		} else {
-			actionAsTuple.add(new Field(String.class));
-		}
-		if(actionAsPojo.getData()!=null) {
-			actionAsTuple.add(new Field(actionAsPojo.getData()!=null));
-		} else {
-			actionAsTuple.add(new Field(String.class));
-		}*/
 
 		// creating the attribute list (key/value)
 		Set<Entry<String, String>> entrySet = actionAsPojo.getAttributes().entrySet();
