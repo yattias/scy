@@ -124,6 +124,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		System.out.println("presence of " + presence.toString());
 		for (IAwarenessPresenceListener presenceListener : presenceListeners) {
 			if (presenceListener != null) {
+				
+
+				String roomId = StringUtils.parseName(presence.getFrom());
+
 
 				IAwarenessUser aw = new AwarenessUser();
 				aw.setJid(presence.getTo());
@@ -134,6 +138,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 						AwarenessServiceXMPPImpl.this, aw,
 						"updated from awareness service", presence.getType()
 								.toString(), presence.getStatus());
+				presenceEvent.setRoomId(roomId);
 				presenceListener.handleAwarenessPresenceEvent(presenceEvent);
 			}
 		}

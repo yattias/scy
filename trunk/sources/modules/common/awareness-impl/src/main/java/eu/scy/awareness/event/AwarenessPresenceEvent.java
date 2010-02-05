@@ -8,6 +8,7 @@ public class AwarenessPresenceEvent extends AwarenessEvent implements IAwarePres
 
     private String presence;
     private String status;
+    private String roomId;
     
     public AwarenessPresenceEvent(Object source, IAwarenessUser user, String message, String presence, String status) {
         super(source, user, message);
@@ -34,5 +35,15 @@ public class AwarenessPresenceEvent extends AwarenessEvent implements IAwarePres
         sb.append("status: ").append(status);
         return sb.toString();
     }
+    
+    @Override
+	public String getRoomId() {
+		return this.roomId;
+	}
+
+	@Override
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
 
 }
