@@ -46,8 +46,8 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         SCYStudentUserDetails userDetails = new SCYStudentUserDetails();
         userDetails.setUsername(suggestedUserName);
         userDetails.setPassword(password);
-        userDetails.setFirstname("");
-        userDetails.setLastname("");
+        userDetails.setFirstname("fn");
+        userDetails.setLastname("ln");
         userDetails.setAccountQuestion("q");
         userDetails.setAccountAnswer("a");
         userDetails.setBirthday(new Date());
@@ -57,7 +57,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         userDetails.setNumberOfLogins(0);
         newUser.setUserDetails(userDetails);
 
-        SCYGrantedAuthority authority = getAuthority("ROLE_ADMINISTRATOR");
+        SCYGrantedAuthority authority = getAuthority(role);
         SCYGrantedAuthority userAuthority = getAuthority("ROLE_USER");
         if (authority != null) {
             userDetails.addAuthority(authority);
