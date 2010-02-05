@@ -1,11 +1,7 @@
 package eu.scy.agents.impl;
 
-import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.Configuration.Database;
-import info.collide.sqlspaces.server.Server;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,7 +20,7 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 	private static final long TIME_IN_MILLIS = 666;
 	private static final String UUID1234 = "uuid1234";
 	private static final int TSPORT = 2525;
-	private static final String TSHOST = "localhost";
+	private static final String TSHOST = "scy.collide.info";
 	private static final String ELO_URI = "roolo://memory/1/testElo.scysimconfig";
 	private AbstractELOSavedAgent agent;
 	private boolean processActionCalled;
@@ -56,20 +52,20 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 
 	@BeforeClass
 	public static void startTS() {
-		if (!Server.isRunning()) {
-			Configuration conf = Configuration.getConfiguration();
-			conf.setNonSSLPort(TSPORT);
-			conf.setSSLEnabled(false);
-			conf.setDbType(Database.HSQL);
-			conf.setWebEnabled(false);
-			conf.setWebServicesEnabled(false);
-			Server.startServer();
-		}
+		// if (!Server.isRunning()) {
+		// Configuration conf = Configuration.getConfiguration();
+		// conf.setNonSSLPort(TSPORT);
+		// conf.setSSLEnabled(false);
+		// conf.setDbType(Database.HSQL);
+		// conf.setWebEnabled(false);
+		// conf.setWebServicesEnabled(false);
+		// Server.startServer();
+		// }
 	}
 
 	@AfterClass
 	public static void stopTS() {
-		Server.stopServer();
+		// Server.stopServer();
 	}
 
 	@Before
