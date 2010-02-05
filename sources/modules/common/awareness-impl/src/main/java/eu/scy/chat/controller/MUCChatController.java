@@ -149,33 +149,38 @@ public class MUCChatController implements ChatController {
 				.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
 					@Override
 					public void handleAwarenessPresenceEvent(
-							final IAwarePresenceEvent e) {
+							final IAwarePresenceEvent awarenessPresenceEvent) {
 						logger
 								.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: "
-										+ e.getUser().getNickName()
+										+ awarenessPresenceEvent.getUser().getNickName()
 										+ " : "
-										+ e.getUser().getPresence());
+										+ awarenessPresenceEvent.getUser().getPresence());
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-
-								IAwarenessUser awarenessUser = e.getUser();
-
-								boolean isFound = false;
-								IAwarenessUser iau;
-								for (int i = 0; i < buddyListModel.getSize(); i++) {
-									iau = (IAwarenessUser) buddyListModel
-											.elementAt(i);
-									logger
-											.debug("registerChatArea: handleAwarenessPresenceEvent: "
-													+ iau.getNickName());
-									if (iau.getNickName().equals(
-											awarenessUser.getNickName())) {
-										((IAwarenessUser) buddyListModel
-												.elementAt(i))
-												.setPresence(awarenessUser
-														.getPresence());
-										isFound = true;
+								
+								String awarenessEventRoomId = awarenessPresenceEvent.getRoomId();
+								logger.debug( "NEW awarenessEventRoomId ROOMID " + awarenessEventRoomId);
+								if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+									//need to parse it text@conference.org
+									awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+									logger.debug( "NEW awarenessEventRoomId ROOMID " + awarenessEventRoomId);
+								}
+								
+								if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {									
+									logger.debug( "MATCHED awarenessEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId );
+									
+									IAwarenessUser awarenessUser = awarenessPresenceEvent.getUser();
+	
+									boolean isFound = false;
+									IAwarenessUser iau;
+									for (int i = 0; i < buddyListModel.getSize(); i++) {
+										iau = (IAwarenessUser) buddyListModel.elementAt(i);
+										logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: "	+ iau.getNickName());
+										if (iau.getNickName().equals(awarenessUser.getNickName())) {
+											((IAwarenessUser) buddyListModel.elementAt(i)).setPresence(awarenessUser.getPresence());
+											isFound = true;
+										}
 									}
 								}
 							}
