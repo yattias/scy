@@ -16,22 +16,25 @@ public class SQLSpacesComponent implements IExternalComponent {
     @Override
     public void startComponent() throws ExternalComponentFailedException {
         log.info("Initializing SQLSPACES SERVER");
-        Configuration.getConfiguration().setConnectionPoolSize(100);
-        Configuration.getConfiguration().setLogLevel(Level.INFO);
-        Configuration.getConfiguration().setDbType(Configuration.Database.MYSQL);
-        Configuration.getConfiguration().setSSLEnabled(false);
-        Configuration.getConfiguration().setMysqlHost("localhost");
-        Configuration.getConfiguration().setMysqlPort(3306);
-        Configuration.getConfiguration().setMysqlSchema("sqlspaces");
-        Configuration.getConfiguration().setDbUser("sqlspaces");
-        Configuration.getConfiguration().setDbPassword("sqlspaces");
-        Configuration.getConfiguration().setWebEnabled(false);
-        Configuration.getConfiguration().setWebServicesEnabled(false);
-        Configuration.getConfiguration().setOpenFireHost("scy.collide.info");
-        Configuration.getConfiguration().setOpenFirePortClient(5222);
-        Configuration.getConfiguration().setOpenFirePortExternal(5275);
-        Configuration.getConfiguration().setXMPPServiceName("sqlspaces");
-        Configuration.getConfiguration().setXMPPServiceSecret("sqlspaces");
+        eu.scy.common.configuration.Configuration scyConf = eu.scy.common.configuration.Configuration.getInstance();
+        Configuration sqlsConf = Configuration.getConfiguration();
+        
+        sqlsConf.setConnectionPoolSize(100);
+        sqlsConf.setLogLevel(Level.INFO);
+        sqlsConf.setDbType(Configuration.Database.MYSQL);
+        sqlsConf.setSSLEnabled(false);
+        sqlsConf.setMysqlHost("localhost");
+        sqlsConf.setMysqlPort(3306);
+        sqlsConf.setMysqlSchema("sqlspaces");
+        sqlsConf.setDbUser("sqlspaces");
+        sqlsConf.setDbPassword("sqlspaces");
+        sqlsConf.setWebEnabled(false);
+        sqlsConf.setWebServicesEnabled(false);
+        sqlsConf.setOpenFireHost(scyConf.getOpenFireHost());
+        sqlsConf.setOpenFirePortClient(scyConf.getOpenFirePort());
+        sqlsConf.setOpenFirePortExternal(scyConf.getOpenFireExternalComponentPort());
+        sqlsConf.setXMPPServiceName("sqlspaces");
+        sqlsConf.setXMPPServiceSecret("sqlspaces");
         Level level = Logger.getLogger("").getLevel();
         Server.startServer();
         Logger.getLogger("").setLevel(level);
