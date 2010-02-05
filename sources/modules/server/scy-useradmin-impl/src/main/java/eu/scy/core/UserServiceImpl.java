@@ -4,6 +4,7 @@ import eu.scy.core.model.User;
 import eu.scy.core.persistence.UserDAO;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -31,6 +32,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
     public User createUser(String username, String password, String role) {
         log.info("Creating user :" + username);
         return getUserDAO().createUser(username, password, role);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return getUserDAO().getUsers();
     }
 
     @Transactional

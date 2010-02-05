@@ -3,6 +3,8 @@ package eu.scy.core;
 import eu.scy.core.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -15,6 +17,8 @@ public interface UserService extends BaseService{
     public User getUser(String username);
 
     User createUser(String username, String password, String role);
+
+    public List<User> getUsers();
 
     public User save(User user);
 }
