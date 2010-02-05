@@ -1,9 +1,12 @@
 package eu.scy.scymapper.impl.controller.datasync;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.controller.NodeController;
 import org.apache.log4j.Logger;
 
@@ -24,10 +27,17 @@ public class DataSyncNodeController extends NodeController {
 	public DataSyncNodeController(INodeModel node, ISyncSession session) {
 		super(node);
 		this.syncSession = session;
-    }
+	}
 
 	@Override
-    public void setSize(final Dimension d) {
+	public void setSize(final Dimension dimension) {
+		if (!model.getConstraints().getCanResize()) return;
+
+		int minHeight = model.getStyle().getMinHeight();
+		int minWidth = model.getStyle().getMinWidth();
+
+		if (dimension.height < minHeight) dimension.height = minHeight;
+		if (dimension.width < minWidth) dimension.width = minWidth;
 		// Size and location (see setLocation) are properties that are changed VERY frequently when a user move a node
 		// The code below makes sure changes in these properties are broadcasted more infrequent
 //		if (sizeChangeBroadcast != null && sizeChangeBroadcast.scheduledExecutionTime() > System.currentTimeMillis())
@@ -36,10 +46,10 @@ public class DataSyncNodeController extends NodeController {
 //		sizeChangeBroadcast = new TimerTask() {
 //			@Override
 //			public void run() {
-				ISyncObject syncObject = new SyncObject();
-				syncObject.setProperty("id", model.getId());
-				syncObject.setProperty("size", d.height+","+d.width);
-				syncSession.changeSyncObject(syncObject);
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", model.getId());
+		syncObject.setProperty("size", dimension.height + "," + dimension.width);
+		syncSession.changeSyncObject(syncObject);
 //			}
 //		};
 //
@@ -49,11 +59,12 @@ public class DataSyncNodeController extends NodeController {
 //		// Update the model locally
 //		model.setSize(d);
 
-    }
+	}
 
-    @Override
-    public void setLocation(final Point p) {
-
+	@Override
+	public void setLocation(final Point p) {
+		if (p.getX() < 0) p.x = 0;
+		if (p.y < 0) p.y = 0;
 		// Only broadcast the change to datasync service if it is more than a certain amount of millisecs since last update
 //		if (locationChangeBroadcast != null && locationChangeBroadcast.scheduledExecutionTime() > System.currentTimeMillis())
 //			locationChangeBroadcast.cancel();
@@ -61,10 +72,10 @@ public class DataSyncNodeController extends NodeController {
 //		locationChangeBroadcast = new TimerTask() {
 //			@Override
 //			public void run() {
-				ISyncObject syncObject = new SyncObject();
-				syncObject.setProperty("id", model.getId());
-				syncObject.setProperty("location", p.x+","+p.y);
-				syncSession.changeSyncObject(syncObject);
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", model.getId());
+		syncObject.setProperty("location", p.x + "," + p.y);
+		syncSession.changeSyncObject(syncObject);
 //			}
 //		};
 //
@@ -73,23 +84,35 @@ public class DataSyncNodeController extends NodeController {
 //
 //		// Update the model locally
 //		model.setLocation(p);
-    }
+	}
 
-    @Override
-    public void setLabel(String text) {
+	@Override
+	public void setLabel(String text) {
 		ISyncObject syncObject = new SyncObject();
 		syncObject.setProperty("id", model.getId());
 		syncObject.setProperty("label", text);
 		syncSession.changeSyncObject(syncObject);
-    }
+	}
 
 	@Override
 	public void setSelected(boolean b) {
-		 super.setSelected(b);
+		super.setSelected(b);
 	}
 
-    @Override
-    public void setDeleted(boolean b) {
-        super.setDeleted(b);
-    }
+	@Override
+	public void setDeleted(boolean b) {
+		super.setDeleted(b);
+	}
+
+	@Override
+	public void setStyle(INodeStyle style) {
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", model.getId());
+
+		XStream xstream = new XStream(new DomDriver());
+		String xml = xstream.toXML(style);
+
+		syncObject.setProperty("style", xml);
+		syncSession.changeSyncObject(syncObject);
+	}
 }

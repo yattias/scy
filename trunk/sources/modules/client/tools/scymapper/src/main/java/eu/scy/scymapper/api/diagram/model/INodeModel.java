@@ -19,15 +19,15 @@ public interface INodeModel extends IDiagramElement {
 
 	void setLocation(Point location);
 
-    void setLocation(int x, int y);
+	void setLocation(int x, int y);
 
-    void setX(int x);
+	void setX(int x);
 
-    void setY(int y);
+	void setY(int y);
 
 	Dimension getSize();
 
-    void setSize(int height, int width);
+	void setSize(int height, int width);
 
 	void setSize(Dimension size);
 
@@ -47,9 +47,9 @@ public interface INodeModel extends IDiagramElement {
 
 	boolean isSelected();
 
-    void setDeleted(boolean b);
+	void setDeleted(boolean b);
 
-    boolean isDeleted();
+	boolean isDeleted();
 
 	INodeStyle getStyle();
 
@@ -69,18 +69,21 @@ public interface INodeModel extends IDiagramElement {
 
 	void notifyShapeChanged();
 
+	void notifyStyleChanged();
+
 	void notifySelected();
 
 	void notifyDeleted();
 
-    void setConstraints(INodeModelConstraints constraints);
-    INodeModelConstraints getConstraints();
+	void setConstraints(INodeModelConstraints constraints);
 
-    void setHeight(int height);
+	INodeModelConstraints getConstraints();
 
-    int getHeight();
+	void setHeight(int height);
 
-    void setWidth(int width);
+	int getHeight();
 
-    int getWidth();
+	void setWidth(int width);
+
+	int getWidth();
 }

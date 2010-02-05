@@ -1,9 +1,12 @@
 package eu.scy.scymapper.impl.controller.datasync;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.impl.controller.LinkController;
 import org.apache.log4j.Logger;
 
@@ -27,6 +30,18 @@ public class DataSyncLinkController extends LinkController {
 		ISyncObject syncObject = new SyncObject();
 		syncObject.setProperty("id", model.getId());
 		syncObject.setProperty("label", text);
+		syncSession.changeSyncObject(syncObject);
+	}
+
+	@Override
+	public void setStyle(ILinkStyle style) {
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", model.getId());
+
+		XStream xstream = new XStream(new DomDriver());
+		String xml = xstream.toXML(style);
+
+		syncObject.setProperty("style", xml);
 		syncSession.changeSyncObject(syncObject);
 	}
 }

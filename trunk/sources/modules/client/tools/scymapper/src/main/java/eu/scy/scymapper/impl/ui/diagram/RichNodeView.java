@@ -258,6 +258,15 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 	}
 
 	@Override
+	public void styleChanged(INodeModel node) {
+		labelTextarea.setForeground(node.getStyle().getForeground());
+		labelTextarea.setBackground(node.getStyle().getBackground());
+		labelScroller.setOpaque(false);
+		labelScroller.getViewport().setOpaque(false);
+		repaint();
+	}
+
+	@Override
 	public void selectionChanged(INodeModel conceptNode) {
 		if (selectionBorder == null) {
 			selectionBorder = new SelectionBorder();
@@ -280,8 +289,12 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
 	@Override
 	public void styleChanged(INodeStyle s) {
-		System.out.println("RichNodeView.styleChanged");
+		System.out.println("The Node style changed!!");
 		labelTextarea.setForeground(s.getForeground());
+		labelTextarea.setBackground(s.getBackground());
+
+		labelScroller.setOpaque(false);
+		labelScroller.getViewport().setOpaque(false);
 		repaint();
 	}
 }

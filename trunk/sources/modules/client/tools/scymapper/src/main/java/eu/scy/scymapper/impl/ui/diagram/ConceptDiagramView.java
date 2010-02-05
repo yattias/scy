@@ -275,11 +275,11 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 		if (answer == JOptionPane.YES_OPTION) {
 			if (selectionModel.hasLinkSelection()) {
 				for (ILinkModel link : selectionModel.getSelectedLinks())
-					controller.removeLink(link);
+					controller.remove(link);
 			}
 			if (selectionModel.hasNodeSelection()) {
 				for (INodeModel node : selectionModel.getSelectedNodes())
-					controller.removeNode(node);
+					controller.remove(node);
 			}
 		}
 	}

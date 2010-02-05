@@ -7,6 +7,8 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import eu.scy.scymapper.api.diagram.model.*;
+import eu.scy.scymapper.api.styling.ILinkStyle;
+import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import org.apache.log4j.Logger;
 
@@ -89,8 +91,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 						node.setLocation(x, y);
 					}
 				});
-			}
-			if (key.equals("size")) {
+			} else if (key.equals("size")) {
 				String[] pos = value.split(",");
 				final int h = new Integer(pos[0]);
 				final int w = new Integer(pos[1]);
@@ -101,9 +102,12 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 						node.setSize(h, w);
 					}
 				});
-			}
-			if (key.equals("label")) {
+			} else if (key.equals("label")) {
 				node.setLabel(value);
+			} else if (key.equals("style")) {
+				XStream xstream = new XStream(new DomDriver());
+				INodeStyle style = (INodeStyle) xstream.fromXML(value);
+				node.setStyle(style);
 			}
 		}
 	}
@@ -115,12 +119,15 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 			if (key.equals("label")) {
 				link.setLabel(value);
+			} else if (key.equals("style")) {
+				XStream xstream = new XStream(new DomDriver());
+				ILinkStyle style = (ILinkStyle) xstream.fromXML(value);
+				link.setStyle(style);
 			}
 		}
 	}
 
 	/**
-	 * 
 	 * @param syncObject
 	 */
 	@Override
@@ -194,7 +201,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	 * @param n node to add
 	 */
 	@Override
-	public void addNode(INodeModel n) {
+	public void add(INodeModel n) {
 		// This is called whenever the user adds a new node to the diagra
 		logger.debug("User locally added node with ID " + n.getId());
 
@@ -216,7 +223,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	}
 
 	@Override
-	public void addLink(ILinkModel l) {
+	public void add(ILinkModel l) {
 
 		// This is called whenever the user adds a new node to the diagra
 		logger.debug("User locally added link with ID " + l.getId());
@@ -242,7 +249,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	 * @param node node to remove
 	 */
 	@Override
-	public void removeNode(INodeModel node) {
+	public void remove(INodeModel node) {
 		if (!node.getConstraints().getCanDelete()) {
 			logger.warn("Tried to delete a locked node");
 			return;
@@ -255,7 +262,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	}
 
 	@Override
-	public void removeLink(ILinkModel l) {
+	public void remove(ILinkModel l) {
 		logger.debug("User is locally removing link with ID " + l.getId());
 		ISyncObject syncObject = new SyncObject();
 		syncObject.setProperty("id", l.getId());

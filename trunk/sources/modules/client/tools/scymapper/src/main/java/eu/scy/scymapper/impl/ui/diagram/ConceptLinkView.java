@@ -301,16 +301,20 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 	@Override
 	public void updated(ILinkModel m) {
-		System.out.println("ConceptLinkView.updated");
-		if (!m.getLabel().equals(labelTextarea.getText())) {
-			labelTextarea.setText(m.getLabel());
+	}
+
+	@Override
+	public void labelChanged(ILinkModel link) {
+
+		if (!link.getLabel().equals(labelTextarea.getText())) {
+			labelTextarea.setText(link.getLabel());
 		}
 		if (conf.isDebug()) {
 			labelPos = Math.min(Integer.parseInt(labelTextarea.getText()), 100) / 100d;
 		}
-		labelTextarea.setForeground(m.getStyle().getForeground());
+		labelTextarea.setForeground(link.getStyle().getForeground());
 
-		super.updated(m);
+		super.labelChanged(link);
 		layoutComponents();
 		repaint();
 	}
@@ -331,10 +335,17 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 	@Override
 	public void labelChanged(INodeModel node) {
+
 	}
 
 	@Override
 	public void shapeChanged(INodeModel node) {
+	}
+
+	@Override
+	public void styleChanged(INodeModel node) {
+		updatePosition();
+		layoutComponents();
 	}
 
 	@Override

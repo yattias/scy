@@ -236,6 +236,11 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 	}
 
 	@Override
+	public void styleChanged(INodeModel node) {
+
+	}
+
+	@Override
 	public void selectionChanged(INodeModel conceptNode) {
 	}
 

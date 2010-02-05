@@ -16,61 +16,61 @@ import java.util.HashSet;
  * Time: 12:03:12
  */
 public class DiagramController implements IDiagramController {
-    private final static Logger logger = Logger.getLogger(DiagramController.class);
+	private final static Logger logger = Logger.getLogger(DiagramController.class);
 
-    protected IDiagramModel model;
+	protected IDiagramModel model;
 
-    public DiagramController(IDiagramModel diagramModel) {
-        this.model = diagramModel;
-    }
+	public DiagramController(IDiagramModel diagramModel) {
+		this.model = diagramModel;
+	}
 
-    @Override
-    public void setName(String name) {
-        model.setName(name);
-    }
+	@Override
+	public void setName(String name) {
+		model.setName(name);
+	}
 
-    @Override
-    public void addNode(INodeModel n, boolean preventOverlap) {
-        addNode(n);
-    }
+	@Override
+	public void add(INodeModel n, boolean preventOverlap) {
+		add(n);
+	}
 
-    @Override
-    public void addNode(INodeModel n) {
-        model.addNode(n);
-    }
+	@Override
+	public void add(INodeModel n) {
+		model.addNode(n);
+	}
 
-    @Override
-    public void addLink(ILinkModel l) {
-        model.addLink(l);
-    }
+	@Override
+	public void add(ILinkModel l) {
+		model.addLink(l);
+	}
 
-    @Override
-    public void removeAll() {
-        for (INodeModel n : model.getNodes())
-            removeNode(n);
-    }
+	@Override
+	public void removeAll() {
+		for (INodeModel n : model.getNodes())
+			remove(n);
+	}
 
-    @Override
-    public void removeNode(INodeModel n) {
-        if (!n.getConstraints().getCanDelete()) {
-            logger.warn("Tried to delete a locked node");
-            return;
-        }
+	@Override
+	public void remove(INodeModel n) {
+		if (!n.getConstraints().getCanDelete()) {
+			logger.warn("Tried to delete a locked node");
+			return;
+		}
 
-        HashSet<INodeLinkModel> linksToRemove = new HashSet<INodeLinkModel>();
-        for (ILinkModel link : model.getLinks()) {
-            if (link instanceof INodeLinkModel) {
-                INodeLinkModel nodeLink = (INodeLinkModel) link;
-                if (n.equals(nodeLink.getFromNode()) || n.equals(nodeLink.getToNode())) {
-                    linksToRemove.add(nodeLink);
-                }
-            }
-        }
-        model.removeNode(n);
-        for (ILinkModel link : linksToRemove) removeLink(link);
-    }
+		HashSet<INodeLinkModel> linksToRemove = new HashSet<INodeLinkModel>();
+		for (ILinkModel link : model.getLinks()) {
+			if (link instanceof INodeLinkModel) {
+				INodeLinkModel nodeLink = (INodeLinkModel) link;
+				if (n.equals(nodeLink.getFromNode()) || n.equals(nodeLink.getToNode())) {
+					linksToRemove.add(nodeLink);
+				}
+			}
+		}
+		model.removeNode(n);
+		for (ILinkModel link : linksToRemove) remove(link);
+	}
 
-    public void removeLink(ILinkModel l) {
-        model.removeLink(l);
-    }
+	public void remove(ILinkModel l) {
+		model.removeLink(l);
+	}
 }

@@ -7,6 +7,9 @@ package eu.scy.scymapper.api.diagram.model;
  * To change this template use File | Settings | File Templates.
  */
 public interface ILinkModelListener {
-    public void updated(ILinkModel subject);
-    public void selectionChanged(ILinkModel node);
+	void updated(ILinkModel subject);
+
+	void selectionChanged(ILinkModel node);
+
+	void labelChanged(ILinkModel link);
 }

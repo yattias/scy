@@ -37,7 +37,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyMapperId = "conceptmap";
 
    
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {}, scyMapperId);
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {userName: userName}, scyMapperId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 

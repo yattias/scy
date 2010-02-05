@@ -12,30 +12,37 @@ import java.io.Serializable;
  * Time: 18:29:15
  */
 public interface ILinkModel extends IDiagramElement, Serializable {
-    String getLabel();
-    void setLabel(String label);
+	String getLabel();
 
-    boolean isLabelHidden();
-    void setLabelHidden(boolean labelHidden);
+	void setLabel(String label);
 
-    Point getFrom();
-    void setFrom(Point p);
+	boolean isLabelHidden();
 
-    Point getTo();
-    void setTo(Point p);
+	void setLabelHidden(boolean labelHidden);
 
-    ILinkShape getShape();
+	Point getFrom();
 
-    void setShape(ILinkShape shape);
+	void setFrom(Point p);
 
-    void setStyle(ILinkStyle style);
+	Point getTo();
 
-    ILinkStyle getStyle();
+	void setTo(Point p);
 
-    void addListener(ILinkModelListener listener);
-    void removeListener(ILinkModelListener listener);
+	ILinkShape getShape();
 
-    void notifyUpdated();
+	void setShape(ILinkShape shape);
+
+	void setStyle(ILinkStyle style);
+
+	ILinkStyle getStyle();
+
+	void addListener(ILinkModelListener listener);
+
+	void removeListener(ILinkModelListener listener);
+
+	void notifyUpdated();
+
+	void notifyLabelChanged();
 
 	boolean isSelected();
 

@@ -86,6 +86,7 @@ public class NodeModel implements INodeModel {
 	@Override
 	public void setStyle(INodeStyle style) {
 		this.style = style;
+		notifyStyleChanged();
 	}
 
 	@Override
@@ -220,6 +221,13 @@ public class NodeModel implements INodeModel {
 	public void notifyShapeChanged() {
 		for (INodeModelListener listener : listeners) {
 			listener.shapeChanged(this);
+		}
+	}
+
+	@Override
+	public void notifyStyleChanged() {
+		for (INodeModelListener listener : listeners) {
+			listener.styleChanged(this);
 		}
 	}
 

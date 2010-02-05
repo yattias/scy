@@ -6,10 +6,13 @@ import eu.scy.scymapper.api.diagram.controller.IDiagramSelectionListener;
 import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.diagram.view.LinkViewComponent;
+import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
+import eu.scy.scymapper.api.styling.ILinkStyle;
+import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,13 +23,13 @@ import java.awt.event.ActionListener;
  */
 public class ConceptMapToolBar extends JToolBar {
 	private IConceptMap conceptMap;
+	private ConceptDiagramView diagramView;
 	private IDiagramController diagramController;
 	private IDiagramSelectionModel diagramSelectionModel;
 
-	public ConceptMapToolBar(IConceptMap cmap, IDiagramController diagramController) {
-		this.diagramController = diagramController;
+	public ConceptMapToolBar(IConceptMap cmap, ConceptDiagramView diagramView) {
 		conceptMap = cmap;
-
+		this.diagramView = diagramView;
 		diagramSelectionModel = conceptMap.getDiagramSelectionModel();
 
 		add(new ClearConceptMapButton());
@@ -53,49 +56,24 @@ public class ConceptMapToolBar extends JToolBar {
 		}
 	}
 
-	class ForegroundColorButton extends JButton implements ChangeListener {
-		JPopupMenu popup;
-		JColorChooser colorChooser;
-
+	class ForegroundColorButton extends ColorChooserButton {
 		ForegroundColorButton() {
 			super();
-			setIcon(new ImageIcon(getClass().getResource("color-fg.png")));
 			setToolTipText("Select foreground color");
+			setIcon(new ImageIcon(getClass().getResource("color-fg.png")));
 
 			setEnabled(false);
-			popup = new JPopupMenu("Select color");
-			colorChooser = new JColorChooser();
-			colorChooser.getSelectionModel().addChangeListener(this);
 
 			conceptMap.getDiagramSelectionModel().addSelectionListener(new IDiagramSelectionListener() {
 				@Override
 				public void selectionChanged(IDiagramSelectionModel selectionModel) {
 					setEnabled(selectionModel.hasSelection());
-					setBackground(getSelectionFg());
+					setDisplayColor(getSelectionFg());
 				}
 			});
-
-			popup.add(colorChooser);
-
-			addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					popup.show(ForegroundColorButton.this, 0, ForegroundColorButton.this.getHeight());
-				}
-			});
-		}
-
-		@Override
-		public void stateChanged(ChangeEvent e) {
-			// User selected a color
-			popup.setVisible(false);
-			Color c = colorChooser.getColor();
-			setBackground(c);
-			setSelectionFg(c);
 		}
 
 		Color getSelectionFg() {
-
 			if (diagramSelectionModel.hasSelection()) {
 				if (diagramSelectionModel.isMultipleSelection()) {
 					Color prev = null;
@@ -119,21 +97,31 @@ public class ConceptMapToolBar extends JToolBar {
 			return null;
 		}
 
-		void setSelectionFg(Color fg) {
+		@Override
+		void colorSelected(Color fg) {
+
 			if (diagramSelectionModel.hasSelection()) {
-				for (INodeModel node : diagramSelectionModel.getSelectedNodes()) {
-					node.getStyle().setForeground(fg);
+				for (Component comp : diagramView.getComponents()) {
+					if (comp instanceof NodeViewComponent) {
+						NodeViewComponent nw = ((NodeViewComponent) comp);
+						if (!nw.getModel().isSelected()) continue;
+						INodeStyle style = nw.getModel().getStyle();
+						style.setForeground(fg);
+						((NodeViewComponent) comp).getController().setStyle(style);
+					} else if (comp instanceof LinkViewComponent) {
+						LinkViewComponent lw = ((LinkViewComponent) comp);
+						if (!lw.getModel().isSelected()) continue;
+						ILinkStyle style = lw.getModel().getStyle();
+						style.setForeground(fg);
+						((LinkViewComponent) comp).getController().setStyle(style);
+					}
 				}
-				for (ILinkModel link : diagramSelectionModel.getSelectedLinks()) {
-					link.getStyle().setForeground(fg);
-				}
+				setDisplayColor(getSelectionFg());
 			}
 		}
 	}
 
-	class BackgroundColorButton extends JButton implements ChangeListener {
-		JPopupMenu popup;
-		JColorChooser colorChooser;
+	class BackgroundColorButton extends ColorChooserButton {
 
 		BackgroundColorButton() {
 			super();
@@ -142,45 +130,35 @@ public class ConceptMapToolBar extends JToolBar {
 			setToolTipText("Select background color");
 
 			setEnabled(false);
-			popup = new JPopupMenu("Select color");
-			colorChooser = new JColorChooser();
-			colorChooser.getSelectionModel().addChangeListener(this);
-
 			diagramSelectionModel.addSelectionListener(new IDiagramSelectionListener() {
 				@Override
 				public void selectionChanged(IDiagramSelectionModel selectionModel) {
 					setEnabled(selectionModel.hasSelection());
-					setBackground(getSelectionBg());
-				}
-			});
-
-			popup.add(colorChooser);
-
-			addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					popup.show(BackgroundColorButton.this, 0, BackgroundColorButton.this.getHeight());
+					setDisplayColor(getSelectionBg());
 				}
 			});
 		}
 
 		@Override
-		public void stateChanged(ChangeEvent e) {
-			// User selected a color
-			popup.setVisible(false);
-			Color c = colorChooser.getColor();
-			setBackground(c);
-			setSelectionBg(c);
-		}
-
-		void setSelectionBg(Color bg) {
+		void colorSelected(Color bg) {
 			if (diagramSelectionModel.hasSelection()) {
-				for (INodeModel node : diagramSelectionModel.getSelectedNodes()) {
-					node.getStyle().setBackground(bg);
+				for (Component comp : diagramView.getComponents()) {
+					if (comp instanceof NodeViewComponent) {
+						NodeViewComponent nw = ((NodeViewComponent) comp);
+						if (!nw.getModel().isSelected()) continue;
+						INodeStyle style = nw.getModel().getStyle();
+						style.setBackground(bg);
+						((NodeViewComponent) comp).getController().setStyle(style);
+					} else if (comp instanceof LinkViewComponent) {
+						LinkViewComponent lw = ((LinkViewComponent) comp);
+						if (!lw.getModel().isSelected()) continue;
+						ILinkStyle style = lw.getModel().getStyle();
+						style.setBackground(bg);
+						((LinkViewComponent) comp).getController().setStyle(style);
+
+					}
 				}
-				for (ILinkModel link : diagramSelectionModel.getSelectedLinks()) {
-					link.getStyle().setBackground(bg);
-				}
+				setDisplayColor(getSelectionBg());
 			}
 		}
 

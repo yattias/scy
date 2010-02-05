@@ -8,6 +8,7 @@
 	<bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle"/>
 	<bean id="starshape" class="eu.scy.scymapper.impl.shapes.nodes.Star"/>
 	<bean id="diamondshape" class="eu.scy.scymapper.impl.shapes.nodes.Diamond"/>
+	<bean id="hexagon" class="eu.scy.scymapper.impl.shapes.nodes.Hexagon"/>
 	<bean id="triangle" class="eu.scy.scymapper.impl.shapes.nodes.Triangle"/>
 	<bean id="ellipse" class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
 

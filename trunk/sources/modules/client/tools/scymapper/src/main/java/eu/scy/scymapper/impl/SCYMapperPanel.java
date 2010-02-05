@@ -8,11 +8,14 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
+import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncElementControllerFactory;
+import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.SlideNotificator;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
+import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -30,7 +33,7 @@ import java.util.Map;
  * Date: 27.aug.2009
  * Time: 13:29:56
  */
-public class SCYMapperPanel extends JPanel implements ISyncListener {
+public class SCYMapperPanel extends JPanel {
 
 	private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 
@@ -42,6 +45,25 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 	private ISyncSession currentSession;
 	private SlideNotificator notificator;
 
+	private ISCYMapperToolConfiguration conf = SCYMapperToolConfiguration.getInstance();
+
+	private ISyncListener dummySyncListener = new ISyncListener() {
+		@Override
+		public void syncObjectAdded(ISyncObject iSyncObject) {
+		}
+
+		@Override
+		public void syncObjectChanged(ISyncObject iSyncObject) {
+		}
+
+		@Override
+		public void syncObjectRemoved(ISyncObject iSyncObject) {
+		}
+	};
+
+	private ConceptMapActionLogger actionLogger;
+	private ConceptMapPanel cmapPanel;
+
 	public SCYMapperPanel(IConceptMap cmap, ISCYMapperToolConfiguration configuration) {
 		conceptMap = cmap;
 		this.configuration = configuration;
@@ -50,7 +72,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		validate();
 	}
 
-	public void setToolBroker(ToolBrokerAPI tbi) {
+	public void setToolBroker(ToolBrokerAPI tbi, String username) {
 		toolBroker = tbi;
 		if (toolBroker != null) {
 			toolBroker.registerForNotifications(new INotifiable() {
@@ -59,6 +81,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 					showNotification(notification);
 				}
 			});
+			actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(), username);
 		}
 	}
 
@@ -112,6 +135,36 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		notificator.show();
 	}
 
+	private void showKeywordSuggestion() {
+
+		String suggestion = JOptionPane.showInputDialog("What keyword would you like to have suggested to you?");
+
+		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
+
+		panel.setSuggestion(suggestion, configuration.getNodeFactories(), cmapPanel);
+
+		panel.setSize(400, 350);
+		panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
+
+		if (notificator != null) notificator.hide();
+		notificator = new SlideNotificator(SCYMapperPanel.this, panel);
+
+		final SlideNotificator n = notificator;
+		JButton close = new JButton("Close");
+		close.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				n.hide();
+			}
+		});
+
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(close);
+		panel.add(BorderLayout.SOUTH, close);
+
+		notificator.show();
+	}
+
 	private void initComponents() {
 
 		JPanel topToolBarPanel = new JPanel(new MigLayout("flowy", "[left,grow,fill]"));
@@ -153,7 +206,6 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 				showNotification(notification);
 			}
 		});
-		sessionPanel.add(makeNotificationButton);
 
 		JButton showNotificationButton = new JButton("Show notification");
 		showNotificationButton.addActionListener(new ActionListener() {
@@ -162,7 +214,6 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 				notificator.show();
 			}
 		});
-		sessionPanel.add(showNotificationButton);
 		JButton hideNotificationButton = new JButton("Hide notification");
 		hideNotificationButton.addActionListener(new ActionListener() {
 			@Override
@@ -170,16 +221,27 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 				notificator.hide();
 			}
 		});
-		sessionPanel.add(hideNotificationButton);
-
+		JButton testSuggestKeywordButton = new JButton("Suggest keyword");
+		testSuggestKeywordButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showKeywordSuggestion();
+			}
+		});
+		if (conf.isDebug()) {
+			sessionPanel.add(hideNotificationButton);
+			sessionPanel.add(makeNotificationButton);
+			sessionPanel.add(showNotificationButton);
+			sessionPanel.add(testSuggestKeywordButton);
+		}
 		topToolBarPanel.add(sessionPanel);
 
-		ConceptMapPanel cmapPanel = new ConceptMapPanel(conceptMap);
+		cmapPanel = new ConceptMapPanel(conceptMap);
 		cmapPanel.setBackground(Color.WHITE);
 		conceptDiagramView = cmapPanel.getDiagramView();
 
 
-		JToolBar toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView.getController());
+		JToolBar toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView);
 		topToolBarPanel.add(toolBar);
 
 		JToolBar palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
@@ -201,20 +263,6 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		repaint();
 	}
 
-	@Override
-	public void syncObjectAdded(ISyncObject syncObject) {
-
-	}
-
-	@Override
-	public void syncObjectChanged(ISyncObject syncObject) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void syncObjectRemoved(ISyncObject syncObject) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
 
 	private class CreateSessionAction extends AbstractAction {
 		private CreateSessionAction() {
@@ -269,7 +317,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		String sessId = JOptionPane.showInputDialog("Enter session ID");
 
 		if (sessId != null) {
-			currentSession = toolBroker.getDataSyncService().joinSession(sessId, SCYMapperPanel.this);
+			currentSession = toolBroker.getDataSyncService().joinSession(sessId, SCYMapperPanel.this.dummySyncListener);
 			joinSession(currentSession);
 			sessionId.setText(sessId);
 		}
@@ -279,8 +327,9 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		if (toolBroker == null)
 			JOptionPane.showMessageDialog(this, "Error: ToolBroker is null", "Error", JOptionPane.ERROR_MESSAGE);
 		try {
-			currentSession = toolBroker.getDataSyncService().createSession(SCYMapperPanel.this);
+			currentSession = toolBroker.getDataSyncService().createSession(SCYMapperPanel.this.dummySyncListener);
 			joinSession(currentSession);
+			actionLogger.setSession(currentSession);
 			displaySessionId();
 		} catch (Exception e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

@@ -19,6 +19,11 @@ public class DefaultLinkStyle implements ILinkStyle {
 	private transient Collection<ILinkStyleListener> listeners;
 	private Color backgroundColor = Color.black;
 
+	private Object readResolve() {
+		listeners = new ArrayList<ILinkStyleListener>();
+		return this;
+	}
+
 	public DefaultLinkStyle() {
 		listeners = new ArrayList<ILinkStyleListener>();
 	}
