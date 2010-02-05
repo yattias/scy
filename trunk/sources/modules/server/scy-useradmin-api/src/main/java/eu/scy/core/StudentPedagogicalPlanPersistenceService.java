@@ -18,4 +18,6 @@ public interface StudentPedagogicalPlanPersistenceService extends BaseService{
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user);
 
     public List getStudentPlans(User user);
+
+    List<StudentPlanELO> getStudentPlans(String username);
 }

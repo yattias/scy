@@ -36,4 +36,9 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     public List getStudentPlans(User user) {
         return getStudentPedagogicalPlanPersistenceDAO().getStudentPlans(user);
     }
+
+    @Override
+    public List<StudentPlanELO> getStudentPlans(String username) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlans(username);
+    }
 }

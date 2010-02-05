@@ -18,4 +18,6 @@ public interface StudentPedagogicalPlanService {
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user);
 
     List<StudentPlanELO> getStudentPlans(User user);
+
+    List<StudentPlanELO> getStudentPlans(String username);
 }
