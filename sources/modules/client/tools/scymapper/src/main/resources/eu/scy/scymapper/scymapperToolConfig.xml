@@ -10,7 +10,7 @@
 
 	<bean id="simpleConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration"
 		  factory-method="getInstance">
-		<property name="debug" value="true"/>
+		<property name="debug" value="false"/>
 		<property name="nodeFactories">
 			<list>
 				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">

@@ -283,4 +283,12 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 			}
 		}
 	}
+
+	public void confirmAndRemoveAll() {
+		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, "Are you sure you would like to remove *ALL* elements?", "Confirm removal", JOptionPane.YES_NO_OPTION);
+		if (answer == JOptionPane.YES_OPTION) {
+			controller.removeAll();
+		}
+
+	}
 }

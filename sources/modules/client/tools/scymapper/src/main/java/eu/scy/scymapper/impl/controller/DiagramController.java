@@ -7,6 +7,7 @@ import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import org.apache.log4j.Logger;
 
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -46,8 +47,10 @@ public class DiagramController implements IDiagramController {
 
 	@Override
 	public void removeAll() {
+		Collection<INodeModel> toBeRemoved = new HashSet<INodeModel>();
 		for (INodeModel n : model.getNodes())
-			remove(n);
+			toBeRemoved.add(n);
+		for (INodeModel n : toBeRemoved) remove(n);
 	}
 
 	@Override
@@ -70,7 +73,7 @@ public class DiagramController implements IDiagramController {
 		for (ILinkModel link : linksToRemove) remove(link);
 	}
 
-	public void remove(ILinkModel l) {
+	public synchronized void remove(ILinkModel l) {
 		model.removeLink(l);
 	}
 }
