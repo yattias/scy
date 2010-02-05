@@ -2,6 +2,7 @@ package eu.scy.agents;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
+import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Configuration.Database;
@@ -13,7 +14,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -59,9 +59,12 @@ public class AbstractTestFixture {
 
 	private PersistentStorage storage;
 
+	private TupleSpace actionSpace;
+
 	@Before
 	public void setUp() throws Exception {
 		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
+		actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.ACTION_SPACE_NAME);
 
 		agentMap.clear();
 
@@ -83,6 +86,7 @@ public class AbstractTestFixture {
 		if (tupleSpace != null) {
 			try {
 				tupleSpace.disconnect();
+				actionSpace.disconnect();
 				System.err.println("********** Disconnected from TS ******************");
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
@@ -144,8 +148,12 @@ public class AbstractTestFixture {
 		}
 	}
 
-	public TupleSpace getTupleSpace() {
+	public TupleSpace getCommandSpace() {
 		return tupleSpace;
+	}
+
+	public TupleSpace getActionSpace() {
+		return actionSpace;
 	}
 
 	protected void stopAgentFrameWork() throws AgentLifecycleException {
@@ -171,6 +179,11 @@ public class AbstractTestFixture {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis, String uuid) {
+		return new Tuple("action", uuid, currentTimeInMillis, "elo_saved", "testUser", "SomeTool", "SomeMission",
+				"TestSession", "elouri=" + eloUri, "type=" + type);
 	}
 
 }

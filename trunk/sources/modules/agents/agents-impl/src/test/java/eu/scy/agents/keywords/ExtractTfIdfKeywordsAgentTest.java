@@ -57,7 +57,7 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		try {
-			getTupleSpace().take(
+			getCommandSpace().take(
 					new Tuple("persistent_storage_1_0", KeywordConstants.DOCUMENT_FREQUENCY_MODEL, Field
 							.createWildCardField()));
 		} catch (TupleSpaceException e) {
@@ -77,10 +77,10 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
-		getTupleSpace().write(
+		getCommandSpace().write(
 				new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, queryId.toString(),
 						TEXT));
-		Tuple response = getTupleSpace().waitToRead(
+		Tuple response = getCommandSpace().waitToRead(
 				new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId.toString(),
 						String.class), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no response received", response);

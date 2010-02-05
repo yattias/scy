@@ -76,7 +76,7 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 
 		System.out.println("Writing tuple");
 
-		getTupleSpace().write(new Tuple("topicDetector", eloURI.toString()));
+		getCommandSpace().write(new Tuple("topicDetector", eloURI.toString()));
 		System.out.println("Tuple written. Waiting");
 
 		Thread.sleep(2000);

@@ -63,10 +63,10 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	public void testProcessElo() throws TupleSpaceException, IOException, ClassNotFoundException {
 		String queryID = new VMID().toString();
 		System.out.println("Writing tuple");
-		getTupleSpace().write(
+		getCommandSpace().write(
 				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, queryID, "co2_scy_english", TEXT));
 		System.out.println("Tuple written. Waiting for response...");
-		Tuple t = getTupleSpace().waitToTake(
+		Tuple t = getCommandSpace().waitToTake(
 				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE, queryID, Field.createWildCardField()),
 				5000);
 		System.out.println("Response received");
