@@ -15,10 +15,10 @@ public class PresencePanelRunner {
 		JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
+		ToolBrokerImpl tbi = new ToolBrokerImpl("jeremy@scy.collide.info", "jeremy");
 		IAwarenessService aService = tbi.getAwarenessService();		
 		
-		String eloUri = "z168fb1jo51y";
+		String eloUri = "roolomemory20Reporttext";
 		ChatController mucChatController = new MUCChatController(aService, eloUri);
 		
 		ChatPresencePanel cmp = new ChatPresencePanel(mucChatController);
