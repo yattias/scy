@@ -58,8 +58,10 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         newUser.setUserDetails(userDetails);
 
         SCYGrantedAuthority authority = getAuthority("ROLE_ADMINISTRATOR");
+        SCYGrantedAuthority userAuthority = getAuthority("ROLE_USER");
         if (authority != null) {
             userDetails.addAuthority(authority);
+            userDetails.addAuthority(userAuthority);
         }
 
         save(newUser);
