@@ -36,11 +36,11 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
-		if (params.containsKey("tsHost")) {
-			host = (String) params.get("tsHost");
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_HOST);
 		}
-		if (params.containsKey("tsPort")) {
-			port = (Integer) params.get("tsPort");
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
 	}

@@ -34,11 +34,11 @@ public class TopicDetector extends AbstractRequestAgent {
 
 	public TopicDetector(Map<String, Object> params) {
 		super(NAME, params);
-		if (params.containsKey("tsHost")) {
-			host = (String) params.get("tsHost");
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_HOST);
 		}
-		if (params.containsKey("tsPort")) {
-			port = (Integer) params.get("tsPort");
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		agentDatabase = new PersistentStorage(host, port);
 		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, String.class, String.class,

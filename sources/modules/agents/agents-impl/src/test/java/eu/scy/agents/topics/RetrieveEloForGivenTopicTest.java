@@ -49,9 +49,9 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 
 		agentId = new VMID();
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("id", agentId);
-		params.put("tsHost", TSHOST);
-		params.put("tsPort", TSPORT);
+		params.put(AgentProtocol.PARAM_AGENT_ID, agentId);
+		params.put(AgentProtocol.TS_HOST, TSHOST);
+		params.put(AgentProtocol.TS_PORT, TSPORT);
 		agentMap.put(RetrieveEloForGivenTopic.NAME, params);
 		startAgentFramework(agentMap);
 	}

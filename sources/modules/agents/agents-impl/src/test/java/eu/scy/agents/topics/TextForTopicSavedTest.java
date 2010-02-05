@@ -40,9 +40,9 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 		super.setUp();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("id", new VMID());
-		params.put("tsHost", TSHOST);
-		params.put("tsPort", TSPORT);
+		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
+		params.put(AgentProtocol.TS_HOST, TSHOST);
+		params.put(AgentProtocol.TS_PORT, TSPORT);
 		agentMap.put(TextForTopicSaved.NAME, params);
 
 		startAgentFramework(agentMap);

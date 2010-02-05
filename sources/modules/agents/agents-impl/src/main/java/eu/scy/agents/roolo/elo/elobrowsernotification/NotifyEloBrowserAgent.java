@@ -7,15 +7,13 @@ import java.util.Map;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
+import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * Notifies the eloBrowser that an elo has been saved.
- * 
- * ("notifyEloBrowser":String, <ELOUri>:String) -> Notification at the client
- * side ()
+ * Notifies the eloBrowser that an elo has been saved. ("notifyEloBrowser":String, <ELOUri>:String) -> Notification at
+ * the client side ()
  * 
  * @author Florian Schulz
- * 
  */
 public class NotifyEloBrowserAgent extends AbstractThreadedAgent {
 
@@ -26,15 +24,13 @@ public class NotifyEloBrowserAgent extends AbstractThreadedAgent {
 	private boolean stopped;
 
 	/**
-	 * Create a new NotifyEloBrowserAgent filtering agent. The argument
-	 * <code>map</code> is used to initialize special parameters. Never used
-	 * here.
+	 * Create a new NotifyEloBrowserAgent filtering agent. The argument <code>map</code> is used to initialize special
+	 * parameters. Never used here.
 	 * 
-	 * @param map
-	 *            Parameters needed to initialize the agent.
+	 * @param map Parameters needed to initialize the agent.
 	 */
 	public NotifyEloBrowserAgent(Map<String, Object> map) {
-		super(NOTIFY_ELO_BROWSER_AGENT_NAME, (String) map.get("id"));
+		super(NOTIFY_ELO_BROWSER_AGENT_NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID));
 	}
 
 	@Override
@@ -46,10 +42,10 @@ public class NotifyEloBrowserAgent extends AbstractThreadedAgent {
 
 				String eloUri = (String) trigger.getField(1).getValue();
 
-//				Notification notification = new Notification();
-//				notification.addProperty("eloUri", eloUri);
-//				notification.addProperty("target", "elobrowser");
-//				getNotificationSender().send("roolo", "roolo", notification);
+				// Notification notification = new Notification();
+				// notification.addProperty("eloUri", eloUri);
+				// notification.addProperty("target", "elobrowser");
+				// getNotificationSender().send("roolo", "roolo", notification);
 			} catch (TupleSpaceException e) {
 				stop();
 			}
