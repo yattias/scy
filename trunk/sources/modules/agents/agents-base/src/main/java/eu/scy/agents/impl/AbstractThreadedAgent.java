@@ -233,7 +233,9 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	protected void sendAliveUpdate() throws TupleSpaceException {
 		if (aliveTupleID == null) {
 			// write new alive tuple
-			aliveTupleID = getCommandSpace().write(AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
+			if (getCommandSpace().isConnected()) {
+				aliveTupleID = getCommandSpace().write(AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
+			}
 		} else {
 			// update already present alive tuple
 			if (getCommandSpace().isConnected()) {
@@ -255,10 +257,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 		try {
 			// register commandEvents & identifyEvents
 			// TODO Reverse-structured names
-			commandId = getCommandSpace().eventRegister(Command.WRITE,
-					AgentProtocol.getCommandTuple(id, name), this, true);
-			identifyId = getCommandSpace().eventRegister(Command.WRITE,
-					AgentProtocol.getIdentifyTuple(id, name), this, true);
+			commandId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getCommandTuple(id, name), this,
+					true);
+			identifyId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getIdentifyTuple(id, name), this,
+					true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
