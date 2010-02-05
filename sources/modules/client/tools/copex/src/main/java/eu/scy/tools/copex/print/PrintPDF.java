@@ -21,6 +21,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import eu.scy.tools.copex.common.*;
 import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
+import eu.scy.tools.copex.utilities.CopexTreeCellRenderer;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.awt.Color;
@@ -29,9 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -135,6 +134,20 @@ public class PrintPDF {
         }
         return FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.ITALIC, Color.BLACK) ;
     }
+    private Font getTitleFont(){
+        BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont);
+            return font;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.NORMAL, CopexTreeCellRenderer.TITLE_NODE_COLOR) ;
+    }
+
      private Font getFontHeaderItalic(){
         BaseFont baseFont;
         try {
@@ -241,34 +254,35 @@ public class PrintPDF {
     }
 
     private CopexReturn setQuestion(){
-        try{
-            Chunk q = new Chunk(proc.getQuestion().getDescription(copex.getLocale()),getNormalFont());
-            String comments =proc.getQuestion().getComments(copex.getLocale());
-            if(comments == null)
-                comments = "";
-            boolean isComment = comments != null&& comments.length() > 0;
-            Chunk c = new Chunk(comments, getCommentFont());
-            Paragraph p1 = new Paragraph(q);
-            Paragraph p2 = new Paragraph(c);
-            
-            Paragraph p = new Paragraph();
-            p.add(p1);
-            if(isComment)
-                p.add(p2);
-            p.setSpacingAfter(0);
-            p.setSpacingBefore(0);
-            document.add(p);
-            return new CopexReturn();
-        }catch (DocumentException ex) {
-            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
-        }
-    }
+//        try{
+//            Chunk q = new Chunk(proc.getQuestion().getDescription(copex.getLocale()),getNormalFont());
+//            String comments =proc.getQuestion().getComments(copex.getLocale());
+//            if(comments == null)
+//                comments = "";
+//            boolean isComment = comments != null&& comments.length() > 0;
+//            Chunk c = new Chunk(comments, getCommentFont());
+//            Paragraph p1 = new Paragraph(q);
+//            Paragraph p2 = new Paragraph(c);
+//
+//            Paragraph p = new Paragraph();
+//            p.add(p1);
+//            if(isComment)
+//                p.add(p2);
+//            p.setSpacingAfter(0);
+//            p.setSpacingBefore(0);
+//            document.add(p);
+//            return new CopexReturn();
+//        }catch (DocumentException ex) {
+//            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+//            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
+//        }
+        return setText("icone_AdT_question.png", copex.getBundleString("TREE_QUESTION"),proc.getQuestion().getDescription(copex.getLocale()), proc.getQuestion().getComments(copex.getLocale()));
+   }
 
     private CopexReturn setHypothesis(){
         boolean isHypothesis = proc.getHypothesis() != null && !proc.getHypothesis().isHide();
         if(isHypothesis){
-            return setText("icone_AdT_hypothese.png", copex.getBundleString("TREE_HYPOTHESIS"),proc.getHypothesis().getHypothesis(copex.getLocale()));
+            return setText("icone_AdT_hypothese.png", copex.getBundleString("TREE_HYPOTHESIS"),proc.getHypothesis().getHypothesis(copex.getLocale()), proc.getHypothesis().getComment(copex.getLocale()));
         }else 
             return new CopexReturn();
     }
@@ -276,7 +290,7 @@ public class PrintPDF {
     private CopexReturn setGeneralPrinciple(){
         boolean isPrinciple = proc.getGeneralPrinciple() != null && !proc.getGeneralPrinciple().isHide();
         if(isPrinciple){
-            return setText("icone_AdT_principe.png", copex.getBundleString("TREE_GENERAL_PRINCIPLE"),proc.getGeneralPrinciple().getPrinciple(copex.getLocale()));
+            return setText("icone_AdT_principe.png", copex.getBundleString("TREE_GENERAL_PRINCIPLE"),proc.getGeneralPrinciple().getPrinciple(copex.getLocale()),proc.getGeneralPrinciple().getComment(copex.getLocale()));
         }else 
             return new CopexReturn();
     }
@@ -284,7 +298,7 @@ public class PrintPDF {
     private CopexReturn setEvaluation(){
         boolean isEvaluation = proc.getEvaluation() != null && !proc.getEvaluation().isHide();
         if(isEvaluation){
-            return setText("icone_AdT_eval.png", copex.getBundleString("TREE_EVALUATION"),proc.getEvaluation().getEvaluation(copex.getLocale()));
+            return setText("icone_AdT_eval.png", copex.getBundleString("TREE_EVALUATION"),proc.getEvaluation().getEvaluation(copex.getLocale()),proc.getEvaluation().getComment(copex.getLocale()));
         }else
             return new CopexReturn();
     }
@@ -293,7 +307,7 @@ public class PrintPDF {
     private CopexReturn setDatasheet(){
         boolean isDatasheet  = proc.getDataSheet() != null;
         if(isDatasheet){
-            return setText("icone_AdT_datasheet.png", copex.getBundleString("TREE_DATASHEET"), proc.getDataSheet().toTreeString(copex.getLocale()));
+            return setText("icone_AdT_datasheet.png", copex.getBundleString("TREE_DATASHEET"), proc.getDataSheet().toTreeString(copex.getLocale()), null);
         }else
             return new CopexReturn();
     }
@@ -302,7 +316,7 @@ public class PrintPDF {
         boolean isMaterial = proc.getMaterials() != null;
         if(isMaterial){
             //return setText("icone_AdT_material.png",copex.getBundleString("TREE_MATERIAL"),  proc.getMaterials().toTreeString(copex.getLocale()));
-            CopexReturn cr = setText("icone_AdT_material.png",copex.getBundleString("TREE_MATERIAL"),  "");
+            CopexReturn cr = setText("icone_AdT_material.png",copex.getBundleString("TREE_MATERIAL"),  "", null);
             if(cr.isError())
                 return cr;
             cr = setList(proc.getMaterials().getListTree(copex.getLocale()));
@@ -316,8 +330,8 @@ public class PrintPDF {
         String icone = "icone_AdT_manip.png";
         if(proc.isTaskProc())
             icone = "icone_AdT_manip_tasks.png";
-        setText(icone, copex.getBundleString("TREE_MANIPULATION"), "");
-        CopexReturn cr = setChilds(proc, proc.getQuestion(),2);
+        setText(icone, copex.getBundleString("TREE_MANIPULATION"), "", null);
+        CopexReturn cr = setChilds(proc, proc.getQuestion(),1);
         return cr;
     }
 
@@ -354,7 +368,7 @@ public class PrintPDF {
                }
            }
            float[] widths = new float[3];
-           widths[0] = 20;
+           widths[0] = 13;
            widths[1] = 85;
            widths[2] =85;
            table.setWidths(widths);
@@ -372,7 +386,7 @@ public class PrintPDF {
         }
     }
 
-    
+
     private CopexReturn setText(String img,String title, String text){
         try{
             Image image = Image.getInstance(getClass().getResource( "/" +img));
@@ -412,6 +426,75 @@ public class PrintPDF {
             widths[0] = 10;
             widths[1] = 12;
             widths[2] =190-15-10;
+            taskTable.setWidths(widths);
+            taskTable.setWidth(90);
+            Paragraph p = new Paragraph();
+            p.add(taskTable);
+            p.setSpacingAfter(0);
+            p.setSpacingBefore(0);
+            document.add(p);
+            return new CopexReturn();
+        }catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
+        } catch (IOException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
+        }
+    }
+
+
+    private CopexReturn setText(String img,String title, String text, String comment){
+        if(comment == null)
+            comment = "";
+        boolean isComment = comment != null&& comment.length() > 0;
+        try{
+            Image image = Image.getInstance(getClass().getResource( "/" +img));
+            image.setAlignment(Image.TEXTWRAP);
+            Chunk ti = new Chunk(title,getTitleFont());
+            Chunk te = new Chunk(text, getNormalFont());
+            Chunk co  = new Chunk(comment, getCommentFont());
+            Paragraph p1 = new Paragraph(ti);
+            Paragraph p2 = new Paragraph(te);
+            Paragraph p3 = new Paragraph(co);
+            Table taskTable = new Table(2);
+            taskTable.setBorderWidth(0);
+            taskTable.setAlignment(Element.ALIGN_LEFT);
+
+            Cell imgCell = new Cell();
+            imgCell.setBorder(0);
+            imgCell.add(image);
+            Cell aCell=  new Cell("");
+            aCell.setBorder(0);
+            Cell titleCell = new Cell();
+            titleCell.add(p1);
+            titleCell.setBorder(0);
+            Cell textCell = new Cell();
+            textCell.setBorder(0);
+            textCell.add(p2);
+            Cell commentCell = new Cell();
+            commentCell.setBorder(0);
+            commentCell.add(p3);
+
+            taskTable.addCell(imgCell);
+            taskTable.addCell(titleCell);
+
+//            indentCell=  new Cell("");
+//            indentCell.setBorder(0);
+//            taskTable.addCell(indentCell);
+            taskTable.addCell(aCell);
+            taskTable.addCell(textCell);
+            if(isComment){
+                taskTable.addCell(aCell);
+                taskTable.addCell(commentCell);
+            }
+
+            float[] widths = new float[2];
+            widths[0] = 12;
+            widths[1] = 190-15;
             taskTable.setWidths(widths);
             taskTable.setWidth(90);
             Paragraph p = new Paragraph();

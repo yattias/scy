@@ -112,6 +112,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         // param of the tree
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
         setShowsRootHandles(false);
+        setRootVisible(false);
         this.setRowHeight(0);
         this.setUI(new MyBasicTreeUI(this));
         this.setEditable(true);
@@ -597,7 +598,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             }else if (((TaskTreeNode)currentNode).isStep()){
                 editStep(((TaskTreeNode)currentNode));
             }
-        }else if(currentNode.isManipulation() && currentNode.getChildCount() == 0){
+        //}else if(currentNode.isManipulation() && currentNode.getChildCount() == 0){
+          }else if(currentNode.isManipulation() ){
             openHelpManipulationDialog();
         }else if(currentNode.isManipulation() && getLevelTreeDisplay() <2 && currentNode.getChildCount() > 0)
             displayLevel(2);
@@ -2392,7 +2394,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
     public void setQuestionEditor(){
-        setNodeEditing((CopexNode)copexTreeModel.getRoot());
+        //setNodeEditing((CopexNode)copexTreeModel.getRoot());
+        setNodeEditing(copexTreeModel.getQuestionNode());
     }
     public void setHypothesisEditor(){
         setNodeEditing(copexTreeModel.getHypothesisNode());
