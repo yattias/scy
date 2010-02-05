@@ -47,6 +47,8 @@ public class CopexTreeModel extends DefaultTreeModel{
      /* construction de l'arbre */
     private void buildTree(){
         CopexNode rootNode = (CopexNode)root;
+        // question
+        insertNodeInto(new CopexNode(proc.getQuestion()), rootNode, rootNode.getChildCount());
         // hypothesis
         Hypothesis hyp = proc.getHypothesis();
         if(hyp != null && !hyp.isHide()){
@@ -163,7 +165,16 @@ public class CopexTreeModel extends DefaultTreeModel{
         }
     }
 
-   
+
+    public CopexNode getQuestionNode(){
+        int nbC = ((CopexNode)root).getChildCount();
+        for (int i=0; i<nbC; i++){
+            if (((CopexNode)((CopexNode)root).getChildAt(i)).isQuestion())
+                return ((CopexNode)((CopexNode)root).getChildAt(i));
+        }
+        return null;
+    }
+
     public void setHypothesis(Hypothesis hypothesis){
         if(hypothesis == null || hypothesis.isHide()){
             CopexNode n = getHypothesisNode();
@@ -172,13 +183,20 @@ public class CopexTreeModel extends DefaultTreeModel{
         }else if(getHypothesisNode() == null){
             CopexNode rootNode = (CopexNode)root;
             CopexNode hypChild = new CopexNode(hypothesis);
-            insertNodeInto(hypChild, rootNode, 0);
+            //insertNodeInto(hypChild, rootNode, 0);
+            insertNodeInto(hypChild, rootNode, 1);
         }
     }
 
     public CopexNode getHypothesisNode(){
-        if(((CopexNode)((CopexNode)root).getChildAt(0)).isHypothesis())
-            return ((CopexNode)((CopexNode)root).getChildAt(0));
+//        if(((CopexNode)((CopexNode)root).getChildAt(0)).isHypothesis())
+//            return ((CopexNode)((CopexNode)root).getChildAt(0));
+//        return null;
+        int nbC = ((CopexNode)root).getChildCount();
+        for (int i=0; i<nbC; i++){
+            if (((CopexNode)((CopexNode)root).getChildAt(i)).isHypothesis())
+                return ((CopexNode)((CopexNode)root).getChildAt(i));
+        }
         return null;
     }
 
@@ -189,9 +207,9 @@ public class CopexTreeModel extends DefaultTreeModel{
         }else if (node == null && principle != null && !principle.isHide()){
             CopexNode rootNode = (CopexNode)root;
             CopexNode princChild = new CopexNode(principle);
-            int id = 1;
+            int id = 2;
             if(getHypothesisNode() == null)
-                id = 0;
+                id = 1;
             insertNodeInto(princChild, rootNode, id);
         }
     }
