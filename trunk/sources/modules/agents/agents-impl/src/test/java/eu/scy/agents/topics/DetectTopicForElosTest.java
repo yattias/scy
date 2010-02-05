@@ -22,6 +22,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.impl.AgentProtocol;
 
 public class DetectTopicForElosTest extends AbstractTestFixture {
 
@@ -50,12 +51,12 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 
 		initTopicModel();
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("id", new VMID());
-		params.put("tsHost", TSHOST);
-		params.put("tsPort", TSPORT);
+		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
+		params.put(AgentProtocol.TS_HOST, TSHOST);
+		params.put(AgentProtocol.TS_PORT, TSPORT);
 		agentMap.put(TopicDetector.NAME, params);
 
-		params.put("id", new VMID());
+		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(TopicAgents.MODEL_NAME, MODEL_NAME);
 		agentMap.put(DetectTopicForElos.NAME, params);
 
@@ -83,31 +84,21 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 
 		elo = repository.retrieveELO(eloURI);
 		IMetadataKey key = typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
-		List<KeyValuePair> topicScores = (List<KeyValuePair>) elo.getMetadata()
-				.getMetadataValueContainer(key).getValueList();
+		List<KeyValuePair> topicScores = (List<KeyValuePair>) elo.getMetadata().getMetadataValueContainer(key)
+				.getValueList();
 
 		assertEquals(10, topicScores.size());
-		assertEquals("wrong probability for topic 0", 0.0017892133644281931,
-				getTopicScore(topicScores.get(0)), 0.01);
-		assertEquals("wrong probability for topic 1", 0.002575589897297382,
-				getTopicScore(topicScores.get(1)), 0.01);
-		assertEquals("wrong probability for topic 4", 0.00227468953178241,
-				getTopicScore(topicScores.get(4)), 0.01);
-		assertEquals("wrong probability for topic 5", 0.0016823702862740107,
-				getTopicScore(topicScores.get(5)), 0.01);
-		assertEquals("wrong probability for topic 6", 0.001945861865589766,
-				getTopicScore(topicScores.get(6)), 0.01);
-		assertEquals("wrong probability for topic 7", 0.002655118753113757,
-				getTopicScore(topicScores.get(7)), 0.01);
-		assertEquals("wrong probability for topic 8", 0.0019143937827241963,
-				getTopicScore(topicScores.get(8)), 0.01);
+		assertEquals("wrong probability for topic 0", 0.0017892133644281931, getTopicScore(topicScores.get(0)), 0.01);
+		assertEquals("wrong probability for topic 1", 0.002575589897297382, getTopicScore(topicScores.get(1)), 0.01);
+		assertEquals("wrong probability for topic 4", 0.00227468953178241, getTopicScore(topicScores.get(4)), 0.01);
+		assertEquals("wrong probability for topic 5", 0.0016823702862740107, getTopicScore(topicScores.get(5)), 0.01);
+		assertEquals("wrong probability for topic 6", 0.001945861865589766, getTopicScore(topicScores.get(6)), 0.01);
+		assertEquals("wrong probability for topic 7", 0.002655118753113757, getTopicScore(topicScores.get(7)), 0.01);
+		assertEquals("wrong probability for topic 8", 0.0019143937827241963, getTopicScore(topicScores.get(8)), 0.01);
 
-		assertEquals("wrong probability for topic 2", 0.1603676990866432, getTopicScore(topicScores
-				.get(2)), 0.03);
-		assertEquals("wrong probability for topic 3", 0.05110776312074621,
-				getTopicScore(topicScores.get(3)), 0.03);
-		assertEquals("wrong probability for topic 9", 0.7885358343528651, getTopicScore(topicScores
-				.get(9)), 0.03);
+		assertEquals("wrong probability for topic 2", 0.1603676990866432, getTopicScore(topicScores.get(2)), 0.03);
+		assertEquals("wrong probability for topic 3", 0.05110776312074621, getTopicScore(topicScores.get(3)), 0.03);
+		assertEquals("wrong probability for topic 9", 0.7885358343528651, getTopicScore(topicScores.get(9)), 0.03);
 
 	}
 

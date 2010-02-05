@@ -26,16 +26,11 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * Detects topics in text .
- * 
- * ("topicDetector":String, <ELOUri>:String) -> ("topicDetector":String,
- * <ELOUri>:String)
+ * Detects topics in text . ("topicDetector":String, <ELOUri>:String) -> ("topicDetector":String, <ELOUri>:String)
  * 
  * @author Florian Schulz
- * 
  */
-public class DetectTopicForElos extends AbstractRequestAgent implements
-		IRepositoryAgent {
+public class DetectTopicForElos extends AbstractRequestAgent implements IRepositoryAgent {
 
 	public static final String NAME = "eu.scy.agents.topics.DetectTopicForElos";
 
@@ -46,12 +41,12 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 	private IRepository repository;
 
 	public DetectTopicForElos(Map<String, Object> params) {
-		super(NAME, (String) params.get("id"));
-		if (params.containsKey("tsHost")) {
-			host = (String) params.get("tsHost");
+		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_HOST);
 		}
-		if (params.containsKey("tsPort")) {
-			port = (Integer) params.get("tsPort");
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		modelName = (String) params.get(TopicAgents.MODEL_NAME);
 	}
@@ -60,8 +55,7 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 	@Override
 	public void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getCommandSpace().waitToTake(getTemplateTuple(),
-					AgentProtocol.ALIVE_INTERVAL);
+			Tuple tuple = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
 				String uri = "";
 				try {
@@ -71,29 +65,20 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 						String text = new String(elo.getContent().getBytes());
 						String queryID = new VMID().toString();
 						getCommandSpace().write(
-								new Tuple(TopicAgents.TOPIC_DETECTOR,
-										AgentProtocol.QUERY, queryID,
-										modelName, text));
+								new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, queryID, modelName, text));
 						Tuple responseTuple = getCommandSpace().waitToRead(
-								new Tuple(TopicAgents.TOPIC_DETECTOR,
-										AgentProtocol.RESPONSE, queryID, Field
-												.createWildCardField()),
-								10 * 1000);
+								new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE, queryID, Field
+										.createWildCardField()), 10 * 1000);
 						if (responseTuple != null) {
-							ObjectInputStream bytesIn = new ObjectInputStream(
-									new ByteArrayInputStream(
-											(byte[]) responseTuple.getField(3)
-													.getValue()));
-							HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
-									.readObject();
+							ObjectInputStream bytesIn = new ObjectInputStream(new ByteArrayInputStream(
+									(byte[]) responseTuple.getField(3).getValue()));
+							HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn.readObject();
 							addTopicMetadata(elo, topicScoresMap);
-							repository.addMetadata(elo.getUri(), elo
-									.getMetadata());
+							repository.addMetadata(elo.getUri(), elo.getMetadata());
 						}
 					}
 				} catch (URISyntaxException e) {
-					throw new AgentLifecycleException("malformed uri: " + uri,
-							e);
+					throw new AgentLifecycleException("malformed uri: " + uri, e);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
@@ -106,8 +91,7 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 	}
 
 	/**
-	 * Sends ("topicDetector":String, <ELOUri>:String,
-	 * topicModelScores:byte[](HashMap<Integer,Double>))
+	 * Sends ("topicDetector":String, <ELOUri>:String, topicModelScores:byte[](HashMap<Integer,Double>))
 	 * 
 	 * @throws IOException
 	 * @throws TupleSpaceException
@@ -118,12 +102,8 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 	}
 
 	private boolean isValidType(IELO elo) {
-		IMetadataValueContainer type = elo
-				.getMetadata()
-				.getMetadataValueContainer(
-						metadataTypeManager
-								.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
-										.getId()));
+		IMetadataValueContainer type = elo.getMetadata().getMetadataValueContainer(
+				metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
 		if ("scy/text".equals(type.getValue())) {
 			return true;
 		}
@@ -131,10 +111,8 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 	}
 
 	private void addTopicMetadata(IELO elo, Map<Integer, Double> topicScores) {
-		IMetadataKey key = metadataTypeManager
-				.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
-		IMetadataValueContainer topicScoresContainer = elo.getMetadata()
-				.getMetadataValueContainer(key);
+		IMetadataKey key = metadataTypeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
+		IMetadataValueContainer topicScoresContainer = elo.getMetadata().getMetadataValueContainer(key);
 		for (Integer topicId : topicScores.keySet()) {
 			KeyValuePair entry = new KeyValuePair();
 			entry.setKey("" + topicId);

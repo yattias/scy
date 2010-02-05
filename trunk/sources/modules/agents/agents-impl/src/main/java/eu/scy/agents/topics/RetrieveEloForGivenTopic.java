@@ -19,19 +19,16 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.api.IRequestAgent;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * Retrieves ELOs that contain a certain topic. ("getTopicElos", <QueryId>:String,
- * <TopicId>:Integer, <MinProb>:Double) -> ("getTopicElos", <QueryId>:String, <NumELOs>:Integer,
- * <ELOUri_1>:<String>, <ELOUri_2>:<String>, ...)
+ * Retrieves ELOs that contain a certain topic. ("getTopicElos", <QueryId>:String, <TopicId>:Integer, <MinProb>:Double)
+ * -> ("getTopicElos", <QueryId>:String, <NumELOs>:Integer, <ELOUri_1>:<String>, <ELOUri_2>:<String>, ...)
  * 
  * @author Florian Schulz
  */
-public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IRequestAgent,
-		IRepositoryAgent {
+public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IRepositoryAgent {
 
 	static final String NAME = "eu.scy.agents.topics.RetrieveEloForGivenTopic";
 
@@ -39,12 +36,12 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	private IRepository repository;
 
 	public RetrieveEloForGivenTopic(Map<String, Object> params) {
-		super(NAME, (String) params.get("id"));
-		if (params.containsKey("tsHost")) {
-			host = (String) params.get("tsHost");
+		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_HOST);
 		}
-		if (params.containsKey("tsPort")) {
-			port = (Integer) params.get("tsPort");
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 	}
 
@@ -59,9 +56,8 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 				KeyValuePair topicQuery = new KeyValuePair();
 				topicQuery.setKey("" + topicId);
 				topicQuery.setValue("" + topicProbability);
-				IQuery query = new BasicMetadataQuery(typeManager
-						.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES), BasicSearchOperations.HAS,
-						topicQuery, null);
+				IQuery query = new BasicMetadataQuery(typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES),
+						BasicSearchOperations.HAS, topicQuery, null);
 
 				List<ISearchResult> hits = repository.search(query);
 
@@ -74,15 +70,14 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<URI> collectResults(Integer topicId, Double topicProbability,
-			List<ISearchResult> hits) {
+	private List<URI> collectResults(Integer topicId, Double topicProbability, List<ISearchResult> hits) {
 		IMetadataKey topicScoresKey = typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
 
 		List<URI> resultURIs = new ArrayList<URI>();
 		for (ISearchResult hit : hits) {
 			IELO elo = repository.retrieveELO(hit.getUri());
-			List<? extends KeyValuePair> topicScoreEntryList = (List<KeyValuePair>) elo
-					.getMetadata().getMetadataValueContainer(topicScoresKey).getValueList();
+			List<? extends KeyValuePair> topicScoreEntryList = (List<KeyValuePair>) elo.getMetadata()
+					.getMetadataValueContainer(topicScoresKey).getValueList();
 			for (KeyValuePair entry : topicScoreEntryList) {
 				if (entry.getKey().equals("" + topicId)) {
 					if (Double.parseDouble(entry.getValue()) >= topicProbability) {
@@ -107,8 +102,7 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	}
 
 	private Tuple getTemplateTuple() {
-		return new Tuple(TopicAgents.GET_TOPIC_ELOS, AgentProtocol.QUERY, String.class,
-				Integer.class, Double.class);
+		return new Tuple(TopicAgents.GET_TOPIC_ELOS, AgentProtocol.QUERY, String.class, Integer.class, Double.class);
 	}
 
 	@Override

@@ -8,18 +8,19 @@ import java.util.Map;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.ActionLogConstants;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
+import eu.scy.agents.impl.AgentProtocol;
 
 public class TextForTopicSaved extends AbstractELOSavedAgent {
 
 	public static final String NAME = TextForTopicSaved.class.getName();
 
 	public TextForTopicSaved(Map<String, Object> params) {
-		super(NAME, (String) params.get("id"));
-		if (params.containsKey("tsHost")) {
-			host = (String) params.get("tsHost");
+		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_PORT);
 		}
-		if (params.containsKey("tsPort")) {
-			port = (Integer) params.get("tsPort");
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 	}
 

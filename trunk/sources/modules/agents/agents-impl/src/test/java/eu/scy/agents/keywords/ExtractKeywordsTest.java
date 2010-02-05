@@ -52,9 +52,9 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		initDfModel();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("id", new VMID());
-		params.put("tsHost", TSHOST);
-		params.put("tsPort", TSPORT);
+		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
+		params.put(AgentProtocol.TS_HOST, TSHOST);
+		params.put(AgentProtocol.TS_PORT, TSPORT);
 		agentMap.put(ExtractKeywords.NAME, params);
 		agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
 		agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
