@@ -1,8 +1,15 @@
 package eu.scy.client.chattool.main;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -41,27 +48,49 @@ public static void main(String[] args) {
 			logger.error("ChatPanelMain: IllegalAccessException: "+e);
 		}      
 		
-		JFrame frame = new JFrame("Selecting JList");
+		final JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		ToolBrokerImpl tbi = new ToolBrokerImpl("djed11@scy.intermedia.uio.no", "djed11");
-		IAwarenessService aService = tbi.getAwarenessService();
+		frame.getContentPane().setLayout(new GridLayout(1,2));
 		
+		String[] elos = { "roolomemory20Reporttext", "roolomemory00hypothesistext" };
+		
+		JPanel jp = new JPanel();
+		final JComboBox c = new JComboBox(elos);
+		jp.add(c);
+		final JButton jb = new JButton("Connect");
+		jp.add(jb);
+		jb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				jb.setEnabled(false);
+				ToolBrokerImpl tbi = new ToolBrokerImpl("jeremy@scy.collide.info", "jeremy");
+				IAwarenessService aService = tbi.getAwarenessService();
+				
 //		Random r = new Random();
 //		String eloUri = Long.toString(Math.abs(r.nextLong()), 36);
 //	
-		String eloUri = "z168fb1jo51y";
-		ChatController mucChatController = new MUCChatController(aService, eloUri);
+				//String eloUri = "";
+				//roolomemory20Reporttext
+				String eloUri = c.getSelectedItem().toString();
+				ChatController mucChatController = new MUCChatController(aService, eloUri);
+				
+				
+				ChatPanel cmp = new ChatPanel(mucChatController);
+				
+				
+				ChatPresencePanel cpm = new ChatPresencePanel(mucChatController);
+				
+				frame.getContentPane().add(cpm);
+				frame.getContentPane().add(cmp);
+				frame.pack();
+			}
+		});
 		
-		
-		ChatPanel cmp = new ChatPanel(mucChatController);
-		
-		
-		ChatPresencePanel cpm = new ChatPresencePanel(mucChatController);
-		frame.getContentPane().setLayout(new GridLayout(1,2));
-		frame.getContentPane().add(cpm);
-		frame.getContentPane().add(cmp);
-		frame.setSize(600, 450);
+		frame.getContentPane().add(jp);
+		//frame.setSize(600, 450);
 		frame.pack();
 		frame.setVisible(true);
 	}
