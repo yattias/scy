@@ -6,7 +6,6 @@ import eu.scy.scymapper.api.ILinkFactory;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
-import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
@@ -73,7 +72,7 @@ public class PalettePane extends JToolBar {
 							loc.translate(w / -2, h / -2);
 							node.setLocation(loc);
 
-							conceptMapPanel.getDiagramView().getController().addNode(node);
+							conceptMapPanel.getDiagramView().getController().add(node);
 							conceptMapPanel.getDiagramView().removeMouseListener(this);
 							conceptMapPanel.getDiagramView().setCursor(null);
 							button.setSelected(false);
@@ -161,7 +160,7 @@ public class PalettePane extends JToolBar {
 					link.setLabel(connectorLink.getLabel());
 					link.setShape(connectorLink.getShape());
 					link.setStyle(connectorLink.getStyle());
-					view.getController().addLink(link);
+					view.getController().add(link);
 					view.remove(connector);
 					view.setMode(new DragMode(view));
 					if (PalettePane.this.selectedButton != null) {
@@ -270,31 +269,5 @@ public class PalettePane extends JToolBar {
 		shape.paint(g2d, rect);
 
 		return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
-	}
-
-	Cursor createShapeCursor(ILinkFactory linkFactory) {
-
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension size = tk.getBestCursorSize(30, 30);
-
-		ILinkModel link = linkFactory.create();
-
-		ILinkShape shape = link.getShape();
-
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
-
-		// Create an image that supports arbitrary levels of transparency
-		BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
-
-		Graphics2D g2d = (Graphics2D) i.getGraphics();
-
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-		g2d.setColor(Color.black);
-		shape.paint(g2d, new Point(0, size.height / 2), new Point(size.width, size.height / 2));
-
-		return tk.createCustomCursor(i, new Point(size.width - 1, size.height / 2), "Place shape here");
 	}
 }

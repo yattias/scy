@@ -19,7 +19,7 @@ import java.util.UUID;
 public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	protected Point from;
 	protected Point to;
-	private String label;
+	private String label = "";
 	private ILinkShape shape;
 
 	private transient java.util.List<ILinkModelListener> listeners;
@@ -30,6 +30,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	private String id = UUID.randomUUID().toString();
 
 	private Object readResolve() {
+		label = "";
 		listeners = new ArrayList<ILinkModelListener>();
 		return this;
 	}
@@ -51,7 +52,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	@Override
 	public void setLabel(String label) {
 		this.label = label;
-		notifyUpdated();
+		notifyLabelChanged();
 	}
 
 	@Override
@@ -91,6 +92,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	public void setStyle(ILinkStyle style) {
 		this.style = style;
 		style.addStyleListener(this);
+		notifyUpdated();
 	}
 
 	@Override
@@ -113,6 +115,13 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	public void notifyUpdated() {
 		for (ILinkModelListener listener : listeners) {
 			listener.updated(this);
+		}
+	}
+
+	@Override
+	public void notifyLabelChanged() {
+		for (ILinkModelListener listener : listeners) {
+			listener.labelChanged(this);
 		}
 	}
 

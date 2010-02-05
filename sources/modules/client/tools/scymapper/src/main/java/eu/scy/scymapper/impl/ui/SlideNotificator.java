@@ -37,6 +37,7 @@ public class SlideNotificator {
 		loc.y += ownerFrame.getHeight() - window.getHeight() - 10;
 		return loc;
 	}
+
 	public void setContents(JComponent contents) {
 		Dimension componentSize = contents.getSize();
 
@@ -65,6 +66,7 @@ public class SlideNotificator {
 						public void componentResized(ComponentEvent e) {
 							window.setLocation(getLocationForWindow());
 						}
+
 						@Override
 						public void componentMoved(ComponentEvent e) {
 							window.setLocation(getLocationForWindow());
@@ -88,11 +90,12 @@ public class SlideNotificator {
 		};
 		animationTimer = new javax.swing.Timer(ANIMATION_DELAY, animation);
 		animationStart = System.currentTimeMillis();
-		roller.setBounds(window.getX(), window.getY()+window.getHeight(), window.getWidth(), 1);
+		roller.setBounds(window.getX(), window.getY() + window.getHeight(), window.getWidth(), 1);
 		roller.setVisible(true);
 		animationTimer.start();
 
 	}
+
 	public void hide() {
 		if (!window.isVisible()) return;
 
@@ -104,11 +107,12 @@ public class SlideNotificator {
 					animationTimer = null;
 					window.setVisible(false);
 					roller.setVisible(false);
+					roller.dispose();
 				} else {
 					float progress = (float) elapsed / ANIMATION_TIME;
 					int diff = (int) (progress * window.getHeight());
 
-					roller.setBounds(window.getX(), window.getY()+diff, window.getWidth(), window.getHeight()-diff);
+					roller.setBounds(window.getX(), window.getY() + diff, window.getWidth(), window.getHeight() - diff);
 					roller.repaint();
 				}
 			}

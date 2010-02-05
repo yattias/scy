@@ -39,4 +39,8 @@ public class LinkView extends LinkViewComponent implements ILinkModelListener {
 		if (link.isSelected()) requestFocus();
 	}
 
+	@Override
+	public void labelChanged(ILinkModel link) {
+	}
+
 }

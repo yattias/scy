@@ -7,7 +7,6 @@ import eu.scy.core.model.pedagogicalplan.Tool;
  * User: Bjoerge
  * Date: 30.okt.2009
  * Time: 11:31:06
- * To change this template use File | Settings | File Templates.
  */
 public class SCYMapperTool implements Tool {
 	private String id = "scymapper";

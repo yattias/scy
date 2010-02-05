@@ -16,7 +16,6 @@ import java.awt.*;
  * and the concept map diagram view itself.
  */
 public class ConceptMapPanel extends JPanel {
-	private JToolBar toolBar;
 	private IConceptMap model;
 	private ConceptDiagramView conceptDiagramView;
 

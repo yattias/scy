@@ -33,6 +33,7 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
     public var metadataTypeManager: IMetadataTypeManager;
     public var repository:IRepository;
     public var toolBrokerAPI:ToolBrokerAPI;
+    public var userName:String;
 
     var repositoryWrapper;
     def logger = Logger.getLogger("eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator");
@@ -61,7 +62,7 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
 
     function createScyMapperNode(scyWindow:ScyWindow, elo:IELO): SCYMapperNode{
         setWindowProperties(scyWindow);
-        var shapesConfig = new ClassPathXmlApplicationContext("eu/scy/scymapper/shapesConfig.xml");
+        var shapesConfig = new ClassPathXmlApplicationContext("eu/scy/scymapper/scymapperToolConfig.xml");
 
         var configuration = (shapesConfig.getBean("configuration")  as SCYMapperToolConfiguration);
 
@@ -71,7 +72,7 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
 
         logger.debug("THE TOOLBROKERAPI IS: {toolBrokerAPI}");
 
-        scymapperPanel.setToolBroker(toolBrokerAPI);
+        scymapperPanel.setToolBroker(toolBrokerAPI, userName);
 
         return SCYMapperNode{
             scyMapperPanel:scymapperPanel;

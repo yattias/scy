@@ -12,6 +12,7 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
  */
 public class SCYPlannerDiagramController implements IDiagramController {
 	IDiagramModel model;
+
 	public SCYPlannerDiagramController(IDiagramModel model) {
 		this.model = model;
 	}
@@ -22,26 +23,26 @@ public class SCYPlannerDiagramController implements IDiagramController {
 	}
 
 	@Override
-	public void addNode(INodeModel n, boolean preventOverlap) {
-		addNode(n);
+	public void add(INodeModel n, boolean preventOverlap) {
+		add(n);
 	}
 
 	@Override
-	public void addNode(INodeModel n) {
+	public void add(INodeModel n) {
 		model.addNode(n);
 	}
 
 	@Override
-	public void addLink(ILinkModel l) {
+	public void add(ILinkModel l) {
 		model.addLink(l);
 	}
 
-    public void removeNode(INodeModel n) {
+	public void remove(INodeModel n) {
 		model.removeNode(n);
 	}
 
 	@Override
-	public void removeLink(ILinkModel l) {
+	public void remove(ILinkModel l) {
 		model.removeLink(l);
 	}
 
