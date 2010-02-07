@@ -17,6 +17,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.StyledEditorKit.StyledTextAction;
 import javax.swing.text.rtf.RTFEditorKit;
 import java.util.ResourceBundle;
+import javax.swing.text.StyleConstants;
 
 public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";
@@ -25,7 +26,7 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	private ImageIcon underlineIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_underline.png"));
 	private ImageIcon superIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sup_letter.png"));
 	private ImageIcon subIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sub_letter.png"));
-	private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RtfFormatToolbar");
+    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 
 	private RichTextEditor editorPanel;
 
@@ -82,36 +83,33 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-/*
-		if (e.getActionCommand().equals("addtextbox")) {
-			Label newLabel = new Label(getSketchPanel().nextLabelId++, new Point(0,0), new Point(rand.nextInt(300), rand.nextInt(300)));
-			newLabel.setText(editorPanel.getJTextPane().getSelectedText());
-			this.editorPanel.getSacaPanel().getSketchPanel().addLabel(newLabel);
-			this.editorPanel.getSacaPanel().getActionLogger().logAddLabelAction(newLabel);
-			updatePreview();
-			JOptionPane.showMessageDialog(editorPanel, Config.getInstance().get("new_box"));
-		} else if (e.getActionCommand().equals("bold")) {
-			IAction action = ((TextLogger)editorPanel.getActionLogger()).createBasicAction("text_bold");
-			action.addAttribute("text", editorPanel.getJTextPane().getSelectedText());
-			((TextLogger)editorPanel.getActionLogger()).getLogger().log(action);
+        int pos = editorPanel.getJTextPane().getSelectionStart();
+        if (e.getActionCommand().equals("bold")) {
+            editorPanel.getRichTextEditorLogger().logFormatAction(
+                RichTextEditorLogger.BOLD,
+                editorPanel.getJTextPane().getSelectedText(),
+                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Bold).toString());
 		} else if (e.getActionCommand().equals("italics")) {
-			IAction action = ((TextLogger)editorPanel.getActionLogger()).createBasicAction("text_italics");
-			action.addAttribute("text", editorPanel.getJTextPane().getSelectedText());
-			((TextLogger)editorPanel.getActionLogger()).getLogger().log(action);
+            editorPanel.getRichTextEditorLogger().logFormatAction(
+                RichTextEditorLogger.ITALIC,
+                editorPanel.getJTextPane().getSelectedText(),
+                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Italic).toString());
 		} else if (e.getActionCommand().equals("underline")) {
-			IAction action = ((TextLogger)editorPanel.getActionLogger()).createBasicAction("text_underline");
-			action.addAttribute("text", editorPanel.getJTextPane().getSelectedText());
-			((TextLogger)editorPanel.getActionLogger()).getLogger().log(action);
+            editorPanel.getRichTextEditorLogger().logFormatAction(
+                RichTextEditorLogger.UNDERLINE,
+                editorPanel.getJTextPane().getSelectedText(),
+                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline).toString());
 		} else if (e.getActionCommand().equals("superscript")) {
-			IAction action = ((TextLogger)editorPanel.getActionLogger()).createBasicAction("text_superscript");
-			action.addAttribute("text", editorPanel.getJTextPane().getSelectedText());
-			((TextLogger)editorPanel.getActionLogger()).getLogger().log(action);
+            editorPanel.getRichTextEditorLogger().logFormatAction(
+                RichTextEditorLogger.SUPERSCRIPT,
+                editorPanel.getJTextPane().getSelectedText(),
+                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Superscript).toString());
 		} else if (e.getActionCommand().equals("subscript")) {
-			IAction action = ((TextLogger)editorPanel.getActionLogger()).createBasicAction("text_subscript");
-			action.addAttribute("text", editorPanel.getJTextPane().getSelectedText());
-			((TextLogger)editorPanel.getActionLogger()).getLogger().log(action);
+            editorPanel.getRichTextEditorLogger().logFormatAction(
+                RichTextEditorLogger.SUBSCRIPT,
+                editorPanel.getJTextPane().getSelectedText(),
+                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Subscript).toString());
 		}
-*/
 	}
 
 	public static class SuperscriptAction extends StyledEditorKit.StyledTextAction {
@@ -151,40 +149,5 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 				setCharacterAttributes(editor, sas, false);
 			}
 		}
-
 	}
-
-	public static class BackgroundAction extends StyledTextAction {
-
-		private Color fg;
-
-		public BackgroundAction(String nm, Color fg) {
-			super(nm);
-			this.fg = fg;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			JEditorPane editor = getEditor(e);
-			if (editor != null) {
-				Color fg = this.fg;
-				if ((e != null) && (e.getSource() == editor)) {
-					String s = e.getActionCommand();
-					try {
-						fg = Color.decode(s);
-					} catch (NumberFormatException nfe) {
-					}
-				}
-				if (fg != null) {
-					MutableAttributeSet attr = new SimpleAttributeSet();
-					StyleConstants.setBackground(attr, fg);
-					setCharacterAttributes(editor, attr, false);
-				} else {
-					UIManager.getLookAndFeel().provideErrorFeedback(editor);
-				}
-			}
-		}
-
-	}
-
-	
 }
