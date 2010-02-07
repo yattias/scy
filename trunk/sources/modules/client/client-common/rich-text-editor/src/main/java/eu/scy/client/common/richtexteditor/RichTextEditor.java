@@ -38,7 +38,6 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 		this.setLayout(new BorderLayout());
 		rtfEditor = new RTFEditorKit();
 		textPane = new JTextPane();
-        textPane.setContentType("text/rtf; charset=UTF-8");
 		textPane.setEditorKit(rtfEditor);
 		textPane.getDocument().addDocumentListener(this);
 		this.add(new JScrollPane(textPane), BorderLayout.CENTER);
@@ -47,7 +46,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 		this.fileToolbar = new RtfFileToolbar(this);
 		panel.add(fileToolbar, BorderLayout.WEST);
 		this.formatToolbar = new RtfFormatToolbar(this);
-		panel.add(formatToolbar, BorderLayout.EAST);
+		panel.add(formatToolbar, BorderLayout.CENTER);
 		this.add(panel, BorderLayout.NORTH);
 	}
 

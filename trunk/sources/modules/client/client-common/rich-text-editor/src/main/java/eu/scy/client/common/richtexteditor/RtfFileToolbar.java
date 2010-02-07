@@ -15,6 +15,7 @@ import javax.jnlp.UnavailableServiceException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,92 +24,135 @@ import java.awt.print.PageFormat;
 import java.awt.print.Book;
 import java.awt.print.PrinterJob;
 import java.awt.print.PrinterException;
-/*
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.parser.RtfParser;
 import java.io.FileOutputStream;
- */
+import java.nio.charset.Charset;
+import javax.swing.ImageIcon;
 
 public class RtfFileToolbar extends JToolBar implements ActionListener {
-
-	private static final Logger logger = Logger.getLogger(RtfFileToolbar.class.getSimpleName());
-
+    private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";
+    private ImageIcon saveIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_save_changes.png"));
+    private ImageIcon printIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_print.png"));
+    private ImageIcon pdfIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_pdf.png"));
+    private static final Logger logger = Logger.getLogger(RtfFileToolbar.class.getSimpleName());
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RtfFileToolbar");
-	private RichTextEditor editorPanel;
+
+    private RichTextEditor editorPanel;
     private FileSaveService fileSaveService = null;
     private PrintService printService = null;
     private JFileChooser fc = new JFileChooser();
 
-	public RtfFileToolbar(RichTextEditor richTextEditor) {
-		super();
-		this.editorPanel = richTextEditor;
-		initUI();
-	}
+    public RtfFileToolbar(RichTextEditor richTextEditor) {
+        super();
+        this.editorPanel = richTextEditor;
+        initUI();
+    }
 
-	public RichTextEditor getRichTextEditor() {
-		return editorPanel;
-	}
+    public RichTextEditor getRichTextEditor() {
+        return editorPanel;
+    }
 
-	private void initUI() {
-		this.setOrientation(SwingConstants.HORIZONTAL);
-		this.setFloatable(false);
+    private void initUI() {
+        this.setOrientation(SwingConstants.HORIZONTAL);
+        this.setFloatable(false);
 
-		JButton button = new JButton(messages.getString("saveFile"));
-		button.setActionCommand("savefile");
-		button.addActionListener(this);
-		this.add(button);
+        JButton button = new JButton(saveIcon);
+        button.setActionCommand("savefile");
+        button.addActionListener(this);
+        button.setToolTipText(messages.getString("saveFile"));
+        this.add(button);
 
-		button = new JButton(messages.getString("print"));
-		button.setActionCommand("print");
-		button.addActionListener(this);
-		this.add(button);
+        button = new JButton(printIcon);
+        button.setActionCommand("print");
+        button.addActionListener(this);
+        button.setToolTipText(messages.getString("print"));
+        this.add(button);
 
-		button = new JButton(messages.getString("pdf"));
-		button.setActionCommand("pdf");
-		button.addActionListener(this);
-		this.add(button);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("savefile")) {
-            String[] xtns = { "rtf" };
-            try {
-                if (fileSaveService==null) {
-                    fileSaveService = (FileSaveService)ServiceManager.
-                        lookup("javax.jnlp.FileSaveService");
-                }
-                String s = editorPanel.getRtfText();
-                byte[] b = s.getBytes();
-                ByteArrayInputStream bais = new ByteArrayInputStream(b);
-                fileSaveService.saveFileDialog(
-                    ".", xtns, bais, "example." + xtns[0] );
-            } catch(UnavailableServiceException use) {
-                logger.log(Level.INFO, "No JavaWebStart FileSaveService found, trying other method for saving");
-                int returnVal = fc.showSaveDialog(editorPanel);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    FileWriter fw = null;
+        button = new JButton(pdfIcon);
+        button.setActionCommand("pdf");
+        button.addActionListener(this);
+        button.setToolTipText(messages.getString("pdf"));
+        this.add(button);
+    }
+
+    private void saveFile(String[] extensions, String content) {
+        try {
+            if (fileSaveService==null) {
+                fileSaveService = (FileSaveService)ServiceManager.
+                    lookup("javax.jnlp.FileSaveService");
+            }
+            byte[] b = content.getBytes();
+            ByteArrayInputStream bais = new ByteArrayInputStream(b);
+            fileSaveService.saveFileDialog(
+                ".", extensions, bais, "SCY_Lab_Text." + extensions[0] );
+        } catch(UnavailableServiceException use) {
+            logger.log(Level.INFO, "No JavaWebStart FileSaveService found, trying other method for saving");
+            int returnVal = fc.showSaveDialog(editorPanel);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                FileWriter fw = null;
+                try {
+                    File file = fc.getSelectedFile();
+                    fw = new FileWriter(file);
+                    fw.write(content);
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                } finally {
                     try {
-                        File file = fc.getSelectedFile();
-                        fw = new FileWriter(file);
-                        fw.write(editorPanel.getRtfText());
+                        fw.close();
                     } catch (IOException ex) {
                         logger.log(Level.SEVERE, null, ex);
-                    } finally {
-                        try {
-                            fw.close();
-                        } catch (IOException ex) {
-                            logger.log(Level.SEVERE, null, ex);
-                        }
                     }
-                } else {
-                    logger.log(Level.INFO, "Save command cancelled by user.");
                 }
-            } catch(IOException ioe) {
-                logger.log(Level.SEVERE, null, ioe);
+            } else {
+                logger.log(Level.INFO, "Save command cancelled by user.");
             }
+        } catch(IOException ioe) {
+            logger.log(Level.SEVERE, null, ioe);
+        }
+    }
+
+    private void savePDF(String[] extensions, ByteArrayOutputStream content) {
+        try {
+            if (fileSaveService==null) {
+                fileSaveService = (FileSaveService)ServiceManager.
+                    lookup("javax.jnlp.FileSaveService");
+            }
+            fileSaveService.saveFileDialog(
+                ".", extensions, new ByteArrayInputStream(content.toByteArray()),
+                "SCY_Lab_Text." + extensions[0] );
+        } catch(UnavailableServiceException use) {
+            logger.log(Level.INFO, "No JavaWebStart FileSaveService found, trying other method for saving");
+            int returnVal = fc.showSaveDialog(editorPanel);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(fc.getSelectedFile());
+                    content.writeTo(fos);
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                } finally {
+                    try {
+                        fos.close();
+                    } catch (IOException ex) {
+                        logger.log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else {
+                logger.log(Level.INFO, "Save command cancelled by user.");
+            }
+        } catch(IOException ioe) {
+            logger.log(Level.SEVERE, null, ioe);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("savefile")) {
+            String[] xtns = { "rtf" };
+            saveFile(xtns, editorPanel.getRtfText());
         } else if (e.getActionCommand().equals("print")) {
             try {
                 if (printService==null) {
@@ -131,61 +175,19 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                   }
             }
         } else if (e.getActionCommand().equals("pdf")) {
-/*
+            String[] xtns = { "pdf" };
             Document document = new Document();
             try {
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("c:\\kaido\\proov.pdf"));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                PdfWriter writer = PdfWriter.getInstance(document, bos);
                 document.open();
                 RtfParser parser = new RtfParser(null);
-                StringBuffer stringBuffer = new StringBuffer(editorPanel.getRtfText());
-                parser.convertRtfDocument(new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8")), document);
+                parser.convertRtfDocument(new ByteArrayInputStream(editorPanel.getRtfText().getBytes(Charset.forName("UTF-8"))), document);
                 document.close();
-/*
-   5. import java.io.FileInputStream;
-   6. import java.io.FileNotFoundException;
-   7. import java.io.FileOutputStream;
-   8. import java.io.IOException;
-   9.
-  10. public class ConvertRTFToPDF {
-  11.
-  12.
-  13. public static void main(String[] args) {
-  14.  String inputFile = "sample.rtf";
-  15.  String outputFile = "sample_converted.pdf";
-  16.
-  17.  // create a new document
-  18.  Document document = new Document();
-  19.
-  20.  try {
-  21.      // create a PDF writer to save the new document to disk
-  22.      PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outputFile));
-  23.      // open the document for modifications
-  24.      document.open();
-  25.
-  26.      // create a new parser to load the RTF file
-  27.      RtfParser parser = new RtfParser(null);
-  28.      // read the rtf file into a compatible document
-  29.      parser.convertRtfDocument(new FileInputStream(inputFile), document);
-  30.
-  31.      // save the pdf to disk
-  32.      document.close();
-  33.
-  34.      System.out.println("Finished");
-  35.
-  36.  } catch (DocumentException e) {
-  37.      e.printStackTrace();
-  38.  } catch (FileNotFoundException e) {
-  39.      e.printStackTrace();
-  40.  } catch (IOException e) {
-  41.      e.printStackTrace();
-  42.  }
-  43. }
-  44.
-  45. }
+                savePDF(xtns, bos);
             } catch (Exception ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
- */
         }
-	}
+    }
 }
