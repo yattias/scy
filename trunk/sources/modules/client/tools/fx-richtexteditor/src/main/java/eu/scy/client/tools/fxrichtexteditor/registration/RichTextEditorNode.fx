@@ -109,7 +109,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    }
 
    function doSaveElo(){
-      elo.getContent().setXmlString(richTextToEloContentXml(richTextEditor.getText()));
+      elo.getContent().setXmlString(richTextToEloContentXml(richTextEditor.getRtfText()));
       eloSaver.eloUpdate(getElo(),this);
    }
 
@@ -129,7 +129,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyRichTextEditorType);
       }
-      elo.getContent().setXmlString(richTextToEloContentXml(richTextEditor.getText()));
+      elo.getContent().setXmlString(richTextToEloContentXml(richTextEditor.getRtfText()));
       return elo;
    }
 
