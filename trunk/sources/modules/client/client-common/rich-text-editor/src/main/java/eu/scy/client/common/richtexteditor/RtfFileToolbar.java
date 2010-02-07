@@ -12,8 +12,7 @@ import javax.jnlp.ServiceManager;
 import javax.jnlp.FileSaveService;
 import javax.jnlp.PrintService;
 import javax.jnlp.UnavailableServiceException;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import org.apache.log4j.Logger;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,14 +30,16 @@ import com.lowagie.text.rtf.parser.RtfParser;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import java.util.Date;
 
 public class RtfFileToolbar extends JToolBar implements ActionListener {
+    private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RtfFileToolbar");
     private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";
     private ImageIcon saveIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_save_changes.png"));
     private ImageIcon printIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_print.png"));
     private ImageIcon pdfIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_pdf.png"));
-    private static final Logger logger = Logger.getLogger(RtfFileToolbar.class.getSimpleName());
-    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RtfFileToolbar");
+    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 
     private RichTextEditor editorPanel;
     private FileSaveService fileSaveService = null;
@@ -53,6 +54,14 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
 
     public RichTextEditor getRichTextEditor() {
         return editorPanel;
+    }
+
+    private void showError(String messageID, Throwable e) {
+        logger. error(messages.getString(messageID), e);
+        System.err.println(messages.getString(messageID) + " " + new Date());
+        e.printStackTrace(System.err);
+        JOptionPane.showMessageDialog(editorPanel, messages.getString(messageID) +
+            ":\nMessage: " + e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
     }
 
     private void initUI() {
@@ -89,7 +98,7 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
             fileSaveService.saveFileDialog(
                 ".", extensions, bais, "SCY_Lab_Text." + extensions[0] );
         } catch(UnavailableServiceException use) {
-            logger.log(Level.INFO, "No JavaWebStart FileSaveService found, trying other method for saving");
+            logger.info("No JNLP FileSaveService found, trying other method for saving");
             int returnVal = fc.showSaveDialog(editorPanel);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 FileWriter fw = null;
@@ -98,19 +107,19 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                     fw = new FileWriter(file);
                     fw.write(content);
                 } catch (IOException ex) {
-                    logger.log(Level.SEVERE, null, ex);
+                    showError("saveError", ex);
                 } finally {
                     try {
                         fw.close();
                     } catch (IOException ex) {
-                        logger.log(Level.SEVERE, null, ex);
+                        showError("saveCloseError", ex);
                     }
                 }
             } else {
-                logger.log(Level.INFO, "Save command cancelled by user.");
+                logger.info("Save command cancelled by user.");
             }
         } catch(IOException ioe) {
-            logger.log(Level.SEVERE, null, ioe);
+            showError("saveError", ioe);
         }
     }
 
@@ -124,7 +133,7 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                 ".", extensions, new ByteArrayInputStream(content.toByteArray()),
                 "SCY_Lab_Text." + extensions[0] );
         } catch(UnavailableServiceException use) {
-            logger.log(Level.INFO, "No JavaWebStart FileSaveService found, trying other method for saving");
+            logger.info("No JNLP FileSaveService found, trying other method for saving");
             int returnVal = fc.showSaveDialog(editorPanel);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 FileOutputStream fos = null;
@@ -132,19 +141,19 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                     fos = new FileOutputStream(fc.getSelectedFile());
                     content.writeTo(fos);
                 } catch (IOException ex) {
-                    logger.log(Level.SEVERE, null, ex);
+                    showError("saveError", ex);
                 } finally {
                     try {
                         fos.close();
                     } catch (IOException ex) {
-                        logger.log(Level.SEVERE, null, ex);
+                        showError("saveCloseError", ex);
                     }
                 }
             } else {
-                logger.log(Level.INFO, "Save command cancelled by user.");
+                logger.info("Save command cancelled by user.");
             }
         } catch(IOException ioe) {
-            logger.log(Level.SEVERE, null, ioe);
+            showError("saveError", ioe);
         }
     }
 
@@ -153,6 +162,7 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         if (e.getActionCommand().equals("savefile")) {
             String[] xtns = { "rtf" };
             saveFile(xtns, editorPanel.getRtfText());
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.SAVE_RTF);
         } else if (e.getActionCommand().equals("print")) {
             try {
                 if (printService==null) {
@@ -164,20 +174,21 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                     printService.print(book);
                 }
             } catch (UnavailableServiceException doh) {
-                logger.log(Level.INFO, "No JavaWebStart PrintService found, trying other method for saving");
+                logger.info("No JNLP PrintService found, trying other method for printing");
                 PrinterJob printJob = PrinterJob.getPrinterJob();
                 printJob.setPrintable(editorPanel);
                 if (printJob.printDialog())
                   try {
                     printJob.print();
                   } catch(PrinterException pe) {
-                    logger.log(Level.SEVERE, null, pe);
+                    showError("printError", pe);
                   }
             }
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PRINT);
         } else if (e.getActionCommand().equals("pdf")) {
             String[] xtns = { "pdf" };
-            Document document = new Document();
             try {
+                Document document = new Document();
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 PdfWriter writer = PdfWriter.getInstance(document, bos);
                 document.open();
@@ -186,8 +197,9 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                 document.close();
                 savePDF(xtns, bos);
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, null, ex);
+                showError("pdfError", ex);
             }
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PDF);
         }
     }
 }

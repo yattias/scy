@@ -13,34 +13,61 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.text.Document;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import org.apache.log4j.Logger;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.StringWriter;
 import java.awt.print.Printable;
 import java.awt.Graphics2D;
 import javax.swing.RepaintManager;
+import java.util.ResourceBundle;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import eu.scy.actionlogging.api.IActionLogger;
 
 public class RichTextEditor extends JPanel implements DocumentListener, Printable {
-	private static final Logger logger = Logger.getLogger(RichTextEditor.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
+    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 	private JTextPane textPane;
 	private RTFEditorKit rtfEditor;
 	private RtfFileToolbar fileToolbar;
 	private RtfFormatToolbar formatToolbar;
+    private RichTextEditorLogger rtfLogger;
 
 	public RichTextEditor() {
 		super();
 		initUI();
 	}
 
-	private void initUI() {
+    public RichTextEditorLogger getRichTextEditorLogger() {
+        return rtfLogger;
+    }
+
+    public void setRichTextEditorLogger(IActionLogger actionLogger,
+        String username, String toolname, String missionname,
+        String sessionname, String parent) {
+        rtfLogger = new RichTextEditorLogger(actionLogger, username,
+            toolname, missionname, sessionname, parent, this);
+    }
+
+    public JTextPane getJTextPane() {
+        return textPane;
+    }
+
+    private void showError(String messageID, Throwable e) {
+        logger. error(messages.getString(messageID), e);
+        System.err.println(messages.getString(messageID) + " " + new Date());
+        e.printStackTrace(System.err);
+        JOptionPane.showMessageDialog(textPane, messages.getString(messageID) +
+            ":\nMessage: " + e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void initUI() {
 		this.setLayout(new BorderLayout());
 		rtfEditor = new RTFEditorKit();
 		textPane = new JTextPane();
 		textPane.setEditorKit(rtfEditor);
 		textPane.getDocument().addDocumentListener(this);
-		this.add(new JScrollPane(textPane), BorderLayout.CENTER);
+        this.add(new JScrollPane(textPane), BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		this.fileToolbar = new RtfFileToolbar(this);
@@ -58,14 +85,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             bis = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
             rtfEditor.read(bis, textPane.getDocument(), 0);
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            showError("setTextError", ex);
         } catch (BadLocationException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            showError("setTextError", ex);
         } finally {
             try {
                 bis.close();
             } catch (IOException ex) {
-                logger.log(Level.SEVERE, null, ex);
+                showError("setTextError", ex);
             }
         }
     }
@@ -76,22 +103,19 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             rtfEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
             return str.toString("UTF-8");
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            showError("getTextError", ex);
         } catch (BadLocationException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            showError("getTextError", ex);
         }
         return "";
     }
 
     public String getPlainText() {
         try {
-            StringWriter str = new StringWriter();
-            rtfEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
-            return str.toString();
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            Document doc = (Document)textPane.getDocument();
+            return doc.getText(0, doc.getLength());
         } catch (BadLocationException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            showError("getTextError", ex);
         }
         return "";
     }
@@ -112,8 +136,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         Document doc = (Document)e.getDocument();
         int changeLength = e.getLength();
         String newline = "\n";
-        logger.log(Level.INFO,
-            changeLength + " character" +
+        logger.info(changeLength + " character" +
             ((changeLength == 1) ? " " : "s ") +
             action + " " + doc.getProperty("name") + "." + newline +
             "  Text length = " + doc.getLength() + newline);

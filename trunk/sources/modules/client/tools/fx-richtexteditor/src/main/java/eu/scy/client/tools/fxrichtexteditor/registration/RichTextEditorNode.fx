@@ -52,8 +52,9 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    def logger = Logger.getLogger("eu.scy.client.tools.fxrichtexteditor.RichTextEditorNode");
    def scyRichTextEditorType = "scy/rtf";
    def jdomStringConversion = new JDomStringConversion();
-   def richTextEditor:RichTextEditor = new RichTextEditor();
    def spacing = 5.0;
+   def toolname = "formatted text editor";
+   def richTextEditor:RichTextEditor = new RichTextEditor();
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
@@ -78,6 +79,9 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
       if (actionLogger==null) {
          actionLogger = new DevNullActionLogger();
       }
+      richTextEditor.setRichTextEditorLogger(actionLogger,
+        "username", toolname, "missionname", "sessionname",
+        "formatted text editor");
     }
 
    public override function loadElo(uri:URI){
