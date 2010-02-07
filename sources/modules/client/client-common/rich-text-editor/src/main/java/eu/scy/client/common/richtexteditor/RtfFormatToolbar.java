@@ -19,9 +19,7 @@ import javax.swing.text.rtf.RTFEditorKit;
 import java.util.ResourceBundle;
 
 public class RtfFormatToolbar extends JToolBar implements ActionListener {
-
 	private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";
-
 	private ImageIcon boldIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_bold.png"));
 	private ImageIcon italicIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_italic.png"));
 	private ImageIcon underlineIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_underline.png"));
