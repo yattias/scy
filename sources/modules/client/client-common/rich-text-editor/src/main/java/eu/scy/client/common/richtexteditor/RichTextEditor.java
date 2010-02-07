@@ -1,6 +1,9 @@
 package eu.scy.client.common.richtexteditor;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
 import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,8 +17,12 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
+import java.awt.print.Printable;
+import java.awt.Graphics2D;
+import javax.swing.RepaintManager;
 
-public class RichTextEditor extends JPanel implements DocumentListener {
+public class RichTextEditor extends JPanel implements DocumentListener, Printable {
 	private static final Logger logger = Logger.getLogger(RichTextEditor.class.getSimpleName());
 	private JTextPane textPane;
 	private RTFEditorKit rtfEditor;
@@ -31,6 +38,7 @@ public class RichTextEditor extends JPanel implements DocumentListener {
 		this.setLayout(new BorderLayout());
 		rtfEditor = new RTFEditorKit();
 		textPane = new JTextPane();
+        textPane.setContentType("text/rtf; charset=UTF-8");
 		textPane.setEditorKit(rtfEditor);
 		textPane.getDocument().addDocumentListener(this);
 		this.add(new JScrollPane(textPane), BorderLayout.CENTER);
@@ -63,11 +71,24 @@ public class RichTextEditor extends JPanel implements DocumentListener {
         }
     }
 
-    public String getText() {
+    public String getRtfText() {
         try {
             ByteArrayOutputStream str = new ByteArrayOutputStream();
             rtfEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
             return str.toString("UTF-8");
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } catch (BadLocationException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
+    public String getPlainText() {
+        try {
+            StringWriter str = new StringWriter();
+            rtfEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
+            return str.toString();
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         } catch (BadLocationException ex) {
@@ -98,4 +119,19 @@ public class RichTextEditor extends JPanel implements DocumentListener {
             action + " " + doc.getProperty("name") + "." + newline +
             "  Text length = " + doc.getLength() + newline);
 	}
+
+    public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        if (pageIndex > 0) {
+          return(NO_SUCH_PAGE);
+        } else {
+          Graphics2D g2d = (Graphics2D)g;
+          g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+          RepaintManager currentManager = RepaintManager.currentManager(textPane);
+          boolean isDoubleBufferingEnabled = currentManager.isDoubleBufferingEnabled();
+          currentManager.setDoubleBufferingEnabled(false);
+          textPane.paint(g2d);
+          currentManager.setDoubleBufferingEnabled(isDoubleBufferingEnabled);
+          return(PAGE_EXISTS);
+        }
+    }
 }
