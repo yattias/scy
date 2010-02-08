@@ -15,6 +15,7 @@ import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -32,7 +33,7 @@ import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import java.io.File;
-import eu.scy.toolbroker.ToolBrokerImpl;
+//import eu.scy.toolbroker.ToolBrokerImpl;
 import javax.swing.JFileChooser;
 import org.springframework.util.StringUtils;
 
@@ -57,7 +58,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     // how can i get userName & password? + mission name
     private String username = "merkel";
     private String password = "merkel";
-    private String mission_name = "mission 1";
+    private String mission_name = "C02 neutral house";
+    private String session_name = "sessionName";
     private IActionLogger actionLogger;
     private IDataSyncService datasync;
 
@@ -66,7 +68,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         super();
         this.setLayout(new BorderLayout());
         initTBI();
-        initActionLogger();
+        //initActionLogger();
         initDataProcessTool();
         load();
     }
@@ -80,11 +82,14 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         //tbi=  new ToolBrokerImpl(username, password);
     }
     /* initialization action logger */
-    private void initActionLogger(){
-        if(tbi != null)
+    public void initActionLogger(){
+        if(tbi != null){
             actionLogger = tbi.getActionLogger();
-        else
+            //actionLogger = new SystemOutActionLogger();
+        }else{
             actionLogger = new DevNullActionLogger();
+            
+        }
     }
 
     private void initCollaborationService() {
@@ -207,15 +212,18 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         IAction action = new Action();
         action.setType(type);
         action.setUser(username);
-		action.addContext(ContextConstants.tool, FitexLog.toolName);
-		action.addContext(ContextConstants.mission, mission_name);
+        action.addContext(ContextConstants.tool, FitexLog.toolName);
+        action.addContext(ContextConstants.mission, mission_name);
+        action.addContext(ContextConstants.session, session_name);
+
         for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){
             FitexProperty property = p.next();
             if(property.getSubElement() == null)
                 action.addAttribute(property.getName(), property.getValue());
-            //else
-            	// TODO this is not supported anymore!
-                //action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
+            else{
+            	action.addAttribute(property.getName(), property.getValue());
+                action.addAttribute(property.getName()+"_sub", property.getSubElement().getValue());
+            }
         }
         // log action
         if(actionLogger != null)

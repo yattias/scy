@@ -58,6 +58,7 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       fitexPanel.setTBI(toolBrokerAPI);
+      fitexPanel.initActionLogger();
    }
 
    public override function loadElo(uri:URI){
