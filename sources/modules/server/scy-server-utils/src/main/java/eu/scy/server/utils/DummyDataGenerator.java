@@ -107,7 +107,7 @@ public class DummyDataGenerator implements InitializingBean {
     }
 
     private void assignStudentsToPlan(PedagogicalPlan plan) {
-        assignStudent("Willy", "Wonka", "wiwo" , "scy", plan);
+        assignStudent("Willy", "Wonka", "wiwoo" , "scy", plan);
         assignStudent("Dare", "Devil", "dade", "scy", plan);
         assignStudent("Donald", "Duck", "dodu", "scy", plan);
         assignStudent("Uber", "Dude", "ubdu", "scy", plan);

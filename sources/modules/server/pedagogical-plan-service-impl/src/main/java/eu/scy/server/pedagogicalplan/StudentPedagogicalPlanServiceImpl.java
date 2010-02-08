@@ -6,6 +6,7 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +16,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService implements StudentPedagogicalPlanService{
+
+    private static Logger log = Logger.getLogger("StudentPedagogicalPlanServiceImpl.class");
 
     private StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService;
 
@@ -38,6 +41,7 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
 
     @Override
     public List<StudentPlanELO> getStudentPlans(String username) {
+        log.info("Getting student plans for user: " + username);
         return getStudentPedagogicalPlanPersistenceService().getStudentPlans(username);
     }
 }
