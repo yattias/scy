@@ -29,7 +29,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
     public StudentPedagogicalPlanService getStudentPlanService() {
         StudentPedagogicalPlanService service = null;
-        service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+        //service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
         return service;
 
