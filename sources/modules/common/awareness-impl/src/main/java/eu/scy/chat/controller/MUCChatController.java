@@ -34,8 +34,7 @@ import eu.scy.presence.IPresenceEvent;
 
 public class MUCChatController implements ChatController {
 
-	private static final Logger logger = Logger
-			.getLogger(MUCChatController.class.getName());
+	private static final Logger logger = Logger.getLogger(MUCChatController.class.getName());
 	private DefaultListModel buddyListModel = new DefaultListModel();
 	private IAwarenessService awarenessService;
 	private String ELOUri;
