@@ -29,6 +29,8 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+
 /**
  * @author Marjolaine
  */
@@ -42,6 +44,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI;
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
@@ -55,6 +58,8 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      scyCopexPanel.setTBI(toolBrokerAPI);
+      scyCopexPanel.initActionLogger();
    }
 
    public override function loadElo(uri:URI){

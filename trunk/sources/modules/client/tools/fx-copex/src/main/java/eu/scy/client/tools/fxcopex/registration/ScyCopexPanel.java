@@ -6,11 +6,11 @@
 package eu.scy.client.tools.fxcopex.registration;
 
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
-import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.tools.copex.common.LearnerProcedure;
@@ -35,14 +35,15 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     // how can i get userName & password? + mission name
     private String username = "merkel";
     private String password = "merkel";
-    private String mission_name = "mission 1";
+    private String mission_name = "C02 neutral house";
+    private String session_name = "sessionName";
     private IActionLogger actionLogger;
 
     public ScyCopexPanel() {
         super();
         this.setLayout(new BorderLayout());
         initTBI();
-        initActionLogger();
+        //initActionLogger();
         copex = new CopexPanel(true);
         setPreferredSize(new Dimension(550,350));
         copex.addActionCopex(this);
@@ -55,12 +56,19 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     private void initTBI(){
        //tbi=  new ToolBrokerImpl(username, password);
     }
+    public void setTBI(ToolBrokerAPI tbi) {
+        this.tbi = tbi;
+    }
+    
     /* initialization action logger */
-    private void initActionLogger(){
-        if(tbi != null)
+    public void initActionLogger(){
+        if(tbi != null){
             actionLogger = tbi.getActionLogger();
-        else
+            //actionLogger = new SystemOutActionLogger();
+        }
+        else{
             actionLogger = new DevNullActionLogger();
+        }
     }
 
     /* load ELO into copex */
@@ -91,8 +99,9 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         IAction action = new Action();
         action.setUser(username);
         action.setType(type);
-		action.addContext(ContextConstants.tool, CopexLog.toolName);
-		action.addContext(ContextConstants.mission, mission_name);
+        action.addContext(ContextConstants.tool, CopexLog.toolName);
+        action.addContext(ContextConstants.mission, mission_name);
+        action.addContext(ContextConstants.session, session_name);
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
             CopexProperty property = p.next();
             if(property.getSubElement() == null) {
