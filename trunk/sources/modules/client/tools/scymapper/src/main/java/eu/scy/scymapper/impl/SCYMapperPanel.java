@@ -137,11 +137,15 @@ public class SCYMapperPanel extends JPanel {
 
 	private void showKeywordSuggestion() {
 
-		String suggestion = JOptionPane.showInputDialog("What keyword would you like to have suggested to you?");
+		String input = JOptionPane.showInputDialog("What keyword would you like to have suggested to you?", "Contains, extensions, to, the, Swing, GUI, toolkit");
+
+		if (input == null) return;
 
 		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
-
-		panel.setSuggestion(suggestion, configuration.getNodeFactories(), cmapPanel);
+		if (input.indexOf(",") > -1) {
+			String[] keywords = input.split(",");
+			panel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
+		} else panel.setSuggestion(input, configuration.getNodeFactories(), cmapPanel);
 
 		panel.setSize(400, 350);
 		panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));

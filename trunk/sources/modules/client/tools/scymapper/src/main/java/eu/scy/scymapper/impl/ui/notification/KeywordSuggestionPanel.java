@@ -36,7 +36,7 @@ public class KeywordSuggestionPanel extends JPanel {
 		Icon icon = UIManager.getIcon("OptionPane.informationIcon");
 		JLabel label = new JLabel("Keyword Suggestion", icon, SwingConstants.LEFT);
 		add(BorderLayout.NORTH, label);
-		conceptButtonPane = new JPanel(new MigLayout("center,wrap 2", "[fill]"));
+		conceptButtonPane = new JPanel(new MigLayout("wrap 4", "[fill]"));
 		descriptionLabel = new JTextPane();
 
 		StyledDocument doc = descriptionLabel.getStyledDocument();
@@ -45,9 +45,9 @@ public class KeywordSuggestionPanel extends JPanel {
 		StyleConstants.setBold(s, true);
 
 		descriptionLabel.setEditable(false);
-		JPanel compound = new JPanel(new GridLayout(2, 0));
-		compound.add(descriptionLabel);
-		compound.add(conceptButtonPane);
+		JPanel compound = new JPanel(new BorderLayout());
+		compound.add(BorderLayout.NORTH, descriptionLabel);
+		compound.add(BorderLayout.CENTER, conceptButtonPane);
 		add(BorderLayout.CENTER, compound);
 	}
 
@@ -79,6 +79,48 @@ public class KeywordSuggestionPanel extends JPanel {
 		for (IConceptFactory factory : conceptFactories) {
 			conceptButtonPane.add(createConceptButton(factory, keyword, panel));
 		}
+	}
+
+	/**
+	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
+	 *
+	 * @param keywords
+	 * @param conceptFactories
+	 */
+	public void setSuggestions(String[] keywords, Collection<IConceptFactory> conceptFactories, ConceptMapPanel panel) {
+
+		String[] text = {
+				"The SCY-Troll has discovered that you may have missed relevant keywords in your concept map. ",
+				"Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have."
+		};
+		String[] styles = {"reqular", "regular"};
+
+		StyledDocument doc = descriptionLabel.getStyledDocument();
+		try {
+			for (int i = 0; i < text.length; i++) {
+				doc.insertString(doc.getLength(), text[i], doc.getStyle(styles[i]));
+			}
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+
+		for (String keyword : keywords) {
+			final JPopupMenu popup = new JPopupMenu();
+			popup.setLayout(new GridLayout(0, 2));
+			popup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 1), BorderFactory.createTitledBorder("Select the shape")));
+			for (IConceptFactory factory : conceptFactories) {
+				popup.add(createConceptButton(factory, keyword, panel));
+			}
+			final JButton btn = new JButton(keyword);
+			btn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					popup.show(btn, 0, btn.getHeight());
+				}
+			});
+			conceptButtonPane.add(btn);
+		}
+		//conceptButtonPane.add(container);
 	}
 
 	private Component createConceptButton(final IConceptFactory factory, final String keyword, final ConceptMapPanel panel) {
