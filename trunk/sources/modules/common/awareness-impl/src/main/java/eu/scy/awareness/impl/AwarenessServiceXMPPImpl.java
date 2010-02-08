@@ -52,8 +52,7 @@ import eu.scy.awareness.tool.IChatPresenceToolListener;
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
 
 	private String CONFERENCE_EXT = null;
-	private final static Logger logger = Logger
-			.getLogger(AwarenessServiceXMPPImpl.class.getName());
+	private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
 	private ConnectionConfiguration config;
 	private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
 	private List<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
@@ -452,8 +451,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 		if (ELOUri != null) {
 
-			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
-					+ CONFERENCE_EXT);
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri + CONFERENCE_EXT);
 			DiscussionHistory history = new DiscussionHistory();
 			
 			muc.addParticipantListener(new PacketListener() {
@@ -480,6 +478,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				}
 			});
 			muc.addParticipantStatusListener(new AwarenessParticipantListener());
+			
+			
+			
 			try {
 
 				// first check if the room exists
@@ -493,16 +494,19 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					// create it
 					// we need to create
 					muc.create(ELOUri);
+					
 
 					// Get the the room's configuration form
 					Form form = muc.getConfigurationForm();
+					
+					logger.debug(form.getInstructions());
+					
 					// Create a new form to submit based on the original form
 					Form submitForm = form.createAnswerForm();
 					// Add default answers to the form to submit
 					for (Iterator fields = form.getFields(); fields.hasNext();) {
 						FormField field = (FormField) fields.next();
-						if (!FormField.TYPE_HIDDEN.equals(field.getType())
-								&& field.getVariable() != null) {
+						if (!FormField.TYPE_HIDDEN.equals(field.getType()) && field.getVariable() != null) {
 							// Sets the default value as the answer
 							submitForm.setDefaultAnswer(field.getVariable());
 						}
@@ -511,6 +515,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					// List owners = new ArrayList();
 					// owners.add("djed11");
 					submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+					submitForm.setAnswer("muc#roomconfig_enablelogging", true);
 					// Send the completed form (with default values) to the
 					// server to configure the room
 					muc.sendConfigurationForm(submitForm);
