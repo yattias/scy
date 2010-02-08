@@ -9,6 +9,7 @@ import eu.scy.awareness.IAwarenessUser;
 public class AwarenessRosterEvent extends AwarenessEvent implements IAwarenessRosterEvent {
 
     private Collection<String> addresses;
+    private String roomId;
     
     public AwarenessRosterEvent(Object source, IAwarenessUser user, String message, Collection<String> addresses) {
         super(source, user, message);
@@ -40,5 +41,17 @@ public class AwarenessRosterEvent extends AwarenessEvent implements IAwarenessRo
         sb.append("addresses: ").append(addresses);
         return sb.toString();
     }
+    
+    
+    @Override
+	public String getRoomId() {
+		return this.roomId;
+	}
+
+	@Override
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
+
 
 }

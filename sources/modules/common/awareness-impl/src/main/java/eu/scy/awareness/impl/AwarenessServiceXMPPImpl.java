@@ -630,9 +630,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		}
 
 		public void joined(String participant) {
-			System.out
-					.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined() " + participant);
+			System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined() " + participant);
+			String roomId = StringUtils.parseName(participant);			
 			participant = participant.substring(participant.indexOf("/") + 1);
+			
+			logger.debug("PARSED room ID for AwarenessParticipantListener: " + roomId);
+			
 			for (IAwarenessRosterListener rosterListener : rosterListeners) {
 				if (rosterListener != null) {
 					
@@ -646,6 +649,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		//									.getUser(), IAwarenessRosterEvent.ADD,
 		//							addresses);
 							rosterListener.handleAwarenessRosterEvent(rosterEvent);
+							rosterEvent.setRoomId(roomId);
 					}
 				}
 			}
