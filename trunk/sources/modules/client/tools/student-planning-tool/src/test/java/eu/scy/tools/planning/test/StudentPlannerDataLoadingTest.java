@@ -43,10 +43,6 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         return (StudentPedagogicalPlanService) fb.getObject();
     }
 
-    public void testSetupStudentPlanService() {
-        assertNotNull(getStudentPlanService());
-    }
-
     public void testGetStudentPlans() {
         if (getStudentPlanService() != null) {
             SCYUserImpl user = new SCYUserImpl();
