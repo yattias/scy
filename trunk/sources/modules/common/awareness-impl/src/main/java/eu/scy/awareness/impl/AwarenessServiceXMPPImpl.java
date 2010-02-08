@@ -634,7 +634,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			String roomId = StringUtils.parseName(participant);			
 			participant = participant.substring(participant.indexOf("/") + 1);
 			
-			logger.debug("PARSED room ID for AwarenessParticipantListener: " + roomId);
+			logger.debug("PARSED room ID for AwarenessParticipantListener: " + participant + " and roomID: " + roomId);
 			
 			for (IAwarenessRosterListener rosterListener : rosterListeners) {
 				if (rosterListener != null) {
@@ -648,8 +648,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		//							AwarenessServiceXMPPImpl.this.xmppConnection
 		//									.getUser(), IAwarenessRosterEvent.ADD,
 		//							addresses);
-							rosterListener.handleAwarenessRosterEvent(rosterEvent);
 							rosterEvent.setRoomId(roomId);
+							rosterListener.handleAwarenessRosterEvent(rosterEvent);
 					}
 				}
 			}
@@ -660,8 +660,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		}
 
 		private void removeParticipant(String participant) {
-			System.out
-					.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.removeParticipant() " + participant);
+			System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.removeParticipant() " + participant);
+			String roomId = StringUtils.parseName(participant);			
+			
 			participant = participant.substring(participant.indexOf("/") + 1);
 			for (IAwarenessRosterListener rosterListener : rosterListeners) {
 				if (rosterListener != null) {
@@ -669,6 +670,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					List<String> addresses = new ArrayList<String>();
 					addresses.add(participant);
 					IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(this,AwarenessServiceXMPPImpl.this.getConnection().getUser(), IAwarenessRosterEvent.REMOVE, addresses);
+					rosterEvent.setRoomId(roomId);
 					rosterListener.handleAwarenessRosterEvent(rosterEvent);
 				}
 			}
@@ -681,7 +683,4 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		public void nicknameChanged(String arg0, String arg1) {
 		}
 	}
-	
-	
-
 }
