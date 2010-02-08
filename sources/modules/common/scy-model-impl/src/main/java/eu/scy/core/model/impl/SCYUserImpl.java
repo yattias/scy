@@ -2,6 +2,7 @@ package eu.scy.core.model.impl;
 
 import eu.scy.core.model.*;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 //org.hibernate.annotations.Proxy(proxyClass = User.class)
-public class SCYUserImpl implements User {
+public class SCYUserImpl implements User, Serializable {
 
     private long id;
 

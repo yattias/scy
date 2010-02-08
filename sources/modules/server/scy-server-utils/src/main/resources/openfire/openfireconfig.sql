@@ -1,3 +1,4 @@
+delete from ofproperty where name like 'admin.authorizedJIDs';
 delete from ofproperty where name like 'jdbcAuthProvider.passwordSQL';
 delete from ofproperty where name like 'jdbcUserProvider.loadUserSQL';
 delete from ofproperty where name like 'jdbcUserProvider.emailField';
@@ -19,7 +20,8 @@ delete from ofproperty where name like 'xmpp.component.socket.active';
 delete from ofproperty where name like 'xmpp.session.conflict-limit';
 
 
-insert into ofproperty (name, propValue) values ('jdbcAuthProvider.passwordSQL', 'SELECT username FROM user_details where username like ?');
+insert into ofproperty (name, propValue) values ('admin.authorizedJIDs', 'scy@*,admin@*');
+insert into ofproperty (name, propValue) values ('jdbcAuthProvider.passwordSQL', 'SELECT password FROM user_details where username like ?');
 insert into ofproperty (name, propValue) values ('jdbcUserProvider.loadUserSQL', 'SELECT username,email_address FROM user_details WHERE username=?');
 insert into ofproperty (name, propValue) values ('jdbcUserProvider.emailField', 'email_address');
 insert into ofproperty (name, propValue) values ('jdbcUserProvider.nameField', 'username');
