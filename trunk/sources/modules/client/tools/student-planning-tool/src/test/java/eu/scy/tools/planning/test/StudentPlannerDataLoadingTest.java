@@ -4,6 +4,7 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.UserDetails;
 import eu.scy.core.model.impl.SCYStudentUserDetails;
 import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
@@ -21,7 +22,6 @@ import java.util.logging.Logger;
  * User: Henrik
  * Date: 08.feb.2010
  * Time: 05:29:41
- * To change this template use File | Settings | File Templates.
  */
 public class StudentPlannerDataLoadingTest extends TestCase {
 
@@ -29,7 +29,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
     public StudentPedagogicalPlanService getStudentPlanService() {
         StudentPedagogicalPlanService service = null;
-        //service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+        service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
         return service;
 
@@ -58,6 +58,9 @@ public class StudentPlannerDataLoadingTest extends TestCase {
                 List<StudentPlannedActivity> activities = studentPlanELO.getStudentPlannedActivities();
                 for (int j = 0; j < activities.size(); j++) {
                     StudentPlannedActivity studentPlannedActivity = activities.get(j);
+                    studentPlannedActivity.getNote();
+                    studentPlannedActivity.setNote("This is a freakin note!");
+                    getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
                     log.info("SPA:" + studentPlannedActivity.getName());
                     AnchorELO elo = studentPlannedActivity.getAssoicatedELO();
                     log.info("Anchor elo: " + elo);

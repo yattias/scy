@@ -2,8 +2,10 @@ package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.StudentPedagogicalPlanPersistenceService;
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -43,5 +45,13 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     public List<StudentPlanELO> getStudentPlans(String username) {
         log.info("Getting student plans for user: " + username);
         return getStudentPedagogicalPlanPersistenceService().getStudentPlans(username);
+    }
+
+    @Override
+    public void save(ScyBaseObject scyBase) {
+        if(scyBase instanceof StudentPlannedActivity) {
+            log.info(((StudentPlannedActivity)scyBase).getNote());
+        }
+        getStudentPedagogicalPlanPersistenceService().save(scyBase);
     }
 }

@@ -1,6 +1,7 @@
 package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 
@@ -20,4 +21,6 @@ public interface StudentPedagogicalPlanService {
     List<StudentPlanELO> getStudentPlans(User user);
 
     List<StudentPlanELO> getStudentPlans(String username);
+
+    public void save(ScyBaseObject scyBase);
 }
