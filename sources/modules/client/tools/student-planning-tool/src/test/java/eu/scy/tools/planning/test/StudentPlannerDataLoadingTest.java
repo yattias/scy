@@ -30,7 +30,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
     public StudentPedagogicalPlanService getStudentPlanService() {
         StudentPedagogicalPlanService service = null;
         //service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
-        service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+        //service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
         return service;
 
     }
@@ -48,32 +48,35 @@ public class StudentPlannerDataLoadingTest extends TestCase {
     }
 
     public void testGetStudentPlans() {
-        SCYUserImpl user = new SCYUserImpl();
-        SCYStudentUserDetails details = new SCYStudentUserDetails();
-        details.setUsername("wiwo");
-        user.setUserDetails(details);
-        List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans("wiwoo");
-        assertTrue(studentPlans.size() > 0);
-        log.info("plans:" + studentPlans.size());
-        for (int i = 0; i < studentPlans.size(); i++) {
-            StudentPlanELO studentPlanELO = studentPlans.get(i);
-            System.out.println("PLAN:" + studentPlanELO);
-            List <StudentPlannedActivity> activities = studentPlanELO.getStudentPlannedActivities();
-            for (int j = 0; j < activities.size(); j++) {
-                StudentPlannedActivity studentPlannedActivity = activities.get(j);
-                log.info("SPA:" + studentPlannedActivity.getName());
-                AnchorELO elo = studentPlannedActivity.getAssoicatedELO();
-                log.info("Anchor elo: " + elo);
-                if(elo != null) {
-                    Activity activity = elo.getProducedBy();
-                    log.info("Activity: " + activity);
-                    if(activity != null) {
-                        LearningActivitySpace las = activity.getLearningActivitySpace();
-                        log.info("LAS: " + las);
+        if (getStudentPlanService() != null) {
+            SCYUserImpl user = new SCYUserImpl();
+            SCYStudentUserDetails details = new SCYStudentUserDetails();
+            details.setUsername("wiwo");
+            user.setUserDetails(details);
+            List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans("wiwoo");
+            assertTrue(studentPlans.size() > 0);
+            log.info("plans:" + studentPlans.size());
+            for (int i = 0; i < studentPlans.size(); i++) {
+                StudentPlanELO studentPlanELO = studentPlans.get(i);
+                System.out.println("PLAN:" + studentPlanELO);
+                List<StudentPlannedActivity> activities = studentPlanELO.getStudentPlannedActivities();
+                for (int j = 0; j < activities.size(); j++) {
+                    StudentPlannedActivity studentPlannedActivity = activities.get(j);
+                    log.info("SPA:" + studentPlannedActivity.getName());
+                    AnchorELO elo = studentPlannedActivity.getAssoicatedELO();
+                    log.info("Anchor elo: " + elo);
+                    if (elo != null) {
+                        Activity activity = elo.getProducedBy();
+                        log.info("Activity: " + activity);
+                        if (activity != null) {
+                            LearningActivitySpace las = activity.getLearningActivitySpace();
+                            log.info("LAS: " + las);
+                        }
                     }
                 }
             }
         }
+
     }
 
 }
