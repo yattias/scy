@@ -93,8 +93,7 @@ public class MUCChatController implements ChatController {
 	public void registerChatArea(JTextArea registerArea) {
 		this.chatArea = registerArea;
 
-		awarenessService
-				.addAwarenessMessageListener(new IAwarenessMessageListener() {
+		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
 					@Override
 					public void handleAwarenessMessageEvent(
 							final IAwarenessEvent awarenessEvent) {
@@ -145,16 +144,10 @@ public class MUCChatController implements ChatController {
 					}
 				});
 
-		awarenessService
-				.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
+		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
 					@Override
-					public void handleAwarenessPresenceEvent(
-							final IAwarePresenceEvent awarenessPresenceEvent) {
-						logger
-								.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: "
-										+ awarenessPresenceEvent.getUser().getNickName()
-										+ " : "
-										+ awarenessPresenceEvent.getUser().getPresence());
+					public void handleAwarenessPresenceEvent(final IAwarePresenceEvent awarenessPresenceEvent) {
+						logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + awarenessPresenceEvent.getUser().getNickName() + " : "	+ awarenessPresenceEvent.getUser().getPresence());
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
@@ -189,8 +182,7 @@ public class MUCChatController implements ChatController {
 					}
 				});
 
-		awarenessService
-				.addAwarenessRosterListener(new IAwarenessRosterListener() {
+		awarenessService.addAwarenessRosterListener(new IAwarenessRosterListener() {
 
 					@Override
 					public void handleAwarenessRosterEvent(
@@ -245,6 +237,7 @@ public class MUCChatController implements ChatController {
 										
 										String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
 										logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
+										
 										if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
 											//need to parse it text@conference.org
 											awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
@@ -264,8 +257,7 @@ public class MUCChatController implements ChatController {
 												buddyListModel.add(indexOfBuddy,
 														elementAt);
 											} else {
-												a
-														.setPresence(IPresenceEvent.UNAVAILABLE);
+												a.setPresence(IPresenceEvent.UNAVAILABLE);
 												buddyListModel.addElement(a);
 											}
 										}
