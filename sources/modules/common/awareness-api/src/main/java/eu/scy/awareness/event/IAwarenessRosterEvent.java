@@ -34,4 +34,19 @@ public interface IAwarenessRosterEvent extends IAwarenessEvent {
      */
     public String toString();
     
+    
+    /**
+	 * gets the room id
+	 * 
+	 * @return
+	 */
+    public String getRoomId();
+	
+	/**
+	 * sets the room id
+	 * 
+	 */
+	public void setRoomId(String roomId);
+    
+    
 }
