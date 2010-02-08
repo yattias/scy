@@ -4,6 +4,7 @@ import eu.scy.core.model.StudentUserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "student_user_details")
-public class SCYStudentUserDetails extends SCYUserDetails implements StudentUserDetails {
+public class SCYStudentUserDetails extends SCYUserDetails implements StudentUserDetails, Serializable {
 
     private String firstname;
     private String lastname;
