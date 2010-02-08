@@ -133,6 +133,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 	}
 
 	public void updateLog(DocumentEvent e, String action) {
+/*
         Document doc = (Document)e.getDocument();
         int changeLength = e.getLength();
         String newline = "\n";
@@ -140,6 +141,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             ((changeLength == 1) ? " " : "s ") +
             action + " " + doc.getProperty("name") + "." + newline +
             "  Text length = " + doc.getLength() + newline);
+*/
 	}
 
     public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
