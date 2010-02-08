@@ -43,3 +43,5 @@ insert into ofproperty (name, propValue) values ('xmpp.session.conflict-limit', 
 
 delete from ofextcomponentconf where subdomain like 'scyhub';
 insert into ofextcomponentconf (subdomain, wildcard, secret, permission) values ('scyhub', 0, 'java', 'allowed');
+delete from ofextcomponentconf where subdomain like 'sqlspaces';
+insert into ofextcomponentconf (subdomain, wildcard, secret, permission) values ('sqlspaces', 0, 'sqlspaces', 'allowed');

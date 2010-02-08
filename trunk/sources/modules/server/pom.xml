@@ -135,10 +135,10 @@
         <module>scy-sessionmanager-impl</module>
         <module>scy-useradmin-api</module>
         <module>scy-useradmin-impl</module>
-        <!-- module>scy-useradmin-web</module -->
         <module>webbrowsingtoolELOSaver</module>
         <module>whacket-extension</module>
-    <module>server-external-components</module>
+        <module>server-external-components</module>
+        <module>scy-author</module>
   </modules>
 
     <!--properties>
