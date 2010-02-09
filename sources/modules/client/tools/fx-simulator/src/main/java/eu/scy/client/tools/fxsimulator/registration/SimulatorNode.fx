@@ -85,7 +85,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
           JOptionPane.QUESTION_MESSAGE,  // icon
           null, yesNoOptions,yesNoOptions[0] );
         if (n == 0) {
-            (object as FitexNode).initializeDatasync(this);
+            //(object as FitexNode).initializeDatasync(this);
         }
    }
 
