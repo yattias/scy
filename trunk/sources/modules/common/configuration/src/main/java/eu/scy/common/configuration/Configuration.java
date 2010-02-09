@@ -121,7 +121,7 @@ public class Configuration {
 	}
 
     public String getSQLSpacesDBHost() {
-        return props.getProperty("sqlspaces.db.mysql.host")
+        return props.getProperty("sqlspaces.db.mysql.host");
     }
 
     // ### SAIL
