@@ -1,8 +1,10 @@
-<!ENTITY prefwindow.title "SCY Highlighter Einstellungen">
-<!ENTITY pane1.title "SCY Login Daten">
-<!ENTITY user.title "Benutzername">
-<!ENTITY password.title "Passwort">
-<!ENTITY pane2.title "Server Daten">
-<!ENTITY server.addressTitle "Adresse">
+<!ENTITY prefwindow.title "SCYLighter Preferences">
+<!ENTITY pane1.title "SCYLab Login Data">
+<!ENTITY user.title "Username">
+<!ENTITY password.title "Password">
+<!ENTITY pane2.title "Server Data">
+<!ENTITY server.addressTitle "Address">
 <!ENTITY server.portTitle "Port">
-<!ENTITY server.usedefaultaddress "Benutze Standard Server-Daten">
+<!ENTITY server.usedefaultaddress "Use Default Server Data">
+<!ENTITY options.advanced "Advanced">
+<!ENTITY options.simple "Simple">

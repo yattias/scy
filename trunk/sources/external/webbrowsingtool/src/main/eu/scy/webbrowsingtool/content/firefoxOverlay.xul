@@ -40,7 +40,7 @@
 <!DOCTYPE overlay SYSTEM "chrome://highlighter/locale/highlighter.dtd">
 <overlay id="highlighter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <!--<script src="sidebar.js"/>-->
+  <script src="overlay.js"/>
   <stringbundleset id="stringbundleset">
     <stringbundle id="highlighter-strings" src="chrome://highlighter/locale/highlighter.properties"/>
   </stringbundleset>
@@ -52,7 +52,6 @@
          modifiers="&openSidebar.modifierskey;" />
   </keyset>
 
-
   <broadcasterset id="mainBroadcasterSet">
     <broadcaster id="viewSidebar"
                  label="&sidebar.title;"
@@ -61,15 +60,12 @@
                  group="sidebar"
                  sidebarurl="chrome://highlighter/content/sidebar.xul"
                  sidebartitle="&sidebar.title;"
-                 oncommand="toggleSidebar('viewSidebar');" />
+                 oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" />
   </broadcasterset>
 
 
   <menupopup id="menu_ToolsPopup">
-    <menuitem id="highlighter-hello" label="&highlighter.label;"
-              oncommand="highlighter.onMenuItemCommand(event);"/>
-	<menuitem id="highlighter-undo" label="&highlighter.undo;"
-              oncommand="highlighter.undo();"/>
+
   </menupopup>
   <popup id="contentAreaContextMenu">
     <menuitem id="context-highlighter" label="&highlighterContext.label;"

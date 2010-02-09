@@ -90,6 +90,8 @@
           </row>
         </rows>
       </grid>
+	  <!--<dropmarker id="dropmarker"/>
+	  <label control="dropmarker">&options.advanced;</label>-->
     </groupbox>
   </prefpane>
 </prefwindow>

@@ -1,28 +1,26 @@
-<!ENTITY highlighter.label "Auswahl markieren">
-<!ENTITY highlighterContext.label "Auswahl markieren">
-<!ENTITY highlighter.undo "Rückgängig">
+<!ENTITY highlighter.label "Highlight Selection">
+<!ENTITY highlighterContext.label "Highlight Selection">
+<!ENTITY highlighter.undo "Undo Highlighting">
 <!ENTITY highlighterContext.accesskey "Y">
-<!ENTITY highlighterToolbar.label "Markierung">
-<!ENTITY highlighterToolbar.tooltip "Markierung!">
-<!ENTITY highlighter.addTitle "Titel hinzufügen">
-<!ENTITY highlighter.selection "Auswahl">
-<!ENTITY highlighter.deleteSelected "Entferne Auswahl">
-<!ENTITY highlighter.comments "Kommentare">
-<!ENTITY highlighter.sources "Quellen">
-<!ENTITY highlighter.summary "Zusammenfassung">
-<!ENTITY highlighter.title "Titel">
-<!ENTITY highlighter.addComments "Kommentare hinzufügen">
-<!ENTITY highlighter.openELO "Öffne ELO!">
-<!ENTITY highlighter.preview "Vorschau!">
-<!ENTITY highlighter.saveELO "Speichere ELO!">
-<!ENTITY dehighlighter.label "Markierung entfernen">
-<!ENTITY dehighlighterContext.label "Markierung entfernen">
+<!ENTITY highlighterToolbar.label "Highlight">
+<!ENTITY highlighterToolbar.tooltip "Highlight!">
+<!ENTITY highlighter.addTitle "Add Title">
+<!ENTITY highlighter.selection "Selection">
+<!ENTITY highlighter.deleteSelected "Remove Selection">
+<!ENTITY highlighter.comments "Comments">
+<!ENTITY highlighter.sources "Sources">
+<!ENTITY highlighter.summary "Summary">
+<!ENTITY highlighter.title "Title">
+<!ENTITY highlighter.addComments "Add comment">
+<!ENTITY highlighter.openELO "Open ELO!">
+<!ENTITY highlighter.preview "Preview!">
+<!ENTITY highlighter.saveELO "Save ELO!">
+<!ENTITY dehighlighter.label "De-Highlight Selection">
+<!ENTITY dehighlighterContext.label "De-Highlight Selection">
 <!ENTITY dehighlighterContext.accesskey "Z">
-<!ENTITY dehighlighterToolbar.label "Markierung entfernen">
-<!ENTITY dehighlighterToolbar.tooltip "Markierung entfernen!">
+<!ENTITY dehighlighterToolbar.label "De-Highlight">
+<!ENTITY dehighlighterToolbar.tooltip "De-Highlight!">
 <!ENTITY sidebar.title "SCY Sidebar">
 <!ENTITY openSidebar.commandkey "E">
 <!ENTITY openSidebar.modifierskey "shift accel">
-<!ENTITY openELO.modifierskey "shift accel">
-<!ENTITY openELO.modifierskey "shift accel">
-<!ENTITY openELOWindowTitle "Öffne ELO....">
+<!ENTITY openELOWindowTitle "Open ELO....">

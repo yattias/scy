@@ -40,26 +40,36 @@
 
 var count = 0;
 
+
 var highlighter = {
+	sidebarVisible : false,
 	toggleMenuState: false,
 	autoHighlightMode: false,
 	shouldDisplayIcons: false,
 	warnBeforeLeave: false,
 	lastColors: {fgcolor:"", bgcolor:""},
 
-  onLoad: function() {
+  onLoad: function(e) {
+	//this.sidebarExists();
+    //window.alert();
     // initialization code
     this.initialized = true;
-	//XX1
 	this.strings = top.window.document.getElementById("highlighter-strings");
-	//XX1
 	this.restoreSidebar();
-    document.getElementById("contentAreaContextMenu")
-            .addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
+	this.correctSources();
+
+    document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
 
   },
+  sidebarExists:function(){
+	var sidebar = top.window.document.getElementById("sidebar");
+	if (sidebar == null) {
+		return false;
+	} else {
+		return true;
+	}
+  },
   onUnload: function(e){
-
   },
   onBeforeUnload: function(e){
 	this.storeSidebar();
@@ -74,6 +84,7 @@ var highlighter = {
 	Components.utils.import("resource://highlighter/highlights.jsm");
 	bullets.itemTexts = new Array();
 	bullets.nodeIDs = new Array();
+	bullets.sourceURLs = new Array();
 
 	//read sequentially from the sidebar and store it to the highlights.jsm module (only for this session)
 
@@ -87,6 +98,7 @@ var highlighter = {
 			item = summaryBox.getItemAtIndex(i);
 			bullets.itemTexts.push(item.label);
 			bullets.nodeIDs.push(item.value);
+			bullets.sourceURLs.push(item.getAttribute("sourceURL"));
 		}
 	}
 	commentsStore.value = commentBox.value;
@@ -95,6 +107,11 @@ var highlighter = {
   },
 
   restoreSidebar: function(){
+	//Adding drop-handler to the summary-listbox
+	var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
+	var summaryBox = sidebarWindow.document.getElementById("summaryBox");
+	summaryBox.ondrop = highlighter.onDrop;
+
 	if(this.checkStoredData()){
 	//load storage from the highlights.jsm module
 	Components.utils.import("resource://highlighter/highlights.jsm");
@@ -112,15 +129,18 @@ var highlighter = {
 		var nodeId;
 		var itemText;
 		var listId;
+		var sourceURL;
 
 		//Store information for restoring them on-load
 		if(bullets.itemTexts.length>0){
 		for(i=0; i<bullets.itemTexts.length; i++){
 				itemText = bullets.itemTexts[i];
 				nodeId = bullets.nodeIDs[i];
+				sourceURL = bullets.sourceURLs[i];
 				item = summaryBox.appendItem(itemText,nodeId);
 				item.setAttribute("tooltiptext",itemText);
 				item.setAttribute("crop","center");
+				item.setAttribute("sourceURL",sourceURL);
 				listId = "list_"+nodeId;
 				item.setAttribute("id",listId);
 
@@ -133,7 +153,7 @@ var highlighter = {
 		}
 
 	}
-	} else{ //Stored data is checked and inkonsistent
+	} else{ //Stored data is checked and inconsistent
 		window.alert("Stored Data corrupted.");
 	}
 
@@ -303,7 +323,7 @@ var highlighter = {
 
 	//only select Span-Tags, because only these tags are highlighted
 
-    var arrElements = top.window.content.document.getElementsByTagName("SPAN");
+    var arrElements = top.window.content.document.getElementsByTagName("span");
 	//window.alert(arrElements.length);
     var arrReturnElements = new Array();
     var oAttributeValue = (typeof strAttributeValue != "undefined")? new RegExp("(^|\\s)" + strAttributeValue + "(\\s|$)", "i") : null;
@@ -330,6 +350,8 @@ var highlighter = {
     document.getElementById("context-highlighter").hidden = gContextMenu.onImage;
   },
   deleteSelection: function(){
+  //deleteSelection is performed from within the sidebar ("delete selected"-button)
+  //it searched for elements, which are marked as belonging to the listitem and changes the background-color
 
   var list = document.getElementById('summaryBox');
   //window.alert("list==null: " + (list==null));
@@ -340,15 +362,8 @@ var highlighter = {
 	var unhighlightNodes=this.getElementsByAttributeDOM("belongsTo",item.value);
 	//window.alert("item.value: " + item.value);
 	//window.alert("unhighlightNodes.length: " + unhighlightNodes.length);
-	for(i=0;i<unhighlightNodes.length;i++){
-		if (unhighlightNodes[i]!=null){
-		//window.alert("unhighlightNode "+i+" is not null");
-		unhighlightNodes[i].style.backgroundColor = "white";
-		}
-	}
-
+	//Deleting the listitem before restoring the html because this can cause an nullpointer which prevents the listitem from being cleared
 	var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-
     var undoNode = top.window.content.document.getElementById(item.value);
 	//window.alert("undoNode: "+undoNode);
     //undoNode.style.backgroundColor = "white";
@@ -356,9 +371,241 @@ var highlighter = {
 	undoNode.style.backgroundColor = undoNode.parentNode.style.backgroundColor;
 	}
     list.removeItemAt(list.getIndexOfItem(item));
+
+	this.correctSourcesFromSidebar();
+
+	//Now, clean the html
+	for(i=0;i<unhighlightNodes.length;i++){
+		//NEW STUFF causes an error
+			var node = unhighlightNodes[i];
+			//window.alert(node);
+			if(node.nodeType == Node.ELEMENT_NODE && node.hasAttribute("highlighter")) {
+			  var n = node.nextHighlight;
+			  while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
+				while(n.hasChildNodes())n.parentNode.insertBefore(n.firstChild, n);
+				n = n.parentNode.removeChild(n).nextHighlight;
+			  }
+
+			  var record = n;
+			  node.nextHighlight = null;  //break chain so loop can exit
+
+			  n = record.firstNode;
+			  while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
+				while(n.hasChildNodes())n.parentNode.insertBefore(n.firstChild, n);
+				n = n.parentNode.removeChild(n).nextHighlight;
+			  }
+
+			  record.firstNode = null;
+			  record.lastNode.nextHighlight = null;
+			  record.lastNode = null;
+
+			  //everything below modifies unsafe objects on the webpage. Do this last.
+
+			  var hi = node.ownerDocument.defaultView.highlighterInfo;
+			  for(var i=hi.highlights.length-1; i>=0; i--) {
+				if(hi.highlights[i] == record) {
+				  hi.highlights.splice(i, 1);
+				  break;
+				}
+			  }
+			  hi.dirty = true;
+			}
+
+
+		//OLD STUFF, but works!
+		/*if (unhighlightNodes[i]!=null){
+		//window.alert("unhighlightNode "+i+" is not null");
+		unhighlightNodes[i].style.backgroundColor = "white";
+		//unhighlightNodes[i].setAttribute("sourceURL","<<!!null!!>>");
+
+		}*/
+	}
+	//this.correctSources();
+	}
+
+	//window.alert("End reached");
+
+  },
+  correctSources:function(){
+		var sidebar = document.getElementById("sidebar");
+
+		if (sidebar == null){
+			var urlBox = document.getElementById('urlBox');
+			urlBox.value = "";
+			var summaryBox = document.getElementById('summaryBox');
+		} else {
+			var sidebarWindow = sidebar.contentWindow;
+			var urlBox = sidebarWindow.document.getElementById('urlBox');
+			urlBox.value = "";
+			var summaryBox = sidebarWindow.document.getElementById('summaryBox');
+		}
+		//window.alert("sidebarWindow: "+sidebarWindow);
+		if (summaryBox.itemCount>0){
+			urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
+		}
+		for(i = 1; i < summaryBox.itemCount; i++){
+            var actualSource = summaryBox.getItemAtIndex(i).getAttribute("sourceURL");
+			if (urlBox.value.search(actualSource)!=-1){
+			//the url exists
+			urlBox.value = urlBox.value;
+			}
+			else {
+			//the url doesnt exist
+			urlBox.value = urlBox.value +"\n"+ actualSource;
+			}
+        }
+
+
+  },
+  onDrop: function(event){
+	var link = event.dataTransfer.getData("URL");
+	var splitted = link.split(".");
+	var ending = splitted[splitted.length-1];
+	ending = ending.toLowerCase();
+	//Link must have a valid ending (image!)
+	if (ending=="gif"||ending=="jpg"||ending=="jpeg"||ending=="png"){
+		//window.alert("|"+ending+"|");
+		//add listitem for that
+		highlighter.addSummaryItemAsImage(link);
+	} else {
+		count = count + 1;
+
+		var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
+
+		var summaryBox = sidebarWindow.document.getElementById('summaryBox');
+		var urlBox = sidebarWindow.document.getElementById('urlBox');
+
+		var theSelection = top.window.content.document.getSelection();
+
+		var itemText = theSelection;
+		var newNodeId = "selection_" + count;
+
+		var item = summaryBox.appendItem(itemText,newNodeId);
+		item.setAttribute("tooltiptext",itemText);
+		item.setAttribute("crop","center");
+		var sourceURLValue = top.window.content.document.location;
+		item.setAttribute("sourceURL",sourceURLValue);
+		var listId = "list_"+newNodeId;
+		item.setAttribute("id",listId);
+
+		var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+		//window.alert(mainWindow.document.activeElement);
+
+		highlighter.highlightDoc();
+
+		highlighter.correctSources();
 	}
 
 
+  },
+  addSummaryItemAsImage:function(imageURL){
+	var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
+	var summaryBox = sidebarWindow.document.getElementById("summaryBox");
+    var urlBox = sidebarWindow.document.getElementById('urlBox');
+
+	var newNodeId = imageURL;
+
+	var item = summaryBox.appendItem(imageURL,newNodeId);
+	//item.setAttribute("tooltiptext",imageURL);
+	item.setAttribute("crop","center");
+	item.setAttribute("tooltiptext",imageURL);
+	var sourceURLValue = top.window.content.document.location;
+	item.setAttribute("sourceURL",sourceURLValue);
+	var listId = "list_"+newNodeId;
+	item.setAttribute("id",listId);
+	item.setAttribute("itemType","image-link");
+
+	/*
+	//TODO custom tooltip for images
+	var imageTooltip = document.createElement("tooltip");
+	imageTooltip.setAttribute("id",imageURL);
+	imageTooltip.label = "BAM!";
+//	item.tooltip = imageTooltip;
+	item.setAttribute("tooltip",imageURL);
+	//window.alert(item.tooltip);*/
+
+	highlighter.correctSourcesFromSidebar();
+  },
+
+  findBrokenHighlights: function(){
+  //If highlights are deleted from the Sidebar, they can only be deleted from the current-DOM-tree.
+  //If the highlight was in another tab, it wont be found by the delete-function and will persist highlighted
+  //On changing to this tab, the function will de-highlight it
+
+	var summaryBox = document.getElementById('summaryBox');
+	var belongsTos = new Array();
+	for(i = 0; i < summaryBox.itemCount; i++){
+			belongsTos.push(summaryBox.getItemAtIndex(0).getAttribute("value"));
+	}
+
+	var brokenHighlightCandidates = highlighter.getElementsByAttributeDOM("belongsTo","*");
+	for (i=0;i<brokenHighlightCandidates.length;i++){
+		var selectionBroken = true;
+		var candidate = brokenHighlightCandidates[i];
+		for (j=0;j<belongsTos.length;j++){
+			if (candidate.getAttribute("belongsTo")==belongsTos[j]){
+				selectionBroken = false;
+			}
+		}
+		if (selectionBroken){
+			//window.alert("Selection broken");
+			var node = candidate;
+			//window.alert(node);
+			if(node.nodeType == Node.ELEMENT_NODE && node.hasAttribute("highlighter")) {
+			  var n = node.nextHighlight;
+			  while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
+				while(n.hasChildNodes())n.parentNode.insertBefore(n.firstChild, n);
+				n = n.parentNode.removeChild(n).nextHighlight;
+			  }
+
+			  var record = n;
+			  node.nextHighlight = null;  //break chain so loop can exit
+
+			  n = record.firstNode;
+			  while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
+				while(n.hasChildNodes())n.parentNode.insertBefore(n.firstChild, n);
+				n = n.parentNode.removeChild(n).nextHighlight;
+			  }
+
+			  record.firstNode = null;
+			  record.lastNode.nextHighlight = null;
+			  record.lastNode = null;
+
+			  //everything below modifies unsafe objects on the webpage. Do this last.
+
+			  var hi = node.ownerDocument.defaultView.highlighterInfo;
+			  for(var i=hi.highlights.length-1; i>=0; i--) {
+				if(hi.highlights[i] == record) {
+				  hi.highlights.splice(i, 1);
+				  break;
+				}
+			  }
+			  hi.dirty = true;
+			}
+		}
+	}
+
+  },
+  correctSourcesFromSidebar:function(){
+  //Check the mapping between highlights and selections in the sidebar. Delete  sources if not used anymore
+
+		var urlBox = document.getElementById('urlBox');
+		urlBox.value = "";
+		var summaryBox = document.getElementById('summaryBox');
+		if (summaryBox.itemCount>0){
+			urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
+		}
+		for(i = 1; i < summaryBox.itemCount; i++){
+            var actualSource = summaryBox.getItemAtIndex(i).getAttribute("sourceURL");
+			if (urlBox.value.search(actualSource)!=-1){
+			//the url exists
+			urlBox.value = urlBox.value;
+			}
+			else {
+			//the url doesnt exist
+			urlBox.value = urlBox.value +"\n"+ actualSource;
+			}
+        }
   },
   onMenuItemCommand: function(e) {
     count = count + 1;
@@ -388,11 +635,13 @@ var highlighter = {
     var item = summaryBox.appendItem(itemText,newNodeId);
 	item.setAttribute("tooltiptext",itemText);
 	item.setAttribute("crop","center");
+	var sourceURLValue = top.window.content.document.location;
+	item.setAttribute("sourceURL",sourceURLValue);
 	var listId = "list_"+newNodeId;
 	item.setAttribute("id",listId);
+
+	//window.alert("sourceURL:"+item.getAttribute("sourceURL"));
 	//item.tooltiptext="Test";
-
-
 
 
 	//Another Highlighting engine:
@@ -457,22 +706,25 @@ var highlighter = {
     range.insertNode(newNode);
     */
 
-    if (urlBox.value==""){
+    /*if (urlBox.value==""){
 		//XX1
         //urlBox.value=window.content.document.location;
 		urlBox.value=top.window.content.document.location;
     } else {
 
 		if (urlBox.value.search(top.window.content.document.location)!=-1){
+		//the url exists
 		//XX1
         //urlBox.value = urlBox.value +"\n"+ window.content.document.location;
-		urlBox.value = urlBox.value +"\n"+ top.window.content.document.location;
+		urlBox.value = urlBox.value;
         }
 		else {
-        urlBox.value = urlBox.value;
+		//the url doesnt exist
+		urlBox.value = urlBox.value +"\n"+ top.window.content.document.location;
      }
 
-	}
+	}*/
+	this.correctSources();
 
 
 },
@@ -480,11 +732,24 @@ highlightDoc: function() {
 
 	//XX1
     var node = document.popupNode;
-    var win = node.ownerDocument.defaultView;
+	if (node == null){
+		var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+		var browser = mainWindow.gBrowser;
+		win = browser.contentWindow;
+		//window.alert(win.getSelection());
+		//window.alert(win.getSelection());
+		/*win = top.window.document;
+		window.alert(win.getSelection());
+		win = mainWindow;
+		window.alert(win.getSelection());*/
+	} else {
+		var win = node.ownerDocument.defaultView;
+	}
     var sel = win.getSelection();
 
     var fgcolor = "black";
     var bgcolor = "yellow";
+	//window.alert(sel);
 
     //if exist highlight and no selections then change current highlight colour
     //if((sel.rangeCount == 0 || sel.getRangeAt(0).collapsed)
@@ -501,9 +766,11 @@ highlightDoc: function() {
   highlightRange: function(win, fgcolor, bgcolor) {
     const record = {offsetY:Number.NaN, firstNode:null, lastNode:null};
 
-    const wrap = win.document.createElement("SPAN");
+    const wrap = win.document.createElement("span");
     wrap.setAttribute("highlighter", bgcolor);
 	var belongsToValue = "selection_"+count;
+	var sourceURLValue = top.window.content.document.location;
+//	wrap.setAttribute("sourceURL",sourceURLValue);
 	wrap.setAttribute("belongsTo",belongsToValue)
     //wrap.style.color = fgcolor;
     wrap.style.backgroundColor = bgcolor;
@@ -515,7 +782,11 @@ highlightDoc: function() {
       if(record.lastNode)record.lastNode.nextHighlight = e;
       record.lastNode = e;
 
-      var posTop = win.document.getBoxObjectFor(n.parentNode).y;
+	  //XXX getBoxObjectFor(node)
+	  var boxObject = n.parentNode.getBoundingClientRect();
+
+	  var posTop = boxObject.top;
+      //var posTop = win.document.getBoxObjectFor(n.parentNode).y;
       var pageTop = parseInt(win.pageYOffset);
       if(!posTop || posTop < pageTop) {
         record.offsetY = pageTop;
@@ -659,6 +930,9 @@ highlightDoc: function() {
   },
   saveELO: function(){
 
+		//the highlighter-strings from the stringbundle
+		this.strings = top.window.document.getElementById("highlighter-strings");
+
 		//XXX
 		//var mainWindow = window.QueryInterface(Components.interfaces.nnsIInterfaces)...
 		var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
@@ -676,7 +950,10 @@ highlightDoc: function() {
 		var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
         var address = prefs.getCharPref("address");
         if (username=="username" && password=="password"){
-            window.alert("Please set up your Login-Data at the Preferences!");
+			window.alert(top.window.document.getElementById("highlighter-strings").getString("setUpLoginData"));
+
+			var windowObjectReference = window.open("chrome://highlighter/content/options.xul", "Options", "chrome");
+			windowObjectReference.focus();
         }   else {
 
         //make the XMLHttpRequest (POST)!!!
@@ -801,8 +1078,7 @@ highlightDoc: function() {
 		params.title = titleBox.value;
         var jsonParams = JSON.stringify(params);
 
-		//the highlighter-strings from the stringbundle
-		this.strings = top.window.document.getElementById("highlighter-strings");
+
 
         req.onreadystatechange = function (aEvt) {
 		try{
@@ -811,6 +1087,7 @@ highlightDoc: function() {
 				//var responseText = req.responseText;
 				//var alertString = this.strings.getString(responseText);
                 //window.alert(alertString);
+				updating = true;
 				window.alert(top.window.document.getElementById("highlighter-strings").getString(req.responseText));
                }
             else {
@@ -1020,7 +1297,10 @@ highlightDoc: function() {
     var node = document.popupNode;
     if(node.nodeType == Node.ELEMENT_NODE && node.hasAttribute("highlighter")) {
 		var selectionId = "list_"+node.getAttribute("belongsTo");
+
+		//node.setAttribute("sourceURL","<<!!null!!>>");
 		var listItem =  document.getElementById("sidebar").contentDocument.getElementById(selectionId);
+		//item.setAttribute("sourceURL","<<!!null!!>>");
 		var summaryBox = document.getElementById("sidebar").contentDocument.getElementById("summaryBox");
 		summaryBox.removeItemAt(summaryBox.getIndexOfItem(listItem));
       var n = node.nextHighlight;
@@ -1053,6 +1333,7 @@ highlightDoc: function() {
       }
       hi.dirty = true;
     }
+	this.correctSources();
   },
 
   undo: function(){
@@ -1096,7 +1377,14 @@ highlightDoc: function() {
         var bullets = "";
 		//window.alert("summaryBox.value==null");
 		for(i = 0; i < summaryBox.itemCount; i++){
-			bullets = bullets + "<li>"+summaryBox.getItemAtIndex(i).label;
+			var summaryItem = summaryBox.getItemAtIndex(i);
+			if (summaryItem.getAttribute("itemType")=="image-link"){
+				var imageTag = "<img src=\""+summaryItem.label+"\">";
+				bullets = bullets + "<li> <br>"+imageTag;
+			}else {
+				bullets = bullets + "<li>"+summaryItem.label;
+			}
+
 		}
         summaryHTML = summaryHTML +"<h2>"+ this.strings.getString("summary") +"</h2>"+ "<ul>" + bullets + "</ul>";
 
@@ -1129,6 +1417,9 @@ highlightDoc: function() {
 	//opens a new Browser-Window without Navigation and sets the preview to the documents content
     myWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=520');
     myWindow.document.body.innerHTML = summary;
+  },
+  onAfterUnload:function(e){
+	window.alert("AfterUnload called");
   }
 };
 var dehighlighter = {
@@ -1162,6 +1453,15 @@ var dehighlighter = {
 
 };
 //Components.utils.import("resource://highlighter/highlights.jsm");
+//General eventlistener
 window.addEventListener("beforeunload", function(e) { highlighter.onBeforeUnload(e); }, false);
+window.addEventListener("afterunload", function(e) { highlighter.onAfterUnload(e); }, false);
 window.addEventListener("unload", function(e) { highlighter.onUnload(e); }, false);
 window.addEventListener("load", function(e) { highlighter.onLoad(e); }, false);
+
+//Adding listener for Tab-events
+var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+var container = mainWindow.gBrowser.tabContainer;
+container.onselect = highlighter.findBrokenHighlights;
+
+
