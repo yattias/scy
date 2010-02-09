@@ -23,11 +23,11 @@ public class SQLSpacesComponent implements IExternalComponent {
         sqlsConf.setLogLevel(Level.INFO);
         sqlsConf.setDbType(Configuration.Database.MYSQL);
         sqlsConf.setSSLEnabled(false);
-        sqlsConf.setMysqlHost("localhost");
+        sqlsConf.setMysqlHost(scyConf.getSQLSpacesServerHost());
         sqlsConf.setMysqlPort(3306);
         sqlsConf.setMysqlSchema("sqlspaces");
-        sqlsConf.setDbUser("sqlspaces");
-        sqlsConf.setDbPassword("sqlspaces");
+        sqlsConf.setDbUser(scyConf.get("sqlspaces.db.user"));
+        sqlsConf.setDbPassword(scyConf.get("sqlspaces.db.password"));
         sqlsConf.setWebEnabled(false);
         sqlsConf.setWebServicesEnabled(false);
         sqlsConf.setOpenFireHost(scyConf.getOpenFireHost());
