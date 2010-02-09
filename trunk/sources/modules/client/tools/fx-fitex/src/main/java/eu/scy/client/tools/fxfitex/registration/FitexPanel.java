@@ -34,6 +34,8 @@ import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import java.io.File;
 //import eu.scy.toolbroker.ToolBrokerImpl;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import org.springframework.util.StringUtils;
 
@@ -62,12 +64,14 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     private String session_name = "sessionName";
     private IActionLogger actionLogger;
     private IDataSyncService datasync;
+    private final Logger debugLogger;
 
     /* Constructor data ToolImpl panel - blank */
     public FitexPanel() {
         super();
+        debugLogger = Logger.getLogger(FitexPanel.class.getName());
         this.setLayout(new BorderLayout());
-        initTBI();
+        //initTBI();
         //initActionLogger();
         initDataProcessTool();
         load();
@@ -77,10 +81,14 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         this.tbi = tbi;
     }
 
-    /* tbi initialization*/
+    public void setSession(ISyncSession session) {
+        this.session = session;
+    }
+
+    /* tbi initialization
     private void initTBI(){
         //tbi=  new ToolBrokerImpl(username, password);
-    }
+    }*/
     /* initialization action logger */
     public void initActionLogger(){
         if(tbi != null){
@@ -92,20 +100,20 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         }
     }
 
-    private void initCollaborationService() {
+    /*private void initCollaborationService() {
         datasync = tbi.getDataSyncService();
-    }
+    }*/
 
-    public void joinSession(String mucID){
-        initCollaborationService();
+    /*public void joinSession(String mucID){
+        //initCollaborationService();
         session = datasync.joinSession(mucID, this);
         if(session == null){
             JOptionPane.showMessageDialog(null, "join session error, null");
         }else
             readAllSyncObjects();
-    }
+    }*/
 
-    private void readAllSyncObjects(){
+    public void readAllSyncObjects(){
         List<ISyncObject> syncObjects = session.getAllSyncObjects();
         // find the header first
         for (ISyncObject syncObject : syncObjects) {
@@ -122,11 +130,13 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void readSyncObject(ISyncObject syncObject){
+        debugLogger.log(Level.SEVERE, "readSyncObject...");
         if(syncObject.getToolname() != null && syncObject.getToolname().equals(SIMULATOR_NAME)){
             if(syncObject.getProperties() != null) {
                 String type = syncObject.getProperty(SYNC_OBJECT_TYPE);
                 if(type != null){
                     if(type.equals(TYPE_DATASET_HEADER)){
+                        debugLogger.log(Level.SEVERE, "...of type header");
                         String dataheader = syncObject.getProperty(TYPE_DATASET_HEADER);
                         if(dataheader != null){
                             try{
@@ -138,6 +148,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
                             }
                         }
                     }else if (type.equals(TYPE_DATASET_ROW)){
+                        debugLogger.log(Level.SEVERE, "...of type row");
                         String datarow = syncObject.getProperty(TYPE_DATASET_ROW);
                         if(datarow != null){
                             try{
@@ -249,12 +260,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         //
     }
 
-    public void synchronizeTool(){
+    /*public void synchronizeTool(){
         String mucID = JOptionPane.showInputDialog("Enter session ID:", "");
         if (StringUtils.hasText(mucID)){
             joinSession(mucID);
         }
-    }
+    }*/
 
     public DataSet importCsvFile() {
         JFileChooser aFileChooser = new JFileChooser();
