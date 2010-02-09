@@ -3,9 +3,17 @@
 <!DOCTYPE page SYSTEM "chrome://highlighter/locale/highlighter.dtd">
 <page id="sbSidebar" title="&sidebar.title;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <script src="sidebar.js"/>
+
   <vbox id="sidebarvbox">
-    <!--<groupbox>
-      <caption id="testcaption" label="Summary"/>-->
+
+	<!-- Toolbar -->
+	<toolbox>
+	  <toolbar id="scy-toolbar">
+		<toolbarbutton id="scy-users"  accesskey="U" label="Users"/>
+		<toolbarbutton id="scy-groups" accesskey="p" label="Groups"/>
+		<toolbarbutton id="scy-events" accesskey="E" label="Events" disabled="true"/>
+	  </toolbar>
+	</toolbox>
 
       <!--Title-->
       <label id="titleLabel" value="&highlighter.title;"/>
@@ -13,14 +21,12 @@
 
       <!--Selection-->
       <label id="selectionLabel" value="&highlighter.selection;"/>
-      <!--<textbox id="summaryBox" multiline="true" value="Add content by highlighting text" rows ="10" />-->
-      <listbox id="summaryBox" rows ="10" flex="0">
+      <listbox id="summaryBox" rows ="10" flex="0" seltype="multiple">
 
       </listbox>
 
       <!--Delete-Button-->
       <button label="&highlighter.deleteSelected;" oncommand="highlighter.deleteSelection();"/>
-
 
       <!--Comments-->
       <label id="commentsLabel" value="&highlighter.comments;"/>
@@ -28,14 +34,12 @@
 
       <!--Sources-->
       <label control="{buddy control id}" value="&highlighter.sources;"/>
-    <!--<listbox id="urlBox" rows ="6">
 
-       </listbox>-->
       <textbox id="urlBox" multiline="true" value="" rows ="6" readonly="true"/>
-    <!--</groupbox>-->
 
-    <hbox>
-      <button label="&highlighter.openELO;" oncommand="highlighter.openELO();"/>
+	<!--<button label="&highlighter.preview;" oncommand="highlighter.preview();"/>-->
+	<hbox>
+      <!--<button label="&highlighter.openELO;" oncommand="highlighter.openELO();"/>-->
 	  <button label="&highlighter.preview;" oncommand="highlighter.preview();"/>
       <button label="&highlighter.saveELO;" oncommand="highlighter.saveELO();"/>
     </hbox>

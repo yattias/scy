@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
     <artifactId>webbrowsingtool</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3.4</version>
     <packaging>pom</packaging>
-    <name>highlighter</name>
+    <name>SCYLighter</name>
     <build>
         <plugins>
             <plugin>
@@ -46,8 +46,8 @@
                             <tasks>
                                 <mkdir dir="${basedir}/target"/>
                                 <zip update="true" compress="true"
-comment="Highlighter development build"
-destfile="${basedir}/target/highlighter-${project.version}.xpi"
+comment="SCYLighter development build"
+destfile="${basedir}/target/scylighter${project.version}.xpi"
 basedir="${basedir}/src/main/eu/scy/webbrowsingtool" excludes="webbrowsingtool.kpf"/>
                             </tasks>
                         </configuration>
@@ -71,7 +71,7 @@ basedir="${basedir}/src/main/eu/scy/webbrowsingtool" excludes="webbrowsingtool.k
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>target/highlighter-${project.version}.xpi</file>
+                                    <file>target/scylighter${project.version}.xpi</file>
                                     <type>xpi</type>
                                 </artifact>
                             </artifacts>
