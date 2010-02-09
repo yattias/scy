@@ -29,6 +29,11 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.tools.fxsimulator.registration.SimulatorNode;
+import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import javax.swing.JOptionPane;
+import eu.scy.client.common.datasync.ISyncSession;
 
 /**
  * @author Marjolaine
@@ -40,24 +45,59 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    def jdomStringConversion = new JDomStringConversion();
 
    public-init var fitexPanel:FitexPanel;
+   public-init var scyWindow: ScyWindow;
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
    public var toolBrokerAPI: ToolBrokerAPI;
-
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
-
    var wrappedFitexPanel:SwingComponent;
    var technicalFormatKey: IMetadataKey;
-
    var elo:IELO;
-
    def spacing = 5.0;
+   var datasyncsession: ISyncSession = null;
+
+  public override function canAcceptDrop(object: Object): Boolean {
+        if (object instanceof SimulatorNode) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public override function acceptDrop(object: Object) {
+        logger.debug("drop accepted.");
+        var yesNoOptions = ["Yes", "No"];
+        var n = -1;
+        n = JOptionPane.showOptionDialog( null,
+          "Do you want to synchronise\nwith the Simulator?",               // question
+          "Synchronise?",           // title
+          JOptionPane.YES_NO_CANCEL_OPTION,
+          JOptionPane.QUESTION_MESSAGE,  // icon
+          null, yesNoOptions,yesNoOptions[0] );
+       if (n == 0) {
+           initializeDatasync(object as SimulatorNode);
+       }
+
+   }
+
+   public function initializeDatasync(simulator: SimulatorNode): Void {
+        // create new session and join Fitex
+        datasyncsession = toolBrokerAPI.getDataSyncService().createSession(fitexPanel);
+        fitexPanel.setSession(datasyncsession);
+        fitexPanel.readAllSyncObjects();
+        // join simulator
+        simulator.join(datasyncsession.getId());
+   }
 
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       fitexPanel.setTBI(toolBrokerAPI);
+      var syncAttrib = DatasyncAttribute{
+                    dragAndDropManager:scyWindow.dragAndDropManager;
+                    dragObject:this};
+      insert syncAttrib into scyWindow.scyWindowAttributes;
       fitexPanel.initActionLogger();
    }
 
@@ -102,12 +142,12 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                                 doSaveAsElo();
                            }
                         }
-                        Button {
+                        /*Button {
                            text: "Synchronize"
                            action: function() {
                               doSynchronizeTool();
                            }
-                        }
+                        }*/
                      ]
                   }
                   wrappedFitexPanel
@@ -153,11 +193,11 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         this.elo = elo;
     }
 
-   function doSynchronizeTool(){
+   /*function doSynchronizeTool(){
        // get the mucID to join simulator session
        logger.info("Sync. Data Fitex");
        fitexPanel.synchronizeTool();
-   }
+   }*/
 
    function doMergeDataset(){
        logger.info("Merge Fitex dataset");
@@ -167,9 +207,6 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    function doImportCSVFile(){
        fitexPanel.importCsvFile();
    }
-
-
-
 
    function resizeContent(){
       var size = new Dimension(width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
