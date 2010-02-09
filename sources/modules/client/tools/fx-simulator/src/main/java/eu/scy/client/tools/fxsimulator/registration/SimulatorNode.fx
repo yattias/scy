@@ -93,6 +93,10 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
        dataCollector.join(mucID);
    }
 
+   public function leave() {
+       dataCollector.leave();
+   }
+
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
     }
@@ -259,7 +263,6 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         if (eloDataset == null) {
             eloDataset = eloFactory.createELO();
             eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
-            //dataCollector.getTextArea().append("OOO {eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue()}\n");
         }
         eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
         return eloDataset;
@@ -283,7 +286,6 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         // setSize is not visual needed
         // but set it, so the component react to it
         simquestPanel.setSize(size);
-//      println("resized whiteboardPanel to ({width},{height})");
     }
 
     public override function getPrefHeight(width: Number): Number {
