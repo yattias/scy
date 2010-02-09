@@ -145,7 +145,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        checkbox = new JCheckBox("add datapoints/ncontinuosly");
+        checkbox = new JCheckBox("add datapoints continuosly");
         checkbox.setSelected(false);
         buttonPanel.add(checkbox);
         // URL imageUrl = this.getClass().getResource("pc.gif");
