@@ -82,6 +82,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     public void setSession(ISyncSession session) {
+        if(this.session != null)
+            session.removeSyncListener(this);
         this.session = session;
     }
 
