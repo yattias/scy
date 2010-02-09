@@ -30,10 +30,10 @@ import javafx.scene.paint.Color;
 import java.net.URI;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
-import roolo.elo.api.IELO;
 import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
+import roolo.api.search.AndQuery;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorRegistryFXImpl;
@@ -199,21 +199,18 @@ public class ScyDesktopCreator {
 
    function retrieveStoredMissionModel():MissionModelFX{
       var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(),BasicSearchOperations.EQUALS,MissionModelFX.eloType,null);
-      var results = config.getRepository().search(typeQuery);
+      var titleQuery = new BasicMetadataQuery(config.getTitleKey(),BasicSearchOperations.EQUALS,userName,null);
+      var andQuery = new AndQuery(typeQuery,titleQuery);
+      var results = config.getRepository().search(andQuery);
       logger.info("Nr of elos found: {results.size()}");
-      if (results!=null and results.size()>0){
-         for (result in results){
-            var searchResult = result as ISearchResult;
-            var resultMetadata = config.getRepository().retrieveMetadata(searchResult.getUri());
-            var resultTitle = resultMetadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
-            if (userName.equalsIgnoreCase(resultTitle)){
-               var missionModelElo = config.getRepository().retrieveELO(searchResult.getUri());
-               var missionModel = MissionModelXml.convertToMissionModel(missionModelElo.getContent().getXmlString());
-               addEloStatusInformationToMissionModel(missionModel);
-               missionModel.elo = missionModelElo;
-               return missionModel;
-            }
-         }
+      if (results.size() == 1) {
+         var searchResult = results.get(0) as ISearchResult;
+
+         var missionModelElo = config.getRepository().retrieveELO(searchResult.getUri());
+         var missionModel = MissionModelXml.convertToMissionModel(missionModelElo.getContent().getXmlString());
+         addEloStatusInformationToMissionModel(missionModel);
+         missionModel.elo = missionModelElo;
+         return missionModel;
       }
       return null;
    }
