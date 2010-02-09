@@ -36,6 +36,7 @@ public class SQLSpacesComponent implements IExternalComponent {
         sqlsConf.setXMPPServiceName("sqlspaces");
         sqlsConf.setXMPPServiceSecret("sqlspaces");
         Level level = Logger.getLogger("").getLevel();
+        log.info("USING: " + sqlsConf.getDbUser() + " " + sqlsConf.getDbPassword() + " " + sqlsConf.getMysqlHost() + " " +sqlsConf.getDbType());
         Server.startServer();
         Logger.getLogger("").setLevel(level);
     }
