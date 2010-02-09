@@ -120,6 +120,10 @@ public class Configuration {
 		return props.getProperty("sqlspaces.server.host");
 	}
 
+    public String getSQLSpacesDBHost() {
+        return props.getProperty("sqlspaces.db.mysql.host")
+    }
+
     // ### SAIL
     public String getSailDBHost() {
         return props.getProperty("sail.db.host");
