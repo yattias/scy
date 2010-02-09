@@ -9,22 +9,21 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.io.IOException;
 
-import org.jdesktop.swingx.JXPanel;
-
 import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.tools.planning.StudentPlanningToolMain;
+import eu.scy.core.model.student.StudentPlannedActivity;
+import eu.scy.tools.planning.StudentPlanningTool;
 
 public class JXDropTaskPaneTargetListener implements DropTargetListener {
 	
-	private StudentPlanningToolMain spt;
+	private StudentPlanningTool spt;
 
 	public JXDropTaskPaneTargetListener(
-			StudentPlanningToolMain studentPlanningToolMain) {
+			StudentPlanningTool studentPlanningToolMain) {
 		this.spt = studentPlanningToolMain;
 	}
 
@@ -104,8 +103,10 @@ public class JXDropTaskPaneTargetListener implements DropTargetListener {
 		        lastSpace.setName("Evaluation");
 		        conceptMap.setInputTo(lastSpace);
 
+		      
+		        //StudentPlannedActivity spa = new 
 		        
-				spt.addTaskContainer(spt.createLASPanel(planning));
+				//spt.addTaskContainer(spt.createAnchorELOPanel(firstActivity));
 				return true;
 			}
 			
