@@ -59,7 +59,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
                 for (int j = 0; j < activities.size(); j++) {
                     StudentPlannedActivity studentPlannedActivity = activities.get(j);
                     studentPlannedActivity.getNote();
-                    studentPlannedActivity.setNote("This is a freakin note!");
+                    studentPlannedActivity.setNote("Henrik is totally cool!!");
                     getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
                     log.info("SPA:" + studentPlannedActivity.getName());
                     AnchorELO elo = studentPlannedActivity.getAssoicatedELO();

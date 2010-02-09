@@ -45,4 +45,8 @@ public interface StudentUserDetails extends UserDetails{
     Date getSignupdate();
 
     void setSignupdate(Date signupdate);
+
+    String getProfilePictureUrl();
+
+    void setProfilePictureUrl(String profilePictureUrl);
 }

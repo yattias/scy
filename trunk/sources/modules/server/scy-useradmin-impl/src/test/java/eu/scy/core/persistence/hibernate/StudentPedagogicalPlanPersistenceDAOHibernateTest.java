@@ -44,7 +44,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernateTest extends AbstractP
         PedagogicalPlanTemplate template = createPedagogicalPlanTemplate("The coolest template ever");
         PedagogicalPlan pedagogicalPlan = createPedagogicalPlan(template);
 
-        User student = getUserDAOHibernate().createUser("Hilly", "damageINC", "ROLE_ADMINISTRATOR");
+        User student = getUserDAOHibernate().createUser("Hilly", "damageINC", "ROLE_TEACHER");
         assertNotNull(student);
         assertNotNull(student.getId());
 
