@@ -26,7 +26,7 @@ import eu.scy.chat.controller.ChatController;
 public class ChatPresencePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(ChatPresencePanel.class.getName());
+    //private static final Logger logger = Logger.getLogger(ChatPresencePanel.class.getName());
 
     protected JList buddyList;
     static ChatPresencePanel cmp;
@@ -39,10 +39,10 @@ public class ChatPresencePanel extends JPanel {
     public ChatPresencePanel(ChatController mucChatController) {
         this.chatController = mucChatController;
         //updateModel();
-        if (logger != null) {
-            logger.debug("ChatPresencePanel: starting ... ");
-            logger.debug("ChatPresencePanel: awareness: awarenessService.isConnected(): " + this.chatController.getAwarenessService().isConnected());
-        }
+//        if (logger != null) {
+//            logger.debug("ChatPresencePanel: starting ... ");
+//            logger.debug("ChatPresencePanel: awareness: awarenessService.isConnected(): " + this.chatController.getAwarenessService().isConnected());
+//        }
 
         initGUI();
 
