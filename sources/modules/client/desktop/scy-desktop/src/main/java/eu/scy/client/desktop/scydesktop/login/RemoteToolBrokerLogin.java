@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.login;
 
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.toolbrokerapi.LoginFailedException;
 import org.apache.log4j.Logger;
 
 /**
@@ -31,16 +32,16 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin {
    @Override
    public ToolBrokerAPI login(String userName, String password) throws LoginFailedException
    {
-      try{
+//      try{
          if (springConfigFile!=null && springConfigFile.length()>0){
             return new ToolBrokerImpl(userName,password,springConfigFile);
          }
          return new ToolBrokerImpl(userName,password);
-      }
-      catch (Exception e){
-         logger.error("error during remote login",e);
-         throw new LoginFailedException("exception: " + e.getMessage());
-      }
+//      }
+//      catch (Exception e){
+//         logger.error("error during remote login",e);
+//         throw new LoginFailedException("exception: " + e.getMessage());
+//      }
    }
 
 }

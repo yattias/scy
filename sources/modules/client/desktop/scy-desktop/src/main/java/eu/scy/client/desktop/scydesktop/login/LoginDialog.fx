@@ -22,6 +22,7 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.animation.Interpolator;
 import javafx.scene.shape.Rectangle;
+import eu.scy.toolbrokerapi.LoginFailedException;
 
 /**
  * @author sikken
@@ -111,6 +112,7 @@ public class LoginDialog extends CustomNode {
          showLoginResult(toolBrokerAPI,userName);
          //placeScyDescktop(toolBrokerAPI, userName);
       } catch (e: LoginFailedException) {
+         logger.info("failed to login with {e.getUserName()}");
          showLoginResult(null,userName);
       }
    }
