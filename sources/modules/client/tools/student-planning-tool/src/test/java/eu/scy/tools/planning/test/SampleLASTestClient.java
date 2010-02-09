@@ -2,7 +2,8 @@ package eu.scy.tools.planning.test;
 
 import javax.swing.SwingUtilities;
 
-import eu.scy.tools.planning.StudentPlanningToolMain;
+import eu.scy.tools.planning.StudentPlanningTool;
+import eu.scy.tools.planning.controller.StudentPlanningController;
 
 
 public class SampleLASTestClient {
@@ -11,7 +12,10 @@ public class SampleLASTestClient {
 	public static void main(String[] args) {
 	  SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
-	      StudentPlanningToolMain studentPlanningToolMain = new StudentPlanningToolMain();
+	    	
+	    	
+	      StudentPlanningController spc = new StudentPlanningController(null);
+	      StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
 	      studentPlanningToolMain.launchInFrame();
 	    }
 	  });
