@@ -14,6 +14,8 @@ import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -24,15 +26,25 @@ public class DatasetSandbox implements ISyncListener {
     private DataCollector datacollector;
     private String TOOL_NAME = "scysimulator";
     private String USER_NAME = "scysimulator-user";
-    private IDataSyncService datasync;
+    //private IDataSyncService datasync;
     private ISyncSession currentSession = null;
     private XMPPConnection conn;
     private ToolBrokerAPI tbi;
+    private final Logger debugLogger;
 
-    DatasetSandbox(DataCollector datacollector, ToolBrokerAPI tbi) throws CollaborationServiceException {
+    /*public DatasetSandbox(DataCollector datacollector, ToolBrokerAPI tbi) throws CollaborationServiceException {
         this.datacollector = datacollector;
         this.tbi = tbi;
         initCollaborationService();
+    }*/
+
+    public DatasetSandbox(DataCollector datacollector, String mucID, ToolBrokerAPI tbi) {
+        debugLogger = Logger.getLogger(DataCollector.class.getName());
+        this.datacollector = datacollector;
+        this.tbi = tbi;
+        currentSession = tbi.getDataSyncService().joinSession(mucID, this);
+        sendHeaderMessage();
+        sendDataRows();
     }
 
     public void clear() {
@@ -41,16 +53,16 @@ public class DatasetSandbox implements ISyncListener {
         }
     }
 
-    private void initCollaborationService() throws CollaborationServiceException {
+    /*private void initCollaborationService() throws CollaborationServiceException {
         datasync = tbi.getDataSyncService();
-    }
+    }*/
 
     public void disconnect() {
         currentSession.removeSyncListener(this);
         conn.disconnect();
     }
 
-    public ISyncSession createSession() {
+    /*public ISyncSession createSession() {
         try {
             currentSession = datasync.createSession(this);
         } catch (Exception e) {
@@ -59,7 +71,7 @@ public class DatasetSandbox implements ISyncListener {
         sendHeaderMessage();
         sendDataRows();
         return currentSession;
-    }
+    }*/
 
     private void sendDataRows() {
         DataSetRow row;
@@ -75,7 +87,9 @@ public class DatasetSandbox implements ISyncListener {
         syncObject.setToolname(this.TOOL_NAME);
         syncObject.setProperty("type", "datasetrow");
         syncObject.setProperty("datasetrow", new JDomStringConversion().xmlToString(row.toXML()));
+        //debugLogger.log(Level.SEVERE, "sending row ("+row.getValues()+") ...");
         currentSession.addSyncObject(syncObject);
+        //debugLogger.log(Level.SEVERE, "...done.");
     }
 
     public void sendHeaderMessage() {
@@ -84,7 +98,9 @@ public class DatasetSandbox implements ISyncListener {
         syncObject.setToolname(this.TOOL_NAME);
         syncObject.setProperty("type", "datasetheader");
         syncObject.setProperty("datasetheader", new JDomStringConversion().xmlToString(datacollector.getDataSet().getHeader(Locale.ENGLISH).toXML()));
+        //debugLogger.log(Level.SEVERE, "sending header ("+datacollector.getDataSet().getHeader(Locale.ENGLISH).toString()+") ...");
         currentSession.addSyncObject(syncObject);
+        //debugLogger.log(Level.SEVERE, "...done.");
     }
 
     /*

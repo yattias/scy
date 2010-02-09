@@ -226,7 +226,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         //table.repaint();
         pane.setViewportView(table);
         logger.logAddRow(newRow);
-        if (sandboxbutton.isSelected()) {
+        if (sandbox != null) {
             sandbox.sendDataSetRow(newRow);
         }
     }
@@ -238,7 +238,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         } else if (evt.getActionCommand().equals("configure")) {
             VariableSelectionDialog dialog = new VariableSelectionDialog(simquestViewer.getMainFrame(), this);
             dialog.setVisible(true);
-        } else if (evt.getActionCommand().equals("sandbox")) {
+        /*} else if (evt.getActionCommand().equals("sandbox")) {
             if (sandboxbutton.isSelected()) {
                 initSandbox();
             } else {
@@ -246,7 +246,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 // sandbox.clear();
                 sandbox = null;
                 //text.append("sandbox and session disconnected.\n");
-            }
+            }*/
         } else if (evt.getActionCommand().equals("notification")) {
             notify = false;
             int highlight = -1;
@@ -309,13 +309,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     }
 
-    public void newELO() {
+    /*public void newELO() {
         dataset.removeAll();
         if (sandbox != null) {
             initSandbox();
         }
         //text.setText("");
-    }
+    }*/
 
     public DataSet getDataSet() {
         return dataset;
@@ -420,7 +420,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         return modelVar;
     }
 
-    private void initSandbox() {
+    /*private void initSandbox() {
         try { // init the sandbox
             if (tbi == null || tbi.getDataSyncService() == null) {
                 throw new CollaborationServiceException("no datasyncservice available");
@@ -436,6 +436,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             sandboxbutton.setSelected(false);
             JOptionPane.showMessageDialog(this, "A synchronised session could not be created.\nIs a DataSyncService really available?", "Session not created", JOptionPane.WARNING_MESSAGE);
         }
+    }*/
+
+    public void join(String mucID) {
+        sandbox = new DatasetSandbox(this, mucID, tbi);
     }
 
     @Override
