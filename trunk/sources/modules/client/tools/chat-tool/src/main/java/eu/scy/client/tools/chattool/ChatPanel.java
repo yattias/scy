@@ -25,7 +25,7 @@ import eu.scy.chat.controller.ChatController;
 public class ChatPanel extends JXTitledPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(ChatPanel.class.getName());
+	//private static final Logger logger = Logger.getLogger(ChatPanel.class.getName());
 
 	private JTextArea chatArea = new JTextArea();
 	private JTextField sendMessageTextField = new JTextField();
