@@ -5,7 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.dummy;
 
-import eu.scy.client.desktop.scydesktop.login.LoginFailedException;
+import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.client.desktop.scydesktop.login.LoginValidator;
 
 /**

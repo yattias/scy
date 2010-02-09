@@ -5,6 +5,8 @@
 
 package eu.scy.client.desktop.scydesktop.login;
 
+import eu.scy.toolbrokerapi.LoginFailedException;
+
 /**
  *
  * @author sikken
