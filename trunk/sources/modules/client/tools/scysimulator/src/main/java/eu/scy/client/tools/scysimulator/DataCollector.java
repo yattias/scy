@@ -66,8 +66,6 @@ import javax.swing.JTable;
  * 
  */
 public class DataCollector extends JPanel implements ActionListener, IDataClient, WindowListener {
-    private JScrollPane pane;
-    private JTable table;
 
     public enum SCAFFOLD {
         VOTAT,
@@ -77,47 +75,27 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         IDENT_HYPO,
         SHOWBUTTON;
     }
-
+    
+    private JScrollPane pane;
+    private JTable table;
     private ISimQuestViewer simquestViewer;
-
-    //private JTextArea text = new JTextArea(5, 20);
-
     private SCYDataAgent dataAgent;
-
     private List<ModelVariable> simulationVariables;
-
     private List<ModelVariable> selectedVariables;
-
     private JCheckBox checkbox;
-
     private DataSet dataset;
-
     private DatasetTableModel tableModel;
-
-    private JToggleButton sandboxbutton;
-
     private DatasetSandbox sandbox = null;
-
     private BalanceSlider balanceSlider;
-
     private ScySimLogger logger;
-
     private Logger debugLogger;
-
     private ToolBrokerAPI tbi;
-
     private JButton notifyButton;
-
     private String notificationMessage;
-
     private Thread notifyThread;
-
     protected boolean notify;
-
     private boolean notThreadRunning = false;
-
     private Vector<String> shownMessages;
-
     private String notificationSender;
 
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi) {
@@ -167,13 +145,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        sandboxbutton = new JToggleButton("synchronise");
-        sandboxbutton.setSelected(false);
-        sandboxbutton.setActionCommand("sandbox");
-        sandboxbutton.addActionListener(this);
-        buttonPanel.add(sandboxbutton);
-
-        checkbox = new JCheckBox("add datapoints continuosly");
+        checkbox = new JCheckBox("add datapoints/ncontinuosly");
         checkbox.setSelected(false);
         buttonPanel.add(checkbox);
         // URL imageUrl = this.getClass().getResource("pc.gif");
@@ -193,7 +165,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
         tableModel = new DatasetTableModel(getSelectedVariables());
         table = new JTable(tableModel);
-        //table.setSize(550, 200);
 	table.setFillsViewportHeight(true);
         pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pane.setSize(550, 140);
@@ -217,13 +188,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
             var = vars.next();
             values.add(var.getValueString());
-            //text.append(var.getExternalName() + ":" + var.getValueString() + " / ");
         }
-        //text.append("\n");
         DataSetRow newRow = new DataSetRow(values);
         dataset.addRow(newRow);
         tableModel.addRow(newRow);
-        //table.repaint();
         pane.setViewportView(table);
         logger.logAddRow(newRow);
         if (sandbox != null) {
@@ -238,15 +206,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         } else if (evt.getActionCommand().equals("configure")) {
             VariableSelectionDialog dialog = new VariableSelectionDialog(simquestViewer.getMainFrame(), this);
             dialog.setVisible(true);
-        /*} else if (evt.getActionCommand().equals("sandbox")) {
-            if (sandboxbutton.isSelected()) {
-                initSandbox();
-            } else {
-                sandbox.disconnect();
-                // sandbox.clear();
-                sandbox = null;
-                //text.append("sandbox and session disconnected.\n");
-            }*/
         } else if (evt.getActionCommand().equals("notification")) {
             notify = false;
             int highlight = -1;
@@ -390,16 +349,11 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         table.setFillsViewportHeight(true);
         if (pane != null) {
             pane.setViewportView(table);
-            //pane.repaint();
-            //table.repaint();
         }
         if (sandbox != null) {
             sandbox.clear();
             sandbox.sendHeaderMessage();
         }
-        //if (text != null) {
-        //    text.setText("");
-        //}
     }
 
     public void setSelectedVariables(List<ModelVariable> selection) {
@@ -420,38 +374,23 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         return modelVar;
     }
 
-    /*private void initSandbox() {
-        try { // init the sandbox
-            if (tbi == null || tbi.getDataSyncService() == null) {
-                throw new CollaborationServiceException("no datasyncservice available");
-            }
-            sandbox = new DatasetSandbox(this, tbi);
-            //text.append("sandbox initialised.\n");
-            ISyncSession session = sandbox.createSession();
-            //text.append("session created: " + session.getId() + "\n");
-            JOptionPane.showMessageDialog(this, "A sychronised session has been created; use the identifier\n in the text box below to join this session", "Session created", JOptionPane.INFORMATION_MESSAGE);
-        } catch (CollaborationServiceException ex) {
-            //text.append("could not initialise sandbox.\n");
-            //text.append(ex.getMessage() + "\n");
-            sandboxbutton.setSelected(false);
-            JOptionPane.showMessageDialog(this, "A synchronised session could not be created.\nIs a DataSyncService really available?", "Session not created", JOptionPane.WARNING_MESSAGE);
-        }
-    }*/
-
     public void join(String mucID) {
         sandbox = new DatasetSandbox(this, mucID, tbi);
+    }
+
+    public void leave() {
+        sandbox.disconnect();
+        sandbox = null;
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
         logger.focusGained();
-
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
         logger.toolStopped();
-
     }
 
     @Override
@@ -462,7 +401,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     @Override
     public void windowDeactivated(WindowEvent e) {
         logger.focusLost();
-
     }
 
     @Override
@@ -473,7 +411,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     @Override
     public void windowOpened(WindowEvent e) {
     // TODO Auto-generated method stub
-
     }
 
     public ScySimLogger getLogger() {
@@ -483,7 +420,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     @Override
     public void windowIconified(WindowEvent e) {
     // logger.focusLost();
-
     }
 
     private void setFontStyle(JLabel label, int size, int style) {
@@ -585,9 +521,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     notificationMessage = props.get("level");
                 }
             }
-
         }
-
     }
 
     private void startNotifyThread() {
