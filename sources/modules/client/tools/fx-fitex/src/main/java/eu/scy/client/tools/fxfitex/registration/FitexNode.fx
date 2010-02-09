@@ -88,7 +88,7 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         fitexPanel.setSession(datasyncsession);
         fitexPanel.readAllSyncObjects();
         // join simulator
-        //simulator.join(datasyncsession.getId());
+        simulator.join(datasyncsession.getId());
    }
 
    public override function initialize(windowContent: Boolean):Void{
