@@ -35,6 +35,9 @@ import javax.swing.JLabel;
 import eu.scy.notification.api.INotifiable;
 import java.lang.UnsupportedOperationException;
 import eu.scy.notification.api.INotification;
+import eu.scy.client.tools.fxfitex.registration.FitexNode;
+import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
+import javax.swing.JOptionPane;
 
 public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -62,6 +65,33 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     var dataCollector: DataCollector;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
+
+    public override function canAcceptDrop(object: Object): Boolean {
+        if (object instanceof FitexNode) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public override function acceptDrop(object: Object) {
+        logger.debug("drop accepted.");
+        var yesNoOptions = ["Yes", "No"];
+        var n = -1;
+        n = JOptionPane.showOptionDialog( null,
+          "Do you want to synchronise\nwith the Dataprocessing tool?",               // question
+          "Synchronise?",           // title
+          JOptionPane.YES_NO_CANCEL_OPTION,
+          JOptionPane.QUESTION_MESSAGE,  // icon
+          null, yesNoOptions,yesNoOptions[0] );
+        if (n == 0) {
+            (object as FitexNode).initializeDatasync(this);
+        }
+   }
+
+   public function join(mucID: String) {
+       dataCollector.join(mucID);
+   }
 
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -184,6 +214,10 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             }
             fixedDimension.height = fixedDimension.height + 240;
             scyWindow.open();
+            var syncAttrib = DatasyncAttribute{
+                    dragAndDropManager:scyWindow.dragAndDropManager;
+                    dragObject:this};
+            insert syncAttrib into scyWindow.scyWindowAttributes;
         } catch (e: java
             .lang.Exception) {
                         logger.info("SimQuestNode.createSimQuestNode(). exception caught: {e.getMessage()}");
