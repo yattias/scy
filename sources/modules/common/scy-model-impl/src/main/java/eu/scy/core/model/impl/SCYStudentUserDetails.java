@@ -27,6 +27,7 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     private String accountQuestion;
     private String accountAnswer;
     private Integer numberOfLogins;
+    private String profilePictureUrl;
 
     @Override
     public String getFirstname() {
@@ -116,5 +117,15 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     @Override
     public void setSignupdate(Date signupdate) {
         this.signupdate = signupdate;
+    }
+
+    @Override
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    @Override
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 }

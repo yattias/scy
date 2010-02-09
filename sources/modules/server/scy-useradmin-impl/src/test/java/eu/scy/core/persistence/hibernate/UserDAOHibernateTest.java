@@ -32,7 +32,7 @@ public class UserDAOHibernateTest extends AbstractDAOTest {
 
     @Test
     public void testCreateUser() {
-        User user = getUserDAO().createUser("Henrik", "Hillary", "ROLE_ADMINISTRATOR");
+        User user = getUserDAO().createUser("Henrik", "Hillary", "ROLE_TEACHER");
         assert(user != null);
         assert(user.getUserDetails() != null);
     }
@@ -41,7 +41,7 @@ public class UserDAOHibernateTest extends AbstractDAOTest {
     public void testLoadUser() {
         final String USER_NAME = "henrikthecoolestmanonearth";
         final String LAST_NAME = "sshhhhh-secret";
-        User u = getUserDAO().createUser(USER_NAME,LAST_NAME, "ROLE_ADMINISTRATOR");
+        User u = getUserDAO().createUser(USER_NAME,LAST_NAME, "ROLE_TEACHER");
 
         User user = getUserDAO().getUserByUsername(USER_NAME);
         assertNotNull(user);

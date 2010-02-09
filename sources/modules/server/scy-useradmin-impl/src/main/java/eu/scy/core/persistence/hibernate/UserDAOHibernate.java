@@ -1,10 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.impl.SCYStudentUserDetails;
-import eu.scy.core.model.impl.SCYUserDetails;
+import eu.scy.core.model.impl.*;
 import eu.scy.core.persistence.UserDAO;
-import eu.scy.core.model.impl.RoleImpl;
-import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.*;
 
 
@@ -43,6 +40,42 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     public User createUser(String username, String password, String role) {
         String suggestedUserName = generateUserNameIfAlreadyExists(username);
         SCYUserImpl newUser = new SCYUserImpl();
+        UserDetails userDetails = null;
+        if(role.equals("ROLE_STUDENT")) {
+            userDetails = createStudentUserDetails(suggestedUserName, password);
+        } else if(role.equals("ROLE_TEACHER")) {
+            userDetails = createTeacherUserDetails(suggestedUserName, password);
+        }
+
+        newUser.setUserDetails((SCYUserDetails) userDetails);
+
+
+        SCYGrantedAuthority authority = getAuthority(role);
+        SCYGrantedAuthority userAuthority = getAuthority("ROLE_USER");
+        if (authority != null) {
+            userDetails.addAuthority(authority);
+            userDetails.addAuthority(userAuthority);
+        }
+
+        save(newUser);
+        log.info("CREATED USER : " + userDetails.getUsername() );
+        return newUser;
+    }
+
+    private UserDetails createTeacherUserDetails(String suggestedUserName, String password) {
+        SCYTeacherUserDetails userDetails = new SCYTeacherUserDetails();
+        userDetails.setUsername(suggestedUserName);
+        userDetails.setPassword(password);
+        userDetails.setFirstName("fn");
+        userDetails.setLastName("ln");
+        userDetails.setLastLoginTime(new Date());
+        userDetails.setNumberOfLogins(0);
+        userDetails.setCurriculumsubjects(new String [0]);
+        userDetails.setDisplayName("dn");
+        return userDetails;
+    }
+
+    private SCYUserDetails createStudentUserDetails(String suggestedUserName, String password) {
         SCYStudentUserDetails userDetails = new SCYStudentUserDetails();
         userDetails.setUsername(suggestedUserName);
         userDetails.setPassword(password);
@@ -55,18 +88,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         userDetails.setLastLoginTime(new Date());
         userDetails.setSignupdate(new Date());
         userDetails.setNumberOfLogins(0);
-        newUser.setUserDetails(userDetails);
-
-        SCYGrantedAuthority authority = getAuthority(role);
-        SCYGrantedAuthority userAuthority = getAuthority("ROLE_USER");
-        if (authority != null) {
-            userDetails.addAuthority(authority);
-            userDetails.addAuthority(userAuthority);
-        }
-
-        save(newUser);
-        log.info("CREATED USER : " + userDetails.getUsername() + " " + userDetails.getId());
-        return newUser;
+        return userDetails;
     }
 
     public SCYGrantedAuthority getAuthority(String authority) {

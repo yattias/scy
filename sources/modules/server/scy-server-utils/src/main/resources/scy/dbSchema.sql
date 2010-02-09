@@ -224,6 +224,10 @@ CREATE TABLE `agent` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+ALTER TABLE `student_user_details` DROP COLUMN `profilePictureUrl`;
+ALTER TABLE `student_user_details` ADD COLUMN `profilePictureUrl` varchar(250) default NULL;
+
+
 set FOREIGN_KEY_CHECKS=1;
 
 
