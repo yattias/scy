@@ -1050,6 +1050,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
        for (int i=0; i<n; i++){
            createInternalGraphFrame(ds.getListVisualization().get(i));
        }
+        updateMenuData();
     }
 
    
@@ -1202,6 +1203,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataset = nds;
         datasetTable.updateDataset(nds, true);
         updateGraphs(nds, true);
+        updateMenuData();
         //dataProcessToolPanel.logAddRow(dataset, newData);
     }
 

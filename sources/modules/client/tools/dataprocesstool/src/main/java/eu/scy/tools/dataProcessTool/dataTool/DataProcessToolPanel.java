@@ -606,6 +606,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     //initialize the model with the header
     public void initializeHeader(DataSetHeader header){
+        int nbC = header.getColumnCount();
+        if(nbC==0)
+            return;
         if(scyMode){
             CopexReturn cr = this.controller.deleteDataset(activFitex.getDataset());
             if(cr.isError()){
@@ -613,7 +616,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 return;
             }
         }
-        int nbC = header.getColumnCount();
+        
         String[] headers = new String[nbC];
         String[] units = new String[nbC];
         int j=0;
