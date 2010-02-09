@@ -17,8 +17,6 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
-import eu.scy.awareness.AwarenessServiceException;
-import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
@@ -27,6 +25,7 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
+import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -78,7 +77,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     }
 
     @SuppressWarnings("unchecked")
-    public ToolBrokerImpl(String username, String password, String beanConfigurationFile) {
+    public ToolBrokerImpl(String username, String password, String beanConfigurationFile) throws LoginFailedException {
     	
     	getConnection(username, password);
     	
@@ -239,6 +238,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	        } catch (XMPPException e1) {
 	            logger.error("xmpp login failed. bummer. " + e1);
 	            e1.printStackTrace();
+               throw new LoginFailedException(userName);
 	        }        
 	        
 	        this.xmppConnection.addConnectionListener(new ConnectionListener() {
