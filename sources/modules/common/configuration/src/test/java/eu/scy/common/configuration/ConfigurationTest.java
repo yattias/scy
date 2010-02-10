@@ -35,6 +35,7 @@ public class ConfigurationTest {
     	assertNotNull(port);
     }
 
+    @org.junit.Test
     public void testGetMysqlHost() {
         assertEquals(freakingSQLHost, Configuration.getInstance().getSQLSpacesDBHost());
     }
