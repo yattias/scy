@@ -13,7 +13,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 import javafx.ext.swing.SwingComponent;
-import eu.scy.tools.planning.StudentPlanningToolMain;
+import eu.scy.tools.planning.*;
 
 
 
@@ -28,7 +28,7 @@ public class StudentPlanningToolNode extends CustomNode {
 
 
     public var wrappedSPTPanel:SwingComponent;
-    public var studentPlanningTool:StudentPlanningToolMain;
+    public var studentPlanningTool:StudentPlanningTool;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -59,6 +59,7 @@ public class StudentPlanningToolNode extends CustomNode {
         wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel(null));
      return Group {
          blocksMouse:true;
+         cache:false;
          content:
 
             wrappedSPTPanel;

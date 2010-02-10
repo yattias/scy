@@ -20,6 +20,9 @@ import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolCont
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.IAwarenessService;
 import org.apache.log4j.Logger;
+import java.util.Random;
+import java.lang.*;
+import java.util.HashMap;
 import eu.scy.chat.controller.*;
 /**
  * @author jeremyt
@@ -45,22 +48,34 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
     
 
     var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
-    var eloUri = "z168fb1jo51y";
-   var chatController = new MUCChatController(awarenessService, eloUri);
+   // awarenessService.setMUCConferenceExtension("conference.scy.collide.info");
+   logger.info("MUC Conference: {awarenessService.getMUCConferenceExtension()}");
 
+    //var r = new Random(System.currentTimeMillis());
+    //var eloUri = Long.toString(Math.abs(r.nextLong()), Math.random());
+    var eloUri = "z168fb1jo51y";
+
+
+
+   // logger.info("CHAT ELO ID exists: {eloUri}");
+  // var chatController = new MUCChatController(null, null);
+   var chatControllerMap = new HashMap();
     logger.info("awarenessService exists: {awarenessService.isConnected()}");
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-            ChattoolDrawerContentCreatorFX {
-                awarenessService: awarenessService;
-                chatController: chatController;
-                },
-            scychatId);
+   
     scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolPresenceDrawerContentCreatorFX {
                 awarenessService: awarenessService;
-                chatController: chatController;
+                chatControllerMap: chatControllerMap;
             },
             scychatpresenceId);
+
+
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatControllerMap: chatControllerMap;
+                },
+            scychatId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
 

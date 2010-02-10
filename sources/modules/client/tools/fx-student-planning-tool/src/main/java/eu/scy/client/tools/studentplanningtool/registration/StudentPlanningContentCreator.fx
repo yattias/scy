@@ -17,7 +17,7 @@ import java.net.URI;
  * @author jeremyt
  */
 
-public class StudenPlanningContentCreator extends WindowContentCreatorFX {
+public class StudentPlanningContentCreator extends WindowContentCreatorFX {
     public var node:Node;
    //public var metadataTypeManager: IMetadataTypeManager;
    // public var repository:IRepository;
