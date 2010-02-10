@@ -17,6 +17,7 @@ public class Configuration {
 	private static Configuration instance = null;
 	private final static Logger logger = Logger.getLogger(Configuration.class.getName());
 	private Properties props;
+   private String scyServerHost;
 
     /*
     Will pick up all properties that starts with scyconfig or sqlspaces. If the property starts with scyconofig, the prefix will be removed (not if it starts with sqlspaces - to make it perfectly confusing
@@ -88,6 +89,15 @@ public class Configuration {
 		}
 		return instance;
 	}
+
+   public void setScyServerHost(String scyServerHost)
+   {
+      this.scyServerHost = scyServerHost;
+   }
+
+   private boolean isScyServerHostDefined(){
+      return scyServerHost!=null && scyServerHost.length()>0;
+   }
 	
 	public String get(String key) {
 		return props.getProperty(key);
@@ -95,6 +105,9 @@ public class Configuration {
 
 	// ### OpenFireServer
 	public String getOpenFireHost() {
+      if (isScyServerHostDefined()){
+         return scyServerHost;
+      }
 		return props.getProperty("openfire.host");
 	}
 	
@@ -126,6 +139,9 @@ public class Configuration {
 	}
 
 	public String getSQLSpacesServerHost() {
+      if (isScyServerHostDefined()){
+         return scyServerHost;
+      }
 		return props.getProperty("sqlspaces.server.host");
 	}
 
