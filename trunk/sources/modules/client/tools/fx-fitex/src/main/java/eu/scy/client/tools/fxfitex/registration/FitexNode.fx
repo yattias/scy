@@ -29,17 +29,18 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.client.tools.fxsimulator.registration.SimulatorNode;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.client.common.datasync.ISynchronizable;
+import eu.scy.client.common.datasync.DummySyncListener;
 
 /**
  * @author Marjolaine
  */
 
-public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
    def logger = Logger.getLogger(this.getClass());
    def scyFitexType = "scy/pds";
    def jdomStringConversion = new JDomStringConversion();
@@ -56,14 +57,14 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    var technicalFormatKey: IMetadataKey;
    var elo:IELO;
    def spacing = 5.0;
-   var datasyncsession: ISyncSession = null;
 
   public override function canAcceptDrop(object: Object): Boolean {
-        if (object instanceof SimulatorNode) {
-            return true;
-        } else {
-            return false;
+        if (object instanceof ISynchronizable) {
+            if ((object as ISynchronizable).getToolName().equals("simulator")) {
+                return true;
+            }
         }
+        return false;
     }
 
     public override function acceptDrop(object: Object) {
@@ -77,19 +78,31 @@ public class FitexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
           JOptionPane.QUESTION_MESSAGE,  // icon
           null, yesNoOptions,yesNoOptions[0] );
        if (n == 0) {
-           initializeDatasync(object as SimulatorNode);
+           initializeDatasync(object as ISynchronizable);
        }
-
    }
 
-   public function initializeDatasync(simulator: SimulatorNode): Void {
-        // create new session and join Fitex
-        datasyncsession = toolBrokerAPI.getDataSyncService().createSession(fitexPanel);
-        fitexPanel.setSession(datasyncsession);
-        fitexPanel.readAllSyncObjects();
-        // join simulator
+   public function initializeDatasync(simulator: ISynchronizable) {
+        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
+        this.join(datasyncsession.getId());
         simulator.join(datasyncsession.getId());
-   }
+    }
+
+   public override function join(mucID: String) {
+        fitexPanel.joinSession(mucID);
+    }
+
+    public override function leave(mucID: String) {
+        // TODO
+    }
+
+    public override function getSessionID() {
+        return fitexPanel.getSessionID();
+    }
+
+    public override function getToolName() {
+        return "fitex";
+    }
 
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
