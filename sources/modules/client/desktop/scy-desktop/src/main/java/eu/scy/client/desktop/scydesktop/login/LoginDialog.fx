@@ -22,7 +22,10 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.animation.Interpolator;
 import javafx.scene.shape.Rectangle;
+import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.LoginFailedException;
+import javax.swing.JOptionPane;
+import java.awt.Component;
 
 /**
  * @author sikken
@@ -114,6 +117,9 @@ public class LoginDialog extends CustomNode {
       } catch (e: LoginFailedException) {
          logger.info("failed to login with {e.getUserName()}");
          showLoginResult(null,userName);
+      } catch (e: ServerNotRespondingException) {
+         logger.info("Could not connect to host {e.getServer()}:{e.getServer()}");
+         JOptionPane.showMessageDialog(null as Component,"Could not connect to host {e.getServer()}:{e.getPort()}","Connection problems",JOptionPane.ERROR_MESSAGE);
       }
    }
 
