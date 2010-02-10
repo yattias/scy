@@ -383,6 +383,14 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         sandbox = null;
     }
 
+    public String getSessionID() {
+        if (sandbox == null) {
+            return null;
+        } else {
+            return sandbox.getSessionID();
+        }
+    }
+
     @Override
     public void windowActivated(WindowEvent e) {
         logger.focusGained();

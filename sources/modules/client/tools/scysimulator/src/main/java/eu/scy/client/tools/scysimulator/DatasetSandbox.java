@@ -40,6 +40,10 @@ public class DatasetSandbox implements ISyncListener {
         currentSession.removeSyncListener(this);
     }
 
+    public String getSessionID() {
+        return currentSession.getId();
+    }
+
     private void sendDataRows() {
         DataSetRow row;
         for (Iterator<DataSetRow> rows = datacollector.getDataSet().getValues().iterator(); rows.hasNext();) {
