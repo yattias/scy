@@ -68,6 +68,7 @@ public class JavaProperties
             || sunBootLibraryPathPropName.equals(propName))
          {
             writeClassPath(label, propName, System.out);
+
          }
          else
          {
@@ -97,7 +98,12 @@ public class JavaProperties
       while (tokens.hasMoreTokens())
       {
          String fileName = tokens.nextToken();
-         String fileModified = getFileLastModified(fileName);
+         String fileModified;
+         try {
+             fileModified = getFileLastModified(fileName);
+         } catch (AccessControlException e) {
+             fileModified = "access denied";
+         }
          if (firstLine)
          {
             out.println(label + ": " + fileName + " (" + fileModified + ")");
