@@ -102,18 +102,21 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         }
     }
 
-    /*private void initCollaborationService() {
-        datasync = tbi.getDataSyncService();
-    }*/
-
-    /*public void joinSession(String mucID){
-        //initCollaborationService();
-        session = datasync.joinSession(mucID, this);
-        if(session == null){
+    public void joinSession(String mucID){
+        session = tbi.getDataSyncService().joinSession(mucID, this);
+        if (session == null) {
             JOptionPane.showMessageDialog(null, "join session error, null");
-        }else
+        } else
             readAllSyncObjects();
-    }*/
+    }
+
+    public String getSessionID() {
+        if (session == null) {
+            return null;
+        } else {
+            return session.getId();
+        }
+    }
 
     public void readAllSyncObjects(){
         List<ISyncObject> syncObjects = session.getAllSyncObjects();
