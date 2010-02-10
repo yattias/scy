@@ -25,6 +25,7 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
+import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
@@ -229,6 +230,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	        } catch (XMPPException e) {
 	            logger.error("Error during xmpp connect");
 	            e.printStackTrace();
+               throw new ServerNotRespondingException(config.getHost(),config.getPort());
 	        }
 	        
 	        
