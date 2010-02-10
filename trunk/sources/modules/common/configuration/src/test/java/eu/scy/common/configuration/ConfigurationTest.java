@@ -9,12 +9,14 @@ import org.junit.Test;
 public class ConfigurationTest {
 	
 	private static final String newSCYHubName = "buhycs";
+    private static final String freakingSQLHost = "looocalHosty"
 
 	public ConfigurationTest() {}
 	
 	@Before
 	public void init() {
 		System.getProperties().setProperty("scyconfig.scyhub.name", newSCYHubName);
+		System.getProperties().setProperty("sqlspaces.db.mysql.host", freakingSQLHost);
 	}
 	
 	@org.junit.Test
@@ -31,6 +33,10 @@ public class ConfigurationTest {
     		// nothing
     	}
     	assertNotNull(port);
+    }
+
+    public void testGetMysqlHost() {
+        assertEquals(freakingSQLHost, Configuration.getInstance().getSQLSpacesDBHost());
     }
     
     @Test
