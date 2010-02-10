@@ -35,11 +35,13 @@ import javax.swing.JLabel;
 import eu.scy.notification.api.INotifiable;
 import java.lang.UnsupportedOperationException;
 import eu.scy.notification.api.INotification;
-import eu.scy.client.tools.fxfitex.registration.FitexNode;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 import javax.swing.JOptionPane;
+import eu.scy.client.common.datasync.ISynchronizable;
+import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.client.common.datasync.DummySyncListener;
 
-public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
+public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     def simconfigType = "scy/simconfig";
@@ -56,7 +58,7 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     public override var height on replace {
                 resizeContent()
             };
-    var fixedDimension = new Dimension(575,275);
+    var fixedDimension = new Dimension(575, 275);
     var wrappedSimquestPanel: SwingComponent;
     var technicalFormatKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
@@ -67,35 +69,50 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     def spacing = 5.0;
 
     public override function canAcceptDrop(object: Object): Boolean {
-        if (object instanceof FitexNode) {
-            return true;
-        } else {
-            return false;
+        if (object instanceof ISynchronizable) {
+            if ((object as ISynchronizable).getToolName().equals("fitex")) {
+                return true;
+            }    
         }
+        return false;
     }
 
     public override function acceptDrop(object: Object) {
         logger.debug("drop accepted.");
         var yesNoOptions = ["Yes", "No"];
         var n = -1;
-        n = JOptionPane.showOptionDialog( null,
-          "Do you want to synchronise\nwith the Dataprocessing tool?",               // question
-          "Synchronise?",           // title
-          JOptionPane.YES_NO_CANCEL_OPTION,
-          JOptionPane.QUESTION_MESSAGE,  // icon
-          null, yesNoOptions,yesNoOptions[0] );
+        n = JOptionPane.showOptionDialog(null,
+        "Do you want to synchronise\nwith the Dataprocessing tool?", // question
+        "Synchronise?", // title
+        JOptionPane.YES_NO_CANCEL_OPTION,
+        JOptionPane.QUESTION_MESSAGE, // icon
+        null, yesNoOptions, yesNoOptions[0]);
         if (n == 0) {
-            (object as FitexNode).initializeDatasync(this);
+            initializeDatasync(object as ISynchronizable);
         }
-   }
+    }
 
-   public function join(mucID: String) {
-       dataCollector.join(mucID);
-   }
+    public function initializeDatasync(fitex: ISynchronizable) {
+        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
+        fitex.join(datasyncsession.getId());
+        this.join(datasyncsession.getId());
+    }
 
-   public function leave() {
-       dataCollector.leave();
-   }
+    public override function join(mucID: String) {
+        dataCollector.join(mucID);
+    }
+
+    public override function leave(mucID: String) {
+        dataCollector.leave();
+    }
+
+    public override function getSessionID(): String {
+        return dataCollector.getSessionID();
+    }
+
+    public override function getToolName(): String {
+        return "simulator";
+    }
 
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -116,10 +133,10 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         }
     }
 
-    override public function processNotification (note: INotification): Void {
+    override public function processNotification(note: INotification): Void {
         if (dataCollector != null) {
-                logger.info("process notification, forwarding to DataCollector");
-                dataCollector.processNotification(note);
+            logger.info("process notification, forwarding to DataCollector");
+            dataCollector.processNotification(note);
         } else {
             logger.info("notification not processed, DataCollector == null");
         }
@@ -156,10 +173,10 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                                             }
                                         }
                                         /*Button {
-                                            text: "Save Dataset"
-                                            action: function () {
-                                                doSaveDataset();
-                                            }
+                                        text: "Save Dataset"
+                                        action: function () {
+                                        doSaveDataset();
+                                        }
                                         }*/
                                         Button {
                                             text: "SaveAs Dataset"
@@ -214,17 +231,16 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
             fixedDimension = simquestViewer.getRealSize();
             if (fixedDimension.width < 555) {
-                    fixedDimension.width = 555;
+                fixedDimension.width = 555;
             }
             fixedDimension.height = fixedDimension.height + 240;
             scyWindow.open();
-            var syncAttrib = DatasyncAttribute{
-                    dragAndDropManager:scyWindow.dragAndDropManager;
-                    dragObject:this};
+            var syncAttrib = DatasyncAttribute {
+                        dragAndDropManager: scyWindow.dragAndDropManager;
+                        dragObject: this };
             insert syncAttrib into scyWindow.scyWindowAttributes;
-        } catch (e: java
-            .lang.Exception) {
-                        logger.info("SimQuestNode.createSimQuestNode(). exception caught: {e.getMessage()}");
+        } catch (e: java.lang.Exception) {
+            logger.info("SimQuestNode.createSimQuestNode(). exception caught: {e.getMessage()}");
             var info = new JTextArea(4, 42);
             info.append("Simulation could not be loaded.\n");
             info.append("Probably the simulation file was not found,\n");
@@ -243,9 +259,8 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     //function doSaveDataset() {
-        //eloSaver.eloUpdate(getDataset(), this);
+    //eloSaver.eloUpdate(getDataset(), this);
     //}
-
     function doSaveAsDataset() {
         eloSaver.otherEloSaveAs(getDataset(), this);
     }
@@ -303,4 +318,5 @@ public class SimulatorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     public override function getMinWidth(): Number {
         return fixedDimension.width;
     }
+
 }
