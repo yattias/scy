@@ -37,6 +37,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
+import eu.scy.client.tools.fxrichtexteditor.registration.RichTextEditorContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
 import java.util.HashMap;
 
@@ -46,7 +47,7 @@ import java.util.HashMap;
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
-           loginType:"remote"
+           loginType:"local"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:false
@@ -70,6 +71,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyVideoId = "video";
    def scyWebresourceId = "webresource";
    def presentationViewerId = "presentationUpload";
+   def scyRichTextId = "richtext";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -103,7 +105,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{}, presentationViewerId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
+
+scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
 
    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
