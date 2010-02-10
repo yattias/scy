@@ -27,6 +27,8 @@
 		<module>fx-fitex</module>
 		<module>fx-flying-saucer</module>
 		<module>fx-interviewtool</module>
+		<module>fx-pictureviewer</module>
+		<module>fx-richtexteditor</module>
 		<module>fx-scydynamics</module>
 		<module>fx-scymapper</module>
 		<module>fx-simulator</module>
@@ -36,7 +38,9 @@
 		<module>nutpad</module>
 		<module>scydynamics</module>
 		<module>scymapper</module>
+		<!--
 		<module>scy-planner</module>
+		-->
 		<module>scysimulator</module>
 		<module>student-planning-tool</module>
    </modules>
