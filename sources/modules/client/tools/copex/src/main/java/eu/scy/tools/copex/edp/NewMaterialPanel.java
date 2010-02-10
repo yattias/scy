@@ -109,6 +109,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
             setPreferredSize(getSize());
             actionAddMaterial.actionShowAddMaterial();
             actionAddMaterial.setMaterial();
+            fieldName.requestFocus();
             revalidate();
             repaint();
         }

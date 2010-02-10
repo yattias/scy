@@ -97,6 +97,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         initComponents();
         setLocation(edP.getLocationDialog());
         setModal(true);
+        setIconImage(edP.getIconDialog());
         init();
     }
     public void init(){
