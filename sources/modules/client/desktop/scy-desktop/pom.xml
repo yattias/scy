@@ -71,14 +71,14 @@
          <type>jar</type>
          <scope>compile</scope>
       </dependency>
-<!--
+      <!--
       <dependency>
          <groupId>org.jfxtras</groupId>
          <artifactId>jfxtras-common</artifactId>
          <version>0.6-preview</version>
          <classifier>preview</classifier>
       </dependency>
-      
+
       <dependency>
          <groupId>org.jfxtras</groupId>
          <artifactId>jfxtras-controls</artifactId>
@@ -98,6 +98,17 @@
          <version>${pom.version}</version>
       </dependency>
 
+      <dependency>
+         <groupId>javax</groupId>
+         <artifactId>jnlp</artifactId>
+         <version>0.1</version>
+      </dependency>
+
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>configuration</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
    </dependencies>
 
@@ -106,7 +117,7 @@
          <resource>
             <directory>src/main/resources</directory>
          </resource>
-         <!-- 
+         <!--
          <resource>
             <targetPath>config</targetPath>
             <directory>src/main/java/config</directory>
