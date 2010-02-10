@@ -9,7 +9,7 @@ import org.junit.Test;
 public class ConfigurationTest {
 	
 	private static final String newSCYHubName = "buhycs";
-    private static final String freakingSQLHost = "looocalHosty"
+    private static final String freakingSQLHost = "looocalHosty";
 
 	public ConfigurationTest() {}
 	
