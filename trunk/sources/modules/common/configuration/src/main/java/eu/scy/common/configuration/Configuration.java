@@ -17,7 +17,11 @@ public class Configuration {
 	private static Configuration instance = null;
 	private final static Logger logger = Logger.getLogger(Configuration.class.getName());
 	private Properties props;
-	
+
+    /*
+    Will pick up all properties that starts with scyconfig or sqlspaces. If the property starts with scyconofig, the prefix will be removed (not if it starts with sqlspaces - to make it perfectly confusing
+     */
+
 	private Configuration() {
 		try {
 			logger.info("initialising default configuration");
@@ -37,6 +41,10 @@ public class Configuration {
                     String keyString = key.toString();
                     keyString = keyString.substring("scyconfig.".length());
                     props.setProperty(keyString, sysprops.getProperty(key.toString()));
+                } else if(key.toString().startsWith("sqlspaces")) {
+                    counter++;
+                    String keyString = key.toString();
+                    props.setProperty(keyString, sysprops.getProperty(keyString.toString()));
                 }
             }
             if(counter > 0) {
