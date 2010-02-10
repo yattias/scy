@@ -1,0 +1,17 @@
+package eu.scy.client.common.datasync;
+
+/**
+ *
+ * @author lars
+ */
+public interface ISynchronizable {
+
+    public void join(String mucID);
+
+    public void leave(String mucID);
+
+    public String getSessionID();
+
+    public String getToolName();
+
+}
