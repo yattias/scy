@@ -8,6 +8,7 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
@@ -27,6 +28,7 @@ public class StudentPlanningController {
 	private StudentPlanELO studentPlanELO;
 	private List<JXTaskPane> taskPanes = new ArrayList<JXTaskPane>();
 	private List<JXTaskPaneContainer> taskContainers = new ArrayList<JXTaskPaneContainer>();
+	private Configuration configuration;
 
 	public StudentPlanningController() {
 
@@ -90,8 +92,10 @@ public class StudentPlanningController {
 
 		// service =
 		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
-		if (studentPedagogicalPlanService == null)
-			studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+//		if (studentPedagogicalPlanService == null)
+		configuration = Configuration.getInstance();
+			studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
 
 		return studentPedagogicalPlanService;
 

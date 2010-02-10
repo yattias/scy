@@ -105,6 +105,12 @@ public class StudentPlanningTool {
 	 * @param studentPlanningController 
 	 */
 	public StudentPlanningTool(StudentPlanningController studentPlanningController) {
+		
+		
+		if( studentPlanningController == null ) {
+			JOptionPane.showMessageDialog(null, "Student Planning Tool wasnt configured correctly!");
+			return;
+		}
 		this.setStudentPlanningController(studentPlanningController);
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {

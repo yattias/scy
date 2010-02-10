@@ -14,7 +14,7 @@ public class SampleLASTestClient {
 	    public void run() {
 	    	
 	    	
-	      StudentPlanningController spc = new StudentPlanningController(null);
+	     StudentPlanningController spc = new StudentPlanningController(null);
 	      StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
 	      studentPlanningToolMain.launchInFrame();
 	    }
