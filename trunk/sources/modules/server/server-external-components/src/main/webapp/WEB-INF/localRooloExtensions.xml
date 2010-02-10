@@ -109,6 +109,12 @@
                </key>
                <value>.ppt</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/rtf</value>
+               </key>
+               <value>.rtf</value>
+            </entry>
          </map>
       </property>
    </bean>
