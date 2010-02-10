@@ -13,6 +13,7 @@
 	<!-- Resolves ${...} placeholders from client.properties -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesMode" value="2"/>
 		<property name="location">
 			<value>/config/client.properties</value>
 		</property>

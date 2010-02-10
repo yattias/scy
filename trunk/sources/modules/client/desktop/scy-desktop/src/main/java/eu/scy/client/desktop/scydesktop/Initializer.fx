@@ -24,6 +24,8 @@ import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
+import javax.jnlp.ServiceManager;
+import eu.scy.common.configuration.Configuration;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -52,6 +54,8 @@ public class Initializer {
    public-init var storeElosOnDisk = true;
    public-init var createPersonalMissionMap = true;
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
+   public-init var scyServerHost:String;
+   public-init var useWebStartHost=true;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -61,6 +65,8 @@ public class Initializer {
    def enableLocalLoggingKey = "enableLocalLogging";
    def loggingDirectoryKey = "loggingDirectory";
    def storeElosOnDiskKey = "storeElosOnDisk";
+   def scyServerNameKey = "serverName";
+   def sqlspacesServerKey = "sqlspacesServer";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
    def backgroundImageUrlOption = "backgroundImageUrl";
@@ -78,6 +84,8 @@ public class Initializer {
    def storeElosOnDiskOption = "storeElosOnDisk";
    def createPersonalMissionMapOption = "createPersonalMissionMap";
    def eloImagesPathOption = "eloImagesPath";
+   def scyServerHostOption = "scyServerHost";
+   def useWebStartHostOption = "useWebStartHost";
 
    init {
       JavaProperties.writePropertiesForApplication();
@@ -100,6 +108,7 @@ public class Initializer {
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
       setupCodeLogging();
       setLookAndFeel();
+      setupScyServerHost();
       setupToolBrokerLogin();
    }
 
@@ -160,6 +169,12 @@ public class Initializer {
             } else if (option == eloImagesPathOption.toLowerCase()) {
                eloImagesPath = argumentsList.nextStringValue(eloImagesPathOption);
                logger.info("app: {eloImagesPathOption}: {eloImagesPath}");
+            } else if (option == scyServerHostOption.toLowerCase()) {
+               scyServerHost = argumentsList.nextStringValue(scyServerHostOption);
+               logger.info("app: {scyServerHostOption}: {scyServerHost}");
+            } else if (option == useWebStartHostOption.toLowerCase()) {
+               useWebStartHost = argumentsList.nextBooleanValue(useWebStartHostOption);
+               logger.info("app: {useWebStartHostOption}: {useWebStartHost}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -186,6 +201,8 @@ public class Initializer {
       storeElosOnDisk = getWebstartParameterBooleanValue(storeElosOnDiskOption, storeElosOnDisk);
       createPersonalMissionMap = getWebstartParameterBooleanValue(createPersonalMissionMapOption, createPersonalMissionMap);
       eloImagesPath = getWebstartParameterStringValue(eloImagesPathOption, eloImagesPath);
+      scyServerHost = getWebstartParameterStringValue(scyServerHostOption, scyServerHost);
+      useWebStartHost = getWebstartParameterBooleanValue(useWebStartHostOption, useWebStartHost);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -312,6 +329,31 @@ public class Initializer {
          return null;
       }
    }
+
+   function setupScyServerHost(){
+      var newScyServerHost:String;
+      if (scyServerHost.length()>0){
+         newScyServerHost = scyServerHost;
+      }
+      else if (useWebStartHost){
+         try{
+            var basicService = ServiceManager.lookup("BasicService") as javax.jnlp.BasicService;
+            if (basicService!=null){
+               var codeBase = basicService.getCodeBase();
+               newScyServerHost = codeBase.getHost();
+            }
+         }
+         catch (e:javax.jnlp.UnavailableServiceException){
+            logger.info("cannot get scy server host from web start, as web start is not being used.");
+         }
+      }
+      if (newScyServerHost.length()>0){
+         System.setProperty(scyServerNameKey, newScyServerHost);
+         System.setProperty(sqlspacesServerKey, newScyServerHost);
+         Configuration.getInstance().setScyServerHost(newScyServerHost);
+      }
+   }
+
 
    function setupToolBrokerLogin(){
       if ("local".equalsIgnoreCase(loginType)){
