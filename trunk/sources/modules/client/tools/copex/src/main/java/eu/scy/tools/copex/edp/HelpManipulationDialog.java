@@ -33,7 +33,9 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
         super(edP.getOwnerFrame());
         this.edP = edP;
         this.taskProc = taskProc;
-        this.questionBefore = questionBefore;
+        // 10/02/10: pas obligatoire de renseigner la question 
+        //this.questionBefore = questionBefore;
+        this.questionBefore = false;
         initComponents();
         setLocation(edP.getLocationDialog());
         initGUI();

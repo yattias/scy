@@ -153,6 +153,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         this.setLocationRelativeTo(edP);
         setModal(true);
         setLocation(edP.getLocationDialog());
+        setIconImage(edP.getIconDialog());
         initGUI();
     }
 

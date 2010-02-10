@@ -1569,23 +1569,23 @@ public class CopexController implements ControllerInterface {
     }
 
     private void printRecap(LearnerProcedure proc){
-        List<CopexTask> listTask = proc.getListTask();
-        int n = listTask.size();
-        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
-        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
-        for (int k=0; k<n; k++){
-            CopexTask task = listTask.get(k);
-            String frere = " sans frere ";
-            String enfant = " sans enfant ";
-            if (task.getDbKeyBrother() != -1)
-                frere = " "+task.getDbKeyBrother()+" ";
-            if (task.getDbKeyChild() != -1)
-                enfant = " "+task.getDbKeyChild()+" ";
-            String visible = task.isVisible() ? "visible" :"cachee";
-            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
-
-        }
-        System.out.println("********************************************************");
+//        List<CopexTask> listTask = proc.getListTask();
+//        int n = listTask.size();
+//        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
+//        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
+//        for (int k=0; k<n; k++){
+//            CopexTask task = listTask.get(k);
+//            String frere = " sans frere ";
+//            String enfant = " sans enfant ";
+//            if (task.getDbKeyBrother() != -1)
+//                frere = " "+task.getDbKeyBrother()+" ";
+//            if (task.getDbKeyChild() != -1)
+//                enfant = " "+task.getDbKeyChild()+" ";
+//            String visible = task.isVisible() ? "visible" :"cachee";
+//            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
+//
+//        }
+//        System.out.println("********************************************************");
         
     }
     

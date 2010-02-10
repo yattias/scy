@@ -580,6 +580,8 @@ public class EdPPanel extends JPanel {
                 getMenuItemPrint().setEnabled(false);
        }else{ // un protocole est actif :
            boolean isQuestionFilled = proc.getQuestion().getDescription(getLocale()) != null && proc.getQuestion().getDescription(getLocale()).length()>0;
+           // le 10/02/10: pas besoin que la question soit renseignee
+           isQuestionFilled = true;
            // ajout d'une etape : si un element de l'arbre est sel
            getMenuItemAddE().setEnabled(isQuestionFilled && copexTree.canAddE());
            // ajout d'une action : si un element de l'arbre est sel
@@ -1366,9 +1368,10 @@ public class EdPPanel extends JPanel {
 //       if(!proc.isValidQuestion(getLocale()))
 //            JOptionPane.showMessageDialog(this, this.getBundleString("MSG_QUESTION"), this.getBundleString("TITLE_DIALOG_WARNING"),JOptionPane.INFORMATION_MESSAGE );
         //copexTree.setQuestionEditor();
-        if(!proc.isValidQuestion(getLocale())){
-            openQuestion = true;
-        }
+        //le 10/02/10: plus de mode edition lors de l'ouverture
+//        if(!proc.isValidQuestion(getLocale())){
+//            openQuestion = true;
+//        }
     }
     
     /* chargement ELO */
