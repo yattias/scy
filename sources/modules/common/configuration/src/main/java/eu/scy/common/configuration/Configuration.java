@@ -78,6 +78,7 @@ public class Configuration {
         props.setProperty("sail.db.host", "localhost");
         props.setProperty("sail.db.username", "root");
         props.setProperty("sail.db.password", "");
+        props.setProperty("studentplanningtool.service.url", "");
 		return props;
 	}
 	
@@ -148,5 +149,9 @@ public class Configuration {
 
     public String getSailDBPassword() {
         return props.getProperty("sail.db.password");
+    }
+    
+    public String getStudentPlanningToolUrl() {
+    	return props.getProperty("studentplanningtool.service.url");
     }
 }
