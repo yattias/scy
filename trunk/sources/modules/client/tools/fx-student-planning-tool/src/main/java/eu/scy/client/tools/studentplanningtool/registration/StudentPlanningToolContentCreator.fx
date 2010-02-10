@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolNode;
-import eu.scy.tools.planning.StudentPlanningToolMain;
+import eu.scy.tools.planning.StudentPlanningTool;
 
 /**
  * @author aperritano
@@ -33,7 +33,7 @@ public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
     function createStudentPlanningToolNode(scyWindow:ScyWindow):StudentPlanningToolNode{
         setWindowProperties(scyWindow);
 
-        var studentPlanningTool = new StudentPlanningToolMain();
+        var studentPlanningTool = new StudentPlanningTool(null);
 
         return StudentPlanningToolNode{
             studentPlanningTool:studentPlanningTool;
