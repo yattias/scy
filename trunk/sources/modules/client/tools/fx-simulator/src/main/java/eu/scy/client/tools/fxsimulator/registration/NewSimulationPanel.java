@@ -36,6 +36,18 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         this.add(panel);
 
         radio = new JRadioButton();
+        radio.setName("http://www.scy-lab.eu/sqzx/house_11022010a.sqzx");
+        //radio.setName("http://www.scy-lab.eu/sqzx/house_05022010.sqzx");
+        radio.setActionCommand("setsimulation");
+        radio.addActionListener(this);
+        radios.add(radio);
+        panel = new JPanel();
+        panel.setLayout(flow);
+        panel.add(radio);
+        panel.add(new JLabel("new CO2-House simulation (with variable descr.)"));
+        this.add(panel);
+
+        radio = new JRadioButton();
         radio.setName("http://www.scy-lab.eu/sqzx/HouseNew.sqzx");
         radio.setActionCommand("setsimulation");
         radio.addActionListener(this);
@@ -43,22 +55,11 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         panel = new JPanel();
         panel.setLayout(flow);
         panel.add(radio);
-        panel.add(new JLabel("CO2-House simulation"));
+        panel.add(new JLabel("old CO2-House simulation (slow loading)"));
         this.add(panel);
         
         radio = new JRadioButton();
-        radio.setName("http://www.scy-lab.eu/sqzx/house_31012010.sqzx");
-        radio.setActionCommand("setsimulation");
-        radio.addActionListener(this);
-        radios.add(radio);
-        panel = new JPanel();
-        panel.setLayout(flow);
-        panel.add(radio);
-        panel.add(new JLabel("*** new CO2-House simulation // test"));
-        this.add(panel);
-
-        radio = new JRadioButton();
-        radio.setName(null);
+        radio.setName("free");
         radio.setActionCommand("setsimulation");
         radio.addActionListener(this);
         radios.add(radio);
@@ -86,7 +87,7 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() instanceof JRadioButton) {
             this.simulationURI = ((JRadioButton)ae.getSource()).getName();
-            if (this.simulationURI == null) {
+            if (this.simulationURI.equals("free")) {
                 this.simulationURI = free.getText();
             }
         }
