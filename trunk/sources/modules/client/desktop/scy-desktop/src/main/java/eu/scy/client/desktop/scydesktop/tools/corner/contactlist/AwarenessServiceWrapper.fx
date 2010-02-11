@@ -7,14 +7,8 @@
 package eu.scy.client.desktop.scydesktop.tools.corner.contactlist;
 
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
-
-
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
-
-
 import eu.scy.awareness.IAwarenessService;
-
-
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 
@@ -27,7 +21,9 @@ public class AwarenessServiceWrapper {
 
         public-init var contactlist:ContactList;
         
-        public def IMAGE_BASE_DIR = "http://scy.googlecode.com/files/";
+        //public def IMAGE_BASE_DIR = "http://scy.googlecode.com/files/";
+        public def IMAGE_BASE_DIR = "http://scy.collide.info:8080/webapp/common/filestreamer.html";
+
 
         def awarenessService:IAwarenessService = bind contactlist.scyDesktop.config.getToolBrokerAPI().getAwarenessService();
 
@@ -53,16 +49,20 @@ public class AwarenessServiceWrapper {
                     name: awarenessUser.getNickName();
                     onlineState: if (presence.equals("unavailable")) OnlineState.OFFLINE else
                         (if(presence.equals("idle")) OnlineState.AWAY else OnlineState.ONLINE );
-                    imageURL: if (presence.equals("unavailable")) "{IMAGE_BASE_DIR}buddyicon_offline.png" else
-                        (if(presence.equals("idle")) "{IMAGE_BASE_DIR}buddyicon_idle.png" else "{IMAGE_BASE_DIR}buddyicon_online.png" );
+                    //imageURL: if (presence.equals("unavailable")) "{IMAGE_BASE_DIR}buddyicon_offline.png" else
+                    //    (if(presence.equals("idle")) "{IMAGE_BASE_DIR}buddyicon_idle.png" else "{IMAGE_BASE_DIR}buddyicon_online.png" );
+                    imageURL: "{IMAGE_BASE_DIR}?username={awarenessUser.getNickName()}";
                     }
-                //XXX only insert online/idle contacts
-                if (presence.equals("unavailable")){
-                    insert contact into offlineContacts;
-                } else {
-                    insert contact into contacts;
+                //filter names "" and " "
+                if (not(contact.name.equals("")) and not(contact.name.equals(" ")))
+                {
+                    //XXX only insert online/idle contacts
+                    if (presence.equals("unavailable")){
+                        insert contact into offlineContacts;
+                    } else {
+                        insert contact into contacts;
+                    }
                 }
-                
                 }
                 if (contactlist.showOfflineContacts){
                     insert offlineContacts into contacts;
