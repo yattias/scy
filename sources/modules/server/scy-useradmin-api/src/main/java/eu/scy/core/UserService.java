@@ -20,5 +20,7 @@ public interface UserService extends BaseService{
 
     public List<User> getUsers();
 
+    public List<User> getStudents();
+
     public User save(User user);
 }
