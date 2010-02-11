@@ -110,11 +110,11 @@ public class StudentPlanningTool {
 	public StudentPlanningTool(
 			StudentPlanningController studentPlanningController) {
 
-		if (studentPlanningController == null) {
-			JOptionPane.showMessageDialog(null,
-					"The Server is probably not stable if u can read this!");
-			return;
-		}
+//		if (studentPlanningController == null) {
+//			JOptionPane.showMessageDialog(null,
+//					"The Server is probably not stable if u can read this!");
+//			return;
+//		}
 		this.setStudentPlanningController(studentPlanningController);
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
