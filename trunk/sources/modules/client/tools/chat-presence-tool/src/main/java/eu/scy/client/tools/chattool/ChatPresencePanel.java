@@ -17,7 +17,10 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTitledPanel;
 
+import eu.scy.awareness.AwarenessUser;
+import eu.scy.awareness.IAwarenessUser;
 import eu.scy.chat.controller.ChatController;
+import eu.scy.presence.IPresenceEvent;
 
 
 /**
@@ -26,7 +29,7 @@ import eu.scy.chat.controller.ChatController;
 public class ChatPresencePanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    //private static final Logger logger = Logger.getLogger(ChatPresencePanel.class.getName());
+    private static final Logger logger = Logger.getLogger(ChatPresencePanel.class.getName());
 
     protected JList buddyList;
     static ChatPresencePanel cmp;
@@ -87,6 +90,16 @@ public class ChatPresencePanel extends JPanel {
 
     public ChatController getChatController() {
         return chatController;
+    }
+    
+    public void addTemporaryUser(String user) {
+    	AwarenessUser au = new AwarenessUser();
+    	au.setJid(user);
+    	au.setNickName(user);
+    	au.setPresence(IPresenceEvent.WAITING);
+    	logger.debug("ChatPresencePanel: addTemporaryUser jid...: " + au.getJid());
+    	logger.debug("ChatPresencePanel: addTemporaryUser nick...: " + au.getNickName());
+    	this.chatController.addBuddy(au);
     }
 
 }

@@ -14,6 +14,7 @@ public class BuddyListRenderer extends JLabel implements ListCellRenderer {
 
 	ImageIcon availIcon = new ImageIcon(this.getClass().getResource("avail-icon.png"));
 	ImageIcon awayIcon = new ImageIcon(this.getClass().getResource("away-icon.png"));
+	ImageIcon waitIcon = new ImageIcon(this.getClass().getResource("wait-icon.png"));
 	
 	public BuddyListRenderer() {
 		this.setVerticalTextPosition(JLabel.BOTTOM);
@@ -29,8 +30,10 @@ public class BuddyListRenderer extends JLabel implements ListCellRenderer {
 		if( user.getPresence() != null) {
 			if( user.getPresence().equals(IPresenceEvent.AVAILABLE)) {
 				this.setIcon(availIcon);
-			} else {
+			} else if( user.getPresence().equals(IPresenceEvent.UNAVAILABLE)){
 				this.setIcon(awayIcon);
+			} else if( user.getPresence().equals(IPresenceEvent.WAITING)){
+				this.setIcon(waitIcon);
 			}
 			
 			this.setToolTipText(user.getPresence());
