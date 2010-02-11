@@ -1,5 +1,3 @@
-
-
 /**
  * Student Planning Tool
  */
@@ -17,11 +15,12 @@ import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.StudentPlanningTool;
 import java.lang.IllegalStateException;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 
 
 
 /**
- * @author aperritano
+ * @@author aperritano
  */
 
  // place your code here
@@ -62,8 +61,10 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
    }
 
    public override function acceptDrop(object:Object):Void{
-      print("object {object}");
-      throw new IllegalStateException("cannot accept drop object");
+      println("object {object}");
+      var cf = object as ContactFrame;
+      studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
+
    }
 
    public override function create(): Node {
@@ -71,7 +72,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
         studentPlanningController = new StudentPlanningController(null);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
-        wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel(null));
+        wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel());
      return Group {
          blocksMouse:true;
          cache:false;
