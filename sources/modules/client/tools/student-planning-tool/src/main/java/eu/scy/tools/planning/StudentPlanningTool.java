@@ -108,7 +108,7 @@ public class StudentPlanningTool {
 		
 		
 		if( studentPlanningController == null ) {
-			JOptionPane.showMessageDialog(null, "Student Planning Tool wasnt configured correctly!");
+			JOptionPane.showMessageDialog(null, "The Server is probably not stable if u can read this!");
 			return;
 		}
 		this.setStudentPlanningController(studentPlanningController);
