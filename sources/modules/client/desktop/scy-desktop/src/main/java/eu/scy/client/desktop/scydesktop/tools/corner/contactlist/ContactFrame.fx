@@ -53,6 +53,16 @@ public class ContactFrame extends CustomNode {
                     height: size.getDefaultImageHeight();
                     preserveRatio: false;
                     url: contact.imageURL;
+                    backgroundLoading:true;
+                    placeholder:Image{
+                        width: size.getDefaultImageWidth();
+                        height: size.getDefaultImageHeight();
+                        preserveRatio: false;
+                        //XXX replace it when placeholder is available by webservice
+                        url: "http://scy.googlecode.com/files/buddyicon_online.png";
+                        //url: "{contact.imageURL}&showIcon";
+                    }
+
                 }
                 
     def imageView: ImageView = ImageView {
@@ -114,7 +124,8 @@ public class ContactFrame extends CustomNode {
                 translateY: borderSize;
                 //content: [nameLabel,stateLabel, missionLabel, progressBar]
                 //XXX mission-progress not available from Awareness service
-                content: [nameLabel,stateLabel, missionLabel]
+                //content: [nameLabel,stateLabel, missionLabel]
+                content:[]
             };
 
     //public var imageSize: Number = 64;

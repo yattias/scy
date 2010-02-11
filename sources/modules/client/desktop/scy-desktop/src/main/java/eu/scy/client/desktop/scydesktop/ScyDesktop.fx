@@ -247,12 +247,14 @@ public class ScyDesktop extends CustomNode {
       
       //The frontend to thecontact list
       def contactList:ContactList = ContactList {
+              columns:2
               contacts: contactContent
               dragAndDropManager:dragAndDropManager
+              tooltipManager:tooltipManager
               scyDesktop:this
               height:250
               showOfflineContacts:true
-              width: 150
+              width: 300
               };
 
       contactList.height = 250;
