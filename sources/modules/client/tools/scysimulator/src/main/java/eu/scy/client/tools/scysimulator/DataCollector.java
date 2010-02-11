@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
@@ -38,7 +36,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
@@ -48,9 +45,7 @@ import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.DevNullActionLogger;
-import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
-import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
@@ -435,11 +430,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void processNotification(INotification notification) {
-        Map<String, String> props = notification.getProperties();
 
-        String message = props.get("message");
-        String type = props.get("type");
-        String popup = props.get("popup");
+        String message = notification.getFirstProperty("message");
+        String type =notification.getFirstProperty("type");
+        String popup = notification.getFirstProperty("popup");
         if (message != null) {
             if (popup != null && popup.equals("true")) {
                 final JDialog jd = new JDialog();
@@ -471,7 +465,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 jd.add(northPanel, BorderLayout.NORTH);
 
                 JPanel centerPanel;
-                JTextArea jta = new JTextArea(notification.getProperty("message"));
+                JTextArea jta = new JTextArea(notification.getFirstProperty("message"));
                 JLabel textLabel = new JLabel();
                 textLabel.setBorder(BorderFactory.createTitledBorder("Message"));
                 // JTextPane jta = new JTextPane();
@@ -480,7 +474,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 // jta.setLogicalStyle(centerStyle);
                 JLabel imageLabel = new JLabel();
                 ImageIcon ii;
-                String image = props.get("image");
+                String image = notification.getFirstProperty("image");
                 byte[] decode = Base64.decode(image);
                 if (image != null) {
                     centerPanel = new JPanel(new GridLayout(1, 2));
@@ -517,16 +511,16 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 notificationSender = notification.getSender();
                 notificationMessage = message;
             }
-        } else if (type != null && props.get("level") != null && !shownMessages.contains(props.get("level"))) {
+        } else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
             if (type.equals("scaffold")) {
-                if (props.get("level").equals(SCAFFOLD.SHOWBUTTON.name())) {
+                if (notification.getFirstProperty("level").equals(SCAFFOLD.SHOWBUTTON.name())) {
                     notificationMessage=SCAFFOLD.SHOWBUTTON.name();
                     notifyButton.setVisible(true);
                 } else {
 
                     startNotifyThread();
                     
-                    notificationMessage = props.get("level");
+                    notificationMessage = notification.getFirstProperty("level");
                 }
             }
         }
