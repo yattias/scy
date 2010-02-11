@@ -171,7 +171,7 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 			} else if (var.getDescription().equals("")) {
 				// description is empty
 				checkbox = new ComparableJCheckBox(var.getExternalName() + ": "	+ var.getName());				
-			} else if ( (var.getDescription().equals("n/a") || (var.getKind() == ModelVariable.VK_SPECIAL))) {
+			} else if ( (var.getDescription().equals("n/a") || (var.getKind() == ModelVariable.VK_SPECIAL) || (var.getKind() == ModelVariable.VK_TIME))) {
 				// description is "n/a" or it's a special variable, doing nothing
 			} else {
 				// description has some meaningful content
