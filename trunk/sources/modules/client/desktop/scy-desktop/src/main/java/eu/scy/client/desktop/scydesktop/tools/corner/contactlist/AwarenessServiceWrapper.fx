@@ -48,6 +48,7 @@ public class AwarenessServiceWrapper {
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
                 def presence = awarenessUser.getPresence();
                 def contact:Contact = Contact{
+                    awarenessUser: awarenessUser;
                     currentMission: awarenessUser.getStatus();    //Not sure
                     name: awarenessUser.getNickName();
                     onlineState: if (presence.equals("unavailable")) OnlineState.OFFLINE else
