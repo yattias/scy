@@ -49,7 +49,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<simconfig simulationname="house" simulationuri="http://www.scy-lab.eu/sqzx/house_31012010.sqzx">
+<simconfig simulationname="house" simulationuri="http://www.scy-lab.eu/sqzx/house_11022010a.sqzx">
   <variable name="Rsie_w" value="0.17" />
   <variable name="Sroof" value="110.0" />
   <variable name="UglazingG" value="205.0" />
