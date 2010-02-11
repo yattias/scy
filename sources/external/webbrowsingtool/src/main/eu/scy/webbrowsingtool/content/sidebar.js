@@ -39,6 +39,7 @@
 
 
 var count = 0;
+var updateURI = "";
 
 
 var highlighter = {
@@ -928,6 +929,10 @@ highlightDoc: function() {
     // just reuse the function above.  you can change this, obviously!
     highlighter.onMenuItemCommand(e);
   },
+  openPreferences: function(){
+    var windowObjectReference = window.open("chrome://highlighter/content/options.xul", "Options", "chrome");
+    windowObjectReference.focus();
+  },
   saveELO: function(){
 
 		//the highlighter-strings from the stringbundle
@@ -952,8 +957,7 @@ highlightDoc: function() {
         if (username=="username" && password=="password"){
 			window.alert(top.window.document.getElementById("highlighter-strings").getString("setUpLoginData"));
 
-			var windowObjectReference = window.open("chrome://highlighter/content/options.xul", "Options", "chrome");
-			windowObjectReference.focus();
+			this.openPreferences();
         }   else {
 
         //make the XMLHttpRequest (POST)!!!
@@ -1344,6 +1348,15 @@ highlightDoc: function() {
         oldNode.setAttribute("style", "background-color: white;");
     }
     window.alert("Undo not possible");
+  },
+  openHelp: function(){
+    this.strings = top.window.document.getElementById("highlighter-strings");
+    var helpFileDirectory =this.strings.getString("helpFileDirectory");
+//    var helpFileDirectory ="help.xhtml";
+    
+     var windowObjectReference = window.open(helpFileDirectory, "Help", "chrome,resizable=yes");
+    windowObjectReference.focus();
+    
   },
   getPreview: function(){
 	//creates a HTML representation of the document for preview

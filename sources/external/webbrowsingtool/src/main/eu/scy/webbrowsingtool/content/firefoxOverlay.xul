@@ -40,49 +40,49 @@
 <!DOCTYPE overlay SYSTEM "chrome://highlighter/locale/highlighter.dtd">
 <overlay id="highlighter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="overlay.js"/>
-  <stringbundleset id="stringbundleset">
-    <stringbundle id="highlighter-strings" src="chrome://highlighter/locale/highlighter.properties"/>
-  </stringbundleset>
+    <script src="overlay.js"/>
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="highlighter-strings" src="chrome://highlighter/locale/highlighter.properties"/>
+    </stringbundleset>
 
 
-  <keyset id="mainKeyset">
-    <key id="key_openSidebar" command="viewSidebar"
-         key="&openSidebar.commandkey;"
-         modifiers="&openSidebar.modifierskey;" />
-  </keyset>
+    <keyset id="mainKeyset">
+        <key id="key_openSidebar" command="viewSidebar"
+             key="&openSidebar.commandkey;"
+             modifiers="&openSidebar.modifierskey;" />
+    </keyset>
 
-  <broadcasterset id="mainBroadcasterSet">
-    <broadcaster id="viewSidebar"
-                 label="&sidebar.title;"
-                 autoCheck="false"
-                 type="checkbox"
-                 group="sidebar"
-                 sidebarurl="chrome://highlighter/content/sidebar.xul"
-                 sidebartitle="&sidebar.title;"
-                 oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" />
-  </broadcasterset>
+    <broadcasterset id="mainBroadcasterSet">
+        <broadcaster id="viewSidebar"
+                     label="&sidebar.title;"
+                     autoCheck="false"
+                     type="checkbox"
+                     group="sidebar"
+                     sidebarurl="chrome://highlighter/content/sidebar.xul"
+                     sidebartitle="&sidebar.title;"
+                     oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" />
+    </broadcasterset>
 
 
-  <menupopup id="menu_ToolsPopup">
+    <menupopup id="menu_ToolsPopup">
 
-  </menupopup>
-  <popup id="contentAreaContextMenu">
-    <menuitem id="context-highlighter" label="&highlighterContext.label;"
-              accesskey="&highlighterContext.accesskey;"
-              insertafter="context-stop"
-              oncommand="highlighter.onMenuItemCommand(event);"/>
-    <menuitem id="context-dehighlighter" label="&dehighlighterContext.label;"
-              accesskey="&dehighlighterContext.accesskey;"
-              insertafter="context-stop"
-              oncommand="highlighter.removeHighlight();"/>
-    <menuitem id="context-sidebar" label="Sidebar öffnen" key="key_openSidebar" observes="viewSidebar" />
-  </popup>
-  <toolbarpalette id="BrowserToolbarPalette">
-    <toolbarbutton id="highlighter-toolbar-button"
-      label="&highlighterToolbar.label;"
-      tooltiptext="&highlighterToolbar.tooltip;"
-      oncommand="highlighter.onToolbarButtonCommand()"
-      class="toolbarbutton-1 chromeclass-toolbar-additional"/>
-  </toolbarpalette>
+    </menupopup>
+    <popup id="contentAreaContextMenu">
+        <menuitem id="context-highlighter" label="&highlighterContext.label;"
+                  accesskey="&highlighterContext.accesskey;"
+                  insertafter="context-stop"
+                  oncommand="highlighter.onMenuItemCommand(event);"/>
+        <menuitem id="context-dehighlighter" label="&dehighlighterContext.label;"
+                  accesskey="&dehighlighterContext.accesskey;"
+                  insertafter="context-stop"
+                  oncommand="highlighter.removeHighlight();"/>
+        <menuitem id="context-sidebar" label="Sidebar öffnen" key="key_openSidebar" observes="viewSidebar" />
+    </popup>
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="highlighter-toolbar-button"
+                       label="&highlighterToolbar.label;"
+                       tooltiptext="&highlighterToolbar.tooltip;"
+                       oncommand="highlighter.onToolbarButtonCommand()"
+                       class="toolbarbutton-1 chromeclass-toolbar-additional"/>
+    </toolbarpalette>
 </overlay>
