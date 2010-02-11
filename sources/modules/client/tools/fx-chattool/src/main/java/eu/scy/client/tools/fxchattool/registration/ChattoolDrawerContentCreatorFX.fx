@@ -81,7 +81,7 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
             chatTool = new ChatPanel(controller);
         } else {
             var chatController = new MUCChatController(awarenessService, s);
-             chatControllerMap.put(s, chatController);
+            chatControllerMap.put(s, chatController);
             chatTool = new ChatPanel(chatController);
         }
 
