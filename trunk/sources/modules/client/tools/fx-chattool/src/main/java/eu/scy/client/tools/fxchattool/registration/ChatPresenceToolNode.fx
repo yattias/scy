@@ -22,11 +22,15 @@ import javafx.scene.text.Font;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
+
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.*;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 /**
  * @author jeremyt
  */
 
-public class ChatPresenceToolNode extends CustomNode, Resizable {
+public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX {
     public override var width on replace {resizeContent()};
     public override var height on replace {resizeContent()};
 
@@ -104,5 +108,17 @@ public class ChatPresenceToolNode extends CustomNode, Resizable {
 
    public override function getPrefWidth(width: Number) : Number{
       return chatPresenceTool.getPreferredSize().getWidth();
+   }
+
+   public override function canAcceptDrop(object:Object):Boolean{
+      println("################################canAcceptDrop of {object.getClass()}");
+      return true;
+   }
+
+   public override function acceptDrop(object:Object):Void{
+      println("################################acceptDrop of {object.getClass()}");
+      var c:ContactFrame = object as ContactFrame;
+      println("################################acceptDrop of {c.contact.name}");
+      chatPresenceTool.addTemporaryUser(c.contact.name);
    }
 }
