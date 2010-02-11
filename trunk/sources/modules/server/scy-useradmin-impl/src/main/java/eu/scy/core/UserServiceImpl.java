@@ -39,6 +39,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
         return getUserDAO().getUsers();
     }
 
+    @Override
+    public List<User> getStudents() {
+        return getUserDAO().getStudents();
+    }
+
     @Transactional
     @Override
     public User save(User user) {
