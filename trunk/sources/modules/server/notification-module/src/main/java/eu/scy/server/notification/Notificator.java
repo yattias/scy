@@ -8,10 +8,6 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Callback.Command;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
@@ -74,16 +70,21 @@ public class Notificator extends SCYHubModule{
         String sender = (String) notificationTuple.getField(4).getValue();
         String mission = (String) notificationTuple.getField(5).getValue();
         String session = (String) notificationTuple.getField(6).getValue();
-        Map<String, String> props = new HashMap<String, String>();
+        INotification notification = new Notification();
+        notification.setUniqueID(uniqueID);
+        notification.setUserId(userId);
+        notification.setSender(sender);
+        notification.setToolId(toolId);
+        notification.setTimestamp(notificationTuple.getCreationTimestamp());
+        notification.setMission(mission);
+        notification.setSession(session);
         for (int i = 7; i < notificationTuple.getNumberOfFields(); i++) {
             String keyValue = (String) notificationTuple.getField(i).getValue();
             int index = keyValue.indexOf('=');
             String key = keyValue.substring(0, index);
             String value = keyValue.substring(index + 1, keyValue.length());
-            props.put(key, value);
-
+            notification.addProperty(key, value);
         }
-        INotification notification = new Notification(uniqueID, userId, sender, toolId, notificationTuple.getCreationTimestamp(), mission, session, props);
 
         // Create a message to send the notification with receiver
         Message message = new Message();

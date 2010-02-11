@@ -101,7 +101,7 @@ public interface INotification {
      * 
      * @return whole Properties object
      */
-    public Map<String, String> getProperties();
+    public Map<String, String[]> getProperties();
 
     /**
      * adds a new 'property'
@@ -114,12 +114,20 @@ public interface INotification {
     public void addProperty(String key, String value);
 
     /**
-     * returns the value of 'key'
+     * returns the first value of the values array of 'key'
      * 
      * @param key
-     * @return value of 'key'
+     * @return first value of 'key'
      */
-    public String getProperty(String key);
+    public String getFirstProperty(String key);
+
+    /**
+     * returns all values of 'key'
+     * 
+     * @param key
+     * @return array containing all values of 'key'
+     */
+    public String[] getPropertyArray(String key);
     
     /**
      * Sets the userId, the actual XMPP receiver. Must be JID conform (Jabber ID).

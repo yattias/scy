@@ -1,6 +1,7 @@
 package eu.scy.notification;
 
 import java.rmi.dgc.VMID;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,14 +9,16 @@ import eu.scy.notification.api.INotification;
 
 public class Notification implements INotification {
 
+    private static final String SEPARATOR = ",";
+
     public static final String PATH = "notification";
 
     private long timestamp;
 
-    private Map<String, String> properties;
+    private Map<String, String[]> properties;
 
     private String toolId;
-    
+
     private String userId;
 
     private String sender;
@@ -28,7 +31,7 @@ public class Notification implements INotification {
 
     public Notification() {
         uniqueId = new VMID().toString();
-        properties = new HashMap<String, String>();
+        properties = new HashMap<String, String[]>();
     }
 
     /**
@@ -36,7 +39,7 @@ public class Notification implements INotification {
      * 
      * @param xml
      */
-    public Notification(String uniqueId, String userId, String sender, String toolId, long timestamp, String mission, String session, Map<String, String> props) {
+    public Notification(String uniqueId, String userId, String sender, String toolId, long timestamp, String mission, String session, Map<String, String[]> props) {
         this.uniqueId = uniqueId;
         this.userId = userId;
         this.sender = sender;
@@ -44,13 +47,13 @@ public class Notification implements INotification {
         this.timestamp = timestamp;
         this.mission = mission;
         this.session = session;
-        properties = (props == null) ? new HashMap<String, String>() : props;
+        properties = (props == null) ? new HashMap<String, String[]>() : props;
     }
 
     /**
      * returns the properties object
      */
-    public Map<String, String> getProperties() {
+    public Map<String, String[]> getProperties() {
         return properties;
     }
 
@@ -61,16 +64,13 @@ public class Notification implements INotification {
      * @param value
      */
     public void addProperty(String key, String value) {
-        properties.put(key, value);
-
-    }
-
-    /**
-     * @param key
-     * @return value of 'key'
-     */
-    public String getProperty(String key) {
-        return properties.get(key);
+        String[] values = properties.get(key);
+        if (values == null) {
+            values = new String[1];
+        } else {
+            values = Arrays.copyOf(values, values.length + 1);
+        }
+        values[values.length - 1] = value;
     }
 
     @Override
@@ -133,14 +133,47 @@ public class Notification implements INotification {
         this.session = sessionId;
     }
 
-	@Override
-	public String getUserId() {
-		return userId;
-	}
+    @Override
+    public String getUserId() {
+        return userId;
+    }
 
-	@Override
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    @Override
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String getFirstProperty(String key) {
+        String[] values = properties.get(key);
+        if (values != null && values.length > 0) {
+            return values[0];
+        } else {
+            return null;
+        }
+    }
+
+    public String getPropertyXMLString(String key) {
+        String[] values = properties.get(key);
+        if (values != null && values.length > 0) {
+            StringBuilder sb = new StringBuilder(values[0]);
+            for (String value : values) {
+                sb.append(SEPARATOR);
+                sb.append(value);
+            }
+            return sb.toString();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyArray(String key) {
+        return properties.get(key);
+    }
+
+    public void addPropertyXMLString(String attribute, String value) {
+        properties.put(attribute, value.split(SEPARATOR));
+    }
 
 }
