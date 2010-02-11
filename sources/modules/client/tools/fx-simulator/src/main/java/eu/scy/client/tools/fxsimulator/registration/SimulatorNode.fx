@@ -216,6 +216,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         var simquestViewer = new SimQuestViewer(false);
         logger.info("trying to load simulation: {fileUri.toString()}");
         simquestViewer.setFile(fileUri);
+        simquestViewer.setLookAndFeel(false);
         simquestViewer.createFrame(false);
         dataCollector = null;
         try {
