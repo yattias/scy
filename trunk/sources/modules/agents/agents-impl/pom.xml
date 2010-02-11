@@ -73,18 +73,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>notification-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>notification-impl</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
 			<artifactId>obwious-mallet</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
