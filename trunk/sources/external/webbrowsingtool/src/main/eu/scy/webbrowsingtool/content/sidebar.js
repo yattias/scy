@@ -59,7 +59,7 @@ var highlighter = {
 	this.restoreSidebar();
 	this.correctSources();
 
-    document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
+    document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) {this.showContextMenu(e);}, false);
 
   },
   sidebarExists:function(){
@@ -958,7 +958,7 @@ highlightDoc: function() {
 			window.alert(top.window.document.getElementById("highlighter-strings").getString("setUpLoginData"));
 
 			this.openPreferences();
-        }   else {
+        } else {
 
         //make the XMLHttpRequest (POST)!!!
 
@@ -1368,10 +1368,11 @@ highlightDoc: function() {
 
         //---------------------------------------------------
 
+        var titleBox = document.getElementById('titleBox');
         var summaryHTML = "<document>";
 
 		//The header especially contains the styles of the summary
-        var header = 	"<head> <style type=\"text/css\">"+
+        var header = 	"<head> <title>"+titleBox.value+"</title> <style type=\"text/css\">"+
 						"h1{font-family:Georgia,\"Times New Roman\",Times,serif; font-weight:normal; border-bottom:3px solid #E2E1DE; font-size:200%; margin-bottom:0.5em;} " +
 						"h2{ font-family:Georgia,\"Times New Roman\",Times,serif; font-weight:normal; font-size:130%; } " +
 						"p{ color:#25221D; font-family:Verdana,Tahoma,sans-serif;font-size:14px;font-size-adjust:none;font-style:normal;font-variant:normal;font-weight:normal;line-height:1.7; margin:0 0 1.7em; padding:0;} " +
@@ -1382,7 +1383,6 @@ highlightDoc: function() {
 
         summaryHTML = summaryHTML + header + "<body>";
         //append title
-        var titleBox = document.getElementById('titleBox');
         summaryHTML = summaryHTML + "<h1>"+ titleBox.value + "</h1>";
 
         //append summary from the summmaryBox
@@ -1427,9 +1427,23 @@ highlightDoc: function() {
   },
   preview: function(){
 	var summary = this.getPreview();
+        this.strings = top.window.document.getElementById("highlighter-strings");
+        var titleBox = document.getElementById('titleBox');
 	//opens a new Browser-Window without Navigation and sets the preview to the documents content
-    myWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=520');
+    myWindow = window.open('',"preview",'resizable=yes,scrollbars=yes,width=700,height=520');
     myWindow.document.body.innerHTML = summary;
+    myWindow.document.title = titleBox.value;
+  },
+  print: function(){
+    	var summary = this.getPreview();
+	 this.strings = top.window.document.getElementById("highlighter-strings");
+        var titleBox = document.getElementById('titleBox');
+        var printerTitle = this.strings.getString("printPreview")+titleBox.value;
+	//opens a new Browser-Window without Navigation and sets the preview to the documents content
+    myWindow = window.open('',"preview",'resizable=yes,scrollbars=yes,width=700,height=520');
+    myWindow.document.body.innerHTML = summary;
+    myWindow.document.title = printerTitle;
+    myWindow.print();
   },
   onAfterUnload:function(e){
 	window.alert("AfterUnload called");
@@ -1442,7 +1456,7 @@ var dehighlighter = {
     this.initialized = true;
     this.strings = document.getElementById("dehighlighter-strings");
     document.getElementById("contentAreaContextMenu")
-            .addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
+            .addEventListener("popupshowing", function(e) {this.showContextMenu(e);}, false);
   },
 
   showContextMenu: function(event) {
@@ -1467,10 +1481,10 @@ var dehighlighter = {
 };
 //Components.utils.import("resource://highlighter/highlights.jsm");
 //General eventlistener
-window.addEventListener("beforeunload", function(e) { highlighter.onBeforeUnload(e); }, false);
-window.addEventListener("afterunload", function(e) { highlighter.onAfterUnload(e); }, false);
-window.addEventListener("unload", function(e) { highlighter.onUnload(e); }, false);
-window.addEventListener("load", function(e) { highlighter.onLoad(e); }, false);
+window.addEventListener("beforeunload", function(e) {highlighter.onBeforeUnload(e);}, false);
+window.addEventListener("afterunload", function(e) {highlighter.onAfterUnload(e);}, false);
+window.addEventListener("unload", function(e) {highlighter.onUnload(e);}, false);
+window.addEventListener("load", function(e) {highlighter.onLoad(e);}, false);
 
 //Adding listener for Tab-events
 var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
