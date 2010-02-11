@@ -14,39 +14,43 @@ public final class AgentProtocol {
 	private static final int COMMAND_EXPIRATION = 5000;
 
 	public static final String QUERY = "query";
-
 	public static final String RESPONSE = "response";
 
 	public static final String COMMAND_SPACE_NAME = "command";
-
 	public static final String ACTION_SPACE_NAME = "actions";
 
 	public static final String COMMAND_LINE = "agent command";
 
 	public static final String MESSAGE_IDENTIFY = "identify";
-
 	public static final String MESSAGE_STOP = "stop";
-
 	public static final String MESSAGE_START = "start";
-
 	public static final String MESSAGE_KILL = "kill";
 
 	public static final String ALIVE = "alive";
 
 	public static final String PARAM_AGENT_ID = "id";
-
 	public static final String TS_PORT = "tsPort";
-
 	public static final String TS_HOST = "tsHost";
 
 	/**
 	 * The interval in which alive tuples should expire.
 	 */
-	public static final int ALIVE_INTERVAL = 2 * 5000;
+	public static final int ALIVE_INTERVAL = 2 * COMMAND_EXPIRATION;
 
 	public enum ResonseType {
 		OK, ANSWER, ERROR;
 	}
+
+	public static final String ACTION = "action";
+	public static final String ACTION_ELO_SAVED_ACTION = "elo_saved";
+	public static final String ACTIONLOG_ELO_TYPE = "type";
+	public static final String ACTIONLOG_ELO_URI = "elouri";
+	public static final String ACTION_TOOL_STARTED = "tool_started";
+	public static final String ACTION_TOOL_CLOSED = "tool_closed";
+	public static final String ACTION_NODE_ADDED = "node_added";
+	public static final String ACTION_NODE_REMOVED = "node_removed";
+
+	public static final String NOTIFICATION = "notification";
 
 	private AgentProtocol() {
 		// should never be called

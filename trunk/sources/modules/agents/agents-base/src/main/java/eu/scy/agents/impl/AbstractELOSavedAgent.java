@@ -6,19 +6,17 @@ import java.util.logging.Logger;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 
 public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 
-	private static final String ELO_SAVED_ACTION = "elo_saved";
-	private static final String ACTION = "action";
-
 	private int listenerId;
 
 	// ("action":String, <ID>:String, <Timestamp>:long, elo_saved:String, <User>:String, <Tool>:String,
 	// <Mission>:String, <Session>:String, <Key=Value>:String*)
-	private Tuple eloSavedTupleTemplate = new Tuple(ACTION, String.class, Long.class, ELO_SAVED_ACTION, String.class,
+	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION, String.class, Long.class, AgentProtocol.ACTION_ELO_SAVED_ACTION, String.class,
 			String.class, String.class, String.class, String.class, String.class);
 
 	private static final Logger logger = Logger.getLogger(AbstractELOSavedAgent.class.getName());
@@ -84,13 +82,18 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 			return;
 		}
 		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
-		if (!ELO_SAVED_ACTION.equals(action.getType())) {
+		if (!AgentProtocol.ACTION_ELO_SAVED_ACTION.equals(action.getType())) {
 			logger.warning("Trying to process action log that does not match elo_saved signature. Type: "
 					+ action.getType());
 		} else {
-			processELOSavedAction(action);
+			processELOSavedAction(action.getId(), action.getUser(), action.getTimeInMillis(), action
+					.getContext(ContextConstants.tool), action.getContext(ContextConstants.mission), action
+					.getContext(ContextConstants.session), action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI), action
+					.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));
 		}
 	}
 
-	protected abstract void processELOSavedAction(IAction action);
+	protected abstract void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
+			String mission, String session, String eloUri, String eloType);
+
 }
