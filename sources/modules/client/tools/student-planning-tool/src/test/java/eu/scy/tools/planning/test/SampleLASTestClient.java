@@ -13,6 +13,10 @@ public class SampleLASTestClient {
 
 	/** simple main driver for this class */
 	public static void main(String[] args) {
+		
+//		 StudentPlanningController spc = new StudentPlanningController(null);
+//	      StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
+//	      studentPlanningToolMain.launchInFrame()
 	  SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
 	    	
@@ -27,7 +31,8 @@ public class SampleLASTestClient {
 			 StudentPlanningController spc = new StudentPlanningController(null);
 		      StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
 		      
-			frame.add(studentPlanningToolMain.createStudentPlanningPanel(null));
+			frame.add(studentPlanningToolMain.createStudentPlanningPanel());
+			frame.add(studentPlanningToolMain.createDragPanel());
 			//frame.setPreferredSize(new Dimension(500, 600));
 			// when you close the frame, the app exits
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
