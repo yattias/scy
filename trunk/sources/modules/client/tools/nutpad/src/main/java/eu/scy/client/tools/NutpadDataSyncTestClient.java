@@ -140,7 +140,7 @@ public class NutpadDataSyncTestClient extends JFrame{
 		
 			@Override
 			public void processNotification(INotification notification) {
-				JOptionPane.showMessageDialog(NutpadDataSyncTestClient.this, notification.getProperty("message"), "Notification from " + notification.getSender(), JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(NutpadDataSyncTestClient.this, notification.getFirstProperty("message"), "Notification from " + notification.getSender(), JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
         
