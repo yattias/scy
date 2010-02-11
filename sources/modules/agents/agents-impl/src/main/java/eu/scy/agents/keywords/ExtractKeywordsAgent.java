@@ -12,14 +12,14 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class ExtractKeywords extends AbstractRequestAgent {
+public class ExtractKeywordsAgent extends AbstractRequestAgent {
 
-	public static final String NAME = ExtractKeywords.class.getName();
+	public static final String NAME = ExtractKeywordsAgent.class.getName();
 	public static final Object EXTRACT_KEYWORDS = "ExtractKeywords";
 
 	private Tuple activationTuple;
 
-	public ExtractKeywords(Map<String, Object> params) {
+	public ExtractKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
 			host = (String) params.get(AgentProtocol.TS_HOST);
@@ -35,32 +35,29 @@ public class ExtractKeywords extends AbstractRequestAgent {
 		while (status == Status.Running) {
 			Tuple tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
+				String queryId = (String) tuple.getField(2).getValue();
 				ArrayList<String> tfIdfKeywords = getTfIdfKeywords(tuple);
 				ArrayList<String> topicKeywords = getTopicKeywords(tuple);
 
 				ArrayList<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
 
-				sendNotification(mergedKeywords);
+				sendAnswer(mergedKeywords, queryId);
 				System.err.println("************ Run *****************");
 			}
 			sendAliveUpdate();
 		}
 	}
 
-	private void sendNotification(ArrayList<String> mergedKeywords) {
-		Tuple notificationTuple = new Tuple();
-		notificationTuple.add("notification");
-		notificationTuple.add(new VMID().toString());
-		notificationTuple.add("jeremy@scy.collide.info/Smack");
-		notificationTuple.add("scymapper");
-		notificationTuple.add("Sender");
-		notificationTuple.add("Mission");
-		notificationTuple.add("Session");
+	private void sendAnswer(List<String> mergedKeywords, String queryId) {
+		Tuple responseTuple = new Tuple();
+		responseTuple.add(EXTRACT_KEYWORDS);
+		responseTuple.add(AgentProtocol.RESPONSE);
+		responseTuple.add(queryId);
 		for (String keyword : mergedKeywords) {
-			notificationTuple.add("keyword=" + keyword);
+			responseTuple.add(keyword);
 		}
 		try {
-			getCommandSpace().write(notificationTuple);
+			getCommandSpace().write(responseTuple);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
