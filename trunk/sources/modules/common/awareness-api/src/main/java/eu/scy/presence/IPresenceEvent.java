@@ -12,6 +12,7 @@ public interface IPresenceEvent {
     
 	public static String AVAILABLE = "available";
 	public static String UNAVAILABLE = "unavailable";
+	public static String WAITING = "waiting";
 	
     /**
      * Gets the user
