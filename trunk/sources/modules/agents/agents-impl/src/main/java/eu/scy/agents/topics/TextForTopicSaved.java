@@ -5,8 +5,6 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.Map;
 
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.agents.ActionLogConstants;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -17,7 +15,7 @@ public class TextForTopicSaved extends AbstractELOSavedAgent {
 	public TextForTopicSaved(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
-			host = (String) params.get(AgentProtocol.TS_PORT);
+			host = (String) params.get(AgentProtocol.TS_HOST);
 		}
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
@@ -31,17 +29,6 @@ public class TextForTopicSaved extends AbstractELOSavedAgent {
 		return false;
 	}
 
-	@Override
-	protected void processELOSavedAction(IAction action) {
-		String eloUri = action.getAttribute(ActionLogConstants.ELO_URI);
-		String eloType = action.getAttribute(ActionLogConstants.ELO_TYPE);
-		System.out.println(eloUri);
-		System.out.println(eloType);
-		if (isValidType(eloType)) {
-			writeELOSavedTuple(eloUri);
-		}
-	}
-
 	private void writeELOSavedTuple(String eloUri) {
 		System.out.println("writing tuple");
 		try {
@@ -51,5 +38,16 @@ public class TextForTopicSaved extends AbstractELOSavedAgent {
 			e.printStackTrace();
 		}
 		System.out.println("tuple written");
+	}
+
+	@Override
+	protected void processELOSavedAction(String actionId, String user, long timeInMillis, String tool, String mission,
+			String session, String eloUri, String eloType) {
+		System.out.println(eloUri);
+		System.out.println(eloType);
+		if (isValidType(eloType)) {
+			writeELOSavedTuple(eloUri);
+		}
+
 	}
 }
