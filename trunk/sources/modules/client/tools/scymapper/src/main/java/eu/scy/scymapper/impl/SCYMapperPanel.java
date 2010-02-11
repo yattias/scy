@@ -108,7 +108,7 @@ public class SCYMapperPanel extends JPanel {
 				append("Session:	").append(notification.getSession()).append("\n").
 				append("Properties --------------\n");
 
-		for (Map.Entry<String, String> entry : notification.getProperties().entrySet()) {
+		for (Map.Entry<String, String[]> entry : notification.getProperties().entrySet()) {
 			sb.append("  ").append(entry.getKey()).append(":	").append(entry.getValue()).append("\n");
 		}
 
