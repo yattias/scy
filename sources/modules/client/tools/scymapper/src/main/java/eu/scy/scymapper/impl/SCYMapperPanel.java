@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -81,8 +82,50 @@ public class SCYMapperPanel extends JPanel {
 					showNotification(notification);
 				}
 			});
+			toolBroker.registerForNotifications(new INotifiable() {
+				@Override
+				public void processNotification(INotification notification) {
+
+					if (notification.getToolId().equals("scymapper") &&
+							notification.getFirstProperty("type").equals("concept_proposal")) {
+						String[] keywords = notification.getPropertyArray("keywords");
+						if (keywords != null) suggestKeywords(Arrays.asList(keywords));
+					}
+				}
+			});
 			actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(), username);
 		}
+	}
+
+	private void suggestKeywords(java.util.List<String> keywords) {
+
+		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
+
+		if (keywords.size() == 1)
+			panel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
+		else
+			panel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
+
+		panel.setSize(400, 350);
+		panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
+
+		if (notificator != null) notificator.hide();
+		notificator = new SlideNotificator(SCYMapperPanel.this, panel);
+
+		final SlideNotificator n = notificator;
+		JButton close = new JButton("Close");
+		close.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				n.hide();
+			}
+		});
+
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(close);
+		panel.add(BorderLayout.SOUTH, close);
+
+		notificator.show();
 	}
 
 	public void joinSession(ISyncSession session) {
@@ -137,36 +180,12 @@ public class SCYMapperPanel extends JPanel {
 
 	private void showKeywordSuggestion() {
 
-		String input = JOptionPane.showInputDialog("What keyword would you like to have suggested to you?", "Contains, extensions, to, the, Swing, GUI, toolkit");
+		String input = JOptionPane.showInputDialog("What keyword would you like to have suggested to you (Separate keywords with comma)?", "Contains, extensions, to, the, Swing, GUI, toolkit");
 
 		if (input == null) return;
+		java.util.List<String> keywords = Arrays.asList(input.split(",\\s+"));
+		suggestKeywords(keywords);
 
-		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
-		if (input.indexOf(",") > -1) {
-			String[] keywords = input.split(",");
-			panel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
-		} else panel.setSuggestion(input, configuration.getNodeFactories(), cmapPanel);
-
-		panel.setSize(400, 350);
-		panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
-
-		if (notificator != null) notificator.hide();
-		notificator = new SlideNotificator(SCYMapperPanel.this, panel);
-
-		final SlideNotificator n = notificator;
-		JButton close = new JButton("Close");
-		close.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				n.hide();
-			}
-		});
-
-		JPanel btnPanel = new JPanel();
-		btnPanel.add(close);
-		panel.add(BorderLayout.SOUTH, close);
-
-		notificator.show();
 	}
 
 	private void initComponents() {
@@ -225,7 +244,7 @@ public class SCYMapperPanel extends JPanel {
 				notificator.hide();
 			}
 		});
-		JButton testSuggestKeywordButton = new JButton("Suggest keyword");
+		JButton testSuggestKeywordButton = new JButton("Suggest keywords");
 		testSuggestKeywordButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

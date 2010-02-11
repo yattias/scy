@@ -73,7 +73,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
 	public void logNodeAdded(INodeModel node) {
 		IAction a = createSCYMapperAction("node_added");
 		a.addAttribute("id", node.getId());
-		a.addAttribute("label", node.getLabel());
+		a.addAttribute("name", node.getLabel());
 		log(a);
 	}
 
@@ -85,7 +85,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
 	public void logLinkAdded(INodeLinkModel link) {
 		IAction a = createSCYMapperAction("link_added");
 		a.addAttribute("id", link.getId());
-		a.addAttribute("label", link.getLabel());
+		a.addAttribute("name", link.getLabel());
 		a.addAttribute("from_node", link.getFromNode().getId());
 		a.addAttribute("to_node", link.getToNode().getId());
 		log(a);
