@@ -87,7 +87,7 @@ public class KeywordSuggestionPanel extends JPanel {
 	 * @param keywords
 	 * @param conceptFactories
 	 */
-	public void setSuggestions(String[] keywords, Collection<IConceptFactory> conceptFactories, ConceptMapPanel panel) {
+	public void setSuggestions(java.util.List<String> keywords, Collection<IConceptFactory> conceptFactories, ConceptMapPanel panel) {
 
 		String[] text = {
 				"The SCY-Troll has discovered that you may have missed relevant keywords in your concept map. ",
@@ -120,7 +120,6 @@ public class KeywordSuggestionPanel extends JPanel {
 			});
 			conceptButtonPane.add(btn);
 		}
-		//conceptButtonPane.add(container);
 	}
 
 	private Component createConceptButton(final IConceptFactory factory, final String keyword, final ConceptMapPanel panel) {
