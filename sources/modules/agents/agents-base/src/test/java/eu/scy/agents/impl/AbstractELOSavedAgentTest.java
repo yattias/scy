@@ -7,8 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,25 +28,25 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 		super(AbstractELOSavedAgentTest.class.getName(), "id1", TSHOST, TSPORT);
 	}
 
-	@Override
-	protected void processELOSavedAction(IAction action) {
-		processActionCalled = true;
-		try {
-			assertEquals("SomeMission", action.getContext(ContextConstants.mission));
-			assertEquals("TestSession", action.getContext(ContextConstants.session));
-			assertEquals("SomeTool", action.getContext(ContextConstants.tool));
-			assertEquals(UUID1234, action.getId());
-			assertEquals("testUser", action.getUser());
-			assertEquals(TIME_IN_MILLIS, action.getTimeInMillis());
-			assertEquals("elo_saved", action.getType());
-
-			assertEquals(ELO_URI, action.getAttribute("elouri"));
-			assertEquals(ELO_TYPE, action.getAttribute("type"));
-		} catch (AssertionError e) {
-			e.printStackTrace();
-			errorOccurred = true;
-		}
-	}
+	// @Override
+	// protected void processELOSavedAction(IAction action) {
+	// processActionCalled = true;
+	// try {
+	// assertEquals("SomeMission", action.getContext(ContextConstants.mission));
+	// assertEquals("TestSession", action.getContext(ContextConstants.session));
+	// assertEquals("SomeTool", action.getContext(ContextConstants.tool));
+	// assertEquals(UUID1234, action.getId());
+	// assertEquals("testUser", action.getUser());
+	// assertEquals(TIME_IN_MILLIS, action.getTimeInMillis());
+	// assertEquals("elo_saved", action.getType());
+	//
+	// assertEquals(ELO_URI, action.getAttribute("elouri"));
+	// assertEquals(ELO_TYPE, action.getAttribute("type"));
+	// } catch (AssertionError e) {
+	// e.printStackTrace();
+	// errorOccurred = true;
+	// }
+	// }
 
 	@BeforeClass
 	public static void startTS() {
@@ -69,7 +67,7 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 	}
 
 	@Before
-	public void setUp() throws AgentLifecycleException, TupleSpaceException {
+	public void setUp() throws AgentLifecycleException {
 		processActionCalled = false;
 		errorOccurred = false;
 
@@ -101,5 +99,26 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 		Thread.sleep(500);
 		assertFalse("Action not processed", processActionCalled);
 		assertFalse("An error has occured", errorOccurred);
+	}
+
+	@Override
+	protected void processELOSavedAction(String actionId, String user, long timeInMillis, String tool, String mission,
+			String session, String eloUri, String eloType) {
+		processActionCalled = true;
+		try {
+			assertEquals("SomeMission", mission);
+			assertEquals("TestSession", session);
+			assertEquals("SomeTool", tool);
+			assertEquals(UUID1234, actionId);
+			assertEquals("testUser", user);
+			assertEquals(TIME_IN_MILLIS, timeInMillis);
+
+			assertEquals(ELO_URI, eloUri);
+			assertEquals(ELO_TYPE, eloType);
+		} catch (AssertionError e) {
+			e.printStackTrace();
+			errorOccurred = true;
+		}
+
 	}
 }
