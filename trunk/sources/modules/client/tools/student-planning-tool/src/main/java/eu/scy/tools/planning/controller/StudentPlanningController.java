@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
@@ -38,7 +40,7 @@ public class StudentPlanningController {
 		log.info("Starting Student Planning Controller...");
 		studentPedagogicalPlanService = getStudentPlanService();
 
-		if (studentPedagogicalPlanService == null)
+		if (studentPedagogicalPlanService == null) 
 			throw new RuntimeException("STUDENT SERVICE IS NULL!!!! LAME");
 
 		// get the user from the tool broker
@@ -47,14 +49,17 @@ public class StudentPlanningController {
 		List<StudentPlanELO> studentPlans = studentPedagogicalPlanService
 				.getStudentPlans("wiwoo");
 
-		//if( studentPlans.size() > 0 ) {
-		 setStudentPlanELO(studentPlans.get(0));
-         System.out.println("PLAN:" + getStudentPlanELO());
-         
-		for (StudentPlanELO studentPlanELO : studentPlans) {
-			this.dumpStudentPlan(studentPlanELO);
+		if( studentPlans.size() > 0 ) {
+			 setStudentPlanELO(studentPlans.get(0));
+	         System.out.println("PLAN:" + getStudentPlanELO());
+	         
+			for (StudentPlanELO studentPlanELO : studentPlans) {
+				this.dumpStudentPlan(studentPlanELO);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "The Server is probably not stable if u can read this!:  " + configuration.getStudentPlanningToolUrl());
+			return;
 		}
-		//}
 
 		// pedagogicalPlanService = toolbroker.getPedagogicalPlanService();
 		// pedagogicalPlanService.getPedagogicalPlan(mission, scenario);
