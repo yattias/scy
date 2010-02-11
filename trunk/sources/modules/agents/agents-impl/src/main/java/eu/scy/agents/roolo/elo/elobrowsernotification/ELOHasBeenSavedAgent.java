@@ -3,9 +3,9 @@ package eu.scy.agents.roolo.elo.elobrowsernotification;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.rmi.dgc.VMID;
 import java.util.Map;
 
-import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -54,16 +54,22 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 	// // sender.send("roolo", "roolo", notification);
 	// }
 
+	// @Override
+	// protected void processELOSavedAction(IAction action) {
+	//
+	// }
+
 	@Override
-	protected void processELOSavedAction(IAction action) {
-		String eloUri = action.getAttribute("elouri");
-		Tuple tuple = new Tuple("notifyEloBrowser", eloUri);
+	protected void processELOSavedAction(String actionId, String user, long timeInMillis, String tool, String mission,
+			String session, String eloUri, String eloType) {
+
+		Tuple notificationTuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), user, tool, NAME,
+				mission, session, AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri);
 
 		try {
-			getCommandSpace().write(tuple);
+			getCommandSpace().write(notificationTuple);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
