@@ -24,3 +24,15 @@
 <!ENTITY openSidebar.commandkey "E">
 <!ENTITY openSidebar.modifierskey "shift accel">
 <!ENTITY openELOWindowTitle "Open ELO....">
+<!ENTITY toolbarbutton.new "New ELO">
+<!ENTITY toolbarbutton.save "Save ELO">
+<!ENTITY toolbarbutton.print "Print">
+<!ENTITY toolbarbutton.preferences "Preferences">
+<!ENTITY toolbarbutton.help "Help">
+<!ENTITY toolbarbutton.preview "Preview">
+<!ENTITY toolbarbutton.tooltip.new "Create new ELO">
+<!ENTITY toolbarbutton.tooltip.save "Save ELO">
+<!ENTITY toolbarbutton.tooltip.print "Print overview">
+<!ENTITY toolbarbutton.tooltip.preferences "Preferences: customize settings, e.g. Username/Password">
+<!ENTITY toolbarbutton.tooltip.help "Open Help-page">
+<!ENTITY toolbarbutton.tooltip.preview "Open preview">
