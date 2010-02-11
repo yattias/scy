@@ -57,6 +57,8 @@ import org.jdesktop.swingx.VerticalLayout;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
+import eu.scy.awareness.AwarenessUser;
+import eu.scy.awareness.IAwarenessUser;
 import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
@@ -72,10 +74,13 @@ import eu.scy.tools.dnd.JXDropTargetListener;
 import eu.scy.tools.dnd.JXDropTaskPaneTargetListener;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.Colors;
+import eu.scy.tools.planning.ui.JXBuddyPanel;
 import eu.scy.tools.planning.ui.images.Images;
 
 public class StudentPlanningTool {
-	
+
+	private static final String NO_ELOS_LABEL = "NO_ELOS_LABEL";
+
 	private static final String TASKPANE = "TASKPANE";
 
 	private static final String ACTIVITY_NAME = "ACTIVITY_NAME";
@@ -89,73 +94,72 @@ public class StudentPlanningTool {
 	Font activityFont = new Font("Segoe UI", Font.BOLD, 11);
 
 	private PedagogicalPlanService pedagogicalPlanService;
-	
 
 	private JXTaskPaneContainer taskpanecontainer;
 
 	private StudentPlanningController studentPlanningController;
-	
-	private StudentPlanningController controller = new StudentPlanningController();
 
 	private String END_DATE_PICKER = "END_DATE_PICKER";
 
 	/**
 	 * creates a JFrame and calls {@link #doInit} to create a JXPanel and adds
 	 * the panel to this frame.
-	 * @param studentPlanningController 
+	 * 
+	 * @param studentPlanningController
 	 */
-	public StudentPlanningTool(StudentPlanningController studentPlanningController) {
-		
-		
-		if( studentPlanningController == null ) {
-			JOptionPane.showMessageDialog(null, "The Server is probably not stable if u can read this!");
+	public StudentPlanningTool(
+			StudentPlanningController studentPlanningController) {
+
+		if (studentPlanningController == null) {
+			JOptionPane.showMessageDialog(null,
+					"The Server is probably not stable if u can read this!");
 			return;
 		}
 		this.setStudentPlanningController(studentPlanningController);
 		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
+			// If Nimbus is not available, you can set the GUI to another look
+			// and feel.
 		}
-		
+
 		// Get current delay
-	    int initialDelay = ToolTipManager.sharedInstance().getInitialDelay();
-	    
-	    // Show tool tips immediately
-	    ToolTipManager.sharedInstance().setInitialDelay(0);
-	    
-	    // Show tool tips after a second
-	    initialDelay = 1000;
-	    ToolTipManager.sharedInstance().setInitialDelay(initialDelay);
-	    ToolTipManager.sharedInstance().setDismissDelay(initialDelay*4);
-		
+		int initialDelay = ToolTipManager.sharedInstance().getInitialDelay();
+
+		// Show tool tips immediately
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+
+		// Show tool tips after a second
+		initialDelay = 1000;
+		ToolTipManager.sharedInstance().setInitialDelay(initialDelay);
+		ToolTipManager.sharedInstance().setDismissDelay(initialDelay * 4);
 
 	}
-	
-	public void launchInFrame() {
-		
+
+	public void launchInFrame(final StudentPlanningTool studentPlanningToolMain) {
+
 		JFrame frame = new JFrame("Launcher");
 
 		// add the panel to this frame
-		
+
 		JXButton openFrame = new JXButton("Launch It");
 		openFrame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("Planning Tool");
 				frame.setLayout(new MigLayout("insets 0 0 0 0"));
-//				JScrollPane scrollPane = new JScrollPane(doInit());
-//				
-//				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				frame.add(createStudentPlanningPanel(null));
-				//frame.setPreferredSize(new Dimension(500, 600));
+				// JScrollPane scrollPane = new JScrollPane(doInit());
+				//				
+				// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				frame.add(studentPlanningToolMain.createStudentPlanningPanel());
+				// frame.setPreferredSize(new Dimension(500, 600));
 				// when you close the frame, the app exits
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -163,12 +167,12 @@ public class StudentPlanningTool {
 				frame.setLocationRelativeTo(null);
 				frame.pack();
 				frame.setVisible(true);
-				
+
 				frame = new JFrame("Test drag panel");
 				frame.setLayout(new MigLayout("insets 0 0 0 0"));
-				
+
 				frame.add(createDragPanel());
-				//frame.setPreferredSize(new Dimension(500, 600));
+				// frame.setPreferredSize(new Dimension(500, 600));
 				// when you close the frame, the app exits
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -179,8 +183,7 @@ public class StudentPlanningTool {
 
 			}
 		});
-		
-		
+
 		frame.add(openFrame);
 
 		// when you close the frame, the app exits
@@ -191,23 +194,20 @@ public class StudentPlanningTool {
 		frame.pack();
 		frame.setVisible(true);
 
-		
-		
 	}
-	
+
 	public JXButton testButton() {
 		JXButton openFrame = new JXButton("Test components press here");
 		openFrame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-
 				JFrame frame = new JFrame("Test drag panel");
 				frame.setLayout(new MigLayout("insets 0 0 0 0"));
-				
+
 				frame.add(createDragPanel());
-				//frame.setPreferredSize(new Dimension(500, 600));
+				// frame.setPreferredSize(new Dimension(500, 600));
 				// when you close the frame, the app exits
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -220,12 +220,11 @@ public class StudentPlanningTool {
 		});
 		return openFrame;
 	}
+
 	/** creates a JXLabel and attaches a painter to it. */
-	public JComponent createStudentPlanningPanel(Scenario s) {
-		
-		Scenario scenario = setupPedagogicalPlan();
-		
-		
+	public JComponent createStudentPlanningPanel() {
+
+
 		// tweak with the UI defaults for the taskpane and taskpanecontainer
 		changeUIdefaults();
 
@@ -238,127 +237,141 @@ public class StudentPlanningTool {
 		// add the task pane to the taskpanecontainer
 		// iterate over the las structure
 
-		
-        taskpanecontainer.add(testButton());
-        
-        List<StudentPlannedActivity> studentPlannedActivities = getStudentPlanningController().getStudentPlannedActivities();
-        
-        for (StudentPlannedActivity studentPlannedActivity : studentPlannedActivities) {
-        	this.addTaskContainer(createAnchorELOPanel(studentPlannedActivity));
+		if( getStudentPlanningController().getStudentPlanELO() != null ) {
+			List<StudentPlannedActivity> studentPlannedActivities = getStudentPlanningController()
+					.getStudentPlannedActivities();
+	
+			
+			for (StudentPlannedActivity studentPlannedActivity : studentPlannedActivities) {
+				this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
+			}
+		} else {
+			JXLabel noElOLabel = new JXLabel("Drag ELOs from the Mission Map here to start a plan");
+			noElOLabel.setName(NO_ELOS_LABEL);
+			this.addTaskPane(noElOLabel);
 		}
-        
-        
-		
 
-		taskpanecontainer.setDropTarget(new DropTarget(taskpanecontainer, new JXDropTaskPaneTargetListener(this)));
-		
+		taskpanecontainer.setDropTarget(new DropTarget(taskpanecontainer,
+				new JXDropTaskPaneTargetListener(this)));
+
 		// set the transparency of the JXPanel to 50% transparent
 		// panel.setAlpha(0.7f);
 
 		JScrollPane scrollPane = new JScrollPane(taskpanecontainer,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		panel.add(taskpanecontainer, BorderLayout.CENTER);
-//		panel.setPreferredSize(new Dimension(500, 600));
+		// panel.add(taskpanecontainer, BorderLayout.CENTER);
+		// panel.setPreferredSize(new Dimension(500, 600));
 		scrollPane.setPreferredSize(new Dimension(400, 600));
 		scrollPane.setOpaque(false);
-		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		JXPanel outerPanel = new JXPanel(new HorizontalLayout(1));
-		//JXPanel panel = new JXPanel();
+		// JXPanel panel = new JXPanel();
 		outerPanel.setBackgroundPainter(getTaskPaneTitlePainter());
-		//outerPanel.setLayout(new BorderLayout());
-		outerPanel.setBorder(new TitledBorder(null, null, 0, 0, activityFont, Color.black));
-		
-		
-//		scrollPane.getViewport().add(panel);
-////		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-////		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//		scrollPane.setPreferredSize(new Dimension(500, 600));
+		// outerPanel.setLayout(new BorderLayout());
+		outerPanel.setBorder(new TitledBorder(null, null, 0, 0, activityFont,
+				Color.black));
+
+		// scrollPane.getViewport().add(panel);
+		// //
+		// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		// //
+		// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		// scrollPane.setPreferredSize(new Dimension(500, 600));
 		outerPanel.add(scrollPane);
-		
-		//outerPanel.add(createDragPanel());
-		
-		
-		
-		
+
+		// outerPanel.add(createDragPanel());
+
 		return outerPanel;
 	}
+
+	public void acceptDrop(Object drop) {
+		studentPlanningController.acceptDrop(drop);
+	}
 	
-	public void addTaskContainer(JXTaskPane taskpane) {
+	public void addTaskPane(JComponent taskpane) {
 		taskpanecontainer.add(taskpane);
 		taskpanecontainer.revalidate();
-		controller.addTaskPane(taskpane);
+		if( taskpane instanceof JXTaskPane)
+			studentPlanningController.addTaskPane((JXTaskPane) taskpane);
 	}
 
-	private JComponent createDragPanel() {
+	public JComponent createDragPanel() {
 		JXPanel dragPanel = new JXPanel();
 		dragPanel.setBorder(new TitledBorder("Drag Panel buddies and Elos"));
 		dragPanel.setPreferredSize(new Dimension(250, 300));
-		//dragPanel.setOpaque(false);
+		// dragPanel.setOpaque(false);
 		dragPanel.setBackgroundPainter(getDragPainter());
-		
+
 		JXLabel elo1Label = new JXLabel(Images.Excel1.getIcon());
 		elo1Label.setText("elo 1");
 		elo1Label.setName("anchor elo 1");
-		
+
 		JXLabel elo2Label = new JXLabel(Images.Excel2.getIcon());
 		elo2Label.setText("elo 2");
 		elo2Label.setName("anchor elo 2");
+
+		
+		IAwarenessUser user1 = new AwarenessUser();
+		user1.setNickName("bob");
+		
 		
 		JXLabel member1Label = new JXLabel(Images.Profile.getIcon());
 		member1Label.setText("bob");
+		member1Label.putClientProperty("USER", user1);
+
+		IAwarenessUser user2 = new AwarenessUser();
+		user2.setNickName("jack");
 		
 		JXLabel member2Label = new JXLabel(Images.Profile.getIcon());
 		member2Label.setText("jack");
+		member2Label.putClientProperty("USER", user2);
 		
 		JXLabel anchorELOLabel = new JXLabel("ANCHOR ELO");
 		anchorELOLabel.setText("jack");
 		anchorELOLabel.setBackground(Color.black);
 		anchorELOLabel.setForeground(Color.white);
-		
-		
-		
+
 		MouseListener listener = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-	            JComponent c = (JComponent) e.getSource();
-	            TransferHandler handler = c.getTransferHandler();
-	            handler.exportAsDrag(c, e, TransferHandler.COPY);
-	        }
+				JComponent c = (JComponent) e.getSource();
+				TransferHandler handler = c.getTransferHandler();
+				handler.exportAsDrag(c, e, TransferHandler.COPY);
+			}
 		};
-		
+
 		elo1Label.setTransferHandler(new ImageSelection());
 		elo1Label.addMouseListener(listener);
 		elo2Label.setTransferHandler(new ImageSelection());
 		elo2Label.addMouseListener(listener);
-		
-		
+
 		member1Label.setTransferHandler(new ImageSelection());
 		member1Label.addMouseListener(listener);
 		member2Label.setTransferHandler(new ImageSelection());
 		member2Label.addMouseListener(listener);
 
+		anchorELOLabel.setTransferHandler(new ImageSelection());
+		anchorELOLabel.addMouseListener(listener);
+		anchorELOLabel.setTransferHandler(new ImageSelection());
+		anchorELOLabel.addMouseListener(listener);
 
-		anchorELOLabel.setTransferHandler(new ImageSelection());
-		anchorELOLabel.addMouseListener(listener);
-		anchorELOLabel.setTransferHandler(new ImageSelection());
-		anchorELOLabel.addMouseListener(listener);
-		
-		
-		
-		//dragPanel.addMouseListener(listener);
+		// dragPanel.addMouseListener(listener);
 		dragPanel.add(elo1Label);
 		dragPanel.add(elo2Label);
 		dragPanel.add(member1Label);
 		dragPanel.add(member2Label);
-		//dragPanel.add(anchorELOLabel);
-		
-//		DragSource dragSource = DragSource.getDefaultDragSource();
-//		    dragSource.createDefaultDragGestureRecognizer(bobLabel,DnDConstants.ACTION_MOVE, new JXDragListener());
-//		//dragPanel.setDropTarget(new DropTarget(dragPanel, new JXDropTargetListener()));
+		// dragPanel.add(anchorELOLabel);
+
+		// DragSource dragSource = DragSource.getDefaultDragSource();
+		// dragSource.createDefaultDragGestureRecognizer(bobLabel,DnDConstants.ACTION_MOVE,
+		// new JXDragListener());
+		// //dragPanel.setDropTarget(new DropTarget(dragPanel, new
+		// JXDropTargetListener()));
 		return dragPanel;
 	}
 
-	public  JXTaskPane createAnchorELOPanel(StudentPlannedActivity studentPlannedActivity) {
+	public JXTaskPane createAnchorELOPanel(
+			StudentPlannedActivity studentPlannedActivity) {
 
 		AnchorELO assoicatedELO = studentPlannedActivity.getAssoicatedELO();
 		Activity activity = assoicatedELO.getProducedBy();
@@ -372,408 +385,421 @@ public class StudentPlanningTool {
 		taskpane.setBackground(Color.black);
 		taskpane.setOpaque(true);
 		taskpane.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("clicked !!");
-				
+
 				JXTaskPane source = (JXTaskPane) e.getSource();
-				controller.collapseAllExcept(source.getName());
+				studentPlanningController.collapseAllExcept(source.getName());
 			}
 		});
 		Map<String, Date> endDateMap = new HashMap<String, Date>();
 		Map<String, Date> startDateMap = new HashMap<String, Date>();
 		taskpane.putClientProperty(START_DATE_MAP, startDateMap);
 		taskpane.putClientProperty(END_DATE_MAP, endDateMap);
-		//taskpane.setIcon(Images.One.getIcon(24, 24));
+		taskpane.putClientProperty(ACTIVITY_NAME, studentPlannedActivity.getName());
+		// taskpane.setIcon(Images.One.getIcon(24, 24));
 
-		//cycle through all the activities
-		
-		taskpane.add(createActivityPanel(studentPlannedActivity, activity, taskpane, 1));
-		
-		
+		// cycle through all the activities
 
-		
-//		taskpane.setBackground(Colors.Black.color(0.5f));
-////		// create a label
-//		final JXLabel label = new JXLabel();
-//		label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-//		label.setText("task pane item 1 : a label");
-//		// label.setIcon(Images.Folder.getIcon(32, 32));
-//		label.setHorizontalAlignment(JXLabel.LEFT);
-//		label.setBackgroundPainter(getActivitTitlePainter());
-//
-//		taskpane.add(label);
-//		taskpane.add(new AbstractAction() {
-//			{
-//				putValue(Action.NAME, "task pane item 2 : an action");
-//				putValue(Action.SHORT_DESCRIPTION, "perform an action");
-//				putValue(Action.SMALL_ICON, Images.NetworkConnected.getIcon(32,
-//						32));
-//			}
-//
-//			public void actionPerformed(ActionEvent e) {
-//				label.setText("an action performed");
-//			}
-//		});
+		taskpane.add(createActivityPanel(studentPlannedActivity, activity,
+				taskpane, 1));
+
+		// taskpane.setBackground(Colors.Black.color(0.5f));
+		// // // create a label
+		// final JXLabel label = new JXLabel();
+		// label.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		// label.setText("task pane item 1 : a label");
+		// // label.setIcon(Images.Folder.getIcon(32, 32));
+		// label.setHorizontalAlignment(JXLabel.LEFT);
+		// label.setBackgroundPainter(getActivitTitlePainter());
+		//
+		// taskpane.add(label);
+		// taskpane.add(new AbstractAction() {
+		// {
+		// putValue(Action.NAME, "task pane item 2 : an action");
+		// putValue(Action.SHORT_DESCRIPTION, "perform an action");
+		// putValue(Action.SMALL_ICON, Images.NetworkConnected.getIcon(32,
+		// 32));
+		// }
+		//
+		// public void actionPerformed(ActionEvent e) {
+		// label.setText("an action performed");
+		// }
+		// });
 
 		return taskpane;
 	}
 
 	private List<Date> sortDates(Map<String, Date> dateMap) {
-		//sort the list
+		// sort the list
 		Collection<Date> values = dateMap.values();
-		
+
 		List<Date> sortDates = new ArrayList<Date>();
 		for (Date date : values) {
 			sortDates.add(date);
 		}
-		
+
 		Collections.sort((List<Date>) sortDates);
 		System.out.println("dates: " + sortDates.toString());
 		// TODO Auto-generated method stub
 		return sortDates;
 	}
 
-	private JXPanel createActivityPanel(StudentPlannedActivity studentPlannedActivity, Activity activity, final JXTaskPane taskpane, int activityNumber) {
-		
+	private JXPanel createActivityPanel(
+			StudentPlannedActivity studentPlannedActivity, Activity activity,
+			final JXTaskPane taskpane, int activityNumber) {
+
 		final JXDatePicker endDatePicker = new JXDatePicker();
 		final JXDatePicker startDatePicker = new JXDatePicker();
-		
-		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
-	
-	    startDatePicker.setFormats(formatter);
 
-	    startDatePicker.setToolTipText("The date of the start of this task.");
+		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
+
+		startDatePicker.setFormats(formatter);
+
+		startDatePicker.setToolTipText("The date of the start of this task.");
 		endDatePicker.setFormats(formatter);
-		
-		
-		
-	
+
 		String activityName;
-		
-		if( activity == null)
+
+		if (activity == null)
 			activityName = "Best Activity in the world";
 		else
 			activityName = activity.getName();
-		
-		JXTitledPanel activityPanel = new JXTitledPanel(activityNumber + ". " + activityName);
+
+		JXTitledPanel activityPanel = new JXTitledPanel(activityNumber + ". "
+				+ activityName);
 		activityPanel.setTitleFont(activityFont);
 		activityPanel.setTitleForeground(Colors.White.color());
-		
+
 		endDatePicker.putClientProperty(ACTIVITY_NAME, activityName);
-		endDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY, studentPlannedActivity);
+		endDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY,
+				studentPlannedActivity);
 		endDatePicker.setToolTipText("The date of the end of this task.");
 		endDatePicker.putClientProperty(TASKPANE, taskpane);
-	
-		if( studentPlannedActivity.getEndDate() == null ) {
-			endDatePicker.setEditable(false);
+
+		if (studentPlannedActivity.getEndDate() == null) {
+			endDatePicker.setEnabled(false);
 		} else {
-			java.util.Date date = 
-		        new java.util.Date(studentPlannedActivity.getEndDate().getTime());
+			java.util.Date date = new java.util.Date(studentPlannedActivity
+					.getEndDate().getTime());
 			endDatePicker.setDate(date);
+			endDatePicker.setEnabled(true);
 		}
-		
-		
+
 		startDatePicker.putClientProperty(ACTIVITY_NAME, activityName);
 		startDatePicker.putClientProperty(TASKPANE, taskpane);
-		startDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY, studentPlannedActivity);
-		startDatePicker.putClientProperty(END_DATE_PICKER , endDatePicker);
-		if( studentPlannedActivity.getStartDate() != null ) {
-			java.util.Date date = 
-		        new java.util.Date(studentPlannedActivity.getStartDate().getTime());
+		startDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY,
+				studentPlannedActivity);
+		startDatePicker.putClientProperty(END_DATE_PICKER, endDatePicker);
+		if (studentPlannedActivity.getStartDate() != null) {
+			java.util.Date date = new java.util.Date(studentPlannedActivity
+					.getStartDate().getTime());
 			startDatePicker.setDate(date);
 		}
-		
-		//info
-		
-	
-		
+
+		// info
+
 		JXPanel infoPanel = new JXPanel(new HorizontalLayout(1));
-	
-		
+
 		endDatePicker.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+
 				JXDatePicker endDatePicker = (JXDatePicker) e.getSource();
-				String activityName = (String) endDatePicker.getClientProperty(ACTIVITY_NAME);
-				JXTaskPane lasTaskPane = (JXTaskPane)endDatePicker.getClientProperty(TASKPANE);
-				
-				Map<String, Date> endDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(END_DATE_MAP);
-				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(START_DATE_MAP);
-				
+				String activityName = (String) endDatePicker
+						.getClientProperty(ACTIVITY_NAME);
+				JXTaskPane lasTaskPane = (JXTaskPane) endDatePicker
+						.getClientProperty(TASKPANE);
+
+				Map<String, Date> endDateMap = (Map<String, Date>) lasTaskPane
+						.getClientProperty(END_DATE_MAP);
+				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane
+						.getClientProperty(START_DATE_MAP);
+
 				endDateMap.put(activityName, endDatePicker.getDate());
 				lasTaskPane.putClientProperty(END_DATE_MAP, endDateMap);
-				
-				//System.out.println("client "+ activityName);
-				String title = lasTaskPane.getTitle();
-				
-				
-				final StudentPlannedActivity stp = (StudentPlannedActivity) endDatePicker.getClientProperty(STUDENT_PLANNED_ACTIVITY);
-				
-				stp.setEndDate(new java.sql.Date(endDatePicker.getDate().getTime()));
-				
-				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
-				
 
-				SwingUtilities.invokeLater( new Runnable() {
-					
+				// System.out.println("client "+ activityName);
+				String title = lasTaskPane.getTitle();
+
+				final StudentPlannedActivity stp = (StudentPlannedActivity) endDatePicker
+						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
+
+				stp.setEndDate(new java.sql.Date(endDatePicker.getDate()
+						.getTime()));
+
+				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
+
+				SwingUtilities.invokeLater(new Runnable() {
+
 					@Override
 					public void run() {
-						studentPlanningController.saveStudentActivity(stp);						
+						studentPlanningController.saveStudentActivity(stp);
 					}
 				});
-				
+
 			}
 
-	
 		});
-		
+
 		startDatePicker.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+
 				JXDatePicker startDatePicker = (JXDatePicker) e.getSource();
-				JXDatePicker endDatePicker = (JXDatePicker) startDatePicker.getClientProperty(END_DATE_PICKER);
-			
-				endDatePicker.setEditable(true);
-				
-				String activityName = (String) startDatePicker.getClientProperty(ACTIVITY_NAME);
-				JXTaskPane lasTaskPane = (JXTaskPane)startDatePicker.getClientProperty(TASKPANE);
-				
-				Map<String, Date> endDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(END_DATE_MAP);
-				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(START_DATE_MAP);
-				
+				JXDatePicker endDatePicker = (JXDatePicker) startDatePicker
+						.getClientProperty(END_DATE_PICKER);
+
+				endDatePicker.setEnabled(true);
+
+				String activityName = (String) startDatePicker
+						.getClientProperty(ACTIVITY_NAME);
+				JXTaskPane lasTaskPane = (JXTaskPane) startDatePicker
+						.getClientProperty(TASKPANE);
+
+				Map<String, Date> endDateMap = (Map<String, Date>) lasTaskPane
+						.getClientProperty(END_DATE_MAP);
+				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane
+						.getClientProperty(START_DATE_MAP);
+
 				startDateMap.put(activityName, startDatePicker.getDate());
 				lasTaskPane.putClientProperty(START_DATE_MAP, startDateMap);
-				
-				
-			
-				final StudentPlannedActivity stp = (StudentPlannedActivity) startDatePicker.getClientProperty(STUDENT_PLANNED_ACTIVITY);
-				
-				stp.setStartDate(new java.sql.Date(startDatePicker.getDate().getTime()));
-				
+
+				final StudentPlannedActivity stp = (StudentPlannedActivity) startDatePicker
+						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
+
+				stp.setStartDate(new java.sql.Date(startDatePicker.getDate()
+						.getTime()));
+
 				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
-				
-				
-				SwingUtilities.invokeLater( new Runnable() {
-					
+
+				SwingUtilities.invokeLater(new Runnable() {
+
 					@Override
 					public void run() {
-						studentPlanningController.saveStudentActivity(stp);						
+						studentPlanningController.saveStudentActivity(stp);
 					}
 				});
-				
-				
+
 			}
 
-	
 		});
-		
-		Action infoAction = new AbstractAction("info") {
-			    
-			
-			    public void actionPerformed(ActionEvent e) {
-			    	String msg = "<html>description of the activity</html>";
 
-			        JOptionPane optionPane = new JOptionPane();
-			        optionPane.setMessage(msg);
-			        optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-			        JDialog dialog = optionPane.createDialog(null, "Width 100");
-			        dialog.setVisible(true);
-			    }
-			};
-		
-		//infoPanel.add(dateLink);
-		
+		Action infoAction = new AbstractAction("info") {
+
+			public void actionPerformed(ActionEvent e) {
+				String msg = "<html>description of the activity</html>";
+
+				JOptionPane optionPane = new JOptionPane();
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Width 100");
+				dialog.setVisible(true);
+			}
+		};
+
+		// infoPanel.add(dateLink);
+
 		JXLabel startLabel = new JXLabel("Start Date:");
 		JXLabel endLabel = new JXLabel("End Date:");
-		
+
 		infoPanel.add(startLabel);
 		infoPanel.add(startDatePicker);
 		infoPanel.add(endLabel);
 		infoPanel.add(endDatePicker);
 		infoPanel.setOpaque(false);
-		//infoPanel.setAlpha(0.0f);
-		
-		//activityPanel.setRightDecoration(infoLink);
-		//activityPanel.setTitlePainter(getActivitTitlePainter());
+		// infoPanel.setAlpha(0.0f);
+
+		// activityPanel.setRightDecoration(infoLink);
+		// activityPanel.setTitlePainter(getActivitTitlePainter());
 		activityPanel.setBackground(Colors.Black.color());
 		activityPanel.setLayout(new VerticalLayout(0));
-		activityPanel.setBorder(new  LineBorder(Colors.Black.color()));
-		
-		
+		activityPanel.setBorder(new LineBorder(Colors.Black.color()));
+	
+
 		JXPanel innerMainPanel = new JXPanel();
-		
+
 		innerMainPanel.setOpaque(true);
 		innerMainPanel.setLayout(new MigLayout("insets 0 3 4 3"));
-	
-		JXPanel membersPanel = createMembersPanel(activityPanel, studentPlannedActivity);
+
+		JXBuddyPanel membersPanel = createMembersPanel(activityPanel,
+				studentPlannedActivity);
 		
+		studentPlanningController.addMembersPanel(taskpane, membersPanel);
+
 		JXPanel notePanel = createNotePanel(studentPlannedActivity);
-		
-		innerMainPanel.add(infoPanel,"span, wrap, growx");
-        innerMainPanel.add(membersPanel,"span, wrap, growx");
+
+		innerMainPanel.add(infoPanel, "span, wrap, growx");
+		innerMainPanel.add(membersPanel, "span, wrap, growx");
 		innerMainPanel.add(notePanel, "span, wrap, growx");
-		
+
 		activityPanel.add(innerMainPanel);
-		
+
 		return activityPanel;
 	}
 
 	/**
-	 * @param studentPlannedActivity 
+	 * @param studentPlannedActivity
 	 * @return
 	 */
-	protected JXPanel createNotePanel(StudentPlannedActivity studentPlannedActivity) {
+	protected JXPanel createNotePanel(
+			StudentPlannedActivity studentPlannedActivity) {
 		JXPanel noteTextPanel = new JXPanel();
-		noteTextPanel.setLayout(new BorderLayout(0,0));
+		noteTextPanel.setLayout(new BorderLayout(0, 0));
 		noteTextPanel.setOpaque(false);
-		
+
 		JTextArea noteTextArea = new JTextArea();
-		
-		if( studentPlannedActivity.getNote() == null || StringUtils.stripToNull(studentPlannedActivity.getNote()) == null ) {
+
+		if (studentPlannedActivity.getNote() == null
+				|| StringUtils.stripToNull(studentPlannedActivity.getNote()) == null) {
 			noteTextArea.setText("Notes...");
 		} else {
 			noteTextArea.setText(studentPlannedActivity.getNote());
 		}
-		
+
 		noteTextArea.setLineWrap(true);
 		noteTextArea.setRows(5);
 		noteTextArea.setWrapStyleWord(true);
-		noteTextArea.setToolTipText("What do you need to do the task?\nHow do you that this is completed?");
-        noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY, studentPlannedActivity);
-        noteTextArea.addFocusListener(new FocusListener() {
-			
+		noteTextArea
+				.setToolTipText("What do you need to do the task?\nHow do you that this is completed?");
+		noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY,
+				studentPlannedActivity);
+		noteTextArea.addFocusListener(new FocusListener() {
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				JTextArea textArea = (JTextArea) e.getSource();
-				
-				final StudentPlannedActivity stp = (StudentPlannedActivity) textArea.getClientProperty(STUDENT_PLANNED_ACTIVITY);
-				
-				stp.setNote(textArea.getText());
-				
 
-				SwingUtilities.invokeLater( new Runnable() {
-					
+				final StudentPlannedActivity stp = (StudentPlannedActivity) textArea
+						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
+
+				stp.setNote(textArea.getText());
+
+				SwingUtilities.invokeLater(new Runnable() {
+
 					@Override
 					public void run() {
-						studentPlanningController.saveStudentActivity(stp);						
+						studentPlanningController.saveStudentActivity(stp);
 					}
 				});
-				
+
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-        JScrollPane eloScroll = new JScrollPane(noteTextArea);
-        
-        
-        noteTextPanel.add(eloScroll,BorderLayout.CENTER);
-        //notesPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0, 0, 0, 0)), new TitledBorder("Resources")));
-        
+		JScrollPane eloScroll = new JScrollPane(noteTextArea);
+
+		noteTextPanel.add(eloScroll, BorderLayout.CENTER);
+		// notesPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
+		// 0, 0, 0)), new TitledBorder("Resources")));
+
 		return noteTextPanel;
 	}
 
 	/**
 	 * @param activityPanel
-	 * @param studentPlannedActivity 
+	 * @param studentPlannedActivity
 	 * @return
 	 */
-	protected JXPanel createMembersPanel(JXTitledPanel activityPanel, StudentPlannedActivity studentPlannedActivity) {
-		JXPanel membersPanel = new JXPanel(new HorizontalLayout(1));
-		//membersPanel.add(new JXLabel("bob"));
-		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0, 0, 0, 0)), new TitledBorder("Collaboration Partners (Drag Here)")));
+	protected JXBuddyPanel createMembersPanel(JXTitledPanel activityPanel,
+			StudentPlannedActivity studentPlannedActivity) {
+		JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1));
+		// membersPanel.add(new JXLabel("bob"));
+		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
+				0, 0, 0)), new TitledBorder(
+				"Collaboration Partners (Drag Here)")));
 		membersPanel.setOpaque(false);
 		membersPanel.setBackground(Color.CYAN);
-		membersPanel.setPreferredSize(new Dimension(activityPanel.getMaximumSize().width/2, 100));
-		membersPanel.setDropTarget(new DropTarget(membersPanel, new JXDropTargetListener(membersPanel)));
-		membersPanel.setToolTipText("Drag the persons that will work with the task from the desktop here.");
-		membersPanel.putClientProperty(STUDENT_PLANNED_ACTIVITY, studentPlannedActivity);
+		membersPanel.setPreferredSize(new Dimension(activityPanel
+				.getMaximumSize().width / 2, 110));
+		membersPanel.setDropTarget(new DropTarget(membersPanel,
+				new JXDropTargetListener(this)));
+		membersPanel
+				.setToolTipText("Drag the persons that will work with the task from the desktop here.");
+		membersPanel.putClientProperty(STUDENT_PLANNED_ACTIVITY,
+				studentPlannedActivity);
 		return membersPanel;
 	}
-	
 
-	private void modTaskPaneTitleDateRange(JXTaskPane taskpane, Map<String, Date> startDateMap, Map<String, Date> endDateMap ) {
-		
+	private void modTaskPaneTitleDateRange(JXTaskPane taskpane,
+			Map<String, Date> startDateMap, Map<String, Date> endDateMap) {
+
 		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
-		
-		List<Date> endDateSort = sortDates( endDateMap );
-		List<Date> startDateSort = sortDates( startDateMap );
-		
+
+		List<Date> endDateSort = sortDates(endDateMap);
+		List<Date> startDateSort = sortDates(startDateMap);
+
 		String startDateString = " ";
 		String endDateString = " ";
-		
-		if( !endDateSort.isEmpty() ) {
-			Date endDate = endDateSort.get(endDateSort.size()-1);
+
+		if (!endDateSort.isEmpty()) {
+			Date endDate = endDateSort.get(endDateSort.size() - 1);
 			endDateString = formatter.format(endDate);
 		}
-		if( !startDateSort.isEmpty() ) {
+		if (!startDateSort.isEmpty()) {
 			Date startDate = startDateSort.get(0);
 			startDateString = formatter.format(startDate);
 		}
-		
-		
-//		Date lastDate = null;
-//		if( endDateSort.size()-1 != 0)
-//			lastDate = endDateSort.get(endDateSort.size()-1);
-//		
-//		
-//		
-		
-		
+
+		// Date lastDate = null;
+		// if( endDateSort.size()-1 != 0)
+		// lastDate = endDateSort.get(endDateSort.size()-1);
+		//		
+		//		
+		//		
+
 		int indexOf = taskpane.getTitle().indexOf("-");
-		if( indexOf == -1 ) {
-			if( StringUtils.stripToNull(endDateString) == null)
-				taskpane.setTitle(taskpane.getTitle() + " - " + startDateString);
+		if (indexOf == -1) {
+			if (StringUtils.stripToNull(endDateString) == null)
+				taskpane
+						.setTitle(taskpane.getTitle() + " - " + startDateString);
 			else
-				taskpane.setTitle(taskpane.getTitle() + " - " + startDateString + " to " + endDateString);
+				taskpane.setTitle(taskpane.getTitle() + " - " + startDateString
+						+ " to " + endDateString);
 		} else {
 			StringBuilder sb = new StringBuilder(taskpane.getTitle());
-			if( StringUtils.stripToNull(endDateString) == null)
+			if (StringUtils.stripToNull(endDateString) == null)
 				sb.replace(indexOf, sb.length(), "- " + startDateString);
-			else if( StringUtils.stripToNull(startDateString) == null)
-					sb.replace(indexOf, sb.length(), "- " + endDateString);
+			else if (StringUtils.stripToNull(startDateString) == null)
+				sb.replace(indexOf, sb.length(), "- " + endDateString);
 			else
-				sb.replace(indexOf, sb.length(), "- " + startDateString + " to " + endDateString);
+				sb.replace(indexOf, sb.length(), "- " + startDateString
+						+ " to " + endDateString);
 			taskpane.setTitle(sb.toString());
 		}
-		
+
 	}
 
 	private void changeUIdefaults() {
@@ -808,13 +834,13 @@ public class StudentPlanningTool {
 
 		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
 				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-				color2, color2  });
+						color2, color2 });
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
 	}
 
 	/** this painter draws a gradient fill */
-	
+
 	public Painter getTaskPaneTitlePainter() {
 		int width = 100;
 		int height = 100;
@@ -823,11 +849,11 @@ public class StudentPlanningTool {
 
 		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
 				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-				color1, color1});
+						color1, color1 });
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
 	}
-	
+
 	public Painter getTaskPanePainter() {
 		int width = 100;
 		int height = 100;
@@ -836,10 +862,11 @@ public class StudentPlanningTool {
 
 		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
 				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-				color1, color1});
+						color1, color1 });
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
 	}
+
 	public Painter getActivityPanePainter() {
 		int width = 100;
 		int height = 100;
@@ -848,10 +875,11 @@ public class StudentPlanningTool {
 
 		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
 				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-				color2, color2});
+						color2, color2 });
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
 	}
+
 	public Painter getDragPainter() {
 		int width = 100;
 		int height = 100;
@@ -860,88 +888,82 @@ public class StudentPlanningTool {
 
 		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
 				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-				color1, color1  });
+						color1, color1 });
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
 	}
-	
-	
+
 	/**
 	 * TEST FOR NOW
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public Scenario setupPedagogicalPlan() {
 
-//		 String url = JOptionPane.showInputDialog("Input host (for example localhost)");
-//	     String username = JOptionPane.showInputDialog("Enter your freakin username");
-//
-//		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
-//		fb.setServiceInterface(PedagogicalPlanService.class);
-//		fb.setServiceUrl("http://" + url
-//				+ ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
-//		fb.afterPropertiesSet();
-//	    PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
-		
-		
-        Scenario scenario = createScenario();
-       
-        
-        
-        
-        return scenario;
-        //assert(scenario.getLearningActivitySpace() != null);
-        //assert(learningActivitySpace.getActivities().size() ==2);
-        //assert(learningActivitySpace.getProduces().contains(anchorElo));
-    }
-	
-    private Activity createActivity(String name, String description) {
-        Activity activity = new ActivityImpl();
-        activity.setName(name);
-        activity.setDescription(description);
-        return activity;
-    }
+		// String url =
+		// JOptionPane.showInputDialog("Input host (for example localhost)");
+		// String username =
+		// JOptionPane.showInputDialog("Enter your freakin username");
+		//
+		// HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+		// fb.setServiceInterface(PedagogicalPlanService.class);
+		// fb.setServiceUrl("http://" + url
+		// + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+		// fb.afterPropertiesSet();
+		// PedagogicalPlanService service = (PedagogicalPlanService)
+		// fb.getObject();
 
-    private Scenario createScenario() {
-        Scenario scenario = new ScenarioImpl();
-        scenario.setName("DA SCENARIO");
+		Scenario scenario = createScenario();
 
-        LearningActivitySpace planning = new LearningActivitySpaceImpl();
-        planning.setName("Planning");
-        scenario.setLearningActivitySpace(planning);
+		return scenario;
+		// assert(scenario.getLearningActivitySpace() != null);
+		// assert(learningActivitySpace.getActivities().size() ==2);
+		// assert(learningActivitySpace.getProduces().contains(anchorElo));
+	}
 
+	private Activity createActivity(String name, String description) {
+		Activity activity = new ActivityImpl();
+		activity.setName(name);
+		activity.setDescription(description);
+		return activity;
+	}
 
-        Activity firstActivity = new ActivityImpl();
-        firstActivity.setName("Gather in the big hall and listen to your teacher");
-        planning.addActivity(firstActivity);
+	private Scenario createScenario() {
+		Scenario scenario = new ScenarioImpl();
+		scenario.setName("DA SCENARIO");
 
-        Activity conceptMappingSession = new  ActivityImpl();
-        conceptMappingSession.setName("Concept mapping");
-        planning.addActivity(conceptMappingSession);
+		LearningActivitySpace planning = new LearningActivitySpaceImpl();
+		planning.setName("Planning");
+		scenario.setLearningActivitySpace(planning);
 
-        AnchorELO conceptMap = new AnchorELOImpl();
-        conceptMap.setName("Expected concept map");
-        conceptMappingSession.setAnchorELO(conceptMap);
+		Activity firstActivity = new ActivityImpl();
+		firstActivity
+				.setName("Gather in the big hall and listen to your teacher");
+		planning.addActivity(firstActivity);
 
-        LearningActivitySpace lastSpace = new LearningActivitySpaceImpl();
-        lastSpace.setName("Evaluation");
-        conceptMap.setInputTo(lastSpace);
+		Activity conceptMappingSession = new ActivityImpl();
+		conceptMappingSession.setName("Concept mapping");
+		planning.addActivity(conceptMappingSession);
 
-        return scenario;
-    }
+		AnchorELO conceptMap = new AnchorELOImpl();
+		conceptMap.setName("Expected concept map");
+		conceptMappingSession.setAnchorELO(conceptMap);
 
-	public void setStudentPlanningController(StudentPlanningController studentPlanningController) {
+		LearningActivitySpace lastSpace = new LearningActivitySpaceImpl();
+		lastSpace.setName("Evaluation");
+		conceptMap.setInputTo(lastSpace);
+
+		return scenario;
+	}
+
+	public void setStudentPlanningController(
+			StudentPlanningController studentPlanningController) {
 		this.studentPlanningController = studentPlanningController;
 	}
 
 	public StudentPlanningController getStudentPlanningController() {
 		return studentPlanningController;
 	}
-    
-	
-	
-	
-	
+
 }// end class TaskPaneExample1
-	
-	
 

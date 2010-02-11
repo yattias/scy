@@ -1,15 +1,18 @@
 package eu.scy.tools.planning.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
+import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
+import roolo.elo.api.IMetadata;
+import eu.scy.awareness.IAwarenessUser;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.student.StudentPlanELO;
@@ -17,6 +20,7 @@ import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.tools.planning.ui.JXBuddyPanel;
 
 public class StudentPlanningController {
 
@@ -29,8 +33,9 @@ public class StudentPlanningController {
 	private List<StudentPlannedActivity> studentPlannedActivities;
 	private StudentPlanELO studentPlanELO;
 	private List<JXTaskPane> taskPanes = new ArrayList<JXTaskPane>();
-	private List<JXTaskPaneContainer> taskContainers = new ArrayList<JXTaskPaneContainer>();
+	private Map<JXTaskPane, JXBuddyPanel> taskPanesToBuddyPanels = new HashMap<JXTaskPane, JXBuddyPanel>();
 	private Configuration configuration;
+	
 
 	public StudentPlanningController() {
 
@@ -49,7 +54,7 @@ public class StudentPlanningController {
 		List<StudentPlanELO> studentPlans = studentPedagogicalPlanService
 				.getStudentPlans("wiwoo");
 
-		if( studentPlans.size() > 0 ) {
+		if( studentPlans != null && studentPlans.size() > 0 ) {
 			 setStudentPlanELO(studentPlans.get(0));
 	         System.out.println("PLAN:" + getStudentPlanELO());
 	         
@@ -57,7 +62,9 @@ public class StudentPlanningController {
 				this.dumpStudentPlan(studentPlanELO);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "The Server is probably not stable if u can read this!:  " + configuration.getStudentPlanningToolUrl());
+			
+			//create a new plan
+			setStudentPlanELO(null);
 			return;
 		}
 
@@ -93,6 +100,16 @@ public class StudentPlanningController {
 
 		}
 	}
+	
+	public  JXTaskPane getOpenTaskPane() {
+		for (JXTaskPane tpane : taskPanes) {
+			if( tpane.isCollapsed() == false ) {
+				return tpane;
+			}
+		}
+		
+		return null;
+	}
 	public StudentPedagogicalPlanService getStudentPlanService() {
 
 		// service =
@@ -106,6 +123,24 @@ public class StudentPlanningController {
 
 	}
 
+	
+	public void acceptDrop(Object drop) {
+		log.info("we just dropped a load of..." + drop.toString());
+		if( drop instanceof IMetadata ) {
+			
+		} else if(drop instanceof IAwarenessUser ){
+			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
+			JXTaskPane openTaskPane = getOpenTaskPane();
+			
+			JXBuddyPanel jxBuddyPanel = this.taskPanesToBuddyPanels.get(openTaskPane);
+			jxBuddyPanel.addBuddy(awarenessUser);
+			//awarenessUser.get
+		}
+		
+	}
+	
+	
+	
 	private StudentPedagogicalPlanService getWithUrl(String url) {
 		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
 		fb.setServiceInterface(StudentPedagogicalPlanService.class);
@@ -157,5 +192,10 @@ public class StudentPlanningController {
 
 	public void saveStudentActivity(StudentPlannedActivity studenPlannedActivity) {
 		this.studentPedagogicalPlanService.save((ScyBaseObject) studenPlannedActivity);
+	}
+
+	public void addMembersPanel(JXTaskPane taskpane, JXBuddyPanel membersPanel) {
+		this.taskPanesToBuddyPanels.put(taskpane, membersPanel);
+		
 	}
 }

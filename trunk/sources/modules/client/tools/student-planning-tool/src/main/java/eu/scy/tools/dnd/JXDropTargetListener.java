@@ -9,15 +9,19 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.io.IOException;
 
+import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
+
+import eu.scy.awareness.IAwarenessUser;
+import eu.scy.tools.planning.StudentPlanningTool;
 
 public class JXDropTargetListener implements DropTargetListener {
 
-	private JXPanel jxPanel;
+	private StudentPlanningTool stp;
 
-	public JXDropTargetListener(JXPanel jxPanel) {
+	public JXDropTargetListener(StudentPlanningTool studentPlanningTool) {
 		
-		this.jxPanel = jxPanel;
+		this.stp = studentPlanningTool;
 		
 	}
 
@@ -73,9 +77,12 @@ public class JXDropTargetListener implements DropTargetListener {
 			DnDUtils.debugPrintln("Dragged component class is "
 					+ o.getClass().getName());
 			
+			if( o instanceof JXLabel) {
+				IAwarenessUser  u = (IAwarenessUser) ((JXLabel)o).getClientProperty("USER");
+				stp.acceptDrop(u);
+			}
 			
-			jxPanel.add((Component) o);
-			jxPanel.validate();
+			
 			return true;
 		}
 		return false;
