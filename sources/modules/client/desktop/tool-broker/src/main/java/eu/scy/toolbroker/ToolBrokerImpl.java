@@ -46,23 +46,23 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  * @author Giemza
  */
 public class ToolBrokerImpl implements ToolBrokerAPI {
-    
+
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
-    
+
     private static final String defaultBeanConfigurationFile = "beans.xml";
-    
+
     private ApplicationContext context;
-    
+
     private IRepository repository;
-    
+
     private IMetadataTypeManager metaDataTypeManager;
-    
+
     private IExtensionManager extensionManager;
 
     private IELOFactory eloFactory;
 
     private IActionLogger actionLogger;
-    
+
     private SessionManager sessionManager;
 
     private IAwarenessService awarenessService;
@@ -74,68 +74,69 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     private XMPPConnection xmppConnection;
 
     private PedagogicalPlanService pedagogicalPlanService;
-    
+
     private NotificationReceiver notificationReceiver;
 
     private String userName;
 
     private String password;
-    
+
     private String mission;
 
     private Map<String, BlockingQueue<INotification>> collaborationAnswers;
 
     public ToolBrokerImpl(String username, String password) {
-       this(username,password,defaultBeanConfigurationFile);
+        this(username, password, defaultBeanConfigurationFile);
     }
 
     @SuppressWarnings("unchecked")
     public ToolBrokerImpl(String username, String password, String beanConfigurationFile) throws LoginFailedException {
-    	
-    	getConnection(username, password);
-    	
+
+        getConnection(username, password);
+
         context = new ClassPathXmlApplicationContext(beanConfigurationFile);
-        
+
         // RoOLO
         repository = (IRepository) context.getBean("repository");
         metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
         eloFactory = (IELOFactory) context.getBean("eloFactory");
-        
+
         // ActionLogger
         actionLogger = (IActionLogger) context.getBean("actionlogger");
         ((ActionLogger) actionLogger).init(xmppConnection);
-        
+
         // SessionManager (Up-to-date?)
         sessionManager = (SessionManager) context.getBean("sessionManager");
-        
+
         // AwarenessService
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
         awarenessService.init(xmppConnection);
-        awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference()+"."+Configuration.getInstance().getOpenFireHost());
+        awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost());
         logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
-        
+
         // DataSyncService
         dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
-        ((DataSyncService)dataSyncService).init(xmppConnection);
-        
+        ((DataSyncService) dataSyncService).init(xmppConnection);
+
         // PedagogicalPlan
         pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
-        
+
         // NotificationReceiver
         notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
         notificationReceiver.init(xmppConnection);
-        
+
         // collaboration
         collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
         registerForNotifications(new INotifiable() {
-            
+
             @Override
             public void processNotification(INotification notification) {
                 if (notification.getToolId().equals("scylab") && notification.getFirstProperty("collaboration_response") != null) {
-                    String user = notification.getFirstProperty("proposed_user");
+                    String proposingUser = notification.getFirstProperty("proposed_user");
+                    String proposedUser = notification.getFirstProperty("proposing_user");
                     String elo = notification.getFirstProperty("proposed_elo");
-                    collaborationAnswers.get(user + "#" + elo).add(notification);
+                    collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo).add(notification);
                 }
             }
         });
@@ -151,7 +152,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public void setRepository(IRepository repository) {
         this.repository = repository;
     }
-    
+
     /**
      * @param metaDataTypeManager
      *            the metaDataTypeManager to set
@@ -159,7 +160,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public void setMetaDataTypeManager(IMetadataTypeManager metaDataTypeManager) {
         this.metaDataTypeManager = metaDataTypeManager;
     }
-    
+
     /**
      * @param extensionManager
      *            the extensionManager to set
@@ -167,7 +168,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public void setExtensionManager(IExtensionManager extensionManager) {
         this.extensionManager = extensionManager;
     }
-    
+
     /**
      * @param actionLogger
      *            the actionLogger to be set
@@ -175,11 +176,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public void setActionLogger(IActionLogger actionLogger) {
         this.actionLogger = actionLogger;
     }
-    
+
     public void setSessionManager(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getRepository()
@@ -187,7 +188,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public IRepository getRepository() {
         return repository;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getMetaDataTypeManager()
@@ -195,7 +196,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public IMetadataTypeManager getMetaDataTypeManager() {
         return metaDataTypeManager;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getExtensionManager()
@@ -203,12 +204,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     public IExtensionManager getExtensionManager() {
         return extensionManager;
     }
-    
+
     public IActionLogger getActionLogger() {
         return actionLogger;
     }
-    
-    
+
     @Override
     public SessionManager getUserSession(String username, String password) {
         try {
@@ -221,116 +221,118 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     }
 
     @Override
-	public IAwarenessService getAwarenessService() {
-		return this.awarenessService;
-	}
-    
+    public IAwarenessService getAwarenessService() {
+        return this.awarenessService;
+    }
+
     @Override
     public IDataSyncService getDataSyncService() {
         return dataSyncService;
     }
 
     private XMPPConnection getConnection(String userName, String password) {
-    	if(xmppConnection == null) {
-	        
-	        this.userName = userName;
-	        this.password = password;
-	        
-	        //make it a jid
-	        if(!userName.contains("@")) {
-	        	userName = userName + "@" + Configuration.getInstance().getOpenFireHost();
-	        }
-	        
-	        config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
-	        config.setCompressionEnabled(true);
-	        config.setReconnectionAllowed(true);
-	        this.xmppConnection = new XMPPConnection(config);
-	        XMPPConnection.DEBUG_ENABLED = true;
-	
-	        try {            
-	            this.xmppConnection.connect();
-	            SmackConfiguration.setPacketReplyTimeout(100000);
-	            SmackConfiguration.setKeepAliveInterval(10000);
+        if (xmppConnection == null) {
+
+            this.userName = userName;
+            this.password = password;
+
+            // make it a jid
+            if (!userName.contains("@")) {
+                userName = userName + "@" + Configuration.getInstance().getOpenFireHost();
+            }
+
+            config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
+            config.setCompressionEnabled(true);
+            config.setReconnectionAllowed(true);
+            this.xmppConnection = new XMPPConnection(config);
+            XMPPConnection.DEBUG_ENABLED = true;
+
+            try {
+                this.xmppConnection.connect();
+                SmackConfiguration.setPacketReplyTimeout(100000);
+                SmackConfiguration.setKeepAliveInterval(10000);
                 logger.debug("User logging in: " + userName + " " + password);
-	            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
-	        } catch (XMPPException e) {
-	            logger.error("Error during xmpp connect");
-	            e.printStackTrace();
-               throw new ServerNotRespondingException(config.getHost(),config.getPort());
-	        }
-	        
-	        
-	        try {
-	            this.xmppConnection.login(userName, password);
-	            logger.debug("xmpp login ok " + userName + " " + password);
-	        } catch (XMPPException e1) {
-	            logger.error("xmpp login failed. bummer. " + e1);
-	            e1.printStackTrace();
-               throw new LoginFailedException(userName);
-	        }        
-	        
-	        this.xmppConnection.addConnectionListener(new ConnectionListener() {
-	            
-	            @Override
-	            public void connectionClosed() {
-	                logger.debug("TBI closed connection");
-	                try {
-	                    xmppConnection.connect();
-	                    logger.debug("TBI reconnected");
-	                } catch (XMPPException e) {
-	                    e.printStackTrace();
-	                    logger.debug("TBI failed to reconnect");
-	                }
-	            }
-	            
-	            @Override
-	            public void connectionClosedOnError(Exception arg0) {
-	                logger.debug("TBI server error closed;");
-	            }
-	            
-	            @Override
-	            public void reconnectingIn(int arg0) {
-	                logger.debug("TBI server reconnecting;");
-	            }
-	            @Override
-	            public void reconnectionFailed(Exception arg0) {
-	                logger.debug("TBI server reconnecting failed");
-	            }
-	            @Override
-	            public void reconnectionSuccessful() {
-	                logger.debug("TBI server reconnecting success");
-	            }
-	        });
-    	}
+                logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
+            } catch (XMPPException e) {
+                logger.error("Error during xmpp connect");
+                e.printStackTrace();
+                throw new ServerNotRespondingException(config.getHost(), config.getPort());
+            }
+
+            try {
+                this.xmppConnection.login(userName, password);
+                logger.debug("xmpp login ok " + userName + " " + password);
+            } catch (XMPPException e1) {
+                logger.error("xmpp login failed. bummer. " + e1);
+                e1.printStackTrace();
+                throw new LoginFailedException(userName);
+            }
+
+            this.xmppConnection.addConnectionListener(new ConnectionListener() {
+
+                @Override
+                public void connectionClosed() {
+                    logger.debug("TBI closed connection");
+                    try {
+                        xmppConnection.connect();
+                        logger.debug("TBI reconnected");
+                    } catch (XMPPException e) {
+                        e.printStackTrace();
+                        logger.debug("TBI failed to reconnect");
+                    }
+                }
+
+                @Override
+                public void connectionClosedOnError(Exception arg0) {
+                    logger.debug("TBI server error closed;");
+                }
+
+                @Override
+                public void reconnectingIn(int arg0) {
+                    logger.debug("TBI server reconnecting;");
+                }
+
+                @Override
+                public void reconnectionFailed(Exception arg0) {
+                    logger.debug("TBI server reconnecting failed");
+                }
+
+                @Override
+                public void reconnectionSuccessful() {
+                    logger.debug("TBI server reconnecting success");
+                }
+            });
+        }
         return xmppConnection;
     }
-    
+
     @Override
     public PedagogicalPlanService getPedagogicalPlanService() {
         return pedagogicalPlanService;
     }
 
-	@Override
-	public void registerForNotifications(INotifiable notifiable) {
-		notificationReceiver.addNotifiable(notifiable);
-	}
+    @Override
+    public void registerForNotifications(INotifiable notifiable) {
+        notificationReceiver.addNotifiable(notifiable);
+    }
 
-	@Override
-	public IELOFactory getELOFactory() {
-		return eloFactory;
-	}
+    @Override
+    public IELOFactory getELOFactory() {
+        return eloFactory;
+    }
 
     @Override
     public String proposeCollaborationWith(String proposedUser, String elouri) {
         LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-        collaborationAnswers.put(proposedUser + "#" + elouri, queue);
+        collaborationAnswers.put(userName + "#" + proposedUser + "#" + elouri, queue);
         IActionLogger log = getActionLogger();
         IAction requestCollaborationAction = new Action();
         requestCollaborationAction.setUser(userName);
         requestCollaborationAction.setType("collaboration_request");
         requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
         requestCollaborationAction.addContext(ContextConstants.mission, mission);
-        requestCollaborationAction.addContext(ContextConstants.session, "mysession"); // TODO replace with real session
+        // TODO replace with real session
+        requestCollaborationAction.addContext(ContextConstants.session, "mysession");
         requestCollaborationAction.addAttribute("proposed_user", proposedUser);
         requestCollaborationAction.addAttribute("proposed_elo", elouri);
         log.log(requestCollaborationAction);
@@ -347,20 +349,35 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         return null;
     }
 
-    public void answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
+    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
+        LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
+        collaborationAnswers.put(proposingUser + "#" + userName + "#" + elouri, queue);
         IActionLogger log = getActionLogger();
         IAction collaborationResponseAction = new Action();
         collaborationResponseAction.setUser(userName);
         collaborationResponseAction.setType("collaboration_response");
         collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
         collaborationResponseAction.addContext(ContextConstants.mission, mission);
-        collaborationResponseAction.addContext(ContextConstants.session, "mysession"); // TODO replace with real session
+        // TODO replace with real session
+        collaborationResponseAction.addContext(ContextConstants.session, "mysession");
         collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
         collaborationResponseAction.addAttribute("proposing_user", proposingUser);
         collaborationResponseAction.addAttribute("proposed_elo", elouri);
         log.log(collaborationResponseAction);
+        if (accept) {
+            try {
+                INotification notif = queue.take();
+                String mucid = notif.getFirstProperty("mucid");
+                return mucid;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
-    
+
     public void setMission(String mission) {
         this.mission = mission;
     }

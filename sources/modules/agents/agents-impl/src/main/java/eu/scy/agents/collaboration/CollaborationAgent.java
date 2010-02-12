@@ -82,7 +82,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 String proposedUser = a.getAttribute("proposed_user");
                 String proposingUser = a.getUser();
                 logger.fine("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
-                sendNotification(proposedUser, mission, session, "type=collaboration_request", "from_user=" + proposingUser, "elo=" + elouri);
+                sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "elo=" + elouri);
             } else if (a.getType().equals("collaboration_response")) {
                 boolean requestAccepted = Boolean.parseBoolean(a.getAttribute("request_accepted"));
                 String proposedUser = a.getUser();
@@ -94,8 +94,8 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                         commandSpace.write(new Tuple(id, "datasync", "create_session"));
                         Tuple dataSyncResponse = commandSpace.waitToTake(new Tuple(id, String.class));
                         String mucId = dataSyncResponse.getField(1).getValue().toString();
-                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "mucid=" + mucId);
-                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "mucid=" + mucId);
+                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId);
+                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId);
                     } catch (TupleSpaceException e) {
                         // in case of problems dump a stacktrace and do as if request has not been
                         // accepted ...
