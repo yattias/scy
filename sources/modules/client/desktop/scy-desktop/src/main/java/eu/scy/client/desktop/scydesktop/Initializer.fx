@@ -340,6 +340,7 @@ public class Initializer {
             var basicService = ServiceManager.lookup("BasicService") as javax.jnlp.BasicService;
             if (basicService!=null){
                var codeBase = basicService.getCodeBase();
+               logger.info("webstart codeBase: {codeBase}");
                newScyServerHost = codeBase.getHost();
             }
          }
@@ -348,6 +349,7 @@ public class Initializer {
          }
       }
       if (newScyServerHost.length()>0){
+         logger.info("setting scy server host to {newScyServerHost}");
          System.setProperty(scyServerNameKey, newScyServerHost);
          System.setProperty(sqlspacesServerKey, newScyServerHost);
          Configuration.getInstance().setScyServerHost(newScyServerHost);
