@@ -111,14 +111,14 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX {
    }
 
    public override function canAcceptDrop(object:Object):Boolean{
-      println("################################canAcceptDrop of {object.getClass()}");
+      println("ChatPresenceToolNode: canAcceptDrop of {object.getClass()}");
       return true;
    }
 
    public override function acceptDrop(object:Object):Void{
-      println("################################acceptDrop of {object.getClass()}");
+      println("ChatPresenceToolNode: acceptDrop of {object.getClass()}");
       var c:ContactFrame = object as ContactFrame;
-      println("################################acceptDrop of {c.contact.name}");
+      println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
       chatPresenceTool.addTemporaryUser(c.contact.name);
    }
 }
