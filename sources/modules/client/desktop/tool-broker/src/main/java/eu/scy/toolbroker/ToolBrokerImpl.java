@@ -323,6 +323,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 
     @Override
     public String proposeCollaborationWith(String proposedUser, String elouri) {
+    	logger.debug("TBI: proposeCollaborationWith: user: "+proposedUser+" eloid: "+elouri);
         LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
         collaborationAnswers.put(userName + "#" + proposedUser + "#" + elouri, queue);
         IActionLogger log = getActionLogger();
