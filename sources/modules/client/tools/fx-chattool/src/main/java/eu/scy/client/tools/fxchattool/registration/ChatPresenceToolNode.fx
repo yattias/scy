@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.*;
@@ -40,6 +41,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX {
 
     public var wrappedSPTPanel:SwingComponent;
     public var chatPresenceTool:ChatPresencePanel;
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -120,5 +122,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX {
       var c:ContactFrame = object as ContactFrame;
       println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
       chatPresenceTool.addTemporaryUser(c.contact.name);
+
+      toolBrokerAPI.proposeCollaborationWith(c.contact.name, eloChatActionWrapper.getEloUri().toString());
    }
 }
