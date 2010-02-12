@@ -54,6 +54,30 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>trialling-server</id>
+			<properties>
+				<serverfilter.db.username>root</serverfilter.db.username>
+				<serverfilter.db.password>root</serverfilter.db.password>
+				<serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+				<serverfilter.db.host>localhost</serverfilter.db.host>
+
+				<client.servername>http://83.168.205.138</client.servername>
+				<client.httpPort>80</client.httpPort>
+				<client.contextPath>/scy-useradmin-web</client.contextPath>
+
+				<sqlspaces.server.host>http://83.168.205.138</sqlspaces.server.host>
+				<sqlspaces.server.port>2525</sqlspaces.server.port>
+
+				<openfire.host>http://83.168.205.138</openfire.host>
+				<openfire.conference>conference</openfire.conference>
+				<openfire.client.port>5222</openfire.client.port>
+				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+				<scyhub.name>scyhub</scyhub.name>
+				<studentplanningtool.service.url>http://83.168.205.138/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+			</properties>
+		</profile>
+		<profile>
 			<id>UIO</id>
 			<properties>
 				<serverfilter.db.username>root</serverfilter.db.username>
