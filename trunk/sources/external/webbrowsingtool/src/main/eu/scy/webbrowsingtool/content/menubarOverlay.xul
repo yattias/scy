@@ -41,50 +41,32 @@
 <overlay id="highlighter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script src="overlay.js"/>
+    <script src="sidebar.js"/>
     <stringbundleset id="stringbundleset">
         <stringbundle id="highlighter-strings" src="chrome://highlighter/locale/highlighter.properties"/>
     </stringbundleset>
 
+    <menubar id="main-menubar">
+        <menu label="SCYLighter" insertafter="help-menu">
+            <menupopup>
+                <menuitem label="SCY Sidebar (toggle)" oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" class="menuitem-iconic"  key="key_openSidebar" observes="viewSidebar"/>
+                <menuseparator></menuseparator>
+                <menuitem label="Help" oncommand="highlighter.openHelp();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/help_x32.png"/>
+                <menuseparator></menuseparator>
+                <menuitem label="New ELO" oncommand="highlighter.newELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/new_x32.png"/>
+                <menuitem label="Save ELO" oncommand="highlighter.saveELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/save_x32.png"/>
+                <menuitem label="Preview" oncommand="highlighter.preview();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preview_x32.png"/>
+                <menuitem label="Print Preview" oncommand="highlighter.print();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/print_x32.png"/>
+                <menuseparator></menuseparator>
+                <menuitem label="Preferences"  oncommand="highlighter.openPreferences();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preferences_x32.png"/>
+            </menupopup>
+        </menu>
+    </menubar>
 
-    <keyset id="mainKeyset">
-        <key id="key_openSidebar" command="viewSidebar"
-             key="&openSidebar.commandkey;"
-             modifiers="&openSidebar.modifierskey;" />
-    </keyset>
-
-    <broadcasterset id="mainBroadcasterSet">
-        <broadcaster id="viewSidebar"
-                     label="&sidebar.title;"
-                     autoCheck="false"
-                     type="checkbox"
-                     group="sidebar"
-                     sidebarurl="chrome://highlighter/content/sidebar.xul"
-                     sidebartitle="&sidebar.title;"
-                     oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" />
-    </broadcasterset>
-
-
-    <menupopup id="menu_ToolsPopup">
-
+  
+    <menupopup id="viewSidebarMenu">
+        <menuitem label="SCY Sidebar" oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();"  key="key_openSidebar" observes="viewSidebar"/>
     </menupopup>
-    <popup id="contentAreaContextMenu">
-        <menuitem id="context-highlighter" label="&highlighterContext.label;"
-                  accesskey="&highlighterContext.accesskey;"
-                  insertafter="context-stop"
-                  oncommand="highlighter.onMenuItemCommand(event);"/>
-        <menuitem id="context-dehighlighter" label="&dehighlighterContext.label;"
-                  accesskey="&dehighlighterContext.accesskey;"
-                  insertafter="context-stop"
-                  oncommand="highlighter.removeHighlight();"/>
-        <menuitem id="context-sidebar" key="key_openSidebar" observes="viewSidebar" />
-    </popup>
-    <toolbarpalette id="browser-toolbar-palette">
-        <toolbarbutton id="highlighter-toolbar-button"
-                       label="&highlighterToolbar.label;"
-                       tooltiptext="&highlighterToolbar.tooltip;"
-                       oncommand="highlighter.onToolbarButtonCommand()"
-                       class="toolbarbutton-1 chromeclass-toolbar-additional"/>
-    </toolbarpalette>
-
+    
 
 </overlay>
