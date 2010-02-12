@@ -29,6 +29,7 @@ public class AwarenessServiceWrapper {
 
         init{
             awarenessService.addAwarenessRosterListener(ContactAwarenessRosterListener{awarenessServiceWrapper : this});
+            awarenessService.addAwarenessPresenceListener(ContactAwarenessPresenceListener{awarenessServiceWrapper : this});
         }
 
         postinit{
