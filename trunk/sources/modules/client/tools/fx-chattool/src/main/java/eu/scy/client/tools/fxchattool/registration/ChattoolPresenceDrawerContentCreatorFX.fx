@@ -35,6 +35,8 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+
 /**
  * @author jeremyt
  */
@@ -49,6 +51,7 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
     public var node:Node;
     public var awarenessService:IAwarenessService;
     public var chatController:ChatController;
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var eloId:String;
     public var chatControllerMap:HashMap;
     public var repository:IRepository;
@@ -84,7 +87,7 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
         
         return ChatPresenceToolNode{
             chatPresenceTool:chatPresenceTool;
-
+            toolBrokerAPI:toolBrokerAPI;
          };
    }
 }
