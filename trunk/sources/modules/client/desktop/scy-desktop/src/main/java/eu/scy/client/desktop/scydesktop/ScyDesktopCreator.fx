@@ -197,6 +197,11 @@ public class ScyDesktopCreator {
       missionModelFX.eloFactory = config.getEloFactory();
    }
 
+   function retrieveMissionModelFromConfig(){
+      
+   }
+
+
    function retrieveStoredMissionModel():MissionModelFX{
       var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(),BasicSearchOperations.EQUALS,MissionModelFX.eloType,null);
       var titleQuery = new BasicMetadataQuery(config.getTitleKey(),BasicSearchOperations.EQUALS,userName,null);
@@ -221,10 +226,10 @@ public class ScyDesktopCreator {
          var type = eloInfoControl.getEloType(missionAnchor.eloUri);
          missionAnchor.color = windowStyler.getScyColor(type);
          missionAnchor.iconCharacter = windowStyler.getScyIconCharacter(type);
-         var metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
-         if (metadata != null) {
+         missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+         if (missionAnchor.metadata != null) {
             missionAnchor.exists = true;
-            missionAnchor.title = metadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
+            missionAnchor.title = missionAnchor.metadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
          } else {
             missionAnchor.exists = false;
             // change the color, to show the elo does not exists
