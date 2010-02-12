@@ -185,6 +185,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 					String text = getEloText(contextInformation.webresourcerELO);
 					List<String> keywords = getKeywords(text);
 					sendNotification(contextInformation, keywords);
+					contextInformation.lastAdded = currentTime;
 				}
 			}
 			sendAliveUpdate();
