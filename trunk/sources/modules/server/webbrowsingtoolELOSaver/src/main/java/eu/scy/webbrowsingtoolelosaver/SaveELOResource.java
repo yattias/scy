@@ -60,6 +60,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.exceptions.ELONotAddedException;
@@ -189,27 +190,29 @@ public class SaveELOResource {
                 eloContent.setXmlString(content);
                 elo.setContent(eloContent);
                 try {
-                    configLoader.getRepository().addNewELO(elo);
+                    IMetadata metadata = configLoader.getRepository().addNewELO(elo);
+                    String uri = (String) metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue();
+                    //return the uri that the client knows it and can perform an update as the next save
+                    return uri;
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());
                 } catch (Exception e) {
                     log.warning(e.getMessage());
                 }
                 log.info("Added ELO to repository");
-
+                //if saving not successful, return an empty String for convenience
+                return "";
                 //return simplified codes for easier localization!
-                //ELO saved
-                return "eloSaved";
             } else {//Authentication failed!
                 //return simplified codes for easier localization!
                 //Login failed. Please Check Your Login-Data
-                return "loginFailedCheckLoginData";
+                return "";
             }
         } catch (Exception e) {//Exception: Filewriting didnt work
             log.warning(e.getMessage());
             //return simplified codes for easier localization!
             //Server-Error during saving ELO. The Admin should clean up his harddisk
-            return "serverErrorSaving";
+            return "";
         }
     }
 }
