@@ -47,4 +47,10 @@
                         <map />
                 </constructor-arg>
         </bean>
+        <bean id="collaboration" class="eu.scy.agents.impl.AgentStartConfiguration">
+                <constructor-arg index="0" value="eu.scy.agents.collaboration.CollaborationAgent" />
+                <constructor-arg index="1">
+                        <map />
+                </constructor-arg>
+        </bean>
 </beans>
