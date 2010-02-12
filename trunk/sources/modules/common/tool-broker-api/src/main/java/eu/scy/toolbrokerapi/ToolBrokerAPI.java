@@ -99,8 +99,9 @@ public interface ToolBrokerAPI {
      * @param elouri
      *            the uri of the elo. This should be the same elouri, that was delivered in the
      *            notification call to the tool.
+     * @return the mucid if the user accepted the invitation, null otherwise
      */
-    public void answerCollaborationProposal(boolean accept, String proposingUser, String elouri);
+    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri);
 
     /**
      * Returns the name of the mission the user is currently working on.
