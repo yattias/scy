@@ -59,6 +59,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
             ChattoolPresenceDrawerContentCreatorFX {
                 awarenessService: awarenessService;
                 chatControllerMap: chatControllerMap;
+                toolBrokerAPI: toolBrokerAPI;
             },
             scychatpresenceId);
 

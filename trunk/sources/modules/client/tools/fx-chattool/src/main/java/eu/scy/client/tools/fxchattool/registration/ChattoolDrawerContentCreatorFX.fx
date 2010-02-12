@@ -36,6 +36,7 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
+
 /**
  * @author jeremyt
  */
@@ -89,6 +90,8 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
         //String token = Long.toString(Math.abs(r.nextLong()), 36);
         
 
-        return ChatToolNode{chatTool:chatTool;}
+        return ChatToolNode{
+                chatTool:chatTool;
+                }
    }
 }
