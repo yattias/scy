@@ -74,7 +74,7 @@
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
 				<scyhub.name>scyhub</scyhub.name>
-				<studentplanningtool.service.url>http://83.168.205.138/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+				<studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 			</properties>
 		</profile>
 		<profile>
@@ -98,7 +98,7 @@
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
 				<scyhub.name>scyhub</scyhub.name>
-				<studentplanningtool.service.url>http://83.168.205.138/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+				<studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 			</properties>
 		</profile>
 		<profile>
