@@ -60,7 +60,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 	private List<Action> actionQueue;
 
 	public ToolExperienceSensor(Map<String, Object> map) {
-		super("eu.scy.agents.serviceprovider.userexperience.ToolExperienceSensor", (String) map
+		super(ToolExperienceSensor.class.toString(), (String) map
 				.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map
 				.get(AgentProtocol.TS_PORT));
 		try {
@@ -82,7 +82,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 	}
 
 	private void init() throws TupleSpaceException, ParseException, DocumentException, IOException {
-		initLogger();
 		actionQueue = new Vector<Action>();
 		userModels = new HashMap<String, UserToolExperienceModel>();
 		callbacks = new ArrayList<Integer>();
@@ -237,24 +236,21 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
 	@Override
 	protected void doStop() {
-		status = Status.Stopping;
+	    try {
 		for (Integer cbSeq : callbacks) {
-			try {
-				actionSpace.eventDeRegister(cbSeq);
-				actionSpace.disconnect();
-				commandSpace.disconnect();
-			} catch (TupleSpaceException e) {
-				e.printStackTrace();
-			}
-
+		    actionSpace.eventDeRegister(cbSeq);
 		}
-		isStopped = true;
-
+		actionSpace.disconnect();
+		commandSpace.disconnect();
+	    } catch (TupleSpaceException e) {
+	        e.printStackTrace();
+	    }
+	    isStopped = true;
 	}
 
 	@Override
 	protected Tuple getIdentifyTuple(String queryId) {
-		// TODO This agent is just a sensor and therefore it don't need to identify....
+		// This agent is just a sensor and therefore it don't need to identify....
 		return null;
 	}
 
@@ -288,12 +284,4 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 		}
 	}
 
-	private void initLogger() {
-		ConsoleHandler cH = new ConsoleHandler();
-		SimpleFormatter sF = new SimpleFormatter();
-		cH.setFormatter(sF);
-		cH.setLevel(DEBUGLEVEL);
-		logger.setLevel(DEBUGLEVEL);
-		logger.addHandler(cH);
-	}
 }
