@@ -337,7 +337,9 @@ public class Initializer {
       }
       else if (useWebStartHost){
          try{
-            var basicService = ServiceManager.lookup("BasicService") as javax.jnlp.BasicService;
+            var webstartServiceNames = javax.jnlp.ServiceManager.getServiceNames();
+            logger.info("Available web start services: {webstartServiceNames}");
+            var basicService = ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
             if (basicService!=null){
                var codeBase = basicService.getCodeBase();
                logger.info("webstart codeBase: {codeBase}");
@@ -345,7 +347,7 @@ public class Initializer {
             }
          }
          catch (e:javax.jnlp.UnavailableServiceException){
-            logger.info("cannot get scy server host from web start, as web start is not being used.");
+            logger.info("cannot get scy server host from web start, as web start is not being used: {e}");
          }
       }
       if (newScyServerHost.length()>0){
