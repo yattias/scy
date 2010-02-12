@@ -36,7 +36,6 @@ import javafx.scene.text.FontWeight;
  public def ON_MOUSE_PRESSED_COLOR_OPACITY:Float = 0.3;
  public def BACKGROUND_COLOR :Color =  Color.TRANSPARENT;
 
-
 public class ContactFrame extends CustomNode {
 
     public var contact: Contact;
@@ -58,9 +57,7 @@ public class ContactFrame extends CustomNode {
                         width: size.getDefaultImageWidth();
                         height: size.getDefaultImageHeight();
                         preserveRatio: false;
-                        //XXX replace it when placeholder is available by webservice
-                        url: "http://scy.googlecode.com/files/buddyicon_online.png";
-                        //url: "{contact.imageURL}&showIcon";
+                        url: "{contact.imageURL}&showIcon";
                     }
 
                 }
