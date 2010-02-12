@@ -3,6 +3,14 @@
  */
 package eu.scy.server.datasync;
 
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Callback;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.User;
+import info.collide.sqlspaces.commons.Callback.Command;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -34,186 +42,217 @@ import eu.scy.commons.smack.SmacketExtensionProvider;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.scyhub.SCYHubModule;
 
-
 /**
  * @author giemza
  * 
  */
 public class DataSyncModule extends SCYHubModule {
 
-	private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
+    private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
 
-	// sessionid -> sessionbridge
-	private Map<String, DataSyncSessionBridge> bridges;
+    // sessionid -> sessionbridge
+    private Map<String, DataSyncSessionBridge> bridges;
 
-	private XMPPConnection connection;
+    private XMPPConnection connection;
 
-	/**
-	 * @param scyhub
-	 */
-	public DataSyncModule(Component scyhub) {
-		super(scyhub, new DataSyncMessagePacketTransformer());
+    private TupleSpace commandSpace;
 
-		bridges = new HashMap<String, DataSyncSessionBridge>();
+    private String COMMAND_SPACE = "command";
 
-		try {
-			ConnectionConfiguration cc = new ConnectionConfiguration(
-					Configuration.getInstance().getOpenFireHost(),
-					Configuration.getInstance().getOpenFirePort());
-			connection = new XMPPConnection(cc);
-			connection.connect();
-			connection.login("datasynclistener", "datasync");
-			connection.addConnectionListener(new DataSyncConnectionListener(connection));
+    /**
+     * @param scyhub
+     */
+    public DataSyncModule(Component scyhub) {
+        super(scyhub, new DataSyncMessagePacketTransformer());
 
-			final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
+        bridges = new HashMap<String, DataSyncSessionBridge>();
 
-			// add extenison provider
-			SmacketExtensionProvider.registerExtension(sapt);
+        try {
+            ConnectionConfiguration cc = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
+            connection = new XMPPConnection(cc);
+            connection.connect();
+            connection.login("datasynclistener", "datasync");
+            connection.addConnectionListener(new DataSyncConnectionListener(connection));
 
-			ProviderManager providerManager = ProviderManager.getInstance();
-			providerManager.addExtensionProvider(sapt.getElementname(), sapt
-					.getNamespace(), new SmacketExtensionProvider());
+            final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
 
-			DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(bridges, new SyncActionPacketTransformer());
-			connection.addPacketListener(packetFilterListener, packetFilterListener);
-		} catch (XMPPException e) {
-			e.printStackTrace();
-		}
-	}
+            // add extenison provider
+            SmacketExtensionProvider.registerExtension(sapt);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eu.scy.scyhub.SCYHubModule#process(org.xmpp.packet.Packet)
-	 */
-	@Override
-	protected void process(Packet packet, WhacketExtension extension) {
-		logger.debug("Received packet with DataSyncCommandExtension");
-		Object pojo = extension.getPojo();
+            ProviderManager providerManager = ProviderManager.getInstance();
+            providerManager.addExtensionProvider(sapt.getElementname(), sapt.getNamespace(), new SmacketExtensionProvider());
 
-		if (pojo instanceof SyncMessage) {
-			SyncMessage command = (SyncMessage) pojo;
-			logger.debug("Command: " + command.getEvent() + " "
-					+ command.getUserId() + " " + command.getToolId());
+            DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(bridges, new SyncActionPacketTransformer());
+            connection.addPacketListener(packetFilterListener, packetFilterListener);
 
-			String sessionId = UUID.randomUUID().toString() + "@syncsessions." + Configuration.getInstance().getOpenFireHost();
+            String host = Configuration.getInstance().getSQLSpacesServerHost();
+            int port = Configuration.getInstance().getSQLSpacesServerPort();
 
-			// create a session logger with the random id
-			DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
-			bridges.put(sessionId, dssl);
+            try {
+                commandSpace = new TupleSpace(new User(DataSyncModule.class.getSimpleName()), host, port, false, false, COMMAND_SPACE);
+                final Tuple tupleTemplate = new Tuple(String.class, "datasync", Field.createWildCardField());
+                commandSpace.eventRegister(Command.WRITE, tupleTemplate, new Callback() {
 
-			// response to client
-			SyncMessage response = new SyncMessage(Type.answer);
-			try {
-				//first check if connection is still alive
-				if(!connection.isConnected()) {
-					connection.connect();
-				}
-				// try to connect the logger
-				dssl.connect(connection);
+                    @Override
+                    public void call(final Command cmd, final int seqnum, final Tuple afterTuple, final Tuple beforeTuple) {
+                        final String id = afterTuple.getField(0).getValue().toString();
+                        final String service = afterTuple.getField(2).getValue().toString();
+                        if (service.equals("create_session")) {
+                            final SyncMessage msg = createSession();
+                            final String mucId = msg.getMessage();
+                            try {
+                                commandSpace.write(new Tuple(id, mucId));
+                            } catch (TupleSpaceException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, false);
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
 
-				// if everything is okay we return success
-				response.setEvent(Event.create);
-				response.setResponse(Response.success);
-				response.setMessage(sessionId);
-			} catch (Exception e) {
-				logger.error(
-						"Error while creating DataSyncSessionLogger for session "
-								+ sessionId, e);
-				// if not we send a failure
-				response.setEvent(Event.create);
-				response.setResponse(Response.failure);
-			}
+            logger.debug("Notificator initialised on " + host + ":" + port);
 
-			// we create the response message, add the extension and send it
-			// with the same id to the client
-			Message responseMessage = new Message();
+        } catch (XMPPException e) {
+            e.printStackTrace();
+        }
+    }
 
-			responseMessage.addExtension(new WhacketExtension(transformer
-					.getElementname(), transformer.getNamespace(), response));
-			responseMessage.setTo(packet.getFrom());
-			responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
-			responseMessage.setID(packet.getID());
+    /*
+     * (non-Javadoc)
+     * 
+     * @see eu.scy.scyhub.SCYHubModule#process(org.xmpp.packet.Packet)
+     */
+    @Override
+    protected void process(Packet packet, WhacketExtension extension) {
+        logger.debug("Received packet with DataSyncCommandExtension");
+        Object pojo = extension.getPojo();
 
-			send(responseMessage);
-		}
-	}
-	
-	private class DataSyncPacketFilterListener implements PacketFilter, PacketListener {
+        if (pojo instanceof SyncMessage) {
+            SyncMessage command = (SyncMessage) pojo;
+            logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
 
-		private Map<String, DataSyncSessionBridge> bridges;
-		
-		private SCYPacketTransformer transformer;
+            SyncMessage response = createSession();
 
-		public DataSyncPacketFilterListener(Map<String, DataSyncSessionBridge> bridges, SCYPacketTransformer transformer) {
-			this.bridges = bridges;
-			this.transformer = transformer;
-		}
-		
-		@Override
-		public boolean accept(org.jivesoftware.smack.packet.Packet packet) {
-			return packet.getExtension(transformer.getElementname(), transformer.getNamespace()) != null;
-		}
+            // we create the response message, add the extension and send it
+            // with the same id to the client
+            Message responseMessage = new Message();
 
-		@Override
-		public void processPacket(org.jivesoftware.smack.packet.Packet packet) {
-			PacketExtension packetExtension = packet.getExtension(transformer.getElementname(), transformer.getNamespace());
-			if (packetExtension != null && packetExtension instanceof SmacketExtension) {
-				SmacketExtension extension = (SmacketExtension) packetExtension;
-				
-				SyncAction action = (SyncAction) extension.getTransformer().getObject();
-				DataSyncSessionBridge bridge = bridges.get(action.getSessionId());
-				
-				if(bridge != null) {
-					bridge.process(action);
-				}
-			}
-		}
-		
-	}
+            responseMessage.addExtension(new WhacketExtension(transformer.getElementname(), transformer.getNamespace(), response));
+            responseMessage.setTo(packet.getFrom());
+            responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+            responseMessage.setID(packet.getID());
 
-	@Override
-	public void shutdown() {
-		for (DataSyncSessionBridge bridge : bridges.values()) {
-			bridge.shutdown();
-		}
-		connection.disconnect();
-	}
-	
-	class DataSyncConnectionListener implements ConnectionListener {
-		
-		private XMPPConnection connection;
-		
-		public DataSyncConnectionListener(XMPPConnection connection) {
-			this.connection = connection;
-		}
+            send(responseMessage);
+        }
+    }
 
-		@Override
-		public void connectionClosed() {}
+    private SyncMessage createSession() {
+        String sessionId = UUID.randomUUID().toString() + "@syncsessions." + Configuration.getInstance().getOpenFireHost();
 
-		@Override
-		public void connectionClosedOnError(Exception e) {
-			logger.debug("XMPPConnection closed. Reconnecting...");
-			try {
-				connection.connect();
-				logger.debug("Reconncetion successful!");
-			} catch (XMPPException ex) {
-				logger.debug("Could not reconnect", ex);
-			}
-		}
+        // create a session logger with the random id
+        DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+        bridges.put(sessionId, dssl);
 
-		@Override
-		public void reconnectingIn(int seconds) {}
+        // response to client
+        SyncMessage response = new SyncMessage(Type.answer);
+        try {
+            // first check if connection is still alive
+            if (!connection.isConnected()) {
+                connection.connect();
+            }
+            // try to connect the logger
+            dssl.connect(connection);
 
-		@Override
-		public void reconnectionFailed(Exception e) {
-			logger.debug("Reconnection to server failed: ", e);
-		}
+            // if everything is okay we return success
+            response.setEvent(Event.create);
+            response.setResponse(Response.success);
+            response.setMessage(sessionId);
+        } catch (Exception e) {
+            logger.error("Error while creating DataSyncSessionLogger for session " + sessionId, e);
+            // if not we send a failure
+            response.setEvent(Event.create);
+            response.setResponse(Response.failure);
+        }
+        return response;
+    }
 
-		@Override
-		public void reconnectionSuccessful() {
-			logger.debug("Reconnection sucessful!");
-		}
-		
-	}
+    private class DataSyncPacketFilterListener implements PacketFilter, PacketListener {
+
+        private Map<String, DataSyncSessionBridge> bridges;
+
+        private SCYPacketTransformer transformer;
+
+        public DataSyncPacketFilterListener(Map<String, DataSyncSessionBridge> bridges, SCYPacketTransformer transformer) {
+            this.bridges = bridges;
+            this.transformer = transformer;
+        }
+
+        @Override
+        public boolean accept(org.jivesoftware.smack.packet.Packet packet) {
+            return packet.getExtension(transformer.getElementname(), transformer.getNamespace()) != null;
+        }
+
+        @Override
+        public void processPacket(org.jivesoftware.smack.packet.Packet packet) {
+            PacketExtension packetExtension = packet.getExtension(transformer.getElementname(), transformer.getNamespace());
+            if (packetExtension != null && packetExtension instanceof SmacketExtension) {
+                SmacketExtension extension = (SmacketExtension) packetExtension;
+
+                SyncAction action = (SyncAction) extension.getTransformer().getObject();
+                DataSyncSessionBridge bridge = bridges.get(action.getSessionId());
+
+                if (bridge != null) {
+                    bridge.process(action);
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void shutdown() {
+        for (DataSyncSessionBridge bridge : bridges.values()) {
+            bridge.shutdown();
+        }
+        connection.disconnect();
+    }
+
+    class DataSyncConnectionListener implements ConnectionListener {
+
+        private XMPPConnection connection;
+
+        public DataSyncConnectionListener(XMPPConnection connection) {
+            this.connection = connection;
+        }
+
+        @Override
+        public void connectionClosed() {}
+
+        @Override
+        public void connectionClosedOnError(Exception e) {
+            logger.debug("XMPPConnection closed. Reconnecting...");
+            try {
+                connection.connect();
+                logger.debug("Reconncetion successful!");
+            } catch (XMPPException ex) {
+                logger.debug("Could not reconnect", ex);
+            }
+        }
+
+        @Override
+        public void reconnectingIn(int seconds) {}
+
+        @Override
+        public void reconnectionFailed(Exception e) {
+            logger.debug("Reconnection to server failed: ", e);
+        }
+
+        @Override
+        public void reconnectionSuccessful() {
+            logger.debug("Reconnection sucessful!");
+        }
+
+    }
 }
