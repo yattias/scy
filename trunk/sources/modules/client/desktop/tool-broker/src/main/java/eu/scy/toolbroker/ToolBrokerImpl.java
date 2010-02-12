@@ -1,5 +1,10 @@
 package eu.scy.toolbroker;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
@@ -15,6 +20,9 @@ import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.awareness.IAwarenessService;
@@ -23,10 +31,11 @@ import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.notification.NotificationReceiver;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
-import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.LoginFailedException;
+import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -72,6 +81,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 
     private String password;
     
+    private String mission;
+
+    private Map<String, BlockingQueue<INotification>> collaborationAnswers;
 
     public ToolBrokerImpl(String username, String password) {
        this(username,password,defaultBeanConfigurationFile);
@@ -113,6 +125,20 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         // NotificationReceiver
         notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
         notificationReceiver.init(xmppConnection);
+        
+        // collaboration
+        collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
+        registerForNotifications(new INotifiable() {
+            
+            @Override
+            public void processNotification(INotification notification) {
+                if (notification.getToolId().equals("scylab") && notification.getFirstProperty("collaboration_response") != null) {
+                    String user = notification.getFirstProperty("proposed_user");
+                    String elo = notification.getFirstProperty("proposed_elo");
+                    collaborationAnswers.get(user + "#" + elo).add(notification);
+                }
+            }
+        });
     }
 
     /**
@@ -219,7 +245,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	        config.setCompressionEnabled(true);
 	        config.setReconnectionAllowed(true);
 	        this.xmppConnection = new XMPPConnection(config);
-	        this.xmppConnection.DEBUG_ENABLED = true;
+	        XMPPConnection.DEBUG_ENABLED = true;
 	
 	        try {            
 	            this.xmppConnection.connect();
@@ -293,5 +319,54 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	public IELOFactory getELOFactory() {
 		return eloFactory;
 	}
+
+    @Override
+    public String proposeCollaborationWith(String proposedUser, String elouri) {
+        LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
+        collaborationAnswers.put(proposedUser + "#" + elouri, queue);
+        IActionLogger log = getActionLogger();
+        IAction requestCollaborationAction = new Action();
+        requestCollaborationAction.setUser(userName);
+        requestCollaborationAction.setType("collaboration_request");
+        requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
+        requestCollaborationAction.addContext(ContextConstants.mission, mission);
+        requestCollaborationAction.addContext(ContextConstants.session, "mysession"); // TODO replace with real session
+        requestCollaborationAction.addAttribute("proposed_user", proposedUser);
+        requestCollaborationAction.addAttribute("proposed_elo", elouri);
+        log.log(requestCollaborationAction);
+        try {
+            INotification notif = queue.take();
+            boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
+            if (accepted) {
+                String mucid = notif.getFirstProperty("mucid");
+                return mucid;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
+        IActionLogger log = getActionLogger();
+        IAction collaborationResponseAction = new Action();
+        collaborationResponseAction.setUser(userName);
+        collaborationResponseAction.setType("collaboration_response");
+        collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
+        collaborationResponseAction.addContext(ContextConstants.mission, mission);
+        collaborationResponseAction.addContext(ContextConstants.session, "mysession"); // TODO replace with real session
+        collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
+        collaborationResponseAction.addAttribute("proposing_user", proposingUser);
+        collaborationResponseAction.addAttribute("proposed_elo", elouri);
+        log.log(collaborationResponseAction);
+    }
+    
+    public void setMission(String mission) {
+        this.mission = mission;
+    }
+
+    public String getMission() {
+        return mission;
+    }
 
 }
