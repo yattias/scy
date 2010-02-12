@@ -1,7 +1,5 @@
 package eu.scy.toolbrokerapi;
 
-import org.jivesoftware.smack.XMPPConnection;
-
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
@@ -21,7 +19,7 @@ import eu.scy.sessionmanager.SessionManager;
  * @author Giemza
  */
 public interface ToolBrokerAPI {
-    
+
     /**
      * This method returns the repository instance to be used by clients of the
      * ToolsBrokerAPI.
@@ -29,17 +27,17 @@ public interface ToolBrokerAPI {
      * @return repository the repository instace
      */
     public IRepository getRepository();
-    
+
     /**
      * @return the metaDataTypeManager
      */
     public IMetadataTypeManager getMetaDataTypeManager();
-    
+
     /**
      * @return the extensionManager
      */
     public IExtensionManager getExtensionManager();
-    
+
     public IELOFactory getELOFactory();
 
     /**
@@ -49,32 +47,66 @@ public interface ToolBrokerAPI {
      * @return
      */
     public SessionManager getUserSession(String username, String password);
-    
+
     /**
      * @return the action logger
      */
     public IActionLogger getActionLogger();
-    
+
     /**
-     * Registers the {@link INotifiable} for notifications 
+     * Registers the {@link INotifiable} for notifications
      */
     public void registerForNotifications(INotifiable notifiable);
-    
+
     /**
      * @return the awareness service
      */
     public IAwarenessService getAwarenessService();
-    
+
     /**
      * @return the data sync service
      */
     public IDataSyncService getDataSyncService();
 
     /**
-     *
+     * 
      * Returns the pedagogical plan service
-     *
-     * @return  the pedagogical plan service
+     * 
+     * @return the pedagogical plan service
      */
     public PedagogicalPlanService getPedagogicalPlanService();
+
+    /**
+     * Sends a message via the collaboration agent to another user to invite him for a
+     * collaboration.
+     * 
+     * @param proposedUser
+     *            the complete clientjid (user@server) of the invited user
+     * @param elouri
+     *            the URI of the ELO
+     * @return the mucid if the user accepted the invitation, null otherwise
+     */
+    public String proposeCollaborationWith(String proposedUser, String elouri);
+
+    /**
+     * Sends the answer to a previous collaboration proposal.
+     * 
+     * @param accept
+     *            true, if the user wants to collaborate, false otherwise
+     * @param proposingUser
+     *            the user that sent the collaboration invitation. This should be the same username,
+     *            that was delivered in the notification call to the tool.
+     * @param elouri
+     *            the uri of the elo. This should be the same elouri, that was delivered in the
+     *            notification call to the tool.
+     */
+    public void answerCollaborationProposal(boolean accept, String proposingUser, String elouri);
+
+    /**
+     * Returns the name of the mission the user is currently working on.
+     * 
+     * @return the mission
+     */
+    public String getMission();
+
 }
