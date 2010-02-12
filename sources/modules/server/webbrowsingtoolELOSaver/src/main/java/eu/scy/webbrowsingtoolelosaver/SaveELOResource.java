@@ -40,6 +40,7 @@
  */
 package eu.scy.webbrowsingtoolelosaver;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -191,7 +192,7 @@ public class SaveELOResource {
                 elo.setContent(eloContent);
                 try {
                     IMetadata metadata = configLoader.getRepository().addNewELO(elo);
-                    String uri = (String) metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue();
+                    String uri = ((URI) metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue()).toString();
                     //return the uri that the client knows it and can perform an update as the next save
                     return uri;
                 } catch (ELONotAddedException e) {
