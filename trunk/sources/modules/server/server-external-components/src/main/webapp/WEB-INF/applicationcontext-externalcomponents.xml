@@ -27,6 +27,7 @@
 				<ref bean="scysim" />
 				<ref bean="votat" />
 				<ref bean="toolexperience" />
+				<ref bean="collaboration" />
 			</set>
 		</property>
 	</bean>
