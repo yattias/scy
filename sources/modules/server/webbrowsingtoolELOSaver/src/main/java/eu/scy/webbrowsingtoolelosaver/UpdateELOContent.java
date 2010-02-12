@@ -159,7 +159,7 @@ public class UpdateELOContent {
                 String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
                 elo.setContent(new BasicContent(content));
                 try {
-                    configLoader.getRepository().addNewELO(elo);
+                    configLoader.getRepository().updateELO(elo);
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());
                 } catch (Exception e) {
@@ -169,17 +169,17 @@ public class UpdateELOContent {
 
                 //return simplified codes for easier localization!
                 //ELO saved
-                return "eloSaved";
+                return "";
             } else {//Authentication failed!
                 //return simplified codes for easier localization!
                 //Login failed. Please Check Your Login-Data
-                return "loginFailedCheckLoginData";
+                return "";
             }
         } catch (Exception e) {//Exception: Filewriting didnt work
             log.warning(e.getMessage());
             //return simplified codes for easier localization!
             //Server-Error during saving ELO. The Admin should clean up his harddisk
-            return "serverErrorSaving";
+            return "";
         }
     }
 }
