@@ -68,7 +68,7 @@
 				<sqlspaces.server.host>http://83.168.205.138</sqlspaces.server.host>
 				<sqlspaces.server.port>2525</sqlspaces.server.port>
 
-				<openfire.host>http://83.168.205.138</openfire.host>
+				<openfire.host>83.168.205.138</openfire.host>
 				<openfire.conference>conference</openfire.conference>
 				<openfire.client.port>5222</openfire.client.port>
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
