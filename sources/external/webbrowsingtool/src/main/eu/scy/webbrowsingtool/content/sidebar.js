@@ -80,6 +80,46 @@ var highlighter = {
     onBeforeUnload: function(e){
         this.storeSidebar();
     },
+    newELO:function(){
+        //the highlighter-strings from the stringbundle
+        this.strings = top.window.document.getElementById("highlighter-strings");
+        
+        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
+        var resultOK = prompts.confirm(null,this.strings.getString("newELODialog"), this.strings.getString("newELODialogText"));
+
+        if (resultOK){
+            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+            var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
+            var summaryBox = sidebarWindow.document.getElementById('summaryBox');
+
+            //Initialize the global storage for highlights
+            Components.utils.import("resource://highlighter/highlights.jsm");
+            bullets.itemTexts = new Array();
+            bullets.nodeIDs = new Array();
+            bullets.sourceURLs = new Array();
+            commentsStore.value = "";
+            titleStore.value = "";
+            sourcesStore.value = "";
+
+            //read sequentially from the sidebar and store it to the highlights.jsm module (only for this session)
+
+            var urlBox = sidebarWindow.document.getElementById('urlBox');
+            var titleBox = sidebarWindow.document.getElementById('titleBox');
+            var commentBox = sidebarWindow.document.getElementById('commentBox');
+            this.clearList(summaryBox);
+        
+            updateURI="";
+            urlBox.value="";
+            titleBox.value="";
+            commentBox.value="";
+            //hack!
+            //        mainWindow.toggleSidebar('viewSidebar');
+            //        mainWindow.toggleSidebar('viewSidebar');
+            this.findBrokenHighlights();
+            this.correctSources();
+        //this will remove highlights and delete the sources
+        }
+    },
 
     storeSidebar: function(){
 
@@ -116,16 +156,17 @@ var highlighter = {
         //Adding drop-handler to the summary-listbox
         var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
         var summaryBox = sidebarWindow.document.getElementById("summaryBox");
-        summaryBox.ondrop = highlighter.onDrop;
+        if (summaryBox == null){
+            summaryBox = document.getElementById("summaryBox");
+        }
 
         if(this.checkStoredData()){
             //load storage from the highlights.jsm module
             Components.utils.import("resource://highlighter/highlights.jsm");
 
-            var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
-
             //When starting firefox, restore is called but no URL/Source Box is available
             if(sidebarWindow.document.getElementById('summaryBox')!=null){
+                summaryBox.ondrop = highlighter.onDrop;
 
                 var summaryBox = sidebarWindow.document.getElementById('summaryBox');
                 var urlBox = sidebarWindow.document.getElementById('urlBox');
@@ -448,7 +489,6 @@ var highlighter = {
             urlBox.value = "";
             var summaryBox = sidebarWindow.document.getElementById('summaryBox');
         }
-        //window.alert("sidebarWindow: "+sidebarWindow);
         if (summaryBox.itemCount>0){
             urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
         }
@@ -541,12 +581,13 @@ var highlighter = {
         //If the highlight was in another tab, it wont be found by the delete-function and will persist highlighted
         //On changing to this tab, the function will de-highlight it
 
-        var summaryBox = document.getElementById('summaryBox');
-        var belongsTos = new Array();
-        for(i = 0; i < summaryBox.itemCount; i++){
-            belongsTos.push(summaryBox.getItemAtIndex(0).getAttribute("value"));
-        }
+        var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
+        var summaryBox = sidebarWindow.document.getElementById("summaryBox");
 
+        var belongsTos = new Array();
+        for(i = 0; i < summaryBox.getRowCount(); i++){
+            belongsTos.push(summaryBox.getItemAtIndex(i).getAttribute("value"));
+        }
         var brokenHighlightCandidates = highlighter.getElementsByAttributeDOM("belongsTo","*");
         for (i=0;i<brokenHighlightCandidates.length;i++){
             var selectionBroken = true;
@@ -559,7 +600,6 @@ var highlighter = {
             if (selectionBroken){
                 //window.alert("Selection broken");
                 var node = candidate;
-                //window.alert(node);
                 if(node.nodeType == Node.ELEMENT_NODE && node.hasAttribute("highlighter")) {
                     var n = node.nextHighlight;
                     while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
@@ -570,26 +610,28 @@ var highlighter = {
                     var record = n;
                     node.nextHighlight = null;  //break chain so loop can exit
 
-                    n = record.firstNode;
-                    while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
-                        while(n.hasChildNodes())n.parentNode.insertBefore(n.firstChild, n);
-                        n = n.parentNode.removeChild(n).nextHighlight;
-                    }
-
-                    record.firstNode = null;
-                    record.lastNode.nextHighlight = null;
-                    record.lastNode = null;
-
-                    //everything below modifies unsafe objects on the webpage. Do this last.
-
-                    var hi = node.ownerDocument.defaultView.highlighterInfo;
-                    for(var i=hi.highlights.length-1; i>=0; i--) {
-                        if(hi.highlights[i] == record) {
-                            hi.highlights.splice(i, 1);
-                            break;
+                    if (record!=null){
+                        n = record.firstNode;
+                        while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
+                            while(n.hasChildNodes())n.parentNode.insertBefore(n.firstChild, n);
+                            n = n.parentNode.removeChild(n).nextHighlight;
                         }
+
+                        record.firstNode = null;
+                        record.lastNode.nextHighlight = null;
+                        record.lastNode = null;
+
+                        //everything below modifies unsafe objects on the webpage. Do this last.
+
+                        var hi = node.ownerDocument.defaultView.highlighterInfo;
+                        for(var i=hi.highlights.length-1; i>=0; i--) {
+                            if(hi.highlights[i] == record) {
+                                hi.highlights.splice(i, 1);
+                                break;
+                            }
+                        }
+                        hi.dirty = true;
                     }
-                    hi.dirty = true;
                 }
             }
         }
