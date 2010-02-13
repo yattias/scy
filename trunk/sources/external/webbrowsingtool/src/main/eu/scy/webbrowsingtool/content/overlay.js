@@ -46,10 +46,18 @@ var overlay = {
 		//disable (de-)highlight-command on context-menu
 		document.getElementById("context-highlighter").disabled = true;
 		document.getElementById("context-dehighlighter").disabled = true;
+                document.getElementById("menu-scy-new").disabled=true;
+                document.getElementById("menu-scy-save").disabled=true;
+                document.getElementById("menu-scy-preview").disabled=true;
+                document.getElementById("menu-scy-print").disabled=true;
 	} else {
 		//enable (de-)highlight-command on context-menu
 		document.getElementById("context-highlighter").disabled = false;
 		document.getElementById("context-dehighlighter").disabled = false;
+                document.getElementById("menu-scy-new").disabled=false;
+                document.getElementById("menu-scy-save").disabled=false;
+                document.getElementById("menu-scy-preview").disabled=false;
+                document.getElementById("menu-scy-print").disabled=false;
 	}
     this.initialized = true;
     //this.strings = top.window.document.getElementById("highlighter-strings");
@@ -92,10 +100,18 @@ var overlay = {
 		//disable (de-)highlight-command on context-menu
 		document.getElementById("context-highlighter").disabled = true;
 		document.getElementById("context-dehighlighter").disabled = true;
+                document.getElementById("menu-scy-new").disabled=true;
+                document.getElementById("menu-scy-save").disabled=true;
+                document.getElementById("menu-scy-preview").disabled=true;
+                document.getElementById("menu-scy-print").disabled=true;
 	} else {
 		//enable (de-)highlight-command on context-menu
 		document.getElementById("context-highlighter").disabled = false;
 		document.getElementById("context-dehighlighter").disabled = false;
+                document.getElementById("menu-scy-new").disabled=false;
+                document.getElementById("menu-scy-save").disabled=false;
+                document.getElementById("menu-scy-preview").disabled=false;
+                document.getElementById("menu-scy-print").disabled=false;
 	}
   },
 
@@ -115,4 +131,4 @@ var overlay = {
 
 };
 
-window.addEventListener("load", function(e) { overlay.onLoad(e); }, false);
+window.addEventListener("load", function(e) {overlay.onLoad(e);}, false);
