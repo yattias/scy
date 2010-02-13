@@ -108,7 +108,6 @@ var overlay = {
 
 },
 
-
   onToolbarButtonCommand: function(e) {
     // just reuse the function above.  you can change this, obviously!
     highlighter.onMenuItemCommand(e);
