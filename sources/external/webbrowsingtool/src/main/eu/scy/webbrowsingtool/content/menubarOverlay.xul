@@ -53,10 +53,10 @@
                 <menuseparator></menuseparator>
                 <menuitem label="Help" oncommand="highlighter.openHelp();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/help_x32.png"/>
                 <menuseparator></menuseparator>
-                <menuitem label="New ELO" oncommand="highlighter.newELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/new_x32.png"/>
-                <menuitem label="Save ELO" oncommand="highlighter.saveELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/save_x32.png"/>
-                <menuitem label="Preview" oncommand="highlighter.preview();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preview_x32.png"/>
-                <menuitem label="Print Preview" oncommand="highlighter.print();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/print_x32.png"/>
+                <menuitem id="menu-scy-new" label="New ELO" oncommand="highlighter.newELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/new_x32.png"/>
+                <menuitem id="menu-scy-save" label="Save ELO" oncommand="highlighter.saveELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/save_x32.png"/>
+                <menuitem id="menu-scy-preview" label="Preview" oncommand="highlighter.preview();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preview_x32.png"/>
+                <menuitem id="menu-scy-print" label="Print Preview" oncommand="highlighter.print();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/print_x32.png"/>
                 <menuseparator></menuseparator>
                 <menuitem label="Preferences"  oncommand="highlighter.openPreferences();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preferences_x32.png"/>
             </menupopup>
