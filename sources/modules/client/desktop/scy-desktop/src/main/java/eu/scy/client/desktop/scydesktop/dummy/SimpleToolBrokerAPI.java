@@ -35,6 +35,7 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI
    private PedagogicalPlanService pedagogicalPlanService;
 
    private String userName;
+   private String missionId;
 
    public void setRepository(IRepository repository)
    {
@@ -144,5 +145,28 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI
    public void setUserName(String userName)
    {
       this.userName = userName;
+   }
+
+   @Override
+   public String getMission()
+   {
+      return missionId;
+   }
+
+   public void setMissionId(String missionId)
+   {
+      this.missionId = missionId;
+   }
+
+   @Override
+   public String proposeCollaborationWith(String proposedUser, String elouri)
+   {
+      return proposedUser;
+   }
+
+   @Override
+   public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri)
+   {
+      return "false";
    }
 }
