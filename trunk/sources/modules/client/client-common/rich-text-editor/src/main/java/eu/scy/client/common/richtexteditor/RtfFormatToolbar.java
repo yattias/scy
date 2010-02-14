@@ -1,6 +1,5 @@
 package eu.scy.client.common.richtexteditor;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,15 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
-import javax.swing.text.StyledEditorKit.StyledTextAction;
 import javax.swing.text.rtf.RTFEditorKit;
 import java.util.ResourceBundle;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";
@@ -84,31 +80,31 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
         int pos = editorPanel.getJTextPane().getSelectionStart();
+        String text = editorPanel.getJTextPane().getSelectedText();
+        if (text==null)
+            text = "";
         if (e.getActionCommand().equals("bold")) {
             editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.BOLD,
-                editorPanel.getJTextPane().getSelectedText(),
+                RichTextEditorLogger.BOLD,text,
                 editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Bold).toString());
 		} else if (e.getActionCommand().equals("italics")) {
             editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.ITALIC,
-                editorPanel.getJTextPane().getSelectedText(),
+                RichTextEditorLogger.ITALIC,text,
                 editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Italic).toString());
 		} else if (e.getActionCommand().equals("underline")) {
             editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.UNDERLINE,
-                editorPanel.getJTextPane().getSelectedText(),
+                RichTextEditorLogger.UNDERLINE,text,
                 editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline).toString());
 		} else if (e.getActionCommand().equals("superscript")) {
+    		RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
+			String in = (StyleConstants.isSuperscript(rtfek.getInputAttributes())) ? "true" : "false";
             editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.SUPERSCRIPT,
-                editorPanel.getJTextPane().getSelectedText(),
-                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Superscript).toString());
+                RichTextEditorLogger.SUPERSCRIPT,text,in);
 		} else if (e.getActionCommand().equals("subscript")) {
+    			RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
+				String in = (StyleConstants.isSubscript(rtfek.getInputAttributes())) ? "true" : "false";
             editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.SUBSCRIPT,
-                editorPanel.getJTextPane().getSelectedText(),
-                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Subscript).toString());
+                RichTextEditorLogger.SUBSCRIPT,text,in);
 		}
 	}
 
@@ -120,14 +116,20 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			JEditorPane editor = getEditor(ae);
-			if (editor != null) {
-				StyledEditorKit kit = getStyledEditorKit(editor);
-				boolean superscript = (StyleConstants.isSuperscript(kit
+            if (editor != null) {
+                StyledDocument doc=(StyledDocument)editor.getDocument();
+    			RTFEditorKit rtfek=(RTFEditorKit)editor.getEditorKit();
+        		MutableAttributeSet attr=rtfek.getInputAttributes();
+				boolean subscript = (StyleConstants.isSuperscript(rtfek
 						.getInputAttributes())) ? false : true;
-				SimpleAttributeSet sas = new SimpleAttributeSet();
-				StyleConstants.setSuperscript(sas, superscript);
-				setCharacterAttributes(editor, sas, false);
-			}
+               	StyleConstants.setSuperscript(attr, subscript);
+    			if(editor.getSelectedText()!=null && !editor.getSelectedText().equals(""))
+        		{
+            		int start=editor.getSelectionStart();
+                	int end=editor.getSelectionEnd();
+                    doc.setCharacterAttributes(start,(end-start),attr,false);
+    			}
+            }
 		}
 
 	}
@@ -140,14 +142,20 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			JEditorPane editor = getEditor(ae);
-			if (editor != null) {
-				StyledEditorKit kit = getStyledEditorKit(editor);
-				boolean subscript = (StyleConstants.isSubscript(kit
+            if (editor != null) {
+                StyledDocument doc=(StyledDocument)editor.getDocument();
+    			RTFEditorKit rtfek=(RTFEditorKit)editor.getEditorKit();
+        		MutableAttributeSet attr=rtfek.getInputAttributes();
+				boolean subscript = (StyleConstants.isSubscript(rtfek
 						.getInputAttributes())) ? false : true;
-				SimpleAttributeSet sas = new SimpleAttributeSet();
-				StyleConstants.setSubscript(sas, subscript);
-				setCharacterAttributes(editor, sas, false);
-			}
-		}
+               	StyleConstants.setSubscript(attr, subscript);
+    			if(editor.getSelectedText()!=null && !editor.getSelectedText().equals(""))
+        		{
+            		int start=editor.getSelectionStart();
+                	int end=editor.getSelectionEnd();
+                    doc.setCharacterAttributes(start,(end-start),attr,false);
+    			}
+            }
+        }
 	}
 }
