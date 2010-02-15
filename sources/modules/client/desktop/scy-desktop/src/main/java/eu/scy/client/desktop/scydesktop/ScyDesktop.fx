@@ -253,7 +253,7 @@ public class ScyDesktop extends CustomNode {
               tooltipManager:tooltipManager
               scyDesktop:this
               height:250
-              showOfflineContacts:false
+              showOfflineContacts:true
               width: 300
               };
 
