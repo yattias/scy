@@ -19,10 +19,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
-import java.net.URI;
-
-
-
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
@@ -84,7 +80,6 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
@@ -157,6 +152,8 @@ public class ScyDesktop extends CustomNode {
             scyWindowControl:this.scyWindowControl;
          }
          repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
+         repositoryWrapper.setMissionId(missionModelFX.id);
+         repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
       }
    }
