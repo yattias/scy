@@ -36,11 +36,13 @@ public interface Config {
 
    public EloConfig getEloConfig(String eloType);
 
-   public String getMissionId();
-   public String getMissionName();
-   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs();
-   public URI getActiveMissionAnchorUri();
-   public List<MissionAnchor> getMissionAnchors();
+   public BasicMissionMap getBasicMissionMap();
+   public List<BasicMissionAnchor> getBasicMissionAnchors();
+
+//   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs();
+//   public String getMissionId();
+//   public String getMissionName();
+//   public URI getActiveMissionAnchorUri();
 
    public List<NewEloDescription> getNewEloDescriptions();
 

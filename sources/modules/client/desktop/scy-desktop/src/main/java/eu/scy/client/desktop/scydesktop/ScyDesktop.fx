@@ -120,7 +120,7 @@ public class ScyDesktop extends CustomNode {
    public var bottomLeftCornerTool: Node on replace{bottomLeftCorner.content = bottomLeftCornerTool};
 
    def windows: WindowManager = WindowManagerImpl{
-         activeAnchor: bind missionModelFX.activeAnchor;
+  //       activeAnchor: bind missionModelFX.activeAnchor;
       };
    public def tooltipManager:TooltipManager = SimpleTooltipManager{};
    public def dragAndDropManager:DragAndDropManager = SimpleDragAndDropManager{
@@ -458,60 +458,60 @@ function run(){
    var config = springConfigFactory.getConfig();
 
 //   InitLog4j.init();
-   var anchor0 = MissionAnchorFX{
-       title: "0";
-       xPos: 00;
-       yPos: 20;
-       color: Color.BLUE;
-       eloUri: new URI("test://anchor0.tst");
-   }
-   var anchor1 = MissionAnchorFX{
-       title: "1";
-       xPos: 40;
-       yPos: 00;
-       color: Color.BLUE;
-       eloUri: new URI("test://anchor1.tst");
-   }
-   var anchor2 = MissionAnchorFX{
-       title: "2";
-       xPos: 80;
-       yPos: 00;
-       color: Color.GREEN;
-       eloUri: new URI("test://anchor2.tst");
-   }
-   var anchor3 = MissionAnchorFX{
-       title: "3";
-       xPos: 40;
-       yPos: 40;
-       color: Color.RED;
-       eloUri: new URI("test://anchor3.tst");
-   }
-   var anchor4 = MissionAnchorFX{
-       title: "4";
-       xPos: 80;
-       yPos: 40;
-       color: Color.ORANGE;
-       eloUri: new URI("test://anchor4.tst");
-   }
-   var anchor5 = MissionAnchorFX{
-       title: "5";
-       xPos: 120;
-       yPos: 20;
-       color: Color.ORANGE;
-       eloUri: new URI("test://anchor5.tst");
-   }
-   anchor0.nextAnchors=[anchor1,anchor2,anchor3,anchor4];
-   anchor1.nextAnchors=[anchor2,anchor3,anchor4];
-   anchor2.nextAnchors=[anchor1,anchor3,anchor4,anchor5];
-   anchor3.nextAnchors=[anchor1,anchor2,anchor4];
-   anchor4.nextAnchors=[anchor1,anchor2,anchor3,anchor5];
+//   var anchor0 = MissionAnchorFX{
+//       title: "0";
+//       xPos: 00;
+//       yPos: 20;
+//       color: Color.BLUE;
+//       eloUri: new URI("test://anchor0.tst");
+//   }
+//   var anchor1 = MissionAnchorFX{
+//       title: "1";
+//       xPos: 40;
+//       yPos: 00;
+//       color: Color.BLUE;
+//       eloUri: new URI("test://anchor1.tst");
+//   }
+//   var anchor2 = MissionAnchorFX{
+//       title: "2";
+//       xPos: 80;
+//       yPos: 00;
+//       color: Color.GREEN;
+//       eloUri: new URI("test://anchor2.tst");
+//   }
+//   var anchor3 = MissionAnchorFX{
+//       title: "3";
+//       xPos: 40;
+//       yPos: 40;
+//       color: Color.RED;
+//       eloUri: new URI("test://anchor3.tst");
+//   }
+//   var anchor4 = MissionAnchorFX{
+//       title: "4";
+//       xPos: 80;
+//       yPos: 40;
+//       color: Color.ORANGE;
+//       eloUri: new URI("test://anchor4.tst");
+//   }
+//   var anchor5 = MissionAnchorFX{
+//       title: "5";
+//       xPos: 120;
+//       yPos: 20;
+//       color: Color.ORANGE;
+//       eloUri: new URI("test://anchor5.tst");
+//   }
+//   anchor0.nextAnchors=[anchor1,anchor2,anchor3,anchor4];
+//   anchor1.nextAnchors=[anchor2,anchor3,anchor4];
+//   anchor2.nextAnchors=[anchor1,anchor3,anchor4,anchor5];
+//   anchor3.nextAnchors=[anchor1,anchor2,anchor4];
+//   anchor4.nextAnchors=[anchor1,anchor2,anchor3,anchor5];
 
    var missionModel = MissionModelFX{
 //       anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
 //       activeAnchor:anchor0
    }
    missionModel = MissionModelFX{
-       anchors: [];
+//       anchors: [];
    }
    var newWindowCounter = 0;
    var newWindowButton:Button = Button {

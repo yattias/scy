@@ -23,7 +23,7 @@ public mixin class WindowManager {
 
    public var scyWindows:Group;
 
-   public var activeAnchor:MissionAnchorFX;
+//   public var activeAnchor:MissionAnchorFX;
 
    public function addScyWindow(scyWindow:ScyWindow):Void{
    }

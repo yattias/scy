@@ -13,76 +13,21 @@ import java.util.List;
  * @author sikken
  */
 public class BasicMissionAnchorConfig {
-   private String name;
-   private String toolTip;
    private URI uri;
-   private float xPosition;
-   private float yPosition;
-   private List<URI> intermediateEloUris;
-   private List<String> nextMissionAnchorNames;
-   private List<String> relationNames;
-   private List<URI> resourceEloUris;
+   private String id;
+   private List<URI> loEloUris;
    private List<String> inputMissionAnchorNames;
    private boolean mainAnchorElo;
+   private List<String> relationNames;
 
-   public String getName()
+   public List<URI> getLoEloUris()
    {
-      return name;
+      return loEloUris;
    }
 
-   public void setName(String name)
+   public void setLoEloUris(List<URI> resourceEloUris)
    {
-      this.name = name;
-   }
-
-   public String getToolTip()
-   {
-      return toolTip;
-   }
-
-   public void setToolTip(String toolTip)
-   {
-      this.toolTip = toolTip;
-   }
-
-   public List<String> getNextMissionAnchorNames()
-   {
-      return nextMissionAnchorNames;
-   }
-
-   public void setNextMissionAnchorNames(List<String> nextMissionAnchorConfigUris)
-   {
-      this.nextMissionAnchorNames = nextMissionAnchorConfigUris;
-   }
-
-   public List<String> getRelationNames()
-   {
-      return relationNames;
-   }
-
-   public void setRelationNames(List<String> relationNames)
-   {
-      this.relationNames = relationNames;
-   }
-
-   public List<URI> getIntermediateEloUris()
-   {
-      return intermediateEloUris;
-   }
-
-   public void setIntermediateEloUris(List<URI> intermediateEloUris)
-   {
-      this.intermediateEloUris = intermediateEloUris;
-   }
-
-   public List<URI> getResourceEloUris()
-   {
-      return resourceEloUris;
-   }
-
-   public void setResourceEloUris(List<URI> resourceEloUris)
-   {
-      this.resourceEloUris = resourceEloUris;
+      this.loEloUris = resourceEloUris;
    }
 
    public List<String> getInputMissionAnchorNames()
@@ -115,24 +60,24 @@ public class BasicMissionAnchorConfig {
       this.uri = uri;
    }
 
-   public float getXPosition()
+   public String getId()
    {
-      return xPosition;
+      return id;
    }
 
-   public void setxPosition(float xPosition)
+   public void setId(String id)
    {
-      this.xPosition = xPosition;
+      this.id = id;
    }
 
-   public float getYPosition()
+   public List<String> getRelationNames()
    {
-      return yPosition;
+      return relationNames;
    }
 
-   public void setyPosition(float yPosition)
+   public void setRelationNames(List<String> relationNames)
    {
-      this.yPosition = yPosition;
+      this.relationNames = relationNames;
    }
    
 }

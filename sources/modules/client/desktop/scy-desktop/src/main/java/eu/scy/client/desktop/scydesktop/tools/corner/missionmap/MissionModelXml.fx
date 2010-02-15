@@ -18,9 +18,13 @@ public class MissionModelXml {
 }
 
 def missionModelName = "missionModel";
-def missionIdName = "missionId";
-def missionNameName = "missionName";
-def activeAnchorName = "activeAnchor";
+def idName = "id";
+def nameName = "name";
+def loElosName = "loElos";
+def activeLasName = "activeLas";
+def lassesName = "lasses";
+def lasName = "las";
+def nextLassesName = "nextLasses";
 def anchorsName = "anchors";
 def anchorName = "anchor";
 def xPosName = "xPos";
@@ -31,7 +35,8 @@ def toolTipName = "toolTip";
 def nextAnchorsName = "nextAnchors";
 def inputAnchorsName = "inputAnchors";
 def resourceElosName = "resourceElos";
-def intermediateElosName = "intermediateElos";
+def intermediateAnchorsName = "intermediateAnchors";
+def intermediateAnchorName = "intermediateAnchor";
 def relationsName = "relations";
 def relationName = "relation";
 
@@ -39,17 +44,18 @@ def jdomStringConversion = new JDomStringConversion();
 
 public function convertToXml(missionModel:MissionModelFX):String{
    var root = new Element(missionModelName);
-   root.addContent(createElement(missionIdName,missionModel.missionId));
-   root.addContent(createElement(missionNameName,missionModel.missionName));
-   var activeAnchorUri = "";
-   if (missionModel.activeAnchor != null){
-      activeAnchorUri = missionModel.activeAnchor.eloUri.toString();
+   root.addContent(createElement(idName,missionModel.id));
+   root.addContent(createElement(nameName,missionModel.name));
+   var activeLasId = "";
+   if (missionModel.activeLas != null){
+      activeLasId = missionModel.activeLas.id;
    }
-   root.addContent(createElement(activeAnchorName,activeAnchorUri));
-   var anchors = new Element(anchorsName);
-   root.addContent(anchors);
-   for (anchor in missionModel.anchors){
-      anchors.addContent(createMissionAnchorXml(anchor));
+   root.addContent(createElement(activeLasName,activeLasId));
+   root.addContent(createEloUriListXml(loElosName,missionModel.loEloUris));
+   var lasses = new Element(lassesName);
+   root.addContent(lasses);
+   for (las in missionModel.lasses){
+      lasses.addContent(createLasXml(las));
    }
    return jdomStringConversion.xmlToString(root);
 }
@@ -60,17 +66,34 @@ function createElement(name:String, value:String):Element{
    return element;
 }
 
-function createMissionAnchorXml(missionAnchor:MissionAnchorFX):Element{
-   var root = new Element(anchorName);
+function createLasXml(las:Las):Element{
+   var lasRoot = new Element(lasName);
+   lasRoot.addContent(createElement(idName,las.id));
+   lasRoot.addContent(createElement(xPosName, "{las.xPos}"));
+   lasRoot.addContent(createElement(yPosName, "{las.yPos}"));
+   lasRoot.addContent(createElement(toolTipName, "{las.toolTip}"));
+   lasRoot.addContent(createEloUriListXml(loElosName,las.loEloUris));
+   lasRoot.addContent(createMissionAnchorXml(mainAnchorName, las.mainAnchor));
+   var intermediateAnchorsRoot = new Element(intermediateAnchorsName);
+   lasRoot.addContent(intermediateAnchorsRoot);
+   for (intermediaAnchor in las.intermediateAnchors){
+      intermediateAnchorsRoot.addContent(createMissionAnchorXml(intermediateAnchorName, intermediaAnchor));
+   }
+   var nextLassesRoot = new Element(nextLassesName);
+   lasRoot.addContent(nextLassesRoot);
+   for (nextLas in las.nextLasses){
+      nextLassesRoot.addContent(createElement(lasName,nextLas.id));
+   }
+
+   lasRoot;
+}
+
+function createMissionAnchorXml(tagName:String, missionAnchor:MissionAnchorFX):Element{
+   var root = new Element(tagName);
    root.addContent(createElement(eloUriName, "{missionAnchor.eloUri.toString()}"));
-   root.addContent(createElement(xPosName, "{missionAnchor.xPos}"));
-   root.addContent(createElement(yPosName, "{missionAnchor.yPos}"));
    root.addContent(createElement(mainAnchorName, "{missionAnchor.mainAnchor}"));
-   root.addContent(createElement(toolTipName, "{missionAnchor.toolTip}"));
-   root.addContent(createAnchorListXml(nextAnchorsName,missionAnchor.nextAnchors));
+   root.addContent(createEloUriListXml(loElosName,missionAnchor.loEloUris));
    root.addContent(createAnchorListXml(inputAnchorsName,missionAnchor.inputAnchors));
-   root.addContent(createEloUriListXml(resourceElosName,missionAnchor.resourceEloUris));
-   root.addContent(createEloUriListXml(intermediateElosName,missionAnchor.intermediateEloUris));
    root.addContent(createStringListXml(relationsName,missionAnchor.relationNames));
    return root;
 }
@@ -103,44 +126,64 @@ public function convertToMissionModel(xml: String): MissionModelFX {
    var missionModel = MissionModelFX {
            };
    var root = jdomStringConversion.stringToXml(xml);
-   missionModel.missionId = root.getChildTextTrim(missionIdName);
-   missionModel.missionName = root.getChildTextTrim(missionNameName);
-   var missionAnchors = root.getChild(anchorsName);
-   var missionAnchorChildren = missionAnchors.getChildren(anchorName);
-   var missionAnchorsMap = new HashMap();
-   if (missionAnchorChildren!=null){
-      // find all anchors
-      for (missionAnchorChild in missionAnchorChildren) {
-         var missionAnchor = createMissionAnchor(missionAnchorChild as Element);
-         missionAnchorsMap.put(missionAnchor.eloUri, missionAnchor);
-         insert missionAnchor into missionModel.anchors;
+   missionModel.id = root.getChildTextTrim(idName);
+   missionModel.name = root.getChildTextTrim(nameName);
+   missionModel.loEloUris = createEloUriList(root.getChild(loElosName));
+   var lassesMap = new HashMap();
+   var anchorsMap = new HashMap();
+   var lassesRoot = root.getChild(lassesName);
+   if (lassesRoot!=null){
+      var lasChildrenRoot = lassesRoot.getChildren(lasName);
+      if (lasChildrenRoot!=null){
+         for (lasObject in lasChildrenRoot){
+            var lasChild = lasObject as Element;
+            var las = createLas(lasChild, anchorsMap);
+            insert las into missionModel.lasses;
+            lassesMap.put(las.id,las);
+         }
       }
-      // fill in anchor links
-      for (missionAnchorChild in missionAnchorChildren) {
-         var missionAnchorElement = missionAnchorChild as Element;
-         var missionAnchorUri = missionAnchorElement.getChildText(eloUriName);
-         var missionAnchor = missionAnchorsMap.get(new URI(missionAnchorUri)) as MissionAnchorFX;
-         missionAnchor.nextAnchors = createMissionAnchorList(missionAnchorElement.getChild(nextAnchorsName),missionAnchorsMap);
-         missionAnchor.inputAnchors = createMissionAnchorList(missionAnchorElement.getChild(inputAnchorsName),missionAnchorsMap);
-      }
-      missionModel.findPreviousMissionAnchorLinks();
    }
-   var activeAnchorUriName = root.getChildText(activeAnchorName);
-   if (activeAnchorUriName != null)
-      missionModel.activeAnchor = missionAnchorsMap.get(new URI(activeAnchorUriName)) as MissionAnchorFX;
+   var activeLasId = root.getChildTextTrim(activeLasName);
+   if (activeLasId!=null){
+      missionModel.anchorSelected(lassesMap.get(activeLasId) as Las, null);
+   }
+   if (sizeof missionModel.lasses > 0){
+      fillInMissingLinks(missionModel,lassesMap,anchorsMap,lassesRoot);
+   }
+
    return missionModel;
 }
+
+function createLas(root:Element, anchorsMap: HashMap):Las{
+   var las= Las{
+      id: root.getChildTextTrim(idName)
+      xPos: java.lang.Float.parseFloat(root.getChildTextTrim(xPosName));
+      yPos: java.lang.Float.parseFloat(root.getChildTextTrim(yPosName));
+      toolTip: root.getChildTextTrim(toolTipName)
+      loEloUris: createEloUriList(root.getChild(loElosName))
+      mainAnchor:createMissionAnchor(root.getChild(mainAnchorName))
+   }
+   anchorsMap.put(las.mainAnchor.eloUri, las.mainAnchor);
+   var intermediateAnchorsRoot = root.getChild(intermediateAnchorsName);
+   var intermediateAnchorslist = intermediateAnchorsRoot.getChildren(intermediateAnchorName);
+   if (intermediateAnchorslist!=null){
+      for (intermediateAnchorObject in intermediateAnchorslist){
+         var intermediateAnchorRoot = intermediateAnchorObject as Element;
+         var intermediateAnchor = createMissionAnchor(intermediateAnchorRoot);
+         insert intermediateAnchor into las.intermediateAnchors;
+         anchorsMap.put(intermediateAnchor.eloUri, intermediateAnchor);
+      }
+   }
+   las;
+}
+
 
 function createMissionAnchor(root:Element):MissionAnchorFX{
    var missionAnchor = MissionAnchorFX{
       eloUri: new URI(root.getChildText(eloUriName))
-      xPos: java.lang.Float.parseFloat(root.getChildText(xPosName));
-      yPos: java.lang.Float.parseFloat(root.getChildText(yPosName));
       mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
-      toolTip: root.getChildText(toolTipName)
-      resourceEloUris: createEloUriList(root.getChild(resourceElosName))
-      intermediateEloUris: createEloUriList(root.getChild(intermediateElosName))
-      relationNames: createStringList(root.getChild(relationsName))
+      loEloUris: createEloUriList(root.getChild(loElosName))
+      relationNames: createStringList(root.getChild(relationsName),relationsName)
    }
    return missionAnchor;
 }
@@ -160,10 +203,10 @@ function createEloUriList(root:Element):URI[]{
    return eloUris;
 }
 
-function createStringList(root:Element):String[]{
+function createStringList(root:Element, tagName: String):String[]{
    var strings:String[];
    if (root!=null){
-      var children = root.getChildren(relationName);
+      var children = root.getChildren(tagName);
       if (children!=null){
          for (child in children) {
             var stringChild = child as Element;
@@ -173,6 +216,30 @@ function createStringList(root:Element):String[]{
    }
    return strings;
 }
+
+function fillInMissingLinks(missionModel:MissionModelFX, lassesMap: HashMap, anchorsMap: HashMap, lassesRoot:Element){
+   var lasChildrenRoot = lassesRoot.getChildren(lasName);
+   for (lasObject in lasChildrenRoot){
+      var lasChild = lasObject as Element;
+      var lasId = lasChild.getChildTextTrim(idName);
+      var las = lassesMap.get(lasId) as Las;
+      var nextLassesIds = createStringList(lasChild.getChild(nextLassesName),lasName);
+      for (nextLasId in nextLassesIds){
+         insert lassesMap.get(nextLasId) as Las into las.nextLasses;
+      }
+      // TODO scan input links of anchors
+   }
+}
+
+function fillInMissingAnchorLinks(anchorRoot:Element, anchorsMap: HashMap){
+   var anchor = anchorsMap.get(new URI(anchorRoot.getChildTextTrim(eloUriName))) as MissionAnchorFX;
+   var inputAnchorsUriStrings = createStringList(anchorRoot.getChild(inputAnchorsName),anchorsName);
+   for (inputAnchorUriString in inputAnchorsUriStrings){
+      var inputAnchor = anchorsMap.get(new URI(inputAnchorUriString)) as MissionAnchorFX;
+      insert inputAnchor into anchor.inputAnchors;
+   }
+}
+
 
 function createMissionAnchorList(root:Element,missionAnchorsMap: HashMap):MissionAnchorFX[]{
    var missionAnchors:MissionAnchorFX[];

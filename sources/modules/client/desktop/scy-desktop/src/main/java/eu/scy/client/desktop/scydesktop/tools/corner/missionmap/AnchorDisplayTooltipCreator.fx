@@ -27,7 +27,7 @@ public class AnchorDisplayTooltipCreator extends TooltipCreator {
       if (sourceNode instanceof AnchorDisplay){
          var anchorDisplay = sourceNode as AnchorDisplay;
          return AnchorDisplayTooltip{
-            anchor:anchorDisplay.anchor;
+            anchor:anchorDisplay.las.mainAnchor;
             scyDesktop:scyDesktop
             metadataTypeManager:metadataTypeManager
          }
