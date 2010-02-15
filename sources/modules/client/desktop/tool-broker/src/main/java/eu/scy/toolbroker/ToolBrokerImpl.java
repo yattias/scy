@@ -37,6 +37,7 @@ import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -45,7 +46,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  * 
  * @author Giemza
  */
-public class ToolBrokerImpl implements ToolBrokerAPI {
+public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting {
 
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
 
@@ -387,4 +388,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         return mission;
     }
 
+   @Override
+   public void setMissionId(String missionId)
+   {
+      mission = missionId;
+   }
+
+    
 }
