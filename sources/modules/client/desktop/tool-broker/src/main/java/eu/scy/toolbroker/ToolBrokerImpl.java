@@ -384,6 +384,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         this.mission = mission;
     }
 
+   @Override
     public String getMission() {
         return mission;
     }
@@ -394,5 +395,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
       mission = missionId;
    }
 
-    
+   @Override
+   public String getLoginUserName(){
+      return userName;
+   }
 }
