@@ -743,7 +743,7 @@ public class StudentPlanningTool {
 		membersPanel.setOpaque(false);
 		membersPanel.setBackground(Color.CYAN);
 		membersPanel.setPreferredSize(new Dimension(activityPanel
-				.getMaximumSize().width / 2, 110));
+				.getMaximumSize().width / 2, 115));
 		membersPanel.setDropTarget(new DropTarget(membersPanel,
 				new JXDropTargetListener(this)));
 		membersPanel
@@ -891,69 +891,6 @@ public class StudentPlanningTool {
 						color1, color1 });
 		MattePainter mattePainter = new MattePainter(gradientPaint);
 		return mattePainter;
-	}
-
-	/**
-	 * TEST FOR NOW
-	 * 
-	 * @return
-	 */
-	public Scenario setupPedagogicalPlan() {
-
-		// String url =
-		// JOptionPane.showInputDialog("Input host (for example localhost)");
-		// String username =
-		// JOptionPane.showInputDialog("Enter your freakin username");
-		//
-		// HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
-		// fb.setServiceInterface(PedagogicalPlanService.class);
-		// fb.setServiceUrl("http://" + url
-		// + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
-		// fb.afterPropertiesSet();
-		// PedagogicalPlanService service = (PedagogicalPlanService)
-		// fb.getObject();
-
-		Scenario scenario = createScenario();
-
-		return scenario;
-		// assert(scenario.getLearningActivitySpace() != null);
-		// assert(learningActivitySpace.getActivities().size() ==2);
-		// assert(learningActivitySpace.getProduces().contains(anchorElo));
-	}
-
-	private Activity createActivity(String name, String description) {
-		Activity activity = new ActivityImpl();
-		activity.setName(name);
-		activity.setDescription(description);
-		return activity;
-	}
-
-	private Scenario createScenario() {
-		Scenario scenario = new ScenarioImpl();
-		scenario.setName("DA SCENARIO");
-
-		LearningActivitySpace planning = new LearningActivitySpaceImpl();
-		planning.setName("Planning");
-		scenario.setLearningActivitySpace(planning);
-
-		Activity firstActivity = new ActivityImpl();
-		firstActivity
-				.setName("Gather in the big hall and listen to your teacher");
-		planning.addActivity(firstActivity);
-
-		Activity conceptMappingSession = new ActivityImpl();
-		conceptMappingSession.setName("Concept mapping");
-		planning.addActivity(conceptMappingSession);
-
-		AnchorELO conceptMap = new AnchorELOImpl();
-		conceptMap.setName("Expected concept map");
-		conceptMappingSession.setAnchorELO(conceptMap);
-
-		LearningActivitySpace lastSpace = new LearningActivitySpaceImpl();
-		lastSpace.setName("Evaluation");
-		conceptMap.setInputTo(lastSpace);
-
-		return scenario;
 	}
 
 	public void setStudentPlanningController(
