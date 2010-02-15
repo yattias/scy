@@ -49,6 +49,10 @@ public class AnchorDisplay extends CustomNode {
    def anchorColor = windowStyler.getScyColor(las.mainAnchor.eloUri);
    var contentColor = defaultContentColor;
 
+   init{
+      las.color = anchorColor;
+   }
+
 	var eloContour = EloContour{
 		width: size;
 		height: size;
