@@ -105,9 +105,16 @@ public interface ToolBrokerAPI {
 
     /**
      * Returns the name of the mission the user is currently working on.
-     * 
+     *
      * @return the mission
      */
     public String getMission();
+
+    /**
+     * Returns the name, with which the user logged in.
+     *
+     * @return login user name
+     */
+    public String getLoginUserName();
 
 }
