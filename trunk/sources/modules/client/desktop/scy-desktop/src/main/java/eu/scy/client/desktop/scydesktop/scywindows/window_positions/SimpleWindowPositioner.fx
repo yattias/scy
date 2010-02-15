@@ -41,7 +41,11 @@ public class SimpleWindowPositioner extends WindowPositioner {
       delete windows;
    }
 
-   public override function setActiveAnchorWindow(window:ScyWindow):Void{
+   override public function makeMainWindow (window : ScyWindow): Void {
+      logger.info("makeMainWindow: {window.eloUri}");
+   }
+
+   public override function setAnchorWindow(window:ScyWindow):Void{
    //       logger.info("setCenterWindow");
       //addWindowImmediately(window);
       placeWindowInCenter(window);
@@ -67,7 +71,7 @@ public class SimpleWindowPositioner extends WindowPositioner {
       addWindowImmediately(window);
    }
 
-   public override function addResourceWindow(window:ScyWindow):Void{
+   public override function addLearningObjectWindow(window:ScyWindow):Void{
    //       logger.info("addOtherWindow({window.title})");
       addWindowImmediately(window);
    }

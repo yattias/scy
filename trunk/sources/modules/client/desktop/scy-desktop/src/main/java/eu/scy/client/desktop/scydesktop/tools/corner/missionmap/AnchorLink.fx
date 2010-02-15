@@ -87,127 +87,127 @@ public class AnchorLink extends CustomNode {
 }
 
     function run(){
-
-        var anchor0 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "0";
-                xPos: 60;
-                yPos: 60;
-            }
-        }
-        var anchor1 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "1";
-                xPos: 20;
-                yPos: 20;
-            }
-        }
-        var anchor2 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "2";
-                xPos: 60;
-                yPos: 20;
-            }
-        }
-        var anchor3 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "3";
-                xPos: 100;
-                yPos: 20;
-            }
-        }
-        var anchor4 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "4";
-                xPos: 100;
-                yPos: 60;
-            }
-        }
-        var anchor5 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "5";
-                xPos: 100;
-                yPos: 100;
-            }
-        }
-        var anchor6 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "6";
-                xPos: 60;
-                yPos: 100;
-            }
-        }
-        var anchor7 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "7";
-                xPos: 20;
-                yPos: 100;
-            }
-        }
-        var anchor8 = AnchorDisplay{
-            anchor: MissionAnchorFX{
-                iconCharacter: "8";
-                xPos: 20;
-                yPos: 60;
-            }
-        }
-        var anchorLink01 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor1
-        }
-        var anchorLink02 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor2
-        }
-        var anchorLink03 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor3
-        }
-        var anchorLink04 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor4
-        }
-        var anchorLink05 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor5
-        }
-        var anchorLink06 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor6
-        }
-        var anchorLink07 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor7
-        }
-        var anchorLink08 = AnchorLink{
-            fromAnchor: anchor0
-            toAnchor: anchor8
-        }
-
-        Stage {
-            title: "Anchor test"
-            scene: Scene {
-                width: 200
-                height: 200
-                content: [
-                    anchorLink01,
-                    anchorLink02,
-                    anchorLink03,
-                    anchorLink04,
-                    anchorLink05,
-                    anchorLink06,
-                    anchorLink07,
-                    anchorLink08,
-                    anchor0,
-                    anchor1,
-                    anchor2,
-                    anchor3,
-                    anchor4,
-                    anchor5,
-                    anchor6,
-                    anchor7,
-                    anchor8
-                ]
-            }
-        }
+//
+//        var anchor0 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "0";
+//                xPos: 60;
+//                yPos: 60;
+//            }
+//        }
+//        var anchor1 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "1";
+//                xPos: 20;
+//                yPos: 20;
+//            }
+//        }
+//        var anchor2 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "2";
+//                xPos: 60;
+//                yPos: 20;
+//            }
+//        }
+//        var anchor3 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "3";
+//                xPos: 100;
+//                yPos: 20;
+//            }
+//        }
+//        var anchor4 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "4";
+//                xPos: 100;
+//                yPos: 60;
+//            }
+//        }
+//        var anchor5 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "5";
+//                xPos: 100;
+//                yPos: 100;
+//            }
+//        }
+//        var anchor6 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "6";
+//                xPos: 60;
+//                yPos: 100;
+//            }
+//        }
+//        var anchor7 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "7";
+//                xPos: 20;
+//                yPos: 100;
+//            }
+//        }
+//        var anchor8 = AnchorDisplay{
+//            anchor: MissionAnchorFX{
+//                iconCharacter: "8";
+//                xPos: 20;
+//                yPos: 60;
+//            }
+//        }
+//        var anchorLink01 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor1
+//        }
+//        var anchorLink02 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor2
+//        }
+//        var anchorLink03 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor3
+//        }
+//        var anchorLink04 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor4
+//        }
+//        var anchorLink05 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor5
+//        }
+//        var anchorLink06 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor6
+//        }
+//        var anchorLink07 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor7
+//        }
+//        var anchorLink08 = AnchorLink{
+//            fromAnchor: anchor0
+//            toAnchor: anchor8
+//        }
+//
+//        Stage {
+//            title: "Anchor test"
+//            scene: Scene {
+//                width: 200
+//                height: 200
+//                content: [
+//                    anchorLink01,
+//                    anchorLink02,
+//                    anchorLink03,
+//                    anchorLink04,
+//                    anchorLink05,
+//                    anchorLink06,
+//                    anchorLink07,
+//                    anchorLink08,
+//                    anchor0,
+//                    anchor1,
+//                    anchor2,
+//                    anchor3,
+//                    anchor4,
+//                    anchor5,
+//                    anchor6,
+//                    anchor7,
+//                    anchor8
+//                ]
+//            }
+//        }
     }

@@ -29,15 +29,17 @@ public mixin class WindowPositioner {
     */
     public abstract function clearWindows():Void;
 
+    public abstract function makeMainWindow(window:ScyWindow):Void;
+
     /**
-    * set the active anchor window.
+    * set the main anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function setActiveAnchorWindow(window:ScyWindow):Void;
+    public abstract function setAnchorWindow(window:ScyWindow):Void;
 
     /**
-    * adds a intermediate window.
+    * adds a intermediate anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
@@ -65,11 +67,11 @@ public mixin class WindowPositioner {
     public abstract function addInputAnchorWindow(window:ScyWindow, direction:Number):Void;
 
     /**
-    * adds a resource window.
+    * adds a learning object window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addResourceWindow(window:ScyWindow):Void;
+    public abstract function addLearningObjectWindow(window:ScyWindow):Void;
 
     /**
     * adds an other window.

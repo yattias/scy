@@ -109,66 +109,124 @@
          </list>
       </property>
 
-      <property name="basicMissionAnchorConfigs">
+      <property name="basicMissionMap">
+         <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="id" value="testMap"/>
+            <property name="name" value="test mission"/>
+            <property name="loEloUris">
+               <list>
+                  <value>roolo://memory/2/0/help_elo_1.text</value>
+                  <!--
+                  <value>roolo://memory/3/0/help_elo_2.text</value>
+                  -->
+               </list>
+            </property>
+            <property name="lasses">
+               <list>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="las1"/>
+                     <property name="xPosition" value="20"/>
+                     <property name="yPosition" value="20"/>
+                     <property name="tooltip" value="A great small las top left"/>
+                     <property name="loEloUris">
+                        <list>
+                           <value>roolo://memory/2/0/help_elo_1.text</value>
+                           <!--
+                           <value>roolo://memory/3/0/help_elo_2.text</value>
+                           -->
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>las2</value>
+                           <value>las3</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="missionDescription"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>testIntermediate1</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="las2"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="60"/>
+                     <property name="tooltip" value="A great small las at the bottom"/>
+                     <property name="nextLasses">
+                        <list>
+                           <value>las3</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="missionIntro"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="las3"/>
+                     <property name="xPosition" value="60"/>
+                     <property name="yPosition" value="20"/>
+                     <property name="tooltip" value="A great small las to right"/>
+                     <property name="nextLasses">
+                        <list>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="missionBackground"/>
+                  </bean>
+               </list>
+            </property>
+            <property name="initialLasId" value="las1"/>
+         </bean>
+      </property>
+
+      <property name="basicMissionAnchors">
          <list>
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="missionDescription"/>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionDescription"/>
                <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
-               <property name="xPosition" value="20"/>
-               <property name="yPosition" value="20"/>
-               <property name="nextMissionAnchorNames">
+               <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionBackground</value>
                      <value>missionIntro</value>
                   </list>
                </property>
-               <property name="inputMissionAnchorNames">
-                  <list>
-                     <value>missionBackground</value>
-                     <value>missionIntro</value>
-                  </list>
-               </property>
-               <property name="intermediateEloUris">
+               <property name="loEloUris">
                   <list>
                      <value>roolo://memory/2/0/help_elo_1.text</value>
-                     <value>roolo://memory/3/0/help_elo_2.text</value>
                   </list>
                </property>
-               <property name="resourceEloUris">
-                  <list>
-                     <value>roolo://memory/2/0/help_elo_1.text</value>
-                     <value>roolo://memory/3/0/help_elo_2.text</value>
-                  </list>
-               </property>
-               <property name="toolTip" value="description tooltip"/>
             </bean>
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="missionIntro"/>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionIntro"/>
                <property name="uri" value="roolo://memory/99/0/Mission_intro.text"/>
-               <property name="xPosition" value="60"/>
-               <property name="yPosition" value="20"/>
-               <property name="nextMissionAnchorNames">
+               <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionBackground</value>
                   </list>
                </property>
             </bean>
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="missionBackground"/>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionBackground"/>
                <property name="uri" value="roolo://memory/1/0/Mission_background.text"/>
-               <property name="xPosition" value="40"/>
-               <property name="yPosition" value="60"/>
-               <property name="inputMissionAnchorNames">
+               <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionDescription</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="testIntermediate1"/>
+               <property name="uri" value="roolo://memory/3/0/help_elo_2.text"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
                   </list>
                </property>
             </bean>
          </list>
       </property>
 
+<!--
       <property name="activeMissionAnchorUri" value="roolo://memory/0/0/Mission_description.text"/>
-
+-->
       <property name="templateEloUris">
          <list>
             <value>roolo://memory/2/0/help_elo_1.text</value>

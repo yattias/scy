@@ -26,6 +26,9 @@ import javafx.stage.Stage;
 
 public class AnchorAttribute extends ScyWindowAttribute {
    public var anchorDisplay: AnchorDisplay;
+   public var missionAnchor: MissionAnchorFX;
+   public var mainAnchor = true;
+   public var windowAction:function(MissionAnchorFX):Void;
 
    def size = 16.0;
    def bottomAngleWidth = 50.0;
@@ -42,10 +45,10 @@ public class AnchorAttribute extends ScyWindowAttribute {
    function setColors(){
       if (selected){
          titleColor = defaultTitleColor;
-         contentColor = anchorDisplay.anchor.color;
+         contentColor = missionAnchor.color;
       }
       else {
-         titleColor = anchorDisplay.anchor.color;
+         titleColor = missionAnchor.color;
          contentColor = defaultTitleColor;
       }
    }
@@ -60,12 +63,12 @@ public class AnchorAttribute extends ScyWindowAttribute {
                height: size;
                controlLength: 5;
                borderWidth: 2;
-					borderColor: bind anchorDisplay.anchor.color;
+					borderColor: bind missionAnchor.color;
 					fillColor: bind contentColor;
             }
             Line {
                startX: size / 2,
-               startY: size / 4
+               startY: size / 4 + (if (mainAnchor) 0 else size/4)
                endX: size / 2,
                endY: 3 * size / 4
                strokeWidth: anchorStrokeWidth
@@ -86,11 +89,12 @@ public class AnchorAttribute extends ScyWindowAttribute {
          ]
          onMouseClicked: function( e: MouseEvent ):Void {
             if (anchorDisplay.selectionAction != null){
-               anchorDisplay.selectionAction(anchorDisplay);
+               anchorDisplay.selectionAction(anchorDisplay,missionAnchor);
             }
             else {
                selected = not selected;
             }
+            windowAction(missionAnchor);
          },
       };
    }
@@ -99,12 +103,12 @@ public class AnchorAttribute extends ScyWindowAttribute {
 function run() {
 
    var anchor1 = AnchorDisplay{
-      anchor: MissionAnchorFX{
-         iconCharacter: "1";
-         xPos: 20;
-         yPos: 20;
-         color: Color.RED
-      }
+//      anchor: MissionAnchorFX{
+//         iconCharacter: "1";
+//         xPos: 20;
+//         yPos: 20;
+//         color: Color.RED
+//      }
    }
 
    Stage {

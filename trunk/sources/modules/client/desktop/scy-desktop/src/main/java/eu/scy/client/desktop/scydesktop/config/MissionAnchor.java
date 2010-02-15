@@ -17,18 +17,9 @@ import roolo.elo.api.IMetadata;
 public interface MissionAnchor {
 
    public URI getEloUri();
-   public String getName();
-   public String getTitle();
-   public String getToolTip();
-   public char getIconCharacter();
-   public Color getColor();
-   public float getXPosition();
-   public float getYPosition();
-   public boolean isExisting();
-   public List<URI> getIntermediateEloUris();
-   public List<MissionAnchor> getNextMissionAnchors();
-   public List<MissionAnchor> getInputMissionAnchors();
-   public List<String> getRelationNames();
-   public List<URI> getResourceEloUris();
    public IMetadata getMetadata();
+   public String getId();
+   public List<URI> getLoEloUris();
+   public List<String> getInputMissionAnchorIds();
+   public List<String> getRelationNames();
 }

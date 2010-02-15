@@ -42,9 +42,10 @@ public class BasicConfig implements Config
    private List<BasicEloConfig> eloConfigList;
    private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
+   private BasicMissionMap basicMissionMap;
    private String missionId;
    private String missionName;
-   private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
+   private List<BasicMissionAnchor> basicMissionAnchors;
    private URI activeMissionAnchorUri;
    private List<URI> templateEloUris;
    private DisplayNames logicalTypeDisplayNames;
@@ -205,167 +206,169 @@ public class BasicConfig implements Config
       this.missionId = missionId;
    }
 
+//   @Override
+//   public String getMissionId()
+//   {
+//      return missionId;
+//   }
+//
+//   public void setMissionName(String missionName)
+//   {
+//      this.missionName = missionName;
+//   }
+//
+//   @Override
+//   public String getMissionName()
+//   {
+//      return missionName;
+//   }
+
+//   public void setBasicMissionAnchorConfigs(List<BasicMissionAnchorConfig> basicMissionAnchorConfigs)
+//   {
+//      this.basicMissionAnchorConfigs = basicMissionAnchorConfigs;
+//   }
+//
+//   @Override
+//   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs()
+//   {
+//      return basicMissionAnchorConfigs;
+//   }
+
+//   public void setActiveMissionAnchorUri(URI activeMissionAnchorUri)
+//   {
+//      this.activeMissionAnchorUri = activeMissionAnchorUri;
+//   }
+//
+//   @Override
+//   public URI getActiveMissionAnchorUri()
+//   {
+//      return activeMissionAnchorUri;
+//   }
+
+   public void setBasicMissionAnchors(List<BasicMissionAnchor> basicMissionAnchors)
+   {
+      this.basicMissionAnchors = basicMissionAnchors;
+   }
+
    @Override
-   public String getMissionId()
+   public List<BasicMissionAnchor> getBasicMissionAnchors()
    {
-      return missionId;
-   }
-
-   public void setMissionName(String missionName)
-   {
-      this.missionName = missionName;
-   }
-
-   @Override
-   public String getMissionName()
-   {
-      return missionName;
-   }
-
-   public void setBasicMissionAnchorConfigs(List<BasicMissionAnchorConfig> basicMissionAnchorConfigs)
-   {
-      this.basicMissionAnchorConfigs = basicMissionAnchorConfigs;
-   }
-
-   @Override
-   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs()
-   {
-      return basicMissionAnchorConfigs;
-   }
-
-   public void setActiveMissionAnchorUri(URI activeMissionAnchorUri)
-   {
-      this.activeMissionAnchorUri = activeMissionAnchorUri;
-   }
-
-   @Override
-   public URI getActiveMissionAnchorUri()
-   {
-      return activeMissionAnchorUri;
-   }
-
-   @Override
-   public List<MissionAnchor> getMissionAnchors()
-   {
-      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
-      if (basicMissionAnchorConfigs == null)
+       if (basicMissionAnchors == null)
       {
-         return missionAnchors;
+         return new ArrayList<BasicMissionAnchor>();
       }
-      List<BasicMissionAnchor> basicMissionAnchors = new ArrayList<BasicMissionAnchor>();
-      Map<String, BasicMissionAnchor> basicMissionAnchorsMap = new HashMap<String, BasicMissionAnchor>();
-      // create the list of BasicMissionAnchorConfig
-      for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
-      {
-         BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
-         missionAnchor.setEloUri(basicMissionAnchorConfig.getUri());
-         missionAnchor.setName(basicMissionAnchorConfig.getName());
-         IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
+      for (BasicMissionAnchor missionAnchor : basicMissionAnchors){
+         IMetadata metadata = repository.retrieveMetadata(missionAnchor.getUri());
          missionAnchor.setMetadata(metadata);
-         if (metadata != null)
+         if (metadata == null)
          {
-            missionAnchor.setExisting(true);
-            missionAnchor.setTitle((String) metadata.getMetadataValueContainer(titleKey).getValue());
-         }
-         else
-         {
-            missionAnchor.setExisting(false);
-            logger.error("Couldn't find anchor elo: " + missionAnchor.getEloUri());
-         }
-         missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
-         missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
-         missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
-         missionAnchor.setToolTip(basicMissionAnchorConfig.getToolTip());
-         missionAnchor.setIntermediateEloUris(createExistingUriList(basicMissionAnchorConfig.getIntermediateEloUris(), "intermdiate", basicMissionAnchorConfig.getName()));
-         missionAnchor.setResourceEloUris(createExistingUriList(basicMissionAnchorConfig.getResourceEloUris(), "resource", basicMissionAnchorConfig.getName()));
-         basicMissionAnchors.add(missionAnchor);
-         if (basicMissionAnchorsMap.containsKey(basicMissionAnchorConfig.getName()))
-         {
-            logger.error("duplicate anchor name: " + basicMissionAnchorConfig.getName());
-         }
-         else
-         {
-            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getName(), missionAnchor);
+            logger.error("Couldn't find anchor elo: " + missionAnchor.getUri());
          }
       }
-      // fill in the links
-      for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
-      {
-         BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getName());
-         if (missionAnchor != null)
-         {
-            missionAnchor.setNextMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getNextMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri(), "next"));
-            missionAnchor.setInputMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getInputMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri(), "input"));
-         }
-      }
-      // "convert" the list
-      for (BasicMissionAnchor basicMissionAnchor : basicMissionAnchors)
-      {
-         missionAnchors.add(basicMissionAnchor);
-      }
-      return missionAnchors;
+//      List<BasicMissionAnchor> basicMissionAnchors = new ArrayList<BasicMissionAnchor>();
+//      Map<String, BasicMissionAnchor> basicMissionAnchorsMap = new HashMap<String, BasicMissionAnchor>();
+//      // create the list of BasicMissionAnchorConfig
+//      for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
+//      {
+//         BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
+//         missionAnchor.setEloUri(basicMissionAnchorConfig.getUri());
+//         missionAnchor.setId(basicMissionAnchorConfig.getId());
+//         IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
+//         missionAnchor.setMetadata(metadata);
+//         if (metadata == null)
+//         {
+//            logger.error("Couldn't find anchor elo: " + missionAnchor.getEloUri());
+//         }
+//          missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
+//         missionAnchor.setLoEloUris(createExistingUriList(basicMissionAnchorConfig.getLoEloUris(), "learning object", basicMissionAnchorConfig.getId()));
+//         basicMissionAnchors.add(missionAnchor);
+//         if (basicMissionAnchorsMap.containsKey(basicMissionAnchorConfig.getId()))
+//         {
+//            logger.error("duplicate anchor name: " + basicMissionAnchorConfig.getId());
+//         }
+//         else
+//         {
+//            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getId(), missionAnchor);
+//         }
+//      }
+////      // fill in the links
+////      for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
+////      {
+////         BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getName());
+////         if (missionAnchor != null)
+////         {
+////            missionAnchor.setNextMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getNextMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri(), "next"));
+////            missionAnchor.setInputMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getInputMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri(), "input"));
+////         }
+////      }
+//      // "convert" the list
+//      for (BasicMissionAnchor basicMissionAnchor : basicMissionAnchors)
+//      {
+//         missionAnchors.add(basicMissionAnchor);
+//      }
+      return basicMissionAnchors;
    }
 
-   private List<URI> createExistingUriList(List<URI> uris, String label, String anchorName)
-   {
-      List<URI> existingUris = new ArrayList<URI>();
-      if (uris != null)
-      {
-         for (URI uri : uris)
-         {
-            IMetadata eloMetadata = repository.retrieveMetadata(uri);
-            if (eloMetadata != null)
-            {
-               if (!existingUris.contains(uri))
-               {
-                  existingUris.add(uri);
-               }
-               else
-               {
-                  logger.error("Duplicate " + label + " elo uri: " + uri + " for mission anchor " + anchorName);
-
-               }
-            }
-            else
-            {
-               logger.error("Could not find " + label + " elo uri: " + uri + " for mission anchor " + anchorName);
-            }
-         }
-      }
-      return existingUris;
-   }
-
-   private List<MissionAnchor> createMissionAnchorList(List<String> names, Map<String, BasicMissionAnchor> basicMissionAnchorsMap, URI missionAnchorUri, String label)
-   {
-      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
-      if (names != null)
-      {
-         for (String name : names)
-         {
-            BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(name);
-            if (missionAnchor != null)
-            {
-               if (!missionAnchors.contains(missionAnchor))
-               {
-                  missionAnchors.add(missionAnchor);
-               }
-               else
-               {
-                  logger.error("Duplicate " + label + " mission anchor with name: " + name + " for mission anchor " + name);
-               }
-            }
-            else
-            {
-               logger.error("can't find " + label + " mission anchor with name: " + name + " for mission anchor " + name);
-            }
-         }
-      }
-      else
-      {
-         logger.info("no " + label + " anchor names for " + missionAnchorUri);
-      }
-      return missionAnchors;
-   }
+//   private List<URI> createExistingUriList(List<URI> uris, String label, String anchorName)
+//   {
+//      List<URI> existingUris = new ArrayList<URI>();
+//      if (uris != null)
+//      {
+//         for (URI uri : uris)
+//         {
+//            IMetadata eloMetadata = repository.retrieveMetadata(uri);
+//            if (eloMetadata != null)
+//            {
+//               if (!existingUris.contains(uri))
+//               {
+//                  existingUris.add(uri);
+//               }
+//               else
+//               {
+//                  logger.error("Duplicate " + label + " elo uri: " + uri + " for mission anchor " + anchorName);
+//
+//               }
+//            }
+//            else
+//            {
+//               logger.error("Could not find " + label + " elo uri: " + uri + " for mission anchor " + anchorName);
+//            }
+//         }
+//      }
+//      return existingUris;
+//   }
+//
+//   private List<MissionAnchor> createMissionAnchorList(List<String> names, Map<String, BasicMissionAnchor> basicMissionAnchorsMap, URI missionAnchorUri, String label)
+//   {
+//      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
+//      if (names != null)
+//      {
+//         for (String name : names)
+//         {
+//            BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(name);
+//            if (missionAnchor != null)
+//            {
+//               if (!missionAnchors.contains(missionAnchor))
+//               {
+//                  missionAnchors.add(missionAnchor);
+//               }
+//               else
+//               {
+//                  logger.error("Duplicate " + label + " mission anchor with name: " + name + " for mission anchor " + name);
+//               }
+//            }
+//            else
+//            {
+//               logger.error("can't find " + label + " mission anchor with name: " + name + " for mission anchor " + name);
+//            }
+//         }
+//      }
+//      else
+//      {
+//         logger.info("no " + label + " anchor names for " + missionAnchorUri);
+//      }
+//      return missionAnchors;
+//   }
 
    public void setTemplateEloUris(List<URI> templateEloUris)
    {
@@ -443,4 +446,16 @@ public class BasicConfig implements Config
    {
       this.backgroundImageFileNameRelative = backgroundImageFileNameRelative;
    }
+
+   @Override
+   public BasicMissionMap getBasicMissionMap()
+   {
+      return basicMissionMap;
+   }
+
+   public void setBasicMissionMap(BasicMissionMap basicMissionMap)
+   {
+      this.basicMissionMap = basicMissionMap;
+   }
+   
 }

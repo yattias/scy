@@ -21,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
 
 
 /**
@@ -30,17 +31,27 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 public class ScyWindowControlImpl extends ScyWindowControl {
    def logger = Logger.getLogger(this.getClass());
 
-   var firstNewAnchor = true;
-   def activeAnchor = bind missionModel.activeAnchor on replace oldActiveAnchor{
-      activeAnchorChanged(oldActiveAnchor);
-      if (firstNewAnchor and activeAnchor!=null){
+   var firstNewLas = true;
+   def activeLas = bind missionModel.activeLas on replace oldActiveLas{
+      activeLasChanged(oldActiveLas);
+      if (firstNewLas and activeLas!=null){
          FX.deferAction(function(){
-            activeAnchorChanged(activeAnchor);
+            activeLasChanged(activeLas);
          });
-         firstNewAnchor = false;
+         firstNewLas = false;
       }
+   }
 
-   };
+//   def activeAnchor = bind missionModel.activeLas on replace oldActiveAnchor{
+//      activeAnchorChanged(oldActiveAnchor);
+//      if (firstNewLas and activeAnchor!=null){
+//         FX.deferAction(function(){
+//            activeAnchorChanged(activeAnchor);
+//         });
+//         firstNewLas = false;
+//      }
+//
+//   };
    var activeAnchorWindow: ScyWindow;
    /**
    * as the uri of a window can change (when saving the elo content, this always result is an other uri),
@@ -76,19 +87,18 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       return scyWindow;
    }
 
-   function activeAnchorChanged(oldActiveAnchor:MissionAnchorFX){
-      logger.info("new active anchor: {activeAnchor.eloUri}");
-      if (oldActiveAnchor!=null){
-         // store window state of the old active anchor
-         desktopStates.put(oldActiveAnchor.eloUri, getDesktopState());
+   function activeLasChanged(oldActiveLas:Las){
+      logger.info("new active las: {activeLas.id}");
+      if (oldActiveLas!=null){
+         // store window state of the old active las
+         desktopStates.put(oldActiveLas.id, getDesktopState());
       }
-
-      if (activeAnchor!=null){
+      if (activeLas!=null){
          // remove all windows from the desktop
          windowManager.removeAllScyWindows();
          windowPositioner.clearWindows();
          // place the correct windows on the desktop
-         var desktopState = desktopStates.get(activeAnchor.eloUri) as DesktopState;
+         var desktopState = desktopStates.get(activeLas.id) as DesktopState;
          placeWindowsOnDesktop(desktopState);
       }
    }
@@ -110,43 +120,34 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    function placeWindowsOnDesktop(desktopState:DesktopState){
-      var activeAnchorWindow = getScyWindow(activeAnchor.eloUri);
-      windowManager.addScyWindow(activeAnchorWindow);
-      windowPositioner.setActiveAnchorWindow(activeAnchorWindow);
-      for (anchor in activeAnchor.nextAnchors){
-         if (anchor.exists){
-            var anchorWindow = getScyWindow(anchor.eloUri);
-            windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(anchor));
+      var mainAnchorWindow = getScyWindow(activeLas.mainAnchor.eloUri);
+      windowManager.addScyWindow(mainAnchorWindow);
+      windowPositioner.setAnchorWindow(mainAnchorWindow);
+      addAnchorRelated(activeLas.mainAnchor);
+      for (intermediateAnchor in activeLas.intermediateAnchors){
+         if (intermediateAnchor.exists){
+            var intermediateAnchorWindow = getScyWindow(intermediateAnchor.eloUri);
+            windowManager.addScyWindow(intermediateAnchorWindow);
+            windowPositioner.addIntermediateWindow(intermediateAnchorWindow);
+            addAnchorRelated(intermediateAnchor);
          }
       }
-      for (anchor in activeAnchor.previousAnchors){
-         if (anchor.exists){
-            var anchorWindow = getScyWindow(anchor.eloUri);
+
+      for (las in activeLas.nextLasses){
+         if (las.exists){
+            var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
             windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addPreviousAnchorWindow(anchorWindow,getAnchorDirection(anchor));
+            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(las));
          }
       }
-      for (anchor in activeAnchor.inputAnchors){
-         if (anchor.exists){
-            var anchorWindow = getScyWindow(anchor.eloUri);
+      for (las in activeLas.previousLasses){
+         if (las.exists){
+            var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
             windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addInputAnchorWindow(anchorWindow,getAnchorDirection(anchor));
+            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(las));
          }
       }
-      for (relationName in activeAnchor.relationNames){
-         // add the related elos
-      }
-      for (resourceEloUri in activeAnchor.resourceEloUris){
-            var resourceEloWindow = getScyWindow(resourceEloUri);
-            windowManager.addScyWindow(resourceEloWindow);
-            windowPositioner.addResourceWindow(resourceEloWindow);
-      }
-      for (intermediateEloUri in activeAnchor.intermediateEloUris){
-            var intermediateEloWindow = getScyWindow(intermediateEloUri);
-            windowManager.addScyWindow(intermediateEloWindow);
-            windowPositioner.addIntermediateWindow(intermediateEloWindow);
-      }
+
       if (desktopState!=null){
          // add the user elos
          for (eloUri in desktopState.eloUris){
@@ -168,6 +169,25 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          windowPositioner.positionWindows();
       }
    }
+
+   function addAnchorRelated(missionAnchor:MissionAnchorFX){
+      for (anchor in missionAnchor.inputAnchors){
+         if (anchor.exists){
+            var anchorWindow = getScyWindow(anchor.eloUri);
+            windowManager.addScyWindow(anchorWindow);
+            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(anchor.las));
+         }
+      }
+      for (loEloUri in missionAnchor.loEloUris){
+            var loEloWindow = getScyWindow(loEloUri);
+            windowManager.addScyWindow(loEloWindow);
+            windowPositioner.addLearningObjectWindow(loEloWindow);
+      }
+      for (relationName in missionAnchor.relationNames){
+         // add the related elos
+      }
+   }
+
 
    function findScyWindow(eloUri:URI):ScyWindow{
       for (window in scyWindows){
@@ -198,9 +218,12 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          dragAndDropManager:dragAndDropManager
       }
       tooltipManager.registerNode(scyWindow, scyWindow);
-      var anchor = getAnchor(eloUri);
-      if (anchor!=null){
-          scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
+      var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
+      if (anchorAttribute!=null){
+          scyWindow.scyWindowAttributes = anchorAttribute;
+          anchorAttribute.windowAction= function(anchor: MissionAnchorFX):Void{
+             windowPositioner.makeMainWindow(getScyWindow(anchor.eloUri));
+          }
       }
 //      applyMetadataAttributes(scyWindow,eloUri);
 //      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
@@ -224,16 +247,21 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    function getAnchor(eloUri:URI):MissionAnchorFX{
-      for (anchor in missionModel.anchors){
-         if (anchor.eloUri==eloUri){
-            return anchor;
+      for (las in missionModel.lasses){
+         if (las.mainAnchor.eloUri==eloUri){
+            return las.mainAnchor;
+         }
+         for (anchor in las.intermediateAnchors){
+            if (anchor.eloUri==eloUri){
+               return anchor;
+            }
          }
       }
       return null;
    }
 
-   function getAnchorDirection(anchor:MissionAnchorFX):Number{
-      return Math.atan2(anchor.yPos - activeAnchor.yPos , anchor.xPos - activeAnchor.xPos);
+   function getAnchorDirection(las:Las):Number{
+      return Math.atan2(las.yPos - activeLas.yPos , las.xPos - activeLas.xPos);
    }
 
 
