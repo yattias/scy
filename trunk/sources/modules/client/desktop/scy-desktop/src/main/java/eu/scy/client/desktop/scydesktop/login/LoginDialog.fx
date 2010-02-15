@@ -26,6 +26,7 @@ import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import javax.swing.JOptionPane;
 import java.awt.Component;
+import java.lang.System;
 
 /**
  * @author sikken
@@ -45,11 +46,25 @@ public class LoginDialog extends CustomNode {
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
 
-   init {
-      FX.deferAction(function () {
-         MouseBlocker.initMouseBlocker(scene.stage);
-      });
+   postinit {
+      
+      FX.deferAction(initMouseBlocker);
+//      FX.deferAction(function () {
+//         MouseBlocker.initMouseBlocker(scene.stage);
+//      });
    }
+   
+   function initMouseBlocker():Void{
+      var theStage = scene.stage;
+      if (theStage==null){
+         System.err.println("defering initMouseBlocker, because of the missing stage");
+         FX.deferAction(initMouseBlocker);
+      }
+      else{
+         MouseBlocker.initMouseBlocker(scene.stage);
+      }
+   }
+   
 
    public override function create(): Node {
       loginNode = LoginNode {
