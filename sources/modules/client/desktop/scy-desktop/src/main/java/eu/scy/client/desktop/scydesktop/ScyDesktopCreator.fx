@@ -26,7 +26,6 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.paint.Color;
 
-import java.net.URI;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
 import roolo.api.search.ISearchResult;
@@ -37,12 +36,9 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorRegistryFXImpl;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
-import java.util.List;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
-import eu.scy.client.desktop.scydesktop.config.BasicLas;
-import java.util.HashMap;
-import eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor;
 import eu.scy.client.desktop.scydesktop.config.MissionModelUtils;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 
 /**
  * @author sikkenj
@@ -102,6 +98,10 @@ public class ScyDesktopCreator {
       handleToolRegistration();
       if (missionModelFX == null) {
          readMissionModel();
+      }
+      if (toolBrokerAPI instanceof ToolBrokerAPIRuntimeSetting){
+         var toolBrokerAPIRuntimeSetting = toolBrokerAPI as ToolBrokerAPIRuntimeSetting;
+         toolBrokerAPIRuntimeSetting.setMissionId(missionModelFX.id);
       }
    }
 
@@ -168,11 +168,6 @@ public class ScyDesktopCreator {
    }
 
    function readMissionModel() {
-//      if (config.getMissionModelCreator().createMissionModel()!=null){
-//         var missionModel = config.getMissionModelCreator().createMissionModel();
-//         missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
-//      }
-//      else
       missionModelFX = retrieveStoredMissionModel();
       if (missionModelFX==null){
          // first time login
@@ -181,22 +176,6 @@ public class ScyDesktopCreator {
          if (initializer.createPersonalMissionMap){
             makeItMyMissionModel(missionModelFX);
          }
-//         var missionAnchors = config.getMissionAnchors();
-//         if (missionAnchors != null) {
-//            missionModelFX = MissionModelUtils.createBasicMissionModelFX(missionAnchors);
-//            var activeAnchor = getActiveMissionAnchor(missionModelFX, config.getActiveMissionAnchorUri());
-//            if (activeAnchor.exists) {
-//               missionModelFX.activeAnchor = activeAnchor;
-//            } else {
-//               logger.error("specified active anchor elo does not exists: {activeAnchor.eloUri}");
-//            }
-//            missionModelFX.id = config.getMissionId();
-//            missionModelFX.name = config.getMissionName();
-//            addEloStatusInformationToMissionModel(missionModelFX);
-//            if (initializer.createPersonalMissionMap){
-//               makeItMyMissionModel(missionModelFX);
-//            }
-//         }
       }
 
       if (missionModelFX == null) {

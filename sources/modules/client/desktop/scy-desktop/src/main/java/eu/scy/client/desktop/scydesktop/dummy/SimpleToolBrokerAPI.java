@@ -11,6 +11,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -21,7 +22,7 @@ import roolo.elo.api.IMetadataTypeManager;
  *
  * @author sikken
  */
-public class SimpleToolBrokerAPI implements ToolBrokerAPI
+public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
 {
    private final static Logger logger = Logger.getLogger(SimpleToolBrokerAPI.class);
 
@@ -137,8 +138,8 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI
       return pedagogicalPlanService;
    }
 
-   public String getUserName()
-   {
+   @Override
+   public String getLoginUserName(){
       return userName;
    }
 
@@ -153,6 +154,7 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI
       return missionId;
    }
 
+   @Override
    public void setMissionId(String missionId)
    {
       this.missionId = missionId;
