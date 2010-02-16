@@ -79,8 +79,8 @@ public class ConceptMapToolBar extends JToolBar {
 
 	class ForegroundColorButton extends ColorChooserButton {
 		ForegroundColorButton() {
-			super();
-			setText("Foreground");
+			super("Foreground");
+			setDisplayColor(getSelectionFg());
 			setToolTipText("Select foreground color");
 			setIcon(new ImageIcon(getClass().getResource("color-fg.png")));
 
@@ -146,9 +146,8 @@ public class ConceptMapToolBar extends JToolBar {
 	class BackgroundColorButton extends ColorChooserButton {
 
 		BackgroundColorButton() {
-			super();
-
-			setText("Background");
+			super("Background");
+			setDisplayColor(getSelectionBg());
 			setIcon(new ImageIcon(getClass().getResource("color-bg.png")));
 			setToolTipText("Select background color");
 
