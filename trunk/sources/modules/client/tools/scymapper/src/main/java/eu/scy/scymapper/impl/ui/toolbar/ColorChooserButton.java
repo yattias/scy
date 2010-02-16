@@ -27,6 +27,7 @@ public class ColorChooserButton extends JButton implements ChangeListener {
 		colorChooser = new JColorChooser();
 		colorChooser.getSelectionModel().addChangeListener(this);
 
+
 		popup.add(colorChooser);
 
 		addActionListener(new ActionListener() {
@@ -39,6 +40,7 @@ public class ColorChooserButton extends JButton implements ChangeListener {
 
 	void setDisplayColor(Color c) {
 		this.displayColor = c;
+		this.colorChooser.setColor(c);
 		repaint();
 	}
 
