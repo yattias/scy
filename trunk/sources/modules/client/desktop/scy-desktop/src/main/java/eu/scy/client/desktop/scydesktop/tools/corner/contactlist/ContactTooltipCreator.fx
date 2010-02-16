@@ -18,7 +18,7 @@ public class ContactTooltipCreator extends TooltipCreator{
     override public function createTooltipNode (sourceNode : Node) : Node {
             if (sourceNode instanceof ContactFrame){
                 def contactFrame:ContactFrame = sourceNode as ContactFrame;
-                return ContactTooltip{username:contactFrame.contact.name};
+                return ContactTooltip{contact: bind contactFrame.contact};
             } else {
                 return null;
             }
