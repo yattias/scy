@@ -21,7 +21,7 @@ import javafx.scene.text.FontWeight;
  */
 public class ContactTooltip extends CustomNode {
 
-    public var username:String;
+    public var contact:Contact;
 
     def boldFont:Font = Font.font("", FontWeight.BOLD, FontPosture.REGULAR, 16);
 
@@ -31,8 +31,12 @@ public class ContactTooltip extends CustomNode {
     def nameLabel: Text = Text {
                 font:boldFont;
                 x: 0, y: 0;
-                content: username;
+                content: bind contact.name;
             };
+
+    def onlineStateLabel: Text = Text{
+        content: bind contact.onlineState.toString();
+    }
 
     def dragInfo: Text = Text{
         content: "Drag me over a window to start collaboration!"
@@ -40,7 +44,7 @@ public class ContactTooltip extends CustomNode {
 
     def infoBox:VBox = VBox{
         spacing:gap;
-        content: [nameLabel,dragInfo]
+        content: [nameLabel,onlineStateLabel,dragInfo]
     }
 
     def rectangle: Rectangle = Rectangle {
