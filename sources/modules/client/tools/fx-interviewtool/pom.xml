@@ -54,9 +54,30 @@
          <version>${pom.version}</version>
       </dependency>
 
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>rich-text-editor</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
    </dependencies>
 
    <build>
+      <resources>
+         <resource>
+            <directory>src/main/java</directory>
+            <includes>
+               <include>**/*.fxproperties</include>
+            </includes>
+         </resource>
+         <resource>
+            <directory>src/main/java</directory>
+            <includes>
+               <include>**/*.html</include>
+            </includes>
+         </resource>
+      </resources>
+
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>

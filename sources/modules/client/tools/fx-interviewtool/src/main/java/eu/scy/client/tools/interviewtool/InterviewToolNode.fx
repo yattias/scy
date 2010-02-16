@@ -8,7 +8,6 @@ package eu.scy.client.tools.interviewtool;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.ClipView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
@@ -17,7 +16,6 @@ import javafx.scene.layout.LayoutInfo;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
@@ -53,36 +51,26 @@ import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
 
-import javax.swing.JOptionPane;
-import java.util.List;
 import javafx.scene.layout.Resizable;
-
-import eu.scy.actionlogging.SystemOutActionLogger;
-import eu.scy.actionlogging.DevNullActionLogger;
+import java.awt.Dimension;
+import java.net.URL;
+import eu.scy.client.common.richtexteditor.RichTextEditor;
+import javafx.ext.swing.SwingComponent;
+import javafx.geometry.HPos;
 
 /**
  * @author kaido
  */
 
-public class InterviewToolNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class InterviewToolNode extends CustomNode, Resizable {
 def normalFont = Font {
     name: "Arial"
-    size: 12
+    size: 14
 }
 def treeFont = normalFont;
-def labelFont = Font {
-    name: "Arial"
-    size: 16
-}
-def variableFont = Font {
-    name: "Arial Italic"
-    size: 12
-}
-def titleFont = Font {
-    name: "Arial"
-    size: 20
-}
-def INTERVIEW_TOOL_HOME = 1;
+def labelFont = normalFont;
+protected def buttonFont = normalFont;
+protected def INTERVIEW_TOOL_HOME = 1;
 def INTERVIEW_TOOL_PREPARE = 2;
 def INTERVIEW_TOOL_QUESTION = 3;
 def INTERVIEW_TOOL_TOPICS = 4;
@@ -94,21 +82,19 @@ def INTERVIEW_TOOL_DESIGN = 9;
 def INTERVIEW_TOOL_CONDUCT = 10;
 def INTERVIEW_TOOL_CONDUCT_PREPARATION = 11;
 def INTERVIEW_TOOL_CONDUCT_RECOMMENDATIONS = 12;
-def INTERVIEW_TOOL_ANALYZE = 13;
-def INTERVIEW_TOOL_ANALYZE_NOTINCLUDED = 14;
-def stageHeight = 500;
-def stageWidth = 600;
-def treeWidth = 200;
-def upperFrameHeightBase = 200;
+protected def rightWidth = 400;
+def rightBottomHeight = 250;
 def buttonBarHeight = 50;
-def lowerFrameHeightBase = stageHeight - upperFrameHeightBase - buttonBarHeight;
-def scrollableAreaOffset = 0;
-def scrollBarThickness = 12;
-def leftFrameWidth = stageWidth - treeWidth - 2*scrollableAreaOffset;
-def upperFrameHeight = upperFrameHeightBase - 2*scrollableAreaOffset;
-def lowerFrameHeight = lowerFrameHeightBase - 2*scrollableAreaOffset;
+def lowerNodesHeight = rightBottomHeight - buttonBarHeight;
 def hPadding = 10;
-def leftFrameWrappingWidth = leftFrameWidth - 2*hPadding;
+def vPadding = hPadding;
+def toolBottomOffset = 10;
+protected var parentHeightOffset = 0;
+protected def stageHeight = 500;
+protected def stageWidth = 600;
+def scrollBarThickness = 12;
+protected def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
+protected var interviewLogger: InterviewLogger;
 var log = true;
 function getScrollViewWidth(node: Node, height: Number, width: Number) : Number {
     if (node.layoutBounds.maxY>height)
@@ -135,106 +121,71 @@ function getVScrollHeight(node: Node, height: Number, width: Number) : Number {
         return height;
     return height-scrollBarThickness;
 }
+var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
 var upperNodes : Node;
 var lowerNodes : Node;
-var upperScrollClipView : ClipView = ClipView {
-    clipX: bind upperHScroll.value
-    clipY: bind upperVScroll.value
-    node: bind upperNodes
-    pannable: false
-    layoutInfo: LayoutInfo {
-        width: bind getScrollViewWidth(upperNodes, upperFrameHeight, leftFrameWidth)
-        height: bind getScrollViewHeight(upperNodes, upperFrameHeight, leftFrameWidth)
-    }
-}
-var upperVScroll = ScrollBar {
-    min: 0
-    max: bind getVScrollMaxY(upperNodes, upperFrameHeight, leftFrameWidth)
-    value: 0
-    vertical: true
-    visible: bind getVScrollMaxY(upperNodes, upperFrameHeight, leftFrameWidth)>0
-    layoutInfo: LayoutInfo {
-        height: bind getVScrollHeight(upperNodes, upperFrameHeight, leftFrameWidth)
-    }
-}
-var upperHBox = HBox {content: [upperScrollClipView, upperVScroll]}
-var upperHScroll = ScrollBar {
-    min: 0
-    max: bind getHScrollMaxX(upperNodes, upperFrameHeight, leftFrameWidth)
-    value: 0
-    vertical: false
-    visible: bind getHScrollMaxX(upperNodes, upperFrameHeight, leftFrameWidth)>0
-    layoutInfo: LayoutInfo {
-        width: leftFrameWidth
-    }
-}
-var upperVBox = VBox {
-    translateX: treeWidth+scrollableAreaOffset
-    translateY: scrollableAreaOffset
-    content: [upperHBox, upperHScroll]
-}
 var lowerScrollClipView : ClipView = ClipView {
     clipX: bind lowerHScroll.value
     clipY: bind lowerVScroll.value
     node: bind lowerNodes
     pannable: false
     layoutInfo: LayoutInfo {
-        width: bind getScrollViewWidth(lowerNodes, lowerFrameHeight, leftFrameWidth)
-        height: bind getScrollViewHeight(lowerNodes, lowerFrameHeight, leftFrameWidth)
+        width: bind getScrollViewWidth(lowerNodes, rightBottomHeight, rightWidth)
+        height: bind getScrollViewHeight(lowerNodes, rightBottomHeight, rightWidth)
     }
 }
 var lowerVScroll = ScrollBar {
     min: 0
-    max: bind getVScrollMaxY(lowerNodes, lowerFrameHeight, leftFrameWidth)
+    max: bind getVScrollMaxY(lowerNodes, rightBottomHeight, rightWidth)
     value: 0
     vertical: true
-    visible: bind getVScrollMaxY(lowerNodes, lowerFrameHeight, leftFrameWidth)>0
+    visible: bind getVScrollMaxY(lowerNodes, rightBottomHeight, rightWidth)>0
     layoutInfo: LayoutInfo {
-        height: bind getVScrollHeight(lowerNodes, lowerFrameHeight, leftFrameWidth)
+        height: bind getVScrollHeight(lowerNodes, rightBottomHeight, rightWidth)
     }
 }
 var lowerHBox = HBox {content: [lowerScrollClipView, lowerVScroll]}
 var lowerHScroll = ScrollBar {
     min: 0
-    max: bind getHScrollMaxX(lowerNodes, lowerFrameHeight, leftFrameWidth)
+    max: bind getHScrollMaxX(lowerNodes, rightBottomHeight, rightWidth)
     value: 0
     vertical: false
-    visible: bind getHScrollMaxX(lowerNodes, lowerFrameHeight, leftFrameWidth)>0
+    visible: bind getHScrollMaxX(lowerNodes, rightBottomHeight, rightWidth)>0
     layoutInfo: LayoutInfo {
-        width: leftFrameWidth
+        width: rightWidth
     }
 }
 var lowerVBox = VBox {
-    translateX: treeWidth+scrollableAreaOffset
-    translateY: upperFrameHeightBase+scrollableAreaOffset
+    translateX: width - rightWidth
+    translateY: height - rightBottomHeight - parentHeightOffset
     content: [lowerHBox, lowerHScroll]
 }
-var topics: InterviewTopic[];
-var interviewTree: InterviewTree = makeTree();
+protected var topics: InterviewTopic[];
+protected var interviewTree: InterviewTree = makeTree();
 function makeTree() : InterviewTree {
     return InterviewTree{
         translateX: 0
         translateY: 0
-        width: treeWidth
-        height: stageHeight - buttonBarHeight
+        width: width - rightWidth
+        height: height
         font: treeFont
         root: InterviewTreeCell{
             text: "Root"
             cells: [
                 InterviewTreeCell{
-                    text: "Home"
+                    text: ##"Home"
                     value: INTERVIEW_TOOL_HOME
                 }
                 InterviewTreeCell{
-                    text: "Prepare interview"
+                    text: ##"Prepare the interview"
                     value: INTERVIEW_TOOL_PREPARE
                     cells:[
                         InterviewTreeCell{
-                            text: "Research question"
+                            text: ##"Research question"
                             value: INTERVIEW_TOOL_QUESTION
                         }
                         InterviewTreeCell{
-                            text: "Topics"
+                            text: ##"Topics"
                             value: INTERVIEW_TOOL_TOPICS
                             cells: for (x in [0..sizeof topics-1]) InterviewTreeCell{
                                 text: topics[x].topic
@@ -244,7 +195,7 @@ function makeTree() : InterviewTree {
                                 cells: [
                                     for (y in [0..sizeof topics[x].indicators-1]) [
                                     InterviewTreeCell{
-                                        text: "Answers for \"{topics[x].indicators[y].indicator}\""
+                                        text: "{interviewStrings.indicatorAnswers} \"{topics[x].indicators[y].indicator}\""
                                         value: INTERVIEW_TOOL_INDICATOR
                                         topic: topics[x]
                                         topicNo: x+1
@@ -252,7 +203,7 @@ function makeTree() : InterviewTree {
                                         indicatorNo: y+1
                                     }
                                     InterviewTreeCell{
-                                        text: "Formulate \"{topics[x].indicators[y].indicator}\""
+                                        text: "{interviewStrings.indicatorFormulate} \"{topics[x].indicators[y].indicator}\""
                                         value: INTERVIEW_TOOL_INDICATOR_FORMULATE
                                         topic: topics[x]
                                         topicNo: x+1
@@ -260,7 +211,7 @@ function makeTree() : InterviewTree {
                                         indicatorNo: y+1
                                     }
                                     InterviewTreeCell{
-                                        text: "Status for \"{topics[x].indicators[y].indicator}\""
+                                        text: "{interviewStrings.indicatorStatus} \"{topics[x].indicators[y].indicator}\""
                                         value: INTERVIEW_TOOL_INDICATOR_STATUS
                                         topic: topics[x]
                                         topicNo: x+1
@@ -272,32 +223,22 @@ function makeTree() : InterviewTree {
                             }
                         }
                         InterviewTreeCell{
-                            text: "Design"
+                            text: ##"Design"
                             value: INTERVIEW_TOOL_DESIGN
                         }
                     ]
                 }
                 InterviewTreeCell{
-                    text: "Conduct interview"
+                    text: ##"Conduct the interview"
                     value: INTERVIEW_TOOL_CONDUCT
                     cells: [
                         InterviewTreeCell{
-                            text: "Preparation is important"
+                            text: ##"Preparation is important"
                             value: INTERVIEW_TOOL_CONDUCT_PREPARATION
                         }
                         InterviewTreeCell{
-                            text: "Recommendations"
+                            text: ##"Recommendations"
                             value: INTERVIEW_TOOL_CONDUCT_RECOMMENDATIONS
-                        }
-                    ]
-                }
-                InterviewTreeCell{
-                    text: "Analyze data"
-                    value: INTERVIEW_TOOL_ANALYZE
-                    cells: [
-                        InterviewTreeCell{
-                            text: "Not included"
-                            value: INTERVIEW_TOOL_ANALYZE_NOTINCLUDED
                         }
                     ]
                 }
@@ -333,10 +274,6 @@ function interviewTreeClick(obj: Object):Void {
         showConductPreparation();
     } else if ((obj as InterviewTreeCell).value==INTERVIEW_TOOL_CONDUCT_RECOMMENDATIONS) {
         showConductRecommendations();
-    } else if ((obj as InterviewTreeCell).value==INTERVIEW_TOOL_ANALYZE) {
-        showAnalyze();
-    } else if ((obj as InterviewTreeCell).value==INTERVIEW_TOOL_ANALYZE_NOTINCLUDED) {
-        showAnalyzeNotIncluded();
     }
 }
 // javafx bug, no refresh :(
@@ -344,91 +281,38 @@ function refreshStage() {
     var txt: Text = Text{};
     insert txt into content;
     delete txt from content;
-/*
-    stage.visible = false;
-    stage.visible = true;
-*/
-/*
-    if (stage.height > stageHeight+40)
-        stage.height = stage.height-1
-    else
-        stage.height = stage.height+1;
-*/
+    resizeContent();
 }
+var interviewStrings:InterviewStrings = InterviewStrings{};
 function showHome() : Void {
     interviewLogger.logBasicAction(InterviewLogger.SHOW_HOME);
-    upperNodes =
-        Text {
-            font : titleFont
-            wrappingWidth: leftFrameWrappingWidth
-            x: hPadding
-            y: 30
-            content: "This tool helps you to do a good interview.\nThere are three stages. Select one of these below."
-        };
-    lowerNodes = Group {content: [
-        Hyperlink {
-            translateX: hPadding
-            translateY: 20
-            text: "Prepare interview"
-            action: function() {
-                activateTreeNodeByValue(INTERVIEW_TOOL_PREPARE);
-            }
-        }
-        Hyperlink {
-            translateX: hPadding
-            translateY: 50
-            text: "Conduct interview"
-            action: function() {
-                activateTreeNodeByValue(INTERVIEW_TOOL_CONDUCT);
-            }
-        }
-        Hyperlink {
-            translateX: hPadding
-            translateY: 80
-            text: "Analyze data"
-            action: function() {
-                activateTreeNodeByValue(INTERVIEW_TOOL_ANALYZE);
-            }
-        }
-    ]};
+    guidePane.setText(interviewStrings.guideHome);
+    lowerNodes = null;
     refreshStage();
 }
 function showPrepare() : Void {
     interviewLogger.logBasicAction(InterviewLogger.SHOW_PREPARE);
-    upperNodes =
-        Text {
-            font : titleFont
-            x: 100
-            y: 100
-            content: "Prepare the interview"
-        };
+    guidePane.setText(##"Prepare the interview");
     lowerNodes = null;
     refreshStage();
 }
-var question: String;
+protected var question: String;
 var questionBefore: String;
 var questionAfter: String on replace {if (not questionBefore.equals(questionAfter)) {interviewLogger.logQuestionChange(questionBefore,questionAfter);}};
 function showQuestion() {
     interviewLogger.logBasicAction(InterviewLogger.SHOW_QUESTION);
-    upperNodes =
-        Text {
-            font : labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            x: hPadding
-            y: 30
-            content: "Write down below your research question. This should be a short phrase that states what you want to know about a certain topic. For instance, \"We want to know the average amount of water used by households in Amsterdam.\"\nHere are some criteria a good research question should meet:\n* first criteria\n* second criteria\n* third criteria\n* ..."
-        };
+    guidePane.setTextFromFile(interviewStrings.guideQuestionFileName);
     lowerNodes = Group {content: [
         Text {
             font : labelFont
-            wrappingWidth: leftFrameWrappingWidth
+            wrappingWidth: rightWidth-2*hPadding
             x: hPadding
             y: 30
-            content: "Research question:"
+            content: ##"Research question"
         }
         InterviewTextArea {
-                width: leftFrameWrappingWidth
-                height: 100
+                width: rightWidth-2*hPadding
+                height: 150
                 translateX: hPadding
                 translateY: 50
                 font: normalFont
@@ -439,7 +323,7 @@ function showQuestion() {
     ]};
     refreshStage();
 }
-var refreshTree: function() =
+protected var refreshTree: function() =
     function() {
         var selectedValue: InterviewTreeCell = interviewTree.selectedValue as InterviewTreeCell;
         interviewTree = makeTree();
@@ -488,39 +372,19 @@ var objects: InterviewObject[];
 function showTopics() : Void {
     if (log)
         interviewLogger.logBasicAction(InterviewLogger.SHOW_TOPICS);
-    upperNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 5
-        content: [
-        Text {
-            font: normalFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Your research question is:"
-        }
-        Text {
-            font: variableFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "\"{question}\""
-        }
-        Text {
-            font: normalFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Now consider what information you need to be able to answer this question. Make a list of topics below."
-        }
-        ]
-    };
+    guidePane.setTextFromFile(interviewStrings.guideTopicsFileName,
+        ["__QUESTION__"], [question]);
     objects = topics;
     lowerNodes = InterviewTableEditor {
         translateX: hPadding
         translateY: 10
         oldObjects: bind objects with inverse;
         classType: "InterviewTopic"
-        headerText: "Topics we need information about"
+        headerText: ##"Topics we need information about"
         nextID: bind nextID with inverse
         refreshAction: refreshTopicsAndTree
         logAction: interviewLogger.logTopicAction
-        width: leftFrameWrappingWidth
+        width: rightWidth - 2*hPadding
         height: 150
         font: normalFont
         headerFont: labelFont
@@ -537,28 +401,8 @@ function showTopic(cell: InterviewTreeCell) {
     if (log)
         interviewLogger.logShowIndicators(cell.topic.topic);
     topicNo = cell.topicNo;
-    upperNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 5
-        content: [
-        Text {
-            font: normalFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Your {cell.topicNo}. variable is:"
-        }
-        Text {
-            font: variableFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "\"{cell.topic.topic}\""
-        }
-        Text {
-            font: normalFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Now consider how you can measure this variable. Write down possble indicators below."
-        }
-        ]
-    };
+    guidePane.setTextFromFile(interviewStrings.guideIndicatorsFileName,
+        ["__TOPIC_NO__","__TOPIC__"], [topicNo.toString(),cell.topic.topic]);
     objects = cell.topic.indicators;
     interviewLogger.topic = cell.topic.topic;
     lowerNodes = InterviewTableEditor {
@@ -566,11 +410,11 @@ function showTopic(cell: InterviewTreeCell) {
         translateY: 10
         oldObjects: bind objects with inverse;
         classType: "InterviewIndicator"
-        headerText: "Indicators of \"{cell.topic.topic}\""
+        headerText: "{interviewStrings.indicatorsOf} \"{cell.topic.topic}\""
         nextID: bind nextID with inverse
         refreshAction: refreshTopicAndTree
         logAction: interviewLogger.logIndicatorAction
-        width: leftFrameWrappingWidth
+        width: rightWidth - 2*hPadding
         height: 150
         font: normalFont
         headerFont: labelFont
@@ -589,28 +433,9 @@ function showIndicator(cell: InterviewTreeCell) {
         interviewLogger.logShowAnswers(cell.topic.topic,cell.indicator.indicator);
     topicNo = cell.topicNo;
     indicatorNo = cell.indicatorNo;
-    upperNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 5
-        content: [
-        Text {
-            font: normalFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Your {cell.indicatorNo}. indicator of \"{cell.topic.topic}\" is:"
-        }
-        Text {
-            font: variableFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "\"{cell.indicator.indicator}\""
-        }
-        Text {
-            font: normalFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Make a list of the possible answers you might get to this question. Write them down below."
-        }
-        ]
-    };
+    guidePane.setTextFromFile(interviewStrings.guideAnswersFileName,
+        ["__INDICATOR_NO__","__TOPIC__","__INDICATOR__"],
+        [indicatorNo.toString(),cell.topic.topic,cell.indicator.indicator]);
     objects = cell.indicator.answers;
     namely = cell.indicator.answerIncludeNamely;
     interviewLogger.topic = cell.topic.topic;
@@ -620,13 +445,13 @@ function showIndicator(cell: InterviewTreeCell) {
         translateY: 10
         oldObjects: bind objects with inverse;
         classType: "InterviewAnswer"
-        headerText: "Answer options for \"{cell.indicator.indicator}\""
+        headerText: "{interviewStrings.answerOptions} \"{cell.indicator.indicator}\""
         nextID: bind nextID with inverse
         refreshAction: refreshIndicator
         logAction: interviewLogger.logAnswerAction
         logNamelyAction: interviewLogger.logOtherNamelyAction
-        width: leftFrameWrappingWidth
-        height: 150
+        width: rightWidth - 2*hPadding
+        height: 120
         font: normalFont
         headerFont: labelFont
         namelyShow: true
@@ -648,25 +473,19 @@ function showIndicatorFormulate(cell: InterviewTreeCell) {
     topicNo = cell.topicNo;
     indicatorNo = cell.indicatorNo;
     formulation = cell.indicator.formulation;
-    upperNodes =
+    guidePane.setTextFromFile(interviewStrings.guideFormulationFileName,
+        ["__INDICATOR__"], [cell.indicator.indicator]);
+    lowerNodes = Group {content: [
         Text {
             font : labelFont
-            wrappingWidth: leftFrameWrappingWidth
+            wrappingWidth: rightWidth-2*hPadding
             x: hPadding
             y: 30
-            content: "Now think of a question you could ask someone to reveal the \"{cell.indicator.indicator}\". This is the question you will actually be using in the interview.\nGood interview questions satisfiy the following criteria:\n- ..."
-        };
-    lowerNodes = Group {content: [
-        Label {
-            font : labelFont
-            width: leftFrameWrappingWidth
-            translateX: hPadding
-            translateY: 30
-            text: "Interview question for \"{cell.indicator.indicator}\""
+            content: "{interviewStrings.indicatorFormulation} \"{cell.indicator.indicator}\""
         }
         InterviewTextArea {
-                width: leftFrameWrappingWidth
-                height: 100
+                width: rightWidth - 2*hPadding
+                height: 150
                 translateX: hPadding
                 translateY: 50
                 font: normalFont
@@ -679,195 +498,77 @@ function showIndicatorFormulate(cell: InterviewTreeCell) {
 }
 function showIndicatorStatus(cell: InterviewTreeCell) {
     interviewLogger.logBasicAction(interviewLogger.SHOW_STATUS);
-    upperNodes =
-        Text {
-            font : labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            x: hPadding
-            y: 30
-            content: "You have now fully specified the interview questions for \"{cell.indicator.indicator}\"."
-        };
+    guidePane.setText("{interviewStrings.guideIndicatorStatusBeginning} \"{cell.indicator.indicator}\".");
     lowerNodes = null;
     refreshStage();
 }
+def schemaEditor:RichTextEditor = new RichTextEditor();
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
-    upperNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 15
-        content: [
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Based on your input an interview schema has been created. But before you can use it there are two things you need to do:"
-        }
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "- Sequence the questions\n- Complete the introduction"
-        }
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Follow the link below to download the draft interview schema and perform the above actions."
-        }
-        ]
-    };
-    lowerNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 15
-        content: [
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Download interview schema"
-        }
-        Hyperlink {
-            text: "Interview schema"
-            action: function() {
-                interviewLogger.logBasicAction(InterviewLogger.SHOW_INTERVIEW_SCHEMA);
-                var nl = "\n";
-                var i: String = "Interview Schema{nl}{nl}";
-                i = "{i}Introduction{nl}";
-                i = "{i}We are [your name] and [your name] and we are doing an interview for a school project. We are doing this interview because {question}{nl}";
-                var tNo: Integer = 0;
-                for (topic in topics) {
-                    tNo++;
-                    i = "{i}{nl}{tNo}. question is about {topic.topic}.{nl}";
-                    var iNo: Integer = 0;
-                    for (indicator in topic.indicators) {
-                        iNo++;
-                        i = "{i}{tNo}.{iNo}. {indicator.formulation}? Is that:{nl}";
-                        for (answer in indicator.answers) {
-                            i = "{i}- {answer.toString()}{nl}";
-                        }
-                        if (indicator.answerIncludeNamely) {
-                            i = "{i}- Other, namely...{nl}";
-                        }
-                    }
-                }
-                interviewSchema = i;
-                interviewSchemaVisible = true;
-//                i = "w=window.open();d=w.document;d.write('<pre>{i}</pre>');d.close();";
-//                extension.eval(i);
+    guidePane.setTextFromFile(interviewStrings.guideDesignFileName);
+    var nl = "\n";
+    var stInterviewSchema = ##"Interview Schema";
+    var stIntroduction = ##"Introduction";
+    var stWeAre = ##"We are";
+    var stAnd = ##"and";
+    var stDoingInterview = ##"and we are doing an interview for a school project. We are doing this interview because";
+    var stQuestionAbout = ##"question is about";
+    var stIsThat = ##"Is that";
+    var stOtherNamely = ##"Other, namely...";
+    var i: String = "{stInterviewSchema}{nl}{nl}";
+    i = "{i}{stIntroduction}{nl}";
+    i = "{i}{stWeAre} [your name] {stAnd} [your name] {stDoingInterview} {question}{nl}";
+    var tNo: Integer = 0;
+    for (topic in topics) {
+        tNo++;
+        i = "{i}{nl}{tNo}. {stQuestionAbout} {topic.topic}.{nl}";
+        var iNo: Integer = 0;
+        for (indicator in topic.indicators) {
+            iNo++;
+            i = "{i}{tNo}.{iNo}. {indicator.formulation}? {stIsThat}:{nl}";
+            for (answer in indicator.answers) {
+                i = "{i}- {answer.toString()}{nl}";
+            }
+            if (indicator.answerIncludeNamely) {
+                i = "{i}- {stOtherNamely}{nl}";
             }
         }
-        ]
-    };
+    }
+    schemaEditor.setPlainText(i);
+    var size = new Dimension(rightWidth-2*hPadding,lowerNodesHeight-2*vPadding);
+    schemaEditor.setPreferredSize(size);
+    schemaEditor.setSize(size);
+    var wrappedSchemaEditor:SwingComponent = SwingComponent.wrap(schemaEditor);
+    wrappedSchemaEditor.translateX = hPadding;
+    wrappedSchemaEditor.translateY = vPadding;
+    lowerNodes = wrappedSchemaEditor;
     refreshStage();
 }
 function showConduct() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT);
-    upperNodes =
-        Text {
-            font : titleFont
-            x: 100
-            y: 100
-            content: "Conduct the interview"
-        };
+    guidePane.setText(##"Conduct the interview");
     lowerNodes = null;
     refreshStage();
 }
 function showConductPreparation() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT_PREPARATION);
-    upperNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 15
-        content: [
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Preparation is key to a successful interview. Make sure you bring all necessary materials to the site, and familiarize yourself with the interview questions, so you can ask them fluently without having to look at the interview schema all the time."
-        }
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "On the next page you’ll find some recommendations for conducting the interview."
-        }
-        ]
-    };
+    guidePane.setTextFromFile(interviewStrings.guideConduct1FileName);
     lowerNodes = null;
     refreshStage();
 }
+def guidelinesEditor:RichTextEditor = new RichTextEditor(true);
 function showConductRecommendations() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT_RECOMMENDATIONS);
-    upperNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 15
-        content: [
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "It is recommended to conduct the interview in pairs with one student asking the questions and the other one writing down the answers. You decide on these roles before the interview starts, and maintain your role to the end. Alternating roles during the interview is not recommended!"
-        }
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Keep in mind the following guidelines when talking to a respondent:"
-        }
-        ]
-    };
-    lowerNodes = VBox {
-        translateX: hPadding
-        translateY: 20
-        spacing: 15
-        content: [
-        Text {
-            font: labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            content: "Download and print these recommendations"
-        }
-        Hyperlink {
-            text: "Interview guidelines.doc"
-            action: function() {
-                interviewLogger.logBasicAction(interviewLogger.SHOW_GUIDELINES_DOC);
-                var bs : BasicService = ServiceManager.lookup("javax.jnlp.BasicService") as BasicService;
-                var url : java.net.URL = new java.net.URL("http://bio.edu.ee/scy/tools/interviewtool/Interview_guidelines.doc");
-                bs.showDocument(url);
-//                extension.showDocument("{FX.getProperty("javafx.application.codebase")}Interview_guidelines.doc", "_BLANK");
-            }
-        }
-        Hyperlink {
-            text: "Interview guidelines.pdf"
-            action: function() {
-                interviewLogger.logBasicAction(interviewLogger.SHOW_GUIDELINES_PDF);
-                var bs : BasicService = ServiceManager.lookup("javax.jnlp.BasicService") as BasicService;
-                var url : java.net.URL = new java.net.URL("http://bio.edu.ee/scy/tools/interviewtool/Interview_guidelines.pdf");
-                bs.showDocument(url);
-//                extension.showDocument("{FX.getProperty("javafx.application.codebase")}Interview_guidelines.pdf", "_BLANK");
-            }
-        }
-        ]
-    };
-    refreshStage();
-}
-function showAnalyze() {
-    interviewLogger.logBasicAction(interviewLogger.SHOW_ANALYZE);
-    upperNodes =
-        Text {
-            font : titleFont
-            x: 100
-            y: 100
-            content: "Analyze data"
-        };
-    lowerNodes = null;
-    refreshStage();
-}
-function showAnalyzeNotIncluded() {
-    interviewLogger.logBasicAction(interviewLogger.SHOW_ANALYZE_NOT_INCLUDED);
-    upperNodes =
-        Text {
-            font : labelFont
-            wrappingWidth: leftFrameWrappingWidth
-            x: hPadding
-            y: 30
-            content: "Analyze data is not included in the mockup"
-        };
-    lowerNodes = null;
+    guidePane.setTextFromFile(interviewStrings.guideConduct2FileName);
+    var url:URL = getClass().getResource("resources/{interviewStrings.guidelinesFileName}");
+    guidelinesEditor.setTextFromUrl(url);
+    var size = new Dimension(rightWidth-2*hPadding,lowerNodesHeight-2*vPadding);
+    guidelinesEditor.setPreferredSize(size);
+    guidelinesEditor.setSize(size);
+    var wrappedGuidelinesEditor:SwingComponent = SwingComponent.wrap(guidelinesEditor);
+    wrappedGuidelinesEditor.translateX = hPadding;
+    wrappedGuidelinesEditor.translateY = vPadding;
+    lowerNodes = wrappedGuidelinesEditor;
     refreshStage();
 }
 function activateTreeNode(node: DefaultMutableTreeNode) {
@@ -878,7 +579,7 @@ function activateTreeNode(node: DefaultMutableTreeNode) {
     interviewTree.selectedValue = node.getUserObject();
     interviewTreeClick(node.getUserObject());
 }
-function activateTreeNodeByValue(value: Integer) {
+protected function activateTreeNodeByValue(value: Integer) {
     var e : Enumeration = (interviewTree.model.getRoot() as DefaultMutableTreeNode).preorderEnumeration();
     while (e.hasMoreElements()) {
         var node: DefaultMutableTreeNode = e.nextElement() as DefaultMutableTreeNode;
@@ -888,75 +589,26 @@ function activateTreeNodeByValue(value: Integer) {
         }
     }
 }
-var content: Node[] = [
-    Group {content: bind upperVBox},
-    Group {content: bind lowerVBox},
-    Line {
-        startX: 0, startY: stageHeight - buttonBarHeight
-        endX: stageWidth, endY: stageHeight - buttonBarHeight
-        fill: Color.TRANSPARENT,
-        stroke: Color.BLACK
-    }
-    Line {
-        startX: treeWidth, startY: 0
-        endX: treeWidth, endY: stageHeight - buttonBarHeight
-        fill: Color.TRANSPARENT,
-        stroke: Color.BLACK
-    }
-    Line {
-        startX: treeWidth, startY: upperFrameHeightBase
-        endX: stageWidth, endY: upperFrameHeightBase
-        strokeWidth: 1
-        stroke: Color.BLACK
-    }
-    Group {content: bind interviewTree},
+protected var content: Node[] = [
+    guidePane,
     Rectangle {
-        x: 0, y: 0
-        width: stageWidth, height: stageHeight
+        x: bind width-rightWidth+3,
+        y: bind height - rightBottomHeight - parentHeightOffset - toolBottomOffset + 3
+        width: rightWidth-6, height: rightBottomHeight-6
         fill: Color.TRANSPARENT,
-        stroke: Color.BLACK
-    }
+        stroke: Color.GREY
+    },
+    Group {content: bind lowerVBox},
     HBox {
         spacing: 5
-        translateY: stageHeight-buttonBarHeight+10
-        translateX: 10
-        visible: bind not interviewSchemaVisible
+        hpos: HPos.RIGHT
+        translateY: bind height - parentHeightOffset - 30 - toolBottomOffset
+        translateX: bind width - rightWidth + 10
+        width: rightWidth-20
         content: [
         Button {
-            text: "Open"
-            action: function() {
-                interviewLogger.logBasicAction(InterviewLogger.OPEN_ELO);
-                openElo();
-            }
-        }
-        Button {
-            text: "Save"
-            action: function() {
-                interviewLogger.logBasicAction(InterviewLogger.SAVE_ELO);
-                doSaveElo();
-            }
-        }
-        Button {
-            text: "Save as..."
-            action: function() {
-                interviewLogger.logBasicAction(InterviewLogger.SAVE_AS_ELO);
-                doSaveAsElo();
-            }
-        }
-        Button {
-            text: "Zoom tree in/out"
-            action: function() {
-                if (interviewTree.width==stageWidth) {
-                    interviewTree.width=treeWidth;
-                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
-                } else {
-                    interviewTree.width=stageWidth;
-                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
-                }
-            }
-        }
-        Button {
-            text: "Back"
+            text: ##"Back"
+            font: buttonFont
             action: function() {
                 interviewLogger.logBasicAction(InterviewLogger.BACK_CLICKED);
                 var e : Enumeration = (interviewTree.model.getRoot() as DefaultMutableTreeNode).preorderEnumeration();
@@ -978,14 +630,16 @@ var content: Node[] = [
             }
         }
         Button {
-            text: "Home"
+            text: ##"Home"
+            font: buttonFont
             action: function() {
                 interviewLogger.logBasicAction(InterviewLogger.HOME_CLICKED);
                 activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
             }
         }
         Button {
-            text: "Next"
+            text: ##"Next"
+            font: buttonFont
             action: function() {
                 interviewLogger.logBasicAction(InterviewLogger.NEXT_CLICKED);
                 var e : Enumeration = (interviewTree.model.getRoot() as DefaultMutableTreeNode).preorderEnumeration();
@@ -1003,284 +657,34 @@ var content: Node[] = [
             }
         }
         ]
-    }
-    InterviewTextArea {
-        width: stageWidth
-        height: stageHeight-buttonBarHeight
-        translateX: 0
-        translateY: 0
-        font: normalFont
-        visible: bind interviewSchemaVisible
-        text: bind interviewSchema with inverse
-    }
-    HBox {
-        spacing: 5
-        translateY: stageHeight-buttonBarHeight+10
-        translateX: 100
-        visible: bind interviewSchemaVisible
-        content: [
-            Button {
-                text: "Copy all to clipboard"
-                action: function() {
-                   interviewLogger.logCopyInterviewSchemaToClipboard(interviewSchema);
-                    var cs : ClipboardService = null;
-                    try {
-                        cs = ServiceManager.lookup("javax.jnlp.ClipboardService") as ClipboardService;
-                    } catch (e : UnavailableServiceException) {
-                        cs = null;
-                    }
-                    if (cs != null) {
-                        var ss: java.awt.datatransfer.StringSelection =
-                            new java.awt.datatransfer.StringSelection(interviewSchema);
-                        cs.setContents(ss);
-                    }
-                }
-            }
-            Button {
-                text: "Close interview schema"
-                action: function() {
-                    interviewLogger.logBasicAction(InterviewLogger.CLOSE_INTERVIEW_SCHEMA);
-                    interviewSchemaVisible = false;
-                }
-            }
-        ]
-    }
+    },
+    Group {content: bind interviewTree}
     ];
-var interviewSchemaVisible = false;
-var interviewSchema = "";
-/*
-var extension = AppletStageExtension {}
-var stage = Stage {
-    width: stageWidth+20
-    height: stageHeight+40
-    title: "Interview tool"
-    scene: Scene {content: bind content}
-    extensions: [extension]
-}
-*/
-
-   def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
-   def scyInterviewType = "scy/interview";
-   def interviewTagName = "interview";
-   def questionTagName = "question";
-   def topicsTagName = "topics";
-   def topicTagName = "topic";
-   def indicatorsTagName = "indicators";
-   def indicatorTagName = "indicator";
-   def indicatorFormulationTagName = "formulation";
-   def answersTagName = "answers";
-   def answerTagName = "answer";
-   def answerOtherNamelyTagName = "other";
-   def answerOtherNamelyTrue = "true";
-   def answerOtherNamelyFalse = "false";
-   def jdomStringConversion = new JDomStringConversion();
-   public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
-   public var toolBrokerAPI:ToolBrokerAPI;
-   public var extensionManager:IExtensionManager;
-   public var actionLogger:IActionLogger;
-   public var awarenessService:IAwarenessService;
-   public var dataSyncService:IDataSyncService;
-   public var pedagogicalPlanService:PedagogicalPlanService;
-   public var scyWindow:ScyWindow;
-   var elo:IELO;
-   var technicalFormatKey: IMetadataKey;
-   var interviewLogger: InterviewLogger;
-
-   public override function initialize(windowContent:Boolean):Void{
-      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-      if (actionLogger==null) {
-         actionLogger = new DevNullActionLogger();
-      }
-      interviewLogger = InterviewLogger{
-//       actionLogger: new SystemOutActionLogger()
-         actionLogger: actionLogger
-         username: "username"
-         toolname: "interviewtool"
-         missionname: "missionname"
-         sessionname: "sessionname"
-      };
-   }
-
-   public override function loadElo(uri:URI){
-      doLoadElo(uri);
-   }
-
-   function doLoadElo(eloUri:URI) {
-      logger.info("Trying to load elo {eloUri}");
-      var newElo = repository.retrieveELO(eloUri);
-      if (newElo != null) {
-         eloContentXmlToInterview(newElo.getContent().getXmlString());
-         logger.info("elo interview loaded");
-         elo = newElo;
-      }
-   }
-
-   function openElo() {
-      var query:IQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyInterviewType, null);
-      var searchResults:List = repository.search(query);
-      var interviewUris:URI[];
-      for (searchResult in searchResults)
-         insert (searchResult as ISearchResult).getUri() into interviewUris;
-      var interviewUri:URI = JOptionPane.showInputDialog(null, "Select interview",
-      "Select interview", JOptionPane.QUESTION_MESSAGE, null, interviewUris, null) as URI;
-      if (interviewUri != null) {
-         loadElo(interviewUri);
-      }
-   }
-
-   function doSaveElo(){
-      elo.getContent().setXmlString(interviewToEloContentXml());
-      eloSaver.eloUpdate(getElo(),this);
-   }
-
-   function doSaveAsElo(){
-     eloSaver.eloSaveAs(getElo(),this);
-   }
-
-    override public function eloSaveCancelled (elo : IELO) : Void {
-    }
-
-    override public function eloSaved (elo : IELO) : Void {
-        this.elo = elo;
-    }
-
-   function getElo():IELO{
-      if (elo==null){
-         elo = eloFactory.createELO();
-         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyInterviewType);
-      }
-      elo.getContent().setXmlString(interviewToEloContentXml());
-      return elo;
-   }
-
-   function interviewToEloContentXml():String{
-      var interviewElement = new Element(interviewTagName);
-      var questionElement = new Element(questionTagName);
-      questionElement.setText(question);
-      interviewElement.addContent(questionElement);
-      var topicsElement = new Element(topicsTagName);
-      for (topic in topics) {
-         var topicElement = new Element(topicTagName);
-         var topicTopicElement = new Element(topicTagName);
-         topicTopicElement.setText(topic.topic);
-         topicElement.addContent(topicTopicElement);
-         var indicatorsElement = new Element(indicatorsTagName);
-         for (indicator in topic.indicators) {
-            var indicatorElement = new Element(indicatorTagName);
-            var indicatorIndicatorElement = new Element(indicatorTagName);
-            indicatorIndicatorElement.setText(indicator.indicator);
-            indicatorElement.addContent(indicatorIndicatorElement);
-            var indicatorFormulationElement = new Element(indicatorFormulationTagName);
-            indicatorFormulationElement.setText(indicator.formulation);
-            indicatorElement.addContent(indicatorFormulationElement);
-            var indicatorOtherElement = new Element(answerOtherNamelyTagName);
-            if (indicator.answerIncludeNamely)
-                indicatorOtherElement.setText(answerOtherNamelyTrue)
-            else
-                indicatorOtherElement.setText(answerOtherNamelyFalse);
-            indicatorElement.addContent(indicatorOtherElement);
-            var answersElement = new Element(answersTagName);
-            for (answer in indicator.answers) {
-               var answerElement = new Element(answerTagName);
-               answerElement.setText(answer.toString());
-               answersElement.addContent(answerElement);
-            }
-            indicatorElement.addContent(answersElement);
-            indicatorsElement.addContent(indicatorElement);
-         }
-         topicElement.addContent(indicatorsElement);
-         topicsElement.addContent(topicElement);
-      }
-      interviewElement.addContent(topicsElement);
-      return jdomStringConversion.xmlToString(interviewElement);
-   }
-
-   function eloContentXmlToInterview(text:String) {
-      var interviewElement=jdomStringConversion.stringToXml(text);
-      if (interviewTagName != interviewElement.getName()){
-         logger.error("wrong tag name, expected {interviewTagName}, but got {interviewElement.getName()}");
-      }
-      var questionElement = interviewElement.getChild(questionTagName);
-      question = questionElement.getTextTrim();
-      topics = [];
-      for (topicElement in interviewElement.getChild(topicsTagName).getChildren(topicTagName)) {
-         var topic = InterviewTopic{};
-         topic.topic = (topicElement as Element).getChild(topicTagName).getTextTrim();
-         for (indicatorElement in (topicElement as Element).getChild(indicatorsTagName).getChildren(indicatorTagName)) {
-            var indicator = InterviewIndicator{};
-            indicator.indicator = (indicatorElement as Element).getChild(indicatorTagName).getTextTrim();
-            indicator.formulation = (indicatorElement as Element).getChild(indicatorFormulationTagName).getTextTrim();
-            var otherNamely = (indicatorElement as Element).getChild(answerOtherNamelyTagName).getTextTrim();
-            if (otherNamely == answerOtherNamelyTrue)
-                indicator.answerIncludeNamely = true
-            else
-                indicator.answerIncludeNamely = false;
-            for (answerElement in (indicatorElement as Element).getChild(answersTagName).getChildren(answerTagName)) {
-                var answer = InterviewAnswer{};
-                answer.answer = (answerElement as Element).getTextTrim();
-                insert answer into indicator.answers;
-             }
-             insert indicator into topic.indicators;
-         }
-         insert topic into topics;
-      }
-      refreshTree();
-      activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
-   }
-
-   public override function create(): Node {
-      return Group{content: bind content}
-   }
-
-   public function setInterview(pQuestion: String, pTopics: InterviewTopic[]) {
-       question = pQuestion;
-       topics = pTopics;
-   }
-
-   public function getInterviewQuestion(): String {
-       return question;
-   }
-
-   public function getInterviewTopics(): InterviewTopic[] {
-       return topics;
-   }
-
-   override function postInitialize():Void {
-      activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
-   }
 
    public override function getPrefHeight(width: Number) : Number{
       return getMinHeight();
    }
-
    public override function getPrefWidth(height: Number) : Number{
       return getMinWidth();
    }
-
    public override function getMinHeight() : Number {
-       return stageHeight+40;
+      return stageHeight;
+   }
+   public override function getMinWidth() : Number {
+      return stageWidth;
+   }
+   public override var width on replace {resizeContent()};
+   public override var height on replace {resizeContent()};
+   function resizeContent(){
+      interviewTree.width = width - rightWidth;
+      interviewTree.height = height - parentHeightOffset - toolBottomOffset;
+      guidePane.height = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+      guidePane.translateX = width - rightWidth;
+      lowerVBox.translateX = width - rightWidth;
+      lowerVBox.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+   }
+   public override function create(): Node {
+      return Group{content: bind content}
    }
 
-   public override function getMinWidth() : Number {
-       return stageWidth+20;
-   }
-/*
-   var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
-   var chatController = new MUCChatController(awarenessService, eloUri);
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-       ChattoolDrawerContentCreatorFX {
-           awarenessService: awarenessService;
-           chatController: chatController;
-       },
-       scychatId);
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-       ChattoolPresenceDrawerContentCreatorFX {
-           awarenessService: awarenessService;
-           chatController: chatController;
-       },
-       scychatpresenceId);
-*/
 }
