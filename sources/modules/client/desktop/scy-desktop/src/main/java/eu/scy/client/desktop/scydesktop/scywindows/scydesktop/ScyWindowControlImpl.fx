@@ -120,6 +120,11 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    function placeWindowsOnDesktop(desktopState:DesktopState){
+      for (loEloUri in missionModel.loEloUris){
+         var loEloWindow = getScyWindow(loEloUri);
+         windowManager.addScyWindow(loEloWindow);
+         windowPositioner.addGlobalLearningObjectWindow(loEloWindow);
+      }
       var mainAnchorWindow = getScyWindow(activeLas.mainAnchor.eloUri);
       windowManager.addScyWindow(mainAnchorWindow);
       windowPositioner.setAnchorWindow(mainAnchorWindow);
