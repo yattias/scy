@@ -89,6 +89,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 
    function activeLasChanged(oldActiveLas:Las){
       logger.info("new active las: {activeLas.id}");
+      repositoryWrapper.setLasId(activeLas.id);
       if (oldActiveLas!=null){
          // store window state of the old active las
          desktopStates.put(oldActiveLas.id, getDesktopState());

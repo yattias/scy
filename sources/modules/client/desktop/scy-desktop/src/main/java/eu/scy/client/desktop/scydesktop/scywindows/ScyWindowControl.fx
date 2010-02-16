@@ -19,6 +19,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 
 /**
  * ScyWindowControl controls which windows (elos) are shown on the desktop
@@ -40,6 +41,8 @@ public mixin class ScyWindowControl {
    public var repository: IRepository;
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
+   public var repositoryWrapper:RepositoryWrapper;
+
 
    public var setScyContent:function(window: ScyWindow):Void;
    //   public var edgesManager: EdgesManager;

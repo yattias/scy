@@ -308,7 +308,8 @@ public class ScyDesktop extends CustomNode {
           setScyContent:fillNewScyWindow2;
           tooltipManager:tooltipManager
           dragAndDropManager:dragAndDropManager
-      };
+          repositoryWrapper:if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
+      }
 
     }
 
