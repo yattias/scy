@@ -31,9 +31,13 @@ public class Buddyfier {
 	public static void main(String[] args) throws Exception {
 		logger.debug("Buddyfier started!");
 		
-		String[] users = {"adam", "alfons", "andreas", "barbara", "bjoerge", "david", "jan", "jeremy", "jakob", "lars", "marjolaine", "stefan", "ton", "tony", "wolfgang", "wouter"};
+//		String[] users = {"adam", "alfons", "andreas", "barbara", "bjoerge", "david", "jan", "jeremy", "jakob", "lars", "marjolaine", "stefan", "ton", "tony", "wolfgang", "wouter"};
+		String[] users = {"hhh", "hillary", "adie", "lars"};
 		
-		ConnectionConfiguration config = new ConnectionConfiguration("scy.collide.info", 5222);
+		//String host = "scy.collide.info";
+		String host = "83.168.205.138";
+
+		ConnectionConfiguration config = new ConnectionConfiguration(host, 5222);
 		config.setCompressionEnabled(true);
         config.setReconnectionAllowed(true);
 		
@@ -43,18 +47,18 @@ public class Buddyfier {
         	connection = new XMPPConnection(config);
         	connection.connect();
         	logger.debug("Connected to server.");
-        	connection.login(user+ "@scy.collide.info", user);
+        	connection.login(user, user);
         	logger.debug("Logged in as " + connection.getUser());
         	
         	Roster roster = connection.getRoster();
         	for (String buddy : users) {
         		if(!user.equals(buddy)) {
-        			RosterEntry entry = roster.getEntry(buddy + "@scy.collide.info");
+        			RosterEntry entry = roster.getEntry(buddy + "@" + host);
         			if(entry != null) {
         				roster.removeEntry(entry);
         				logger.debug("Removed roster: " + user + " -> " + buddy);
         			}
-        			roster.createEntry(buddy + "@scy.collide.info", buddy, null);
+        			roster.createEntry(buddy + "@" + host, buddy, null);
         			logger.debug("Created roster: " + user + " -> " + buddy);
         		}
 			}
