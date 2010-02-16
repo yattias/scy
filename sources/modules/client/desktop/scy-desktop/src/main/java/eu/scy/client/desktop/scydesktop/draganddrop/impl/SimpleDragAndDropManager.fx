@@ -13,6 +13,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
+import java.lang.Exception;
 
 /**
  * @author sikken
@@ -106,7 +107,12 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
          currentWindowUnderMouse = windowUnderMouse;
          var dropAcceptable = false;
          if (currentWindowUnderMouse!=null){
-            dropAcceptable = currentWindowUnderMouse.canAcceptDrop(dropObject);
+            try{
+               dropAcceptable = currentWindowUnderMouse.canAcceptDrop(dropObject);
+            }
+            catch (ex:Exception){
+               logger.error("an exception occured while checking for the drop status of {dropObject.getClass()}", ex);
+            }
          }
          if (currentWindowUnderMouse!=null){
             logger.debug("mouse entered {currentWindowUnderMouse.eloUri}, dropAcceptable: {dropAcceptable} ")
