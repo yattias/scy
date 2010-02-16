@@ -122,7 +122,6 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX {
       var c:ContactFrame = object as ContactFrame;
       println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
       chatPresenceTool.addTemporaryUser(c.contact.name);
-
-      toolBrokerAPI.proposeCollaborationWith(c.contact.name, eloChatActionWrapper.getEloUri().toString());
+      toolBrokerAPI.proposeCollaborationWith(c.contact.name, scyWindow.eloUri);
    }
 }
