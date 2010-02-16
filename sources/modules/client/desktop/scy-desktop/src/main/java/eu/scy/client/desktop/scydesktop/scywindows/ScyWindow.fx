@@ -21,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
  * @author sikkenj
@@ -72,7 +73,8 @@ public abstract class ScyWindow extends CustomNode {
    public var allowClose = true;
    public var allowMinimize = true;
 //   public var closeIsHide = false;
-   public var scyDesktop: WindowManager;
+   public var windowManager: WindowManager;
+   public var scyDesktop:ScyDesktop;
 	public var windowEffect: Effect;
 	public var minimizeAction: function(ScyWindow):Void;
 	public var setScyContent: function(ScyWindow):Void;

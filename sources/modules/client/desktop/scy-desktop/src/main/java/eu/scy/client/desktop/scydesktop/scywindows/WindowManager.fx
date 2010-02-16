@@ -12,6 +12,7 @@ import javafx.scene.Group;
 import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
  * The WindowManager manages the windows on the desktop. It does not care if the window contains a anchor elo or not.
@@ -22,6 +23,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 public mixin class WindowManager {
 
    public var scyWindows:Group;
+   public var scyDesktop:ScyDesktop;
 
 //   public var activeAnchor:MissionAnchorFX;
 

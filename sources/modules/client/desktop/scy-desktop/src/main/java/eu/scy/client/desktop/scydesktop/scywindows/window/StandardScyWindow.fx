@@ -619,8 +619,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 	}
 
    function activate(){
-      if (scyDesktop != null){
-			scyDesktop.activateScyWindow(this);
+      if (windowManager != null){
+			windowManager.activateScyWindow(this);
 		}
    }
 
