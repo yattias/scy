@@ -13,7 +13,9 @@ import java.awt.event.MouseMotionListener;
  * TODO: Refactor to API
  */
 public interface IDiagramMode {
-    public MouseListener getMouseListener();
-    public MouseMotionListener getMouseMotionListener();
-    public FocusListener getFocusListener();
+	public MouseListener getMouseListener();
+
+	public MouseMotionListener getMouseMotionListener();
+
+	public FocusListener getFocusListener();
 }

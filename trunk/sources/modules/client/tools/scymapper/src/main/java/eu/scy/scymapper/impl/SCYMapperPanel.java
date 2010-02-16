@@ -85,7 +85,6 @@ public class SCYMapperPanel extends JPanel {
 			toolBroker.registerForNotifications(new INotifiable() {
 				@Override
 				public void processNotification(INotification notification) {
-
 					if (notification.getToolId().equals("scymapper") &&
 							notification.getFirstProperty("type").equals("concept_proposal")) {
 						String[] keywords = notification.getPropertyArray("keywords");

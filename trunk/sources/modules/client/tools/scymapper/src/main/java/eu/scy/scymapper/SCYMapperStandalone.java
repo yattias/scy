@@ -49,7 +49,7 @@ import java.util.Locale;
  * Time: 19:53:10
  */
 public class SCYMapperStandalone extends JFrame {
-	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/standaloneConfig.xml";
+	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperToolConfig.xml";
 	private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
 	private ApplicationContext appContext;
 
@@ -79,7 +79,7 @@ public class SCYMapperStandalone extends JFrame {
 		public void syncObjectRemoved(ISyncObject syncObject) {
 		}
 	};
-	private String username = "johndoe";
+	private String username = "";
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -202,6 +202,10 @@ public class SCYMapperStandalone extends JFrame {
 		JMenuItem debugModeItem = new JCheckBoxMenuItem(new SetDebugModeAction());
 		debugModeItem.setSelected(SCYMapperToolConfiguration.getInstance().isDebug());
 		viewMenu.add(debugModeItem);
+
+		JMenuItem viewShadowModeItem = new JCheckBoxMenuItem(new ViewShadowAction());
+		viewShadowModeItem.setSelected(SCYMapperToolConfiguration.getInstance().getViewShadow());
+		viewMenu.add(viewShadowModeItem);
 
 		JMenu debugMenu = new JMenu("Debug");
 
@@ -547,6 +551,22 @@ public class SCYMapperStandalone extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			doLogin(ShortcutAction.this.username, ShortcutAction.this.password);
+		}
+	}
+
+	private class ViewShadowAction extends AbstractAction {
+
+		ViewShadowAction() {
+			super();
+			putValue(Action.NAME, "View shadows");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() instanceof JCheckBoxMenuItem) {
+				JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
+				SCYMapperToolConfiguration.getInstance().setViewShadow(item.isSelected());
+			}
 		}
 	}
 

@@ -66,6 +66,9 @@
 	<bean id="red" class="java.awt.Color">
 		<constructor-arg value="0xff5555"/>
 	</bean>
+	<bean id="black" class="java.awt.Color">
+		<constructor-arg value="0x000000"/>
+	</bean>
 	<bean id="gold" class="java.awt.Color">
 		<constructor-arg value="0xFFD700"/>
 	</bean>

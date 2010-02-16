@@ -11,12 +11,12 @@ import java.awt.*;
  * @author bjoerge
  * @created 05.feb.2010 20:35:11
  */
-class ConceptShapedIcon implements Icon {
+public class ConceptShapedIcon implements Icon {
 	private INodeModel concept;
 	private int iconHeight;
 	private int iconWidth;
 
-	ConceptShapedIcon(INodeModel concept, int iconHeight, int iconWidth) {
+	public ConceptShapedIcon(INodeModel concept, int iconHeight, int iconWidth) {
 		this.concept = concept;
 		this.iconHeight = iconHeight;
 		this.iconWidth = iconWidth;
@@ -32,9 +32,10 @@ class ConceptShapedIcon implements Icon {
 		g2d.setColor(nodeStyle.getBackground());
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Rectangle rect = new Rectangle(x, y, iconWidth, iconHeight);
-		shape.setMode(nodeStyle.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
-//            g2d.drawRect(rect.x, rect.y, rect.width, rect.height);
-		shape.paint(g2d, rect);
+		if (shape != null) {
+			shape.setMode(nodeStyle.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
+			shape.paint(g2d, rect);
+		}
 		g2d.dispose();
 	}
 

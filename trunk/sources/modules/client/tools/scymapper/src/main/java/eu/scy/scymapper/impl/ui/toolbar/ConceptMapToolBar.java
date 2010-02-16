@@ -1,6 +1,7 @@
 package eu.scy.scymapper.impl.ui.toolbar;
 
 import eu.scy.scymapper.api.IConceptMap;
+import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.controller.IDiagramController;
 import eu.scy.scymapper.api.diagram.controller.IDiagramSelectionListener;
 import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
@@ -10,6 +11,7 @@ import eu.scy.scymapper.api.diagram.view.LinkViewComponent;
 import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
@@ -26,6 +28,7 @@ public class ConceptMapToolBar extends JToolBar {
 	private ConceptDiagramView diagramView;
 	private IDiagramController diagramController;
 	private IDiagramSelectionModel diagramSelectionModel;
+	private ISCYMapperToolConfiguration conf = SCYMapperToolConfiguration.getInstance();
 
 	public ConceptMapToolBar(IConceptMap cmap, ConceptDiagramView diagramView) {
 		conceptMap = cmap;
@@ -38,6 +41,7 @@ public class ConceptMapToolBar extends JToolBar {
 		add(new BackgroundColorButton());
 		add(new ForegroundColorButton());
 		add(new OpaqueCheckbox());
+		add(new NodeShadowCheckbox());
 
 	}
 
@@ -47,6 +51,24 @@ public class ConceptMapToolBar extends JToolBar {
 			setToolTipText("Delete");
 			setIcon(new ImageIcon(getClass().getResource("delete.png")));
 			addActionListener(this);
+
+			conceptMap.getDiagramSelectionModel().addSelectionListener(new IDiagramSelectionListener() {
+				@Override
+				public void selectionChanged(IDiagramSelectionModel selectionModel) {
+					boolean enabled = false;
+
+					for (INodeModel node : selectionModel.getSelectedNodes()) {
+						if (node.getConstraints().getCanDelete()) {
+							enabled = true;
+							break;
+						}
+					}
+					if (selectionModel.hasLinkSelection()) {
+						enabled = true;
+					}
+					setEnabled(enabled);
+				}
+			});
 		}
 
 		@Override
@@ -58,6 +80,7 @@ public class ConceptMapToolBar extends JToolBar {
 	class ForegroundColorButton extends ColorChooserButton {
 		ForegroundColorButton() {
 			super();
+			setText("Foreground");
 			setToolTipText("Select foreground color");
 			setIcon(new ImageIcon(getClass().getResource("color-fg.png")));
 
@@ -125,6 +148,7 @@ public class ConceptMapToolBar extends JToolBar {
 		BackgroundColorButton() {
 			super();
 
+			setText("Background");
 			setIcon(new ImageIcon(getClass().getResource("color-bg.png")));
 			setToolTipText("Select background color");
 
@@ -197,7 +221,6 @@ public class ConceptMapToolBar extends JToolBar {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			diagramView.confirmAndRemoveAll();
-			;
 		}
 	}
 
@@ -223,6 +246,32 @@ public class ConceptMapToolBar extends JToolBar {
 		public void actionPerformed(ActionEvent e) {
 			for (INodeModel node : diagramSelectionModel.getSelectedNodes()) {
 				node.getStyle().setOpaque(isSelected());
+			}
+		}
+	}
+
+	private class NodeShadowCheckbox extends JCheckBox implements ActionListener {
+		NodeShadowCheckbox() {
+			super("Shadow");
+			addActionListener(this);
+			diagramSelectionModel.addSelectionListener(new IDiagramSelectionListener() {
+				@Override
+				public void selectionChanged(IDiagramSelectionModel selectionModel) {
+					setEnabled(selectionModel.hasSelection());
+					boolean state = false;
+					setSelected(false);
+					for (INodeModel node : diagramSelectionModel.getSelectedNodes()) {
+						if (node.getStyle().getPaintShadow()) state = true;
+					}
+					setSelected(state);
+				}
+			});
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for (INodeModel node : diagramSelectionModel.getSelectedNodes()) {
+				node.getStyle().setPaintShadow(isSelected());
 			}
 		}
 	}

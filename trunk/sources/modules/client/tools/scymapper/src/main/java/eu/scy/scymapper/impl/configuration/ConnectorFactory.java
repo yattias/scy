@@ -2,11 +2,10 @@ package eu.scy.scymapper.impl.configuration;
 
 import eu.scy.scymapper.api.INodeFactory;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
-import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.diagram.model.INodeModelConstraints;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.model.ConnectorModel;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.ui.palette.ConceptShapedIcon;
 
 import javax.swing.*;
 
@@ -16,27 +15,18 @@ import javax.swing.*;
  * Date: 30.okt.2009
  * Time: 13:25:49
  */
-public class DefaultNodeFactory implements INodeFactory {
-	private INodeShape shape;
+public class ConnectorFactory implements INodeFactory {
 	private String name;
 	private String description;
-	private int height = 100;
+	private int height = 25;
 	private int width = 100;
-	private Icon icon;
 	private INodeStyle nodeStyle = new DefaultNodeStyle();
-
-	public INodeShape getNodeShape() {
-		return shape;
-	}
-
-	public void setNodeShape(INodeShape shape) {
-		this.shape = shape;
-	}
+	private Icon icon;
 
 	@Override
 	public Icon getIcon() {
 		if (icon == null) {
-			icon = new ConceptShapedIcon(create(), 20, 20);
+			icon = new ImageIcon(getClass().getResource("/eu/scy/scymapper/impl/icons/connector.png"));
 		}
 		return icon;
 	}
@@ -83,10 +73,10 @@ public class DefaultNodeFactory implements INodeFactory {
 
 	@Override
 	public INodeModel create() {
-		NodeModel node = new NodeModel();
+		ConnectorModel node = new ConnectorModel();
+		node.setLabel("New connector");
 		node.setWidth(width);
 		node.setHeight(height);
-		node.setShape(shape);
 
 		INodeStyle style = new DefaultNodeStyle();
 		style.setBackground(nodeStyle.getBackground());
@@ -96,9 +86,93 @@ public class DefaultNodeFactory implements INodeFactory {
 		style.setOpaque(nodeStyle.isOpaque());
 		style.setStroke(nodeStyle.getStroke());
 		style.setBorder(nodeStyle.getBorder());
+		style.setPaintShadow(nodeStyle.getPaintShadow());
 
+		node.setConstraints(new Constraints());
 		node.setStyle(style);
 
 		return node;
+	}
+
+	private static class Constraints implements INodeModelConstraints {
+
+		@Override
+		public boolean getCanMove() {
+			return true;
+		}
+
+		@Override
+		public void setCanMove(boolean b) {
+		}
+
+		@Override
+		public boolean getCanDelete() {
+			return true;
+		}
+
+		@Override
+		public void setCanDelete(boolean b) {
+
+		}
+
+		@Override
+		public boolean getCanResize() {
+			return true;
+		}
+
+		@Override
+		public void setCanResize(boolean b) {
+
+		}
+
+		@Override
+		public boolean getCanEditLabel() {
+			return true;
+		}
+
+		@Override
+		public void setCanEditLabel(boolean b) {
+
+		}
+
+		@Override
+		public boolean getCanConnect() {
+			return true;
+		}
+
+		@Override
+		public void setCanConnect(boolean b) {
+
+		}
+
+		@Override
+		public void setCanSelect(boolean canSelect) {
+
+		}
+
+		@Override
+		public boolean getCanSelect() {
+			return true;
+		}
+
+		@Override
+		public void setCanChangeStyle(boolean b) {
+
+		}
+
+		@Override
+		public boolean getCanChangeStyle() {
+			return true;
+		}
+
+		@Override
+		public void setAlwaysOnTop(boolean alwaysOnTop) {
+
+		}
+
+		@Override
+		public boolean getAlwaysOnTop() {
+			return false;
+		}
 	}
 }

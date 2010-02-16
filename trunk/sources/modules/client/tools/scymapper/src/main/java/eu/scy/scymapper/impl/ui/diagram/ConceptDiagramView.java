@@ -4,6 +4,7 @@ import eu.scy.scymapper.api.diagram.controller.IDiagramController;
 import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
 import eu.scy.scymapper.impl.controller.IElementControllerFactory;
+import eu.scy.scymapper.impl.model.ConnectorModel;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 import org.apache.log4j.Logger;
@@ -77,7 +78,18 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 	}
 
 	private void addNodeView(INodeModel node, boolean editable) {
-		RichNodeView view = new RichNodeView(elementControllerFactory.createNodeController(node), node);
+
+		logger.debug("NODE ADDED: " + node);
+
+		RichNodeView view;
+
+		if (node instanceof ConnectorModel) {
+			view = new ConnectorView(elementControllerFactory.createNodeController(node), node);
+		} else {
+			view = new RichNodeView(elementControllerFactory.createNodeController(node), node);
+		}
+
+		view.setLabelEditable(editable, true);
 
 		// Subscribe to mouse events in this nodes component to display the add-link button
 		view.addMouseListener(new MouseListenerDelegator());
@@ -85,10 +97,9 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
 		// I want to listen for mouse events in the component of this node to be able to add new links
 		view.addFocusListener(new FocusListenerDelegator());
-		view.setLabelEditable(editable);
+
 
 		view.addKeyListener(deleteKeyListener);
-
 		add(view, 0);
 		view.repaint();
 	}
@@ -180,7 +191,6 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
 	@Override
 	public void nodeRemoved(INodeModel n) {
-		System.out.println("ConceptDiagramView.nodeRemoved: " + n);
 		for (Component component : getComponents()) {
 			if (component instanceof RichNodeView) {
 				RichNodeView nw = (RichNodeView) component;
