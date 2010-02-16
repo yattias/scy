@@ -71,6 +71,7 @@ public class Notification implements INotification {
             values = Arrays.copyOf(values, values.length + 1);
         }
         values[values.length - 1] = value;
+        properties.put(key, values);
     }
 
     @Override
