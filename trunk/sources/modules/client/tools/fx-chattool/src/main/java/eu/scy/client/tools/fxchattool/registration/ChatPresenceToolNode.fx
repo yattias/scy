@@ -28,6 +28,8 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.*;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.toolbrokerapi.CollaborationCallback;
+import eu.scy.awareness.IAwarenessUser;
+
 /**
  * @author jeremyt
  */
@@ -123,7 +125,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,Colla
       var c:ContactFrame = object as ContactFrame;
       println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
       chatPresenceTool.addTemporaryUser(c.contact.name);
-      toolBrokerAPI.proposeCollaborationWith(c.contact.name, scyWindow.eloUri.toString(),this);
+      toolBrokerAPI.proposeCollaborationWith(c.contact.awarenessUser.getJid(), scyWindow.eloUri.toString(),this);
    }
 
    public override function receivedCollaborationResponse(mucid:String):Void{
