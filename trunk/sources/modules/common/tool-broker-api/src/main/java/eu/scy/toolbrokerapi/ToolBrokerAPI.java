@@ -84,9 +84,10 @@ public interface ToolBrokerAPI {
      *            the complete clientjid (user@server) of the invited user
      * @param elouri
      *            the URI of the ELO
-     * @return the mucid if the user accepted the invitation, null otherwise
+     * @param callback
+     *            the object that wants to be notified when an answer arrives
      */
-    public String proposeCollaborationWith(String proposedUser, String elouri);
+    public void proposeCollaborationWith(String proposedUser, String elouri, CollaborationCallback callback);
 
     /**
      * Sends the answer to a previous collaboration proposal.
