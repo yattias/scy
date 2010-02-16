@@ -157,8 +157,11 @@ public class LoginDialog extends CustomNode {
                KeyFrame {
                   time : 1000ms
                   action:function(){
-                     scene.stage.title = "{scene.stage.title} : {userName}";
-                     placeScyDescktop(toolBrokerAPI, userName);
+                     var stage = scene.stage;
+                     var stageTitle = stage.title;
+                     stage.title = "{stageTitle} : {userName}";
+                     var scyDesktop = placeScyDescktop(toolBrokerAPI, userName);
+                     stage.title = "{stageTitle} : {userName} in {scyDesktop.missionModelFX.name}";
                   }
                }
             ]
@@ -184,7 +187,7 @@ public class LoginDialog extends CustomNode {
    }
 
 
-   function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String) {
+   function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String):ScyDesktop {
       // using the sceneContent, with a copy of scene.content, does work
       // directly adding scyDesktop to scene.content does not seem to work
       var sceneContent = scene.content;
@@ -193,6 +196,7 @@ public class LoginDialog extends CustomNode {
       insert scyDesktop into sceneContent;
       insert SimpleTooltipManager.tooltipGroup into sceneContent;
       scene.content = sceneContent;
+      return scyDesktop;
    }
 }
 
