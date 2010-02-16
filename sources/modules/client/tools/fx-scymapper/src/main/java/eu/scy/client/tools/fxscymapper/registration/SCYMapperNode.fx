@@ -11,10 +11,11 @@ import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
-
+import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 
@@ -31,9 +32,13 @@ import javax.swing.JOptionPane;
 import org.springframework.util.StringUtils;
 
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.config.Config;
+import eu.scy.client.common.datasync.ISyncSession;
 
 
-public class SCYMapperNode extends CustomNode, Resizable {
+public class SCYMapperNode extends CustomNode, Resizable,CollaborationStartable {
 
     public-init var scyMapperPanel:SCYMapperPanel;
     public-init var repositoryWrapper:ScyMapperRepositoryWrapper;
@@ -41,6 +46,8 @@ public class SCYMapperNode extends CustomNode, Resizable {
 
     public override var width on replace {resizeContent()};
     public override var height on replace {resizeContent()};
+
+    public var syncSession:ISyncSession;
 
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle()
@@ -177,5 +184,13 @@ public class SCYMapperNode extends CustomNode, Resizable {
     public override function getPrefWidth(width: Number) : Number{
         return scyMapperPanel.getPreferredSize().getWidth();
     }
+
+    public override function startCollaboration(mucid:String){
+        def datasync:IDataSyncService = scyWindow.scyDesktop.config.getToolBrokerAPI().getDataSyncService();
+        syncSession = datasync.joinSession(mucid,SCYMapperSyncListener{});
+        println("sync session with mucid {mucid} created.");
+    }
+
+    
 
 }
