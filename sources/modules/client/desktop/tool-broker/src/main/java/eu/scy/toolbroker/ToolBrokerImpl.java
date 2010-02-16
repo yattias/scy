@@ -34,6 +34,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
+import eu.scy.toolbrokerapi.CollaborationCallback;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -323,12 +324,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
     }
 
     @Override
-    public String proposeCollaborationWith(String proposedUser, String elouri) {
+    public void proposeCollaborationWith(String proposedUser, String elouri, final CollaborationCallback callback) {
     	logger.debug("TBI: proposeCollaborationWith: user: "+proposedUser+" eloid: "+elouri);
-        LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
+        final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
         collaborationAnswers.put(userName + "#" + proposedUser + "#" + elouri, queue);
-        IActionLogger log = getActionLogger();
-        IAction requestCollaborationAction = new Action();
+        final IActionLogger log = getActionLogger();
+        final IAction requestCollaborationAction = new Action();
         requestCollaborationAction.setUser(userName);
         requestCollaborationAction.setType("collaboration_request");
         requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
@@ -337,18 +338,27 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         requestCollaborationAction.addContext(ContextConstants.session, "mysession");
         requestCollaborationAction.addAttribute("proposed_user", proposedUser);
         requestCollaborationAction.addAttribute("proposed_elo", elouri);
-        log.log(requestCollaborationAction);
-        try {
-            INotification notif = queue.take();
-            boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
-            if (accepted) {
-                String mucid = notif.getFirstProperty("mucid");
-                return mucid;
+        Thread t = new Thread(new Runnable() {
+            
+            @Override
+            public void run() {
+                log.log(requestCollaborationAction);
+                try {
+                    INotification notif = queue.take();
+                    boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
+                    if (accepted) {
+                        String mucid = notif.getFirstProperty("mucid");
+                        callback.receivedCollaborationResponse(mucid);
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                callback.receivedCollaborationResponse(null);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
+            
+        });
+        t.start();
     }
 
     public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
