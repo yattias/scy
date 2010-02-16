@@ -66,7 +66,9 @@ function createExistingEloUriSequence(uriList: List, objectLabel: String, config
 
 function createLasSequence(lasList: List, missionAnchorList: List, config: Config): Las[] {
    var lasIdMap = new HashMap();
-   var lasses: Las[] = for (object in lasList) {
+   var lasses: Las[];
+   if (lasList!=null)
+      lasses = for (object in lasList) {
               var basicLas = object as BasicLas;
               var las = Las {
                          id: basicLas.getId();
@@ -84,21 +86,24 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
               las
            }
    // fix the next las links
-   for (object in lasList) {
-      var basicLas = object as BasicLas;
-      var las = lasIdMap.get(basicLas.getId()) as Las;
-      for (lasId in basicLas.getNextLasses()) {
-         var nextLas = lasIdMap.get(lasId) as Las;
-         if (nextLas != null) {
-            insert nextLas into las.nextLasses;
-            } else {
-            logger.error("cannot find nextLas id: {lasId} in las {las.id}");
+   if (lasList!=null)
+      for (object in lasList) {
+         var basicLas = object as BasicLas;
+         var las = lasIdMap.get(basicLas.getId()) as Las;
+         for (lasId in basicLas.getNextLasses()) {
+            var nextLas = lasIdMap.get(lasId) as Las;
+            if (nextLas != null) {
+               insert nextLas into las.nextLasses;
+               } else {
+               logger.error("cannot find nextLas id: {lasId} in las {las.id}");
+               }
             }
-         }
-   }
+      }
    // fix the mission anchor links
    var missionAnchorMap = new HashMap();
-   var missionAnchors = for (object in missionAnchorList) {
+   var missionAnchors:MissionAnchorFX[];
+   if (missionAnchorList!=null){
+      missionAnchors = for (object in missionAnchorList) {
               var anchor = object as BasicMissionAnchor;
               var missionAnchor = MissionAnchorFX {
                          id: anchor.getId()
@@ -114,36 +119,40 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
               }
               missionAnchor;
            }
-   for (object in missionAnchorList) {
-      var anchor = object as BasicMissionAnchor;
-      var missionAnchor = missionAnchorMap.get(anchor.getId()) as MissionAnchorFX;
-      for (objectId in anchor.getInputMissionAnchorIds()) {
-         var inputMissionAnchorId = objectId as String;
-         var inputtMissionAnchor = missionAnchorMap.get(inputMissionAnchorId) as MissionAnchorFX;
-         if (inputtMissionAnchor != null) {
-//            insert inputtMissionAnchor into missionAnchor.nextAnchors;
-            } else {
-            logger.error("cannot find next mission anchor id {inputMissionAnchorId} for mission anchor id {missionAnchor.id}");
-            }
-         }
-      }
-   for (object in lasList) {
-      var basicLas = object as BasicLas;
-      var las = lasIdMap.get(basicLas.getId()) as Las;
-      las.mainAnchor = missionAnchorMap.get(basicLas.getAnchorEloId()) as MissionAnchorFX;
-      if (las.mainAnchor == null) {
-         logger.error("cannot find anchor elo id {basicLas.getAnchorEloId()} for las id {las.id}");
-         }
-      if (basicLas.getIntermediateEloIds()!=null){
-         for (anchorId in basicLas.getIntermediateEloIds()) {
-            var id = anchorId as String;
-            var intermediateAnchor = missionAnchorMap.get(anchorId) as MissionAnchorFX;
-            if (intermediateAnchor != null) {
-               insert intermediateAnchor into las.intermediateAnchors;
+
+      for (object in missionAnchorList) {
+         var anchor = object as BasicMissionAnchor;
+         var missionAnchor = missionAnchorMap.get(anchor.getId()) as MissionAnchorFX;
+         for (objectId in anchor.getInputMissionAnchorIds()) {
+            var inputMissionAnchorId = objectId as String;
+            var inputtMissionAnchor = missionAnchorMap.get(inputMissionAnchorId) as MissionAnchorFX;
+            if (inputtMissionAnchor != null) {
+   //            insert inputtMissionAnchor into missionAnchor.nextAnchors;
                } else {
-               logger.error("cannot find intermediate elo id {id} for las id {las.id}");
+               logger.error("cannot find next mission anchor id {inputMissionAnchorId} for mission anchor id {missionAnchor.id}");
                }
             }
+         }
+   }
+   if (lasList!=null){
+      for (object in lasList) {
+         var basicLas = object as BasicLas;
+         var las = lasIdMap.get(basicLas.getId()) as Las;
+         las.mainAnchor = missionAnchorMap.get(basicLas.getAnchorEloId()) as MissionAnchorFX;
+         if (las.mainAnchor == null) {
+            logger.error("cannot find anchor elo id {basicLas.getAnchorEloId()} for las id {las.id}");
+            }
+         if (basicLas.getIntermediateEloIds()!=null){
+            for (anchorId in basicLas.getIntermediateEloIds()) {
+               var id = anchorId as String;
+               var intermediateAnchor = missionAnchorMap.get(anchorId) as MissionAnchorFX;
+               if (intermediateAnchor != null) {
+                  insert intermediateAnchor into las.intermediateAnchors;
+                  } else {
+                  logger.error("cannot find intermediate elo id {id} for las id {las.id}");
+                  }
+               }
+         }
       }
    }
    return lasses;
