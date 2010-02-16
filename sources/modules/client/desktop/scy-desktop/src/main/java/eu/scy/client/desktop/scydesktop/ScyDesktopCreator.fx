@@ -198,8 +198,12 @@ public class ScyDesktopCreator {
    function retrieveStoredMissionModel():MissionModelFX{
       var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(),BasicSearchOperations.EQUALS,MissionModelFX.eloType,null);
       var titleQuery = new BasicMetadataQuery(config.getTitleKey(),BasicSearchOperations.EQUALS,userName,null);
-      var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()),BasicSearchOperations.EQUALS,config.getBasicMissionMap().getId(),null);
-      var andQuery = new AndQuery(typeQuery,titleQuery,missionIdQuery);
+      var andQuery = new AndQuery(typeQuery,titleQuery);
+      var missionId = config.getBasicMissionMap().getId();
+      if (missionId!=null){
+         var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()),BasicSearchOperations.EQUALS,missionId,null);
+         andQuery.addQuery(missionIdQuery);
+      }
       var results = config.getRepository().search(andQuery);
       logger.info("Nr of elos found: {results.size()}");
       if (results.size() == 1) {
