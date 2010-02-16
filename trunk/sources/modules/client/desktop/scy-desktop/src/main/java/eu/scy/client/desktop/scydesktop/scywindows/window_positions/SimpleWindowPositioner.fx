@@ -36,6 +36,10 @@ public class SimpleWindowPositioner extends WindowPositioner {
 
    def maximumIntersectionTarget = 1.0;
 
+   override public function addGlobalLearningObjectWindow (window : ScyWindow) : Void {
+      addWindowImmediately(window);
+   }
+
    public override function clearWindows():Void{
    //       logger.info("clearWindows");
       delete windows;

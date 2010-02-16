@@ -25,6 +25,13 @@ public mixin class WindowPositioner {
     public var forbiddenNodes:Node[];
 
     /**
+    * adds a global learning object window.
+    *
+    * Positioning could be postphoned until positionWindows is called
+    */
+    public abstract function addGlobalLearningObjectWindow(window:ScyWindow):Void;
+
+    /**
     * all windows are rmoved from the desktop
     */
     public abstract function clearWindows():Void;

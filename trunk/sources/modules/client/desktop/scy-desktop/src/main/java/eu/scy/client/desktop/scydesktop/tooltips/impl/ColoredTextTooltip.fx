@@ -25,6 +25,7 @@ public class ColoredTextTooltip extends CustomNode {
    public var backgroundOpacity = 0.95;
 
    def contentBorder = 3;
+   def borderWidth = 2;
 
    public override function create(): Node {
       var text = Text {
@@ -50,12 +51,13 @@ public class ColoredTextTooltip extends CustomNode {
                y: text.boundsInLocal.minY-contentBorder
                width: text.boundsInLocal.width+2*contentBorder
                height: text.boundsInLocal.height+2*contentBorder
-               fill: backgroundColor
+               fill: Color.WHITE;
+               stroke:color;
+               strokeWidth:borderWidth;
             }
             text
          ]
       }
-
    }
 
 }
