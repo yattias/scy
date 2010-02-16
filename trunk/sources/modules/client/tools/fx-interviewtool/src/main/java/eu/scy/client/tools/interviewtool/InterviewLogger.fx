@@ -22,11 +22,13 @@ public def QUESTION_CHANGED = "question changed";
 public def SHOW_TOPICS = "show topics page";
 public def OBJECT_ADD = ":1 added";
 public def OBJECT_REMOVE = ":1 removed";
+/*
 public def OBJECTS_BEFORE_SAVE = ":1s before save";
 public def OBJECTS_AFTER_SAVE = ":1s after save";
 public def OBJECTS_BEFORE_CANCEL = ":1s before editing canceled";
 public def OBJECTS_AFTER_CANCEL = ":1s after editing canceled";
 public def OBJECTS_FOCUS_LOST = ":1s before focus lost";
+*/
 public def SHOW_INDICATORS = "show indicators page";
 public def SHOW_ANSWERS = "show answers page";
 public def OTHER_NAMELY_CLICK = "other namely clicked";
@@ -39,8 +41,6 @@ public def SHOW_CONDUCT_PREPARATION = "show conduct preparation page";
 public def SHOW_CONDUCT_RECOMMENDATIONS = "show conduct recommendation page";
 public def SHOW_GUIDELINES_DOC = "show interview guidlines in doc";
 public def SHOW_GUIDELINES_PDF = "show interview guidlines in pdf";
-public def SHOW_ANALYZE = "show analyze page";
-public def SHOW_ANALYZE_NOT_INCLUDED = "show analyze not included page";
 public def OPEN_ELO = "open ELO";
 public def SAVE_ELO = "save ELO";
 public def SAVE_AS_ELO = "save as ELO";
@@ -49,9 +49,6 @@ public def ZOOM_TREE_OUT = "zoom tree out";
 public def BACK_CLICKED = "back button clicked";
 public def HOME_CLICKED = "home button clicked";
 public def NEXT_CLICKED = "next button clicked";
-public def SHOW_INTERVIEW_SCHEMA = "show interview schema";
-public def INTERVIEW_SCHEMA_TO_CLIPBOARD = "copy interview schema to clipboard";
-public def CLOSE_INTERVIEW_SCHEMA = "close interview schema";
 
 var COUNT:Integer = 0;
 
@@ -86,9 +83,11 @@ function initObjectAction(objectType:String,type:String,objects:InterviewObject[
     var i:Integer = 0;
     if (type.equals("ADD")) {
         action = createBasicAction(OBJECT_ADD.replaceAll(":1", objectType));
+        action.addAttribute(objectType, objects[0].toString());
     } else if (type.equals("REMOVE")) {
         action = createBasicAction(OBJECT_REMOVE.replaceAll(":1", objectType));
         action.addAttribute(objectType, objects[0].toString());
+/*
     } else if (type.equals("BEFORE_SAVE")) {
         action = createBasicAction(OBJECTS_BEFORE_SAVE.replaceAll(":1", objectType));
         for (object in objects) {
@@ -114,6 +113,7 @@ function initObjectAction(objectType:String,type:String,objects:InterviewObject[
         for (object in objects) {
             action.addAttribute("{objectType}_{++i}", object.toString());
         }
+*/
     }
 }
 public function logBasicAction(type:String) {
@@ -126,11 +126,13 @@ public function logQuestionChange(oldQuestion:String,newQuestion:String) {
     action.addAttribute("newQuestion", newQuestion);
     write(action);
 }
+/*
 public function logCopyInterviewSchemaToClipboard(interviewSchema:String) {
     action = createBasicAction(INTERVIEW_SCHEMA_TO_CLIPBOARD);
     action.addAttribute("interviewSchema", interviewSchema);
     write(action);
 }
+*/
 public function logTopicAction(type:String,objects:InterviewObject[]) {
     initObjectAction("topic",type,objects);
     write(action);

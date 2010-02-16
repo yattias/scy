@@ -29,6 +29,7 @@ import javax.swing.table.TableCellEditor;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import javafx.scene.control.Button;
+import javax.swing.JOptionPane;
 
 /**
  * @author kaido
@@ -95,7 +96,12 @@ package class InterviewTable extends SwingComponent {
         }
     };
     public override function createJComponent(){
-        table = new JTable();
+//        table = new JTable();
+        table = JTable{
+            public override function isCellEditable(x:Integer, y:Integer) {
+                return false;
+            }
+        };
         table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         model = table.getModel() as DefaultTableModel;
         var selectionModel = table.getSelectionModel();
@@ -161,8 +167,12 @@ package class InterviewTableEditor extends CustomNode {
     public-init var font: javafx.scene.text.Font;
     public-init var headerFont: javafx.scene.text.Font;
     public-init var namelyShow: Boolean on replace{if (namelyShow) offset=30 else offset=0};
-    public var namelyChecked: Boolean on replace{if (isModified and logNamelyAction!=null) logNamelyAction(namelyChecked);isModified=true};
-    var focusLostCount: Integer = 0 on replace{if (focusLostCount>0 and isModified) logCancelTable("FOCUS_LOST")};
+    public var namelyChecked: Boolean on replace{
+        if (isModified and logNamelyAction!=null) logNamelyAction(namelyChecked);
+        if (isModified and refreshAction != null) {refreshAction();}
+        isModified=true;
+    };
+    var focusLostCount: Integer = 0;// on replace{if (focusLostCount>0 and isModified) logCancelTable("FOCUS_LOST")};
     var defaultNamelyChecked = namelyChecked;
     var isModified: Boolean = false;
     var offset: Integer;
@@ -196,19 +206,27 @@ package class InterviewTableEditor extends CustomNode {
             textFill: javafx.scene.paint.Color.RED
             translateY: height + 10
             translateX: 320
-            visible: bind isModified
+            visible: false//bind isModified
         }
     function addRow() {
-        var ctx:FXLocal.Context = FXLocal.getContext();
-        var cls:FXLocal.ClassType = ctx.findClass("eu.scy.client.tools.interviewtool.{classType}");
-        var objVal:FXObjectValue = cls.allocate();
-        objVal.initVar("id", ctx.mirrorOf(nextID));
-        objVal = objVal.initialize();
-        var o: InterviewObject = ((objVal as FXLocal.ObjectValue).asObject()) as InterviewObject;
+        var newValue:String = JOptionPane.showInputDialog("");
+        if (not newValue.equals("")) {
+            var ctx:FXLocal.Context = FXLocal.getContext();
+            var cls:FXLocal.ClassType = ctx.findClass("eu.scy.client.tools.interviewtool.{classType}");
+            var objVal:FXObjectValue = cls.allocate();
+            objVal.initVar("id", ctx.mirrorOf(nextID));
+            objVal = objVal.initialize();
+            var o: InterviewObject = ((objVal as FXLocal.ObjectValue).asObject()) as InterviewObject;
         // FXEvaluator doesnt work in browser with javafx version 1.2
 //        var o: InterviewObject = evaluator.eval("eu.scy.client.tools.interviewtool.{classType}\{id: {nextID}\}") as InterviewObject;
-        insert o into objects;
-        nextID++;
+            o.setValue(newValue);
+            insert o into objects;
+            nextID++;
+            oldObjects=objects;
+            if (refreshAction != null) {
+                refreshAction();
+            }
+        }
     }
     function removeRow() {
         if (logAction != null) {
@@ -216,11 +234,17 @@ package class InterviewTableEditor extends CustomNode {
         }
         delete objects[selection];
         isModified=true;
+        oldObjects=objects;
+        if (refreshAction != null) {
+            refreshAction();
+        }
     }
     function saveTable() {
+/*
         if (logAction != null) {
             logAction("BEFORE_SAVE",oldObjects);
         }
+*/
         for (i in [0..sizeof objects-1]) {
             objects[i].setValue(table.model.getValueAt(i, 0).toString());
         }
@@ -230,9 +254,11 @@ package class InterviewTableEditor extends CustomNode {
         if (refreshAction != null) {
             refreshAction();
         }
+/*
         if (logAction != null) {
             logAction("AFTER_SAVE",objects);
         }
+*/
     }
     function logCancelTable(type:String) {
         if (logAction != null) {
@@ -244,6 +270,10 @@ package class InterviewTableEditor extends CustomNode {
         }
     }
     public override function create() {
+        def buttonFont = javafx.scene.text.Font {
+            name: "Arial"
+            size: 14
+        }
         isModified = false;
         Group {
             content: [
@@ -251,7 +281,7 @@ package class InterviewTableEditor extends CustomNode {
                 modifiedLabel,
                 CheckBox {
                         translateY: height+10
-                        text: "Include \"Other, namely…\" option"
+                        text: ##"Include \"Other, namely…\" option"
                         allowTriState: false
                         selected: bind namelyChecked with inverse
                         visible: namelyShow
@@ -263,21 +293,23 @@ package class InterviewTableEditor extends CustomNode {
 //                    translateY: height+10+(evaluator.eval("if ({namelyShow}==Boolean.TRUE) 30 else 0;") as Integer)
                     content: [
                         Button{
-                            text: "Add"
+                            text: ##"Add"
+                            font: buttonFont
                             action: function(){
                                 addRow();
                                 isModified=true;
                                 if (logAction != null) {
-                                    logAction("ADD",null);
+                                    logAction("ADD",objects[selection]);
                                 }
                             }
                         },
                         Button{
-                            text: "Remove"
+                            text: ##"Remove"
+                            font: buttonFont
                             action: function(){
                                 removeRow();
                             }
-                        },
+                        }/*,
                         Button{
                             text: "Save"
                             action: function(){
@@ -297,7 +329,7 @@ package class InterviewTableEditor extends CustomNode {
                                 isModified=false;
                                 logCancelTable("AFTER_CANCEL");
                             }
-                        }
+                        }*/
                     ]
                 }
             ]

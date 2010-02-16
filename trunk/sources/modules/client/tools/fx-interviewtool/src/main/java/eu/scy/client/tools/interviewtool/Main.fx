@@ -13,6 +13,9 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 /**
  * @author kaido
  */
+var myLocale : java.util.Locale = new java.util.Locale("et", "EE");
+//var myLocale : java.util.Locale = new java.util.Locale("en", "US");
+java.util.Locale.setDefault(myLocale);
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopInterviewToolConfig.xml"
         }
@@ -38,7 +41,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 var stage: Stage;
 var scene: Scene;
 stage = Stage {
-   title: "Interview Tool"
+   title: ##"Interview Tool"
    width: 700
    height: 700
    scene: scene = Scene {
