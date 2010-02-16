@@ -80,6 +80,9 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
          try{
             tryDrop(e);
          }
+         catch (ex:Exception){
+            logger.error("an exception occured while trying to drop {dropObject.getClass()}", ex);
+         }
          finally{
             var sceneContent = dragNode.scene.content;
             delete dragNode from sceneContent;
