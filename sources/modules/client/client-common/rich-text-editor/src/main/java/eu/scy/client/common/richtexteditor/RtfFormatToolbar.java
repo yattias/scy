@@ -84,27 +84,32 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
         if (text==null)
             text = "";
         if (e.getActionCommand().equals("bold")) {
-            editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.BOLD,text,
-                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Bold).toString());
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFormatAction(
+                    RichTextEditorLogger.BOLD,text,
+                    editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Bold).toString());
 		} else if (e.getActionCommand().equals("italics")) {
-            editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.ITALIC,text,
-                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Italic).toString());
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFormatAction(
+                    RichTextEditorLogger.ITALIC,text,
+                    editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Italic).toString());
 		} else if (e.getActionCommand().equals("underline")) {
-            editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.UNDERLINE,text,
-                editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline).toString());
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFormatAction(
+                    RichTextEditorLogger.UNDERLINE,text,
+                    editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline).toString());
 		} else if (e.getActionCommand().equals("superscript")) {
     		RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
 			String in = (StyleConstants.isSuperscript(rtfek.getInputAttributes())) ? "true" : "false";
-            editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.SUPERSCRIPT,text,in);
-		} else if (e.getActionCommand().equals("subscript")) {
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFormatAction(
+                    RichTextEditorLogger.SUPERSCRIPT,text,in);
+        } else if (e.getActionCommand().equals("subscript")) {
     			RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
 				String in = (StyleConstants.isSubscript(rtfek.getInputAttributes())) ? "true" : "false";
-            editorPanel.getRichTextEditorLogger().logFormatAction(
-                RichTextEditorLogger.SUBSCRIPT,text,in);
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFormatAction(
+                    RichTextEditorLogger.SUBSCRIPT,text,in);
 		}
 	}
 

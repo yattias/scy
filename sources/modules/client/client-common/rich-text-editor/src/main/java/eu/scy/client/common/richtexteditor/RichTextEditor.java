@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.io.IOException;
+import java.util.logging.Level;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -12,6 +13,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.rtf.RTFEditorKit;
+import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.Document;
 import org.apache.log4j.Logger;
 import java.io.ByteArrayOutputStream;
@@ -23,23 +25,37 @@ import java.util.ResourceBundle;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import eu.scy.actionlogging.api.IActionLogger;
+import java.net.URL;
 
 public class RichTextEditor extends JPanel implements DocumentListener, Printable {
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 	private JTextPane textPane;
 	private RTFEditorKit rtfEditor;
-	private RtfFileToolbar fileToolbar;
+    private HTMLEditorKit htmlEditor;
+    private RtfFileToolbar fileToolbar;
 	private RtfFormatToolbar formatToolbar;
-    private RichTextEditorLogger rtfLogger;
+    private RichTextEditorLogger rtfLogger = null;
+    private boolean html;
 
 	public RichTextEditor() {
 		super();
+        html = false;
+		initUI();
+	}
+
+	public RichTextEditor(boolean html) {
+		super();
+        this.html = html;
 		initUI();
 	}
 
     public RichTextEditorLogger getRichTextEditorLogger() {
         return rtfLogger;
+    }
+
+    public boolean isHTML() {
+        return html;
     }
 
     public void setRichTextEditorLogger(IActionLogger actionLogger,
@@ -64,16 +80,25 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     private void initUI() {
 		this.setLayout(new BorderLayout());
 		rtfEditor = new RTFEditorKit();
+        htmlEditor = new HTMLEditorKit();
 		textPane = new JTextPane();
-		textPane.setEditorKit(rtfEditor);
+        if (html) {
+    		textPane.setEditorKit(htmlEditor);
+            textPane.setContentType("text/html;charset=utf-8");
+        } else {
+    		textPane.setEditorKit(rtfEditor);
+            textPane.setContentType("text/rtf;charset=utf-8");
+        }
 		textPane.getDocument().addDocumentListener(this);
         this.add(new JScrollPane(textPane), BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		this.fileToolbar = new RtfFileToolbar(this);
 		panel.add(fileToolbar, BorderLayout.WEST);
-		this.formatToolbar = new RtfFormatToolbar(this);
-		panel.add(formatToolbar, BorderLayout.CENTER);
+        if (!html) {
+    		this.formatToolbar = new RtfFormatToolbar(this);
+        	panel.add(formatToolbar, BorderLayout.CENTER);
+        }
 		this.add(panel, BorderLayout.NORTH);
 	}
 
@@ -83,7 +108,11 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             textPane.setText("");
             StringBuffer stringBuffer = new StringBuffer(text);
             bis = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
-            rtfEditor.read(bis, textPane.getDocument(), 0);
+            if (html) {
+                htmlEditor.read(bis, textPane.getDocument(), 0);
+            } else {
+                rtfEditor.read(bis, textPane.getDocument(), 0);
+            }
         } catch (IOException ex) {
             showError("setTextError", ex);
         } catch (BadLocationException ex) {
@@ -97,10 +126,32 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    public void setPlainText(String text) {
+        try {
+            textPane.setText("");
+            textPane.getDocument().insertString(0, text, null);
+        } catch (BadLocationException ex) {
+            showError("setTextError", ex);
+        }
+    }
+
+    public void setTextFromUrl(URL url) {
+        textPane.getDocument().putProperty(Document.StreamDescriptionProperty, null);
+        try {
+            textPane.setPage(url);
+        } catch (IOException ex) {
+            showError("setTextError", ex);
+        }
+    }
+
     public String getRtfText() {
         try {
             ByteArrayOutputStream str = new ByteArrayOutputStream();
-            rtfEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
+            if (html) {
+                htmlEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
+            } else {
+                rtfEditor.write(str, textPane.getDocument(), 0, textPane.getDocument().getLength());
+            }
             return str.toString("UTF-8");
         } catch (IOException ex) {
             showError("getTextError", ex);
