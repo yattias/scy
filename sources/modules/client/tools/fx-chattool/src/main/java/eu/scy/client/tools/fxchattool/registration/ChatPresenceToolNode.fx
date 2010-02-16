@@ -47,7 +47,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,Colla
         setScyWindowTitle();
     };
 
-    public function loadElo(uri:URI){
+    public override function loadElo(uri:URI){
         eloChatActionWrapper.loadElo(uri);
         setScyWindowTitle();
     }
@@ -123,7 +123,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,Colla
       var c:ContactFrame = object as ContactFrame;
       println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
       chatPresenceTool.addTemporaryUser(c.contact.name);
-      toolBrokerAPI.proposeCollaborationWith(c.contact.name, scyWindow.eloUri,this);
+      toolBrokerAPI.proposeCollaborationWith(c.contact.name, scyWindow.eloUri.toString(),this);
    }
 
    public override function receivedCollaborationResponse(mucid:String):Void{
