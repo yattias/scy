@@ -50,7 +50,7 @@ public class WindowManagerImpl extends WindowManager {
 
    public override function addScyWindow(scyWindow:ScyWindow){
       logger.info("addScyWindow({scyWindow.eloUri})");
-      scyWindow.scyDesktop = this;
+      scyWindow.windowManager = this;
       setDeactiveWindowState(scyWindow);
 		if (not desktopContainsWindow(scyWindow)){
 			insert scyWindow into scyWindows.content;

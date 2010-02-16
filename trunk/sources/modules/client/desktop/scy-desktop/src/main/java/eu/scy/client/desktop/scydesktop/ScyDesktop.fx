@@ -38,7 +38,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
-
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 
@@ -91,12 +91,21 @@ import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
-
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import java.net.URI;
+import eu.scy.client.desktop.scydesktop.config.EloConfig;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+ 
 /**
  * @author sikkenj
  */
 
-public class ScyDesktop extends CustomNode {
+public class ScyDesktop extends CustomNode,INotifiable {
    def logger = Logger.getLogger(this.getClass());
 
    public var config:Config;
@@ -115,6 +124,7 @@ public class ScyDesktop extends CustomNode {
    public var bottomLeftCornerTool: Node on replace{bottomLeftCorner.content = bottomLeftCornerTool};
 
    def windows: WindowManager = WindowManagerImpl{
+           scyDesktop:this
   //       activeAnchor: bind missionModelFX.activeAnchor;
       };
    public def tooltipManager:TooltipManager = SimpleTooltipManager{};
@@ -357,6 +367,58 @@ public class ScyDesktop extends CustomNode {
             });
          });
    }
+
+   public override function processNotification(notification: INotification):Void{
+           def type:String = notification.getFirstProperty("type");
+           if (not (type==null)){
+               if (type=="collaboration_request"){
+                    def user:String = notification.getFirstProperty("proposing_user");
+                    def eloUri:String = notification.getFirstProperty("elo");
+                    def modalDialogue:ModalDialogBox = ModalDialogBox{
+                            title:"Proposal for collaboration";
+                            targetScene:this.scene;
+                            content: VBox{
+                                content:[
+                                    Text{ content: "{user} wants to start a collaboration with you. Accept?"},
+                                    HBox{
+                                        content:[
+                                                Button{
+                                                        text:"Yes",
+                                                        action:function(){
+                                                                config.getToolBrokerAPI().answerCollaborationProposal(true,user,eloUri);
+                                                                modalDialogue.close();
+                                                                };},
+                                                Button{text:"No",
+                                                        action:function(){
+                                                                config.getToolBrokerAPI().answerCollaborationProposal(false,user,eloUri);
+                                                                modalDialogue.close();
+                                                                };}
+                                                ]
+                                        }]
+                            }
+                    }
+                    
+               } else if (type=="collaboration_response") {
+                    def accepted:String=notification.getFirstProperty("accepted");
+                    def eloUri:String = notification.getFirstProperty("elo");
+                    if (accepted=="true"){
+                        def mucid:String = notification.getFirstProperty("mucid");
+                        def collaborationWindow:ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
+                        def toolNode:Node =  collaborationWindow.scyContent;
+                        if(toolNode instanceof ScyTool){
+                            def scyTool:ScyTool = toolNode as ScyTool;
+                        }
+                        
+
+                    } else if(accepted=="false"){
+                        
+                    }
+
+
+               }
+           }
+   }
+
 
    function realFillNewScyWindow2(window:ScyWindow):Void{
       var eloConfig = config.getEloConfig(window.eloType);
