@@ -21,6 +21,7 @@ public class QuadCurvedLine implements ILinkShape {
 
 	/**
 	 * See http://www.caffeineowl.com/graphics/2d/vectorial/bezierintro.html for an explanation of this algorithm.
+	 *
 	 * @param from
 	 * @param to
 	 * @param ratio
@@ -40,6 +41,7 @@ public class QuadCurvedLine implements ILinkShape {
 
 		return new Line2D.Double(A, B);
 	}
+
 	public double getCurving() {
 		return curving;
 	}
@@ -47,6 +49,7 @@ public class QuadCurvedLine implements ILinkShape {
 	public void setCurving(double curving) {
 		this.curving = curving;
 	}
+
 	public Point2D getPointInLine(Line2D line, double ratio) {
 		double dy = line.getY2() - line.getY1();
 		double dx = line.getX2() - line.getX1();
@@ -81,18 +84,18 @@ public class QuadCurvedLine implements ILinkShape {
 		if (from.getX() < to.getX()) {
 			if (from.getY() < to.getY()) {
 				ctrlX = from.getX() + (w * curving);
-				ctrlY = from.getY() + (h * (1-curving));
+				ctrlY = from.getY() + (h * (1 - curving));
 			} else {
 				ctrlX = from.getX() + (w * curving);
-				ctrlY = from.getY() + (h * -(1-curving));
+				ctrlY = from.getY() + (h * -(1 - curving));
 			}
 		} else {
 			if (from.getY() < to.getY()) {
 				ctrlX = from.getX() + (w * -curving);
-				ctrlY = from.getY() + (h * (1-curving));
+				ctrlY = from.getY() + (h * (1 - curving));
 			} else {
 				ctrlX = from.getX() + (w * -curving);
-				ctrlY = from.getY() + (h * -(1-curving));
+				ctrlY = from.getY() + (h * -(1 - curving));
 			}
 		}
 		return new QuadCurve2D.Double(from.getX(), from.getY(), ctrlX, ctrlY, to.getX(), to.getY());
@@ -100,7 +103,7 @@ public class QuadCurvedLine implements ILinkShape {
 
 	@Override
 	public void paint(Graphics g, Point from, Point to) {
-		Graphics2D g2d = (Graphics2D) g.create();
+		Graphics2D g2d = (Graphics2D) g;
 		g2d.draw(getShape(from, to));
 		g2d.dispose();
 	}

@@ -28,6 +28,8 @@ public class DefaultNodeStyle implements INodeStyle {
 
 	private int minHeight = 60;
 
+	private boolean shadow = true;
+
 	private Border border = BorderFactory.createEmptyBorder();
 
 	private transient java.util.List<INodeStyleListener> listeners = new ArrayList<INodeStyleListener>();
@@ -124,11 +126,22 @@ public class DefaultNodeStyle implements INodeStyle {
 
 	@Override
 	public void setBorder(Border border) {
-
 		this.border = border;
+		notifyStyleChanged(this);
 	}
 
 	public Border getBorder() {
 		return border;
+	}
+
+	@Override
+	public void setPaintShadow(boolean b) {
+		shadow = b;
+		notifyStyleChanged(this);
+	}
+
+	@Override
+	public boolean getPaintShadow() {
+		return shadow;
 	}
 }

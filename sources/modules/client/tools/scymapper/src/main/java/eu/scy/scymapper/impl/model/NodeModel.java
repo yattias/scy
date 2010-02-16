@@ -5,6 +5,7 @@ import eu.scy.scymapper.api.diagram.model.INodeModelConstraints;
 import eu.scy.scymapper.api.diagram.model.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.api.styling.INodeStyleListener;
 import eu.scy.scymapper.impl.shapes.nodes.DefaultNodeShape;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ import java.util.UUID;
  * Date: 22.jun.2009
  * Time: 19:47:53
  */
-public class NodeModel implements INodeModel {
+public class NodeModel implements INodeModel, INodeStyleListener {
 
 	private transient java.util.List<INodeModelListener> listeners;
 	private transient boolean selected = false;
@@ -86,6 +87,7 @@ public class NodeModel implements INodeModel {
 	@Override
 	public void setStyle(INodeStyle style) {
 		this.style = style;
+		style.addStyleListener(this);
 		notifyStyleChanged();
 	}
 
@@ -97,7 +99,10 @@ public class NodeModel implements INodeModel {
 
 	@Override
 	public INodeStyle getStyle() {
-		if (style == null) style = new DefaultNodeStyle();
+		if (style == null) {
+			style = new DefaultNodeStyle();
+			style.addStyleListener(this);
+		}
 		return style;
 	}
 
@@ -114,6 +119,9 @@ public class NodeModel implements INodeModel {
 
 	@Override
 	public INodeShape getShape() {
+		if (shape == null) {
+			setShape(new DefaultNodeShape());
+		}
 		return shape;
 	}
 
@@ -252,6 +260,7 @@ public class NodeModel implements INodeModel {
 
 	@Override
 	public INodeModelConstraints getConstraints() {
+		if (constraints == null) constraints = new NodeModelConstraints();
 		return constraints;
 	}
 
@@ -281,5 +290,10 @@ public class NodeModel implements INodeModel {
 		return "NodeModel{" +
 				"label='" + label + '\'' +
 				'}';
+	}
+
+	@Override
+	public void styleChanged(INodeStyle s) {
+		notifyStyleChanged();
 	}
 }

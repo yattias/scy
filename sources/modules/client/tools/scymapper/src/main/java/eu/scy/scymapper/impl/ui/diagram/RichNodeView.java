@@ -6,6 +6,7 @@ import eu.scy.scymapper.api.diagram.model.INodeModelListener;
 import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,12 +26,14 @@ import java.net.URL;
  */
 public class RichNodeView extends NodeViewComponent implements INodeModelListener, INodeStyleListener {
 
+	private final static Logger logger = Logger.getLogger(RichNodeView.class);
+
 	private static final String RESIZEHANDLE_FILENAME = "resize.png";
 
-	private JTextArea labelTextarea;
+	protected JTextArea labelTextarea;
 	protected JComponent resizeHandle;
 
-	private JScrollPane labelScroller;
+	protected JScrollPane labelScroller;
 	private boolean isEditing;
 	private Border selectionBorder;
 
@@ -107,9 +110,25 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 			}
 		});
 
+		logger.debug("Can resize: " + model.getConstraints().getCanResize());
 		if (model.getConstraints().getCanResize()) {
 			resizeHandle = createResizeHandle();
 			add(resizeHandle);
+
+			MouseListener resizeHandleListener = new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					resizeHandle.setVisible(true);
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resizeHandle.setVisible(false);
+				}
+			};
+
+			addMouseListener(resizeHandleListener);
+			resizeHandle.addMouseListener(resizeHandleListener);
 
 			resizeHandle.addMouseMotionListener(new MouseAdapter() {
 				@Override
@@ -142,7 +161,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 		layoutComponents();
 	}
 
-	private void setLabelEditable(boolean editable, final boolean selected) {
+	void setLabelEditable(boolean editable, final boolean selected) {
 
 		if (!getModel().getConstraints().getCanEditLabel()) editable = false;
 
@@ -168,6 +187,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 						}
 					});
 		}
+		if (!editable) labelTextarea.select(0, 0);
+
 		isEditing = editable;
 	}
 
@@ -188,15 +209,16 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 				Font f = new Font("Serif", Font.PLAIN, 10);
 				button.setFont(f);
 				button.setSize(10, 10);
-				//button.setMargin(new Insets(1, 1, 1, 1));
 				resizeHandle = button;
 			}
 		}
+		resizeHandle.setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
+		resizeHandle.setVisible(false);
 		return resizeHandle;
 	}
 
 
-	private void layoutComponents() {
+	void layoutComponents() {
 
 		FontMetrics f = labelTextarea.getFontMetrics(labelTextarea.getFont());
 		int width = f.stringWidth(labelTextarea.getText()) + 10;
@@ -224,11 +246,11 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 		double x = ((maxWidth / 2) - (width / 2)) + 10;
 		double y = ((maxHeight / 2d) - (height / 2d)) + 10;
 
-		labelScroller.setBounds((int) x, (int) y, width, height);
+		labelScroller.setBounds((int) x, (int) y, width - 2, height - 2);
 		labelScroller.revalidate();
 
 		if (resizeHandle != null) {
-			resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
+			resizeHandle.setBounds(getWidth() - resizeHandle.getWidth() - 2, getHeight() - resizeHandle.getHeight() - 2, resizeHandle.getWidth(), resizeHandle.getHeight());
 
 			resizeHandle.setForeground(getForeground());
 			resizeHandle.setBackground(getBackground());
@@ -289,10 +311,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
 	@Override
 	public void styleChanged(INodeStyle s) {
-		System.out.println("The Node style changed!!");
 		labelTextarea.setForeground(s.getForeground());
 		labelTextarea.setBackground(s.getBackground());
-
 		labelScroller.setOpaque(false);
 		labelScroller.getViewport().setOpaque(false);
 		repaint();

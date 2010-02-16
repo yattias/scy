@@ -64,8 +64,8 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		labelTextarea.setMargin(new Insets(0, 0, 0, 0));
 		labelTextarea.setMinimumSize(new Dimension(150, 22));
 		labelTextarea.setBorder(BorderFactory.createEmptyBorder());
-
 		labelScroller.getViewport().setOpaque(false);
+		labelScroller.setOpaque(false);
 
 		add(labelScroller);
 
@@ -102,18 +102,29 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 			public void keyPressed(KeyEvent e) {
 				if (e.isControlDown() && e.getKeyCode() == 10) ConceptLinkView.this.requestFocus();
 			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				layoutComponents();
+			}
 		});
 
 		labelTextarea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				if (!isEditing)
+				if (!isEditing) {
 					labelScroller.setBorder(BorderFactory.createEtchedBorder(Color.white, new Color(200, 200, 200, 150)));
+					labelTextarea.setBackground(Color.WHITE);
+				}
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if (!isEditing) labelScroller.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+				if (!isEditing) {
+					labelScroller.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+					labelTextarea.setBackground(new Color(255, 255, 255, 150));
+					repaint();
+				}
 			}
 		});
 		labelTextarea.setToolTipText("Click to add or edit text");
@@ -166,7 +177,6 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 	private void setLabelEditable(boolean editable, final boolean select) {
 
-		labelScroller.setOpaque(editable);
 		labelScroller.getViewport().setOpaque(editable);
 		labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
@@ -191,7 +201,7 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 					});
 		}
 		isEditing = editable;
-
+		repaint();
 	}
 
 	void setLabelEditable(boolean editable) {
@@ -218,14 +228,16 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 			lineMeasurer.setPosition(paragraphStart);
 			// Get lines until the entire line has been iterated over.
 			while (lineMeasurer.getPosition() < paragraphEnd) {
+
 				TextLayout layout = lineMeasurer.nextLayout(breakWidth);
+
 				double w = layout.getBounds().getWidth();
 				if (w > maxWidth) maxWidth = w;
 				numLines++;
 			}
 		}
 		int lineHeight = fm.getMaxAscent() + fm.getMaxDescent() + fm.getLeading();
-		return new Dimension((int) maxWidth, numLines * lineHeight);
+		return new Dimension((int) Math.ceil(maxWidth), numLines * lineHeight);
 	}
 
 	private void layoutComponents() {
@@ -240,18 +252,21 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		//		if x + ideal width exeeds available width, move the component the exeeded amount of pixels to the left
 		//		if y + ideal height exeeds available height, move the component the exeeded amount of pixels to the top
 		// 4. Set the location of the text input component accordingly
-		Rectangle relBounds = new Rectangle(getInnerBounds());
-		relBounds.translate(-getX(), -getY());
 
-		if (relBounds.width < 150) {
-			double diff = relBounds.width - 150;
-			relBounds.x += diff / 2d;
-			relBounds.width = 150;
+		labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
+		Rectangle innerBounds = new Rectangle(getInnerBounds());
+		innerBounds.translate(-getX(), -getY());
+
+		if (innerBounds.width < 150) {
+			double diff = innerBounds.width - 150;
+			innerBounds.x += diff / 2d;
+			innerBounds.width = 150;
 		}
-		if (relBounds.height < 50) {
-			double diff = relBounds.height - 50;
-			relBounds.y += diff / 2;
-			relBounds.height = 50;
+		if (innerBounds.height < 50) {
+			double diff = innerBounds.height - 50;
+			innerBounds.y += diff / 2;
+			innerBounds.height = 50;
 		}
 
 		if (conf.isDebug()) {
@@ -261,12 +276,19 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 				debugPanel.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 				add(debugPanel);
 			}
-			debugPanel.setBounds(relBounds);
+			debugPanel.setBounds(innerBounds);
 		}
 
-		Dimension prefSize = calculateStringBounds(labelTextarea, 250);
+		Dimension prefSize = calculateStringBounds(labelTextarea, innerBounds.width);
+
+		Insets insets = labelScroller.getInsets();
+		Insets borderInsets = labelScroller.getBorder().getBorderInsets(labelScroller);
+		prefSize.width += insets.left + insets.right + borderInsets.left + borderInsets.right;
+		prefSize.height += insets.top + insets.bottom + borderInsets.top + borderInsets.bottom;
 
 		if (prefSize.width < 100) prefSize.width = 100;
+		else if (prefSize.width > innerBounds.width) prefSize.width = innerBounds.width;
+
 		if (prefSize.height < 22) prefSize.height = 22;
 
 		Point relFrom = new Point(getModel().getFrom());
@@ -274,33 +296,31 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 		Point relTo = new Point(getModel().getTo());
 		relTo.translate(-getX(), -getY());
+//
+//		// This is the point that should be the x,y of the text box
+		Point2D casteljaPt = getModel().getShape().getDeCasteljauPoint(relFrom, relTo, labelPos);
+		int x = (int) casteljaPt.getX();
+		int y = (int) casteljaPt.getY();
 
-		// This is the point that should be the x,y of the text box
-		Point2D p = getModel().getShape().getDeCasteljauPoint(relFrom, relTo, labelPos);
-		int x = (int) p.getX();
-		int y = (int) p.getY();
-		int width = prefSize.width;
-		int height = prefSize.height;
+		x -= prefSize.width / 2;
+		y -= prefSize.height / 2;
+//
+		if (x < innerBounds.x) x = innerBounds.x;
+		if (y < innerBounds.y) y = innerBounds.y;
 
-		if (height > relBounds.height) height = relBounds.height - 4;
-		if (width > relBounds.width) width = relBounds.width;
+		if (prefSize.height > innerBounds.height) {
+			labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			prefSize.height = innerBounds.height;
+		}
 
-		x -= width / 2;
-		y -= height / 2;
-
-		while (x + width > relBounds.x + relBounds.width) {
+		while (x + prefSize.width > innerBounds.x + innerBounds.width) {
 			x--;
 		}
-		while (y + height > relBounds.y + relBounds.height) {
+		while (y + prefSize.height > innerBounds.y + innerBounds.height) {
 			y--;
 		}
-
-		labelScroller.setBounds(x, y - 4, width, height + 4);
+		labelScroller.setBounds(x, y, prefSize.width, prefSize.height);
 		labelScroller.revalidate();
-	}
-
-	@Override
-	public void updated(ILinkModel m) {
 	}
 
 	@Override
@@ -344,8 +364,6 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 	@Override
 	public void styleChanged(INodeModel node) {
-		updatePosition();
-		layoutComponents();
 	}
 
 	@Override

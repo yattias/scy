@@ -103,4 +103,8 @@ public interface INodeStyle {
 	Border getBorder();
 
 	void setBorder(Border border);
+
+	void setPaintShadow(boolean b);
+
+	boolean getPaintShadow();
 }

@@ -14,8 +14,9 @@ public class NodeModelConstraints implements INodeModelConstraints {
 	private boolean canResize = true;
 	private boolean canEditLabel = true;
 	private boolean canConnect = true;
-	private boolean canSelect;
+	private boolean canSelect = true;
 	private boolean canChangeStyle = true;
+	private boolean alwaysOnTop;
 
 	@Override
 	public boolean getCanMove() {
@@ -85,5 +86,15 @@ public class NodeModelConstraints implements INodeModelConstraints {
 	@Override
 	public boolean getCanChangeStyle() {
 		return canChangeStyle;
+	}
+
+	@Override
+	public void setAlwaysOnTop(boolean alwaysOnTop) {
+		this.alwaysOnTop = alwaysOnTop;
+	}
+
+	@Override
+	public boolean getAlwaysOnTop() {
+		return alwaysOnTop;
 	}
 }

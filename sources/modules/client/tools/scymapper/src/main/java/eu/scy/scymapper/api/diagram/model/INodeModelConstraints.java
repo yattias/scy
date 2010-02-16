@@ -61,4 +61,8 @@ public interface INodeModelConstraints {
 	void setCanChangeStyle(boolean b);
 
 	boolean getCanChangeStyle();
+
+	void setAlwaysOnTop(boolean alwaysOnTop);
+
+	boolean getAlwaysOnTop();
 }

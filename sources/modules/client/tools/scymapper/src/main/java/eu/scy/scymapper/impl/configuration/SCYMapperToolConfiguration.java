@@ -3,8 +3,8 @@ package eu.scy.scymapper.impl.configuration;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Tool;
-import eu.scy.scymapper.api.IConceptFactory;
 import eu.scy.scymapper.api.ILinkFactory;
+import eu.scy.scymapper.api.INodeFactory;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 
@@ -21,12 +21,14 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
 	private String description;
 	private LearningActivitySpace learningActivitySpace;
 	private Tool tool;
-	private List<IConceptFactory> availableConceptFactories;
+	private List<INodeFactory> availableNodeFactories;
 	private List<ILinkFactory> availableLinkFactories;
 	private List<INodeModel> predefinedNodes;
 	private static ISCYMapperToolConfiguration INSTANCE;
 	private boolean debugMode;
 	private String id;
+	private boolean viewShadow = true;
+	private List<INodeFactory> connectorFactories;
 
 	private SCYMapperToolConfiguration() {
 
@@ -40,8 +42,8 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
 	}
 
 	@Override
-	public List<IConceptFactory> getNodeFactories() {
-		return availableConceptFactories;
+	public List<INodeFactory> getNodeFactories() {
+		return availableNodeFactories;
 	}
 
 	@Override
@@ -50,8 +52,8 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
 	}
 
 	@Override
-	public void setNodeFactories(List<IConceptFactory> availableConceptFactories) {
-		this.availableConceptFactories = availableConceptFactories;
+	public void setNodeFactories(List<INodeFactory> availableNodeFactories) {
+		this.availableNodeFactories = availableNodeFactories;
 	}
 
 	@Override
@@ -130,11 +132,30 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
 	}
 
 	@Override
+	public List<INodeFactory> getConnectorFactories() {
+		return connectorFactories;
+	}
+
+	@Override
 	public boolean isDebug() {
 		return debugMode;
 	}
 
 	public void setDebug(boolean b) {
 		debugMode = b;
+	}
+
+	@Override
+	public void setViewShadow(boolean viewShadow) {
+		this.viewShadow = viewShadow;
+	}
+
+	@Override
+	public boolean getViewShadow() {
+		return viewShadow;
+	}
+
+	public void setConnectorFactories(List<INodeFactory> connectorFactories) {
+		this.connectorFactories = connectorFactories;
 	}
 }

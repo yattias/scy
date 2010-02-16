@@ -1,11 +1,10 @@
 package eu.scy.scymapper.impl.ui.notification;
 
-import eu.scy.scymapper.api.IConceptFactory;
+import eu.scy.scymapper.api.INodeFactory;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
-import eu.scy.scymapper.impl.ui.palette.AddConceptButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -55,9 +54,9 @@ public class KeywordSuggestionPanel extends JPanel {
 	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
 	 *
 	 * @param keyword
-	 * @param conceptFactories
+	 * @param nodeFactories
 	 */
-	public void setSuggestion(String keyword, Collection<IConceptFactory> conceptFactories, ConceptMapPanel panel) {
+	public void setSuggestion(String keyword, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
 
 		String[] text = {
 				"The SCY-Troll has discovered that you may have missed a relevant keyword in your concept map. Would you like to add ",
@@ -76,7 +75,7 @@ public class KeywordSuggestionPanel extends JPanel {
 			e.printStackTrace();
 		}
 
-		for (IConceptFactory factory : conceptFactories) {
+		for (INodeFactory factory : nodeFactories) {
 			conceptButtonPane.add(createConceptButton(factory, keyword, panel));
 		}
 	}
@@ -85,9 +84,9 @@ public class KeywordSuggestionPanel extends JPanel {
 	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
 	 *
 	 * @param keywords
-	 * @param conceptFactories
+	 * @param nodeFactories
 	 */
-	public void setSuggestions(java.util.List<String> keywords, Collection<IConceptFactory> conceptFactories, ConceptMapPanel panel) {
+	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
 
 		String[] text = {
 				"The SCY-Troll has discovered that you may have missed relevant keywords in your concept map. ",
@@ -108,7 +107,7 @@ public class KeywordSuggestionPanel extends JPanel {
 			final JPopupMenu popup = new JPopupMenu();
 			popup.setLayout(new GridLayout(0, 2));
 			popup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 1), BorderFactory.createTitledBorder("Select the shape")));
-			for (IConceptFactory factory : conceptFactories) {
+			for (INodeFactory factory : nodeFactories) {
 				popup.add(createConceptButton(factory, keyword, panel));
 			}
 			final JButton btn = new JButton(keyword);
@@ -122,8 +121,8 @@ public class KeywordSuggestionPanel extends JPanel {
 		}
 	}
 
-	private Component createConceptButton(final IConceptFactory factory, final String keyword, final ConceptMapPanel panel) {
-		final AddConceptButton button = new AddConceptButton(factory.create());
+	private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
+		final JToggleButton button = new JToggleButton(factory.getIcon());
 		button.setText(keyword);
 		button.setHorizontalAlignment(JButton.CENTER);
 		button.addActionListener(new ActionListener() {
@@ -153,11 +152,11 @@ public class KeywordSuggestionPanel extends JPanel {
 		return button;
 	}
 
-	Cursor createShapeCursor(IConceptFactory conceptFactory) {
+	Cursor createShapeCursor(INodeFactory nodeFactory) {
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
-		INodeModel node = conceptFactory.create();
+		INodeModel node = nodeFactory.create();
 
 		Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
 

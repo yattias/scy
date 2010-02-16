@@ -2,6 +2,7 @@ package eu.scy.scymapper.impl.ui.diagram.modes;
 
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
@@ -10,6 +11,8 @@ import eu.scy.scymapper.impl.ui.diagram.RichNodeView;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,25 +22,57 @@ import java.awt.event.*;
  * To change this template use File | Settings | File Templates.
  */
 public class ConnectMode implements IDiagramMode {
+	public static final int CONNECTION_MADE = 1;
+	public static final int CONNECTION_CANCELLED = 2;
 
 	private ConceptDiagramView view;
 	LinkView connector = null;
+	private INodeModel currentTarget;
+	private INodeModel sourceNode;
+
+	Collection<ActionListener> listeners = new ArrayList<ActionListener>();
+	private RichNodeView targetComponent;
+	private RichNodeView sourceComponent;
+	private RichNodeView currentTargetComponent;
+
+	public JComponent getSourceComponent() {
+		return sourceComponent;
+	}
+
+	public JComponent getTargetComponent() {
+		return targetComponent;
+	}
+
+	public void addActionListener(ActionListener l) {
+		listeners.add(l);
+	}
+
+	public void removeActionListener(ActionListener l) {
+		listeners.remove(l);
+	}
 
 	public ConnectMode(ConceptDiagramView view, LinkView connector) {
 		this.view = view;
 		this.connector = connector;
-		this.view.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		view.add(connector);
 		view.setComponentZOrder(connector, 0);
 	}
 
-	private INodeModel sourceNode;
+
 	private final MouseListener mouseListener = new MouseAdapter() {
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			if (e.getComponent() instanceof NodeViewComponent) {
+				e.getComponent().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+			}
+		}
+
 		@Override
 		public void mousePressed(MouseEvent e) {
-			RichNodeView comp = (RichNodeView) e.getSource();
-			sourceNode = comp.getModel();
-			comp.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+			sourceComponent = (RichNodeView) e.getSource();
+			sourceNode = sourceComponent.getModel();
+			sourceComponent.setBorder(BorderFactory.createLineBorder(Color.green, 1));
 			Point relPoint = e.getPoint();
 			Point loc = new Point(sourceNode.getLocation());
 			loc.translate(relPoint.x, relPoint.y);
@@ -49,8 +84,8 @@ public class ConnectMode implements IDiagramMode {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			connector.setVisible(false);
-			RichNodeView node = (RichNodeView) e.getSource();
-			node.setBorder(BorderFactory.createEmptyBorder());
+			sourceComponent = (RichNodeView) e.getSource();
+			sourceComponent.setBorder(BorderFactory.createEmptyBorder());
 
 			if (currentTarget != null) {
 				NodeLinkModel link = new NodeLinkModel(sourceNode, currentTarget);
@@ -60,13 +95,21 @@ public class ConnectMode implements IDiagramMode {
 				link.setStyle(connectorLink.getStyle());
 				view.getController().add(link);
 				view.remove(connector);
-				view.setMode(new DragMode(view));
-				node.setBorder(BorderFactory.createEmptyBorder());
+				sourceComponent.setBorder(BorderFactory.createEmptyBorder());
+				targetComponent = currentTargetComponent;
 				getNodeViewForModel(currentTarget).setBorder(BorderFactory.createEmptyBorder());
+				ActionEvent aEvt = new ActionEvent(sourceComponent, CONNECTION_MADE, "CONNECTION_MADE");
+				for (ActionListener listener : listeners) {
+					listener.actionPerformed(aEvt);
+				}
+			} else {
+				ActionEvent aEvt = new ActionEvent(sourceComponent, CONNECTION_CANCELLED, "CONNECTION_CANCELLED");
+				for (ActionListener listener : listeners) {
+					listener.actionPerformed(aEvt);
+				}
 			}
 		}
 	};
-	private INodeModel currentTarget;
 	private final MouseMotionListener mouseMotionListener = new MouseMotionAdapter() {
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -74,10 +117,10 @@ public class ConnectMode implements IDiagramMode {
 			// The relative mouse position from the component x,y
 			Point relPoint = e.getPoint();
 
-			RichNodeView node = (RichNodeView) e.getSource();
+			JComponent component = (RichNodeView) e.getSource();
 
 			// Create the new location
-			Point newLocation = node.getLocation();
+			Point newLocation = component.getLocation();
 			// Translate the newLocation with the relative point
 			//newLocation.translate(relPoint.x, relPoint.y);
 			newLocation.translate(relPoint.x, relPoint.y);
@@ -88,7 +131,8 @@ public class ConnectMode implements IDiagramMode {
 			if (nodeAt != null && !nodeAt.equals(sourceNode)) {
 				currentTarget = nodeAt;
 				// Get the component for target node in order to paint its border
-				getNodeViewForModel(currentTarget).setBorder(BorderFactory.createLineBorder(Color.green, 1));
+				currentTargetComponent = getNodeViewForModel(currentTarget);
+				currentTargetComponent.setBorder(BorderFactory.createLineBorder(Color.green, 1));
 
 				Point snap = currentTarget.getConnectionPoint(sourceNode.getCenterLocation());
 				//targetSnap.translate(relCenter.x, relCenter.y);

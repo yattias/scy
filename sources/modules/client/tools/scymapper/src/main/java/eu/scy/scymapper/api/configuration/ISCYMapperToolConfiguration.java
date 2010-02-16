@@ -1,8 +1,8 @@
 package eu.scy.scymapper.api.configuration;
 
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
-import eu.scy.scymapper.api.IConceptFactory;
 import eu.scy.scymapper.api.ILinkFactory;
+import eu.scy.scymapper.api.INodeFactory;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 import java.util.List;
@@ -19,9 +19,9 @@ public interface ISCYMapperToolConfiguration extends LearningActivitySpaceToolCo
 	 * Returns a list of concept types that should be made available for the learner
 	 *
 	 * @return the list of concept types that should be made available for the learner
-	 * @see eu.scy.scymapper.api.IConceptFactory
+	 * @see eu.scy.scymapper.api.INodeFactory
 	 */
-	List<IConceptFactory> getNodeFactories();
+	List<INodeFactory> getNodeFactories();
 
 	/**
 	 * Returns a list of link types that should be made available for the learner
@@ -34,9 +34,9 @@ public interface ISCYMapperToolConfiguration extends LearningActivitySpaceToolCo
 	/**
 	 * Sets the list of concept types that should be made available for the learner
 	 *
-	 * @param availableConceptShapes list of concept types that should be made available for the learner
+	 * @param availableNodeShapes list of concept types that should be made available for the learner
 	 */
-	void setNodeFactories(List<IConceptFactory> availableConceptShapes);
+	void setNodeFactories(List<INodeFactory> availableNodeShapes);
 
 	/**
 	 * Sets the list of link types that should be made available for the learner
@@ -61,6 +61,11 @@ public interface ISCYMapperToolConfiguration extends LearningActivitySpaceToolCo
 	 */
 	List<INodeModel> getPredefinedNodes();
 
+
+	void setConnectorFactories(List<INodeFactory> connectorFactories);
+
+	List<INodeFactory> getConnectorFactories();
+
 	/**
 	 * Returns true if SCYMapper is running in debug mode
 	 *
@@ -74,4 +79,8 @@ public interface ISCYMapperToolConfiguration extends LearningActivitySpaceToolCo
 	 * @param b true if debug mode should be on, false otherwise
 	 */
 	void setDebug(boolean b);
+
+	void setViewShadow(boolean viewShadow);
+
+	boolean getViewShadow();
 }
