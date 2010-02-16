@@ -171,7 +171,7 @@ public class RepositoryWrapper implements IRepository
       }
       if (lasId != null)
       {
-         elo.getMetadata().getMetadataValueContainer(missionKey).setValue(lasId);
+         elo.getMetadata().getMetadataValueContainer(lasKey).setValue(lasId);
       }
       // TODO store active anchor relation
 //		else

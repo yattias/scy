@@ -39,6 +39,8 @@ import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.config.MissionModelUtils;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
+import javax.swing.JOptionPane;
+import java.awt.Component;
 
 /**
  * @author sikkenj
@@ -177,7 +179,14 @@ public class ScyDesktopCreator {
             makeItMyMissionModel(missionModelFX);
          }
       }
-
+      else{
+         var myMissionModelId = config.getBasicMissionMap().getId();
+         if (missionModelFX.id!=myMissionModelId){
+            JOptionPane.showMessageDialog(null as Component,"This SCY-Lab works only for mission id {myMissionModelId}, not for {missionModelFX.id}","Not configures",JOptionPane.ERROR_MESSAGE);
+            FX.exit();
+         }
+      }
+ 
       if (missionModelFX == null) {
          // still no mission model, create an empty one
          missionModelFX = MissionModelFX {};
@@ -189,7 +198,8 @@ public class ScyDesktopCreator {
    function retrieveStoredMissionModel():MissionModelFX{
       var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(),BasicSearchOperations.EQUALS,MissionModelFX.eloType,null);
       var titleQuery = new BasicMetadataQuery(config.getTitleKey(),BasicSearchOperations.EQUALS,userName,null);
-      var andQuery = new AndQuery(typeQuery,titleQuery);
+      var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()),BasicSearchOperations.EQUALS,config.getBasicMissionMap().getId(),null);
+      var andQuery = new AndQuery(typeQuery,titleQuery,missionIdQuery);
       var results = config.getRepository().search(andQuery);
       logger.info("Nr of elos found: {results.size()}");
       if (results.size() == 1) {
@@ -261,6 +271,7 @@ public class ScyDesktopCreator {
       missionModel.elo = config.getEloFactory().createELO();
       missionModel.elo.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
       missionModel.elo.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue(MissionModelFX.eloType);
+      missionModel.elo.getMetadata().getMetadataValueContainer(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId())).setValue(missionModel.id);
       missionModel.elo.getContent().setXmlString(MissionModelXml.convertToXml(missionModel));
       var missionModelMetadata = config.getRepository().addNewELO(missionModel.elo);
       config.getEloFactory().updateELOWithResult(missionModel.elo,missionModelMetadata);
