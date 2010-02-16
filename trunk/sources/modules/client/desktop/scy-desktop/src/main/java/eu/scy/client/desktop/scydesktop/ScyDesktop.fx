@@ -100,6 +100,7 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.config.EloConfig;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.collaboration.api.CollaborationStartable;
  
 /**
  * @author sikkenj
@@ -405,15 +406,12 @@ public class ScyDesktop extends CustomNode,INotifiable {
                         def mucid:String = notification.getFirstProperty("mucid");
                         def collaborationWindow:ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
                         def toolNode:Node =  collaborationWindow.scyContent;
-                        if(toolNode instanceof ScyTool){
-                            def scyTool:ScyTool = toolNode as ScyTool;
+                        if(toolNode instanceof CollaborationStartable){
+                            (toolNode as CollaborationStartable).startCollaboration(mucid);
                         }
-                        
-
                     } else if(accepted=="false"){
-                        
+                        println("collaboration not accepted");
                     }
-
 
                }
            }
