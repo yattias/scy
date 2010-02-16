@@ -17,6 +17,7 @@ import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.toolbrokerapi.CollaborationCallback;
 
 /**
  *
@@ -161,9 +162,9 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
    }
 
    @Override
-   public String proposeCollaborationWith(String proposedUser, String elouri)
+   public void proposeCollaborationWith(String proposedUser, String elouri,CollaborationCallback callback)
    {
-      return proposedUser;
+      
    }
 
    @Override
