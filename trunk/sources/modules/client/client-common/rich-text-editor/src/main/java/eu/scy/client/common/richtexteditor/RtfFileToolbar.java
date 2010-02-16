@@ -45,10 +45,12 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
     private FileSaveService fileSaveService = null;
     private PrintService printService = null;
     private JFileChooser fc = new JFileChooser();
+    private boolean html;
 
     public RtfFileToolbar(RichTextEditor richTextEditor) {
         super();
         this.editorPanel = richTextEditor;
+        this.html = richTextEditor.isHTML();
         initUI();
     }
 
@@ -71,7 +73,11 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         JButton button = new JButton(saveIcon);
         button.setActionCommand("savefile");
         button.addActionListener(this);
-        button.setToolTipText(messages.getString("saveFile"));
+        if (html) {
+            button.setToolTipText(messages.getString("saveFile")+" html...");
+        } else {
+            button.setToolTipText(messages.getString("saveFile")+" rtf...");
+        }
         this.add(button);
 
         button = new JButton(printIcon);
@@ -80,11 +86,13 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         button.setToolTipText(messages.getString("print"));
         this.add(button);
 
-        button = new JButton(pdfIcon);
-        button.setActionCommand("pdf");
-        button.addActionListener(this);
-        button.setToolTipText(messages.getString("pdf"));
-        this.add(button);
+        if (!html) {
+            button = new JButton(pdfIcon);
+            button.setActionCommand("pdf");
+            button.addActionListener(this);
+            button.setToolTipText(messages.getString("pdf"));
+            this.add(button);
+        }
     }
 
     private void saveFile(String[] extensions, String content) {
@@ -160,9 +168,15 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("savefile")) {
-            String[] xtns = { "rtf" };
-            saveFile(xtns, editorPanel.getRtfText());
-            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.SAVE_RTF);
+            String[] xtnsRtf = {"rtf"};
+            String[] xtnsHtml = {"html"};
+            if (html) {
+                saveFile(xtnsHtml, editorPanel.getRtfText());
+            } else {
+                saveFile(xtnsRtf, editorPanel.getRtfText());
+            }
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.SAVE_RTF);
         } else if (e.getActionCommand().equals("print")) {
             try {
                 if (printService==null) {
@@ -184,7 +198,8 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
                     showError("printError", pe);
                   }
             }
-            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PRINT);
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PRINT);
         } else if (e.getActionCommand().equals("pdf")) {
             String[] xtns = { "pdf" };
             try {
@@ -199,7 +214,8 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
             } catch (Exception ex) {
                 showError("pdfError", ex);
             }
-            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PDF);
+            if (editorPanel.getRichTextEditorLogger() != null)
+                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PDF);
         }
     }
 }
