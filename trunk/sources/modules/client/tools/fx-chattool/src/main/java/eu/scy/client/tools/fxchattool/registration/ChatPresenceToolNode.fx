@@ -27,6 +27,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.*;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import eu.scy.toolbrokerapi.CollaborationCallback;
 /**
  * @author jeremyt
  */
