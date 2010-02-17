@@ -89,7 +89,7 @@ public class Notificator extends SCYHubModule{
         // Create a message to send the notification with receiver
         Message message = new Message();
         message.setTo(userId);
-        message.setFrom("scyhub.scy.collide.info");
+        message.setFrom(Configuration.getInstance().get("scyhub.name")+"."+Configuration.getInstance().get("openfire.host"));
         // Attach the extension
         transformer.setObject(notification);
         message.addExtension(new WhacketExtension(transformer));
