@@ -62,36 +62,43 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     function createChatToolNode(scyWindow:ScyWindow,eloUri:URI):ChatToolNode {
         
         println("ELO ID nooooode {eloUri.toString()}");
+        if(eloUri != null) {
+            var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
+
+            var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+            var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
+
+            var s = firstVersionELOURI.toString();
+
+            s = StringUtils.remove(s, "/");
+            s = StringUtils.remove(s, ".");
+            s = StringUtils.remove(s, ":");
+            println("new string chat tool drawer: {s}" );
+            var chatTool;
+            var controller = chatControllerMap.get(s) as ChatController;
+
+            if( controller != null ) {
+                chatTool = new ChatPanel(controller);
+            } else {
+                var chatController = new MUCChatController(awarenessService, s);
+                chatControllerMap.put(s, chatController);
+                chatTool = new ChatPanel(chatController);
+            }
+
+            //or go random
+            //String token = Long.toString(Math.abs(r.nextLong()), 36);
 
 
-        var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
-
-        var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-        var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
-         
-        var s = firstVersionELOURI.toString();
-
-        s = StringUtils.remove(s, "/");
-        s = StringUtils.remove(s, ".");
-        s = StringUtils.remove(s, ":");
-        println("new string chat tool drawer: {s}" );
-        var chatTool;
-        var controller = chatControllerMap.get(s) as ChatController;
-
-        if( controller != null ) {
-            chatTool = new ChatPanel(controller);
-        } else {
-            var chatController = new MUCChatController(awarenessService, s);
-            chatControllerMap.put(s, chatController);
-            chatTool = new ChatPanel(chatController);
+            return ChatToolNode{
+                chatTool:chatTool;
+            }
+        }
+        else {
+            return null;
         }
 
-        //or go random
-        //String token = Long.toString(Math.abs(r.nextLong()), 36);
-        
 
-        return ChatToolNode{
-                chatTool:chatTool;
-                }
+
+        
    }
 }

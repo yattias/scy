@@ -59,14 +59,15 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
    
     function createChatPresenceToolNode(scyWindow:ScyWindow,eloUri:URI):ChatPresenceToolNode{
 
-        var chatPresenceTool;
+        if(eloUri != null) {
+            var chatPresenceTool;
 
-        
+
         var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
 
         var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
         var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
-         
+
         var s = firstVersionELOURI.toString();
 
 
@@ -84,10 +85,16 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
             chatControllerMap.put(s, chatController);
             chatPresenceTool = new ChatPresencePanel(chatController);
         }
-        
-        return ChatPresenceToolNode{
+
+            return ChatPresenceToolNode{
             chatPresenceTool:chatPresenceTool;
             toolBrokerAPI:toolBrokerAPI;
          };
+        }
+        else {
+            return null;
+        }
+
+        
    }
 }
