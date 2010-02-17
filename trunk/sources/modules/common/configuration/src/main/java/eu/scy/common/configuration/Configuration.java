@@ -75,6 +75,9 @@ public class Configuration {
 		props.setProperty("openfire.externalcomponent.port", "5275");
 		props.setProperty("openfire.externalcomponent.secretkey", "java");
 		props.setProperty("scyhub.name", "scyhub");
+                props.setProperty("filestreamer.server","scy.collide.info");
+                props.setProperty("filestreamer.context","/webapp/common/filestreamer.html");
+                props.setProperty("filestreamer.port","8080");
         props.setProperty("sail.db.name", "sail_database");
         props.setProperty("sail.db.host", "localhost");
         props.setProperty("sail.db.username", "root");
