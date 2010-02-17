@@ -169,8 +169,36 @@ public class Configuration {
     public String getSailDBPassword() {
         return props.getProperty("sail.db.password");
     }
-    
+
     public String getStudentPlanningToolUrl() {
     	return props.getProperty("studentplanningtool.service.url");
     }
+
+    // ### Filestreamer (-> profile pictures)
+    public String getFilestreamerServer() {
+    	return props.getProperty("filestreamer.server");
+    }
+
+    public String getFilestreamerContext() {
+    	return props.getProperty("filestreamer.context");
+    }
+
+    public String getFilestreamerPort() {
+    	return props.getProperty("filestreamer.port");
+    }
+    
+    public void setFilestreamerServer(String server){
+        props.setProperty("filestreamer.server", server);
+    }
+
+    public void setFilestreamerContext(String context){
+        props.setProperty("filestreamer.context", context);
+    }
+
+    public void setFilestreamerPort(String port){
+        props.setProperty("filestreamer.port", port);
+    }
+
+
+
 }
