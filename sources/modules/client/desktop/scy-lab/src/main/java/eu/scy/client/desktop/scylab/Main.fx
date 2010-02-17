@@ -47,7 +47,7 @@ import java.util.HashMap;
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
-           loginType:"local"
+           loginType:"remote"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:false
