@@ -92,7 +92,8 @@ public class ScyToolFactory extends ContentFactory {
       }
 
       if (toolNode == null) {
-         toolNode = createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}");
+         //toolNode = createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}");
+         toolNode = createErrorNode("The chat is disabled for this tool, because it is not shared with a buddy.");
          toolTypeCreated = "NotFoundTool";
       }
 
