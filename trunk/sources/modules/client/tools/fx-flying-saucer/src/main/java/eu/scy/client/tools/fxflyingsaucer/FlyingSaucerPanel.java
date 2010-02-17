@@ -4,6 +4,7 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.StringReader;
 import java.net.URL;
@@ -29,7 +30,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    public FlyingSaucerPanel()
    {
       initComponents();
-      setHomeUrl("http://www.scy-lab.eu/xhtml/borders.xhtml");
+      //setHomeUrl("http://www.scy-lab.eu/xhtml/borders.xhtml");
    }
 
    /** This method is called from within the constructor to
@@ -63,7 +64,12 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          public void documentLoaded()
          {
 //            System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
-            urlField.setText(browser.getURL().toString());
+            if (urlFieldIsTitle){
+               urlField.setText(browser.getDocumentTitle());
+            }
+            else{
+               urlField.setText(browser.getURL().toString());
+            }
          }
 
          @Override
@@ -83,7 +89,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      previousButton.setText("Prev");
+      previousButton.setText("<-");
       previousButton.setEnabled(false);
       previousButton.addActionListener(new java.awt.event.ActionListener()
       {
@@ -95,7 +101,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      nextButton.setText("Next");
+      nextButton.setText("->");
       nextButton.setEnabled(false);
       nextButton.addActionListener(new java.awt.event.ActionListener()
       {
@@ -107,9 +113,10 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      homeButton.setText("Home");
+      homeButton.setText("H");
       homeButton.setEnabled(false);
-      homeButton.setToolTipText("Press control to save url");
+      if (homeUrl==null)
+         homeButton.setToolTipText("Save as ELO");
       homeButton.addActionListener(new java.awt.event.ActionListener()
       {
 
@@ -147,9 +154,9 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
       this.setLayout(layout);
       layout.setHorizontalGroup(
-         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(previousButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(nextButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(loadButton)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
+         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(previousButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(nextButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
       layout.setVerticalGroup(
-         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(previousButton).add(nextButton).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(loadButton)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
+         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(previousButton).add(nextButton).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
    }// </editor-fold>
 
    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt)
@@ -164,7 +171,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt)
    {
-      if ((evt.getModifiers() & ActionEvent.CTRL_MASK) != 0)
+      if (homeUrl==null)
       {
          if (isPageLoaded)
          {
@@ -206,6 +213,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    // End of variables declaration
    private String homeUrl = null;
    private boolean isPageLoaded = false;
+   private boolean urlFieldIsTitle = false;
 
    public void setHomeUrl(String homeUrl)
    {
@@ -215,6 +223,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       if (urlIsNotEmpty)
       {
          loadUrl(homeUrl);
+         homeButton.setToolTipText("");
       }
    }
 
@@ -230,15 +239,20 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void loadUrl(String url)
    {
+      boolean initialUrlFieldIsTitle = urlFieldIsTitle;
       try
       {
+         urlFieldIsTitle = true;
          browser.setDocument(url);
          isPageLoaded = true;
+         urlField.setEditable(false);
+         homeButton.setEnabled(true);
       }
       catch (Exception e)
       {
          //logger.info("An exception occured while loading '" + url + "', " + e.getMessage());
          handlePageLoadFailed(url, e);
+         urlFieldIsTitle  = initialUrlFieldIsTitle;
       }
    }
 
@@ -365,4 +379,14 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 //      System.out.println("Broken! " + broken.toString());
       return broken.toString();
    }
+
+   @Override
+   public Dimension getPreferredSize()
+   {
+      Dimension preferedSize = super.getPreferredSize();
+      preferedSize.height = Math.max(preferedSize.height, 100);
+      return preferedSize;
+   }
+
+
 }

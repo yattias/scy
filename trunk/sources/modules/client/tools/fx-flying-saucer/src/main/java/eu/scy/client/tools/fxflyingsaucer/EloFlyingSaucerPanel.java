@@ -5,7 +5,6 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
-import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
