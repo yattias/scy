@@ -36,9 +36,11 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import java.lang.System;
 
 
-public class SCYMapperNode extends CustomNode, Resizable,CollaborationStartable {
+public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
     public-init var scyMapperPanel:SCYMapperPanel;
     public-init var repositoryWrapper:ScyMapperRepositoryWrapper;
@@ -86,19 +88,21 @@ public class SCYMapperNode extends CustomNode, Resizable,CollaborationStartable 
                         Button {
                            text: "Load"
                            action: function() {
-                                loadConceptMap();
+                                var uris = repositoryWrapper.findElos();
+                                var selectedUri = JOptionPane.showInputDialog(null, "Select concept map", "Select concept map", JOptionPane.QUESTION_MESSAGE, null, uris, null);
+                                loadElo(selectedUri as URI);
                            }
                         }
                         Button {
                            text: "Save"
                            action: function() {
-                                saveConceptMap();
+                                doSaveConceptMap();
                            }
                         }
                         Button {
                            text: "Save as"
                            action: function() {
-                                saveConceptMapAs();
+                                doSaveConceptMapAs();
                            }
                         }
                      ]
@@ -115,56 +119,32 @@ public class SCYMapperNode extends CustomNode, Resizable,CollaborationStartable 
         var answer = JOptionPane.showConfirmDialog(null, "This will discard any changes done to the current concept map. Do you want to continue?", "Confirm discard changes", JOptionPane.YES_NO_CANCEL_OPTION);
 
         if (answer == JOptionPane.YES_OPTION) {
-            currentELO = repositoryWrapper.createELO();
-
-            var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
-            scyMapperPanel.setConceptMap(conceptMap);
+             newElo();
         }
-
-
     }
-    function saveConceptMap() {
-
+    function doSaveConceptMap() {
         if (currentELO.getUri() == null) {
-            saveConceptMapAs();
+            doSaveConceptMapAs();
+            return;
         }
-        else {
-            var conceptMap = scyMapperPanel.getConceptMap();
-            repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
-            repositoryWrapper.updateELO(currentELO);
-            JOptionPane.showMessageDialog(null, "ELO successfully saved", "ELO saved", JOptionPane.PLAIN_MESSAGE);
-        }
-
-    }
-
-    function loadConceptMap() {
-
-        var uris = repositoryWrapper.findElos();
-        var selectedUri = JOptionPane.showInputDialog(null, "Select concept map", "Select concept map", JOptionPane.QUESTION_MESSAGE, null, uris, null);
-        if (selectedUri != null) {
-            currentELO = repositoryWrapper.loadELO(selectedUri as URI);
-            var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
-            scyMapperPanel.setConceptMap(conceptMap);
-        }
-    }
-
-    function saveConceptMapAs() {
         var conceptMap = scyMapperPanel.getConceptMap();
-
-        var name = "";
-        while (name == "") {
-            name = JOptionPane.showInputDialog("Enter name:", conceptMap.getName());
-            if (name == null) return;
-        }
-
-        conceptMap.setName(name);
-
-        currentELO = repositoryWrapper.createELO();
-
         repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
-        repositoryWrapper.saveELO(currentELO);
+        eloSaver.eloUpdate(currentELO, this);
+    }
 
-        JOptionPane.showMessageDialog(null, "ELO successfully saved as {conceptMap.getName()}", "Saved", JOptionPane.PLAIN_MESSAGE);
+    function doSaveConceptMapAs() {
+        var conceptMap = scyMapperPanel.getConceptMap();
+        repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
+        eloSaver.eloSaveAs(currentELO, this);
+    }
+
+    override function eloSaveCancelled (elo : IELO) : Void {
+       println("User cancelled saving of ELO");
+    }
+
+    override public function eloSaved (elo : IELO) : Void {
+        this.currentELO = elo;
+        println("ELO SUCCESSFULLY SAVED");
     }
 
     function resizeContent(){
@@ -185,12 +165,23 @@ public class SCYMapperNode extends CustomNode, Resizable,CollaborationStartable 
         return scyMapperPanel.getPreferredSize().getWidth();
     }
 
+    public override function loadElo(uri:URI){
+      if (uri != null) {
+            currentELO = repositoryWrapper.loadELO(uri);
+            var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
+            scyMapperPanel.setConceptMap(conceptMap);
+        }
+   }
+
+   public override function newElo():Void{
+        currentELO = repositoryWrapper.createELO();
+
+        var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
+        scyMapperPanel.setConceptMap(conceptMap);
+   }
     public override function startCollaboration(mucid:String){
         def datasync:IDataSyncService = scyWindow.scyDesktop.config.getToolBrokerAPI().getDataSyncService();
         syncSession = datasync.joinSession(mucid,SCYMapperSyncListener{});
         println("sync session with mucid {mucid} created.");
     }
-
-    
-
 }

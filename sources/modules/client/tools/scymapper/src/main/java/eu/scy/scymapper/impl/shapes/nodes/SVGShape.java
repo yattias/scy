@@ -27,9 +27,9 @@ public class SVGShape extends INodeShape {
 	private INodeShape outlineShape = new RoundRectangle();
 
 	private transient GraphicsNode rootNode;
-	private transient SVGDocument document;
+	private SVGDocument document;
 
-	private URL url;
+	private transient URL url;
 	private String name;
 
 	private Object readResolve() throws IOException {

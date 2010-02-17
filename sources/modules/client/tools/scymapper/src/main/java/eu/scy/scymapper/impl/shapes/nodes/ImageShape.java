@@ -3,11 +3,15 @@ package eu.scy.scymapper.impl.shapes.nodes;
 import eu.scy.scymapper.api.shapes.INodeShape;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,23 +21,29 @@ import java.net.URL;
  */
 public class ImageShape extends INodeShape {
 	private transient BufferedImage image;
-	private URL url;
+	private byte[] imageData;
+	private String format;
 
-	public ImageShape(String url) throws IOException {
-		this(ImageShape.class.getResource(url));
+	public ImageShape(String classPathUrl) throws IOException {
+		this(ImageShape.class.getResource(classPathUrl));
 	}
 
-	public ImageShape(URL url) throws IOException {
-		this.url = url;
+	private ImageShape(URL url) throws IOException {
 		image = ImageIO.read(url);
-	}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-	private ImageShape(BufferedImage i) {
-		image = i;
+		String fn = url.getFile();
+		String ext = fn.substring(fn.lastIndexOf('.') + 1, fn.length());
+
+		format = getFormatNameBySuffix(ext);
+		if (format == null) format = "jpeg";
+
+		ImageIO.write(image, format, baos);
+		imageData = baos.toByteArray();
 	}
 
 	private Object readResolve() throws IOException {
-		image = ImageIO.read(url);
+		image = ImageIO.read(new ByteArrayInputStream(imageData));
 		return this;
 	}
 
@@ -79,5 +89,20 @@ public class ImageShape extends INodeShape {
 
 		g2d.drawRenderedImage(image, at);
 
+	}
+
+	private static String getFormatNameBySuffix(String suf) {
+		try {
+			Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suf);
+			if (!iter.hasNext()) {
+				return null;
+			}
+			// Use the first reader
+			ImageReader reader = iter.next();
+			return reader.getFormatName();
+		} catch (IOException e) {
+		}
+
+		return null;
 	}
 }
