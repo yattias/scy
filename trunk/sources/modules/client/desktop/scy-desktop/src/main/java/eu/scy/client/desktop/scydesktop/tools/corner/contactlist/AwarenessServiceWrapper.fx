@@ -11,6 +11,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import eu.scy.common.configuration.Configuration;
 
 /**
  * @author svenmaster
@@ -21,9 +22,13 @@ public class AwarenessServiceWrapper {
 
         public-init var contactlist:ContactList;
         
-        //public def IMAGE_BASE_DIR = "http://scy.googlecode.com/files/";
-        public def IMAGE_BASE_DIR = "http://scy.collide.info:8080/webapp/common/filestreamer.html";
-
+        def config:Configuration=Configuration.getInstance();
+        def filestreamerServer:String = config.getFilestreamerServer();
+        def filestreamerContext:String = config.getFilestreamerContext();
+        def filestreamerPort:String = config.getFilestreamerPort();
+        //this should look like:
+        //"http://scy.collide.info:8080/webapp/common/filestreamer.html";
+        public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}{filestreamerContext}";
 
         def awarenessService:IAwarenessService = bind contactlist.scyDesktop.config.getToolBrokerAPI().getAwarenessService();
 
