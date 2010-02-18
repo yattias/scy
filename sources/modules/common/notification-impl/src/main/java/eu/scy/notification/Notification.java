@@ -158,9 +158,9 @@ public class Notification implements INotification {
         String[] values = properties.get(key);
         if (values != null && values.length > 0) {
             StringBuilder sb = new StringBuilder(values[0]);
-            for (String value : values) {
+            for (int i = 1; i < values.length; i++) {
                 sb.append(SEPARATOR);
-                sb.append(value);
+                sb.append(values[i]);
             }
             return sb.toString();
         } else {
