@@ -83,7 +83,14 @@ public class MUCChatController implements ChatController {
 	public void removeBuddy(final AwarenessUser user) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				buddyListModel.removeElement(user);
+				logger.debug("MUCChatController: removeBuddy: "+user.getJid());
+				Enumeration<?> elements = buddyListModel.elements();
+				while (elements.hasMoreElements()) {
+					IAwarenessUser auser = (IAwarenessUser) elements.nextElement();
+					if (auser.getJid() != null && auser.getJid().equals(user.getJid())) {
+						buddyListModel.remove(buddyListModel.indexOf(auser));
+					}
+				}
 				// kick that fucker away call handler
 			}
 		});
