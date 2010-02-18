@@ -269,47 +269,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
             color: Color.GRAY;
         }
 
-    def contact2 = Contact {
-                currentMission: "Another Mission";
-                imageURL: "img/buddyicon.png";
-                name: "Adam G";
-                onlineState: OnlineState.AWAY;
-                progress: 0.1;
-            };
-      //The contact list (users)
-      def contactContent = [contact1, contact2];
-      
-      //The frontend to thecontact list
-      def contactList:ContactList = ContactList {
-              columns:2
-              contacts: contactContent
-              dragAndDropManager:dragAndDropManager
-              tooltipManager:tooltipManager
-              scyDesktop:this
-              height:250
-              showOfflineContacts:true
-              width: 300
-              };
-
-      contactList.height = 250;
-
-      missionMap = MissionMap{
-         missionModel: missionModelFX
-         tooltipManager:tooltipManager
-         dragAndDropManager:dragAndDropManager
-         scyDesktop:this
-         metadataTypeManager:config.getMetadataTypeManager()
-//         translateX:40;
-//         translateY:40;
-      }
-      missionMap.scyWindowControl=scyWindowControl;
-
-      topLeftCorner = TopLeftCorner{
-         content:contactList;
-         color:Color.RED;
-      }
-
-
       var SPTButton = ImageButton {
 
                 toolTip: "Open the Student Planning Tool!";
