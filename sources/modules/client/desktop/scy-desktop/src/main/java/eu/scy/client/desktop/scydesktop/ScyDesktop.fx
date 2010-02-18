@@ -282,9 +282,24 @@ public class ScyDesktop extends CustomNode,INotifiable {
          content:contactList;
          color:Color.RED;
       }
+
+
+      var SPTButton = ImageButton {
+
+                toolTip: "Open the Student Planning Tool!";
+                tooltipManager: tooltipManager;
+                normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
+                selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
+
+                onMouseClicked: function(e) {
+                    println("ouch u clicked my tool!")
+                }
+        }
+
+
       topRightCorner = TopRightCorner{
-         content:topRightCornerTool;
-         color:Color.GREEN;
+         content:  SPTButton;
+     
       }
       bottomRightCorner = BottomRightCorner{
          // TODO, replace with specified tool
@@ -642,4 +657,5 @@ function run(){
          ]
       }
    }
+
 }
