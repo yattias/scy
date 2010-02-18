@@ -129,8 +129,8 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,Colla
       toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
    }
 
-   public override function receivedCollaborationResponse(mucid:String):Void{
-       println("received Collaboration - mucid: {mucid}");
+   public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
+      println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {user}");
+      chatPresenceTool.removeTemporaryUser(user);
    }
-
 }
