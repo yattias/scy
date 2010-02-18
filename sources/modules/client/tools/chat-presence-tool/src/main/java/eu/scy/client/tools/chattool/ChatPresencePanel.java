@@ -42,16 +42,8 @@ public class ChatPresencePanel extends JPanel {
 
     public ChatPresencePanel(ChatController mucChatController) {
         this.chatController = mucChatController;
-        //updateModel();
-//        if (logger != null) {
-//            logger.debug("ChatPresencePanel: starting ... ");
-//            logger.debug("ChatPresencePanel: awareness: awarenessService.isConnected(): " + this.chatController.getAwarenessService().isConnected());
-//        }
-
         initGUI();
-
     }
-
 
     protected void initGUI() {
         this.setLayout(new MigLayout("insets 0 0 0 0, wrap 1"));
@@ -60,18 +52,14 @@ public class ChatPresencePanel extends JPanel {
     }
 
     protected JPanel createBuddyListPanel() {
-        //JPanel buddyPanel = new JPanel(new MigLayout("insets 0 0 0 0,wrap 1"));
         JPanel buddyPanel = new JPanel();
         buddyPanel.setBackground(Color.white);
-        //buddyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         buddyList = new JList(chatController.getBuddyListModel());
         buddyList.setBorder(BorderFactory.createEmptyBorder());
         buddyList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         buddyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         buddyList.setVisibleRowCount(1);
         buddyList.setCellRenderer(new BuddyListRenderer());
-        //updateModel();
-
         buddyListScroll = new JScrollPane(buddyList);
         buddyListScroll.setBorder(BorderFactory.createEmptyBorder());
         buddyListScroll.setPreferredSize(new Dimension(200, 75));
