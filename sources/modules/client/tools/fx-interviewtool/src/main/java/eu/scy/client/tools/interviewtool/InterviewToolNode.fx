@@ -23,40 +23,16 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Enumeration;
 import eu.scy.client.tools.interviewtool.interviewtable.*;
-import javafx.scene.control.Label;
-import javax.jnlp.*;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import roolo.api.IRepository;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import roolo.api.IRepository;
-import roolo.api.IExtensionManager;
-import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-
-import java.net.URI;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
-
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
 import java.net.URL;
 import eu.scy.client.common.richtexteditor.RichTextEditor;
 import javafx.ext.swing.SwingComponent;
 import javafx.geometry.HPos;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author kaido
@@ -92,74 +68,14 @@ def toolBottomOffset = 10;
 protected var parentHeightOffset = 0;
 protected def stageHeight = 500;
 protected def stageWidth = 600;
-def scrollBarThickness = 12;
 protected def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
 protected var interviewLogger: InterviewLogger;
 var log = true;
-function getScrollViewWidth(node: Node, height: Number, width: Number) : Number {
-    if (node.layoutBounds.maxY>height)
-        return width-scrollBarThickness;
-    return width;
-}
-function getScrollViewHeight(node: Node, height: Number, width: Number) : Number {
-    if (node.layoutBounds.maxX>width)
-        return height-scrollBarThickness;
-    return height;
-}
-function getHScrollMaxX(node: Node, height: Number, width: Number) : Number {
-    if (node.layoutBounds.maxX-getScrollViewWidth(node, height, width)<0 )
-        return 0;
-    return node.layoutBounds.maxX-getScrollViewWidth(node, height, width);
-}
-function getVScrollMaxY(node: Node, height: Number, width: Number) : Number {
-    if (node.layoutBounds.maxY-getScrollViewHeight(node, height, width)<0 )
-        return 0;
-    return node.layoutBounds.maxY-getScrollViewHeight(node, height, width);
-}
-function getVScrollHeight(node: Node, height: Number, width: Number) : Number {
-    if (getHScrollMaxX(node, height, width)==0)
-        return height;
-    return height-scrollBarThickness;
-}
 var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
-var upperNodes : Node;
 var lowerNodes : Node;
-var lowerScrollClipView : ClipView = ClipView {
-    clipX: bind lowerHScroll.value
-    clipY: bind lowerVScroll.value
-    node: bind lowerNodes
-    pannable: false
-    layoutInfo: LayoutInfo {
-        width: bind getScrollViewWidth(lowerNodes, rightBottomHeight, rightWidth)
-        height: bind getScrollViewHeight(lowerNodes, rightBottomHeight, rightWidth)
-    }
-}
-var lowerVScroll = ScrollBar {
-    min: 0
-    max: bind getVScrollMaxY(lowerNodes, rightBottomHeight, rightWidth)
-    value: 0
-    vertical: true
-    visible: bind getVScrollMaxY(lowerNodes, rightBottomHeight, rightWidth)>0
-    layoutInfo: LayoutInfo {
-        height: bind getVScrollHeight(lowerNodes, rightBottomHeight, rightWidth)
-    }
-}
-var lowerHBox = HBox {content: [lowerScrollClipView, lowerVScroll]}
-var lowerHScroll = ScrollBar {
-    min: 0
-    max: bind getHScrollMaxX(lowerNodes, rightBottomHeight, rightWidth)
-    value: 0
-    vertical: false
-    visible: bind getHScrollMaxX(lowerNodes, rightBottomHeight, rightWidth)>0
-    layoutInfo: LayoutInfo {
-        width: rightWidth
-    }
-}
-var lowerVBox = VBox {
-    translateX: width - rightWidth
-    translateY: height - rightBottomHeight - parentHeightOffset
-    content: [lowerHBox, lowerHScroll]
-}
+protected var treeMaximized : Boolean = false;
+protected var schemaMaximized : Boolean = false;
+protected var guidelinesMaximized : Boolean = false;
 protected var topics: InterviewTopic[];
 protected var interviewTree: InterviewTree = makeTree();
 function makeTree() : InterviewTree {
@@ -503,6 +419,49 @@ function showIndicatorStatus(cell: InterviewTreeCell) {
     refreshStage();
 }
 def schemaEditor:RichTextEditor = new RichTextEditor();
+var wrappedSchemaEditor:SwingComponent;
+def zoomInImage:Image = Image {url: "{__DIR__}resources/Button_zoom_in.png"};
+def zoomOutImage:Image = Image {url: "{__DIR__}resources/Button_zoom_out.png"};
+var schemaZoomImage:Image = zoomInImage;
+def zoomSchemaOut: function() =
+    function() {
+        lowerNodes.translateX=0;
+        lowerNodes.translateY=0;
+        wrappedSchemaEditor.width = width;
+        wrappedSchemaEditor.height = height - parentHeightOffset - toolBottomOffset;
+        wrappedSchemaEditor.translateX = 0;
+        wrappedSchemaEditor.translateY = 0;
+        schemaZoomImage = zoomOutImage;
+        schemaZoomButton.translateX = width-3-23;
+        schemaZoomButton.translateY = 3;
+        schemaZoomAction = zoomSchemaIn;
+        interviewTree.visible = false;
+        schemaMaximized = true;
+    };
+def zoomSchemaIn: function() =
+    function() {
+        lowerNodes.translateX = width - rightWidth;
+        lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+        wrappedSchemaEditor.width = rightWidth-2*hPadding;
+        wrappedSchemaEditor.height = lowerNodesHeight-2*vPadding;
+        wrappedSchemaEditor.translateX = hPadding;
+        wrappedSchemaEditor.translateY = vPadding;
+        schemaZoomImage = zoomInImage;
+        schemaZoomButton.translateX = rightWidth-hPadding-3-23;
+        schemaZoomButton.translateY = vPadding+3;
+        schemaZoomAction = zoomSchemaOut;
+        interviewTree.visible = true;
+        schemaMaximized = false;
+    };
+var schemaZoomAction: function() = zoomSchemaOut;
+def schemaZoomButton:ImageView = ImageView {
+                image:bind schemaZoomImage,
+                translateX:rightWidth-hPadding-3-23,
+                translateY:vPadding+3,
+                onMouseReleased:function(e:MouseEvent) {
+                    schemaZoomAction();
+                }
+};
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
     guidePane.setTextFromFile(interviewStrings.guideDesignFileName);
@@ -538,10 +497,15 @@ function showDesign() {
     var size = new Dimension(rightWidth-2*hPadding,lowerNodesHeight-2*vPadding);
     schemaEditor.setPreferredSize(size);
     schemaEditor.setSize(size);
-    var wrappedSchemaEditor:SwingComponent = SwingComponent.wrap(schemaEditor);
+    wrappedSchemaEditor = SwingComponent.wrap(schemaEditor);
     wrappedSchemaEditor.translateX = hPadding;
     wrappedSchemaEditor.translateY = vPadding;
-    lowerNodes = wrappedSchemaEditor;
+    lowerNodes = Group {
+        content: [
+            wrappedSchemaEditor,
+            schemaZoomButton
+        ]
+    };
     refreshStage();
 }
 function showConduct() {
@@ -598,7 +562,6 @@ protected var content: Node[] = [
         fill: Color.TRANSPARENT,
         stroke: Color.GREY
     },
-    Group {content: bind lowerVBox},
     HBox {
         spacing: 5
         hpos: HPos.RIGHT
@@ -658,6 +621,7 @@ protected var content: Node[] = [
         }
         ]
     },
+    Group {content: bind lowerNodes},
     Group {content: bind interviewTree}
     ];
 
@@ -676,12 +640,19 @@ protected var content: Node[] = [
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
    function resizeContent(){
-      interviewTree.width = width - rightWidth;
-      interviewTree.height = height - parentHeightOffset - toolBottomOffset;
-      guidePane.height = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
-      guidePane.translateX = width - rightWidth;
-      lowerVBox.translateX = width - rightWidth;
-      lowerVBox.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+      if (treeMaximized) {
+          interviewTree.width = width;
+          interviewTree.height = height - parentHeightOffset - toolBottomOffset;
+      } else if (schemaMaximized) {
+          zoomSchemaOut();
+      } else {
+          interviewTree.width = width - rightWidth;
+          interviewTree.height = height - parentHeightOffset - toolBottomOffset;
+          guidePane.height = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+          guidePane.translateX = width - rightWidth;
+          lowerNodes.translateX = width - rightWidth;
+          lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+      }
    }
    public override function create(): Node {
       return Group{content: bind content}

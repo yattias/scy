@@ -246,12 +246,16 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
                    text: ##"Zoom tree in/out"
                    font: buttonFont
                    action: function() {
-                        if (interviewTree.width!=width - rightWidth) {
-                            interviewTree.width=width - rightWidth;
-                            interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
-                        } else {
-                            interviewTree.width=width;
-                            interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
+                        if (not schemaMaximized and not guidelinesMaximized) {
+                            if (treeMaximized) {
+                                interviewTree.width=width - rightWidth;
+                                treeMaximized = false;
+                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
+                            } else {
+                                interviewTree.width=width;
+                                treeMaximized = true;
+                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
+                            }
                         }
                    }
                 }

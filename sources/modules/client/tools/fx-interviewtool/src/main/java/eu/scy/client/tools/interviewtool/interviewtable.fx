@@ -179,6 +179,8 @@ package class InterviewTableEditor extends CustomNode {
     var objects: InterviewObject[];
     var selection: Integer;
     var table = InterviewTable {
+                    translateX:translateX
+                    translateY:translateY
                     width: width
                     height: height
                     font: font
@@ -280,7 +282,8 @@ package class InterviewTableEditor extends CustomNode {
                 table,
                 modifiedLabel,
                 CheckBox {
-                        translateY: height+10
+                        translateX: translateX
+                        translateY: translateY+height+10
                         text: ##"Include \"Other, namely…\" option"
                         allowTriState: false
                         selected: bind namelyChecked with inverse
@@ -288,7 +291,8 @@ package class InterviewTableEditor extends CustomNode {
                     }
                 HBox{
                     spacing: 5
-                    translateY: height+10+offset
+                    translateX: translateX
+                    translateY: translateY+height+10+offset
                     // FXEvaluator doesnt work in browser with javafx version 1.2
 //                    translateY: height+10+(evaluator.eval("if ({namelyShow}==Boolean.TRUE) 30 else 0;") as Integer)
                     content: [
