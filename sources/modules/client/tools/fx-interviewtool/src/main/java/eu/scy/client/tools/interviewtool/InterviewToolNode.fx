@@ -422,46 +422,61 @@ def schemaEditor:RichTextEditor = new RichTextEditor();
 var wrappedSchemaEditor:SwingComponent;
 def zoomInImage:Image = Image {url: "{__DIR__}resources/Button_zoom_in.png"};
 def zoomOutImage:Image = Image {url: "{__DIR__}resources/Button_zoom_out.png"};
-var schemaZoomImage:Image = zoomInImage;
-def zoomSchemaOut: function() =
-    function() {
-        lowerNodes.translateX=0;
-        lowerNodes.translateY=0;
-        wrappedSchemaEditor.width = width;
-        wrappedSchemaEditor.height = height - parentHeightOffset - toolBottomOffset;
-        wrappedSchemaEditor.translateX = 0;
-        wrappedSchemaEditor.translateY = 0;
-        schemaZoomImage = zoomOutImage;
-        schemaZoomButton.translateX = width-3-23;
-        schemaZoomButton.translateY = 3;
-        schemaZoomAction = zoomSchemaIn;
-        interviewTree.visible = false;
-        schemaMaximized = true;
-    };
-def zoomSchemaIn: function() =
-    function() {
-        lowerNodes.translateX = width - rightWidth;
-        lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
-        wrappedSchemaEditor.width = rightWidth-2*hPadding;
-        wrappedSchemaEditor.height = lowerNodesHeight-2*vPadding;
-        wrappedSchemaEditor.translateX = hPadding;
-        wrappedSchemaEditor.translateY = vPadding;
-        schemaZoomImage = zoomInImage;
-        schemaZoomButton.translateX = rightWidth-hPadding-3-23;
-        schemaZoomButton.translateY = vPadding+3;
-        schemaZoomAction = zoomSchemaOut;
-        interviewTree.visible = true;
-        schemaMaximized = false;
-    };
-var schemaZoomAction: function() = zoomSchemaOut;
-def schemaZoomButton:ImageView = ImageView {
-                image:bind schemaZoomImage,
+function zoomEditorIn(editor:SwingComponent, button:ImageView) {
+    lowerNodes.translateX=0;
+    lowerNodes.translateY=0;
+    editor.width = width;
+    editor.height = height - parentHeightOffset - toolBottomOffset;
+    editor.translateX = 0;
+    editor.translateY = 0;
+    button.translateX = width-3-23;
+    button.translateY = 3;
+    button.visible = true;
+    interviewTree.visible = false;
+}
+function zoomEditorOut(editor:SwingComponent, button:ImageView) {
+    lowerNodes.translateX = width - rightWidth;
+    lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+    editor.width = rightWidth-2*hPadding;
+    editor.height = lowerNodesHeight-2*vPadding;
+    editor.translateX = hPadding;
+    editor.translateY = vPadding;
+    button.translateX = rightWidth-hPadding-3-23;
+    button.translateY = vPadding+3;
+    button.visible = true;
+    interviewTree.visible = true;
+};
+def schemaZoomInButton:ImageView = ImageView {
+                image:zoomInImage,
                 translateX:rightWidth-hPadding-3-23,
                 translateY:vPadding+3,
                 onMouseReleased:function(e:MouseEvent) {
-                    schemaZoomAction();
+                    zoomSchemaIn();
+                    schemaZoomOutButton.disable = false;
                 }
 };
+def schemaZoomOutButton:ImageView = ImageView {
+                disable: true,
+                image:zoomOutImage,
+                translateX:rightWidth-hPadding-3-23,
+                translateY:vPadding+3,
+                onMouseReleased:function(e:MouseEvent) {
+                    zoomSchemaOut();
+                }
+};
+def zoomSchemaOut: function() =
+    function() {
+        schemaZoomOutButton.visible = false;
+        zoomEditorOut(wrappedSchemaEditor,schemaZoomInButton);
+        schemaMaximized = false;
+        drawNormalWindow();
+    };
+def zoomSchemaIn: function() =
+    function() {
+        schemaZoomInButton.visible = false;
+        zoomEditorIn(wrappedSchemaEditor,schemaZoomOutButton);
+        schemaMaximized = true;
+    };
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
     guidePane.setTextFromFile(interviewStrings.guideDesignFileName);
@@ -500,10 +515,23 @@ function showDesign() {
     wrappedSchemaEditor = SwingComponent.wrap(schemaEditor);
     wrappedSchemaEditor.translateX = hPadding;
     wrappedSchemaEditor.translateY = vPadding;
+    // delete added due to JavaFX garbage collection problems
+    // this problem caused warning described in
+    // http://stuartmarks.wordpress.com/2009/10/12/that-infernal-scene-graph-warning-message/
+    if (wrappedSchemaEditor.parent != null) {
+        delete wrappedSchemaEditor from (wrappedSchemaEditor.parent as Group).content;
+    }
+    if (schemaZoomInButton.parent != null) {
+        delete schemaZoomInButton from (schemaZoomInButton.parent as Group).content;
+    }
+    if (schemaZoomOutButton.parent != null) {
+        delete schemaZoomOutButton from (schemaZoomOutButton.parent as Group).content;
+    }
     lowerNodes = Group {
         content: [
             wrappedSchemaEditor,
-            schemaZoomButton
+            schemaZoomOutButton,
+            schemaZoomInButton
         ]
     };
     refreshStage();
@@ -521,6 +549,38 @@ function showConductPreparation() {
     refreshStage();
 }
 def guidelinesEditor:RichTextEditor = new RichTextEditor(true);
+var wrappedGuidelinesEditor:SwingComponent;
+def guidelinesZoomInButton:ImageView = ImageView {
+                image:zoomInImage,
+                translateX:rightWidth-hPadding-3-23,
+                translateY:vPadding+3,
+                onMouseReleased:function(e:MouseEvent) {
+                    zoomGuidelinesIn();
+                    guidelinesZoomOutButton.disable = false;
+                }
+};
+def guidelinesZoomOutButton:ImageView = ImageView {
+                disable: true,
+                image:zoomOutImage,
+                translateX:rightWidth-hPadding-3-23,
+                translateY:vPadding+3,
+                onMouseReleased:function(e:MouseEvent) {
+                    zoomGuidelinesOut();
+                }
+};
+def zoomGuidelinesOut: function() =
+    function() {
+        guidelinesZoomOutButton.visible = false;
+        zoomEditorOut(wrappedGuidelinesEditor,guidelinesZoomInButton);
+        guidelinesMaximized = false;
+        drawNormalWindow();
+    };
+def zoomGuidelinesIn: function() =
+    function() {
+        guidelinesZoomInButton.visible = false;
+        zoomEditorIn(wrappedGuidelinesEditor,guidelinesZoomOutButton);
+        guidelinesMaximized = true;
+    };
 function showConductRecommendations() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT_RECOMMENDATIONS);
     guidePane.setTextFromFile(interviewStrings.guideConduct2FileName);
@@ -529,10 +589,29 @@ function showConductRecommendations() {
     var size = new Dimension(rightWidth-2*hPadding,lowerNodesHeight-2*vPadding);
     guidelinesEditor.setPreferredSize(size);
     guidelinesEditor.setSize(size);
-    var wrappedGuidelinesEditor:SwingComponent = SwingComponent.wrap(guidelinesEditor);
+
+    wrappedGuidelinesEditor = SwingComponent.wrap(guidelinesEditor);
     wrappedGuidelinesEditor.translateX = hPadding;
     wrappedGuidelinesEditor.translateY = vPadding;
-    lowerNodes = wrappedGuidelinesEditor;
+    // delete added due to JavaFX garbage collection problems
+    // this problem caused warning described in
+    // http://stuartmarks.wordpress.com/2009/10/12/that-infernal-scene-graph-warning-message/
+    if (wrappedGuidelinesEditor.parent != null) {
+        delete wrappedGuidelinesEditor from (wrappedGuidelinesEditor.parent as Group).content;
+    }
+    if (guidelinesZoomInButton.parent != null) {
+        delete guidelinesZoomInButton from (guidelinesZoomInButton.parent as Group).content;
+    }
+    if (guidelinesZoomOutButton.parent != null) {
+        delete guidelinesZoomOutButton from (guidelinesZoomOutButton.parent as Group).content;
+    }
+    lowerNodes = Group {
+        content: [
+            wrappedGuidelinesEditor,
+            guidelinesZoomOutButton,
+            guidelinesZoomInButton
+        ]
+    };
     refreshStage();
 }
 function activateTreeNode(node: DefaultMutableTreeNode) {
@@ -639,19 +718,25 @@ protected var content: Node[] = [
    }
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
-   function resizeContent(){
+   function drawNormalWindow() {
+      interviewTree.width = width - rightWidth;
+      interviewTree.height = height - parentHeightOffset - toolBottomOffset;
+      guidePane.height = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+      guidePane.translateX = width - rightWidth;
+      lowerNodes.translateX = width - rightWidth;
+      lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+   }
+
+   protected function resizeContent(){
       if (treeMaximized) {
           interviewTree.width = width;
           interviewTree.height = height - parentHeightOffset - toolBottomOffset;
       } else if (schemaMaximized) {
-          zoomSchemaOut();
+          zoomSchemaIn();
+      } else if (guidelinesMaximized) {
+          zoomGuidelinesIn();
       } else {
-          interviewTree.width = width - rightWidth;
-          interviewTree.height = height - parentHeightOffset - toolBottomOffset;
-          guidePane.height = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
-          guidePane.translateX = width - rightWidth;
-          lowerNodes.translateX = width - rightWidth;
-          lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+          drawNormalWindow();
       }
    }
    public override function create(): Node {
