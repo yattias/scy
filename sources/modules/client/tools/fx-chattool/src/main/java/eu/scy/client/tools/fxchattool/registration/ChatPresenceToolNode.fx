@@ -125,7 +125,8 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,Colla
       var c:ContactFrame = object as ContactFrame;
       println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
       chatPresenceTool.addTemporaryUser(c.contact.name);
-      toolBrokerAPI.proposeCollaborationWith(c.contact.awarenessUser.getJid(), scyWindow.eloUri.toString(),this);
+      //XXX the "/Smack" should be received correctly via method
+      toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
    }
 
    public override function receivedCollaborationResponse(mucid:String):Void{
