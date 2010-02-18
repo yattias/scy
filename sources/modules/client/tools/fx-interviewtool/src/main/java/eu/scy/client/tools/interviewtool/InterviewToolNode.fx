@@ -31,6 +31,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.util.ResourceBundle;
 import java.lang.Exception;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author kaido
@@ -77,6 +81,9 @@ protected var guidelinesMaximized : Boolean = false;
 protected var topics: InterviewTopic[];
 protected var interviewTree: InterviewTree = makeTree();
 var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
+public var metadataTypeManager: IMetadataTypeManager;
+public var toolBrokerAPI:ToolBrokerAPI;
+protected var elo:IELO;
 function makeTree() : InterviewTree {
     return InterviewTree{
         translateX: 0
@@ -430,7 +437,7 @@ function showIndicatorStatus(cell: InterviewTreeCell) {
     lowerNodes = null;
     refreshStage();
 }
-def schemaEditor:RichTextEditor = new RichTextEditor();
+protected def schemaEditor:RichTextEditor = new RichTextEditor();
 var wrappedSchemaEditor:SwingComponent;
 def zoomInImage:Image = Image {url: "{__DIR__}resources/Button_zoom_in.png"};
 def zoomOutImage:Image = Image {url: "{__DIR__}resources/Button_zoom_out.png"};
@@ -492,6 +499,15 @@ def zoomSchemaIn: function() =
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
     guidePane.setTextFromFile(interviewStrings.guideDesignFileName);
+    var name:String = toolBrokerAPI.getLoginUserName();
+/*
+    if (elo != null) {
+logger.debug(CoreRooloMetadataKeyIds.AUTHOR);
+logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).toString());
+logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString());
+        name = elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString();
+    }
+*/
     var nl = "\n";
     var stInterviewSchema = ##"Interview Schema";
     var stIntroduction = ##"Introduction";
@@ -503,7 +519,7 @@ function showDesign() {
     var stOtherNamely = ##"Other, namely...";
     var i: String = "{stInterviewSchema}{nl}{nl}";
     i = "{i}{stIntroduction}{nl}";
-    i = "{i}{stWeAre} [your name] {stAnd} [your name] {stDoingInterview} {question}{nl}";
+    i = "{i}{stWeAre} {name} {stAnd} [your name] {stDoingInterview} {question}{nl}";
     var tNo: Integer = 0;
     for (topic in topics) {
         tNo++;

@@ -62,27 +62,25 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    def answerOtherNamelyFalse = "false";
    def jdomStringConversion = new JDomStringConversion();
    public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
-   public var toolBrokerAPI:ToolBrokerAPI;
    public var extensionManager:IExtensionManager;
    public var actionLogger:IActionLogger;
    public var awarenessService:IAwarenessService;
    public var dataSyncService:IDataSyncService;
    public var pedagogicalPlanService:PedagogicalPlanService;
    public var scyWindow:ScyWindow;
-   var elo:IELO;
    var technicalFormatKey: IMetadataKey;
 
    public override function initialize(windowContent:Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-      interviewLogger = InterviewLogger{
+        interviewLogger = InterviewLogger{
          actionLogger: actionLogger
          username: "username"
          toolname: "interviewtool"
          missionname: "missionname"
          sessionname: "sessionname"
       };
+//      schemaEditor.
    }
 
    public override function loadElo(uri:URI){
