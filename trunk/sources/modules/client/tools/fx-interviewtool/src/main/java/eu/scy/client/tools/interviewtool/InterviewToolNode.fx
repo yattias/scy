@@ -8,11 +8,7 @@ package eu.scy.client.tools.interviewtool;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import javafx.scene.layout.ClipView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.LayoutInfo;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -33,6 +29,8 @@ import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import java.util.ResourceBundle;
+import java.lang.Exception;
 
 /**
  * @author kaido
@@ -78,6 +76,7 @@ protected var schemaMaximized : Boolean = false;
 protected var guidelinesMaximized : Boolean = false;
 protected var topics: InterviewTopic[];
 protected var interviewTree: InterviewTree = makeTree();
+var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
 function makeTree() : InterviewTree {
     return InterviewTree{
         translateX: 0
@@ -313,12 +312,19 @@ var refreshTopicAndTree: function() =
         refreshTree();
     };
 var topicNo: Integer;
+var topicNoStr: String;
 function showTopic(cell: InterviewTreeCell) {
     if (log)
         interviewLogger.logShowIndicators(cell.topic.topic);
     topicNo = cell.topicNo;
+    try {
+        topicNoStr = numbers.getString(topicNo.toString());
+    } catch (e: Exception) {
+        topicNoStr = "{topicNo.toString()}.";
+    }
     guidePane.setTextFromFile(interviewStrings.guideIndicatorsFileName,
-        ["__TOPIC_NO__","__TOPIC__"], [topicNo.toString(),cell.topic.topic]);
+        ["__TOPIC_NO__","__TOPIC__"],
+        [topicNoStr,cell.topic.topic]);
     objects = cell.topic.indicators;
     interviewLogger.topic = cell.topic.topic;
     lowerNodes = InterviewTableEditor {
@@ -343,15 +349,21 @@ var refreshIndicator: function() =
         topics[topicNo-1].indicators[indicatorNo-1].answerIncludeNamely = namely;
     };
 var indicatorNo: Integer;
+var indicatorNoStr: String;
 var namely: Boolean;
 function showIndicator(cell: InterviewTreeCell) {
     if (log)
         interviewLogger.logShowAnswers(cell.topic.topic,cell.indicator.indicator);
     topicNo = cell.topicNo;
     indicatorNo = cell.indicatorNo;
+    try {
+        indicatorNoStr = numbers.getString(indicatorNo.toString());
+    } catch (e: Exception) {
+        indicatorNoStr = "{indicatorNo.toString()}.";
+    }
     guidePane.setTextFromFile(interviewStrings.guideAnswersFileName,
         ["__INDICATOR_NO__","__TOPIC__","__INDICATOR__"],
-        [indicatorNo.toString(),cell.topic.topic,cell.indicator.indicator]);
+        [indicatorNoStr,cell.topic.topic,cell.indicator.indicator]);
     objects = cell.indicator.answers;
     namely = cell.indicator.answerIncludeNamely;
     interviewLogger.topic = cell.topic.topic;
