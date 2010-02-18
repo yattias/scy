@@ -194,38 +194,38 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                         }
                      ]
                   }
-                  Group{
-                     content:[
-                        Label {
-                           layoutY:labelOffset
-                           text: "Sync actions"
-                        }
-                        HBox{
-                           layoutX:valueOffset
-                           spacing:2*spacing
-                           content:[
-                              CheckBox {
-                                 translateY:labelOffset-1
-                                 text: "Auto reload"
-                                 allowTriState: false
-                                 selected: bind autoReload with inverse
-                              }
-                              Button {
-                                 disable:bind file==null or not reloadPossible
-                                 text: "Reload"
-                                 action: function():Void{
-                                    reloadFile();
-                                 }
-
-                              }
-                              Button {
-                                 text: "Chack state"
-                                 action: updateSyncState
-                              }
-                           ]
-                        }
-                     ]
-                  }
+//                  Group{
+//                     content:[
+//                        Label {
+//                           layoutY:labelOffset
+//                           text: "Sync actions"
+//                        }
+//                        HBox{
+//                           layoutX:valueOffset
+//                           spacing:2*spacing
+//                           content:[
+//                              CheckBox {
+//                                 translateY:labelOffset-1
+//                                 text: "Auto reload"
+//                                 allowTriState: false
+//                                 selected: bind autoReload with inverse
+//                              }
+//                              Button {
+//                                 disable:bind file==null or not reloadPossible
+//                                 text: "Reload"
+//                                 action: function():Void{
+//                                    reloadFile();
+//                                 }
+//
+//                              }
+//                              Button {
+//                                 text: "Chack state"
+//                                 action: updateSyncState
+//                              }
+//                           ]
+//                        }
+//                     ]
+//                  }
                 ]
              }
           ];
