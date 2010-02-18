@@ -298,7 +298,7 @@ public class ScyDesktopCreator {
 
 
    public function createScyDesktop(): ScyDesktop {
-      ScyDesktop {
+      def scyDesktop:ScyDesktop = ScyDesktop {
          config: config;
          missionModelFX: missionModelFX;
          eloInfoControl: eloInfoControl;
@@ -307,7 +307,11 @@ public class ScyDesktopCreator {
          newEloCreationRegistry: newEloCreationRegistry;
          windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
          drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
-      }
+      };
 
+      //register for notifications
+      logger.debug("****************registering scyDesktop for notifications***************************");
+      scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop);
+      return scyDesktop; 
    }
 }
