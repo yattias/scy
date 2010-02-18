@@ -326,6 +326,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
     @Override
     public void proposeCollaborationWith(String proposedUser, String elouri, final CollaborationCallback callback) {
     	logger.debug("TBI: proposeCollaborationWith: user: "+proposedUser+" eloid: "+elouri);
+    	//callback.receivedCollaborationResponse(elouri, proposedUser);
         final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
         collaborationAnswers.put(userName + "#" + proposedUser + "#" + elouri, queue);
         final IActionLogger log = getActionLogger();
@@ -348,13 +349,13 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                     boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
                     if (accepted) {
                         String mucid = notif.getFirstProperty("mucid");
-                        callback.receivedCollaborationResponse(mucid);
+                        callback.receivedCollaborationResponse(mucid, requestCollaborationAction.getAttribute("proposed_user"));
                         return;
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                callback.receivedCollaborationResponse(null);
+                callback.receivedCollaborationResponse(null, null);
             }
             
         });
