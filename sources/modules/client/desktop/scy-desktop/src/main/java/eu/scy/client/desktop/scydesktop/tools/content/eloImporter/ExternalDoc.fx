@@ -9,28 +9,20 @@ package eu.scy.client.desktop.scydesktop.tools.content.eloImporter;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import java.net.URI;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import javax.swing.JFileChooser;
 //import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.awt.Component;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
-import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.ExternalDocAnnotation;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Resizable;
@@ -38,9 +30,19 @@ import javafx.scene.control.TextBox;
 import javafx.scene.control.CheckBox;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
-import javafx.scene.text.Text;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 import javafx.scene.text.Font;
+import javafx.ext.swing.SwingComponent;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextOrigin;
+import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import java.awt.Component;
+import java.net.URI;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.ExternalDocAnnotation;
 
 
 /**
@@ -79,6 +81,16 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
     def valueOffset = 90.0;
     def labelOffset = 4.0;
    def spacing = 5.0;
+   var assignmentGroup:Group;
+   var assignmentEditable = elo==null;
+   var fileNameTextBox:TextBox;
+   
+   def assignmentEditor = new TextEditor();
+
+   def font = Font {
+		size: 12
+	};
+
 
     var mainContent:Group = Group{
          content: [
@@ -86,25 +98,39 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                layoutX:spacing
                spacing:spacing
                content: [
-                  Text {
-                     font : Font {
-                        size: 12
-                     }
-                     x: 10, y: 10
-                     content: "Here you can import and export a document, which is the content of this ELO."
-                  }
+//                  Text {
+//                     font : Font {
+//                        size: 12
+//                     }
+//                     x: 10, y: 10
+//                     content: "Here you can import and export a document, which is the content of this ELO."
+//                  }
                   Group{
                      content:[
                         Label {
                            layoutY:labelOffset
                            text: "Assignment"
                         }
-                        TextBox {
+                        assignmentGroup = Group{
                            layoutX:valueOffset
-                           text: bind assignment with inverse
-                           columns: nrOfColumns
-                           selectOnFocus: true
-                           editable:true
+                           content:[
+//                              if (assignmentEditable){
+//                                 SwingTextField {
+//                                    columns: 30
+//                                    rotate:
+//                                    text: bind assignment with inverse
+//                                    editable: true
+//                                 }
+//                              }
+//                              else{
+//                                 TextBox {
+//                                    text: bind assignment with inverse
+//                                    columns: nrOfColumns
+//                                    selectOnFocus: true
+//                                    editable:true
+//                                 }
+//                              }
+                           ]
                         }
                      ]
                   }
@@ -114,7 +140,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                            layoutY:labelOffset
                            text: "File name"
                         }
-                        TextBox {
+                        fileNameTextBox = TextBox {
                            layoutX:valueOffset
                            text: bind fileName
                            columns: nrOfColumns
@@ -264,8 +290,18 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
    public override function loadElo(uri:URI){
       doLoadElo(uri);
+      assignmentGroup.content = Text {
+         content: assignment
+         wrappingWidth: fileNameTextBox.width
+         textOrigin: TextOrigin.TOP;
+      }
    }
-
+   
+   public override function newElo(){
+      var swingAssignmentEditorWrapper = SwingComponent.wrap(assignmentEditor);
+      assignmentGroup.content = swingAssignmentEditorWrapper;
+   }
+   
 
    public override function create(): Node {
       return Group {
@@ -295,13 +331,13 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                            }
                         }
                         Button {
-                           text: "Import file"
+                           text: "Upload file"
                            action: function() {
 										importFile();
                            }
                         }
                         Button {
-                           text: "Export file"
+                           text: "Download file"
                            disable:bind file==null
                            action: function() {
 										exportFile();
@@ -364,6 +400,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
    function getElo():IELO{
       if (elo==null){
+         assignment = assignmentEditor.getText();
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType);
       }
@@ -378,7 +415,15 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
          elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).setValue(externalDocAnnotation);
       }
       if (file!=null){
-         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(fileName);
+         var title = elo.getMetadata().getMetadataValueContainer(titleKey).getValue();
+         if (title==null){
+            var proposedTitle = fileName;
+            var pointPos = proposedTitle.lastIndexOf('.');
+            if (pointPos>=0){
+               proposedTitle = proposedTitle.substring(0, pointPos);
+            }
+            elo.getMetadata().getMetadataValueContainer(titleKey).setValue(proposedTitle);
+         }
          if (reloadPossible and autoReload){
             reloadFile();
          }

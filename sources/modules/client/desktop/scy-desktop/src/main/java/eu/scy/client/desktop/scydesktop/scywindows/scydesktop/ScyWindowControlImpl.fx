@@ -3,45 +3,35 @@
  *
  * Created on 13-okt-2009, 17:00:48
  */
-
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import javafx.util.Math;
 import java.net.URI;
-
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
-
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
-
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
-
 import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
-
 import java.util.HashMap;
-
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
-
 
 /**
  * @author sikken
  */
-
 public class ScyWindowControlImpl extends ScyWindowControl {
+
    def logger = Logger.getLogger(this.getClass());
-
    var firstNewLas = true;
-   def activeLas = bind missionModel.activeLas on replace oldActiveLas{
-      activeLasChanged(oldActiveLas);
-      if (firstNewLas and activeLas!=null){
-         FX.deferAction(function(){
-            activeLasChanged(activeLas);
-         });
-         firstNewLas = false;
+   def activeLas = bind missionModel.activeLas on replace oldActiveLas {
+         activeLasChanged(oldActiveLas);
+         if (firstNewLas and activeLas != null) {
+            FX.deferAction(function () {
+               activeLasChanged(activeLas);
+            });
+            firstNewLas = false;
+         }
       }
-   }
-
 //   def activeAnchor = bind missionModel.activeLas on replace oldActiveAnchor{
 //      activeAnchorChanged(oldActiveAnchor);
 //      if (firstNewLas and activeAnchor!=null){
@@ -54,47 +44,46 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //   };
    var activeAnchorWindow: ScyWindow;
    /**
-   * as the uri of a window can change (when saving the elo content, this always result is an other uri),
-   * a simple Map does not work (unless the uris are updated)
-   * but lets keep it simple, use a sequence and a "slow" search
-   */
+    * as the uri of a window can change (when saving the elo content, this always result is an other uri),
+    * a simple Map does not work (unless the uris are updated)
+    * but lets keep it simple, use a sequence and a "slow" search
+    */
    var scyWindows: ScyWindow[];
    def desktopStates = new HashMap();
 
-   public override function newEloSaved(eloUri:URI){
+   public override function newEloSaved(eloUri: URI)    {
       var scyWindow = findScyWindow(eloUri);
-      if (scyWindow==null){
+      if (scyWindow == null) {
          // the elo is not yet in a window on the desktop, add it
          logger.info("new elo, is not yet on the desktop, {eloUri}");
          addOtherScyWindow(eloUri);
-      }
-      else{
+      } else {
          logger.info("new elo is already on desktop, {eloUri}");
       }
    }
 
-   public override function addOtherScyWindow(eloUri:URI): ScyWindow{
+   public override function addOtherScyWindow(eloUri: URI): ScyWindow {
       var scyWindow = getScyWindow(eloUri);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
       return scyWindow;
    }
 
-   public override function addOtherScyWindow(eloType:String):ScyWindow{
+   public override function addOtherScyWindow(eloType: String): ScyWindow {
       var scyWindow = createScyWindow(eloType);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
       return scyWindow;
    }
 
-   function activeLasChanged(oldActiveLas:Las){
+   function activeLasChanged(oldActiveLas: Las) {
       logger.info("new active las: {activeLas.id}");
       repositoryWrapper.setLasId(activeLas.id);
-      if (oldActiveLas!=null){
+      if (oldActiveLas != null) {
          // store window state of the old active las
          desktopStates.put(oldActiveLas.id, getDesktopState());
       }
-      if (activeLas!=null){
+      if (activeLas != null) {
          // remove all windows from the desktop
          windowManager.removeAllScyWindows();
          windowPositioner.clearWindows();
@@ -104,24 +93,24 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
    }
 
-   function getDesktopState(){
-      var eloUris:URI[];
-      for (window in windowManager.getScyWindows()){
-         if (window.eloUri!=null){
+   function getDesktopState() {
+      var eloUris: URI[];
+      for (window in windowManager.getScyWindows()) {
+         if (window.eloUri != null) {
             insert window.eloUri into eloUris;
          }
-         else{
+         else {
             // TODO, handle window with a new and not saved elo
          }
       }
-      DesktopState{
+      DesktopState {
          eloUris: eloUris;
-         windowPositionsState:windowPositioner.getWindowPositionsState()
+         windowPositionsState: windowPositioner.getWindowPositionsState()
       }
    }
 
-   function placeWindowsOnDesktop(desktopState:DesktopState){
-      for (loEloUri in missionModel.loEloUris){
+   function placeWindowsOnDesktop(desktopState: DesktopState) {
+      for (loEloUri in missionModel.loEloUris) {
          var loEloWindow = getScyWindow(loEloUri);
          windowManager.addScyWindow(loEloWindow);
          windowPositioner.addGlobalLearningObjectWindow(loEloWindow);
@@ -130,35 +119,33 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowManager.addScyWindow(mainAnchorWindow);
       windowPositioner.setAnchorWindow(mainAnchorWindow);
       addAnchorRelated(activeLas.mainAnchor);
-      for (intermediateAnchor in activeLas.intermediateAnchors){
-         if (intermediateAnchor.exists){
+      for (intermediateAnchor in activeLas.intermediateAnchors) {
+         if (intermediateAnchor.exists) {
             var intermediateAnchorWindow = getScyWindow(intermediateAnchor.eloUri);
             windowManager.addScyWindow(intermediateAnchorWindow);
             windowPositioner.addIntermediateWindow(intermediateAnchorWindow);
             addAnchorRelated(intermediateAnchor);
          }
       }
-
-      for (las in activeLas.nextLasses){
-         if (las.exists){
+      for (las in activeLas.nextLasses) {
+         if (las.exists) {
             var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
             windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(las));
+            windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las));
          }
       }
-      for (las in activeLas.previousLasses){
-         if (las.exists){
+      for (las in activeLas.previousLasses) {
+         if (las.exists) {
             var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
             windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(las));
+            windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las));
          }
       }
-
-      if (desktopState!=null){
+      if (desktopState != null) {
          // add the user elos
-         for (eloUri in desktopState.eloUris){
+         for (eloUri in desktopState.eloUris) {
             var scyWindow = windowManager.findScyWindow(eloUri);
-            if (scyWindow==null){
+            if (scyWindow == null) {
                scyWindow = getScyWindow(eloUri);
                windowManager.addScyWindow(scyWindow);
                windowPositioner.addOtherWindow(scyWindow);
@@ -166,99 +153,96 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          }
       }
       // all windows are placed on the desktop and now it is time to position them
-      if (desktopState!=null and desktopState.windowPositionsState!=null){
+      if (desktopState != null and desktopState.windowPositionsState != null) {
          // put the windows on the original positions
          windowPositioner.positionWindows(desktopState.windowPositionsState);
-      }
-      else{
+      } else {
          // no old position information
          windowPositioner.positionWindows();
       }
    }
 
-   function addAnchorRelated(missionAnchor:MissionAnchorFX){
-      for (anchor in missionAnchor.inputAnchors){
-         if (anchor.exists){
+   function addAnchorRelated(missionAnchor: MissionAnchorFX) {
+      for (anchor in missionAnchor.inputAnchors) {
+         if (anchor.exists) {
             var anchorWindow = getScyWindow(anchor.eloUri);
             windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(anchor.las));
+            windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(anchor.las));
          }
       }
-      for (loEloUri in missionAnchor.loEloUris){
-            var loEloWindow = getScyWindow(loEloUri);
-            windowManager.addScyWindow(loEloWindow);
-            windowPositioner.addLearningObjectWindow(loEloWindow);
+      for (loEloUri in missionAnchor.loEloUris) {
+         var loEloWindow = getScyWindow(loEloUri);
+         windowManager.addScyWindow(loEloWindow);
+         windowPositioner.addLearningObjectWindow(loEloWindow);
       }
-      for (relationName in missionAnchor.relationNames){
+      for (relationName in missionAnchor.relationNames) {
          // add the related elos
       }
    }
 
-
-   function findScyWindow(eloUri:URI):ScyWindow{
-      for (window in scyWindows){
-         if (window.eloUri==eloUri){
+   function findScyWindow(eloUri: URI): ScyWindow {
+      for (window in scyWindows) {
+         if (window.eloUri == eloUri) {
             return window;
          }
       }
       return null;
    }
 
-
-   function getScyWindow(eloUri:URI):ScyWindow{
+   function getScyWindow(eloUri: URI): ScyWindow {
       var scyWindow = findScyWindow(eloUri);
-      if (scyWindow==null){
+      if (scyWindow == null) {
          scyWindow = createScyWindow(eloUri);
       }
       return scyWindow;
    }
 
-   function createScyWindow(eloUri:URI):ScyWindow{
-      var scyWindow = StandardScyWindow{
-         eloUri: eloUri;
-         eloType: eloInfoControl.getEloType(eloUri);
-         title: eloInfoControl.getEloTitle(eloUri);
-         setScyContent:setScyContent;
-         missionModelFX:missionModel
-         tooltipManager:tooltipManager
-         dragAndDropManager:dragAndDropManager
-      }
+   function createScyWindow(eloUri: URI): ScyWindow {
+      var scyWindow = StandardScyWindow {
+            eloUri: eloUri;
+            eloType: eloInfoControl.getEloType(eloUri);
+            title: eloInfoControl.getEloTitle(eloUri);
+            setScyContent: setScyContent;
+            missionModelFX: missionModel
+            tooltipManager: tooltipManager
+            dragAndDropManager: dragAndDropManager
+         }
       tooltipManager.registerNode(scyWindow, scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
-      if (anchorAttribute!=null){
-          scyWindow.scyWindowAttributes = anchorAttribute;
-          anchorAttribute.windowAction= function(anchor: MissionAnchorFX):Void{
-             windowPositioner.makeMainWindow(getScyWindow(anchor.eloUri));
-          }
+      if (anchorAttribute != null) {
+         scyWindow.scyWindowAttributes = anchorAttribute;
+         anchorAttribute.windowAction = function (anchor: MissionAnchorFX): Void {
+            windowPositioner.makeMainWindow(getScyWindow(anchor.eloUri));
+         }
       }
-//      applyMetadataAttributes(scyWindow,eloUri);
-//      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
+      //      applyMetadataAttributes(scyWindow,eloUri);
+      //      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
       windowStyler.style(scyWindow, eloUri);
       insert scyWindow into scyWindows;
       return scyWindow;
    }
 
-   function createScyWindow(eloType:String):ScyWindow{
-      var scyWindow = StandardScyWindow{
-         eloType: eloType;
-         setScyContent:setScyContent;
-         missionModelFX:missionModel
-         tooltipManager:tooltipManager
-         dragAndDropManager:dragAndDropManager
-      }
+   function createScyWindow(eloType: String): ScyWindow {
+      var scyWindow = StandardScyWindow {
+            eloType: eloType;
+            setScyContent: setScyContent;
+            missionModelFX: missionModel
+            tooltipManager: tooltipManager
+            dragAndDropManager: dragAndDropManager
+         }
       tooltipManager.registerNode(scyWindow, scyWindow);
       windowStyler.style(scyWindow);
       insert scyWindow into scyWindows;
       return scyWindow;
    }
 
-   function getAnchor(eloUri:URI):MissionAnchorFX{
-      for (las in missionModel.lasses){
-         if (las.mainAnchor.eloUri==eloUri){
+   function getAnchor(eloUri: URI): MissionAnchorFX {
+      for (las in missionModel.lasses) {
+         if (las.mainAnchor.eloUri == eloUri) {
             return las.mainAnchor;
          }
-         for (anchor in las.intermediateAnchors){
-            if (anchor.eloUri==eloUri){
+         for (anchor in las.intermediateAnchors) {
+            if (anchor.eloUri == eloUri) {
                return anchor;
             }
          }
@@ -266,10 +250,9 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       return null;
    }
 
-   function getAnchorDirection(las:Las):Number{
-      return Math.atan2(las.yPos - activeLas.yPos , las.xPos - activeLas.xPos);
+   function getAnchorDirection(las: Las): Number {
+      return Math.atan2(las.yPos - activeLas.yPos, las.xPos - activeLas.xPos);
    }
-
 
 //   function getScyWindow(anchor:MissionAnchorFX):ScyWindow{
 //      var scyWindow: ScyWindow = windowManager.findScyWindow(anchor.eloUri);
@@ -424,7 +407,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //      }
 //
 //   }
-
 //   var usedEdgeSourceWindows: ScyWindow[]; // TODO, don't use a "global" variable for it
 //   function findRelatedWindows(){
 //      delete relatedWindows;
@@ -434,7 +416,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //      }
 //
 //   }
-
 //   function findRelatedWindows(relationName:String){
 //      var relationKey = metadataTypeManager.getMetadataKey(relationName);
 //      if (relationKey == null){
@@ -499,7 +480,4 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //      }
 //   }
 //
-
-
-
 }
