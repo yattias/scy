@@ -64,7 +64,7 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
         } else if (path.equals(notificationPath + "@session")) {
             return pojo.getSession();
         } else if (path.startsWith(propertiesPath)) {
-            String attribute = path.substring(propertiesPath.length());
+            String attribute = path.substring(propertiesPath.length() + 1);
             return pojo.getPropertyXMLString(attribute);
         }
         return null;
@@ -88,7 +88,7 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
         paths.add(notificationPath + "@mission");
         paths.add(notificationPath + "@session");
         for (String key : pojo.getProperties().keySet()) {
-            paths.add(propertiesPath + key);
+            paths.add(propertiesPath + "/" + key);
         }
         return (String[]) paths.toArray(new String[paths.size()]);
     }
@@ -114,7 +114,7 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
         } else if (path.equals(notificationPath + "@session")) {
             pojo.setSession(value);
         } else if (path.startsWith(propertiesPath)) {
-            String attribute = path.substring(propertiesPath.length());
+            String attribute = path.substring(propertiesPath.length() + 1);
             pojo.addPropertyXMLString(attribute, value);
         }
     }
