@@ -2,6 +2,7 @@ package eu.scy.client.tools.chattool;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -98,8 +99,15 @@ public class ChatPresencePanel extends JPanel {
     	au.setNickName(user);
     	au.setPresence(IPresenceEvent.WAITING);
     	logger.debug("ChatPresencePanel: addTemporaryUser jid...: " + au.getJid());
-    	logger.debug("ChatPresencePanel: addTemporaryUser nick...: " + au.getNickName());
     	this.chatController.addBuddy(au);
     }
 
+    public void removeTemporaryUser(String user) {
+    	StringTokenizer st = new StringTokenizer(user, "@");
+    	String userName = st.nextToken();
+    	AwarenessUser au = new AwarenessUser();
+    	au.setJid(userName);
+    	logger.debug("ChatPresencePanel: removeTemporaryUser jid...: " + au.getJid());
+    	this.chatController.removeBuddy(au);
+    }
 }
