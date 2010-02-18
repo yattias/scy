@@ -250,6 +250,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
                             if (treeMaximized) {
                                 interviewTree.width=width - rightWidth;
                                 treeMaximized = false;
+                                resizeContent();
                                 interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
                             } else {
                                 interviewTree.width=width;
