@@ -72,15 +72,20 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    var technicalFormatKey: IMetadataKey;
 
    public override function initialize(windowContent:Boolean):Void{
+      var username:String = toolBrokerAPI.getLoginUserName();
+      var toolname:String = "interviewtool";
+      var missionname:String = toolBrokerAPI.getMission();
+      var sessionname:String = "sessionname";
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        interviewLogger = InterviewLogger{
+      interviewLogger = InterviewLogger{
          actionLogger: actionLogger
-         username: "username"
-         toolname: "interviewtool"
-         missionname: "missionname"
-         sessionname: "sessionname"
+         username: username
+         toolname: toolname
+         missionname: missionname
+         sessionname: sessionname
       };
-//      schemaEditor.
+      schemaEditor.setRichTextEditorLogger(actionLogger,
+         username, toolname, missionname, sessionname, "interview schema");
    }
 
    public override function loadElo(uri:URI){
@@ -249,11 +254,11 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
                                 interviewTree.width=width - rightWidth;
                                 treeMaximized = false;
                                 resizeContent();
-                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
+                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
                             } else {
                                 interviewTree.width=width;
                                 treeMaximized = true;
-                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
+                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
                             }
                         }
                    }

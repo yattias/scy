@@ -49,6 +49,10 @@ public def ZOOM_TREE_OUT = "zoom tree out";
 public def BACK_CLICKED = "back button clicked";
 public def HOME_CLICKED = "home button clicked";
 public def NEXT_CLICKED = "next button clicked";
+public def ZOOM_SCHEMA_IN = "zoom schema in";
+public def ZOOM_SCHEMA_OUT = "zoom schema out";
+public def ZOOM_GUIDELINES_IN = "zoom guidelines in";
+public def ZOOM_GUIDELINES_OUT = "zoom guidelines out";
 
 var COUNT:Integer = 0;
 

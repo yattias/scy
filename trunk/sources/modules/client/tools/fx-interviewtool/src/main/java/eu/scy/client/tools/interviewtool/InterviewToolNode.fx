@@ -489,12 +489,14 @@ def zoomSchemaOut: function() =
         zoomEditorOut(wrappedSchemaEditor,schemaZoomInButton);
         schemaMaximized = false;
         drawNormalWindow();
+        interviewLogger.logBasicAction(InterviewLogger.ZOOM_SCHEMA_OUT);
     };
 def zoomSchemaIn: function() =
     function() {
         schemaZoomInButton.visible = false;
         zoomEditorIn(wrappedSchemaEditor,schemaZoomOutButton);
         schemaMaximized = true;
+        interviewLogger.logBasicAction(InterviewLogger.ZOOM_SCHEMA_IN);
     };
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
@@ -602,12 +604,14 @@ def zoomGuidelinesOut: function() =
         zoomEditorOut(wrappedGuidelinesEditor,guidelinesZoomInButton);
         guidelinesMaximized = false;
         drawNormalWindow();
+        interviewLogger.logBasicAction(InterviewLogger.ZOOM_GUIDELINES_OUT);
     };
 def zoomGuidelinesIn: function() =
     function() {
         guidelinesZoomInButton.visible = false;
         zoomEditorIn(wrappedGuidelinesEditor,guidelinesZoomOutButton);
         guidelinesMaximized = true;
+        interviewLogger.logBasicAction(InterviewLogger.ZOOM_GUIDELINES_IN);
     };
 function showConductRecommendations() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_CONDUCT_RECOMMENDATIONS);
