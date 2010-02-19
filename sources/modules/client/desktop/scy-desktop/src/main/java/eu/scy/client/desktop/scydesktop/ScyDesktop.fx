@@ -259,15 +259,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
             content: topRightCornerTool;
             color: Color.GREEN;
         }
-        bottomRightCorner = BottomRightCorner {
-            // TODO, replace with specified tool
-            content: missionMap;
-            color: Color.BLUE;
-        }
-        bottomLeftCorner = BottomLeftCorner {
-            content: bottomLeftCornerTool;
-            color: Color.GRAY;
-        }
 
       var SPTButton = ImageButton {
 

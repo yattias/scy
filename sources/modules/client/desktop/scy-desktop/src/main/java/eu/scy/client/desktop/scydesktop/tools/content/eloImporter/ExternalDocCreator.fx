@@ -16,10 +16,12 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 public class ExternalDocCreator extends ScyToolCreatorFX {
    public-init var extensions:String[];
+   public-init var fileFilterDescription:String;
     override public function createScyToolNode (eloType : String, creatorId:String,  window : ScyWindow, windowContent : Boolean) : Node {
         ExternalDoc{
            technicalType:eloType;
            extensions: extensions;
+           fileFilterDescription:fileFilterDescription
         }
 
     }
