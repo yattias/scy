@@ -135,8 +135,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
             @Override
             public void processNotification(INotification notification) {
                 if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type")!=null&&notification.getFirstProperty("type").equals("collaboration_response")) {
-                    String proposingUser = notification.getFirstProperty("proposed_user");
-                    String proposedUser = notification.getFirstProperty("proposing_user");
+                    String proposingUser = notification.getFirstProperty("proposing_user");
+                    String proposedUser = notification.getFirstProperty("proposed_user");
                     String elo = notification.getFirstProperty("proposed_elo");
                     collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo).add(notification);
                 }
@@ -332,10 +332,10 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
     	logger.debug("TBI: proposeCollaborationWith: user: "+proposedUser+" eloid: "+elouri);
     	//callback.receivedCollaborationResponse(elouri, proposedUser);
         final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-        collaborationAnswers.put(userName + "#" + proposedUser + "#" + elouri, queue);
+        collaborationAnswers.put(getSmackName() + "#" + proposedUser + "#" + elouri, queue);
         final IActionLogger log = getActionLogger();
         final IAction requestCollaborationAction = new Action();
-        requestCollaborationAction.setUser(userName);
+        requestCollaborationAction.setUser(getSmackName());
         requestCollaborationAction.setType("collaboration_request");
         requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
         requestCollaborationAction.addContext(ContextConstants.mission, mission);
@@ -351,6 +351,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                 try {
                     INotification notif = queue.take();
                     boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
+                    logger.debug("***********run***************");
                     if (accepted) {
                         String mucid = notif.getFirstProperty("mucid");
                         callback.receivedCollaborationResponse(mucid, requestCollaborationAction.getAttribute("proposed_user"));
@@ -361,18 +362,21 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                 }
                 callback.receivedCollaborationResponse(null, null);
             }
-            
         });
         t.start();
+    }
+
+    public String getSmackName(){
+        return userName + "@collide.info/Smack";
     }
 
     @Override
     public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
         LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-        collaborationAnswers.put(proposingUser + "#" + userName + "#" + elouri, queue);
+        collaborationAnswers.put(proposingUser + "#" + getSmackName() + "#" + elouri, queue);
         IActionLogger log = getActionLogger();
         IAction collaborationResponseAction = new Action();
-        collaborationResponseAction.setUser(userName);
+        collaborationResponseAction.setUser(getSmackName());
         collaborationResponseAction.setType("collaboration_response");
         collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
         collaborationResponseAction.addContext(ContextConstants.mission, mission);
