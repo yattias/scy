@@ -71,6 +71,8 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyVideoId = "video";
    def scyWebresourceId = "webresource";
    def presentationViewerId = "presentationUpload";
+   def sketchUpUploadId = "sketchUpUpload";
+   def wordUploadId = "wordUpload";
    def scyRichTextId = "richtext";
 
    var scyDesktopCreator = ScyDesktopCreator {
@@ -103,7 +105,21 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{}, presentationViewerId);
+   var presentationExternalDocCreator = ExternalDocCreator{
+      extensions: ["ppt","pptx"]
+      fileFilterDescription:"PowerPoint Presentations"
+   }
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(presentationExternalDocCreator, presentationViewerId);
+   var sketchUpExternalDocCreator = ExternalDocCreator{
+      extensions: ["skp"]
+      fileFilterDescription:"Google SketchUp drawings"
+   }
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(sketchUpExternalDocCreator, sketchUpUploadId);
+   var wordExternalDocCreator = ExternalDocCreator{
+      extensions: ["doc","docx"]
+      fileFilterDescription:"Word documents"
+   }
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(wordExternalDocCreator, wordUploadId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
 
