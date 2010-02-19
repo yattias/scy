@@ -58,6 +58,8 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    public var repository:IRepository;
    public var technicalType:String;
    public-init var extensions:String[];
+   public-init var fileFilterDescription:String;
+
 
    var elo:IELO;
 
@@ -249,7 +251,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    init{
       if (sizeof extensions > 0){
          // TODO, find out out why netbeans does not use java 1.6
-         //fileChooser.setFileFilter(new FileNameExtensionFilter("description",extensions));
+         fileChooser.setFileFilter(new ExampleFileFilter(extensions,fileFilterDescription));
       }
 
       autoSyncStateUpdateer.play();
