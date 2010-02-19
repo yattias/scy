@@ -23,9 +23,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
-
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
-
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
@@ -112,7 +110,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 		Tuple notificationTuple = getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
-						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+						String.class, String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0).getValue());
 		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple.getField(2).getValue());
@@ -120,10 +118,11 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(), notificationTuple.getField(4).getValue());
 		assertEquals("mission1", notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
-		for (int i = 7; i < notificationTuple.getNumberOfFields(); i++) {
+		assertEquals("type=concept_proposal", notificationTuple.getField(7).getValue());
+		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
 			System.out.println(keyword);
-			assertEquals(expectedKeywords[i - 7], keyword);
+			assertEquals(expectedKeywords[i - 8], keyword);
 		}
 	}
 
