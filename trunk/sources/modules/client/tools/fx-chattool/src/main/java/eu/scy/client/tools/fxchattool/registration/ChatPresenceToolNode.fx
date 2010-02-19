@@ -29,14 +29,17 @@ import eu.scy.client.desktop.scydesktop.*;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.toolbrokerapi.CollaborationCallback;
 import eu.scy.awareness.IAwarenessUser;
+import java.util.Vector;
 
 /**
  * @author jeremyt
  */
 
-public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,CollaborationCallback {
+public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, CollaborationCallback {
     public override var width on replace {resizeContent()};
     public override var height on replace {resizeContent()};
+
+    var tempUsers:Vector = new Vector();
 
     public-init var eloChatActionWrapper:EloChatActionWrapper;
 
@@ -124,13 +127,21 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX,Colla
       println("ChatPresenceToolNode: acceptDrop of {object.getClass()}");
       var c:ContactFrame = object as ContactFrame;
       println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
-      chatPresenceTool.addTemporaryUser(c.contact.name);
-      //XXX the "/Smack" should be received correctly via method
-      toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+      if(tempUsers.contains("{c.contact.awarenessUser.getJid()}/Smack") == false) {
+        chatPresenceTool.addTemporaryUser(c.contact.name);
+        //XXX the "/Smack" should be received correctly via method
+        toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+        tempUsers.addElement("{c.contact.awarenessUser.getJid()}/Smack");
+      }
+      else {
+          println("user: {c.contact.name} has already been contacted");
+      }
+
    }
 
    public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
       println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {user}");
       chatPresenceTool.removeTemporaryUser(user);
+      tempUsers.removeElement(user);
    }
 }
