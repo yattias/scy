@@ -155,10 +155,10 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
    public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
       if (mucid!=null){
-          
+          scyMapperPanel.joinSession(mucid);
+          logger.debug("joined session: {mucid}");
       }
-
-      println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {user}");
+          logger.debug("Cannot join session: mucid is null");
    }
 
 
@@ -204,8 +204,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         scyMapperPanel.setConceptMap(conceptMap);
    }
     public override function startCollaboration(mucid:String){
-        def datasync:IDataSyncService = scyWindow.scyDesktop.config.getToolBrokerAPI().getDataSyncService();
         scyMapperPanel.joinSession(mucid);
-        println("sync session with mucid {mucid} created.");
+        logger.debug("joined session, mucid: {mucid}");
     }
 }
