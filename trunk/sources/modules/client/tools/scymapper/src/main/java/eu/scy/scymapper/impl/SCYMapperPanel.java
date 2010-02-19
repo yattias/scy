@@ -30,9 +30,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 /**
- * User: Bjoerge
- * Date: 27.aug.2009
- * Time: 13:29:56
+ * User: Bjoerge Date: 27.aug.2009 Time: 13:29:56
  */
 public class SCYMapperPanel extends JPanel {
 
@@ -49,6 +47,7 @@ public class SCYMapperPanel extends JPanel {
 	private ISCYMapperToolConfiguration conf = SCYMapperToolConfiguration.getInstance();
 
 	private ISyncListener dummySyncListener = new ISyncListener() {
+
 		@Override
 		public void syncObjectAdded(ISyncObject iSyncObject) {
 		}
@@ -76,23 +75,27 @@ public class SCYMapperPanel extends JPanel {
 	public void setToolBroker(ToolBrokerAPI tbi, String username) {
 		toolBroker = tbi;
 		if (toolBroker != null) {
+			// toolBroker.registerForNotifications(new INotifiable() {
+			// @Override
+			// public void processNotification(INotification notification) {
+			// showNotification(notification);
+			// }
+			// });
 			toolBroker.registerForNotifications(new INotifiable() {
+
 				@Override
 				public void processNotification(INotification notification) {
-					showNotification(notification);
-				}
-			});
-			toolBroker.registerForNotifications(new INotifiable() {
-				@Override
-				public void processNotification(INotification notification) {
-					if (notification.getToolId().equals("scymapper") &&
-							notification.getFirstProperty("type").equals("concept_proposal")) {
-						String[] keywords = notification.getPropertyArray("keywords");
-						if (keywords != null) suggestKeywords(Arrays.asList(keywords));
+					if (notification.getToolId().equals("scymapper")
+							&& notification.getFirstProperty("type").equals("concept_proposal")) {
+						String[] keywords = notification.getPropertyArray("keyword");
+						if (keywords != null) {
+							suggestKeywords(Arrays.asList(keywords));
+						}
 					}
 				}
 			});
-			actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(), username);
+			actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(),
+					username);
 		}
 	}
 
@@ -100,20 +103,25 @@ public class SCYMapperPanel extends JPanel {
 
 		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
 
-		if (keywords.size() == 1)
+		if (keywords.size() == 1) {
 			panel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
-		else
+		} else {
 			panel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
+		}
 
 		panel.setSize(400, 350);
-		panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
+		panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
+				BorderFactory.createRaisedBevelBorder()));
 
-		if (notificator != null) notificator.hide();
+		if (notificator != null) {
+			notificator.hide();
+		}
 		notificator = new SlideNotificator(SCYMapperPanel.this, panel);
 
 		final SlideNotificator n = notificator;
 		JButton close = new JButton("Close");
 		close.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				n.hide();
@@ -141,14 +149,11 @@ public class SCYMapperPanel extends JPanel {
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("--- NOTIFICATION ---").append("\n\n").
-				append("ToolID:	").append(notification.getToolId()).append("\n").
-				append("Mission:	").append(notification.getMission()).append("\n").
-				append("Sender:	").append(notification.getSender()).append("\n").
-				append("UserId:	").append(notification.getUserId()).append("\n").
-				append("ToolId:	").append(notification.getToolId()).append("\n").
-				append("Session:	").append(notification.getSession()).append("\n").
-				append("Properties --------------\n");
+		sb.append("--- NOTIFICATION ---").append("\n\n").append("ToolID:	").append(notification.getToolId()).append(
+				"\n").append("Mission:	").append(notification.getMission()).append("\n").append("Sender:	").append(
+				notification.getSender()).append("\n").append("UserId:	").append(notification.getUserId()).append("\n")
+				.append("ToolId:	").append(notification.getToolId()).append("\n").append("Session:	").append(
+						notification.getSession()).append("\n").append("Properties --------------\n");
 
 		for (Map.Entry<String, String[]> entry : notification.getProperties().entrySet()) {
 			sb.append("  ").append(entry.getKey()).append(":	").append(entry.getValue()).append("\n");
@@ -158,12 +163,15 @@ public class SCYMapperPanel extends JPanel {
 		panel.add(BorderLayout.CENTER, textArea);
 
 		panel.setSize(400, 350);
-		if (notificator != null) notificator.hide();
+		if (notificator != null) {
+			notificator.hide();
+		}
 		notificator = new SlideNotificator(SCYMapperPanel.this, panel);
 
 		final SlideNotificator n = notificator;
 		JButton close = new JButton("Close");
 		close.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				n.hide();
@@ -179,9 +187,13 @@ public class SCYMapperPanel extends JPanel {
 
 	private void showKeywordSuggestion() {
 
-		String input = JOptionPane.showInputDialog("What keyword would you like to have suggested to you (Separate keywords with comma)?", "Contains, extensions, to, the, Swing, GUI, toolkit");
+		String input = JOptionPane.showInputDialog(
+				"What keyword would you like to have suggested to you (Separate keywords with comma)?",
+				"Contains, extensions, to, the, Swing, GUI, toolkit");
 
-		if (input == null) return;
+		if (input == null) {
+			return;
+		}
 		java.util.List<String> keywords = Arrays.asList(input.split(",\\s+"));
 		suggestKeywords(keywords);
 
@@ -190,7 +202,7 @@ public class SCYMapperPanel extends JPanel {
 	private void initComponents() {
 
 		JPanel topToolBarPanel = new JPanel(new MigLayout("flowy", "[left,grow,fill]"));
-		//topToolBarPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
+		// topToolBarPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
 
 		JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -200,6 +212,7 @@ public class SCYMapperPanel extends JPanel {
 
 		JButton joinSessionButton = new JButton("Join session");
 		joinSessionButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				joinSession();
@@ -207,6 +220,7 @@ public class SCYMapperPanel extends JPanel {
 		});
 		JButton createSessionButton = new JButton("Create session");
 		createSessionButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createSession();
@@ -219,6 +233,7 @@ public class SCYMapperPanel extends JPanel {
 
 		JButton makeNotificationButton = new JButton("Create dummy notification");
 		makeNotificationButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				INotification notification = new Notification();
@@ -231,6 +246,7 @@ public class SCYMapperPanel extends JPanel {
 
 		JButton showNotificationButton = new JButton("Show notification");
 		showNotificationButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				notificator.show();
@@ -238,6 +254,7 @@ public class SCYMapperPanel extends JPanel {
 		});
 		JButton hideNotificationButton = new JButton("Hide notification");
 		hideNotificationButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				notificator.hide();
@@ -245,6 +262,7 @@ public class SCYMapperPanel extends JPanel {
 		});
 		JButton testSuggestKeywordButton = new JButton("Suggest keywords");
 		testSuggestKeywordButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showKeywordSuggestion();
@@ -261,7 +279,6 @@ public class SCYMapperPanel extends JPanel {
 		cmapPanel = new ConceptMapPanel(conceptMap);
 		cmapPanel.setBackground(Color.WHITE);
 		conceptDiagramView = cmapPanel.getDiagramView();
-
 
 		JToolBar toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView);
 		topToolBarPanel.add(toolBar);
@@ -285,8 +302,8 @@ public class SCYMapperPanel extends JPanel {
 		repaint();
 	}
 
-
 	private class CreateSessionAction extends AbstractAction {
+
 		private CreateSessionAction() {
 			super("Create and join session");
 		}
@@ -294,7 +311,8 @@ public class SCYMapperPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent ev) {
 			if (toolBroker == null) {
-				JOptionPane.showMessageDialog(SCYMapperPanel.this, "Please login first", "Not logged in", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(SCYMapperPanel.this, "Please login first", "Not logged in",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			System.out.println("CREATING SESSION");
@@ -309,6 +327,7 @@ public class SCYMapperPanel extends JPanel {
 	}
 
 	private class ShowSessionIDAction extends AbstractAction {
+
 		private ShowSessionIDAction() {
 			super("Display session ID");
 		}
@@ -320,6 +339,7 @@ public class SCYMapperPanel extends JPanel {
 	}
 
 	private class JoinSessionAction extends AbstractAction {
+
 		private JoinSessionAction() {
 			super("Join session");
 		}
@@ -327,34 +347,35 @@ public class SCYMapperPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (toolBroker == null) {
-				JOptionPane.showMessageDialog(SCYMapperPanel.this, "Please login first", "Not logged in", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(SCYMapperPanel.this, "Please login first", "Not logged in",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			joinSession();
 		}
 	}
 
-
 	private void joinSession() {
 		String sessId = JOptionPane.showInputDialog("Enter session ID");
 
 		if (sessId != null) {
-			currentSession = toolBroker.getDataSyncService().joinSession(sessId, SCYMapperPanel.this.dummySyncListener);
+			currentSession = toolBroker.getDataSyncService().joinSession(sessId, dummySyncListener);
 			joinSession(currentSession);
 			sessionId.setText(sessId);
 		}
 	}
 
 	private void createSession() {
-		if (toolBroker == null)
+		if (toolBroker == null) {
 			JOptionPane.showMessageDialog(this, "Error: ToolBroker is null", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 		try {
-			currentSession = toolBroker.getDataSyncService().createSession(SCYMapperPanel.this.dummySyncListener);
+			currentSession = toolBroker.getDataSyncService().createSession(dummySyncListener);
 			joinSession(currentSession);
 			actionLogger.setSession(currentSession);
 			displaySessionId();
 		} catch (Exception e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			e.printStackTrace(); // To change body of catch statement use File | Settings | File Templates.
 		}
 	}
 }
