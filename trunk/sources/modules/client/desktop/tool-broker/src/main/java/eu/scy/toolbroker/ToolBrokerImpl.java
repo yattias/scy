@@ -134,7 +134,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
 
             @Override
             public void processNotification(INotification notification) {
-                if (notification.getToolId().equals("scylab") && notification.getFirstProperty("collaboration_response") != null) {
+                if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type")!=null&&notification.getFirstProperty("type").equals("collaboration_response")) {
                     String proposingUser = notification.getFirstProperty("proposed_user");
                     String proposedUser = notification.getFirstProperty("proposing_user");
                     String elo = notification.getFirstProperty("proposed_elo");
@@ -187,6 +187,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getRepository()
      */
+    @Override
     public IRepository getRepository() {
         return repository;
     }
@@ -195,6 +196,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getMetaDataTypeManager()
      */
+    @Override
     public IMetadataTypeManager getMetaDataTypeManager() {
         return metaDataTypeManager;
     }
@@ -203,10 +205,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getExtensionManager()
      */
+    @Override
     public IExtensionManager getExtensionManager() {
         return extensionManager;
     }
 
+    @Override
     public IActionLogger getActionLogger() {
         return actionLogger;
     }
@@ -362,6 +366,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         t.start();
     }
 
+    @Override
     public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
         LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
         collaborationAnswers.put(proposingUser + "#" + userName + "#" + elouri, queue);
