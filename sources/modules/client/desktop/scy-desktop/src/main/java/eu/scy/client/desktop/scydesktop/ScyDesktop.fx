@@ -383,18 +383,25 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 def accepted: String = notification.getFirstProperty("accepted");
                 def eloUri: String = notification.getFirstProperty("elo");
                 if (accepted == "true") {
-                    JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     def mucid: String = notification.getFirstProperty("mucid");
                     def collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
+                    if (collaborationWindow==null){
+                        ///FIXME create a window/tool with the elo
+                        //scyToolFactory.createNewScyToolNode(id, , eloUri, scyWindow, true);
+                    }else {
+
+                    }
+
                     def toolNode: Node = collaborationWindow.scyContent;
                     if (toolNode instanceof CollaborationStartable) {
                         (toolNode as CollaborationStartable).startCollaboration(mucid);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Your request for collaboration was not accepted!", "Info", JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Your request for collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
                         logger.debug("collaboration not accepted");
                     }
-            }
+                    }
         }
     }
 
