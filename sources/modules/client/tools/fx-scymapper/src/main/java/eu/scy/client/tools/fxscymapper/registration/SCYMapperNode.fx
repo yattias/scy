@@ -18,7 +18,7 @@ import javafx.scene.control.Button;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
-
+import eu.scy.awareness.IAwarenessUser;
 import java.awt.Dimension;
 
 import eu.scy.scymapper.impl.SCYMapperPanel;
@@ -37,10 +37,12 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import eu.scy.toolbrokerapi.CollaborationCallback;
 import java.lang.System;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 
 
-public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
+public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable, CollaborationCallback {
 
     public-init var scyMapperPanel:SCYMapperPanel;
     public-init var repositoryWrapper:ScyMapperRepositoryWrapper;
@@ -138,6 +140,28 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         eloSaver.eloSaveAs(currentELO, this);
     }
 
+ public override function canAcceptDrop(object:Object):Boolean{
+      println("ChatPresenceToolNode: canAcceptDrop of {object.getClass()}");
+      return true;
+   }
+
+   public override function acceptDrop(object:Object):Void{
+      println("ChatPresenceToolNode: acceptDrop of {object.getClass()}");
+      var c:ContactFrame = object as ContactFrame;
+      println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
+      scyWindow.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+   }
+
+
+   public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
+      if (mucid!=null){
+          
+      }
+
+      println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {user}");
+   }
+
+
     override function eloSaveCancelled (elo : IELO) : Void {
        println("User cancelled saving of ELO");
     }
@@ -181,7 +205,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
    }
     public override function startCollaboration(mucid:String){
         def datasync:IDataSyncService = scyWindow.scyDesktop.config.getToolBrokerAPI().getDataSyncService();
-        syncSession = datasync.joinSession(mucid,SCYMapperSyncListener{});
+        scyMapperPanel.joinSession(mucid);
         println("sync session with mucid {mucid} created.");
     }
 }
