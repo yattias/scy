@@ -215,7 +215,8 @@ public class SCYMapperPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				joinSession();
+	                      String sessId = JOptionPane.showInputDialog("Enter session ID");
+				joinSession(sessId);
 			}
 		});
 		JButton createSessionButton = new JButton("Create session");
@@ -351,12 +352,12 @@ public class SCYMapperPanel extends JPanel {
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			joinSession();
+	              String sessId = JOptionPane.showInputDialog("Enter session ID");
+			joinSession(sessId);
 		}
 	}
 
-	private void joinSession() {
-		String sessId = JOptionPane.showInputDialog("Enter session ID");
+	public void joinSession(String sessId) {
 
 		if (sessId != null) {
 			currentSession = toolBroker.getDataSyncService().joinSession(sessId, dummySyncListener);
