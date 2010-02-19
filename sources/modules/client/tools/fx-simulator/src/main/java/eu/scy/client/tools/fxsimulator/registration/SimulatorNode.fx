@@ -126,6 +126,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     public override function actionPerformed(evt: ActionEvent) {
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
+            newSimulationPanel.remove(newSimulationPanel.load);
             newSimulationPanel.add(new JLabel("Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
@@ -234,7 +235,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
             }
-            fixedDimension.height = fixedDimension.height + 240;
+            fixedDimension.height = fixedDimension.height + 260;
             scyWindow.open();
             var syncAttrib = DatasyncAttribute {
                         dragAndDropManager: scyWindow.dragAndDropManager;
