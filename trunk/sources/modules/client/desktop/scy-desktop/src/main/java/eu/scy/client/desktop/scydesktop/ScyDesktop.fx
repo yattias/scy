@@ -360,7 +360,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
     }
 
     public override function processNotification(notification: INotification): Void {
+        logger.debug("notification.getToolId(): {notification.getToolId()}");
         def notificationType: String = notification.getFirstProperty("type");
+        logger.debug("notification-type: {notificationType}");
         if (not (notificationType == null)) {
             if (notificationType == "collaboration_request") {
                 logger.debug("********************collaboration_request*************************");
@@ -370,16 +372,18 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 def eloUri: String = notification.getFirstProperty("elo");
                 def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION){
+                    logger.debug(" => accepting collaboration");
                     config.getToolBrokerAPI().answerCollaborationProposal(true,user,eloUri);
                 } else if (option == JOptionPane.NO_OPTION){
+                    logger.debug(" => denying collaboration");
                     config.getToolBrokerAPI().answerCollaborationProposal(false,user,eloUri);
                 }
             } else if (notificationType == "collaboration_response") {
                 logger.debug("********************collaboration_response*************************");
-                def accepted: String = notification.getFirstProperty("request_accepted");
+                def accepted: String = notification.getFirstProperty("accepted");
                 def eloUri: String = notification.getFirstProperty("elo");
                 if (accepted == "true") {
-                    JOptionPane.showConfirmDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.OK_OPTION);
                     def mucid: String = notification.getFirstProperty("mucid");
                     def collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
                     def toolNode: Node = collaborationWindow.scyContent;
@@ -387,7 +391,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                         (toolNode as CollaborationStartable).startCollaboration(mucid);
                         }
                     } else {
-                        JOptionPane.showConfirmDialog(null, "Your request for collaboration was not accepted!", "Info", JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Your request for collaboration was not accepted!", "Info", JOptionPane.OK_OPTION);
                         logger.debug("collaboration not accepted");
                     }
             }
