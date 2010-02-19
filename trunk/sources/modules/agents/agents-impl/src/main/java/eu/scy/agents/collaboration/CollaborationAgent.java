@@ -94,8 +94,8 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                         commandSpace.write(new Tuple(id, "datasync", "create_session"));
                         Tuple dataSyncResponse = commandSpace.waitToTake(new Tuple(id, String.class));
                         String mucId = dataSyncResponse.getField(1).getValue().toString();
-                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId);
-                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId);
+                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
                     } catch (TupleSpaceException e) {
                         // in case of problems dump a stacktrace and do as if request has not been
                         // accepted ...
@@ -107,7 +107,6 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 }
             }
         }
-
     }
 
     private void sendNotification(String username, String mission, String session, String... params) {
