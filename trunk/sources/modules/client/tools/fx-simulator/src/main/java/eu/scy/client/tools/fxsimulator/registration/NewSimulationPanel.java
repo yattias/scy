@@ -14,7 +14,8 @@ import javax.swing.JTextField;
 public class NewSimulationPanel extends JPanel implements ActionListener {
 
     private String simulationURI = null;
-    private final JTextField free;
+    private JTextField free;
+    protected JButton load;
 
     public NewSimulationPanel(ActionListener listener) {
         this.setLayout(new GridLayout(6,1));
@@ -33,6 +34,17 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         panel.setLayout(flow);
         panel.add(radio);
         panel.add(new JLabel("Balance / Seesaw simulation"));
+        this.add(panel);
+
+        radio = new JRadioButton();
+        radio.setName("http://www.scy-lab.eu/sqzx/co2_converter_210110_mod1.sqzx");
+        radio.setActionCommand("setsimulation");
+        radio.addActionListener(this);
+        radios.add(radio);
+        panel = new JPanel();
+        panel.setLayout(flow);
+        panel.add(radio);
+        panel.add(new JLabel("CO2-Converter"));
         this.add(panel);
 
         radio = new JRadioButton();
@@ -71,7 +83,7 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         panel.add(free);
         this.add(panel);
 
-        JButton load = new JButton("load simulation");
+        load = new JButton("load simulation");
         load.setActionCommand("loadsimulation");
         load.addActionListener(listener);
         this.add(load);
