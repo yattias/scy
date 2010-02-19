@@ -46,7 +46,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	static final String NAME = ExtractKeywordsDecisionMakerAgent.class.getName();
 	private int listenerId = -1;
-	private Object session;
 
 	private static final Logger logger = Logger.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
 	private static final Object SCYMAPPER = "scymapper";
@@ -73,6 +72,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	}
 
 	private void setParameter(Map<String, Object> params) {
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_HOST);
+		}
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
+		}
 		if (params.containsKey(IDLE_TIME_INMS)) {
 			idleTime = (Long) params.get(IDLE_TIME_INMS);
 		}
@@ -210,6 +215,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		notificationTuple.add(NAME);
 		notificationTuple.add(contextInformation.mission);
 		notificationTuple.add(contextInformation.session);
+		notificationTuple.add("type=concept_proposal");
 		for (String keyword : keywords) {
 			notificationTuple.add("keyword=" + keyword);
 		}
@@ -232,6 +238,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
 					queryId, text);
+			extractKeywordsTriggerTuple.setExpiration(5 * AgentProtocol.ALIVE_INTERVAL);
 			getCommandSpace().write(extractKeywordsTriggerTuple);
 			Tuple responseTuple = getCommandSpace().waitToTake(
 					new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
