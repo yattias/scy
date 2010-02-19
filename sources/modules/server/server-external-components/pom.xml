@@ -112,11 +112,7 @@
             <artifactId>roolo-impl</artifactId>
             <version>0.6.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-impl</artifactId>
-            <version>0.6.1-SNAPSHOT</version>
-        </dependency>
+      
            <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>roolo-mock</artifactId>
