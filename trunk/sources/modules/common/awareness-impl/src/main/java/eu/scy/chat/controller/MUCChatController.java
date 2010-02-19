@@ -75,9 +75,27 @@ public class MUCChatController implements ChatController {
 	public void addBuddy(final AwarenessUser user) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				buddyListModel.addElement(user);
+				if(getIndexOfBuddyByJID(user) > -1) {
+					logger.debug("user already present, we're not adding it");
+				}
+				else {
+					buddyListModel.addElement(user);										
+				}
 			}
 		});
+	}
+	
+	protected int getIndexOfBuddyByJID(IAwarenessUser awarenessUser) {
+		Enumeration<?> elements = buddyListModel.elements();
+		while (elements.hasMoreElements()) {
+			IAwarenessUser auser = (IAwarenessUser) elements.nextElement();
+
+			if (auser.getNickName() != null
+					&& auser.getNickName().equals(awarenessUser.getNickName())) {
+				return buddyListModel.indexOf(auser);
+			}
+		}
+		return -1;
 	}
 
 	public void removeBuddy(final AwarenessUser user) {
