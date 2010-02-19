@@ -77,3 +77,9 @@ font-weight:bold;
 color: #060;
 }
 
+.Bold {
+	font-weight: bold;
+}
+.underligned {
+	text-decoration: underline;
+}
