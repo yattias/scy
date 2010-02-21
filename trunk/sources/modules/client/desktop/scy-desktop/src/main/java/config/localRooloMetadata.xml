@@ -24,7 +24,9 @@
 
             <ref bean="missionKey"/>
             <ref bean="lasKey"/>
+            <ref bean="anchorIdKey"/>
             <ref bean="activeAnchorEloKey"/>
+            <ref bean="containsAssignmentEloKey"/>
             <ref bean="logicalTypeKey"/>
             <ref bean="functionalTypeKey"/>
 
@@ -158,9 +160,23 @@
       <constructor-arg index="3" value="SINGLE"/>
       <constructor-arg index="4" ref="defaultStringValidator"/>
    </bean>
+   <bean name="anchorIdKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+      <constructor-arg index="0" value="anchorId"/>
+      <constructor-arg index="1" value="/lom/general/anchorId"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultStringValidator"/>
+   </bean>
    <bean name="activeAnchorEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
       <constructor-arg index="0" value='activeAnchorElo'/>
       <constructor-arg index="1" value='/lom/relation/[kind="isbasedon",type="scy/anchor"]'/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultUriValidator"/>
+   </bean>
+   <bean name="containsAssignmentEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+      <constructor-arg index="0" value='containsAssignment'/>
+      <constructor-arg index="1" value='/lom/relation/[kind="containsAssignment",type="scy/anchor"]'/>
       <constructor-arg index="2" value="UNIVERSAL"/>
       <constructor-arg index="3" value="SINGLE"/>
       <constructor-arg index="4" ref="defaultUriValidator"/>

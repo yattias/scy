@@ -41,6 +41,9 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import javax.swing.JOptionPane;
 import java.awt.Component;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import java.net.URI;
 
 /**
  * @author sikkenj
@@ -66,6 +69,13 @@ public class ScyDesktopCreator {
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
    def userNameKey = "userName";
 
+   var titleKey:IMetadataKey;
+   var technicalFormatKey:IMetadataKey;
+   var missionIdKey:IMetadataKey;
+   var anchorIdKey:IMetadataKey;
+   var containsAssignmentEloKey:IMetadataKey;
+   var functionalTypeKey:IMetadataKey;
+
    init {
       findConfig();
       if (eloInfoControl == null) {
@@ -75,6 +85,7 @@ public class ScyDesktopCreator {
             titleKey: config.getTitleKey();
          }
       }
+      findMetadataKeys();
       if (windowStyler == null) {
          windowStyler = ImageWindowStyler {
             eloInfoControl: eloInfoControl;
@@ -153,6 +164,24 @@ public class ScyDesktopCreator {
          throw new IllegalStateException("config is not defined and could not be found");
       }
    }
+
+   function findMetadataKeys(){
+      titleKey = findMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+      technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+      missionIdKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
+      anchorIdKey = findMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
+      containsAssignmentEloKey = findMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
+      functionalTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
+   }
+
+   function findMetadataKey(id: String):IMetadataKey{
+      var key = config.getMetadataTypeManager().getMetadataKey(id);
+      if (key==null){
+         throw new IllegalStateException("the metadata key cannot be found, id: {id}");
+      }
+      return key;
+   }
+
 
    function handleToolRegistration() {
       if (config.getRegisterContentCreators() != null) {
@@ -273,9 +302,9 @@ public class ScyDesktopCreator {
       }
 
       missionModel.elo = config.getEloFactory().createELO();
-      missionModel.elo.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
-      missionModel.elo.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue(MissionModelFX.eloType);
-      missionModel.elo.getMetadata().getMetadataValueContainer(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId())).setValue(missionModel.id);
+      missionModel.elo.getMetadata().getMetadataValueContainer(titleKey).setValue(userName);
+      missionModel.elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(MissionModelFX.eloType);
+      missionModel.elo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionModel.id);
       missionModel.elo.getContent().setXmlString(MissionModelXml.convertToXml(missionModel));
       var missionModelMetadata = config.getRepository().addNewELO(missionModel.elo);
       config.getEloFactory().updateELOWithResult(missionModel.elo,missionModelMetadata);
@@ -285,6 +314,11 @@ public class ScyDesktopCreator {
       if (missionAnchor.exists){
          var missionAnchorElo = config.getRepository().retrieveELO(missionAnchor.eloUri);
          if (missionAnchorElo!=null){
+            missionAnchorElo.getMetadata().getMetadataValueContainer(anchorIdKey).setValue(missionAnchor.id);
+            var assignmentEloUri = findAssignmentEloUri(missionAnchor);
+            if (assignmentEloUri!=null){
+               missionAnchorElo.getMetadata().getMetadataValueContainer(containsAssignmentEloKey).setValue(assignmentEloUri);
+            }
             var forkedMissionAnchorEloMetadata = config.getRepository().addForkedELO(missionAnchorElo);
             config.getEloFactory().updateELOWithResult(missionAnchorElo,forkedMissionAnchorEloMetadata);
             missionAnchor.eloUri = missionAnchorElo.getUri();
@@ -295,6 +329,21 @@ public class ScyDesktopCreator {
          }
       }
    }
+
+   function findAssignmentEloUri(missionAnchor:MissionAnchorFX):URI{
+      for (loEloUri in missionAnchor.loEloUris){
+         var loMetadata = config.getRepository().retrieveMetadata(loEloUri);
+         var functionalType = loMetadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
+         if (FunctionalTypes.ASSIGMENT.equals(functionalType)){
+            return loEloUri;
+         }
+      }
+      if (sizeof missionAnchor.loEloUris > 0){
+         return missionAnchor.loEloUris[0];
+      }
+      return null;
+   }
+
 
 
    public function createScyDesktop(): ScyDesktop {
