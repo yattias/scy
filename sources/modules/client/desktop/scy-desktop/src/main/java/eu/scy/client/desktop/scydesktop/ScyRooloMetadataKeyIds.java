@@ -15,10 +15,13 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
 
    MISSION("mission"),
    LAS("las"),
+   ANCHOR_ID("anchorId"),
    ACTIVE_ANCHOR_ELO("activeAnchorElo"),
+   CONTAINS_ASSIGMENT_ELO("containsAssignment"),
    LOGICAL_TYPE("logicalType"),
    FUNCTIONAL_TYPE("functionalType"),
    EXTERNAL_DOC("externalDoc");
+
    private final String id;
 
    private ScyRooloMetadataKeyIds(String id)
