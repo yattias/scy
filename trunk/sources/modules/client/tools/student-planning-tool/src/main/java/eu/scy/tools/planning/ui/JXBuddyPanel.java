@@ -1,10 +1,8 @@
 package eu.scy.tools.planning.ui;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
-import java.awt.LinearGradientPaint;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.painter.Painter;
 
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.tools.planning.ui.images.Images;
@@ -29,6 +25,7 @@ public class JXBuddyPanel extends JXPanel {
 	private static final String KILL_LABEL = "KILL_LABEL";
 	private static final String USER = "USER";
 	private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
+	private JXLabel messageLabel;
 	
 	/**
      * Creates a new instance of JXPanel
@@ -54,12 +51,15 @@ public class JXBuddyPanel extends JXPanel {
 	public void addBuddy(IAwarenessUser user) {
 		getBuddies().add(user);
 		this.createBuddyIcon(user);
+		getMessageLabel().setText("<html><b>Buddy added.</b><html>");
 	}
 	
 	public void removeBuddy(JXLabel buddyLabel) {
 		IAwarenessUser user = (IAwarenessUser) buddyLabel.getClientProperty(USER);
 		getBuddies().remove(user);
 		this.remove(buddyLabel.getParent());
+		getMessageLabel().setText("<html><b>Buddy removed.</b><html>");
+		
 		this.validate();
 		this.revalidate();
 		this.repaint();
@@ -95,7 +95,7 @@ public class JXBuddyPanel extends JXPanel {
 				
 				
 				
-				bp.setBackgroundPainter(getBuddyPanelPainterOFF());
+				bp.setBackgroundPainter(Colors.getHighlightOffPainter());
 				
 				killLabel.setVisible(false);
 //				bp.setBackground(Colors.Gray.color(0.5f));
@@ -105,7 +105,7 @@ public class JXBuddyPanel extends JXPanel {
 			public void mouseEntered(MouseEvent e) {
 				JXPanel bp = (JXPanel) e.getSource();
 				
-				bp.setBackgroundPainter(getBuddyPanelPainterON());
+				bp.setBackgroundPainter(Colors.getHighlightOnPainter());
 				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
 				
 				killLabel.setVisible(true);
@@ -148,7 +148,7 @@ public class JXBuddyPanel extends JXPanel {
 			public void mouseExited(MouseEvent e) {
 				JXLabel killLabel = (JXLabel) e.getSource();
 				JXPanel parent = (JXPanel) killLabel.getParent();
-				parent.setBackgroundPainter(getBuddyPanelPainterOFF());
+				parent.setBackgroundPainter(Colors.getHighlightOffPainter());
 				killLabel.setVisible(false);
 			}
 			
@@ -157,7 +157,7 @@ public class JXBuddyPanel extends JXPanel {
 				JXLabel killLabel = (JXLabel) e.getSource();
 				killLabel.setVisible(true);
 				JXPanel parent = (JXPanel) killLabel.getParent();
-				parent.setBackgroundPainter(getBuddyPanelPainterON());
+				parent.setBackgroundPainter(Colors.getHighlightOnPainter());
 			}
 			
 			@Override
@@ -178,32 +178,13 @@ public class JXBuddyPanel extends JXPanel {
 		this.add(bPanel);
 		this.revalidate();
 	}
-	
-	public Painter getBuddyPanelPainterON() {
-		int width = 100;
-		int height = 100;
-		Color color1 = Colors.White.color(0.8f);
-		Color color2 = Colors.Yellow.color(0.5f);
 
-		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
-				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-						color2, color1 });
-		MattePainter mattePainter = new MattePainter(gradientPaint);
-		return mattePainter;
+	public void setMessageLabel(JXLabel messageLabel) {
+		this.messageLabel = messageLabel;
 	}
-	
-	public Painter getBuddyPanelPainterOFF() {
-		int width = 100;
-		int height = 100;
-		Color color1 = Colors.White.color(0.2f);
-		Color color2 = Colors.Black.color(0.8f);
-		Color color3 = Colors.Gray.color(0.0f);
 
-		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
-				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
-				color3, color3 });
-		MattePainter mattePainter = new MattePainter(gradientPaint);
-		return mattePainter;
+	public JXLabel getMessageLabel() {
+		return messageLabel;
 	}
 	
 

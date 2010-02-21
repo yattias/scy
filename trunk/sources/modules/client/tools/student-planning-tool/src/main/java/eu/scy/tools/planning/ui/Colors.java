@@ -1,6 +1,10 @@
 package eu.scy.tools.planning.ui;
 
 import java.awt.Color;
+import java.awt.LinearGradientPaint;
+
+import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.Painter;
 
 /**
  * Colors is an enumeration class that makes it easier to work with colors. Methods are provided for
@@ -86,6 +90,53 @@ public String toHexString() {
   sb.append(Integer.toHexString(_myColor.getGreen()));
   sb.append(Integer.toHexString(_myColor.getBlue()));
   return sb.toString();
+}
+
+public static Painter getHighlightOffPainter() {
+	int width = 100;
+	int height = 100;
+	Color color1 = Colors.White.color(0.2f);
+	Color color2 = Colors.Black.color(0.8f);
+	Color color3 = Colors.Gray.color(0.0f);
+
+	LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
+			width, height, new float[] { 0.0f, 1.0f }, new Color[] {
+			color3, color3 });
+	MattePainter mattePainter = new MattePainter(gradientPaint);
+	return mattePainter;
+}
+
+
+public static Painter getMessageBGPainter() {
+	int width = 100;
+	int height = 100;
+
+	Color color3 = Colors.Gray.color(0.1f);
+
+	LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
+			width, height, new float[] { 0.0f, 1.0f }, new Color[] {
+			color3, color3 });
+	MattePainter mattePainter = new MattePainter(gradientPaint);
+	return mattePainter;
+}
+
+
+
+public static Painter getHighlightOnPainter() {
+	int width = 600;
+	int height = 100;
+	Color color1 = Colors.White.color(0.5f);
+	Color color2 = Colors.Yellow.color(0.4f);
+
+	LinearGradientPaint gradientPaint = new LinearGradientPaint(width, height,
+			0.0f, height, new float[] { 0.0f, .5f }, new Color[] {
+					color1, color2 });
+	
+//	LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, height,
+//			width, height, new float[] { 0.0f, .6f }, new Color[] {
+//					color1, color2 });
+	MattePainter mattePainter = new MattePainter(gradientPaint);
+	return mattePainter;
 }
 
 }//end enum Colors
