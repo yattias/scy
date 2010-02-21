@@ -2,8 +2,10 @@ package eu.scy.tools.planning;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.LinearGradientPaint;
 import java.awt.dnd.DropTarget;
@@ -25,6 +27,8 @@ import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -48,6 +52,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
@@ -59,14 +64,8 @@ import org.jdesktop.swingx.painter.Painter;
 
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
-import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.tools.dnd.ImageSelection;
@@ -75,6 +74,7 @@ import eu.scy.tools.dnd.JXDropTaskPaneTargetListener;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.Colors;
 import eu.scy.tools.planning.ui.JXBuddyPanel;
+import eu.scy.tools.planning.ui.JXEntryPanel;
 import eu.scy.tools.planning.ui.images.Images;
 
 public class StudentPlanningTool {
@@ -100,6 +100,8 @@ public class StudentPlanningTool {
 	private StudentPlanningController studentPlanningController;
 
 	private String END_DATE_PICKER = "END_DATE_PICKER";
+
+	private JXLabel messageLabel;
 
 	/**
 	 * creates a JFrame and calls {@link #doInit} to create a JXPanel and adds
@@ -168,18 +170,18 @@ public class StudentPlanningTool {
 				frame.pack();
 				frame.setVisible(true);
 
-				frame = new JFrame("Test drag panel");
-				frame.setLayout(new MigLayout("insets 0 0 0 0"));
-
-				frame.add(createDragPanel());
-				// frame.setPreferredSize(new Dimension(500, 600));
-				// when you close the frame, the app exits
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-				// center the frame and show it
-				frame.setLocationRelativeTo(null);
-				frame.pack();
-				frame.setVisible(true);
+//				frame = new JFrame("Test drag panel");
+//				frame.setLayout(new MigLayout("insets 0 0 0 0"));
+//
+//				frame.add(createDragPanel());
+//				// frame.setPreferredSize(new Dimension(500, 600));
+//				// when you close the frame, the app exits
+//				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//
+//				// center the frame and show it
+//				frame.setLocationRelativeTo(null);
+//				frame.pack();
+//				frame.setVisible(true);
 
 			}
 		});
@@ -230,10 +232,14 @@ public class StudentPlanningTool {
 
 		// create a taskpanecontainer
 		taskpanecontainer = new JXTaskPaneContainer();
+		this.studentPlanningController.setEntryContainer(taskpanecontainer);
 		taskpanecontainer.setOpaque(true);
 		taskpanecontainer.setBackgroundPainter(getTaskPaneTitlePainter());
-		taskpanecontainer.setLayout(new VerticalLayout(5));
-
+		taskpanecontainer.setBorder(BorderFactory.createEmptyBorder());
+		taskpanecontainer.getInsets(new Insets(0, 0, 0, 0));
+		//taskpanecontainer.setLayout(new GridLayout(5, 1));
+		//taskpanecontainer.setPreferredSize(new Dimension(800, 700));
+		//taskpanecontainer.setLayout(new VerticalLayout(5));
 		// add the task pane to the taskpanecontainer
 		// iterate over the las structure
 
@@ -243,6 +249,7 @@ public class StudentPlanningTool {
 	
 			
 			for (StudentPlannedActivity studentPlannedActivity : studentPlannedActivities) {
+				
 				this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
 			}
 		} else {
@@ -261,8 +268,8 @@ public class StudentPlanningTool {
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		// panel.add(taskpanecontainer, BorderLayout.CENTER);
-		// panel.setPreferredSize(new Dimension(500, 600));
-		scrollPane.setPreferredSize(new Dimension(400, 600));
+		//panel.setPreferredSize(new Dimension(500, 600));
+		//scrollPane.setPreferredSize(new Dimension(400, 800));
 		scrollPane.setOpaque(false);
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		JXPanel outerPanel = new JXPanel(new HorizontalLayout(1));
@@ -282,7 +289,35 @@ public class StudentPlanningTool {
 
 		// outerPanel.add(createDragPanel());
 
-		return outerPanel;
+		JXPanel topPanel = new JXPanel(new MigLayout("insets 3 3 3 3"));
+		topPanel.setBackgroundPainter(Colors.getMessageBGPainter());
+		messageLabel = new JXLabel("<html><b>Drag and Drop ELOs from the Mission Map.</b></html>");
+		
+		
+		Action infoAction = new AbstractAction() {
+
+			public void actionPerformed(ActionEvent e) {
+				String msg = "<html>Using the Planning Tool is very simple.<br><br><b>1. </b>Drag and Drop ELOs from the Mission Map to add entries to the planner.<br><b>2. </b>Drag and Drop Buddys from the buddy list to add collaborators.<br><b>3. </b>Set dates and descriptions.</html>";
+
+				JOptionPane optionPane = new JOptionPane();
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "For Your Information");
+				dialog.setVisible(true);
+			}
+		};
+
+		infoAction.putValue(infoAction.SMALL_ICON, Images.Information.getIcon());
+		JXHyperlink infoLink = new JXHyperlink(infoAction);
+		
+		
+		topPanel.add(messageLabel,"growx");
+		topPanel.add(new JXLabel(" "), "growx");
+		topPanel.add(infoLink,"right, wrap");
+		topPanel.add(taskpanecontainer,"span");
+		// infoPanel.add(dateLink);
+		
+		return topPanel;
 	}
 
 	public void acceptDrop(Object drop) {
@@ -290,7 +325,22 @@ public class StudentPlanningTool {
 	}
 	
 	public void addTaskPane(JComponent taskpane) {
-		taskpanecontainer.add(taskpane);
+		
+		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController);
+		entryPanel.setBackground(Colors.White.color());
+		entryPanel.addEntry(taskpane, "w 600!");
+		
+		taskpanecontainer.add(entryPanel);
+		
+		Map<String, Date> endDateMap = (Map<String, Date>) taskpane
+		.getClientProperty(END_DATE_MAP);
+		Map<String, Date> startDateMap = (Map<String, Date>) taskpane
+		.getClientProperty(START_DATE_MAP);
+
+		//add dates the entry field
+		modTaskPaneTitleDateRange((JXTaskPane) taskpane, startDateMap, endDateMap);
+		
+		
 		taskpanecontainer.revalidate();
 		if( taskpane instanceof JXTaskPane)
 			studentPlanningController.addTaskPane((JXTaskPane) taskpane);
@@ -400,13 +450,17 @@ public class StudentPlanningTool {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
+				JXTaskPane tp = (JXTaskPane) e.getSource();
+				JXEntryPanel ep = (JXEntryPanel) tp.getParent();
+				//ep.setBackgroundOff();
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
+				JXTaskPane tp = (JXTaskPane) e.getSource();
+				JXEntryPanel ep = (JXEntryPanel) tp.getParent();
+				ep.setBackgroundOn();
 
 			}
 
@@ -475,20 +529,12 @@ public class StudentPlanningTool {
 			StudentPlannedActivity studentPlannedActivity, Activity activity,
 			final JXTaskPane taskpane, int activityNumber) {
 
-		final JXDatePicker endDatePicker = new JXDatePicker();
-		final JXDatePicker startDatePicker = new JXDatePicker();
-
-		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
-
-		startDatePicker.setFormats(formatter);
-
-		startDatePicker.setToolTipText("The date of the start of this task.");
-		endDatePicker.setFormats(formatter);
+		
 
 		String activityName;
 
 		if (activity == null)
-			activityName = "Best Activity in the world";
+			activityName = "Work on this ELO";
 		else
 			activityName = activity.getName();
 
@@ -497,12 +543,129 @@ public class StudentPlanningTool {
 		activityPanel.setTitleFont(activityFont);
 		activityPanel.setTitleForeground(Colors.White.color());
 
+		// infoPanel.setAlpha(0.0f);
+
+		// activityPanel.setRightDecoration(infoLink);
+		// activityPanel.setTitlePainter(getActivitTitlePainter());
+		activityPanel.setBackground(Colors.Black.color());
+		activityPanel.setLayout(new VerticalLayout(0));
+		activityPanel.setBorder(new LineBorder(Colors.Black.color()));
+	
+
+		JXPanel innerMainPanel = new JXPanel();
+
+		innerMainPanel.setOpaque(true);
+		innerMainPanel.setLayout(new MigLayout("insets 0 3 4 3"));
+
+		JXBuddyPanel membersPanel = createMembersPanel(activityPanel,
+				studentPlannedActivity);
+		
+		studentPlanningController.addMembersPanel(taskpane, membersPanel);
+
+		JXPanel notePanel = createNotePanel(studentPlannedActivity);
+		JXPanel datePanel = createDatePanel(studentPlannedActivity, taskpane, activityName);
+		
+		
+		innerMainPanel.add(datePanel, "span, wrap, growx");
+		innerMainPanel.add(membersPanel, "span, wrap, growx");
+		innerMainPanel.add(notePanel, "span, wrap, growx");
+
+		activityPanel.add(innerMainPanel);
+		
+	
+
+		return activityPanel;
+	}
+
+	/**
+	 * @param studentPlannedActivity
+	 * @return
+	 */
+	protected JXPanel createNotePanel(
+			StudentPlannedActivity studentPlannedActivity) {
+		JXPanel noteTextPanel = new JXPanel();
+		noteTextPanel.setLayout(new BorderLayout(0, 0));
+		noteTextPanel.setOpaque(false);
+		noteTextPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
+				0, 0, 0)), new TitledBorder("What - Description")));
+		JTextArea noteTextArea = new JTextArea();
+
+		if (studentPlannedActivity.getNote() == null
+				|| StringUtils.stripToNull(studentPlannedActivity.getNote()) == null) {
+			noteTextArea.setText("Notes...");
+		} else {
+			noteTextArea.setText(studentPlannedActivity.getNote());
+		}
+
+		noteTextArea.setLineWrap(true);
+		noteTextArea.setRows(8);
+		noteTextArea.setWrapStyleWord(true);
+		noteTextArea
+				.setToolTipText("What do you need to do the task?\nHow do you that this is completed?");
+		noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY,
+				studentPlannedActivity);
+		noteTextArea.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				JTextArea textArea = (JTextArea) e.getSource();
+
+				final StudentPlannedActivity stp = (StudentPlannedActivity) textArea
+						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
+
+				stp.setNote(textArea.getText());
+
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						studentPlanningController.saveStudentActivity(stp);
+						messageLabel.setText("<html><b>Note saved.</b><html>");
+					}
+				});
+
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		JScrollPane eloScroll = new JScrollPane(noteTextArea);
+
+		noteTextPanel.add(eloScroll, BorderLayout.CENTER);
+		// notesPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
+		// 0, 0, 0)), new TitledBorder("Resources")));
+
+		return noteTextPanel;
+	}
+
+	
+	protected JXPanel createDatePanel(StudentPlannedActivity studentPlannedActivity, JXTaskPane taskpane, String activityName) {
+
+		
+		final JXDatePicker endDatePicker = new JXDatePicker();
+		final JXDatePicker startDatePicker = new JXDatePicker();
+
+		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
+		
+		Map<String, Date> endDateMap = (Map<String, Date>) taskpane
+		.getClientProperty(END_DATE_MAP);
+		Map<String, Date> startDateMap = (Map<String, Date>) taskpane
+		.getClientProperty(START_DATE_MAP);
+
+		startDatePicker.setFormats(formatter);
+
+		startDatePicker.setToolTipText("The date of the start of this task.");
+		endDatePicker.setFormats(formatter);
+		
 		endDatePicker.putClientProperty(ACTIVITY_NAME, activityName);
 		endDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
 		endDatePicker.setToolTipText("The date of the end of this task.");
 		endDatePicker.putClientProperty(TASKPANE, taskpane);
-
+		endDatePicker.setToolTipText("Date you want to end working on this activity.");
 		if (studentPlannedActivity.getEndDate() == null) {
 			endDatePicker.setEnabled(false);
 		} else {
@@ -510,8 +673,12 @@ public class StudentPlanningTool {
 					.getEndDate().getTime());
 			endDatePicker.setDate(date);
 			endDatePicker.setEnabled(true);
+			endDateMap.put(activityName, endDatePicker.getDate());
+			taskpane.putClientProperty(END_DATE_MAP, endDateMap);
+
 		}
 
+		startDatePicker.setToolTipText("Date you want to start working on this activity.");
 		startDatePicker.putClientProperty(ACTIVITY_NAME, activityName);
 		startDatePicker.putClientProperty(TASKPANE, taskpane);
 		startDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY,
@@ -521,12 +688,14 @@ public class StudentPlanningTool {
 			java.util.Date date = new java.util.Date(studentPlannedActivity
 					.getStartDate().getTime());
 			startDatePicker.setDate(date);
+			startDateMap.put(activityName, startDatePicker.getDate());
+			taskpane.putClientProperty(START_DATE_MAP, startDateMap);
+
 		}
 
 		// info
 
-		JXPanel infoPanel = new JXPanel(new HorizontalLayout(1));
-
+		
 		endDatePicker.addActionListener(new ActionListener() {
 
 			@Override
@@ -555,13 +724,14 @@ public class StudentPlanningTool {
 				stp.setEndDate(new java.sql.Date(endDatePicker.getDate()
 						.getTime()));
 
-				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
+				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
 
 				SwingUtilities.invokeLater(new Runnable() {
 
 					@Override
 					public void run() {
 						studentPlanningController.saveStudentActivity(stp);
+						messageLabel.setText("<html><b>End date saved.</b><html>");
 					}
 				});
 
@@ -599,13 +769,14 @@ public class StudentPlanningTool {
 				stp.setStartDate(new java.sql.Date(startDatePicker.getDate()
 						.getTime()));
 
-				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
+				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
 
 				SwingUtilities.invokeLater(new Runnable() {
 
 					@Override
 					public void run() {
 						studentPlanningController.saveStudentActivity(stp);
+						messageLabel.setText("<html><b>Start date saved.</b><html>");
 					}
 				});
 
@@ -613,121 +784,28 @@ public class StudentPlanningTool {
 
 		});
 
-		Action infoAction = new AbstractAction("info") {
+		
+		
+		
+	
 
-			public void actionPerformed(ActionEvent e) {
-				String msg = "<html>description of the activity</html>";
+		JXLabel startLabel = new JXLabel("<html><b>Start Date:</b></html>");
+		JXLabel endLabel = new JXLabel("<html><b>End Date:</b></html>");
 
-				JOptionPane optionPane = new JOptionPane();
-				optionPane.setMessage(msg);
-				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-				JDialog dialog = optionPane.createDialog(null, "Width 100");
-				dialog.setVisible(true);
-			}
-		};
+		JXPanel infoPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
 
-		// infoPanel.add(dateLink);
-
-		JXLabel startLabel = new JXLabel("Start Date:");
-		JXLabel endLabel = new JXLabel("End Date:");
-
+		infoPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
+				0, 0, 0)), new TitledBorder(
+				"When - Dates")));
 		infoPanel.add(startLabel);
 		infoPanel.add(startDatePicker);
 		infoPanel.add(endLabel);
 		infoPanel.add(endDatePicker);
 		infoPanel.setOpaque(false);
-		// infoPanel.setAlpha(0.0f);
-
-		// activityPanel.setRightDecoration(infoLink);
-		// activityPanel.setTitlePainter(getActivitTitlePainter());
-		activityPanel.setBackground(Colors.Black.color());
-		activityPanel.setLayout(new VerticalLayout(0));
-		activityPanel.setBorder(new LineBorder(Colors.Black.color()));
+		infoPanel.setToolTipText("This panel lets you select start and end working dates for this activity.");
+		return infoPanel;
+	}
 	
-
-		JXPanel innerMainPanel = new JXPanel();
-
-		innerMainPanel.setOpaque(true);
-		innerMainPanel.setLayout(new MigLayout("insets 0 3 4 3"));
-
-		JXBuddyPanel membersPanel = createMembersPanel(activityPanel,
-				studentPlannedActivity);
-		
-		studentPlanningController.addMembersPanel(taskpane, membersPanel);
-
-		JXPanel notePanel = createNotePanel(studentPlannedActivity);
-
-		innerMainPanel.add(infoPanel, "span, wrap, growx");
-		innerMainPanel.add(membersPanel, "span, wrap, growx");
-		innerMainPanel.add(notePanel, "span, wrap, growx");
-
-		activityPanel.add(innerMainPanel);
-
-		return activityPanel;
-	}
-
-	/**
-	 * @param studentPlannedActivity
-	 * @return
-	 */
-	protected JXPanel createNotePanel(
-			StudentPlannedActivity studentPlannedActivity) {
-		JXPanel noteTextPanel = new JXPanel();
-		noteTextPanel.setLayout(new BorderLayout(0, 0));
-		noteTextPanel.setOpaque(false);
-
-		JTextArea noteTextArea = new JTextArea();
-
-		if (studentPlannedActivity.getNote() == null
-				|| StringUtils.stripToNull(studentPlannedActivity.getNote()) == null) {
-			noteTextArea.setText("Notes...");
-		} else {
-			noteTextArea.setText(studentPlannedActivity.getNote());
-		}
-
-		noteTextArea.setLineWrap(true);
-		noteTextArea.setRows(5);
-		noteTextArea.setWrapStyleWord(true);
-		noteTextArea
-				.setToolTipText("What do you need to do the task?\nHow do you that this is completed?");
-		noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY,
-				studentPlannedActivity);
-		noteTextArea.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				JTextArea textArea = (JTextArea) e.getSource();
-
-				final StudentPlannedActivity stp = (StudentPlannedActivity) textArea
-						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
-
-				stp.setNote(textArea.getText());
-
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						studentPlanningController.saveStudentActivity(stp);
-					}
-				});
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		JScrollPane eloScroll = new JScrollPane(noteTextArea);
-
-		noteTextPanel.add(eloScroll, BorderLayout.CENTER);
-		// notesPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
-		// 0, 0, 0)), new TitledBorder("Resources")));
-
-		return noteTextPanel;
-	}
-
 	/**
 	 * @param activityPanel
 	 * @param studentPlannedActivity
@@ -736,10 +814,10 @@ public class StudentPlanningTool {
 	protected JXBuddyPanel createMembersPanel(JXTitledPanel activityPanel,
 			StudentPlannedActivity studentPlannedActivity) {
 		JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1));
-		// membersPanel.add(new JXLabel("bob"));
+		membersPanel.setMessageLabel(messageLabel);
 		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
 				0, 0, 0)), new TitledBorder(
-				"Collaboration Partners (Drag Here)")));
+				"Who - Collaboration Partners (Drag Here)")));
 		membersPanel.setOpaque(false);
 		membersPanel.setBackground(Color.CYAN);
 		membersPanel.setPreferredSize(new Dimension(activityPanel
@@ -756,6 +834,7 @@ public class StudentPlanningTool {
 	private void modTaskPaneTitleDateRange(JXTaskPane taskpane,
 			Map<String, Date> startDateMap, Map<String, Date> endDateMap) {
 
+		JXEntryPanel entryPanel = (JXEntryPanel) taskpane.getParent();
 		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
 
 		List<Date> endDateSort = sortDates(endDateMap);
@@ -773,33 +852,15 @@ public class StudentPlanningTool {
 			startDateString = formatter.format(startDate);
 		}
 
-		// Date lastDate = null;
-		// if( endDateSort.size()-1 != 0)
-		// lastDate = endDateSort.get(endDateSort.size()-1);
-		//		
-		//		
-		//		
+	
+		JXLabel dateLabel = entryPanel.getDateLabel();
+		String title = dateLabel.getText();
 
-		int indexOf = taskpane.getTitle().indexOf("-");
-		if (indexOf == -1) {
-			if (StringUtils.stripToNull(endDateString) == null)
-				taskpane
-						.setTitle(taskpane.getTitle() + " - " + startDateString);
-			else
-				taskpane.setTitle(taskpane.getTitle() + " - " + startDateString
-						+ " to " + endDateString);
-		} else {
-			StringBuilder sb = new StringBuilder(taskpane.getTitle());
-			if (StringUtils.stripToNull(endDateString) == null)
-				sb.replace(indexOf, sb.length(), "- " + startDateString);
-			else if (StringUtils.stripToNull(startDateString) == null)
-				sb.replace(indexOf, sb.length(), "- " + endDateString);
-			else
-				sb.replace(indexOf, sb.length(), "- " + startDateString
-						+ " to " + endDateString);
-			taskpane.setTitle(sb.toString());
-		}
-
+		if( StringUtils.stripToNull(endDateString) == null)
+			title = startDateString;
+		else
+			title = startDateString + " to " + endDateString;
+		 entryPanel.getDateLabel().setText("<html><i>"+title+"</i></html>");
 	}
 
 	private void changeUIdefaults() {

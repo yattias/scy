@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
-import roolo.elo.api.IMetadata;
+import roolo.elo.metadata.BasicMetadata;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.core.model.impl.ScyBaseObject;
@@ -21,6 +20,7 @@ import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.tools.planning.ui.JXBuddyPanel;
+import eu.scy.tools.planning.ui.JXEntryPanel;
 
 public class StudentPlanningController {
 
@@ -35,6 +35,7 @@ public class StudentPlanningController {
 	private List<JXTaskPane> taskPanes = new ArrayList<JXTaskPane>();
 	private Map<JXTaskPane, JXBuddyPanel> taskPanesToBuddyPanels = new HashMap<JXTaskPane, JXBuddyPanel>();
 	private Configuration configuration;
+	private JXTaskPaneContainer entryContainer;
 	
 
 	public StudentPlanningController() {
@@ -91,15 +92,28 @@ public class StudentPlanningController {
 	public void removeTaskPane(JXTaskPane taskPane) {
 		taskPanes.remove(taskPane);
 	}
+	
+	public void removeEntry(JXEntryPanel entryPanel) {
+		taskPanes.remove(entryPanel);
+		entryContainer.remove(entryPanel);
+		entryContainer.revalidate();
+		
+	}
 
 	public void collapseAllExcept(String name) {
 		for (JXTaskPane tpane : taskPanes) {
+			JXEntryPanel entryPanel = (JXEntryPanel) tpane.getParent();
 			if (!tpane.getName().equals(name)) {
 				tpane.setCollapsed(true);
+				entryPanel.setBackgroundOff();
+			} else {
+				entryPanel.setBackgroundOn();
 			}
 
 		}
 	}
+	
+	
 	
 	public  JXTaskPane getOpenTaskPane() {
 		for (JXTaskPane tpane : taskPanes) {
@@ -126,7 +140,9 @@ public class StudentPlanningController {
 	
 	public void acceptDrop(Object drop) {
 		log.info("we just dropped a load of..." + drop.toString());
-		if( drop instanceof IMetadata ) {
+		if( drop instanceof BasicMetadata ) {
+			
+			
 			
 		} else if(drop instanceof IAwarenessUser ){
 			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
@@ -197,5 +213,13 @@ public class StudentPlanningController {
 	public void addMembersPanel(JXTaskPane taskpane, JXBuddyPanel membersPanel) {
 		this.taskPanesToBuddyPanels.put(taskpane, membersPanel);
 		
+	}
+
+	public void setEntryContainer(JXTaskPaneContainer entryContainer) {
+		this.entryContainer = entryContainer;
+	}
+
+	public JXTaskPaneContainer getEntryContainer() {
+		return entryContainer;
 	}
 }
