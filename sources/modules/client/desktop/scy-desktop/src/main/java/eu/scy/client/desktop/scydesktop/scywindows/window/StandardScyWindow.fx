@@ -132,6 +132,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
    def inactiveWindowEffect: Effect = null;
 
+   public override var closedBoundsWidth = minimumWidth+deltaWidthContentWidth;
+   public override var closedBoundsHeight = closedHeight+deltaHeightContentHeight;
+
 	var originalX: Number;
 	var originalY: Number;
 	var originalW: Number;

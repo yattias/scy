@@ -16,6 +16,7 @@ public class WindowPositionStepper {
    public-init var window:ScyWindow;
    public-init var area:Bounds;
    public-init var horizontal = true;
+   public-init var windowClosed = true;
    public-read var stepCount = 0;
 
    def initialX = 10;
@@ -27,11 +28,20 @@ public class WindowPositionStepper {
    var x:Number;
    var y:Number;
    var moreSteps:Boolean;
+   public def windowWidth = if (windowClosed) window.closedBoundsWidth else window.width;
+   public def windowHeight = if (windowClosed) window.closedBoundsHeight else window.height;
+
 
    init{
+
       x = area.minX + initialX;
       y = area.minY + initialY;
-      moreSteps = windowOutSideArea();
+      moreSteps = not windowOutSideArea();
+//      println("WindowPositionStepper for window {window.eloUri}");
+//      println("window.layoutBounds: {window.layoutBounds}");
+//      println("window.boundsInLocal: {window.boundsInLocal}");
+//      println("window.boundsInParent: {window.boundsInParent}");
+//      println("area: {area}");
    }
 
 
@@ -40,7 +50,7 @@ public class WindowPositionStepper {
    }
 
    public function makeStep():Void{
-      println("makeStep to {x},{y}");
+//      println("makeStep to {x},{y}");
       window.layoutX = x;
       window.layoutY = y;
       calculateNextStep();
@@ -61,21 +71,21 @@ public class WindowPositionStepper {
             x += xStep;
          }
       }
-      moreSteps = windowOutSideArea();
+      moreSteps = not windowOutSideArea();
       ++stepCount;
    }
 
    function windowOutSideAreaRight():Boolean{
-      return x+window.layoutBounds.width>area.maxX;
+      return (x+windowWidth)>area.maxX;
    }
 
    function windowOutSideAreaBottom():Boolean{
-      return y+window.layoutBounds.height>area.maxY;
+      return (y+windowHeight)>area.maxY;
    }
 
    function windowOutSideArea():Boolean{
+//      println("windowOutSideAreaRight(): {windowOutSideAreaRight()}, windowOutSideAreaBottom(): {windowOutSideAreaBottom()}");
       return windowOutSideAreaRight() or windowOutSideAreaBottom();
    }
-
 
 }

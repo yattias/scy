@@ -91,6 +91,8 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
       if (mainWindow != window) {
          mainWindow = window;
          assignmentWindow = null;
+         anchorWindowPositioner.ignoreWindow = null;
+         otherWindowPositioner.ignoreWindow = null;
          if (anchorWindowPositioner.contains(window)) {
             // it's a anchor window
             anchorWindowPositioner.ignoreWindow = mainWindow;
@@ -206,7 +208,8 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
          height: height - mainVOffset- 2*areaSeparation - scyDesktop.bottomRightCorner.boundsInLocal.height-scyDesktop.bottomRightCorner.boundsInLocal.minY
       }
 //      println("scyDesktop.topLeftCorner.boundsInLocal: {scyDesktop.topLeftCorner.boundsInLocal}");
-      var anchorAreaLeftOffset = scyDesktop.topLeftCorner.boundsInLocal.width - scyDesktop.topLeftCorner.boundsInLocal.minX;
+//      println("scyDesktop.topRightCorner.boundsInLocal: {scyDesktop.topRightCorner.boundsInLocal}");
+      var anchorAreaLeftOffset = scyDesktop.topLeftCorner.boundsInLocal.width + scyDesktop.topLeftCorner.boundsInLocal.minX;
       var anchorAreaRightOffset = scyDesktop.topRightCorner.boundsInLocal.width;
       anchorWindowArea = BoundingBox {
          minX: anchorAreaLeftOffset
