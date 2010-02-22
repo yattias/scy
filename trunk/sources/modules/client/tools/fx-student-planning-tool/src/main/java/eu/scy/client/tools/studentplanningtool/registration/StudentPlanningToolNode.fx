@@ -12,9 +12,14 @@ import javafx.ext.swing.SwingComponent;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import javafx.ext.swing.SwingComponent;
-import eu.scy.client.tools.studentplanningtool.*;
+import eu.scy.tools.planning.controller.*;
+import eu.scy.tools.planning.*;
+import roolo.elo.metadata.BasicMetadata;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.Resizable;
+import javax.swing.JComponent;
+import java.awt.Dimension;
 
 
 
@@ -23,12 +28,13 @@ import javafx.scene.Node;
  */
 
  // place your code here
-public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
+public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
 
     public-init var eloChatActionWrapper:EloStudenPlanningActionWrapper;
 
 
     public var wrappedSPTPanel:SwingComponent;
+    public var panel:JComponent;
     public var studentPlanningController:StudentPlanningController;
     public var studentPlanningTool:StudentPlanningTool;
     public var scyWindow:ScyWindow on replace {
@@ -62,7 +68,6 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
    public override function acceptDrop(object:Object):Void{
       println("object {object}");
 
-/**
       if( object instanceof ContactFrame ) {
          var cf = object as ContactFrame;
          studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
@@ -70,7 +75,6 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
          var elo = object as BasicMetadata;
          studentPlanningTool.acceptDrop(elo);
       }
-**/
 
     
 
@@ -81,7 +85,8 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
         studentPlanningController = new StudentPlanningController(null);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
-        wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel());
+        panel = studentPlanningTool.createStudentPlanningPanel();
+        wrappedSPTPanel = SwingComponent.wrap(panel);
      return Group {
          blocksMouse:true;
          cache:false;
@@ -93,4 +98,28 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
 
       };
    }
+
+     function resizeContent(){
+//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
+//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
+//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
+      var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-5);
+      // setPreferredSize is needed
+      panel.setPreferredSize(size);
+      //panel.resizeChat(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
+      // setSize is not visual needed
+      // but set it, so the component react to it
+      //panel.setSize(size);
+      //println("resized whiteboardPanel to ({width},{height})");
+   }
+
+   public override function getPrefHeight(width: Number) : Number{
+      return panel.getPreferredSize().getHeight();
+   }
+
+   public override function getPrefWidth(width: Number) : Number{
+      return panel.getPreferredSize().getWidth();
+   }
+
+
 }
