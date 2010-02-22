@@ -371,7 +371,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 //XXX submit user-nickname instead of extracting it
                 def userNickname = user.substring(0, user.indexOf("@"));
                 def eloUri: String = notification.getFirstProperty("proposed_elo");
-                def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION){
                     logger.debug(" => accepting collaboration");
                     config.getToolBrokerAPI().answerCollaborationProposal(true,user,eloUri);
@@ -384,7 +384,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 def accepted: String = notification.getFirstProperty("accepted");
                 def eloUri: String = notification.getFirstProperty("proposed_elo");
                 if (accepted == "true" and eloUri!=null) {
-                    JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted! Starting collaboration on {eloUri}", "Info", JOptionPane.INFORMATION_MESSAGE);
                     def mucid: String = notification.getFirstProperty("mucid");
                     def collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
                     if (collaborationWindow==null){
