@@ -15,7 +15,7 @@ public enum Images {
 	// images
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	NetworkConnected("NetworkConnected.png"), Folder(
-			"folder.png"), One("1.png"), Two("2.png"), Excel1("excel1.png"), Excel2("excel1.png"), Profile("Profile.png"),TinyDelete("delete.png"),Information("information.png");
+			"folder.png"), One("1.png"), Two("2.png"), Excel1("excel1.png"), Excel2("excel1.png"), Profile("Profile.png"),Delete("Delete.png"),Information("information.png");
 
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// data

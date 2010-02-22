@@ -52,10 +52,15 @@ public class JXEntryPanel extends JXPanel {
 	}
 
 	public void addEntry(JComponent taskpane, String param) {
-		if (param != null) {
+	
 			this.taskpane = (JXTaskPane) taskpane;
 			this.createDateLabel();
-			this.add(taskpane, param);
+			
+			if (param != null) 
+				this.add(taskpane, param);
+			else
+				this.add(taskpane);
+			
 			this.createDeleteButton();
 			this.addMouseListener(new MouseListener() {
 
@@ -104,7 +109,7 @@ public class JXEntryPanel extends JXPanel {
 				}
 			});
 
-		}
+		
 	}
 
 	private void createDateLabel() {
@@ -123,7 +128,7 @@ public class JXEntryPanel extends JXPanel {
 	}
 
 	private void createDeleteButton() {
-		deleteButton = new JXButton(Images.TinyDelete.getIcon());
+		deleteButton = new JXButton(Images.Delete.getIcon());
 		deleteButton.setOpaque(false);
 		deleteButton.setBorder(BorderFactory.createEmptyBorder());
 		deleteButton.setEnabled(false);
