@@ -29,7 +29,7 @@ public mixin class WindowPositioner {
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addGlobalLearningObjectWindow(window:ScyWindow):Void;
+    public abstract function addGlobalLearningObjectWindow(window:ScyWindow):Boolean;
 
     /**
     * all windows are rmoved from the desktop
@@ -43,56 +43,56 @@ public mixin class WindowPositioner {
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function setAnchorWindow(window:ScyWindow):Void;
+    public abstract function setAnchorWindow(window:ScyWindow):Boolean;
 
     /**
     * adds a intermediate anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addIntermediateWindow(window:ScyWindow):Void;
+    public abstract function addIntermediateWindow(window:ScyWindow):Boolean;
 
     /**
     * adds a next anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addNextAnchorWindow(window:ScyWindow, direction:Number):Void;
+    public abstract function addNextAnchorWindow(window:ScyWindow, direction:Number):Boolean;
 
     /**
     * adds a previous anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addPreviousAnchorWindow(window:ScyWindow, direction:Number):Void;
+    public abstract function addPreviousAnchorWindow(window:ScyWindow, direction:Number):Boolean;
 
     /**
     * adds an input anchor window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addInputAnchorWindow(window:ScyWindow, direction:Number):Void;
+    public abstract function addInputAnchorWindow(window:ScyWindow, direction:Number):Boolean;
 
     /**
     * adds a learning object window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addLearningObjectWindow(window:ScyWindow):Void;
+    public abstract function addLearningObjectWindow(window:ScyWindow):Boolean;
 
     /**
     * adds an other window.
     *
     * Positioning could be postphoned until positionWindows is called
     */
-    public abstract function addOtherWindow(window:ScyWindow):Void;
+    public abstract function addOtherWindow(window:ScyWindow):Boolean;
 
     /**
     * adds an other window.
     *
     * The window should be positioned immediately
     */
-    public abstract function placeOtherWindow(window:ScyWindow):Void;
+    public abstract function placeOtherWindow(window:ScyWindow):Boolean;
 
     /**
     * restore the position and state of the windows

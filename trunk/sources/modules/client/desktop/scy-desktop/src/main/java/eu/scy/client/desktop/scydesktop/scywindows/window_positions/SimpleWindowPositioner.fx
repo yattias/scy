@@ -36,8 +36,9 @@ public class SimpleWindowPositioner extends WindowPositioner {
 
    def maximumIntersectionTarget = 1.0;
 
-   override public function addGlobalLearningObjectWindow (window : ScyWindow) : Void {
+   override public function addGlobalLearningObjectWindow (window : ScyWindow) : Boolean {
       addWindowImmediately(window);
+      return true;
    }
 
    public override function clearWindows():Void{
@@ -49,44 +50,52 @@ public class SimpleWindowPositioner extends WindowPositioner {
       logger.info("makeMainWindow: {window.eloUri}");
    }
 
-   public override function setAnchorWindow(window:ScyWindow):Void{
+   public override function setAnchorWindow(window:ScyWindow):Boolean{
    //       logger.info("setCenterWindow");
       //addWindowImmediately(window);
       placeWindowInCenter(window);
+      return true;
    }
 
-   public override function addNextAnchorWindow(window:ScyWindow, direction:Number):Void{
+   public override function addNextAnchorWindow(window:ScyWindow, direction:Number):Boolean{
    //       logger.info("addLinkedWindow");
       addWindowImmediately(window);
+      return true;
    }
 
-   public override function addPreviousAnchorWindow(window:ScyWindow, direction:Number):Void{
+   public override function addPreviousAnchorWindow(window:ScyWindow, direction:Number):Boolean{
    //       logger.info("addLinkedWindow");
       addWindowImmediately(window);
+      return true;
    }
 
-   public override function addInputAnchorWindow(window:ScyWindow, direction:Number):Void{
+   public override function addInputAnchorWindow(window:ScyWindow, direction:Number):Boolean{
    //       logger.info("addLinkedWindow");
       addWindowImmediately(window);
+      return true;
    }
 
-   public override function addIntermediateWindow(window:ScyWindow):Void{
+   public override function addIntermediateWindow(window:ScyWindow):Boolean{
    //       logger.info("addOtherWindow({window.title})");
       addWindowImmediately(window);
+      return true;
    }
 
-   public override function addLearningObjectWindow(window:ScyWindow):Void{
+   public override function addLearningObjectWindow(window:ScyWindow):Boolean{
    //       logger.info("addOtherWindow({window.title})");
       addWindowImmediately(window);
+      return true;
    }
 
-   public override function addOtherWindow(window:ScyWindow):Void{
+   public override function addOtherWindow(window:ScyWindow):Boolean{
    //       logger.info("addOtherWindow({window.title})");
       addWindowImmediately(window);
+      return true;
    }
 
-   public override function placeOtherWindow(window:ScyWindow):Void{
+   public override function placeOtherWindow(window:ScyWindow):Boolean{
       addWindowImmediately(window);
+      return true;
    }
 
    public override function positionWindows():Void{

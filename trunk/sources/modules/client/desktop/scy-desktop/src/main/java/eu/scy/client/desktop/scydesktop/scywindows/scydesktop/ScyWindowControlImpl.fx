@@ -51,7 +51,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var scyWindows: ScyWindow[];
    def desktopStates = new HashMap();
 
-   public override function newEloSaved(eloUri: URI)    {
+   public override function newEloSaved(eloUri: URI)      {
       var scyWindow = findScyWindow(eloUri);
       if (scyWindow == null) {
          // the elo is not yet in a window on the desktop, add it
@@ -112,33 +112,38 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function placeWindowsOnDesktop(desktopState: DesktopState) {
       for (loEloUri in missionModel.loEloUris) {
          var loEloWindow = getScyWindow(loEloUri);
-         windowManager.addScyWindow(loEloWindow);
-         windowPositioner.addGlobalLearningObjectWindow(loEloWindow);
+         if (windowPositioner.addGlobalLearningObjectWindow(loEloWindow)) {
+            windowManager.addScyWindow(loEloWindow);
+         }
       }
       var mainAnchorWindow = getScyWindow(activeLas.mainAnchor.eloUri);
-      windowManager.addScyWindow(mainAnchorWindow);
-      windowPositioner.setAnchorWindow(mainAnchorWindow);
+      if (windowPositioner.setAnchorWindow(mainAnchorWindow)) {
+         windowManager.addScyWindow(mainAnchorWindow);
+      }
       addAnchorRelated(activeLas.mainAnchor);
       for (intermediateAnchor in activeLas.intermediateAnchors) {
          if (intermediateAnchor.exists) {
             var intermediateAnchorWindow = getScyWindow(intermediateAnchor.eloUri);
-            windowManager.addScyWindow(intermediateAnchorWindow);
-            windowPositioner.addIntermediateWindow(intermediateAnchorWindow);
-            addAnchorRelated(intermediateAnchor);
+            if (windowPositioner.addIntermediateWindow(intermediateAnchorWindow)) {
+               windowManager.addScyWindow(intermediateAnchorWindow);
+               addAnchorRelated(intermediateAnchor);
+            }
          }
       }
       for (las in activeLas.nextLasses) {
          if (las.exists) {
             var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
-            windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las));
+            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las))) {
+               windowManager.addScyWindow(anchorWindow);
+            }
          }
       }
       for (las in activeLas.previousLasses) {
          if (las.exists) {
             var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
-            windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las));
+            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las))) {
+               windowManager.addScyWindow(anchorWindow);
+            }
          }
       }
       if (desktopState != null) {
@@ -147,8 +152,9 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             var scyWindow = windowManager.findScyWindow(eloUri);
             if (scyWindow == null) {
                scyWindow = getScyWindow(eloUri);
-               windowManager.addScyWindow(scyWindow);
-               windowPositioner.addOtherWindow(scyWindow);
+               if (windowPositioner.addOtherWindow(scyWindow)) {
+                  windowManager.addScyWindow(scyWindow);
+               }
             }
          }
       }
@@ -166,14 +172,16 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (anchor in missionAnchor.inputAnchors) {
          if (anchor.exists) {
             var anchorWindow = getScyWindow(anchor.eloUri);
-            windowManager.addScyWindow(anchorWindow);
-            windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(anchor.las));
+            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(anchor.las))){
+               windowManager.addScyWindow(anchorWindow);
+            }
          }
       }
       for (loEloUri in missionAnchor.loEloUris) {
          var loEloWindow = getScyWindow(loEloUri);
-         windowManager.addScyWindow(loEloWindow);
-         windowPositioner.addLearningObjectWindow(loEloWindow);
+         if (windowPositioner.addLearningObjectWindow(loEloWindow)){
+            windowManager.addScyWindow(loEloWindow);
+         }
       }
       for (relationName in missionAnchor.relationNames) {
          // add the related elos
