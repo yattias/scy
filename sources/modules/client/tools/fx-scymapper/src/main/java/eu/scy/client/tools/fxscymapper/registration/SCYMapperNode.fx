@@ -141,15 +141,16 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
  public override function canAcceptDrop(object:Object):Boolean{
-      println("ChatPresenceToolNode: canAcceptDrop of {object.getClass()}");
+      println("SCYMAPPER: canAcceptDrop of {object.getClass()}");
       return true;
    }
 
    public override function acceptDrop(object:Object):Void{
-      println("ChatPresenceToolNode: acceptDrop of {object.getClass()}");
+      println("SCYMapper: acceptDrop of {object.getClass()}");
       var c:ContactFrame = object as ContactFrame;
-      println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
+      println("SCYMapper: acceptDrop user: {c.contact.name}");
       scyWindow.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+      println("collaboration proposed");
    }
 
 
