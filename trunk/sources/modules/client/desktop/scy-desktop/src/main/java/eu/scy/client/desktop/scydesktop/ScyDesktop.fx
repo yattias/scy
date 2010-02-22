@@ -361,6 +361,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
     public override function processNotification(notification: INotification): Void {
         logger.debug("notification.getToolId(): {notification.getToolId()}");
+        logger.debug("notification -> proposing_user: {notification.getFirstProperty("proposing_user")}");
         def notificationType: String = notification.getFirstProperty("type");
         logger.debug("notification-type: {notificationType}");
         if (not (notificationType == null)) {
@@ -382,7 +383,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 logger.debug("********************collaboration_response*************************");
                 def accepted: String = notification.getFirstProperty("accepted");
                 def eloUri: String = notification.getFirstProperty("proposed_elo");
-                if (accepted == "true") {
+                if (accepted == "true" and eloUri!=null) {
                     JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     def mucid: String = notification.getFirstProperty("mucid");
                     def collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
