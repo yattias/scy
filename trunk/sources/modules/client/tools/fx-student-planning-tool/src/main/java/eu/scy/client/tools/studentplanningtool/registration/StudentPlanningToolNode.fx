@@ -9,12 +9,15 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 import javafx.ext.swing.SwingComponent;
+import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import javafx.ext.swing.SwingComponent;
 import eu.scy.tools.planning.controller.*;
 import eu.scy.tools.planning.*;
 import roolo.elo.metadata.BasicMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Resizable;
@@ -37,6 +40,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
     public var panel:JComponent;
     public var studentPlanningController:StudentPlanningController;
     public var studentPlanningTool:StudentPlanningTool;
+    public var metadataTypeManager: IMetadataTypeManager;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -66,17 +70,20 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
    }
 
    public override function acceptDrop(object:Object):Void{
-      println("object {object}");
+     
 
       if( object instanceof ContactFrame ) {
          var cf = object as ContactFrame;
          studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
       } else if( object instanceof BasicMetadata) {
          var elo = object as BasicMetadata;
+         
+         var anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
+         println("ANCHOR ID {elo.getMetadataValueContainer(anchorIdKey).getValue()}");
          studentPlanningTool.acceptDrop(elo);
       }
 
-    
+     println("object {object}");
 
    }
 
