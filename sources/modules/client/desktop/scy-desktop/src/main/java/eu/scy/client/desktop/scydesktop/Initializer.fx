@@ -56,7 +56,7 @@ public class Initializer {
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
    public-init var scyServerHost:String;
    public-init var useWebStartHost=true;
-   public-init var windowPositioner="simple";
+   public-init var windowPositioner="roleArea";
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
