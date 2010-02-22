@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 public class AreaPositioner {
 
    def logger = Logger.getLogger(this.getClass());
+   public var name = "???";
    public var area: Bounds;
    public var windows: ScyWindow[];
    public var ignoreWindow: ScyWindow;
@@ -38,6 +39,12 @@ public class AreaPositioner {
    }
 
    public function positionWindows(): Void {
+      logger.info("to position {sizeof windows} in {name}");
+      println("AreaPositioner {name}:");
+      for (window in windows){
+         println("{indexof window}: {window.eloUri}");
+      }
+
       delete  placedWindows;
       insert ignoreWindow into placedWindows;
       for (window in windows) {
