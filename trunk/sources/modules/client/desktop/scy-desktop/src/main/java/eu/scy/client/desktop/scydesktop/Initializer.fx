@@ -56,6 +56,7 @@ public class Initializer {
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
    public-init var scyServerHost:String;
    public-init var useWebStartHost=true;
+   public-init var windowPositioner="simple";
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -86,6 +87,7 @@ public class Initializer {
    def eloImagesPathOption = "eloImagesPath";
    def scyServerHostOption = "scyServerHost";
    def useWebStartHostOption = "useWebStartHost";
+   def windowPositionerOption = "windowPositioner";
 
    init {
       JavaProperties.writePropertiesForApplication();
@@ -175,6 +177,9 @@ public class Initializer {
             } else if (option == useWebStartHostOption.toLowerCase()) {
                useWebStartHost = argumentsList.nextBooleanValue(useWebStartHostOption);
                logger.info("app: {useWebStartHostOption}: {useWebStartHost}");
+            } else if (option == windowPositionerOption.toLowerCase()) {
+               windowPositioner = argumentsList.nextStringValue(windowPositionerOption);
+               logger.info("app: {windowPositionerOption}: {windowPositioner}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -203,6 +208,7 @@ public class Initializer {
       eloImagesPath = getWebstartParameterStringValue(eloImagesPathOption, eloImagesPath);
       scyServerHost = getWebstartParameterStringValue(scyServerHostOption, scyServerHost);
       useWebStartHost = getWebstartParameterBooleanValue(useWebStartHostOption, useWebStartHost);
+      windowPositioner = getWebstartParameterStringValue(windowPositionerOption, windowPositioner);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {

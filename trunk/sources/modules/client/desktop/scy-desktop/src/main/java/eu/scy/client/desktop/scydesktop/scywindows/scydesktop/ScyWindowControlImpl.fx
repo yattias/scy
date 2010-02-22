@@ -51,7 +51,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var scyWindows: ScyWindow[];
    def desktopStates = new HashMap();
 
-   public override function newEloSaved(eloUri: URI)      {
+   public override function newEloSaved(eloUri: URI){
       var scyWindow = findScyWindow(eloUri);
       if (scyWindow == null) {
          // the elo is not yet in a window on the desktop, add it
@@ -110,6 +110,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    function placeWindowsOnDesktop(desktopState: DesktopState) {
+      var mainWindow:ScyWindow;
       for (loEloUri in missionModel.loEloUris) {
          var loEloWindow = getScyWindow(loEloUri);
          if (windowPositioner.addGlobalLearningObjectWindow(loEloWindow)) {
@@ -120,6 +121,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       if (windowPositioner.setAnchorWindow(mainAnchorWindow)) {
          windowManager.addScyWindow(mainAnchorWindow);
       }
+      mainWindow = mainAnchorWindow;
       addAnchorRelated(activeLas.mainAnchor);
       for (intermediateAnchor in activeLas.intermediateAnchors) {
          if (intermediateAnchor.exists) {
@@ -146,6 +148,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             }
          }
       }
+      windowPositioner.makeMainWindow(mainWindow);
       if (desktopState != null) {
          // add the user elos
          for (eloUri in desktopState.eloUris) {
@@ -172,14 +175,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (anchor in missionAnchor.inputAnchors) {
          if (anchor.exists) {
             var anchorWindow = getScyWindow(anchor.eloUri);
-            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(anchor.las))){
+            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(anchor.las))) {
                windowManager.addScyWindow(anchorWindow);
             }
          }
       }
       for (loEloUri in missionAnchor.loEloUris) {
          var loEloWindow = getScyWindow(loEloUri);
-         if (windowPositioner.addLearningObjectWindow(loEloWindow)){
+         if (windowPositioner.addLearningObjectWindow(loEloWindow)) {
             windowManager.addScyWindow(loEloWindow);
          }
       }
@@ -221,6 +224,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          scyWindow.scyWindowAttributes = anchorAttribute;
          anchorAttribute.windowAction = function (anchor: MissionAnchorFX): Void {
             windowPositioner.makeMainWindow(getScyWindow(anchor.eloUri));
+            windowPositioner.positionWindows();
          }
       }
       //      applyMetadataAttributes(scyWindow,eloUri);

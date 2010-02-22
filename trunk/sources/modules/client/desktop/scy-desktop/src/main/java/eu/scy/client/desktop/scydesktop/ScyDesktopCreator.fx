@@ -239,7 +239,8 @@ public class ScyDesktopCreator {
          var searchResult = results.get(0) as ISearchResult;
 
          var missionModelElo = config.getRepository().retrieveELO(searchResult.getUri());
-         var missionModel = MissionModelXml.convertToMissionModel(missionModelElo.getContent().getXmlString());
+         var missionModelXml = missionModelElo.getContent().getXmlString();
+         var missionModel = MissionModelXml.convertToMissionModel(missionModelXml);
          addEloStatusInformationToMissionModel(missionModel);
          missionModel.elo = missionModelElo;
          return missionModel;
@@ -344,10 +345,9 @@ public class ScyDesktopCreator {
       return null;
    }
 
-
-
    public function createScyDesktop(): ScyDesktop {
       def scyDesktop:ScyDesktop = ScyDesktop {
+         initializer:initializer
          config: config;
          missionModelFX: missionModelFX;
          eloInfoControl: eloInfoControl;

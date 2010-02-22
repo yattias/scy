@@ -27,6 +27,10 @@
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.window_positions">
+		<level value="debug" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler">
 		<level value="error" />
 	</logger>
 

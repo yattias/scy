@@ -7,14 +7,17 @@ package eu.scy.client.desktop.scydesktop.scywindows.window_positions;
 
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import javafx.geometry.Bounds;
-import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import java.lang.System;
 import javafx.geometry.BoundingBox;
-import javafx.util.Sequences;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+import javafx.scene.Group;
+import javafx.util.Math;
+import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import java.net.URI;
 
 /**
  * @author sikken
@@ -33,9 +36,35 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
    var anchorWindowArea: Bounds;
    var otherWindowArea: Bounds;
    def anchorWindowPositioner = AreaPositioner {
+      name:"anchor elos"
          }
    def otherWindowPositioner = AreaPositioner {
+      name:"other elos"
          }
+   def mainWindowAreaRectangle = Rectangle {
+         x: 0, y: 0
+         width: 0, height: 0
+         fill: Color.color(0, 1, 0, 0.1);
+      }
+   def assignmentWindowAreaRectangle = Rectangle {
+         x: 0, y: 0
+         width: 0, height: 0
+         fill: Color.color(0, 0, 1, 0.1);
+      }
+   def anchorWindowAreaRectangle = Rectangle {
+         x: 0, y: 0
+         width: 0, height: 0
+         fill: Color.color(1, 1, 0, 0.1);
+      }
+   def otherWindowAreaRectangle = Rectangle {
+         x: 0, y: 0
+         width: 100, height: 100
+         fill: Color.color(1, 0, 1, 0.1);
+      }
+   def showAreas = true;
+   var areaRectsAddedToScene = false;
+
+   def containsAssignmentKey = scyDesktop.config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO);
 
    override public function addGlobalLearningObjectWindow(window: ScyWindow): Boolean {
       insert window into otherWindowPositioner.windows;
@@ -52,15 +81,37 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 
    override public function makeMainWindow(window: ScyWindow): Void {
       logger.info("makeMainWindow: {window.eloUri}");
-      mainWindow = window;
-      if (anchorWindowPositioner.contains(window)) {
-         // it's a anchor window
-         anchorWindowPositioner.ignoreWindow = window;
-      } else {
-         // it's not an anchor window
-         otherWindowPositioner.ignoreWindow = window;
+      if (mainWindow != window) {
+         mainWindow = window;
+         assignmentWindow = null;
+         if (anchorWindowPositioner.contains(window)) {
+            // it's a anchor window
+            anchorWindowPositioner.ignoreWindow = mainWindow;
+            assignmentWindow = findAssignmentWindow(mainWindow);
+            if (assignmentWindow!=null){
+               otherWindowPositioner.ignoreWindow = assignmentWindow;
+            }
+         } else {
+            // it's not an anchor window
+            otherWindowPositioner.ignoreWindow = window;
+         }
       }
+      //positionWindows();
    }
+
+   function findAssignmentWindow(window:ScyWindow):ScyWindow{
+      var metadata = scyDesktop.config.getRepository().retrieveMetadata(window.eloUri);
+      var assignmentEloUri = metadata.getMetadataValueContainer(containsAssignmentKey).getValue() as URI;
+      if (assignmentEloUri!=null){
+         for (otherWindow in otherWindowPositioner.windows){
+            if (otherWindow.eloUri==assignmentEloUri){
+               return otherWindow;
+            }
+         }
+      }
+      return null;
+   }
+
 
    public override function setAnchorWindow(window: ScyWindow): Boolean {
       insert window into anchorWindowPositioner.windows;
@@ -115,7 +166,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
    }
 
    public override function positionWindows(windowPositionsState: WindowPositionsState): Void {
-      // nothing to to, all window are positioned immediately
+      positionWindows();
    }
 
    public override function getWindowPositionsState(): WindowPositionsState {
@@ -125,24 +176,30 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 
    def mainHOffsetFactor = 0.4;
    def mainVOffsetFactor = 0.4;
+   def maximumHOffset = 200;
+   def maximumVOffset = 100;
    def mainAssignmentFactor = 0.6;
+   def areaSeparation = 15;
+   def windowBottomMargin = 10;
+   def windowRightMargin = 10;
 
    function setAreas() {
-      var mainHOffset = mainHOffsetFactor * width;
-      var mainVOffset = mainVOffsetFactor * height;
+      var mainHOffset = Math.min(mainHOffsetFactor * width,maximumHOffset);
+      var mainVOffset = Math.min(mainVOffsetFactor * height,maximumVOffset);
       mainWindowArea = BoundingBox {
-         minX: mainHOffset
-         width: mainAssignmentFactor * (width - mainHOffset)
-         minY: mainVOffset
-         height: height - mainVOffset
+         minX: mainHOffset+areaSeparation
+         width: mainAssignmentFactor * (width - mainHOffset - 3*areaSeparation)
+         minY: mainVOffset+areaSeparation
+         height: height - mainVOffset - 2*areaSeparation
       };
       assignmentWindowArea = BoundingBox {
-         minX: mainHOffset + mainWindowArea.width
-         width: width - mainHOffset - mainWindowArea.width
-         minY: mainVOffset
-         height: height - mainVOffset - scyDesktop.bottomRightCorner.boundsInLocal.height
+         minX: mainWindowArea.maxX + areaSeparation
+         width: width - mainWindowArea.maxX - 2*areaSeparation
+         minY: mainWindowArea.minY
+         height: height - mainVOffset- 2*areaSeparation - scyDesktop.bottomRightCorner.boundsInLocal.height-scyDesktop.bottomRightCorner.boundsInLocal.minY
       }
-      var anchorAreaLeftOffset = scyDesktop.topLeftCorner.boundsInLocal.width;
+//      println("scyDesktop.topLeftCorner.boundsInLocal: {scyDesktop.topLeftCorner.boundsInLocal}");
+      var anchorAreaLeftOffset = scyDesktop.topLeftCorner.boundsInLocal.width - scyDesktop.topLeftCorner.boundsInLocal.minX;
       var anchorAreaRightOffset = scyDesktop.topRightCorner.boundsInLocal.width;
       anchorWindowArea = BoundingBox {
          minX: anchorAreaLeftOffset
@@ -150,7 +207,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
          minY: 0
          height: mainVOffset
       }
-      var otherAreaTopOffset = scyDesktop.topLeftCorner.boundsInLocal.height;
+      var otherAreaTopOffset = Math.max(scyDesktop.topLeftCorner.boundsInLocal.height, anchorWindowArea.maxY);
       var otherAreaBottomOffset = scyDesktop.bottomLeftCorner.boundsInLocal.height;
       otherWindowArea = BoundingBox {
          minX: 0
@@ -158,6 +215,35 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
          minY: otherAreaTopOffset
          height: height - otherAreaTopOffset - otherAreaBottomOffset
       }
+      if (showAreas) {
+         showAreaRects();
+         placeRectangleAsArea(mainWindowAreaRectangle, mainWindowArea);
+         placeRectangleAsArea(assignmentWindowAreaRectangle, assignmentWindowArea);
+         placeRectangleAsArea(anchorWindowAreaRectangle, anchorWindowArea);
+         placeRectangleAsArea(otherWindowAreaRectangle, otherWindowArea);
+      }
+   }
+
+   function showAreaRects() {
+      if (showAreas and not areaRectsAddedToScene) {
+         var areaGroup = Group {
+               content: [
+                  mainWindowAreaRectangle,
+                  assignmentWindowAreaRectangle,
+                  anchorWindowAreaRectangle,
+                  otherWindowAreaRectangle
+               ]
+            }
+         insert areaGroup into scyDesktop.highDebugGroup.content;
+         areaRectsAddedToScene = true;
+      }
+   }
+
+   function placeRectangleAsArea(rect: Rectangle, bounds: Bounds) {
+      rect.x = bounds.minX;
+      rect.y = bounds.minY;
+      rect.width = bounds.width;
+      rect.height = bounds.height;
    }
 
    function placeWindow(window: ScyWindow, bounds: Bounds) {
