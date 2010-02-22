@@ -369,7 +369,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 def user: String = notification.getFirstProperty("proposing_user");
                 //XXX submit user-nickname instead of extracting it
                 def userNickname = user.substring(0, user.indexOf("@"));
-                def eloUri: String = notification.getFirstProperty("elo");
+                def eloUri: String = notification.getFirstProperty("proposed_elo");
                 def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION){
                     logger.debug(" => accepting collaboration");
@@ -381,7 +381,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             } else if (notificationType == "collaboration_response") {
                 logger.debug("********************collaboration_response*************************");
                 def accepted: String = notification.getFirstProperty("accepted");
-                def eloUri: String = notification.getFirstProperty("elo");
+                def eloUri: String = notification.getFirstProperty("proposed_elo");
                 if (accepted == "true") {
                     JOptionPane.showMessageDialog(null, "Your request for collaboration is accepted!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     def mucid: String = notification.getFirstProperty("mucid");
@@ -389,11 +389,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     if (collaborationWindow==null){
                         ///FIXME create a window/tool with the elo
                         scyWindowControl.addOtherScyWindow(new URI(eloUri));
-                        //scyToolFactory.createNewScyToolNode("id", "type", eloUri, scyWindow, drawer)
                     }else {
                         
                     }
-
                     def toolNode: Node = collaborationWindow.scyContent;
                     if (toolNode instanceof CollaborationStartable) {
                         (toolNode as CollaborationStartable).startCollaboration(mucid);
