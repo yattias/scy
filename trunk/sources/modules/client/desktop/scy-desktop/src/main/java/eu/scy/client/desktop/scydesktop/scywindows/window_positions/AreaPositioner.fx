@@ -11,10 +11,14 @@ import javafx.util.Sequences;
 import javafx.util.Math;
 import java.lang.System;
 import org.apache.log4j.Logger;
+import javafx.geometry.BoundingBox;
 
 /**
  * @author sikken
  */
+
+ // TODO, now a simple rectangle is used for the window position calculation, attributes and drawers are ignored.
+ 
 public class AreaPositioner {
 
    def logger = Logger.getLogger(this.getClass());
@@ -101,7 +105,13 @@ public class AreaPositioner {
       while (not positionFound and windowPositionStepper.hasMoreSteps()) {
          ++tryCount;
          windowPositionStepper.makeStep();
-         var maximumIntersection = calculateMaximumIntersection(window, minimumIntersection);
+         var windowBounds = BoundingBox{
+            minX:window.layoutX;
+            width:windowPositionStepper.windowWidth
+            minY:window.layoutY;
+            height:windowPositionStepper.windowHeight
+         }
+         var maximumIntersection = calculateMaximumIntersection(windowBounds, minimumIntersection);
 //         println("position: {window.layoutX}, {window.layoutY}, maximumIntersection: {maximumIntersection}");
          if (maximumIntersection < maximumIntersectionTarget) {
             minimumIntersection = maximumIntersection;
@@ -143,8 +153,8 @@ public class AreaPositioner {
       logger.info("with {sizeof windows} other windows, found position in {tryCount} tries and in {usedMillis} ms, intersection: {minimumIntersection}");
    }
 
-   function calculateMaximumIntersection(window: ScyWindow, currentMinimumIntersection: Number): Number {
-      var newWindowBounds = window.boundsInParent;
+   function calculateMaximumIntersection(newWindowBounds: Bounds, currentMinimumIntersection: Number): Number {
+      //var newWindowBounds = window.boundsInParent;
       //       println("title: {window.title}, newWindowBounds: {newWindowBounds}");
       var maximumIntersection = 0.0;
       for (win in placedWindows) {

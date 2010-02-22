@@ -53,6 +53,9 @@ public abstract class ScyWindow extends CustomNode {
    public-read protected var originalWidth: Number = 70;
    public-read protected var originalHeight: Number = 50;
 
+   public var closedBoundsWidth:Number;
+   public var closedBoundsHeight:Number;
+
    public var widthHeightProportion: Number = -1.0;
 
 	public var scyContent: Node;
