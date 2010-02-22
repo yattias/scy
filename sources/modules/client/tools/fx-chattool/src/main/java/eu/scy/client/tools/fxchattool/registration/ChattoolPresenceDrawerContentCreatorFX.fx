@@ -38,6 +38,7 @@ import roolo.elo.metadata.keys.Contribute;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.presence.IPresenceEvent;
+import roolo.elo.metadata.keys.Contribute;
 /**
  * @author jeremyt
  */
@@ -66,7 +67,7 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
             var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
             var authorsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
             var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
-            var listOfAuthors = metadataFirstVersion.getMetadataValueContainer(authorsKey).getValue();
+            var listOfAuthors:java.util.List = metadataFirstVersion.getMetadataValueContainer(authorsKey).getValueList();
 
 
             var s = firstVersionELOURI.toString();
@@ -97,24 +98,21 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
         }
    }
 
-   function addAuthorsToBuddyListModel(controller:ChatController, listOfAuthors:Object) {
+   function addAuthorsToBuddyListModel(controller:ChatController, listOfAuthors:java.util.List) {
         //get authors from metadata when available
-        println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ adding temp users here" );
-        println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ authors are: {listOfAuthors}");
-        /*var au1:AwarenessUser = new AwarenessUser();
-    	au1.setNickName("ton");
-    	au1.setPresence(IPresenceEvent.UNAVAILABLE);
-    	controller.addBuddy(au1);
+        
+        var c:Contribute;
+        var au:AwarenessUser;
 
-        var au2:AwarenessUser = new AwarenessUser();
-    	au2.setNickName("tony");
-    	au2.setPresence(IPresenceEvent.UNAVAILABLE);
-    	controller.addBuddy(au2);
-
-        var au3:AwarenessUser = new AwarenessUser();
-    	au3.setNickName("daniel");
-    	au3.setPresence(IPresenceEvent.UNAVAILABLE);
-    	controller.addBuddy(au3);*/
-
+        for (author in listOfAuthors) {
+            c = author as Contribute;
+            //println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ current user: {toolBrokerAPI.getLoginUserName()} and author found: {c.getVCard().toString()}" );
+            if(toolBrokerAPI.getLoginUserName().toString() != c.getVCard().toString()) {
+                au = new AwarenessUser();
+                au.setNickName(c.getVCard());
+                au.setPresence(IPresenceEvent.UNAVAILABLE);
+                controller.addBuddy(au);
+            }
+        }
    }
 }
