@@ -118,28 +118,30 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, Coll
       return chatPresenceTool.getPreferredSize().getWidth();
    }
 
-   ///public override function canAcceptDrop(object:Object):Boolean{
-   //   println("ChatPresenceToolNode: canAcceptDrop of {object.getClass()}");
-   //   return true;
-   //}
+   public override function canAcceptDrop(object:Object):Boolean{
+      println("ChatPresenceToolNode: canAcceptDrop of {object.getClass()}");
+      return true;
+   }
 
-   //public override function acceptDrop(object:Object):Void{
-   //   println("ChatPresenceToolNode: acceptDrop of {object.getClass()}");
-   //   var c:ContactFrame = object as ContactFrame;
-   //   println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
-   //   if(tempUsers.contains("{c.contact.awarenessUser.getJid()}/Smack") == false) {
-   //     chatPresenceTool.addTemporaryUser(c.contact.name);
+   public override function acceptDrop(object:Object):Void{
+      println("ChatPresenceToolNode: acceptDrop of {object.getClass()}");
+      var c:ContactFrame = object as ContactFrame;
+      println("ChatPresenceToolNode: acceptDrop user: {c.contact.name}");
+      if(tempUsers.contains("{c.contact.awarenessUser.getJid()}/Smack") == false) {
+        chatPresenceTool.addTemporaryUser(c.contact.name);
         //XXX the "/Smack" should be received correctly via method
-   //     toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
-   //     tempUsers.addElement("{c.contact.awarenessUser.getJid()}/Smack");
-   //   }
-   //   else {
-    //      println("user: {c.contact.name} has already been contacted");
-    //  }
+        toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+        tempUsers.addElement("{c.contact.awarenessUser.getJid()}/Smack");
+      }
+      else {
+          println("user: {c.contact.name} has already been contacted");
+      }
 
-   //}
+   }
 
    public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
       println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {user}");
+      chatPresenceTool.removeTemporaryUser(user);
+      tempUsers.removeElement(user);
    }
 }
