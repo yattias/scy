@@ -10,8 +10,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -19,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTitledPanel;
 
 import eu.scy.awareness.AwarenessUser;
-import eu.scy.awareness.IAwarenessUser;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.presence.IPresenceEvent;
 
@@ -65,6 +62,7 @@ public class ChatPresencePanel extends JPanel {
         buddyListScroll.setPreferredSize(new Dimension(200, 75));
 
         buddyPanel.add(buddyListScroll);
+        
         return buddyPanel;
     }
 
