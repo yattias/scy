@@ -1,0 +1,136 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">adam</string>
+      </title>
+      <mission>testMap</mission>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/11/0/adam.scymissionmodel</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/missionmodel</format>
+      <customElements>
+        <dateCreated>1266317540192</dateCreated>
+        <dateLastModified>1266317540192</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>adam</entity>
+        <date>
+          <dateTime>2010-02-16T11:52:20.192+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/11/1/adam.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <id>testMap</id>
+  <name>test mission</name>
+  <activeLas>las1</activeLas>
+  <loElos>
+    <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
+  </loElos>
+  <lasses>
+    <las>
+      <id>las1</id>
+      <xPos>20.0</xPos>
+      <yPos>20.0</yPos>
+      <toolTip>A great small las top left</toolTip>
+      <loElos>
+        <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
+      </loElos>
+      <mainAnchor>
+        <eloUri>roolo://memory/8/0/Mission_description.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/9/0/help_elo_2.text</eloUri>
+          <mainAnchor>true</mainAnchor>
+          <loElos />
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>las2</las>
+        <las>las3</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>las2</id>
+      <xPos>40.0</xPos>
+      <yPos>60.0</yPos>
+      <toolTip>A great small las at the bottom</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/99/0/Mission_intro.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos />
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>las3</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>las3</id>
+      <xPos>60.0</xPos>
+      <yPos>20.0</yPos>
+      <toolTip>A great small las to right</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/10/0/Mission_background.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos />
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

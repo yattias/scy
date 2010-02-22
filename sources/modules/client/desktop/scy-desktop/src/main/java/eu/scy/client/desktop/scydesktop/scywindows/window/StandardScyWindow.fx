@@ -88,7 +88,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    public override var allowClose = true;
    public override var allowMinimize = true;
 //   public override var closeIsHide = false;
-   public override var scyDesktop;
 	public override var windowEffect;
 	//	public var closeAction:function(ScyWindow):Void;
 //	public var minimizeAction: function(ScyWindow):Void;

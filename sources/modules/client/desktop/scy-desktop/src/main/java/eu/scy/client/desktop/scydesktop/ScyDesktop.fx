@@ -391,7 +391,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                         scyWindowControl.addOtherScyWindow(new URI(eloUri));
                         //scyToolFactory.createNewScyToolNode("id", "type", eloUri, scyWindow, drawer)
                     }else {
-
+                        
                     }
 
                     def toolNode: Node = collaborationWindow.scyContent;
