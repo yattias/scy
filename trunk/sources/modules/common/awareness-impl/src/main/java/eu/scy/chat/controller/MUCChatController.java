@@ -325,7 +325,6 @@ public class MUCChatController implements ChatController {
 		logger.debug("ChatController: Joining room with ELOUri: "+ getELOUri());
 		try {
 			this.getAwarenessService().joinMUCRoom(this.ELOUri);
-			logger.debug("ChatController: Joining room with ELOUri: has joined now??? "+ this.getAwarenessService().hasJoinedRoom(this.ELOUri, this.getCurrentUser()));
 		} catch (AwarenessServiceException e) {
 			e.printStackTrace();
 		}
