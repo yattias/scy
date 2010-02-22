@@ -5,16 +5,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
@@ -63,9 +58,7 @@ public class MUCChatController implements ChatController {
 				try {
 					awarenessService.sendMUCMessage(ELOUri, message);
 				} catch (AwarenessServiceException e) {
-					logger
-							.error("ChatController: sendMessageMUC: AwarenessServiceException for ELOUri:"
-									+ ELOUri + " " + e);
+					logger.error("ChatController: sendMessageMUC: AwarenessServiceException for ELOUri:"+ ELOUri + " " + e);
 				}
 			}
 		});
@@ -191,9 +184,12 @@ public class MUCChatController implements ChatController {
 	
 									boolean isFound = false;
 									IAwarenessUser iau;
+									logger.debug( "AwarenessPresenceListener elouri: " + ELOUri + " ------ roomid :" + awarenessEventRoomId + " ------ number of buddies in chat room: " +buddyListModel.getSize() );
 									for (int i = 0; i < buddyListModel.getSize(); i++) {
 										iau = (IAwarenessUser) buddyListModel.elementAt(i);
 										logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: "	+ iau.getNickName());
+										logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: "	+ iau);
+										
 										if (iau.getNickName().equals(awarenessUser.getNickName())) {
 											((IAwarenessUser) buddyListModel.elementAt(i)).setPresence(awarenessUser.getPresence());
 											isFound = true;
@@ -292,7 +288,6 @@ public class MUCChatController implements ChatController {
 
 					}
 				});
-
 	}
 
 	@Override
@@ -327,11 +322,10 @@ public class MUCChatController implements ChatController {
 	}
 
 	public void connectToRoom() {
-		logger
-				.debug("ChatController: Joining room with ELOUri: "
-						+ getELOUri());
+		logger.debug("ChatController: Joining room with ELOUri: "+ getELOUri());
 		try {
 			this.getAwarenessService().joinMUCRoom(this.ELOUri);
+			logger.debug("ChatController: Joining room with ELOUri: has joined now??? "+ this.getAwarenessService().hasJoinedRoom(this.ELOUri, this.getCurrentUser()));
 		} catch (AwarenessServiceException e) {
 			e.printStackTrace();
 		}
