@@ -26,6 +26,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 
    def logger = Logger.getLogger(this.getClass());
    public var scyDesktop: ScyDesktop;
+   public var showAreas = false;
    var mainWindow: ScyWindow;
    var assignmentWindow: ScyWindow;
 //   var inputAnchorWindows:ScyWindow[];
@@ -68,7 +69,6 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
          fill: Color.color(1, 0, 1, 0.1);
          stroke:areaRectangleStrokeColor
       }
-   def showAreas = true;
    var areaRectsAddedToScene = false;
 
    def containsAssignmentKey = scyDesktop.config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO);

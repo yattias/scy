@@ -286,6 +286,15 @@ public class ScyDesktop extends CustomNode, INotifiable {
             width: bind scene.width;
             height: bind scene.height;
             scyDesktop:this
+            showAreas:false
+         }
+      }
+      else if (initializer.windowPositioner.equalsIgnoreCase("roleAreaDebug")){
+         windowPositioner = RoleAreaWindowPositioner{
+            width: bind scene.width;
+            height: bind scene.height;
+            scyDesktop:this
+            showAreas:true
          }
       }
       else{
