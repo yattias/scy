@@ -116,7 +116,7 @@ public class JXBuddyPanel extends JXPanel {
 			}
 		});
 		//bPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		JXLabel killLabel = new JXLabel(Images.TinyDelete.getIcon());
+		JXLabel killLabel = new JXLabel(Images.Delete.getIcon());
 		killLabel.setVerticalTextPosition(JXLabel.BOTTOM);
 		killLabel.setHorizontalTextPosition(JXLabel.RIGHT);
 		killLabel.setOpaque(false);

@@ -1,5 +1,6 @@
 package eu.scy.tools.planning.test;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -31,9 +32,10 @@ public class SampleLASTestClient {
 			 StudentPlanningController spc = new StudentPlanningController(null);
 		      StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
 		      
-			frame.add(studentPlanningToolMain.createStudentPlanningPanel());
+		      JComponent createStudentPlanningPanel = studentPlanningToolMain.createStudentPlanningPanel();
+			frame.add(createStudentPlanningPanel);
 			//frame.add(studentPlanningToolMain.createDragPanel());
-			//frame.setPreferredSize(new Dimension(500, 600));
+			frame.setPreferredSize(createStudentPlanningPanel.getPreferredSize());
 			// when you close the frame, the app exits
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

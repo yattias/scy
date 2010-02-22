@@ -208,7 +208,7 @@ public class StudentPlanningTool {
 				JFrame frame = new JFrame("Test drag panel");
 				frame.setLayout(new MigLayout("insets 0 0 0 0"));
 
-				frame.add(createDragPanel());
+				//frame.add(createDragPanel());
 				// frame.setPreferredSize(new Dimension(500, 600));
 				// when you close the frame, the app exits
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -258,13 +258,8 @@ public class StudentPlanningTool {
 			this.addTaskPane(noElOLabel);
 		}
 
-		taskpanecontainer.setDropTarget(new DropTarget(taskpanecontainer,
-				new JXDropTaskPaneTargetListener(this)));
 
-		// set the transparency of the JXPanel to 50% transparent
-		// panel.setAlpha(0.7f);
-
-		JScrollPane scrollPane = new JScrollPane(taskpanecontainer,
+		JScrollPane scrollPane = new JScrollPane(
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		// panel.add(taskpanecontainer, BorderLayout.CENTER);
@@ -272,26 +267,25 @@ public class StudentPlanningTool {
 		//scrollPane.setPreferredSize(new Dimension(400, 800));
 		scrollPane.setOpaque(false);
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		JXPanel outerPanel = new JXPanel(new HorizontalLayout(1));
+		JXPanel outerPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
 		// JXPanel panel = new JXPanel();
-		outerPanel.setBackgroundPainter(getTaskPaneTitlePainter());
+		//outerPanel.setBackgroundPainter(getTaskPaneTitlePainter());
 		// outerPanel.setLayout(new BorderLayout());
-		outerPanel.setBorder(new TitledBorder(null, null, 0, 0, activityFont,
-				Color.black));
+//		outerPanel.setBorder(new TitledBorder(null, null, 0, 0, activityFont,
+//				Color.black));
 
-		// scrollPane.getViewport().add(panel);
+		scrollPane.getViewport().add(taskpanecontainer);
 		// //
 		// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		// //
 		// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// scrollPane.setPreferredSize(new Dimension(500, 600));
-		outerPanel.add(scrollPane);
-
+		//scrollPane.setPreferredSize(new Dimension(750, 800));
+		//outerPanel.add(scrollPane,"grow, span");
+		
 		// outerPanel.add(createDragPanel());
 
-		JXPanel topPanel = new JXPanel(new MigLayout("insets 3 3 3 3"));
-		topPanel.setBackgroundPainter(Colors.getMessageBGPainter());
-		messageLabel = new JXLabel("<html><b>Drag and Drop ELOs from the Mission Map.</b></html>");
+
 		
 		
 		Action infoAction = new AbstractAction() {
@@ -311,11 +305,25 @@ public class StudentPlanningTool {
 		JXHyperlink infoLink = new JXHyperlink(infoAction);
 		
 		
-		topPanel.add(messageLabel,"growx");
-		topPanel.add(new JXLabel(" "), "growx");
-		topPanel.add(infoLink,"right, wrap");
-		topPanel.add(taskpanecontainer,"span");
+		JXPanel messagePanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
+		messageLabel = new JXLabel("<html><b>Drag and Drop ELOs from the Mission Map.</b></html>");
+		messagePanel.add(messageLabel);
+		messagePanel.add(new JXLabel(" "),"growx");
+		messagePanel.add(infoLink,"right, growx");
+//		topPanel.add(messageLabel);
+//		topPanel.add(new JXLabel(" "));
+		
+		JXPanel topPanel = new JXPanel(new BorderLayout(0, 0));
+		//topPanel.setBackgroundPainter(Colors.getMessageBGPainter());
+		topPanel.setBackground(Color.red);
+		
+		
+		topPanel.add(messagePanel, BorderLayout.NORTH);
+		topPanel.add(scrollPane,BorderLayout.CENTER);
+		//topPanel.setPreferredSize(new Dimension(725, 850));
 		// infoPanel.add(dateLink);
+		
+		scrollPane.setPreferredSize(topPanel.getPreferredSize());
 		
 		return topPanel;
 	}
@@ -329,6 +337,7 @@ public class StudentPlanningTool {
 		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController);
 		entryPanel.setBackground(Colors.White.color());
 		entryPanel.addEntry(taskpane, "w 600!");
+		//entryPanel.addEntry(taskpane,null);
 		
 		taskpanecontainer.add(entryPanel);
 		
@@ -346,79 +355,7 @@ public class StudentPlanningTool {
 			studentPlanningController.addTaskPane((JXTaskPane) taskpane);
 	}
 
-	public JComponent createDragPanel() {
-		JXPanel dragPanel = new JXPanel();
-		dragPanel.setBorder(new TitledBorder("Drag Panel buddies and Elos"));
-		dragPanel.setPreferredSize(new Dimension(250, 300));
-		// dragPanel.setOpaque(false);
-		dragPanel.setBackgroundPainter(getDragPainter());
-
-		JXLabel elo1Label = new JXLabel(Images.Excel1.getIcon());
-		elo1Label.setText("elo 1");
-		elo1Label.setName("anchor elo 1");
-
-		JXLabel elo2Label = new JXLabel(Images.Excel2.getIcon());
-		elo2Label.setText("elo 2");
-		elo2Label.setName("anchor elo 2");
-
-		
-		IAwarenessUser user1 = new AwarenessUser();
-		user1.setNickName("bob");
-		
-		
-		JXLabel member1Label = new JXLabel(Images.Profile.getIcon());
-		member1Label.setText("bob");
-		member1Label.putClientProperty("USER", user1);
-
-		IAwarenessUser user2 = new AwarenessUser();
-		user2.setNickName("jack");
-		
-		JXLabel member2Label = new JXLabel(Images.Profile.getIcon());
-		member2Label.setText("jack");
-		member2Label.putClientProperty("USER", user2);
-		
-		JXLabel anchorELOLabel = new JXLabel("ANCHOR ELO");
-		anchorELOLabel.setText("jack");
-		anchorELOLabel.setBackground(Color.black);
-		anchorELOLabel.setForeground(Color.white);
-
-		MouseListener listener = new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				JComponent c = (JComponent) e.getSource();
-				TransferHandler handler = c.getTransferHandler();
-				handler.exportAsDrag(c, e, TransferHandler.COPY);
-			}
-		};
-
-		elo1Label.setTransferHandler(new ImageSelection());
-		elo1Label.addMouseListener(listener);
-		elo2Label.setTransferHandler(new ImageSelection());
-		elo2Label.addMouseListener(listener);
-
-		member1Label.setTransferHandler(new ImageSelection());
-		member1Label.addMouseListener(listener);
-		member2Label.setTransferHandler(new ImageSelection());
-		member2Label.addMouseListener(listener);
-
-		anchorELOLabel.setTransferHandler(new ImageSelection());
-		anchorELOLabel.addMouseListener(listener);
-		anchorELOLabel.setTransferHandler(new ImageSelection());
-		anchorELOLabel.addMouseListener(listener);
-
-		// dragPanel.addMouseListener(listener);
-		dragPanel.add(elo1Label);
-		dragPanel.add(elo2Label);
-		dragPanel.add(member1Label);
-		dragPanel.add(member2Label);
-		// dragPanel.add(anchorELOLabel);
-
-		// DragSource dragSource = DragSource.getDefaultDragSource();
-		// dragSource.createDefaultDragGestureRecognizer(bobLabel,DnDConstants.ACTION_MOVE,
-		// new JXDragListener());
-		// //dragPanel.setDropTarget(new DropTarget(dragPanel, new
-		// JXDropTargetListener()));
-		return dragPanel;
-	}
+	
 
 	public JXTaskPane createAnchorELOPanel(
 			StudentPlannedActivity studentPlannedActivity) {
@@ -434,6 +371,7 @@ public class StudentPlanningTool {
 		taskpane.setForeground(Color.white);
 		taskpane.setBackground(Color.black);
 		taskpane.setOpaque(true);
+		taskpane.setAnimated(true);
 		taskpane.addMouseListener(new MouseListener() {
 
 			@Override
@@ -874,7 +812,7 @@ public class StudentPlanningTool {
 		 */
 
 		// setting taskpanecontainer defaults
-		UIManager.put("TaskPaneContainer.useGradient", Boolean.FALSE);
+		UIManager.put("TaskPaneContainer.useGradient", Boolean.TRUE);
 		UIManager.put("TaskPaneContainer.background", Colors.Gray.color(0.5f));
 
 		// setting taskpane defaults
@@ -965,3 +903,77 @@ public class StudentPlanningTool {
 
 }// end class TaskPaneExample1
 
+
+//public JComponent createDragPanel() {
+//	JXPanel dragPanel = new JXPanel();
+//	dragPanel.setBorder(new TitledBorder("Drag Panel buddies and Elos"));
+//	dragPanel.setPreferredSize(new Dimension(250, 300));
+//	// dragPanel.setOpaque(false);
+//	dragPanel.setBackgroundPainter(getDragPainter());
+//
+//	JXLabel elo1Label = new JXLabel(Images.Excel1.getIcon());
+//	elo1Label.setText("elo 1");
+//	elo1Label.setName("anchor elo 1");
+//
+//	JXLabel elo2Label = new JXLabel(Images.Excel2.getIcon());
+//	elo2Label.setText("elo 2");
+//	elo2Label.setName("anchor elo 2");
+//
+//	
+//	IAwarenessUser user1 = new AwarenessUser();
+//	user1.setNickName("bob");
+//	
+//	
+//	JXLabel member1Label = new JXLabel(Images.Profile.getIcon());
+//	member1Label.setText("bob");
+//	member1Label.putClientProperty("USER", user1);
+//
+//	IAwarenessUser user2 = new AwarenessUser();
+//	user2.setNickName("jack");
+//	
+//	JXLabel member2Label = new JXLabel(Images.Profile.getIcon());
+//	member2Label.setText("jack");
+//	member2Label.putClientProperty("USER", user2);
+//	
+//	JXLabel anchorELOLabel = new JXLabel("ANCHOR ELO");
+//	anchorELOLabel.setText("jack");
+//	anchorELOLabel.setBackground(Color.black);
+//	anchorELOLabel.setForeground(Color.white);
+//
+//	MouseListener listener = new MouseAdapter() {
+//		public void mousePressed(MouseEvent e) {
+//			JComponent c = (JComponent) e.getSource();
+//			TransferHandler handler = c.getTransferHandler();
+//			handler.exportAsDrag(c, e, TransferHandler.COPY);
+//		}
+//	};
+//
+//	elo1Label.setTransferHandler(new ImageSelection());
+//	elo1Label.addMouseListener(listener);
+//	elo2Label.setTransferHandler(new ImageSelection());
+//	elo2Label.addMouseListener(listener);
+//
+//	member1Label.setTransferHandler(new ImageSelection());
+//	member1Label.addMouseListener(listener);
+//	member2Label.setTransferHandler(new ImageSelection());
+//	member2Label.addMouseListener(listener);
+//
+//	anchorELOLabel.setTransferHandler(new ImageSelection());
+//	anchorELOLabel.addMouseListener(listener);
+//	anchorELOLabel.setTransferHandler(new ImageSelection());
+//	anchorELOLabel.addMouseListener(listener);
+//
+//	// dragPanel.addMouseListener(listener);
+//	dragPanel.add(elo1Label);
+//	dragPanel.add(elo2Label);
+//	dragPanel.add(member1Label);
+//	dragPanel.add(member2Label);
+//	// dragPanel.add(anchorELOLabel);
+//
+//	// DragSource dragSource = DragSource.getDefaultDragSource();
+//	// dragSource.createDefaultDragGestureRecognizer(bobLabel,DnDConstants.ACTION_MOVE,
+//	// new JXDragListener());
+//	// //dragPanel.setDropTarget(new DropTarget(dragPanel, new
+//	// JXDropTargetListener()));
+//	return dragPanel;
+//}
