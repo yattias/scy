@@ -117,10 +117,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
     public-read var scyWindowControl: ScyWindowControl;
     public-read var newTitleGenerator: NewTitleGenerator;
     var missionMap: MissionMap;
-    var topLeftCorner: Corner;
-    var topRightCorner: Corner;
-    var bottomRightCorner: Corner;
-    var bottomLeftCorner: Corner;
+    public-read var topLeftCorner: Corner;
+    public-read var topRightCorner: Corner;
+    public-read var bottomRightCorner: Corner;
+    public-read var bottomLeftCorner: Corner;
     var backgroundImage: Image;
     var backgroundImageView: ImageView;
 
