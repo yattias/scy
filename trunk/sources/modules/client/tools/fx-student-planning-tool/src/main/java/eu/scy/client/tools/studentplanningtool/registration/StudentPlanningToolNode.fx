@@ -5,17 +5,16 @@
 package eu.scy.client.tools.studentplanningtool.registration;
 
 import java.net.URI;
-import javafx.scene.Group;
-import javafx.scene.Node;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 import javafx.ext.swing.SwingComponent;
-import eu.scy.tools.planning.controller.StudentPlanningController;
-import eu.scy.tools.planning.StudentPlanningTool;
-import java.lang.IllegalStateException;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import javafx.ext.swing.SwingComponent;
+import eu.scy.client.tools.studentplanningtool.*;
+import javafx.scene.Group;
+import javafx.scene.Node;
 
 
 
@@ -36,7 +35,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
         setScyWindowTitle();
     };
 
-   
+
     function setScyWindowTitle(){
         if (scyWindow == null) {
             return;
@@ -62,8 +61,18 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX{
 
    public override function acceptDrop(object:Object):Void{
       println("object {object}");
-      var cf = object as ContactFrame;
-      studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
+
+/**
+      if( object instanceof ContactFrame ) {
+         var cf = object as ContactFrame;
+         studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
+      } else if( object instanceof BasicMetadata) {
+         var elo = object as BasicMetadata;
+         studentPlanningTool.acceptDrop(elo);
+      }
+**/
+
+    
 
    }
 
