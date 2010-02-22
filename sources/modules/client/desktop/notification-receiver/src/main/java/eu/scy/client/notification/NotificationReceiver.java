@@ -67,9 +67,16 @@ public class NotificationReceiver {
 	}
 
 
-	protected void notifyNotifiables(INotification notification) {
-		for (INotifiable notifiable : notifiables) {
-			notifiable.processNotification(notification);
+	protected void notifyNotifiables(final INotification notification) {
+		for (final INotifiable notifiable : notifiables) {
+                    Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                                notifiable.processNotification(notification);
+                        }
+                    });
+                    t.start();
 		}
 	}
 
