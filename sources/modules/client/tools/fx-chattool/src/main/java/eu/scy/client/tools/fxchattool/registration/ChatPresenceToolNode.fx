@@ -130,7 +130,10 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, Coll
       if(tempUsers.contains("{c.contact.awarenessUser.getJid()}/Smack") == false) {
         chatPresenceTool.addTemporaryUser(c.contact.name);
         //XXX the "/Smack" should be received correctly via method
+
+        //commented out, as this should be done by the tool. cf S. Manske
         toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+
         tempUsers.addElement("{c.contact.awarenessUser.getJid()}/Smack");
       }
       else {
