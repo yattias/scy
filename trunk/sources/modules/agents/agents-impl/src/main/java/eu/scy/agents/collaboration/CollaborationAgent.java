@@ -82,7 +82,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 String proposedUser = a.getAttribute("proposed_user");
                 String proposingUser = a.getUser();
                 logger.fine("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
-                sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "elo=" + elouri);
+                sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
             } else if (a.getType().equals("collaboration_response")) {
                 boolean requestAccepted = Boolean.parseBoolean(a.getAttribute("request_accepted"));
                 String proposedUser = a.getUser();
