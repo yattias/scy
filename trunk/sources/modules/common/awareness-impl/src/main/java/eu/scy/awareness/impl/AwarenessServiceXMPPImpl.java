@@ -377,8 +377,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	public boolean doesRoomExist(String ELOUri) {
 		RoomInfo info;
 		try {
-			info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri
-					+ CONFERENCE_EXT);
+			info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri	+ CONFERENCE_EXT);
 		} catch (XMPPException e) {
 			// e.printStackTrace();
 			return false;
@@ -486,9 +485,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				// first check if the room exists
 				if (doesRoomExist(ELOUri)) {
 					// am i joined
-					if (hasJoinedRoom(ELOUri, xmppConnection.getUser()) == false)
-						muc.join(xmppConnection.getUser(), null, history,
-								SmackConfiguration.getPacketReplyTimeout());
+					if (hasJoinedRoom(ELOUri, xmppConnection.getUser()) == false) {
+						muc.join(xmppConnection.getUser(), null, history, SmackConfiguration.getPacketReplyTimeout());
+					}
 						
 				} else {
 					// create it
@@ -522,6 +521,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					// if( joinedMUCRooms.contains(ELOUri) == false )
 					// joinedMUCRooms.add(ELOUri);
 				}
+				
 			} catch (XMPPException e) {
 				e.printStackTrace();
 				return;
