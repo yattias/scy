@@ -20,6 +20,7 @@ public class AreaPositioner {
    def logger = Logger.getLogger(this.getClass());
    public var name = "???";
    public var area: Bounds;
+   public var horizontal = true;
    public var windows: ScyWindow[];
    public var ignoreWindow: ScyWindow;
    def initialX = 10;
@@ -39,6 +40,7 @@ public class AreaPositioner {
    }
 
    public function positionWindows(): Void {
+      removeDuplicateWindows();
       logger.info("to position {sizeof windows} in {name}");
       println("AreaPositioner {name}:");
       for (window in windows){
@@ -56,6 +58,25 @@ public class AreaPositioner {
       }
    }
 
+   function removeDuplicateWindows(){
+      var cleanedWindows:ScyWindow[];
+      var nrOfDuplcates = 0;
+      for (window in windows){
+         if (Sequences.indexOf(cleanedWindows, window) < 0){
+            insert window into cleanedWindows;
+         }
+         else{
+            ++nrOfDuplcates;
+         }
+
+      }
+      if (nrOfDuplcates>0){
+         logger.info("removed {nrOfDuplcates} duplicate windows from {name}");
+      }
+      windows = cleanedWindows
+   }
+
+
    function minimizeWindow(window: ScyWindow) {
       if (not window.isClosed) {
          window.setMinimize(true);
@@ -64,15 +85,22 @@ public class AreaPositioner {
 
    function positionWindow(window: ScyWindow) {
       var startNanos = System.nanoTime();
-      window.layoutX = area.minX + initialX;
-      window.layoutY = area.minY + initialY;
+      var windowPositionStepper = WindowPositionStepper{
+         window:window
+         area:area
+         horizontal:horizontal;
+      }
+
+//      window.layoutX = area.minX + initialX;
+//      window.layoutY = area.minY + initialY;
       var minimumIntersection = Number.MAX_VALUE;
       var bestLayoutX: Number;
       var bestLayoutY: Number;
       var positionFound = false;
       var tryCount = 0;
-      while (not positionFound) {
+      while (not positionFound and windowPositionStepper.hasMoreSteps()) {
          ++tryCount;
+         windowPositionStepper.makeStep();
          var maximumIntersection = calculateMaximumIntersection(window, minimumIntersection);
 //         println("position: {window.layoutX}, {window.layoutY}, maximumIntersection: {maximumIntersection}");
          if (maximumIntersection < maximumIntersectionTarget) {
@@ -85,24 +113,33 @@ public class AreaPositioner {
                bestLayoutX = window.layoutX;
                bestLayoutY = window.layoutY;
             }
-
-            window.layoutY += yStep;
-            if (window.boundsInParent.maxY > area.maxX) {
-               // we are at the bottom of the window, try a next "collumn"
-               window.layoutX += xStep;
-               window.layoutY = initialX;
-               if (window.boundsInParent.maxX > area.maxY) {
-                  // we are at the right of the window and not found a perfect position
-                  // let's use the best found sofar
-                  window.layoutX = bestLayoutX;
-                  window.layoutY = bestLayoutY;
-                  positionFound = true;
-               }
-            }
+//
+//
+//            window.layoutY += yStep;
+//            if (window.boundsInParent.maxY > area.maxX) {
+//               // we are at the bottom of the window, try a next "collumn"
+//               window.layoutX += xStep;
+//               window.layoutY = initialX;
+//               if (window.boundsInParent.maxX > area.maxY) {
+//                  // we are at the right of the window and not found a perfect position
+//                  // let's use the best found sofar
+//                  window.layoutX = bestLayoutX;
+//                  window.layoutY = bestLayoutY;
+//                  positionFound = true;
+//               }
+//            }
          }
       }
+      if (not positionFound){
+         // the perfect position is not found, use the best one
+         window.layoutX = bestLayoutX;
+         window.layoutY = bestLayoutY;
+         positionFound = true;
+      }
+
       var usedNanos = System.nanoTime() - startNanos;
       var usedMillis = usedNanos / 1e6;
+      logger.info("placed window {window.eloUri} at ({window.layoutX},{window.layoutY})");
       logger.info("with {sizeof windows} other windows, found position in {tryCount} tries and in {usedMillis} ms, intersection: {minimumIntersection}");
    }
 

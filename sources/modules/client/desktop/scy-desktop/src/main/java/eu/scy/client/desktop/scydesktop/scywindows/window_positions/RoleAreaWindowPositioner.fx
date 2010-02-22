@@ -37,29 +37,36 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
    var otherWindowArea: Bounds;
    def anchorWindowPositioner = AreaPositioner {
       name:"anchor elos"
+      horizontal:true
          }
    def otherWindowPositioner = AreaPositioner {
       name:"other elos"
+      horizontal:false
          }
+   def areaRectangleStrokeColor = Color.color(0,0,0,0.3);
    def mainWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 0, height: 0
          fill: Color.color(0, 1, 0, 0.1);
+         stroke:areaRectangleStrokeColor
       }
    def assignmentWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 0, height: 0
          fill: Color.color(0, 0, 1, 0.1);
+         stroke:areaRectangleStrokeColor
       }
    def anchorWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 0, height: 0
          fill: Color.color(1, 1, 0, 0.1);
+         stroke:areaRectangleStrokeColor
       }
    def otherWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 100, height: 100
          fill: Color.color(1, 0, 1, 0.1);
+         stroke:areaRectangleStrokeColor
       }
    def showAreas = true;
    var areaRectsAddedToScene = false;
