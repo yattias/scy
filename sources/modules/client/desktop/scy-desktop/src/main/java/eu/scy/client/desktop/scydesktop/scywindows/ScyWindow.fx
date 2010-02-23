@@ -83,6 +83,7 @@ public abstract class ScyWindow extends CustomNode {
 	public var aboutToCloseAction: function(ScyWindow):Boolean;
 	public var closedAction: function(ScyWindow):Void;
 
+   public var windowControl: ScyWindowControl;
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
 

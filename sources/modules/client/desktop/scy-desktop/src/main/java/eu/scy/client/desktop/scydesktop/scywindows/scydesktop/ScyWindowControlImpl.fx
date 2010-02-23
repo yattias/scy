@@ -15,6 +15,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author sikken
@@ -75,6 +76,16 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowPositioner.placeOtherWindow(scyWindow);
       return scyWindow;
    }
+
+    override public function makeMainScyWindow (eloUri : URI) : Void {
+       var window = findScyWindow(eloUri);
+       if (window==null){
+          logger.error("cannot find window with uri: {eloUri}");
+          return;
+       }
+       windowPositioner.makeMainWindow(window);
+       windowPositioner.positionWindows();
+    }
 
    function activeLasChanged(oldActiveLas: Las) {
       logger.info("new active las: {activeLas.id}");
@@ -217,6 +228,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             missionModelFX: missionModel
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
+            windowControl:this
          }
       tooltipManager.registerNode(scyWindow, scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
@@ -241,6 +253,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             missionModelFX: missionModel
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
+            windowControl:this
          }
       tooltipManager.registerNode(scyWindow, scyWindow);
       windowStyler.style(scyWindow);
