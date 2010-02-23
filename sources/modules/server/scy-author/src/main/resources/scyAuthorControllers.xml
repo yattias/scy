@@ -36,13 +36,27 @@
            <property name="mappings">
                <value>
                    /app/scyauthor/ScyAuthorIndex.html=scyauthorIndexController
+                   /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
+                   /app/scyauthor/viewLAS.html=viewLASController
                </value>
            </property>
        </bean>
     
 
     <bean id="scyauthorIndexController" class="eu.scy.server.controllers.ScyIndexController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
 	</bean>
+
+    <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <!--property name="serverService" ref="serverService"/-->
+    </bean>
+
+    <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">
+        <property name="lasService" ref="lasService"/>
+        <!--property name="serverService" ref="serverService"/-->
+    </bean>
 
 
 </beans>

@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.LASDAO;
 
@@ -44,5 +45,15 @@ public class LASServiceImpl extends BaseServiceImpl implements LASService{
     @Override
     public List<AnchorELO> getAnchorELOsProducedByLAS(LearningActivitySpace learningActivitySpace) {
         return getLasDAO().getAnchorELOsProducedByLAS(learningActivitySpace);
+    }
+
+    @Override
+    public List<LearningActivitySpace> getAllLearningActivitySpacesForScenario(Scenario scenario) {
+        return getLasDAO().getAllLearningActivitySpacesForScenario(scenario);
+    }
+
+    @Override
+    public LearningActivitySpace getLearningActivitySpace(String id) {
+        return (LearningActivitySpace) getLasDAO().getObject(LearningActivitySpaceImpl.class, id);
     }
 }

@@ -52,11 +52,15 @@ public class StudentPlannedActivityImpl extends BaseObjectImpl implements Studen
         return endDate;
     }
 
-    //OneToMany(targetEntity = SCYUserImpl.class, fetch = FetchType.LAZY)
-
-    @Transient
+    @ManyToMany(targetEntity = SCYUserImpl.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "studentplannedactivities_related_to_users", joinColumns = { @JoinColumn(name = "studentplannedactivity_fk", nullable = false) }, inverseJoinColumns = @JoinColumn(name = "user_fk", nullable = false))
     public List<User> getMembers() {
         return members;
+    }
+
+    @Override
+    public void setMembers(List <User> members) {
+        this.members = members;
     }
 
     @Override

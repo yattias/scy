@@ -20,7 +20,7 @@
 		<property name="initialAgents">
 			<set>
 				<!-- ref bean="supervisor" /-->
-				
+
 				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
 				<ref bean="topicdetector" />

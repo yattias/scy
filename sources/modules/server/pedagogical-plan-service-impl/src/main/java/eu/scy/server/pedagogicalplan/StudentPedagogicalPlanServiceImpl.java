@@ -48,6 +48,11 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     }
 
     @Override
+    public void addMember(StudentPlannedActivity studentPlannedActivity, String user) {
+        getStudentPedagogicalPlanPersistenceService().addMemberToStudentPlannedActivity(user, studentPlannedActivity);
+    }
+
+    @Override
     public void save(ScyBaseObject scyBase) {
         if(scyBase instanceof StudentPlannedActivity) {
             log.info(((StudentPlannedActivity)scyBase).getNote());

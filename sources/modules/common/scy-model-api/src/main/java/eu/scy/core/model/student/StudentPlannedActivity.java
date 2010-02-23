@@ -92,4 +92,6 @@ public interface StudentPlannedActivity extends BaseObject {
     StudentPlanELO getStudentPlan();
 
     void setStudentPlan(StudentPlanELO studentPlan);
+
+    void setMembers(List <User> members);
 }

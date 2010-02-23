@@ -4,6 +4,7 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface StudentPedagogicalPlanService {
     List<StudentPlanELO> getStudentPlans(String username);
 
     public void save(ScyBaseObject scyBase);
+
+    public void addMember(StudentPlannedActivity studentPlannedActivity, String user);
 }

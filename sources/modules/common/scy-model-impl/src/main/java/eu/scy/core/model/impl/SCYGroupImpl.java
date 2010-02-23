@@ -3,10 +3,13 @@ package eu.scy.core.model.impl;
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.User;
 import eu.scy.core.model.SCYProject;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,71 +19,44 @@ import java.util.LinkedList;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table (name = "scygroup")
+@Table(name = "groups")
 @org.hibernate.annotations.Proxy (proxyClass = SCYGroup.class )
 public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
 
-    private List<User> users;
-    private List <SCYGroup> children = new LinkedList<SCYGroup>();
-    private SCYGroup parentGroup;
-    private SCYProject project;
+    private Set<User> members = new HashSet<User>();
 
+    private SCYGroup parent;
 
-    //OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    @Transient
-    public List<User> getUsers() {
-        if(users == null) {
-            users = new LinkedList<User>();
+    @Override
+    public void addMember(User member) {
+        if (this.members.contains(member)) {
+            return;
         }
-        return users;
+        this.members.add(member);
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    @Override
+    @ManyToMany(targetEntity = SCYUserImpl.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "groups_related_to_users", joinColumns = { @JoinColumn(name = "group_fk", nullable = false) }, inverseJoinColumns = @JoinColumn(name = "user_fk", nullable = false))
+    public Set<User> getMembers() {
+        return members;
     }
 
-
-    @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    public List<SCYGroup> getChildren() {
-        if(children == null) {
-            children = new LinkedList<SCYGroup>();
-        }
-        return children;
+    @Override
+    public void setMembers(Set<User> members) {
+        this.members = members;
     }
 
-    public void setChildren(List<SCYGroup> children) {
-        this.children = children;
+    @Override
+    @ManyToOne(targetEntity = SCYGroupImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @Cascade( { org.hibernate.annotations.CascadeType.SAVE_UPDATE })
+    @JoinColumn(name = "parent_fk")
+    public SCYGroup getParent() {
+        return parent;
     }
 
-    public void addChild(SCYGroup group) {
-        if(group != null) {
-            getChildren().add(group);
-        }
-
+    @Override
+    public void setParent(SCYGroup parent) {
+        this.parent = parent;
     }
-
-    @ManyToOne(targetEntity = SCYGroupImpl.class)
-    public SCYGroup getParentGroup() {
-        return parentGroup;
-    }
-
-    public void setParentGroup(SCYGroup parentGroup) {
-        this.parentGroup = parentGroup;
-    }
-
-    @ManyToOne(targetEntity = SCYProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_primKey")
-    public SCYProject getProject() {
-        return project;
-    }
-
-    public void setProject(SCYProject project) {
-        this.project = project;
-    }
-    public void addUser(User user) {
-        if(user != null) {
-            getUsers().add(user);
-        }
-    }
-
 }
