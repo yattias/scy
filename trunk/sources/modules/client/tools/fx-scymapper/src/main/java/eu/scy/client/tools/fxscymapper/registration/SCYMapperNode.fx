@@ -37,12 +37,11 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import eu.scy.toolbrokerapi.CollaborationCallback;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 
 
-public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable, CollaborationCallback {
+public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
     public-init var scyMapperPanel:SCYMapperPanel;
     public-init var repositoryWrapper:ScyMapperRepositoryWrapper;
@@ -149,21 +148,9 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
       println("SCYMapper: acceptDrop of {object.getClass()}");
       var c:ContactFrame = object as ContactFrame;
       println("SCYMapper: acceptDrop user: {c.contact.name}");
-      scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+      scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString());
       println("scyDesktop: {scyWindow.windowManager.scyDesktop}");
    }
-
-
-   public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
-      if (mucid!=null){
-          FX.deferAction(function():Void{
-          scyMapperPanel.joinSession(mucid);
-                  });
-          logger.debug("joined session: {mucid}");
-      }
-          logger.debug("Cannot join session: mucid is null");
-   }
-
 
     override function eloSaveCancelled (elo : IELO) : Void {
        println("User cancelled saving of ELO");
