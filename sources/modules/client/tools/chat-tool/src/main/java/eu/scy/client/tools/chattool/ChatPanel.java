@@ -2,6 +2,7 @@ package eu.scy.client.tools.chattool;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.LinearGradientPaint;
 
 import javax.swing.JScrollPane;
@@ -64,6 +65,10 @@ public class ChatPanel extends JXTitledPanel {
 		p = new JXPanel(new MigLayout("insets 1 1 1 1,wrap 1"));
 		p.setBackground(Color.white);
 		this.add(p);
+		
+		Font font = new Font("Arial", Font.PLAIN, 10);
+		chatArea.setFont(font);
+		
 		chatArea.setEditable(false);
 		chatAreaScroll = new JScrollPane(chatArea);
 
