@@ -138,7 +138,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                     String proposingUser = notification.getFirstProperty("proposing_user");
                     String proposedUser = notification.getFirstProperty("proposed_user");
                     String elo = notification.getFirstProperty("proposed_elo");
-                    collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo).add(notification);
+                    String key = proposingUser + "#" + proposedUser + "#" + elo;
+                    System.out.println("Searching for '" + key +"'");
+                    System.out.println("Searching in " + collaborationAnswers);
+                    System.out.println("Equals: " + collaborationAnswers.keySet().iterator().next().equals(key));
+                    collaborationAnswers.remove(key).add(notification);
                 }
             }
         });
