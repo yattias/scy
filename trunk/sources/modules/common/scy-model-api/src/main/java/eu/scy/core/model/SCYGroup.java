@@ -1,6 +1,7 @@
 package eu.scy.core.model;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,23 +12,14 @@ import java.util.List;
  */
 public interface SCYGroup extends ScyBase{
 
-    //public List<User> getUsers();
 
-    //public void setUsers(List<User> users);
+    void addMember(User member);
 
-    public List<SCYGroup> getChildren();
+    Set<User> getMembers();
 
-    public void setChildren(List<SCYGroup> children);
+    void setMembers(Set<User> members);
 
-    public void addChild(SCYGroup group);
+    SCYGroup getParent();
 
-    public SCYGroup getParentGroup();
-
-    public void setParentGroup(SCYGroup parentGroup);
-
-    public SCYProject getProject();
-
-    public void setProject(SCYProject project);
-
-    public void addUser(User user);
+    void setParent(SCYGroup parent);
 }

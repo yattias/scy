@@ -85,4 +85,12 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         return getSession().createQuery("from PedagogicalPlanImpl order by name")
                 .list();
     }
+
+    @Override
+    public PedagogicalPlan getPedagogicalPlan(String id) {
+        return (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where id like :id")
+                .setString("id", id)
+                .uniqueResult();
+
+    }
 }

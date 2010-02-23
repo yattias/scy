@@ -40,4 +40,8 @@
         <property name="scyBaseDAO" ref="agentDAO"/>
     </bean>
 
+    <bean id="serverService" class="eu.scy.core.ServerServiceImpl">
+        <property name="serverDAO" ref="serverDAO"/>
+    </bean>
+
 </beans>

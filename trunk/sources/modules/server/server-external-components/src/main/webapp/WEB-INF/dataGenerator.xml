@@ -3,6 +3,7 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
     <bean id="dummyDataGenerator" class="eu.scy.server.utils.DummyDataGenerator">
+        <property name="importedXMLMission" ref="co2Mission"/>
         <property name="scenarioService" ref="scenarioService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="userService" ref="userService"/>

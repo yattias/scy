@@ -3,6 +3,7 @@ package eu.scy.core;
 import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface StudentPedagogicalPlanPersistenceService extends BaseService{
     public List getStudentPlans(User user);
 
     List<StudentPlanELO> getStudentPlans(String username);
+
+    void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity);
+
+    void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity);
 }

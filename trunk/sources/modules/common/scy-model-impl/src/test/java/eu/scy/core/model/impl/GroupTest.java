@@ -44,7 +44,7 @@ public class GroupTest {
 
     @Test
     public void addUserToGroup() {
-        testGroup.addUser(user1);
+        testGroup.addMember(user1);
         //System.out.println(testGroup.getUsers().size());
         //assert(testGroup.getUsers().contains(user1));
     }
@@ -52,22 +52,8 @@ public class GroupTest {
     @Test
     public void addNullUserToGroup() {
         //int size = testGroup.getUsers().size();
-        testGroup.addUser(null);
+        testGroup.addMember(null);
         //assert(size == testGroup.getUsers().size()) : "Size is " + size + " group list is " + testGroup.getUsers().size();
-    }
-
-    @Test
-    public void addChildGroupToGroup() {
-        childGroup = new SCYGroupImpl();
-        testGroup.addChild(childGroup);
-        assert(testGroup.getChildren().contains(childGroup));
-    }
-
-    @Test
-    public void addNullChildGroup() {
-        int size = testGroup.getChildren().size();
-        testGroup.addChild(null);
-        assert(size == testGroup.getChildren().size());
     }
 
 }

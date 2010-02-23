@@ -29,4 +29,5 @@ public interface PedagogicalPlanPersistenceDAO extends SCYBaseDAO {
 
     public List<PedagogicalPlan> getPedagogicalPlans();
 
+    public PedagogicalPlan getPedagogicalPlan(String id);
 }

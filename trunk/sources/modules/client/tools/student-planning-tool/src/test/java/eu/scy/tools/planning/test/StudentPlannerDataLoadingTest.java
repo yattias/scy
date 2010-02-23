@@ -25,13 +25,15 @@ import java.util.logging.Logger;
  */
 public class StudentPlannerDataLoadingTest extends TestCase {
 
+    private final static String USER_NAME = "wiwoo";
+
     private static Logger log = Logger.getLogger("StudentPlannerDataLoadingTest.class");
 
     public StudentPedagogicalPlanService getStudentPlanService() {
         StudentPedagogicalPlanService service = null;
-        //service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+        service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
-       // service = getWithUrl("http://83.168.205.138/extcomp/remoting/studentPlan-httpinvoker");
+        //service = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
         return service;
 
     }
@@ -50,7 +52,8 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             SCYStudentUserDetails details = new SCYStudentUserDetails();
             details.setUsername("wiwo");
             user.setUserDetails(details);
-            List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans("wiwoo");
+            
+            List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
             assertTrue(studentPlans.size() > 0);
             log.info("plans:" + studentPlans.size());
             for (int i = 0; i < studentPlans.size(); i++) {
@@ -76,6 +79,25 @@ public class StudentPlannerDataLoadingTest extends TestCase {
                 }
             }
         }
+
+    }
+
+    public void testAddMemberToStudentPlannedActivity() {
+        List <StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
+        if(studentPlans.size()> 0 ) {
+            StudentPlanELO plan = studentPlans.get(0);
+            List <StudentPlannedActivity> studentPlannedActivities = plan.getStudentPlannedActivities();
+            if(studentPlannedActivities.size() > 0) {
+                StudentPlannedActivity activity = studentPlannedActivities.get(0);
+                getStudentPlanService().addMember(activity, USER_NAME);
+            } else {
+                fail("Did not find any activities");
+            }
+
+        } else {
+            fail("Did not find any plans");
+        }
+
 
     }
 

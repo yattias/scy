@@ -3,6 +3,7 @@ package eu.scy.core;
 import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.hibernate.StudentPedagogicalPlanPersistenceDAOHibernate;
 
 import java.util.List;
@@ -40,5 +41,16 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     @Override
     public List<StudentPlanELO> getStudentPlans(String username) {
         return getStudentPedagogicalPlanPersistenceDAO().getStudentPlans(username);
+    }
+
+    @Override
+    public void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity){
+        getStudentPedagogicalPlanPersistenceDAO().addMemberToStudentPlannedActivity(member, studentPlannedActivity);
+
+    }
+
+    @Override
+    public void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity) {
+        getStudentPedagogicalPlanPersistenceDAO().addMemberToStudentPlannedActivity(user, studentPlannedActivity);
     }
 }

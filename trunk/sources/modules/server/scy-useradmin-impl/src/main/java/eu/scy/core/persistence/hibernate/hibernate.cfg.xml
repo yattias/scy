@@ -14,6 +14,7 @@
         <mapping class="eu.scy.core.model.impl.SCYStudentUserDetails"/>
         <mapping class="eu.scy.core.model.impl.SCYTeacherUserDetails"/>
         <mapping class="eu.scy.core.model.impl.SCYGrantedAuthorityImpl"/>
+        <mapping class="eu.scy.core.model.impl.ServerImpl"/>
 
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.MissionImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>

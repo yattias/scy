@@ -26,6 +26,8 @@ public interface PedagogicalPlanPersistenceService extends BaseService{
 
     public PedagogicalPlan getPedagogicalPlanByName(String name);
 
+    PedagogicalPlan getPedagogicalPlan(String id);
+
     public List<Scenario> getCompatibleScenarios(Mission mission);
 
     public List<Mission> getCompatibleMissions(Scenario scenario);
@@ -37,5 +39,6 @@ public interface PedagogicalPlanPersistenceService extends BaseService{
      * @return
      */
     public List<PedagogicalPlan> getPedagogicalPlans();
+
 
 }

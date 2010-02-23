@@ -6,6 +6,7 @@ import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -17,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class DummyDataGenerator implements InitializingBean {
 
+
+
     private static Logger log = Logger.getLogger("DummyDataGenerator.class");
 
     private ScenarioService scenarioService;
@@ -27,6 +30,66 @@ public class DummyDataGenerator implements InitializingBean {
     private LASService lasService;
     private MissionService missionService;
     private AgentService agentService;
+
+    private ImportedXMLMission importedXMLMission;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("============================================================================");
+        log.info("============================================================================");
+        log.info("============================================================================");
+        log.info("============================================================================");
+        log.info("============================================================================");
+        //generatePedagogicalPlanTemplates();
+        //generatedMissionMapBasedOnXML();
+
+        //generateDummyUsers();
+    }
+    
+
+
+    private void generatedMissionMapBasedOnXML() {
+        Scenario scenario = setupScenarioBasedOnXML();
+        PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
+        template.setName("CO2 House - home of the wild (Mission version)!");
+        template.setDescription("A pedagogical plan ... way beyond anything else");
+        template.setScenario(scenario);
+        template.setMission(generateMission("C02 friendly house"));
+        saveAndCreatePedagogicalPlan(template);
+
+
+    }
+
+    private Scenario setupScenarioBasedOnXML() {
+        Scenario scenario = new ScenarioImpl();
+        scenario.setName("Exploration - M1");
+        getScenarioService().save(scenario);
+
+
+        List lases = getImportedXMLMission().getBasicMissionMap().getLasses();
+        AnchorELO currentAnchorELO = null;
+        for (int i = 0; i < lases.size(); i++) {
+            BasicLas basicLas = (BasicLas) lases.get(i);
+
+            LearningActivitySpace learninigActivitySpace =  createLAS(basicLas.getId(), (int)basicLas.getxPosition(), (int) basicLas.getyPosition(), scenario);
+            learninigActivitySpace.setParticipatesIn(scenario);
+            getScenarioService().save(learninigActivitySpace);
+            if(i == 0)  {
+                scenario.setLearningActivitySpace(learninigActivitySpace);
+            } else {
+                currentAnchorELO.setInputTo(learninigActivitySpace);
+                getScenarioService().save(currentAnchorELO);
+            }
+            BasicMissionAnchor anchor = getImportedXMLMission().getAnchor(basicLas.getAnchorEloId());
+            if(anchor != null) {
+                AnchorELO outputFromLearningActivitySpace = createAnchorELO(anchor.getId(), "");
+                currentAnchorELO = outputFromLearningActivitySpace;
+                Activity doTheStuff = addActivity(learninigActivitySpace, "To the stuff", outputFromLearningActivitySpace);
+            }
+
+        }
+        return scenario;
+    }
 
 
     private void generatePedagogicalPlanTemplates() {
@@ -44,21 +107,21 @@ public class DummyDataGenerator implements InitializingBean {
         getToolService().save(scySim);
 
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
-        template.setName("CO2 House - home of the wild!");
+        template.setName("CO2 House - home of the wild!2");
         template.setDescription("A pedagogical plan for people with white teeth");
         template.setScenario(generateScenario("Exploration", "A new way of thinking...."));
         template.setMission(generateMission("C02 friendly house"));
         saveAndCreatePedagogicalPlan(template);
 
         PedagogicalPlanTemplate ecosystems = new PedagogicalPlanTemplateImpl();
-        ecosystems.setName("Ecosystems");
+        ecosystems.setName("Ecosystems2");
         ecosystems.setDescription("I haven't got a clue about what this will be about - but sounds freakin cool!");
         ecosystems.setScenario(generateScenario("Practical Scruffy nuffy (PSN)", "Whole new way of thinking"));
         ecosystems.setMission(generateMission("Eco systems mission"));
         saveAndCreatePedagogicalPlan(ecosystems);
 
         PedagogicalPlanTemplate canteenCuisine = new PedagogicalPlanTemplateImpl();
-        canteenCuisine.setName("Canteen Cuisine");
+        canteenCuisine.setName("Canteen Cuisine3");
         canteenCuisine.setDescription("Canteen Cuisine: I haven't got a clue about what this will be about - but sounds freakin cool!");
         canteenCuisine.setScenario(generateScenario("Transitive Accumulative Mutations", "Based on Reinbergers classic theory"));
         canteenCuisine.setMission(generateMission("Canteen Cusine"));
@@ -381,17 +444,14 @@ public class DummyDataGenerator implements InitializingBean {
         this.agentService = agentService;
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("============================================================================");
-        log.info("============================================================================");
-        log.info("============================================================================");
-        log.info("============================================================================");
-        log.info("============================================================================");
-        generatePedagogicalPlanTemplates();
-
-        //generateDummyUsers();
+    public ImportedXMLMission getImportedXMLMission() {
+        return importedXMLMission;
     }
+
+    public void setImportedXMLMission(ImportedXMLMission importedXMLMission) {
+        this.importedXMLMission = importedXMLMission;
+    }
+
 
 
 }

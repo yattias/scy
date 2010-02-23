@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.*;
 
 import java.util.List;
@@ -26,4 +27,7 @@ public interface LASService extends BaseService{
 
     public List <AnchorELO> getAnchorELOsProducedByLAS(LearningActivitySpace learningActivitySpace);
 
+    public List <LearningActivitySpace> getAllLearningActivitySpacesForScenario(Scenario scenario);
+
+    LearningActivitySpace getLearningActivitySpace(String id);
 }

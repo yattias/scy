@@ -5,6 +5,7 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.impl.student.StudentPlanELOImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.model.student.StudentPlannedActivity;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,4 +17,6 @@ import eu.scy.core.model.student.StudentPlanELO;
 public interface StudentPedagogicalPlanPersistenceDAO extends SCYBaseDAO{
 
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) ;
+
+    void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity);
 }

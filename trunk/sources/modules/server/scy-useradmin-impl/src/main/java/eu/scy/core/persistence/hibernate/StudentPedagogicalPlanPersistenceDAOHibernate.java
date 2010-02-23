@@ -47,7 +47,6 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         for (int i = 0; i < activities.size(); i++) {
             Activity activity = activities.get(i);
             StudentPlannedActivity plannedActivity = new StudentPlannedActivityImpl();
-            //plannedActivity = (StudentPlannedActivity) save(plannedActivity);
             plannedActivity.setName(activity.getName());
             plannedActivity.setDescription(activity.getDescription());
             AnchorELO anchorElo = activity.getAnchorELO();
@@ -134,4 +133,19 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         return user;
     }
 
+    @Override
+    public void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity) {
+        studentPlannedActivity = (StudentPlannedActivity) getHibernateTemplate().load(StudentPlannedActivityImpl.class, studentPlannedActivity.getId());
+
+        getSession().refresh(studentPlannedActivity);
+        getSession().refresh(member);
+        
+        studentPlannedActivity.addMember(member);
+        save(studentPlannedActivity);
+    }
+
+    public void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity) {
+        User realUser = getUserByUsername(user);
+        addMemberToStudentPlannedActivity(realUser, studentPlannedActivity);
+    }
 }

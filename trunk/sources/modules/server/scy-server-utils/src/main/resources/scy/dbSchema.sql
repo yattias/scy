@@ -223,9 +223,28 @@ CREATE TABLE `agent` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `server`;
+CREATE TABLE `server` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE `student_user_details` DROP COLUMN `profilePictureUrl`;
 ALTER TABLE `student_user_details` ADD COLUMN `profilePictureUrl` varchar(250) default NULL;
+
+
+DROP TABLE IF EXISTS `studentplannedactivities_related_to_users`;
+CREATE TABLE `studentplannedactivities_related_to_users` (
+	`user_fk` bigint(20) NULL,
+	`studentplannedactivity_fk` varchar(55) NOT NULL default '',
+	PRIMARY KEY (`user_fk`,`studentplannedactivity_fk`),
+	KEY  `user_fk_key` (`user_fk`),
+	KEY  `studentplannedactivity_fk_key` (`studentplannedactivity_fk`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 set FOREIGN_KEY_CHECKS=1;
