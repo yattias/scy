@@ -171,7 +171,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	@Override
 	public final void kill() throws AgentLifecycleException {
 		if (myThread != null) {
-			status = Status.Stopping;
+			stop();
 			killed = true;
 			try {
 				getCommandSpace().disconnect();
