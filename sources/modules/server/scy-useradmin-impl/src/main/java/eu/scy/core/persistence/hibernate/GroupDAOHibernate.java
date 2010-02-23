@@ -26,9 +26,9 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
         }
         SCYGroup g = null;//new SCYGroupImpl();
 
-        g.setProject(project);
+        //g.setProject(project);
         g.setName(name);
-        g.setParentGroup(parent);
+        //g.setParentGroup(parent);
         throw new RuntimeException("SOmething wrong here....");
         //return (SCYGroup) save(g);
     }
