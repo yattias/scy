@@ -1,47 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
-        "http://www.springframework.org/dtd/spring-beans.dtd">
+		"http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
 
-    <bean id="scenarioService" class="eu.scy.core.ScenarioServiceImpl">
-        <property name="scyBaseDAO" ref="scenarioDAO"/>
-    </bean>
+	<bean id="scenarioService" class="eu.scy.core.ScenarioServiceImpl">
+		<property name="scyBaseDAO" ref="scenarioDAO"/>
+	</bean>
 
-    <bean id="pedagogicalPlanPersistenceService" class="eu.scy.core.PedagogicalPlanPersistenceServiceImpl">
-        <property name="scyBaseDAO" ref="pedagogicalPlanPersistenceDAO"/>
-    </bean>
-    
-    <bean id="studentPedagogicalPlanService" class="eu.scy.core.StudentPedagogicalPlanPersistenceServiceImpl">
-        <property name="scyBaseDAO" ref="studentPedagogicalPlanPersistenceDAO"/>
-    </bean>
+	<bean id="pedagogicalPlanPersistenceService" class="eu.scy.core.PedagogicalPlanPersistenceServiceImpl">
+		<property name="scyBaseDAO" ref="pedagogicalPlanPersistenceDAO"/>
+	</bean>
 
-    <bean id="userService" class="eu.scy.core.UserServiceImpl">
-        <property name="scyBaseDAO" ref="userDAO"/>
-    </bean>
-    
-    <bean id="toolService" class="eu.scy.core.ToolServiceImpl">
-        <property name="scyBaseDAO" ref="toolDAO"/>
-    </bean>
+	<bean id="studentPedagogicalPlanService" class="eu.scy.core.StudentPedagogicalPlanPersistenceServiceImpl">
+		<property name="scyBaseDAO" ref="studentPedagogicalPlanPersistenceDAO"/>
+	</bean>
 
-    <bean id="lasService" class="eu.scy.core.LASServiceImpl">
-        <property name="scyBaseDAO" ref="lasDAO"/>
-    </bean>
+	<bean id="userService" class="eu.scy.core.UserServiceImpl">
+		<property name="scyBaseDAO" ref="userDAO"/>
+	</bean>
 
-    <bean id="assessmentService" class="eu.scy.core.AssessmentServiceImpl">
-        <property name="scyBaseDAO" ref="assessmentDAO"/>
-    </bean>
-    
-    <bean id="missionService" class="eu.scy.core.MissionServiceImpl">
-        <property name="scyBaseDAO" ref="missionDAO"/>
-    </bean>
+	<bean id="toolService" class="eu.scy.core.ToolServiceImpl">
+		<property name="scyBaseDAO" ref="toolDAO"/>
+	</bean>
 
-    <bean id="agentService" class="eu.scy.core.AgentServiceImpl">
-        <property name="scyBaseDAO" ref="agentDAO"/>
-    </bean>
+	<bean id="lasService" class="eu.scy.core.LASServiceImpl">
+		<property name="scyBaseDAO" ref="lasDAO"/>
+	</bean>
 
-    <bean id="serverService" class="eu.scy.core.ServerServiceImpl">
-        <property name="serverDAO" ref="serverDAO"/>
-    </bean>
+	<bean id="assessmentService" class="eu.scy.core.AssessmentServiceImpl">
+		<property name="scyBaseDAO" ref="assessmentDAO"/>
+	</bean>
+
+	<bean id="missionService" class="eu.scy.core.MissionServiceImpl">
+		<property name="scyBaseDAO" ref="missionDAO"/>
+	</bean>
+
+	<bean id="agentService" class="eu.scy.core.AgentServiceImpl">
+		<property name="scyBaseDAO" ref="agentDAO"/>
+	</bean>
+
+	<bean id="playfulAssessmentService" class="eu.scy.core.PlayfulAssesmentServiceImpl">
+		<property name="scyBaseDAO" ref="playfulAssessmentDAO"/>
+	</bean>
+
+	<bean id="eloRefService" class="eu.scy.core.ELORefServiceImpl">
+		<property name="scyBaseDAO" ref="eloRefDAO"/>
+	</bean>
+
+	<bean id="serverService" class="eu.scy.core.ServerServiceImpl">
+		<property name="serverDAO" ref="serverDAO"/>
+	</bean>
 
 </beans>

@@ -232,10 +232,8 @@ CREATE TABLE `server` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 ALTER TABLE `student_user_details` DROP COLUMN `profilePictureUrl`;
 ALTER TABLE `student_user_details` ADD COLUMN `profilePictureUrl` varchar(250) default NULL;
-
 
 DROP TABLE IF EXISTS `studentplannedactivities_related_to_users`;
 CREATE TABLE `studentplannedactivities_related_to_users` (
@@ -246,6 +244,55 @@ CREATE TABLE `studentplannedactivities_related_to_users` (
 	KEY  `studentplannedactivity_fk_key` (`studentplannedactivity_fk`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+set FOREIGN_KEY_CHECKS=1;
+
+DROP TABLE IF EXISTS `eloref`;
+CREATE TABLE `eloref` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+
+	`elo_uri` varchar(200) NOT NULL,
+	`title` varchar(128) NOT NULL,
+	`image` varchar(100) DEFAULT NULL,
+	`tool` varchar(128) DEFAULT NULL,
+	`type` varchar(128) DEFAULT NULL,
+	`topic` varchar(128) DEFAULT NULL,
+	`user_primKey` bigint(20) NULL,
+	`date` datetime DEFAULT NULL,
+	`version` int(11) DEFAULT NULL,
+	`mission_primKey` varchar(55) default NULL,
+
+
+  	KEY `eloRefUser` (`user_primKey`),
+  	KEY `eloRefMission` (`mission_primKey`),
+    CONSTRAINT `eloRefMission` FOREIGN KEY (`mission_primKey`) REFERENCES `mission` (`primKey`),
+  	CONSTRAINT `eloRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`),
+	PRIMARY KEY  (`primKey`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `playful_assessment`;
+CREATE TABLE `playful_assessment` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+
+	`eloref_primKey` varchar(55) NOT NULL,
+	`comment` text NOT NULL,
+	`date` datetime DEFAULT NULL,
+	`user_primKey` int(11) NOT NULL,
+	`score` int(11) DEFAULT NULL,
+
+	PRIMARY KEY  (`primKey`),
+	KEY `assessmentRefEloRef` (`eloref_primKey`),
+	KEY `assessmentRefUser` (`user_primKey`),
+	CONSTRAINT `assessmentRefEloRef` FOREIGN KEY (`eloref_primKey`) REFERENCES `eloref` (`primKey`),
+  	CONSTRAINT `assessmentRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 set FOREIGN_KEY_CHECKS=1;
 
