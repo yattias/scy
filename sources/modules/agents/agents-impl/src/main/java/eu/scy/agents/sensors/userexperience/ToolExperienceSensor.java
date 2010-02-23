@@ -242,7 +242,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 		}
 		timer.stop();
 		actionSpace.disconnect();
-		commandSpace.disconnect();
 	    } catch (TupleSpaceException e) {
 	        e.printStackTrace();
 	    }
