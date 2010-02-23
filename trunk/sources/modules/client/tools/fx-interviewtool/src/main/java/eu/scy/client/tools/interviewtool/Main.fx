@@ -13,9 +13,9 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 /**
  * @author kaido
  */
-var myLocale : java.util.Locale = new java.util.Locale("et", "EE");
+//var myLocale : java.util.Locale = new java.util.Locale("et", "EE");
 //var myLocale : java.util.Locale = new java.util.Locale("en", "US");
-java.util.Locale.setDefault(myLocale);
+//java.util.Locale.setDefault(myLocale);
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopInterviewToolConfig.xml"
         }

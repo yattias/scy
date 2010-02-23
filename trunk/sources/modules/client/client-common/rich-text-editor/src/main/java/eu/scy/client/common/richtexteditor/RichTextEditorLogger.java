@@ -5,6 +5,9 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 
+/**
+* Action logger for rich text editor component.
+*/
 public class RichTextEditorLogger {
     public final static String SAVE_RTF = "save rtf file";
     public final static String PRINT = "print";

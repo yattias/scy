@@ -10,6 +10,9 @@ package eu.scy.client.tools.interviewtool;
  * @author kaido
  */
 
+/**
+* Internationalized Interview Tool variables
+*/
 public class InterviewStrings {
     public var indicatorAnswers=##"Answers for";
     public var indicatorFormulate=##"Formulate";

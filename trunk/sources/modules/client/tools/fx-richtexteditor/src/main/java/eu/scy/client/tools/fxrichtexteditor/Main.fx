@@ -46,8 +46,8 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 var stage: Stage;
 var scene: Scene;
 //var myLocale : java.util.Locale = new java.util.Locale("et", "EE");
-var myLocale : java.util.Locale = new java.util.Locale("en", "US");
-java.util.Locale.setDefault(myLocale);
+//var myLocale : java.util.Locale = new java.util.Locale("en", "US");
+//java.util.Locale.setDefault(myLocale);
 
 var title = ##"Formatted text editor";
 
