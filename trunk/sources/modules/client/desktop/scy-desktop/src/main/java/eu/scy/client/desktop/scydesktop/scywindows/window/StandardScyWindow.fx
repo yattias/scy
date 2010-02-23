@@ -601,8 +601,16 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       if (isClosed){
          openWindow(10, 10);
       }
-      else{
+      else if (isMinimized){
          setMinimized(not isMinimized);
+      }
+      else{
+         if (eloUri==null){
+            setMinimized(not isMinimized);
+         }
+         else{
+            windowControl.makeMainScyWindow(eloUri);
+         }
       }
    }
 
