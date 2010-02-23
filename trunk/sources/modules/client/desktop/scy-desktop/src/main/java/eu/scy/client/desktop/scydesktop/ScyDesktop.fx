@@ -128,6 +128,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             RedirectSystemStreams.redirect(config.getLoggingDirectory());
         }
 //      missionMap.missionModel = missionModelFX;
+        
         scyWindowControl.missionModel = missionModelFX;
         FX.deferAction(initialWindowPositioning);
         FX.deferAction(function () {
@@ -408,8 +409,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
                     if (collaborationWindow==null){
                         ///FIXME create a window/tool with the elo
-                        collaborationWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
-                        collaborationWindow.openWindow(300, 300);
+                        def newWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
+                        newWindow.openWindow(300, 300);
+                        while (collaborationWindow == null) {
+                            collaborationWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
+                        }
                     }else {
                         
                     }
