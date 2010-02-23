@@ -71,7 +71,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
       }
    var areaRectsAddedToScene = false;
 
-   def containsAssignmentKey = scyDesktop.config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO);
+   def containsAssignmentKey = scyDesktop.config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
 
    override public function addGlobalLearningObjectWindow(window: ScyWindow): Boolean {
       insert window into otherWindowPositioner.windows;
