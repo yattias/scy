@@ -52,7 +52,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             SCYStudentUserDetails details = new SCYStudentUserDetails();
             details.setUsername("wiwo");
             user.setUserDetails(details);
-            
+
             List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
             assertTrue(studentPlans.size() > 0);
             log.info("plans:" + studentPlans.size());
@@ -83,21 +83,24 @@ public class StudentPlannerDataLoadingTest extends TestCase {
     }
 
     public void testAddMemberToStudentPlannedActivity() {
-        List <StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
-        if(studentPlans.size()> 0 ) {
-            StudentPlanELO plan = studentPlans.get(0);
-            List <StudentPlannedActivity> studentPlannedActivities = plan.getStudentPlannedActivities();
-            if(studentPlannedActivities.size() > 0) {
-                StudentPlannedActivity activity = studentPlannedActivities.get(0);
-                getStudentPlanService().addMember(activity, USER_NAME);
+        if (getStudentPlanService() != null) {
+            List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
+            if (studentPlans.size() > 0) {
+                StudentPlanELO plan = studentPlans.get(0);
+                List<StudentPlannedActivity> studentPlannedActivities = plan.getStudentPlannedActivities();
+                if (studentPlannedActivities.size() > 0) {
+                    StudentPlannedActivity activity = studentPlannedActivities.get(0);
+                    getStudentPlanService().addMember(activity, USER_NAME);
+                } else {
+                    fail("Did not find any activities");
+                }
+
             } else {
-                fail("Did not find any activities");
+                fail("Did not find any plans");
             }
 
-        } else {
-            fail("Did not find any plans");
-        }
 
+        }
 
     }
 
