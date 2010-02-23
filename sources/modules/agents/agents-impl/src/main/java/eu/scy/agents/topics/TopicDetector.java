@@ -57,6 +57,7 @@ public class TopicDetector extends AbstractRequestAgent {
 					Map<Integer, Double> topicScores = getTopicScores(modelName, text);
 					sendTopicsToTS(queryID, topicScores);
 				}
+				sendAliveUpdate();
 			} catch (TupleSpaceException e) {
 				// just ignore
 			} catch (IOException e) {
