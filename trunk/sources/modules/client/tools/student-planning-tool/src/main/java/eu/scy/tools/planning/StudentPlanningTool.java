@@ -751,7 +751,7 @@ public class StudentPlanningTool {
 	 */
 	protected JXBuddyPanel createMembersPanel(JXTitledPanel activityPanel,
 			StudentPlannedActivity studentPlannedActivity) {
-		JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1));
+		JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1), studentPlanningController);
 		membersPanel.setMessageLabel(messageLabel);
 		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
 				0, 0, 0)), new TitledBorder(

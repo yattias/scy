@@ -1,10 +1,18 @@
 package eu.scy.tools.planning.controller;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -21,6 +29,7 @@ import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.tools.planning.ui.JXBuddyPanel;
 import eu.scy.tools.planning.ui.JXEntryPanel;
+import eu.scy.tools.planning.ui.images.Images;
 
 public class StudentPlanningController {
 
@@ -37,9 +46,43 @@ public class StudentPlanningController {
 	private Configuration configuration;
 	private JXTaskPaneContainer entryContainer;
 	
+	private Configuration config = Configuration.getInstance();
+    private String filestreamerServer = config.getFilestreamerServer();
+    private String filestreamerContext = config.getFilestreamerContext();
+    private String filestreamerPort = config.getFilestreamerPort();
+    private String IMAGE_BASE_DIR = "http://" + filestreamerServer+":"+filestreamerPort+filestreamerContext;
+	
 
 	public StudentPlanningController() {
 
+	}
+	
+	public Icon getBuddyImageIcon(String nickName) {
+		
+		if( nickName == null)
+			return Images.Profile.getIcon();
+			
+			
+		Image image = null;
+		URL url;
+		try {
+			url = new URL (IMAGE_BASE_DIR + "?username="+nickName);
+			image = ImageIO.read(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return Images.Profile.getIcon();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Images.Profile.getIcon();
+		}
+		
+		
+		
+		Icon icon = new ImageIcon(image.getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+	
+	
+		return icon;
+		
 	}
 
 	public StudentPlanningController(ToolBrokerImpl toolbroker) {
