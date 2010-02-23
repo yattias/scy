@@ -371,7 +371,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
     }
 
     public String getSmackName(){
-        return userName + "@collide.info/Smack";
+        return userName + "@scy.collide.info/Smack";
     }
 
     @Override
