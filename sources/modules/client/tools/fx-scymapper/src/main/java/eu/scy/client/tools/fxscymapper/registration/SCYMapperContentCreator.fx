@@ -48,7 +48,7 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
 
 
     public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-        initRepositoryWrapper();
+            initRepositoryWrapper();
         var elo = repositoryWrapper.loadELO(eloUri);
         var scyMapperNode = createScyMapperNode(scyWindow, elo);
         return scyMapperNode;
