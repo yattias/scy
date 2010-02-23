@@ -15,6 +15,9 @@ import java.util.ResourceBundle;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+/**
+* Format toolbar for rich text editor component.
+*/
 public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";
 	private ImageIcon boldIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_bold.png"));

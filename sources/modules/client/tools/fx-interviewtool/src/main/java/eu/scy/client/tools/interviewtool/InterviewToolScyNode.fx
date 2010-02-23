@@ -46,6 +46,9 @@ import javafx.scene.layout.Resizable;
  * @author kaido
  */
 
+/**
+* SCY Tool related behaviour of the Interview Tool
+*/
 public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolFX, EloSaverCallBack {
    def scyInterviewType = "scy/interview";
    def interviewTagName = "interview";

@@ -23,6 +23,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import javax.swing.text.Document;
 
+/**
+* Guide area of the Interview Tool
+*/
 public class InterviewGuides extends SwingComponent {
     def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewGuides");
     var htmlEditor: HTMLEditorKit;

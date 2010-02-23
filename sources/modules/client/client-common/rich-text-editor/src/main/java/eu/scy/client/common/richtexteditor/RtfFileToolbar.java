@@ -33,6 +33,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.util.Date;
 
+/**
+* File toolbar for rich text editor component.
+*/
 public class RtfFileToolbar extends JToolBar implements ActionListener {
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RtfFileToolbar");
     private final String imagesLocation = "/eu/scy/client/common/richtexteditor/images/";

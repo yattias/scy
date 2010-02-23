@@ -40,6 +40,9 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  * @author kaido
  */
 
+/**
+* Base class of the Interview Tool. Contains main logic of the Interview Tool.
+*/
 public class InterviewToolNode extends CustomNode, Resizable {
 def normalFont = Font {
     name: "Arial"
@@ -68,9 +71,12 @@ def hPadding = 10;
 def vPadding = hPadding;
 def toolBottomOffset = 10;
 protected var parentHeightOffset = 0;
-protected def stageHeight = 500;
-protected def stageWidth = 600;
 protected def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
+public var metadataTypeManager: IMetadataTypeManager;
+public var toolBrokerAPI:ToolBrokerAPI;
+protected var elo:IELO;
+var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
+var interviewStrings:InterviewStrings = InterviewStrings{};
 protected var interviewLogger: InterviewLogger;
 var log = true;
 var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
@@ -80,10 +86,6 @@ protected var schemaMaximized : Boolean = false;
 protected var guidelinesMaximized : Boolean = false;
 protected var topics: InterviewTopic[];
 protected var interviewTree: InterviewTree = makeTree();
-var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
-public var metadataTypeManager: IMetadataTypeManager;
-public var toolBrokerAPI:ToolBrokerAPI;
-protected var elo:IELO;
 function makeTree() : InterviewTree {
     return InterviewTree{
         translateX: 0
@@ -205,7 +207,6 @@ function refreshStage() {
     delete txt from content;
     resizeContent();
 }
-var interviewStrings:InterviewStrings = InterviewStrings{};
 function showHome() : Void {
     interviewLogger.logBasicAction(InterviewLogger.SHOW_HOME);
     guidePane.setText(interviewStrings.guideHome);
@@ -743,10 +744,10 @@ protected var content: Node[] = [
       return getMinWidth();
    }
    public override function getMinHeight() : Number {
-      return stageHeight;
+      return 500;
    }
    public override function getMinWidth() : Number {
-      return stageWidth;
+      return 600;
    }
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
