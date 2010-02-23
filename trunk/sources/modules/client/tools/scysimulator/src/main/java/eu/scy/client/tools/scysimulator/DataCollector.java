@@ -343,7 +343,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 case ModelVariable.VT_REAL: type = "double"; break;
                 default: type = "double";
             }
-            datasetvariables.add(new DataSetColumn(var.getName(), var.getExternalName(), type));
+            datasetvariables.add(new DataSetColumn(var.getExternalName(), var.getDescription(), type));
         }
         datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
         dataset = new DataSet(datasetheaders);
