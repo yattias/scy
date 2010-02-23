@@ -87,7 +87,7 @@ public interface ToolBrokerAPI {
      * @param callback
      *            the object that wants to be notified when an answer arrives
      */
-    public void proposeCollaborationWith(String proposedUser, String elouri, CollaborationCallback callback);
+    public void proposeCollaborationWith(String proposedUser, String elouri);
 
     /**
      * Sends the answer to a previous collaboration proposal.
