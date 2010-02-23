@@ -28,6 +28,10 @@
 				<ref bean="votat" />
 				<ref bean="toolexperience" />
 				<ref bean="collaboration" />
+				<ref bean="keywordsTfIdf" />
+				<ref bean="keywordsTopic" />
+				<ref bean="keywords" />
+				<ref bean="keywordsDecisionMaker" />
 			</set>
 		</property>
 	</bean>
