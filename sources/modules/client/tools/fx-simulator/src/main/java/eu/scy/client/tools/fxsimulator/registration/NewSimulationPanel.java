@@ -37,7 +37,8 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         this.add(panel);
 
         radio = new JRadioButton();
-        radio.setName("http://www.scy-lab.eu/sqzx/co2_converter_210110_mod1.sqzx");
+        //radio.setName("http://www.scy-lab.eu/sqzx/co2_converter_210110_mod1.sqzx");
+        radio.setName("http://www.scy-lab.eu/sqzx/co2_converter.sqzx");
         radio.setActionCommand("setsimulation");
         radio.addActionListener(this);
         radios.add(radio);
@@ -48,7 +49,7 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         this.add(panel);
 
         radio = new JRadioButton();
-        radio.setName("http://www.scy-lab.eu/sqzx/house_11022010a.sqzx");
+        radio.setName("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
         //radio.setName("http://www.scy-lab.eu/sqzx/house_05022010.sqzx");
         radio.setActionCommand("setsimulation");
         radio.addActionListener(this);
