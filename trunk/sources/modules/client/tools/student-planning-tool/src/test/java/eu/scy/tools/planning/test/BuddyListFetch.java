@@ -1,9 +1,13 @@
 package eu.scy.tools.planning.test;
 
 
+import java.util.concurrent.ExecutionException;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -21,9 +25,10 @@ public class BuddyListFetch {
 	public void setUp() throws Exception {
 	}
 	
-	@Ignore
+	//@Ignore
+	@Test
 	public void fetchBuddyIcon(){
-		StudentPlanningController sc = new StudentPlanningController();
+		final StudentPlanningController sc = new StudentPlanningController();
 		
 		
 		
@@ -35,9 +40,40 @@ public class BuddyListFetch {
 //		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 //		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		Icon buddyImageIcon = sc.getBuddyImageIcon("lars");
+		SwingWorker worker = new SwingWorker<Icon, Void>() {
+		    @Override
+		    public Icon doInBackground() {
+		    	Icon buddyImageIcon = sc.getBuddyImageIcon("lars");
+		        
+		        return buddyImageIcon;
+		    }
+
+		    @Override
+		    public void done() {
+		        
+		    }
+		};
 		
-		JXButton b = new JXButton(buddyImageIcon);
+		final JXButton b = new JXButton();
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		    Icon buddyImageIcon = sc.getBuddyImageIcon("lars");
+		      // Here, we can safely update the GUI
+		      // because we'll be called from the
+		      // event dispatch thread
+		      b.setIcon(buddyImageIcon);
+		    }
+		  });
+//		Icon icon = null;
+//		try {
+//			icon = (Icon) worker.get();
+//		} catch (InterruptedException e1) {
+//			e1.printStackTrace();
+//		} catch (ExecutionException e1) {
+//			e1.printStackTrace();
+//		}
+		
+		
 		frame.add(b);
 		//frame.add(studentPlanningToolMain.createDragPanel());
 		//frame.setPreferredSize(createStudentPlanningPanel.getPreferredSize());
