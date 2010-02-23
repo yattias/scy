@@ -205,7 +205,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 					&& ((TupleSpaceException) e).getError().equals(TupleSpaceError.THREAD_KILLED) && killed) {
 				// Everything OK
 				// TODO some kind of output?
-			} else if (e instanceof InterruptedException && killed) {
+			} else if ((e instanceof InterruptedException || e.getCause() instanceof InterruptedException) && killed) {
 				// also ok
 			} else {
 				e.printStackTrace();
