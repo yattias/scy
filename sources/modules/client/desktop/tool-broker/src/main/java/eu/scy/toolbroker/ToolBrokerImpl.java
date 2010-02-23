@@ -34,7 +34,6 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
-import eu.scy.toolbrokerapi.CollaborationCallback;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -329,14 +328,15 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
     }
 
     @Override
-    public void proposeCollaborationWith(String proposedUser, String elouri, final CollaborationCallback callback) {
+    public void proposeCollaborationWith(String proposedUser, String elouri) {
     	logger.debug("TBI: proposeCollaborationWith: user: "+proposedUser+" eloid: "+elouri);
     	//callback.receivedCollaborationResponse(elouri, proposedUser);
         final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-        collaborationAnswers.put(getSmackName() + "#" + proposedUser + "#" + elouri, queue);
+        collaborationAnswers.put(xmppConnection.getUser() + "#" + proposedUser + "#" + elouri, queue);
+        logger.debug("==========XMPPName: "+xmppConnection.getUser());
         final IActionLogger log = getActionLogger();
         final IAction requestCollaborationAction = new Action();
-        requestCollaborationAction.setUser(getSmackName());
+        requestCollaborationAction.setUser(xmppConnection.getUser());
         requestCollaborationAction.setType("collaboration_request");
         requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
         requestCollaborationAction.addContext(ContextConstants.mission, mission);
@@ -352,32 +352,25 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                 try {
                     INotification notif = queue.take();
                     boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
-                    logger.debug("***********run***************");
                     if (accepted) {
                         String mucid = notif.getFirstProperty("mucid");
-                        callback.receivedCollaborationResponse(mucid, requestCollaborationAction.getAttribute("proposed_user"));
                         return;
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                callback.receivedCollaborationResponse(null, null);
             }
         });
         t.start();
     }
 
-    public String getSmackName(){
-        return userName + "@scy.collide.info/Smack";
-    }
-
     @Override
     public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
         LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-        collaborationAnswers.put(proposingUser + "#" + getSmackName() + "#" + elouri, queue);
+        collaborationAnswers.put(proposingUser + "#" + xmppConnection.getUser() + "#" + elouri, queue);
         IActionLogger log = getActionLogger();
         IAction collaborationResponseAction = new Action();
-        collaborationResponseAction.setUser(getSmackName());
+        collaborationResponseAction.setUser(xmppConnection.getUser());
         collaborationResponseAction.setType("collaboration_response");
         collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
         collaborationResponseAction.addContext(ContextConstants.mission, mission);
