@@ -21,6 +21,12 @@ public interface EloConfig {
    public String getBottomDrawerCreatorId();
    public String getLeftDrawerCreatorId();
 
+   public boolean isContentCollaboration();
+   public boolean isTopDrawerCollaboration();
+   public boolean isRightDrawerCollaboration();
+   public boolean isBottomDrawerCollaboration();
+   public boolean isLeftDrawerCollaboration();
+
    public List<String> getLogicalTypeNames();
    public List<String> getFunctionalTypeNames();
 }

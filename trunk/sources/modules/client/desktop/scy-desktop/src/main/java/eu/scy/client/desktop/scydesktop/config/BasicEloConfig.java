@@ -21,6 +21,11 @@ public class BasicEloConfig implements EloConfig
    private String rightDrawerCreatorId;
    private String bottomDrawerCreatorId;
    private String leftDrawerCreatorId;
+   private boolean contentCollaboration = false;
+   private boolean topDrawerCollaboration = false;
+   private boolean rightDrawerCollaboration = false;
+   private boolean bottomDrawerCollaboration = false;
+   private boolean leftDrawerCollaboration = false;
    private List<String> logicalTypeNames;
    private List<String> functionalTypeNames;
 
@@ -135,6 +140,61 @@ public class BasicEloConfig implements EloConfig
    public void setTopDrawerCreatorId(String topDrawerCreatorId)
    {
       this.topDrawerCreatorId = topDrawerCreatorId;
+   }
+
+   @Override
+   public boolean isBottomDrawerCollaboration()
+   {
+      return bottomDrawerCollaboration;
+   }
+
+   public void setBottomDrawerCollaboration(boolean bottomDrawerCollaboration)
+   {
+      this.bottomDrawerCollaboration = bottomDrawerCollaboration;
+   }
+
+   @Override
+   public boolean isContentCollaboration()
+   {
+      return contentCollaboration;
+   }
+
+   public void setContentCollaboration(boolean contentCollaboration)
+   {
+      this.contentCollaboration = contentCollaboration;
+   }
+
+   @Override
+   public boolean isLeftDrawerCollaboration()
+   {
+      return leftDrawerCollaboration;
+   }
+
+   public void setLeftDrawerCollaboration(boolean leftDrawerCollaboration)
+   {
+      this.leftDrawerCollaboration = leftDrawerCollaboration;
+   }
+
+   @Override
+   public boolean isRightDrawerCollaboration()
+   {
+      return rightDrawerCollaboration;
+   }
+
+   public void setRightDrawerCollaboration(boolean rightDrawerCollaboration)
+   {
+      this.rightDrawerCollaboration = rightDrawerCollaboration;
+   }
+
+   @Override
+   public boolean isTopDrawerCollaboration()
+   {
+      return topDrawerCollaboration;
+   }
+
+   public void setTopDrawerCollaboration(boolean topDrawerCollaboration)
+   {
+      this.topDrawerCollaboration = topDrawerCollaboration;
    }
 
    @Override
