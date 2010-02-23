@@ -387,7 +387,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             if (notificationType == "collaboration_request") {
                 logger.debug("********************collaboration_request*************************");
                 def user: String = notification.getFirstProperty("proposing_user");
-                //XXX submit user-nickname instead of extracting it
+                //TODO submit user-nickname instead of extracting it
                 def userNickname = user.substring(0, user.indexOf("@"));
                 def eloUri: String = notification.getFirstProperty("proposed_elo");
                 def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
