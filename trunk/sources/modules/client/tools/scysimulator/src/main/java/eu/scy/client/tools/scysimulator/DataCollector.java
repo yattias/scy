@@ -331,11 +331,19 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     public void cleanDataSet() {
         ModelVariable var;
+        String type;
         List<DataSetColumn> datasetvariables = new LinkedList<DataSetColumn>();
         List<DataSetHeader> datasetheaders = new LinkedList<DataSetHeader>();
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
             var = vars.next();
-            datasetvariables.add(new DataSetColumn(var.getName(), var.getExternalName(), "double"));
+            switch (var.getType()) {
+                case ModelVariable.VT_BOOLEAN: type = "boolean"; break;
+                case ModelVariable.VT_INTEGER: type = "integer"; break;
+                case ModelVariable.VT_STRING: type = "string"; break;
+                case ModelVariable.VT_REAL: type = "double"; break;
+                default: type = "double";
+            }
+            datasetvariables.add(new DataSetColumn(var.getName(), var.getExternalName(), type));
         }
         datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
         dataset = new DataSet(datasetheaders);
