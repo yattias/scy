@@ -1,9 +1,13 @@
 package eu.scy.chat.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -106,6 +110,13 @@ public class MUCChatController implements ChatController {
 			}
 		});
 	}
+	
+	private String getFormattedTime() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		Date day = new Date();
+		return formatter.format(day);
+		//return DateFormat.getInstance().format(day);
+	}
 
 	public void registerChatArea(JTextArea registerArea) {
 		this.chatArea = registerArea;
@@ -137,24 +148,16 @@ public class MUCChatController implements ChatController {
 									List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
 
 									if (awarenessEvent.getMessage() != null) {
-										chatArea.setText(oldText
-												+ awarenessEvent.getUser()
-														.getNickName() + ": "
-												+ awarenessEvent.getMessage()
-												+ "\n");
-										logger.debug("text set in chatarea: "
-												+ awarenessEvent.getUser()
-														.getNickName()
-												+ " message: "
-												+ awarenessEvent.getMessage());
+										
+										//chatArea.setText(oldText + awarenessEvent.getUser().getNickName() + ": " + awarenessEvent.getMessage() + "\n");
+										chatArea.setText(oldText + awarenessEvent.getMessage() + "\n");
+										logger.debug("text set in chatarea: " + awarenessEvent.getUser().getNickName() + " message: " + awarenessEvent.getMessage());
 										logger.debug("chat area refreshing");
 										chatArea.revalidate();
 									}
 								} else {
 									logger.debug( "ELOURI MISS MATCH " + ELOUri + " roomid " + awarenessEventRoomId );
 								}
-								
-
 							}
 						});
 
@@ -298,7 +301,7 @@ public class MUCChatController implements ChatController {
 				final JTextField sourceTextField  = (JTextField) e.getSource();
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						MUCChatController.this.sendMessage( ELOUri,sourceTextField.getText());
+						MUCChatController.this.sendMessage( ELOUri,"["+getFormattedTime()+ "] <" +getCurrentUser()+">: "+sourceTextField.getText());
 						sourceTextField.setText("");
 						chatArea.revalidate();
 					}
