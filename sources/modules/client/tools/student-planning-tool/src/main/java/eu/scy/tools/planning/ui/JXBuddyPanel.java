@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
@@ -18,6 +19,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.images.Images;
 
 public class JXBuddyPanel extends JXPanel {
@@ -26,26 +28,30 @@ public class JXBuddyPanel extends JXPanel {
 	private static final String USER = "USER";
 	private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
 	private JXLabel messageLabel;
+	private StudentPlanningController studentPlanningController;
 	
 	/**
      * Creates a new instance of JXPanel
      */
-    public JXBuddyPanel() {
+    public JXBuddyPanel(StudentPlanningController studentPlanningController) {
     	super();
+    	this.studentPlanningController = studentPlanningController;
     }
     
     /**
      * @param isDoubleBuffered
      */
-    public JXBuddyPanel(boolean isDoubleBuffered) {
+    public JXBuddyPanel(boolean isDoubleBuffered, StudentPlanningController studentPlanningController) {
         super(isDoubleBuffered);
+        this.studentPlanningController = studentPlanningController;
     }
     
     /**
      * @param layout
      */
-    public JXBuddyPanel(LayoutManager layout) {
+    public JXBuddyPanel(LayoutManager layout,StudentPlanningController studentPlanningController) {
         super(layout);
+        this.studentPlanningController = studentPlanningController;
     }
 	
 	public void addBuddy(IAwarenessUser user) {
@@ -123,7 +129,10 @@ public class JXBuddyPanel extends JXPanel {
 		//killLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		
-		JXLabel buddyLabel = new JXLabel(Images.Profile.getIcon());
+		Icon buddyImageIcon = studentPlanningController.getBuddyImageIcon(user.getNickName());
+		
+		
+		JXLabel buddyLabel = new JXLabel(buddyImageIcon);
 		//buddyLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 		bPanel.add(killLabel, "align right");
 		killLabel.setVisible(false);
@@ -185,6 +194,14 @@ public class JXBuddyPanel extends JXPanel {
 
 	public JXLabel getMessageLabel() {
 		return messageLabel;
+	}
+
+	public void setStudentPlanningController(StudentPlanningController studentPlanningController) {
+		this.studentPlanningController = studentPlanningController;
+	}
+
+	public StudentPlanningController getStudentPlanningController() {
+		return studentPlanningController;
 	}
 	
 
