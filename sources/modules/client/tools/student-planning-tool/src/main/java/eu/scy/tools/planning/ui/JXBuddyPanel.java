@@ -7,10 +7,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -79,7 +81,7 @@ public class JXBuddyPanel extends JXPanel {
 		return buddies;
 	}
 	
-	private void createBuddyIcon(IAwarenessUser user) {
+	private void createBuddyIcon(final IAwarenessUser user) {
 		
 		JXPanel bPanel = new JXPanel(new MigLayout("insets 0 0 0 0, wrap"));
 		bPanel.addMouseListener(new MouseListener() {
@@ -127,12 +129,22 @@ public class JXBuddyPanel extends JXPanel {
 		killLabel.setHorizontalTextPosition(JXLabel.RIGHT);
 		killLabel.setOpaque(false);
 		//killLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+			
+		
+		final JXLabel buddyLabel = new JXLabel();
 		
 		
-		Icon buddyImageIcon = studentPlanningController.getBuddyImageIcon(user.getNickName());
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		    Icon buddyImageIcon = studentPlanningController.getBuddyImageIcon(user.getNickName());
+		      // Here, we can safely update the GUI
+		      // because we'll be called from the
+		      // event dispatch thread
+		    	buddyLabel.setIcon(buddyImageIcon);
+		    }
+		  });
 		
-		
-		JXLabel buddyLabel = new JXLabel(buddyImageIcon);
+		buddyLabel.setToolTipText(user.getNickName());
 		//buddyLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 		bPanel.add(killLabel, "align right");
 		killLabel.setVisible(false);
