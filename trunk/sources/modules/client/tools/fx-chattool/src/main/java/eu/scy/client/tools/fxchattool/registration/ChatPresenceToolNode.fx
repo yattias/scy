@@ -27,15 +27,16 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.*;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
-import eu.scy.toolbrokerapi.CollaborationCallback;
 import eu.scy.awareness.IAwarenessUser;
 import java.util.Vector;
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 
 /**
  * @author jeremyt
  */
 
-public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, CollaborationCallback {
+public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INotifiable {
     public override var width on replace {resizeContent()};
     public override var height on replace {resizeContent()};
 
@@ -132,7 +133,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, Coll
         //XXX the "/Smack" should be received correctly via method
 
         //commented out, as this should be done by the tool. cf S. Manske
-        toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),this);
+        toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString());
 
         tempUsers.addElement("{c.contact.awarenessUser.getJid()}/Smack");
       }
@@ -142,9 +143,18 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, Coll
 
    }
 
-   public override function receivedCollaborationResponse (mucid : String, user: String) : Void {
-      println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {user}");
-      chatPresenceTool.removeTemporaryUser(user);
-      tempUsers.removeElement(user);
-   }
+   public override function processNotification(notification: INotification): Void {
+        def notificationType: String = notification.getFirstProperty("type");
+        if (not (notificationType == null)) {
+            if (notificationType == "collaboration_response") {
+                def user: String = notification.getFirstProperty("proposing_user");
+                //TODO submit user-nickname instead of extracting it
+                def userNickname = user.substring(0, user.indexOf("@"));
+                println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {userNickname}");
+                chatPresenceTool.removeTemporaryUser(userNickname);
+                tempUsers.removeElement(userNickname);
+            }
+        }
+     }
+
 }
