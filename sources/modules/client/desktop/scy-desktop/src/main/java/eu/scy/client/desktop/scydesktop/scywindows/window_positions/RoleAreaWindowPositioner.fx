@@ -156,7 +156,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
    }
 
    public override function placeOtherWindow(window: ScyWindow): Boolean {
-      insert window into otherWindowPositioner.windows;
+      otherWindowPositioner.positionNewWindow(window);
       return true;
    }
 

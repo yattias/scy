@@ -62,6 +62,15 @@ public class AreaPositioner {
       }
    }
 
+   public function positionNewWindow(window:ScyWindow):Void{
+      if (Sequences.indexOf(windows, window) < 0){
+         positionWindow(window);
+         insert window into windows;
+         insert window into placedWindows;
+      }
+   }
+
+
    function removeDuplicateWindows(){
       var cleanedWindows:ScyWindow[];
       var nrOfDuplcates = 0;
