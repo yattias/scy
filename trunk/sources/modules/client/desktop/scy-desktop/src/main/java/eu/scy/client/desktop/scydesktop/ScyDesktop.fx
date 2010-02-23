@@ -264,7 +264,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
                 selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
             onMouseClicked: function (e) {
-                    println("ouch u clicked my tool!")
+                    println("ouch u clicked my tool!");
+                            scyWindowControl.addOtherScyWindow(new URI("scy/studentplanningtool"));
+               //scyWindowControl.addOtherScyWindow("scy/studentplanningtool");
+                println("new elo uri");
                 }
         }
       topRightCorner = TopRightCorner {
