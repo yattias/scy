@@ -298,12 +298,13 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	 */
 	public final void tidy() {
 		try {
-			// command & identify Callbacks are deregistered
 			if (getCommandSpace() != null && getCommandSpace().isConnected()) {
 				getCommandSpace().eventDeRegister(commandId);
 				getCommandSpace().eventDeRegister(identifyId);
-				// disconnect from tuplespace
 				getCommandSpace().disconnect();
+			}
+			if (getActionSpace() != null && getActionSpace().isConnected()) {
+				getActionSpace().disconnect();
 			}
 		} catch (TupleSpaceException e) {
 			// we do not care about exceptions here
