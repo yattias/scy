@@ -21,6 +21,7 @@ def missionModelName = "missionModel";
 def idName = "id";
 def nameName = "name";
 def loElosName = "loElos";
+def otherElosName = "otherElos";
 def activeLasName = "activeLas";
 def lassesName = "lasses";
 def lasName = "las";
@@ -73,6 +74,7 @@ function createLasXml(las:Las):Element{
    lasRoot.addContent(createElement(yPosName, "{las.yPos}"));
    lasRoot.addContent(createElement(toolTipName, "{las.toolTip}"));
    lasRoot.addContent(createEloUriListXml(loElosName,las.loEloUris));
+   lasRoot.addContent(createEloUriListXml(otherElosName,las.otherEloUris));
    lasRoot.addContent(createMissionAnchorXml(mainAnchorName, las.mainAnchor));
    var intermediateAnchorsRoot = new Element(intermediateAnchorsName);
    lasRoot.addContent(intermediateAnchorsRoot);
@@ -161,6 +163,7 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
       yPos: java.lang.Float.parseFloat(root.getChildTextTrim(yPosName));
       toolTip: root.getChildTextTrim(toolTipName)
       loEloUris: createEloUriList(root.getChild(loElosName))
+      otherEloUris: createEloUriList(root.getChild(otherElosName))
       mainAnchor:createMissionAnchor(root.getChild(mainAnchorName))
    }
    anchorsMap.put(las.mainAnchor.eloUri, las.mainAnchor);

@@ -15,7 +15,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
-import java.lang.UnsupportedOperationException;
+import javafx.util.Sequences;
+import java.lang.Void;
 
 /**
  * @author sikken
@@ -64,6 +65,9 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    public override function addOtherScyWindow(eloUri: URI): ScyWindow {
+      if (Sequences.indexOf(activeLas.otherEloUris, eloUri)<=0){
+         insert eloUri into activeLas.otherEloUris;
+      }
       var scyWindow = getScyWindow(eloUri);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
@@ -157,6 +161,12 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las))) {
                windowManager.addScyWindow(anchorWindow);
             }
+         }
+      }
+      for (otherEloUri in activeLas.otherEloUris) {
+         var otherEloWindow = getScyWindow(otherEloUri);
+         if (windowPositioner.addGlobalLearningObjectWindow(otherEloWindow)) {
+            windowManager.addScyWindow(otherEloWindow);
          }
       }
       windowPositioner.makeMainWindow(mainWindow);
