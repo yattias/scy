@@ -79,6 +79,13 @@ public class MissionModelFX {
 
    public function eloUriChanged(oldEloUri:URI, newEloUri:URI){
       logger.info("eloUri changed from {oldEloUri} to {newEloUri}");
+      if (oldEloUri==null){
+         // it's a new elo, being saved
+         if (activeLas!=null){
+            insert newEloUri into activeLas.otherEloUris;
+         }
+         return;
+      }
       loEloUris = updateEloUri(loEloUris,oldEloUri,newEloUri);
       for (las in lasses){
          updateLasEloUri(las,oldEloUri,newEloUri)

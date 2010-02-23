@@ -20,6 +20,7 @@ public class Las {
    public var previousLasses: Las[];
    public var mainAnchor: MissionAnchorFX;
    public var intermediateAnchors: MissionAnchorFX[];
+   public var otherEloUris: URI[];
    public var color = Color.LIGHTGRAY;
    public var iconCharacter = "?";
 //   public var title = "?";
