@@ -409,6 +409,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     if (collaborationWindow==null){
                         ///FIXME create a window/tool with the elo
                         collaborationWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
+                        collaborationWindow.openWindow(300, 300);
                     }else {
                         
                     }
