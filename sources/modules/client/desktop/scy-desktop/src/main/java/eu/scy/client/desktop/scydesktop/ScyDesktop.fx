@@ -349,14 +349,14 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 //                fill:Color.BLACK
                 //            },
                 backgroundImageView,
-            lowDebugGroup,
+                lowDebugGroup,
                 edgesManager,
                 windows.scyWindows,
                 topLeftCorner,
                 topRightCorner,
                 bottomRightCorner,
                 bottomLeftCorner,
-            highDebugGroup,
+                highDebugGroup,
                 Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
             /*
             Button {
@@ -377,9 +377,66 @@ public class ScyDesktop extends CustomNode, INotifiable {
         FX.deferAction(function () {
             // one defer does not seem to be enough to show the please wait content
             FX.deferAction(function () {
-                realFillNewScyWindow2(window);
+                realFillNewScyWindow2(window,false);
             });
         });
+    }
+
+    function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
+        var eloConfig = config.getEloConfig(window.eloType);
+        if (eloConfig == null) {
+            logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
+            return ;
+        }
+        // don't place the window content tool in the window, let the please wait message stay until every thing is created
+        var scyContent:Node;
+        if (eloConfig.isContentCollaboration()==collaboration){
+           scyContent = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
+        }
+        if (eloConfig.isTopDrawerCollaboration()==collaboration){
+           window.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        if (eloConfig.isRightDrawerCollaboration()==collaboration){
+            window.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        if (eloConfig.isBottomDrawerCollaboration()==collaboration){
+           window.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        if (eloConfig.isLeftDrawerCollaboration()==collaboration){
+           window.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        window.scyContent = scyContent;
+        // all tools are created and placed in the window
+        // now do the ScyTool initialisation
+        var myEloChanged = SimpleMyEloChanged {
+                    window: window;
+                    titleKey: config.getTitleKey()
+                    technicalFormatKey: config.getTechnicalFormatKey();
+                }
+        var optionPaneEloSaver = ScyDesktopEloSaver {
+                    config: config
+                    repository: config.getRepository()
+                    eloFactory: config.getEloFactory()
+                    titleKey: config.getTitleKey()
+                    technicalFormatKey: config.getTechnicalFormatKey()
+                    window: window;
+                    myEloChanged: myEloChanged;
+                    newTitleGenerator: newTitleGenerator
+                    windowStyler: windowStyler
+                };
+
+        window.scyToolsList.setEloSaver(optionPaneEloSaver);
+        window.scyToolsList.setMyEloChanged(myEloChanged);
+        window.scyToolsList.initialize();
+        window.scyToolsList.postInitialize();
+        if (scyContent!=null){
+           if (window.eloUri != null) {
+               window.scyToolsList.loadElo(window.eloUri);
+           } else {
+               window.scyToolsList.newElo();
+           }
+           window.scyToolsList.loadedEloChanged(window.eloUri);
+        }
     }
 
     public override function processNotification(notification: INotification): Void {
@@ -432,88 +489,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
         }
     }
 
-    function realFillNewScyWindow2(window: ScyWindow): Void {
-        var eloConfig = config.getEloConfig(window.eloType);
-        if (eloConfig == null) {
-            logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
-            return ;
-        }
-        // don't place the window content tool in the window, let the please wait message stay until every thing is created
-        var scyContent = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
-        window.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-        window.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-        window.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-        window.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-        window.scyContent = scyContent;
-        // all tools are created and placed in the window
-        // now do the ScyTool initialisation
-        var myEloChanged = SimpleMyEloChanged {
-                    window: window;
-                    titleKey: config.getTitleKey()
-                    technicalFormatKey: config.getTechnicalFormatKey();
-                }
-        var optionPaneEloSaver = ScyDesktopEloSaver {
-                    config: config
-                    repository: config.getRepository()
-                    eloFactory: config.getEloFactory()
-                    titleKey: config.getTitleKey()
-                    technicalFormatKey: config.getTechnicalFormatKey()
-                    window: window;
-                    myEloChanged: myEloChanged;
-                    newTitleGenerator: newTitleGenerator
-                    windowStyler: windowStyler
-                };
-        window.scyToolsList.setEloSaver(optionPaneEloSaver);
-        window.scyToolsList.setMyEloChanged(myEloChanged);
-        window.scyToolsList.initialize();
-        window.scyToolsList.postInitialize();
-        if (window.eloUri != null) {
-            window.scyToolsList.loadElo(window.eloUri);
-        } else {
-            window.scyToolsList.newElo();
-        }
-        window.scyToolsList.loadedEloChanged(window.eloUri);
-    }
-
-//   function XfillNewScyWindow(window: ScyWindow):Void{
-//      var eloConfig = config.getEloConfig(window.eloType);
-//      if (window.eloUri==null){
-//         var pleaseWait = Text {
-//               font : Font {
-//                  size: 14
-//               }
-//               x: 5, y: 20
-//               content: "Loading, please wait..."
-//            }
-//         window.scyContent = pleaseWait;
-//
-//         FX.deferAction(function(){
-//               windowContentFactory.fillWindowContent(window,eloConfig.getContentCreatorId());
-//            });
-//      }
-//      else{
-//         windowContentFactory.fillWindowContent(window.eloUri,window,eloConfig.getContentCreatorId());
-//      }
-//      addDrawerTools(window,eloConfig);
-//   }
-//
-//    function addDrawerTools(window:ScyWindow,eloConfig:EloConfig):Void{
-//       if (window.eloUri==null){
-//          // no elo, no drawer tools
-//          //return;
-//       }
-//       if (window.eloType==null){
-//
-//       }
-////       println("retrieving eloConfig for type {window.eloType}");
-//       if (eloConfig==null){
-//          //return;
-//       }
-//       window.topDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getTopDrawerCreatorId(), window);
-//       window.rightDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getRightDrawerCreatorId(), window);
-//       window.bottomDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getBottomDrawerCreatorId(), window);
-//       window.leftDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getLeftDrawerCreatorId(), window);
-//    }
 }
 
 function run()  {
