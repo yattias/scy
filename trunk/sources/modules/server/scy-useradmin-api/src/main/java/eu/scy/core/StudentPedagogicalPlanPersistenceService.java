@@ -25,4 +25,6 @@ public interface StudentPedagogicalPlanPersistenceService extends BaseService{
     void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity);
 
     void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity);
+
+    void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO);
 }

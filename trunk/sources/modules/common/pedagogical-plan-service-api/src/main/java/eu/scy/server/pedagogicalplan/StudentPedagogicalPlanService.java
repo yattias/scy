@@ -26,4 +26,6 @@ public interface StudentPedagogicalPlanService {
     public void save(ScyBaseObject scyBase);
 
     public void addMember(StudentPlannedActivity studentPlannedActivity, String user);
+
+    public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO);
 }

@@ -38,7 +38,10 @@ public class StudentPlannedActivityImpl extends BaseObjectImpl implements Studen
 
     @Override
     public void addMember(User member) {
-        members.add(member);
+        if(!members.contains(member)) {
+        members.add(member);    
+        }
+
     }
 
     @OneToOne(targetEntity = AnchorELOImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
