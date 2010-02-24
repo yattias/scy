@@ -87,6 +87,8 @@ public abstract class ScyWindow extends CustomNode {
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
 
+   public var mucId: String;
+
 	// status variables
 	public-read protected var isMinimized = false;
 	public-read protected var isClosed = true;
