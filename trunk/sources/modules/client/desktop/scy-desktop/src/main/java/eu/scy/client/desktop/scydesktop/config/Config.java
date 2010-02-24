@@ -39,6 +39,8 @@ public interface Config {
    public BasicMissionMap getBasicMissionMap();
    public List<BasicMissionAnchor> getBasicMissionAnchors();
 
+   public List<URI> getAllMissionEloUris();
+
 //   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs();
 //   public String getMissionId();
 //   public String getMissionName();

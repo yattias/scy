@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.lang.IllegalStateException;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -222,7 +224,6 @@ public class BasicConfig implements Config
 //   {
 //      return missionName;
 //   }
-
 //   public void setBasicMissionAnchorConfigs(List<BasicMissionAnchorConfig> basicMissionAnchorConfigs)
 //   {
 //      this.basicMissionAnchorConfigs = basicMissionAnchorConfigs;
@@ -233,7 +234,6 @@ public class BasicConfig implements Config
 //   {
 //      return basicMissionAnchorConfigs;
 //   }
-
 //   public void setActiveMissionAnchorUri(URI activeMissionAnchorUri)
 //   {
 //      this.activeMissionAnchorUri = activeMissionAnchorUri;
@@ -244,7 +244,6 @@ public class BasicConfig implements Config
 //   {
 //      return activeMissionAnchorUri;
 //   }
-
    public void setBasicMissionAnchors(List<BasicMissionAnchor> basicMissionAnchors)
    {
       this.basicMissionAnchors = basicMissionAnchors;
@@ -253,16 +252,25 @@ public class BasicConfig implements Config
    @Override
    public List<BasicMissionAnchor> getBasicMissionAnchors()
    {
-       if (basicMissionAnchors == null)
+      List<BasicMissionAnchor> basicMissionAnchorList = new ArrayList<BasicMissionAnchor>();
+      if (basicMissionAnchors != null)
       {
-         return new ArrayList<BasicMissionAnchor>();
-      }
-      for (BasicMissionAnchor missionAnchor : basicMissionAnchors){
-         IMetadata metadata = repository.retrieveMetadata(missionAnchor.getUri());
-         missionAnchor.setMetadata(metadata);
-         if (metadata == null)
+         for (BasicMissionAnchor missionAnchor : basicMissionAnchors)
          {
-            logger.error("Couldn't find anchor elo: " + missionAnchor.getUri());
+            if (missionAnchor.getUri() != null)
+            {
+               IMetadata metadata = repository.retrieveMetadata(missionAnchor.getUri());
+               missionAnchor.setMetadata(metadata);
+               if (metadata == null)
+               {
+                  logger.error("Couldn't find anchor elo: " + missionAnchor.getUri());
+               }
+               basicMissionAnchorList.add(missionAnchor);
+            }
+            else
+            {
+               logger.error("The basicMissionAnchor with id " + missionAnchor.getId() + " has no uri defined");
+            }
          }
       }
 //      List<BasicMissionAnchor> basicMissionAnchors = new ArrayList<BasicMissionAnchor>();
@@ -306,7 +314,45 @@ public class BasicConfig implements Config
 //      {
 //         missionAnchors.add(basicMissionAnchor);
 //      }
-      return basicMissionAnchors;
+      return basicMissionAnchorList;
+   }
+
+   @Override
+   public List<URI> getAllMissionEloUris()
+   {
+      Set<URI> allMissionEloUriSet = new HashSet<URI>();
+      addListToSet(basicMissionMap.getLoEloUris(), allMissionEloUriSet);
+      Set<String> anchorIdSet = new HashSet<String>();
+      for (BasicLas basicLas : basicMissionMap.getLasses())
+      {
+         addListToSet(basicLas.getLoEloUris(), allMissionEloUriSet);
+         anchorIdSet.add(basicLas.getAnchorEloId());
+         if (basicLas.getIntermediateEloIds() != null)
+         {
+            anchorIdSet.addAll(basicLas.getIntermediateEloIds());
+         }
+      }
+      for (BasicMissionAnchor missionAnchor : basicMissionAnchors)
+      {
+         if (missionAnchor.getUri() != null)
+         {
+            allMissionEloUriSet.add(missionAnchor.getUri());
+         }
+         addListToSet(missionAnchor.getLoEloUris(), allMissionEloUriSet);
+      }
+      List<URI> allMissionEloUris = new ArrayList<URI>(allMissionEloUriSet);
+      Collections.sort(allMissionEloUris);
+
+      return allMissionEloUris;
+   }
+
+   private void addListToSet(List<URI> uris, Set<URI> uriSet)
+   {
+
+      if (uris != null)
+      {
+         uriSet.addAll(uris);
+      }
    }
 
 //   private List<URI> createExistingUriList(List<URI> uris, String label, String anchorName)
@@ -369,7 +415,6 @@ public class BasicConfig implements Config
 //      }
 //      return missionAnchors;
 //   }
-
    public void setTemplateEloUris(List<URI> templateEloUris)
    {
       this.templateEloUris = templateEloUris;
@@ -457,5 +502,4 @@ public class BasicConfig implements Config
    {
       this.basicMissionMap = basicMissionMap;
    }
-   
 }

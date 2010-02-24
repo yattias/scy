@@ -153,6 +153,7 @@ public class NewScyWindowTool extends CustomNode {
                var eloUri = askUriFromSearchResults(results);
                if (eloUri!=null){
                   scyWindowControl.addOtherScyWindow(eloUri);
+                  scyWindowControl.makeMainScyWindow(eloUri);
                }
             }
             else{
