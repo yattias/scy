@@ -42,7 +42,7 @@ public class StudentPlanningController {
 	private List<StudentPlannedActivity> studentPlannedActivities;
 	private StudentPlanELO studentPlanELO;
 	private List<JXTaskPane> taskPanes = new ArrayList<JXTaskPane>();
-	private Map<JXTaskPane, JXBuddyPanel> taskPanesToBuddyPanels = new HashMap<JXTaskPane, JXBuddyPanel>();
+	public Map<JXTaskPane, JXBuddyPanel> taskPanesToBuddyPanels = new HashMap<JXTaskPane, JXBuddyPanel>();
 	private Configuration configuration;
 	private JXTaskPaneContainer entryContainer;
 	
@@ -53,6 +53,10 @@ public class StudentPlanningController {
     private String IMAGE_BASE_DIR = "http://" + filestreamerServer+":"+filestreamerPort+filestreamerContext;
 	
 
+	public StudentPlanningController(String eloId, String s) {
+
+	}
+	
 	public StudentPlanningController() {
 
 	}
@@ -139,6 +143,10 @@ public class StudentPlanningController {
 	public void removeEntry(JXEntryPanel entryPanel) {
 		taskPanes.remove(entryPanel);
 		entryContainer.remove(entryPanel);
+		
+		this.studentPlanELO.getStudentPlannedActivities().remove(entryPanel.getStudentPlannedActivity());
+		
+		getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
 		entryContainer.revalidate();
 		
 	}
@@ -173,7 +181,7 @@ public class StudentPlanningController {
 		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
 //		if (studentPedagogicalPlanService == null)
 		configuration = Configuration.getInstance();
-			studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+		studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
 			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
 
 		return studentPedagogicalPlanService;
@@ -184,6 +192,7 @@ public class StudentPlanningController {
 	public void acceptDrop(Object drop) {
 		log.info("we just dropped a load of..." + drop.toString());
 		if( drop instanceof BasicMetadata ) {
+			
 			
 			
 			
@@ -264,5 +273,23 @@ public class StudentPlanningController {
 
 	public JXTaskPaneContainer getEntryContainer() {
 		return entryContainer;
+	}
+
+	public void addMemberToStudentPlannedActivity(
+			StudentPlannedActivity studentPlannedActivity, String nickName) {
+		//studentPlannedActivity.addMember(nickName);
+		
+		this.getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
+		
+	}
+
+	public void removeMemberStudentPlannedActivity(
+			StudentPlannedActivity studentPlannedActivity, String nickName) {
+		// TODO Auto-generated method stub
+		this.getStudentPlanService().removeMember(studentPlannedActivity, nickName);
+		//studentPlannedActivity.removeMember(nickName);
+		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
+		
 	}
 }
