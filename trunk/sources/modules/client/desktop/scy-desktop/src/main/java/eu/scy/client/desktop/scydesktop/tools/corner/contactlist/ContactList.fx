@@ -27,6 +27,7 @@ public class ContactList extends CustomNode {
     public-init var scyDesktop:ScyDesktop;
     public-init var showOfflineContacts:Boolean = false;
     public-init var columns: Integer;
+    public-init var stateIndicatorOpacity:Boolean = false;
 
     def contactTooltipCreator = ContactTooltipCreator{
    }
@@ -53,6 +54,10 @@ public class ContactList extends CustomNode {
                             startDragging(e,contactFrame);
                         };
                     };
+                    if (stateIndicatorOpacity){
+                        contactFrame.opacity = if (contact.onlineState==OnlineState.AWAY) 0.6 else (if (contact.onlineState==OnlineState.OFFLINE) 0.3 else 1)
+                    }
+
             tooltipManager.registerNode(contactFrame, contactTooltipCreator);
             insert contactFrame into contactFrames;
         }
