@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -62,8 +63,11 @@ import org.jdesktop.swingx.VerticalLayout;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
+import roolo.elo.metadata.BasicMetadata;
+
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
@@ -79,6 +83,9 @@ import eu.scy.tools.planning.ui.images.Images;
 
 public class StudentPlanningTool {
 
+	private static Logger log = Logger
+	.getLogger("StudentPlanningTool.class");
+	
 	private static final String NO_ELOS_LABEL = "NO_ELOS_LABEL";
 
 	private static final String TASKPANE = "TASKPANE";
@@ -230,6 +237,7 @@ public class StudentPlanningTool {
 		// tweak with the UI defaults for the taskpane and taskpanecontainer
 		changeUIdefaults();
 
+		messageLabel = new JXLabel("<html><b>Drag and Drop ELOs from the Mission Map.</b></html>");
 		// create a taskpanecontainer
 		taskpanecontainer = new JXTaskPaneContainer();
 		this.studentPlanningController.setEntryContainer(taskpanecontainer);
@@ -253,9 +261,7 @@ public class StudentPlanningTool {
 				this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
 			}
 		} else {
-			JXLabel noElOLabel = new JXLabel("Drag ELOs from the Mission Map here to start a plan");
-			noElOLabel.setName(NO_ELOS_LABEL);
-			this.addTaskPane(noElOLabel);
+			
 		}
 
 
@@ -306,7 +312,7 @@ public class StudentPlanningTool {
 		
 		
 		JXPanel messagePanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
-		messageLabel = new JXLabel("<html><b>Drag and Drop ELOs from the Mission Map.</b></html>");
+		
 		messagePanel.add(messageLabel);
 		messagePanel.add(new JXLabel(" "),"growx");
 		messagePanel.add(infoLink,"right, growx");
@@ -329,6 +335,26 @@ public class StudentPlanningTool {
 	}
 
 	public void acceptDrop(Object drop) {
+		
+		log.info("we just dropped a load of..." + drop.toString());
+		if( drop instanceof BasicMetadata ) {
+			
+			//find the activity
+			//create studenActivityPlane
+			
+			//this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
+			
+		} else if(drop instanceof IAwarenessUser ){
+			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
+			JXTaskPane openTaskPane = studentPlanningController.getOpenTaskPane();
+			
+			JXBuddyPanel jxBuddyPanel = studentPlanningController.taskPanesToBuddyPanels.get(openTaskPane);
+			jxBuddyPanel.addBuddy(awarenessUser);
+		}
+		
+		
+		
+		
 		studentPlanningController.acceptDrop(drop);
 	}
 	
@@ -337,6 +363,7 @@ public class StudentPlanningTool {
 		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController);
 		entryPanel.setBackground(Colors.White.color());
 		entryPanel.addEntry(taskpane, "w 600!");
+		entryPanel.setStudentPlannedActivity((StudentPlannedActivity) taskpane.getClientProperty(STUDENT_PLANNED_ACTIVITY));
 		//entryPanel.addEntry(taskpane,null);
 		
 		taskpanecontainer.add(entryPanel);
@@ -412,6 +439,7 @@ public class StudentPlanningTool {
 		});
 		Map<String, Date> endDateMap = new HashMap<String, Date>();
 		Map<String, Date> startDateMap = new HashMap<String, Date>();
+		taskpane.putClientProperty(STUDENT_PLANNED_ACTIVITY, studentPlannedActivity);
 		taskpane.putClientProperty(START_DATE_MAP, startDateMap);
 		taskpane.putClientProperty(END_DATE_MAP, endDateMap);
 		taskpane.putClientProperty(ACTIVITY_NAME, studentPlannedActivity.getName());
@@ -753,6 +781,7 @@ public class StudentPlanningTool {
 			StudentPlannedActivity studentPlannedActivity) {
 		JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1), studentPlanningController);
 		membersPanel.setMessageLabel(messageLabel);
+		membersPanel.setStudentPlannedActivity(studentPlannedActivity);
 		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
 				0, 0, 0)), new TitledBorder(
 				"Who - Collaboration Partners (Drag Here)")));
@@ -760,12 +789,27 @@ public class StudentPlanningTool {
 		membersPanel.setBackground(Color.CYAN);
 		membersPanel.setPreferredSize(new Dimension(activityPanel
 				.getMaximumSize().width / 2, 115));
-		membersPanel.setDropTarget(new DropTarget(membersPanel,
-				new JXDropTargetListener(this)));
+//		membersPanel.setDropTarget(new DropTarget(membersPanel,
+//				new JXDropTargetListener(this)));
 		membersPanel
 				.setToolTipText("Drag the persons that will work with the task from the desktop here.");
 		membersPanel.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
+		
+		
+		//fill it
+		
+		List<User> members = studentPlannedActivity.getMembers();
+		for (User user : members) {
+			String username = user.getUserDetails().getUsername();
+			IAwarenessUser aw = new AwarenessUser();
+			aw.setNickName(username);
+			membersPanel.addBuddy(aw);
+		}
+		
+		
+		
+		
 		return membersPanel;
 	}
 
