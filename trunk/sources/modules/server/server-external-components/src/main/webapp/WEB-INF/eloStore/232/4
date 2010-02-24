@@ -1,0 +1,337 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">m</string>
+      </title>
+      <mission>co2Mission</mission>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/232/4/m.scymissionmodel</entry>
+      </identifier>
+      <las>conceptualizationExperts</las>
+    </general>
+    <technical>
+      <format>scy/missionmodel</format>
+      <customElements>
+        <dateCreated>1266411046393</dateCreated>
+        <dateLastModified>1266411142813</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>m</entity>
+        <date>
+          <dateTime>2010-02-17T13:52:22.813+0100</dateTime>
+        </date>
+      </contribute>
+      <version>4</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/232/3/m.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/232/5/m.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <id>co2Mission</id>
+  <name>Design a CO2 neutral house</name>
+  <activeLas>conceptualizationExperts</activeLas>
+  <loElos>
+    <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+  </loElos>
+  <lasses>
+    <las>
+      <id>startPage</id>
+      <xPos>0.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Start page</toolTip>
+      <loElos>
+        <eloUri>roolo://memory/59/0/Technasium.video</eloUri>
+      </loElos>
+      <mainAnchor>
+        <eloUri>roolo://memory/217/0/Start_page.url</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos />
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualizationDesign</las>
+        <las>conceptualizationIndividual</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationDesign</id>
+      <xPos>40.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>1st ideas of my design group</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/218/0/First_Ideas.scymapping</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/13/0/First_ideas.url</eloUri>
+          <eloUri>roolo://memory/39/0/CO2_friendly_house.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualizationExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationExperts</id>
+      <xPos>80.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Research questions of my expert group</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/219/0/Research_Questions.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+          <eloUri>roolo://memory/42/0/Websites_Expert_groups.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>experimentExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experimentExperts</id>
+      <xPos>120.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Experimental procedure</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/220/0/Experimental_procedure.scyxproc</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/221/0/Hypothesis.text</eloUri>
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+            <eloUri>roolo://memory/42/0/Websites_Expert_groups.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/222/0/Conclusion.text</eloUri>
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>conceptualizationExperts</las>
+        <las>reportingExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationIndividual</id>
+      <xPos>0.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Concept Map CO2</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/223/0/Concept_map.scymapping</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</eloUri>
+          <eloUri>roolo://memory/14/0/Global_Warming.url</eloUri>
+          <eloUri>roolo://memory/15/0/Websites_global_warming.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>construction</id>
+      <xPos>40.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Draw the house</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/224/0/Drawing_of_house.scydraw</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/19/0/Draw_your_house.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>design</id>
+      <xPos>80.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Inventory of solutions</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/225/0/Inventory_of_solutions.scymapping</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/226/0/First_choices.scymapping</eloUri>
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>construction</las>
+        <las>experimentDesign</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingExperts</id>
+      <xPos>120.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Presentation of experts</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/227/0/Expert_presentation.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/23/0/Expert_presentation.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experimentDesign</id>
+      <xPos>40.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>House data</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/228/0/Processed_data.scydataset</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/16/0/Experiment_in_Design_Group.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/229/0/Data_from_simulation_in_design_group.scysimconfig</eloUri>
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/18/0/Manual_for_thermal_simulation.url</eloUri>
+            <eloUri>roolo://memory/16/0/Experiment_in_Design_Group.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>reportingDesign</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingDesign</id>
+      <xPos>80.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Presentation of design group</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/230/0/Presentation_of_design.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/21/0/Presentation_of_design.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>reportingIndividual</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingIndividual</id>
+      <xPos>120.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Individual report</toolTip>
+      <loElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/231/0/Report.text</eloUri>
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/24/0/Individual_report.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
