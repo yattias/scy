@@ -53,4 +53,9 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     public void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity) {
         getStudentPedagogicalPlanPersistenceDAO().addMemberToStudentPlannedActivity(user, studentPlannedActivity);
     }
+
+    @Override
+    public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO) {
+        getStudentPedagogicalPlanPersistenceDAO().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, studentPlanELO);
+    }
 }

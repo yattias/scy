@@ -53,7 +53,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             details.setUsername("wiwo");
             user.setUserDetails(details);
 
-            List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
+            List<StudentPlanELO> studentPlans = getStudentPlans();
             assertTrue(studentPlans.size() > 0);
             log.info("plans:" + studentPlans.size());
             for (int i = 0; i < studentPlans.size(); i++) {
@@ -84,7 +84,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
     public void testAddMemberToStudentPlannedActivity() {
         if (getStudentPlanService() != null) {
-            List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
+            List<StudentPlanELO> studentPlans = getStudentPlans();
             if (studentPlans.size() > 0) {
                 StudentPlanELO plan = studentPlans.get(0);
                 List<StudentPlannedActivity> studentPlannedActivities = plan.getStudentPlannedActivities();
@@ -102,6 +102,26 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
         }
 
+    }
+
+    private List<StudentPlanELO> getStudentPlans() {
+        List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
+        return studentPlans;
+    }
+
+    private StudentPlanELO getAStudentPlanELOForTesting() {
+        List <StudentPlanELO> studentPlanELOs = getStudentPlans();
+        if(studentPlanELOs != null && studentPlanELOs.size() > 0) return studentPlanELOs.get(0);
+        return null;
+    }
+
+    public void testRemoveStudentActivityFromStudentPlan() {
+        if(getStudentPlanService() != null) {
+            StudentPlanELO studentPlanELO = getAStudentPlanELOForTesting();
+            if(studentPlanELO != null) {
+                assertTrue(studentPlanELO.getStudentPlannedActivities().size() > 0);
+            }
+        }
     }
 
 }

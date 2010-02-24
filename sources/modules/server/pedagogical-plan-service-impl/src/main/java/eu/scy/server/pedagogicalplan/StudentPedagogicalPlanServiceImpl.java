@@ -6,6 +6,7 @@ import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
+import roolo.api.IRepository;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -22,6 +23,8 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     private static Logger log = Logger.getLogger("StudentPedagogicalPlanServiceImpl.class");
 
     private StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService;
+
+
 
     public StudentPedagogicalPlanPersistenceService getStudentPedagogicalPlanPersistenceService() {
         return studentPedagogicalPlanPersistenceService;
@@ -50,6 +53,11 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     @Override
     public void addMember(StudentPlannedActivity studentPlannedActivity, String user) {
         getStudentPedagogicalPlanPersistenceService().addMemberToStudentPlannedActivity(user, studentPlannedActivity);
+    }
+
+    @Override
+    public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO) {
+        getStudentPedagogicalPlanPersistenceService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, studentPlanELO);
     }
 
     @Override

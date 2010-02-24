@@ -24,6 +24,7 @@
 	<bean id="studentPedagogicalPlanPersistenceDAO"
 		  class="eu.scy.core.persistence.hibernate.StudentPedagogicalPlanPersistenceDAOHibernate">
 		<property name="sessionFactory" ref="sessionFactory"/>
+        <property name="repository" ref="localRepository"/>
 	</bean>
 
 	<bean id="userDAO" class="eu.scy.core.persistence.hibernate.UserDAOHibernate">

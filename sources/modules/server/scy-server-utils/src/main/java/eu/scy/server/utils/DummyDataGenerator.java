@@ -40,8 +40,8 @@ public class DummyDataGenerator implements InitializingBean {
         log.info("============================================================================");
         log.info("============================================================================");
         log.info("============================================================================");
-        //generatePedagogicalPlanTemplates();
-        //generatedMissionMapBasedOnXML();
+        generatePedagogicalPlanTemplates();
+        generatedMissionMapBasedOnXML();
 
         //generateDummyUsers();
     }
