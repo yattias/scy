@@ -1060,6 +1060,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         CopexReturn cr = this.controller.mergeELO(dataset, elo);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }else if(cr.isWarning()){
+            displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
         }
     }
 
@@ -1175,16 +1177,27 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
      /* ajout d'une ligne de donnees   */
     public void addData(DataSetRow row ){
         List<String> listValues = row.getValues() ;
+        int nbVTotal = listValues.size() ;
         int nbV = listValues.size() ;
+        for (int i=0; i<nbVTotal; i++){
+           try{
+                double d = Double.parseDouble(listValues.get(i));
+            }catch(NumberFormatException e){
+                nbV--;
+            }
+        }
         Double[] values = new Double[nbV];
+        int id = 0;
         for (int i=0; i<nbV; i++){
             double d = 0;
             try{
                 d = Double.parseDouble(listValues.get(i));
+                values[id] = d ;
+                id++;
             }catch(NumberFormatException e){
 
             }
-            values[i] = d ;
+            
         }
         addData(values);
     }

@@ -178,14 +178,17 @@ public class DataController implements ControllerInterface{
     /* chargement d'un ELO */
     @Override
     public CopexReturn loadELO(String xmlString){
-        Dataset ds = getElo(xmlString);
-        if (ds == null){
-            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FLOAT_VALUE"), false);
+        Dataset ds = null;
+        ArrayList v = new ArrayList();
+        CopexReturn cr = getElo(xmlString, v);
+        if(v.size() > 0)
+            ds = (Dataset)v.get(0);
+        if(ds != null){
+            this.listDataset.add(ds);
+            this.listNoDefaultCol.add(1);
+            this.dataToolPanel.setDataset((Dataset)ds.clone());
         }
-       this.listDataset.add(ds);
-       this.listNoDefaultCol.add(1);
-       this.dataToolPanel.setDataset((Dataset)ds.clone());
-        return new CopexReturn();
+        return cr;
     }
 
     /* retourne vrai si de type ds , pds sinon */
@@ -197,46 +200,81 @@ public class DataController implements ControllerInterface{
        return true;
     }
     /* retourne un dataset construit a partir d'un ELO dataset */
-    private Dataset getDataset(DataSet eloDs, String name){
+    private CopexReturn getDataset(DataSet eloDs, String name, ArrayList v){
+        Dataset ds = null;
+        CopexReturn cr = new CopexReturn();
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
         ArrayList<Visualization> listVisualization = new ArrayList();
+        
         // header
         DataSetHeader header =  eloDs.getHeader(getLocale()) ;
         if (header == null)
             header = eloDs.getHeaders().get(0);
         int nbCols = header.getColumnCount() ;
-        DataHeader[] dataHeader = new DataHeader[nbCols];
-        for (int i=0; i<nbCols; i++){
-            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),header.getColumns().get(i).getType(), i) ;
-        }
-        // data
+        int nbColsTotal = header.getColumnCount() ;
         List<DataSetRow> listRows = eloDs.getValues() ;
         int nbRows = listRows.size() ;
-        Data[][] data = new Data[nbRows][nbCols];
-        for (int i=0; i<nbRows; i++){
-            for (int j=0; j<nbCols; j++){
-                String s = listRows.get(i).getValues().get(j);
-                if(s == null || s.equals("")){
-                    data[i][j] = null;
-                }else{
-                    double value;
-                    try{
-                        value = Double.parseDouble(s);
-                    }catch(NumberFormatException e){
-                        return null;
-                    }
-                    data[i][j] = new Data(-1, value, i, j, false);
-                }
+        // pour l'instant pas on ignore les colonnes qui ne sont pas des doubles
+        ArrayList<Integer> listColToDel = new ArrayList();
+        for (int j=0; j<nbColsTotal; j++){
+            if (!header.getColumns().get(j).getType().equals("double")){
+                listColToDel.add(j);
+                nbCols--;
             }
         }
-        if(nbRows == 0){
-            nbRows = 1;
-            data = new Data[1][nbCols];
+        if(nbCols > 0){
+            // header
+            DataHeader[] dataHeader = new DataHeader[nbCols];
+            int idC = 0;
+            for (int i=0; i<nbColsTotal; i++){
+                if(listColToDel.indexOf(i) == -1){
+                    dataHeader[idC] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),header.getColumns().get(i).getType(), i) ;
+                    idC++;
+                }
+            }
+            // data
+            idC = 0;
+            Data[][] data = new Data[nbRows][nbCols];
+            for (int i=0; i<nbRows; i++){
+                idC = 0;
+                for (int j=0; j<nbColsTotal; j++){
+                    if(listColToDel.indexOf(j) == -1){
+                        String s = listRows.get(i).getValues().get(j);
+                        if(s == null || s.equals("")){
+                            data[i][idC] = null;
+                        }else{
+                            double value;
+                            try{
+                                value = Double.parseDouble(s);
+                                data[i][idC] = new Data(-1, value, i, idC, false);
+                            }catch(NumberFormatException e){
+                            }
+                        }
+                        idC++;
+                    }
+                }
+            }
+            if(nbRows == 0){
+                nbRows = 1;
+                data = new Data[1][nbCols];
+            }
+            // creation du dataset
+            ds = new Dataset(idDataSet++, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+            v.add(ds);
         }
-        // creation du dataset
-        Dataset ds = new Dataset(idDataSet++, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
-        return ds;
+        int nbColsToDel = listColToDel.size();
+        if(nbColsToDel == 0)
+            return cr;
+        else{
+            String msg = dataToolPanel.getBundleString("MSG_ERROR_LOAD_ELO_STRING");
+            for (Iterator<Integer> s = listColToDel.iterator();s.hasNext();){
+                int idCol = s.next();
+                msg += "\n - "+header.getColumns().get(idCol).getSymbol();
+            }
+            cr = new CopexReturn(msg, true);
+            return cr;
+        }
     }
 
     /* retourne un dataset construit a partir d'un ELO pds */
@@ -1291,93 +1329,103 @@ public class DataController implements ControllerInterface{
         }
         Dataset dataset = listDataset.get(idDs);
         String xmlContent = new JDomStringConversion().xmlToString(elo);
-        Dataset ds = getElo(xmlContent);
-        if (ds == null){
-            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FLOAT_VALUE"), false);
-        }
-        //merge dataset et ds
-        int nbRows1 = dataset.getNbRows() ;
-        int nbCols1 = dataset.getNbCol() ;
-        int nbRows2 = ds.getNbRows();
-        int nbCols2 = ds.getNbCol();
-        if(nbRows2 > nbRows1){
-            //on ajoute des lignes
-            dataset.insertRow(nbRows2-nbRows1, nbRows1);
-        }
-        dataset.insertCol(nbCols2, nbCols1);
-        for (int j=0; j<nbCols2; j++){
-            if (ds.getDataHeader(j) != null){
-                dataset.setDataHeader(new DataHeader(idDataHeader++,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1), j+nbCols1);
+        ArrayList v = new ArrayList();
+        CopexReturn cr = getElo(xmlContent, v);
+        Dataset ds = null;
+        if(v.size() > 0)
+            ds = (Dataset)v.get(0);
+        if(ds != null){
+            //merge dataset et ds
+            int nbRows1 = dataset.getNbRows() ;
+            int nbCols1 = dataset.getNbCol() ;
+            int nbRows2 = ds.getNbRows();
+            int nbCols2 = ds.getNbCol();
+            if(nbRows2 > nbRows1){
+                //on ajoute des lignes
+                dataset.insertRow(nbRows2-nbRows1, nbRows1);
             }
-            for (int i=0; i<nbRows2; i++){
-                Data nd = null;
-                if (ds.getData(i, j) != null){
-                    nd = new Data(idData++, ds.getData(i, j).getValue(), i,j+nbCols1, ds.getData(i, j).isIgnoredData() );
+            dataset.insertCol(nbCols2, nbCols1);
+            for (int j=0; j<nbCols2; j++){
+                if (ds.getDataHeader(j) != null){
+                    dataset.setDataHeader(new DataHeader(idDataHeader++,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1), j+nbCols1);
                 }
-                dataset.setData(nd, i, j+nbCols1);
-            }
-        }
-        // merge des operations
-        ArrayList<DataOperation> listOp = ds.getListOperation();
-        int nbOp = listOp.size();
-        for (int i=0; i<nbOp; i++){
-            DataOperation op = listOp.get(i);
-            ArrayList<Integer> listNo = new ArrayList();
-            int n= op.getListNo().size();
-            for (int j=0; j<n; j++){
-                listNo.add(op.getListNo().get(j)+nbCols1);
-            }
-            dataset.addOperation(new DataOperation(idOperation++, op.getName(), op.getTypeOperation(), op.isOnCol(), listNo));
-        }
-        // merge des vis
-        ArrayList<Visualization> listVis = ds.getListVisualization();
-        int nVis = listVis.size();
-        for (int i=0; i<nVis; i++){
-            Visualization vis = listVis.get(i);
-            if(vis instanceof SimpleVisualization){
-                int noCol = ((SimpleVisualization)vis).getNoCol()+nbCols1;
-                SimpleVisualization v = new SimpleVisualization(idVisualization++, vis.getName(), vis.getType(),noCol);
-                dataset.addVisualization(v);
-            }else if(vis instanceof Graph){
-                ArrayList<PlotXY> listPlots = new ArrayList();
-                for (Iterator<PlotXY> p = ((Graph)vis).getParamGraph().getPlots().iterator();p.hasNext();){
-                    PlotXY plot = p.next();
-                    listPlots.add(new PlotXY(dataset.getDataHeader(plot.getHeaderX().getNoCol()+nbCols1), dataset.getDataHeader(plot.getHeaderY().getNoCol()+nbCols1)));
+                for (int i=0; i<nbRows2; i++){
+                    Data nd = null;
+                    if (ds.getData(i, j) != null){
+                        nd = new Data(idData++, ds.getData(i, j).getValue(), i,j+nbCols1, ds.getData(i, j).isIgnoredData() );
+                    }
+                    dataset.setData(nd, i, j+nbCols1);
                 }
-                ParamGraph pg = new ParamGraph(listPlots, ((Graph)vis).getParamGraph().getX_min(),((Graph)vis).getParamGraph().getX_max(), ((Graph)vis).getParamGraph().getX_min(), ((Graph)vis).getParamGraph().getY_max(), ((Graph)vis).getParamGraph().getDeltaX(), ((Graph)vis).getParamGraph().getDeltaY(), ((Graph)vis).getParamGraph().isAutoscale());
-                Graph g = new Graph(idVisualization++, vis.getName(), vis.getType(),pg,((Graph)vis).getListFunctionModel());
-                dataset.addVisualization(g);
             }
+            // merge des operations
+            ArrayList<DataOperation> listOp = ds.getListOperation();
+            int nbOp = listOp.size();
+            for (int i=0; i<nbOp; i++){
+                DataOperation op = listOp.get(i);
+                ArrayList<Integer> listNo = new ArrayList();
+                int n= op.getListNo().size();
+                for (int j=0; j<n; j++){
+                    listNo.add(op.getListNo().get(j)+nbCols1);
+                }
+                dataset.addOperation(new DataOperation(idOperation++, op.getName(), op.getTypeOperation(), op.isOnCol(), listNo));
+            }
+            // merge des vis
+            ArrayList<Visualization> listVis = ds.getListVisualization();
+            int nVis = listVis.size();
+            for (int i=0; i<nVis; i++){
+                Visualization vis = listVis.get(i);
+                if(vis instanceof SimpleVisualization){
+                    int noCol = ((SimpleVisualization)vis).getNoCol()+nbCols1;
+                    SimpleVisualization sv = new SimpleVisualization(idVisualization++, vis.getName(), vis.getType(),noCol);
+                    dataset.addVisualization(sv);
+                }else if(vis instanceof Graph){
+                    ArrayList<PlotXY> listPlots = new ArrayList();
+                    for (Iterator<PlotXY> p = ((Graph)vis).getParamGraph().getPlots().iterator();p.hasNext();){
+                        PlotXY plot = p.next();
+                        listPlots.add(new PlotXY(dataset.getDataHeader(plot.getHeaderX().getNoCol()+nbCols1), dataset.getDataHeader(plot.getHeaderY().getNoCol()+nbCols1)));
+                    }
+                    ParamGraph pg = new ParamGraph(listPlots, ((Graph)vis).getParamGraph().getX_min(),((Graph)vis).getParamGraph().getX_max(), ((Graph)vis).getParamGraph().getX_min(), ((Graph)vis).getParamGraph().getY_max(), ((Graph)vis).getParamGraph().getDeltaX(), ((Graph)vis).getParamGraph().getDeltaY(), ((Graph)vis).getParamGraph().isAutoscale());
+                    Graph g = new Graph(idVisualization++, vis.getName(), vis.getType(),pg,((Graph)vis).getListFunctionModel());
+                    dataset.addVisualization(g);
+                }
+            }
+            //mise a jour graphique
+            this.dataToolPanel.setDataset((Dataset)dataset.clone());
         }
-        //mise a jour graphique
-        this.dataToolPanel.setDataset((Dataset)dataset.clone());
-        return new CopexReturn();
+        return cr;
     }
 
     /* convertir un elo au format xml en dataset*/
-    private Dataset getElo(String xmlContent){
-        Dataset ds;
+    private CopexReturn getElo(String xmlContent, ArrayList v){
+        Dataset ds = null;
         if(isDatasetType(xmlContent)){
             DataSet eloDs ;
             try{
                 eloDs = new DataSet(xmlContent) ;
             }catch(JDOMException e){
-                return null ;
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false) ;
             }
-            ds = getDataset(eloDs, "ELO");
-            if (ds == null)
-                return null ;
+            //ds = getDataset(eloDs, "ELO");
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = getDataset(eloDs, "ELO", v2);
+            if(v2.size() > 0){
+                ds = (Dataset)v2.get(0);
+                v.add(ds);
+            }
+            return cr;
         }else{
             try{
                 ProcessedDatasetELO edoPds = new ProcessedDatasetELO(xmlContent);
                 ds = getPDS(edoPds);
                 if (ds == null)
-                    return null ;
+                    return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false) ;
+                else
+                    v.add(ds);
             }catch(JDOMException e){
-                   return null ;
+                   return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false) ;
             }
         }
-        return ds;
+        return new CopexReturn();
     }
 
     /* copie-colle */
