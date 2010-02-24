@@ -287,7 +287,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void handlePageLoadFailed(String url_text, Exception ex)
    {
-      logger.info("show error for url: " + url_text, ex);
+      //logger.info("show error for url: " + url_text, ex);
+      logger.info("show error for url: " + url_text + " : " + ex.getMessage());
       isPageLoaded = false;
       final XMLResource xr;
       final String rootCause = getRootCause(ex);
