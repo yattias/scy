@@ -27,5 +27,16 @@ public interface StudentPedagogicalPlanService {
 
     public void addMember(StudentPlannedActivity studentPlannedActivity, String user);
 
+    public void removeMember(StudentPlannedActivity studentPlannedActivity, String user);
+
     public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO);
+
+    /**
+     * will retrieve an already existing student planned activity, or create a new one
+     * @param achorELOId
+     * @return
+     */
+    StudentPlannedActivity getStudentPlannedActivity(String achorELOId);
+
+    StudentPlanELO getStudentPlanELO(String eloId);
 }

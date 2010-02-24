@@ -23,4 +23,10 @@ public interface StudentPedagogicalPlanPersistenceDAO extends SCYBaseDAO{
     void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO);
 
     void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity);
+
+    StudentPlannedActivity getStudentPlannedActivity(String achorELOId);
+
+    StudentPlanELO getStudentPlanELO(String eloId);
+
+    void removeMember(StudentPlannedActivity studentPlannedActivity, String userName);
 }
