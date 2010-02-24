@@ -36,7 +36,6 @@ public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
         var studentPlanningTool = new StudentPlanningTool(null);
 
         return StudentPlanningToolNode{
-            studentPlanningTool:studentPlanningTool;
 
          }
    }
