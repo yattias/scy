@@ -242,6 +242,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     height: 250
                     showOfflineContacts: true
                     width: 300
+                    stateIndicatorOpacity:true
                 };
         contactList.height = 250;
         missionMap = MissionMap {
@@ -417,6 +418,21 @@ public class ScyDesktop extends CustomNode, INotifiable {
         });
     }
 
+    function fillNewScyWindowCollaborative(window: ScyWindow, mucid:String): Void {
+        var pleaseWait = PleaseWait { };
+        window.scyContent = pleaseWait;
+        FX.deferAction(function () {
+            // one defer does not seem to be enough to show the please wait content
+            FX.deferAction(function () {
+                realFillNewScyWindow2(window,true);
+                def toolNode: Node = window.scyContent;
+                    if (toolNode instanceof CollaborationStartable) {
+                        (toolNode as CollaborationStartable).startCollaboration(mucid);
+                        }
+            });
+        });
+    }
+    
     function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
         var eloConfig = config.getEloConfig(window.eloType);
         if (eloConfig == null) {
@@ -504,18 +520,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
                     if (collaborationWindow==null){
                         ///FIXME create a window/tool with the elo
-                        def newWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
-                        newWindow.openWindow(300, 300);
-                        while (collaborationWindow == null) {
-                            collaborationWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
-                        }
+                        collaborationWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
+                        fillNewScyWindowCollaborative(collaborationWindow,mucid);
                     }else {
                         
                     }
-                    def toolNode: Node = collaborationWindow.scyContent;
-                    if (toolNode instanceof CollaborationStartable) {
-                        (toolNode as CollaborationStartable).startCollaboration(mucid);
-                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
                         logger.debug("collaboration not accepted");
