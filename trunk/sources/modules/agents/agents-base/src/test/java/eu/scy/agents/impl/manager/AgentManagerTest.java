@@ -182,7 +182,7 @@ public class AgentManagerTest {
 	 * @throws TupleSpaceException Is thrown if something went wrong inside the {@link TupleSpace}.
 	 */
 	@SuppressWarnings("deprecation")
-	@Test(timeout = 50000)
+	@Test
 	public void testKill() throws AgentLifecycleException, InterruptedException, TupleSpaceException {
 		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
 		Thread.sleep(1000);
@@ -191,7 +191,7 @@ public class AgentManagerTest {
 		TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
 		Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(),
 				AgentProtocol.ALIVE);
-		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 4);
+		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
 		Tuple aliveTuple = ts.read(t);
 		// The alive-tuple should not be there...
 		assertTrue("Agent not killed", aliveTuple == null);
@@ -206,7 +206,7 @@ public class AgentManagerTest {
 	 * @throws InterruptedException Is thrown if something went wrong during {@code Thread.sleep()}.
 	 */
 	@SuppressWarnings("deprecation")
-	@Test(timeout = 50000)
+	@Test
 	public void testAgentMaps() throws AgentLifecycleException, InterruptedException {
 
 		// TODO Array
@@ -245,7 +245,6 @@ public class AgentManagerTest {
 		assertEquals(0, agentManager.getOldAgentsMap().size());
 
 	}
-
 	// @Test
 	// public void testMassiveCommunication() throws Exception {
 	//
