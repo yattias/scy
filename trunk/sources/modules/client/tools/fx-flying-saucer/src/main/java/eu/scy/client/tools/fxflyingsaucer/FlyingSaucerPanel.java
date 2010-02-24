@@ -196,7 +196,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    private void urlFieldKeyTyped(java.awt.event.KeyEvent evt)
    {
 //       System.out.println(evt.getKeyCode() + ", " + evt.getKeyText(evt.getKeyCode()) + ", " + (int)evt.getKeyChar());
-      if ((int) evt.getKeyChar() == 10)
+      if (((int) evt.getKeyChar() == 10) && !urlFieldIsTitle)
       {
          loadUrl(urlField.getText());
       }
