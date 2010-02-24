@@ -57,7 +57,7 @@ public class DetectTopicForElos extends AbstractRequestAgent implements IReposit
 		while (status == Status.Running) {
 			Tuple tuple = null;
 			if (getCommandSpace().isConnected()) {
-				tuple = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
+				tuple = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.COMMAND_EXPIRATION);
 			}
 			if (tuple != null) {
 				String uri = "";

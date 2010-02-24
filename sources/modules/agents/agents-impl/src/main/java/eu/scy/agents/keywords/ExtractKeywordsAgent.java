@@ -35,7 +35,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		while (status == Status.Running) {
 			Tuple tuple = null;
 			if (getCommandSpace().isConnected()) {
-				tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+				tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.COMMAND_EXPIRATION);
 			}
 			if (tuple != null) {
 				String queryId = (String) tuple.getField(2).getValue();
