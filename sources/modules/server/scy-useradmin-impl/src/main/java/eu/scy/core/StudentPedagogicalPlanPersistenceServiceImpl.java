@@ -58,4 +58,19 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO) {
         getStudentPedagogicalPlanPersistenceDAO().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, studentPlanELO);
     }
+
+    @Override
+    public StudentPlannedActivity getStudentPlannedActivity(String achorELOId) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlannedActivity(achorELOId);
+    }
+
+    @Override
+    public StudentPlanELO getStudentPlanELO(String eloId) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlanELO(eloId);
+    }
+
+    @Override
+    public void removeMember(StudentPlannedActivity studentPlannedActivity, String user) {
+        getStudentPedagogicalPlanPersistenceDAO().removeMember(studentPlannedActivity, user);
+    }
 }

@@ -56,6 +56,11 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     }
 
     @Override
+    public void removeMember(StudentPlannedActivity studentPlannedActivity, String user) {
+        getStudentPedagogicalPlanPersistenceService().removeMember(studentPlannedActivity, user);
+    }
+
+    @Override
     public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO) {
         getStudentPedagogicalPlanPersistenceService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, studentPlanELO);
     }
@@ -66,5 +71,15 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
             log.info(((StudentPlannedActivity)scyBase).getNote());
         }
         getStudentPedagogicalPlanPersistenceService().save(scyBase);
+    }
+
+    @Override
+    public StudentPlannedActivity getStudentPlannedActivity(String achorELOId) {
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlannedActivity(achorELOId);
+    }
+
+    @Override
+    public StudentPlanELO getStudentPlanELO(String eloId){
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlanELO(eloId);
     }
 }

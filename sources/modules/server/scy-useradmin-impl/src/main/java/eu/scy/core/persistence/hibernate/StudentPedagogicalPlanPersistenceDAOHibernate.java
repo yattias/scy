@@ -174,4 +174,24 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         studentPlanELO.getStudentPlannedActivities().remove(studentPlannedActivity);
         save(studentPlanELO);
     }
+
+    @Override
+    public StudentPlannedActivity getStudentPlannedActivity(String achorELOId) {
+        log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
+        return null;
+    }
+
+    @Override
+    public StudentPlanELO getStudentPlanELO(String eloId) {
+        log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
+        return null;
+    }
+
+    @Override
+    public void removeMember(StudentPlannedActivity studentPlannedActivity, String userName) {
+        getHibernateTemplate().refresh(studentPlannedActivity);
+        User user = getUserByUsername(userName);
+        studentPlannedActivity.getMembers().remove(user);
+        save(studentPlannedActivity);
+    }
 }
