@@ -38,8 +38,10 @@
                <property name="display" value="Drawing"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="drawing"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -58,8 +60,10 @@
                <property name="display" value="StudentPlanningTool"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="studentplanningtool"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
@@ -68,8 +72,10 @@
                <property name="display" value="Data processing"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="fitex"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -90,8 +96,10 @@
                <property name="display" value="Experimental procedure"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="copex"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -110,8 +118,10 @@
                <property name="display" value="Simulator"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="simulator"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -129,8 +139,10 @@
                <property name="display" value="Model"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="scy-dynamics"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -148,8 +160,10 @@
                <property name="display" value="XHTML web page"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="flying-saucer"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -170,8 +184,10 @@
                <property name="display" value="Concept Map"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="conceptmap"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -192,8 +208,10 @@
                <property name="display" value="Text"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="text"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -216,8 +234,10 @@
                <property name="display" value="Rich text"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="richtext"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -240,8 +260,10 @@
                <property name="display" value="Interview"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="interview"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -260,8 +282,10 @@
                <property name="display" value="Video"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="video"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -282,8 +306,10 @@
                <property name="display" value="webresource"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="webresource"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
@@ -304,8 +330,10 @@
                <property name="display" value="Presentation"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="presentationUpload"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
@@ -314,8 +342,10 @@
                <property name="display" value="Google SketchUp"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="sketchUpUpload"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
@@ -324,8 +354,10 @@
                <property name="display" value="Word"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="wordUpload"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
@@ -334,8 +366,10 @@
                <property name="display" value="Text"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="text"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
                <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
