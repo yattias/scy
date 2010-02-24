@@ -52,8 +52,7 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 
 	@Override
 	protected Container run(Container inputParameters) {
-		TopicModelAnnotator lda = (TopicModelAnnotator) inputParameters
-				.get(KeywordConstants.TOPIC_MODEL);
+		TopicModelAnnotator lda = (TopicModelAnnotator) inputParameters.get(KeywordConstants.TOPIC_MODEL);
 		HashSet<String> topFeaturesBag = getTopFeatures(lda, 0.003);
 		Document document = (Document) inputParameters.get(ObjectIdentifiers.DOCUMENT);
 		int numberOfFeatures = (Integer) inputParameters.get(KeywordConstants.NUMBER_OF_KEYWORDS);
@@ -62,8 +61,7 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 		Map<String, Double> tfIfdMap = document.getFeature(Features.TFIDF);
 
 		List<Entry<String, Double>> sortedTerms = getByTfIdfSortedTerms(tfIfdMap);
-		Set<String> tmKeywords = getTopicModelKeywords(sortedTerms, stemMapping, topFeaturesBag,
-				numberOfFeatures);
+		Set<String> tmKeywords = getTopicModelKeywords(sortedTerms, stemMapping, topFeaturesBag, numberOfFeatures);
 
 		defineFeature();
 		document.setFeature(KeywordConstants.TM_KEYWORDS, tmKeywords);
@@ -75,8 +73,7 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 	}
 
 	private List<Entry<String, Double>> getByTfIdfSortedTerms(Map<String, Double> tfIfdMap) {
-		List<Entry<String, Double>> sortedTerms = new ArrayList<Entry<String, Double>>(tfIfdMap
-				.entrySet());
+		List<Entry<String, Double>> sortedTerms = new ArrayList<Entry<String, Double>>(tfIfdMap.entrySet());
 		Collections.sort(sortedTerms, new Comparator<Entry<String, Double>>() {
 
 			@Override
@@ -102,8 +99,7 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 			List<IDSorter> topWords = new ArrayList<IDSorter>();
 			double tokensPerTopic = ldaModel.getTokensPerTopic(topic);
 			for (int type = 0; type < ldaModel.getNumTypes(); type++) {
-				IDSorter idSorter = new IDSorter(type, ldaModel.getTypeTopicCounts(type).get(topic)
-						/ tokensPerTopic);
+				IDSorter idSorter = new IDSorter(type, ldaModel.getTypeTopicCounts(type).get(topic) / tokensPerTopic);
 				topWords.add(idSorter);
 			}
 			Collections.sort(topWords);
@@ -129,6 +125,7 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 			}
 			if (topFeaturesBag.contains(term)) {
 				keywords.add(term);
+
 			}
 			i++;
 			if (i == number) {

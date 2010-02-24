@@ -48,7 +48,10 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+			Tuple tuple = null;
+			if (getCommandSpace().isConnected()) {
+				tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+			}
 			if (tuple != null) {
 				String queryId = (String) tuple.getField(2).getValue();
 				String text = (String) tuple.getField(3).getValue();
