@@ -51,7 +51,7 @@ public class TopicDetector extends AbstractRequestAgent {
 			try {
 				Tuple tuple = null;
 				if (getCommandSpace().isConnected()) {
-					tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+					tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.COMMAND_EXPIRATION);
 				}
 				if (tuple != null) {
 					String queryID = (String) tuple.getField(2).getValue();

@@ -18,11 +18,10 @@ import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * Activated whenever topics for an ELO have to be determined, i.e. by a tuple
- * like ("topicDetector":String, <ELOUri>:String)
+ * Activated whenever topics for an ELO have to be determined, i.e. by a tuple like ("topicDetector":String,
+ * <ELOUri>:String)
  * 
  * @author Florian Schulz
- * 
  */
 public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 
@@ -36,19 +35,16 @@ public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getCommandSpace().waitToRead(getTemplateTuple(),
-					AgentProtocol.ALIVE_INTERVAL);
+			Tuple tuple = getCommandSpace().waitToRead(getTemplateTuple(), AgentProtocol.COMMAND_EXPIRATION);
 			if (tuple != null) {
 				Tuple topicTuple = getCommandSpace().waitToRead(
-						new Tuple(TopicAgents.TOPIC_DETECTOR, String.class,
-								Field.createWildCardField()), 10 * 1000);
+						new Tuple(TopicAgents.TOPIC_DETECTOR, String.class, Field.createWildCardField()), 10 * 1000);
 				if (topicTuple != null) {
 					try {
 						HashMap<Integer, Double> topicScoresMap = getTopicScores(topicTuple);
 
 						Set<Integer> importantTopics = getImportantTopics();
-						Set<Integer> missingTopics = determineMissingTopics(
-								importantTopics, topicScoresMap);
+						Set<Integer> missingTopics = determineMissingTopics(importantTopics, topicScoresMap);
 
 						// TODO get information about level of scaffold
 						if (!missingTopics.isEmpty()) {
@@ -66,13 +62,10 @@ public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 	}
 
 	@SuppressWarnings("unchecked")
-	private HashMap<Integer, Double> getTopicScores(Tuple topicTuple)
-			throws IOException, ClassNotFoundException {
-		ObjectInputStream bytesIn = new ObjectInputStream(
-				new ByteArrayInputStream((byte[]) topicTuple.getField(2)
-						.getValue()));
-		HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
-				.readObject();
+	private HashMap<Integer, Double> getTopicScores(Tuple topicTuple) throws IOException, ClassNotFoundException {
+		ObjectInputStream bytesIn = new ObjectInputStream(new ByteArrayInputStream((byte[]) topicTuple.getField(2)
+				.getValue()));
+		HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn.readObject();
 		return topicScoresMap;
 	}
 
@@ -88,8 +81,7 @@ public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 		}
 	}
 
-	private Set<Integer> determineMissingTopics(Set<Integer> importantTopics,
-			HashMap<Integer, Double> topicScoresMap) {
+	private Set<Integer> determineMissingTopics(Set<Integer> importantTopics, HashMap<Integer, Double> topicScoresMap) {
 		HashSet<Integer> missingTopics = new HashSet<Integer>();
 		for (int topicId : importantTopics) {
 			double topicProbability = topicScoresMap.get(topicId);

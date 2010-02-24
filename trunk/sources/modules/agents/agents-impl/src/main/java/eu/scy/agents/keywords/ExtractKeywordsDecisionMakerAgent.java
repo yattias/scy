@@ -194,7 +194,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				}
 			}
 			sendAliveUpdate();
-			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
+			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
 		}
 	}
 
@@ -240,7 +240,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
 					queryId, text);
-			extractKeywordsTriggerTuple.setExpiration(5 * AgentProtocol.ALIVE_INTERVAL);
+			extractKeywordsTriggerTuple.setExpiration(2 * AgentProtocol.COMMAND_EXPIRATION);
 			Tuple responseTuple = null;
 			if (getCommandSpace().isConnected()) {
 				getCommandSpace().write(extractKeywordsTriggerTuple);
