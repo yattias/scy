@@ -83,600 +83,605 @@ import javax.swing.JOptionPane;
  */
 public class ScyDesktop extends CustomNode, INotifiable {
 
-   def logger = Logger.getLogger(this.getClass());
+        def logger = Logger   .getLogger(   this.getClass()                       )
+                          ;
 
-   public var initializer: Initializer;
-   public var config: Config;
-   def desktopScene = bind scene;
-   public var missionModelFX: MissionModelFX = MissionModelFX { };
-   public var eloInfoControl: EloInfoControl;
-   public var windowStyler: WindowStyler;
-   public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
-   public var newEloCreationRegistry: NewEloCreationRegistry;
-   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
-   public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
-   public var topLeftCornerTool: Node on replace {
-         topLeftCorner.content = topLeftCornerTool
-      };
-   public var topRightCornerTool: Node on replace {
-         topRightCorner.content = topRightCornerTool
-      };
-   public var bottomRightCornerTool: Node; // TODO, still hard coded to missionMap
-   public var bottomLeftCornerTool: Node on replace {
-         bottomLeftCorner.content = bottomLeftCornerTool
-      };
-   def windows: WindowManager = WindowManagerImpl {
-         scyDesktop: this
-      //       activeAnchor: bind missionModelFX.activeAnchor;
-      };
-   public def tooltipManager: TooltipManager = SimpleTooltipManager { };
-   public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
-         windowManager: windows;
-      };
-   var scyToolFactory: ScyToolFactory;
+
+
+
+    public var initializer: Initializer;
+    public var config: Config;
+    def desktopScene = bind scene;
+    public var missionModelFX: MissionModelFX = MissionModelFX { };
+    public var eloInfoControl: EloInfoControl;
+    public var windowStyler: WindowStyler;
+    public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
+    public var newEloCreationRegistry: NewEloCreationRegistry;
+    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
+    public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
+    public var topLeftCornerTool: Node on replace {
+                topLeftCorner.content = topLeftCornerTool
+            };
+    public var topRightCornerTool: Node on replace {
+                topRightCorner.content = topRightCornerTool
+            };
+    public var bottomRightCornerTool: Node; // TODO, still hard coded to missionMap
+    public var bottomLeftCornerTool: Node on replace {
+                bottomLeftCorner.content = bottomLeftCornerTool
+            };
+    def windows: WindowManager = WindowManagerImpl {
+                scyDesktop: this
+            //       activeAnchor: bind missionModelFX.activeAnchor;
+            };
+    public def tooltipManager: TooltipManager = SimpleTooltipManager { };
+    public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
+                windowManager: windows;
+            };
+    var scyToolFactory: ScyToolFactory;
 //   var windowContentFactory: WindowContentFactory;
 //   var drawerContentFactory: DrawerContentFactory;
-   var windowPositioner: WindowPositioner;
-   public-read var scyWindowControl: ScyWindowControl;
-   public-read var newTitleGenerator: NewTitleGenerator;
-   var missionMap: MissionMap;
-   public-read var topLeftCorner: Corner;
-   public-read var topRightCorner: Corner;
-   public-read var bottomRightCorner: Corner;
-   public-read var bottomLeftCorner: Corner;
-   var backgroundImage: Image;
-   var backgroundImageView: ImageView;
-   public-read var lowDebugGroup = Group { };
-   public-read var highDebugGroup = Group { };
+    var windowPositioner: WindowPositioner;
+    public-read var scyWindowControl: ScyWindowControl;
+    public-read var newTitleGenerator: NewTitleGenerator;
+    var missionMap: MissionMap;
+    public-read var topLeftCorner: Corner;
+    public-read var topRightCorner: Corner;
+    public-read var bottomRightCorner: Corner;
+    public-read var bottomLeftCorner: Corner;
+    var backgroundImage: Image;
+    var backgroundImageView: ImageView;
+    public-read var lowDebugGroup = Group { };
+    public-read var highDebugGroup = Group { };
 
-   init {
-      if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
-         RedirectSystemStreams.redirect(config.getLoggingDirectory());
-      }
+    init {
+        if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
+            RedirectSystemStreams.redirect(config.getLoggingDirectory());
+        }
 //      missionMap.missionModel = missionModelFX;
 
-      scyWindowControl.missionModel = missionModelFX;
-      FX.deferAction(initialWindowPositioning);
-      FX.deferAction(function () {
-         MouseBlocker.initMouseBlocker(scene.stage);
-      });
-      logger.info("repository class: {config.getRepository().getClass()}");
-      if (config.getRepository() instanceof RepositoryWrapper) {
-         var repositoryWrapper = config.getRepository() as RepositoryWrapper;
-         var eloSavedActionHandler = EloSavedActionHandler {
-               scyWindowControl: this.scyWindowControl;
-            }
-         repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
-         repositoryWrapper.setMissionId(missionModelFX.id);
-         repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
-         logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
-      }
-   }
+        scyWindowControl.missionModel = missionModelFX;
+        FX.deferAction(initialWindowPositioning);
+        FX.deferAction(function () {
+            MouseBlocker.initMouseBlocker(scene.stage);
+        });
+        logger.info("repository class: {config.getRepository().getClass()}");
+        if (config.getRepository() instanceof RepositoryWrapper) {
+            var repositoryWrapper = config.getRepository() as RepositoryWrapper;
+            var eloSavedActionHandler = EloSavedActionHandler {
+                        scyWindowControl: this.scyWindowControl;
+                    }
+            repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
+            repositoryWrapper.setMissionId(missionModelFX.id);
+            repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
+            logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
+        }
+    }
 
-   function initialWindowPositioning() {
-      //      scyWindowControl.positionWindows();
-   }
+    function initialWindowPositioning() {
+        //      scyWindowControl.positionWindows();
+    }
 
-   function checkProperties() {
-      var errors = 0;
-      errors += checkIfNull(config, "config");
-      errors += checkIfNull(missionModelFX, "missionModel");
-      errors += checkIfNull(eloInfoControl, "eloInfoControl");
-      errors += checkIfNull(windowStyler, "windowStyler");
-      errors += checkIfNull(windowContentCreatorRegistryFX, "windowContentCreatorRegistryFX");
-      errors += checkIfNull(newEloCreationRegistry, "newEloCreationRegistry");
-      if (errors > 0) {
-         throw new IllegalArgumentException("One or more properties of ScyDesktop are null");
-      }
-   }
+    function checkProperties() {
+        var errors = 0;
+        errors += checkIfNull(config, "config");
+        errors += checkIfNull(missionModelFX, "missionModel");
+        errors += checkIfNull(eloInfoControl, "eloInfoControl");
+        errors += checkIfNull(windowStyler, "windowStyler");
+        errors += checkIfNull(windowContentCreatorRegistryFX, "windowContentCreatorRegistryFX");
+        errors += checkIfNull(newEloCreationRegistry, "newEloCreationRegistry");
+        if (errors > 0) {
+            throw new IllegalArgumentException("One or more properties of ScyDesktop are null");
+        }
+    }
 
-   function checkIfNull(object: Object, label: String): Integer {
-      if (object == null) {
-         logger.error("ScyDesktop property {label} may not be null");
-         return 1;
-      }
-      return 0;
-   }
+    function checkIfNull(object: Object, label: String): Integer {
+        if (object == null) {
+            logger.error("ScyDesktop property {label} may not be null");
+            return 1;
+        }
+        return 0;
+    }
 
-   function createElements() {
-      var backgroundImageUrl;
-      //      if (config.getBackgroundImageFileName()!=null){
-      //         if (config.isBackgroundImageFileNameRelative()){
-      //            backgroundImageUrl = "{__DIR__}{config.getBackgroundImageFileName()}";
-      //         }
-      //         else{
-      //            backgroundImageUrl = config.getBackgroundImageFileName();
-      //         }
-      //         backgroundImage = Image {
-      //             url: backgroundImageUrl
-      //         }
-      //         logger.info("background image: {backgroundImage.url}, error: {backgroundImage.error}");
-      //         backgroundImageView = ImageView {
-      //            image: backgroundImage
-      //            fitWidth: bind scene.width
-      //            fitHeight:bind scene.height
-      //            preserveRatio:false
-      //            cache:true
-      //         }
-      //      }
+    function createElements() {
+        var backgroundImageUrl;
+        //      if (config.getBackgroundImageFileName()!=null){
+        //         if (config.isBackgroundImageFileNameRelative()){
+        //            backgroundImageUrl = "{__DIR__}{config.getBackgroundImageFileName()}";
+        //         }
+        //         else{
+        //            backgroundImageUrl = config.getBackgroundImageFileName();
+        //         }
+        //         backgroundImage = Image {
+        //             url: backgroundImageUrl
+        //         }
+        //         logger.info("background image: {backgroundImage.url}, error: {backgroundImage.error}");
+        //         backgroundImageView = ImageView {
+        //            image: backgroundImage
+        //            fitWidth: bind scene.width
+        //            fitHeight:bind scene.height
+        //            preserveRatio:false
+        //            cache:true
+        //         }
+        //      }
 
-      newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
-      scyToolFactory = ScyToolFactory {
-         scyToolCreatorRegistryFX: scyToolCreatorRegistryFX;
-         windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
-         drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
-         config: config;
-         newTitleGenerator: newTitleGenerator;
-      }
-      //      windowContentFactory = WindowContentFactory{
-      //         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-      //         config:config;
-      //         newTitleGenerator:newTitleGenerator;
-      //      }
-      //      drawerContentFactory = DrawerContentFactory{
-      //         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
-      //         config:config;
-      //      }
-      //TODO remove contacts and connect to user management
-      def contact1 = Contact {
-            currentMission: "Testmission";
-            imageURL: "img/buddyicon.png";
-            name: "Sven Manske";
-            onlineState: OnlineState.ONLINE;
-            progress: 1.0;
-         };
-      def contact2 = Contact {
-            currentMission: "Another Mission";
-            imageURL: "img/buddyicon.png";
-            name: "Adam G";
-            onlineState: OnlineState.AWAY;
-            progress: 0.1;
-         };
-      //The contact list (users)
-      def contactContent = [contact1, contact2];
-      //The frontend to thecontact list
-      def contactList: ContactList = ContactList {
-            columns: 2
-            contacts: contactContent
-            dragAndDropManager: dragAndDropManager
+        newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
+        scyToolFactory = ScyToolFactory {
+            scyToolCreatorRegistryFX: scyToolCreatorRegistryFX;
+            windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
+            drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
+            config: config;
+            newTitleGenerator: newTitleGenerator;
+        }
+        //      windowContentFactory = WindowContentFactory{
+        //         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+        //         config:config;
+        //         newTitleGenerator:newTitleGenerator;
+        //      }
+        //      drawerContentFactory = DrawerContentFactory{
+        //         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
+        //         config:config;
+        //      }
+        //TODO remove contacts and connect to user management
+        def contact1 = Contact {
+                    currentMission: "Testmission";
+                    imageURL: "img/buddyicon.png";
+                    name: "Sven Manske";
+                    onlineState: OnlineState.ONLINE;
+                    progress: 1.0;
+                };
+        def contact2 = Contact {
+                    currentMission: "Another Mission";
+                    imageURL: "img/buddyicon.png";
+                    name: "Adam G";
+                    onlineState: OnlineState.AWAY;
+                    progress: 0.1;
+                };
+        //The contact list (users)
+        def contactContent = [contact1, contact2];
+        //The frontend to thecontact list
+        def contactList: ContactList = ContactList {
+                    columns: 2
+                    contacts: contactContent
+                    dragAndDropManager: dragAndDropManager
+                    tooltipManager: tooltipManager
+                    scyDesktop: this
+                    height: 250
+                    showOfflineContacts: true
+                    width: 300
+                };
+        contactList.height = 250;
+        missionMap = MissionMap {
+            missionModel: missionModelFX
             tooltipManager: tooltipManager
+            dragAndDropManager: dragAndDropManager
             scyDesktop: this
-            height: 250
-            showOfflineContacts: true
-            width: 300
-         };
-      contactList.height = 250;
-      missionMap = MissionMap {
-         missionModel: missionModelFX
-         tooltipManager: tooltipManager
-         dragAndDropManager: dragAndDropManager
-         scyDesktop: this
-         metadataTypeManager: config.getMetadataTypeManager()
-      //         translateX:40;
-      //         translateY:40;
-      }
-      missionMap.scyWindowControl = scyWindowControl;
-      topLeftCorner = TopLeftCorner {
-         content: contactList;
-         color: Color.RED;
-      }
-      topRightCorner = TopRightCorner {
-         content: topRightCornerTool;
-         color: Color.GREEN;
-      }
-   var SPTButton = ImageButton {
-         toolTip: "Open the Student Planning Tool!";
-         tooltipManager: tooltipManager;
-         normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
-         selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
-         onMouseClicked: function (e) {
+            metadataTypeManager: config.getMetadataTypeManager()
+        //         translateX:40;
+        //         translateY:40;
+        }
+        missionMap.scyWindowControl = scyWindowControl;
+        topLeftCorner = TopLeftCorner {
+            content: contactList;
+            color: Color.RED;
+        }
+        topRightCorner = TopRightCorner {
+            content: topRightCornerTool;
+            color: Color.GREEN;
+        }
+        var SPTButton = ImageButton {
+                    toolTip: "Open the Student Planning Tool!";
+                    tooltipManager: tooltipManager;
+                    normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
+                    selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
+                    onMouseClicked: function (e) {
 
-            var userName = config.getToolBrokerAPI().getLoginUserName();
-            //var missionId = config.getToolBrokerAPI().getMission();
-            var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool", null);
-            var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName, null);
-            var andQuery = new AndQuery(typeQuery, titleQuery);
-            var missionId = config.getBasicMissionMap().getId();
-            if (missionId != null) {
-               var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId, null);
-               andQuery.addQuery(missionIdQuery);
+                        var userName = config.getToolBrokerAPI().getLoginUserName();
+                        //var missionId = config.getToolBrokerAPI().getMission();
+                        var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool", null);
+                        var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName, null);
+                        var andQuery = new AndQuery(typeQuery, titleQuery);
+                        var missionId = config.getBasicMissionMap().getId();
+                        if (missionId != null) {
+                            var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId, null);
+                            andQuery.addQuery(missionIdQuery);
+                        }
+                        var results = config.getRepository().search(andQuery);
+                        logger.info("NUMBER OF SPT elos found: {results.size()}");
+                        var sptELO  ;
+                        if (results.size() == 1) {
+                            var searchResult = results.get(0) as ISearchResult;
+                            sptELO = config.getRepository().retrieveELO(searchResult.getUri());
+                        } else {
+                            //we need to create a new one
+                            sptELO = config.getEloFactory().createELO();
+                            sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
+                            sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
+                            // sptELO.getMetadata().getMetadataValueContainer(ScyRooloMetadataKeyIds.MISSION.getId()).setValue(missionId);
+
+                            var sptMetadata = config.getRepository().addNewELO(sptELO);
+                            config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
+
+                            def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
+                            newWindow.openWindow(300, 300);
+                        }
+                    }
+                }
+        topRightCorner = TopRightCorner {
+            content: SPTButton;
+        }
+        bottomRightCorner = BottomRightCorner {
+            // TODO, replace with specified tool
+            content: missionMap;
+            color: Color.BLUE;
+        }
+        bottomLeftCorner = BottomLeftCorner {
+            content: bottomLeftCornerTool;
+            color: Color.GRAY;
+        }
+        if (initializer.windowPositioner.equalsIgnoreCase("simple")) {
+            // this is the default
+        } else if (initializer.windowPositioner.equalsIgnoreCase("roleArea")) {
+            windowPositioner = RoleAreaWindowPositioner {
+                width: bind scene.width;
+                height: bind scene.height;
+                scyDesktop: this
+                showAreas: false
             }
-            var results = config.getRepository().search(andQuery);
-            logger.info("NUMBER OF SPT elos found: {results.size()}");
-            var sptELO ;
-            if (results.size() == 1) {
-               var searchResult = results.get(0) as ISearchResult;
-               sptELO = config.getRepository().retrieveELO(searchResult.getUri());
+        } else if (initializer.windowPositioner.equalsIgnoreCase("roleAreaDebug")) {
+            windowPositioner = RoleAreaWindowPositioner {
+                width: bind scene.width;
+                height: bind scene.height;
+                scyDesktop: this
+                showAreas: true
+            }
+        } else {
+            logger.error("unknown windowPositioner specified: {initializer.windowPositioner}");
+        }
+        if (windowPositioner == null) {
+            windowPositioner = SimpleWindowPositioner {
+                forbiddenNodes: [
+                    topLeftCorner,
+                    topRightCorner,
+                    bottomRightCorner,
+                    bottomLeftCorner
+                ];
+                width: bind scene.width;
+                height: bind scene.height;
+            }
+        }
+        scyWindowControl = ScyWindowControlImpl {
+            windowContentFactory: scyToolFactory;
+            windowManager: windows;
+            windowPositioner: windowPositioner;
+            missionModel: missionModelFX;
+            missionMap: missionMap;
+            eloInfoControl: eloInfoControl;
+            windowStyler: windowStyler;
+            extensionManager: config.getExtensionManager();
+            repository: config.getRepository();
+            metadataTypeManager: config.getMetadataTypeManager();
+            setScyContent: fillNewScyWindow2;
+            tooltipManager: tooltipManager
+            dragAndDropManager: dragAndDropManager
+            repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
+        }
+    }
+
+    var edgesManager: EdgesManager = EdgesManager { }
+
+    public override function create(): Node {
+        logger.info("create");
+        checkProperties();
+        createElements();
+        Group {
+            content: [
+                ///Testing only
+                //            Rectangle{width:bind boundsInLocal.width,
+                //                height:bind boundsInLocal.height,
+                //                fill:Color.BLACK
+                //            },
+                backgroundImageView,
+                lowDebugGroup,
+                edgesManager,
+                windows.scyWindows,
+                topLeftCorner,
+                topRightCorner,
+                bottomRightCorner,
+                bottomLeftCorner,
+                highDebugGroup,
+                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
+            /*
+            Button {
+            text: "add an edge ";
+            translateX: 210;
+            action: function() {
+            edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
+            }
+            }
+             */
+            ]
+        }
+    }
+
+    function fillNewScyWindow2(window: ScyWindow): Void {
+        var pleaseWait = PleaseWait { };
+        window.scyContent = pleaseWait;
+        FX.deferAction(function () {
+            // one defer does not seem to be enough to show the please wait content
+            FX.deferAction(function () {
+                realFillNewScyWindow2(window, false);
+            });
+        });
+    }
+
+    function fillNewScyWindowCollaborative(window: ScyWindow, mucid: String): Void {
+        var pleaseWait = PleaseWait { };
+        window.scyContent = pleaseWait;
+        FX.deferAction(function () {
+            // one defer does not seem to be enough to show the please wait content
+            FX.deferAction(function () {
+                realFillNewScyWindow2(window, true);
+                def toolNode: Node = window.scyContent;
+                if (toolNode instanceof CollaborationStartable) {
+                    (toolNode as CollaborationStartable).startCollaboration(mucid);
+                }
+            });
+        });
+    }
+
+    function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
+        var eloConfig = config.getEloConfig(window.eloType);
+        if (eloConfig == null) {
+            logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
+            return ;
+        }
+        // don't place the window content tool in the window, let the please wait message stay until every thing is created
+        var scyToolsList = ScyToolsList {
+                    }
+        // create the tools
+        if (not collaboration and eloConfig.isContentCollaboration()) {
+            // currently, the content tool must be created on the first call, which is with collaboration false
+            // otherwise the first set of tools are not informed of the elo load messages
+            throw new IllegalStateException("the content tool may not be a collaboration only tool");
+        }
+        if (eloConfig.isContentCollaboration() == collaboration) {
+            scyToolsList.windowContentTool = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
+        }
+        if (eloConfig.isTopDrawerCollaboration() == collaboration) {
+            scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        if (eloConfig.isRightDrawerCollaboration() == collaboration) {
+            scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
+            scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
+            scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+        }
+        // all tools are created and placed in the window
+        // now do the ScyTool initialisation
+        var myEloChanged = SimpleMyEloChanged {
+                    window: window;
+                    titleKey: config.getTitleKey()
+                    technicalFormatKey: config.getTechnicalFormatKey();
+                }
+        var optionPaneEloSaver = ScyDesktopEloSaver {
+                    config: config
+                    repository: config.getRepository()
+                    eloFactory: config.getEloFactory()
+                    titleKey: config.getTitleKey()
+                    technicalFormatKey: config.getTechnicalFormatKey()
+                    window: window;
+                    myEloChanged: myEloChanged;
+                    newTitleGenerator: newTitleGenerator
+                    windowStyler: windowStyler
+                };
+        // do the initialize cycle on the created tools
+        scyToolsList.setEloSaver(optionPaneEloSaver);
+        scyToolsList.setMyEloChanged(myEloChanged);
+        scyToolsList.initialize();
+        scyToolsList.postInitialize();
+        // place the tools in the window
+        if (scyToolsList.windowContentTool != null) {
+            window.scyContent = scyToolsList.windowContentTool;
+        }
+        if (scyToolsList.topDrawerTool != null) {
+            window.topDrawerTool = scyToolsList.topDrawerTool;
+        }
+        if (scyToolsList.rightDrawerTool != null) {
+            window.rightDrawerTool = scyToolsList.rightDrawerTool;
+        }
+        if (scyToolsList.bottomDrawerTool != null) {
+            window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
+        }
+        if (scyToolsList.leftDrawerTool != null) {
+            window.leftDrawerTool = scyToolsList.leftDrawerTool;
+        }
+        // if the window content tool is defined, meaning a new or existing elo is loaded, report this
+        if (window.scyContent != null) {
+            if (window.eloUri != null) {
+                scyToolsList.loadElo(window.eloUri);
             } else {
-               //we need to create a new one
-               sptELO = config.getEloFactory().createELO();
-               sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
-               sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
-               // sptELO.getMetadata().getMetadataValueContainer(ScyRooloMetadataKeyIds.MISSION.getId()).setValue(missionId);
-
-               var sptMetadata = config.getRepository().addNewELO(sptELO);
-               config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
-
-               def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
-               newWindow.openWindow(300, 300);
+                scyToolsList.newElo();
             }
-         }
-      }
-      topRightCorner = TopRightCorner {
-         content: SPTButton;
-      }
-      bottomRightCorner = BottomRightCorner {
-         // TODO, replace with specified tool
-         content: missionMap;
-         color: Color.BLUE;
-      }
-      bottomLeftCorner = BottomLeftCorner {
-         content: bottomLeftCornerTool;
-         color: Color.GRAY;
-      }
-      if (initializer.windowPositioner.equalsIgnoreCase("simple")) {
-         // this is the default
-      } else if (initializer.windowPositioner.equalsIgnoreCase("roleArea")) {
-         windowPositioner = RoleAreaWindowPositioner {
-            width: bind scene.width;
-            height: bind scene.height;
-            scyDesktop: this
-            showAreas: false
-         }
-      } else if (initializer.windowPositioner.equalsIgnoreCase("roleAreaDebug")) {
-         windowPositioner = RoleAreaWindowPositioner {
-            width: bind scene.width;
-            height: bind scene.height;
-            scyDesktop: this
-            showAreas: true
-         }
-      } else {
-         logger.error("unknown windowPositioner specified: {initializer.windowPositioner}");
-      }
-      if (windowPositioner == null) {
-         windowPositioner = SimpleWindowPositioner {
-            forbiddenNodes: [
-               topLeftCorner,
-               topRightCorner,
-               bottomRightCorner,
-               bottomLeftCorner
-            ];
-            width: bind scene.width;
-            height: bind scene.height;
-         }
-      }
-      scyWindowControl = ScyWindowControlImpl {
-         windowContentFactory: scyToolFactory;
-         windowManager: windows;
-         windowPositioner: windowPositioner;
-         missionModel: missionModelFX;
-         missionMap: missionMap;
-         eloInfoControl: eloInfoControl;
-         windowStyler: windowStyler;
-         extensionManager: config.getExtensionManager();
-         repository: config.getRepository();
-         metadataTypeManager: config.getMetadataTypeManager();
-         setScyContent: fillNewScyWindow2;
-         tooltipManager: tooltipManager
-         dragAndDropManager: dragAndDropManager
-         repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
-      }
-   }
+            scyToolsList.loadedEloChanged(window.eloUri);
+        }
+    }
 
-   var edgesManager: EdgesManager = EdgesManager { }
-
-   public override function create(): Node {
-      logger.info("create");
-      checkProperties();
-      createElements();
-      Group {
-         content: [
-            ///Testing only
-            //            Rectangle{width:bind boundsInLocal.width,
-            //                height:bind boundsInLocal.height,
-            //                fill:Color.BLACK
-            //            },
-            backgroundImageView,
-            lowDebugGroup,
-            edgesManager,
-            windows.scyWindows,
-            topLeftCorner,
-            topRightCorner,
-            bottomRightCorner,
-            bottomLeftCorner,
-            highDebugGroup,
-            Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
-         /*
-         Button {
-         text: "add an edge ";
-         translateX: 210;
-         action: function() {
-         edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
-         }
-         }
-          */
-         ]
-      }
-   }
-
-   function fillNewScyWindow2(window: ScyWindow): Void {
-      var pleaseWait = PleaseWait { };
-      window.scyContent = pleaseWait;
-      FX.deferAction(function () {
-         // one defer does not seem to be enough to show the please wait content
-         FX.deferAction(function () {
-            realFillNewScyWindow2(window, false);
-            });
-      });
-   }
-
-   function fillNewScyWindowCollaborative(window: ScyWindow, mucid: String): Void {
-      var pleaseWait = PleaseWait { };
-      window.scyContent = pleaseWait;
-      FX.deferAction(function () {
-         // one defer does not seem to be enough to show the please wait content
-         FX.deferAction(function () {
-            realFillNewScyWindow2(window, true);
-            def toolNode: Node = window.scyContent;
-            if (toolNode instanceof CollaborationStartable) {
-               (toolNode as CollaborationStartable).startCollaboration(mucid);
-            }
-            });
-      });
-   }
-
-   function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
-      var eloConfig = config.getEloConfig(window.eloType);
-      if (eloConfig == null) {
-         logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
-         return ;
-      }
-      // don't place the window content tool in the window, let the please wait message stay until every thing is created
-      var scyToolsList = ScyToolsList {
-            }
-      // create the tools
-      if (not collaboration and eloConfig.isContentCollaboration()) {
-         // currently, the content tool must be created on the first call, which is with collaboration false
-         // otherwise the first set of tools are not informed of the elo load messages
-         throw new IllegalStateException("the content tool may not be a collaboration only tool");
-      }
-      if (eloConfig.isContentCollaboration() == collaboration) {
-         scyToolsList.windowContentTool = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
-      }
-      if (eloConfig.isTopDrawerCollaboration() == collaboration) {
-         scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      if (eloConfig.isRightDrawerCollaboration() == collaboration) {
-         scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
-         scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
-         scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      // all tools are created and placed in the window
-      // now do the ScyTool initialisation
-      var myEloChanged = SimpleMyEloChanged {
-            window: window;
-            titleKey: config.getTitleKey()
-            technicalFormatKey: config.getTechnicalFormatKey();
-         }
-      var optionPaneEloSaver = ScyDesktopEloSaver {
-            config: config
-            repository: config.getRepository()
-            eloFactory: config.getEloFactory()
-            titleKey: config.getTitleKey()
-            technicalFormatKey: config.getTechnicalFormatKey()
-            window: window;
-            myEloChanged: myEloChanged;
-            newTitleGenerator: newTitleGenerator
-            windowStyler: windowStyler
-         };
-      // do the initialize cycle on the created tools
-      scyToolsList.setEloSaver(optionPaneEloSaver);
-      scyToolsList.setMyEloChanged(myEloChanged);
-      scyToolsList.initialize();
-      scyToolsList.postInitialize();
-      // place the tools in the window
-      if (scyToolsList.windowContentTool != null) {
-         window.scyContent = scyToolsList.windowContentTool;
-      }
-      if (scyToolsList.topDrawerTool != null) {
-         window.topDrawerTool = scyToolsList.topDrawerTool;
-      }
-      if (scyToolsList.rightDrawerTool != null) {
-         window.rightDrawerTool = scyToolsList.rightDrawerTool;
-      }
-      if (scyToolsList.bottomDrawerTool != null) {
-         window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
-      }
-      if (scyToolsList.leftDrawerTool != null) {
-         window.leftDrawerTool = scyToolsList.leftDrawerTool;
-      }
-      // if the window content tool is defined, meaning a new or existing elo is loaded, report this
-      if (window.scyContent != null) {
-         if (window.eloUri != null) {
-            scyToolsList.loadElo(window.eloUri);
-         } else {
-            scyToolsList.newElo();
-         }
-         scyToolsList.loadedEloChanged(window.eloUri);
-      }
-   }
-
-   public override function processNotification(notification: INotification): Void {
-      logger.debug("notification.getToolId(): {notification.getToolId()}");
-      logger.debug("notification -> proposing_user: {notification.getFirstProperty("proposing_user")}");
-      def notificationType: String = notification.getFirstProperty("type");
-      logger.debug("notification-type: {notificationType}");
-      if (not (notificationType == null)) {
-         if (notificationType == "collaboration_request") {
-            logger.debug("********************collaboration_request*************************");
-            def user: String = notification.getFirstProperty("proposing_user");
-            //TODO submit user-nickname instead of extracting it
-            def userNickname = user.substring(0, user.indexOf("@"));
-            def eloUri: String = notification.getFirstProperty("proposed_elo");
-            def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-            if (option == JOptionPane.OK_OPTION) {
-               logger.debug(" => accepting collaboration");
-               config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUri);
-            } else if (option == JOptionPane.NO_OPTION) {
-               logger.debug(" => denying collaboration");
-               config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
-            }
+    public override function processNotification(notification: INotification): Void {
+        logger.debug("notification.getToolId(): {notification.getToolId()}");
+        logger.debug("notification -> proposing_user: {notification.getFirstProperty("proposing_user")}");
+        def notificationType: String = notification.getFirstProperty("type");
+        logger.debug("notification-type: {notificationType}");
+        if (not (notificationType == null)) {
+            if (notificationType == "collaboration_request") {
+                logger.debug("********************collaboration_request*************************");
+                def user: String = notification.getFirstProperty("proposing_user");
+                //TODO submit user-nickname instead of extracting it
+                def userNickname = user.substring(0, user.indexOf("@"));
+                def eloUri: String = notification.getFirstProperty("proposed_elo");
+                def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    logger.debug(" => accepting collaboration");
+                    config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUri);
+                } else if (option == JOptionPane.NO_OPTION) {
+                    logger.debug(" => denying collaboration");
+                    config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
+                }
             } else if (notificationType == "collaboration_response") {
-            logger.debug("********************collaboration_response*************************");
-            def accepted: String = notification.getFirstProperty("accepted");
-            def eloUri: String = notification.getFirstProperty("proposed_elo");
-            if (accepted == "true" and eloUri != null) {
-               JOptionPane.showMessageDialog(null, "Starting collaboration on {eloUri}", "Info", JOptionPane.INFORMATION_MESSAGE);
-               def mucid: String = notification.getFirstProperty("mucid");
-               var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
-               if (collaborationWindow == null) {
-                  ///FIXME create a window/tool with the elo
-                  collaborationWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
-                  fillNewScyWindowCollaborative(collaborationWindow, mucid);
-               }
-               else {
-
-               }
+                logger.debug("********************collaboration_response*************************");
+                def accepted: String = notification.getFirstProperty("accepted");
+                def eloUri: String = notification.getFirstProperty("proposed_elo");
+                if (accepted == "true" and eloUri != null) {
+                    JOptionPane.showMessageDialog(null, "Starting collaboration on {eloUri}", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    def mucid: String = notification.getFirstProperty("mucid");
+                    var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
+                    if (collaborationWindow == null) {
+                        ///FIXME create a window/tool with the elo
+                        collaborationWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
+                        fillNewScyWindowCollaborative(collaborationWindow, mucid);
+                    } else {
+                        def toolNode: Node = collaborationWindow.scyContent;
+                        if (toolNode instanceof CollaborationStartable) {
+                            (toolNode as CollaborationStartable).startCollaboration(mucid);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
+                    logger.debug("collaboration not accepted");
+                }
             }
-            else {
-               JOptionPane.showMessageDialog(null, "Collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
-               logger.debug("collaboration not accepted");
-            }
-         }
-      }
-   }
+        }
+    }
 
 }
 
-function run()   {
-   InitLog4JFX.initLog4J();
-   var springConfigFactory = new SpringConfigFactory();
-   springConfigFactory.initFromClassPath("config/scyDesktopTestConfig.xml");
-   var config = springConfigFactory.getConfig();
-   //   InitLog4j.init();
-   //   var anchor0 = MissionAnchorFX{
-   //       title: "0";
-   //       xPos: 00;
-   //       yPos: 20;
-   //       color: Color.BLUE;
-   //       eloUri: new URI("test://anchor0.tst");
-   //   }
-   //   var anchor1 = MissionAnchorFX{
-   //       title: "1";
-   //       xPos: 40;
-   //       yPos: 00;
-   //       color: Color.BLUE;
-   //       eloUri: new URI("test://anchor1.tst");
-   //   }
-   //   var anchor2 = MissionAnchorFX{
-   //       title: "2";
-   //       xPos: 80;
-   //       yPos: 00;
-   //       color: Color.GREEN;
-   //       eloUri: new URI("test://anchor2.tst");
-   //   }
-   //   var anchor3 = MissionAnchorFX{
-   //       title: "3";
-   //       xPos: 40;
-   //       yPos: 40;
-   //       color: Color.RED;
-   //       eloUri: new URI("test://anchor3.tst");
-   //   }
-   //   var anchor4 = MissionAnchorFX{
-   //       title: "4";
-   //       xPos: 80;
-   //       yPos: 40;
-   //       color: Color.ORANGE;
-   //       eloUri: new URI("test://anchor4.tst");
-   //   }
-   //   var anchor5 = MissionAnchorFX{
-   //       title: "5";
-   //       xPos: 120;
-   //       yPos: 20;
-   //       color: Color.ORANGE;
-   //       eloUri: new URI("test://anchor5.tst");
-   //   }
-   //   anchor0.nextAnchors=[anchor1,anchor2,anchor3,anchor4];
-   //   anchor1.nextAnchors=[anchor2,anchor3,anchor4];
-   //   anchor2.nextAnchors=[anchor1,anchor3,anchor4,anchor5];
-   //   anchor3.nextAnchors=[anchor1,anchor2,anchor4];
-   //   anchor4.nextAnchors=[anchor1,anchor2,anchor3,anchor5];
+function run()    {
+    InitLog4JFX.initLog4J();
+    var springConfigFactory = new SpringConfigFactory();
+    springConfigFactory.initFromClassPath("config/scyDesktopTestConfig.xml");
+    var config = springConfigFactory.getConfig();
+    //   InitLog4j.init();
+    //   var anchor0 = MissionAnchorFX{
+    //       title: "0";
+    //       xPos: 00;
+    //       yPos: 20;
+    //       color: Color.BLUE;
+    //       eloUri: new URI("test://anchor0.tst");
+    //   }
+    //   var anchor1 = MissionAnchorFX{
+    //       title: "1";
+    //       xPos: 40;
+    //       yPos: 00;
+    //       color: Color.BLUE;
+    //       eloUri: new URI("test://anchor1.tst");
+    //   }
+    //   var anchor2 = MissionAnchorFX{
+    //       title: "2";
+    //       xPos: 80;
+    //       yPos: 00;
+    //       color: Color.GREEN;
+    //       eloUri: new URI("test://anchor2.tst");
+    //   }
+    //   var anchor3 = MissionAnchorFX{
+    //       title: "3";
+    //       xPos: 40;
+    //       yPos: 40;
+    //       color: Color.RED;
+    //       eloUri: new URI("test://anchor3.tst");
+    //   }
+    //   var anchor4 = MissionAnchorFX{
+    //       title: "4";
+    //       xPos: 80;
+    //       yPos: 40;
+    //       color: Color.ORANGE;
+    //       eloUri: new URI("test://anchor4.tst");
+    //   }
+    //   var anchor5 = MissionAnchorFX{
+    //       title: "5";
+    //       xPos: 120;
+    //       yPos: 20;
+    //       color: Color.ORANGE;
+    //       eloUri: new URI("test://anchor5.tst");
+    //   }
+    //   anchor0.nextAnchors=[anchor1,anchor2,anchor3,anchor4];
+    //   anchor1.nextAnchors=[anchor2,anchor3,anchor4];
+    //   anchor2.nextAnchors=[anchor1,anchor3,anchor4,anchor5];
+    //   anchor3.nextAnchors=[anchor1,anchor2,anchor4];
+    //   anchor4.nextAnchors=[anchor1,anchor2,anchor3,anchor5];
 
-   var missionModel = MissionModelFX {
-         //       anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
-         //       activeAnchor:anchor0
-         }
-   missionModel = MissionModelFX {
-      //       anchors: [];
-      }
-   var newWindowCounter = 0;
-   var newWindowButton: Button = Button {
-         text: "New Window"
-         action: function () {
-            var title = "new_{++newWindowCounter}";
-            var window: ScyWindow = StandardScyWindow {
-                  title: title
-                  id: "new://{title}"
-                  allowClose: true;
-                  allowResize: true;
-                  allowRotate: true;
-                  allowMinimize: true;
-               }
-            scyDesktop.windows.addScyWindow(window);
-         }
-      }
-   var newScyWindowTool = NewScyWindowTool {
-         repository: config.getRepository();
-         titleKey: config.getTitleKey();
-         technicalFormatKey: config.getTechnicalFormatKey();
-      }
-   //   var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
-   //         };
-   //
-   //   windowContentCreatorRegistryFX.registerWindowContentCreator(new SwingSizeTestPanelCreator(), "size");
-   //
-   //   var drawerContentCreatorRegistryFX:DrawerContentCreatorRegistryFX =DrawerContentCreatorRegistryFXImpl{
-   //         };
+    var missionModel = MissionModelFX {
+                //       anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
+                //       activeAnchor:anchor0
+                }
+    missionModel = MissionModelFX {
+        //       anchors: [];
+        }
+    var newWindowCounter = 0;
+    var newWindowButton: Button = Button {
+                text: "New Window"
+                action: function () {
+                    var title = "new_{++newWindowCounter}";
+                    var window: ScyWindow = StandardScyWindow {
+                                title: title
+                                id: "new://{title}"
+                                allowClose: true;
+                                allowResize: true;
+                                allowRotate: true;
+                                allowMinimize: true;
+                            }
+                    scyDesktop.windows.addScyWindow(window);
+                }
+            }
+    var newScyWindowTool = NewScyWindowTool {
+                repository: config.getRepository();
+                titleKey: config.getTitleKey();
+                technicalFormatKey: config.getTechnicalFormatKey();
+            }
+    //   var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
+    //         };
+    //
+    //   windowContentCreatorRegistryFX.registerWindowContentCreator(new SwingSizeTestPanelCreator(), "size");
+    //
+    //   var drawerContentCreatorRegistryFX:DrawerContentCreatorRegistryFX =DrawerContentCreatorRegistryFXImpl{
+    //         };
 
-   //   drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
-   var scyDesktop: ScyDesktop = ScyDesktop {
-         config: config;
-         missionModelFX: missionModel;
-         eloInfoControl: DummyEloInfoControl {
-            };
-         windowStyler: DummyWindowStyler {
-            };
-      //      windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-      //      newEloCreationRegistry: NewEloCreationRegistryImpl{};
-      //      drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
-      //      topLeftCornerTool:MissionMap{
-      //         missionModel: missionModel
-      //      }
-      //      bottomRightCornerTool:MissionMap{
-      //         missionModel: missionModel
-      //      }
-      //      bottomLeftCornerTool:newWindowButton;
-      //        bottomLeftCornerTool: newScyWindowTool;
-      }
-   newScyWindowTool.scyDesktop = scyDesktop;
-   scyDesktop.bottomLeftCornerTool = newScyWindowTool;
-   //   scyDesktop.bottomLeftCornerTool = Rectangle{x:10,y:10,width:100,height:100,fill:Color.BLACK};
+    //   drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+    var scyDesktop: ScyDesktop = ScyDesktop {
+                config: config;
+                missionModelFX: missionModel;
+                eloInfoControl: DummyEloInfoControl {
+                    };
+                windowStyler: DummyWindowStyler {
+                    };
+            //      windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+            //      newEloCreationRegistry: NewEloCreationRegistryImpl{};
+            //      drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
+            //      topLeftCornerTool:MissionMap{
+            //         missionModel: missionModel
+            //      }
+            //      bottomRightCornerTool:MissionMap{
+            //         missionModel: missionModel
+            //      }
+            //      bottomLeftCornerTool:newWindowButton;
+            //        bottomLeftCornerTool: newScyWindowTool;
+            }
+    newScyWindowTool.scyDesktop = scyDesktop;
+    scyDesktop.bottomLeftCornerTool = newScyWindowTool;
+    //   scyDesktop.bottomLeftCornerTool = Rectangle{x:10,y:10,width:100,height:100,fill:Color.BLACK};
 
-   scyDesktop.newEloCreationRegistry.registerEloCreation("test", "test");
-   scyDesktop.newEloCreationRegistry.registerEloCreation("tst", "tst");
-   scyDesktop.newEloCreationRegistry.registerEloCreation("size", "Size test");
-   Stage {
-      title: "ScyDestop Test"
-      scene: Scene {
-         width: 800
-         height: 600
-         content: [
-            scyDesktop
-         ]
-      }
-   }
+    scyDesktop.newEloCreationRegistry.registerEloCreation("test", "test");
+    scyDesktop.newEloCreationRegistry.registerEloCreation("tst", "tst");
+    scyDesktop.newEloCreationRegistry.registerEloCreation("size", "Size test");
+    Stage {
+        title: "ScyDestop Test"
+        scene: Scene {
+            width: 800
+            height: 600
+            content: [
+                scyDesktop
+            ]
+        }
+    }
 }
