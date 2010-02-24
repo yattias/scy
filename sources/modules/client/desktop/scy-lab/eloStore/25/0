@@ -1,0 +1,100 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Rachel</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/25/0/Rachel.scydataset</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/dataset</format>
+      <customElements>
+        <dateCreated>1259578709605</dateCreated>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>my vcard</entity>
+        <date>
+          <dateTime>2009-11-30T11:58:29.606+0100</dateTime>
+        </date>
+      </contribute>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/25/1/Rachel.scydataset</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<dataset>
+  <header language="en">
+    <column>
+      <symbol>Etotal</symbol>
+      <description>Etotal</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>MaterialF</symbol>
+      <description>MaterialF</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>MaterialIF</symbol>
+      <description>MaterialIF</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>MaterialW</symbol>
+      <description>MaterialW</description>
+      <type>double</type>
+    </column>
+  </header>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>1.0</value>
+    <value>2.0</value>
+  </row>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>1.0</value>
+    <value>2.0</value>
+  </row>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>1.0</value>
+    <value>2.0</value>
+  </row>
+</dataset>
+</content>
+<resources>
+</resources>
+</elo>
