@@ -8,6 +8,7 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
+import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
 
 import java.rmi.dgc.VMID;
@@ -48,11 +49,15 @@ public class AgentManagerTest {
 	 */
 	@BeforeClass
 	public static void startTSServer() {
-		if (!Server.isRunning() && STANDALONE) {
-			Configuration.getConfiguration().setSSLEnabled(false);
-			Configuration.getConfiguration().setWebEnabled(false);
-			Configuration.getConfiguration().setWebServicesEnabled(false);
-			Configuration.getConfiguration().setRemoteAdminEnabled(false);
+		if (!Server.isRunning()) {
+			Configuration conf = Configuration.getConfiguration();
+			conf.setNonSSLPort(TS_PORT);
+			conf.setSSLEnabled(false);
+			conf.setDbType(Database.HSQL);
+			conf.setWebEnabled(false);
+			conf.setWebServicesEnabled(false);
+			conf.setRemoteAdminEnabled(false);
+			conf.setLocal(false);
 			Server.startServer();
 		}
 	}
@@ -186,7 +191,7 @@ public class AgentManagerTest {
 		TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
 		Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(),
 				AgentProtocol.ALIVE);
-		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
+		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 4);
 		Tuple aliveTuple = ts.read(t);
 		// The alive-tuple should not be there...
 		assertTrue("Agent not killed", aliveTuple == null);
