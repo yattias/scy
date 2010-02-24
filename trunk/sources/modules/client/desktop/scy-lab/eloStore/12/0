@@ -1,0 +1,41 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Concept Map on CO2 levels</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/url</format>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/mission1/LAS_Conceptualization/Assignments/A_CMap_CO2_levels.html</url>
+</content>
+<resources>
+</resources>
+</elo>

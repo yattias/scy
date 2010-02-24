@@ -1,0 +1,76 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">First choices</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/147/0/First_choices.scymapping</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/mapping</format>
+      <customElements>
+        <dateCreated>1258470581500</dateCreated>
+        <dateLastModified>1265274257557</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>r</entity>
+        <date>
+          <dateTime>2010-02-04T10:04:17.557+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/52/0/firstChoices.scymapping</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Concept map</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes />
+    <links />
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>

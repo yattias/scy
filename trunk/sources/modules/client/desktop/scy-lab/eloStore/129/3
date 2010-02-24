@@ -1,0 +1,450 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">r</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/129/3/r.scymissionmodel</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/missionmodel</format>
+      <customElements>
+        <dateCreated>1265202351380</dateCreated>
+        <dateLastModified>1265202688767</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>r</entity>
+        <date>
+          <dateTime>2010-02-03T14:11:28.767+0100</dateTime>
+        </date>
+      </contribute>
+      <version>3</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/129/2/r.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/129/4/r.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <activeAnchor>roolo://memory/113/0/Data_from_simulation_in_expert_group.scysimconfig</activeAnchor>
+  <anchors>
+    <anchor>
+      <eloUri>roolo://memory/107/0/Start_page.url</eloUri>
+      <xPos>80.0</xPos>
+      <yPos>0.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/108/0/Concept_map.scymapping</anchor>
+        <anchor>roolo://memory/109/0/First_Ideas.scymapping</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+        <eloUri>roolo://memory/59/0/Technasium.video</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/108/0/Concept_map.scymapping</eloUri>
+      <xPos>120.0</xPos>
+      <yPos>0.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors />
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</eloUri>
+        <eloUri>roolo://memory/14/0/Global_Warming.url</eloUri>
+        <eloUri>roolo://memory/15/0/Websites_global_warming.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/109/0/First_Ideas.scymapping</eloUri>
+      <xPos>120.0</xPos>
+      <yPos>40.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/110/0/Research_Questions.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/13/0/First_ideas.url</eloUri>
+        <eloUri>roolo://memory/39/0/CO2_friendly_house.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/110/0/Research_Questions.text</eloUri>
+      <xPos>80.0</xPos>
+      <yPos>40.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/111/0/Hypothesis.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+        <eloUri>roolo://memory/42/0/Websites_Expert_groups.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/111/0/Hypothesis.text</eloUri>
+      <xPos>40.0</xPos>
+      <yPos>40.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/113/0/Data_from_simulation_in_expert_group.scysimconfig</anchor>
+        <anchor>roolo://memory/114/0/Web_information.text</anchor>
+        <anchor>roolo://memory/112/0/Experimental_procedure.scyxproc</anchor>
+        <anchor>roolo://memory/115/0/Interview.scyinterview</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+        <eloUri>roolo://memory/42/0/Websites_Expert_groups.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/112/0/Experimental_procedure.scyxproc</eloUri>
+      <xPos>80.0</xPos>
+      <yPos>80.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/116/0/Processed_data.scypds</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/113/0/Data_from_simulation_in_expert_group.scysimconfig</eloUri>
+      <xPos>40.0</xPos>
+      <yPos>80.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/118/0/Conclusion.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/18/0/Manual_for_thermal_simulation.url</eloUri>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/114/0/Web_information.text</eloUri>
+      <xPos>160.0</xPos>
+      <yPos>80.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/116/0/Processed_data.scypds</anchor>
+        <anchor>roolo://memory/118/0/Conclusion.text</anchor>
+        <anchor>roolo://memory/117/0/Critic_of_resources.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/115/0/Interview.scyinterview</eloUri>
+      <xPos>120.0</xPos>
+      <yPos>80.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/116/0/Processed_data.scypds</anchor>
+        <anchor>roolo://memory/118/0/Conclusion.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/116/0/Processed_data.scypds</eloUri>
+      <xPos>80.0</xPos>
+      <yPos>120.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/118/0/Conclusion.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/117/0/Critic_of_resources.text</eloUri>
+      <xPos>120.0</xPos>
+      <yPos>120.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/114/0/Web_information.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/118/0/Conclusion.text</eloUri>
+      <xPos>40.0</xPos>
+      <yPos>120.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/111/0/Hypothesis.text</anchor>
+        <anchor>roolo://memory/119/0/Expert_concept_map.scymapping</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/41/0/expertResearch.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/119/0/Expert_concept_map.scymapping</eloUri>
+      <xPos>40.0</xPos>
+      <yPos>160.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/120/0/Expert_presentation.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/48/0/Expert_CMap.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/120/0/Expert_presentation.text</eloUri>
+      <xPos>80.0</xPos>
+      <yPos>160.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/121/0/Inventory_of_solutions.scymapping</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/23/0/Expert_presentation.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/121/0/Inventory_of_solutions.scymapping</eloUri>
+      <xPos>120.0</xPos>
+      <yPos>160.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/122/0/First_choices.scymapping</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/122/0/First_choices.scymapping</eloUri>
+      <xPos>160.0</xPos>
+      <yPos>160.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/123/0/Data_from_simulation_in_design_group.scysimconfig</anchor>
+        <anchor>roolo://memory/124/0/Drawing_of_house.scydraw</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/123/0/Data_from_simulation_in_design_group.scysimconfig</eloUri>
+      <xPos>200.0</xPos>
+      <yPos>120.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/125/0/Processed_data.scydataset</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/18/0/Manual_for_thermal_simulation.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+        <eloUri>roolo://memory/16/0/Experiment_in_Design_Group.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/124/0/Drawing_of_house.scydraw</eloUri>
+      <xPos>160.0</xPos>
+      <yPos>120.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors />
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/19/0/Draw_your_house.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/125/0/Processed_data.scydataset</eloUri>
+      <xPos>200.0</xPos>
+      <yPos>80.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/126/0/Analysis_of_house.text</anchor>
+        <anchor>roolo://memory/127/0/Presentation_of_design.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/16/0/Experiment_in_Design_Group.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/126/0/Analysis_of_house.text</eloUri>
+      <xPos>200.0</xPos>
+      <yPos>40.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/122/0/First_choices.scymapping</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos />
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/127/0/Presentation_of_design.text</eloUri>
+      <xPos>160.0</xPos>
+      <yPos>40.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors>
+        <anchor>roolo://memory/128/0/Report.text</anchor>
+      </nextAnchors>
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/21/0/Presentation_of_design.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+    <anchor>
+      <eloUri>roolo://memory/128/0/Report.text</eloUri>
+      <xPos>160.0</xPos>
+      <yPos>0.0</yPos>
+      <mainAnchor>true</mainAnchor>
+      <toolTip />
+      <nextAnchors />
+      <inputAnchors />
+      <resourceElos>
+        <eloUri>roolo://memory/24/0/Individual_report.url</eloUri>
+        <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+      </resourceElos>
+      <intermediateElos />
+      <relations />
+    </anchor>
+  </anchors>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
