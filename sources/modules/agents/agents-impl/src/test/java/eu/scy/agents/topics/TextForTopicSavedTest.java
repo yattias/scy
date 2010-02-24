@@ -54,7 +54,7 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 				getTestActionTuple(eloUri, "scy/text", System.currentTimeMillis(), UUID.randomUUID().toString()));
 
 		Tuple tuple = getCommandSpace().waitToTake(new Tuple(TopicAgents.TOPIC_DETECTOR, String.class),
-				AgentProtocol.ALIVE_INTERVAL);
+				AgentProtocol.ALIVE_INTERVAL * 3);
 
 		assertNotNull("no tuple sent", tuple);
 		assertEquals("Uri not the same", eloUri, tuple.getField(1).getValue());
@@ -64,5 +64,6 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		stopAgentFrameWork();
+		super.tearDown();
 	}
 }

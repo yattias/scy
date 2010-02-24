@@ -1,7 +1,6 @@
 package eu.scy.agents.topics;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -10,6 +9,7 @@ import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,6 +22,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
 
 public class DetectTopicForElosTest extends AbstractTestFixture {
@@ -70,11 +71,16 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 		System.out.println("EloURI " + eloURI);
 	}
 
+	@Override
+	@After
+	public void tearDown() throws AgentLifecycleException {
+		stopAgentFrameWork();
+		super.tearDown();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testProcessElo() throws TupleSpaceException, InterruptedException {
-		assertTrue(true);
-
 		System.out.println("Writing tuple");
 
 		getCommandSpace().write(new Tuple("topicDetector", eloURI.toString()));
@@ -99,7 +105,6 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 		assertEquals("wrong probability for topic 2", 0.1603676990866432, getTopicScore(topicScores.get(2)), 0.03);
 		assertEquals("wrong probability for topic 3", 0.05110776312074621, getTopicScore(topicScores.get(3)), 0.03);
 		assertEquals("wrong probability for topic 9", 0.7885358343528651, getTopicScore(topicScores.get(9)), 0.03);
-
 	}
 
 	private double getTopicScore(KeyValuePair topicScores) {

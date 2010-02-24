@@ -89,6 +89,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		try {
 			getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 			removeTopicModel();
+			stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
 			e.printStackTrace();
