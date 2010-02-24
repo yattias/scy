@@ -54,10 +54,10 @@ public class ContactList extends CustomNode {
                             startDragging(e,contactFrame);
                         };
                     };
+                    //set indicators of online state by opacity (online, away, offline)
                     if (stateIndicatorOpacity){
                         contactFrame.opacity = if (contact.onlineState==OnlineState.AWAY) 0.6 else (if (contact.onlineState==OnlineState.OFFLINE) 0.3 else 1)
                     }
-
             tooltipManager.registerNode(contactFrame, contactTooltipCreator);
             insert contactFrame into contactFrames;
         }

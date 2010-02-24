@@ -248,6 +248,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     height: 250
                     showOfflineContacts: true
                     width: 300
+                    stateIndicatorOpacity:true
                 };
         contactList.height = 250;
         missionMap = MissionMap {
