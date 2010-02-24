@@ -115,6 +115,18 @@
                </key>
                <value>.rtf</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/doc</value>
+               </key>
+               <value>.doc</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/skp</value>
+               </key>
+               <value>.skp</value>
+            </entry>
          </map>
       </property>
    </bean>
