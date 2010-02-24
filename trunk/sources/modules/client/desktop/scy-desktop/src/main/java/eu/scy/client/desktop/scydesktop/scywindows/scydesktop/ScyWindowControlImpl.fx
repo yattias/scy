@@ -132,6 +132,12 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowManager.addScyWindow(loEloWindow);
          }
       }
+      for (loEloUri in activeLas.loEloUris) {
+         var loEloWindow = getScyWindow(loEloUri);
+         if (windowPositioner.addGlobalLearningObjectWindow(loEloWindow)) {
+            windowManager.addScyWindow(loEloWindow);
+         }
+      }
       var mainAnchorWindow = getScyWindow(activeLas.mainAnchor.eloUri);
       if (windowPositioner.setAnchorWindow(mainAnchorWindow)) {
          windowManager.addScyWindow(mainAnchorWindow);
