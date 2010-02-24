@@ -255,6 +255,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 			throw new AgentLifecycleException(name + " already running");
 		}
 		try {
+			beforeStart();
 			// register commandEvents & identifyEvents
 			// TODO Reverse-structured names
 			commandId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getCommandTuple(id, name), this,
@@ -268,6 +269,9 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 		// create & start a new Thread with the new agent as payload
 		myThread = new Thread(this, name);
 		myThread.start();
+	}
+
+	protected void beforeStart() {
 	}
 
 	/**
@@ -289,7 +293,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 				}
 			}).start();
 		} else {
-			throw new AgentLifecycleException(name + " already dead");
+			// throw new AgentLifecycleException(name + " already dead");
 		}
 	}
 
@@ -303,9 +307,9 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 				getCommandSpace().eventDeRegister(identifyId);
 				getCommandSpace().disconnect();
 			}
-			if (getActionSpace() != null && getActionSpace().isConnected()) {
-				getActionSpace().disconnect();
-			}
+			// if (getActionSpace() != null && getActionSpace().isConnected()) {
+			// getActionSpace().disconnect();
+			// }
 		} catch (TupleSpaceException e) {
 			// we do not care about exceptions here
 			e.printStackTrace();

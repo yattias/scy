@@ -16,19 +16,18 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 
 	// ("action":String, <ID>:String, <Timestamp>:long, elo_saved:String, <User>:String, <Tool>:String,
 	// <Mission>:String, <Session>:String, <Key=Value>:String*)
-	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION, String.class, Long.class, AgentProtocol.ACTION_ELO_SAVED_ACTION, String.class,
-			String.class, String.class, String.class, String.class, String.class);
+	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION, String.class, Long.class,
+			AgentProtocol.ACTION_ELO_SAVED_ACTION, String.class, String.class, String.class, String.class,
+			String.class, String.class);
 
 	private static final Logger logger = Logger.getLogger(AbstractELOSavedAgent.class.getName());
 
 	protected AbstractELOSavedAgent(String name, String id) {
 		super(name, id);
-		initTSListener();
 	}
 
 	public AbstractELOSavedAgent(String name, String id, String tsHost, int tsPort) {
 		super(name, id, tsHost, tsPort);
-		initTSListener();
 	}
 
 	private void initTSListener() {
@@ -38,6 +37,12 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void beforeStart() {
+		super.beforeStart();
+		initTSListener();
 	}
 
 	@Override
