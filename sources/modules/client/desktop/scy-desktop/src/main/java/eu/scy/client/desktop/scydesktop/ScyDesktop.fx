@@ -70,6 +70,10 @@ import java.net.URI;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javax.swing.JOptionPane;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.RoleAreaWindowPositioner;
+import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
+import roolo.api.search.AndQuery;
 
 /**
  * @author sikkenj
@@ -264,10 +268,41 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
                 selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
             onMouseClicked: function (e) {
-                    println("ouch u clicked my tool!");
-                            scyWindowControl.addOtherScyWindow(new URI("scy/studentplanningtool"));
-               //scyWindowControl.addOtherScyWindow("scy/studentplanningtool");
-                println("new elo uri");
+
+                    var userName = config.getToolBrokerAPI().getLoginUserName();
+                    //var missionId = config.getToolBrokerAPI().getMission();
+                    var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(),BasicSearchOperations.EQUALS,"scy/studentplanningtool",null);
+                    var titleQuery = new BasicMetadataQuery(config.getTitleKey(),BasicSearchOperations.EQUALS,userName,null);
+                    var andQuery = new AndQuery(typeQuery,titleQuery);
+                    var missionId = config.getBasicMissionMap().getId();
+                    if( missionId != null ) {
+                        var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()),BasicSearchOperations.EQUALS,missionId,null);
+                        andQuery.addQuery(missionIdQuery);
+                    }
+                     var results = config.getRepository().search(andQuery);
+                     logger.info("NUMBER OF SPT elos found: {results.size()}");
+                     var sptELO;
+                     if (results.size() == 1) {
+                          var searchResult = results.get(0) as ISearchResult;
+                          sptELO = config.getRepository().retrieveELO(searchResult.getUri());
+                     } else {
+                         //we need to create a new one
+                         sptELO = config.getEloFactory().createELO();
+                         sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
+  			 sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
+ 			// sptELO.getMetadata().getMetadataValueContainer(ScyRooloMetadataKeyIds.MISSION.getId()).setValue(missionId);
+  
+ 			var sptMetadata = config.getRepository().addNewELO(sptELO);
+ 			config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
+
+			def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
+                        newWindow.openWindow(300, 300);
+
+
+                     }
+
+
+
                 }
         }
       topRightCorner = TopRightCorner {
