@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">First ideas of my design group</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>conceptMap</structure>
+      <mission>co2Mission</mission>
+      <las>conceptualizationExperts</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/301/0/First_ideas_of_my_design_group.scymapping</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/mapping</format>
+      <customElements>
+        <dateCreated>1266852529561</dateCreated>
+        <dateLastModified>1266852563476</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>z</entity>
+        <date>
+          <dateTime>2010-02-22T16:29:23.476+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <educational>
+      <learningResourceType>mapInitialIdeas</learningResourceType>
+    </educational>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Untitled</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes/>
+    <links/>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>
