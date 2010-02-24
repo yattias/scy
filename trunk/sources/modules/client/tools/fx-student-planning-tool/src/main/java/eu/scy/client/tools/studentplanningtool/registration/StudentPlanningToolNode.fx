@@ -33,7 +33,7 @@ import java.awt.Dimension;
  // place your code here
 public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
 
-    public-init var eloChatActionWrapper:EloStudenPlanningActionWrapper;
+    public-init var eloSTPWrapper:EloStudenPlanningActionWrapper;
 
 
     public var wrappedSPTPanel:SwingComponent;
@@ -51,8 +51,8 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
             return;
         }
 
-        scyWindow.title = "Student Planning Tool: {eloChatActionWrapper.getDocName()}";
-        var eloUri = eloChatActionWrapper.getEloUri();
+        scyWindow.title = "Student Planning Tool";
+        var eloUri = eloSTPWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
         }
@@ -62,7 +62,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
     };
 
    public override function loadElo(eloUri:URI):Void{
-        eloChatActionWrapper.loadElo(eloUri);
+        eloSTPWrapper.loadElo(eloUri);
         setScyWindowTitle();
    }
    public override function canAcceptDrop(object:Object):Boolean{
@@ -77,9 +77,15 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
          studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
       } else if( object instanceof BasicMetadata) {
          var elo = object as BasicMetadata;
-         
+
+
+          println("METADATATYPEMANAGER {metadataTypeManager}");
+
          var anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
-         println("ANCHOR ID {elo.getMetadataValueContainer(anchorIdKey).getValue()}");
+
+          println("ANCHOR ID {anchorIdKey}");
+
+         println("ANCHOR Value {elo.getMetadataValueContainer(anchorIdKey).getValue()}");
          studentPlanningTool.acceptDrop(elo);
       }
 
