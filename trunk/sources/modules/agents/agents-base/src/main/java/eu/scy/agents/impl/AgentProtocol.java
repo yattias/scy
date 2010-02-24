@@ -35,7 +35,7 @@ public final class AgentProtocol {
 	/**
 	 * The interval in which alive tuples should expire.
 	 */
-	public static final int ALIVE_INTERVAL = 2 * COMMAND_EXPIRATION;
+	public static final int ALIVE_INTERVAL = 4 * COMMAND_EXPIRATION;
 
 	public enum ResonseType {
 		OK, ANSWER, ERROR;
@@ -102,7 +102,7 @@ public final class AgentProtocol {
 	public static Tuple getAliveTuple(String agentId, String agentName, VMID queryId) {
 		Tuple aliveTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentId, agentName,
 				AgentProtocol.ALIVE);
-		aliveTuple.setExpiration(ALIVE_INTERVAL * 3);
+		aliveTuple.setExpiration(ALIVE_INTERVAL);
 		return aliveTuple;
 	}
 
