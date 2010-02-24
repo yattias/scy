@@ -17,6 +17,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
+import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.images.Images;
 
@@ -27,6 +28,7 @@ public class JXEntryPanel extends JXPanel {
 	private JXTaskPane taskpane;
 	private JXLabel dateLabel;
 	private StudentPlanningController studentPlanningController;
+	private StudentPlannedActivity studentPlannedActivity;
 	
 	Font dataFont = new Font("Segoe UI", Font.PLAIN, 9);
 	
@@ -235,6 +237,14 @@ public class JXEntryPanel extends JXPanel {
 
 	public JXLabel getDateLabel() {
 		return dateLabel;
+	}
+
+	public void setStudentPlannedActivity(StudentPlannedActivity studentPlannedActivity) {
+		this.studentPlannedActivity = studentPlannedActivity;
+	}
+
+	public StudentPlannedActivity getStudentPlannedActivity() {
+		return studentPlannedActivity;
 	}
 	
 }

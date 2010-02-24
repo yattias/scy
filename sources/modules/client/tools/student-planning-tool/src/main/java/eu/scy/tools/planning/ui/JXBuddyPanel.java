@@ -21,6 +21,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.images.Images;
 
@@ -31,6 +32,7 @@ public class JXBuddyPanel extends JXPanel {
 	private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
 	private JXLabel messageLabel;
 	private StudentPlanningController studentPlanningController;
+	private StudentPlannedActivity studentPlannedActivity;
 	
 	/**
      * Creates a new instance of JXPanel
@@ -60,10 +62,16 @@ public class JXBuddyPanel extends JXPanel {
 		getBuddies().add(user);
 		this.createBuddyIcon(user);
 		getMessageLabel().setText("<html><b>Buddy added.</b><html>");
+		
+		studentPlanningController.addMemberToStudentPlannedActivity(this.studentPlannedActivity, user.getNickName());
+		
+		
 	}
 	
 	public void removeBuddy(JXLabel buddyLabel) {
 		IAwarenessUser user = (IAwarenessUser) buddyLabel.getClientProperty(USER);
+		
+		studentPlanningController.removeMemberStudentPlannedActivity(this.studentPlannedActivity, user.getNickName());
 		getBuddies().remove(user);
 		this.remove(buddyLabel.getParent());
 		getMessageLabel().setText("<html><b>Buddy removed.</b><html>");
@@ -214,6 +222,14 @@ public class JXBuddyPanel extends JXPanel {
 
 	public StudentPlanningController getStudentPlanningController() {
 		return studentPlanningController;
+	}
+
+	public void setStudentPlannedActivity(StudentPlannedActivity studentPlannedActivity) {
+		this.studentPlannedActivity = studentPlannedActivity;
+	}
+
+	public StudentPlannedActivity getStudentPlannedActivity() {
+		return studentPlannedActivity;
 	}
 	
 
