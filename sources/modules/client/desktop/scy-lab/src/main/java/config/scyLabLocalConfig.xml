@@ -852,7 +852,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="houseDrawing"/>
-               <property name="uri" value="roolo://memory/341/0/House_drawings.scy"/>
+               <property name="uri" value="roolo://memory/341/0/House_drawings.skp"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>firstChoices</value>
@@ -884,7 +884,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="report"/>
-               <property name="uri" value="roolo://memory/345/0/Individual_report.scy"/>
+               <property name="uri" value="roolo://memory/345/0/Individual_report.doc"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
