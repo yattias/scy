@@ -444,6 +444,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
 //    }
 
     function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
+       logger.info("realFillNewScyWindow2({window.eloUri},{collaboration})");
         var eloConfig = config.getEloConfig(window.eloType);
         if (eloConfig == null) {
             logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
@@ -524,6 +525,13 @@ public class ScyDesktop extends CustomNode, INotifiable {
     }
 
     public override function processNotification(notification: INotification): Void {
+       FX.deferAction(function(){
+            handleProcessNotification(notification);
+          });
+    }
+
+
+    function handleProcessNotification(notification: INotification): Void {
         logger.debug("notification.getToolId(): {notification.getToolId()}");
         logger.debug("notification -> proposing_user: {notification.getFirstProperty("proposing_user")}");
         def notificationType: String = notification.getFirstProperty("type");
@@ -560,7 +568,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     } else {
                         collaborationWindow.mucId = mucid;
                         installCollaborationTools(collaborationWindow);
-                        realFillNewScyWindow2(collaborationWindow,true);
+//                        realFillNewScyWindow2(collaborationWindow,true);
 //                        def toolNode: Node = collaborationWindow.scyContent;
 //                        if (toolNode instanceof CollaborationStartable) {
 //                            (toolNode as CollaborationStartable).startCollaboration(mucid);
