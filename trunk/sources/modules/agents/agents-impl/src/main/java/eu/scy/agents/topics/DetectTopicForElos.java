@@ -55,7 +55,10 @@ public class DetectTopicForElos extends AbstractRequestAgent implements IReposit
 	@Override
 	public void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
+			Tuple tuple = null;
+			if (getCommandSpace().isConnected()) {
+				tuple = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
+			}
 			if (tuple != null) {
 				String uri = "";
 				try {

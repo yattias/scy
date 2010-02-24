@@ -220,7 +220,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			notificationTuple.add("keyword=" + keyword);
 		}
 		try {
-			getCommandSpace().write(notificationTuple);
+			if (getCommandSpace().isConnected()) {
+				getCommandSpace().write(notificationTuple);
+			}
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -239,10 +241,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
 					queryId, text);
 			extractKeywordsTriggerTuple.setExpiration(5 * AgentProtocol.ALIVE_INTERVAL);
-			getCommandSpace().write(extractKeywordsTriggerTuple);
-			Tuple responseTuple = getCommandSpace().waitToTake(
-					new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
-							.createWildCardField()));
+			Tuple responseTuple = null;
+			if (getCommandSpace().isConnected()) {
+				getCommandSpace().write(extractKeywordsTriggerTuple);
+				responseTuple = getCommandSpace().waitToTake(
+						new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
+								.createWildCardField()));
+			}
 			if (responseTuple != null) {
 				ArrayList<String> keywords = new ArrayList<String>();
 				for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {

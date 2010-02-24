@@ -39,8 +39,7 @@ public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 		addOperatorSpecification(REMOVE_STOPWORDS, RemoveStopWords.class);
 		URL url = this.getClass().getResource("/english_stopWords.txt");
 		try {
-			setInputParameter(REMOVE_STOPWORDS, ParameterIdentifiers.FILENAME,
-					new File(url.toURI()).getAbsolutePath());
+			setInputParameter(REMOVE_STOPWORDS, ParameterIdentifiers.FILENAME, new File(url.toURI()).getAbsolutePath());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -55,8 +54,7 @@ public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 
 		addNamespaceLink(TFIDF, KeywordConstants.DOCUMENT_FREQUENCY);
 
-		addNamespaceLink(TFIDF, KeywordConstants.DOCUMENT_FREQUENCY,
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+		addNamespaceLink(TFIDF, KeywordConstants.DOCUMENT_FREQUENCY, KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		addDefaultOutputLink(ObjectIdentifiers.DOCUMENT);
 		verify();

@@ -49,7 +49,10 @@ public class TopicDetector extends AbstractRequestAgent {
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
 			try {
-				Tuple tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+				Tuple tuple = null;
+				if (getCommandSpace().isConnected()) {
+					tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+				}
 				if (tuple != null) {
 					String queryID = (String) tuple.getField(2).getValue();
 					String modelName = (String) tuple.getField(3).getValue();
