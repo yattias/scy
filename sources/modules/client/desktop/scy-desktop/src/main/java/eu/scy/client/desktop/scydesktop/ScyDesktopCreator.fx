@@ -199,6 +199,7 @@ public class ScyDesktopCreator {
    }
 
    function readMissionModel() {
+      printAllEloUris();
       missionModelFX = retrieveStoredMissionModel();
       if (missionModelFX==null){
          // first time login
@@ -223,6 +224,15 @@ public class ScyDesktopCreator {
       missionModelFX.repository = config.getRepository();
       missionModelFX.eloFactory = config.getEloFactory();
    }
+
+   function printAllEloUris():Void{
+      println("\nThe list of all elo uris, used in the mission map specifiaction");
+      for (uri in config.getAllMissionEloUris()){
+         println("{uri}");
+      }
+      println("");
+   }
+
 
    function retrieveStoredMissionModel():MissionModelFX{
       var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(),BasicSearchOperations.EQUALS,MissionModelFX.eloType,null);
