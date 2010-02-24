@@ -1,0 +1,65 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">test</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>plainText</structure>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/130/0/test.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1258470238125</dateCreated>
+        <dateLastModified>1265210794300</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>r</entity>
+        <date>
+          <dateTime>2010-02-03T16:26:34.300+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <educational>
+      <learningResourceType>hypothesis</learningResourceType>
+    </educational>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<text>ma question</text>
+</content>
+<resources>
+</resources>
+</elo>

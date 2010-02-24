@@ -1,0 +1,70 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Web information</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/114/0/Web_information.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1258470238125</dateCreated>
+        <dateLastModified>1265202352305</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>r</entity>
+        <date>
+          <dateTime>2010-02-03T14:05:52.305+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/44/0/Web_information.text</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<text>This is the place for the text of the conclusion.</text>
+</content>
+<resources>
+</resources>
+</elo>

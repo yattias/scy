@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/interview</format>
+      <customElements>
+        <dateCreated>1261480057953</dateCreated>
+        <dateLastModified>1265202352308</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Interview</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/115/0/Interview.scyinterview</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>r</entity>
+        <date>
+          <dateTime>2010-02-03T14:05:52.308+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/58/0/Interview.scyinterview</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<interview>
+  <question />
+  <topics />
+</interview>
+</content>
+<resources>
+</resources>
+</elo>

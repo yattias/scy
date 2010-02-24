@@ -1,0 +1,41 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Analysis of house</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/1/0/Analysis_of_house.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1258469732140</dateCreated>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/35/0/Analysis_of_house.text</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<text>This is the place for the text of the analysis of the house.</text>
+</content>
+<resources>
+</resources>
+</elo>

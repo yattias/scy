@@ -1,0 +1,112 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">windows effect</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/27/0/windows_effect.scydataset</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/dataset</format>
+      <customElements>
+        <dateCreated>1259583775685</dateCreated>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>my vcard</entity>
+        <date>
+          <dateTime>2009-11-30T13:22:55.686+0100</dateTime>
+        </date>
+      </contribute>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<dataset>
+  <header language="en">
+    <column>
+      <symbol>Etotal</symbol>
+      <description>Etotal</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>ewi</symbol>
+      <description>ewi</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>HLcoeff</symbol>
+      <description>HLcoeff</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>Swind</symbol>
+      <description>Swind</description>
+      <type>double</type>
+    </column>
+    <column>
+      <symbol>W</symbol>
+      <description>W</description>
+      <type>double</type>
+    </column>
+  </header>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>51.332906421266195</value>
+    <value>18.0</value>
+    <value>1.0</value>
+  </row>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>54.4551961003642</value>
+    <value>22.0</value>
+    <value>1.0</value>
+  </row>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>57.67013445757454</value>
+    <value>22.0</value>
+    <value>1.0</value>
+  </row>
+  <row>
+    <value>0.0</value>
+    <value>1.0</value>
+    <value>49.26082428093316</value>
+    <value>22.0</value>
+    <value>1.0</value>
+  </row>
+</dataset>
+</content>
+<resources>
+</resources>
+</elo>
