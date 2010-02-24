@@ -411,24 +411,37 @@ public class ScyDesktop extends CustomNode, INotifiable {
             // one defer does not seem to be enough to show the please wait content
             FX.deferAction(function () {
                 realFillNewScyWindow2(window, false);
+                if (window.mucId.length()>0){
+                   installCollaborationTools(window);
+                }
+
             });
         });
     }
 
-    function fillNewScyWindowCollaborative(window: ScyWindow, mucid: String): Void {
-        var pleaseWait = PleaseWait { };
-        window.scyContent = pleaseWait;
-        FX.deferAction(function () {
-            // one defer does not seem to be enough to show the please wait content
-            FX.deferAction(function () {
-                realFillNewScyWindow2(window, true);
-                def toolNode: Node = window.scyContent;
-                if (toolNode instanceof CollaborationStartable) {
-                    (toolNode as CollaborationStartable).startCollaboration(mucid);
-                }
-            });
-        });
+    function installCollaborationTools(window:ScyWindow):Void{
+       realFillNewScyWindow2(window, true);
+       def toolNode: Node = window.scyContent;
+       if (toolNode instanceof CollaborationStartable) {
+           (toolNode as CollaborationStartable).startCollaboration(window.mucId);
+       }
     }
+
+
+//    function fillNewScyWindowCollaborative(window: ScyWindow, mucid: String): Void {
+//        var pleaseWait = PleaseWait { };
+//        window.scyContent = pleaseWait;
+//        FX.deferAction(function () {
+//            // one defer does not seem to be enough to show the please wait content
+//            FX.deferAction(function () {
+//                realFillNewScyWindow2(window, true);
+//                def toolNode: Node = window.scyContent;
+//                if (toolNode instanceof CollaborationStartable) {
+//                    (toolNode as CollaborationStartable).startCollaboration(mucid);
+//                }
+//            });
+//        });
+//    }
 
     function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
         var eloConfig = config.getEloConfig(window.eloType);
@@ -537,17 +550,23 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 if (accepted == "true" and eloUri != null) {
                     JOptionPane.showMessageDialog(null, "Starting collaboration on {eloUri}", "Info", JOptionPane.INFORMATION_MESSAGE);
                     def mucid: String = notification.getFirstProperty("mucid");
-                    var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(new URI(eloUri));
+                    var uri = new URI(eloUri);
+                    var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(uri);
                     if (collaborationWindow == null) {
                         ///FIXME create a window/tool with the elo
-                        collaborationWindow = scyWindowControl.addOtherScyWindow(new URI(eloUri));
-                        fillNewScyWindowCollaborative(collaborationWindow, mucid);
+                        collaborationWindow = scyWindowControl.addOtherScyWindow(uri);
+                        collaborationWindow.mucId = mucid;
+                        //fillNewScyWindowCollaborative(collaborationWindow, mucid);
                     } else {
-                        def toolNode: Node = collaborationWindow.scyContent;
-                        if (toolNode instanceof CollaborationStartable) {
-                            (toolNode as CollaborationStartable).startCollaboration(mucid);
-                        }
+                        collaborationWindow.mucId = mucid;
+                        installCollaborationTools(collaborationWindow);
+                        realFillNewScyWindow2(collaborationWindow,true);
+//                        def toolNode: Node = collaborationWindow.scyContent;
+//                        if (toolNode instanceof CollaborationStartable) {
+//                            (toolNode as CollaborationStartable).startCollaboration(mucid);
+//                        }
                     }
+                    scyWindowControl.makeMainScyWindow(uri);
                 } else {
                     JOptionPane.showMessageDialog(null, "Collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
                     logger.debug("collaboration not accepted");
