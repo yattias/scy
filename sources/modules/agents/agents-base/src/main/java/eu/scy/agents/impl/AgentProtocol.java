@@ -11,7 +11,7 @@ import java.rmi.dgc.VMID;
  */
 public final class AgentProtocol {
 
-	private static final int COMMAND_EXPIRATION = 5000;
+	public static final int COMMAND_EXPIRATION = 5000;
 
 	public static final String QUERY = "query";
 	public static final String RESPONSE = "response";
