@@ -10,6 +10,12 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
+import java.net.URI;
+import roolo.api.IRepository;
+import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.client.desktop.scydesktop.FunctionalTypes;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author sikken
@@ -19,6 +25,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 
 public class ImageWindowStyler extends WindowStyler{
    public-init var impagesPath = "{__DIR__}images/";
+   public var repository:IRepository;
+   public var metadataTypeManager:IMetadataTypeManager;
    public def drawingType = "scy/drawing";
    public def datasetType = "scy/dataset";
    public def simulationConfigType = "scy/simconfig";
@@ -42,6 +50,9 @@ public class ImageWindowStyler extends WindowStyler{
    public def scyPink = Color.web("#fb06a2");
    public def scyBlue = Color.web("#0042f1");
    public def scyMagenta = Color.web("#0ea7bf");
+   public def scyBrown = Color.web("#9F8B55");
+
+   def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE);
 
    def conceptMapImageSet = EloImageSet{
       path:impagesPath;
@@ -73,10 +84,15 @@ public class ImageWindowStyler extends WindowStyler{
       name:"hypoth"
       color:scyOrange
    }
-   def informationImageSet = EloImageSet{
+   def assignmentImageSet = EloImageSet{
       path:impagesPath;
       name:"info"
       color:scyMagenta
+   }
+   def informationImageSet = EloImageSet{
+      path:impagesPath;
+      name:"quest"
+      color:scyBrown
    }
    def interviewImageSet = EloImageSet{
       path:impagesPath;
@@ -189,6 +205,64 @@ public class ImageWindowStyler extends WindowStyler{
          };
       }
    }
+
+   public override function style(window:ScyWindow,uri:URI){
+      var color:Color;
+      var eloIcon:EloIcon;
+      if (isAssignment(uri)){
+         color = assignmentImageSet.color;
+         eloIcon = createEloIcon(assignmentImageSet);
+      }
+      else{
+         var type = eloInfoControl.getEloType(uri);
+         color = getScyColor(type);
+         eloIcon = getScyEloIcon(type);
+      }
+      window.color = color;
+      window.drawerColor = color;
+      window.eloIcon = eloIcon;
+   }
+
+   public override function getScyEloIcon(uri:URI):EloIcon{
+      if (isAssignment(uri)){
+         return createEloIcon(assignmentImageSet);
+      }
+
+      var type = eloInfoControl.getEloType(uri);
+      return getScyEloIcon(type);
+   }
+
+   public override function getScyColor(uri:URI):Color{
+      if (isAssignment(uri)){
+         return assignmentImageSet.color;
+      }
+
+      var type = eloInfoControl.getEloType(uri);
+      var scyColor = getScyColor(type);
+      return scyColor;
+   }
+
+   function isAssignment(uri:URI):Boolean{
+      var type = eloInfoControl.getEloType(uri);
+      println("isAssignment({uri}), type={type}");
+      if (type==urlType){
+         var metadata = repository.retrieveMetadata(uri);
+         if (metadata!=null){
+            var functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
+            println("isAssignment({uri}), functionalType={functionalType} -> {FunctionalTypes.ASSIGMENT.equals(functionalType)}");
+            return FunctionalTypes.ASSIGMENT.equals(functionalType);
+         }
+      }
+      return false;
+   }
+
+   function createEloIcon(eloImageSet:EloImageSet):EloIcon{
+      ImageEloIcon{
+         activeImage:eloImageSet.activeImage;
+         inactiveImage:eloImageSet.inactiveImage;
+      }
+   }
+
 
    function getEloImageSet(type:String):EloImageSet{
       var eloImageSet:EloImageSet;
