@@ -130,7 +130,7 @@ public class JXEntryPanel extends JXPanel {
 	}
 
 	private void createDeleteButton() {
-		deleteButton = new JXButton(Images.Delete.getIcon());
+		deleteButton = new JXButton(Images.FDelete.getIcon());
 		deleteButton.setOpaque(false);
 		deleteButton.setBorder(BorderFactory.createEmptyBorder());
 		deleteButton.setEnabled(false);
