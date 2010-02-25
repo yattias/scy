@@ -19,17 +19,52 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
  */
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.config.MissionModelUtils");
 
-public class MissionModelUtils {}
+public class MissionModelUtils {
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 public function retrieveMissionModelFromConfig(config: Config): MissionModelFX {
    var basicMissionMap = config.getBasicMissionMap();
    var missionModel = MissionModelFX {
-              id: basicMissionMap.getId();
-              name: basicMissionMap.getName();
-              loEloUris: createExistingEloUriSequence(basicMissionMap.getLoEloUris(), "mission map", config)
-              lasses: createLasSequence(basicMissionMap.getLasses(), config.getBasicMissionAnchors(), config);
-           }
+         id: basicMissionMap.getId();
+         name: basicMissionMap.getName();
+         loEloUris: createExistingEloUriSequence(basicMissionMap.getLoEloUris(), "mission map", config)
+         lasses: createLasSequence(basicMissionMap.getLasses(), config.getBasicMissionAnchors(), config);
+      }
    var initialActiveLasId = config.getBasicMissionMap().getInitialLasId();
    if (initialActiveLasId != null) {
       var initialActiveLas: Las;
@@ -39,7 +74,7 @@ public function retrieveMissionModelFromConfig(config: Config): MissionModelFX {
          }
       }
       if (initialActiveLas != null) {
-         missionModel.anchorSelected(initialActiveLas,null);
+         missionModel.anchorSelected(initialActiveLas, null);
       } else {
          logger.error("cannot find initial active las with id {initialActiveLasId}");
       }
@@ -50,7 +85,7 @@ public function retrieveMissionModelFromConfig(config: Config): MissionModelFX {
 
 function createExistingEloUriSequence(uriList: List, objectLabel: String, config: Config): URI[] {
    var uris: URI[];
-   if (uriList!=null){
+   if (uriList != null) {
       for (object in uriList) {
          var uri = object as URI;
          var metadata = config.getRepository().retrieveMetadata(uri);
@@ -67,26 +102,26 @@ function createExistingEloUriSequence(uriList: List, objectLabel: String, config
 function createLasSequence(lasList: List, missionAnchorList: List, config: Config): Las[] {
    var lasIdMap = new HashMap();
    var lasses: Las[];
-   if (lasList!=null)
+   if (lasList != null)
       lasses = for (object in lasList) {
-              var basicLas = object as BasicLas;
-              var las = Las {
-                         id: basicLas.getId();
-                         xPos: basicLas.getxPosition();
-                         yPos: basicLas.getyPosition();
-                         loEloUris: createExistingEloUriSequence(basicLas.getLoEloUris(), "las {basicLas.getId()}", config)
-                         toolTip: basicLas.getTooltip();
-                      }
-              if (not lasIdMap.containsKey(las.id)) {
-                 lasIdMap.put(las.id, las);
-              } else {
-                 logger.error("duplicate las id: {las.id}");
-              }
+         var basicLas = object as BasicLas;
+         var las = Las {
+               id: basicLas.getId();
+               xPos: basicLas.getxPosition();
+               yPos: basicLas.getyPosition();
+               loEloUris: createExistingEloUriSequence(basicLas.getLoEloUris(), "las {basicLas.getId()}", config)
+               toolTip: basicLas.getTooltip();
+            }
+         if (not lasIdMap.containsKey(las.id)) {
+            lasIdMap.put(las.id, las);
+         } else {
+            logger.error("duplicate las id: {las.id}");
+         }
 
-              las
-           }
+         las
+      }
    // fix the next las links
-   if (lasList!=null)
+   if (lasList != null)
       for (object in lasList) {
          var basicLas = object as BasicLas;
          var las = lasIdMap.get(basicLas.getId()) as Las;
@@ -101,40 +136,40 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
       }
    // fix the mission anchor links
    var missionAnchorMap = new HashMap();
-   var missionAnchors:MissionAnchorFX[];
-   if (missionAnchorList!=null){
+   var missionAnchors: MissionAnchorFX[];
+   if (missionAnchorList != null) {
       missionAnchors = for (object in missionAnchorList) {
-              var anchor = object as BasicMissionAnchor;
-              var missionAnchor = MissionAnchorFX {
-                         id: anchor.getId()
-                         eloUri: anchor.getUri()
-                         metadata: anchor.getMetadata();
-                         exists:anchor.getMetadata()!=null;
-                         loEloUris: createExistingEloUriSequence(anchor.getLoEloUris(), "las {anchor.getId()}", config)
-                      }
-              if (not missionAnchorMap.containsKey(missionAnchor.id)) {
-                 missionAnchorMap.put(missionAnchor.id, missionAnchor);
-              } else {
-                 logger.error("duplicate anchor id: {missionAnchor.id}");
-              }
-              missionAnchor;
-           }
+         var anchor = object as BasicMissionAnchor;
+         var missionAnchor = MissionAnchorFX {
+               id: anchor.getId()
+               eloUri: anchor.getUri()
+               metadata: anchor.getMetadata();
+               exists: anchor.getMetadata() != null;
+               loEloUris: createExistingEloUriSequence(anchor.getLoEloUris(), "las {anchor.getId()}", config)
+            }
+         if (not missionAnchorMap.containsKey(missionAnchor.id)) {
+            missionAnchorMap.put(missionAnchor.id, missionAnchor);
+         } else {
+            logger.error("duplicate anchor id: {missionAnchor.id}");
+         }
+         missionAnchor;
+      }
 
       for (object in missionAnchorList) {
          var anchor = object as BasicMissionAnchor;
          var missionAnchor = missionAnchorMap.get(anchor.getId()) as MissionAnchorFX;
          for (objectId in anchor.getInputMissionAnchorIds()) {
             var inputMissionAnchorId = objectId as String;
-            var inputtMissionAnchor = missionAnchorMap.get(inputMissionAnchorId) as MissionAnchorFX;
-            if (inputtMissionAnchor != null) {
-   //            insert inputtMissionAnchor into missionAnchor.nextAnchors;
+            var inputMissionAnchor = missionAnchorMap.get(inputMissionAnchorId) as MissionAnchorFX;
+            if (inputMissionAnchor != null) {
+               insert inputMissionAnchor into missionAnchor.inputAnchors;
                } else {
                logger.error("cannot find next mission anchor id {inputMissionAnchorId} for mission anchor id {missionAnchor.id}");
                }
             }
          }
    }
-   if (lasList!=null){
+   if (lasList != null) {
       for (object in lasList) {
          var basicLas = object as BasicLas;
          var las = lasIdMap.get(basicLas.getId()) as Las;
@@ -142,7 +177,7 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
          if (las.mainAnchor == null) {
             logger.error("cannot find anchor elo id {basicLas.getAnchorEloId()} for las id {las.id}");
             }
-         if (basicLas.getIntermediateEloIds()!=null){
+         if (basicLas.getIntermediateEloIds() != null) {
             for (anchorId in basicLas.getIntermediateEloIds()) {
                var id = anchorId as String;
                var intermediateAnchor = missionAnchorMap.get(anchorId) as MissionAnchorFX;
