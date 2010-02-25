@@ -90,6 +90,8 @@ public class ScyDesktopCreator {
          windowStyler = ImageWindowStyler {
             eloInfoControl: eloInfoControl;
             impagesPath:initializer.eloImagesPath
+            repository:config.getRepository()
+            metadataTypeManager:config.getMetadataTypeManager()
          };
       }
       var scyToolCreatorRegistryFXImpl = ScyToolCreatorRegistryFXImpl{
@@ -279,9 +281,9 @@ public class ScyDesktopCreator {
 
    function addAnchorStatusInformation(missionAnchor: MissionAnchorFX) {
       // fill in the missing info
-      var type = eloInfoControl.getEloType(missionAnchor.eloUri);
-      missionAnchor.color = windowStyler.getScyColor(type);
-      missionAnchor.iconCharacter = windowStyler.getScyIconCharacter(type);
+      //var type = eloInfoControl.getEloType(missionAnchor.eloUri);
+      missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
+      //missionAnchor.iconCharacter = windowStyler.getScyIconCharacter(missionAnchor.eloUri);
       if (missionAnchor.eloUri!=null){
          missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
       }
