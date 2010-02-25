@@ -50,12 +50,12 @@
     <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="lasService" ref="lasService"/>
-        <!--property name="serverService" ref="serverService"/-->
+        <property name="serverService" ref="serverService"/>
     </bean>
 
     <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">
         <property name="lasService" ref="lasService"/>
-        <!--property name="serverService" ref="serverService"/-->
+        <property name="serverService" ref="serverService"/>
     </bean>
 
 

@@ -2,6 +2,7 @@ package eu.scy.core;
 
 import eu.scy.core.model.Server;
 import eu.scy.core.persistence.ServerDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,6 +24,7 @@ public class ServerServiceImpl extends BaseServiceImpl implements ServerService{
     }
 
     @Override
+    @Transactional
     public Server getServer() {
         return serverDAO.getServer();
     }

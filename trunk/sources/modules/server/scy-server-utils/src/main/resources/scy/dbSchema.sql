@@ -229,6 +229,7 @@ CREATE TABLE `server` (
 	`name` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
+    `serverCSS` varchar(250) default NULL,
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -245,7 +246,6 @@ CREATE TABLE `studentplannedactivities_related_to_users` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-set FOREIGN_KEY_CHECKS=1;
 
 DROP TABLE IF EXISTS `eloref`;
 CREATE TABLE `eloref` (
@@ -293,6 +293,8 @@ CREATE TABLE `playful_assessment` (
 	CONSTRAINT `assessmentRefEloRef` FOREIGN KEY (`eloref_primKey`) REFERENCES `eloref` (`primKey`),
   	CONSTRAINT `assessmentRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 set FOREIGN_KEY_CHECKS=1;
 

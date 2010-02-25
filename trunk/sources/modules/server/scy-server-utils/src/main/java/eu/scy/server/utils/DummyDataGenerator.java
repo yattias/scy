@@ -35,15 +35,8 @@ public class DummyDataGenerator implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("============================================================================");
-        log.info("============================================================================");
-        log.info("============================================================================");
-        log.info("============================================================================");
-        log.info("============================================================================");
-        generatePedagogicalPlanTemplates();
+        //generatePedagogicalPlanTemplates();
         generatedMissionMapBasedOnXML();
-
-        //generateDummyUsers();
     }
     
 
@@ -68,13 +61,13 @@ public class DummyDataGenerator implements InitializingBean {
 
         List lases = getImportedXMLMission().getBasicMissionMap().getLasses();
         AnchorELO currentAnchorELO = null;
-        for (int i = 0; i < lases.size(); i++) {
-            BasicLas basicLas = (BasicLas) lases.get(i);
+        for (int lasCounter = 0; lasCounter < lases.size(); lasCounter++) {
+            BasicLas basicLas = (BasicLas) lases.get(lasCounter);
 
             LearningActivitySpace learninigActivitySpace =  createLAS(basicLas.getId(), (int)basicLas.getxPosition(), (int) basicLas.getyPosition(), scenario);
             learninigActivitySpace.setParticipatesIn(scenario);
             getScenarioService().save(learninigActivitySpace);
-            if(i == 0)  {
+            if(lasCounter == 0)  {
                 scenario.setLearningActivitySpace(learninigActivitySpace);
             } else {
                 currentAnchorELO.setInputTo(learninigActivitySpace);
@@ -84,7 +77,7 @@ public class DummyDataGenerator implements InitializingBean {
             if(anchor != null) {
                 AnchorELO outputFromLearningActivitySpace = createAnchorELO(anchor.getId(), "");
                 currentAnchorELO = outputFromLearningActivitySpace;
-                Activity doTheStuff = addActivity(learninigActivitySpace, "To the stuff", outputFromLearningActivitySpace);
+                Activity doTheStuff = addActivity(learninigActivitySpace, "To the stuff - " + currentAnchorELO.getName(), outputFromLearningActivitySpace);
             }
 
         }

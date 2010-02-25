@@ -1,33 +1,34 @@
-<%@ include file="../authorheader.jsp" %>
+<%@ include file="common-taglibs.jsp" %>
+<tiles:insertDefinition name="default-page">
+    <tiles:putAttribute name="main">
 
-<h1>${pedagogicalPlan.name}</h1>
-<p>
-    ${pedagogicalPlan.description}
-</p>
+        <h1>${pedagogicalPlan.name}</h1>
 
-<div id="scenario_part">
-    ${pedagogicalPlan.scenario.name}
-</div>
+        <p>
+                ${pedagogicalPlan.description}
+        </p>
 
-   <c:choose>
-        <c:when test="${fn:length(learningActivitySpaces) > 0}">
-            <table id="pedagogicalPlansTable" border="2">
-                <h5>Learning activity spaces</h5>
-                <tr>
-                    <th></th>
-                </tr>
-                <c:forEach var="las" items="${learningActivitySpaces}">
+        <div id="scenario_part">
+                ${pedagogicalPlan.scenario.name}
+        </div>
+
+        <c:choose>
+            <c:when test="${fn:length(learningActivitySpaces) > 0}">
+                <table id="pedagogicalPlansTable" border="2">
+                    <h5>Learning activity spaces</h5>
                     <tr>
-                        <td><a href="viewLAS.html?id=${las.id}">${las.name}</a></td>
+                        <th></th>
                     </tr>
-                </c:forEach>
-            </table>
-            <br>
-        </c:when>
-    </c:choose>
+                    <c:forEach var="las" items="${learningActivitySpaces}">
+                        <tr>
+                            <td><a href="viewLAS.html?id=${las.id}">${las.name}</a></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br>
+            </c:when>
+        </c:choose>
 
 
-
-
-
-<%@ include file="../authorfooter.jsp"%>
+    </tiles:putAttribute>
+</tiles:insertDefinition>
