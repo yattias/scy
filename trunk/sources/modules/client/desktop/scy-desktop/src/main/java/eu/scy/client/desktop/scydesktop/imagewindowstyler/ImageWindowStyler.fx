@@ -244,12 +244,12 @@ public class ImageWindowStyler extends WindowStyler{
 
    function isAssignment(uri:URI):Boolean{
       var type = eloInfoControl.getEloType(uri);
-      println("isAssignment({uri}), type={type}");
+      //println("isAssignment({uri}), type={type}");
       if (type==urlType){
          var metadata = repository.retrieveMetadata(uri);
          if (metadata!=null){
             var functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
-            println("isAssignment({uri}), functionalType={functionalType} -> {FunctionalTypes.ASSIGMENT.equals(functionalType)}");
+            //println("isAssignment({uri}), functionalType={functionalType} -> {FunctionalTypes.ASSIGMENT.equals(functionalType)}");
             return FunctionalTypes.ASSIGMENT.equals(functionalType);
          }
       }
