@@ -23,7 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Resizable;
 import javax.swing.JComponent;
 import java.awt.Dimension;
-
+import javafx.scene.layout.VBox;
 
 
 /**
@@ -93,37 +93,45 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
 
    }
 
-   public override function create(): Node {
+    public override function create(): Node {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
         studentPlanningController = new StudentPlanningController(null);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = SwingComponent.wrap(panel);
-     return Group {
-         blocksMouse:true;
-         cache:false;
-         content:
-
-            wrappedSPTPanel;
-
-
-
-      };
+        
+        return VBox {
+            blocksMouse:true;
+            cache:false;
+            content:wrappedSPTPanel;
+        };
    }
 
+   def spacing = 5.0;
+
+   
      function resizeContent(){
 //      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
 //      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
 //      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
-      var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-5);
+      //var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-5);
       // setPreferredSize is needed
-      panel.setPreferredSize(size);
+      //panel.setPreferredSize(size);
       //panel.resizeChat(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
       // setSize is not visual needed
       // but set it, so the component react to it
       //panel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+      //println("resized whiteboardPanel to ({width},{height
+
+
+       var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
+      // setPreferredSize is needed
+      panel.setPreferredSize(size);
+      studentPlanningTool.resizeSPT(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
+      // setSize is not visual needed
+      // but set it, so the component react to it
+      panel.setSize(size);
    }
 
    public override function getPrefHeight(width: Number) : Number{
