@@ -33,4 +33,6 @@ public interface AnchorELO extends PlannedELO, Assessable, PositionedObject {
     public void setObligatoryInPortfolio(boolean obligatoryInPortfolio);
     public boolean getObligatoryInPortfolio();
 
+    String getMissionMapId();
+    void setMissionMapId(String missionMapId);
 }

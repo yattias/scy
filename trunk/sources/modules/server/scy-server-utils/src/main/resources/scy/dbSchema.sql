@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS `anchorelo`;
 CREATE TABLE `anchorelo` (
 	`primKey` varchar(55) NOT NULL default '',
 	`name` varchar(250) default NULL,
+	`missionMapId` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `xPos` bigint(20) NOT NULL default '0',

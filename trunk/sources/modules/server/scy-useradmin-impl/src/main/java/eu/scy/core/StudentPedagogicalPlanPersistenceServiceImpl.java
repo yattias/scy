@@ -46,6 +46,11 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     }
 
     @Override
+    public StudentPlanELO getStudentPlanElo(String id) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlanElo(id);
+    }
+
+    @Override
     public void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity){
         getStudentPedagogicalPlanPersistenceDAO().addMemberToStudentPlannedActivity(member, studentPlannedActivity);
 
@@ -62,13 +67,13 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String achorELOId) {
-        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlannedActivity(achorELOId);
+    public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlannedActivity(achorELOId, userName);
     }
 
     @Override
-    public StudentPlanELO getStudentPlanELO(String eloId) {
-        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlanELO(eloId);
+    public StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlanELOBasedOnELOId(eloId);
     }
 
     @Override

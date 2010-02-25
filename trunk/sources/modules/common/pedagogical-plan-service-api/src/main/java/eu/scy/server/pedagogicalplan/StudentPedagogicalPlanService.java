@@ -33,10 +33,10 @@ public interface StudentPedagogicalPlanService {
 
     /**
      * will retrieve an already existing student planned activity, or create a new one
-     * @param achorELOId
-     * @return
+     * @param userName
+     *@param achorELOId  @return
      */
-    StudentPlannedActivity getStudentPlannedActivity(String achorELOId);
+    StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId);
 
     StudentPlanELO getStudentPlanELO(String eloId);
 }

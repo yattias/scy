@@ -22,15 +22,17 @@ public interface StudentPedagogicalPlanPersistenceService extends BaseService{
 
     List<StudentPlanELO> getStudentPlans(String username);
 
+    public StudentPlanELO getStudentPlanElo(String id);
+
     void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity);
 
     void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity);
 
     void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO);
 
-    StudentPlannedActivity getStudentPlannedActivity(String achorELOId);
+    StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId);
 
-    StudentPlanELO getStudentPlanELO(String eloId);
+    StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId);
 
     void removeMember(StudentPlannedActivity studentPlannedActivity, String user);
 }

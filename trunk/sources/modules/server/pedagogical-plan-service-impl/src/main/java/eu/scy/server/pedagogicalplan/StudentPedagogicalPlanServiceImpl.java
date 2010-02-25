@@ -6,7 +6,6 @@ import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
-import roolo.api.IRepository;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -74,12 +73,12 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String achorELOId) {
-        return getStudentPedagogicalPlanPersistenceService().getStudentPlannedActivity(achorELOId);
+    public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId) {
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlannedActivity(userName, achorELOId);
     }
 
     @Override
     public StudentPlanELO getStudentPlanELO(String eloId){
-        return getStudentPedagogicalPlanPersistenceService().getStudentPlanELO(eloId);
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlanELOBasedOnELOId(eloId);
     }
 }

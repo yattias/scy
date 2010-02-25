@@ -26,6 +26,8 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
 
     private boolean obligatoryInPortfolio = false;
 
+    private String missionMapId;
+
     private int xPos;
     private int yPos;
 
@@ -90,5 +92,13 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
         this.yPos = yPos;
     }
 
+    @Override
+    public String getMissionMapId() {
+        return missionMapId;
+    }
 
+    @Override
+    public void setMissionMapId(String missionMapId) {
+        this.missionMapId = missionMapId;
+    }
 }

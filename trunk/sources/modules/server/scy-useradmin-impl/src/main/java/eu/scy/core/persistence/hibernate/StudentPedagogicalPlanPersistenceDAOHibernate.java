@@ -10,7 +10,6 @@ import eu.scy.core.persistence.StudentPedagogicalPlanPersistenceDAO;
 import org.apache.log4j.Logger;
 import roolo.api.IRepository;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -184,14 +183,23 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId) {
-        log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
-        log.info("HERE IS THE ANCHOR ELO ID: " + anchorELOId);
+    public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName) {
+        User user = getUserByUsername(userName);
+        if(user != null) {
+            return (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl where associatedELO.missionMapId like :anchorELOId and studentPlan.user = :user ")
+                            .setString("anchorELOId", anchorELOId)
+                            .setEntity("user", user)
+                            .uniqueResult();
+
+        }
+
+        log.warn("DID NOT FIND A MATCHING STUDENT PLANNED ACTIVITY");
         return null;
+
     }
 
     @Override
-    public StudentPlanELO getStudentPlanELO(String eloId) {
+    public StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId) {
         log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
         log.info("HERE IS THE ELO ID:" + eloId);
         return null;
@@ -203,5 +211,13 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         User user = getUserByUsername(userName);
         studentPlannedActivity.getMembers().remove(user);
         save(studentPlannedActivity);
+    }
+
+    @Override
+    public StudentPlanELO getStudentPlanElo(String id) {
+        return (StudentPlanELO) getSession().createQuery("from StudentPlanELOImpl where id like :id")
+                .setString("id", id)
+                .uniqueResult();
+
     }
 }
