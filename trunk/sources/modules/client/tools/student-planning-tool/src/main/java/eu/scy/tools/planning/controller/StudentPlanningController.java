@@ -190,21 +190,21 @@ public class StudentPlanningController {
 
 	
 	public void acceptDrop(Object drop) {
-		log.info("we just dropped a load of..." + drop.toString());
-		if( drop instanceof BasicMetadata ) {
-			
-			
-			
-			
-		} else if(drop instanceof IAwarenessUser ){
-			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
-			JXTaskPane openTaskPane = getOpenTaskPane();
-			
-			JXBuddyPanel jxBuddyPanel = this.taskPanesToBuddyPanels.get(openTaskPane);
-			jxBuddyPanel.addBuddy(awarenessUser);
-			//awarenessUser.get
-		}
-		
+//		log.info("we just dropped a load of..." + drop.toString());
+//		if( drop instanceof BasicMetadata ) {
+//			
+//			
+//			
+//			
+//		} else if(drop instanceof IAwarenessUser ){
+//			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
+//			JXTaskPane openTaskPane = getOpenTaskPane();
+//			
+//			JXBuddyPanel jxBuddyPanel = this.taskPanesToBuddyPanels.get(openTaskPane);
+//			jxBuddyPanel.addBuddy(awarenessUser);
+//			//awarenessUser.get
+//		}
+//		
 	}
 	
 	
