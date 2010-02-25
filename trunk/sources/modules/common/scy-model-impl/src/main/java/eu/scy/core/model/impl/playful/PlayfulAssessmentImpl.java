@@ -57,7 +57,7 @@ public class PlayfulAssessmentImpl extends BaseObjectImpl implements PlayfulAsse
 	}
 
 	@ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_primKey")
+	@JoinColumn(name = "reviewer_primKey")
 	@Override
 	public User getReviewer() {
 		return reviewer;

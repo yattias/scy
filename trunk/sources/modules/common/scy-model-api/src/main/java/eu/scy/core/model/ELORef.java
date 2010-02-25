@@ -9,9 +9,9 @@ import eu.scy.core.model.pedagogicalplan.Mission;
  * Holds a reference to an ELO
  */
 public interface ELORef extends BaseObject {
-	String getURI();
+	String getELOURI();
 
-	void setURI(String uri);
+	void setELOURI(String uri);
 
 	String getTitle();
 

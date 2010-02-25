@@ -32,15 +32,28 @@
 
 	<!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="order" value="2"></property>
+		<property name="order" value="2"/>
 		<property name="mappings">
 			<value>
-				/app/playful/index.html=playfulIndexController
+				/app/playful/elorefs.html=eloRefsController
+				/app/playful/assesselo.html=assessEloController
+				/app/playful/createmockdata.html=createMockDataController
 			</value>
 		</property>
 	</bean>
 
-	<bean id="playfulIndexController" class="eu.scy.server.controllers.PlayfulIndexController">
+	<bean id="eloRefsController" class="eu.scy.server.controllers.EloRefsController">
 		<property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+		<property name="ELORefService" ref="eloRefService"/>
+	</bean>
+	<bean id="assessEloController" class="eu.scy.server.controllers.AssessEloController">
+		<property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+		<property name="ELORefService" ref="eloRefService"/>
+	</bean>
+	<bean id="createMockDataController" class="eu.scy.server.controllers.CreateMockDataController">
+		<property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+		<property name="ELORefService" ref="eloRefService"/>
+		<property name="userService" ref="userService"/>
+		<property name="missionService" ref="missionService"/>
 	</bean>
 </beans>

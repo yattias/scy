@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.playful.PlayfulAssessment;
 import eu.scy.core.persistence.PlayfulAssessmentDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,17 @@ public class PlayfulAssesmentServiceImpl extends BaseServiceImpl implements Play
 	}
 
 	@Override
+	public PlayfulAssessment getAssessmentById(String assessmentId) {
+		return getPlayfulAssessmentDAO().getAssessmentById(assessmentId);
+	}
+
+	@Override
+	public List<PlayfulAssessment> getAssesmentsForELORef(ELORef eloRef) {
+		return getPlayfulAssessmentDAO().getAssessmentsForELORef(eloRef);
+	}
+
+	@Override
+	@Transactional
 	public void save(PlayfulAssessment scenario) {
 		getPlayfulAssessmentDAO().save(scenario);
 	}

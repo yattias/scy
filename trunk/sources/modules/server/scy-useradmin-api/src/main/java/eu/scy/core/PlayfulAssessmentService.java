@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.playful.PlayfulAssessment;
 
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.List;
  */
 public interface PlayfulAssessmentService extends BaseService {
 	List<PlayfulAssessment> getAssesments();
+
+	PlayfulAssessment getAssessmentById(String assessmentId);
+
+	List<PlayfulAssessment> getAssesmentsForELORef(ELORef eloRef);
 
 	void save(PlayfulAssessment scenario);
 }
