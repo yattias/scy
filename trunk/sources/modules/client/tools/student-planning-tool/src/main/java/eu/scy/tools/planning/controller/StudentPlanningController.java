@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -141,13 +143,30 @@ public class StudentPlanningController {
 	}
 	
 	public void removeEntry(JXEntryPanel entryPanel) {
-		taskPanes.remove(entryPanel);
-		entryContainer.remove(entryPanel);
 		
-		this.studentPlanELO.getStudentPlannedActivities().remove(entryPanel.getStudentPlannedActivity());
 		
-		getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
-		entryContainer.revalidate();
+		StudentPlannedActivity studentPlannedActivity = entryPanel.getStudentPlannedActivity();
+		
+		log.severe("removing studentPlannedActivity :" + studentPlannedActivity);
+		if( studentPlannedActivity == null ) {
+			
+				String msg = "<html>There is no student planned activity to remove</html>";
+
+				JOptionPane optionPane = new JOptionPane();
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null,
+						"For Your Information");
+				dialog.setVisible(true);
+		} else {
+			getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
+			//getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
+			taskPanes.remove(entryPanel);
+			entryContainer.remove(entryPanel);
+			entryContainer.revalidate();
+		}
+		
+		
 		
 	}
 
