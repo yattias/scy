@@ -186,7 +186,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName) {
         User user = getUserByUsername(userName);
         if(user != null) {
-            return (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl where associatedELO.missionMapId like :anchorELOId and studentPlan.user = :user ")
+            return (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl as spa where spa.assoicatedELO.missionMapId like :anchorELOId and spa.studentPlan.user = :user ")
                             .setString("anchorELOId", anchorELOId)
                             .setEntity("user", user)
                             .uniqueResult();
