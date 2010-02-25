@@ -37,6 +37,9 @@ public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
 
         //var studentPlanningTool = new StudentPlanningTool(null);
 
+         println("toolbroker IN CONTENT CREATOR {toolBrokerAPI}");
+
+
         return StudentPlanningToolNode{
             toolBrokerAPI:toolBrokerAPI;
          }
