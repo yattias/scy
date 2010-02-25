@@ -190,7 +190,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     @Override
     public StudentPlanELO getStudentPlanELO(String eloId) {
         log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
-        log.info("HERE IS THE ELO ID:" + eloId)
+        log.info("HERE IS THE ELO ID:" + eloId);
         return null;
     }
 
