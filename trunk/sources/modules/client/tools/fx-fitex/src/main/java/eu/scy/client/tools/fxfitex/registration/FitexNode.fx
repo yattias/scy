@@ -258,10 +258,10 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
 
    public override function getMinHeight() : Number{
-      return 350;
+      return 270;
    }
 
    public override function getMinWidth() : Number{
-      return 550;
+      return 460;
    }
 }
