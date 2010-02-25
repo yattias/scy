@@ -168,6 +168,15 @@ public class AreaPositioner {
       var maximumIntersection = 0.0;
       for (win in placedWindows) {
          var winBounds = win.boundsInParent;
+
+         var closeWindowsBounds = BoundingBox{
+            minX: win.layoutX
+            width: win.closedBoundsWidth
+            minY: win.layoutY
+            height: win.closedBoundsHeight
+         };
+         winBounds = closeWindowsBounds;
+
          var intersection = calculateRectangleIntersection(newWindowBounds, winBounds);
          maximumIntersection = Math.max(maximumIntersection, intersection);
          if (intersection > currentMinimumIntersection) {
