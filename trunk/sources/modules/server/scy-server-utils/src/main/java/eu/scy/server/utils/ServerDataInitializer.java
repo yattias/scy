@@ -33,7 +33,7 @@ public class ServerDataInitializer implements InitializingBean {
     }
 
     private User createUser(String username, String password) {
-        return getUserService().createUser(username, password, "STUDENT_ROLE");
+        return getUserService().createUser(username, password, "ROLE_STUDENT");
     }
 
     private void generateDummyUsers() {
@@ -48,7 +48,7 @@ public class ServerDataInitializer implements InitializingBean {
     private void addUserIfNotExists(String firstName, String lastName, String userName, String password) {
         log.info("ADding user if not exists: " + firstName + " " + lastName + " " + userName + " shhhhh " + password);
         if (getUserService().getUser(userName) == null) {
-            getUserService().createUser(userName, password, "STUDENT_ROLE");
+            getUserService().createUser(userName, password, "ROLE_STUDENT");
         }
     }
 
