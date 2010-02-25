@@ -24,6 +24,7 @@ import javafx.scene.layout.Resizable;
 import javax.swing.JComponent;
 import java.awt.Dimension;
 import javafx.scene.layout.VBox;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 
 /**
@@ -116,18 +117,6 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
    
      function resizeContent(){
-//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
-//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
-//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
-      //var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-5);
-      // setPreferredSize is needed
-      //panel.setPreferredSize(size);
-      //panel.resizeChat(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      //panel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height
-
 
        var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
       // setPreferredSize is needed
