@@ -27,9 +27,15 @@ public class ELORefServiceImpl extends BaseServiceImpl implements ELORefService 
 		return getEloRefDAO().getELORefs();
 	}
 
+	@Transactional
 	@Override
 	public void save(ELORef eloRef) {
 		getEloRefDAO().save(eloRef);
+	}
+
+	@Override
+	public ELORef getELORefById(String id) {
+		return getEloRefDAO().getELORefById(id);
 	}
 
 	public ELORefDAO getEloRefDAO() {

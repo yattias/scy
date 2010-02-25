@@ -1,5 +1,6 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.playful.PlayfulAssessment;
 
 import java.util.List;
@@ -12,4 +13,8 @@ public interface PlayfulAssessmentDAO extends SCYBaseDAO {
 	List<PlayfulAssessment> getAssessments();
 
 	void createAssessment(PlayfulAssessment assessment);
+
+	PlayfulAssessment getAssessmentById(String assessmentId);
+
+	List<PlayfulAssessment> getAssessmentsForELORef(ELORef eloRef);
 }

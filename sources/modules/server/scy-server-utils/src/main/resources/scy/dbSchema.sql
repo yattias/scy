@@ -255,22 +255,21 @@ CREATE TABLE `eloref` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
 
-	`elo_uri` varchar(200) NOT NULL,
-	`title` varchar(128) NOT NULL,
+	`elo_uri` varchar(200) DEFAULT NULL,
+	`title` varchar(128) DEFAULT NULL,
 	`image` varchar(100) DEFAULT NULL,
 	`tool` varchar(128) DEFAULT NULL,
 	`type` varchar(128) DEFAULT NULL,
 	`topic` varchar(128) DEFAULT NULL,
-	`user_primKey` bigint(20) NULL,
+	`user_primKey` bigint(20) DEFAULT NULL,
 	`date` datetime DEFAULT NULL,
 	`version` int(11) DEFAULT NULL,
 	`mission_primKey` varchar(55) default NULL,
 
-
   	KEY `eloRefUser` (`user_primKey`),
   	KEY `eloRefMission` (`mission_primKey`),
     CONSTRAINT `eloRefMission` FOREIGN KEY (`mission_primKey`) REFERENCES `mission` (`primKey`),
-  	CONSTRAINT `eloRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`),
+  	CONSTRAINT `eloRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `users` (`id`),
 	PRIMARY KEY  (`primKey`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -282,17 +281,17 @@ CREATE TABLE `playful_assessment` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
 
-	`eloref_primKey` varchar(55) NOT NULL,
-	`comment` text NOT NULL,
+	`eloref_primKey` varchar(55) DEFAULT NULL,
+	`comment` text DEFAULT NULL,
 	`date` datetime DEFAULT NULL,
-	`user_primKey` int(11) NOT NULL,
+	`reviewer_primKey` bigint(20) DEFAULT NULL,
 	`score` int(11) DEFAULT NULL,
 
 	PRIMARY KEY  (`primKey`),
 	KEY `assessmentRefEloRef` (`eloref_primKey`),
-	KEY `assessmentRefUser` (`user_primKey`),
+	KEY `assessmentRefReviewer` (`reviewer_primKey`),
 	CONSTRAINT `assessmentRefEloRef` FOREIGN KEY (`eloref_primKey`) REFERENCES `eloref` (`primKey`),
-  	CONSTRAINT `assessmentRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`)
+  	CONSTRAINT `assessmentRefReviewer` FOREIGN KEY (`reviewer_primKey`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

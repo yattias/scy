@@ -13,4 +13,6 @@ public interface ELORefService extends BaseService {
 	List<ELORef> getELORefs();
 
 	void save(ELORef eloRef);
+
+	ELORef getELORefById(String id);
 }

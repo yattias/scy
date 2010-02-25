@@ -12,4 +12,6 @@ public interface ELORefDAO extends SCYBaseDAO {
 	List<ELORef> getELORefs();
 
 	void createELORef(ELORef eloRef);
+
+	ELORef getELORefById(String id);
 }

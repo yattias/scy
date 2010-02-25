@@ -13,11 +13,11 @@ import javax.persistence.*;
  * @created 23.feb.2010 18:27:04
  */
 
-@Entity
+@Entity()
 @Table(name = "eloref")
 public class ELORefImpl extends BaseObjectImpl implements ELORef {
 	private Mission mission;
-	private String uri;
+	private String eloURI;
 	private String version;
 	private String title;
 	private String image;
@@ -27,8 +27,9 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
 	private User author;
 
 	@Override
-	public String getURI() {
-		return this.uri;
+	@Column(name = "elo_uri")
+	public String getELOURI() {
+		return this.eloURI;
 	}
 
 	@Override
@@ -80,8 +81,8 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
 		this.mission = mission;
 	}
 
-	public void setURI(String uri) {
-		this.uri = uri;
+	public void setELOURI(String uri) {
+		this.eloURI = uri;
 	}
 
 	public void setVersion(String version) {

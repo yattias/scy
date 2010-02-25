@@ -2,6 +2,7 @@ package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.BaseObject;
 import eu.scy.core.persistence.MissionDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,20 +11,21 @@ import eu.scy.core.persistence.MissionDAO;
  * Time: 12:10:04
  * To change this template use File | Settings | File Templates.
  */
-public class MissionServiceImpl extends BaseServiceImpl implements MissionService{
+public class MissionServiceImpl extends BaseServiceImpl implements MissionService {
 
-    private MissionDAO missionDAO;
+	private MissionDAO missionDAO;
 
-    public MissionDAO getMissionDAO() {
-        return (MissionDAO) getScyBaseDAO();
-    }
+	public MissionDAO getMissionDAO() {
+		return (MissionDAO) getScyBaseDAO();
+	}
 
-    public void setMissionDAO(MissionDAO missionDAO) {
-        this.missionDAO = missionDAO;
-    }
+	public void setMissionDAO(MissionDAO missionDAO) {
+		this.missionDAO = missionDAO;
+	}
 
-    @Override
-    public void save(BaseObject baseObject) {
-        getMissionDAO().save(baseObject);
-    }
+	@Override
+	@Transactional
+	public void save(BaseObject baseObject) {
+		getMissionDAO().save(baseObject);
+	}
 }
