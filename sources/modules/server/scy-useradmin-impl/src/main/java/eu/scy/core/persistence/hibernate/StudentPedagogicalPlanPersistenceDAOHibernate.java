@@ -169,7 +169,10 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     @Override
     public void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity) {
         User realUser = getUserByUsername(user);
-        addMemberToStudentPlannedActivity(realUser, studentPlannedActivity);
+        if(realUser != null) {
+            addMemberToStudentPlannedActivity(realUser, studentPlannedActivity);    
+        }
+
     }
 
     @Override

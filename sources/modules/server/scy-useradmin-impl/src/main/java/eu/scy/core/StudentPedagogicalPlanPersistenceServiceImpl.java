@@ -5,6 +5,7 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.hibernate.StudentPedagogicalPlanPersistenceDAOHibernate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     }
 
 
+    @Transactional
     @Override
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) {
         return getStudentPedagogicalPlanPersistenceDAO().createStudentPlan(pedagogicalPlan, user);
