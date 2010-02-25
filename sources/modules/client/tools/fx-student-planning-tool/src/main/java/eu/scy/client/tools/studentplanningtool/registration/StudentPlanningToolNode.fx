@@ -84,7 +84,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
           println("METADATATYPEMANAGER {metadataTypeManager}");
 
-         var anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
+         var anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
 
           println("ANCHOR ID {anchorIdKey}");
 
