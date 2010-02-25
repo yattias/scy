@@ -319,7 +319,8 @@ public class StudentPlanningController {
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
 		
 		String loginUserName = toolbrokerApi.getLoginUserName();
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(loginUserName, eloId);
+		log.severe("login user name " + loginUserName);
+		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", eloId);
 		
 		return spa;
 	}
