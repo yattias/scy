@@ -4,9 +4,6 @@
  */
 package eu.scy.client.tools.studentplanningtool.registration;
 
-import colab.vt.whiteboard.component.WhiteboardPanel;
-import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
-import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import java.net.URI;
@@ -43,7 +40,7 @@ public class EloStudenPlanningActionWrapper
 {
 
    private static final Logger logger = Logger.getLogger(EloStudenPlanningActionWrapper.class.getName());
-   public static final String scyDrawType = "scy/drawing";
+   public static final String scySPT = "scy/studentplanningtool";
    public static final String untitledDocName = "untitled";
    private IRepository repository;
    private IMetadataTypeManager metadataTypeManager;
@@ -55,15 +52,13 @@ public class EloStudenPlanningActionWrapper
 //	private IMetadataKey missionKey;
    private IMetadataKey authorKey;
    private JDomStringConversion jdomStringConversion = new JDomStringConversion();
-   private WhiteboardPanel whiteboardPanel;
    private String docName = untitledDocName;
    private IELO elo = null;
-   private boolean whiteboardChanged = false;
+   
    private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
 
-   public EloStudenPlanningActionWrapper(WhiteboardPanel whiteboardPanel)
-   {
-      this.whiteboardPanel = whiteboardPanel;
+   public EloStudenPlanningActionWrapper() {
+     
    }
 
    public void addELOLoadedChangedListener(
@@ -148,7 +143,7 @@ public class EloStudenPlanningActionWrapper
    private void setDocName(String docName)
    {
       this.docName = docName;
-      String windowTitle = "Drawing: ";
+      String windowTitle = "Student Planning Tool: ";
       if (StringUtils.hasText(docName))
       {
          windowTitle += docName;
@@ -161,34 +156,7 @@ public class EloStudenPlanningActionWrapper
       return docName;
    }
 
-   public void newDrawingAction()
-   {
-      whiteboardPanel.deleteAllWhiteboardContainers();
-      elo = null;
-      docName = untitledDocName;
-      sendELOLoadedChangedListener();
-   }
-
-   public void loadDrawingAction()
-   {
-      IQuery query = null;
-      IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyDrawType, null);
-      query = metadataQuery;
-      List<ISearchResult> searchResults = repository.search(query);
-      URI[] drawingUris = new URI[searchResults.size()];
-      int i = 0;
-      for (ISearchResult searchResult : searchResults)
-      {
-         drawingUris[i++] = searchResult.getUri();
-      }
-      URI drawingUri = (URI) JOptionPane.showInputDialog(null, "Select drawing", "Select drawing",
-         JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
-      if (drawingUri != null)
-      {
-         loadElo(drawingUri);
-      }
-   }
+  
 
    public void loadElo(URI eloUri)
    {
@@ -197,7 +165,7 @@ public class EloStudenPlanningActionWrapper
       if (newElo != null)
       {
          String eloType = newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().toString();
-         if (!scyDrawType.equals(eloType))
+         if (!scySPT.equals(eloType))
          {
             throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
          }
@@ -209,103 +177,9 @@ public class EloStudenPlanningActionWrapper
          Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
 
          setDocName(titleObject3.toString());
-         whiteboardPanel.deleteAllWhiteboardContainers();
-         whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
+        
          elo = newElo;
          sendELOLoadedChangedListener();
       }
-   }
-
-   public void saveDrawingAction()
-   {
-      logger.fine("save drawing");
-      if (elo == null)
-      {
-         saveAsDrawingAction();
-      }
-      else
-      {
-         elo.getContent().setXmlString(
-            jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
-         IMetadata resultMetadata = repository.updateELO(elo);
-         eloFactory.updateELOWithResult(elo, resultMetadata);
-      }
-   }
-
-   public void saveAsDrawingAction()
-   {
-      logger.fine("save as drawing");
-      String drawingName = JOptionPane.showInputDialog("Enter drawing name:", docName);
-      if (StringUtils.hasText(drawingName))
-      {
-         setDocName(drawingName);
-         elo = eloFactory.createELO();
-         elo.setDefaultLanguage(Locale.ENGLISH);
-         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
-         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.CANADA);
-         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/drawing");
-         elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
-            new Long(System.currentTimeMillis()));
-//			try
-//			{
-//				elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
-//							new URI("roolo://somewhere/myMission.mission"));
-//			}
-//			catch (URISyntaxException e)
-//			{
-//				logger.log(Level.WARNING, "failed to create uri", e);
-//			}
-         elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
-            new Contribute("my vcard", System.currentTimeMillis()));
-         IContent content = eloFactory.createContent();
-         content.setXmlString(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
-         elo.setContent(content);
-         IMetadata resultMetadata = repository.addNewELO(elo);
-         eloFactory.updateELOWithResult(elo, resultMetadata);
-         // updateEloWithNewMetadata(elo, eloMetadata);
-         // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
-         sendELOLoadedChangedListener();
-      }
-   }
-
-   // @Action
-   // public void closeDrawingAction()
-   // {
-   // this.dispose();
-   // }
-   //
-   public void setRepository(IRepository repository)
-   {
-      this.repository = repository;
-   }
-
-   public void whiteboardContainerChanged(WhiteboardContainerChangedEvent arg0)
-   {
-      whiteboardChanged = true;
-   }
-
-   public void whiteboardContainerAdded(WhiteboardContainerChangedEvent arg0)
-   {
-      whiteboardChanged = true;
-   }
-
-   public void whiteboardContainerDeleted(WhiteboardContainerChangedEvent arg0)
-   {
-      whiteboardChanged = true;
-   }
-
-   public void whiteboardContainersCleared(WhiteboardContainerListChangedEvent arg0)
-   {
-      whiteboardChanged = true;
-   }
-
-   public void whiteboardContainersLoaded(WhiteboardContainerListChangedEvent arg0)
-   {
-      whiteboardChanged = false;
-   }
-
-   public void whiteboardPanelLoaded(WhiteboardContainerListChangedEvent arg0)
-   {
-      whiteboardChanged = false;
    }
 }
