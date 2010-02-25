@@ -470,10 +470,14 @@ public class ScyDesktop extends CustomNode, INotifiable {
         if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
             scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
         }
-        scyToolActionLogger = ScyToolActionLogger{
+        // check already there
+        //scyToolActionLogger = ScyToolActionLogger{
+        //        window:window;
+        //        config:config};
+        //scyToolsList.actionLoggerTool = scyToolActionLogger;
+        scyToolsList.actionLoggerTool = ScyToolActionLogger{
                 window:window;
                 config:config};
-        scyToolsList.actionLoggerTool = scyToolActionLogger;
         // all tools are created and placed in the window
         // now do the ScyTool initialisation
         var myEloChanged = SimpleMyEloChanged {
@@ -514,6 +518,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
         if (scyToolsList.leftDrawerTool != null) {
             window.leftDrawerTool = scyToolsList.leftDrawerTool;
         }
+        if (scyToolsList.actionLoggerTool != null) {
+            window.scyToolsList.actionLoggerTool = scyToolsList.actionLoggerTool;
+        }
         // if the window content tool is defined, meaning a new or existing elo is loaded, report this
         if (window.scyContent != null) {
             if (window.eloUri != null) {
@@ -523,6 +530,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
             }
             scyToolsList.loadedEloChanged(window.eloUri);
         }
+        // check if already in
+        //scyToolsList.actionLoggerTool = scyToolActionLogger;
+        //window.scyToolsList.actionLoggerTool = scyToolActionLogger;
     }
 
     public override function processNotification(notification: INotification): Void {
