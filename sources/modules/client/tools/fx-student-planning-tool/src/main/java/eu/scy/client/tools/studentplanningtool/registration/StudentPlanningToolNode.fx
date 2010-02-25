@@ -31,7 +31,10 @@ import javafx.scene.layout.VBox;
  */
 
  // place your code here
-public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable{
+public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
+
+    public override var width on replace {resizeContent()};
+    public override var height on replace {resizeContent()};
 
     public-init var eloSTPWrapper:EloStudenPlanningActionWrapper;
 
