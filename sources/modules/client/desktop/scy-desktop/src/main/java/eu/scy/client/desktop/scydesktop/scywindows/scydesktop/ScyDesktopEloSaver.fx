@@ -18,6 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.config.DisplayNames;
 import java.util.List;
@@ -42,6 +43,7 @@ class EloSaveAsActionHandler extends EloSaveAsActionListener{
    var modalDialogBox:ModalDialogBox;
    var eloSaverCallBack: EloSaverCallBack;
    var myElo:Boolean;
+   var scyToolActionLogger:ScyToolActionLogger;
 
    public override function eloSaved():Void{
       elo.getMetadata().getMetadataValueContainer(titleKey).setValue(eloSaveAsPanel.getTitle());
@@ -62,6 +64,7 @@ class EloSaveAsActionHandler extends EloSaveAsActionListener{
          myEloChanged.myEloChanged(elo);
       }
       eloSaverCallBack.eloSaved(elo);
+      scyToolActionLogger.eloSaved(elo);
       modalDialogBox.close();
 
    }
@@ -85,6 +88,7 @@ public class ScyDesktopEloSaver extends EloSaver {
    public var window:ScyWindow;
    public var config:Config;
    public var windowStyler:WindowStyler;
+   public var scyToolActionLogger: ScyToolActionLogger;
 
    def logicalTypeDisplayNames = config.getLogicalTypeDisplayNames();
    def functionalTypeDisplayNames = config.getFunctionalTypeDisplayNames();
@@ -155,7 +159,8 @@ public class ScyDesktopEloSaver extends EloSaver {
             myEloChanged:myEloChanged
             modalDialogBox:modalDialogBox
             eloSaverCallBack:eloSaverCallBack
-            myElo:myElo
+            myElo:myElo;
+            scyToolActionLogger:scyToolActionLogger
          });
    }
 

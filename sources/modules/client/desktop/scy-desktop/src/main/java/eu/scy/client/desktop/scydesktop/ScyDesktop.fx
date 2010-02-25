@@ -83,12 +83,7 @@ import javax.swing.JOptionPane;
  */
 public class ScyDesktop extends CustomNode, INotifiable {
 
-        def logger = Logger   .getLogger(   this.getClass()                       )
-                          ;
-
-
-
-
+    def logger = Logger.getLogger(this.getClass());
     public var initializer: Initializer;
     public var config: Config;
     def desktopScene = bind scene;
@@ -113,6 +108,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 scyDesktop: this
             //       activeAnchor: bind missionModelFX.activeAnchor;
             };
+    var scyToolActionLogger: ScyToolActionLogger;
     public def tooltipManager: TooltipManager = SimpleTooltipManager { };
     public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
                 windowManager: windows;
@@ -474,6 +470,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
         if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
             scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
         }
+        scyToolActionLogger = ScyToolActionLogger{
+                window:window;
+                config:config};
+        scyToolsList.actionLoggerTool = scyToolActionLogger;
         // all tools are created and placed in the window
         // now do the ScyTool initialisation
         var myEloChanged = SimpleMyEloChanged {
@@ -489,8 +489,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     technicalFormatKey: config.getTechnicalFormatKey()
                     window: window;
                     myEloChanged: myEloChanged;
-                    newTitleGenerator: newTitleGenerator
-                    windowStyler: windowStyler
+                    newTitleGenerator: newTitleGenerator;
+                    windowStyler: windowStyler;
+                    scyToolActionLogger: scyToolActionLogger
                 };
         // do the initialize cycle on the created tools
         scyToolsList.setEloSaver(optionPaneEloSaver);
