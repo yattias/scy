@@ -101,6 +101,10 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     public override function create(): Node {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
+
+
+        println("toolbroker on stp is {toolBrokerAPI}");
+
         studentPlanningController = new StudentPlanningController(toolBrokerAPI);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
