@@ -362,6 +362,7 @@ public class DummyDataGenerator implements InitializingBean {
         AnchorELO elo = new AnchorELOImpl();
         elo.setDescription(description);
         elo.setName(name);
+        elo.setMissionMapId(name);
         return elo;
     }
 
