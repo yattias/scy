@@ -70,6 +70,7 @@ import eu.scy.awareness.IAwarenessUser;
 import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.tools.dnd.ImageSelection;
@@ -349,13 +350,18 @@ public class StudentPlanningTool {
 			//find the activity
 			//create studenActivityPlane
 			
-			//this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
+		
+			
+			this.addTaskPane(createAnchorELOPanel(null));
 			
 		} else if(drop instanceof IAwarenessUser ){
 			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
 			JXTaskPane openTaskPane = studentPlanningController.getOpenTaskPane();
 			
 			JXBuddyPanel jxBuddyPanel = studentPlanningController.taskPanesToBuddyPanels.get(openTaskPane);
+			
+			studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
+			
 			jxBuddyPanel.addBuddy(awarenessUser);
 		}
 		
@@ -393,7 +399,7 @@ public class StudentPlanningTool {
 
 	public JXTaskPane createAnchorELOPanel(
 			StudentPlannedActivity studentPlannedActivity) {
-
+		
 		AnchorELO assoicatedELO = studentPlannedActivity.getAssoicatedELO();
 		Activity activity = assoicatedELO.getProducedBy();
 		// create a taskpane, and set it's title and icon
