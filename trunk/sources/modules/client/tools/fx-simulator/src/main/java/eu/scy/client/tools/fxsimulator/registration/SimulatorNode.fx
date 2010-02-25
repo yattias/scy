@@ -79,18 +79,34 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function acceptDrop(object: Object) {
         logger.debug("drop accepted.");
-        var yesNoOptions = ["Yes", "No"];
-        var n = -1;
-        n = JOptionPane.showOptionDialog(null,
-        "Do you want to synchronise\nwith the Dataprocessing tool?", // question
-        "Synchronise?", // title
-        JOptionPane.YES_NO_CANCEL_OPTION,
-        JOptionPane.QUESTION_MESSAGE, // icon
-        null, yesNoOptions, yesNoOptions[0]);
-        if (n == 0) {
-            initializeDatasync(object as ISynchronizable);
-        }
+        var isSync = isSynchronizingWith(object as ISynchronizable);
+        if(isSync){
+            removeDatasync(object as ISynchronizable);
+        }else{
+            var yesNoOptions = ["Yes", "No"];
+            var n = -1;
+            n = JOptionPane.showOptionDialog(null,
+                "Do you want to synchronise\nwith the Dataprocessing tool?", // question
+                "Synchronise?", // title
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, // icon
+                null, yesNoOptions, yesNoOptions[0]);
+            if (n == 0) {
+                initializeDatasync(object as ISynchronizable);
+            }
+         }
     }
+
+    
+   /* return true is scysimulator is synchronizing with fitex with this sessionID*/
+   function isSynchronizingWith(fitex : ISynchronizable) : Boolean {
+       if(fitex.getSessionID() != null and getSessionID() != null and getSessionID().equals(fitex.getSessionID())){
+            return true;
+       }else{
+            return false;
+       }
+
+   }
 
     public function initializeDatasync(fitex: ISynchronizable) {
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
@@ -98,6 +114,11 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         this.join(datasyncsession.getId());
     }
 
+    
+    public function removeDatasync(fitex: ISynchronizable) {
+        this.leave(dataCollector.getSessionID());
+        fitex.leave(fitex.getSessionID());
+    }
     public override function join(mucID: String) {
         dataCollector.join(mucID);
     }
