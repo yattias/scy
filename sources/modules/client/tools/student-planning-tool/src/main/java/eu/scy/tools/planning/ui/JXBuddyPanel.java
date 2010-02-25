@@ -152,7 +152,7 @@ public class JXBuddyPanel extends JXPanel {
 		    }
 		  });
 		
-		buddyLabel.setToolTipText(user.getNickName());
+		
 		//buddyLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 		bPanel.add(killLabel, "align right");
 		killLabel.setVisible(false);
@@ -200,8 +200,14 @@ public class JXBuddyPanel extends JXPanel {
 				
 			}
 		});
-		buddyLabel.setName(user.getNickName());
-		buddyLabel.setText(user.getNickName());
+		
+		String nickName = user.getNickName();
+		if( nickName == null )
+			nickName = "no name";
+		
+		buddyLabel.setToolTipText(nickName);
+		buddyLabel.setName(nickName);
+		buddyLabel.setText(nickName);
 		buddyLabel.setVerticalTextPosition(JXLabel.BOTTOM);
 		buddyLabel.setHorizontalTextPosition(JXLabel.CENTER);
 		this.add(bPanel);
