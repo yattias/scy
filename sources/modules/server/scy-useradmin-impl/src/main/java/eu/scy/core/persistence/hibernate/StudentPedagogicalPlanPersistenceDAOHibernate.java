@@ -152,6 +152,11 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     @Override
     public void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity) {
+        if(member == null || studentPlannedActivity == null) {
+            log.warn("TRIED TO ADD MEMBER " + member + " TO ACTIVITY " + studentPlannedActivity + "..... NULL....");
+            return;
+        }
+
         studentPlannedActivity = (StudentPlannedActivity) getHibernateTemplate().load(StudentPlannedActivityImpl.class, studentPlannedActivity.getId());
 
         getSession().refresh(studentPlannedActivity);
