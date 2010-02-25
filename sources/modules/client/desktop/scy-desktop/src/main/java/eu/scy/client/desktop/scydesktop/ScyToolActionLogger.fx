@@ -34,7 +34,7 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     def technicalFormatKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 
     postinit {
-        logger.debug("ScyToolActionLogger created for {username}@{toolname}.");
+        logger.debug("ScyToolActionLogger created for {username}@{toolname}...");
     }
 
     public override function create(): Node {
@@ -44,27 +44,44 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     public override function postInitialize(): Void {
         var action = createBasicAction("tool_start");
         actionLogger.log(action);
+        //System.out.println("***** logging postInitialize for {username}@{toolname}");
     }
 
-    public override function onClosed():Void {
-        var action = createBasicAction("tool_stopped");
+    public override function onClosed(): Void {
+        var action = createBasicAction("tool_closed");
         actionLogger.log(action);
+        //System.out.println("***** logging onClosed for {username}@{toolname}");
     }
 
-    public override function onMinimized():Void{
+    public override function onMinimized(): Void {
         var action = createBasicAction("tool_minimized");
         actionLogger.log(action);
-   }
+        //System.out.println("***** logging onMinimized for {username}@{toolname}");
+    }
 
-   public override function onUnMinimized():Void{
-           var action = createBasicAction("tool_unminimized");
+    public override function onUnMinimized(): Void {
+        var action = createBasicAction("tool_unminimized");
         actionLogger.log(action);
-   }
+        //System.out.println("***** logging onUnMinimized for {username}@{toolname}");
+    }
+
+    public override function onGotFocus(): Void {
+        var action = createBasicAction("tool_gotfocus");
+        actionLogger.log(action);
+        //System.out.println("***** logging onGotFocus for {username}@{toolname}");
+    }
+
+    public override function onLostFocus(): Void {
+        var action = createBasicAction("tool_lostfocus");
+        actionLogger.log(action);
+        //System.out.println("***** logging onLostFocus for {username}@{toolname}");
+    }
 
     public override function loadElo(eloUri: URI): Void {
         var action = createBasicAction("elo_load");
         action.addAttribute("elo_uri", eloUri.toString());
         actionLogger.log(action);
+        //System.out.println("***** logging loadElo for {username}@{toolname}");
     }
 
     public override function eloSaved(elo: IELO): Void {
@@ -73,9 +90,10 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
         var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
         action.addAttribute("elo_type", eloType);
         actionLogger.log(action);
+        //System.out.println("***** logging eloSaved for {username}@{toolname}");
     }
 
-    public override function eloSaveCancelled(elo: IELO): Void {}
+    public override function eloSaveCancelled(elo: IELO): Void {    }
 
     public function createBasicAction(type: String): IAction {
         var action = new Action();
