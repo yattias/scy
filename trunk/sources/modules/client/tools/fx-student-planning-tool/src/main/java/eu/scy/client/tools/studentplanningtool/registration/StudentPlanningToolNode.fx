@@ -67,6 +67,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     };
 
    public override function loadElo(eloUri:URI):Void{
+       println("LOAD ELO SPT: {metadataTypeManager}");
         eloSTPWrapper.loadElo(eloUri);
         setScyWindowTitle();
    }
@@ -120,7 +121,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
    def spacing = 5.0;
 
    
-     function resizeContent(){
+  function resizeContent(){
 
        var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
       // setPreferredSize is needed
