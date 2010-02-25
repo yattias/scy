@@ -35,7 +35,7 @@ public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
     function createStudentPlanningToolNode(scyWindow:ScyWindow):StudentPlanningToolNode{
         setWindowProperties(scyWindow);
 
-        var studentPlanningTool = new StudentPlanningTool(null);
+        //var studentPlanningTool = new StudentPlanningTool(null);
 
         return StudentPlanningToolNode{
             toolBrokerAPI:toolBrokerAPI;
