@@ -15,7 +15,6 @@ import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.DevNullActionLogger;
-import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -37,7 +36,6 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import org.springframework.util.StringUtils;
 
 /**
  *
@@ -52,7 +50,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
 
     /* data process visualization tool */
-    private DataProcessToolPanel dataProcessPanel;
+    private DataProcessToolPanel dataProcessPanel = null;
     private File lastUsedFileImport = null;
 
     private ToolBrokerAPI tbi;
@@ -103,11 +101,21 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     public void joinSession(String mucID){
+        if(session != null){
+            leaveSession(session.getId());
+        }
         session = tbi.getDataSyncService().joinSession(mucID, this);
         if (session == null) {
             JOptionPane.showMessageDialog(null, "join session error, null");
         } else
             readAllSyncObjects();
+    }
+
+    public void leaveSession(String mucID){
+        if(session != null){
+            session.removeSyncListener(this);
+        }
+        session = null;
     }
 
     public String getSessionID() {
