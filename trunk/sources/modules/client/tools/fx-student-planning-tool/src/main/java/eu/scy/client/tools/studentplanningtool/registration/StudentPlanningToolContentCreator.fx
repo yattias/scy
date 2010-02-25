@@ -8,6 +8,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolNode;
 import eu.scy.tools.planning.StudentPlanningTool;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author aperritano
@@ -19,6 +20,7 @@ public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
     }
 
     public var node:Node;
+    public var toolBrokerAPI:ToolBrokerAPI;
    //public var metadataTypeManager: IMetadataTypeManager;
    // public var repository:IRepository;
 
@@ -36,7 +38,7 @@ public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
         var studentPlanningTool = new StudentPlanningTool(null);
 
         return StudentPlanningToolNode{
-
+            toolBrokerAPI:toolBrokerAPI;
          }
    }
 
