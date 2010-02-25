@@ -29,6 +29,7 @@ import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.tools.planning.ui.JXBuddyPanel;
 import eu.scy.tools.planning.ui.JXEntryPanel;
 import eu.scy.tools.planning.ui.images.Images;
@@ -53,6 +54,8 @@ public class StudentPlanningController {
     private String filestreamerContext = config.getFilestreamerContext();
     private String filestreamerPort = config.getFilestreamerPort();
     private String IMAGE_BASE_DIR = "http://" + filestreamerServer+":"+filestreamerPort+filestreamerContext;
+
+	private ToolBrokerAPI toolbrokerApi;
 	
 
 	public StudentPlanningController(String eloId, String s) {
@@ -91,7 +94,8 @@ public class StudentPlanningController {
 		
 	}
 
-	public StudentPlanningController(ToolBrokerImpl toolbroker) {
+	public StudentPlanningController(ToolBrokerAPI toolbrokerApi) {
+		this.toolbrokerApi = toolbrokerApi;
 		log.info("Starting Student Planning Controller...");
 		studentPedagogicalPlanService = getStudentPlanService();
 
@@ -310,5 +314,13 @@ public class StudentPlanningController {
 		//studentPlannedActivity.removeMember(nickName);
 		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
 		
+	}
+
+	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
+		
+		String loginUserName = toolbrokerApi.getLoginUserName();
+		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(loginUserName, eloId);
+		
+		return spa;
 	}
 }

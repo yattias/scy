@@ -338,14 +338,18 @@ public class StudentPlanningTool {
 	public void acceptDrop(Object drop) {
 		
 		log.severe("we just dropped a load of..." + drop.toString());
-		if( drop instanceof BasicMetadata ) {
+		if( drop instanceof String ) {
 			
 			//find the activity
 			//create studenActivityPlane
 			
-		
 			
-			this.addTaskPane(createAnchorELOPanel(null));
+			String eloId = (String) drop;
+			
+			log.severe("ELO ID DROPPED " + eloId);
+			StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
+			
+			this.addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
 			
 		} else if(drop instanceof IAwarenessUser ){
 			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
