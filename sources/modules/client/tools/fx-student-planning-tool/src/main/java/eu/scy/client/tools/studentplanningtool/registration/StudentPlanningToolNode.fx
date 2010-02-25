@@ -42,6 +42,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     public var wrappedSPTPanel:SwingComponent;
     public var panel:JComponent;
     public var studentPlanningController:StudentPlanningController;
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var studentPlanningTool:StudentPlanningTool;
     public var metadataTypeManager: IMetadataTypeManager;
     public var scyWindow:ScyWindow on replace {
@@ -99,7 +100,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     public override function create(): Node {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
-        studentPlanningController = new StudentPlanningController(null);
+        studentPlanningController = new StudentPlanningController(toolBrokerAPI);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = SwingComponent.wrap(panel);
