@@ -27,11 +27,11 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     private String username = "default_username";
 
-    private String toolname;
+    private String toolname = "simulator";
 
-    private String missionname;
+    private String missionname = "mission 1";
 
-    private String sessionname;
+    private String sessionname = "n/a";
 
     private DataServer dataServer;
 
@@ -67,12 +67,6 @@ public class ScySimLogger implements ActionListener, IDataClient {
         COUNT++;
         this.dataServer = dataServer;
         xmlOutputter = new XMLOutputter();
-        // TODO: these properties have to be fetched from the SCY environment
-        // username = System.getProperty("user.name")+" No: "+ COUNT;
-        username = "jan";
-        missionname = "C02 neutral house";
-        toolname = "SCY Simulator";
-        sessionname = "l33ts3ss10n";
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
         // find input variables
         inputVariables = getVariables(ModelVariable.VK_INPUT);
@@ -109,14 +103,15 @@ public class ScySimLogger implements ActionListener, IDataClient {
             }
         });
         outputVariableTimer.setRepeats(false);
-        // TODO that's the way!
-        // ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-       // actionLogger = new SQLSpacesActionLogger("localhost", 2525, "actionSpace");
         actionLogger = logger;
-        // actionLogger = new DevNullActionLogger();
     }
+
     public ScySimLogger(DataServer dataServer){
         this(dataServer,new DevNullActionLogger());
+    }
+
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
@@ -135,7 +130,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
         ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
         for (ModelVariable variable : dataServer.getVariables("")) {
             if (variable.getKind() == mv && (name == null || variable.getName().equals(name))) {
-                System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
+                //System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
                 variables.add(variable);
             }
         }
@@ -144,7 +139,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("ScyDynamics.Logger actionPerformed.");
+        //System.out.println("ScyDynamics.Logger actionPerformed.");
     }
 
     @Override
@@ -244,27 +239,27 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     // TODO Should be logged from SCY-LAB?
-    public void toolStarted() {
-        IAction loginAction = createBasicAction("tool started");
-        write(loginAction);
-    }
+    //public void toolStarted() {
+    //    IAction loginAction = createBasicAction("tool started");
+    //    write(loginAction);
+    //}
 
     // TODO Should be logged from SCY-LAB?
-    public void toolStopped() {
-        IAction loginAction = createBasicAction("tool stopped");
-        write(loginAction);
-    }
+    //public void toolStopped() {
+    //    IAction loginAction = createBasicAction("tool stopped");
+    //    write(loginAction);
+    //}
 
-    public void focusGained() {
-        IAction focusGained = createBasicAction("focus gained");
-        write(focusGained);
-    }
+    //public void focusGained() {
+    //    IAction focusGained = createBasicAction("focus gained");
+    //    write(focusGained);
+    //}
 
     // TODO Should be logged from SCY-LAB?
-    public void focusLost() {
-        IAction focusLost = createBasicAction("focus lost");
-        write(focusLost);
-    }
+    //public void focusLost() {
+    //    IAction focusLost = createBasicAction("focus lost");
+    //    write(focusLost);
+    //}
 
     public String getToolName() {
         return toolname;
