@@ -296,7 +296,7 @@ public class StudentPlanningTool {
 				//dialog.setVisible(true);
 				
 				IAwarenessUser a = new AwarenessUser();
-				a.setNickName("bob");
+				a.setNickName("lars");
 				acceptDrop(a);
 				
 				
@@ -307,11 +307,11 @@ public class StudentPlanningTool {
 		JXHyperlink infoLink = new JXHyperlink(infoAction);
 		
 		
-		JXPanel messagePanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
+		JXPanel messagePanel = new JXPanel(new BorderLayout(0,0));
 		
-		messagePanel.add(messageLabel);
-		messagePanel.add(new JXLabel(" "),"growx");
-		messagePanel.add(infoLink,"right, growx");
+		messagePanel.add(messageLabel,BorderLayout.WEST);
+		//messagePanel.add(new JXLabel(" "),"growx");
+		messagePanel.add(infoLink,BorderLayout.EAST);
 //		topPanel.add(messageLabel);
 //		topPanel.add(new JXLabel(" "));
 		
@@ -337,7 +337,7 @@ public class StudentPlanningTool {
 
 	public void acceptDrop(Object drop) {
 		
-		log.info("we just dropped a load of..." + drop.toString());
+		log.severe("we just dropped a load of..." + drop.toString());
 		if( drop instanceof BasicMetadata ) {
 			
 			//find the activity
@@ -353,9 +353,10 @@ public class StudentPlanningTool {
 			
 			JXBuddyPanel jxBuddyPanel = studentPlanningController.taskPanesToBuddyPanels.get(openTaskPane);
 			
-			studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
-			
 			jxBuddyPanel.addBuddy(awarenessUser);
+			studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
+			messageLabel.setText("<html><b>Buddy Added  Successfully</b><html>");
+			
 		}
 		
 		

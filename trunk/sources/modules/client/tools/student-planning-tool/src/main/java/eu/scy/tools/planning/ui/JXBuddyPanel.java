@@ -61,11 +61,6 @@ public class JXBuddyPanel extends JXPanel {
 	public void addBuddy(IAwarenessUser user) {
 		getBuddies().add(user);
 		this.createBuddyIcon(user);
-		getMessageLabel().setText("<html><b>Buddy added.</b><html>");
-		
-		
-		
-		
 	}
 	
 	public void removeBuddy(JXLabel buddyLabel) {
@@ -74,7 +69,7 @@ public class JXBuddyPanel extends JXPanel {
 		studentPlanningController.removeMemberStudentPlannedActivity(this.studentPlannedActivity, user.getNickName());
 		getBuddies().remove(user);
 		this.remove(buddyLabel.getParent());
-		getMessageLabel().setText("<html><b>Buddy removed.</b><html>");
+		getMessageLabel().setText("<html><b>Buddy Removed Successfully.</b><html>");
 		
 		this.validate();
 		this.revalidate();
