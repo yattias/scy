@@ -10,8 +10,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -60,9 +58,10 @@ import javax.swing.JTable;
  * @author Lars Bollen
  * 
  */
-public class DataCollector extends JPanel implements ActionListener, IDataClient, WindowListener {
+public class DataCollector extends JPanel implements ActionListener, IDataClient {
 
     public enum SCAFFOLD {
+
         VOTAT,
         INC_CHANGE,
         EXTREME_VALUES,
@@ -70,7 +69,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         IDENT_HYPO,
         SHOWBUTTON;
     }
-    
     private JScrollPane pane;
     private JTable table;
     private ISimQuestViewer simquestViewer;
@@ -101,6 +99,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         if (tbi != null) {
             debugLogger.info("setting action logger to " + tbi.getActionLogger());
             logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger());
+            logger.setUsername(tbi.getLoginUserName());
         } else {
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger());
@@ -108,13 +107,11 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         setSelectedVariables(new ArrayList<ModelVariable>());
         // initialize user interface
         initGUI();
-        logger.toolStarted();
-
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
         //setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
-        
+
         // register agent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
         dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
@@ -160,11 +157,11 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
         tableModel = new DatasetTableModel(getSelectedVariables());
         table = new JTable(tableModel);
-	table.setFillsViewportHeight(true);
+        table.setFillsViewportHeight(true);
         pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pane.setSize(550, 140);
-        pane.setPreferredSize(new Dimension(550,140));
-        pane.setMaximumSize(new Dimension(550,140));
+        pane.setPreferredSize(new Dimension(550, 140));
+        pane.setMaximumSize(new Dimension(550, 140));
         pane.setViewportView(table);
         this.add(pane, BorderLayout.SOUTH);
     }
@@ -218,13 +215,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             } else if (notificationMessage.equals(SCAFFOLD.SHOWBUTTON.name())) {
                 highlight = -1;
             } else {
-                Map<String,String> message = new LinkedHashMap<String,String>();
-                if (notificationSender!=null){
-                    
-                    message.put("Notification from "+notificationSender,notificationMessage);
-                }else{
-                    
-                    message.put("Notification",notificationMessage);
+                Map<String, String> message = new LinkedHashMap<String, String>();
+                if (notificationSender != null) {
+
+                    message.put("Notification from " + notificationSender, notificationMessage);
+                } else {
+
+                    message.put("Notification", notificationMessage);
                 }
                 highlight = 0;
                 NotificationGUI notiGUI = new NotificationGUI(simquestViewer.getMainFrame(), "Notification", message, highlight);
@@ -234,10 +231,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
             NotificationGUI notiGUI = new NotificationGUI(simquestViewer.getMainFrame(), "Notification", getNotificationTexts(), highlight);
             notiGUI.prompt();
-            if (!notiGUI.showMessageAgain()){
+            if (!notiGUI.showMessageAgain()) {
                 shownMessages.add(notificationMessage);
-            }else{
-                if (shownMessages.contains(notificationMessage)){
+            } else {
+                if (shownMessages.contains(notificationMessage)) {
                     shownMessages.remove(notificationMessage);
                 }
             }
@@ -247,30 +244,29 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         }
     }
 
-    private Map<String,String> getNotificationTexts() {
+    private Map<String, String> getNotificationTexts() {
         String votat = "If a variable is not relevant for the hypothesis under, \ntest then hold that variable constant, or vary one thing at a time (VOTAT), or If not varying a variable, then pick the same value as used in the previous experiment\n\nHey dudes and dudettes, \nA short hi from Duisburg. I hope you're doing ok over there in Toronto!\n Best wishes from Jan";
         String equalIncrement = "If choosing a third value for a variable, \nthen choose an equal increment as between first and second values. Or if manipulating a variable, then choose simple, canonical manipulations ";
         String extemevalues = "Try some extreme values to see if there are limits on the proposed relationship";
         String confirmHypothesis = "Generate several additional cases in an attempt \nto either confirm or disconfirm the hypothesized relation";
         String identifyHypothesis = "Generate a small amount of data and examine for a candidate rule or relation";
-        Map<String,String> texts = new LinkedHashMap<String,String>();
-        texts.put("Vary only one thing at a time.",votat);
-        texts.put("Use equal increments when varying variables.",equalIncrement);
+        Map<String, String> texts = new LinkedHashMap<String, String>();
+        texts.put("Vary only one thing at a time.", votat);
+        texts.put("Use equal increments when varying variables.", equalIncrement);
         texts.put("Try some extreme values.", extemevalues);
-        texts.put("Try to confirm your hypothesis.",confirmHypothesis);
-        texts.put("Try to indentify a hypothesis.",identifyHypothesis);
+        texts.put("Try to confirm your hypothesis.", confirmHypothesis);
+        texts.put("Try to indentify a hypothesis.", identifyHypothesis);
         return texts;
 
     }
 
     /*public void newELO() {
-        dataset.removeAll();
-        if (sandbox != null) {
-            initSandbox();
-        }
-        //text.setText("");
+    dataset.removeAll();
+    if (sandbox != null) {
+    initSandbox();
+    }
+    //text.setText("");
     }*/
-
     public DataSet getDataSet() {
         return dataset;
     }
@@ -337,11 +333,20 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
             var = vars.next();
             switch (var.getType()) {
-                case ModelVariable.VT_BOOLEAN: type = "boolean"; break;
-                case ModelVariable.VT_INTEGER: type = "integer"; break;
-                case ModelVariable.VT_STRING: type = "string"; break;
-                case ModelVariable.VT_REAL: type = "double"; break;
-                default: type = "double";
+                case ModelVariable.VT_BOOLEAN:
+                    type = "boolean";
+                    break;
+                case ModelVariable.VT_INTEGER:
+                    type = "integer";
+                    break;
+                case ModelVariable.VT_STRING:
+                    type = "string";
+                    break;
+                case ModelVariable.VT_REAL:
+                    type = "double";
+                    break;
+                default:
+                    type = "double";
             }
             datasetvariables.add(new DataSetColumn(var.getExternalName(), var.getDescription(), type));
         }
@@ -394,43 +399,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         }
     }
 
-    @Override
-    public void windowActivated(WindowEvent e) {
-        logger.focusGained();
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-        logger.toolStopped();
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-        logger.toolStopped();
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-        logger.focusLost();
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-    // logger.focusGained();
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-    // TODO Auto-generated method stub
-    }
-
     public ScySimLogger getLogger() {
         return logger;
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-    // logger.focusLost();
     }
 
     private void setFontStyle(JLabel label, int size, int style) {
@@ -440,7 +410,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     public void processNotification(INotification notification) {
 
         String message = notification.getFirstProperty("message");
-        String type =notification.getFirstProperty("type");
+        String type = notification.getFirstProperty("type");
         String popup = notification.getFirstProperty("popup");
         if (message != null) {
             if (popup != null && popup.equals("true")) {
@@ -522,12 +492,12 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         } else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
             if (type.equals("scaffold")) {
                 if (notification.getFirstProperty("level").equals(SCAFFOLD.SHOWBUTTON.name())) {
-                    notificationMessage=SCAFFOLD.SHOWBUTTON.name();
+                    notificationMessage = SCAFFOLD.SHOWBUTTON.name();
                     notifyButton.setVisible(true);
                 } else {
 
                     startNotifyThread();
-                    
+
                     notificationMessage = notification.getFirstProperty("level");
                 }
             }
@@ -535,7 +505,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     private void startNotifyThread() {
-        if (!notThreadRunning&&!notify) {
+        if (!notThreadRunning && !notify) {
             notThreadRunning = true;
             notifyButton.setVisible(true);
             notify = true;
@@ -605,5 +575,4 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
         }
     }
-
 }

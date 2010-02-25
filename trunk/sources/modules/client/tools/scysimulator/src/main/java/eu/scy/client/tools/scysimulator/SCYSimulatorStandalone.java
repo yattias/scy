@@ -68,16 +68,18 @@ public class SCYSimulatorStandalone implements INotifiable {
     private DataCollector dataCollector;
 
     public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
+        //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_converter.sqzx");
         URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
-        SimQuestViewer simquestViewer = new SimQuestViewer(true);
-        // FileName fileName = new FileName("D:/temp/sqzx/balance.sqzx");
-        // URI fileUri = fileName.toURI();
+        SimQuestViewer simquestViewer = new SimQuestViewer(false);
+        //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter_210110_mod1.sqzx");
+        //FileName fileName = new FileName("D:/temp/sqzx/co2-house/co2_house.sqzx");
+        //URI fileUri = fileName.toURI();
         System.out.println("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
         // TODO remove hardcoded username/pass
-        tbi = new ToolBrokerImpl("Jan", "jan");
-        tbi.registerForNotifications(this);
+        //tbi = new ToolBrokerImpl("Jan", "jan");
+        //tbi.registerForNotifications(this);
         simquestPanel = new JPanel();
         dataCollector = null;
 
@@ -105,7 +107,6 @@ public class SCYSimulatorStandalone implements INotifiable {
         mainFrame.setSize(800, 650);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
-        mainFrame.addWindowListener(dataCollector);
         // addJXLayer(simquestPanel, mainFrame);
         String userName = dataCollector.getLogger().getUserName();
         String toolName = dataCollector.getLogger().getToolName();
