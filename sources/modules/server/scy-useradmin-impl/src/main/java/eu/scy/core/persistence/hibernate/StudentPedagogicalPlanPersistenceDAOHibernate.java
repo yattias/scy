@@ -181,14 +181,16 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String achorELOId) {
+    public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId) {
         log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
+        log.info("HERE IS THE ANCHOR ELO ID: " + anchorELOId);
         return null;
     }
 
     @Override
     public StudentPlanELO getStudentPlanELO(String eloId) {
         log.info("I AM TOTALLY NOT IMPLEMENTED YET!!");
+        log.info("HERE IS THE ELO ID:" + eloId)
         return null;
     }
 
