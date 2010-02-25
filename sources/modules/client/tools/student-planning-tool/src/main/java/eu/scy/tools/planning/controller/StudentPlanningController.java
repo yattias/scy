@@ -159,11 +159,13 @@ public class StudentPlanningController {
 						"For Your Information");
 				dialog.setVisible(true);
 		} else {
-			getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
-			//getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
 			taskPanes.remove(entryPanel);
 			entryContainer.remove(entryPanel);
 			entryContainer.revalidate();
+			
+			getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
+			//getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
+			
 		}
 		
 		
