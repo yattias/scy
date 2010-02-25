@@ -228,7 +228,16 @@ public class ScyDesktopCreator {
    function printAllEloUris():Void{
       println("\nThe list of all elo uris, used in the mission map specifiaction");
       for (uri in config.getAllMissionEloUris()){
-         println("{uri}");
+         var title = "?";
+         var technicalType = "?";
+         var functionalType = "?";
+         var metadata = config.getRepository().retrieveMetadata(uri);
+         if (metadata!=null){
+            title = metadata.getMetadataValueContainer(titleKey).getValue() as String;
+            technicalType = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
+            functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
+         }
+         println("{uri}^t^{title}^t^{technicalType}^t^{functionalType}");
       }
       println("");
    }

@@ -202,7 +202,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (anchor in missionAnchor.inputAnchors) {
          if (anchor.exists) {
             var anchorWindow = getScyWindow(anchor.eloUri);
-            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(anchor.las))) {
+            if (windowPositioner.addInputAnchorWindow(anchorWindow, getAnchorDirection(anchor.las))) {
                windowManager.addScyWindow(anchorWindow);
             }
          }
