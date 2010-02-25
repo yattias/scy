@@ -277,10 +277,8 @@ public class StudentPlanningController {
 
 	public void addMemberToStudentPlannedActivity(
 			StudentPlannedActivity studentPlannedActivity, String nickName) {
-		//studentPlannedActivity.addMember(nickName);
 		
 		this.getStudentPlanService().addMember(studentPlannedActivity, nickName);
-		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
 		
 	}
 
