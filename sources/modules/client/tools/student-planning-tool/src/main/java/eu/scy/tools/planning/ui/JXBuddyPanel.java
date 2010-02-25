@@ -63,7 +63,7 @@ public class JXBuddyPanel extends JXPanel {
 		this.createBuddyIcon(user);
 		getMessageLabel().setText("<html><b>Buddy added.</b><html>");
 		
-		//studentPlanningController.addMemberToStudentPlannedActivity(this.studentPlannedActivity, user.getNickName());
+		
 		
 		
 	}
