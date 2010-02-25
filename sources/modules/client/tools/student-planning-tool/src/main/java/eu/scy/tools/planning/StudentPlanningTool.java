@@ -109,6 +109,8 @@ public class StudentPlanningTool {
 	private String END_DATE_PICKER = "END_DATE_PICKER";
 
 	private JXLabel messageLabel;
+	
+	private JScrollPane scrollPane;
 
 	/**
 	 * creates a JFrame and calls {@link #doInit} to create a JXPanel and adds
@@ -265,7 +267,7 @@ public class StudentPlanningTool {
 		}
 
 
-		JScrollPane scrollPane = new JScrollPane(
+		scrollPane = new JScrollPane(
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		// panel.add(taskpanecontainer, BorderLayout.CENTER);
@@ -329,9 +331,14 @@ public class StudentPlanningTool {
 		//topPanel.setPreferredSize(new Dimension(725, 850));
 		// infoPanel.add(dateLink);
 		
-		scrollPane.setPreferredSize(topPanel.getPreferredSize());
+		//scrollPane.setPreferredSize(topPanel.getPreferredSize());
+		scrollPane.setPreferredSize(new Dimension(400, 250));
 		
 		return topPanel;
+	}
+	
+	public void resizeSPT(int newWidth, int newHeight) {
+		this.scrollPane.setPreferredSize(new Dimension(newWidth, newHeight));
 	}
 
 	public void acceptDrop(Object drop) {
