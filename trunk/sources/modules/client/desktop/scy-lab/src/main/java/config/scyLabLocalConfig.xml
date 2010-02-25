@@ -69,7 +69,31 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/dataset"/>
-               <property name="display" value="Data processing"/>
+               <property name="display" value="Dataset"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="fitex"/>
+               <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>dataset</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>datasetManual</value>
+                     <value>datasetAutomatic</value>
+                     <value>datasetProcessed</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/pds"/>
+               <property name="display" value="Processed dataset"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="fitex"/>
                <property name="topDrawerCreatorId" value="presence"/>
