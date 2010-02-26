@@ -42,7 +42,7 @@ public final class AgentProtocol {
 	}
 
 	public static final String ACTION = "action";
-	public static final String ACTION_ELO_SAVED_ACTION = "elo_save";
+	public static final String ACTION_ELO_SAVED = "elo_save";
 	public static final String ACTION_ELO_LOADED = "elo_load";
 	public static final String ACTIONLOG_ELO_TYPE = "type";
 	public static final String ACTIONLOG_ELO_URI = "elouri";
