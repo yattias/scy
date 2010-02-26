@@ -303,8 +303,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	public final void tidy() {
 		try {
 			if (getCommandSpace() != null && getCommandSpace().isConnected()) {
-				getCommandSpace().eventDeRegister(commandId);
-				getCommandSpace().eventDeRegister(identifyId);
+//				getCommandSpace().eventDeRegister(commandId);
+//				getCommandSpace().eventDeRegister(identifyId);
 				getCommandSpace().disconnect();
 			}
 			// if (getActionSpace() != null && getActionSpace().isConnected()) {
