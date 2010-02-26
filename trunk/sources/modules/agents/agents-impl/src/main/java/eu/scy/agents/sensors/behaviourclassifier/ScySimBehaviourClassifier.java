@@ -29,8 +29,6 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
 
 	private boolean isStopped;
 
-	private List<Integer> callbacks;
-
 	private static final Tuple USER_EXP_TEMPLATE = new Tuple("user_exp", Field.createWildCardField());
 
 	private static final Tuple VOTAT_TEMPLATE = new Tuple("votat", Field.createWildCardField());
@@ -76,16 +74,12 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
 	@Override
 	protected void doStop() {
 		status = Status.Stopping;
-		for (Integer cbSeq : callbacks) {
-			try {
-				commandSpace.eventDeRegister(cbSeq);
-				commandSpace.disconnect();
-			} catch (TupleSpaceException e) {
-				e.printStackTrace();
-			}
+		try {
+			commandSpace.disconnect();
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
 		}
 		isStopped = true;
-
 	}
 
 	@Override
