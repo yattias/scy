@@ -51,7 +51,7 @@
                </property>
                <property name="functionalTypeNames">
                   <list>
-                     <value>drawingDisign</value>
+                     <value>drawingDesign</value>
                   </list>
                </property>
             </bean>
@@ -247,7 +247,7 @@
                <property name="functionalTypeNames">
                   <list>
                      <value>hypothesis</value>
-                     <value>documentDisign</value>
+                     <value>documentDesign</value>
                      <value>reportEvaluation</value>
                      <value>reportFinal</value>
                      <value>documentReflection</value>
@@ -273,7 +273,7 @@
                <property name="functionalTypeNames">
                   <list>
                      <value>hypothesis</value>
-                     <value>documentDisign</value>
+                     <value>documentDesign</value>
                      <value>reportEvaluation</value>
                      <value>reportFinal</value>
                      <value>documentReflection</value>
@@ -405,7 +405,7 @@
                <property name="functionalTypeNames">
                   <list>
                      <value>hypothesis</value>
-                     <value>documentDisign</value>
+                     <value>documentDesign</value>
                      <value>reportEvaluation</value>
                      <value>reportFinal</value>
                      <value>documentReflection</value>
