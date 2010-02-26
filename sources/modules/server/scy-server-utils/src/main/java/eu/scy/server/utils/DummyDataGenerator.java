@@ -36,7 +36,7 @@ public class DummyDataGenerator implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         //generatePedagogicalPlanTemplates();
-        //generatedMissionMapBasedOnXML();
+        generatedMissionMapBasedOnXML();
     }
     
 
