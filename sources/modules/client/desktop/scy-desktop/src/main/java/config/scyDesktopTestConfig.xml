@@ -85,7 +85,7 @@
                <property name="functionalTypeNames">
                   <list>
                      <value>hypothesis</value>
-                     <value>documentDisign</value>
+                     <value>documentDesign</value>
                      <value>reportEvaluation</value>
                      <value>reportFinal</value>
                   </list>
