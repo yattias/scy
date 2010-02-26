@@ -39,7 +39,7 @@
       </identifier>
     </general>
     <educational>
-      <learningResourceType />
+      <learningResourceType>reportFinal</learningResourceType>
     </educational>
     <lifecycle>
       <contribute>

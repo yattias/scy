@@ -10,6 +10,9 @@
         <entry>roolo://memory/37/0/Glossary.url</entry>
       </identifier>
     </general>
+    <educational>
+      <learningResourceType>informationResource</learningResourceType>
+    </educational>
     <technical>
       <format>scy/url</format>
     </technical>
