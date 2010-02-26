@@ -6,6 +6,7 @@
 
 	<alias name="httpInvokerRepositoryProxy" alias="repository" />
 	<alias name="httpInvokerPedagogicalPlanServiceProxy" alias="pedagogicalPlanService" />
+	<alias name="httpInvokerStudentPedagogicalPlanServiceProxy" alias="studentPedagogicalPlanService" />
 	<alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" />
 	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
 	<alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />
@@ -136,6 +137,18 @@
         </property>
         <property name="serviceInterface">
             <value>eu.scy.server.pedagogicalplan.PedagogicalPlanService</value>
+        </property>
+    </bean>
+    
+    <bean id="httpInvokerStudentPedagogicalPlanServiceProxy"
+        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>
+                http://${serverName}:${httpPort}/${contextPath}/remoting/studentPlan-httpinvoker
+            </value>
+        </property>
+        <property name="serviceInterface">
+            <value>eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService</value>
         </property>
     </bean>
 
