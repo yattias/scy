@@ -67,7 +67,6 @@ import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
@@ -77,6 +76,7 @@ import eu.scy.notification.api.INotification;
 import java.lang.IllegalStateException;
 import java.net.URI;
 import javax.swing.JOptionPane;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import org.jdom.Element;
 
@@ -502,7 +502,19 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     titleKey: config.getTitleKey()
                     technicalFormatKey: config.getTechnicalFormatKey();
                 }
-        var optionPaneEloSaver = ScyDesktopEloSaver {
+//        var myEloSaver = ScyDesktopEloSaver {
+//                    config: config
+//                    repository: config.getRepository()
+//                    eloFactory: config.getEloFactory()
+//                    titleKey: config.getTitleKey()
+//                    technicalFormatKey: config.getTechnicalFormatKey()
+//                    window: window;
+//                    myEloChanged: myEloChanged;
+//                    newTitleGenerator: newTitleGenerator;
+//                    windowStyler: windowStyler;
+//                    scyToolActionLogger: scyToolActionLogger
+//                };
+        var myEloSaver = SimpleScyDesktopEloSaver {
                     config: config
                     repository: config.getRepository()
                     eloFactory: config.getEloFactory()
@@ -515,7 +527,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     scyToolActionLogger: scyToolActionLogger
                 };
         // do the initialize cycle on the created tools
-        scyToolsList.setEloSaver(optionPaneEloSaver);
+        scyToolsList.setEloSaver(myEloSaver);
         scyToolsList.setMyEloChanged(myEloChanged);
         scyToolsList.initialize();
         scyToolsList.postInitialize();
