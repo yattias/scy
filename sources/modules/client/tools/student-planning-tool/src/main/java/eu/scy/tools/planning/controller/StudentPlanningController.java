@@ -62,7 +62,8 @@ public class StudentPlanningController {
 
 	}
 	
-	public StudentPlanningController(StudentPlanELO studentPlanELO) {
+	public StudentPlanningController(StudentPlanELO studentPlanELO, ToolBrokerAPI toolBrokerAPI) {
+		this.toolbrokerApi = toolBrokerAPI;
 		this.studentPlanELO = studentPlanELO;
 		
 		this.dumpStudentPlan(studentPlanELO);
