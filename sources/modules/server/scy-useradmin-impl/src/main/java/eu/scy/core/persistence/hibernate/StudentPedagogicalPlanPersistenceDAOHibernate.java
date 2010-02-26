@@ -208,13 +208,20 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     public StudentPlanELO createStudentPlan(String username) {
         User user = getUserByUsername(username);
+        PedagogicalPlan pedagogicalPlan = null;
         if(user != null) {
-            PedagogicalPlan pedagogicalPlan = (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where published = :published")
+            pedagogicalPlan = (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where published = :published")
                     .setBoolean("published", true)
                     .setMaxResults(0)
                     .uniqueResult();
         }
 
+
+        if(pedagogicalPlan != null ) {
+            return createStudentPlan(pedagogicalPlan, user);
+        }
+
         return null;
+
     }
 }
