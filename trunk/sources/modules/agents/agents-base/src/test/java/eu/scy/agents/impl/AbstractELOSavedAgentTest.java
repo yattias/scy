@@ -85,8 +85,8 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 
 	@Test
 	public void test() throws TupleSpaceException, InterruptedException {
-		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, "elo_saved", "testUser", "SomeTool", "SomeMission",
-				"TestSession", "elouri=" + ELO_URI, "type=" + ELO_TYPE);
+		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, AgentProtocol.ACTION_ELO_SAVED, "testUser",
+				"SomeTool", "SomeMission", "TestSession", "elouri=" + ELO_URI, "type=" + ELO_TYPE);
 		getActionSpace().write(tuple);
 		Thread.sleep(1500);
 		assertTrue("Action not processed", processActionCalled);

@@ -17,7 +17,7 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	// ("action":String, <ID>:String, <Timestamp>:long, elo_saved:String, <User>:String, <Tool>:String,
 	// <Mission>:String, <Session>:String, <Key=Value>:String*)
 	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-			AgentProtocol.ACTION_ELO_SAVED_ACTION, String.class, String.class, String.class, String.class,
+			AgentProtocol.ACTION_ELO_SAVED, String.class, String.class, String.class, String.class,
 			String.class, String.class);
 
 	private static final Logger logger = Logger.getLogger(AbstractELOSavedAgent.class.getName());
@@ -49,7 +49,7 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
 		while (status == Status.Running) {
 			sendAliveUpdate();
-			Thread.sleep(AgentProtocol.ALIVE_INTERVAL - 1000);
+			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
 		}
 	}
 
@@ -87,7 +87,7 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 			return;
 		}
 		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
-		if (!AgentProtocol.ACTION_ELO_SAVED_ACTION.equals(action.getType())) {
+		if (!AgentProtocol.ACTION_ELO_SAVED.equals(action.getType())) {
 			logger.warning("Trying to process action log that does not match elo_saved signature. Type: "
 					+ action.getType());
 		} else {
