@@ -77,6 +77,8 @@ import eu.scy.notification.api.INotification;
 import java.lang.IllegalStateException;
 import java.net.URI;
 import javax.swing.JOptionPane;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import org.jdom.Element;
 
 /**
  * @author sikkenj
@@ -289,11 +291,19 @@ public class ScyDesktop extends CustomNode, INotifiable {
                             var searchResult = results.get(0) as ISearchResult;
                             sptELO = config.getRepository().retrieveELO(searchResult.getUri());
                         } else {
+                            logger.info("OK, let's create a new one");
                             //we need to create a new one
                             sptELO = config.getEloFactory().createELO();
+
                             sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
                             sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
                             // sptELO.getMetadata().getMetadataValueContainer(ScyRooloMetadataKeyIds.MISSION.getId()).setValue(missionId);
+
+                            logger.info("let's add some shizzle to it");
+                            //added stuff to it
+                            sptELO.getContent().setXmlString(textToEloContentXml("test of a saved text"));
+                            
+                            //
 
                             var sptMetadata = config.getRepository().addNewELO(sptELO);
                             config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
@@ -363,6 +373,14 @@ public class ScyDesktop extends CustomNode, INotifiable {
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
         }
     }
+
+    def jdomStringConversion = new JDomStringConversion();
+
+    function textToEloContentXml(text:String):String{
+      var textElement= new Element("SPTString");
+      textElement.setText(text);
+      return jdomStringConversion.xmlToString(textElement);
+   }
 
     var edgesManager: EdgesManager = EdgesManager { }
 
