@@ -3,6 +3,7 @@ package eu.scy.core;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
         return getPedagogicalPlanPersistenceDAO().createPedagogicalPlan(template);
     }
 
+    @Transactional
     public void save(ScyBase scyBaseObject) {
         getPedagogicalPlanPersistenceDAO().save(scyBaseObject);
     }

@@ -28,7 +28,13 @@
                 <br>
             </c:when>
         </c:choose>
-
-
+        <c:choose>
+            <c:when test="${!pedagogicalPlan.published}">
+                <a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&publish=true">Publish</a>
+            </c:when>
+            <c:when test="${pedagogicalPlan.published}">
+                <a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&publish=false">Unpublish</a>
+            </c:when>
+        </c:choose>
     </tiles:putAttribute>
 </tiles:insertDefinition>

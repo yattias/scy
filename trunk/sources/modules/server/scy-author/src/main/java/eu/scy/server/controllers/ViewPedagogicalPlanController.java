@@ -25,6 +25,15 @@ public class ViewPedagogicalPlanController extends BaseController {
         String pedPlanId = request.getParameter("id");
         logger.info("PED PLAN ID: " + pedPlanId);
         PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
+        String publish = request.getParameter("publish");
+        if(publish != null) {
+            if(publish.equals("true")) {
+                plan.setPublished(true);
+            } else {
+                plan.setPublished(false);
+            }
+            getPedagogicalPlanPersistenceService().save(plan);
+        }
         ModelAndView modelAndView = new ModelAndView();
         logger.info("Setting plan: " + plan.getName());
         modelAndView.addObject("pedagogicalPlan", plan);

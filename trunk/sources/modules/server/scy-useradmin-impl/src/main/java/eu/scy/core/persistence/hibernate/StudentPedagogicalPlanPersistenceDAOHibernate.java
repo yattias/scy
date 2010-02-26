@@ -136,7 +136,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     @Override
     public void addMemberToStudentPlannedActivity(User member, StudentPlannedActivity studentPlannedActivity) {
-        if(member == null || studentPlannedActivity == null) {
+        if (member == null || studentPlannedActivity == null) {
             log.warn("TRIED TO ADD MEMBER " + member + " TO ACTIVITY " + studentPlannedActivity + "..... NULL....");
             return;
         }
@@ -145,7 +145,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
         getSession().refresh(studentPlannedActivity);
         getSession().refresh(member);
-        
+
         studentPlannedActivity.addMember(member);
         save(studentPlannedActivity);
     }
@@ -153,8 +153,8 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     @Override
     public void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity) {
         User realUser = getUserByUsername(user);
-        if(realUser != null) {
-            addMemberToStudentPlannedActivity(realUser, studentPlannedActivity);    
+        if (realUser != null) {
+            addMemberToStudentPlannedActivity(realUser, studentPlannedActivity);
         }
 
     }
@@ -170,11 +170,11 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     @Override
     public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName) {
         User user = getUserByUsername(userName);
-        if(user != null) {
+        if (user != null) {
             return (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl as spa where spa.assoicatedELO.missionMapId like :anchorELOId and spa.studentPlan.user = :user ")
-                            .setString("anchorELOId", anchorELOId)
-                            .setEntity("user", user)
-                            .uniqueResult();
+                    .setString("anchorELOId", anchorELOId)
+                    .setEntity("user", user)
+                    .uniqueResult();
 
         }
 
@@ -207,19 +207,26 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     public StudentPlanELO createStudentPlan(String username) {
+
         User user = getUserByUsername(username);
         PedagogicalPlan pedagogicalPlan = null;
-        if(user != null) {
-            pedagogicalPlan = (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where published = :published")
-                    .setBoolean("published", true)
-                    .setMaxResults(0)
-                    .uniqueResult();
+        if (user != null) {
+            List pedPlans = getSession().createQuery("from PedagogicalPlanImpl")
+                    .list();
+            for (int i = 0; i < pedPlans.size(); i++) {
+                PedagogicalPlan plan = (PedagogicalPlan) pedPlans.get(i);
+                if (plan.getPublished()) pedagogicalPlan = plan;
+            }
         }
 
+        log.info("Found pedagogical plan :" + pedagogicalPlan);
 
-        if(pedagogicalPlan != null ) {
+
+        if (pedagogicalPlan != null) {
             return createStudentPlan(pedagogicalPlan, user);
         }
+
+        log.warn("DID NOT FIND A PEDAGOGICAL PLAN TO ASSIGN - ARE NO PLANS PUBLISHED?");
 
         return null;
 

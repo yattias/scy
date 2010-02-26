@@ -31,10 +31,12 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     }
 
 
+    @Override
     public Boolean getPublished() {
         return published;
     }
 
+    @Override
     public void setPublished(Boolean published) {
         this.published = published;
     }
