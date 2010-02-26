@@ -1,4 +1,3 @@
-
 package eu.scy.client.tools.studentplanningtool.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
@@ -9,52 +8,18 @@ import java.net.URI;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolNode;
 import eu.scy.tools.planning.StudentPlanningTool;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 /**
  * @author aperritano
  */
 
-public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {
-    override public function getScyWindowContentNew (scyWindow : ScyWindow) : Node {
-         return createStudentPlanningToolNode(scyWindow);
-    }
+public class StudentPlanningToolContentCreator extends ScyToolCreatorFX {
 
-    public var node:Node;
-    public var toolBrokerAPI:ToolBrokerAPI;
-   //public var metadataTypeManager: IMetadataTypeManager;
-   // public var repository:IRepository;
-
-    //called if an existing ELO
-    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node {
-        var planningNode:StudentPlanningToolNode = createStudentPlanningToolNode(scyWindow);
-        return node;
-    }
-
-
-
-    function createStudentPlanningToolNode(scyWindow:ScyWindow):StudentPlanningToolNode{
-        setWindowProperties(scyWindow);
-
-        //var studentPlanningTool = new StudentPlanningTool(null);
-
-        println("toolbroker IN CONTENT CREATOR {toolBrokerAPI}");
-
-
-        return StudentPlanningToolNode{
-            toolBrokerAPI:toolBrokerAPI;
+      override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
+        StudentPlanningToolNode{
+            scyWindow:scyWindow;
          }
-   }
-
-    function setWindowProperties(scyWindow:ScyWindow){
-            /*
-        scyWindow.minimumWidth = 500;
-        scyWindow.minimumHeight = 600;
-        scyWindow.maximumWidth = 500;
-        scyWindow.maximumHeight = 600;
-        scyWindow.allowResize = false;
-        */
 
     }
-
-
 }
