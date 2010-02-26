@@ -126,8 +126,17 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
     public void testCreateStudentPlan() {
         if(getStudentPlanService() != null) {
-            StudentPlanELO elo = getStudentPlanService().createStudentPlan("jeremyt");
+            StudentPlanELO elo = getStudentPlanService().createStudentPlan("hill");//put in the freakin username here
+            String eloId = elo.getId();//this is the freakin elo id that I want you to store in the elo xml shit
             assertNotNull(elo);
+
+            //when you want to load the elo again you do this:
+            //1. get the elo id from the freakin xml content shit:
+            //2. use the service to get the student plan and display it in funky tool
+            StudentPlanELO loaded = getStudentPlanService().getStudentPlanELO(eloId);
+            assertNotNull(loaded);
+
+            //freakin simple eh?
         }
     }
 
