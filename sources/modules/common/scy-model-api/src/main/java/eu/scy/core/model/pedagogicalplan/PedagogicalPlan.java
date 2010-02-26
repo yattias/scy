@@ -19,5 +19,7 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
     public void setTemplate(PedagogicalPlanTemplate template);
 
 
+    Boolean getPublished();
 
+    void setPublished(Boolean published);
 }
