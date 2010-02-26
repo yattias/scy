@@ -432,10 +432,9 @@
                      <property name="id" value="startPage"/>
                      <property name="xPosition" value="0"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Start page"/>
+                     <property name="tooltip" value="Challenge"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/281/0/Challenge.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -454,7 +453,7 @@
                      <property name="id" value="conceptualizationDesign"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="1st ideas of my design group"/>
+                     <property name="tooltip" value="First ideas of my design group"/>
                      <property name="nextLasses">
                         <list>
                            <value>conceptualizationExperts</value>
@@ -470,7 +469,7 @@
                      <property name="id" value="conceptualizationExperts"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Research questions of my expert group"/>
+                     <property name="tooltip" value="Hypotheses of my expert group"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
@@ -494,7 +493,7 @@
                      <property name="id" value="experimentExperts"/>
                      <property name="xPosition" value="120"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Experimental procedure"/>
+                     <property name="tooltip" value="Conclusion of expert experiments"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
@@ -521,7 +520,7 @@
                      <property name="id" value="conceptualizationIndividual"/>
                      <property name="xPosition" value="0"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Concept Map CO2"/>
+                     <property name="tooltip" value="Concept Map on CO2 emission"/>
                      <property name="nextLasses">
                         <list>
                         </list>
@@ -532,7 +531,7 @@
                      <property name="id" value="construction"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Draw the house"/>
+                     <property name="tooltip" value="House drawings"/>
                      <property name="nextLasses">
                         <list>
                         </list>
@@ -547,7 +546,7 @@
                      <property name="id" value="design"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Inventory of solutions"/>
+                     <property name="tooltip" value="House choices"/>
                      <property name="nextLasses">
                         <list>
                            <value>construction</value>
@@ -565,7 +564,7 @@
                      <property name="id" value="reportingExperts"/>
                      <property name="xPosition" value="120"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Presentation of experts"/>
+                     <property name="tooltip" value="Expert presentation"/>
                      <property name="nextLasses">
                         <list>
                            <value>design</value>
@@ -606,7 +605,7 @@
                      <property name="id" value="reportingDesign"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="80"/>
-                     <property name="tooltip" value="Presentation of design group"/>
+                     <property name="tooltip" value="Presentation of house design"/>
                      <property name="nextLasses">
                         <list>
                            <value>reportingIndividual</value>
