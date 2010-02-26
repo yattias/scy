@@ -129,7 +129,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         
         //student planning service
         
-        studentPedagogicalPlanService = this.getStudentPedagogicalPlanService();
+        studentPedagogicalPlanService = this.getStudentPlanService();
         //setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
 
         // NotificationReceiver
