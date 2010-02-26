@@ -9,6 +9,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
@@ -34,6 +35,7 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
    private IAwarenessService awarenessService;
    private IDataSyncService dataSyncService;
    private PedagogicalPlanService pedagogicalPlanService;
+   private StudentPedagogicalPlanService studentPedagogicalPlanService;
 
    private String userName;
    private String missionId;
@@ -132,10 +134,19 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
       this.pedagogicalPlanService = pedagogicalPlanService;
    }
 
+   public void setStudentPedagogicalPlanService(StudentPedagogicalPlanService studentPedagogicalPlanService) {
+       this.studentPedagogicalPlanService = studentPedagogicalPlanService;
+   }
+
    @Override
    public PedagogicalPlanService getPedagogicalPlanService()
    {
       return pedagogicalPlanService;
+   }
+
+   @Override
+   public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
+       return studentPedagogicalPlanService;
    }
 
    @Override
@@ -171,4 +182,9 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
    {
       return "false";
    }
+
+
+
+
+
 }
