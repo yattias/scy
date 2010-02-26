@@ -111,7 +111,10 @@ public class AgentManager implements Callback {
 	/**
 	 * This method kills all agents and tidy up the hole manager.
 	 */
-	public void cleanUp() {
+	public synchronized void cleanUp() {
+	        if (agentIdMap.isEmpty() && oldAgents.isEmpty() && startParameters.isEmpty() && !tupleSpace.isConnected()) {
+	            return;
+	        }
 		for (IThreadedAgent agent : agentIdMap.values()) {
 			try {
 				agent.kill();
