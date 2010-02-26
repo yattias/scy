@@ -125,6 +125,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
 
+         println( "STARTING SPT create node");
         var uri = scyWindow.eloUri;
         elo = repository.retrieveELO(uri);
 
