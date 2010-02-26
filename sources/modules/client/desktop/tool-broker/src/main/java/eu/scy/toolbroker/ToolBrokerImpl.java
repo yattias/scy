@@ -15,6 +15,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -127,6 +128,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
         
         //student planning service
+        
+        studentPedagogicalPlanService = this.getStudentPedagogicalPlanService();
         //setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
 
         // NotificationReceiver
@@ -154,6 +157,27 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         
     }
 
+    public StudentPedagogicalPlanService getStudentPlanService() {
+
+		// service =
+		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+//		if (studentPedagogicalPlanService == null)
+		Configuration configuration = Configuration.getInstance();
+		studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+
+		return studentPedagogicalPlanService;
+
+	}
+    
+    private StudentPedagogicalPlanService getWithUrl(String url) {
+		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+		fb.setServiceInterface(StudentPedagogicalPlanService.class);
+		fb.setServiceUrl(url);
+		fb.afterPropertiesSet();
+		return (StudentPedagogicalPlanService) fb.getObject();
+	}
+    
     /**
      * Sets the repository instance into the ToolBroker. Is mainly used for
      * Spring bean injection.
