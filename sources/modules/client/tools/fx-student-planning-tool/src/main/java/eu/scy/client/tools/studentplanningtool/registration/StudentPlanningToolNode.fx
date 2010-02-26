@@ -147,10 +147,9 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
             var newMetadata = repository.updateELO(elo)
         } else {
-            var s1 = StringUtils.remove(parsed, "<studentPlanId>");
-            var finalId = StringUtils.remove(s1, "<studentPlanId>");
-
-            studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(finalId);
+           
+            println("FOUND ID {parsed}");
+            studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
 
         }
 
