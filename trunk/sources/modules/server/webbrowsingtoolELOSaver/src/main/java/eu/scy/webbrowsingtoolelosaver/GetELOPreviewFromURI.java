@@ -60,7 +60,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.w3c.dom.Document;
@@ -96,8 +95,6 @@ public class GetELOPreviewFromURI {
 
     /** Creates a new instance of SaveELOResource */
     public GetELOPreviewFromURI() {
-        //configure the Logger
-        BasicConfigurator.configure();
     }
 
     /**

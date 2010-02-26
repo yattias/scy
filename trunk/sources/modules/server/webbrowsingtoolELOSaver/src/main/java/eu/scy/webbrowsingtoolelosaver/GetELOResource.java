@@ -14,7 +14,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -55,8 +54,6 @@ public class GetELOResource {
 
     /** Creates a new instance of SaveELOResource */
     public GetELOResource() {
-        //configure the Logger
-        BasicConfigurator.configure();
     }
 
     /**

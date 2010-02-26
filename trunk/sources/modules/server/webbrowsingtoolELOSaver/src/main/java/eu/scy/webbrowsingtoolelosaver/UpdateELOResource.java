@@ -42,8 +42,6 @@ package eu.scy.webbrowsingtoolelosaver;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Path;
@@ -54,19 +52,12 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import roolo.elo.BasicELO;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.exceptions.ELONotAddedException;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
-import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.metadata.keys.ContributeMetadataKey;
-import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
 
 /**
  * REST Web Service
@@ -89,8 +80,6 @@ public class UpdateELOResource {
 
     /** Creates a new instance of SaveELOResource */
     public UpdateELOResource() {
-        //configure the Logger
-        BasicConfigurator.configure();
     }
 
     /**
