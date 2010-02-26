@@ -77,8 +77,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
                 },
             scychatId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
+ //  scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
 
+    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
