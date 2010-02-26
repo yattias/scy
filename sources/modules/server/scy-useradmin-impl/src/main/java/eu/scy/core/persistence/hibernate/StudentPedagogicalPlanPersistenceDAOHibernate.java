@@ -1,6 +1,8 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.impl.student.StudentPlanELOImpl;
 import eu.scy.core.model.impl.student.StudentPlannedActivityImpl;
 import eu.scy.core.model.pedagogicalplan.*;
@@ -33,7 +35,9 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User student) {
         assert (pedagogicalPlan != null);
         assert (student != null);
-        save(student);
+        //save(student);
+        student = (User) getHibernateTemplate().load(SCYUserImpl.class, student.getId());
+        pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().load(PedagogicalPlanImpl.class, pedagogicalPlan.getId());
         StudentPlanELO plan = new StudentPlanELOImpl();
         plan.setPedagogicalPlan(pedagogicalPlan);
         plan.setUser(student);
@@ -179,7 +183,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
         }
 
-        if(studentPlannedActivity == null) {
+        if (studentPlannedActivity == null) {
             log.info("Did not find an existing activity - creating a new one!");
             StudentPlanELO studentPlan = (StudentPlanELO) getSession().createQuery("from StudentPlanELOImpl where user = :user")
                     .setEntity("user", user)
@@ -204,16 +208,15 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     private Activity getActivityThatProduces(StudentPlanELO studentPlan, AnchorELO anchorELO) {
         PedagogicalPlan plan = studentPlan.getPedagogicalPlan();
-        List <Activity> activities =   getActivities(plan);
+        List<Activity> activities = getActivities(plan);
         for (int i = 0; i < activities.size(); i++) {
             Activity activity = activities.get(i);
-            if(activity.getAnchorELO().equals(anchorELO)) return activity;
+            if (activity.getAnchorELO().equals(anchorELO)) return activity;
 
         }
         log.warn("Did not find activity that produces " + anchorELO);
         return null;
     }
-
 
 
     private AnchorELO getAnchorEloFromMissionMapId(String anchorELOId) {
@@ -265,7 +268,13 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
 
         if (pedagogicalPlan != null) {
-            return createStudentPlan(pedagogicalPlan, user);
+            //return createStudentPlan(pedagogicalPlan, user);
+            StudentPlanELO plan = new StudentPlanELOImpl();
+            pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().load(PedagogicalPlanImpl.class, pedagogicalPlan.getId());
+            plan.setPedagogicalPlan(pedagogicalPlan);
+            plan.setUser(user);
+            save(plan);
+            return plan;
         }
 
         log.warn("DID NOT FIND A PEDAGOGICAL PLAN TO ASSIGN - ARE NO PLANS PUBLISHED?");

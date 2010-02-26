@@ -20,7 +20,7 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     private Boolean published = false;
 
-    @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
     @JoinColumn(name="pedagogicalPlanTemplate_primKey")
     public PedagogicalPlanTemplate getTemplate() {
         return pedagogicalPlanTemplate;
