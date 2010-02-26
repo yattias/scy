@@ -275,11 +275,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     onMouseClicked: function (e) {
 
                         var userName = config.getToolBrokerAPI().getLoginUserName();
-                        //var missionId = config.getToolBrokerAPI().getMission();
+                        var missionId = config.getToolBrokerAPI().getMission();
                         var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool", null);
                         var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName, null);
                         var andQuery = new AndQuery(typeQuery, titleQuery);
-                        var missionId = config.getBasicMissionMap().getId();
+                        //var missionId = config.getBasicMissionMap().getId();
                         if (missionId != null) {
                             var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId, null);
                             andQuery.addQuery(missionIdQuery);
@@ -290,6 +290,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
                         if (results.size() == 1) {
                             var searchResult = results.get(0) as ISearchResult;
                             sptELO = config.getRepository().retrieveELO(searchResult.getUri());
+
+
+
                         } else {
                             logger.info("OK, let's create a new one");
                             //we need to create a new one
@@ -297,20 +300,16 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
                             sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
                             sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
-                            // sptELO.getMetadata().getMetadataValueContainer(ScyRooloMetadataKeyIds.MISSION.getId()).setValue(missionId);
-
-                            logger.info("let's add some shizzle to it");
-                            //added stuff to it
-                            sptELO.getContent().setXmlString(textToEloContentXml("test of a saved text"));
-                            
-                            //
+                            var missionIdKy = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
+                            sptELO.getMetadata().getMetadataValueContainer(missionIdKy).setValue(missionId);
 
                             var sptMetadata = config.getRepository().addNewELO(sptELO);
                             config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
 
-                            def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
-                            newWindow.openWindow(300, 300);
+                          
                         }
+                        def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
+                        newWindow.openWindow(300, 300);
                     }
                 }
         topRightCorner = TopRightCorner {
