@@ -211,6 +211,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
         }
         log.warn("Did not find activity that produces " + anchorELO);
+        return null;
     }
 
 
