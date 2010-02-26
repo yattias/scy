@@ -77,7 +77,7 @@ public class DummyDataGenerator implements InitializingBean {
             if(anchor != null) {
                 AnchorELO outputFromLearningActivitySpace = createAnchorELO(anchor.getId(), "");
                 currentAnchorELO = outputFromLearningActivitySpace;
-                Activity doTheStuff = addActivity(learninigActivitySpace, "To the stuff - " + currentAnchorELO.getName(), outputFromLearningActivitySpace);
+                Activity doTheStuff = addActivity(learninigActivitySpace, "Do the stuff - " + currentAnchorELO.getName(), outputFromLearningActivitySpace);
             }
 
         }

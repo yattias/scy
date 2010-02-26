@@ -170,18 +170,59 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     @Override
     public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName) {
         User user = getUserByUsername(userName);
+        StudentPlannedActivity studentPlannedActivity = null;
         if (user != null) {
-            return (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl as spa where spa.assoicatedELO.missionMapId like :anchorELOId and spa.studentPlan.user = :user ")
+            studentPlannedActivity = (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl as spa where spa.assoicatedELO.missionMapId like :anchorELOId and spa.studentPlan.user = :user ")
                     .setString("anchorELOId", anchorELOId)
                     .setEntity("user", user)
                     .uniqueResult();
 
         }
 
-        log.warn("DID NOT FIND A MATCHING STUDENT PLANNED ACTIVITY");
-        return null;
+        if(studentPlannedActivity == null) {
+            log.info("Did not find an existing activity - creating a new one!");
+            StudentPlanELO studentPlan = (StudentPlanELO) getSession().createQuery("from StudentPlanELOImpl where user = :user")
+                    .setEntity("user", user)
+                    .setMaxResults(1)
+                    .uniqueResult();
 
+            AnchorELO anchorELO = getAnchorEloFromMissionMapId(anchorELOId);
+            Activity activity = getActivityThatProduces(studentPlan, anchorELO);
+            studentPlannedActivity = new StudentPlannedActivityImpl();
+            studentPlannedActivity.setName(activity.getName());
+            studentPlannedActivity.setDescription(activity.getDescription());
+            studentPlannedActivity.setStudentPlan(studentPlan);
+            studentPlannedActivity.setAssoicatedELO(anchorELO);
+            studentPlan.addStudentPlannedActivity(studentPlannedActivity);
+            getHibernateTemplate().saveOrUpdate(studentPlannedActivity);
+            getHibernateTemplate().saveOrUpdate(studentPlan);
+
+        }
+
+        return studentPlannedActivity;
     }
+
+    private Activity getActivityThatProduces(StudentPlanELO studentPlan, AnchorELO anchorELO) {
+        PedagogicalPlan plan = studentPlan.getPedagogicalPlan();
+        List <Activity> activities =   getActivities(plan);
+        for (int i = 0; i < activities.size(); i++) {
+            Activity activity = activities.get(i);
+            if(activity.getAnchorELO().equals(anchorELO)) return activity;
+
+        }
+        log.warn("Did not find activity that produces " + anchorELO);
+    }
+
+
+
+    private AnchorELO getAnchorEloFromMissionMapId(String anchorELOId) {
+        log.info("Trying to get anchor elo with mission map id " + anchorELOId);
+        return (AnchorELO) getSession().createQuery("from AnchorELOImpl where missionMapId like :id")
+                .setString("id", anchorELOId)
+                .setMaxResults(1)
+                .uniqueResult();
+    }
+
 
     @Override
     public StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId) {
