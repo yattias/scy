@@ -190,6 +190,7 @@
                <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="contentStatic" value="true"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>information</value>
