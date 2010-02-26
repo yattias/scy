@@ -107,6 +107,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	public void testRun() throws InterruptedException, TupleSpaceException {
 		sendWebresourcerStarted();
 		sendScyMapperStarted();
+		sendELoLoaded();
 
 		sendConceptAdded();
 		Thread.sleep(5000);
@@ -129,6 +130,17 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		}
 	}
 
+	private void sendELoLoaded() {
+		try {
+			getActionSpace().write(
+					new Tuple(AgentProtocol.ACTION, "id3", 0L, AgentProtocol.ACTION_ELO_LOADED,
+							"jeremy@scy.collide.info/Smack", "webresourcer", "mission1", "n/a",
+							AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri.toString()));
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void sendConceptAdded() {
 		try {
 			getActionSpace()
@@ -145,8 +157,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		try {
 			getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack", "webresourcer", "mission1", "n/a",
-							AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri.toString()));
+							"jeremy@scy.collide.info/Smack", "webresourcer", "mission1", "n/a"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

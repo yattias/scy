@@ -125,6 +125,19 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				handleNodeRemoved(action);
 			} else if (AgentProtocol.ACTION_TOOL_CLOSED.equals(action.getType())) {
 				handleToolStopped(action);
+			} else if (AgentProtocol.ACTION_ELO_LOADED.equals(action.getType())) {
+				handleELOLoaded(action);
+			}
+		}
+	}
+
+	private void handleELOLoaded(IAction action) {
+		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
+			ContextInformation contextInfo = getContextInformation(action);
+			try {
+				contextInfo.webresourcerELO = new URI(action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI));
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -148,6 +161,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.webresourcerStarted = false;
+			contextInfo.webresourcerELO = null;
 		}
 	}
 
@@ -159,11 +173,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.webresourcerStarted = true;
-			try {
-				contextInfo.webresourcerELO = new URI(action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI));
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -203,6 +212,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
 		userNeedsToBeNotified &= (contextInformation.lastAdded - currentTime) < idleTime;
 		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
+		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
 		return userNeedsToBeNotified;
 	}
 
