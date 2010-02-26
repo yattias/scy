@@ -85,7 +85,11 @@
                <property name="name" value="Experimental design"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-               <property name="type" value="drawingDisign"/>
+               <property name="type" value="experimentConclusion"/>
+               <property name="name" value="Experiment conclusion"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="drawingDesign"/>
                <property name="name" value="Design drawing"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
@@ -93,11 +97,15 @@
                <property name="name" value="Hypothesis"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="researchQuestion"/>
+               <property name="name" value="Research question"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="interview"/>
                <property name="name" value="Interview"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
-               <property name="type" value="documentDisign"/>
+               <property name="type" value="documentDesign"/>
                <property name="name" value="Design document"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
@@ -105,8 +113,16 @@
                <property name="name" value="Evaluation report"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="presentationDesign"/>
+               <property name="name" value="Design presentation"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="presentationFinal"/>
                <property name="name" value="Final presentation"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="presentationExpert"/>
+               <property name="name" value="Expert presentation"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
                <property name="type" value="reportFinal"/>
