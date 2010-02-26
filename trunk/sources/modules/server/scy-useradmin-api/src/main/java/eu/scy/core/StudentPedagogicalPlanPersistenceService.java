@@ -35,4 +35,6 @@ public interface StudentPedagogicalPlanPersistenceService extends BaseService{
     StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId);
 
     void removeMember(StudentPlannedActivity studentPlannedActivity, String user);
+
+    StudentPlanELO createStudentPlan(String username);
 }

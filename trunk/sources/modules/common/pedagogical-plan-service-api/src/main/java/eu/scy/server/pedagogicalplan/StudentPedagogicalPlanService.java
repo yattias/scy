@@ -17,6 +17,8 @@ import java.util.List;
  */
 public interface StudentPedagogicalPlanService {
 
+    public StudentPlanELO createStudentPlan(String username);
+
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user);
 
     List<StudentPlanELO> getStudentPlans(User user);
