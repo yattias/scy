@@ -55,7 +55,7 @@ public class ImageWindowStyler extends WindowStyler{
    public def scyMagenta = Color.web("#0ea7bf");
    public def scyBrown = Color.web("#9F8B55");
 
-   def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE);
+   def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
 
    def conceptMapImageSet = EloImageSet{
       path:impagesPath;
