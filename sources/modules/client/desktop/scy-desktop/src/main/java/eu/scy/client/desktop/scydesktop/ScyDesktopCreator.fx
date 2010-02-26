@@ -341,10 +341,13 @@ public class ScyDesktopCreator {
             if (assignmentEloUri!=null){
                missionAnchorElo.getMetadata().getMetadataValueContainer(containsAssignmentEloKey).setValue(assignmentEloUri);
             }
-            var forkedMissionAnchorEloMetadata = config.getRepository().addForkedELO(missionAnchorElo);
-            config.getEloFactory().updateELOWithResult(missionAnchorElo,forkedMissionAnchorEloMetadata);
-            missionAnchor.eloUri = missionAnchorElo.getUri();
-            missionAnchor.metadata = forkedMissionAnchorEloMetadata;
+            var eloConfig = config.getEloConfig(missionAnchorElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String);
+            if (not eloConfig.isContentStatic()){
+               var forkedMissionAnchorEloMetadata = config.getRepository().addForkedELO(missionAnchorElo);
+               config.getEloFactory().updateELOWithResult(missionAnchorElo,forkedMissionAnchorEloMetadata);
+               missionAnchor.eloUri = missionAnchorElo.getUri();
+               missionAnchor.metadata = forkedMissionAnchorEloMetadata;
+            }
          }
          else{
             logger.error("failed to load existing anchor elo, uri: {missionAnchor.eloUri}");
