@@ -9,6 +9,7 @@ import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.StudentPedagogicalPlanPersistenceDAO;
 import org.apache.log4j.Logger;
 import roolo.api.IRepository;
+import roolo.elo.JDomBasicELOFactory;
 
 import java.util.List;
 
@@ -20,17 +21,8 @@ import java.util.List;
  */
 public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate implements StudentPedagogicalPlanPersistenceDAO {
 
-    private IRepository repository;
-
     private static Logger log = Logger.getLogger("StudentPedagogicalPlanPersistenceDAOHibernate.class");
 
-    public IRepository getRepository() {
-        return repository;
-    }
-
-    public void setRepository(IRepository repository) {
-        this.repository = repository;
-    }
 
     /**
      * sets up a student plan and assigns it to the student based on the pedagogical plan
@@ -46,13 +38,6 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         plan.setPedagogicalPlan(pedagogicalPlan);
         plan.setUser(student);
         save(plan);
-
-        if(getRepository() != null) {
-            log.info("-------------- > > >  Creating a freakin ELO!");
-        } else {
-            log.warn("CANNOT CREATE A FREAKIN ELO - THE REPOSITORY IS NULL!! FUCK FUCK FUCK!");
-        }
-
         plan = assignStudentPlanToStudent(plan, pedagogicalPlan);
         return plan;
     }
@@ -219,5 +204,17 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
                 .setString("id", id)
                 .uniqueResult();
 
+    }
+
+    public StudentPlanELO createStudentPlan(String username) {
+        User user = getUserByUsername(username);
+        if(user != null) {
+            PedagogicalPlan pedagogicalPlan = (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where published = :published")
+                    .setBoolean("published", true)
+                    .setMaxResults(0)
+                    .uniqueResult();
+        }
+
+        return null;
     }
 }

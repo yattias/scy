@@ -18,6 +18,8 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     private PedagogicalPlanTemplate pedagogicalPlanTemplate = null;
 
+    private Boolean published = false;
+
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="pedagogicalPlanTemplate_primKey")
     public PedagogicalPlanTemplate getTemplate() {
@@ -26,5 +28,14 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     public void setTemplate(PedagogicalPlanTemplate pedagogicalPlanTemplate) {
         this.pedagogicalPlanTemplate = pedagogicalPlanTemplate;
+    }
+
+
+    public Boolean getPublished() {
+        return published;
+    }
+
+    public void setPublished(Boolean published) {
+        this.published = published;
     }
 }

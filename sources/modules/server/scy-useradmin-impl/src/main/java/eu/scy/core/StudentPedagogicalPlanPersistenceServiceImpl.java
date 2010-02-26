@@ -81,4 +81,10 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     public void removeMember(StudentPlannedActivity studentPlannedActivity, String user) {
         getStudentPedagogicalPlanPersistenceDAO().removeMember(studentPlannedActivity, user);
     }
+
+    @Transactional
+    @Override
+    public StudentPlanELO createStudentPlan(String username) {
+        return getStudentPedagogicalPlanPersistenceDAO().createStudentPlan(username);
+    }
 }

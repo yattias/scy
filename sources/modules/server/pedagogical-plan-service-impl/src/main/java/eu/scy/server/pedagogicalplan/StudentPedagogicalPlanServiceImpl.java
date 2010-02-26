@@ -33,6 +33,11 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
         this.studentPedagogicalPlanPersistenceService = studentPedagogicalPlanPersistenceService;
     }
 
+    @Override
+    public StudentPlanELO createStudentPlan(String username) {
+        return getStudentPedagogicalPlanPersistenceService().createStudentPlan(username);
+    }
+
     public StudentPlanELO createStudentPlan(PedagogicalPlan pedagogicalPlan, User user) {
         return getStudentPedagogicalPlanPersistenceService().createStudentPlan(pedagogicalPlan, user);
     }
