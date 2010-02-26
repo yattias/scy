@@ -175,21 +175,21 @@ public class JXEntryPanel extends JXPanel {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				JXButton jb = (JXButton) e.getSource();
-				jb.setEnabled(false);
-				JXEntryPanel parent = (JXEntryPanel) jb.getParent();
-				
-			
-				parent.setBackgroundOff();
+//				JXButton jb = (JXButton) e.getSource();
+//				jb.setEnabled(false);
+//				JXEntryPanel parent = (JXEntryPanel) jb.getParent();
+//				
+//			
+//				parent.setBackgroundOff();
 				
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				JXButton jb = (JXButton) e.getSource();
-				jb.setEnabled(true);
-				JXPanel parent = (JXPanel) jb.getParent();
-				parent.setBackgroundPainter(Colors.getHighlightOnPainter());
+//				JXButton jb = (JXButton) e.getSource();
+//				jb.setEnabled(true);
+//				JXPanel parent = (JXPanel) jb.getParent();
+//				parent.setBackgroundPainter(Colors.getHighlightOnPainter());
 			}
 
 			@Override
