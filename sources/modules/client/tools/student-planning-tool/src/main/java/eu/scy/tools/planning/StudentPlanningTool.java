@@ -295,9 +295,13 @@ public class StudentPlanningTool {
 						"For Your Information");
 				//dialog.setVisible(true);
 				
-				IAwarenessUser a = new AwarenessUser();
-				a.setNickName("lars");
-				acceptDrop(a);
+				
+				
+				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId("firstIdeas");
+				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
+//				IAwarenessUser a = new AwarenessUser();
+//				a.setNickName("wiwoo");
+//				acceptDrop(a);
 				
 				
 			}
@@ -401,7 +405,8 @@ public class StudentPlanningTool {
 			StudentPlannedActivity studentPlannedActivity) {
 		
 		AnchorELO assoicatedELO = studentPlannedActivity.getAssoicatedELO();
-		Activity activity = assoicatedELO.getProducedBy();
+		//Activity activity = assoicatedELO.getProducedBy();
+		Activity activity = null;
 		// create a taskpane, and set it's title and icon
 		JXTaskPane taskpane = new JXTaskPane();
 		taskpane.setName(assoicatedELO.getName());
@@ -428,17 +433,17 @@ public class StudentPlanningTool {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				JXTaskPane tp = (JXTaskPane) e.getSource();
-				JXEntryPanel ep = (JXEntryPanel) tp.getParent();
-				//ep.setBackgroundOff();
+//				JXTaskPane tp = (JXTaskPane) e.getSource();
+//				JXEntryPanel ep = (JXEntryPanel) tp.getParent();
+//				ep.setBackgroundOff();
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				JXTaskPane tp = (JXTaskPane) e.getSource();
-				JXEntryPanel ep = (JXEntryPanel) tp.getParent();
-				ep.setBackgroundOn();
+//				JXTaskPane tp = (JXTaskPane) e.getSource();
+//				JXEntryPanel ep = (JXEntryPanel) tp.getParent();
+//				ep.setBackgroundOn();
 
 			}
 

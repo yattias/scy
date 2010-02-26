@@ -62,8 +62,10 @@ public class StudentPlanningController {
 
 	}
 	
-	public StudentPlanningController() {
-
+	public StudentPlanningController(StudentPlanELO studentPlanELO) {
+		this.studentPlanELO = studentPlanELO;
+		
+		this.dumpStudentPlan(studentPlanELO);
 	}
 	
 	public Icon getBuddyImageIcon(String nickName) {
@@ -97,8 +99,9 @@ public class StudentPlanningController {
 	public StudentPlanningController(ToolBrokerAPI toolbrokerApi) {
 		this.toolbrokerApi = toolbrokerApi;
 		log.info("Starting Student Planning Controller...");
-		studentPedagogicalPlanService = getStudentPlanService();
+		 //studentPedagogicalPlanService = this.toolbrokerApi.getStudentPedagogicalPlanService();
 
+		studentPedagogicalPlanService = this.getStudentPlanService();
 		if (studentPedagogicalPlanService == null) 
 			throw new RuntimeException("STUDENT SERVICE IS NULL!!!! LAME");
 
@@ -106,7 +109,7 @@ public class StudentPlanningController {
 
 		log.info("fetching student plans");
 		List<StudentPlanELO> studentPlans = studentPedagogicalPlanService
-				.getStudentPlans("wiwoo");
+				.getStudentPlans("tony");
 
 		if( studentPlans != null && studentPlans.size() > 0 ) {
 			 setStudentPlanELO(studentPlans.get(0));
@@ -318,9 +321,15 @@ public class StudentPlanningController {
 
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
 		
-		String loginUserName = toolbrokerApi.getLoginUserName();
-		log.severe("login user name " + loginUserName);
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", eloId);
+		try {
+			String loginUserName = toolbrokerApi.getLoginUserName();
+			log.severe("login user name " + loginUserName);		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas");
 		
 		return spa;
 	}
