@@ -26,6 +26,7 @@ public class BasicEloConfig implements EloConfig
    private boolean rightDrawerCollaboration = false;
    private boolean bottomDrawerCollaboration = false;
    private boolean leftDrawerCollaboration = false;
+   private boolean contentStatic = false;
    private List<String> logicalTypeNames;
    private List<String> functionalTypeNames;
 
@@ -195,6 +196,17 @@ public class BasicEloConfig implements EloConfig
    public void setTopDrawerCollaboration(boolean topDrawerCollaboration)
    {
       this.topDrawerCollaboration = topDrawerCollaboration;
+   }
+
+   @Override
+   public boolean isContentStatic()
+   {
+      return contentStatic;
+   }
+
+   public void setContentStatic(boolean contentStatic)
+   {
+      this.contentStatic = contentStatic;
    }
 
    @Override
