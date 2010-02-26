@@ -62,7 +62,9 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
 							}
 							br.close();
 						} catch (IOException e) {
-							e.printStackTrace();
+						        if (isRunning()) {
+						            e.printStackTrace();
+						        }
 						}
 					}
 				}.start();
@@ -82,7 +84,9 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
 							}
 							br.close();
 						} catch (IOException e) {
-							e.printStackTrace();
+                                                        if (isRunning()) {
+                                                            e.printStackTrace();
+                                                        }
 						}
 					}
 				}.start();
@@ -94,6 +98,7 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
 
 	@Override
 	public void kill() {
+	        
 		process.destroy();
 	}
 
