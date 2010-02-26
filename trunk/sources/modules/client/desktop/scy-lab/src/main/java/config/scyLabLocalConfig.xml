@@ -726,7 +726,7 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <!--<value>R_Thermal_simulation_manual.html???</value>-->
+                     <value>roolo://memory/356/0/Thermal_simulation_manual.url</value>
                   </list>
                </property>
             </bean>
@@ -845,7 +845,7 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <!--<value>R_Thermal_simulation_manual.html???</value>-->
+                     <value>roolo://memory/356/0/Thermal_simulation_manual.url</value>
                   </list>
                </property>
             </bean>
