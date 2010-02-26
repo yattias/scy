@@ -291,7 +291,12 @@ public class AgentManager implements Callback {
 	private void restartAgent(String agentId) throws AgentLifecycleException {
 		logger.log(Level.FINE, "restartAgent with ID: " + agentId);
 		IThreadedAgent agentToRestart = agentIdMap.get(agentId);
-		agentToRestart.kill();
+		try {
+		    agentToRestart.kill();
+		} catch (AgentLifecycleException e) {
+		    // okay, probably the agent is already dead -> don't care
+		    e.printStackTrace();
+		}
 		Map<String, Object> params = startParameters.get(agentId);
 		startAgent(agentToRestart.getName(), params);
 	}
