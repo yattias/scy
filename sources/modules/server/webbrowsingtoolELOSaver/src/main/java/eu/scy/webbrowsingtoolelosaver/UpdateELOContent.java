@@ -52,7 +52,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import roolo.elo.api.IELO;
@@ -80,8 +79,6 @@ public class UpdateELOContent {
 
     /** Creates a new instance of SaveELOResource */
     public UpdateELOContent() {
-        //configure the Logger
-        BasicConfigurator.configure();
     }
 
     /**

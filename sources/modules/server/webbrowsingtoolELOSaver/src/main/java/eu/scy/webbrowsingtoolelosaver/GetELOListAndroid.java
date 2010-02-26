@@ -54,7 +54,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -91,8 +90,6 @@ public class GetELOListAndroid {
 
     /** Creates a new instance of SaveELOResource */
     public GetELOListAndroid() {
-        //configure the Logger
-        BasicConfigurator.configure();
         
         //configure keys
         typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());

@@ -58,7 +58,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.jdom.Document;
@@ -82,8 +81,6 @@ public class GetELOFromURI {
 
     /** Creates a new instance of SaveELOResource */
     public GetELOFromURI() {
-        //configure the Logger
-        BasicConfigurator.configure();
     }
 
     /**
