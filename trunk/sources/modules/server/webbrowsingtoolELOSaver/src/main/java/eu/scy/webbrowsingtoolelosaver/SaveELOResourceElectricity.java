@@ -180,6 +180,7 @@ public class SaveELOResourceElectricity {
                 descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
 
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
+                elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
 
                 elo.getMetadata().getMetadataValueContainer(typeKey).setValue(type);
                 elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
