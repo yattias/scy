@@ -33,6 +33,7 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ServerNotRespondingException;
@@ -76,6 +77,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
 
     private PedagogicalPlanService pedagogicalPlanService;
 
+    private StudentPedagogicalPlanService studentPedagogicalPlanService;
+    
     private NotificationReceiver notificationReceiver;
 
     private String userName;
@@ -122,6 +125,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
 
         // PedagogicalPlan
         pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
+        
+        //student planning service
+        setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
 
         // NotificationReceiver
         notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
@@ -142,6 +148,10 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                 }
             }
         });
+        
+       
+        
+        
     }
 
     /**
@@ -413,4 +423,15 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
    public String getLoginUserName(){
       return userName;
    }
+
+  
+	public void setStudentPedagogicalPlanService(
+			StudentPedagogicalPlanService studentPedagogicalPlanService) {
+		this.studentPedagogicalPlanService = studentPedagogicalPlanService;
+	}
+
+    @Override
+	public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
+		return studentPedagogicalPlanService;
+	}
 }
