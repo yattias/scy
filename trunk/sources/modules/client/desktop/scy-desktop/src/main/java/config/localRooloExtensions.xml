@@ -127,6 +127,12 @@
                </key>
                <value>.skp</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/studentplanningtool</value>
+               </key>
+               <value>.studentplan</value>
+            </entry>
          </map>
       </property>
    </bean>
