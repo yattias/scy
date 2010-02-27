@@ -44,6 +44,8 @@ import java.awt.Component;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
+import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloConfigManager;
 
 /**
  * @author sikkenj
@@ -67,6 +69,7 @@ public class ScyDesktopCreator {
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
    public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
+   public-init var eloConfigManager: EloConfigManager;
    def userNameKey = "userName";
 
    var titleKey:IMetadataKey;
@@ -109,6 +112,10 @@ public class ScyDesktopCreator {
       if (drawerContentCreatorRegistryFX == null) {
          drawerContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
       }
+      if (eloConfigManager==null){
+         eloConfigManager = new BasicEloConfigManager(config);
+      }
+
 
       handleToolRegistration();
       if (missionModelFX == null) {
@@ -370,6 +377,7 @@ public class ScyDesktopCreator {
    }
 
    public function createScyDesktop(): ScyDesktop {
+      eloConfigManager.setDebug(initializer.debugMode);
       def scyDesktop:ScyDesktop = ScyDesktop {
          initializer:initializer
          config: config;
@@ -380,6 +388,7 @@ public class ScyDesktopCreator {
          newEloCreationRegistry: newEloCreationRegistry;
          windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
          drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
+         eloConfigManager:eloConfigManager
       };
 
       //register for notifications

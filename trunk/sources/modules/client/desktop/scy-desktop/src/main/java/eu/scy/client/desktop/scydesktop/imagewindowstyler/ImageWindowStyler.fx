@@ -104,7 +104,7 @@ public class ImageWindowStyler extends WindowStyler{
    }
    def studentPlanningToolImageSet = EloImageSet{
       path:impagesPath;
-      name:"pl_tool"
+      name:"pL_tool"
       color:scyGreen
    }
    def presentaionToolImageSet = EloImageSet{

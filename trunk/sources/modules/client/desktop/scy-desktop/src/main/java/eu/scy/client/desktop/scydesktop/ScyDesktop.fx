@@ -79,6 +79,7 @@ import javax.swing.JOptionPane;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import org.jdom.Element;
+import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 
 /**
  * @author sikkenj
@@ -96,6 +97,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
     public var newEloCreationRegistry: NewEloCreationRegistry;
     public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
     public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
+    public var eloConfigManager: EloConfigManager;
     public var topLeftCornerTool: Node on replace {
                 topLeftCorner.content = topLeftCornerTool
             };
@@ -458,7 +460,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
     function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
        logger.info("realFillNewScyWindow2({window.eloUri},{collaboration})");
-        var eloConfig = config.getEloConfig(window.eloType);
+        var eloConfig = eloConfigManager.getEloConfig(window.eloType);
         if (eloConfig == null) {
             logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
             return ;
