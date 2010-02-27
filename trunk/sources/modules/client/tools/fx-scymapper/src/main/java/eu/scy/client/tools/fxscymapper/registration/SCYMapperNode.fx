@@ -80,6 +80,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                      translateX:spacing;
                      spacing:spacing;
                      content:[
+                        /*
                         Button {
                            text: "New"
                            action: function() {
@@ -94,6 +95,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                                 loadElo(selectedUri as URI);
                            }
                         }
+                        */
                         Button {
                            text: "Save"
                            action: function() {
