@@ -342,17 +342,36 @@ public class StudentPlanningTool {
 	public void acceptDrop(Object drop) {
 		
 		log.severe("we just dropped a load of..." + drop.toString());
+		
+		if( drop == null) {
+			
+			log.severe("DROOPPED IS NULL: " + drop);
+			
+			String msg = "<html>This ELO cant be planned, try another one</html>";
+
+			JOptionPane optionPane = new JOptionPane();
+			optionPane.setMessage(msg);
+			optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+			JDialog dialog = optionPane.createDialog(null,
+					"For Your Information");
+			dialog.setVisible(true);
+			return;
+		}
+		
 		if( drop instanceof String ) {
 			
 			//find the activity
-			//create studenActivityPlane
-			
+			//create studenActivityPlane			
 			
 			String eloId = (String) drop;
 			
-			log.severe("ELO ID DROPPED " + eloId);
+			
+			
+			log.severe("ELO ID DROPPED IN STUDENT PLANNING TOOL" + eloId);
+			
 			StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
 			
+			log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId);
 			this.addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
 			
 		} else if(drop instanceof IAwarenessUser ){

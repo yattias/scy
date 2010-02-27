@@ -57,11 +57,15 @@ public class StudentPlanningController {
 
 	private ToolBrokerAPI toolbrokerApi;
 
-	private String userName;
+	private String userName = "tony";
 	
 
 	public StudentPlanningController(String eloId, String userName) {
+		studentPedagogicalPlanService = this.getStudentPlanService();
+		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
+		log.severe("ELO PASSED TO STP USERNAME" + userName);
 		studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(eloId);
+		log.severe("STUDENTPLANNEDELO " + studentPlanELO);
 		this.userName = userName;
 	}
 	
@@ -84,7 +88,7 @@ public class StudentPlanningController {
 		this.toolbrokerApi = toolBrokerAPI;
 		this.studentPlanELO = studentPlanELO;
 		
-		this.dumpStudentPlan(studentPlanELO);
+		//this.dumpStudentPlan(studentPlanELO);
 	}
 	
 	public Icon getBuddyImageIcon(String nickName) {
@@ -269,6 +273,7 @@ public class StudentPlanningController {
 	}
 
 	public void dumpStudentPlan(StudentPlanELO studentPlan) {
+				
 		System.out.println("Dumping student plan");
 		System.out.println("id:" + studentPlan.getId());
 		System.out.println("description:" + studentPlan.getDescription());
@@ -341,17 +346,18 @@ public class StudentPlanningController {
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
 		
 		try {
-			String loginUserName = toolbrokerApi.getLoginUserName();
-			log.severe("login user name " + loginUserName);		
+			//String loginUserName = toolbrokerApi.getLoginUserName();
+			//log.severe("login user name " + loginUserName);		
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
+		log.severe("Student plan ELO" + studentPlanELO);
 		String id = studentPlanELO.getId();
-		System.out.println("Student plan id " + id);
+		log.severe("Student plan id " + id);
 		
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("tony", "firstIdeas",id);
+		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
         //I had to comment out this one since I had to change the signature of the service...
 		//StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
 		
