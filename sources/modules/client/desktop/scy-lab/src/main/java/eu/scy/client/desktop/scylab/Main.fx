@@ -126,8 +126,10 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
 
-scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
+   scyDesktopCreator.eloConfigManager.addDebugCreatorId("xmlViewer");
+   scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
 
    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
    var chatControllerMap = new HashMap();
