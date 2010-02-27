@@ -9,6 +9,10 @@ import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolN
 import eu.scy.tools.planning.StudentPlanningTool;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.api.IRepository;
+import roolo.elo.api.IELOFactory;
 
 /**
  * @author aperritano
@@ -16,9 +20,20 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 public class StudentPlanningToolContentCreator extends ScyToolCreatorFX {
 
+       public var toolBrokerAPI:ToolBrokerAPI;
+       public var metadataTypeManager: IMetadataTypeManager;
+       public var repository:IRepository;
+       public var technicalFormatKey: IMetadataKey;
+       public var eloFactory:IELOFactory;
+
       override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
         StudentPlanningToolNode{
             scyWindow:scyWindow;
+            toolBrokerAPI:toolBrokerAPI;
+            metadataTypeManager:metadataTypeManager;
+            technicalFormatKey:technicalFormatKey;
+            repository:repository;
+            eloFactory:eloFactory;
          }
 
     }
