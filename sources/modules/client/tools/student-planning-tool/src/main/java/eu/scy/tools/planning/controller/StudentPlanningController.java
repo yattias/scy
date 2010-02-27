@@ -21,6 +21,7 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 import roolo.elo.metadata.BasicMetadata;
+import eu.scy.awareness.IAwarenessUser;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.student.StudentPlanELO;
@@ -55,14 +56,28 @@ public class StudentPlanningController {
     private String IMAGE_BASE_DIR = "http://" + filestreamerServer+":"+filestreamerPort+filestreamerContext;
 
 	private ToolBrokerAPI toolbrokerApi;
+
+	private String userName;
 	
 
-	public StudentPlanningController(String eloId, String s) {
-
+	public StudentPlanningController(String eloId, String userName) {
+		studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(eloId);
+		this.userName = userName;
 	}
 	
 	public StudentPlanningController() {
+		studentPedagogicalPlanService = this.getStudentPlanService();
+//		studentPlanELO = studentPedagogicalPlanService.createStudentPlan("tony");
+////		
+//		
+//		System.out.println("Student plan id " + studentPlanELO.getId());
+//		 studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(studentPlanELO.getId());
 
+//		List<StudentPlanELO> studentPlans = studentPedagogicalPlanService.getStudentPlans("tony");
+//		this.studentPlanELO = studentPlans.get(0);
+		
+		 String id = "ff808081270e3a5e01270e6893b0004c";
+		 studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(id);
 	}
 	
 	public StudentPlanningController(StudentPlanELO studentPlanELO, ToolBrokerAPI toolBrokerAPI) {
@@ -333,8 +348,12 @@ public class StudentPlanningController {
 			e.printStackTrace();
 		}
 
+		String id = studentPlanELO.getId();
+		System.out.println("Student plan id " + id);
+		
+		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("tony", "firstIdeas",id);
         //I had to comment out this one since I had to change the signature of the service...
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
+		//StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
 		
 		return spa;
 	}

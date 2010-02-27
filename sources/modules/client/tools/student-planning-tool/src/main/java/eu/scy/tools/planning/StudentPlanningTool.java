@@ -297,11 +297,11 @@ public class StudentPlanningTool {
 				
 				
 				
-				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId("firstIdeas");
-				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
-//				IAwarenessUser a = new AwarenessUser();
-//				a.setNickName("wiwoo");
-//				acceptDrop(a);
+//				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId("firstIdeas");
+//				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
+				IAwarenessUser a = new AwarenessUser();
+				a.setNickName("tony");
+				acceptDrop(a);
 				
 				
 			}
