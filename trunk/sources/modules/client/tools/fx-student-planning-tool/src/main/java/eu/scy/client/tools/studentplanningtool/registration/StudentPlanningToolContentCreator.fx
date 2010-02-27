@@ -23,7 +23,6 @@ public class StudentPlanningToolContentCreator extends ScyToolCreatorFX {
        public var toolBrokerAPI:ToolBrokerAPI;
        public var metadataTypeManager: IMetadataTypeManager;
        public var repository:IRepository;
-       public var technicalFormatKey: IMetadataKey;
        public var eloFactory:IELOFactory;
 
       override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
@@ -31,7 +30,6 @@ public class StudentPlanningToolContentCreator extends ScyToolCreatorFX {
             scyWindow:scyWindow;
             toolBrokerAPI:toolBrokerAPI;
             metadataTypeManager:metadataTypeManager;
-            technicalFormatKey:technicalFormatKey;
             repository:repository;
             eloFactory:eloFactory;
          }
