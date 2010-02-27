@@ -39,7 +39,8 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
         return assessment;
     }
 
-    @Transient
+    @OneToOne(targetEntity = ActivityImpl.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="producedBy_primKey")
     public Activity getProducedBy() {
         return producedBy;
     }

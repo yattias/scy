@@ -31,7 +31,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
     public StudentPedagogicalPlanService getStudentPlanService() {
         StudentPedagogicalPlanService service = null;
-        //service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+        service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
         return service;
@@ -45,7 +45,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         fb.afterPropertiesSet();
         return (StudentPedagogicalPlanService) fb.getObject();
     }
-
+    /*
     public void testGetStudentPlans() {
         if (getStudentPlanService() != null) {
             SCYUserImpl user = new SCYUserImpl();
@@ -103,7 +103,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         }
 
     }
-
+    */
     private List<StudentPlanELO> getStudentPlans() {
         List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
         return studentPlans;
@@ -136,7 +136,65 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             StudentPlanELO loaded = getStudentPlanService().getStudentPlanELO(eloId);
             assertNotNull(loaded);
 
+            for (int i = 0; i < loaded.getStudentPlannedActivities().size(); i++) {
+                StudentPlannedActivity studentPlannedActivity = loaded.getStudentPlannedActivities().get(i);
+                System.out.println("planned activity " + studentPlannedActivity.getName());
+            }
+
             //freakin simple eh?
+        }
+    }
+
+    public void testCreateStudentPlannedActivitiesBasedOnAnchorElos() {
+
+        final String USER_NAME = "student";
+
+        if(getStudentPlanService() != null) {
+            StudentPlanELO studentPlanELO = getStudentPlanService().createStudentPlan(USER_NAME);
+            String planId = studentPlanELO.getId();
+            assertNotNull(planId);
+
+            List studentPlannedActivities = studentPlanELO.getStudentPlannedActivities();
+            assert(studentPlannedActivities != null); // the plan should have an empty list of planned activities
+            assertEquals(0, studentPlannedActivities.size());
+
+            StudentPlannedActivity plannedActivity = getStudentPlanService().getStudentPlannedActivity(USER_NAME, "start", planId);
+            assertNotNull(plannedActivity);
+            String startActivityId = plannedActivity.getId();
+            System.out.println("FOUND ACTIVITY: " + startActivityId + " " + plannedActivity.getName());
+
+            plannedActivity = getStudentPlanService().getStudentPlannedActivity(USER_NAME, "conceptMap", planId);
+            assertNotNull(plannedActivity);
+            String conceptMapActivityId = plannedActivity.getId();
+
+            assert(!conceptMapActivityId.equals(startActivityId)); // these should NOT be the same
+
+            //reload the plan from the server since new activities have been created there, and are not present on the freakin' client
+            studentPlanELO = getStudentPlanService().getStudentPlanELO(planId);
+
+            Integer activityCount = studentPlanELO.getStudentPlannedActivities().size();
+            assert(activityCount > 0);
+
+            StudentPlanELO loaded = getStudentPlanService().getStudentPlanELO(planId);
+            assertNotNull(loaded);
+            System.out.println("Loaded " + loaded.getStudentPlannedActivities().size() + " planned activities");
+            assertTrue(loaded.getStudentPlannedActivities().size() > 0);
+
+            assertEquals(activityCount, (Integer) loaded.getStudentPlannedActivities().size());   //these should be the same since they refer to the size of the same collections
+
+            List loadedActivivties = loaded.getStudentPlannedActivities();
+            for (int i = 0; i < loadedActivivties.size(); i++) {
+                StudentPlannedActivity studentPlannedActivity = (StudentPlannedActivity) loadedActivivties.get(i);
+                System.out.println(studentPlannedActivity.getName());
+            }
+
+            //test that changing the activity works :
+            StudentPlannedActivity activity = getStudentPlanService().getStudentPlannedActivity(USER_NAME, "start", planId);
+            assertNotNull(activity);
+            activity.setNote("THis is the freakin start of something new and great! Long live innovation!");
+            getStudentPlanService().save((ScyBaseObject) activity);
+
+
         }
     }
 

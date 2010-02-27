@@ -30,7 +30,7 @@ public interface StudentPedagogicalPlanPersistenceService extends BaseService{
 
     void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO);
 
-    StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId);
+    StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId, String studentPlanId);
 
     StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId);
 

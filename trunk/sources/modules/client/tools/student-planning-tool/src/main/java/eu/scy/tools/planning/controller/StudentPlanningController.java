@@ -21,7 +21,6 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 import roolo.elo.metadata.BasicMetadata;
-import eu.scy.awareness.IAwarenessUser;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.student.StudentPlanELO;
@@ -334,7 +333,8 @@ public class StudentPlanningController {
 			e.printStackTrace();
 		}
 
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas");
+        //I had to comment out this one since I had to change the signature of the service...
+		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
 		
 		return spa;
 	}

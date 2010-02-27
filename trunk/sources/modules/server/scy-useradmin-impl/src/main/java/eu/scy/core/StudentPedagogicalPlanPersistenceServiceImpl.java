@@ -68,8 +68,8 @@ public class StudentPedagogicalPlanPersistenceServiceImpl extends BaseServiceImp
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId) {
-        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlannedActivity(achorELOId, userName);
+    public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId, String studentPlanId) {
+        return getStudentPedagogicalPlanPersistenceDAO().getStudentPlannedActivity(achorELOId, userName, studentPlanId);
     }
 
     @Override

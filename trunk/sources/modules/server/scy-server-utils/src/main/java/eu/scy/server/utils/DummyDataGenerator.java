@@ -71,7 +71,7 @@ public class DummyDataGenerator implements InitializingBean {
                 scenario.setLearningActivitySpace(learninigActivitySpace);
             } else {
                 currentAnchorELO.setInputTo(learninigActivitySpace);
-                getScenarioService().save(currentAnchorELO);
+                //getScenarioService().save(currentAnchorELO);
             }
             BasicMissionAnchor anchor = getImportedXMLMission().getAnchor(basicLas.getAnchorEloId());
             if(anchor != null) {
@@ -79,6 +79,7 @@ public class DummyDataGenerator implements InitializingBean {
                 currentAnchorELO = outputFromLearningActivitySpace;
                 Activity doTheStuff = addActivity(learninigActivitySpace, "Do the stuff - " + currentAnchorELO.getName(), outputFromLearningActivitySpace);
             }
+            //if(currentAnchorELO != null) getMissionService().save(currentAnchorELO);
 
         }
         return scenario;
@@ -320,6 +321,8 @@ public class DummyDataGenerator implements InitializingBean {
         Activity act = createActivity(activityName);
         las.addActivity(act);
         act.setAnchorELO(anchorELO);
+        anchorELO.setProducedBy(act);
+        //getMissionService().save(anchorELO);
         return act;
     }
 
