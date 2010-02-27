@@ -31,7 +31,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
     public StudentPedagogicalPlanService getStudentPlanService() {
         StudentPedagogicalPlanService service = null;
-        service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+        //service = getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
         //service = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
         return service;
@@ -45,7 +45,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         fb.afterPropertiesSet();
         return (StudentPedagogicalPlanService) fb.getObject();
     }
-    /*
+
     public void testGetStudentPlans() {
         if (getStudentPlanService() != null) {
             SCYUserImpl user = new SCYUserImpl();
@@ -103,7 +103,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         }
 
     }
-    */
+
     private List<StudentPlanELO> getStudentPlans() {
         List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
         return studentPlans;
