@@ -33,7 +33,7 @@ public abstract class PedagogicalPlanBaseImpl extends BaseObjectImpl implements 
         this.mission = mission;
     }
 
-    @OneToOne  (targetEntity = ScenarioImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne  (targetEntity = ScenarioImpl.class, fetch = FetchType.EAGER)
     @JoinColumn(name="scenario_primKey")
     public Scenario getScenario() {
         return scenario;

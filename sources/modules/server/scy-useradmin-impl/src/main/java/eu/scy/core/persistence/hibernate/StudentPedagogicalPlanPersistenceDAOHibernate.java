@@ -10,8 +10,6 @@ import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.StudentPedagogicalPlanPersistenceDAO;
 import org.apache.log4j.Logger;
-import roolo.api.IRepository;
-import roolo.elo.JDomBasicELOFactory;
 
 import java.util.List;
 
@@ -172,26 +170,27 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName) {
+    public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName, String studentPlanId) {
         User user = getUserByUsername(userName);
         StudentPlannedActivity studentPlannedActivity = null;
         if (user != null) {
-            studentPlannedActivity = (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl as spa where spa.assoicatedELO.missionMapId like :anchorELOId and spa.studentPlan.user = :user ")
+            studentPlannedActivity = (StudentPlannedActivity) getSession().createQuery("from StudentPlannedActivityImpl as spa where spa.assoicatedELO.missionMapId like :anchorELOId and spa.studentPlan.user = :user and spa.studentPlan.id like :studentPlanId")
                     .setString("anchorELOId", anchorELOId)
                     .setEntity("user", user)
+                    .setString("studentPlanId", studentPlanId)
                     .uniqueResult();
 
         }
 
         if (studentPlannedActivity == null) {
             log.info("Did not find an existing activity - creating a new one!");
-            StudentPlanELO studentPlan = (StudentPlanELO) getSession().createQuery("from StudentPlanELOImpl where user = :user")
-                    .setEntity("user", user)
-                    .setMaxResults(1)
-                    .uniqueResult();
+
+            StudentPlanELO studentPlan = (StudentPlanELO) getHibernateTemplate().get(StudentPlanELOImpl.class, studentPlanId);
 
             AnchorELO anchorELO = getAnchorEloFromMissionMapId(anchorELOId);
-            Activity activity = getActivityThatProduces(studentPlan, anchorELO);
+            log.info("Got " + anchorELO.getName());
+            Activity activity = anchorELO.getProducedBy();//getActivityThatProduces(studentPlan, anchorELO);
+            log.info("Found activity " + activity.getName());
             studentPlannedActivity = new StudentPlannedActivityImpl();
             studentPlannedActivity.setName(activity.getName());
             studentPlannedActivity.setDescription(activity.getDescription());
@@ -199,6 +198,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
             studentPlannedActivity.setAssoicatedELO(anchorELO);
             studentPlan.addStudentPlannedActivity(studentPlannedActivity);
             getHibernateTemplate().saveOrUpdate(studentPlannedActivity);
+            
             getHibernateTemplate().saveOrUpdate(studentPlan);
 
         }

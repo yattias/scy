@@ -78,8 +78,8 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     }
 
     @Override
-    public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId) {
-        return getStudentPedagogicalPlanPersistenceService().getStudentPlannedActivity(userName, achorELOId);
+    public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId, String studentPlanId) {
+        return getStudentPedagogicalPlanPersistenceService().getStudentPlannedActivity(userName, achorELOId, studentPlanId);
     }
 
     @Override

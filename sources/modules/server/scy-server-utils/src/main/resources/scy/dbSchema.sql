@@ -28,11 +28,14 @@ CREATE TABLE `anchorelo` (
     `yPos` bigint(20) NOT NULL default '0',
     `inputTo_primKey` varchar(55) default NULL,
     `outputFrom_primKey` varchar(55) default NULL,
-	PRIMARY KEY  (`primKey`),
+    `producedBy_primKey` varchar(55) default NULL,
+    PRIMARY KEY  (`primKey`),
     KEY `inputTo_primKey_key` (`inputTo_primKey`),
     KEY `outputFrom_primKey_key` (`outputFrom_primKey`),
+    KEY `producedBy_primKey_key` (`producedBy_primKey`),
     CONSTRAINT `anchorelo_las` FOREIGN KEY (`inputTo_primKey`) REFERENCES `learningactivityspace` (`primKey`),
-    CONSTRAINT `outputFrom_const_las` FOREIGN KEY (`outputFrom_primKey`) REFERENCES `learningactivityspace` (`primKey`)
+    CONSTRAINT `outputFrom_const_las` FOREIGN KEY (`outputFrom_primKey`) REFERENCES `learningactivityspace` (`primKey`),
+    CONSTRAINT `producedBy_primKey_const_las` FOREIGN KEY (`producedBy_primKey`) REFERENCES `activity` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -209,6 +212,7 @@ CREATE TABLE `studentplannedactivity` (
     `associatedelo_primKey` varchar(55) default NULL,
     `studentplanelo_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
+	UNIQUE KEY `uniqueKey` (`studentplanelo_primKey`,`associatedelo_primKey`),
 	KEY `plannedactivitytoelo` (`associatedelo_primKey`),
 	KEY `plannedactivitytoplan` (`studentplanelo_primKey`),
 	CONSTRAINT `plannedactivitytoeloconst` FOREIGN KEY (`associatedelo_primKey`) REFERENCES `anchorelo` (`primKey`),
