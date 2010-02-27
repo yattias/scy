@@ -21,7 +21,6 @@ import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
-import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
  * @author sikkenj
@@ -41,8 +40,8 @@ public abstract class ScyWindow extends CustomNode {
 	public var width: Number = 150;
 	public var height: Number = 100;
 
-   public var desiredWidth: Number = 150;
-	public var desiredHeight: Number = 100;
+   public var desiredWidth: Number = -1;
+	public var desiredHeight: Number = -1;
 
    public var minimumWidth: Number = -1;
    public var minimumHeight: Number = -1;

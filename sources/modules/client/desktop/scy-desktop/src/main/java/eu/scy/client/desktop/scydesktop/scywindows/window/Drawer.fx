@@ -56,10 +56,12 @@ public abstract class Drawer extends CustomNode {
    protected var contentElement: WindowContent;
    protected var closeControl: WindowClose;
    protected var resizeControl: WindowResize;
+   protected var horizontalSizeExternal = false;
+   protected var verticalSizeExternal = false;
    var originalWidth: Number;
    var originalHeight: Number;
    var openedOnce = false;
-   var resizeAllowed = true;
+   var resizeAllowed = false;
 
    function sizeChanged() {
       // show a filled rect as content for test purposes
@@ -142,11 +144,19 @@ public abstract class Drawer extends CustomNode {
          // it will be opened for the first time, find good initial size
          if (content instanceof Resizable) {
             var resizableContent = content as Resizable;
-            width = Math.max(resizableContent.getPrefWidth(width), absoluteMinimumWidth);
-            height = Math.max(resizableContent.getPrefWidth(height), absoluteMinimumHeight);
+            if (not horizontal){
+               width = Math.max(resizableContent.getPrefWidth(width), absoluteMinimumWidth);
+            }
+            if (horizontal){
+               height = Math.max(resizableContent.getPrefWidth(height), absoluteMinimumHeight);
+            }
          } else if (content != null) {
-            width = content.boundsInLocal.width;
-            height = content.boundsInLocal.height;
+            if (not horizontal){
+               width = content.boundsInLocal.width;
+            }
+            if (horizontal){
+               height = content.boundsInLocal.height;
+            }
             resizeAllowed = false;
          }
 

@@ -169,6 +169,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
       // setPreferredSize is needed
       textEditor.setPreferredSize(size);
+//      println("pref sized set to {size}");
       // setSize is not visual needed
       // but set it, so the component can react to it
       textEditor.setSize(size);
@@ -176,10 +177,13 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    }
 
    public override function getPrefHeight(width: Number) : Number{
+//      return 200;
+//      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}");
       return textEditor.getPreferredSize().getHeight();
    }
 
    public override function getPrefWidth(width: Number) : Number{
+//      return 300;
       return textEditor.getPreferredSize().getWidth();
    }
 

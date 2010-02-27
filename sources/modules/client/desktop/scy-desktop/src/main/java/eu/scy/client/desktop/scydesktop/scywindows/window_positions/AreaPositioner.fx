@@ -46,10 +46,10 @@ public class AreaPositioner {
    public function positionWindows(): Void {
       removeDuplicateWindows();
       logger.info("to position {sizeof windows} in {name}");
-      println("AreaPositioner {name}:");
-      for (window in windows){
-         println("{indexof window}: {window.eloUri}");
-      }
+//      println("AreaPositioner {name}:");
+//      for (window in windows){
+//         println("{indexof window}: {window.eloUri}");
+//      }
 
       delete  placedWindows;
       insert ignoreWindow into placedWindows;

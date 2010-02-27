@@ -653,6 +653,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activate: activate;
             layoutX:drawerCornerOffset;
             layoutY:-drawerBorderOffset;
+            width:bind width-2*drawerCornerOffset
          }
          insert topDrawer into drawerGroup.content;
       }
@@ -679,6 +680,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activate: activate;
             layoutX:bind width+drawerBorderOffset;
             layoutY:drawerCornerOffset;
+            height:bind height-2*drawerCornerOffset
          }
          insert rightDrawer into drawerGroup.content;
       }
@@ -706,6 +708,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activate: activate;
             layoutX:drawerCornerOffset;
             layoutY:bind height+drawerBorderOffset;
+            width:bind width-2*drawerCornerOffset
          }
          insert bottomDrawer into drawerGroup.content;
       }
@@ -732,6 +735,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activate: activate;
             layoutX:-drawerBorderOffset;
             layoutY:drawerCornerOffset;
+            height:bind height-2*drawerCornerOffset
          }
          insert leftDrawer into drawerGroup.content;
       }

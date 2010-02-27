@@ -319,29 +319,31 @@ public class BasicConfig implements Config
    @Override
    public List<URI> getAllMissionEloUris()
    {
-      Set<URI> allMissionEloUriSet = new HashSet<URI>();
-      addListToSet(basicMissionMap.getLoEloUris(), allMissionEloUriSet);
-      Set<String> anchorIdSet = new HashSet<String>();
-      for (BasicLas basicLas : basicMissionMap.getLasses())
-      {
-         addListToSet(basicLas.getLoEloUris(), allMissionEloUriSet);
-         anchorIdSet.add(basicLas.getAnchorEloId());
-         if (basicLas.getIntermediateEloIds() != null)
+      List<URI> allMissionEloUris = new ArrayList<URI>();
+      if (basicMissionMap!=null){
+         Set<URI> allMissionEloUriSet = new HashSet<URI>();
+         addListToSet(basicMissionMap.getLoEloUris(), allMissionEloUriSet);
+         Set<String> anchorIdSet = new HashSet<String>();
+         for (BasicLas basicLas : basicMissionMap.getLasses())
          {
-            anchorIdSet.addAll(basicLas.getIntermediateEloIds());
+            addListToSet(basicLas.getLoEloUris(), allMissionEloUriSet);
+            anchorIdSet.add(basicLas.getAnchorEloId());
+            if (basicLas.getIntermediateEloIds() != null)
+            {
+               anchorIdSet.addAll(basicLas.getIntermediateEloIds());
+            }
          }
-      }
-      for (BasicMissionAnchor missionAnchor : basicMissionAnchors)
-      {
-         if (missionAnchor.getUri() != null)
+         for (BasicMissionAnchor missionAnchor : basicMissionAnchors)
          {
-            allMissionEloUriSet.add(missionAnchor.getUri());
+            if (missionAnchor.getUri() != null)
+            {
+               allMissionEloUriSet.add(missionAnchor.getUri());
+            }
+            addListToSet(missionAnchor.getLoEloUris(), allMissionEloUriSet);
          }
-         addListToSet(missionAnchor.getLoEloUris(), allMissionEloUriSet);
+         allMissionEloUris.addAll(allMissionEloUriSet);
+         Collections.sort(allMissionEloUris);
       }
-      List<URI> allMissionEloUris = new ArrayList<URI>(allMissionEloUriSet);
-      Collections.sort(allMissionEloUris);
-
       return allMissionEloUris;
    }
 
