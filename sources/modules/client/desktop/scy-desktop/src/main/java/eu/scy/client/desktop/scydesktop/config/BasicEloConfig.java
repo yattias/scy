@@ -4,6 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +37,51 @@ public class BasicEloConfig implements EloConfig
       return "type=" + type + "display=" + display + "creatable=" + creatable + ", contentCreatorId=" + contentCreatorId + ", topDrawerCreatorId=" + topDrawerCreatorId
          + ", rightDrawerCreatorId=" + rightDrawerCreatorId + ", bottomDrawerCreatorId=" + bottomDrawerCreatorId
          + ", leftDrawerCreatorId=" + leftDrawerCreatorId;
+   }
+
+   public BasicEloConfig()
+   {
+   }
+
+   public BasicEloConfig(BasicEloConfig eloConfig)
+   {
+      type = eloConfig.type;
+      display = eloConfig.display;
+      creatable = eloConfig.creatable;
+      contentCreatorId = eloConfig.contentCreatorId;
+      topDrawerCreatorId = eloConfig.topDrawerCreatorId;
+      rightDrawerCreatorId = eloConfig.rightDrawerCreatorId;
+      bottomDrawerCreatorId = eloConfig.bottomDrawerCreatorId;
+      leftDrawerCreatorId = eloConfig.leftDrawerCreatorId;
+      contentCollaboration = eloConfig.contentCollaboration;
+      topDrawerCollaboration = eloConfig.topDrawerCollaboration;
+      rightDrawerCollaboration = eloConfig.rightDrawerCollaboration;
+      bottomDrawerCollaboration = eloConfig.bottomDrawerCollaboration;
+      leftDrawerCollaboration = eloConfig.leftDrawerCollaboration;
+      contentStatic = eloConfig.contentStatic;
+      if (eloConfig.logicalTypeNames != null)
+      {
+         logicalTypeNames = new ArrayList<String>(eloConfig.logicalTypeNames);
+      }
+      if (eloConfig.functionalTypeNames != null)
+      {
+         functionalTypeNames = new ArrayList<String>(eloConfig.functionalTypeNames);
+      }
+   }
+
+   @Override
+   public BasicEloConfig clone() throws CloneNotSupportedException
+   {
+      BasicEloConfig clone = (BasicEloConfig) super.clone();
+      if (logicalTypeNames != null)
+      {
+         clone.logicalTypeNames = new ArrayList<String>(logicalTypeNames);
+      }
+      if (functionalTypeNames != null)
+      {
+         clone.functionalTypeNames = new ArrayList<String>(functionalTypeNames);
+      }
+      return clone;
    }
 
    public void checkTypeNames(DisplayNames logicalTypeDisplayNames, DisplayNames functionalTypeDisplayNames)

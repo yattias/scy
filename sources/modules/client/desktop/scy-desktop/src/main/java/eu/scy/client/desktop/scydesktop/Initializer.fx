@@ -57,6 +57,7 @@ public class Initializer {
    public-init var scyServerHost:String;
    public-init var useWebStartHost=true;
    public-init var windowPositioner="roleArea";
+   public-init var debugMode = false;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -88,6 +89,7 @@ public class Initializer {
    def scyServerHostOption = "scyServerHost";
    def useWebStartHostOption = "useWebStartHost";
    def windowPositionerOption = "windowPositioner";
+   def debugModeOption = "debugMode";
 
    init {
       JavaProperties.writePropertiesForApplication();
@@ -180,6 +182,9 @@ public class Initializer {
             } else if (option == windowPositionerOption.toLowerCase()) {
                windowPositioner = argumentsList.nextStringValue(windowPositionerOption);
                logger.info("app: {windowPositionerOption}: {windowPositioner}");
+            } else if (option == debugModeOption.toLowerCase()) {
+               debugMode = argumentsList.nextBooleanValue(debugModeOption);
+               logger.info("app: {debugModeOption}: {debugMode}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -209,6 +214,7 @@ public class Initializer {
       scyServerHost = getWebstartParameterStringValue(scyServerHostOption, scyServerHost);
       useWebStartHost = getWebstartParameterBooleanValue(useWebStartHostOption, useWebStartHost);
       windowPositioner = getWebstartParameterStringValue(windowPositionerOption, windowPositioner);
+      debugMode = getWebstartParameterBooleanValue(debugModeOption, debugMode);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {

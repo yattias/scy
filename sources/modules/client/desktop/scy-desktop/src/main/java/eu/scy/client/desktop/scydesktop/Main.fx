@@ -56,6 +56,8 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{extensions: ["ppt","pptx"];fileFilterDescription:"PowerPoint Presentations"}, presentationViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
 
+   scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
+   
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
    scyDesktop.bottomLeftCornerTool = NewScyWindowTool {

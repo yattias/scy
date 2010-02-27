@@ -34,7 +34,7 @@ public interface Config {
 
    public RegisterContentCreators[] getRegisterContentCreators();
 
-   public EloConfig getEloConfig(String eloType);
+   public BasicEloConfig getEloConfig(String eloType);
 
    public BasicMissionMap getBasicMissionMap();
    public List<BasicMissionAnchor> getBasicMissionAnchors();

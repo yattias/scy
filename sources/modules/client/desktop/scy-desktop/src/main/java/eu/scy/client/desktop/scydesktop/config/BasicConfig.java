@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.IllegalStateException;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -42,13 +41,13 @@ public class BasicConfig implements Config
    private IMetadataKey technicalFormatKey;
    private RegisterContentCreators[] registerContentCreators;
    private List<BasicEloConfig> eloConfigList;
-   private Map<String, EloConfig> eloConfigs;
+   private Map<String, BasicEloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
    private BasicMissionMap basicMissionMap;
-   private String missionId;
-   private String missionName;
+//   private String missionId;
+//   private String missionName;
    private List<BasicMissionAnchor> basicMissionAnchors;
-   private URI activeMissionAnchorUri;
+//   private URI activeMissionAnchorUri;
    private List<URI> templateEloUris;
    private DisplayNames logicalTypeDisplayNames;
    private DisplayNames functionalTypeDisplayNames;
@@ -64,7 +63,7 @@ public class BasicConfig implements Config
 
    public void parseEloConfigs()
    {
-      eloConfigs = new HashMap<String, EloConfig>();
+      eloConfigs = new HashMap<String, BasicEloConfig>();
       List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
       for (BasicEloConfig basicEloConfig : eloConfigList)
       {
@@ -192,7 +191,7 @@ public class BasicConfig implements Config
    }
 
    @Override
-   public EloConfig getEloConfig(String eloType)
+   public BasicEloConfig getEloConfig(String eloType)
    {
       return eloConfigs.get(eloType);
    }
@@ -203,10 +202,10 @@ public class BasicConfig implements Config
       return newEloDescriptions;
    }
 
-   public void setMissionId(String missionId)
-   {
-      this.missionId = missionId;
-   }
+//   public void setMissionId(String missionId)
+//   {
+//      this.missionId = missionId;
+//   }
 
 //   @Override
 //   public String getMissionId()
