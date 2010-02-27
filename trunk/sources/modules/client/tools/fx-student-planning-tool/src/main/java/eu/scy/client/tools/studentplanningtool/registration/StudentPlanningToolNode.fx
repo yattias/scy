@@ -54,12 +54,18 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     public var wrappedSPTPanel:SwingComponent;
     public var panel:JComponent;
     public var studentPlanningController:StudentPlanningController;
-    public var toolBrokerAPI:ToolBrokerAPI;
+    
     public var studentPlanningTool:StudentPlanningTool;
     public var metadataTypeManager: IMetadataTypeManager;
-    public var repository:IRepository;
+    public var repository:IRepository on replace {
+        
+    }
+
     public var technicalFormatKey: IMetadataKey;
     public var eloFactory:IELOFactory;
+    public var toolBrokerAPI:ToolBrokerAPI on replace {
+               println("tbi updated");
+    };
     
     var elo:IELO;
 
@@ -84,15 +90,6 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
         setScyWindowTitle();
    }
 
-   function getElo():IELO{
-      if (elo==null){
-         elo = eloFactory.createELO();
-         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scySPTType);
-      }
-      return elo;
-   }
-
-
    public override function canAcceptDrop(object:Object):Boolean{
       return true;
    }
@@ -113,8 +110,9 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
           println("ANCHOR ID {anchorIdKey}");
 
-         println("ANCHOR Value {elo.getMetadataValueContainer(anchorIdKey).getValue()}");
-         studentPlanningTool.acceptDrop(elo);
+          var value = elo.getMetadataValueContainer(anchorIdKey).getValue();
+         println("ANCHOR Value {value}");
+         studentPlanningTool.acceptDrop(value);
       }
 
      println("object {object}");
@@ -126,37 +124,57 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
 
          println( "STARTING SPT create node");
+         println("toolbroker on stp is {toolBrokerAPI}");
         var uri = scyWindow.eloUri;
-        elo = repository.retrieveELO(uri);
-
-        var xmlString = elo.getContent().getXmlString();
-
-        println( "xml String from ELO {xmlString}");
-
-        var rootElement = jdomStringConversion.stringToXml(xmlString);
-
-        var parsed = StringUtils.stripToNull(rootElement.getText());
-
         var studentPlan;
-        if( parsed == null) {
-            //need to create a new id
-            studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(toolBrokerAPI.getLoginUserName());
+        if( uri != null) {
+            println( "ELO URI {uri}");
 
-            println("NEW SPT ID {studentPlan.getId()}");
+            elo = repository.retrieveELO(uri);
 
-            elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
+            println( "Retrieved ELO {elo}");
 
-            var newMetadata = repository.updateELO(elo)
+            var xmlString = elo.getContent().getXmlString();
+
+            println( "xml String from ELO {xmlString}");
+
+            var rootElement = jdomStringConversion.stringToXml(xmlString);
+
+            var parsed = StringUtils.stripToNull(rootElement.getText());
+
+            
+            if( parsed == null) {
+                //need to create a new id
+                studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(toolBrokerAPI.getLoginUserName());
+
+                println("NEW SPT ID {studentPlan.getId()}");
+
+                elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
+
+                var newMetadata = repository.updateELO(elo)
+            } else {
+
+                println("FOUND ID {parsed}");
+                studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
+
+            }
         } else {
-           
-            println("FOUND ID {parsed}");
-            studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
+            var id = "ff808081270e3a5e01270e6893b0004c";
+            println("calling STP with id {id}");
+            if( toolBrokerAPI == null) {
+                studentPlanningController = new StudentPlanningController(id, "tony");
+            } else {
+                 studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(id);
+            }
 
+
+           
+            println("STUDENT PLAN {studentPlan}");
         }
 
         println("toolbroker on stp is {toolBrokerAPI}");
 
-        studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
+        //studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = SwingComponent.wrap(panel);
