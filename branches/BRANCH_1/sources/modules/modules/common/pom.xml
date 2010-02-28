@@ -29,6 +29,7 @@
 		<module>scy-sessionmanager-api</module>
 		<module>tool-broker-api</module>
         <module>pedagogical-plan-service-api</module>
+        <module>packet-transformer</module>
   </modules>
 
 	<build>
