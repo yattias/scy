@@ -42,6 +42,8 @@
         <Reference name="instanceName" value="str:label"/>
         <Reference name="layoutX" value="prop:15,anim:,,flt:13.0,4,null,"/>
         <Reference name="layoutY" value="prop:14,anim:,,flt:6.0,4,null,"/>
+        <Reference name="layoutInfoWidth" value="prop:16,anim:,,flt:259.0,4,null,"/>
+        <Reference name="layoutInfoHeight" value="prop:15,anim:,,flt:16.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>

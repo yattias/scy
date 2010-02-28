@@ -116,7 +116,7 @@ public class EloManagement extends CustomNode {
          cancelAction:cancelNewElo
       }
       createNewElo.listView.items = eloTemplateUris;
-      createNewElo.label.text = "Select ELO template";
+      createNewElo.label.text = "Select template";
       var eloIcon = CharacterEloIcon{
          color:createBlankEloColor;
          iconCharacter:"N"
@@ -149,7 +149,7 @@ public class EloManagement extends CustomNode {
       }
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       createNewElo.listView.items = Sequences.sort(typeNames);
-      createNewElo.label.text = "Select ELO type";
+      createNewElo.label.text = "Select type";
       var eloIcon = CharacterEloIcon{
          color:createBlankEloColor;
          iconCharacter:"N"

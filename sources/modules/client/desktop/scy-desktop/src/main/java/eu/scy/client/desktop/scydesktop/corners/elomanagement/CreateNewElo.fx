@@ -24,6 +24,12 @@ public class CreateNewElo extends ModalDialogNode {
         label = javafx.scene.control.Label {
             layoutX: 13.0
             layoutY: 6.0
+            width: 259.0
+            height: 16.0
+            layoutInfo: javafx.scene.layout.LayoutInfo {
+                width: bind label.width
+                height: bind label.height
+            }
             text: "Select ELO type"
         };
         listView = javafx.scene.control.ListView {
