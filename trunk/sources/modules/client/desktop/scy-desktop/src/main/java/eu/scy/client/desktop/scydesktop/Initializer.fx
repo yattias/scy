@@ -95,6 +95,7 @@ public class Initializer {
       JavaProperties.writePropertiesForApplication();
       parseApplicationParameters();
       parseWebstartParameters();
+      printInitializerValues();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       setupBackgroundImage();
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
@@ -234,6 +235,31 @@ public class Initializer {
       var boolValue = "true".equalsIgnoreCase(webstartValue);
       logger.info("ws: {name}: {boolValue}");
       return boolValue;
+   }
+
+   function printInitializerValues(){
+      println("Initializer properties:");
+      println("- log4JInitFile: {log4JInitFile}");
+      println("- javaUtilLoggingInitFile: {javaUtilLoggingInitFile}");
+      println("- backgroundImageUrl: {backgroundImageUrl}");
+      println("- enableLocalLogging: {enableLocalLogging}");
+      println("- loggingDirectoryName: {loggingDirectoryName}");
+      println("- redirectSystemStream: {redirectSystemStream}");
+      println("- lookAndFeel: {lookAndFeel}");
+      println("- loginType: {loginType}");
+      println("- localToolBrokerLoginConfigFile: {localToolBrokerLoginConfigFile}");
+      println("- remoteToolBrokerLoginConfigFile: {remoteToolBrokerLoginConfigFile}");
+      println("- defaultUserName: {defaultUserName}");
+      println("- defaultPassword: {defaultPassword}");
+      println("- autoLogin: {autoLogin}");
+      println("- scyDesktopConfigFile: {scyDesktopConfigFile}");
+      println("- storeElosOnDisk: {storeElosOnDisk}");
+      println("- createPersonalMissionMap: {createPersonalMissionMap}");
+      println("- eloImagesPath: {eloImagesPath}");
+      println("- scyServerHost: {scyServerHost}");
+      println("- useWebStartHost: {useWebStartHost}");
+      println("- windowPositioner: {windowPositioner}");
+      println("- debugMode: {debugMode}");
    }
 
    public function isEmpty(string: String): Boolean {
