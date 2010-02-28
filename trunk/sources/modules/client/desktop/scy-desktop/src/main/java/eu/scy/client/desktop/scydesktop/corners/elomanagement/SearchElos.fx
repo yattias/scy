@@ -46,6 +46,7 @@ public class SearchElos extends ModalDialogNode {
             layoutY: 5.0
             onMouseClicked: allTypesCheckBoxOnMouseClicked
             text: "all"
+            selected: true
         };
         typesListView = javafx.scene.control.ListView {
             layoutX: 64.0
