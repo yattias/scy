@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* Copyright (c) 2007 Encore Research Group, University of Toronto
+	*
+	* This library is free software; you can redistribute it and/or
+	* modify it under the terms of the GNU Lesser General Public
+	* License as published by the Free Software Foundation; either
+	* version 2.1 of the License, or (at your option) any later version.
+	*
+	* This library is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	* Lesser General Public License for more details.
+	*
+	* You should have received a copy of the GNU Lesser General Public
+	* License along with this library; if not, write to the Free Software
+	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+<!-- $Id: controllers.xml 2551 2009-10-22 23:00:53Z shadowtorn $ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+	<!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="order" value="2"/>
+		<property name="mappings">
+			<value>
+				/app/playful/elorefs.html=eloRefsController
+				/app/playful/assesselo.html=assessEloController
+				/app/playful/createmockdata.html=createMockDataController
+			</value>
+		</property>
+	</bean>
+
+	<bean id="eloRefsController" class="eu.scy.server.controllers.EloRefsController">
+		<property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+		<property name="ELORefService" ref="eloRefService"/>
+	</bean>
+	<bean id="assessEloController" class="eu.scy.server.controllers.AssessEloController">
+		<property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+		<property name="ELORefService" ref="eloRefService"/>
+	</bean>
+	<bean id="createMockDataController" class="eu.scy.server.controllers.CreateMockDataController">
+		<property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+		<property name="ELORefService" ref="eloRefService"/>
+		<property name="userService" ref="userService"/>
+		<property name="missionService" ref="missionService"/>
+	</bean>
+</beans>

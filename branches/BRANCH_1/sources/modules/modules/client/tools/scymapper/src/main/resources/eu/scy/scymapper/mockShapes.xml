@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	   default-autowire="byName">
+
+	<import resource="genericShapes.xml"/>
+
+	<bean id="redcircle" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+		<property name="name" value="Red circle"/>
+		<property name="nodeShape">
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
+		</property>
+		<property name="nodeStyle">
+			<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+				<property name="background" ref="red"/>
+				<property name="opaque" value="true"/>
+			</bean>
+		</property>
+		<property name="width" value="100"/>
+		<property name="height" value="100"/>
+	</bean>
+	<bean id="greenoval" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+		<property name="name" value="Green Oval"/>
+		<property name="nodeShape">
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
+		</property>
+		<property name="nodeStyle">
+			<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+				<property name="background">
+					<bean class="java.awt.Color">
+						<constructor-arg value="0x99ff55"/>
+					</bean>
+				</property>
+				<property name="opaque" value="true"/>
+			</bean>
+		</property>
+		<property name="width" value="150"/>
+		<property name="height" value="75"/>
+	</bean>
+
+	<bean id="bergen" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+		<property name="name" value="Bergen"/>
+		<property name="nodeShape">
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+				<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/bergen.jpg"/>
+			</bean>
+		</property>
+		<property name="width" value="125"/>
+		<property name="height" value="83"/>
+	</bean>
+	<bean id="flood" class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+		<property name="name" value="Flood"/>
+		<property name="nodeShape">
+			<bean class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+				<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/flood.jpg"/>
+			</bean>
+		</property>
+		<property name="nodeStyle">
+			<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+				<property name="foreground">
+					<bean class="java.awt.Color">
+						<constructor-arg value="0xffffff"/>
+					</bean>
+				</property>
+				<property name="background">
+					<bean class="java.awt.Color">
+						<constructor-arg value="0x444444"/>
+					</bean>
+				</property>
+				<property name="opaque" value="true"/>
+			</bean>
+		</property>
+		<property name="width" value="125"/>
+		<property name="height" value="83"/>
+	</bean>
+
+	<bean name="houseConcept" class="eu.scy.scymapper.impl.model.NodeModel">
+		<property name="shape" ref="houseShape"/>
+		<property name="x" value="200"/>
+		<property name="y" value="200"/>
+		<property name="height" value="400"/>
+		<property name="width" value="400"/>
+		<property name="constraints">
+			<bean class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+				<property name="canConnect" value="true"/>
+				<property name="canDelete" value="false"/>
+				<property name="canSelect" value="false"/>
+				<property name="canEditLabel" value="true"/>
+				<property name="canMove" value="true"/>
+				<property name="canResize" value="false"/>
+			</bean>
+		</property>
+	</bean>
+	<bean name="eggShape" class="eu.scy.scymapper.impl.shapes.nodes.SVGShape">
+		<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/egg.svg"/>
+	</bean>
+	<bean name="houseShape" class="eu.scy.scymapper.impl.shapes.nodes.SVGShape">
+		<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/house.svg"/>
+	</bean>
+</beans>

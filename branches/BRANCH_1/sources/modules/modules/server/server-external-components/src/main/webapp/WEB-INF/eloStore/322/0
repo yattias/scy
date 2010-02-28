@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">House choices</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>conceptMap</structure>
+      <mission>co2Mission</mission>
+      <las>experimentDesign</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/322/0/House_choices.scymapping</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/mapping</format>
+      <customElements>
+        <dateCreated>1266922413695</dateCreated>
+        <dateLastModified>1266922439929</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>z</entity>
+        <date>
+          <dateTime>2010-02-23T11:53:59.929+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <educational>
+      <learningResourceType>mapKeyIdeas</learningResourceType>
+    </educational>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Untitled</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes/>
+    <links/>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>

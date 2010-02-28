@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <bean name="logicalTypeDisplayNames" class="eu.scy.client.desktop.scydesktop.config.BasicDisplayNames" init-method="initialize">
+      <property name="name" value="logical types"/>
+      <property name="typeNameSets">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="conceptMap"/>
+               <property name="name" value="Concept Map"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="dataset"/>
+               <property name="name" value="Dataset"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="structuredText"/>
+               <property name="name" value="Structured Text"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="drawing"/>
+               <property name="name" value="Drawing"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="plainText"/>
+               <property name="name" value="Plain Text"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="richText"/>
+               <property name="name" value="Rich Text"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="richTextImages"/>
+               <property name="name" value="Rich Text with images"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="presentation"/>
+               <property name="name" value="Presentation"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="table"/>
+               <property name="name" value="Table"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="information"/>
+               <property name="name" value="Information"/>
+            </bean>
+         </list>
+      </property>
+   </bean>
+
+   <bean name="functionalTypeDisplayNames" class="eu.scy.client.desktop.scydesktop.config.BasicDisplayNames" init-method="initialize">
+      <property name="name" value="functional types"/>
+      <property name="typeNameSets">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="mapConcept"/>
+               <property name="name" value="Concept Map"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="mapInitialIdeas"/>
+               <property name="name" value="Initial ideas"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="mapKeyIdeas"/>
+               <property name="name" value="Key ideas map"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="datasetManual"/>
+               <property name="name" value="Manual dataset"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="datasetAutomatic"/>
+               <property name="name" value="Automatic dataset"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="datasetProcessed"/>
+               <property name="name" value="Processed dataset"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="experimentalDesign"/>
+               <property name="name" value="Experimental design"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="experimentConclusion"/>
+               <property name="name" value="Experiment conclusion"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="drawingDesign"/>
+               <property name="name" value="Design drawing"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="hypothesis"/>
+               <property name="name" value="Hypothesis"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="researchQuestion"/>
+               <property name="name" value="Research question"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="interview"/>
+               <property name="name" value="Interview"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="documentDesign"/>
+               <property name="name" value="Design document"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="reportEvaluation"/>
+               <property name="name" value="Evaluation report"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="presentationDesign"/>
+               <property name="name" value="Design presentation"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="presentationFinal"/>
+               <property name="name" value="Final presentation"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="presentationExpert"/>
+               <property name="name" value="Expert presentation"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="reportFinal"/>
+               <property name="name" value="Final report"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="documentReflection"/>
+               <property name="name" value="Reflection document"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="informationResource"/>
+               <property name="name" value="Resource"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="informationAssignment"/>
+               <property name="name" value="Assignment"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="informationHelp"/>
+               <property name="name" value="Help"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.TypeNameSet">
+               <property name="type" value="sourceData"/>
+               <property name="name" value="Data source"/>
+            </bean>
+         </list>
+      </property>
+   </bean>
+
+</beans>

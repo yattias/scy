@@ -1,0 +1,25 @@
+<Context path="" docBase="scy-useradmin-web" debug="99" reloadable="true">
+	<Valve className="org.apache.catalina.valves.AccessLogValve"
+		prefix="scy_access" suffix=".log" disableProxyCaching="false" resolveHosts="true"
+		pattern="%h %u %t %T &quot;%r&quot; %s %b"/>
+	<Resource name="jdbc/scy" auth="Container" type="javax.sql.DataSource"
+		factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+		initialSize="5"
+		maxActive="75"
+		maxIdle="50"
+		minIdle="5"
+		maxWait="30000"
+		username="${db.user_name}"
+		password="${db.password}"
+        driverClassName="com.mysql.jdbc.Driver"
+		defaultAutoCommit="false"
+		url="jdbc:mysql://${db.host}/scy?autoReconnect=true&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=false&amp;zeroDateTimeBehavior=round"
+		removeAbandoned="true"
+		removeAbandonedTimeout="150"
+		defaultTransactionIsolation="READ_COMMITTED"
+		validationQuery="SELECT 1"
+		testWhileIdle="true"
+		timeBetweenEvictionRunsMillis="10000"
+		minEvictableIdleTimeMillis="60000"
+		logAbandoned="true"/>
+</Context>
