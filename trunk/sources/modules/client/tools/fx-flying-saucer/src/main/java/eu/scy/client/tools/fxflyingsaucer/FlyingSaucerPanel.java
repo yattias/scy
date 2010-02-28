@@ -89,7 +89,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      previousButton.setText("<-");
+      //previousButton.setText("<-");
+      previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("images/leftArrow.png"))); // NOI18N
       previousButton.setEnabled(false);
       previousButton.addActionListener(new java.awt.event.ActionListener()
       {
@@ -101,7 +102,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      nextButton.setText("->");
+      //nextButton.setText("->");
+      nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("images/rightArrow.png"))); // NOI18N
       nextButton.setEnabled(false);
       nextButton.addActionListener(new java.awt.event.ActionListener()
       {
@@ -113,7 +115,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      homeButton.setText("H");
+      //homeButton.setText("H");
+      homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("images/home.png"))); // NOI18N
       homeButton.setEnabled(false);
       if (homeUrl==null)
          homeButton.setToolTipText("Save as ELO");
@@ -258,6 +261,9 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void updatePreviousNextButtonState()
    {
+      if (urlFieldIsTitle){
+         homeButton.setEnabled(uriManager.hasPrevious() || uriManager.hasNext());
+      }
       previousButton.setEnabled(uriManager.hasPrevious());
       nextButton.setEnabled(uriManager.hasNext());
    }

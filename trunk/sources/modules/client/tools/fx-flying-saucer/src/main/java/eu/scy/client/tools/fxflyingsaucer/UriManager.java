@@ -59,7 +59,7 @@ public class UriManager extends NaiveUserAgent
       {
       }
       history.add(historyIndex, url);
-      logger.debug("history updated, index: " + historyIndex + ", history:\n" + getHistoryDisplay());
+      //logger.debug("history updated, index: " + historyIndex + ", history:\n" + getHistoryDisplay());
       flyingSaucerPanel.updatePreviousNextButtonState();
    }
 
