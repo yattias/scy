@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
@@ -24,6 +23,15 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import javafx.scene.Group;
 import javafx.util.Sequences;
 import java.net.URI;
+import javafx.scene.control.Button;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.api.search.IQuery;
+import roolo.api.search.AndQuery;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
+import java.lang.System;
+import roolo.elo.metadata.keys.Contribute;
 
 /**
  * @author sikken
@@ -34,15 +42,19 @@ public class EloManagement extends CustomNode {
    public var scyDesktop: ScyDesktop;
    public var scyWindowControl: ScyWindowControl;
    public var repository: IRepository;
+   public var metadataTypeManager: IMetadataTypeManager;
    public var titleKey: IMetadataKey;
    public var technicalFormatKey: IMetadataKey;
    public var eloFactory: IELOFactory;
    public var templateEloUris: List;
    public var tooltipManager: TooltipManager;
+   public var userId:String;
 
    def newFromEloTemplateColor = Color.BLUE;
    def searchColor = Color.BLUE;
    def createBlankEloColor = Color.BLUE;
+
+   def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
 
    def newFromEloTemplateButton =  Button {
       text: "New"
@@ -130,10 +142,6 @@ public class EloManagement extends CustomNode {
       createNewElo.modalDialogBox.close();
    }
 
-   function searchEloAction(): Void{
-
-   }
-
    function createNewBlankEloAction(): Void{
       var createNewElo = CreateNewElo{
          createAction:createNewBlankElo
@@ -178,6 +186,94 @@ public class EloManagement extends CustomNode {
             eloIcon: eloIcon
             color: color
          }
+   }
+
+   function searchEloAction(): Void{
+      var searchElos = SearchElos{
+         cancelAction:cancelSearchElo
+         searchAction:searchForElos
+         openAction:openElo
+      }
+      var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
+      searchElos.typesListView.items = Sequences.sort(typeNames);
+
+      var eloIcon = CharacterEloIcon{
+         color:searchColor;
+         iconCharacter:"S"
+      }
+
+      createModalDialog(searchColor,eloIcon,"Search",searchElos);
+   }
+
+   function searchForElos(searchElos: SearchElos):Void{
+      var searchQuery:AndQuery;
+      var typeQuery = createTypeQuery(searchElos);
+      var titleQuery = createTitleQuery(searchElos);
+      var authorQuery = createAuthorQuery(searchElos);
+      if (typeQuery!=null){
+         searchQuery = new AndQuery(typeQuery);
+      }
+      if (titleQuery!=null){
+         if (searchQuery==null){
+            searchQuery = new AndQuery(titleQuery);
+         }
+         else{
+            searchQuery.addQuery(titleQuery);
+         }
+      }
+      if (authorQuery!=null){
+         if (searchQuery==null){
+            searchQuery = new AndQuery(authorQuery);
+         }
+         else{
+            searchQuery.addQuery(authorQuery);
+         }
+      }
+      var queryResults = repository.search(searchQuery);
+      logger.info("search query: {searchQuery}\nNumber of results: {queryResults.size()}");
+      var resultsUris:URI[];
+      for (queryResult in queryResults){
+         insert queryResult.getUri() into resultsUris;
+      }
+      searchElos.resultsListView.items = resultsUris;
+   }
+
+   function createTypeQuery(searchElos: SearchElos):IQuery{
+      var eloTypeName = searchElos.typesListView.selectedItem as String;
+      if (not searchElos.allTypesCheckBox.selected and eloTypeName!=null){
+         var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
+         return new BasicMetadataQuery(technicalFormatKey,BasicSearchOperations.EQUALS,eloType,null);
+      }
+      return null;
+   }
+
+   function createTitleQuery(searchElos: SearchElos):IQuery{
+      var searchTitle = searchElos.nameTextbox.rawText.trim();
+      if (searchTitle.length()>0){
+         return new BasicMetadataQuery(titleKey,BasicSearchOperations.REGULAR_EXPRESSIONS,".*{searchTitle}.*",null);
+      }
+      return null;
+   }
+
+   function createAuthorQuery(searchElos: SearchElos):IQuery{
+      if (searchElos.onlyMineCheckBox.selected){
+         var authorValue = new Contribute(userId, System.currentTimeMillis());
+         return new BasicMetadataQuery(authorKey,BasicSearchOperations.EQUALS,authorValue,null);
+      }
+      return null;
+   }
+
+   function openElo(searchElos: SearchElos):Void{
+      var eloUri = searchElos.resultsListView.selectedItem as URI;
+      if (eloUri!=null){
+         scyWindowControl.addOtherScyWindow(eloUri);
+      }
+
+      searchElos.modalDialogBox.close();
+   }
+
+   function cancelSearchElo(searchElos: SearchElos):Void{
+      searchElos.modalDialogBox.close();
    }
 
 }
