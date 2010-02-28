@@ -73,6 +73,7 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
       jLabel4.setText("Functional type");
 
+      cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/scy/client/desktop/scydesktop/imagewindowstyler/images/con_map_act.png"))); // NOI18N
       cancelButton.setText("Cancel");
       cancelButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
