@@ -63,8 +63,10 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktop.bottomLeftCornerTool = EloManagement {
       scyDesktop: scyDesktop;
       repository: scyDesktopCreator.config.getRepository();
+      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+      userId:userName
    }
    return scyDesktop;
 }
