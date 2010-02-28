@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
-import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
@@ -152,11 +152,13 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-   scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+   scyDesktop.bottomLeftCornerTool = EloManagement {
       scyDesktop: scyDesktop;
       repository: scyDesktopCreator.config.getRepository();
+      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+      userId:userName
    }
    return scyDesktop;
 }
