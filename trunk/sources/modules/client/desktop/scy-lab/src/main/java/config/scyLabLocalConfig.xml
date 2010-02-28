@@ -181,7 +181,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/url"/>
-               <property name="display" value="XHTML web page"/>
+               <property name="display" value="Web page"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="flying-saucer"/>
                <property name="topDrawerCreatorId" value="presence"/>
@@ -230,7 +230,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/text"/>
-               <property name="display" value="Text"/>
+               <property name="display" value="Plain text"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="text"/>
                <property name="topDrawerCreatorId" value="presence"/>
@@ -328,7 +328,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/webresourcer"/>
-               <property name="display" value="webresource"/>
+               <property name="display" value="Web resource"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="webresource"/>
                <property name="topDrawerCreatorId" value="presence"/>
@@ -385,32 +385,6 @@
                <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
-            </bean>
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/text"/>
-               <property name="display" value="Text"/>
-               <property name="creatable" value="true"/>
-               <property name="contentCreatorId" value="text"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
-               <property name="logicalTypeNames">
-                  <list>
-                     <value>plainText</value>
-                  </list>
-               </property>
-               <property name="functionalTypeNames">
-                  <list>
-                     <value>hypothesis</value>
-                     <value>documentDesign</value>
-                     <value>reportEvaluation</value>
-                     <value>reportFinal</value>
-                     <value>documentReflection</value>
-                  </list>
-               </property>
             </bean>
          </list>
       </property>
