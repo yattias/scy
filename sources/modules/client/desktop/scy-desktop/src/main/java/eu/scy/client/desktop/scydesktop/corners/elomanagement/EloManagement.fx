@@ -50,6 +50,8 @@ public class EloManagement extends CustomNode {
    public var tooltipManager: TooltipManager;
    public var userId:String;
 
+   def showCreateBlankElo = scyDesktop.initializer.authorMode;
+
    def newFromEloTemplateColor = Color.BLUE;
    def searchColor = Color.BLUE;
    def createBlankEloColor = Color.BLUE;
@@ -92,7 +94,13 @@ public class EloManagement extends CustomNode {
          content:[
             newFromEloTemplateButton,
             searchButton,
+            if (showCreateBlankElo){
             createBlankEloButton
+            }
+            else{
+               null
+            }
+
          ]
       }
    }
