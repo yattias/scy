@@ -58,6 +58,7 @@ public class Initializer {
    public-init var useWebStartHost=true;
    public-init var windowPositioner="roleArea";
    public-init var debugMode = false;
+   public-init var authorMode = false;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -90,6 +91,7 @@ public class Initializer {
    def useWebStartHostOption = "useWebStartHost";
    def windowPositionerOption = "windowPositioner";
    def debugModeOption = "debugMode";
+   def authorModeOption = "authorMode";
 
    init {
       JavaProperties.writePropertiesForApplication();
@@ -186,6 +188,9 @@ public class Initializer {
             } else if (option == debugModeOption.toLowerCase()) {
                debugMode = argumentsList.nextBooleanValue(debugModeOption);
                logger.info("app: {debugModeOption}: {debugMode}");
+            } else if (option == authorModeOption.toLowerCase()) {
+               authorMode = argumentsList.nextBooleanValue(authorModeOption);
+               logger.info("app: {authorModeOption}: {authorMode}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -216,6 +221,7 @@ public class Initializer {
       useWebStartHost = getWebstartParameterBooleanValue(useWebStartHostOption, useWebStartHost);
       windowPositioner = getWebstartParameterStringValue(windowPositionerOption, windowPositioner);
       debugMode = getWebstartParameterBooleanValue(debugModeOption, debugMode);
+      authorMode = getWebstartParameterBooleanValue(authorModeOption, authorMode);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -260,6 +266,7 @@ public class Initializer {
       println("- useWebStartHost: {useWebStartHost}");
       println("- windowPositioner: {windowPositioner}");
       println("- debugMode: {debugMode}");
+      println("- authorMode: {authorMode}");
    }
 
    public function isEmpty(string: String): Boolean {
