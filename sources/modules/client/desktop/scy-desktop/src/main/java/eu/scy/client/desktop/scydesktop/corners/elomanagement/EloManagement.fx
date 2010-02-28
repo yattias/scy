@@ -32,6 +32,8 @@ import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 /**
  * @author sikken
@@ -106,6 +108,7 @@ public class EloManagement extends CustomNode {
    }
    
    var eloTemplateUris:URI[];
+   var eloTemplateUriDisplays: UriDisplay[];
 
    function findTemplateEloInformation(){
       if (templateEloUris != null){
@@ -114,16 +117,40 @@ public class EloManagement extends CustomNode {
          }
          Sequences.sort(eloTemplateUris);
       }
+      eloTemplateUriDisplays = for (uri in eloTemplateUris){
+         createUriDisplay(uri,false);
+      }
       newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
    }
 
+   function createUriDisplay(uri:URI, showAuthor: Boolean): UriDisplay{
+      var metadata = repository.retrieveMetadata(uri);
+      var title = metadata.getMetadataValueContainer(titleKey).getValue() as String;
+      var technicalFormat = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
+      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
+      var typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
+      var authorDisplay = "";
+      if (showAuthor){
+         var authorName = author.getVCard();
+         if (authorName==null){
+            authorName = "unknown"
+         }
+         authorDisplay = "{authorName}: "
+      }
+
+      UriDisplay{
+         uri:uri
+         display:"{authorDisplay}{title} ({typeName})"
+      }
+   }
 
    function createNewEloFromTemplateAction(): Void{
       var createNewElo = CreateNewElo{
          createAction:createNewEloFromTemplate
          cancelAction:cancelNewElo
       }
-      createNewElo.listView.items = eloTemplateUris;
+      createNewElo.listView.items = eloTemplateUriDisplays;
+
       createNewElo.label.text = "Select template";
       var eloIcon = CharacterEloIcon{
          color:createBlankEloColor;
@@ -134,8 +161,9 @@ public class EloManagement extends CustomNode {
    }
 
    function createNewEloFromTemplate(createNewElo: CreateNewElo):Void{
-      var eloTemplateUri = createNewElo.listView.selectedItem as URI;
-      if (eloTemplateUri!=null){
+      var uriDisplay = createNewElo.listView.selectedItem as UriDisplay;
+      if (uriDisplay!=null){
+         var eloTemplateUri = uriDisplay.uri;
          var newElo = repository.retrieveELO(eloTemplateUri);
          if (newElo!=null){
             var titleContainer = newElo.getMetadata().getMetadataValueContainer(titleKey);
@@ -239,9 +267,8 @@ public class EloManagement extends CustomNode {
       }
       var queryResults = repository.search(searchQuery);
       logger.info("search query: {searchQuery}\nNumber of results: {queryResults.size()}");
-      var resultsUris:URI[];
-      for (queryResult in queryResults){
-         insert queryResult.getUri() into resultsUris;
+      var resultsUris = for (queryResult in queryResults){
+         createUriDisplay(queryResult.getUri(),true);
       }
       searchElos.resultsListView.items = resultsUris;
    }
@@ -272,9 +299,9 @@ public class EloManagement extends CustomNode {
    }
 
    function openElo(searchElos: SearchElos):Void{
-      var eloUri = searchElos.resultsListView.selectedItem as URI;
-      if (eloUri!=null){
-         scyWindowControl.addOtherScyWindow(eloUri);
+      var uriDisplay = searchElos.resultsListView.selectedItem as UriDisplay;
+      if (uriDisplay!=null){
+         scyWindowControl.addOtherScyWindow(uriDisplay.uri);
       }
 
       searchElos.modalDialogBox.close();

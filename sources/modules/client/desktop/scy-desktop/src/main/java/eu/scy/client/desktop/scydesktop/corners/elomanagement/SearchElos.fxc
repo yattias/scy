@@ -75,6 +75,7 @@
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
         <Reference name="text" value="prop:14,anim:,,str:all,4,null,"/>
+        <Reference name="selected" value="prop:16,anim:,,bool:true,4,null,"/>
     </Instance>
     <Instance classID="ListViewModel" instanceID="ListViewModel1">
         <Reference name="instanceName" value="str:typesListView"/>
