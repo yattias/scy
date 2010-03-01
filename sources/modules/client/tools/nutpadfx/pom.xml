@@ -33,11 +33,11 @@
             <version>0.1</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>eu.scy</groupId>
             <artifactId>data-synchronizer</artifactId>
             <version>${pom.version}</version>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>eu.scy.common</groupId>
