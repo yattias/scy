@@ -4,14 +4,14 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>9.8.0-SNAPSHOT</version>
+		<version>9.8.1.B1-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.common</groupId>
 	<artifactId>data-sync-api</artifactId>
 	<name>client datasync commons</name>
-	<version>9.8.0-SNAPSHOT</version>
+	<version>9.8.1.B1-SNAPSHOT</version>
 	
 	<dependencies>
 	
@@ -24,23 +24,23 @@
 		<dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>smacket-extension</artifactId>
-        	<version>9.8.0-SNAPSHOT</version>
+        	<version>9.8.1.B1-SNAPSHOT</version>
         </dependency>
 		<dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>packet-transformer</artifactId>
-        	<version>9.8.0-SNAPSHOT</version>
+        	<version>9.8.1.B1-SNAPSHOT</version>
         </dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>data-sync-common</artifactId>
-			<version>9.8.0-SNAPSHOT</version>
+			<version>9.8.1.B1-SNAPSHOT</version>
 		</dependency>
 	
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>configuration</artifactId>
-			<version>9.8.0-SNAPSHOT</version>
+			<version>9.8.1.B1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
