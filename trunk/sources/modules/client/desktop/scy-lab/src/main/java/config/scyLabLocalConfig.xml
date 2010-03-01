@@ -616,6 +616,7 @@
                </property>
                <property name="loEloUris">
                   <list>
+                     <value>roolo://memory/413/0/Challenge_video.video</value>
                   </list>
                </property>
             </bean>
