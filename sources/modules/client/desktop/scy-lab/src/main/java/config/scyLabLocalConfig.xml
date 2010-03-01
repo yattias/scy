@@ -896,6 +896,21 @@
          </list>
       </property>
 
+      <property name="templateEloUris">
+         <list>
+            <value>roolo://memory/403/0/Empty__concept_map.scymapping</value>
+            <value>roolo://memory/404/0/Empty_dataset.dataset</value>
+            <value>roolo://memory/405/0/Empty_drawing.scydraw</value>
+            <value>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</value>
+            <value>roolo://memory/407/0/Google_SketchUp_document.skp</value>
+            <value>roolo://memory/408/0/Empty_interview.scyinterview</value>
+            <value>roolo://memory/409/0/Empty_plain_text.text</value>
+            <value>roolo://memory/410/0/Presentation_document.ppt</value>
+            <value>roolo://memory/411/0/Empty_rich_text.rtf</value>
+            <value>roolo://memory/412/0/Word_document.doc</value>
+         </list>
+      </property>
+
    </bean>
 
 </beans>
