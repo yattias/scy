@@ -32,6 +32,8 @@
         <module>packet-transformer</module>
         <module>data-sync-common</module>
         <module>configuration</module>
+        <module>collaboration-service-api</module>
+        <module>collaboration-service-impl</module>
   </modules>
 
 	<build>
