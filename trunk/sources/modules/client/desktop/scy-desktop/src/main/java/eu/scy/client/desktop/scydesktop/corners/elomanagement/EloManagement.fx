@@ -115,7 +115,6 @@ public class EloManagement extends CustomNode {
          for (uri in templateEloUris){
             insert uri as URI into eloTemplateUris;
          }
-         Sequences.sort(eloTemplateUris);
       }
       eloTemplateUriDisplays = for (uri in eloTemplateUris){
          var uriDisplay = createUriDisplay(uri,false);
@@ -124,6 +123,7 @@ public class EloManagement extends CustomNode {
          }
          uriDisplay;
       }
+      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays,UriDisplayComparator{}) as UriDisplay[];
       newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
    }
 
