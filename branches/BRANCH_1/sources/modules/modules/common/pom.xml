@@ -30,6 +30,8 @@
 		<module>tool-broker-api</module>
         <module>pedagogical-plan-service-api</module>
         <module>packet-transformer</module>
+        <module>data-sync-common</module>
+        <module>configuration</module>
   </modules>
 
 	<build>
