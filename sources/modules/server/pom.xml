@@ -123,7 +123,7 @@
     </build>
 
     <modules>
-    	<module>action-logging-hibernate</module>
+    	<!--module>action-logging-hibernate</module>
     	<module>action-logging-server</module>
     	<module>data-sync-module</module>
 	    <module>pedagogical-plan-service-impl</module>
@@ -135,11 +135,11 @@
         <module>scy-sessionmanager-impl</module>
         <module>scy-useradmin-api</module>
         <module>scy-useradmin-impl</module>
-        <module>webbrowsingtoolELOSaver</module>
+        <module>webbrowsingtoolELOSaver</module-->
         <module>whacket-extension</module>
-        <module>server-external-components</module>
+        <!--module>server-external-components</module>
         <module>scy-author</module>
-        <module>scy-playful</module>
+        <module>scy-playful</module-->
   </modules>
 
     <!--properties>
