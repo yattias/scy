@@ -128,11 +128,11 @@
         	<version>${pom.version}</version>
         </dependency>
 		
-        <!--dependency>
+        <dependency>
         	<groupId>eu.scy.server</groupId>
         	<artifactId>notification-module</artifactId>
         	<version>${pom.version}</version>
-        </dependency-->
+        </dependency>
 		
     </dependencies>
 
