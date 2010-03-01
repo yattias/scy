@@ -123,7 +123,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             }
         }
     }
-
+    /*
     public void testCreateStudentPlan() {
         if(getStudentPlanService() != null) {
             StudentPlanELO elo = getStudentPlanService().createStudentPlan("hill");//put in the freakin username here
@@ -144,10 +144,10 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             //freakin simple eh?
         }
     }
-
+    */
     public void testCreateStudentPlannedActivitiesBasedOnAnchorElos() {
 
-        final String USER_NAME = "student";
+        final String USER_NAME = "ubdu";
 
         if(getStudentPlanService() != null) {
             StudentPlanELO studentPlanELO = getStudentPlanService().createStudentPlan(USER_NAME);
