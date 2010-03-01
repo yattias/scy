@@ -65,8 +65,8 @@
 	</dependencies>
 
 	<modules>
-		<module>tools</module>
+		<!--module>tools</module-->
 		<module>desktop</module>
-		<module>misc</module>
+		<!--module>misc</module-->
 	</modules>
 </project>
