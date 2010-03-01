@@ -23,7 +23,7 @@
 		<module>drawingtool</module>
         <!--module>nutpad</module-->
         <module>scydynamics</module>
-        <module>scymapper</module>
+        <!--module>scymapper</module-->
         <module>scysimulator</module>
         <module>student-planning-tool</module>
         <module>fx-chattool</module>
@@ -35,7 +35,7 @@
 		<module>fx-pictureviewer</module>
 		<module>fx-richtexteditor</module-->
 		<module>fx-scydynamics</module>
-		<module>fx-scymapper</module>
+		<!--module>fx-scymapper</module-->
 		<module>fx-simulator</module>
 		<module>fx-student-planning-tool</module>
 		<module>fx-video</module>
