@@ -1,0 +1,24 @@
+.h2 Prerequisites
+	* A running openfire server instance
+	* A running sqlspaces server
+	* A maven profile configuration matching your local settings
+
+	Checked out local copies of the following projects:
+		sources/modules/common/configuration
+		sources/modules/server/scy-hub
+
+.h2 Openfire set-up
+
+Log on to the openfire admin console (http://your-server-url:9090)
+
+	* Under Server, go to the Server Settings tab and select External Components from the menu.
+	* Add a new component with scyhub as subdomain and java as shared secret
+	* Go to the Group chat section, select the Group Chat Settings tab and choose Create new service
+	* Add a new service with syncsessions as Group chat service name. Leave description blank.
+
+	* For testing SCYmapper, add the following users to openfire (username/password):
+		obama/obama
+		biden/biden
+		bjoerge/bjoerge
+		merkel/merkel
+

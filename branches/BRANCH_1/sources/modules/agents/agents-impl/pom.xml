@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.agents</groupId>
+		<version>9.8.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>agents-impl</name>
+	<artifactId>agents-impl</artifactId>
+	<description></description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<phase />
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>eu.scy.agents.AgentFramework</mainClass>
+					<arguments>
+						<!--
+							fill in here other agents that should be started at debug
+							sessions (without spring)
+						-->
+						<argument>eu.scy.agents.serviceprovider.ontology.OntologyLookupAgent
+						</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>roolo-mock</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.swabunga</groupId>
+			<artifactId>jazzy</artifactId>
+			<version>0.5.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${pom.groupId}</groupId>
+			<artifactId>agents-base</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.fhg.iais.kd.tm</groupId>
+			<artifactId>obwious-mallet</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>agent-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<!--
+		<scm>
+		<connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection>
+		<developerConnection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</developerConnection>
+		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url> </scm>
+	-->
+
+</project>

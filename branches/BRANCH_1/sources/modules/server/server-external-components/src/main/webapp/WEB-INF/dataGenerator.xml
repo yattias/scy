@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="dummyDataGenerator" class="eu.scy.server.utils.DummyDataGenerator">
+        <property name="importedXMLMission" ref="co2Mission"/>
+        <property name="scenarioService" ref="scenarioService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="userService" ref="userService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="toolService" ref="toolService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+        <property name="missionService" ref="missionService"/>
+        <property name="agentService" ref="agentService"/> 
+    </bean>
+
+    <bean id="serverDataInitializer" class="eu.scy.server.utils.ServerDataInitializer">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+</beans>

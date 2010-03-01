@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.desktop</groupId>
+		<version>9.8.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.client.desktop</groupId>
+	<artifactId>action-logging-client</artifactId>
+	<name>Action Logging Client Classes</name>
+	<version>9.8.0-SNAPSHOT</version>
+	<dependencies>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>smacket-extension</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>jivesoftware</groupId>
+			<artifactId>smackx</artifactId>
+			<version>3.1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>configuration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>
