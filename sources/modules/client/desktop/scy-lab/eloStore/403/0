@@ -3,13 +3,13 @@
   <lom>
     <general>
       <title>
-        <string language="en">Empty  concept map</string>
+        <string language="en">Empty concept map</string>
       </title>
       <mission>co2Mission</mission>
       <las>startPage</las>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/403/0/Empty__concept_map.scymapping</entry>
+        <entry>roolo://memory/403/0/Empty_concept_map.scymapping</entry>
       </identifier>
     </general>
     <technical>
