@@ -22,13 +22,6 @@
 			<artifactId>elo-api</artifactId>
 			<version>0.6.0-SNAPSHOT</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>elo-impl</artifactId>
-			<version>0.6.0-SNAPSHOT</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-api</artifactId>
@@ -43,13 +36,6 @@
          <groupId>org.jdom</groupId>
          <artifactId>jdom</artifactId>
       </dependency>
-		<!--
-			<dependency> <groupId>javax.jnlp</groupId>
-			<artifactId>jnlp</artifactId> <version>1.2</version> </dependency>
-			<dependency> <groupId>org.codehaus.mojo.webstart</groupId>
-			<artifactId>webstart-jnlp-servlet</artifactId>
-			<version>1.0-6.0-02_ea_b02</version> </dependency>
-		-->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
