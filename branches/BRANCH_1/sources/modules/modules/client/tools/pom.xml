@@ -21,7 +21,12 @@
 		<module>copex</module>
 		<module>dataprocesstool</module>
 		<module>drawingtool</module>
-		<module>fx-chattool</module>
+        <module>nutpad</module>
+        <module>scydynamics</module>
+        <module>scymapper</module>
+        <module>scysimulator</module>
+        <module>student-planning-tool</module>
+        <module>fx-chattool</module>
 		<module>fx-copex</module>
 		<module>fx-drawingtool</module>
 		<module>fx-fitex</module>
@@ -35,14 +40,9 @@
 		<module>fx-student-planning-tool</module>
 		<module>fx-video</module>
 		<module>fx-webresourcer</module>
-		<module>nutpad</module>
-		<module>scydynamics</module>
-		<module>scymapper</module>
 		<!--
 		<module>scy-planner</module>
 		-->
-		<module>scysimulator</module>
-		<module>student-planning-tool</module>
    </modules>
 	
 </project>
