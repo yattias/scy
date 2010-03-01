@@ -16,7 +16,7 @@ public class UriDisplay {
    public var display:String;
 
    override public function toString():String{
-      "{display}, ({uri})"
+      display
    }
 
 }
