@@ -140,6 +140,7 @@
         <module>server-external-components</module>
         <module>scy-author</module>
         <module>scy-playful</module>
+        <module>notification-module</module>
   </modules>
 
     <!--properties>
