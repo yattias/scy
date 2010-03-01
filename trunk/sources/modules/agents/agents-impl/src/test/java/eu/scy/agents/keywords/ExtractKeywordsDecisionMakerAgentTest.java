@@ -118,7 +118,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0).getValue());
 		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple.getField(2).getValue());
-		assertEquals("scymapper", notificationTuple.getField(3).getValue());
+		assertEquals(ExtractKeywordsDecisionMakerAgent.SCYMAPPER, notificationTuple.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(), notificationTuple.getField(4).getValue());
 		assertEquals("mission1", notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
@@ -134,8 +134,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		try {
 			getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id3", 0L, AgentProtocol.ACTION_ELO_LOADED,
-							"jeremy@scy.collide.info/Smack", "webresourcer", "mission1", "n/a",
-							AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri.toString()));
+							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
+							"mission1", "n/a", AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri.toString()));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -143,11 +143,10 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	private void sendConceptAdded() {
 		try {
-			getActionSpace()
-					.write(
-							new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_NODE_ADDED,
-									"jeremy@scy.collide.info/Smack", "webresourcer", "mission1", "n/a", "id=111",
-									"name=label"));
+			getActionSpace().write(
+					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_NODE_ADDED,
+							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.SCYMAPPER, "mission1",
+							"n/a", "id=111", "name=label"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -157,7 +156,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		try {
 			getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack", "webresourcer", "mission1", "n/a"));
+							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
+							"mission1", "n/a"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -167,8 +167,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		try {
 			getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack", "scymapper", "mission1", "n/a",
-							AgentProtocol.ACTIONLOG_ELO_URI + "=http://roolo/1/bla"));
+							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.CONCEPTMAP, "mission1",
+							"n/a", AgentProtocol.ACTIONLOG_ELO_URI + "=http://roolo/1/bla"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
