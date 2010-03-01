@@ -26,6 +26,8 @@ import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopDrawingTestConfig.xml"
+           storeElosOnDisk:false;
+           loginType:"local"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
