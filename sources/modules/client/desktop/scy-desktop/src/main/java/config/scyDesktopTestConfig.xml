@@ -232,6 +232,9 @@
          <list>
             <value>roolo://memory/2/0/help_elo_1.text</value>
             <value>roolo://memory/3/0/help_elo_2.text</value>
+            <value>roolo://memory/99/0/help_elo_2.text</value>
+            <value>roolo://memory/3/0/help_elo_2.text</value>
+            <value>roolo://memory/99/0/help_elo_2.text</value>
          </list>
       </property>
 
