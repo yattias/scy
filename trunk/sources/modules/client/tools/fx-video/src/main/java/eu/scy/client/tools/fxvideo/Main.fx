@@ -20,6 +20,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopVideoTestConfig.xml"
+           loginType:"local"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
