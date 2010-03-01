@@ -68,7 +68,7 @@
 		<module>tools</module>
 		<module>desktop</module>
 		<module>misc</module>
-        <module>client-common/rich-text-editor</module>
+        <!--module>client-common/rich-text-editor</module-->
         <module>client-common/data-sync-api</module>
         <module>client-common/smacket-extension</module>
 	</modules>

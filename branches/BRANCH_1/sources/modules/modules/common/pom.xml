@@ -18,7 +18,6 @@
 	<modules>
 		<module>action-logging-api</module>
 		<module>action-logging-commons</module>
-        <module>action-logging</module>
 		<module>agent-api</module>
 		<module>awareness-api</module>
 		<module>awareness-impl</module>
