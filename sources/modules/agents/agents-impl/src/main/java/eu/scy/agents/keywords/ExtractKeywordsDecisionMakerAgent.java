@@ -48,8 +48,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	private int listenerId = -1;
 
 	private static final Logger logger = Logger.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
-	private static final Object SCYMAPPER = "scymapper";
-	private static final Object WEBRESOURCER = "webresourcer";
+	static final Object SCYMAPPER = "scymapper";
+	static final Object CONCEPTMAP = "conceptmap";
+	static final Object WEBRESOURCER = "webresource";
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
 
@@ -154,7 +155,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	}
 
 	private void handleToolStopped(IAction action) {
-		if (SCYMAPPER.equals(action.getContext(ContextConstants.tool))) {
+		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.scyMapperStarted = false;
 		}
@@ -166,7 +167,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	}
 
 	private void handleToolStarted(IAction action) {
-		if (SCYMAPPER.equals(action.getContext(ContextConstants.tool))) {
+		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.scyMapperStarted = true;
 		}
