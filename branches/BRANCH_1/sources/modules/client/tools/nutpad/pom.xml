@@ -34,12 +34,12 @@
       <scope>compile</scope>
     </dependency>
 	
-    <dependency>
+    <!--dependency>
       <groupId>eu.scy</groupId>
       <artifactId>data-synchronizer</artifactId>
       <version>${pom.version}</version>
       <scope>compile</scope>
-    </dependency>
+    </dependency-->
 	
     <dependency>
     	<groupId>jivesoftware</groupId>
