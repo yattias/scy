@@ -21,7 +21,7 @@
 		<module>copex</module>
 		<module>dataprocesstool</module>
 		<module>drawingtool</module>
-        <module>nutpad</module>
+        <!--module>nutpad</module-->
         <module>scydynamics</module>
         <module>scymapper</module>
         <module>scysimulator</module>
