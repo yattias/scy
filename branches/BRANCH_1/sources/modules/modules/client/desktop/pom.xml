@@ -24,5 +24,6 @@
 		<module>awareness-client</module>
 		<module>scy-desktop</module>
 		<module>scy-lab</module>
+        <module>notification-receiver</module>
 	</modules>
 </project>
