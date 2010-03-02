@@ -17,7 +17,7 @@
 	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
 
-<!-- $Id: controllers.xml 2551 2009-10-22 23:00:53Z shadowtorn $ -->
+
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -42,7 +42,7 @@
            </property>
        </bean>
     
-
+     <!-- HEAD VERSION -->
     <bean id="scyauthorIndexController" class="eu.scy.server.controllers.ScyIndexController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
 	</bean>
