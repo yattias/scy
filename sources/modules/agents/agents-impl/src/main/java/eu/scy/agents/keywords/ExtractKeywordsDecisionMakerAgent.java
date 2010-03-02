@@ -315,7 +315,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	@Override
 	public void setRepository(IRepository rep) {
-		logger.debug("Setting repository " + rep.toString());
+		logger.debug("Setting repository ");
 		repository = rep;
 	}
 }
