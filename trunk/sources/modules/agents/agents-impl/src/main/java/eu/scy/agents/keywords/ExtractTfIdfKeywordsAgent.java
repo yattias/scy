@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
@@ -33,6 +35,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	static final String NAME = "eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent";
 
 	private Tuple activationTuple;
+
+	private Logger logger = Logger.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
@@ -79,7 +83,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 		Document document = convertTextToDocument(text);
 		if (dfModel == null) {
-			System.out.println(dfModel);
+			logger.fatal("TfIdfModel is not present");
 			return new HashSet<String>();
 		}
 
