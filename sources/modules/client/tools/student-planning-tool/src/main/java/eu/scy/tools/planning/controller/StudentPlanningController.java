@@ -339,7 +339,7 @@ public class StudentPlanningController {
 		// TODO Auto-generated method stub
 		this.getStudentPlanService().removeMember(studentPlannedActivity, nickName);
 		//studentPlannedActivity.removeMember(nickName);
-		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
+		this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
 		
 	}
 
