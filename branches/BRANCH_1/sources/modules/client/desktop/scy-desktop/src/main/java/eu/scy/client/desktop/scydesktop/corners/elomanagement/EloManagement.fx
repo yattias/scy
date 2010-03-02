@@ -115,16 +115,26 @@ public class EloManagement extends CustomNode {
          for (uri in templateEloUris){
             insert uri as URI into eloTemplateUris;
          }
-         Sequences.sort(eloTemplateUris);
       }
       eloTemplateUriDisplays = for (uri in eloTemplateUris){
-         createUriDisplay(uri,false);
+         var uriDisplay = createUriDisplay(uri,false);
+         if (uriDisplay==null){
+            logger.error("Cannot find template elo with uri: {uri}");
+         }
+         uriDisplay;
       }
+      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays,UriDisplayComparator{}) as UriDisplay[];
       newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
    }
 
    function createUriDisplay(uri:URI, showAuthor: Boolean): UriDisplay{
+      if (uri==null){
+         return null;
+      }
       var metadata = repository.retrieveMetadata(uri);
+      if (metadata==null){
+         return null;
+      }
       var title = metadata.getMetadataValueContainer(titleKey).getValue() as String;
       var technicalFormat = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
       var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
