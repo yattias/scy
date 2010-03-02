@@ -20,6 +20,8 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
 import roolo.elo.metadata.BasicMetadata;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.common.configuration.Configuration;
@@ -58,9 +60,24 @@ public class StudentPlanningController {
 	private ToolBrokerAPI toolbrokerApi;
 
 	private String userName = "tony";
+
+	private IELO elo;
+
+	private IRepository repository;
 	
 
 	public StudentPlanningController(String eloId, String userName) {
+		studentPedagogicalPlanService = this.getStudentPlanService();
+		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
+		log.severe("ELO PASSED TO STP USERNAME" + userName);
+		studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(eloId);
+		log.severe("STUDENTPLANNEDELO " + studentPlanELO);
+		this.userName = userName;
+	}
+	
+	public StudentPlanningController(String eloId, String userName, IELO elo, IRepository repository) {
+		this.elo = elo;
+		this.repository = repository;
 		studentPedagogicalPlanService = this.getStudentPlanService();
 		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
 		log.severe("ELO PASSED TO STP USERNAME" + userName);
@@ -350,7 +367,6 @@ public class StudentPlanningController {
 			throw new NullPointerException("STUDENT PLANNED ELO IS NULL");
 			
 		} else {
-			log.severe("Student plan ELO" + studentPlanELO);
 			String id = studentPlanELO.getId();
 			log.severe("Student plan id " + id);
 			StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
