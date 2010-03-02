@@ -19,7 +19,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 	public static final String NAME = ExtractKeywordsAgent.class.getName();
 	public static final Object EXTRACT_KEYWORDS = "ExtractKeywords";
 
-	private static Logger logger = Logger.getLogger(ExtractKeywordsAgent.class.getName());
+	private static final Logger logger = Logger.getLogger(ExtractKeywordsAgent.class.getName());
 
 	private Tuple activationTuple;
 

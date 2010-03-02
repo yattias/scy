@@ -44,19 +44,19 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		public URI webresourcerELO = null;
 	}
 
-	static final String NAME = ExtractKeywordsDecisionMakerAgent.class.getName();
-	private int listenerId = -1;
-
 	private static final Logger logger = Logger.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
+
+	static final String NAME = ExtractKeywordsDecisionMakerAgent.class.getName();
 	static final Object SCYMAPPER = "scymapper";
 	static final Object CONCEPTMAP = "conceptmap";
 	static final Object WEBRESOURCER = "webresource";
+
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
 
 	private long idleTime = 120000;
 	private int minimumNumberOfConcepts = 5;
-
+	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
 	private IMetadataTypeManager metadataTypeManager;
@@ -205,9 +205,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				ContextInformation contextInformation = user2Context.get(user);
 				if (userNeedsToBeNotified(currentTime, contextInformation)) {
 					String text = getEloText(contextInformation.webresourcerELO);
-					List<String> keywords = getKeywords(text);
-					sendNotification(contextInformation, keywords);
-					contextInformation.lastAdded = currentTime;
+					if (!"".equals(text)) {
+						List<String> keywords = getKeywords(text);
+						sendNotification(contextInformation, keywords);
+						contextInformation.lastAdded = currentTime;
+					}
 				}
 			}
 			sendAliveUpdate();
