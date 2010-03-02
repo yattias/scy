@@ -36,7 +36,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	private Tuple activationTuple;
 
-	private Logger logger = Logger.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
+	private static final Logger logger = Logger.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
