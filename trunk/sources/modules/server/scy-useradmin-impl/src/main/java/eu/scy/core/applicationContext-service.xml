@@ -3,6 +3,8 @@
 		"http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
+    
+
 
 	<bean id="scenarioService" class="eu.scy.core.ScenarioServiceImpl">
 		<property name="scyBaseDAO" ref="scenarioDAO"/>
@@ -51,5 +53,9 @@
 	<bean id="serverService" class="eu.scy.core.ServerServiceImpl">
 		<property name="serverDAO" ref="serverDAO"/>
 	</bean>
+
+    <bean id="fileService" class="eu.scy.core.FileServiceImpl">
+        <property name="fileDAO" ref="fileDAO"/>
+    </bean>
 
 </beans>

@@ -239,8 +239,6 @@ CREATE TABLE `server` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `student_user_details` DROP COLUMN `profilePictureUrl`;
-ALTER TABLE `student_user_details` ADD COLUMN `profilePictureUrl` varchar(250) default NULL;
 
 DROP TABLE IF EXISTS `studentplannedactivities_related_to_users`;
 CREATE TABLE `studentplannedactivities_related_to_users` (
@@ -298,6 +296,36 @@ CREATE TABLE `playful_assessment` (
 	CONSTRAINT `assessmentRefEloRef` FOREIGN KEY (`eloref_primKey`) REFERENCES `eloref` (`primKey`),
   	CONSTRAINT `assessmentRefReviewer` FOREIGN KEY (`reviewer_primKey`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `filedata`;
+CREATE TABLE `filedata` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`originalName` varchar(250) default NULL,
+	`contentType` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `file` longblob,
+    `size` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `fileref`;
+CREATE TABLE `fileref` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`fileType` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `fileData_primKey` varchar(55) default NULL,
+    `iconFileData_primKey` varchar(55) default NULL,
+    PRIMARY KEY  (`primKey`),
+    KEY `fileRefRef` (`fileData_primKey`),
+    KEY `iconFileDataRef` (`iconFileData_primKey`),
+    CONSTRAINT `fileRefRefRef` FOREIGN KEY (`fileData_primKey`) REFERENCES `filedata` (`primKey`),
+    CONSTRAINT `iconFileDataRef_const` FOREIGN KEY (`iconFileData_primKey`) REFERENCES `filedata` (`primKey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 
