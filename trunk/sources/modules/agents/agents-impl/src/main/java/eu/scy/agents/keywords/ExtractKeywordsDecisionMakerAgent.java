@@ -173,12 +173,15 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private void handleToolStarted(IAction action) {
 		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(CONCEPTMAP + " started. Recognized by ExtractKeywordsDecisionAgent");
+			logger
+					.info(CONCEPTMAP + " started by " + action.getUser()
+							+ ". Recognized by ExtractKeywordsDecisionAgent");
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.scyMapperStarted = true;
 		}
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(WEBRESOURCER + " started. Recognized by ExtractKeywordsDecisionAgent");
+			logger.info(WEBRESOURCER + " started  by " + action.getUser()
+					+ ". Recognized by ExtractKeywordsDecisionAgent");
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.webresourcerStarted = true;
 		}
@@ -312,6 +315,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	@Override
 	public void setRepository(IRepository rep) {
+		logger.debug("Setting repository " + rep.toString());
 		repository = rep;
 	}
 }
