@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -54,6 +55,8 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.VerticalLayout;
+import org.jdesktop.swingx.JXFrame.StartPosition;
+import org.jdesktop.swingx.calendar.CalendarUtils;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
@@ -286,22 +289,22 @@ public class StudentPlanningTool {
 		Action infoAction = new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
-				String msg = "<html>Using the Planning Tool is very simple.<br><br><b>1. </b>Drag and Drop ELOs from the Mission Map to add entries to the planner.<br><b>2. </b>Drag and Drop Buddys from the buddy list to add collaborators.<br><b>3. </b>Set dates and descriptions.</html>";
+				String msg = "<html>Using the Planning Tool is very simple.<br><br><b>1. </b>Drag and Drop ELOs from the Mission Map to add entries to the planner.<br><b>2. </b>Drag and Drop Buddys from the buddy list to add collaborators.<br><b>3. </b>Set dates and notes.</html>";
 
 				JOptionPane optionPane = new JOptionPane();
 				optionPane.setMessage(msg);
 				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 				JDialog dialog = optionPane.createDialog(null,
 						"For Your Information");
-				//dialog.setVisible(true);
+				dialog.setVisible(true);
 				
 				
 				
 //				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId("firstIdeas");
 //				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
-				IAwarenessUser a = new AwarenessUser();
-				a.setNickName("tony");
-				acceptDrop(a);
+//				IAwarenessUser a = new AwarenessUser();
+//				a.setNickName("tony");
+//				acceptDrop(a);
 				
 				
 			}
@@ -397,7 +400,7 @@ public class StudentPlanningTool {
 		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController);
 		entryPanel.setBackground(Colors.White.color());
 		//entryPanel.addEntry(taskpane, "w 600!");
-		entryPanel.addEntry(taskpane,"w 90%!, right");
+		entryPanel.addEntry(taskpane,"w 80%!, growx, right");
 		entryPanel.setStudentPlannedActivity((StudentPlannedActivity) taskpane.getClientProperty(STUDENT_PLANNED_ACTIVITY));
 		//entryPanel.addEntry(taskpane,null);
 		
@@ -651,7 +654,19 @@ public class StudentPlanningTool {
 		final JXDatePicker endDatePicker = new JXDatePicker();
 		final JXDatePicker startDatePicker = new JXDatePicker();
 
-		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
+		
+		Calendar calendar = endDatePicker.getMonthView().getCalendar();
+		 // starting today if we are in a hurry
+		 calendar.setTime(new Date());
+		 
+		 endDatePicker.getEditor().setEditable(false);
+		 
+			 calendar = startDatePicker.getMonthView().getCalendar();
+			 // starting today if we are in a hurry
+			 calendar.setTime(new Date());
+			
+			 
+		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
 		
 		Map<String, Date> endDateMap = (Map<String, Date>) taskpane
 		.getClientProperty(END_DATE_MAP);
@@ -659,7 +674,7 @@ public class StudentPlanningTool {
 		.getClientProperty(START_DATE_MAP);
 
 		startDatePicker.setFormats(formatter);
-
+		
 		startDatePicker.setToolTipText("The date of the start of this task.");
 		endDatePicker.setFormats(formatter);
 		
@@ -705,6 +720,9 @@ public class StudentPlanningTool {
 			public void actionPerformed(ActionEvent e) {
 
 				JXDatePicker endDatePicker = (JXDatePicker) e.getSource();
+				
+				Date endDate = endDatePicker.getDate();
+				
 				String activityName = (String) endDatePicker
 						.getClientProperty(ACTIVITY_NAME);
 				JXTaskPane lasTaskPane = (JXTaskPane) endDatePicker
@@ -715,7 +733,34 @@ public class StudentPlanningTool {
 				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane
 						.getClientProperty(START_DATE_MAP);
 
-				endDateMap.put(activityName, endDatePicker.getDate());
+				
+				Date startDate = startDateMap.get(activityName);
+				
+				if( startDate != null ) {
+					
+					//when firstDate is greater than secondDate will return 1
+					if( startDate.compareTo(endDate) == 1 ) {
+						
+						final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+						formatter.format(startDate);
+						
+						String msg = "<html>Your <b>End Date</b> can't be before your <b>Start Date</b>.<br>Choose <b>" + formatter.format(startDate) +"</b> or later</html>";
+	
+
+						JOptionPane optionPane = new JOptionPane();
+						optionPane.setMessage(msg);
+						optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+						JDialog dialog = optionPane.createDialog(null,
+								"Whoa!");
+						dialog.setVisible(true);
+						
+						endDate = startDate;
+						endDatePicker.setDate(endDate);
+					}
+				}
+				
+				
+				endDateMap.put(activityName, endDate);
 				lasTaskPane.putClientProperty(END_DATE_MAP, endDateMap);
 
 				// System.out.println("client "+ activityName);
@@ -724,7 +769,7 @@ public class StudentPlanningTool {
 				final StudentPlannedActivity stp = (StudentPlannedActivity) endDatePicker
 						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
 
-				stp.setEndDate(new java.sql.Date(endDatePicker.getDate()
+				stp.setEndDate(new java.sql.Date(endDate
 						.getTime()));
 
 				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
@@ -734,7 +779,7 @@ public class StudentPlanningTool {
 					@Override
 					public void run() {
 						studentPlanningController.saveStudentActivity(stp);
-						messageLabel.setText("<html><b>End date saved.</b><html>");
+						messageLabel.setText("<html><b>End date saved successfully.</b><html>");
 					}
 				});
 
@@ -751,6 +796,9 @@ public class StudentPlanningTool {
 				JXDatePicker endDatePicker = (JXDatePicker) startDatePicker
 						.getClientProperty(END_DATE_PICKER);
 
+				
+				Date startDate = startDatePicker.getDate();
+				
 				endDatePicker.setEnabled(true);
 
 				String activityName = (String) startDatePicker
@@ -763,13 +811,36 @@ public class StudentPlanningTool {
 				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane
 						.getClientProperty(START_DATE_MAP);
 
-				startDateMap.put(activityName, startDatePicker.getDate());
+				Date endDate = endDateMap.get(activityName);
+				
+				if( endDate != null ) {
+					
+					//when firstDate is greater than secondDate will return 1
+					if( startDate.compareTo(endDate) == 1 ) {
+						
+						final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+						formatter.format(endDate);
+						
+						String msg = "<html>Your <b>Start Date</b> can't after your <b>End Date</b>.<br>Choose <b>" + formatter.format(endDate) +"</b> or earlier</html>";
+
+						JOptionPane optionPane = new JOptionPane();
+						optionPane.setMessage(msg);
+						optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+						JDialog dialog = optionPane.createDialog(null,
+								"Whoa!");
+						dialog.setVisible(true);
+						startDate = endDate;
+						startDatePicker.setDate(startDate);
+					}
+				}
+				
+				startDateMap.put(activityName, startDate);
 				lasTaskPane.putClientProperty(START_DATE_MAP, startDateMap);
 
 				final StudentPlannedActivity stp = (StudentPlannedActivity) startDatePicker
 						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
 
-				stp.setStartDate(new java.sql.Date(startDatePicker.getDate()
+				stp.setStartDate(new java.sql.Date(startDate
 						.getTime()));
 
 				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
@@ -864,11 +935,13 @@ public class StudentPlanningTool {
 
 		if (!endDateSort.isEmpty()) {
 			Date endDate = endDateSort.get(endDateSort.size() - 1);
-			endDateString = formatter.format(endDate);
+			if( endDate != null)
+				endDateString = formatter.format(endDate);
 		}
 		if (!startDateSort.isEmpty()) {
 			Date startDate = startDateSort.get(0);
-			startDateString = formatter.format(startDate);
+			if( startDateSort != null)
+				startDateString = formatter.format(startDate);
 		}
 
 	
@@ -878,7 +951,7 @@ public class StudentPlanningTool {
 		if( StringUtils.stripToNull(endDateString) == null)
 			title = startDateString;
 		else
-			title = startDateString + " to " + endDateString;
+			title = startDateString + " to<br>" + endDateString;
 		 entryPanel.getDateLabel().setText("<html><i>"+title+"</i></html>");
 	}
 

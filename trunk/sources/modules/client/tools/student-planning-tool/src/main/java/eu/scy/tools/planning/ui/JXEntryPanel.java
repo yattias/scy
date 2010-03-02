@@ -122,9 +122,9 @@ public class JXEntryPanel extends JXPanel {
 		setDateLabel(jxLabel);
 		getDateLabel().setFont(dataFont);
 		
-		//getDateLabel().setForeground(Colors.Yellow.color());
+		getDateLabel().setBackground(Colors.Red.color());
 		getDateLabel().setHorizontalAlignment(JXLabel.CENTER);
-		this.add(getDateLabel(),"top");
+		this.add(getDateLabel(),"w 50!, top");
 		this.getDateLabel().setPreferredSize(new Dimension(90, this.getDateLabel().getPreferredSize().height));
 		
 	}
