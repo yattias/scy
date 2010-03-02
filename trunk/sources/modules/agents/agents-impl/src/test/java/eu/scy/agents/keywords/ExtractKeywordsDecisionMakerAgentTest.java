@@ -2,6 +2,7 @@ package eu.scy.agents.keywords;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -107,7 +108,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	public void testRun() throws InterruptedException, TupleSpaceException {
 		sendWebresourcerStarted();
 		sendScyMapperStarted();
-		sendELoLoaded();
+		sendELoLoaded(eloUri.toString());
 
 		sendConceptAdded();
 		Thread.sleep(5000);
@@ -125,17 +126,32 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertEquals("type=concept_proposal", notificationTuple.getField(7).getValue());
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
-			System.out.println(keyword);
+			// System.out.println(keyword);
 			assertEquals(expectedKeywords[i - 8], keyword);
 		}
 	}
 
-	private void sendELoLoaded() {
+	@Test
+	public void testNoEloRun() throws InterruptedException, TupleSpaceException {
+		sendWebresourcerStarted();
+		sendScyMapperStarted();
+		sendELoLoaded(null);
+
+		sendConceptAdded();
+		Thread.sleep(5000);
+
+		Tuple notificationTuple = getCommandSpace().waitToTake(
+				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
+						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+		assertNull("notification received", notificationTuple);
+	}
+
+	private void sendELoLoaded(String eloPath) {
 		try {
 			getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id3", 0L, AgentProtocol.ACTION_ELO_LOADED,
 							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							"mission1", "n/a", AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri.toString()));
+							"mission1", "n/a", AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
