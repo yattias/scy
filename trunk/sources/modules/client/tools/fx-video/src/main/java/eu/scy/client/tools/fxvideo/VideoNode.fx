@@ -62,8 +62,8 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
                 mediaTitle: title;
                 mediaDescription: subtitle;
                 showMediaInfo: true
-                translateX: 25
-                translateY: 25
+                translateX: 5
+                translateY: 5
                 //binding width and height kills every simple piece of performance
                 width: 320
                 //width: bind scyWindow.width - 50;
@@ -72,6 +72,7 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
                 autoPlay: false
                 mediaControlBarHeight: 25
     }
+
 
     function setScyWindowTitle() {
         scyWindow.title = "Video: {this.title}";
@@ -84,31 +85,20 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
         var context:JAXBContext = JAXBContext.newInstance(XMLVideoData.class);
         var um:Unmarshaller = context.createUnmarshaller();
         dataFromXML = (um.unmarshal( new StringReader(xml)) as XMLVideoData);
-        //delete contentNode;
-        //System.out.println(dataFromXML.getURI());
-        //System.out.println(dataFromXML.getTitle());
-        //System.out.println(dataFromXML.getSubtitle());
         mediaBox.mediaSource = dataFromXML.getURI();
         this.title = dataFromXML.getTitle();
         mediaBox.mediaTitle = dataFromXML.getTitle();
         mediaBox.mediaDescription = dataFromXML.getSubtitle();
-
         setScyWindowTitle();
-        //mediaBox.mediaSource = media;
-        /*
-        mediaBox =  MediaBox {
-                mediaSource: media
-                mediaTitle: dataFromXML.getTitle()
-                mediaDescription: dataFromXML.getSubtitle();
-                showMediaInfo: true
-                translateX: 25
-                translateY: 25
-                width: 320
-                height: 240
-                autoPlay: false
-                mediaControlBarHeight: 25
-                
-        } */
+        //this will resize the scyWindow to the current media size - tho it might be buggy with streaming medai etc.
+        var testMedia = javafx.scene.media.Media {
+                source: dataFromXML.getURI();
+        }
+        //kinda ugly to create another media object, mediaBox offers no access to the media file.
+        scyWindow.height = testMedia.height+34;
+        mediaBox.height = testMedia.height;
+        scyWindow.width = testMedia.width+13;
+        mediaBox.width = testMedia.width;
     }
 
     /**
@@ -207,12 +197,25 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
         var g = Group {
               content: bind
               [
+                      /*
                       HBox {
                           content: [
                               Button {
                                         text: "load video";
                                         action:  function() {
-                                            eloVideoActionWrapper.loadVideoAction();
+                                            //eloVideoActionWrapper.loadVideoAction();
+                                            //        scyWindow.height = 500;
+                                            //scyWindow.width = 150;
+                                            var testMedia =
+                                                javafx.scene.media.Media {
+                                                        source: "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+                                                 }
+
+                                            mediaBox.mediaSource = "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+                                            scyWindow.height = testMedia.height;
+                                            mediaBox.height = testMedia.height;
+                                            scyWindow.width = testMedia.width;
+                                            mediaBox.width = testMedia.width;
                                         }
                                },
                                Button {
@@ -225,8 +228,8 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
 
                         ]
                        },
-                       mediaBox
-              ]
+                       */
+                       mediaBox              ]
         };
         return g;
     }
