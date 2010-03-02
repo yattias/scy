@@ -34,6 +34,7 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import eu.scy.core.model.student.StudentPlanELO;
 import javax.swing.JLabel;
+import java.lang.Exception;
 
 
 
@@ -132,20 +133,11 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
 
+        var errorLabel = new JLabel("There has been a problem with the server side services.");
         println( "STARTING SPT create node");
         println("toolbroker on stp is {toolBrokerAPI}");
 
-        if( toolBrokerAPI.getStudentPedagogicalPlanService() == null) {
-            var label = new JLabel("There has been a problem with the services.");
-
-            wrappedSPTPanel = SwingComponent.wrap(label);
-
-            return VBox {
-                blocksMouse:true;
-                cache:false;
-                content:wrappedSPTPanel;
-            };
-        }
+                
 
         var uri = scyWindow.eloUri;
         var studentPlan;
@@ -165,7 +157,19 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                 var loginName = toolBrokerAPI.getLoginUserName();
 
                 println("tbi login name: {loginName}");
-                studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
+
+                try {
+                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
+                } catch(e: Exception) {
+                    logger.debug(e.getMessage());
+                    wrappedSPTPanel = SwingComponent.wrap(errorLabel);
+
+                    return VBox {
+                        blocksMouse:true;
+                        cache:false;
+                        content:wrappedSPTPanel;
+                    };
+                }
 
                 println("NEW SPT ID {studentPlan.getId()}");
 
@@ -178,22 +182,23 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                 var parsed = StringUtils.stripToNull(rootElement.getText());
 
                 println("FOUND ID {parsed}");
-                studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
 
+                try {
+                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
+                } catch(e: Exception) {
+                    logger.debug(e.getMessage());
+                    wrappedSPTPanel = SwingComponent.wrap(errorLabel);
+
+                    return VBox {
+                        blocksMouse:true;
+                        cache:false;
+                        content:wrappedSPTPanel;
+                    };
+                }
             }
         }
 
-         if( studentPlan == null) {
-            var label = new JLabel("There has been a problem with the services.");
 
-            wrappedSPTPanel = SwingComponent.wrap(label);
-
-            return VBox {
-                blocksMouse:true;
-                cache:false;
-                content:wrappedSPTPanel;
-            };
-        }
         println("toolbroker on stp is {toolBrokerAPI}");
 
         studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
