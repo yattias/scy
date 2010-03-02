@@ -285,7 +285,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
             config.setCompressionEnabled(true);
             config.setReconnectionAllowed(true);
             this.xmppConnection = new XMPPConnection(config);
-            XMPPConnection.DEBUG_ENABLED = true;
+            XMPPConnection.DEBUG_ENABLED = false;
 
             try {
                 this.xmppConnection.connect();
