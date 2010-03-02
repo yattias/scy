@@ -75,6 +75,24 @@ public class BasicConfig implements Config
          }
       }
       newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
+      if (templateEloUris == null)
+      {
+         templateEloUris = new ArrayList<URI>();
+      }
+      Set<URI> templateEloUriSet = new HashSet<URI>();
+      for (URI uri : templateEloUris)
+      {
+         if (templateEloUriSet.contains(uri))
+         {
+            logger.error("duplicate template ELO uri: " + uri);
+         }
+         else
+         {
+            templateEloUriSet.add(uri);
+         }
+      }
+      templateEloUris.clear();
+      templateEloUris.addAll(templateEloUriSet);
    }
 
    @Override
@@ -206,7 +224,6 @@ public class BasicConfig implements Config
 //   {
 //      this.missionId = missionId;
 //   }
-
 //   @Override
 //   public String getMissionId()
 //   {
@@ -320,7 +337,8 @@ public class BasicConfig implements Config
    public List<URI> getAllMissionEloUris()
    {
       List<URI> allMissionEloUris = new ArrayList<URI>();
-      if (basicMissionMap!=null){
+      if (basicMissionMap != null)
+      {
          Set<URI> allMissionEloUriSet = new HashSet<URI>();
          addListToSet(basicMissionMap.getLoEloUris(), allMissionEloUriSet);
          Set<String> anchorIdSet = new HashSet<String>();

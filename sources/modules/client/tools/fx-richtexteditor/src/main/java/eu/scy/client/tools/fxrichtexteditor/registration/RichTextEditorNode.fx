@@ -164,12 +164,14 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
                      translateX:spacing;
                      spacing:spacing;
                      content:[
+                        /* 100301 Jakob, commented out open button, it should not be in the tool
                         Button {
                            text: openLabel
                            action: function() {
                                openElo();
                            }
                         }
+                        */
                         Button {
                            text: saveLabel
                            action: function() {

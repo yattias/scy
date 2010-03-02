@@ -94,10 +94,6 @@ public class Initializer {
    def authorModeOption = "authorMode";
 
    init {
-      JavaProperties.writePropertiesForApplication();
-      parseApplicationParameters();
-      parseWebstartParameters();
-      printInitializerValues();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       setupBackgroundImage();
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
@@ -111,6 +107,10 @@ public class Initializer {
             loggingDirectoryKeyValue = localLoggingDirectory.getAbsolutePath();
          }
       }
+      JavaProperties.writePropertiesForApplication();
+      parseApplicationParameters();
+      parseWebstartParameters();
+      printInitializerValues();
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
       setupCodeLogging();
