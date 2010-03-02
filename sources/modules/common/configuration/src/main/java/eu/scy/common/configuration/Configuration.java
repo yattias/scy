@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 /**
  * @author bollen
  * @author giemza
+ * 
+ * Branch version
  */
 public class Configuration {
 
