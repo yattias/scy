@@ -32,18 +32,19 @@ import javax.swing.JPanel;
 public class ScyCopexPanel extends JPanel implements ActionCopex{
     private CopexPanel copex;
     private ToolBrokerAPI tbi;
-    // how can i get userName & password? + mission name
-    private String username = "merkel";
-    private String password = "merkel";
-    private String mission_name = "C02 neutral house";
     private String session_name = "sessionName";
     private IActionLogger actionLogger;
 
-    public ScyCopexPanel() {
+    private String toolName;
+
+    public ScyCopexPanel(String toolName) {
         super();
+        this.toolName = toolName;
         this.setLayout(new BorderLayout());
-        initTBI();
-        //initActionLogger();
+        
+    }
+
+    public void initCopex(){
         copex = new CopexPanel(true);
         setPreferredSize(new Dimension(550,350));
         copex.addActionCopex(this);
@@ -51,11 +52,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         copex.loadData();
         copex.setQuestionDialog();
     }
-
-    /* tbi initialization*/
-    private void initTBI(){
-       //tbi=  new ToolBrokerImpl(username, password);
-    }
+    
     public void setTBI(ToolBrokerAPI tbi) {
         this.tbi = tbi;
     }
@@ -97,11 +94,13 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     public void logAction(String type, List<CopexProperty> attribute) {
         // action
         IAction action = new Action();
-        action.setUser(username);
         action.setType(type);
-        action.addContext(ContextConstants.tool, CopexLog.toolName);
-        action.addContext(ContextConstants.mission, mission_name);
-        action.addContext(ContextConstants.session, session_name);
+        if(tbi != null){
+            action.setUser(tbi.getLoginUserName());
+            action.addContext(ContextConstants.tool, this.toolName);
+            action.addContext(ContextConstants.mission, tbi.getMission());
+            action.addContext(ContextConstants.session, session_name);
+        }
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
             CopexProperty property = p.next();
             if(property.getSubElement() == null) {
