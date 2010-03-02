@@ -57,6 +57,7 @@ var highlighter = {
         //this.sidebarExists();
         //window.alert();
         // initialization code
+        updateURI = "";
         this.initialized = true;
         this.strings = top.window.document.getElementById("highlighter-strings");
         this.restoreSidebar();
@@ -737,7 +738,7 @@ var highlighter = {
     }
     var classAttribute = eval(command);
     newNode.setAttribute("class",classAttribute);
-	*/
+         */
 
         //Outcommented for Testing
         /*
@@ -755,7 +756,7 @@ var highlighter = {
 
     range.deleteContents();
     range.insertNode(newNode);
-    */
+         */
 
         /*if (urlBox.value==""){
 		//XX1
@@ -990,7 +991,8 @@ var highlighter = {
         var windowObjectReference = window.open("chrome://highlighter/content/options.xul", "Options", "chrome");
         windowObjectReference.focus();
     },
-    updateELO: function(){
+    saveELO: function(){
+
         //the highlighter-strings from the stringbundle
         this.strings = top.window.document.getElementById("highlighter-strings");
 
@@ -1016,14 +1018,87 @@ var highlighter = {
             this.openPreferences();
         } else {
 
+            //make the XMLHttpRequest (POST)!!!
+
+            //a problem with c# webservices was the &-symbol, which causes the transmission of the string to break
+            //a solution might be to replace all occurences of & by another string
+
+            //var rawDoc = window.content.document.documentElement.innerHTML;
+            //var rawDoc = mainWindow.document.documentElement.innerHTML;
+
+            //eventually parse the String for HTML Special Chars like &nbsp;
+            //var clearedDoc = rawDoc.replace("&nbsp;", " ");
+
+
+            //A marker for the &, which causes errors when submitting the html document to the server
+            //var clearedDoc = rawDoc.replace(/&/g, "XXXYYYZZZ");
+
+            //replacing src-attributes
+            //var newSrcTag = "src=\""+window.content.document.location;
+            //var newSrcTag = "src=\""+mainWindow.document.location;
+            //Problem: replace src-tags, but only relative sources...
+            //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,newSrcTag);
+
+            //1. normalize src (remove spaces)
+            //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,"src=\"");
+
+            //2. mark every src that begins with http: with a space
+            //the url shouldnt be appended at absolute Paths
+            //clearedDoc = clearedDoc.replace(/src="http/g,"src =\"http");
+
+            //3. remove paths like ../..
+            //clearedDoc = clearedDoc.replace(/src="\.\.\/\.\./g,"src=\"");
+
+            //4. append the site URL to relative Paths
+            //clearedDoc = clearedDoc.replace(/src="/g,newSrcTag);
+
+
+            //var htmlDoc = "<html>"+clearedDoc+"</html>";
+            //window.alert(clearedDoc);
+
+            /*
+        //C# webservice!
+        var req = new XMLHttpRequest();
+        var url = "http://localhost:63261/Service1.asmx/saveELO";
+        var params = "html="+htmlDoc;
+
+        req.onreadystatechange = function (aEvt) {
+        if (req.readyState == 4) {
+            if(req.status == 200)
+               window.alert(req.responseXML.getElementsByTagName("string")[0].childNodes[0].nodeValue);
+            else
+               window.alert("Error loading page\n");
+          }
+        };
+
+        req.open('POST', url, true);
+        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        req.send(params);
+        }*/
+
+            /*//---------------------------------------------
+        //create the summary-document (HTML)
+		//see below for a working implementation (preview-function)
+
+        //---------------------------------------------------*/
+
+
+            //create the summaryDocument (XML)
+
             var summaryXML = "<document>";
 
             //append title
             var titleBox = document.getElementById('titleBox');
+            if (titleBox == null){
+                titleBox = sidebar.contentDocument.getElementById('titleBox');
+            }
             summaryXML = summaryXML + "<title>"+ titleBox.value + "</title>";
 
             //append summary from the summmaryBox
             var summaryBox = document.getElementById('summaryBox');
+            if (summaryBox == null){
+                summaryBox = sidebar.contentDocument.getElementById('summaryBox');
+            }
             var bullets = "";
             for(i = 0; i < summaryBox.itemCount; i++){
                 bullets = bullets + "<bullet>"+summaryBox.getItemAtIndex(i).label+"</bullet>";
@@ -1033,11 +1108,17 @@ var highlighter = {
             //append comments
             //Maybe it is a good idea to split multiple comments by /n and branch the comments-tag
             var commentBox = document.getElementById('commentBox');
+            if (commentBox == null){
+                commentBox = sidebar.contentDocument.getElementById('commentBox');
+            }
             summaryXML = summaryXML + "<comments>" + commentBox.value + "</comments>";
 
             //append sources
             //Maybe it is a good idea to split multiple sources by /n and branch the sources-tag
             var urlBox = document.getElementById('urlBox');
+            if (urlBox == null){
+                urlBox = sidebar.contentDocument.getElementById('urlBox');
+            }
             summaryXML = summaryXML + "<sources>" + urlBox.value + "</sources>";
 
             //close the document tag
@@ -1052,27 +1133,40 @@ var highlighter = {
 
             //----------------------------------------
 
+            // extract language and country:
+            var lang = navigator.language;
+            var languageCode = "en";
+            var countryCode = null;
+            if (lang !=null){
+                if (lang.length > 2){
+                    languageCode = lang.substring(0,2);
+                    countryCode = lang.substring(3,5);
+                } else {
+                    languageCode = lang;
+                }
+            }
+            
             //RESTful webservice request
             var req = new XMLHttpRequest();
 
+
             //Parameters for the webservice as JSON, stringified for transmission
             var params = {};
-            params.annotations = summaryXML;
-            params.html = htmlDoc;
-            params.preview = this.getPreview();
+            params.content = "<preview><![CDATA["+this.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html> \n <![CDATA["+htmlDoc+"]]> \n </html>";
             params.username = username;
             params.password = password;
-            params.identifier = updateURI;
-            if (navigator.language!=null){
-                params.language = navigator.language;
+            params.type = "scy/webresourcer";
+            if (countryCode == null){
+                params.language = languageCode;
             } else {
-                params.language = "en";
+                params.language = languageCode;
+                params.country = countryCode;
             }
-
+            if (updateURI.length>1){
+                params.uri = updateURI;
+            }
             params.title = titleBox.value;
             var jsonParams = JSON.stringify(params);
-
-
 
             req.onreadystatechange = function (aEvt) {
                 try{
@@ -1082,7 +1176,8 @@ var highlighter = {
                             //var alertString = this.strings.getString(responseText);
                             //window.alert(alertString);
                             updating = true;
-                            window.alert(top.window.document.getElementById("highlighter-strings").getString("eloUpdated"));
+                            updateURI = req.responseText;
+                            window.alert(top.window.document.getElementById("highlighter-strings").getString("eloSaved"));
                         }
                         else {
                             var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
@@ -1104,7 +1199,7 @@ var highlighter = {
             } else {
                 serverURL = address;
             }
-            serverURL = serverURL + "/updateELO";
+            serverURL = serverURL + "/saveELO";
 
             //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
             req.open('POST', serverURL, true);
@@ -1114,216 +1209,7 @@ var highlighter = {
             req.send(jsonParams);
         }
 
-    },
-    saveELO: function(){
-
-        if (updateURI!=""){
-            this.updateELO();
-        } else {
-
-            //the highlighter-strings from the stringbundle
-            this.strings = top.window.document.getElementById("highlighter-strings");
-
-            //XXX
-            //var mainWindow = window.QueryInterface(Components.interfaces.nnsIInterfaces)...
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-
-            //for testing, a c# webservice was used
-            //there is also a RESTful approach
-
-            //username and password will be received from the preferences
-            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-            .getService(Components.interfaces.nsIPrefService);
-            prefs = prefs.getBranch("extensions.highlighter.");
-            var username = prefs.getCharPref("username");
-            var password = prefs.getCharPref("password");
-            var defaultaddress = prefs.getCharPref("defaultaddress");
-            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
-            var address = prefs.getCharPref("address");
-            if (username=="username" && password=="password"){
-                window.alert(top.window.document.getElementById("highlighter-strings").getString("setUpLoginData"));
-
-                this.openPreferences();
-            } else {
-
-                //make the XMLHttpRequest (POST)!!!
-
-                //a problem with c# webservices was the &-symbol, which causes the transmission of the string to break
-                //a solution might be to replace all occurences of & by another string
-
-                //var rawDoc = window.content.document.documentElement.innerHTML;
-                //var rawDoc = mainWindow.document.documentElement.innerHTML;
-
-                //eventually parse the String for HTML Special Chars like &nbsp;
-                //var clearedDoc = rawDoc.replace("&nbsp;", " ");
-
-
-                //A marker for the &, which causes errors when submitting the html document to the server
-                //var clearedDoc = rawDoc.replace(/&/g, "XXXYYYZZZ");
-
-                //replacing src-attributes
-                //var newSrcTag = "src=\""+window.content.document.location;
-                //var newSrcTag = "src=\""+mainWindow.document.location;
-                //Problem: replace src-tags, but only relative sources...
-                //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,newSrcTag);
-
-                //1. normalize src (remove spaces)
-                //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,"src=\"");
-
-                //2. mark every src that begins with http: with a space
-                //the url shouldnt be appended at absolute Paths
-                //clearedDoc = clearedDoc.replace(/src="http/g,"src =\"http");
-
-                //3. remove paths like ../..
-                //clearedDoc = clearedDoc.replace(/src="\.\.\/\.\./g,"src=\"");
-
-                //4. append the site URL to relative Paths
-                //clearedDoc = clearedDoc.replace(/src="/g,newSrcTag);
-
-
-                //var htmlDoc = "<html>"+clearedDoc+"</html>";
-                //window.alert(clearedDoc);
-
-                /*
-        //C# webservice!
-        var req = new XMLHttpRequest();
-        var url = "http://localhost:63261/Service1.asmx/saveELO";
-        var params = "html="+htmlDoc;
-
-        req.onreadystatechange = function (aEvt) {
-        if (req.readyState == 4) {
-            if(req.status == 200)
-               window.alert(req.responseXML.getElementsByTagName("string")[0].childNodes[0].nodeValue);
-            else
-               window.alert("Error loading page\n");
-          }
-        };
-
-        req.open('POST', url, true);
-        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        req.send(params);
-        }*/
-
-                /*//---------------------------------------------
-        //create the summary-document (HTML)
-		//see below for a working implementation (preview-function)
-
-        //---------------------------------------------------*/
-
-
-                //create the summaryDocument (XML)
-
-                var summaryXML = "<document>";
-
-                //append title
-                var titleBox = document.getElementById('titleBox');
-                if (titleBox == null){
-                    titleBox = sidebar.contentDocument.getElementById('titleBox');
-                }
-                summaryXML = summaryXML + "<title>"+ titleBox.value + "</title>";
-
-                //append summary from the summmaryBox
-                var summaryBox = document.getElementById('summaryBox');
-                if (summaryBox == null){
-                    summaryBox = sidebar.contentDocument.getElementById('summaryBox');
-                }
-                var bullets = "";
-                for(i = 0; i < summaryBox.itemCount; i++){
-                    bullets = bullets + "<bullet>"+summaryBox.getItemAtIndex(i).label+"</bullet>";
-                }
-                summaryXML = summaryXML + "<summary>" + bullets + "</summary>";
-
-                //append comments
-                //Maybe it is a good idea to split multiple comments by /n and branch the comments-tag
-                var commentBox = document.getElementById('commentBox');
-                if (commentBox == null){
-                    commentBox = sidebar.contentDocument.getElementById('commentBox');
-                }
-                summaryXML = summaryXML + "<comments>" + commentBox.value + "</comments>";
-
-                //append sources
-                //Maybe it is a good idea to split multiple sources by /n and branch the sources-tag
-                var urlBox = document.getElementById('urlBox');
-                if (urlBox == null){
-                    urlBox = sidebar.contentDocument.getElementById('urlBox');
-                }
-                summaryXML = summaryXML + "<sources>" + urlBox.value + "</sources>";
-
-                //close the document tag
-                summaryXML = summaryXML + "</document>";
-
-                //----------------------------------------
-
-                //var htmlDoc = mainWindow.document.documentElement.innerHTML;
-                var htmlDoc = window.content.document.documentElement.innerHTML;
-
-                //window.alert(htmlDoc);
-
-                //----------------------------------------
-
-                //RESTful webservice request
-                var req = new XMLHttpRequest();
-
-                //Parameters for the webservice as JSON, stringified for transmission
-                var params = {};
-                params.annotations = summaryXML;
-                params.html = htmlDoc;
-                params.preview = this.getPreview();
-                params.username = username;
-                params.password = password;
-                if (navigator.language!=null){
-                    params.language = navigator.language;
-                } else {
-                    params.language = "en";
-                }
-
-                params.title = titleBox.value;
-                var jsonParams = JSON.stringify(params);
-
-
-
-                req.onreadystatechange = function (aEvt) {
-                    try{
-                        if (req.readyState == 4) {
-                            if(req.status == 200){
-                                //var responseText = req.responseText;
-                                //var alertString = this.strings.getString(responseText);
-                                //window.alert(alertString);
-                                updating = true;
-                                updateURI = req.responseText;
-                                window.alert(top.window.document.getElementById("highlighter-strings").getString("eloSaved"));
-                            }
-                            else {
-                                var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
-                                window.alert(alertString);
-                            }
-                        } else {
-
-                    }
-                    }catch (e) {
-                        var alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
-                        window.alert(alertString);
-
-                    }
-                };
-
-                var serverURL = "";
-                if (usedefaultaddress){
-                    serverURL = defaultaddress;
-                } else {
-                    serverURL = address;
-                }
-                serverURL = serverURL + "/saveELO";
-
-                //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
-                req.open('POST', serverURL, true);
-                //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-                req.setRequestHeader("Content-Type","application/json");
-                //req.setRequestHeader("Timeout", 0.1);
-                req.send(jsonParams);
-            }
-
-        /*//JSON Request maybe useful for another platform or version
+    /*//JSON Request maybe useful for another platform or version
         requestNumber = JSONRequest.post(
     "http://localhost:33604/ELOSaver/resources/saveELO",
     {
@@ -1341,7 +1227,6 @@ var highlighter = {
     }
 );
 }*/
-        }
     },
     showPreviewELOWindow : function() {
 
