@@ -141,6 +141,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
         var uri = scyWindow.eloUri;
         var studentPlan;
+        var loginName = toolBrokerAPI.getLoginUserName();
         if( uri != null) {
             println( "ELO URI {uri}");
 
@@ -152,9 +153,9 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
             println( "xml String from ELO {xmlString}");
 
-            if( xmlString == null) {
+            if( xmlString == null ) {
                 //need to create a new id
-                var loginName = toolBrokerAPI.getLoginUserName();
+                
 
                 println("tbi login name: {loginName}");
 
@@ -183,8 +184,15 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
                 println("FOUND ID {parsed}");
 
-                try {
-                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
+
+                if( xmlString.equals("<studentPlanId>null</studentPlanId>") or (parsed == null or parsed.equals(null) )) {
+                  try {
+                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
+                    println("NEW SPT ID {studentPlan.getId()}");
+
+                    elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
+
+                    var newMetadata = repository.updateELO(elo)
                 } catch(e: Exception) {
                     logger.debug(e.getMessage());
                     wrappedSPTPanel = SwingComponent.wrap(errorLabel);
@@ -194,7 +202,25 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                         cache:false;
                         content:wrappedSPTPanel;
                     };
+                    }
+                } else {
+                   try {
+                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
+                   } catch(e: Exception) {
+                    logger.debug(e.getMessage());
+                    wrappedSPTPanel = SwingComponent.wrap(errorLabel);
+
+                    return VBox {
+                        blocksMouse:true;
+                        cache:false;
+                        content:wrappedSPTPanel;
+                    };
+                    }
                 }
+
+
+
+          
             }
         }
 
