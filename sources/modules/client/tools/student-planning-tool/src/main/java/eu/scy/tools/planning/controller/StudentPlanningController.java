@@ -344,23 +344,21 @@ public class StudentPlanningController {
 	}
 
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
-		
-		try {
-			//String loginUserName = toolbrokerApi.getLoginUserName();
-			//log.severe("login user name " + loginUserName);		
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
 
-		log.severe("Student plan ELO" + studentPlanELO);
-		String id = studentPlanELO.getId();
-		log.severe("Student plan id " + id);
+		if( studentPlanELO == null) {
+			log.severe("Student plan ELO is null");
+			throw new NullPointerException("STUDENT PLANNED ELO IS NULL");
+			
+		} else {
+			log.severe("Student plan ELO" + studentPlanELO);
+			String id = studentPlanELO.getId();
+			log.severe("Student plan id " + id);
+			StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
+			return spa;
+		}
 		
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
         //I had to comment out this one since I had to change the signature of the service...
 		//StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
 		
-		return spa;
 	}
 }
