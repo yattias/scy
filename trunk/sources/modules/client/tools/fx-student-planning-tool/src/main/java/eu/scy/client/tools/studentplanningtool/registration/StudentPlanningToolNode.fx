@@ -33,6 +33,7 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import eu.scy.core.model.student.StudentPlanELO;
+import javax.swing.JLabel;
 
 
 
@@ -96,6 +97,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
    public override function acceptDrop(object:Object):Void{
 
+       println("Display {object}");
 
       if( object instanceof ContactFrame ) {
          var cf = object as ContactFrame;
@@ -111,11 +113,18 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
           println("ANCHOR ID {anchorIdKey}");
 
           var value = elo.getMetadataValueContainer(anchorIdKey).getValue();
-         println("ANCHOR Value {value}");
-         studentPlanningTool.acceptDrop(value);
-      }
 
-     println("object {object}");
+         if( value != null) {
+            println("DROPPED Value {value}");
+
+            studentPlanningTool.acceptDrop(value);
+         } else {
+            println("i cant accept you, you are null");
+         }
+
+
+         
+      }
 
    }
 
@@ -125,6 +134,19 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
         println( "STARTING SPT create node");
         println("toolbroker on stp is {toolBrokerAPI}");
+
+        if( toolBrokerAPI.getStudentPedagogicalPlanService() == null) {
+            var label = new JLabel("There has been a problem with the services.");
+
+            wrappedSPTPanel = SwingComponent.wrap(label);
+
+            return VBox {
+                blocksMouse:true;
+                cache:false;
+                content:wrappedSPTPanel;
+            };
+        }
+
         var uri = scyWindow.eloUri;
         var studentPlan;
         if( uri != null) {
@@ -161,6 +183,17 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
             }
         }
 
+         if( studentPlan == null) {
+            var label = new JLabel("There has been a problem with the services.");
+
+            wrappedSPTPanel = SwingComponent.wrap(label);
+
+            return VBox {
+                blocksMouse:true;
+                cache:false;
+                content:wrappedSPTPanel;
+            };
+        }
         println("toolbroker on stp is {toolBrokerAPI}");
 
         studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
