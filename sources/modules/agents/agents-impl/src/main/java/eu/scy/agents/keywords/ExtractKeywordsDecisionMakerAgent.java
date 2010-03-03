@@ -208,9 +208,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			for (String user : user2Context.keySet()) {
 				ContextInformation contextInformation = user2Context.get(user);
 				if (userNeedsToBeNotified(currentTime, contextInformation)) {
+					logger.info(user + " needs to be notified");
 					String text = getEloText(contextInformation.webresourcerELO);
 					if (!"".equals(text)) {
 						List<String> keywords = getKeywords(text);
+						logger.info("found keywords to send to " + user + ": " + keywords);
 						sendNotification(contextInformation, keywords);
 						contextInformation.lastAdded = currentTime;
 					}

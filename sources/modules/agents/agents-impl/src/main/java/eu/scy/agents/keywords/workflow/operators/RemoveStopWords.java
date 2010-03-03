@@ -43,9 +43,8 @@ public class RemoveStopWords extends DocumentOperatorSpecification {
 
 	public RemoveStopWords() {
 		super();
-		this.addParameterType(ParameterIdentifiers.FILENAME, JavaClasses.STRING, false, null);// ClassLoader.getSystemResource(
-		// "english_stopWords.txt").toString());
-		this.addParameterType("delimiter", JavaClasses.STRING, false, ",");
+		this.addParameterType(ParameterIdentifiers.FILENAME, JavaClasses.STRING, false, null);
+		this.addParameterType("delimiter", JavaClasses.STRING, false, "\n");
 	}
 
 	@Override
