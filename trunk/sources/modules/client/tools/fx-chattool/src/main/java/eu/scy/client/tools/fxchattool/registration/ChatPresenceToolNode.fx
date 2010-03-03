@@ -133,7 +133,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
         //XXX the "/Smack" should be received correctly via method
 
         //commented out, as this should be done by the tool. cf S. Manske
-        toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),scyWindow.mucid);
+        //toolBrokerAPI.proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(),scyWindow.mucid);
         tempUsers.addElement("{c.contact.awarenessUser.getJid()}/Smack");
       }
       else {
