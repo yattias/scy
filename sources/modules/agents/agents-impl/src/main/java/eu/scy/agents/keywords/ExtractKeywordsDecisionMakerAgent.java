@@ -118,6 +118,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			return;
 		} else {
 			IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+			logger.info("Found following proerties in the action: " + action.getAttributes());
 			if (AgentProtocol.ACTION_TOOL_STARTED.equals(action.getType())) {
 				handleToolStarted(action);
 			} else if (AgentProtocol.ACTION_NODE_ADDED.equals(action.getType())) {
