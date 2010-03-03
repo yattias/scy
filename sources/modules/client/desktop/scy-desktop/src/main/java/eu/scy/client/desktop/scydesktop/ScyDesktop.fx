@@ -320,7 +320,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                           
                         }
                         def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
-                        newWindow.openWindow(600, 400);
+                        newWindow.openWindow(700, 600);
                     }
                 }
         topRightCorner = TopRightCorner {
