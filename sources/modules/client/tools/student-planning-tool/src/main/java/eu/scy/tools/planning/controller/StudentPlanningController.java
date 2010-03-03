@@ -249,8 +249,8 @@ public class StudentPlanningController {
 		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
 //		if (studentPedagogicalPlanService == null)
 		configuration = Configuration.getInstance();
-		studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
-			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+		studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
 
 		return studentPedagogicalPlanService;
 
@@ -346,6 +346,9 @@ public class StudentPlanningController {
 
 	public void addMemberToStudentPlannedActivity(
 			StudentPlannedActivity studentPlannedActivity, String nickName) {
+		
+		
+		log.severe("Adding MEMBER TO STUDENT ACTIVITY " +  nickName + " " + studentPlannedActivity);
 		
 		this.getStudentPlanService().addMember(studentPlannedActivity, nickName);
 		
