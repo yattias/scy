@@ -69,4 +69,6 @@
         <property name="imageConverter" ref="imageConverter"/>
     </bean>
 
+    <bean id="buddyService" class="eu.scy.core.openfire.BuddyServiceImpl"/>
+
 </beans>
