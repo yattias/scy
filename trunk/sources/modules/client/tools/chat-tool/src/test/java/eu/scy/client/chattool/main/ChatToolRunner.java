@@ -48,12 +48,17 @@ public static void main(String[] args) {
 			logger.error("ChatPanelMain: IllegalAccessException: "+e);
 		}      
 		
-		ToolBrokerImpl tbi = new ToolBrokerImpl("jeremy@scy.collide.info", "jeremy");
-		final IAwarenessService aService = tbi.getAwarenessService();
-		String[] elos = { "roolomemory20Reporttext", "roolomemory00hypothesistext" };
+		ToolBrokerImpl tbi;
+		
+		String[] elos = { "roolomemory5950first_ideas_of_my_design_groupscymapping", "roolomemory00hypothesistext" };
+		String[] users = { "jeremy", "alfons" };
 		
 		
-		for(int i = 0; i<elos.length; i++) {
+		for(int i = 0; i<users.length; i++) {
+			
+			tbi = new ToolBrokerImpl(users[i]+"@scy.collide.info", users[i]);
+			final IAwarenessService aService = tbi.getAwarenessService();
+			
 			final JFrame frame = new JFrame("Selecting JList");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
