@@ -15,6 +15,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -345,12 +346,18 @@ public class StudentPlanningController {
 	}
 
 	public void addMemberToStudentPlannedActivity(
-			StudentPlannedActivity studentPlannedActivity, String nickName) {
+			final StudentPlannedActivity studentPlannedActivity, final String nickName) {
 		
 		
 		log.severe("Adding MEMBER TO STUDENT ACTIVITY " +  nickName + " " + studentPlannedActivity);
 		
-		this.getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		    	getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		    }
+		  });
+		
+		
 		
 	}
 
