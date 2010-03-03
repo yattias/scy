@@ -16,7 +16,6 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
-import de.fhg.iais.kd.tm.obwious.operator.sandbox.StemTokens;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import edu.emory.mathcs.backport.java.util.Collections;
 import eu.scy.agents.keywords.workflow.KeywordConstants;

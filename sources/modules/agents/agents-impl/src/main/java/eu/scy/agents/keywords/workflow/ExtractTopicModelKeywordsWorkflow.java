@@ -9,12 +9,12 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.ParameterIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
-import de.fhg.iais.kd.tm.obwious.operator.sandbox.RemoveStopWords;
-import de.fhg.iais.kd.tm.obwious.operator.sandbox.StemTokens;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.atomic.ProvideTermFrequency;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.modelbased.ProvideTfIdf;
 import eu.scy.agents.keywords.workflow.operators.ExtractTopicModelKeywords;
 import eu.scy.agents.keywords.workflow.operators.ImprovedTokenize;
+import eu.scy.agents.keywords.workflow.operators.RemoveStopWords;
+import eu.scy.agents.keywords.workflow.operators.StemTokens;
 
 public class ExtractTopicModelKeywordsWorkflow extends Workflow {
 
@@ -40,8 +40,7 @@ public class ExtractTopicModelKeywordsWorkflow extends Workflow {
 		addOperatorSpecification(REMOVE_STOPWORDS, RemoveStopWords.class);
 		URL url = this.getClass().getResource("/english_stopWords.txt");
 		try {
-			setInputParameter(REMOVE_STOPWORDS, ParameterIdentifiers.FILENAME,
-					new File(url.toURI()).getAbsolutePath());
+			setInputParameter(REMOVE_STOPWORDS, ParameterIdentifiers.FILENAME, new File(url.toURI()).getAbsolutePath());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -58,8 +57,7 @@ public class ExtractTopicModelKeywordsWorkflow extends Workflow {
 		addNamespaceLink(EXTRACT_TOPIC_MODEL_KEYWORDS, Features.DOCUMENTFREQUENCY,
 				KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 
-		addNamespaceLink(TFIDF, KeywordConstants.DOCUMENT_FREQUENCY,
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+		addNamespaceLink(TFIDF, KeywordConstants.DOCUMENT_FREQUENCY, KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		addDefaultOutputLink(ObjectIdentifiers.DOCUMENT);
 		verify();
