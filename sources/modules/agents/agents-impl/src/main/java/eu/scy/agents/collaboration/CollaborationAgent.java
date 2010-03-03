@@ -9,6 +9,7 @@ import info.collide.sqlspaces.commons.User;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import eu.scy.actionlogging.Action;
@@ -28,9 +29,12 @@ public class CollaborationAgent extends AbstractThreadedAgent {
 
     private boolean isStopped;
 
+    private Map<String, String> mucids;
+
     public CollaborationAgent(Map<String, Object> map) {
         super(CollaborationAgent.class.toString(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         try {
+            mucids = new ConcurrentHashMap<String, String>();
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
             Callback cc = new CollaborationCallback();
@@ -72,6 +76,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
 
     class CollaborationCallback implements Callback {
 
+
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
             Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
@@ -81,6 +86,10 @@ public class CollaborationAgent extends AbstractThreadedAgent {
             if (a.getType().equals("collaboration_request")) {
                 String proposedUser = a.getAttribute("proposed_user");
                 String proposingUser = a.getUser();
+                String mucid = a.getAttribute("mucid");
+                if (mucid != null) {
+                    mucids.put(elouri, mucid);
+                }
                 logger.fine("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
                 sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
             } else if (a.getType().equals("collaboration_response")) {
@@ -90,11 +99,14 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 logger.fine("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
                 if (requestAccepted) {
                     try {
-                        String id = new VMID().toString();
-                        commandSpace.write(new Tuple(id, "datasync", "create_session"));
-                        Tuple dataSyncResponse = commandSpace.waitToTake(new Tuple(id, String.class));
-                        String mucId = dataSyncResponse.getField(1).getValue().toString();
-                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                        String mucId = mucids.remove(elouri);
+                        if (mucId == null) {
+                            String id = new VMID().toString();
+                            commandSpace.write(new Tuple(id, "datasync", "create_session"));
+                            Tuple dataSyncResponse = commandSpace.waitToTake(new Tuple(id, String.class));
+                            mucId = dataSyncResponse.getField(1).getValue().toString();
+                            sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                        }
                         sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
                     } catch (TupleSpaceException e) {
                         // in case of problems dump a stacktrace and do as if request has not been
