@@ -7,10 +7,10 @@
 		singleton="true">
 		<property name="externalComponents">
 			<list>
-				<ref local="sqlSpacesComponent" />
-				<ref local="swatComponent" />
-				<ref local="scyHubExternalComponent" />
-				<ref local="agentFrameworkComponent" />
+                <ref local="sqlSpacesComponent"/>
+                <ref local="swatComponent"/>
+				<ref local="scyHubExternalComponent"/>
+				<ref local="agentFrameworkComponent"/>
 			</list>
 		</property>
 	</bean>
@@ -29,13 +29,13 @@
 		<property name="initialAgents">
 			<set>
 				<!-- ref bean="supervisor" /-->
-
+				
 				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
 				<ref bean="topicdetector" />
-				<ref bean="scysim" />
+				<!-- ref bean="scysim" /-->
 				<ref bean="votat" />
-				<ref bean="toolexperience" />
+				<!-- ref bean="toolexperience" /-->
 				<ref bean="collaboration" />
 				<ref bean="keywordsTfIdf" />
 				<ref bean="keywordsTopic" />
