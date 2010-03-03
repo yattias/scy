@@ -783,8 +783,6 @@ public class StudentPlanningTool {
 
 					@Override
 					public void run() {
-						
-						log.severe("saving endate: " + stp.getEndDate());
 						studentPlanningController.saveStudentActivity(stp);
 						messageLabel.setText("<html><b>End date saved successfully.</b><html>");
 					}
@@ -863,7 +861,6 @@ public class StudentPlanningTool {
 
 					@Override
 					public void run() {
-						log.severe("saving endate: " + stp.getStartDate());
 						studentPlanningController.saveStudentActivity(stp);
 						messageLabel.setText("<html><b>Start date saved.</b><html>");
 					}
