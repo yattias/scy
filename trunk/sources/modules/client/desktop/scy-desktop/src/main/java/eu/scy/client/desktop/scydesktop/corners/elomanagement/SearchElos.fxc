@@ -38,9 +38,10 @@
             <Item value="inst:ListViewModel2"/>
             <Item value="inst:ButtonModel2"/>
             <Item value="inst:ButtonModel3"/>
+            <Item value="inst:LabelModel6"/>
         </List>
-        <Reference name="width" value="prop:16,anim:,,flt:463.0,"/>
-        <Reference name="height" value="prop:16,anim:,,flt:320.0,"/>
+        <Reference name="width" value="prop:16,anim:,,flt:497.0,"/>
+        <Reference name="height" value="prop:16,anim:,,flt:293.0,"/>
         <Reference name="generateSceneInstance" value="bool:false"/>
         <Reference name="generateScenePanel" value="bool:true"/>
         <Reference name="preCreationCode" value="null"/>
@@ -55,32 +56,32 @@
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:16,anim:,,str:Query,4,null,"/>
+        <Reference name="text" value="prop:17,anim:,,str:Query:,4,null,"/>
     </Instance>
     <Instance classID="LabelModel" instanceID="LabelModel2">
         <Reference name="instanceName" value="str:label2"/>
-        <Reference name="layoutX" value="prop:15,anim:,,flt:64.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:131.0,4,null,"/>
         <Reference name="layoutY" value="prop:14,anim:,,flt:6.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:15,anim:,,str:Type,4,null,"/>
+        <Reference name="text" value="prop:14,anim:,,str:All,4,null,"/>
     </Instance>
     <Instance classID="CheckBoxModel" instanceID="CheckBoxModel1">
         <Reference name="instanceName" value="str:allTypesCheckBox"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:111.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:158.0,4,null,"/>
         <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:41,anim:,,str:allTypesCheckBoxOnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:14,anim:,,str:all,4,null,"/>
+        <Reference name="text" value="prop:11,anim:,,str:,4,null,"/>
         <Reference name="selected" value="prop:16,anim:,,bool:true,4,null,"/>
     </Instance>
     <Instance classID="ListViewModel" instanceID="ListViewModel1">
         <Reference name="instanceName" value="str:typesListView"/>
-        <Reference name="layoutX" value="prop:15,anim:,,flt:64.0,4,null,"/>
-        <Reference name="layoutY" value="prop:15,anim:,,flt:28.0,4,null,"/>
+        <Reference name="layoutX" value="prop:15,anim:,,flt:25.0,4,null,"/>
+        <Reference name="layoutY" value="prop:15,anim:,,flt:34.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop:16,anim:,,flt:150.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop:15,anim:,,flt:93.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:38,anim:,,str:typesListViewOnMouseClicked,4,null,"/>
@@ -94,31 +95,31 @@
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:15,anim:,,str:Name,4,null,"/>
+        <Reference name="text" value="prop:16,anim:,,str:Title,4,null,"/>
     </Instance>
     <Instance classID="TextBoxModel" instanceID="TextBoxModel1">
         <Reference name="instanceName" value="str:nameTextbox"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:293.0,4,null,"/>
-        <Reference name="layoutY" value="prop:14,anim:,,flt:4.0,4,null,"/>
-        <Reference name="layoutInfoWidth" value="prop:16,anim:,,flt:155.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:240.0,4,null,"/>
+        <Reference name="layoutY" value="prop:15,anim:,,flt:34.0,4,null,"/>
+        <Reference name="layoutInfoWidth" value="prop:16,anim:,,flt:169.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop:15,anim:,,flt:24.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
     </Instance>
     <Instance classID="CheckBoxModel" instanceID="CheckBoxModel2">
         <Reference name="instanceName" value="str:onlyMineCheckBox"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:293.0,4,null,"/>
-        <Reference name="layoutY" value="prop:15,anim:,,flt:59.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:314.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:108.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:41,anim:,,str:onlyMineCheckBoxOnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:20,anim:,,str:only mine,4,null,"/>
+        <Reference name="text" value="prop:11,anim:,,str:,4,null,"/>
     </Instance>
     <Instance classID="LabelModel" instanceID="LabelModel4">
         <Reference name="instanceName" value="str:label4"/>
         <Reference name="layoutX" value="prop:16,anim:,,flt:240.0,4,null,"/>
-        <Reference name="layoutY" value="prop:15,anim:,,flt:59.0,4,null,"/>
+        <Reference name="layoutY" value="prop:15,anim:,,flt:86.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
@@ -127,18 +128,18 @@
     <Instance classID="LineShapeModel" instanceID="LineShapeModel1">
         <Reference name="instanceName" value="str:line"/>
         <Reference name="layoutX" value="prop:14,anim:,,flt:0.0,4,null,"/>
-        <Reference name="layoutY" value="prop:16,anim:,,flt:134.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:143.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="stroke" value="prop:45,animcode:,,javafx.scene.paint.Color.LIGHTBLUE,4,null,"/>
         <Reference name="strokeWidth" value="prop:14,anim:,,flt:2.0,4,null,"/>
-        <Reference name="endX" value="prop:16,anim:,,flt:450.0,4,null,"/>
+        <Reference name="endX" value="prop:16,anim:,,flt:490.0,4,null,"/>
         <Reference name="endY" value="prop:14,anim:,,flt:0.0,4,null,"/>
     </Instance>
     <Instance classID="ButtonModel" instanceID="ButtonModel1">
         <Reference name="instanceName" value="str:searchButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:389.0,4,null,"/>
-        <Reference name="layoutY" value="prop:15,anim:,,flt:92.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:426.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:102.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
@@ -152,12 +153,12 @@
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:18,anim:,,str:Results,4,null,"/>
+        <Reference name="text" value="prop:19,anim:,,str:Results:,4,null,"/>
     </Instance>
     <Instance classID="ListViewModel" instanceID="ListViewModel2">
         <Reference name="instanceName" value="str:resultsListView"/>
-        <Reference name="layoutX" value="prop:15,anim:,,flt:64.0,4,null,"/>
-        <Reference name="layoutY" value="prop:16,anim:,,flt:153.0,4,null,"/>
+        <Reference name="layoutX" value="prop:15,anim:,,flt:25.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:175.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop:16,anim:,,flt:384.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop:16,anim:,,flt:112.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:40,anim:,,str:resultsListViewOnMouseClicked,4,null,"/>
@@ -167,8 +168,8 @@
     <Instance classID="ButtonModel" instanceID="ButtonModel2">
         <Reference name="instanceName" value="str:openButton"/>
         <Reference name="disable" value="prop:16,anim:,,bool:true,4,null,"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:319.0,4,null,"/>
-        <Reference name="layoutY" value="prop:16,anim:,,flt:277.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:435.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:223.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
@@ -177,12 +178,21 @@
     </Instance>
     <Instance classID="ButtonModel" instanceID="ButtonModel3">
         <Reference name="instanceName" value="str:cancelButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:389.0,4,null,"/>
-        <Reference name="layoutY" value="prop:16,anim:,,flt:277.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:429.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:259.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
         <Reference name="text" value="prop:17,anim:,,str:Cancel,4,null,"/>
         <Reference name="action" value="prop:29,anim:,,str:cancelButtonAction,4,null,"/>
+    </Instance>
+    <Instance classID="LabelModel" instanceID="LabelModel6">
+        <Reference name="instanceName" value="str:label6"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:240.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:108.0,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:20,anim:,,str:Only mine,4,null,"/>
     </Instance>
 </Model>
