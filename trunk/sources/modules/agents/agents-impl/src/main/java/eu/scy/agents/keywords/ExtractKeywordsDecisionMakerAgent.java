@@ -42,6 +42,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		public long lastAdded;
 		public int numberOfConcepts = 0;
 		public URI webresourcerELO = null;
+
+		@Override
+		public String toString() {
+			return user + "|web:" + webresourcerStarted + "|map:" + scyMapperStarted + "|url:"
+					+ webresourcerELO.toString() + "|" + lastAdded + "|" + numberOfConcepts;
+		}
 	}
 
 	private static final Logger logger = Logger.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
@@ -207,6 +213,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			long currentTime = System.currentTimeMillis();
 			for (String user : user2Context.keySet()) {
 				ContextInformation contextInformation = user2Context.get(user);
+				logger.info(contextInformation);
 				if (userNeedsToBeNotified(currentTime, contextInformation)) {
 					logger.info(user + " needs to be notified");
 					String text = getEloText(contextInformation.webresourcerELO);
