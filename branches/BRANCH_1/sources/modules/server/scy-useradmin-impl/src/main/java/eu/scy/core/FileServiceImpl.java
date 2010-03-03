@@ -29,13 +29,11 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService {
 
     }
 
-    @Override
     @Transactional
     public FileRef saveFile(File file) {
         return getFileDAO().saveFile(file);
     }
 
-    @Override
     @Transactional
     public void saveFile(FileData fileData) {
         getFileDAO().save(fileData);

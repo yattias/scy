@@ -26,7 +26,6 @@ public class FileDAOHibernate extends ScyBaseDAOHibernate implements FileDAO {
 
     private ImageConverter imageConverter;
 
-    @Override
     public FileRef saveFile(File file) {
         FileData fileData = new FileDataImpl();
         fileData.setBytes(getBytes(file));

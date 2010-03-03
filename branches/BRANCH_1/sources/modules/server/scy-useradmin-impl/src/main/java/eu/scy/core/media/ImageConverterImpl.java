@@ -39,7 +39,6 @@ public class ImageConverterImpl implements ImageConverter{
     /**
      * @throws java.io.IOException
      */
-    @Override
     public File handleImageConversion(File imageFile) throws IOException,
             FileNotFoundException {
         BufferedImage image = getImage(imageFile);
