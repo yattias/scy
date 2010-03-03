@@ -20,6 +20,8 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
 import roolo.elo.metadata.BasicMetadata;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.common.configuration.Configuration;
@@ -58,9 +60,24 @@ public class StudentPlanningController {
 	private ToolBrokerAPI toolbrokerApi;
 
 	private String userName = "tony";
+
+	private IELO elo;
+
+	private IRepository repository;
 	
 
 	public StudentPlanningController(String eloId, String userName) {
+		studentPedagogicalPlanService = this.getStudentPlanService();
+		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
+		log.severe("ELO PASSED TO STP USERNAME" + userName);
+		studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(eloId);
+		log.severe("STUDENTPLANNEDELO " + studentPlanELO);
+		this.userName = userName;
+	}
+	
+	public StudentPlanningController(String eloId, String userName, IELO elo, IRepository repository) {
+		this.elo = elo;
+		this.repository = repository;
 		studentPedagogicalPlanService = this.getStudentPlanService();
 		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
 		log.severe("ELO PASSED TO STP USERNAME" + userName);
@@ -339,28 +356,25 @@ public class StudentPlanningController {
 		// TODO Auto-generated method stub
 		this.getStudentPlanService().removeMember(studentPlannedActivity, nickName);
 		//studentPlannedActivity.removeMember(nickName);
-		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
+		this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
 		
 	}
 
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
-		
-		try {
-			//String loginUserName = toolbrokerApi.getLoginUserName();
-			//log.severe("login user name " + loginUserName);		
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
 
-		log.severe("Student plan ELO" + studentPlanELO);
-		String id = studentPlanELO.getId();
-		log.severe("Student plan id " + id);
+		if( studentPlanELO == null) {
+			log.severe("Student plan ELO is null");
+			throw new NullPointerException("STUDENT PLANNED ELO IS NULL");
+			
+		} else {
+			String id = studentPlanELO.getId();
+			log.severe("Student plan id " + id);
+			StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
+			return spa;
+		}
 		
-		StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
         //I had to comment out this one since I had to change the signature of the service...
 		//StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
 		
-		return spa;
 	}
 }

@@ -60,6 +60,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       scyCopexPanel.setTBI(toolBrokerAPI);
       scyCopexPanel.initActionLogger();
+      scyCopexPanel.initCopex();
    }
 
    public override function loadElo(uri:URI){

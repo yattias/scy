@@ -129,6 +129,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                     dragObject:this};
       insert syncAttrib into scyWindow.scyWindowAttributes;
       fitexPanel.initActionLogger();
+      fitexPanel.initFitex();
    }
 
    public override function loadElo(uri:URI){

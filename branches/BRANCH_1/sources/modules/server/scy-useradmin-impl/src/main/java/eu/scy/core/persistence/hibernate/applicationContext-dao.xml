@@ -11,6 +11,8 @@
 	</bean>
 
 
+        <bean id="imageConverter" class="eu.scy.core.media.ImageConverterImpl"/>
+
 	<bean id="scenarioDAO" class="eu.scy.core.persistence.hibernate.ScenarioDAOHibernate">
 		<property name="sessionFactory" ref="sessionFactory"/>
 		<property name="transactionTemplate" ref="sharedTransactionTemplate"/>
@@ -61,5 +63,12 @@
 	<bean id="serverDAO" class="eu.scy.core.persistence.hibernate.ServerDAOHibernate">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+
+    <bean id="fileDAO" class="eu.scy.core.persistence.hibernate.FileDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="imageConverter" ref="imageConverter"/>
+    </bean>
+
+    <bean id="buddyService" class="eu.scy.core.openfire.BuddyServiceImpl"/>
 
 </beans>

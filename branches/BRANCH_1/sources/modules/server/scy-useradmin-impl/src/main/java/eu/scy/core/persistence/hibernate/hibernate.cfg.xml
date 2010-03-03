@@ -36,6 +36,10 @@
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl"/>
 
+        <mapping class="eu.scy.core.model.impl.FileDataImpl"/>
+        <mapping class="eu.scy.core.model.impl.FileRefImpl"/>
+        <mapping class="eu.scy.core.model.impl.ImageRefImpl"/>
+
 		<mapping class="eu.scy.core.model.impl.playful.PlayfulAssessmentImpl"/>
 		<mapping class="eu.scy.core.model.impl.ELORefImpl"/>
 	</session-factory>

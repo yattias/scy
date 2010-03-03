@@ -44,8 +44,8 @@ public class DummyDataGenerator implements InitializingBean {
     private void generatedMissionMapBasedOnXML() {
         Scenario scenario = setupScenarioBasedOnXML();
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
-        template.setName("CO2 House - home of the wild (Mission version)!");
-        template.setDescription("A pedagogical plan ... way beyond anything else");
+        template.setName("CO2 House");
+        template.setDescription("A pedagogical plan");
         template.setScenario(scenario);
         template.setMission(generateMission("C02 friendly house"));
         saveAndCreatePedagogicalPlan(template);

@@ -1,9 +1,10 @@
 package eu.scy.core.model.impl;
 
+import eu.scy.core.model.FileRef;
+import eu.scy.core.model.ImageRef;
 import eu.scy.core.model.StudentUserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     private String accountQuestion;
     private String accountAnswer;
     private Integer numberOfLogins;
-    private String profilePictureUrl;
+    private ImageRef profilePicture;
 
     @Override
     public String getFirstname() {
@@ -120,12 +121,14 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     }
 
     @Override
-    public String getProfilePictureUrl() {
-        return profilePictureUrl;
+    @OneToOne(targetEntity = ImageRefImpl.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profilepicture")
+    public ImageRef getProfilePicture() {
+        return profilePicture;
     }
 
     @Override
-    public void setProfilePictureUrl(String profilePictureUrl) {
-        this.profilePictureUrl = profilePictureUrl;
+    public void setProfilePicture(ImageRef profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

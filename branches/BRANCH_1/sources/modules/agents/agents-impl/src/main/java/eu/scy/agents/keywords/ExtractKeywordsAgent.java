@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -16,6 +18,8 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 
 	public static final String NAME = ExtractKeywordsAgent.class.getName();
 	public static final Object EXTRACT_KEYWORDS = "ExtractKeywords";
+
+	private static final Logger logger = Logger.getLogger(ExtractKeywordsAgent.class.getName());
 
 	private Tuple activationTuple;
 
@@ -43,9 +47,9 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 				ArrayList<String> topicKeywords = getTopicKeywords(tuple);
 
 				ArrayList<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
+				logger.info("found keywords: " + mergedKeywords);
 
 				sendAnswer(mergedKeywords, queryId);
-				System.err.println("************ Run *****************");
 			}
 			sendAliveUpdate();
 		}

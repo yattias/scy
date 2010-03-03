@@ -36,7 +36,7 @@ public class SCYUserImpl implements User, Serializable {
     }
 
     @Override
-    @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_details_fk", nullable = false, unique = true)
     public UserDetails getUserDetails() {
         return userDetails;

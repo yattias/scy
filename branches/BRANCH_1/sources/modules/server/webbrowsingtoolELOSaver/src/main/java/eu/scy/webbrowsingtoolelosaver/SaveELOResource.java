@@ -74,7 +74,7 @@ import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer
  *
  * @author __SVEN__
  */
-@Path("/saveELO")
+@Path("/saveELOold")
 public class SaveELOResource {
 
     @Context

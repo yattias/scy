@@ -94,10 +94,29 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Time, Votat) :-
 	assert(var_change(Learner,Tool, Session, Time, VarName)),
 	remove_old_changes,
 	findall(VarNameX, var_change(Learner, Tool, Session, _, VarNameX), VarNames),
-	most_often(_, VarNames, Count),
-	length(VarNames, VarNamesLength),
-	Votat is Count / VarNamesLength,
-	write(Count), write(' / '), write(VarNamesLength), write(' => '), writeln(Votat).
+	number_of_switches(VarNames, Switches),
+	(Switches > 1
+	->	Votat is 1
+	;	
+		(
+			most_often(_, VarNames, Count),
+			length(VarNames, VarNamesLength),
+			Votat is Count / VarNamesLength,
+			write(Count), write(' / '), write(VarNamesLength), write(' => '), writeln(Votat)
+		)
+	).
+
+number_of_switches([H|T], Number) :-
+	next_switch(H, T, Number).
+
+next_switch(_, [], 0).
+next_switch(Last, [Last|T], Number) :-
+	next_switch(Last, T, Number).
+next_switch(Last, [H|T], NewNumber) :-
+	Last \== H,
+	next_switch(H, T, Number),
+	NewNumber is Number + 1.
+	
 
 most_often(VarName, VarNames, MaxCount) :- 
 	retractall(count(_, _)),
