@@ -36,10 +36,10 @@ public class AbstractTestFixture {
 
 	private static final String TM_MODEL_NAME = "co2_scy_english";
 
-	protected static final String TSHOST = "localhost";
+	protected static String TSHOST = "localhost";
 	// protected static String TSHOST = "scy.collide.info";
 
-	protected static final int TSPORT = 2525;
+	protected static int TSPORT = 2525;
 
 	public static final boolean STANDALONE = true;
 
@@ -61,6 +61,14 @@ public class AbstractTestFixture {
 
 	private TupleSpace actionSpace;
 
+	public AbstractTestFixture() {
+	}
+
+	public AbstractTestFixture(String host, int port) {
+		TSHOST = host;
+		TSPORT = port;
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
@@ -76,7 +84,7 @@ public class AbstractTestFixture {
 		extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
 		repository = (IRepository) applicationContext.getBean("localRepository");
 
-		storage = getPersistentStorage();
+		storage = new PersistentStorage(TSHOST, TSPORT);
 	}
 
 	@SuppressWarnings("unused")
@@ -92,6 +100,7 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
+		storage.shutdown();
 	}
 
 	protected void removeTopicModel() {
@@ -163,7 +172,7 @@ public class AbstractTestFixture {
 	}
 
 	protected PersistentStorage getPersistentStorage() {
-		return new PersistentStorage(TSHOST, TSPORT);
+		return storage;
 	}
 
 	protected void initTopicModel() {
@@ -183,7 +192,6 @@ public class AbstractTestFixture {
 
 	protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis, String uuid) {
 		return new Tuple("action", uuid, currentTimeInMillis, AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
-				"SomeMission", "TestSession", "elouri=" + eloUri, "type=" + type);
+				"SomeMission", "TestSession", AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri, "type=" + type);
 	}
-
 }

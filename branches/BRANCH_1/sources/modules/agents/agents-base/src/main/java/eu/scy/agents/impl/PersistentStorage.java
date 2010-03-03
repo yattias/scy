@@ -117,4 +117,15 @@ public class PersistentStorage implements IPersistentStorage {
 			}
 		}
 	}
+
+	public void shutdown() {
+		if (tupleSpace.isConnected()) {
+			try {
+				tupleSpace.disconnect();
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+		key2TupleId.clear();
+	}
 }
