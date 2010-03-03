@@ -15,6 +15,7 @@ import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -55,22 +56,21 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     private ToolBrokerAPI tbi;
     private ISyncSession session = null;
-    // how can i get userName & password? + mission name
-    private String username = "merkel";
-    private String password = "merkel";
-    private String mission_name = "C02 neutral house";
     private String session_name = "sessionName";
     private IActionLogger actionLogger;
     private IDataSyncService datasync;
     private final Logger debugLogger;
+    private String toolName;
 
     /* Constructor data ToolImpl panel - blank */
-    public FitexPanel() {
+    public FitexPanel(String toolName) {
         super();
+        this.toolName = toolName;
         debugLogger = Logger.getLogger(FitexPanel.class.getName());
         this.setLayout(new BorderLayout());
-        //initTBI();
-        //initActionLogger();
+    }
+
+    public void initFitex(){
         initDataProcessTool();
         load();
     }
@@ -85,10 +85,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         this.session = session;
     }
 
-    /* tbi initialization
-    private void initTBI(){
-        //tbi=  new ToolBrokerImpl(username, password);
-    }*/
+    
     /* initialization action logger */
     public void initActionLogger(){
         if(tbi != null){
@@ -235,10 +232,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         // action
         IAction action = new Action();
         action.setType(type);
-        action.setUser(username);
-        action.addContext(ContextConstants.tool, FitexLog.toolName);
-        action.addContext(ContextConstants.mission, mission_name);
-        action.addContext(ContextConstants.session, session_name);
+        if(tbi != null){
+            action.setUser(tbi.getLoginUserName());
+            action.addContext(ContextConstants.tool, this.toolName);
+            action.addContext(ContextConstants.mission, tbi.getMission());
+            action.addContext(ContextConstants.session, session_name);
+        }
 
         for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){
             FitexProperty property = p.next();

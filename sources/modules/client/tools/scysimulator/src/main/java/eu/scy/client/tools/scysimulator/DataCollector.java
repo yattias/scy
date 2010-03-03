@@ -245,7 +245,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     private Map<String, String> getNotificationTexts() {
-        String votat = "If a variable is not relevant for the hypothesis under, \ntest then hold that variable constant, or vary one thing at a time (VOTAT), or If not varying a variable, then pick the same value as used in the previous experiment\n\nHey dudes and dudettes, \nA short hi from Duisburg. I hope you're doing ok over there in Toronto!\n Best wishes from Jan";
+        String votat = "If a variable is not relevant for the hypothesis under, \ntest then hold that variable constant, or vary one thing at a time (VOTAT), or If not varying a variable, then pick the same value as used in the previous experiment";
         String equalIncrement = "If choosing a third value for a variable, \nthen choose an equal increment as between first and second values. Or if manipulating a variable, then choose simple, canonical manipulations ";
         String extemevalues = "Try some extreme values to see if there are limits on the proposed relationship";
         String confirmHypothesis = "Generate several additional cases in an attempt \nto either confirm or disconfirm the hypothesized relation";

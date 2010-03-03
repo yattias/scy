@@ -18,6 +18,8 @@ import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
 import eu.scy.chat.controller.ChatController;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 /**
  * @author jeremyt
@@ -31,8 +33,8 @@ public class ChatPanel extends JXTitledPanel {
 	private JTextArea chatArea = new JTextArea();
 	private JTextField sendMessageTextField = new JTextField();
 	private ChatController chatControler;
-	private JScrollPane chatAreaScroll;
-	private JXPanel p;
+//	private JScrollPane chatAreaScroll;
+	private JPanel p;
 	private int setWidth = 350;
 
 	public ChatPanel(ChatController mucChatController) {
@@ -62,7 +64,7 @@ public class ChatPanel extends JXTitledPanel {
 
 	
 	protected void initGUI() {
-		p = new JXPanel(new MigLayout("insets 1 1 1 1,wrap 1"));
+		p = new JPanel(new BorderLayout(1, 1));
 		p.setBackground(Color.white);
 		this.add(p);
 		
@@ -70,19 +72,25 @@ public class ChatPanel extends JXTitledPanel {
 		chatArea.setFont(font);
 		
 		chatArea.setEditable(false);
-		chatAreaScroll = new JScrollPane(chatArea);
-
-		p.add(chatAreaScroll);
-		chatAreaScroll.setPreferredSize(new Dimension(setWidth, 250));
+                chatArea.setLineWrap(true);
+                chatArea.setWrapStyleWord(true);
+//		chatAreaScroll = new JScrollPane(chatArea);
+                p.add(chatArea,BorderLayout.CENTER);
+//		p.add(chatAreaScroll);
+//		chatAreaScroll.setPreferredSize(new Dimension(setWidth, 250));
+		chatArea.setPreferredSize(new Dimension(setWidth, 250));
 		
 		sendMessageTextField.setEditable(true);
 		sendMessageTextField.setEnabled(true);
 		
-		p.add(sendMessageTextField, "align left, grow");
+		p.add(sendMessageTextField, BorderLayout.SOUTH);
 	}
 	
 	public void resizeChat(int newWidth, int newHeight) {
-		this.chatAreaScroll.setPreferredSize(new Dimension(newWidth, newHeight));
+//		this.chatAreaScroll.setPreferredSize(new Dimension(newWidth, newHeight));
+            System.out.println("Size: " + getSize());
+		this.chatArea.setPreferredSize(new Dimension(newWidth, newHeight));
+            System.out.println(chatArea.getSize() + "\n");
 	}
 
 	public void setChatArea(JTextArea chatArea) {

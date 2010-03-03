@@ -9,6 +9,8 @@ import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 
+import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.tools.planning.StudentPlanningTool;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 
@@ -18,7 +20,8 @@ public class SampleLASTestClient {
 	/** simple main driver for this class */
 	public static void main(String[] args) {
 		
-		 StudentPlanningController spc = new StudentPlanningController(null);
+		//ToolBrokerAPI tbi = new ToolBrokerImpl("tony","tony");
+		 StudentPlanningController spc = new StudentPlanningController("ff808081271d728e01271dde272e003a","tony");
 	     final StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
 	     final JComponent createStudentPlanningPanel = studentPlanningToolMain.createStudentPlanningPanel();
 	     
