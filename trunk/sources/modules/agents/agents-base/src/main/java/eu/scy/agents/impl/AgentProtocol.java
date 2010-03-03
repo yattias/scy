@@ -103,7 +103,7 @@ public final class AgentProtocol {
 	public static Tuple getAliveTuple(String agentId, String agentName, VMID queryId) {
 		Tuple aliveTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentId, agentName,
 				AgentProtocol.ALIVE);
-		aliveTuple.setExpiration(ALIVE_INTERVAL);
+		aliveTuple.setExpiration(2 * ALIVE_INTERVAL);
 		return aliveTuple;
 	}
 
