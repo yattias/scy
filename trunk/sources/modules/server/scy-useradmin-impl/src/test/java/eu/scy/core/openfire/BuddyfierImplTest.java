@@ -69,11 +69,11 @@ public class BuddyfierImplTest extends AbstractDAOTest {
         }
         if (getHost() != null) {
             try {
-                String user1 = "stefan";
-                String user2 = "barbara";
+                String user1 = "adam";
+                String user2 = "ton";
 
-                getBuddyService().makeBuddies(user1, user1, user2, user2);
-                assertTrue(getBuddyService().getAreBuddies(user1, user1, user2));
+                //getBuddyService().makeBuddies(user1, user1, user2, user2);
+                //assertTrue(getBuddyService().getAreBuddies(user1, user1, user2));
                 getBuddyService().removeBuddy(user1, user1, user2, user2);
                 assertFalse(getBuddyService().getAreBuddies(user1, user1, user2));
             } catch (Exception e) {
