@@ -165,7 +165,8 @@ public class BehavioralModel {
      */
     public void updateUserExp(int newUserExp) {
         this.userExp = newUserExp;
-        checkForSystematicBehaviour();
+        // Fix to prevent too many notifications
+       // checkForSystematicBehaviour();
     }
 
     /**

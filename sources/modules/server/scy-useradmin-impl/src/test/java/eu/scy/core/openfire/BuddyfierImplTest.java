@@ -19,7 +19,7 @@ public class BuddyfierImplTest extends AbstractDAOTest {
     private String host = null;
 
     private String getHost() {
-        return "83.168.205.138";
+        //return "83.168.205.138";
         //return "scy.collide.info";
         //return null;
     }
@@ -42,7 +42,7 @@ public class BuddyfierImplTest extends AbstractDAOTest {
             logger.info("STARTING TEST!!");
         }
         if (getHost() != null) {
-            Collection buddies = getBuddyService().getBuddies("sten", "sten");
+            Collection buddies = getBuddyService().getBuddies("adam", "adam");
             assertNotNull(buddies);
             int count = buddies.size();
             for (Iterator iterator = buddies.iterator(); iterator.hasNext();) {
@@ -51,8 +51,8 @@ public class BuddyfierImplTest extends AbstractDAOTest {
             }
 
             try {
-                getBuddyService().makeBuddies("sten", "sten", "henrik");
-|            } catch (Exception e) {
+                getBuddyService().makeBuddies("adam", "adam", "stefan", "stefan");
+            } catch (Exception e) {
                 e.printStackTrace();
                 fail(e.getMessage());
             }
@@ -67,15 +67,15 @@ public class BuddyfierImplTest extends AbstractDAOTest {
         for (int counter = 0; counter < 15; counter++) {
             logger.info("STARTING TEST!!");
         }
-        if(getHost() != null)  {
+        if (getHost() != null) {
             try {
-                getBuddyService().makeBuddies("sten", "sten", "henrik");
-                logger.info("STEN + HENRIK = TRUE: " + getBuddyService().getAreBuddies("sten", "sten", "henrik"));
-                assertTrue(getBuddyService().getAreBuddies("sten", "sten", "henrik"));
-                getBuddyService().removeBuddy("sten", "sten","henrik");
-                logger.info("STEN + HENRIK = FALSE: " + getBuddyService().getAreBuddies("sten", "sten", "henrik"));
+                String user1 = "stefan";
+                String user2 = "barbara";
 
-                assertFalse(getBuddyService().getAreBuddies("sten", "sten", "henrik"));
+                getBuddyService().makeBuddies(user1, user1, user2, user2);
+                assertTrue(getBuddyService().getAreBuddies(user1, user1, user2));
+                getBuddyService().removeBuddy(user1, user1, user2, user2);
+                assertFalse(getBuddyService().getAreBuddies(user1, user1, user2));
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
