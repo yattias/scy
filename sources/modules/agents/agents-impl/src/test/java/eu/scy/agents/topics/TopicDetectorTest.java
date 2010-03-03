@@ -29,6 +29,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startTS() {
+		startTupleSpaceServer();
 	}
 
 	@AfterClass
@@ -39,7 +40,6 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	@Override
 	@Before
 	public void setUp() throws Exception {
-		startTupleSpaceServer();
 		super.setUp();
 
 		initTopicModel();
