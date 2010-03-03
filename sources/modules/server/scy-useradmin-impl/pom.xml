@@ -46,6 +46,21 @@
         </dependency>
 
         <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>configuration</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>smackx</artifactId>
+            <version>3.1.0</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        
+
+        <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>scy-useradmin-api</artifactId>
             <version>${pom.version}</version>
