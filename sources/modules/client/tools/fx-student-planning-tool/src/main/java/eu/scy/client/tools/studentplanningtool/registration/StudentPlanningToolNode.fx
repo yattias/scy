@@ -93,6 +93,23 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
    }
 
    public override function canAcceptDrop(object:Object):Boolean{
+
+         println("Can Accept drop called");
+
+         if( object instanceof BasicMetadata) {
+            var elo = object as BasicMetadata;
+
+            var anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
+
+            var value = elo.getMetadataValueContainer(anchorIdKey).getValue();
+            println("can accept DROPPED anchhor id {value}");
+            if( value == null) {
+                println("i cant accept you, you are null");
+                return false;
+            }
+        }
+
+
       return true;
    }
 
@@ -120,7 +137,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
             studentPlanningTool.acceptDrop(value);
          } else {
-            println("i cant accept you, you are null");
+            println("accept drop, i cant accept you, you are null");
          }
 
 
