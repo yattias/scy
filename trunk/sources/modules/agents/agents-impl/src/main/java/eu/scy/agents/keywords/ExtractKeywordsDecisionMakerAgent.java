@@ -45,8 +45,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 		@Override
 		public String toString() {
-			return user + "|web:" + webresourcerStarted + "|map:" + scyMapperStarted + "|url:"
-					+ webresourcerELO.toString() + "|" + lastAdded + "|" + numberOfConcepts;
+			String webresourcerURL = webresourcerELO != null ? webresourcerELO.toString() : "null";
+			return user + "|web:" + webresourcerStarted + "|map:" + scyMapperStarted + "|url:" + webresourcerURL + "|"
+					+ lastAdded + "|" + numberOfConcepts;
 		}
 	}
 
@@ -233,7 +234,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	private boolean userNeedsToBeNotified(long currentTime, ContextInformation contextInformation) {
 		boolean userNeedsToBeNotified = contextInformation.webresourcerStarted;
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
-		userNeedsToBeNotified &= (contextInformation.lastAdded - currentTime) < idleTime;
+		userNeedsToBeNotified &= (currentTime - contextInformation.lastAdded) > idleTime;
 		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
 		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
 		return userNeedsToBeNotified;
