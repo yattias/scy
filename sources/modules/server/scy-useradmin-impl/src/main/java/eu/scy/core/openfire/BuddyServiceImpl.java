@@ -44,7 +44,7 @@ public class BuddyServiceImpl implements BuddyService {
         try {
             XMPPConnection connection = getConnection(userName1, password1);
             Roster roster = getRoster(connection);
-            return roster.contains(getUsernameWithHost(buddyUsername));
+            return roster.contains(buddyUsername);
         } catch (XMPPException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class BuddyServiceImpl implements BuddyService {
             if (entry != null) {
                 roster.removeEntry(entry);
             }
-            roster.createEntry(getUsernameWithHost(buddyUsername), buddyUsername, null);
+            roster.createEntry(buddyUsername, buddyUsername, null);
         }
 
 
@@ -75,7 +75,7 @@ public class BuddyServiceImpl implements BuddyService {
         Roster roster = getRoster(connection);
 
         if (!userName1.equals(buddyUsername)) {
-            RosterEntry entry = roster.getEntry(buddyUsername + "@" + getHost());
+            RosterEntry entry = roster.getEntry(buddyUsername);
             if (entry != null) {
                 roster.removeEntry(entry);
             }
