@@ -36,10 +36,10 @@ public class AbstractTestFixture {
 
 	private static final String TM_MODEL_NAME = "co2_scy_english";
 
-	protected static final String TSHOST = "localhost";
+	protected static String TSHOST = "localhost";
 	// protected static String TSHOST = "scy.collide.info";
 
-	protected static final int TSPORT = 2525;
+	protected static int TSPORT = 2525;
 
 	public static final boolean STANDALONE = true;
 
@@ -60,6 +60,14 @@ public class AbstractTestFixture {
 	private PersistentStorage storage;
 
 	private TupleSpace actionSpace;
+
+	public AbstractTestFixture() {
+	}
+
+	public AbstractTestFixture(String host, int port) {
+		TSHOST = host;
+		TSPORT = port;
+	}
 
 	@Before
 	public void setUp() throws Exception {
