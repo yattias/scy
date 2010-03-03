@@ -48,7 +48,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
  * 
  * @author Giemza
  */
-public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting {
+public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSetting {
 
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
 
@@ -146,8 +146,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
                     String proposingUser = notification.getFirstProperty("proposing_user");
                     String proposedUser = notification.getFirstProperty("proposed_user");
                     String elo = notification.getFirstProperty("proposed_elo");
-                    String key = proposingUser + "#" + proposedUser + "#" + elo;
-                    collaborationAnswers.remove(key).add(notification);
+                    BlockingQueue<INotification> q = collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo);
+                    if (q != null) {
+                        q.add(notification);
+                    } else {
+                        logger.warn("Received collaboration response that could not be mapped to a request, from user " + proposingUser + " to user " + proposedUser + ", elouri is " + elo);
+                    }
                 }
             }
         });
@@ -362,9 +366,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
     }
 
     @Override
-    public void proposeCollaborationWith(String proposedUser, String elouri) {
-    	logger.debug("TBI: proposeCollaborationWith: user: "+proposedUser+" eloid: "+elouri);
-    	//callback.receivedCollaborationResponse(elouri, proposedUser);
+    public void proposeCollaborationWith(String proposedUser, String elouri, String mucid) {
+        logger.debug("TBI: proposeCollaborationWith: user: " + proposedUser + " eloid: " + elouri);
+        // callback.receivedCollaborationResponse(elouri, proposedUser);
         final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
         collaborationAnswers.put(xmppConnection.getUser() + "#" + proposedUser + "#" + elouri, queue);
         logger.debug("==========XMPPName: "+xmppConnection.getUser());
@@ -378,8 +382,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         requestCollaborationAction.addContext(ContextConstants.session, "mysession");
         requestCollaborationAction.addAttribute("proposed_user", proposedUser);
         requestCollaborationAction.addAttribute("proposed_elo", elouri);
+        if (mucid != null && !mucid.isEmpty()) {
+            requestCollaborationAction.addAttribute("mucid", mucid);
+        }
         Thread t = new Thread(new Runnable() {
-            
+
             @Override
             public void run() {
                 log.log(requestCollaborationAction);
@@ -432,21 +439,21 @@ public class ToolBrokerImpl implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
         this.mission = mission;
     }
 
-   @Override
+    @Override
     public String getMission() {
         return mission;
     }
 
-   @Override
+    @Override
    public void setMissionId(String missionId)
    {
-      mission = missionId;
-   }
+        mission = missionId;
+    }
 
-   @Override
-   public String getLoginUserName(){
-      return userName;
-   }
+    @Override
+    public String getLoginUserName() {
+        return userName;
+    }
 
   
 	public void setStudentPedagogicalPlanService(
