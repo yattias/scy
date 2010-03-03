@@ -20,7 +20,7 @@ public class BuddyfierImplTest extends AbstractDAOTest {
 
     private String getHost() {
         //return "83.168.205.138";
-        return "scy.collide.info";
+        //return "scy.collide.info";
         //return null;
     }
 
@@ -51,7 +51,7 @@ public class BuddyfierImplTest extends AbstractDAOTest {
             }
 
             try {
-                getBuddyService().makeBuddies("adam", "adam", "stefan");
+                getBuddyService().makeBuddies("adam", "adam", "stefan", "stefan");
             } catch (Exception e) {
                 e.printStackTrace();
                 fail(e.getMessage());
@@ -69,13 +69,13 @@ public class BuddyfierImplTest extends AbstractDAOTest {
         }
         if (getHost() != null) {
             try {
-                getBuddyService().makeBuddies("adam", "adam", "stefan");
-                logger.info("STEN + HENRIK = TRUE: " + getBuddyService().getAreBuddies("adam", "adam", "stefan"));
-                assertTrue(getBuddyService().getAreBuddies("adam", "adam", "stefan"));
-                getBuddyService().removeBuddy("adam", "adam", "stefan");
-                logger.info("STEN + HENRIK = FALSE: " + getBuddyService().getAreBuddies("adam", "adam", "stefan"));
+                String user1 = "stefan";
+                String user2 = "barbara";
 
-                assertFalse(getBuddyService().getAreBuddies("adam", "adam", "stefan"));
+                getBuddyService().makeBuddies(user1, user1, user2, user2);
+                assertTrue(getBuddyService().getAreBuddies(user1, user1, user2));
+                getBuddyService().removeBuddy(user1, user1, user2, user2);
+                assertFalse(getBuddyService().getAreBuddies(user1, user1, user2));
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }

@@ -19,9 +19,9 @@ public interface BuddyService {
 
     boolean getAreBuddies(String userName1, String password1, String buddyUsername);
 
-    void makeBuddies(String userName1, String password1, String buddyUsername) throws Exception;
+    void makeBuddies(String userName1, String password1, String buddyUsername, String byddyPassword) throws Exception;
 
-    void removeBuddy(String userName1, String password1, String buddyUsername) throws Exception;
+    void removeBuddy(String userName1, String password1, String buddyUsername, String buddyPassword) throws Exception;
 
     Roster getRoster(XMPPConnection connection);
 
