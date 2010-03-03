@@ -8,7 +8,7 @@
 		<property name="externalComponents">
 			<list>
                 <ref local="sqlSpacesComponent"/>
-                <ref local="swatComponent"/>
+                <!--ref local="swatComponent"/-->
 				<ref local="scyHubExternalComponent"/>
 				<ref local="agentFrameworkComponent"/>
 			</list>
@@ -30,17 +30,17 @@
 			<set>
 				<!-- ref bean="supervisor" /-->
 				
-				<ref bean="canonical" />
+				<!--ref bean="canonical" />
 				<ref bean="ontologylookup" />
-				<ref bean="topicdetector" />
+				<ref bean="topicdetector" /-->
 				<!-- ref bean="scysim" /-->
-				<ref bean="votat" />
+				<!--ref bean="votat" /-->
 				<!-- ref bean="toolexperience" /-->
 				<ref bean="collaboration" />
-				<ref bean="keywordsTfIdf" />
+				<!--ref bean="keywordsTfIdf" />
 				<ref bean="keywordsTopic" />
 				<ref bean="keywords" />
-				<ref bean="keywordsDecisionMaker" />
+				<ref bean="keywordsDecisionMaker" /-->
 			</set>
 		</property>
 		<property name="repository">
