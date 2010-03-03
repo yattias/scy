@@ -47,7 +47,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
 	private List<Integer> callbacks;
 
-	private static final Level DEBUGLEVEL = Level.FINE;
+	//private static final Level DEBUGLEVEL = Level.FINE;
 
 	private static final Logger logger = Logger.getLogger(ToolExperienceSensor.class.getName());
 
@@ -112,7 +112,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 			int stops = (Integer) tuple.getField(8).getValue();
 
 			if (starts > stops) {
-				logger.log(Level.WARNING, "It seemed that the tool " + tool + " of the user " + userName
+				logger.log(Level.FINE, "It seemed that the tool " + tool + " of the user " + userName
 						+ " crashed the last time...try to fix that!");
 				stops = starts;
 			}
