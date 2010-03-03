@@ -84,7 +84,7 @@ public class AbstractTestFixture {
 		extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
 		repository = (IRepository) applicationContext.getBean("localRepository");
 
-		storage = getPersistentStorage();
+		storage = new PersistentStorage(TSHOST, TSPORT);
 	}
 
 	@SuppressWarnings("unused")
@@ -100,6 +100,7 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
+		storage.shutdown();
 	}
 
 	protected void removeTopicModel() {
@@ -171,7 +172,7 @@ public class AbstractTestFixture {
 	}
 
 	protected PersistentStorage getPersistentStorage() {
-		return new PersistentStorage(TSHOST, TSPORT);
+		return storage;
 	}
 
 	protected void initTopicModel() {
