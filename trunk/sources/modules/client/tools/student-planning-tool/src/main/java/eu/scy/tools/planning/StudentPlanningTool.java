@@ -12,6 +12,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +47,7 @@ import javax.swing.plaf.FontUIResource;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXDatePicker;
@@ -702,6 +705,7 @@ public class StudentPlanningTool {
 				studentPlannedActivity);
 		startDatePicker.putClientProperty(END_DATE_PICKER, endDatePicker);
 		if (studentPlannedActivity.getStartDate() != null) {
+			log.severe("Start date we got back: " + studentPlannedActivity.getStartDate());
 			java.util.Date date = new java.util.Date(studentPlannedActivity
 					.getStartDate().getTime());
 			startDatePicker.setDate(date);
@@ -768,7 +772,9 @@ public class StudentPlanningTool {
 				final StudentPlannedActivity stp = (StudentPlannedActivity) endDatePicker
 						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
 
-				stp.setEndDate(new java.sql.Date(endDate
+				//we have to this because the conversion rips silently sets to midnight
+				Date addDays = DateUtils.addDays(endDate, 1);
+				stp.setEndDate(new java.sql.Date(addDays
 						.getTime()));
 
 				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
@@ -777,6 +783,8 @@ public class StudentPlanningTool {
 
 					@Override
 					public void run() {
+						
+						log.severe("saving endate: " + stp.getEndDate());
 						studentPlanningController.saveStudentActivity(stp);
 						messageLabel.setText("<html><b>End date saved successfully.</b><html>");
 					}
@@ -797,7 +805,7 @@ public class StudentPlanningTool {
 
 				
 				Date startDate = startDatePicker.getDate();
-				
+				Date testDate = new Date();
 				endDatePicker.setEnabled(true);
 
 				String activityName = (String) startDatePicker
@@ -838,9 +846,16 @@ public class StudentPlanningTool {
 
 				final StudentPlannedActivity stp = (StudentPlannedActivity) startDatePicker
 						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
-
-				stp.setStartDate(new java.sql.Date(startDate
-						.getTime()));
+			
+				java.sql.Date sql = null;
+				
+				//we have to this because the conversion rips silently sets to midnight
+				Date addDays = DateUtils.addDays(startDate, 1);
+					sql = new java.sql.Date(addDays.getTime());
+				
+				
+				
+				stp.setStartDate(sql);
 
 				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
 
@@ -848,6 +863,7 @@ public class StudentPlanningTool {
 
 					@Override
 					public void run() {
+						log.severe("saving endate: " + stp.getStartDate());
 						studentPlanningController.saveStudentActivity(stp);
 						messageLabel.setText("<html><b>Start date saved.</b><html>");
 					}
