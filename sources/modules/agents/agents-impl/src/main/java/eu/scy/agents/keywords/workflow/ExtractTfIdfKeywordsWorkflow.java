@@ -8,11 +8,11 @@ import java.util.Properties;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.ParameterIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
-import de.fhg.iais.kd.tm.obwious.operator.sandbox.RemoveStopWords;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.atomic.ProvideTermFrequency;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.modelbased.ProvideTfIdf;
 import eu.scy.agents.keywords.workflow.operators.ExtractTfIdfKeywords;
 import eu.scy.agents.keywords.workflow.operators.ImprovedTokenize;
+import eu.scy.agents.keywords.workflow.operators.RemoveStopWords;
 import eu.scy.agents.keywords.workflow.operators.StemTokens;
 
 public class ExtractTfIdfKeywordsWorkflow extends Workflow {
