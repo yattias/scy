@@ -661,17 +661,9 @@ public class StudentPlanningTool {
 		final JXDatePicker endDatePicker = new JXDatePicker();
 		final JXDatePicker startDatePicker = new JXDatePicker();
 
-		
-		Calendar calendar = endDatePicker.getMonthView().getCalendar();
-		 // starting today if we are in a hurry
-		 calendar.setTime(new Date());
-		 
+	
 		 endDatePicker.getEditor().setEditable(false);
-		 
-			 calendar = startDatePicker.getMonthView().getCalendar();
-			 // starting today if we are in a hurry
-			 calendar.setTime(new Date());
-			
+		
 			 
 		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
 		

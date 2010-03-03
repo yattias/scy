@@ -349,10 +349,11 @@ public class StudentPlanningController {
 			final StudentPlannedActivity studentPlannedActivity, final String nickName) {
 		
 		
-		log.severe("Adding MEMBER TO STUDENT ACTIVITY " +  nickName + " " + studentPlannedActivity);
+		
 		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
+		    	log.severe("Adding MEMBER TO STUDENT ACTIVITY " +  nickName + " " + studentPlannedActivity);
 		    	getStudentPlanService().addMember(studentPlannedActivity, nickName);
 		    }
 		  });
