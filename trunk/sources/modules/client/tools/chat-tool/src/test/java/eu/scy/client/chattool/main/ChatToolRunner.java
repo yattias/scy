@@ -65,6 +65,10 @@ public static void main(String[] args) {
 			frame.getContentPane().setLayout(new GridLayout(1,2));			
 			
 			JPanel jp = new JPanel();
+			JTextField jtf = new JTextField();
+			jtf.setEnabled(false);
+			jtf.setText(users[i]+"@scy.collide.info");
+			jp.add(jtf);
 			final JComboBox c = new JComboBox(elos);
 			jp.add(c);
 			final JButton jb = new JButton("Connect");
