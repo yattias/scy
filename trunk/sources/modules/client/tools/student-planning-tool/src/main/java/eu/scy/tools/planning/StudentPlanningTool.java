@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Timestamp;
@@ -304,16 +306,6 @@ public class StudentPlanningTool {
 				JDialog dialog = optionPane.createDialog(null,
 						"For Your Information");
 				dialog.setVisible(true);
-				
-				
-				
-//				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId("firstIdeas");
-//				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
-//				IAwarenessUser a = new AwarenessUser();
-//				a.setNickName("tony");
-//				acceptDrop(a);
-				
-				
 			}
 		};
 		
@@ -329,10 +321,36 @@ public class StudentPlanningTool {
 				System.out.println("TEST IS " +source.getText());
 				
 				String eloId = source.getText();
-				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
+				//StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
 				
-				log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId);
-				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
+				//log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId);
+				acceptDrop(eloId);
+			}
+		});
+		
+		lasTestTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if( e.getKeyChar() == 'b') {
+					JTextField source = (JTextField) e.getSource();
+					System.out.println("make buddy " +source.getText());
+					
+					IAwarenessUser a = new AwarenessUser();
+					a.setNickName(source.getText());
+					acceptDrop(a);
+					
+				}
 			}
 		});
 
@@ -342,10 +360,10 @@ public class StudentPlanningTool {
 		
 		JXPanel messagePanel = new JXPanel(new BorderLayout(0,0));
 		
-		messagePanel.add(messageLabel,BorderLayout.WEST);
+		//messagePanel.add(messageLabel,BorderLayout.WEST);
 		//messagePanel.add(new JXLabel(" "),"growx");
-		messagePanel.add(lasTestTextField,BorderLayout.EAST);
-		//messagePanel.add(infoLink,BorderLayout.EAST);
+		//messagePanel.add(lasTestTextField,BorderLayout.EAST);
+		messagePanel.add(infoLink,BorderLayout.EAST);
 //		topPanel.add(messageLabel);
 //		topPanel.add(new JXLabel(" "));
 		
@@ -371,6 +389,7 @@ public class StudentPlanningTool {
 
 	public void acceptDrop(Object drop) {
 		
+	
 		log.severe("we just dropped a load of..." + drop.toString());
 		
 		if( drop == null) {
@@ -395,6 +414,20 @@ public class StudentPlanningTool {
 			
 			String eloId = (String) drop;
 			
+			if( studentPlanningController.doesTaskPaneExist(eloId) ) {
+				
+				String msg = "<html>The ELO <b>" + eloId +"</b> all ready has an entry.</html>";
+
+				JOptionPane optionPane = new JOptionPane();
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null,
+						"For Your Information");
+				dialog.setVisible(true);
+				
+				return;
+			}
+			
 			
 			
 			log.severe("ELO ID DROPPED IN STUDENT PLANNING TOOL" + eloId);
@@ -408,25 +441,40 @@ public class StudentPlanningTool {
 			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
 			JXTaskPane openTaskPane = studentPlanningController.getOpenTaskPane();
 			
-			JXBuddyPanel jxBuddyPanel = studentPlanningController.taskPanesToBuddyPanels.get(openTaskPane);
+			if( openTaskPane != null ) {
+				JXBuddyPanel jxBuddyPanel = studentPlanningController.taskPanesToBuddyPanels.get(openTaskPane);
 			
-			jxBuddyPanel.addBuddy(awarenessUser);
+				jxBuddyPanel.addBuddy(awarenessUser);
 			
 			
-			log.severe("Awareness user: jid" + awarenessUser.getJid() + " nick name" + awarenessUser.getNickName());
+				log.severe("Awareness user: jid" + awarenessUser.getJid() + " nick name" + awarenessUser.getNickName());
 			
-			studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
-			messageLabel.setText("<html><b>Buddy Added  Successfully</b><html>");
-			
+				studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
+				messageLabel.setText("<html><b>Buddy Added  Successfully</b><html>");
+			} else {
+				String msg = "<html>You must have an Planning Entry open in order to drop a buddy.</html>";
+
+				JOptionPane optionPane = new JOptionPane();
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null,
+						"Whoa!");
+				dialog.setVisible(true);
+				
+				return;
+			}
 		}
 		
 		
 		
 		
-		studentPlanningController.acceptDrop(drop);
+		//studentPlanningController.acceptDrop(drop);
 	}
 	
 	public void addTaskPane(JComponent taskpane) {
+		
+		
+		
 		
 		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController);
 		entryPanel.setBackground(Colors.White.color());

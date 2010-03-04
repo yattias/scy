@@ -116,7 +116,7 @@ public class JXBuddyPanel extends JXPanel {
 			public void mouseEntered(MouseEvent e) {
 				JXPanel bp = (JXPanel) e.getSource();
 				
-				bp.setBackgroundPainter(Colors.getHighlightOnPainter());
+				bp.setBackgroundPainter(Colors.getHighlightOnPainterBuddy());
 				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
 				
 				killLabel.setVisible(true);
@@ -181,7 +181,7 @@ public class JXBuddyPanel extends JXPanel {
 				JXLabel killLabel = (JXLabel) e.getSource();
 				killLabel.setVisible(true);
 				JXPanel parent = (JXPanel) killLabel.getParent();
-				parent.setBackgroundPainter(Colors.getHighlightOnPainter());
+				parent.setBackgroundPainter(Colors.getHighlightOnPainterBuddy());
 			}
 			
 			@Override
@@ -205,6 +205,51 @@ public class JXBuddyPanel extends JXPanel {
 		buddyLabel.setText(nickName);
 		buddyLabel.setVerticalTextPosition(JXLabel.BOTTOM);
 		buddyLabel.setHorizontalTextPosition(JXLabel.CENTER);
+		buddyLabel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {				
+				JXLabel l = (JXLabel) e.getSource();
+				l.setBackgroundPainter(Colors.getHighlightOffPainter());
+				
+				JXPanel bp = (JXPanel) l.getParent();
+				
+				bp.setBackgroundPainter(Colors.getHighlightOffPainter());
+				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
+				
+				killLabel.setVisible(false);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				JXLabel l = (JXLabel) e.getSource();
+				l.setBackgroundPainter(Colors.getHighlightOnPainterBuddy());
+				
+				JXPanel bp = (JXPanel) l.getParent();
+				
+				bp.setBackgroundPainter(Colors.getHighlightOnPainterBuddy());
+				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
+				
+				killLabel.setVisible(true);
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		this.add(bPanel);
 		this.revalidate();
 	}
