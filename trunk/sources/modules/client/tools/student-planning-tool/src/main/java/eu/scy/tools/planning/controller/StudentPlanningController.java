@@ -373,6 +373,10 @@ public class StudentPlanningController {
 
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
 
+		
+		log.severe("ELO ID TO GET: " + eloId);
+		log.severe("USERNAME to use" + userName);
+		
 		if( studentPlanELO == null) {
 			log.severe("Student plan ELO is null");
 			throw new NullPointerException("STUDENT PLANNED ELO IS NULL");

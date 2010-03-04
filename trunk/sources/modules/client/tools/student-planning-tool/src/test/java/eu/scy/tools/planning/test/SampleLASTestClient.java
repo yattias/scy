@@ -21,7 +21,7 @@ public class SampleLASTestClient {
 	public static void main(String[] args) {
 		
 		//ToolBrokerAPI tbi = new ToolBrokerImpl("tony","tony");
-		 StudentPlanningController spc = new StudentPlanningController("ff808081271d728e01271dde272e003a","tony");
+		 StudentPlanningController spc = new StudentPlanningController("ff808081272484bf01272861d6bc003e","hulk");
 	     final StudentPlanningTool studentPlanningToolMain = new StudentPlanningTool(spc);
 	     final JComponent createStudentPlanningPanel = studentPlanningToolMain.createStudentPlanningPanel();
 	     

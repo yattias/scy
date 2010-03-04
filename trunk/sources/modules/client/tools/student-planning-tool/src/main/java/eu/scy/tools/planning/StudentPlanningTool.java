@@ -34,6 +34,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
@@ -315,6 +316,25 @@ public class StudentPlanningTool {
 				
 			}
 		};
+		
+		
+		
+		
+		JTextField lasTestTextField = new JTextField(10);
+		lasTestTextField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JTextField source = (JTextField) e.getSource();
+				System.out.println("TEST IS " +source.getText());
+				
+				String eloId = source.getText();
+				StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
+				
+				log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId);
+				addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
+			}
+		});
 
 		infoAction.putValue(infoAction.SMALL_ICON, Images.Information.getIcon());
 		JXHyperlink infoLink = new JXHyperlink(infoAction);
@@ -324,7 +344,8 @@ public class StudentPlanningTool {
 		
 		messagePanel.add(messageLabel,BorderLayout.WEST);
 		//messagePanel.add(new JXLabel(" "),"growx");
-		messagePanel.add(infoLink,BorderLayout.EAST);
+		messagePanel.add(lasTestTextField,BorderLayout.EAST);
+		//messagePanel.add(infoLink,BorderLayout.EAST);
 //		topPanel.add(messageLabel);
 //		topPanel.add(new JXLabel(" "));
 		
