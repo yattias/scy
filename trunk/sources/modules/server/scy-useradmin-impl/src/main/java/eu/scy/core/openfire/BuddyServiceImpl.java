@@ -1,11 +1,19 @@
 package eu.scy.core.openfire;
 
+import java.util.Collection;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.*;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
+import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
-
-import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +23,8 @@ import java.util.Collection;
  * To change this template use File | Settings | File Templates.
  */
 public class BuddyServiceImpl implements BuddyService {
-    private Logger logger = Logger.getLogger(BuddyServiceImpl.class);
+    
+	private static final Logger logger = Logger.getLogger(BuddyServiceImpl.class);
 
     private String host;
 
@@ -54,30 +63,20 @@ public class BuddyServiceImpl implements BuddyService {
 
 
     @Override
-    public void makeBuddies(String userName1, String password1, String buddyUsername, String byddyPassword) throws Exception {
-        XMPPConnection connection = getConnection(userName1, password1);
-        Roster roster = getRoster(connection);
-
+    public void makeBuddies(String userName1, String password1, String buddyUsername, String buddyPassword) throws Exception {
         if (!userName1.equals(buddyUsername)) {
-            RosterEntry entry = roster.getEntry(getUsernameWithHost(buddyUsername));
-            if (entry != null) {
-                roster.removeEntry(entry);
-            }
-            logger.info(roster.getSubscriptionMode());
-            roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
-
-            roster.createEntry(getUsernameWithHost(buddyUsername), buddyUsername, null);
-
-            Presence presence = new Presence(Presence.Type.subscribe);
-            presence.setTo(getUsernameWithHost(buddyUsername));
-            presence.setFrom(getUsernameWithHost(userName1));
-            connection.sendPacket(presence);
-
-
+        	BuddyClient userClient = new BuddyClient(userName1, password1, getHost());
+        	BuddyClient buddyClient = new BuddyClient(buddyUsername, buddyPassword, getHost());
+        	
+        	userClient.subscribeToBuddy(buddyUsername);
+        	buddyClient.subscribeToBuddy(userName1);
+        	
+        	// give them some time to react on the requests
+        	Thread.sleep(300);
+        	
+        	userClient.disconnect();
+        	buddyClient.disconnect();
         }
-
-
-        connection.disconnect();
     }
 
     @Override
@@ -139,4 +138,69 @@ public class BuddyServiceImpl implements BuddyService {
     public void setHost(String host) {
         this.host = host;
     }
+    
+    static class BuddyClient implements PacketListener {
+
+		private String user;
+		
+		private String password;
+		
+		private String host;
+
+		private XMPPConnection connection;
+
+		/**
+		 * @param username
+		 * @param host 
+		 */
+		public BuddyClient(String username, String password, String host) {
+			this.user = username;
+			this.password = password;
+			this.host = host;
+
+			ConnectionConfiguration config = new ConnectionConfiguration(host, 5222);
+			config.setCompressionEnabled(true);
+			config.setReconnectionAllowed(true);
+
+			connection = new XMPPConnection(config);
+			try {
+				connection.connect();
+				logger.debug("Connected to server.");
+				connection.login(user, user, "buddyfier");
+				logger.debug("Logged in as " + connection.getUser());
+
+				PacketFilter filter = new PacketTypeFilter(Presence.class);
+				connection.addPacketListener(this, filter);
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void disconnect() {
+			connection.disconnect();
+		}
+
+		public void subscribeToBuddy(String buddy) throws XMPPException {
+			connection.getRoster().createEntry(buddy + "@" + host, buddy, new String[] {"friends"});
+			logger.debug("Created roster: " + user + " -> " + buddy);
+		}
+
+		public void processPacket(Packet packet) {
+			Presence presence = (Presence) packet;
+			Presence response = null;
+
+			switch (presence.getType()) {
+			case subscribe:
+				response = new Presence(Presence.Type.subscribed);
+				response.setTo(presence.getFrom());
+				connection.sendPacket(response);
+				logger.debug("Accepted subscription: " + user + " -> " + presence.getFrom());
+				break;
+			}
+		}
+		
+		public String getUser() {
+			return user;
+		}
+	}
 }
