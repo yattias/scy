@@ -61,7 +61,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
 
-	private long idleTime = 120000;
+	private long idleTimeInMS = 60 * 1000;
 	private int minimumNumberOfConcepts = 5;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
@@ -87,7 +87,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		if (params.containsKey(IDLE_TIME_INMS)) {
-			idleTime = (Long) params.get(IDLE_TIME_INMS);
+			idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
 		}
 		if (params.containsKey(MINIMUM_NUMBER_OF_CONCEPTS)) {
 			minimumNumberOfConcepts = (Integer) params.get(MINIMUM_NUMBER_OF_CONCEPTS);
@@ -125,7 +125,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			return;
 		} else {
 			IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
-			logger.info("Found following proerties in the action: " + action.getAttributes());
+			// logger.info("Found following proerties in the action: " + action.getAttributes());
 			if (AgentProtocol.ACTION_TOOL_STARTED.equals(action.getType())) {
 				handleToolStarted(action);
 			} else if (AgentProtocol.ACTION_NODE_ADDED.equals(action.getType())) {
@@ -234,7 +234,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	private boolean userNeedsToBeNotified(long currentTime, ContextInformation contextInformation) {
 		boolean userNeedsToBeNotified = contextInformation.webresourcerStarted;
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
-		userNeedsToBeNotified &= (currentTime - contextInformation.lastAdded) > idleTime;
+		long timeSinceLastAction = currentTime - contextInformation.lastAdded;
+		logger.info(timeSinceLastAction + "");
+		userNeedsToBeNotified &= timeSinceLastAction > idleTimeInMS;
 		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
 		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
 		return userNeedsToBeNotified;
