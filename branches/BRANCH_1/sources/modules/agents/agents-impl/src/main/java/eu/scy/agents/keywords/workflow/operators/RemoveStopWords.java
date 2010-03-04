@@ -1,6 +1,5 @@
 package eu.scy.agents.keywords.workflow.operators;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -15,7 +14,6 @@ import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.ParameterIdentifiers;
 import de.fhg.iais.kd.tm.obwious.type.Container;
-import de.fhg.iais.kd.tm.obwious.util.Assert;
 
 /**
  * Removes stopwords from the tokenlist of this document. The stopwords are read from a file and matched against every
@@ -45,9 +43,8 @@ public class RemoveStopWords extends DocumentOperatorSpecification {
 
 	public RemoveStopWords() {
 		super();
-		this.addParameterType(ParameterIdentifiers.FILENAME, JavaClasses.STRING, false, null);// ClassLoader.getSystemResource(
-		// "english_stopWords.txt").toString());
-		this.addParameterType("delimiter", JavaClasses.STRING, false, ",");
+		this.addParameterType(ParameterIdentifiers.FILENAME, JavaClasses.STRING, false, null);
+		this.addParameterType("delimiter", JavaClasses.STRING, false, "\n");
 	}
 
 	@Override
@@ -80,10 +77,6 @@ public class RemoveStopWords extends DocumentOperatorSpecification {
 		if (document.hasFeature(Features.TOKENS)) {
 			List<String> tokens = document.getFeature(Features.TOKENS);
 			List<String> stopWords = new ArrayList<String>();
-
-			File stopWordFile = new File(path);
-
-			Assert.isTrue(stopWordFile.exists());
 
 			while (scanner.hasNext()) {
 				stopWords.add(scanner.next().trim());

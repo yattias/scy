@@ -184,7 +184,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_TOOL_STARTED,
 							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.CONCEPTMAP, "mission1",
-							"n/a", AgentProtocol.ACTIONLOG_ELO_URI + "=http://roolo/1/bla"));
+							"n/a"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

@@ -28,7 +28,6 @@ import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
-import eu.scy.tools.dataProcessTool.logger.FitexLog;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
@@ -102,6 +101,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
             leaveSession(session.getId());
         }
         session = tbi.getDataSyncService().joinSession(mucID, this);
+        debugLogger.log(Level.SEVERE, "joinSession: "+session.getId());
         if (session == null) {
             JOptionPane.showMessageDialog(null, "join session error, null");
         } else
@@ -140,13 +140,13 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void readSyncObject(ISyncObject syncObject){
-        debugLogger.log(Level.SEVERE, "readSyncObject...");
+        debugLogger.log(Level.SEVERE, "readSyncObject... "+session.getId());
         if(syncObject.getToolname() != null && syncObject.getToolname().equals(SIMULATOR_NAME)){
             if(syncObject.getProperties() != null) {
                 String type = syncObject.getProperty(SYNC_OBJECT_TYPE);
                 if(type != null){
                     if(type.equals(TYPE_DATASET_HEADER)){
-                        debugLogger.log(Level.SEVERE, "...of type header");
+                        debugLogger.log(Level.SEVERE, "...of type header "+session.getId());
                         String dataheader = syncObject.getProperty(TYPE_DATASET_HEADER);
                         if(dataheader != null){
                             try{
@@ -259,6 +259,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {
+        debugLogger.log(Level.SEVERE, "syncObjectAdded "+session.getId());
         readSyncObject(syncObject);
     }
 

@@ -150,7 +150,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
       println("SCYMapper: acceptDrop of {object.getClass()}");
       var c:ContactFrame = object as ContactFrame;
       println("SCYMapper: acceptDrop user: {c.contact.name}");
-      scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString());
+      scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
       println("scyDesktop: {scyWindow.windowManager.scyDesktop}");
    }
 

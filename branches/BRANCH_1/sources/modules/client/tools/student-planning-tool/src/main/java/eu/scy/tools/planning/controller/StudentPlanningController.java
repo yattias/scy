@@ -15,6 +15,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -249,8 +250,8 @@ public class StudentPlanningController {
 		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
 //		if (studentPedagogicalPlanService == null)
 		configuration = Configuration.getInstance();
-		studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
-			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+		studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
 
 		return studentPedagogicalPlanService;
 
@@ -345,9 +346,19 @@ public class StudentPlanningController {
 	}
 
 	public void addMemberToStudentPlannedActivity(
-			StudentPlannedActivity studentPlannedActivity, String nickName) {
+			final StudentPlannedActivity studentPlannedActivity, final String nickName) {
 		
-		this.getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		
+		
+		
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		    	log.severe("Adding MEMBER TO STUDENT ACTIVITY " +  nickName + " " + studentPlannedActivity);
+		    	getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		    }
+		  });
+		
+		
 		
 	}
 

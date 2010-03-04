@@ -23,37 +23,43 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 // place your code here
 
+// technical types
+public def datasetProcessingType = "scy/pds";
+public def datasetType = "scy/dataset";
+public def drawingType = "scy/drawing";
+public def googleSketchupType = "scy/skp";
+public def imageType = "scy/image";
+public def interviewType = "scy/interview";
+public def mappingType = "scy/mapping";
+public def meloType = "scy/melo";
+public def modelEditorType = "scy/model";
+public def presentationType = "scy/ppt";
+public def richTextType = "scy/rtf";
+public def simulationConfigType = "scy/simconfig";
+public def studentPlanningType = "scy/studentplanningtool";
+public def textType = "scy/text";
+public def urlType = "scy/url";
+public def videoType = "scy/video";
+public def wordType = "scy/doc";
+public def xprocType = "scy/xproc";
+public def generalNew = "general/new";
+public def generalSearch = "general/search";
+// scy colors
+public def scyGreen = Color.web("#8db800");
+public def scyPurple = Color.web("#7243db");
+public def scyOrange = Color.web("#ff5400");
+public def scyPink = Color.web("#fb06a2");
+public def scyBlue = Color.web("#0042f1");
+public def scyMagenta = Color.web("#0ea7bf");
+public def scyBrown = Color.web("#9F8B55");
+public def scyDarkBlue = Color.web("#00015F");
+public def scyDarkRed = Color.web("#9F1938");
+
+
 public class ImageWindowStyler extends WindowStyler{
    public-init var impagesPath = "{__DIR__}images/";
    public var repository:IRepository;
    public var metadataTypeManager:IMetadataTypeManager;
-   // technical types
-   public def datasetProcessingType = "scy/pds";
-   public def datasetType = "scy/dataset";
-   public def drawingType = "scy/drawing";
-   public def googleSketchupType = "scy/skp";
-   public def imageType = "scy/image";
-   public def interviewType = "scy/interview";
-   public def mappingType = "scy/mapping";
-   public def meloType = "scy/melo";
-   public def modelEditorType = "scy/model";
-   public def presentationType = "scy/ppt";
-   public def richTextType = "scy/rtf";
-   public def simulationConfigType = "scy/simconfig";
-   public def studentPlanningType = "scy/studentplanningtool";
-   public def textType = "scy/text";
-   public def urlType = "scy/url";
-   public def videoType = "scy/video";
-   public def wordType = "scy/doc";
-   public def xprocType = "scy/xproc";
-   // scy colors
-   public def scyGreen = Color.web("#8db800");
-   public def scyPurple = Color.web("#7243db");
-   public def scyOrange = Color.web("#ff5400");
-   public def scyPink = Color.web("#fb06a2");
-   public def scyBlue = Color.web("#0042f1");
-   public def scyMagenta = Color.web("#0ea7bf");
-   public def scyBrown = Color.web("#9F8B55");
 
    def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
 
@@ -102,6 +108,11 @@ public class ImageWindowStyler extends WindowStyler{
       name:"mod_editor"
       color:scyBlue
    }
+   def newImageSet = EloImageSet{
+      path:impagesPath;
+      name:"new"
+      color:scyDarkRed
+   }
    def studentPlanningToolImageSet = EloImageSet{
       path:impagesPath;
       name:"pL_tool"
@@ -121,6 +132,11 @@ public class ImageWindowStyler extends WindowStyler{
       path:impagesPath;
       name:"quest"
       color:scyBrown
+   }
+   def searchImageSet = EloImageSet{
+      path:impagesPath;
+      name:"search"
+      color:scyDarkBlue
    }
    def simulatorImageSet = EloImageSet{
       path:impagesPath;
@@ -283,6 +299,10 @@ public class ImageWindowStyler extends WindowStyler{
          eloImageSet = drawingImageSet
       else if (type == googleSketchupType)
          eloImageSet = drawingImageSet
+      else if (type == generalNew)
+         eloImageSet = newImageSet
+      else if (type == generalSearch)
+         eloImageSet = searchImageSet
       else if (type == imageType)
          eloImageSet = informationImageSet
       else if (type == interviewType)
