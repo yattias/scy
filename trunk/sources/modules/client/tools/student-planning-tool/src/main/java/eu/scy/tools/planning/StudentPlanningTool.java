@@ -967,8 +967,8 @@ public class StudentPlanningTool {
 	 * @return
 	 */
 	protected JXBuddyPanel createMembersPanel(JXTitledPanel activityPanel,
-			StudentPlannedActivity studentPlannedActivity) {
-		JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1), studentPlanningController);
+			final StudentPlannedActivity studentPlannedActivity) {
+		final JXBuddyPanel membersPanel = new JXBuddyPanel(new HorizontalLayout(1), studentPlanningController);
 		membersPanel.setMessageLabel(messageLabel);
 		membersPanel.setStudentPlannedActivity(studentPlannedActivity);
 		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
@@ -988,19 +988,25 @@ public class StudentPlanningTool {
 		
 		//fill it
 		
-		List<User> members = studentPlannedActivity.getMembers();
-		for (User user : members) {
-			UserDetails userDetails = user.getUserDetails();
-			String nickName = null;
-			if( userDetails instanceof SCYTeacherUserDetails ) {
-				nickName = ((SCYTeacherUserDetails)userDetails).getFirstName();
-			} else if(userDetails instanceof SCYStudentUserDetails) {
-				nickName = ((SCYStudentUserDetails)userDetails).getFirstname();
-			}
-			IAwarenessUser aw = new AwarenessUser();
-			aw.setNickName(nickName);
-			membersPanel.addBuddy(aw);
-		}
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+				List<User> members = studentPlannedActivity.getMembers();
+				for (User user : members) {
+					UserDetails userDetails = user.getUserDetails();
+					String nickName = null;
+					if( userDetails instanceof SCYTeacherUserDetails ) {
+						nickName = ((SCYTeacherUserDetails)userDetails).getFirstName();
+					} else if(userDetails instanceof SCYStudentUserDetails) {
+						nickName = ((SCYStudentUserDetails)userDetails).getFirstname();
+					}
+					IAwarenessUser aw = new AwarenessUser();
+					aw.setNickName(nickName);
+					membersPanel.addBuddy(aw);
+				}
+		    }
+		  });
+		
+
 		
 		
 		

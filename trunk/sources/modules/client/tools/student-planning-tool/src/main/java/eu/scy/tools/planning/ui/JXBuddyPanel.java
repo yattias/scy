@@ -143,6 +143,7 @@ public class JXBuddyPanel extends JXPanel {
 		      // Here, we can safely update the GUI
 		      // because we'll be called from the
 		      // event dispatch thread
+		    
 		    	buddyLabel.setIcon(buddyImageIcon);
 		    }
 		  });
