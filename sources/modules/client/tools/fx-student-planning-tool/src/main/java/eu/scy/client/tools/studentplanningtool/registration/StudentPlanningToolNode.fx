@@ -70,6 +70,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     };
     
     var elo:IELO;
+    var errorLabel = new JLabel("There has been a problem with the server side services.");
 
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
@@ -138,10 +139,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
             studentPlanningTool.acceptDrop(value);
          } else {
             println("accept drop, i cant accept you, you are null");
-         }
-
-
-         
+         }     
       }
 
    }
@@ -149,16 +147,14 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     public override function create(): Node {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
-
-        var errorLabel = new JLabel("There has been a problem with the server side services.");
-        println( "STARTING SPT create node");
+        println("STARTING SPT create node.......");
         println("toolbroker on stp is {toolBrokerAPI}");
 
-                
-
+               
         var uri = scyWindow.eloUri;
         var studentPlan;
         var loginName = toolBrokerAPI.getLoginUserName();
+        
         if( uri != null) {
             println( "ELO URI {uri}");
 
@@ -189,7 +185,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                     };
                 }
 
-                println("NEW SPT ID {studentPlan.getId()}");
+                println("we got a new SPT ID: {studentPlan.getId()}");
 
                 elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
 
@@ -205,7 +201,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                 if( xmlString.equals("<studentPlanId>null</studentPlanId>") or (parsed == null or parsed.equals(null) )) {
                   try {
                     studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
-                    println("NEW SPT ID {studentPlan.getId()}");
+                    println("werid <studentPlanId>null</studentPlanId> NEW SPT ID {studentPlan.getId()}");
 
                     elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
 
@@ -241,13 +237,12 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
             }
         }
 
-
-        println("toolbroker on stp is {toolBrokerAPI}");
-
         studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = SwingComponent.wrap(panel);
+
+        println("ENDING SPT create node.......");
 
         return VBox {
             blocksMouse:true;
