@@ -41,16 +41,6 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
-			<artifactId>collaboration-service-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>	
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>collaboration-service-impl</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-commons</artifactId>
 			<version>${pom.version}</version>
 		</dependency>

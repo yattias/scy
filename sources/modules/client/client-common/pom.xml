@@ -9,7 +9,7 @@
 	</parent> 	
  
    <modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy.client</groupId>
+	<groupId>eu.scy.client.client-common</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>SCY client</name>
@@ -65,9 +65,8 @@
 	</dependencies>
 
 	<modules>
-		<module>client-common</module>
-		<module>tools</module>
-		<module>desktop</module>
-		<module>misc</module>
+		<module>rich-text-editor</module>
+		<module>data-sync-api</module>
+		<module>smacket-extension</module>
 	</modules>
 </project>

@@ -126,6 +126,7 @@
     	<module>action-logging-hibernate</module>
     	<module>action-logging-server</module>
     	<module>data-sync-module</module>
+    	<module>notification-module</module>
 	    <module>pedagogical-plan-service-impl</module>
         <module>scy-hub</module>
         <module>scy-hub-commons</module>
