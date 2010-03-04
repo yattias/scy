@@ -22,13 +22,14 @@
 		action-logging-hibernate
 		<module>action-logging</module>
 		-->
+		<module>configuration</module>
+		<module>data-sync-common</module>
+		<module>packet-transformer</module>
 		<module>action-logging-api</module>
 		<module>action-logging-commons</module>
 		<module>agent-api</module>
 		<module>awareness-api</module>
 		<module>awareness-impl</module>
-		<!-- module>collaboration-service-api</module-->
-		<!-- module>collaboration-service-impl</module-->
 		<module>scy-commons</module>
 		<module>scy-model-api</module>
 		<module>scy-model-impl</module>
