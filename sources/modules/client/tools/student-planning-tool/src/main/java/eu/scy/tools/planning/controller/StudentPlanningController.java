@@ -45,7 +45,6 @@ public class StudentPlanningController {
 	private StudentPedagogicalPlanService studentPedagogicalPlanService;
 	// private UserDAO userDAOHibernate;
 	private PedagogicalPlanService pedagogicalPlanService;
-	private List<StudentPlannedActivity> studentPlannedActivities;
 	private StudentPlanELO studentPlanELO;
 	private List<JXTaskPane> taskPanes = new ArrayList<JXTaskPane>();
 	public Map<JXTaskPane, JXBuddyPanel> taskPanesToBuddyPanels = new HashMap<JXTaskPane, JXBuddyPanel>();
@@ -193,6 +192,17 @@ public class StudentPlanningController {
 		taskPanes.remove(taskPane);
 	}
 	
+	
+	public boolean doesTaskPaneExist(String eloId) {
+		for (JXTaskPane taskPane : taskPanes ) {
+			if( taskPane.getName().equals(eloId ))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
 	public void removeEntry(JXEntryPanel entryPanel) {
 		
 		
@@ -215,7 +225,7 @@ public class StudentPlanningController {
 			entryContainer.revalidate();
 			
 			getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
-			//getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
+			
 			
 		}
 		
