@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
-import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import javafx.scene.Group;
 import javafx.util.Sequences;
 import java.net.URI;
@@ -32,8 +31,11 @@ import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import javafx.ext.swing.SwingButton;
+import javafx.ext.swing.SwingIcon;
+import javafx.scene.image.Image;
 
 /**
  * @author sikken
@@ -51,6 +53,7 @@ public class EloManagement extends CustomNode {
    public var templateEloUris: List;
    public var tooltipManager: TooltipManager;
    public var userId:String;
+   public var windowStyler: WindowStyler;
 
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
 
@@ -64,6 +67,16 @@ public class EloManagement extends CustomNode {
       text: "New"
       action: createNewEloFromTemplateAction
    }
+//   def newFromEloTemplateButton =  SwingButton {
+//      text: "New"
+//      icon:SwingIcon{
+//         image:Image{
+//            url:"{__DIR__}images/new.png"
+//            backgroundLoading:false;
+//         }
+//      }
+//      action: createNewEloFromTemplateAction
+//   }
    def searchButton =  Button {
       text: "Search"
       action: searchEloAction
@@ -74,6 +87,13 @@ public class EloManagement extends CustomNode {
    }
 
    init {
+//      var image = Image{
+//            url:"{__DIR__}images/new.png"
+//            backgroundLoading:false;
+//         }
+//      var swingIcon = SwingIcon{image:image};
+//      println("image: url:{image.url}, {image.error}");
+//      newFromEloTemplateButton.icon = swingIcon;
       if (eloFactory == null) {
          eloFactory = scyDesktop.config.getEloFactory();
       }
@@ -82,6 +102,9 @@ public class EloManagement extends CustomNode {
       }
       if (tooltipManager == null) {
          tooltipManager = scyDesktop.tooltipManager;
+      }
+      if (windowStyler == null) {
+         windowStyler = scyDesktop.windowStyler;
       }
       if (templateEloUris == null) {
          templateEloUris = scyDesktop.config.getTemplateEloUris();
@@ -162,12 +185,10 @@ public class EloManagement extends CustomNode {
       createNewElo.listView.items = eloTemplateUriDisplays;
 
       createNewElo.label.text = "Select template";
-      var eloIcon = CharacterEloIcon{
-         color:createBlankEloColor;
-         iconCharacter:"N"
-      }
+      var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
+      var color = windowStyler.getScyColor(ImageWindowStyler.generalNew);
 
-      createModalDialog(createBlankEloColor,eloIcon,"Create new",createNewElo);
+      createModalDialog(color,eloIcon,"Create new",createNewElo);
    }
 
    function createNewEloFromTemplate(createNewElo: CreateNewElo):Void{
@@ -196,12 +217,10 @@ public class EloManagement extends CustomNode {
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       createNewElo.listView.items = Sequences.sort(typeNames);
       createNewElo.label.text = "Select type";
-      var eloIcon = CharacterEloIcon{
-         color:createBlankEloColor;
-         iconCharacter:"N"
-      }
+      var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
+      var color = windowStyler.getScyColor(ImageWindowStyler.generalNew);
 
-      createModalDialog(createBlankEloColor,eloIcon,"Create new",createNewElo);
+      createModalDialog(color,eloIcon,"Create new",createNewElo);
    }
 
    function createNewBlankElo(createNewElo: CreateNewElo):Void{
@@ -243,12 +262,10 @@ public class EloManagement extends CustomNode {
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       searchElos.typesListView.items = Sequences.sort(typeNames);
 
-      var eloIcon = CharacterEloIcon{
-         color:searchColor;
-         iconCharacter:"S"
-      }
+      var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
+      var color = windowStyler.getScyColor(ImageWindowStyler.generalSearch);
 
-      createModalDialog(searchColor,eloIcon,"Search",searchElos);
+      createModalDialog(color,eloIcon,"Search",searchElos);
    }
 
    function searchForElos(searchElos: SearchElos):Void{

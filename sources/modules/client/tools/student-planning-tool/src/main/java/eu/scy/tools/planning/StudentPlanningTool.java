@@ -64,6 +64,9 @@ import roolo.elo.metadata.BasicMetadata;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserDetails;
+import eu.scy.core.model.impl.SCYStudentUserDetails;
+import eu.scy.core.model.impl.SCYTeacherUserDetails;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
@@ -384,6 +387,10 @@ public class StudentPlanningTool {
 			JXBuddyPanel jxBuddyPanel = studentPlanningController.taskPanesToBuddyPanels.get(openTaskPane);
 			
 			jxBuddyPanel.addBuddy(awarenessUser);
+			
+			
+			log.severe("Awareness user: jid" + awarenessUser.getJid() + " nick name" + awarenessUser.getNickName());
+			
 			studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
 			messageLabel.setText("<html><b>Buddy Added  Successfully</b><html>");
 			
@@ -654,17 +661,9 @@ public class StudentPlanningTool {
 		final JXDatePicker endDatePicker = new JXDatePicker();
 		final JXDatePicker startDatePicker = new JXDatePicker();
 
-		
-		Calendar calendar = endDatePicker.getMonthView().getCalendar();
-		 // starting today if we are in a hurry
-		 calendar.setTime(new Date());
-		 
+	
 		 endDatePicker.getEditor().setEditable(false);
-		 
-			 calendar = startDatePicker.getMonthView().getCalendar();
-			 // starting today if we are in a hurry
-			 calendar.setTime(new Date());
-			
+		
 			 
 		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
 		
@@ -909,9 +908,15 @@ public class StudentPlanningTool {
 		
 		List<User> members = studentPlannedActivity.getMembers();
 		for (User user : members) {
-			String username = user.getUserDetails().getUsername();
+			UserDetails userDetails = user.getUserDetails();
+			String nickName = null;
+			if( userDetails instanceof SCYTeacherUserDetails ) {
+				nickName = ((SCYTeacherUserDetails)userDetails).getFirstName();
+			} else if(userDetails instanceof SCYStudentUserDetails) {
+				nickName = ((SCYStudentUserDetails)userDetails).getFirstname();
+			}
 			IAwarenessUser aw = new AwarenessUser();
-			aw.setNickName(username);
+			aw.setNickName(nickName);
 			membersPanel.addBuddy(aw);
 		}
 		

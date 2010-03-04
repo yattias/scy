@@ -320,7 +320,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                           
                         }
                         def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
-                        newWindow.openWindow(600, 400);
+                        newWindow.openWindow(700, 600);
                     }
                 }
         topRightCorner = TopRightCorner {
@@ -594,8 +594,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 //TODO submit user-nickname instead of extracting it
                 def userNickname = user.substring(0, user.indexOf("@"));
                 def eloUri: String = notification.getFirstProperty("proposed_elo");
-                def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
+                def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
                     logger.debug(" => accepting collaboration");
                     config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUri);
                 } else if (option == JOptionPane.NO_OPTION) {
