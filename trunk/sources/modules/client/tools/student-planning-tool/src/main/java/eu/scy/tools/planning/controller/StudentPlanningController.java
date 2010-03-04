@@ -105,6 +105,9 @@ public class StudentPlanningController {
 	public StudentPlanningController(StudentPlanELO studentPlanELO, ToolBrokerAPI toolBrokerAPI) {
 		this.toolbrokerApi = toolBrokerAPI;
 		this.studentPlanELO = studentPlanELO;
+		this.userName = toolbrokerApi.getLoginUserName();
+		
+		log.severe("SPT GOT USERNAME GO BUDDY GO: " + userName);
 		
 		//this.dumpStudentPlan(studentPlanELO);
 	}
@@ -251,8 +254,8 @@ public class StudentPlanningController {
 //		if (studentPedagogicalPlanService == null)
 		configuration = Configuration.getInstance();
 		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
-		studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
-
+		studentPedagogicalPlanService = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
+		//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
 		return studentPedagogicalPlanService;
 
 	}
@@ -384,7 +387,21 @@ public class StudentPlanningController {
 		} else {
 			String id = studentPlanELO.getId();
 			log.severe("Student plan id " + id);
-			StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
+			
+			
+			StudentPlannedActivity spa = null;
+			try {
+				 spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
+			} catch (Exception e) {
+				JOptionPane optionPane = new JOptionPane();
+				String msg = "<html>Error! This ELO id <b>" + eloId + "</b> is not connected to the Pedagogical Plan.</html>";
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null,
+						"Whoa!");
+				dialog.setVisible(true);
+			}
+			
 			return spa;
 		}
 		

@@ -794,8 +794,8 @@ public class StudentPlanningTool {
 						.getClientProperty(STUDENT_PLANNED_ACTIVITY);
 
 				//we have to this because the conversion rips silently sets to midnight
-				Date addDays = DateUtils.addDays(endDate, 1);
-				stp.setEndDate(new java.sql.Date(addDays
+				//Date addDays = DateUtils.addDays(endDate, 1);
+				stp.setEndDate(new java.sql.Date(endDate
 						.getTime()));
 
 				modTaskPaneTitleDateRange(lasTaskPane, startDateMap, endDateMap);
@@ -869,8 +869,8 @@ public class StudentPlanningTool {
 				java.sql.Date sql = null;
 				
 				//we have to this because the conversion rips silently sets to midnight
-				Date addDays = DateUtils.addDays(startDate, 1);
-					sql = new java.sql.Date(addDays.getTime());
+				//Date addDays = DateUtils.addDays(startDate, 1);
+					sql = new java.sql.Date(startDate.getTime());
 				
 				
 				
