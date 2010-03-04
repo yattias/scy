@@ -18,8 +18,13 @@ public class BuddyfierImplTest extends AbstractDAOTest {
     private BuddyService buddyfier;
     private String host = null;
 
+    private final String USER_NAME = "adie";
+    private final String PASSWORD = "aaad";
+    private final String BUDDY_USERNAME = "henrik";
+    private final String BUDDY_PASSWORD ="henrik";
+
     private String getHost() {
-        //return "83.168.205.138";
+        return "83.168.205.138";
         //return "scy.collide.info";
         //return null;
     }
@@ -42,7 +47,7 @@ public class BuddyfierImplTest extends AbstractDAOTest {
             logger.info("STARTING TEST!!");
         }
         if (getHost() != null) {
-            Collection buddies = getBuddyService().getBuddies("adam", "adam");
+            Collection buddies = getBuddyService().getBuddies(USER_NAME, PASSWORD);
             assertNotNull(buddies);
             int count = buddies.size();
             for (Iterator iterator = buddies.iterator(); iterator.hasNext();) {
@@ -51,7 +56,7 @@ public class BuddyfierImplTest extends AbstractDAOTest {
             }
 
             try {
-                getBuddyService().makeBuddies("adam", "adam", "stefan", "stefan");
+                getBuddyService().makeBuddies(USER_NAME, PASSWORD, BUDDY_USERNAME, BUDDY_PASSWORD);
             } catch (Exception e) {
                 e.printStackTrace();
                 fail(e.getMessage());
@@ -69,17 +74,26 @@ public class BuddyfierImplTest extends AbstractDAOTest {
         }
         if (getHost() != null) {
             try {
-                String user1 = "adam";
-                String user2 = "ton";
 
                 //getBuddyService().makeBuddies(user1, user1, user2, user2);
                 //assertTrue(getBuddyService().getAreBuddies(user1, user1, user2));
-                getBuddyService().removeBuddy(user1, user1, user2, user2);
-                assertFalse(getBuddyService().getAreBuddies(user1, user1, user2));
+                //getBuddyService().removeBuddy(USER_NAME, PASSWORD, BUDDY_USERNAME, BUDDY_PASSWORD);
+                //assertFalse(getBuddyService().getAreBuddies(USER_NAME, PASSWORD, BUDDY_USERNAME));
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
 
+        }
+    }
+
+    public void testGetBuddyPresenceStatus() {
+        for (int counter = 0; counter < 15; counter++) {
+            logger.info("STARTING TEST!!");
+        }
+        try {
+            logger.info(getBuddyService().getBuddyPresenceStatus(USER_NAME, PASSWORD, BUDDY_USERNAME));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
