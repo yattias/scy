@@ -50,7 +50,7 @@ public static void main(String[] args) {
 		
 		ToolBrokerImpl tbi;
 		
-		String[] elos = { "roolomemory5950first_ideas_of_my_design_groupscymapping", "roolomemory00hypothesistext" };
+		String[] elos = { "qwertyuioplkjhgfd","roolomemory5800new_Empty_concept_map_1scymapping", "roolomemory00hypothesistext" };
 		String[] users = { "jeremy", "alfons" };
 		
 		
