@@ -3,6 +3,7 @@ package eu.scy.core.openfire;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.*;
+import org.jivesoftware.smack.packet.Presence;
 
 import java.util.Collection;
 
@@ -23,12 +24,12 @@ public class BuddyServiceImpl implements BuddyService {
     }
 
     @Override
-    public Collection <RosterEntry> getBuddies(String username, String password) {
+    public Collection<RosterEntry> getBuddies(String username, String password) {
         logger.info("Getting buddies for " + getUsernameWithHost(username));
         try {
             XMPPConnection connection = getConnection(getUsernameWithHost(username), password);
             Roster roster = getRoster(connection);
-            Collection <RosterEntry> entries = roster.getEntries();
+            Collection<RosterEntry> entries = roster.getEntries();
             return entries;
         } catch (XMPPException e) {
             e.printStackTrace();
@@ -62,8 +63,17 @@ public class BuddyServiceImpl implements BuddyService {
             if (entry != null) {
                 roster.removeEntry(entry);
             }
-            roster.createEntry(getUsernameWithHost(buddyUsername), buddyUsername, null);
+            logger.info(roster.getSubscriptionMode());
             roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+
+            roster.createEntry(getUsernameWithHost(buddyUsername), buddyUsername, null);
+
+            Presence presence = new Presence(Presence.Type.subscribe);
+            presence.setTo(getUsernameWithHost(buddyUsername));
+            presence.setFrom(getUsernameWithHost(userName1));
+            connection.sendPacket(presence);
+
+
         }
 
 
@@ -90,6 +100,17 @@ public class BuddyServiceImpl implements BuddyService {
     public Roster getRoster(XMPPConnection connection) {
         Roster roster = connection.getRoster();
         return roster;
+    }
+
+    @Override
+    public String getBuddyPresenceStatus(String username, String password, String buddyusername) throws Exception {
+        XMPPConnection connection = getConnection(username, password);
+        Roster roster = getRoster(connection);
+        Presence presence = roster.getPresence(buddyusername);
+        logger.info(presence.getMode());
+        logger.info(presence.getFrom());
+
+        return presence.getStatus();
     }
 
     @Override

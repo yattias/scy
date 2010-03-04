@@ -30,4 +30,6 @@ public interface BuddyService {
     String getHost();
 
     void setHost(String host);
+
+    String getBuddyPresenceStatus(String username, String password, String buddyusername) throws Exception;
 }
