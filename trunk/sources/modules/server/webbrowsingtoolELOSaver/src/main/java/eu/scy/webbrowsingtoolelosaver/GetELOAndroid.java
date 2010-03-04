@@ -67,8 +67,6 @@ import roolo.elo.api.IELO;
 @Path("/getELOAndroid")
 public class GetELOAndroid {
 
-	private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-
 	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
 
 	@Context
@@ -123,7 +121,7 @@ public class GetELOAndroid {
 		String uri = null;
 		try {
 			uri = jsonData.getString("uri");
-			IELO elo = configLoader.getRepository().retrieveELO(new URI(uri));
+			IELO elo = ConfigLoader.getInstance().getRepository().retrieveELO(new URI(uri));
 			String contentString = elo.getContent().getXmlString();
 			output.put("content", contentString);
 		} catch (JSONException ex) {
