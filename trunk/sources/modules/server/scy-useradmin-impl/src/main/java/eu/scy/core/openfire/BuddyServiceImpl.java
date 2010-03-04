@@ -54,10 +54,6 @@ public class BuddyServiceImpl implements BuddyService {
 
     @Override
     public void makeBuddies(String userName1, String password1, String buddyUsername, String byddyPassword) throws Exception {
-        buddifyUsers(userName1, password1, buddyUsername);
-    }
-
-    private void buddifyUsers(String userName1, String password1, String buddyUsername) throws XMPPException {
         XMPPConnection connection = getConnection(userName1, password1);
         Roster roster = getRoster(connection);
 
@@ -67,6 +63,7 @@ public class BuddyServiceImpl implements BuddyService {
                 roster.removeEntry(entry);
             }
             roster.createEntry(getUsernameWithHost(buddyUsername), buddyUsername, null);
+            roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
         }
 
 
