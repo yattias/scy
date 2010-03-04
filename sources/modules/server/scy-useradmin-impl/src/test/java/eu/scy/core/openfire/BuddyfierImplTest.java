@@ -18,15 +18,15 @@ public class BuddyfierImplTest extends AbstractDAOTest {
     private BuddyService buddyfier;
     private String host = null;
 
-    private final String USER_NAME = "adie";
-    private final String PASSWORD = "aaad";
-    private final String BUDDY_USERNAME = "henrik";
-    private final String BUDDY_PASSWORD ="henrik";
+    private final String USER_NAME = "adam";
+    private final String PASSWORD = "adam";
+    private final String BUDDY_USERNAME = "wouter";
+    private final String BUDDY_PASSWORD ="wouter";
 
     private String getHost() {
-        return "83.168.205.138";
+        //return "83.168.205.138";
         //return "scy.collide.info";
-        //return null;
+        return null;
     }
 
     public BuddyService getBuddyService() {

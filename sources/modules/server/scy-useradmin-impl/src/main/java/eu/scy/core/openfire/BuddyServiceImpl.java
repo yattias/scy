@@ -166,7 +166,7 @@ public class BuddyServiceImpl implements BuddyService {
 			try {
 				connection.connect();
 				logger.debug("Connected to server.");
-				connection.login(user, user, "buddyfier");
+				connection.login(user, password, "buddyfier");
 				logger.debug("Logged in as " + connection.getUser());
 
 				PacketFilter filter = new PacketTypeFilter(Presence.class);
