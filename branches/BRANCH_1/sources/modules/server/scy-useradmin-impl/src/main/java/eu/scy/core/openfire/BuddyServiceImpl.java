@@ -32,7 +32,6 @@ public class BuddyServiceImpl implements BuddyService {
         BasicConfigurator.configure();
     }
 
-    @Override
     public Collection<RosterEntry> getBuddies(String username, String password) {
         logger.info("Getting buddies for " + getUsernameWithHost(username));
         try {
@@ -49,7 +48,6 @@ public class BuddyServiceImpl implements BuddyService {
 
     }
 
-    @Override
     public boolean getAreBuddies(String userName1, String password1, String buddyUsername) {
         try {
             XMPPConnection connection = getConnection(userName1, password1);
@@ -62,7 +60,7 @@ public class BuddyServiceImpl implements BuddyService {
     }
 
 
-    @Override
+
     public void makeBuddies(String userName1, String password1, String buddyUsername, String buddyPassword) throws Exception {
         if (!userName1.equals(buddyUsername)) {
         	BuddyClient userClient = new BuddyClient(userName1, password1, getHost());
@@ -79,7 +77,6 @@ public class BuddyServiceImpl implements BuddyService {
         }
     }
 
-    @Override
     public void removeBuddy(String userName1, String password1, String buddyUsername, String buddyPassword) throws Exception {
         XMPPConnection connection = getConnection(userName1, password1);
         Roster roster = getRoster(connection);
@@ -95,13 +92,11 @@ public class BuddyServiceImpl implements BuddyService {
         connection.disconnect();
     }
 
-    @Override
     public Roster getRoster(XMPPConnection connection) {
         Roster roster = connection.getRoster();
         return roster;
     }
 
-    @Override
     public String getBuddyPresenceStatus(String username, String password, String buddyusername) throws Exception {
         XMPPConnection connection = getConnection(username, password);
         Roster roster = getRoster(connection);
@@ -112,7 +107,6 @@ public class BuddyServiceImpl implements BuddyService {
         return presence.getStatus();
     }
 
-    @Override
     public XMPPConnection getConnection(String userName1, String password1) throws XMPPException {
         ConnectionConfiguration config = new ConnectionConfiguration(getHost(), 5222);
         config.setCompressionEnabled(true);
@@ -129,12 +123,10 @@ public class BuddyServiceImpl implements BuddyService {
         return username + "@" + getHost();
     }
 
-    @Override
     public String getHost() {
         return host;
     }
 
-    @Override
     public void setHost(String host) {
         this.host = host;
     }
