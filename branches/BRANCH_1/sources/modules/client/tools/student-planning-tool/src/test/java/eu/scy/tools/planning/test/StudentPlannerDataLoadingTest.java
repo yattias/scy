@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class StudentPlannerDataLoadingTest extends TestCase {
 
-    private final static String USER_NAME = "wiwoo";
+    private final static String USER_NAME = "wiwo";
 
     private static Logger log = Logger.getLogger("StudentPlannerDataLoadingTest.class");
 
@@ -46,6 +46,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         return (StudentPedagogicalPlanService) fb.getObject();
     }
 
+    /*
     public void testGetStudentPlans() {
         if (getStudentPlanService() != null) {
             SCYUserImpl user = new SCYUserImpl();
@@ -103,29 +104,55 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         }
 
     }
-
+    */
     private List<StudentPlanELO> getStudentPlans() {
         List<StudentPlanELO> studentPlans = getStudentPlanService().getStudentPlans(USER_NAME);
         return studentPlans;
     }
 
-    private StudentPlanELO getAStudentPlanELOForTesting() {
-        List <StudentPlanELO> studentPlanELOs = getStudentPlans();
-        if(studentPlanELOs != null && studentPlanELOs.size() > 0) return studentPlanELOs.get(0);
+    /*private StudentPlanELO getAStudentPlanELOForTesting() {
+        List<StudentPlanELO> studentPlanELOs = getStudentPlans();
+        if (studentPlanELOs != null && studentPlanELOs.size() > 0) return studentPlanELOs.get(0);
         return null;
+    } */
+
+    private StudentPlanELO createStudentPlanForUser(String username) {
+        StudentPlanELO plan = getStudentPlanService().createStudentPlan(username);
+        if(plan == null) fail("STUDENT PLAN IS NULL");
+        getStudentPlanService().getStudentPlannedActivity(username, "report", plan.getId());
+
+        return plan;
+
     }
 
     public void testRemoveStudentActivityFromStudentPlan() {
-        if(getStudentPlanService() != null) {
-            StudentPlanELO studentPlanELO = getAStudentPlanELOForTesting();
-            if(studentPlanELO != null) {
+        if (getStudentPlanService() != null) {
+            StudentPlanELO studentPlanELO = createStudentPlanForUser(USER_NAME);
+            String id = studentPlanELO.getId();
+
+            if (studentPlanELO != null) {
                 assertTrue(studentPlanELO.getStudentPlannedActivities().size() > 0);
+                log.info("Activities: " + studentPlanELO.getStudentPlannedActivities().size());
+
+                StudentPlannedActivity activity = studentPlanELO.getStudentPlannedActivities().get(0);
+                assertNotNull(activity);
+
+                getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(activity, studentPlanELO);
+                studentPlanELO = getStudentPlanService().getStudentPlanELO(id);
+                assertNotNull(studentPlanELO);
+                
+                assertFalse( studentPlanELO.getStudentPlannedActivities().contains(activity));
+
+
             }
+
+
+
         }
     }
-
+    /*
     public void testCreateStudentPlan() {
-        if(getStudentPlanService() != null) {
+        if (getStudentPlanService() != null) {
             StudentPlanELO elo = getStudentPlanService().createStudentPlan("hill");//put in the freakin username here
             String eloId = elo.getId();//this is the freakin elo id that I want you to store in the elo xml shit
             assertNotNull(elo);
@@ -149,13 +176,13 @@ public class StudentPlannerDataLoadingTest extends TestCase {
 
         final String USER_NAME = "aa@collide.info";
 
-        if(getStudentPlanService() != null) {
+        if (getStudentPlanService() != null) {
             StudentPlanELO studentPlanELO = getStudentPlanService().createStudentPlan(USER_NAME);
             String planId = studentPlanELO.getId();
             assertNotNull(planId);
 
             List studentPlannedActivities = studentPlanELO.getStudentPlannedActivities();
-            assert(studentPlannedActivities != null); // the plan should have an empty list of planned activities
+            assert (studentPlannedActivities != null); // the plan should have an empty list of planned activities
             assertEquals(0, studentPlannedActivities.size());
 
             StudentPlannedActivity plannedActivity = getStudentPlanService().getStudentPlannedActivity(USER_NAME, "start", planId);
@@ -167,13 +194,13 @@ public class StudentPlannerDataLoadingTest extends TestCase {
             assertNotNull(plannedActivity);
             String conceptMapActivityId = plannedActivity.getId();
 
-            assert(!conceptMapActivityId.equals(startActivityId)); // these should NOT be the same
+            assert (!conceptMapActivityId.equals(startActivityId)); // these should NOT be the same
 
             //reload the plan from the server since new activities have been created there, and are not present on the freakin' client
             studentPlanELO = getStudentPlanService().getStudentPlanELO(planId);
 
             Integer activityCount = studentPlanELO.getStudentPlannedActivities().size();
-            assert(activityCount > 0);
+            assert (activityCount > 0);
 
             StudentPlanELO loaded = getStudentPlanService().getStudentPlanELO(planId);
             assertNotNull(loaded);
@@ -198,4 +225,7 @@ public class StudentPlannerDataLoadingTest extends TestCase {
         }
     }
 
+    */
+
+    
 }

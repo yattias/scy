@@ -120,6 +120,22 @@ public static Painter getMessageBGPainter() {
 	return mattePainter;
 }
 
+public static Painter getHighlightOnPainterBuddy() {
+	int width = 600;
+	int height = 100;
+	Color color1 = Colors.White.color(0.5f);
+	Color color2 = Colors.Yellow.color(1.0f);
+
+	LinearGradientPaint gradientPaint = new LinearGradientPaint(width, height,
+			0.0f, height, new float[] { 0.0f, .5f }, new Color[] {
+					color2, color2 });
+	
+//	LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, height,
+//			width, height, new float[] { 0.0f, .6f }, new Color[] {
+//					color1, color2 });
+	MattePainter mattePainter = new MattePainter(gradientPaint);
+	return mattePainter;
+}
 
 
 public static Painter getHighlightOnPainter() {

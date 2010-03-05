@@ -42,10 +42,7 @@ public class StudentPlanningController {
 	private static Logger log = Logger
 			.getLogger("StudentPlanningController.class");
 
-	private StudentPedagogicalPlanService studentPedagogicalPlanService;
-	// private UserDAO userDAOHibernate;
 	private PedagogicalPlanService pedagogicalPlanService;
-	private List<StudentPlannedActivity> studentPlannedActivities;
 	private StudentPlanELO studentPlanELO;
 	private List<JXTaskPane> taskPanes = new ArrayList<JXTaskPane>();
 	public Map<JXTaskPane, JXBuddyPanel> taskPanesToBuddyPanels = new HashMap<JXTaskPane, JXBuddyPanel>();
@@ -60,7 +57,7 @@ public class StudentPlanningController {
 
 	private ToolBrokerAPI toolbrokerApi;
 
-	private String userName = "tony";
+	private String userName;
 
 	private IELO elo;
 
@@ -68,43 +65,46 @@ public class StudentPlanningController {
 	
 
 	public StudentPlanningController(String eloId, String userName) {
-		studentPedagogicalPlanService = this.getStudentPlanService();
 		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
 		log.severe("ELO PASSED TO STP USERNAME" + userName);
-		studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(eloId);
-		log.severe("STUDENTPLANNEDELO " + studentPlanELO);
-		this.userName = userName;
+		try {
+			setStudentPlanELO( this.getStudentPlanService().getStudentPlanELO(eloId) );
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+		}
+		
+		log.severe("StudentPlanningController STUDENTPLANNED ELO ID" + getStudentPlanELO().getId());
+		this.setToolbrokerApi(null);
+		this.setUserName(userName);
 	}
 	
 	public StudentPlanningController(String eloId, String userName, IELO elo, IRepository repository) {
 		this.elo = elo;
 		this.repository = repository;
-		studentPedagogicalPlanService = this.getStudentPlanService();
 		log.severe("ELO PASSED TO STP CONTROLLER CONSTRUCTOR " + eloId);
 		log.severe("ELO PASSED TO STP USERNAME" + userName);
-		studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(eloId);
+		
+		
+		try {
+			setStudentPlanELO( this.getStudentPlanService().getStudentPlanELO(eloId) );
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+		}
+		
 		log.severe("STUDENTPLANNEDELO " + studentPlanELO);
-		this.userName = userName;
+		this.setUserName(userName);
 	}
 	
 	public StudentPlanningController() {
-		studentPedagogicalPlanService = this.getStudentPlanService();
-//		studentPlanELO = studentPedagogicalPlanService.createStudentPlan("tony");
-////		
-//		
-//		System.out.println("Student plan id " + studentPlanELO.getId());
-//		 studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(studentPlanELO.getId());
-
-//		List<StudentPlanELO> studentPlans = studentPedagogicalPlanService.getStudentPlans("tony");
-//		this.studentPlanELO = studentPlans.get(0);
 		
-		 String id = "ff808081270e3a5e01270e6893b0004c";
-		 studentPlanELO = studentPedagogicalPlanService.getStudentPlanELO(id);
 	}
 	
 	public StudentPlanningController(StudentPlanELO studentPlanELO, ToolBrokerAPI toolBrokerAPI) {
-		this.toolbrokerApi = toolBrokerAPI;
+		this.setToolbrokerApi(toolBrokerAPI);
 		this.studentPlanELO = studentPlanELO;
+		this.setUserName(getToolbrokerApi().getLoginUserName());
+		
+		log.severe("SPT GOT USERNAME GO BUDDY GO: " + getUserName());
 		
 		//this.dumpStudentPlan(studentPlanELO);
 	}
@@ -129,6 +129,8 @@ public class StudentPlanningController {
 		}
 		
 		
+		if( image == null )
+			return Images.Profile.getIcon();
 		
 		Icon icon = new ImageIcon(image.getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 	
@@ -138,18 +140,17 @@ public class StudentPlanningController {
 	}
 
 	public StudentPlanningController(ToolBrokerAPI toolbrokerApi) {
-		this.toolbrokerApi = toolbrokerApi;
+		this.setToolbrokerApi(toolbrokerApi);
 		log.info("Starting Student Planning Controller...");
 		 //studentPedagogicalPlanService = this.toolbrokerApi.getStudentPedagogicalPlanService();
 
-		studentPedagogicalPlanService = this.getStudentPlanService();
-		if (studentPedagogicalPlanService == null) 
+		if (this.getStudentPlanService() == null) 
 			throw new RuntimeException("STUDENT SERVICE IS NULL!!!! LAME");
 
 		// get the user from the tool broker
 
 		log.info("fetching student plans");
-		List<StudentPlanELO> studentPlans = studentPedagogicalPlanService
+		List<StudentPlanELO> studentPlans = this.getStudentPlanService()
 				.getStudentPlans("tony");
 
 		if( studentPlans != null && studentPlans.size() > 0 ) {
@@ -190,6 +191,17 @@ public class StudentPlanningController {
 		taskPanes.remove(taskPane);
 	}
 	
+	
+	public boolean doesTaskPaneExist(String eloId) {
+		for (JXTaskPane taskPane : taskPanes ) {
+			if( taskPane.getName().equals(eloId ))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
 	public void removeEntry(JXEntryPanel entryPanel) {
 		
 		
@@ -211,9 +223,11 @@ public class StudentPlanningController {
 			entryContainer.remove(entryPanel);
 			entryContainer.revalidate();
 			
-			getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
-			//getStudentPlanService().save((ScyBaseObject) this.studentPlanELO);
-			
+			try {
+				getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
+			} catch (Exception e) {
+				log.severe(e.getMessage());
+			}
 		}
 		
 		
@@ -244,39 +258,32 @@ public class StudentPlanningController {
 		
 		return null;
 	}
-	public StudentPedagogicalPlanService getStudentPlanService() {
+	public StudentPedagogicalPlanService getStudentPlanService() throws NullPointerException {
 
-		// service =
-		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
-//		if (studentPedagogicalPlanService == null)
-		configuration = Configuration.getInstance();
-		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
-		studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
-
-		return studentPedagogicalPlanService;
-
-	}
-
-	
-	public void acceptDrop(Object drop) {
-//		log.info("we just dropped a load of..." + drop.toString());
-//		if( drop instanceof BasicMetadata ) {
-//			
-//			
-//			
-//			
-//		} else if(drop instanceof IAwarenessUser ){
-//			IAwarenessUser awarenessUser = ((IAwarenessUser)drop);
-//			JXTaskPane openTaskPane = getOpenTaskPane();
-//			
-//			JXBuddyPanel jxBuddyPanel = this.taskPanesToBuddyPanels.get(openTaskPane);
-//			jxBuddyPanel.addBuddy(awarenessUser);
-//			//awarenessUser.get
+//		String url1 = "http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker";
+//		String url2 = "http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker";
+//		// service =
+//		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+////		if (studentPedagogicalPlanService == null)
+//		configuration = Configuration.getInstance();
+//		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+//		//studentPedagogicalPlanService = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
+//		//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+//		
+//		if( this.toolbrokerApi == null || this.toolbrokerApi.getStudentPedagogicalPlanService() == null) {
+//			log.severe("StudentPedagogicalPlanService is NULL, LAME, using backup: " + url1);
+//			return getWithUrl(url1);
 //		}
 //		
+		if( this.getToolbrokerApi() == null ) {
+			throw new NullPointerException("Tool broker is null");
+		} else if(  this.getToolbrokerApi().getStudentPedagogicalPlanService() == null ) {
+			throw new NullPointerException("getStudentPedagogicalPlanService is null");
+		} else {
+			return this.getToolbrokerApi().getStudentPedagogicalPlanService();
+		}
+		
 	}
-	
-	
 	
 	private StudentPedagogicalPlanService getWithUrl(String url) {
 		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
@@ -329,7 +336,13 @@ public class StudentPlanningController {
 	}
 
 	public void saveStudentActivity(StudentPlannedActivity studenPlannedActivity) {
-		this.studentPedagogicalPlanService.save((ScyBaseObject) studenPlannedActivity);
+		
+		try {
+			this.getStudentPlanService().save((ScyBaseObject) studenPlannedActivity);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+		}
+		
 	}
 
 	public void addMembersPanel(JXTaskPane taskpane, JXBuddyPanel membersPanel) {
@@ -348,44 +361,79 @@ public class StudentPlanningController {
 	public void addMemberToStudentPlannedActivity(
 			final StudentPlannedActivity studentPlannedActivity, final String nickName) {
 		
-		
-		
-		
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	log.severe("Adding MEMBER TO STUDENT ACTIVITY " +  nickName + " " + studentPlannedActivity);
-		    	getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		    	try {
+		    		getStudentPlanService().addMember(studentPlannedActivity, nickName);
+		    	} catch (Exception e) {
+					log.severe(e.getMessage());
+				}
 		    }
 		  });
-		
-		
 		
 	}
 
 	public void removeMemberStudentPlannedActivity(
 			StudentPlannedActivity studentPlannedActivity, String nickName) {
 		// TODO Auto-generated method stub
-		this.getStudentPlanService().removeMember(studentPlannedActivity, nickName);
+		
+		log.severe("YOU DONT LIKE, REMOVING STUDENT PLANNED ACTIVITY: " + studentPlannedActivity.getId() + " " + studentPlannedActivity.getName() + " from user: " + nickName);
+		try {
+			this.getStudentPlanService().removeMember(studentPlannedActivity, nickName);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+		}
 		//studentPlannedActivity.removeMember(nickName);
-		this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
+		//this.getStudentPlanService().save((ScyBaseObject) studentPlannedActivity);
 		
 	}
 
 	public StudentPlannedActivity getStudentPlannedIdFromEloId(String eloId) {
 
-		if( studentPlanELO == null) {
+		
+		log.severe("ELO ID TO GET: " + eloId);
+		log.severe("USERNAME to use" + getUserName());
+		
+		if( getStudentPlanELO() == null) {
 			log.severe("Student plan ELO is null");
 			throw new NullPointerException("STUDENT PLANNED ELO IS NULL");
 			
 		} else {
-			String id = studentPlanELO.getId();
+			String id = getStudentPlanELO().getId();
 			log.severe("Student plan id " + id);
-			StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity(userName, eloId,id);
+			
+			
+			StudentPlannedActivity spa = null;
+			try {
+				 spa = this.getStudentPlanService().getStudentPlannedActivity(getUserName(), eloId,id);
+			} catch (Exception e) {
+				JOptionPane optionPane = new JOptionPane();
+				String msg = "<html>Error! This ELO id <b>" + eloId + "</b> is not connected to the Pedagogical Plan.</html>";
+				optionPane.setMessage(msg);
+				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null,
+						"Whoa!");
+				dialog.setVisible(true);
+			}
+			
 			return spa;
 		}
-		
-        //I had to comment out this one since I had to change the signature of the service...
-		//StudentPlannedActivity spa = this.getStudentPlanService().getStudentPlannedActivity("wiwoo", "firstIdeas", eloId);
-		
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setToolbrokerApi(ToolBrokerAPI toolbrokerApi) {
+		this.toolbrokerApi = toolbrokerApi;
+	}
+
+	public ToolBrokerAPI getToolbrokerApi() {
+		return toolbrokerApi;
 	}
 }
