@@ -362,8 +362,8 @@ public class StudentPlanningTool {
 		
 		messagePanel.add(messageLabel,BorderLayout.WEST);
 		//messagePanel.add(new JXLabel(" "),"growx");
-		messagePanel.add(lasTestTextField,BorderLayout.EAST);
-		//messagePanel.add(infoLink,BorderLayout.EAST);
+		//messagePanel.add(lasTestTextField,BorderLayout.EAST);
+		messagePanel.add(infoLink,BorderLayout.EAST);
 //		topPanel.add(messageLabel);
 //		topPanel.add(new JXLabel(" "));
 		
