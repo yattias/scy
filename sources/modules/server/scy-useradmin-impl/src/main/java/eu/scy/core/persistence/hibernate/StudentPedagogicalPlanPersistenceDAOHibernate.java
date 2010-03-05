@@ -165,8 +165,13 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     public void removeStudentPlannedActivityFromStudentPlan(StudentPlannedActivity studentPlannedActivity, StudentPlanELO studentPlanELO) {
         getHibernateTemplate().refresh(studentPlanELO);
         getHibernateTemplate().refresh(studentPlannedActivity);
-        studentPlanELO.getStudentPlannedActivities().remove(studentPlannedActivity);
+
+        log.info("REMOVING : " + studentPlannedActivity.getName() + " from " + studentPlannedActivity.getStudentPlan().getName());
+
+        //studentPlannedActivity.setStudentPlan(null);
+        studentPlannedActivity.getStudentPlan().removeStudentPlannedActivity(studentPlannedActivity);
         save(studentPlanELO);
+        getHibernateTemplate().delete(studentPlannedActivity);
     }
 
     @Override
@@ -266,20 +271,29 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
         log.info("Found pedagogical plan :" + pedagogicalPlan);
 
+        StudentPlanELOImpl plan = (StudentPlanELOImpl) getSession().createQuery("from StudentPlanELOImpl where user = :user and pedagogicalPlan = :pedplan")
+                .setEntity("user", user)
+                .setEntity("pedplan", pedagogicalPlan)
+                .setMaxResults(1)
+                .uniqueResult();
 
-        if (pedagogicalPlan != null) {
+
+        if (pedagogicalPlan != null && plan == null) {
             //return createStudentPlan(pedagogicalPlan, user);
-            StudentPlanELO plan = new StudentPlanELOImpl();
+            plan = new StudentPlanELOImpl();
             pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().load(PedagogicalPlanImpl.class, pedagogicalPlan.getId());
             plan.setPedagogicalPlan(pedagogicalPlan);
             plan.setUser(user);
             save(plan);
-            return plan;
         }
 
-        log.warn("DID NOT FIND A PEDAGOGICAL PLAN TO ASSIGN - ARE NO PLANS PUBLISHED?");
+        if(plan == null) {
+            log.warn("DID NOT FIND A PEDAGOGICAL PLAN TO ASSIGN - ARE NO PLANS PUBLISHED?");
+            return null;
+        }
 
-        return null;
+
+        return plan;
 
     }
 }

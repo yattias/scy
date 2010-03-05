@@ -90,7 +90,10 @@ public class DummyDataGenerator implements InitializingBean {
 
         AnchorELO lastAnchorELO = createAnchorELO(lastMissionAnchor.getId(), "");
         lastActivity.setAnchorELO(lastAnchorELO);
+
         getMissionService().save(lastActivity);
+        lastAnchorELO.setProducedBy(lastActivity);
+        getMissionService().save(lastAnchorELO);
 
         return scenario;
     }
