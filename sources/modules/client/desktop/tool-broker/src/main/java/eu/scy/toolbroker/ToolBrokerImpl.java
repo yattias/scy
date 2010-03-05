@@ -129,8 +129,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
         
         //student planning service
         
-        studentPedagogicalPlanService = this.getStudentPlanService();
-        //setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
+        //studentPedagogicalPlanService = this.getStudentPlanService();
+        setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
 
         // NotificationReceiver
         notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
@@ -161,26 +161,26 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
         
     }
 
-    public StudentPedagogicalPlanService getStudentPlanService() {
-
-		// service =
-		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
-//		if (studentPedagogicalPlanService == null)
-		Configuration configuration = Configuration.getInstance();
-		studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
-			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
-
-		return studentPedagogicalPlanService;
-
-	}
-    
-    private StudentPedagogicalPlanService getWithUrl(String url) {
-		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
-		fb.setServiceInterface(StudentPedagogicalPlanService.class);
-		fb.setServiceUrl(url);
-		fb.afterPropertiesSet();
-		return (StudentPedagogicalPlanService) fb.getObject();
-	}
+//    public StudentPedagogicalPlanService getStudentPlanService() {
+//
+//		// service =
+//		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+////		if (studentPedagogicalPlanService == null)
+//		Configuration configuration = Configuration.getInstance();
+//		studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+//			//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
+//
+//		return studentPedagogicalPlanService;
+//
+//	}
+//
+//    private StudentPedagogicalPlanService getWithUrl(String url) {
+//		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+//		fb.setServiceInterface(StudentPedagogicalPlanService.class);
+//		fb.setServiceUrl(url);
+//		fb.afterPropertiesSet();
+//		return (StudentPedagogicalPlanService) fb.getObject();
+//	}
     
     /**
      * Sets the repository instance into the ToolBroker. Is mainly used for
