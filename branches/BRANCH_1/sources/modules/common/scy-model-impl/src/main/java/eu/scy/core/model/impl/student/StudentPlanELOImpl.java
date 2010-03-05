@@ -45,10 +45,15 @@ public class StudentPlanELOImpl extends BaseObjectImpl implements StudentPlanELO
 		return pedagogicalPlan;
 	}
 
-    @OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentPlan", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentPlan", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	public List<StudentPlannedActivity> getStudentPlannedActivities() {
 		return studentPlannedActivities;
 	}
+
+    public void removeStudentPlannedActivity(StudentPlannedActivity studentPlannedActivity) {
+        studentPlannedActivity.setStudentPlan(null);
+        getStudentPlannedActivities().remove(studentPlannedActivity);
+    }
 
     @Override
     public void setStudentPlannedActivities(List<StudentPlannedActivity> studentPlannedActivities) {

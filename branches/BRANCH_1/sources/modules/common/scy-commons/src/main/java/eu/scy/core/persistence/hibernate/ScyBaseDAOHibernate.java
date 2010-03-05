@@ -33,6 +33,10 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
      */
     public Object save(Object object) {
         logger.info("***saving: " + object);
+        //getHibernateTemplate().saveOrUpdate(object);
+        //object =  getHibernateTemplate().get(object.getClass(), id);
+        //return object;
+
         assert(object != null);
         if(object instanceof ScyBase) {
             logger.info("SAVING SCY BASE!");
@@ -40,23 +44,14 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
 
             if(scyBaseObject.getId() != null) {
                 scyBaseObject = (ScyBase) getHibernateTemplate().merge(object);
-                getHibernateTemplate().update(scyBaseObject);
+                return scyBaseObject;
+                //getHibernateTemplate().update(scyBaseObject);
             } else {
                 getHibernateTemplate().saveOrUpdate(object);
             }
-        } /*else if(object instanceof Persistable) {
-            Persistable persistable = (Persistable) object;
-            if(persistable.getId() != null) {
-                persistable = (Persistable) getHibernateTemplate().merge(persistable);
-                getHibernateTemplate().update(persistable);
-            } else {
-                getHibernateTemplate().saveOrUpdate(persistable);
-            }
-        } */else {
+        } else {
             getHibernateTemplate().saveOrUpdate(object);
-            //throw new RuntimeException("WAS NOT ABLE TO STORE OBJECT : " + object + "_____" + object.getClass().getName());
         }
-
         return object;
     }
 
