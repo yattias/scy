@@ -61,27 +61,40 @@ public class DummyDataGenerator implements InitializingBean {
 
         List lases = getImportedXMLMission().getBasicMissionMap().getLasses();
         AnchorELO currentAnchorELO = null;
+        LearningActivitySpace lastLAS = null;
+        BasicLas lastBasicLas = null;
+        Activity lastActivity = null;
+        BasicMissionAnchor lastMissionAnchor = null;
         for (int lasCounter = 0; lasCounter < lases.size(); lasCounter++) {
             BasicLas basicLas = (BasicLas) lases.get(lasCounter);
 
             LearningActivitySpace learninigActivitySpace =  createLAS(basicLas.getId(), (int)basicLas.getxPosition(), (int) basicLas.getyPosition(), scenario);
             learninigActivitySpace.setParticipatesIn(scenario);
             getScenarioService().save(learninigActivitySpace);
+            lastLAS = learninigActivitySpace;
+            lastBasicLas = basicLas;
             if(lasCounter == 0)  {
                 scenario.setLearningActivitySpace(learninigActivitySpace);
             } else {
                 currentAnchorELO.setInputTo(learninigActivitySpace);
-                //getScenarioService().save(currentAnchorELO);
             }
             BasicMissionAnchor anchor = getImportedXMLMission().getAnchor(basicLas.getAnchorEloId());
+            lastMissionAnchor = anchor;
             if(anchor != null) {
                 AnchorELO outputFromLearningActivitySpace = createAnchorELO(anchor.getId(), "");
                 currentAnchorELO = outputFromLearningActivitySpace;
                 Activity doTheStuff = addActivity(learninigActivitySpace, "Do the stuff - " + currentAnchorELO.getName(), outputFromLearningActivitySpace);
+                lastActivity = doTheStuff;
             }
-            //if(currentAnchorELO != null) getMissionService().save(currentAnchorELO);
-
         }
+
+        AnchorELO lastAnchorELO = createAnchorELO(lastMissionAnchor.getId(), "");
+        lastActivity.setAnchorELO(lastAnchorELO);
+
+        getMissionService().save(lastActivity);
+        lastAnchorELO.setProducedBy(lastActivity);
+        getMissionService().save(lastAnchorELO);
+
         return scenario;
     }
 
@@ -362,6 +375,7 @@ public class DummyDataGenerator implements InitializingBean {
     }
 
     private AnchorELO createAnchorELO(String name, String description) {
+        log.info("CREATING ANCHOR ELO: " + name);
         AnchorELO elo = new AnchorELOImpl();
         elo.setDescription(description);
         elo.setName(name);

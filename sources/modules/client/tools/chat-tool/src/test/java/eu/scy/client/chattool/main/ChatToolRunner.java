@@ -50,7 +50,7 @@ public static void main(String[] args) {
 		
 		ToolBrokerImpl tbi;
 		
-		String[] elos = { "roolomemory5950first_ideas_of_my_design_groupscymapping", "roolomemory00hypothesistext" };
+		String[] elos = { "qwertyuioplkjhgfd","roolomemory5800new_Empty_concept_map_1scymapping", "roolomemory00hypothesistext" };
 		String[] users = { "jeremy", "alfons" };
 		
 		
@@ -65,6 +65,10 @@ public static void main(String[] args) {
 			frame.getContentPane().setLayout(new GridLayout(1,2));			
 			
 			JPanel jp = new JPanel();
+			JTextField jtf = new JTextField();
+			jtf.setEnabled(false);
+			jtf.setText(users[i]+"@scy.collide.info");
+			jp.add(jtf);
 			final JComboBox c = new JComboBox(elos);
 			jp.add(c);
 			final JButton jb = new JButton("Connect");

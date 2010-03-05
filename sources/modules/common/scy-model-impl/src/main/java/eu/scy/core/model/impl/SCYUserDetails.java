@@ -4,6 +4,7 @@ import eu.scy.core.model.SCYGrantedAuthority;
 import eu.scy.core.model.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ import java.util.Set;
     @Entity
 @Table(name = "user_details")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class SCYUserDetails implements UserDetails/*extends StudentUserDetails */ {
+public class SCYUserDetails implements UserDetails, Serializable {
 
     private Long id;
 

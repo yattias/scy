@@ -149,7 +149,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendELoLoaded(String eloPath) {
 		try {
 			getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id3", 0L, AgentProtocol.ACTION_ELO_LOADED,
+					new Tuple(AgentProtocol.ACTION, "id3", System.currentTimeMillis(), AgentProtocol.ACTION_ELO_LOADED,
 							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
 							"mission1", "n/a", AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloPath));
 		} catch (TupleSpaceException e) {
@@ -160,7 +160,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendConceptAdded() {
 		try {
 			getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_NODE_ADDED,
+					new Tuple(AgentProtocol.ACTION, "id1", System.currentTimeMillis(), AgentProtocol.ACTION_NODE_ADDED,
 							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.SCYMAPPER, "mission1",
 							"n/a", "id=111", "name=label"));
 		} catch (TupleSpaceException e) {
@@ -171,9 +171,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendWebresourcerStarted() {
 		try {
 			getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							"mission1", "n/a"));
+					new Tuple(AgentProtocol.ACTION, "id1", System.currentTimeMillis(),
+							AgentProtocol.ACTION_TOOL_STARTED, "jeremy@scy.collide.info/Smack",
+							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER, "mission1", "n/a"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -182,9 +182,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendScyMapperStarted() {
 		try {
 			getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id1", 0L, AgentProtocol.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.CONCEPTMAP, "mission1",
-							"n/a"));
+					new Tuple(AgentProtocol.ACTION, "id1", System.currentTimeMillis(),
+							AgentProtocol.ACTION_TOOL_STARTED, "jeremy@scy.collide.info/Smack",
+							ExtractKeywordsDecisionMakerAgent.CONCEPTMAP, "mission1", "n/a"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

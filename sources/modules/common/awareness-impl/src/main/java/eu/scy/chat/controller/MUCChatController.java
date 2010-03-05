@@ -205,92 +205,92 @@ public class MUCChatController implements ChatController {
 					}
 				});
 
-		awarenessService.addAwarenessRosterListener(new IAwarenessRosterListener() {
-
-					@Override
-					public void handleAwarenessRosterEvent(
-							final IAwarenessRosterEvent awarenessRosterEvent) {
-						Collection<String> addresses = awarenessRosterEvent.getAddresses();
-						for (String address : addresses) {
-							final IAwarenessUser a = new AwarenessUser();
-							a.setNickName(address);
-							if (awarenessRosterEvent.getMessage().equals(IAwarenessRosterEvent.ADD)) {
-
-								SwingUtilities.invokeLater(new Runnable() {
-									@Override
-									public void run() {
-										
-										String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
-										logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-										if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
-											//need to parse it text@conference.org
-											awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
-											logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-										}
-										
-										if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {									
-											logger.debug( "MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId );
-											
-											int indexOfBuddy = getIndexOfBuddy(a);
-											if (indexOfBuddy > -1) {
-												IAwarenessUser elementAt = (IAwarenessUser) buddyListModel
-												.elementAt(indexOfBuddy);
-												elementAt
-												.setPresence(IPresenceEvent.AVAILABLE);
-												buddyListModel.remove(indexOfBuddy);
-												buddyListModel.add(indexOfBuddy,
-														elementAt);
-											} else {
-												a
-												.setPresence(IPresenceEvent.AVAILABLE);
-												buddyListModel.addElement(a);
-											}
-											
-										}
-
-
-									}
-								});
-
-							} else if (awarenessRosterEvent.getMessage().equals(IAwarenessRosterEvent.REMOVE)) {
-
-								SwingUtilities.invokeLater(new Runnable() {
-									@Override
-									public void run() {
-										
-										String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
-										logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-										
-										if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
-											//need to parse it text@conference.org
-											awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
-											logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-										}
-										
-										if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {									
-											logger.debug( "MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId );
-
-											int indexOfBuddy = getIndexOfBuddy(a);
-											if (indexOfBuddy > -1) {
-												IAwarenessUser elementAt = (IAwarenessUser) buddyListModel
-														.elementAt(indexOfBuddy);
-												elementAt
-														.setPresence(IPresenceEvent.UNAVAILABLE);
-												buddyListModel.remove(indexOfBuddy);
-												buddyListModel.add(indexOfBuddy,
-														elementAt);
-											} else {
-												a.setPresence(IPresenceEvent.UNAVAILABLE);
-												buddyListModel.addElement(a);
-											}
-										}
-									}
-								});
-							}
-						}
-
-					}
-				});
+//		awarenessService.addAwarenessRosterListener(new IAwarenessRosterListener() {
+//
+//					@Override
+//					public void handleAwarenessRosterEvent(
+//							final IAwarenessRosterEvent awarenessRosterEvent) {
+//						Collection<String> addresses = awarenessRosterEvent.getAddresses();
+//						for (String address : addresses) {
+//							final IAwarenessUser a = new AwarenessUser();
+//							a.setNickName(address);
+//							if (awarenessRosterEvent.getMessage().equals(IAwarenessRosterEvent.ADD)) {
+//
+//								SwingUtilities.invokeLater(new Runnable() {
+//									@Override
+//									public void run() {
+//
+//										String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
+//										logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
+//										if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+//											//need to parse it text@conference.org
+//											awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+//											logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
+//										}
+//
+//										if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {
+//											logger.debug( "MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId );
+//
+//											int indexOfBuddy = getIndexOfBuddy(a);
+//											if (indexOfBuddy > -1) {
+//												IAwarenessUser elementAt = (IAwarenessUser) buddyListModel
+//												.elementAt(indexOfBuddy);
+//												elementAt
+//												.setPresence(IPresenceEvent.AVAILABLE);
+//												buddyListModel.remove(indexOfBuddy);
+//												buddyListModel.add(indexOfBuddy,
+//														elementAt);
+//											} else {
+//												a
+//												.setPresence(IPresenceEvent.AVAILABLE);
+//												buddyListModel.addElement(a);
+//											}
+//
+//										}
+//
+//
+//									}
+//								});
+//
+//							} else if (awarenessRosterEvent.getMessage().equals(IAwarenessRosterEvent.REMOVE)) {
+//
+//								SwingUtilities.invokeLater(new Runnable() {
+//									@Override
+//									public void run() {
+//
+//										String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
+//										logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
+//
+//										if( awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+//											//need to parse it text@conference.org
+//											awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+//											logger.debug( "NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
+//										}
+//
+//										if( org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId) ) {
+//											logger.debug( "MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId );
+//
+//											int indexOfBuddy = getIndexOfBuddy(a);
+//											if (indexOfBuddy > -1) {
+//												IAwarenessUser elementAt = (IAwarenessUser) buddyListModel
+//														.elementAt(indexOfBuddy);
+//												elementAt
+//														.setPresence(IPresenceEvent.UNAVAILABLE);
+//												buddyListModel.remove(indexOfBuddy);
+//												buddyListModel.add(indexOfBuddy,
+//														elementAt);
+//											} else {
+//												a.setPresence(IPresenceEvent.UNAVAILABLE);
+//												buddyListModel.addElement(a);
+//											}
+//										}
+//									}
+//								});
+//							}
+//						}
+//
+//					}
+//				});
 	}
 
 	@Override
