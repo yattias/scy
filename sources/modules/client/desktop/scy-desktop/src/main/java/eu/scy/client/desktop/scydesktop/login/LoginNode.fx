@@ -126,7 +126,7 @@ public class LoginNode extends CustomNode {
                        layoutY: 2 * rowHeight + spacing;
                        text: "Quit"
                        action: function () {
-                          System.exit(0);
+                          FX.exit();
                        }
                     }
                  ]

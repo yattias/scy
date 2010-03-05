@@ -126,7 +126,8 @@ public class LoginDialog extends CustomNode {
          "tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n"
          "tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n"
          "tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n"
-         "tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
+         "tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n"
+         "tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
          showLoginResult(toolBrokerAPI,userName);
          //placeScyDescktop(toolBrokerAPI, userName);
       } catch (e: LoginFailedException) {
