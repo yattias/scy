@@ -3,6 +3,7 @@ package eu.scy.core.model.impl;
 import eu.scy.core.model.SCYGrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity(name = "eu.scy.core.model.impl.SCYGrantedAuthority")
 @Table(name="granted_authorities")
-public class SCYGrantedAuthorityImpl implements SCYGrantedAuthority {
+public class SCYGrantedAuthorityImpl implements SCYGrantedAuthority, Serializable {
 
     private Long id;
 
