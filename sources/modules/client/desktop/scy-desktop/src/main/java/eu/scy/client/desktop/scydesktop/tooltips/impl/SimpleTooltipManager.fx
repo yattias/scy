@@ -93,6 +93,7 @@ public class SimpleTooltipManager extends TooltipManager {
    }
 
    public override function registerNode(sourceNode: Node, tooltipCreator: TooltipCreator): Void {
+      //println("registerNode({sourceNode},{tooltipCreator})");
       sourceNode.onMouseEntered = onMouseEntered;
       sourceNode.onMouseExited = onMouseExited;
       sourceNodes.put(sourceNode, tooltipCreator);
@@ -105,6 +106,14 @@ public class SimpleTooltipManager extends TooltipManager {
    }
 
    function onMouseEntered(e: MouseEvent): Void {
+      if (currentTooltip!=null){
+         var currentSourceLoc = currentSourceNode.sceneToLocal(e.sceneX, e.sceneY);
+         if (currentSourceNode.contains(currentSourceLoc)){
+            logger.debug("aborted start of tooltip for {e.node}, because tooltip is active for {currentSourceNode}");
+            return;
+         }
+      }
+
       setTooltipNode(e.node);
       if (currentTooltip != null) {
          if (useAnimation) {
@@ -131,6 +140,7 @@ public class SimpleTooltipManager extends TooltipManager {
    }
 
    function setTooltipNode(sourceNode: Node): Void {
+      //println("setTooltipNode({sourceNode})");
       if (sourceNode != currentSourceNode) {
          try {
             var tooltipCreator = sourceNodes.get(sourceNode) as TooltipCreator;
@@ -154,7 +164,6 @@ public class SimpleTooltipManager extends TooltipManager {
          } catch (e: Exception) {
             logger.error("exception during tooltip creation", e);
          }
-
       }
    }
 

@@ -29,6 +29,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
    public var missionAnchor: MissionAnchorFX;
    public var mainAnchor = true;
    public var windowAction:function(MissionAnchorFX):Void;
+   override public var priority = 5;
 
    def size = 16.0;
    def bottomAngleWidth = 50.0;

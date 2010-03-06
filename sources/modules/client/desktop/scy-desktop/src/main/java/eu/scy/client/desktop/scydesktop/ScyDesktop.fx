@@ -266,6 +266,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             dragAndDropManager: dragAndDropManager
             scyDesktop: this
             metadataTypeManager: config.getMetadataTypeManager()
+            showLasId:initializer.debugMode
         //         translateX:40;
         //         translateY:40;
         }
@@ -381,6 +382,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
+            showEloInfoDisplay:initializer.debugMode
         }
     }
 
