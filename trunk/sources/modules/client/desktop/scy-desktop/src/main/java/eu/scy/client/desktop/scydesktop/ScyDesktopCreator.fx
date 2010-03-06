@@ -76,6 +76,7 @@ public class ScyDesktopCreator {
    var technicalFormatKey:IMetadataKey;
    var missionIdKey:IMetadataKey;
    var anchorIdKey:IMetadataKey;
+   var lasKey:IMetadataKey;
    var containsAssignmentEloKey:IMetadataKey;
    var functionalTypeKey:IMetadataKey;
 
@@ -179,6 +180,7 @@ public class ScyDesktopCreator {
       technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
       missionIdKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
       anchorIdKey = findMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
+      lasKey = findMetadataKey(ScyRooloMetadataKeyIds.LAS.getId());
       containsAssignmentEloKey = findMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
       functionalTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
    }
@@ -352,6 +354,7 @@ public class ScyDesktopCreator {
          var missionAnchorElo = config.getRepository().retrieveELO(missionAnchor.eloUri);
          if (missionAnchorElo!=null){
             missionAnchorElo.getMetadata().getMetadataValueContainer(anchorIdKey).setValue(missionAnchor.id);
+            missionAnchorElo.getMetadata().getMetadataValueContainer(lasKey).setValue(missionAnchor.las.id);
             var assignmentEloUri = findAssignmentEloUri(missionAnchor);
             if (assignmentEloUri!=null){
                missionAnchorElo.getMetadata().getMetadataValueContainer(containsAssignmentEloKey).setValue(assignmentEloUri);

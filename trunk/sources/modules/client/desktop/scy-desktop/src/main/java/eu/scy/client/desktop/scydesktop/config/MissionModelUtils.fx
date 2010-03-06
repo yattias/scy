@@ -20,42 +20,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.config.MissionModelUtils");
 
 public class MissionModelUtils {
-
-                            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 public function retrieveMissionModelFromConfig(config: Config): MissionModelFX {
    var basicMissionMap = config.getBasicMissionMap();
@@ -174,6 +139,7 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
          var basicLas = object as BasicLas;
          var las = lasIdMap.get(basicLas.getId()) as Las;
          las.mainAnchor = missionAnchorMap.get(basicLas.getAnchorEloId()) as MissionAnchorFX;
+         las.mainAnchor.las = las;
          if (las.mainAnchor == null) {
             logger.error("cannot find anchor elo id {basicLas.getAnchorEloId()} for las id {las.id}");
             }
@@ -183,6 +149,7 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
                var intermediateAnchor = missionAnchorMap.get(anchorId) as MissionAnchorFX;
                if (intermediateAnchor != null) {
                   insert intermediateAnchor into las.intermediateAnchors;
+                  intermediateAnchor.las = las;
                   } else {
                   logger.error("cannot find intermediate elo id {id} for las id {las.id}");
                   }

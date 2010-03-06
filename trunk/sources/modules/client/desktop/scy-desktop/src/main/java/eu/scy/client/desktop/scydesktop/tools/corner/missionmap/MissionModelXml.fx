@@ -166,6 +166,7 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
       otherEloUris: createEloUriList(root.getChild(otherElosName))
       mainAnchor:createMissionAnchor(root.getChild(mainAnchorName))
    }
+   las.mainAnchor.las = las;
    anchorsMap.put(las.mainAnchor.eloUri, las.mainAnchor);
    var intermediateAnchorsRoot = root.getChild(intermediateAnchorsName);
    var intermediateAnchorslist = intermediateAnchorsRoot.getChildren(intermediateAnchorName);
@@ -174,6 +175,7 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
          var intermediateAnchorRoot = intermediateAnchorObject as Element;
          var intermediateAnchor = createMissionAnchor(intermediateAnchorRoot);
          insert intermediateAnchor into las.intermediateAnchors;
+         intermediateAnchor.las = las;
          anchorsMap.put(intermediateAnchor.eloUri, intermediateAnchor);
       }
    }
