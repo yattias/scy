@@ -80,18 +80,20 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
       var functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
       var lasId = metadata.getMetadataValueContainer(lasKey).getValue() as String;
       var anchorId = metadata.getMetadataValueContainer(anchorIdKey).getValue() as String;
-      if (anchorId==null){
-         // no anchor id set, then the lasId is also most likely invalid, it has the value of the las when it was created for specification
+      var rootUri = getRootUri(window.eloUri);
+      if (window.eloUri==rootUri){
+         // most likely a static elo, so resource. So the las and anchor ids are probably from specification creation time
+         // thus ignore them
          lasId = "";
+         anchorId = "";
       }
 
-      var rootUri = getRootUri(window.eloUri);
       "uri: {window.eloUri}\n"
       "tech type: {technicalFormat}\n"
       "func type: {functionalType}\n"
       "las: {lasId}\n"
       "anchorId: {anchorId}\n"
-      "def uri: {rootUri}"
+      "def uri: {if (window.eloUri==rootUri) 'same as uri' else rootUri}"
    }
 
    function getRootUri(uri:URI):URI{
