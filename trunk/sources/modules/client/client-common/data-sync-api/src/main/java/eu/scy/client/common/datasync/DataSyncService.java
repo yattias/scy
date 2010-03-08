@@ -7,12 +7,14 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.common.configuration.Configuration;
@@ -112,7 +114,9 @@ public class DataSyncService implements IDataSyncService {
 			if(message.getResponse().equals(Response.success)) {
 				String mucID = message.getMessage(); // defined by xmpp response
 				MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
-				muc.join(xmppConnection.getUser());
+				DiscussionHistory history = new DiscussionHistory();
+				history.setMaxStanzas(Integer.MAX_VALUE);
+				muc.join(xmppConnection.getUser(), null, history, SmackConfiguration.getPacketReplyTimeout());
 				newSession = new SyncSession(xmppConnection, muc);
 				newSession.addSyncListener(listener);
 				
