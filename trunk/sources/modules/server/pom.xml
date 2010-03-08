@@ -128,6 +128,7 @@
     	<module>data-sync-module</module>
     	<module>notification-module</module>
 	    <module>pedagogical-plan-service-impl</module>
+        <module>whacket-extension</module>
         <module>scy-hub</module>
         <module>scy-hub-commons</module>
         <module>scy-loginservice-webservice-impl</module>
@@ -137,7 +138,6 @@
         <module>scy-useradmin-api</module>
         <module>scy-useradmin-impl</module>
         <module>webbrowsingtoolELOSaver</module>
-        <module>whacket-extension</module>
         <module>server-external-components</module>
         <module>scy-author</module>
         <module>scy-playful</module>
