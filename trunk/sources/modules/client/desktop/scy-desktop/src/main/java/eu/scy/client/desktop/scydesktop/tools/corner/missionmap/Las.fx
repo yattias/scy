@@ -33,4 +33,13 @@ public class Las {
       return "id:{id}";
    }
 
+   public function getAllEloUris():URI[]{
+      var allEloUris:URI[];
+      insert loEloUris into allEloUris;
+      insert mainAnchor.getAllEloUris() into allEloUris;
+      for (intermediateAnchor in intermediateAnchors){
+         insert intermediateAnchor.getAllEloUris() into allEloUris;
+      }
+      return allEloUris;
+   }
 }
