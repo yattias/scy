@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Electricity consumption in everyday life</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+   var http_request = false;
+   function makePOSTRequest(url, parameters) {
+      http_request = false;
+      if (window.XMLHttpRequest) { // Mozilla, Safari,...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) {
+         	// set type accordingly to anticipated content type
+            //http_request.overrideMimeType('text/xml');
+            http_request.overrideMimeType('text/html');
+         }
+      } else if (window.ActiveXObject) { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+      if (!http_request) {
+         alert('Cannot create XMLHTTP instance');
+         return false;
+      }
+      
+      http_request.onreadystatechange = alertContents;
+      http_request.open('POST', url, true);
+      http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      http_request.setRequestHeader("Content-length", parameters.length);
+      http_request.setRequestHeader("Connection", "close");
+      http_request.send(parameters);
+   }
+
+   function alertContents() {
+      if (http_request.readyState == 4) {
+         if (http_request.status == 200 || http_request.status == 0) {
+            result = http_request.responseText;
+            alert("ELO sent to roolo. (" + http_request.status + ")");
+         } else {
+            alert('There was a problem with the request.');
+         }
+      }
+   }
+var InternetExplorer = navigator.appName.indexOf("Microsoft") != -1;
+var errors = ['',
+	'',
+	'',
+	'Stop action first!',
+	'Restart model!',
+	'Click Back or Restart!',
+	'Set activity time for devices!',
+	'Select consuming type!'
+	]
+function myFlash_DoFSCommand(command, args)                {
+  var myFlashObj = InternetExplorer ? myFlash : document.myFlash;
+	switch(command) {
+		case 'error':
+			alert(errors[args]); break;
+		case 'help':
+				switch (args) {
+					case 2: aken=window.open("olmeelekter_teooria.htm", "abiaken", "width=700,height=500,toolbars=no,scrollbars=yes,resize=no"); aken.focus(); break;
+					case 1: aken=window.open("olmeelekter_abi.htm", "abiaken", "width=700,height=500,toolbars=no,scrollbars=yes,resize=no"); break;
+				}; break;
+		case 'elosaver':
+//			a=window.open("","a","width=700,height=500,toolbars=no,scrollbars=yes");
+//			a.document.open();a.document.write(args);a.document.close();a.focus();
+			makePOSTRequest('http://scy.collide.info:8080/roolo-ws/webresources/saveELOelectricity', args);
+			break;
+	}
+}
+if (navigator.appName && navigator.appName.indexOf("Microsoft") != -1 && 
+  navigator.userAgent.indexOf("Windows") != -1 && navigator.userAgent.indexOf("Windows 3.1") == -1) {
+  document.write('<SCRIPT LANGUAGE=VBScript\> \n');
+  document.write('on error resume next \n');
+  document.write('Sub myFlash_FSCommand(ByVal command, ByVal args)\n');
+  document.write(' call myFlash_DoFSCommand(command, args)\n');
+  document.write('end sub\n');
+  document.write('</SCRIPT\> \n');
+} 
+
+//-->
+</SCRIPT>
+<body>
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><object id = 'myFlash' classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="950" height="400">
+      <param name="movie" value="korteren.swf">
+      <param name=quality value=high>
+      <embed src="korteren.swf" swliveconnect="true" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="950" height="400"></embed>
+    </object></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>
