@@ -492,7 +492,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				} else {
 					// create it
 					// we need to create
-					muc.create(ELOUri);
+					muc.create(xmppConnection.getUser());
 					
 
 					// Get the the room's configuration form
