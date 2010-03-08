@@ -55,6 +55,16 @@ public class MissionModelFX {
       }
    }
 
+   public function getAllEloUris():URI[]{
+      var allEloUris:URI[];
+      insert loEloUris into allEloUris;
+      for (las in lasses){
+         insert las.getAllEloUris() into allEloUris;
+      }
+      return allEloUris;
+   }
+
+
    public function anchorSelected(las:Las,anchor:MissionAnchorFX):Void{
       if (las==activeLas){
          if (las.selectedAnchor==anchor){
