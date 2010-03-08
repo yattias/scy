@@ -8,9 +8,11 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
 import java.rmi.dgc.VMID;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionTupleTransformer;
@@ -90,21 +92,23 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 if (mucid != null) {
                     mucids.put(elouri, mucid);
                 }
-                logger.fine("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
+                logger.debug("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
                 sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
             } else if (a.getType().equals("collaboration_response")) {
                 boolean requestAccepted = Boolean.parseBoolean(a.getAttribute("request_accepted"));
                 String proposedUser = a.getUser();
                 String proposingUser = a.getAttribute("proposing_user");
-                logger.fine("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
+                logger.debug("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
                 if (requestAccepted) {
                     try {
                         String mucId = mucids.remove(elouri);
                         if (mucId == null) {
                             String id = new VMID().toString();
                             commandSpace.write(new Tuple(id, "datasync", "create_session"));
-                            Tuple dataSyncResponse = commandSpace.waitToTake(new Tuple(id, String.class));
+                            logger.debug("Requesting a new mucid from datasync (ID " + id + ")");
+                            Tuple dataSyncResponse = commandSpace.waitToRead(new Tuple(id, String.class));
                             mucId = dataSyncResponse.getField(1).getValue().toString();
+                            logger.debug("Fetching datasync response for ID " + id + ", mucid is " + mucId);
                             sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
                         }
                         sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
@@ -128,6 +132,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 notificationTuple.add(param);
             }
             commandSpace.write(notificationTuple);
+            logger.debug("Sending notification to " + username + ", params are " + Arrays.toString(params));
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
