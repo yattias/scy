@@ -114,9 +114,7 @@ public class DataSyncService implements IDataSyncService {
 			if(message.getResponse().equals(Response.success)) {
 				String mucID = message.getMessage(); // defined by xmpp response
 				MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
-				DiscussionHistory history = new DiscussionHistory();
-				history.setMaxStanzas(Integer.MAX_VALUE);
-				muc.join(xmppConnection.getUser(), null, history, SmackConfiguration.getPacketReplyTimeout());
+				muc.join(xmppConnection.getUser());
 				newSession = new SyncSession(xmppConnection, muc);
 				newSession.addSyncListener(listener);
 				
