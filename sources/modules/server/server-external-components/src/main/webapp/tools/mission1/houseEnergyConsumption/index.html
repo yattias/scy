@@ -41,11 +41,11 @@
 
    function alertContents() {
       if (http_request.readyState == 4) {
-         if (http_request.status == 200 || http_request.status == 0) {
+         if (http_request.status == 200) {
             result = http_request.responseText;
-            alert("ELO sent to roolo. (" + http_request.status + ")");
+            alert("ELO sent to roolo (" + http_request.status + ").");
          } else {
-            alert('There was a problem with the request.');
+            alert("There was a problem with the request (" + http_request.status + ")\nResponse:\n" + http_request.responseText);
          }
       }
    }
