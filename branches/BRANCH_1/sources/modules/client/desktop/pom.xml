@@ -20,8 +20,8 @@
 
 	<modules>
 		<module>action-logging-client</module>
+		<module>notification-receiver</module>
 		<module>tool-broker</module>
-		<module>awareness-client</module>
 		<module>scy-desktop</module>
 		<module>scy-lab</module>
 	</modules>
