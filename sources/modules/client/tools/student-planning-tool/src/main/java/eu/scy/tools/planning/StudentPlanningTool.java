@@ -779,6 +779,7 @@ public class StudentPlanningTool {
 					.getStartDate().getTime());
 			startDatePicker.setDate(date);
 			startDateMap.put(activityName, startDatePicker.getDate());
+			endDatePicker.setEnabled(true);
 			taskpane.putClientProperty(START_DATE_MAP, startDateMap);
 
 		}
