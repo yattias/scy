@@ -360,7 +360,7 @@ public class StudentPlanningTool {
 		
 		JXPanel messagePanel = new JXPanel(new BorderLayout(0,0));
 		
-		//messagePanel.add(messageLabel,BorderLayout.WEST);
+		messagePanel.add(messageLabel,BorderLayout.WEST);
 		//messagePanel.add(new JXLabel(" "),"growx");
 		//messagePanel.add(lasTestTextField,BorderLayout.EAST);
 		messagePanel.add(infoLink,BorderLayout.EAST);
@@ -995,9 +995,11 @@ public class StudentPlanningTool {
 					UserDetails userDetails = user.getUserDetails();
 					String nickName = null;
 					if( userDetails instanceof SCYTeacherUserDetails ) {
-						nickName = ((SCYTeacherUserDetails)userDetails).getFirstName();
+						//nickName = ((SCYTeacherUserDetails)userDetails).getFirstName();
+						nickName = ((SCYTeacherUserDetails)userDetails).getUsername();
 					} else if(userDetails instanceof SCYStudentUserDetails) {
-						nickName = ((SCYStudentUserDetails)userDetails).getFirstname();
+						//nickName = ((SCYStudentUserDetails)userDetails).getFirstname();
+						nickName = ((SCYStudentUserDetails)userDetails).getUsername();
 					}
 					IAwarenessUser aw = new AwarenessUser();
 					aw.setNickName(nickName);

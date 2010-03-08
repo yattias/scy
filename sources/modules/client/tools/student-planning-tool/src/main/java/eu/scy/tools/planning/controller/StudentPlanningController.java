@@ -219,7 +219,10 @@ public class StudentPlanningController {
 						"For Your Information");
 				dialog.setVisible(true);
 		} else {
-			taskPanes.remove(entryPanel);
+			
+		
+			
+			this.removeTaskPane(entryPanel.getTaskpane());
 			entryContainer.remove(entryPanel);
 			entryContainer.revalidate();
 			
@@ -272,8 +275,9 @@ public class StudentPlanningController {
 //		
 //		if( this.toolbrokerApi == null || this.toolbrokerApi.getStudentPedagogicalPlanService() == null) {
 //			log.severe("StudentPedagogicalPlanService is NULL, LAME, using backup: " + url1);
-//			return getWithUrl(url1);
+//			return getWithUrl(url2);
 //		}
+//		return null;
 //		
 		if( this.getToolbrokerApi() == null ) {
 			throw new NullPointerException("Tool broker is null");
