@@ -742,6 +742,23 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       scyToolsList.leftDrawerTool = leftDrawerTool;
    }
 
+   public override function openDrawer(which:String):Void{
+      if ("top".equalsIgnoreCase(which)){
+         topDrawer.opened = true;
+      }
+      else if ("right".equalsIgnoreCase(which)){
+         rightDrawer.opened = true;
+      }
+      else if ("bottom".equalsIgnoreCase(which)){
+         bottomDrawer.opened = true;
+      }
+      else if ("left".equalsIgnoreCase(which)){
+         leftDrawer.opened = true;
+      }
+
+   }
+
+
 	public override function create(): Node {
 		blocksMouse = true;
 

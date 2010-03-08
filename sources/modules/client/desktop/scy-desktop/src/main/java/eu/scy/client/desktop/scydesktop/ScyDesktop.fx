@@ -560,15 +560,27 @@ public class ScyDesktop extends CustomNode, INotifiable {
         }
         if (scyToolsList.topDrawerTool != null) {
             window.topDrawerTool = scyToolsList.topDrawerTool;
+            if (collaboration){
+               window.openDrawer("top");
+            }
         }
         if (scyToolsList.rightDrawerTool != null) {
             window.rightDrawerTool = scyToolsList.rightDrawerTool;
+            if (collaboration){
+               window.openDrawer("right");
+            }
         }
         if (scyToolsList.bottomDrawerTool != null) {
+            if (collaboration){
+               window.openDrawer("bottom");
+            }
             window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
         }
         if (scyToolsList.leftDrawerTool != null) {
             window.leftDrawerTool = scyToolsList.leftDrawerTool;
+            if (collaboration){
+               window.openDrawer("left");
+            }
         }
         if (scyToolsList.actionLoggerTool != null) {
             window.scyToolsList.actionLoggerTool = scyToolsList.actionLoggerTool;
