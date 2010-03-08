@@ -20,7 +20,8 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
    CONTAINS_ASSIGMENT_ELO("containsAssignment"),
    LOGICAL_TYPE("logicalType"),
    FUNCTIONAL_TYPE("functionalType"),
-   EXTERNAL_DOC("externalDoc");
+   EXTERNAL_DOC("externalDoc"),
+   MUC_ID("mucId");
 
    private final String id;
 

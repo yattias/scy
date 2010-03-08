@@ -119,7 +119,10 @@ public class LoginDialog extends CustomNode {
       try {
          var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
 
-         logger.info("tbi.getRepository() : {toolBrokerAPI.getRepository()}\n"
+         logger.info(
+         "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n"
+         "tbi.getMission() : {toolBrokerAPI.getMission()}\n"
+         "tbi.getRepository() : {toolBrokerAPI.getRepository()}\n"
          "tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n"
          "tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n"
          "tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n"

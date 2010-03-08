@@ -98,8 +98,10 @@ public class DataSyncModule extends SCYHubModule {
                         final String id = afterTuple.getField(0).getValue().toString();
                         final String service = afterTuple.getField(2).getValue().toString();
                         if (service.equals("create_session")) {
+                            logger.debug("Got a create mucsession request with id " + id);
                             final SyncMessage msg = createSession();
                             final String mucId = msg.getMessage();
+                            logger.debug("Answering id " + id + " with mucid " + mucId);
                             try {
                                 commandSpace.write(new Tuple(id, mucId));
                             } catch (TupleSpaceException e) {

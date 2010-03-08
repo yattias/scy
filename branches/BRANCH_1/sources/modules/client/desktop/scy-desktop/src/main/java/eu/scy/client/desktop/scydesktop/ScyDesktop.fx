@@ -142,6 +142,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
     public-read var lowDebugGroup = Group { };
     public-read var highDebugGroup = Group { };
 
+    def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
+
     init {
         if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
             RedirectSystemStreams.redirect(config.getLoggingDirectory());
@@ -266,6 +268,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             dragAndDropManager: dragAndDropManager
             scyDesktop: this
             metadataTypeManager: config.getMetadataTypeManager()
+            showLasId:initializer.debugMode
         //         translateX:40;
         //         translateY:40;
         }
@@ -381,6 +384,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
+            showEloInfoDisplay:initializer.debugMode
         }
     }
 
@@ -429,6 +433,14 @@ public class ScyDesktop extends CustomNode, INotifiable {
     }
 
     function fillNewScyWindow2(window: ScyWindow): Void {
+       if (window.eloUri!=null){
+          var metadata = config.getRepository().retrieveMetadata(window.eloUri);
+          var mucId = metadata.getMetadataValueContainer(mucIdKey).getValue() as String;
+          if (mucId!=null){
+             window.mucId = mucId;
+          }
+       }
+
         var pleaseWait = PleaseWait { };
         window.scyContent = pleaseWait;
         FX.deferAction(function () {
@@ -548,15 +560,27 @@ public class ScyDesktop extends CustomNode, INotifiable {
         }
         if (scyToolsList.topDrawerTool != null) {
             window.topDrawerTool = scyToolsList.topDrawerTool;
+            if (collaboration){
+               window.openDrawer("top");
+            }
         }
         if (scyToolsList.rightDrawerTool != null) {
             window.rightDrawerTool = scyToolsList.rightDrawerTool;
+            if (collaboration){
+               window.openDrawer("right");
+            }
         }
         if (scyToolsList.bottomDrawerTool != null) {
+            if (collaboration){
+               window.openDrawer("bottom");
+            }
             window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
         }
         if (scyToolsList.leftDrawerTool != null) {
             window.leftDrawerTool = scyToolsList.leftDrawerTool;
+            if (collaboration){
+               window.openDrawer("left");
+            }
         }
         if (scyToolsList.actionLoggerTool != null) {
             window.scyToolsList.actionLoggerTool = scyToolsList.actionLoggerTool;

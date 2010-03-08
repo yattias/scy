@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -154,6 +155,7 @@ public class JXBuddyPanel extends JXPanel {
 		killLabel.setVisible(false);
 		bPanel.add(buddyLabel);
 		killLabel.putClientProperty(USER, user);
+		killLabel.setToolTipText("Click this button to delete this buddy");
 		bPanel.putClientProperty(KILL_LABEL, killLabel);
 		killLabel.addMouseListener(new MouseListener() {
 			
@@ -189,9 +191,23 @@ public class JXBuddyPanel extends JXPanel {
 			public void mouseClicked(MouseEvent e) {
 				System.out
 						.println("JXBuddyPanel.createBuddyIcon(...).new MouseListener() {...}.mouseClicked()");
-				JXLabel killLabel = (JXLabel) e.getSource();
-				JXBuddyPanel.this.removeBuddy(killLabel);
+				
 			
+				Object[] options = {"Yes, please",
+                "No, thanks"};
+				int n = JOptionPane
+				.showOptionDialog(null,
+						"<html>Are you sure you want to delete this buddy from this entry?<br>Remember, you can always drag them back later.</html>", "What do you want to do?",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, options,
+						options[1]);
+		
+				if( n == 0) {
+			
+					JXLabel killLabel = (JXLabel) e.getSource();
+					JXBuddyPanel.this.removeBuddy(killLabel);
+			
+				}
 				// TODO Auto-generated method stub
 				
 			}

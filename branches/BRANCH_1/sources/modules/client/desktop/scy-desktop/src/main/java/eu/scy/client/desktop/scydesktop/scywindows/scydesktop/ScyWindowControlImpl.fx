@@ -24,6 +24,9 @@ import java.lang.Void;
 public class ScyWindowControlImpl extends ScyWindowControl {
 
    def logger = Logger.getLogger(this.getClass());
+
+   public var showEloInfoDisplay= false;
+
    var firstNewLas = true;
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
          activeLasChanged(oldActiveLas);
@@ -246,7 +249,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             dragAndDropManager: dragAndDropManager
             windowControl:this
          }
-      tooltipManager.registerNode(scyWindow, scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
       if (anchorAttribute != null) {
          scyWindow.scyWindowAttributes = anchorAttribute;
@@ -255,8 +257,13 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowPositioner.positionWindows();
          }
       }
+      if (showEloInfoDisplay){
+         insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
+      }
+
       //      applyMetadataAttributes(scyWindow,eloUri);
       //      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
+      tooltipManager.registerNode(scyWindow, scyWindow);
       windowStyler.style(scyWindow, eloUri);
       insert scyWindow into scyWindows;
       return scyWindow;
@@ -271,11 +278,24 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             dragAndDropManager: dragAndDropManager
             windowControl:this
          }
+      if (showEloInfoDisplay){
+         insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
+      }
       tooltipManager.registerNode(scyWindow, scyWindow);
       windowStyler.style(scyWindow);
       insert scyWindow into scyWindows;
       return scyWindow;
    }
+
+   function getEloInfoDisplayAttribute(scyWindow:ScyWindow):EloInfoDisplayAttribute{
+      EloInfoDisplayAttribute{
+         window:scyWindow
+         repository:repository
+         metadataTypeManager:metadataTypeManager
+         tooltipManager:tooltipManager
+      }
+   }
+
 
    function getAnchor(eloUri: URI): MissionAnchorFX {
       for (las in missionModel.lasses) {
