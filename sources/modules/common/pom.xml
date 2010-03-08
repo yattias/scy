@@ -16,7 +16,9 @@
 	<description>scy-common metamodule</description>
 
 	<modules>
-        <module>configuration</module>
+		<module>configuration</module>
+		<module>data-sync-common</module>
+		<module>packet-transformer</module>
 		<module>action-logging-api</module>
 		<module>action-logging-commons</module>
 		<module>agent-api</module>
@@ -30,8 +32,6 @@
 		<module>scy-sessionmanager-api</module>
 		<module>tool-broker-api</module>
         <module>pedagogical-plan-service-api</module>
-        <module>packet-transformer</module>
-        <module>data-sync-common</module>
 
   </modules>
 
