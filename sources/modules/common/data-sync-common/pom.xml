@@ -9,6 +9,7 @@
   <groupId>eu.scy.common</groupId>
   <artifactId>data-sync-common</artifactId>
 
+  <name>Data Sync Common</name>
   <dependencies>
   
   	<dependency>
