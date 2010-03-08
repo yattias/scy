@@ -39,16 +39,10 @@ Model output in JSON format. In top level there are elements:
  * type - constant "scy/dataset"
 
 How to invoke SCY JSON web service?
-In index.html there is part:
-		case 'elosaver':
-			a=window.open("","a","width=700,height=500,toolbars=no,scrollbars=yes");
-			a.document.open();a.document.write(args);a.document.close();a.focus();
-//			b=window.open("http://scy.collide.info:8080/roolo-ws/webresources/saveELO?"+args,"b","");
-			break;
-It's the part where invoking web service can take part.
-First test can be: comment lines beginning with "a=" and uncomment and modify appropriately line beginning with "b=".
-If not working then maybe use some JSON library for Javascript to invoke JSON web service.
-There are also some possibilities to invoke web service inside Flash. If invoking web services from javascript fails then can test solutions from Flash.
+There is row in index.html:
+			makePOSTRequest('http://scy.collide.info:8080/roolo-ws/webresources/saveELOelectricity', args);
+Change web service address to correct address.
+Possible issue: "same origin policy" problems can arise. If all in one server then no problems. If Roolo web service and electricity web in different servers then possible security problems can be (server can block and some browsers can block something).
 
 AUTHORS
 Main version: Imre Raudsepp and Kristjan Adojaan
