@@ -142,6 +142,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
     public-read var lowDebugGroup = Group { };
     public-read var highDebugGroup = Group { };
 
+    def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
+
     init {
         if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
             RedirectSystemStreams.redirect(config.getLoggingDirectory());
@@ -431,6 +433,14 @@ public class ScyDesktop extends CustomNode, INotifiable {
     }
 
     function fillNewScyWindow2(window: ScyWindow): Void {
+       if (window.eloUri!=null){
+          var metadata = config.getRepository().retrieveMetadata(window.eloUri);
+          var mucId = metadata.getMetadataValueContainer(mucIdKey).getValue() as String;
+          if (mucId!=null){
+             window.mucId = mucId;
+          }
+       }
+
         var pleaseWait = PleaseWait { };
         window.scyContent = pleaseWait;
         FX.deferAction(function () {
