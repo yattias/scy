@@ -33,7 +33,7 @@
       
       http_request.onreadystatechange = alertContents;
       http_request.open('POST', url, true);
-      http_request.setRequestHeader("Content-type", "text/html");
+      http_request.setRequestHeader("Content-type", "text/plain");
       http_request.setRequestHeader("Content-length", parameters.length);
       http_request.setRequestHeader("Connection", "close");
       http_request.send(parameters);
