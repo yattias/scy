@@ -275,7 +275,7 @@ public class SCYMapperPanel extends JPanel {
 			sessionPanel.add(showNotificationButton);
 		}
 		sessionPanel.add(testSuggestKeywordButton);
-		topToolBarPanel.add(sessionPanel);
+//		topToolBarPanel.add(sessionPanel);
 
 		cmapPanel = new ConceptMapPanel(conceptMap);
 		cmapPanel.setBackground(Color.WHITE);
