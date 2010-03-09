@@ -471,6 +471,7 @@
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
+                           <value>roolo://memory/415/0/Data_from_the_energy_consumption_simulation.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -702,7 +703,7 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/356/0/Thermal_simulation_manual.url</value>
+                     <value>roolo://memory/417/0/Data_from_the_thermal_simulation.url</value>
                   </list>
                </property>
             </bean>
@@ -715,7 +716,7 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/355/0/Manual_for_converter.url</value>
+                     <value>roolo://memory/416/0/Data_from_the_converter.url</value>
                   </list>
                </property>
             </bean>
