@@ -19,7 +19,7 @@ import java.util.UUID;
 public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	protected Point from;
 	protected Point to;
-	private String label = "";
+	protected String label = "";
 	private ILinkShape shape;
 
 	private transient java.util.List<ILinkModelListener> listeners;
