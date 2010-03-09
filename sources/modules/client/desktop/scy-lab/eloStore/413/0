@@ -16,6 +16,19 @@
         <dateCreated>1252574962998</dateCreated>
       </customElements>
     </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T14:05:44.759+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
     <relation>
       <kind>
         <source>LOMv1.0</source>
