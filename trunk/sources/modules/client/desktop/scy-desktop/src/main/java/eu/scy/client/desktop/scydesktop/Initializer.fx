@@ -329,7 +329,12 @@ public class Initializer {
             if (usingWebStart){
                var userHome = System.getProperty("user.home");
                logDirectory = new File(userHome,"SCY-Lab/{loggingDirectoryName}");
-               logDirectory.mkdirs();
+               if (not logDirectory.mkdirs()){
+                  println("failed to create the web start log directory: {logDirectory.getAbsolutePath()}");
+               }
+               else{
+                  println("created the web start log directory: {logDirectory.getAbsolutePath()}");
+               }
             }
             if (logDirectory==null){
                logDirectory = new File(loggingDirectoryName);
