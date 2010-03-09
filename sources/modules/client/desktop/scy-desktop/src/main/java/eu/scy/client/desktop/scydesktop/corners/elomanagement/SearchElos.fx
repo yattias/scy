@@ -18,7 +18,7 @@ public class SearchElos extends ModalDialogNode {
     public-read var typesListView: javafx.scene.control.ListView;
     public-read var label3: javafx.scene.control.Label;
     public-read var nameTextbox: javafx.scene.control.TextBox;
-    public-read var onlyMineCheckBox: javafx.scene.control.CheckBox;
+    public-read var mineCheckBox: javafx.scene.control.CheckBox;
     public-read var label4: javafx.scene.control.Label;
     public-read var line: javafx.scene.shape.Line;
     public-read var searchButton: javafx.scene.control.Button;
@@ -27,6 +27,8 @@ public class SearchElos extends ModalDialogNode {
     public-read var openButton: javafx.scene.control.Button;
     public-read var cancelButton: javafx.scene.control.Button;
     public-read var label6: javafx.scene.control.Label;
+    public-read var label7: javafx.scene.control.Label;
+    public-read var othersCheckBox: javafx.scene.control.CheckBox;
     
     public-read var currentState: org.netbeans.javafx.design.DesignState;
     
@@ -75,8 +77,8 @@ public class SearchElos extends ModalDialogNode {
                 height: bind nameTextbox.height
             }
         };
-        onlyMineCheckBox = javafx.scene.control.CheckBox {
-            layoutX: 314.0
+        mineCheckBox = javafx.scene.control.CheckBox {
+            layoutX: 276.0
             layoutY: 108.0
             onMouseClicked: onlyMineCheckBoxOnMouseClicked
             text: ""
@@ -132,7 +134,17 @@ public class SearchElos extends ModalDialogNode {
         label6 = javafx.scene.control.Label {
             layoutX: 240.0
             layoutY: 108.0
-            text: "Only mine"
+            text: "Mine"
+        };
+        label7 = javafx.scene.control.Label {
+            layoutX: 316.0
+            layoutY: 108.0
+            text: "Others"
+        };
+        othersCheckBox = javafx.scene.control.CheckBox {
+            layoutX: 363.0
+            layoutY: 108.0
+            text: ""
         };
         
         currentState = org.netbeans.javafx.design.DesignState {
@@ -146,7 +158,7 @@ public class SearchElos extends ModalDialogNode {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Design Functions">
     public function getDesignRootNodes () : javafx.scene.Node[] {
-        [ label, label2, allTypesCheckBox, typesListView, label3, nameTextbox, onlyMineCheckBox, label4, line, searchButton, label5, resultsListView, openButton, cancelButton, label6, ]
+        [ label, label2, allTypesCheckBox, typesListView, label3, nameTextbox, mineCheckBox, label4, line, searchButton, label5, resultsListView, openButton, cancelButton, label6, label7, othersCheckBox, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
