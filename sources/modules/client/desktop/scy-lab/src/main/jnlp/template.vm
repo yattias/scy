@@ -27,7 +27,9 @@
         <argument>-localToolBrokerLoginConfigFile</argument>
         <argument>config/localReadOnlyScyServices.xml</argument>
         <argument>-enableLocalLogging</argument>
-        <argument>false</argument>
+        <argument>true</argument>
+        <argument>-redirectSystemStream</argument>
+        <argument>true</argument>
         <argument>-loginType</argument>
         <argument>remote</argument>
     </application-desc>
