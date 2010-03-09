@@ -101,6 +101,8 @@ public class Initializer {
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
       setupBackgroundImage();
       usingWebStart = System.getProperty("javawebstart.version")!=null;
+      parseApplicationParameters();
+      parseWebstartParameters();
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
       var loggingDirectoryKeyValue = "";
       if (enableLocalLogging) {
@@ -115,8 +117,6 @@ public class Initializer {
       println("\nStarting SCY-Lab on {new Date()}\n");
       println("Client IP address: {InetAddress.getLocalHost().getHostAddress()}\n");
       JavaProperties.writePropertiesForApplication();
-      parseApplicationParameters();
-      parseWebstartParameters();
       printInitializerValues();
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
