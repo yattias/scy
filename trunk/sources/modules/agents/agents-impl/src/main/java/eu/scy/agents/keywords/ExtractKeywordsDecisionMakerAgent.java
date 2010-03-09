@@ -13,12 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-
 import roolo.api.IRepository;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
-
 import edu.emory.mathcs.backport.java.util.Collections;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
@@ -57,6 +55,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	static final Object SCYMAPPER = "scymapper";
 	static final Object CONCEPTMAP = "conceptmap";
 	static final Object WEBRESOURCER = "webresource";
+	private static final String ANNOTATIONS_START = "<annotations>";
+	private static final String ANNOTATIONS_END = "</annotations>";
 
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
@@ -66,7 +66,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
-	private IMetadataTypeManager metadataTypeManager;
 	private IRepository repository;
 
 	@SuppressWarnings("unchecked")
@@ -280,7 +279,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			logger.fatal("Content of elo is null");
 			return "";
 		}
-		String text = new String(content.getXml());
+		String text = content.getXml();
+		text = text.substring(text.indexOf(ANNOTATIONS_START), text.lastIndexOf(ANNOTATIONS_END)
+				+ ANNOTATIONS_END.length());
 		return text;
 	}
 
@@ -323,7 +324,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	@Override
 	public void setMetadataTypeManager(IMetadataTypeManager manager) {
-		metadataTypeManager = manager;
+		// not needed
 	}
 
 	@Override
