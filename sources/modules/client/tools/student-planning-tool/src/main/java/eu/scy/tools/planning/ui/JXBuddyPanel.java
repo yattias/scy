@@ -155,7 +155,7 @@ public class JXBuddyPanel extends JXPanel {
 		killLabel.setVisible(false);
 		bPanel.add(buddyLabel);
 		killLabel.putClientProperty(USER, user);
-		killLabel.setToolTipText("Click this button to delete this buddy");
+		killLabel.setToolTipText("Click me to delete this buddy");
 		bPanel.putClientProperty(KILL_LABEL, killLabel);
 		killLabel.addMouseListener(new MouseListener() {
 			

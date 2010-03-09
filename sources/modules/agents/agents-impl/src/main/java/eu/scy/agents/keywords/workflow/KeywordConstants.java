@@ -8,7 +8,8 @@ public final class KeywordConstants {
 	public static final String TM_KEYWORDS = "TMKeywords";
 	public static final String TOPIC_MODEL = "TopicModel";
 	public static final String DOCUMENT_FREQUENCY_MODEL = "DocumentFrequencyModel";
-	static final String DOCUMENT_FREQUENCY = "DocumentFrequency";
+	public static final String DOCUMENT_FREQUENCY = "DocumentFrequency";
+	public static final String TFIDF = "TfIdf";
 
 	private KeywordConstants() {
 		// disallow construction

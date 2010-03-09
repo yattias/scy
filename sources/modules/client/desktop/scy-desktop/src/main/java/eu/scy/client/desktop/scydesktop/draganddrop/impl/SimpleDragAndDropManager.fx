@@ -33,6 +33,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
    var sourceNode: Node;
    var sourceNodeOnMouseDragged:function(e:MouseEvent):Void;
    var sourceNodeOnMouseReleased:function(e:MouseEvent):Void;
+   var mousehasBeenDragged = false;
 
    var currentWindowUnderMouse:ScyWindow;
 
@@ -59,10 +60,12 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       sourceNodeOnMouseReleased = sourceNode.onMouseReleased;
       sourceNode.onMouseDragged = mouseDragged;
       sourceNode.onMouseReleased = mouseReleased;
+      mousehasBeenDragged = false;
    }
 
    function mouseDragged(e: MouseEvent): Void {
       if (dragNode != null) {
+         mousehasBeenDragged = true;
          var mouseEventInScene = MouseEventInScene{mouseEvent:e};
          dragNode.layoutX = orginalDragNodeX + mouseEventInScene.dragX;
          dragNode.layoutY = orginalDragNodeY + mouseEventInScene.dragY;
@@ -78,7 +81,9 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       if (dragNode != null) {
 //         println("SimpleDragAndDropManager.mouseReleased");
          try{
-            tryDrop(e);
+            if (mousehasBeenDragged){
+               tryDrop(e);
+            }
          }
          catch (ex:Exception){
             logger.error("an exception occured while trying to drop {dropObject.getClass()}", ex);
@@ -102,7 +107,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    function checkDropStatus(e: MouseEvent): Void {
       var windowUnderMouse = windowManager.getWindowUnderMouse(e.sceneX, e.sceneY);
-      //println("windowUnderMouse: {windowUnderMouse.eloUri}");
+      println("windowUnderMouse: {windowUnderMouse.eloUri}");
       if (windowUnderMouse!=currentWindowUnderMouse){
          if (currentWindowUnderMouse!=null){
             logger.debug("mouse left {currentWindowUnderMouse.eloUri}")

@@ -166,6 +166,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
             logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
         }
+        FX.addShutdownAction(scyDesktopShutdownAction);
     }
 
     function initialWindowPositioning() {
@@ -656,6 +657,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 }
             }
         }
+    }
+
+    function scyDesktopShutdownAction():Void{
+       println("Scy desktop is shutting down....");
     }
 
 }

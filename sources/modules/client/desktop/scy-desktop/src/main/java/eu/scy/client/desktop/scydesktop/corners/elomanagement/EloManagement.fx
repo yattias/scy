@@ -318,9 +318,18 @@ public class EloManagement extends CustomNode {
    }
 
    function createAuthorQuery(searchElos: SearchElos):IQuery{
-      if (searchElos.onlyMineCheckBox.selected){
-         var authorValue = new Contribute(userId, System.currentTimeMillis());
-         return new BasicMetadataQuery(authorKey,BasicSearchOperations.EQUALS,authorValue,null);
+      // if both mine and others and checked or unchecked, nothing to do
+      if (searchElos.mineCheckBox.selected or searchElos.othersCheckBox.selected){
+         if (not (searchElos.mineCheckBox.selected and searchElos.othersCheckBox.selected)){
+            if (searchElos.mineCheckBox.selected){
+               var authorValue = new Contribute(userId, System.currentTimeMillis());
+               return new BasicMetadataQuery(authorKey,BasicSearchOperations.EQUALS,authorValue,null);
+            }
+            if (searchElos.othersCheckBox.selected){
+               var authorValue = new Contribute(userId, System.currentTimeMillis());
+               return new BasicMetadataQuery(authorKey,BasicSearchOperations.NOT_EQUALS,authorValue,null);
+            }
+         }
       }
       return null;
    }

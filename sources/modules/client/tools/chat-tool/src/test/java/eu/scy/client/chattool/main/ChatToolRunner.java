@@ -57,8 +57,8 @@ public static void main(String[] args) {
 		for(int i = 0; i<users.length; i++) {
 			
 			//choose which server the tbi should be created against
-			tbi = new ToolBrokerImpl(users[i]+"@scy.collide.info", users[i]);
-			//tbi = new ToolBrokerImpl(users[i]+"@83.168.205.138", users[i]);
+			//tbi = new ToolBrokerImpl(users[i]+"@scy.collide.info", users[i]);
+			tbi = new ToolBrokerImpl(users[i]+"@83.168.205.138", users[i]);
 			final IAwarenessService aService = tbi.getAwarenessService();
 			
 			final JFrame frame = new JFrame("Selecting JList");

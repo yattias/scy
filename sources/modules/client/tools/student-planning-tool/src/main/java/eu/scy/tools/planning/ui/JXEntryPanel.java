@@ -134,7 +134,7 @@ public class JXEntryPanel extends JXPanel {
 		deleteButton.setOpaque(false);
 		deleteButton.setBorder(BorderFactory.createEmptyBorder());
 		deleteButton.setEnabled(false);
-		deleteButton.setToolTipText("Click this button to delete this entry");
+		deleteButton.setToolTipText("Click me to delete this entry");
 		this.putClientProperty(DELETE_BUTTON, deleteButton);
 		this.add(deleteButton, "wrap,top");
 

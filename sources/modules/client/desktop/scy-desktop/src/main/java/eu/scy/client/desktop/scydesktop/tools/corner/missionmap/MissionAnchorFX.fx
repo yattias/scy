@@ -39,4 +39,9 @@ public class MissionAnchorFX {
       return "eloUri:{eloUri}";
    }
 
+   public function getAllEloUris():URI[]{
+      var allEloUris:URI[] = eloUri;
+      insert loEloUris into allEloUris;
+      return allEloUris;
+   }
 }

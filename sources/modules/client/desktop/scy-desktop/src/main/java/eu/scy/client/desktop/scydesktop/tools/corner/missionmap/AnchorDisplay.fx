@@ -17,8 +17,6 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
@@ -82,7 +80,7 @@ public class AnchorDisplay extends CustomNode {
 
       eloIcon.translateX = (size - eloIcon.boundsInLocal.maxX - eloIcon.boundsInLocal.minX) / 2 + 0;
       eloIcon.translateY = (size - eloIcon.boundsInLocal.maxY - eloIcon.boundsInLocal.minY) / 2 + 0;
-      return Group {
+      Group {
          layoutX: bind las.xPos;
          layoutY: bind las.yPos;
          content: [
