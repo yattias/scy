@@ -15,6 +15,8 @@ public class NodeLinkModel extends SimpleLink implements INodeLinkModel {
     private INodeModel fromNode;
     private INodeModel toNode;
 
+    private String myLabel;
+    
     public NodeLinkModel(Point from, Point to) {
         this.from = from;
         this.to = to;
@@ -68,4 +70,17 @@ public class NodeLinkModel extends SimpleLink implements INodeLinkModel {
     public void setToNode(INodeModel node) {
         toNode = node;
     }
+
+    @Override
+    public String getLabel() {
+            return myLabel;
+    }
+
+    @Override
+    public void setLabel(String label) {
+            this.label = label;
+            this.myLabel = label;
+            notifyLabelChanged();
+    }
+    
 }

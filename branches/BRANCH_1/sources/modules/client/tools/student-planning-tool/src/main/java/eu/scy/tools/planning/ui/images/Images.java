@@ -15,8 +15,8 @@ public enum Images {
 	// images
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	NetworkConnected("NetworkConnected.png"), Folder(
-			"folder.png"), One("1.png"), Two("2.png"), Excel1("excel1.png"), Excel2("excel1.png"), Profile("Profile.png"),FDelete("FDelete.png"),Information("information.png");
-
+			"folder.png"), One("1.png"), Two("2.png"), Excel1("excel1.png"), Excel2("excel1.png"), Profile("Profile.png"),FDelete("FDelete.png"),Information("information.png"),
+			PaneOpen("PaneOpen.png"),PaneClosed("PaneClosed.png");
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// data
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -32,7 +32,7 @@ public enum Images {
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// methods
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	BufferedImage getImage() {
+	public BufferedImage getImage() {
 		try {
 			return ImageIO.read(Images.class.getResource(imagefilename));
 		} catch (IOException e) {

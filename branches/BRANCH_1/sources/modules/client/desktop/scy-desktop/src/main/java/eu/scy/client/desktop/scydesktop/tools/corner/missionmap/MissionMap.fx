@@ -21,7 +21,6 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import javafx.scene.text.Text;
 import javafx.util.Math;
 import javafx.scene.text.TextOrigin;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 

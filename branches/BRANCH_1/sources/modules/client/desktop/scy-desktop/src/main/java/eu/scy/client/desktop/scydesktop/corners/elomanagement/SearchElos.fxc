@@ -39,6 +39,8 @@
             <Item value="inst:ButtonModel2"/>
             <Item value="inst:ButtonModel3"/>
             <Item value="inst:LabelModel6"/>
+            <Item value="inst:LabelModel7"/>
+            <Item value="inst:CheckBoxModel3"/>
         </List>
         <Reference name="width" value="prop:16,anim:,,flt:497.0,"/>
         <Reference name="height" value="prop:16,anim:,,flt:293.0,"/>
@@ -107,8 +109,8 @@
         <Reference name="postCreationCode" value="null"/>
     </Instance>
     <Instance classID="CheckBoxModel" instanceID="CheckBoxModel2">
-        <Reference name="instanceName" value="str:onlyMineCheckBox"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:314.0,4,null,"/>
+        <Reference name="instanceName" value="str:mineCheckBox"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:276.0,4,null,"/>
         <Reference name="layoutY" value="prop:16,anim:,,flt:108.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:41,anim:,,str:onlyMineCheckBoxOnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
@@ -193,6 +195,24 @@
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:20,anim:,,str:Only mine,4,null,"/>
+        <Reference name="text" value="prop:15,anim:,,str:Mine,4,null,"/>
+    </Instance>
+    <Instance classID="LabelModel" instanceID="LabelModel7">
+        <Reference name="instanceName" value="str:label7"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:316.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:108.0,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:17,anim:,,str:Others,4,null,"/>
+    </Instance>
+    <Instance classID="CheckBoxModel" instanceID="CheckBoxModel3">
+        <Reference name="instanceName" value="str:othersCheckBox"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:363.0,4,null,"/>
+        <Reference name="layoutY" value="prop:16,anim:,,flt:108.0,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:11,anim:,,str:,4,null,"/>
     </Instance>
 </Model>

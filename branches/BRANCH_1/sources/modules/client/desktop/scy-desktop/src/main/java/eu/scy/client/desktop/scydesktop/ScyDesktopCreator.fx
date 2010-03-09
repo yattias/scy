@@ -46,6 +46,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloConfigManager;
+import java.util.ArrayList;
 
 /**
  * @author sikkenj
@@ -210,10 +211,16 @@ public class ScyDesktopCreator {
    }
 
    function readMissionModel() {
-      printAllEloUris();
+      if (initializer.debugMode){
+         printAllSpecificationEloUris();
+      }
+      // cache the elo templates
+      config.getRepository().retrieveELOs(config.getTemplateEloUris());
       missionModelFX = retrieveStoredMissionModel();
       if (missionModelFX==null){
          // first time login
+         // cache the elos
+         config.getRepository().retrieveELOs(config.getAllMissionEloUris());
          missionModelFX = MissionModelUtils.retrieveMissionModelFromConfig(config);
          addEloStatusInformationToMissionModel(missionModelFX);
          if (initializer.createPersonalMissionMap){
@@ -226,6 +233,13 @@ public class ScyDesktopCreator {
             JOptionPane.showMessageDialog(null as Component,"This SCY-Lab works only for mission id {myMissionModelId}, not for {missionModelFX.id}","Not configures",JOptionPane.ERROR_MESSAGE);
             FX.exit();
          }
+         // cache the elos
+         var eloUrisToCache = new ArrayList();
+         for (uri in missionModelFX.getAllEloUris()){
+            eloUrisToCache.add(uri);
+         }
+
+         config.getRepository().retrieveELOs(eloUrisToCache);
       }
  
       if (missionModelFX == null) {
@@ -236,7 +250,7 @@ public class ScyDesktopCreator {
       missionModelFX.eloFactory = config.getEloFactory();
    }
 
-   function printAllEloUris():Void{
+   function printAllSpecificationEloUris():Void{
       println("\nThe list of all elo uris, used in the mission map specifiaction");
       for (uri in config.getAllMissionEloUris()){
          printEloUri(uri);
