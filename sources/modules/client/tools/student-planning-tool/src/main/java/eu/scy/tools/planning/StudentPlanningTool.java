@@ -112,6 +112,9 @@ public class StudentPlanningTool {
 	private JXLabel messageLabel;
 
 	private JScrollPane scrollPane;
+	
+	private String paneOpenStr = Images.class.getResource("PaneOpen.png").toExternalForm();
+	private String paneClosedStr = Images.class.getResource("PaneClosed.png").toExternalForm();
 
 	/**
 	 * creates a JFrame and calls {@link #doInit} to create a JXPanel and adds
@@ -240,7 +243,7 @@ public class StudentPlanningTool {
 		changeUIdefaults();
 
 		messageLabel = new JXLabel(
-				"<html><b>Drag and Drop ELOs from the Mission Map.</b></html>");
+				"<html><b>Drag and Drop ELOs from the Mission Map to make a plan.</b></html>");
 		// create a taskpanecontainer
 		taskpanecontainer = new JXTaskPaneContainer();
 		taskpanecontainer.setLayout(new MigLayout("inset 0 0 0 0, wrap"));
@@ -298,7 +301,15 @@ public class StudentPlanningTool {
 		Action infoAction = new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
-				String msg = "<html>Using the Planning Tool is very simple.<br><br><b>1. </b>Drag and Drop ELOs from the Mission Map to add entries to the planner.<br><b>2. </b>Drag and Drop Buddys from the buddy list to add collaborators.<br><b>3. </b>Set dates and notes.</html>";
+				
+				
+				
+				String msg = "<html>Using the Planning Tool is very simple!<br><br><b>1. </b>Drag and Drop ELOs from the <b>Mission Map</b> to add entries to the planner.<br><b>2. </b>Drag and Drop Buddys from the <b>Buddy List</b> to add collaborators.<br><b>3. </b>Set dates and notes." +
+								"<br><br><b>There two views to the Planning Tool:</b>"+
+								"<br><br><b>1.</b> Planning Entry collapsed.</b><br><br><img src='" + paneClosedStr +"'>" +
+										"<br><br><b>2.</b> Planning Entry expanded.</b><br><br><img src='" + paneOpenStr +"'>" +
+										"<br><br><b>Have fun!</b>"+
+												"</html>";
 
 				JOptionPane optionPane = new JOptionPane();
 				optionPane.setMessage(msg);
@@ -356,6 +367,7 @@ public class StudentPlanningTool {
 
 		infoAction.putValue(infoAction.SMALL_ICON, Images.Information.getIcon());
 		JXHyperlink infoLink = new JXHyperlink(infoAction);
+		infoLink.setToolTipText("Click me for help!");
 		
 		
 		JXPanel messagePanel = new JXPanel(new BorderLayout(0,0));
