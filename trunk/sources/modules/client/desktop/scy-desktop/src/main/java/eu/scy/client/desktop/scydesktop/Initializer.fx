@@ -274,6 +274,7 @@ public class Initializer {
       println("- windowPositioner: {windowPositioner}");
       println("- debugMode: {debugMode}");
       println("- authorMode: {authorMode}");
+      println("- usingWebStart: {usingWebStart}");
    }
 
    public function isEmpty(string: String): Boolean {
@@ -340,6 +341,7 @@ public class Initializer {
                throw new IllegalArgumentException("logging directory does not a directory: {logDirectory.getAbsolutePath()}");
             }
          }
+         println("logDirectory: {logDirectory.getAbsolutePath()}");
          return logDirectory;
       }
       catch (e:Exception){
