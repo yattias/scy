@@ -9,6 +9,19 @@
       </customElements>
 	  <mucId>startPageChat</mucId>
     </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-22T13:36:09.329+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
     <general>
       <title>
         <string language="en">Challenge</string>
@@ -27,19 +40,6 @@
     <educational>
       <learningResourceType>informationAssignment</learningResourceType>
     </educational>
-    <lifecycle>
-      <contribute>
-        <role>
-          <source>LOMv1.0</source>
-          <value>author</value>
-        </role>
-        <entity>truc</entity>
-        <date>
-          <dateTime>2010-02-22T12:06:57.104+0100</dateTime>
-        </date>
-      </contribute>
-      <version>0</version>
-    </lifecycle>
     <relation>
       <kind>
         <source>LOMv1.0</source>
