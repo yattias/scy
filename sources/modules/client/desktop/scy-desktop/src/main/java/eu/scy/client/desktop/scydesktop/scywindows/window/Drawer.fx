@@ -148,7 +148,7 @@ public abstract class Drawer extends CustomNode {
                width = Math.max(resizableContent.getPrefWidth(width), absoluteMinimumWidth);
             }
             if (horizontal){
-               height = Math.max(resizableContent.getPrefWidth(height), absoluteMinimumHeight);
+               height = Math.max(resizableContent.getPrefHeight(height), absoluteMinimumHeight);
             }
          } else if (content != null) {
             if (not horizontal){
