@@ -35,7 +35,7 @@ public class ChatPanel extends JXTitledPanel {
 	private ChatController chatControler;
 	private JScrollPane chatAreaScroll;
 	private JPanel p;
-	private int setWidth = 350;
+	private int setWidth = 250;
 
 	public ChatPanel(ChatController mucChatController) {
 		this.chatControler = mucChatController;

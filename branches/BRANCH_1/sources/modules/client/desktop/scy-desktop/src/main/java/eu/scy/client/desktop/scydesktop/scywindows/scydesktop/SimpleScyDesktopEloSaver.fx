@@ -1,4 +1,4 @@
-/*
+   /*
  * SimpleScyDesktopEloSaver.fx
  *
  * Created on 26-feb-2010, 12:02:24
@@ -21,6 +21,9 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.Contribute;
+import roolo.elo.api.IMetadata;
 
 /**
  * @author sikken
@@ -37,6 +40,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var config: Config;
    public var windowStyler: WindowStyler;
    public var scyToolActionLogger: ScyToolActionLogger;
+
+   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
 
    public override function eloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
       var forking = elo.getUri() != null;
@@ -104,11 +109,17 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
    public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
       if (elo.getUri() != null) {
-         var oldUri = elo.getUri();
-         var newMetadata = repository.updateELO(elo);
+         var newMetadata:IMetadata;
+         var eloAuthor = elo.getMetadata().getMetadataValueContainer(authorKey).getValue() as Contribute;
+         if (eloAuthor.getVCard()!=config.getToolBrokerAPI().getLoginUserName()){
+            // it is not my elo, make a fork of it
+            newMetadata = repository.addForkedELO(elo);
+         }
+         else{
+            newMetadata = repository.updateELO(elo);
+         }
          eloFactory.updateELOWithResult(elo, newMetadata);
          myEloChanged.myEloChanged(elo);
-         //return elo;
       } else {
          eloSaveAs(elo, eloSaverCallBack);
       }

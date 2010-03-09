@@ -2,8 +2,10 @@ package eu.scy.agents.keywords;
 
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
@@ -46,7 +48,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 				ArrayList<String> tfIdfKeywords = getTfIdfKeywords(tuple);
 				ArrayList<String> topicKeywords = getTopicKeywords(tuple);
 
-				ArrayList<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
+				Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
 				logger.info("found keywords: " + mergedKeywords);
 
 				sendAnswer(mergedKeywords, queryId);
@@ -55,7 +57,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private void sendAnswer(List<String> mergedKeywords, String queryId) {
+	private void sendAnswer(Set<String> mergedKeywords, String queryId) {
 		Tuple responseTuple = new Tuple();
 		responseTuple.add(EXTRACT_KEYWORDS);
 		responseTuple.add(AgentProtocol.RESPONSE);
@@ -70,8 +72,8 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private ArrayList<String> mergeKeywords(List<String> keywords1, List<String> keywords2) {
-		ArrayList<String> mergedResult = new ArrayList<String>();
+	private Set<String> mergeKeywords(List<String> keywords1, List<String> keywords2) {
+		Set<String> mergedResult = new HashSet<String>();
 		mergedResult.addAll(keywords1);
 		mergedResult.addAll(keywords2);
 		return mergedResult;
