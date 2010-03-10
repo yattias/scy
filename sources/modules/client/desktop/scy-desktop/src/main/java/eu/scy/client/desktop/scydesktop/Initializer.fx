@@ -67,6 +67,7 @@ public class Initializer {
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
    public-read var usingWebStart = false;
+   public-read var offlineMode = false;
    def systemOutFileName = "systemOut";
    def systemErrFileName = "systemErr";
    def enableLocalLoggingKey = "enableLocalLogging";
@@ -99,10 +100,11 @@ public class Initializer {
 
    init {
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
-      setupBackgroundImage();
-      usingWebStart = System.getProperty("javawebstart.version")!=null;
       parseApplicationParameters();
       parseWebstartParameters();
+      setupBackgroundImage();
+      usingWebStart = System.getProperty("javawebstart.version")!=null;
+      offlineMode = loginType=="local";
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
       var loggingDirectoryKeyValue = "";
       if (enableLocalLogging) {
@@ -275,6 +277,7 @@ public class Initializer {
       println("- debugMode: {debugMode}");
       println("- authorMode: {authorMode}");
       println("- usingWebStart: {usingWebStart}");
+      println("- offlineMode: {offlineMode}");
    }
 
    public function isEmpty(string: String): Boolean {
