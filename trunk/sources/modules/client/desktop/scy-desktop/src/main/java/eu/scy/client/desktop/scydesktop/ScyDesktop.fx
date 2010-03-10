@@ -327,8 +327,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
                         newWindow.openWindow(700, 600);
                     }
                 }
-        topRightCorner = TopRightCorner {
-            content: SPTButton;
+        if (not initializer.offlineMode){
+           topRightCorner = TopRightCorner {
+               content: SPTButton;
+           }
         }
         bottomRightCorner = BottomRightCorner {
             // TODO, replace with specified tool
@@ -448,7 +450,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             // one defer does not seem to be enough to show the please wait content
             FX.deferAction(function () {
                 realFillNewScyWindow2(window, false);
-                if (window.mucId.length()>0){
+                if (window.mucId.length()>0 and not initializer.offlineMode){
                    installCollaborationTools(window);
                 }
 
