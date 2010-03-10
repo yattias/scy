@@ -21,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 
 /**
  * @author sikkenj
@@ -85,7 +86,6 @@ public abstract class ScyWindow extends CustomNode {
    public var windowControl: ScyWindowControl;
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
-
    public var mucId: String;
 
 	// status variables
@@ -105,9 +105,6 @@ public abstract class ScyWindow extends CustomNode {
    public abstract function addChangesListener(wcl:WindowChangesListener):Void;
    public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
 
-
-    public abstract function addEdge(edge:Edge):Void;
-    public abstract function removeEdge(edge:Edge):Void;
 
    public abstract function canAcceptDrop(object:Object):Boolean;
    public abstract function acceptDrop(object:Object):Void;

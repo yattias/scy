@@ -89,6 +89,7 @@ import java.lang.Void;
 import java.net.URI;
 import javax.swing.JOptionPane;
 import org.jdom.Element;
+import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 
 /**
  * @author sikkenj
@@ -117,6 +118,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
     public var bottomLeftCornerTool: Node on replace {
                 bottomLeftCorner.content = bottomLeftCornerTool
             };
+     public-init var edgesManager:IEdgesManager = EdgesManager{
+            repository: config.getRepository();
+            metadataTypeManager: config.getMetadataTypeManager();
+            windowManager: bind windows;
+    };
     def windows: WindowManager = WindowManagerImpl {
                 scyDesktop: this
             //       activeAnchor: bind missionModelFX.activeAnchor;
@@ -398,8 +404,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
       textElement.setText(text);
       return jdomStringConversion.xmlToString(textElement);
    }
-
-    var edgesManager: EdgesManager = EdgesManager { }
 
     public override function create(): Node {
         logger.info("create");

@@ -39,7 +39,6 @@ public class WindowManagerImpl extends WindowManager {
       }
    };
    var windowStateListMap:Map = new HashMap();
-
    function setActiveWindowState(scyWindow:ScyWindow){
       scyWindow.activated = true;
    }

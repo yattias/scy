@@ -44,25 +44,12 @@ public class EdgeLabel extends CustomNode {
     }
 
 
-    var kill:Rectangle = Rectangle {
-        translateX: bind x + border.width - 5;
-        translateY: bind y;
-        height: 5;
-        width: 5
-        fill: Color.RED;
-        stroke: Color.BLACK;
-        onMouseReleased: function(e:MouseEvent):Void {
-            edge.deleteMe();
-        }
-    }
-
 
     override function create():Node {
         var g:Group = Group {
             content: [
                     border,
                     label,
-                    kill
                     ]
         }
     }

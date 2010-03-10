@@ -413,7 +413,7 @@ public class ScyDesktopCreator {
          newEloCreationRegistry: newEloCreationRegistry;
          windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
          drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
-         eloConfigManager:eloConfigManager
+         eloConfigManager:eloConfigManager;
       };
 
       //register for notifications
