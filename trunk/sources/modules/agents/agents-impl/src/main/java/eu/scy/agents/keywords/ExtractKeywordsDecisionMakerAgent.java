@@ -226,7 +226,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				}
 			}
 			sendAliveUpdate();
-			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
+			// Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
 		}
 	}
 
@@ -282,6 +282,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		String text = content.getXml();
 		text = text.substring(text.indexOf(ANNOTATIONS_START), text.lastIndexOf(ANNOTATIONS_END)
 				+ ANNOTATIONS_END.length());
+		logger.info("Got text " + text);
 		return text;
 	}
 
