@@ -26,6 +26,9 @@ import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 import javax.jnlp.ServiceManager;
 import eu.scy.common.configuration.Configuration;
+import javax.swing.JOptionPane;
+import java.util.Date;
+import java.net.InetAddress;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -63,6 +66,8 @@ public class Initializer {
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
+   public-read var usingWebStart = false;
+   public-read var offlineMode = false;
    def systemOutFileName = "systemOut";
    def systemErrFileName = "systemErr";
    def enableLocalLoggingKey = "enableLocalLogging";
@@ -94,8 +99,12 @@ public class Initializer {
    def authorModeOption = "authorMode";
 
    init {
-      Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
+      Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
+      parseApplicationParameters();
+      parseWebstartParameters();
       setupBackgroundImage();
+      usingWebStart = System.getProperty("javawebstart.version")!=null;
+      offlineMode = loginType=="local";
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
       var loggingDirectoryKeyValue = "";
       if (enableLocalLogging) {
@@ -107,9 +116,9 @@ public class Initializer {
             loggingDirectoryKeyValue = localLoggingDirectory.getAbsolutePath();
          }
       }
+      println("\nStarting SCY-Lab on {new Date()}\n");
+      println("Client IP address: {InetAddress.getLocalHost().getHostAddress()}\n");
       JavaProperties.writePropertiesForApplication();
-      parseApplicationParameters();
-      parseWebstartParameters();
       printInitializerValues();
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
@@ -267,6 +276,8 @@ public class Initializer {
       println("- windowPositioner: {windowPositioner}");
       println("- debugMode: {debugMode}");
       println("- authorMode: {authorMode}");
+      println("- usingWebStart: {usingWebStart}");
+      println("- offlineMode: {offlineMode}");
    }
 
    public function isEmpty(string: String): Boolean {
@@ -315,17 +326,38 @@ public class Initializer {
    }
 
    function findLocalLoggingDirectory(): File {
-      var logDirectory: File;
-      if (loggingDirectoryName.length() > 0) {
-         logDirectory = new File(loggingDirectoryName);
-         if (not logDirectory.exists()) {
-            throw new IllegalArgumentException("logging directory does not exists: {logDirectory.getAbsolutePath()}");
+      try{
+         var logDirectory: File;
+         if (loggingDirectoryName.length() > 0) {
+            if (usingWebStart){
+               var userHome = System.getProperty("user.home");
+               logDirectory = new File(userHome,"SCY-Lab/{loggingDirectoryName}");
+               if (not logDirectory.mkdirs()){
+                  println("failed to create the web start log directory: {logDirectory.getAbsolutePath()}");
+               }
+               else{
+                  println("created the web start log directory: {logDirectory.getAbsolutePath()}");
+               }
+            }
+            if (logDirectory==null){
+               logDirectory = new File(loggingDirectoryName);
+            }
+            if (not logDirectory.exists()) {
+               throw new IllegalArgumentException("logging directory does not exists: {logDirectory.getAbsolutePath()}");
+            }
+            if (not logDirectory.isDirectory()) {
+               throw new IllegalArgumentException("logging directory does not a directory: {logDirectory.getAbsolutePath()}");
+            }
          }
-         if (not logDirectory.isDirectory()) {
-            throw new IllegalArgumentException("logging directory does not a directory: {logDirectory.getAbsolutePath()}");
-         }
+         println("logDirectory: {logDirectory.getAbsolutePath()}");
+         return logDirectory;
       }
-      return logDirectory;
+      catch (e:Exception){
+         JOptionPane.showMessageDialog(null,"An exception occured during finding the logging directory. "
+         "No logging will be written to the local disk.\n\nException: {e.getMessage()}",
+         "Problems with logging directory",JOptionPane.ERROR_MESSAGE);
+      }
+      return null;
    }
 
    function doRedirectSystemStream() {
