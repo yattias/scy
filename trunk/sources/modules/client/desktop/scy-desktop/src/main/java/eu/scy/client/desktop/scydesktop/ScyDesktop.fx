@@ -122,6 +122,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             repository: config.getRepository();
             metadataTypeManager: config.getMetadataTypeManager();
             windowManager: bind windows;
+            showEloRelations : initializer.showEloRelations
     };
     def windows: WindowManager = WindowManagerImpl {
                 scyDesktop: this
@@ -264,9 +265,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     tooltipManager: tooltipManager
                     scyDesktop: this
                     height: 250
-                    showOfflineContacts: true
+                    showOfflineContacts: initializer.showOfflineContacts
                     width: 300
-                    stateIndicatorOpacity:true
+                    stateIndicatorOpacity:initializer.indicateOnlineStateByOpacity
                 };
         contactList.height = 250;
         missionMap = MissionMap {
