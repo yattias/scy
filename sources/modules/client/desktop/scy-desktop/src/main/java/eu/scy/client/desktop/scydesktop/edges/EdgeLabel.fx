@@ -43,11 +43,21 @@ public class EdgeLabel extends CustomNode {
         stroke: Color.BLACK;
     }
 
+    var transparentBorder:Rectangle = Rectangle {
+        //This is a transparent Rectangle for smoother fading (beyond the label)
+        translateX: bind x-15;
+        translateY: bind y-15;
+        height: bind label.boundsInParent.height+35;
+        width: bind label.boundsInParent.width+35;
+        fill: Color.TRANSPARENT;
+    }
+
 
 
     override function create():Node {
         var g:Group = Group {
             content: [
+                    transparentBorder,
                     border,
                     label,
                     ]
