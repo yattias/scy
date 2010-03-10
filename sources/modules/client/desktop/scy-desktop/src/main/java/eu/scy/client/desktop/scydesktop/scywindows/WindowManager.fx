@@ -44,7 +44,7 @@ public mixin class WindowManager {
 
 //	public abstract function findScyWindow(id:String):ScyWindow;
    
-	public abstract function findScyWindow(uri:URI):ScyWindow;
+    public abstract function findScyWindow(uri:URI):ScyWindow;
 
    public abstract function getScyWindows():ScyWindow[];
 

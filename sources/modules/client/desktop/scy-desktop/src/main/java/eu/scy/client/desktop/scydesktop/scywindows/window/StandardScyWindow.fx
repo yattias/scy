@@ -36,6 +36,8 @@ import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
+import java.lang.System;
+import java.lang.Void;
 
 /**
  * @author sikkenj
@@ -181,7 +183,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    public var missionModelFX:MissionModelFX;
 
-   public-read var edges:Edge[];
    var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
  
    postinit {
@@ -198,22 +199,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
 
-    public override function addEdge(edge:Edge):Void {
-         //System.out.println("adding edge {edge}");
-        insert edge into edges;
-    }
-
-    public override function removeEdge(edge:Edge):Void {
-            //System.out.println("removing edge {edge}");
-        delete edge from edges;
-    }
-
-    function deleteEdges() {
-        for(edge:Edge in edges) {
-            edge.deleteMe();
-        }
-
-    }
 
    function scyContentChanged(){
       if (scyContent instanceof Resizable){
@@ -273,13 +258,17 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 
    function activeStateChanged(){
+      
       if (activated){
          scyToolsList.onGotFocus();
          this.effect = activeWindowEffect;
+         //display edges if on screen
+         windowManager.scyDesktop.edgesManager.findLinks(this);
       }
       else{
          scyToolsList.onLostFocus();
          this.effect = inactiveWindowEffect;
+         //hide edges
       }
    }
 
@@ -921,6 +910,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          }
 		};
 	}
+
+
 }
 
 //function hideScyWindow(scyWindow:ScyWindow):Void{

@@ -20,6 +20,8 @@ import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
+import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
+
 
 /**
  * ScyWindowControl controls which windows (elos) are shown on the desktop
@@ -34,6 +36,7 @@ public mixin class ScyWindowControl {
    public var windowStyler: WindowStyler;
    public var windowManager: WindowManager;
    public var windowPositioner: WindowPositioner;
+   public var edgesManager:IEdgesManager;
    public var stage: Stage;
    public var eloInfoControl: EloInfoControl;
    public var metadataTypeManager: IMetadataTypeManager;
