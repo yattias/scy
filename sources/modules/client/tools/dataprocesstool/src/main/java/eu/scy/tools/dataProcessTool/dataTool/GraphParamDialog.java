@@ -74,10 +74,11 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
     }
 
     private void initGUI(){
-        this.add(getPlotPanel());
+        
         // nom de la visualization
         fieldName.setText(this.vis.getName());
         if(isGraph()){
+            this.add(getPlotPanel());
             if (vis != null && ((Graph)vis).getParamGraph() != null){
                 ParamGraph paramGraph = ((Graph)vis).getParamGraph();
                 plotPanel.setSelectedPlots(paramGraph.getPlots());
@@ -108,7 +109,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             remove(textFieldYMax);
             remove(labelDeltaY);
             remove(textFieldDeltaY);
-            remove(plotPanel);
+//            remove(plotPanel);
             resizeElements();
         }
     }

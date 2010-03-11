@@ -26,4 +26,9 @@ public class MyConstants {
 
     /* nombre max de plots */
     public final static int MAX_PLOT = 4;
+
+    /* default type of a column */
+    public final static String DEFAULT_TYPE_COLUMN = "double";
+    public final static String TYPE_DOUBLE = "double";
+    public final static String TYPE_STRING = "String";
 }

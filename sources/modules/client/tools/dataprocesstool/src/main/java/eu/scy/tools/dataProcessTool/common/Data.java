@@ -14,7 +14,6 @@ import org.jdom.Element;
  */
 public class Data implements Cloneable {
     public final static String TAG_DATA = "data";
-    private final static String TAG_DATA_VALUE = "value";
     private final static String TAG_DATA_NO_ROW = "no_row";
     private final static String TAG_DATA_NO_COL = "no_col";
     private final static String TAG_DATA_IGNORED = "is_ignored";
@@ -23,7 +22,7 @@ public class Data implements Cloneable {
     /* identifiant base */
     private long dbKey;
     /* valeur */
-    private double value;
+    private String value;
     /* numero de ligne */
     private int noRow;
     /* numero de colonne */
@@ -32,7 +31,7 @@ public class Data implements Cloneable {
     private boolean isIgnoredData;
 
     // CONSTRUCTEURS
-    public Data(long dbKey, double value, int noRow, int noCol, boolean isIgnoredData) {
+    public Data(long dbKey, String value, int noRow, int noCol, boolean isIgnoredData) {
         this.dbKey = dbKey;
         this.value = value;
         this.noRow = noRow;
@@ -73,21 +72,42 @@ public class Data implements Cloneable {
         this.noRow = noRow;
     }
 
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(String value) {
         this.value = value;
     }
-    
+    public double getDoubleValue() {
+        try{
+            return Double.parseDouble(value);
+        }catch(NumberFormatException e){
+            return Double.NaN;
+        }
+    }
+
+    public void setValue(double value) {
+        this.value = Double.toString(value);
+    }
+
+    public boolean isDoubleValue(){
+        if(value == null || value.length() == 0)
+            return true;
+        try{
+            double d = Double.parseDouble(value);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
     // CLONE
      @Override
     public Object clone()  {
         try {
             Data data = (Data) super.clone() ;
             long dbKeyC = this.dbKey;
-            double valueC = new Double(this.value);
+            String valueC = new String(this.value);
             int noRowC = new Integer(this.noRow);
             int noColC = new Integer(this.noCol);
             boolean isIgnoredDataC = new Boolean(this.isIgnoredData);

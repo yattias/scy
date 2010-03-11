@@ -7,9 +7,14 @@ package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
+import eu.scy.tools.dataProcessTool.utilities.ActionCopexButton;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlotPanel;
+import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+import eu.scy.tools.fitex.GUI.DrawPanel;
+import java.awt.Color;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,10 +23,11 @@ import javax.swing.JPanel;
  * one XY plot
  * @author Marjolaine
  */
-public class XYPlotPanel extends JPanel {
+public class XYPlotPanel extends JPanel implements ActionCopexButton{
     public static final int HEIGHT_PANEL_PARAM =30;
     private FitexToolPanel owner;
     private String titlePlot;
+    private Color plotColor;
     /* liste des colonnes */
     private DataHeader[] listCol;
     /* liste des colonnes pour le deuxieme axe*/
@@ -32,21 +38,32 @@ public class XYPlotPanel extends JPanel {
     private JLabel labelY;
     private JComboBox cbAxisX;
     private JComboBox cbAxisY;
+    private CopexButtonPanel buttonRemove;
 
     private ActionPlotPanel actionPlotPanel;
 
+    /* Images */
+    private ImageIcon imgRemove;
+    private ImageIcon imgRemoveClic;
+    private ImageIcon imgRemoveSurvol;
+    private ImageIcon imgRemoveGris;
 
-
-    public XYPlotPanel(FitexToolPanel owner, String titlePlot, DataHeader[] listCol) {
+    public XYPlotPanel(FitexToolPanel owner, Color plotColor, DataHeader[] listCol) {
         super();
         this.owner = owner;
-        this.titlePlot = titlePlot;
+        this.plotColor = plotColor;
         this.listCol = listCol;
         initGUI();
     }
 
     private void initGUI(){
         setLayout(null);
+        imgRemove = owner.getCopexImage("Bouton-AdT-28_delete.png");
+        imgRemoveClic = owner.getCopexImage("Bouton-AdT-28_delete_cli.png");
+        imgRemoveSurvol = owner.getCopexImage("Bouton-AdT-28_delete_sur.png");
+        imgRemoveGris = owner.getCopexImage("Bouton-AdT-28_delete_gri.png");
+        setTitlePlot();
+        this.add(getButtonRemove());
         this.add(getLabelPlot());
         this.add(getLabelX());
         this.add(getCbAxisX());
@@ -57,9 +74,32 @@ public class XYPlotPanel extends JPanel {
         setPreferredSize(getSize());
     }
 
+    private void setTitlePlot(){
+        if(plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_1))
+            titlePlot = owner.getBundleString("LABEL_AXIS_RED");
+        else if( plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_2))
+            titlePlot = owner.getBundleString("LABEL_AXIS_PURPLE");
+        else if( plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_3))
+            titlePlot = owner.getBundleString("LABEL_AXIS_ORANGE");
+        else if( plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_4))
+            titlePlot = owner.getBundleString("LABEL_AXIS_BROWN");
+    }
    public void addActionPlotPanel(ActionPlotPanel action){
        this.actionPlotPanel = action;
    }
+
+   public Color getPlotColor(){
+       return this.plotColor;
+   }
+   private CopexButtonPanel getButtonRemove(){
+        if(buttonRemove == null){
+            buttonRemove = new CopexButtonPanel(22, imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemoveGris.getImage() );
+            buttonRemove.setBounds(0,5, buttonRemove.getWidth(), buttonRemove.getHeight());
+            buttonRemove.addActionCopexButton(this);
+            buttonRemove.setToolTipText(owner.getBundleString("TOOLTIPTEXT_REMOVE_PLOT"));
+        }
+        return buttonRemove;
+    }
 
     private JLabel getLabelPlot(){
         if(labelPlot == null){
@@ -69,7 +109,7 @@ public class XYPlotPanel extends JPanel {
             labelPlot.setFont(new Font("Tahoma",Font.BOLD, 11));
             int w = MyUtilities.lenghtOfString(this.labelPlot.getText(), labelPlot.getFontMetrics(this.labelPlot.getFont()));
             labelPlot.setSize(w, 14);
-            labelPlot.setBounds(0,3,labelPlot.getWidth(), labelPlot.getHeight());
+            labelPlot.setBounds(buttonRemove.getX()+buttonRemove.getWidth()+5,3,labelPlot.getWidth(), labelPlot.getHeight());
         }
         return labelPlot;
     }
@@ -168,10 +208,16 @@ public class XYPlotPanel extends JPanel {
         if(id2 == -1 || id2 >=listCol2.length)
             return null;
         DataHeader dataHeader2 = listCol2[id2];
-        return new PlotXY(dataHeader1, dataHeader2);
+        return new PlotXY(dataHeader1, dataHeader2, plotColor);
     }
 
     public void setSelectedPlot(PlotXY plot){
+        plotColor = plot.getPlotColor();
+        this.setTitlePlot();
+        labelPlot.setText(titlePlot);
+        int w = MyUtilities.lenghtOfString(this.labelPlot.getText(), labelPlot.getFontMetrics(this.labelPlot.getFont()));
+        labelPlot.setBounds(labelPlot.getX(), labelPlot.getY(), w, labelPlot.getHeight());
+        labelPlot.revalidate();
         this.cbAxisX.setSelectedItem(plot.getHeaderX().getValue());
         this.cbAxisY.setSelectedItem(plot.getHeaderY().getValue());
     }
@@ -188,5 +234,15 @@ public class XYPlotPanel extends JPanel {
         setPreferredSize(getSize());
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void actionCopexButtonClic(CopexButtonPanel button) {
+        if(actionPlotPanel != null)
+            actionPlotPanel.removePlot(this);
+    }
+
+    public void setRemoveEnabled(boolean enabled){
+        this.buttonRemove.setEnabled(enabled);
     }
 }

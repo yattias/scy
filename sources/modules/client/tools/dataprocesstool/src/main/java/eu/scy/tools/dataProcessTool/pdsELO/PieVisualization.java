@@ -16,14 +16,16 @@ import roolo.elo.JDomStringConversion;
 public class PieVisualization extends Visualization {
     /* id row/col */
     private int id;
+     private int idLabelHeader;
 
-    public PieVisualization(String type, String name,  int id) {
+    public PieVisualization(String type, String name,  int id, int idLabelHeader) {
         super(type, name);
         this.id = id;
+        this.idLabelHeader = idLabelHeader;
     }
 
     public PieVisualization(Element xmlElem) throws JDOMException {
-		super(xmlElem);
+	super(xmlElem);
         if (xmlElem.getName().equals(TAG_VISUALIZATION)) {
             this.type =xmlElem.getChild(TAG_VISUALIZATION_TYPE).getText() ;
             Element elDef = xmlElem.getChild(TAG_VISUALIZATION_DEFINITION);
@@ -34,11 +36,19 @@ public class PieVisualization extends Visualization {
             } catch(NumberFormatException e){
                 throw(new JDOMException("Pie operation expects id as Integer ."));
             }
+            idLabelHeader = -1;
+            if(elDef.getChild(Visualization.TAG_VISUALIZATION_LABEL_HEADER) !=null){
+                try{
+                    this.idLabelHeader = Integer.parseInt(elDef.getChild(Visualization.TAG_VISUALIZATION_LABEL_HEADER).getText());
+                } catch(NumberFormatException e){
+                    throw(new JDOMException("Pie operation expects idLabel as Integer."));
+                }
+            }
 
-		} else {
-			throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
 
     public PieVisualization(String xmlString) throws JDOMException {
@@ -49,6 +59,9 @@ public class PieVisualization extends Visualization {
         return id;
     }
 
+    public int getIdLabelHeader() {
+        return idLabelHeader;
+    }
     // toXML
     @Override
     public Element toXML(){
@@ -57,9 +70,10 @@ public class PieVisualization extends Visualization {
         Element elDef = new Element(TAG_VISUALIZATION_DEFINITION);
         elDef.addContent(new Element(TAG_VISUALIZATION_DEF_NAME).setText(this.name));
         elDef.addContent(new Element(TAG_VISUALIZATION_DEF_ID_COL).setText(Integer.toString(this.id)));
+        if(idLabelHeader != -1)
+            elDef.addContent(new Element(TAG_VISUALIZATION_LABEL_HEADER).setText(Integer.toString(idLabelHeader)));
         element.addContent(elDef);
-
-		return element;
+        return element;
     }
 
 }

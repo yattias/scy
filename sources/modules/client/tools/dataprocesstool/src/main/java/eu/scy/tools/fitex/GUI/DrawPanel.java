@@ -50,6 +50,8 @@ public class DrawPanel extends javax.swing.JPanel {
     private FitexPanel fitexPanel;
     /* donnees */
     private DefaultTableModel[] datas = null;
+    /* couleur des plots */
+    private Color[] plotsColor = null;
 
     //zoom mode ou move   mode
     private char graphMode;
@@ -102,12 +104,13 @@ public class DrawPanel extends javax.swing.JPanel {
     private DecimalFormat decimalFormat;
 
 
-    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel[] datas, ParamGraph pg, int width, int height) {
+    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel[] datas, Color[] plotsColor, ParamGraph pg, int width, int height) {
         super();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(fitexPanel.getLocale());
         this.decimalFormat = (DecimalFormat)numberFormat;
         this.fitexPanel = fitexPanel;
         this.datas = datas;
+        this.plotsColor = plotsColor;
         setParamWithoutRepaint(pg);
         this.width = width;
         this.height = height;
@@ -137,7 +140,7 @@ public class DrawPanel extends javax.swing.JPanel {
             int id = x_axisName.indexOf(s);
             if(id == -1){
                 x_axisName.add(s);
-                x_color.add(getAxisColor(d));
+                x_color.add(plotsColor[d]);
             }else{
                 x_color.set(id, Color.GRAY);
             }
@@ -145,7 +148,7 @@ public class DrawPanel extends javax.swing.JPanel {
             id = y_axisName.indexOf(s);
             if(id == -1){
                 y_axisName.add(s);
-                y_color.add(getAxisColor(d));
+                y_color.add(plotsColor[d]);
             }else{
                 y_color.set(id, Color.GRAY);
             }
@@ -232,14 +235,7 @@ public class DrawPanel extends javax.swing.JPanel {
                 x=(Double)datas[d].getValueAt(i,0);
                 y=(Double)datas[d].getValueAt(i,1);
                 ignore=(Boolean)datas[d].getValueAt(i,2);
-                Color plotColor  = SCATTER_PLOT_COLOR_1;
-                if(d == 1)
-                    plotColor = SCATTER_PLOT_COLOR_2;
-                else if(d ==2){
-                    plotColor = SCATTER_PLOT_COLOR_3;
-                }else if(d==3){
-                    plotColor = SCATTER_PLOT_COLOR_4;
-                }
+                Color plotColor  = plotsColor[d];
                 if((x!=null) && (y!=null)) {
                     // tracie du point
                     if (ignore) tracerPoint(g, plotColor, "cross", x, y) ; // point non pris en compte
@@ -441,17 +437,7 @@ public class DrawPanel extends javax.swing.JPanel {
         }
     }
 
-    private Color getAxisColor(int id){
-        if(id ==0)
-            return SCATTER_PLOT_COLOR_1;
-        else if(id==1)
-            return SCATTER_PLOT_COLOR_2;
-        else if(id==2)
-            return SCATTER_PLOT_COLOR_3;
-        else if(id ==3)
-            return SCATTER_PLOT_COLOR_4;
-        return Color.BLACK;
-    }
+    
      /** methode permettant de realiser le trace d'une courbe avec une certaine couleur*/
     public void tracerUneCourbe(Graphics g, Color couleur, Expression fonction) {
         // les coordonees des segments (coordonnees du repere)

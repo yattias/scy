@@ -13,6 +13,7 @@ import eu.scy.tools.dataProcessTool.utilities.ActionPlot;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,28 +24,31 @@ import javax.swing.JPanel;
  * @author  Marjolaine Bodin
  */
 public class CreateDataVisualDialog extends javax.swing.JDialog implements ActionPlot {
-
-    // PROPERTY 
-    /* owner */
+/* owner */
     private FitexToolPanel owner ;
     /* liste des choix possibles */
     private TypeVisualization[] tabTypes;
     /* liste des colonnes */
     private DataHeader[] listCol;
+    /* liste des colonnes pouvant etre etiquettes */
+    private DataHeader[] listColLabelHeader;
 
     private JPanel panelData;
-    private JLabel labelDataChoice;
-    private JComboBox cbData;
+    private JLabel labelDataChoice = null;
+    private JComboBox cbData = null;
+    private JLabel labelHeaderLabel = null;
+    private JComboBox cbHeaderLabel = null;
 
     private PlotPanel plotPanel;
 
     
     // CONSTRUCTOR
-    public CreateDataVisualDialog(FitexToolPanel owner, TypeVisualization[] tabTypes, DataHeader[] listCol) {
+    public CreateDataVisualDialog(FitexToolPanel owner, TypeVisualization[] tabTypes, DataHeader[] listCol, DataHeader[] listColLabelHeader) {
         super();
         this.owner = owner;
         this.tabTypes = tabTypes;
         this.listCol = listCol;
+        this.listColLabelHeader = listColLabelHeader;
         initComponents();
         setLocation(owner.getLocationDialog());
         setModal(true);
@@ -91,18 +95,33 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
                     panelData.add(getLabelDataChoice());
                     panelData.add(getCbData());
                 }
+                if(labelHeaderLabel == null && isHeaderLabel()){
+                    panelData.add(getLabelHeaderLabel());
+                    panelData.add(getCbHeaderLabel());
+                }
                 plotPanel = null;
                 int x = labelDataChoice.getX()+labelDataChoice.getWidth()+5;
                 x = Math.max(x, fieldName.getX()-10);
                 cbData.setBounds(x,cbData.getY(),cbData.getWidth(),cbData.getHeight());
                 panelData.setSize(cbData.getX()+cbData.getWidth()+20, 30);
+                if(isHeaderLabel()){
+                    labelHeaderLabel.setBounds(cbData.getX()+cbData.getWidth()+10, labelHeaderLabel.getY(), labelHeaderLabel.getWidth(), labelHeaderLabel.getHeight());
+                    cbHeaderLabel.setBounds(labelHeaderLabel.getX()+labelHeaderLabel.getWidth()+5, cbHeaderLabel.getY(), cbHeaderLabel.getWidth(), cbHeaderLabel.getHeight());
+                    panelData.setSize(cbHeaderLabel.getX()+cbHeaderLabel.getWidth()+20,30);
+                 }
             }else{
                 if(labelDataChoice != null){
                     panelData.remove(labelDataChoice);
                     panelData.remove(cbData);
+                    if(labelHeaderLabel != null){
+                        panelData.remove(labelHeaderLabel);
+                        panelData.remove(cbHeaderLabel);
+                    }
                 }
                 labelDataChoice = null;
                 cbData = null;
+                labelHeaderLabel = null;
+                cbHeaderLabel = null;
                 if(plotPanel == null)  {
                     panelData.add(getPlotPanel());
                 }
@@ -130,6 +149,36 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
     }
     
 
+    private boolean isHeaderLabel(){
+        return listColLabelHeader.length  > 0;
+    }
+    private JLabel getLabelHeaderLabel(){
+        if(labelHeaderLabel == null){
+            labelHeaderLabel = new JLabel();
+            labelHeaderLabel.setName("labelHeaderLabel");
+            labelHeaderLabel.setText(owner.getBundleString("LABEL_HEADER_LABEL"));
+            labelHeaderLabel.setFont(new Font("Tahoma",Font.BOLD, 11));
+            int w = MyUtilities.lenghtOfString(this.labelHeaderLabel.getText(), labelHeaderLabel.getFontMetrics(this.labelHeaderLabel.getFont()));
+            labelHeaderLabel.setSize(w, 14);
+            labelHeaderLabel.setBounds(cbData.getX()+cbData.getWidth()+10,labelDataChoice.getY(), labelHeaderLabel.getWidth(), labelHeaderLabel.getHeight());
+        }
+        return labelHeaderLabel;
+    }
+
+    private JComboBox getCbHeaderLabel(){
+        if(cbHeaderLabel == null){
+            cbHeaderLabel = new JComboBox();
+            cbHeaderLabel.setName("cbHeaderLabel");
+            cbHeaderLabel.setBounds(labelHeaderLabel.getX()+labelHeaderLabel.getWidth()+5, 0, 120, 20);
+            cbHeaderLabel.addItem(owner.getBundleString("DEFAULT_HEADER_LABEL"));
+            for (int i=0; i<listColLabelHeader.length; i++){
+                if(listColLabelHeader[i] != null){
+                    cbHeaderLabel.addItem(listColLabelHeader[i].getValue());
+                }
+            }
+        }
+        return cbHeaderLabel;
+    }
 
     /* creation d'un nouveau type */
     private void createTypeVisual(){
@@ -157,10 +206,18 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
             int id1 = cbData.getSelectedIndex() ;
             dataHeader = listCol[id1];
         }
+        // etiquette
+        DataHeader headerLabel = null;
+        if(cbHeaderLabel != null){
+            int idH = cbHeaderLabel.getSelectedIndex();
+            if(idH > 0){
+                headerLabel = listColLabelHeader[idH-1];
+            }
+        }
         ArrayList<PlotXY> listPlot = new ArrayList();
         if(plotPanel != null)
             listPlot = plotPanel.getListPlotXY();
-        boolean isOk = owner.createVisualization(name, typeVis, dataHeader, listPlot);
+        boolean isOk = owner.createVisualization(name, typeVis, dataHeader, headerLabel, listPlot);
         if (isOk)
             this.dispose();
     }

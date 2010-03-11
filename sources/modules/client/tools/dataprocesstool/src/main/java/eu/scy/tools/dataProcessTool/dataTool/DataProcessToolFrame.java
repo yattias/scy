@@ -68,7 +68,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 
     private void initDataProcessTool(){
         dataProcessPanel = new DataProcessToolPanel(false);
-        setTitle("SCYDataViewer "+dataProcessPanel.getVersion());
+        setTitle("SCYDataViewer Fitex "+dataProcessPanel.getVersion());
         setIconImage(dataProcessPanel.getIconDialog());
         dataProcessPanel.addActionCopexButton(this);
         add(dataProcessPanel, BorderLayout.CENTER);

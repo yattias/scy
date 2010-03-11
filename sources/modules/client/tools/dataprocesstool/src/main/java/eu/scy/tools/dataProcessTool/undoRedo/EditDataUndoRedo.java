@@ -21,12 +21,12 @@ import org.jdom.Element;
  * @author Marjolaine
  */
 public class EditDataUndoRedo extends DataUndoRedo{
-    private Double oldValue;
-    private Double newValue;
+    private String oldValue;
+    private String newValue;
     private int idR;
     private int idC;
 
-    public EditDataUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, Double oldValue, Double newValue, int idR, int idC) {
+    public EditDataUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, String oldValue, String newValue, int idR, int idC) {
         super(table, dataToolPanel, controller);
         this.oldValue = oldValue;
         this.newValue = newValue;
@@ -73,11 +73,11 @@ public class EditDataUndoRedo extends DataUndoRedo{
         if(oldValue == null)
             element.addContent(new Element("old_value").setText(""));
         else
-            element.addContent(new Element("old_value").setText(Double.toString(oldValue)));
+            element.addContent(new Element("old_value").setText(oldValue));
         if(newValue == null )
             element.addContent(new Element("new_value").setText(""));
         else
-            element.addContent(new Element("new_value").setText(Double.toString(newValue)));
+            element.addContent(new Element("new_value").setText(newValue));
         return element;
     }
 

@@ -31,6 +31,7 @@ public class DataConstants {
     /* LONGUEUR MAX DESC CHAMPS */
     public static final int MAX_LENGHT_DATASET_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_NAME = 32;
+    public static final int MAX_LENGHT_DATAHEADER_DESCRIPTION = 1024;
     public static final int MAX_LENGHT_UNIT = 32;
     public static final int MAX_LENGHT_VISUALIZATION_NAME = 32;
     public static final int MAX_LENGHT_GRAPH_NAME = 32;

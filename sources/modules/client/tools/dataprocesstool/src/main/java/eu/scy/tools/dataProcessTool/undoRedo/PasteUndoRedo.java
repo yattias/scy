@@ -12,6 +12,7 @@ import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
 import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.MyConstants;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
@@ -66,7 +67,9 @@ public class PasteUndoRedo extends DataUndoRedo {
             DataHeader newH = this.listHeader.get(i)[1];
             String title = oldH == null ? "" : oldH.getValue() ;
             String unit = oldH == null ? "" : oldH.getUnit() ;
-            CopexReturn cr = this.controller.updateDataHeader(getDataset(),newH.getNoCol(), title,unit,  v );
+            String description = oldH == null ? "" : oldH.getDescription();
+            String type = oldH == null ?MyConstants.DEFAULT_TYPE_COLUMN : oldH.getType();
+            CopexReturn cr = this.controller.updateDataHeader(getDataset(),true, newH.getNoCol(), title,unit,description, type,  v );
             if(cr.isError()){
                 dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
@@ -79,7 +82,7 @@ public class PasteUndoRedo extends DataUndoRedo {
             ArrayList v = new ArrayList();
             Data oldD = this.listData.get(i)[0];
             Data newD = this.listData.get(i)[1];
-            Double value = oldD == null ? null : oldD.getValue() ;
+            String value = oldD == null ? null : oldD.getValue() ;
             CopexReturn cr = this.controller.updateData(getDataset(),newD.getNoRow(), newD.getNoCol(), value, v );
             if(cr.isError()){
                 dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));

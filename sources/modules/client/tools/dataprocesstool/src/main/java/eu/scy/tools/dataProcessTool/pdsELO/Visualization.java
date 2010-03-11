@@ -26,6 +26,7 @@ public class Visualization {
     public final static String TAG_VISUALIZATION_DEFINITION = "definition";
     public final static String TAG_VISUALIZATION_DEF_NAME="name";
     public final static String TAG_VISUALIZATION_DEF_ID_COL="column";
+    public final static String TAG_VISUALIZATION_LABEL_HEADER = "label_header";
     
 
     /* type */
@@ -39,7 +40,7 @@ public class Visualization {
 
     public Visualization(Element xmlElem) throws JDOMException {
 		
-	}
+    }
 
 
     public Visualization(String xmlString) throws JDOMException {

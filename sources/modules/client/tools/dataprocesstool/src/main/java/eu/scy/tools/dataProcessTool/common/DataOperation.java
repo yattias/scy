@@ -80,7 +80,15 @@ public class DataOperation implements Cloneable {
     }
 
     
-    
+    public boolean isOnCol(int noCol){
+        if(this.isOnCol()){
+            for(Iterator<Integer> c = listNo.iterator(); c.hasNext();){
+                if(c.next() == noCol)
+                    return true;
+            }
+        }
+        return false;
+    }
     // CLONE
     @Override
     public Object clone()  {
