@@ -36,6 +36,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	private Tuple activationTuple;
 
+	private int listenerId;
+
 	private static final Logger logger = Logger.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
@@ -47,24 +49,22 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		try {
+			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = null;
-			if (getCommandSpace().isConnected()) {
-				tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.COMMAND_EXPIRATION);
-			}
-			if (tuple != null) {
-				String queryId = (String) tuple.getField(2).getValue();
-				String text = (String) tuple.getField(3).getValue();
-
-				Set<String> keywords = extractKeywords(text);
-
-				getCommandSpace().write(getResponseTuple(keywords, queryId));
-			}
 			sendAliveUpdate();
+			try {
+				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
+			} catch (InterruptedException e) {
+				throw new AgentLifecycleException(e.getMessage());
+			}
 		}
 	}
 
@@ -115,6 +115,26 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	@Override
 	public boolean isStopped() {
 		return status == Status.Stopping;
+	}
+
+	@Override
+	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+		if (listenerId != seq) {
+			logger.debug("Callback passed to Superclass.");
+			super.call(command, seq, afterTuple, beforeTuple);
+			return;
+		} else {
+			String queryId = (String) afterTuple.getField(2).getValue();
+			String text = (String) afterTuple.getField(3).getValue();
+
+			Set<String> keywords = extractKeywords(text);
+
+			try {
+				getCommandSpace().write(getResponseTuple(keywords, queryId));
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

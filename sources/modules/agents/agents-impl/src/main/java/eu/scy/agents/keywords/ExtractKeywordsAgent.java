@@ -24,6 +24,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 	private static final Logger logger = Logger.getLogger(ExtractKeywordsAgent.class.getName());
 
 	private Tuple activationTuple;
+	private int listenerId = -1;
 
 	public ExtractKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
@@ -34,26 +35,18 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		try {
+			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
 		while (status == Status.Running) {
-			Tuple tuple = null;
-			if (getCommandSpace().isConnected()) {
-				tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.COMMAND_EXPIRATION);
-			}
-			if (tuple != null) {
-				String queryId = (String) tuple.getField(2).getValue();
-				ArrayList<String> tfIdfKeywords = getTfIdfKeywords(tuple);
-				ArrayList<String> topicKeywords = getTopicKeywords(tuple);
-
-				Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
-				logger.info("found keywords: " + mergedKeywords);
-
-				sendAnswer(mergedKeywords, queryId);
-			}
 			sendAliveUpdate();
+			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 		}
 	}
 
@@ -135,6 +128,24 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 	@Override
 	public boolean isStopped() {
 		return status == Status.Stopping;
+	}
+
+	@Override
+	public void call(Command command, int seq, Tuple tuple, Tuple beforeTuple) {
+		if (listenerId != seq) {
+			logger.debug("Callback passed to Superclass.");
+			super.call(command, seq, tuple, beforeTuple);
+			return;
+		} else {
+			String queryId = (String) tuple.getField(2).getValue();
+			ArrayList<String> tfIdfKeywords = getTfIdfKeywords(tuple);
+			ArrayList<String> topicKeywords = getTopicKeywords(tuple);
+
+			Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
+			logger.info("found keywords: " + mergedKeywords);
+
+			sendAnswer(mergedKeywords, queryId);
+		}
 	}
 
 }
