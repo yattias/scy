@@ -36,7 +36,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -80,7 +79,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* ressource bundle */
     private ResourceBundle bundle;
     /* version */
-    private String version = "3.1";
+    private String version = "3.2";
     /* number format */
     private NumberFormat numberFormat;
 
@@ -468,7 +467,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }
         activFitex.deleteAll();
         ArrayList v = new ArrayList();
-        cr = this.controller.createDefaultDataset("Dataset", v);
+        cr = this.controller.createDefaultDataset(getBundleString("DEFAULT_DATASET_NAME"), v);
         if(cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -611,14 +610,6 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         int nbC = header.getColumnCount();
         if(nbC==0)
             return;
-        int nbCTotal = header.getColumnCount();
-        ArrayList<Integer> listColToDel = new ArrayList();
-        for (int i=0; i<nbCTotal; i++){
-            if(!header.getColumns().get(i).getType().equals("double")){
-                listColToDel.add(i);
-                nbC--;
-            }
-        }
         if(scyMode){
             CopexReturn cr = this.controller.deleteDataset(activFitex.getDataset());
             if(cr.isError()){
@@ -629,33 +620,25 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if(nbC > 0){
             String[] headers = new String[nbC];
             String[] units = new String[nbC];
+            String[] types = new String[nbC];
+            String[] descriptions = new String[nbC];
             int j=0;
             for (Iterator<DataSetColumn> h = header.getColumns().iterator();h.hasNext();){
                 DataSetColumn c = h.next();
-                if(c.getType().equals("double")){
-                    headers[j] = c.getSymbol();
-                    units[j] = c.getType();
-                    j++;
-                }
+                headers[j] = c.getSymbol();
+                units[j] = c.getUnit();
+                types[j] = c.getType();
+                descriptions[j] = c.getDescription();
+                j++;
             }
             ArrayList v = new ArrayList();
-            CopexReturn cr = this.controller.createDataset(userName, headers, units,v);
+            CopexReturn cr = this.controller.createDataset(userName, headers, units,types, descriptions, v);
             if (cr.isError()){
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             }
             Dataset ds = (Dataset)v.get(0);
             setDataset(ds);
             logInitializeHeader(ds);
-        }
-        int nb= listColToDel.size();
-        if(nb > 0){
-            String msg = getBundleString("MSG_ERROR_LOAD_ELO_STRING");
-            for (Iterator<Integer> s = listColToDel.iterator();s.hasNext();){
-                int idCol = s.next();
-                msg += "\n - "+header.getColumns().get(idCol).getSymbol();
-            }
-            CopexReturn cr = new CopexReturn(msg, true);
-            displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
         }
     }
 

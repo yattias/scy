@@ -5,6 +5,9 @@
 
 package eu.scy.tools.dataProcessTool.pdsELO;
 
+import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.fitex.GUI.DrawPanel;
+import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,9 +32,7 @@ public class GraphVisualization extends Visualization {
     public final static String TAG_VISUALIZATION_PARAM_Y_MIN="ymin";
     public final static String TAG_VISUALIZATION_PARAM_Y_MAX="ymax";
     public final static String TAG_VISUALIZATION_PARAM_DELTAY="deltaY";
-    public final static String TAG_VISUALIZATION_PARAM_COLOR_R="color_r";
-    public final static String TAG_VISUALIZATION_PARAM_COLOR_G="color_g";
-    public final static String TAG_VISUALIZATION_PARAM_COLOR_B="color_b";
+    
     public final static String TAG_VISUALIZATION_FUNCTIONS_MODEL="functions";
     
 
@@ -45,13 +46,11 @@ public class GraphVisualization extends Visualization {
     private double yMin;
     private double yMax;
     private double deltaY;
-    private int colorR;
-    private int colorG;
-    private int colorB;
+    
     /* function model */
     private List<FunctionModel> listFunctionModel;
 
-    public GraphVisualization(String type, String name, List<XYAxis> axis, double xMin, double xMax, double deltaX, double yMin, double yMax, double deltaY, int colorR, int colorG, int colorB, List<FunctionModel> listFunctionModel) {
+    public GraphVisualization(String type, String name, List<XYAxis> axis, double xMin, double xMax, double deltaX, double yMin, double yMax, double deltaY,  List<FunctionModel> listFunctionModel) {
         super(type, name);
         this.axis = axis;
         this.xMin = xMin;
@@ -60,9 +59,6 @@ public class GraphVisualization extends Visualization {
         this.yMin = yMin;
         this.yMax = yMax;
         this.deltaY = deltaY;
-        this.colorR = colorR;
-        this.colorG = colorG;
-        this.colorB = colorB;
         this.listFunctionModel = listFunctionModel;
     }
 
@@ -77,6 +73,20 @@ public class GraphVisualization extends Visualization {
             axis = new LinkedList();
             for (Iterator<Element> variableElem = elDef.getChildren(XYAxis.TAG_VISUALIZATION_XY_AXIS).iterator(); variableElem.hasNext();) {
                 axis.add(new XYAxis(variableElem.next()));
+            }
+            // si couleur non definie on attribue les couleurs par defaut
+            int id = 0;
+            Color[] tabColor = new Color[MyConstants.MAX_PLOT];
+            tabColor[0] = DrawPanel.SCATTER_PLOT_COLOR_1;
+            tabColor[1] = DrawPanel.SCATTER_PLOT_COLOR_2;
+            tabColor[2] = DrawPanel.SCATTER_PLOT_COLOR_3;
+            tabColor[3] = DrawPanel.SCATTER_PLOT_COLOR_4;
+            for (Iterator<XYAxis> a = axis.iterator();a.hasNext();){
+                XYAxis ax = a.next();
+                if(ax.getColorR() == 0 && ax.getColorG() == 0 && ax.getColorB() == 0){
+                    ax.setColor(tabColor[id]);
+                    id++;
+                }
             }
             if(axis.size() == 0){
                 int x_axis=-1;
@@ -103,7 +113,7 @@ public class GraphVisualization extends Visualization {
                     y_name = elDef.getChild(TAG_VISUALIZATION_DEF_Y_NAME).getText();
                 }
                 if(x_axis != -1 && y_axis!=-1){
-                    axis.add(new XYAxis(x_axis, y_axis, x_name, y_name));
+                    axis.add(new XYAxis(x_axis, y_axis, x_name, y_name, DrawPanel.SCATTER_PLOT_COLOR_1.getRed(), DrawPanel.SCATTER_PLOT_COLOR_1.getGreen(), DrawPanel.SCATTER_PLOT_COLOR_1.getBlue()));
                 }
 
             }
@@ -119,13 +129,7 @@ public class GraphVisualization extends Visualization {
             }catch(NumberFormatException e){
                 throw(new JDOMException("Graph visualization parameters  expects param as Double ."));
             }
-            try{
-                this.colorR = Integer.parseInt(elParam.getChild(TAG_VISUALIZATION_PARAM_COLOR_R).getText());
-                this.colorG = Integer.parseInt(elParam.getChild(TAG_VISUALIZATION_PARAM_COLOR_G).getText());
-                this.colorB = Integer.parseInt(elParam.getChild(TAG_VISUALIZATION_PARAM_COLOR_B).getText());
-            }catch(NumberFormatException e){
-                throw(new JDOMException("Graph visualization parameters  expects param color  as Integer ."));
-            }
+            
             // liste des functions
             Element elFunction = xmlElem.getChild(TAG_VISUALIZATION_FUNCTIONS_MODEL);
             if (elFunction != null){
@@ -146,18 +150,7 @@ public class GraphVisualization extends Visualization {
 	}
 
 
-    public int getColorB() {
-        return colorB;
-    }
-
-    public int getColorG() {
-        return colorG;
-    }
-
-    public int getColorR() {
-        return colorR;
-    }
-
+    
     public double getDeltaX() {
         return deltaX;
     }
@@ -213,9 +206,7 @@ public class GraphVisualization extends Visualization {
         elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_Y_MIN).setText(Double.toString(this.yMin)));
         elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_Y_MAX).setText(Double.toString(this.yMax)));
         elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_DELTAY).setText(Double.toString(this.deltaY)));
-        elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_COLOR_R).setText(Integer.toString(this.colorR)));
-        elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_COLOR_G).setText(Integer.toString(this.colorG)));
-        elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_COLOR_B).setText(Integer.toString(this.colorB)));
+        
         element.addContent(elParam);
         // FUNCTIONS MODEL
         if (this.listFunctionModel != null && this.listFunctionModel.size() > 0){

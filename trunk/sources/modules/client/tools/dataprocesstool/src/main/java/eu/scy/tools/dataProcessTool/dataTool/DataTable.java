@@ -136,6 +136,10 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public boolean isValueHeader(int noRow, int noCol){
         return  tableModel.isValueHeader(noRow, noCol);
     }
+    /* retourne vrai s'il s'agit d'une cellule contenant un header (hors titre des operations) de type double */
+    public boolean isValueDoubleHeader(int noRow, int noCol){
+        return  tableModel.isValueDoubleHeader(noRow, noCol);
+    }
     
     /* retourne vrai s'il s'agit d'une cellule operations */
     public boolean isValueOperation(int noRow, int noCol){
@@ -397,9 +401,10 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return ((colSel && !rowSel) || (rowSel && !colSel) );
         
     }
-    /* retourne vrai si au moins une   ligne ou une  colonne est selectionnee */
+    /* retourne vrai si au moins une   ligne ou une  colonne est selectionnee et au moins une d'entre elles est de type double*/
     private boolean isADataLineSel(){
         boolean aLine = false;
+        boolean isDouble = false;
         ArrayList<int[]> cellsSel = getSelectedCells();
         for(Iterator<int[]> c = cellsSel.iterator();c.hasNext();){
             int[] cell = c.next();
@@ -409,8 +414,13 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 aLine = true;
             else if(h && r)
                 aLine = false;
+            if(h && getDataset().getDataHeader(cell[1]-1).isDouble()){
+                isDouble = true;
+            }
+            if(r && getDataset().hasAtLeastADoubleColumn())
+                isDouble = true;
         }
-        return aLine;
+        return aLine&isDouble;
     }
 
 
@@ -527,7 +537,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* retourne vrai si on peut effectuer des operations */
     public boolean canOperations(){
-        return isADataLineSel();
+        return isADataLineSel() ;
     }
 
     /* clic sur ignorer data */
@@ -547,7 +557,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
         for (int i=0; i<nb; i++){
-            if(isValueHeader(cellsSel.get(i)[0], cellsSel.get(i)[1])){
+            if(isValueDoubleHeader(cellsSel.get(i)[0], cellsSel.get(i)[1]) ){
                 isOnCol = true;
                 listNo.add(cellsSel.get(i)[1]-1);
             }else if( isValueNoRow(cellsSel.get(i)[0], cellsSel.get(i)[1])){
@@ -815,13 +825,16 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         int nbCol = ds.getNbCol();
         for(int i=0; i<nb; i++){
             String element="";
+            boolean isDouble = true;
             // recuperation objet
             if(col<nbCol){
                 Data o = ds.getData(i, col) ;
                 if (o == null)
                     element = "";
-                else
-                    element = Double.toString(o.getValue());
+                else{
+                    element = o.getValue();
+                    isDouble = o.isDoubleValue();
+                }
             }else{
                 Double o = ds.getListOperationResult(ds.getListOperationOnRows().get(col-nbCol)).get(i);
                 if(o == null || o.isNaN())
@@ -839,38 +852,41 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 //            }
             //System.out.println("***ELEMENT : "+element+" ****");
             int maxSize = ds.getValueMaxSizeIn(col);
-            int maxSize1 = ds.getValueMaxDoubleSizeIn(col)[0];
-            int maxSize2 = ds.getValueMaxDoubleSizeIn(col)[1];
-            // si chaine est plus courte, on complete avec des blancs
+            boolean invers = order==0;
+            if(isDouble){
+                int maxSize1 = ds.getValueMaxDoubleSizeIn(col)[0];
+                int maxSize2 = ds.getValueMaxDoubleSizeIn(col)[1];
+                // si chaine est plus courte, on complete avec des blancs
            
-            boolean neg = false;
-            if(element.startsWith("-")){
-                neg = true;
-                element = element.substring(1);
-            }
-            int lg1 = element.indexOf(".");
-            int lg2 = element.length() - lg1 - 1;
-            if (lg1 < maxSize1 ){
-                for(int j=lg1; j < maxSize1; j++)
-                    element ="0"+element;
-            }
-            if (lg2 < maxSize2 ){
-                for(int j=lg2; j < maxSize2; j++)
-                    element=element+"0";
-            }
-            if(neg){
-                if(order==1)
-                    element="0"+element;
-                else
-                    element = "999"+element;
-            }else{
-                if (order==1)
-                    element = "999"+element;
-                else
-                    element = "0"+element;
+                boolean neg = false;
+                if(element.startsWith("-")){
+                    neg = true;
+                    element = element.substring(1);
+                }
+                int lg1 = element.indexOf(".");
+                int lg2 = element.length() - lg1 - 1;
+                if (lg1 < maxSize1 ){
+                    for(int j=lg1; j < maxSize1; j++)
+                        element ="0"+element;
+                }
+                if (lg2 < maxSize2 ){
+                    for(int j=lg2; j < maxSize2; j++)
+                        element=element+"0";
+                }
+                if(neg){
+                    if(order==1)
+                        element="0"+element;
+                    else
+                        element = "999"+element;
+                }else{
+                    if (order==1)
+                        element = "999"+element;
+                    else
+                        element = "0"+element;
+                }
+                invers = (order==0 && !neg) || (order==1 && neg) ;
             }
             
-            boolean invers = (order==0 && !neg) || (order==1 && neg) ;
 //             ordre decroissant
 //             on inverse
 //             char est borne entre 0 et 255
@@ -928,22 +944,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 while (((String)keys.elementAt(--j)).compareTo(v) > 0 )
                     if (j == g)
                         break;
-//               String h = ((String)keys.elementAt(++i));
-//               Double h1 = Double.parseDouble(h);
-//               while (h1.compareTo(v1) <0 ){
-//                   if (i == d)
-//                        break;
-//                   h = ((String)keys.elementAt(++i));
-//                   h1 = Double.parseDouble(h);
-//               }
-//               String r = ((String)keys.elementAt(--j));
-//               Double r1 = Double.parseDouble(r);
-//               while (r1.compareTo(v1) > 0 ){
-//                    if (j == g)
-//                        break;
-//                    r = ((String)keys.elementAt(--j));
-//                    r1 = Double.parseDouble(r);
-//               }
                 if (i >= j)
                     break;
                 idT=i;
@@ -1227,7 +1227,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             return;
         for(Iterator<int[]> t = listSelectedCell.iterator();t.hasNext();){
             int[] tab = t.next();
-            changeSelection(tab[0], tab[1], true, false);
+            //changeSelection(tab[0], tab[1], true, false);
+            if(isValueHeader(tab[0], tab[1])){
+                selectCols(tab[1]-1, 1);
+            }else if(isValueNoRow(tab[0], tab[1])){
+                selectRows(tab[0]-1, 1);
+            }
         }
         owner.updateMenuData();
     }

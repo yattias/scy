@@ -24,14 +24,22 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     private String newValue;
     private String oldUnit;
     private String newUnit;
+    private String oldDescription;
+    private String newDescription;
+    private String oldType;
+    private String newType;
     private int colIndex;
 
-    public EditHeaderUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, String oldValue, String newValue, String oldUnit, String newUnit,  int colIndex) {
+    public EditHeaderUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, String oldValue, String newValue, String oldUnit, String newUnit,  int colIndex, String oldDescription, String newDescription, String oldType, String newType) {
         super(table, dataToolPanel, controller);
         this.oldValue = oldValue;
         this.newValue = newValue;
         this.oldUnit = oldUnit;
         this.newUnit = newUnit;
+        this.oldDescription = oldDescription;
+        this.newDescription = newDescription;
+        this.oldType = oldType;
+        this.newType = newType;
         this.colIndex = colIndex;
     }
 
@@ -39,7 +47,7 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     public void redo() throws CannotRedoException {
         super.redo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(getDataset(), colIndex, newValue, newUnit, v);
+        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true,colIndex, newValue, newUnit, newDescription, newType, v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -53,7 +61,7 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     public void undo() throws CannotUndoException {
         super.undo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(getDataset(), colIndex, oldValue, oldUnit, v);
+        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, colIndex, oldValue, oldUnit,oldDescription, oldType,  v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;

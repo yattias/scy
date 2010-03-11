@@ -98,7 +98,7 @@ public class DatasetFromDB {
     /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL " +
+        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION " +
                 "FROM DATA_HEADER D, LINK_DATASET_HEADER L " +
                 "WHERE D.ID_HEADER = L.ID_HEADER AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
@@ -107,7 +107,8 @@ public class DatasetFromDB {
         listFields.add("D.VALUE");
         listFields.add("D.UNIT");
         listFields.add("D.NO_COL");
-
+        listFields.add("D.TYPE");
+        listFields.add("D.DESCRIPTION");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -133,7 +134,13 @@ public class DatasetFromDB {
             }catch(NumberFormatException e){
                 System.out.println(e);
             }
-            DataHeader dh= new DataHeader(dbKey, value,unit, noCol);
+            String type = rs.getColumnData("D.TYPE");
+            if (type == null)
+                continue;
+            String description = rs.getColumnData("D.DESCRIPTION");
+            if (description == null)
+                continue;
+            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description);
             tabHeader[noCol] = dh;
         }
         v.add(tabHeader);
@@ -257,15 +264,9 @@ public class DatasetFromDB {
             if (s == null)
                 continue;
             long dbKey = Long.parseLong(s);
-            s = rs.getColumnData("D.VALUE");
-            if (s == null)
+            String value = rs.getColumnData("D.VALUE");
+            if (value == null)
                 continue;
-            float value = 0;
-            try{
-                value = Float.parseFloat(s);
-            }catch(NumberFormatException e){
-                System.out.println(e);
-            }
             s = rs.getColumnData("D.NO_COL");
             if (s == null)
                 continue;
@@ -399,10 +400,12 @@ public class DatasetFromDB {
     }
 
     /* creation d'un header - retourne en v[0] le nouveau dbKey */
-    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, long dbKeyDs, ArrayList v){
+    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, String type, String description, long dbKeyDs, ArrayList v){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
-        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+") ;";
+        type = MyUtilities.replace("\'",type,"''") ;
+        description = MyUtilities.replace("\'",description,"''") ;
+        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"') ;";
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -420,20 +423,23 @@ public class DatasetFromDB {
     }
 
     /* mise a jour d'un header */
-    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit){
+    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit, String description, String type){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
+        description = MyUtilities.replace("\'",description,"''") ;
+        type = MyUtilities.replace("\'",type,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' WHERE ID_HEADER = "+dbKey+" ;";
+        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', TYPE = '"+type+"' WHERE ID_HEADER = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
     }
 
     /* creation d'un data - retourne en v[0] le nouveau dbKey */
-    public static CopexReturn createDataInDB(DataBaseCommunication dbC, double value, int noRow, int noCol, long dbKeyDs, ArrayList v){
-        String query = "INSERT INTO COPEX_DATA (ID_DATA, VALUE, NO_ROW, NO_COL, IS_IGNORED) VALUES (NULL, "+value+", "+noRow+", "+noCol+", 0) ;";
+    public static CopexReturn createDataInDB(DataBaseCommunication dbC, String value, int noRow, int noCol, long dbKeyDs, ArrayList v){
+        value = MyUtilities.replace("\'",value,"''") ;
+        String query = "INSERT INTO COPEX_DATA (ID_DATA, VALUE, NO_ROW, NO_COL, IS_IGNORED) VALUES (NULL, '"+value+"', "+noRow+", "+noCol+", 0) ;";
         String queryID = "SELECT max(last_insert_id(`ID_DATA`))   FROM COPEX_DATA ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -451,10 +457,11 @@ public class DatasetFromDB {
     }
 
     /* mise a jour d'un data */
-    public static CopexReturn updateDataInDB(DataBaseCommunication dbC, long dbKey, double value){
+    public static CopexReturn updateDataInDB(DataBaseCommunication dbC, long dbKey, String value){
+        value = MyUtilities.replace("\'",value,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE COPEX_DATA SET VALUE = "+value+" WHERE ID_DATA = "+dbKey+" ;";
+        String query = "UPDATE COPEX_DATA SET VALUE = '"+value+"' WHERE ID_DATA = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -499,7 +506,7 @@ public class DatasetFromDB {
         DataHeader[] tabHeader = ds.getListDataHeader();
         for (int i=0; i<tabHeader.length; i++){
             v2 = new ArrayList();
-            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), dbKey, v2);
+            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), tabHeader[i].getType(), tabHeader[i].getDescription(), dbKey, v2);
             if (cr.isError())
                 return cr;
             long dbKeyHeader = (Long)v2.get(0);
@@ -527,7 +534,7 @@ public class DatasetFromDB {
     /* chargement de tous les visualizations d'un dataset donne */
     public static CopexReturn getAllDatasetVisualizationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeVisualization[] tabTypeVis, DataHeader[] listCols, ArrayList v){
         ArrayList<Visualization> listDataVis = new ArrayList();
-        String query = "SELECT D.ID_DATA_VISUALIZATION, D.VIS_NAME, D.IS_ON_COL, T.ID_TYPE_VISUALIZATION " +
+        String query = "SELECT D.ID_DATA_VISUALIZATION, D.VIS_NAME, D.IS_ON_COL, D.HEADER_LABEL, T.ID_TYPE_VISUALIZATION " +
                 "FROM DATA_VISUALIZATION D, LINK_DATASET_VISUALIZATION L, LINK_VISUALIZATION_TYPE T " +
                 "WHERE D.ID_DATA_VISUALIZATION = L.ID_DATA_VISUALIZATION AND L.ID_DATASET = "+dbKeyDs+"  AND D.ID_DATA_VISUALIZATION = T.ID_DATA_VISUALIZATION;  ";
         ArrayList v2 = new ArrayList();
@@ -535,6 +542,7 @@ public class DatasetFromDB {
         listFields.add("D.ID_DATA_VISUALIZATION");
         listFields.add("D.VIS_NAME");
         listFields.add("D.IS_ON_COL");
+        listFields.add("D.HEADER_LABEL");
         listFields.add("T.ID_TYPE_VISUALIZATION");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
@@ -560,6 +568,19 @@ public class DatasetFromDB {
                 System.out.println(e);
             }
             boolean isOnCol = n==1;
+            s = rs.getColumnData("D.HEADER_LABEL");
+            if (s == null)
+                continue;
+            int idHeaderLabel = -1;
+            try{
+                idHeaderLabel = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+                System.out.println(e);
+            }
+            DataHeader headerLabel = null;
+            if(idHeaderLabel !=-1){
+                headerLabel = listCols[idHeaderLabel];
+            }
             s = rs.getColumnData("T.ID_TYPE_VISUALIZATION");
             if (s == null)
                 continue;
@@ -596,7 +617,7 @@ public class DatasetFromDB {
                 vis = new Graph(dbKey, name, typeVisualization, paramGraph, listFunctionModel) ;
             }else{
                 // creation objet dataVisualization
-                vis = new SimpleVisualization(dbKey, name, typeVisualization,  no);
+                vis = new SimpleVisualization(dbKey, name, typeVisualization,  no, headerLabel);
             }
             listDataVis.add(vis);
         }
@@ -715,7 +736,7 @@ public class DatasetFromDB {
     /* chargement des plots xy*/
     private static CopexReturn getAllPlotsXYFromDB(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol, ArrayList v){
         ArrayList<PlotXY> plots = new ArrayList();
-        String query = "SELECT P.ID_PLOT, P.ID_HEADER_X, P.ID_HEADER_Y, P.NO_PLOT " +
+        String query = "SELECT P.ID_PLOT, P.ID_HEADER_X, P.ID_HEADER_Y, P.NO_PLOT, P.PLOT_COLOR_R, P.PLOT_COLOR_G, P.PLOT_COLOR_G " +
                 "FROM PLOT_XY_GRAPH P, LINK_GRAPH_PLOT L " +
                 "WHERE L.ID_DATA_VISUALIZATION = "+dbKey+" AND " +
                 "L.ID_PLOT = P.ID_PLOT " +
@@ -726,6 +747,9 @@ public class DatasetFromDB {
         listFields.add("P.ID_HEADER_X");
         listFields.add("P.ID_HEADER_Y");
         listFields.add("P.NO_PLOT");
+        listFields.add("P.PLOT_COLOR_R");
+        listFields.add("P.PLOT_COLOR_G");
+        listFields.add("P.PLOT_COLOR_B");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -754,7 +778,29 @@ public class DatasetFromDB {
                     break;
                 }
             }
-            PlotXY plot = new PlotXY(headerX, headerY);
+            s = rs.getColumnData("P.PLOT_COLOR_R");
+            int red = 0;
+            try{
+                red = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            s = rs.getColumnData("P.PLOT_COLOR_G");
+            int green = 0;
+            try{
+                green = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            s = rs.getColumnData("P.PLOT_COLOR_B");
+            int blue = 0;
+            try{
+                blue = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            Color plotColor = new Color(red, green, blue);
+            PlotXY plot = new PlotXY(headerX, headerY, plotColor);
             plots.add(plot);
 
         }

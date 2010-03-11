@@ -16,8 +16,10 @@ import javax.swing.JPanel;
  * @author Marjolaine
  */
 public class DistancePanel extends JPanel{
+    public final static String NO_DISTANCE = "...";
     private FitexPanel fitex;
-    private int id;
+    //private int id;
+    private Color plotColor;
     private JLabel labelDist;
     private JPanel panelDistBlue;
     private JPanel panelDistGreen;
@@ -26,12 +28,17 @@ public class DistancePanel extends JPanel{
     private JLabel labelKGreen;
     private JLabel labelKBlack;
 
-    public DistancePanel(FitexPanel fitex, int id) {
+//    public DistancePanel(FitexPanel fitex, int id) {
+//        this.fitex = fitex;
+//        this.id = id;
+//        initGUI();
+//    }
+
+    public DistancePanel(FitexPanel fitex, Color plotColor) {
         this.fitex = fitex;
-        this.id = id;
+        this.plotColor = plotColor;
         initGUI();
     }
-
 
     private void initGUI(){
         setName("panelDist");
@@ -50,7 +57,9 @@ public class DistancePanel extends JPanel{
             labelDist = new JLabel();
             labelDist.setName("labelDist");
             labelDist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-            labelDist.setText(fitex.getBundleString("LABEL_DISTANCE_"+id));
+            //labelDist.setText(fitex.getBundleString("LABEL_DISTANCE_"+id));
+            labelDist.setText(fitex.getBundleString("LABEL_DISTANCE"));
+            labelDist.setForeground(plotColor);
         }
         return labelDist;
     }
@@ -87,7 +96,7 @@ public class DistancePanel extends JPanel{
             labelKBlue = new JLabel();
             labelKBlue.setName("labelKBlue");
             labelKBlue.setForeground(java.awt.Color.BLUE);
-            labelKBlue.setText("...");
+            labelKBlue.setText(NO_DISTANCE);
         }
         return labelKBlue ;
     }
@@ -124,7 +133,7 @@ public class DistancePanel extends JPanel{
             labelKGreen = new JLabel();
             labelKGreen.setName("labelKGreen");
             labelKGreen.setForeground(new java.awt.Color(51, 153, 0));
-            labelKGreen.setText("...");
+            labelKGreen.setText(NO_DISTANCE);
         }
         return labelKGreen ;
     }
@@ -160,18 +169,53 @@ public class DistancePanel extends JPanel{
         if (labelKBlack == null){
             labelKBlack = new JLabel();
             labelKBlack.setName("labelKBlack");
-            labelKBlack.setText("...");
+            labelKBlack.setText(NO_DISTANCE);
         }
         return labelKBlack ;
     }
 
     public void setText(Color coul, String txt){
+        setPanels();
         JLabel jLab = null ;
         if (coul == Color.BLUE) jLab = labelKBlue ;
         else if (coul == FitexPanel.DARK_GREEN ) jLab = labelKGreen ;
         else jLab = labelKBlack ;
         if(jLab != null){
             jLab.setText(txt);
+        }
+        deletePanels();
+    }
+
+    private void setPanels(){
+        if(panelDistBlue == null){
+            add(getPanelDistBlue());
+        }
+        if(panelDistGreen == null){
+            add(getPanelDistGreen());
+        }
+        if(panelDistBlack == null){
+            add(getPanelDistBlack());
+        }
+    }
+
+    private void deletePanels(){
+        if(labelKBlack.getText().equals(NO_DISTANCE)){
+            this.remove(panelDistBlack);
+            panelDistBlack.remove(labelKBlack);
+            labelKBlack = null;
+            panelDistBlack = null;
+        }
+        if(labelKGreen.getText().equals(NO_DISTANCE)){
+            this.remove(panelDistGreen);
+            panelDistGreen.remove(labelKGreen);
+            labelKGreen = null;
+            panelDistGreen = null;
+        }
+        if(labelKBlue.getText().equals(NO_DISTANCE)){
+            this.remove(panelDistBlue);
+            panelDistBlue.remove(labelKBlue);
+            labelKBlue = null;
+            panelDistBlue = null;
         }
     }
 

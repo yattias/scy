@@ -59,6 +59,7 @@ public class FitexPanel extends javax.swing.JPanel {
     private ResourceBundle bundle;
     /* donnees */
     private DefaultTableModel[] datas = null;
+    private Color[] plotsColor = null;
     /* action fitexPanel */
     private ActionFitex actionFitex;
 
@@ -86,6 +87,7 @@ public class FitexPanel extends javax.swing.JPanel {
     private JLabel labelFct;
     private JTextField textFieldFct;
     private DistancePanel[] tabPanelDist;
+    private JLabel labelDist;
     private JPanel panelDist;
 
     private JPanel panelFctParam;
@@ -97,10 +99,11 @@ public class FitexPanel extends javax.swing.JPanel {
 
     
     /** Creates new form FitexPanel */
-    public FitexPanel(Locale locale, DefaultTableModel[] datas, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
+    public FitexPanel(Locale locale, DefaultTableModel[] datas, Color[] plotsColor, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
         super();
         this.locale = locale;
         this.datas = datas ;
+        this.plotsColor = plotsColor;
         this.paramGraph = pg;
         tabPanelDist = new DistancePanel[datas.length];
         initGUI(listFunctionModel);
@@ -130,7 +133,7 @@ public class FitexPanel extends javax.swing.JPanel {
         // functionSelector.setVisible(false);
         width = 400;
         height = 400;
-        zoneDeTrace = new DrawPanel(this, datas, paramGraph, width, height) ;
+        zoneDeTrace = new DrawPanel(this, datas, plotsColor, paramGraph, width, height) ;
         this.add(zoneDeTrace, BorderLayout.CENTER);
         //this.add(getPanelFctModel(), BorderLayout.NORTH);
         setInitialListFunction(listFunctionModel);
@@ -283,6 +286,16 @@ public class FitexPanel extends javax.swing.JPanel {
         return textFieldFct;
     }
 
+    private JLabel getLabelDist(){
+        if(labelDist == null){
+            labelDist = new JLabel();
+            labelDist.setName("labelDist");
+            labelDist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            labelDist.setText(getBundleString("LABEL_DIST"));
+        }
+        return labelDist;
+    }
+    
     private void drawFct(){
         if(panelFctModel == null)
             return;
@@ -309,7 +322,9 @@ public class FitexPanel extends javax.swing.JPanel {
         if(panelDist == null){
             panelDist = new JPanel();
             panelDist.setName("panelDist");
-            panelDist.setLayout(new BoxLayout(panelDist, BoxLayout.Y_AXIS));
+            //panelDist.setLayout(new BoxLayout(panelDist, BoxLayout.Y_AXIS));
+            panelDist.setLayout(new FlowLayout(FlowLayout.LEFT));
+            panelDist.add(getLabelDist());
             for(int d=0; d<tabPanelDist.length; d++){
                panelDist.add(getPanelDist(d));
            }
@@ -318,7 +333,7 @@ public class FitexPanel extends javax.swing.JPanel {
     }
     private DistancePanel getPanelDist(int id){
         if (tabPanelDist[id] == null){
-            tabPanelDist[id] = new DistancePanel(this, id);
+            tabPanelDist[id] = new DistancePanel(this, plotsColor[id]);
         }
         return tabPanelDist[id];
     }
@@ -396,9 +411,7 @@ public class FitexPanel extends javax.swing.JPanel {
             FunctionModel fm = listFunctionModel.get(i);
             Function f = new Function(locale, fm.getDescription(), datas);
             int nbP = fm.getListParam().size();
-            System.out.println("*******");
             for (int k=0; k<nbP; k++){
-                System.out.println("setInitial : "+fm.getListParam().get(k).toString());
                 f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
             }
             mapDesFonctions.put(fm.getColor(), f);
@@ -450,7 +463,7 @@ public class FitexPanel extends javax.swing.JPanel {
         for (int d=0; d<tabPanelDist.length; d++){
             if(tabPanelDist[d] != null){
                 if (mapDesFonctions.get(coul)==null || mapDesFonctions.get(coul).getRF()[d]==null)
-                    tabPanelDist[d].setText(coul, "...");
+                    tabPanelDist[d].setText(coul, DistancePanel.NO_DISTANCE);
                 else {
                     k = (mapDesFonctions.get(coul)).getRF()[d] ;
                     k = chiffresSignificatifs(k,4) ;

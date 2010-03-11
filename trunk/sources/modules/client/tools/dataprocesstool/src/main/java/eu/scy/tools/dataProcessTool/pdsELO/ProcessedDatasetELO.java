@@ -55,7 +55,7 @@ public class ProcessedDatasetELO implements Cloneable {
 
 
     public Element toXML() {
-		Element element = new Element(TAG_ELO_CONTENT);
+        Element element = new Element(TAG_ELO_CONTENT);
         element.addContent(dataset.toXML().detach());
         element.addContent(processedData.toXML().detach());
 		return element;
@@ -71,8 +71,8 @@ public class ProcessedDatasetELO implements Cloneable {
 
     /* creation Dataset*/
     private void createDatasetFromXML(Element datasetElem) throws JDOMException {
-		dataset = new DataSet(datasetElem);
-	}
+        dataset = new DataSet(datasetElem);
+    }
 
     /* creation Processed Dataset*/
     private void createProcessedDatasetFromXML(Element pdsElem) throws JDOMException {

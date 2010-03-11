@@ -135,7 +135,7 @@ public class DataControllerDB implements ControllerInterface{
         
         if(listDataset.size()==0){
             v = new ArrayList();
-            cr = createTable("Dataset", v);
+            cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"), v);
             if(cr.isError())
                 return cr;
         }
@@ -195,7 +195,7 @@ public class DataControllerDB implements ControllerInterface{
         int nbCols = header.getColumnCount() ;
         DataHeader[] dataHeader = new DataHeader[nbCols];
         for (int i=0; i<nbCols; i++){
-            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),header.getColumns().get(i).getType(),  i) ;
+            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),header.getColumns().get(i).getUnit(),  i, header.getColumns().get(i).getType(), header.getColumns().get(i).getDescription()) ;
         }
         // data
         List<DataSetRow> listRows = eloDs.getValues() ;
@@ -204,13 +204,7 @@ public class DataControllerDB implements ControllerInterface{
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCols; j++){
                 String s = listRows.get(i).getValues().get(j);
-                double value;
-                try{
-                    value = Double.parseDouble(s);
-                }catch(NumberFormatException e){
-                    return null;
-                }
-                data[i][j] = new Data(-1, value, i, j, false);
+                data[i][j] = new Data(-1, s, i, j, false);
             }
         }
         // creation du dataset
@@ -250,7 +244,7 @@ public class DataControllerDB implements ControllerInterface{
         Data[][] data = new Data[nbRows][nbCol];
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         for (int i=0; i<nbCol; i++){
-            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+" "+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i);
+            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+" "+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i, MyConstants.DEFAULT_TYPE_COLUMN, dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"));
             tabHeader[i] = h;
         }
         // enregistrement base 
@@ -261,7 +255,7 @@ public class DataControllerDB implements ControllerInterface{
         long dbKey = (Long)v2.get(0);
         for (int i=0; i<nbCol; i++){
             v2 = new ArrayList();
-            cr = DatasetFromDB.createDataHeaderInDB(dbC,tabHeader[i].getValue(), tabHeader[i].getUnit(), i, dbKey, v2 );
+            cr = DatasetFromDB.createDataHeaderInDB(dbC,tabHeader[i].getValue(), tabHeader[i].getUnit(), i, tabHeader[i].getType(), tabHeader[i].getDescription(), dbKey, v2 );
             if (cr.isError())
                 return cr;
             long dbKeyH = (Long)v2.get(0);
@@ -435,13 +429,13 @@ public class DataControllerDB implements ControllerInterface{
 
     /* mise a jour d'une valeur : titre header */
     @Override
-    public CopexReturn updateDataHeader(Dataset ds, int colIndex, String title, String unit, ArrayList v){
+    public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type,ArrayList v){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         Dataset dataset = listDataset.get(idDs);
-        CopexReturn cr = setDataHeader(ds, colIndex, title, unit);
+        CopexReturn cr = setDataHeader(ds, confirm, colIndex, title, unit, description, unit);
         if(cr.isError())
             return cr;
         // en v[0] : le nouveau dataset
@@ -449,7 +443,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
-    private CopexReturn setDataHeader(Dataset ds, int colIndex, String title, String unit){
+    private CopexReturn setDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -460,23 +454,111 @@ public class DataControllerDB implements ControllerInterface{
         if(header == null){
             // header n'existe pas : on le cree
             ArrayList v2 = new ArrayList();
-            CopexReturn cr = DatasetFromDB.createDataHeaderInDB(dbC, title,unit,  colIndex, dataset.getDbKey(), v2);
+            CopexReturn cr = DatasetFromDB.createDataHeaderInDB(dbC, title,unit,  colIndex, type, description, dataset.getDbKey(),v2);
             if (cr.isError())
                 return cr;
             long dbKey = (Long)v2.get(0);
-            dataset.setDataHeader(new DataHeader(dbKey, title, unit, colIndex), colIndex);
+            dataset.setDataHeader(new DataHeader(dbKey, title, unit, colIndex, type, description), colIndex);
         }else{
             // header existe => on le modifie
-            CopexReturn cr = DatasetFromDB.updateDataHeaderInDB(dbC, header.getDbKey(), title, unit);
+            // controle des unites par rapport / graphes existants
+            CopexReturn cr = controlGraphUnit(dataset, colIndex, unit);
+            if(cr.isError())
+                return cr;
+            // controle du type
+            // si type devient string => demande conf pour suppression des operations / visulisations s'il y a lieu.
+            if(!confirm){
+                cr = controlColumnType(dataset, colIndex, type);
+                if(cr.isError() || cr.isWarning())
+                    return cr;
+            }
+            cr = DatasetFromDB.updateDataHeaderInDB(dbC, header.getDbKey(), title, unit, description, type);
             if (cr.isError())
                 return cr;
             header.setValue(title);
             header.setUnit(unit);
+            header.setDescription(description);
+            header.setType(type);
             dataset.setDataHeader(header, header.getNoCol());
         }
         return new CopexReturn();
     }
 
+    /* control de la coherence des axes / unite lors d'un chamgenet d'unite */
+    private CopexReturn controlGraphUnit(Dataset dataset, int colIndex, String unit){
+        for(Iterator<Visualization> vis = dataset.getListVisualization().iterator();vis.hasNext();){
+            Visualization visu = vis.next();
+            if(visu instanceof Graph){
+                if(((Graph)visu).isOnNo(colIndex)){
+                    String unitX = ((Graph)visu).getParamGraph().getPlot1().getHeaderX().getUnit();
+                    String unitY = ((Graph)visu).getParamGraph().getPlot1().getHeaderY().getUnit();
+                    if(((Graph)visu).getParamGraph().getPlot1().getHeaderX().getNoCol() == colIndex){
+                        unitX = unit;
+                    }else if(((Graph)visu).getParamGraph().getPlot1().getHeaderY().getNoCol() == colIndex){
+                        unitY = unit;
+                    }
+                    ArrayList<PlotXY> plots = ((Graph)visu).getParamGraph().getPlots();
+                    int nbP = plots.size();
+                    for (int i=1; i<nbP; i++){
+                        PlotXY plot = plots.get(i);
+                        String ux = plot.getHeaderX().getUnit();
+                        String uy = plot.getHeaderY().getUnit();
+                        if(plot.getHeaderX().getNoCol() == colIndex){
+                            ux = unit;
+                        }else if(plot.getHeaderY().getNoCol() == colIndex){
+                            uy = unit;
+                        }
+                        if(!ux.equals(unitX) || !uy.equals(unitY)){
+                            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_AXIS_COHERENCE"), false);
+                        }
+                    }
+                }
+            }
+        }
+        return new CopexReturn();
+    }
+
+    /* controle que les donnees de la colonne sont de type double et que si chaine de carac. cela ne supprime pas des graphes */
+    private CopexReturn controlColumnType(Dataset ds, int colIndex, String type){
+        int nbRows = ds.getNbRows();
+        if(type.equals(MyConstants.TYPE_DOUBLE)){
+            for (int i=0; i<nbRows; i++){
+                if(ds.getData(i, colIndex) != null && !ds.getData(i, colIndex).isDoubleValue()){
+                    return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_HEADER_TYPE_DOUBLE"), false);
+                }
+            }
+        }
+        if(type.equals(MyConstants.TYPE_STRING)){
+            String msg = "";
+            ArrayList<DataOperation> listOperations = ds.getOperationOnCol(colIndex);
+            int nbO = listOperations.size();
+            if(nbO > 0){
+                msg += dataToolPanel.getBundleString("MSG_WARNING_DELETE_OPERATION");
+                for(Iterator<DataOperation> o = listOperations.iterator();o.hasNext();){
+                    msg += "\n - "+o.next().getName();
+                }
+            }
+            ArrayList<Visualization> listVisualisations = ds.getVisualizationOnCol(colIndex);
+            int nbV = listVisualisations.size();
+            if(nbV > 0){
+                if(msg.length() > 0)
+                    msg +="\n";
+                msg += dataToolPanel.getBundleString("MSG_WARNING_DELETE_VISUALIZATION");
+                for(Iterator<Visualization> v = listVisualisations.iterator(); v.hasNext();){
+                    msg += "\n - "+v.next().getName();
+                }
+            }
+            if(msg.length() > 0){
+                msg += "\n"+dataToolPanel.getBundleString("MSG_WARNING_UPDATE_TYPE");
+            }
+            if(msg.length() > 0){
+                return new CopexReturn(msg, true);
+            }
+        }
+        return new CopexReturn();
+    }
+
+    
     /* mise a jour d'une valeur : titre operation */
     @Override
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v){
@@ -501,7 +583,7 @@ public class DataControllerDB implements ControllerInterface{
 
     /* mise a jour d'une valeur : donnee dataset */
     @Override
-    public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, Double value, ArrayList v){
+    public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, String value, ArrayList v){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -517,7 +599,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
-    private CopexReturn setData(Dataset ds, int rowIndex, int colIndex, Double value){
+    private CopexReturn setData(Dataset ds, int rowIndex, int colIndex, String value){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -898,7 +980,7 @@ public class DataControllerDB implements ControllerInterface{
         int nbCols = header.getColumnCount() ;
         DataHeader[] dataHeader = new DataHeader[nbCols];
         for (int i=0; i<nbCols; i++){
-            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getType(),i) ;
+            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getUnit(),i, header.getColumns().get(i).getType(), header.getColumns().get(i).getDescription()) ;
         }
         // data
         List<DataSetRow> listRows = eloDs.getValues() ;
@@ -907,13 +989,7 @@ public class DataControllerDB implements ControllerInterface{
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCols; j++){
                 String s = listRows.get(i).getValues().get(j);
-                double value;
-                try{
-                    value = Double.parseDouble(s);
-                }catch(NumberFormatException e){
-                    return null;
-                }
-                data[i][j] = new Data(-1, value, i, j, false);
+                data[i][j] = new Data(-1, s, i, j, false);
             }
         }
         // liste des donnees ignorees
@@ -963,16 +1039,26 @@ public class DataControllerDB implements ControllerInterface{
             TypeVisualization type = getTypeVisualization(vis.getType());
             Visualization myVis = null;
             if (vis instanceof BarVisualization){
-                 myVis = new SimpleVisualization(-1, vis.getName(), type,((BarVisualization)vis).getId() ) ;
+                int idLabelHeader = ((BarVisualization)vis).getId();
+                DataHeader headerLabel = null;
+                if(idLabelHeader != -1){
+                    headerLabel = dataHeader[idLabelHeader];
+                }
+                 myVis = new SimpleVisualization(-1, vis.getName(), type,((BarVisualization)vis).getId(), headerLabel ) ;
             } else if (vis instanceof PieVisualization){
-                myVis = new SimpleVisualization(-1, vis.getName(), type, ((PieVisualization)vis).getId()) ;
+                int idLabelHeader = ((PieVisualization)vis).getId();
+                DataHeader headerLabel = null;
+                if(idLabelHeader != -1){
+                    headerLabel = dataHeader[idLabelHeader];
+                }
+                myVis = new SimpleVisualization(-1, vis.getName(), type, ((PieVisualization)vis).getId(), headerLabel) ;
             } else if(vis instanceof GraphVisualization){
                 GraphVisualization g = ((GraphVisualization)vis);
                 List<XYAxis> listAxis = g.getAxis();
                 ArrayList<PlotXY> plots = new ArrayList();
                 for (Iterator<XYAxis> a = listAxis.iterator();a.hasNext();){
                     XYAxis axis = a.next();
-                    plots.add(new PlotXY(dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()]));
+                    plots.add(new PlotXY(dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()], axis.getPlotColor()));
                 }
                 ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), true);
                 ArrayList<FunctionModel> listFunctionModel  = null;
@@ -1149,7 +1235,7 @@ public class DataControllerDB implements ControllerInterface{
     
     /* creation d'un dataset avec l'en tete - 1 ligne de donnees */
     @Override
-    public CopexReturn createDataset(String name, String[] headers, String[] units, ArrayList v){
+    public CopexReturn createDataset(String name, String[] headers, String[] units, String[] types, String[] descriptions, ArrayList v){
         int nbCol = headers.length;
         int nbRows = 1;
         ArrayList<DataOperation> listOp = new ArrayList();
@@ -1166,11 +1252,11 @@ public class DataControllerDB implements ControllerInterface{
 
         for (int i=0; i<nbCol; i++){
             v2 = new ArrayList();
-            cr = DatasetFromDB.createDataHeaderInDB(dbC, headers[i],units[i], i, dbKey, v2);
+            cr = DatasetFromDB.createDataHeaderInDB(dbC, headers[i],units[i], i,types[i], descriptions[i], dbKey, v2);
             if(cr.isError())
                 return cr;
             long dbKeyH = (Long)v2.get(0);
-            tabHeader[i] = new DataHeader(dbKeyH, headers[i], units[i], i);
+            tabHeader[i] = new DataHeader(dbKeyH, headers[i], units[i], i, types[i], descriptions[i]);
         }
         // creation ds
         Dataset dataset = new Dataset(dbKey, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
@@ -1183,7 +1269,7 @@ public class DataControllerDB implements ControllerInterface{
     
     /* ajout d'une ligne de donnees */
     @Override
-    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v){
+    public CopexReturn addData(long dbKeyDs, String[] values, ArrayList v){
         int idDs = getIdDataset(dbKeyDs);
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -1249,8 +1335,8 @@ public class DataControllerDB implements ControllerInterface{
             PlotXY plot = p.next();
             for (int i=0; i<ds.getNbRows(); i++){
                 if(ds.getData(i, plot.getHeaderX().getNoCol()) != null && ds.getData(i, plot.getHeaderY().getNoCol()) != null ){
-                    listX.add(ds.getData(i, plot.getHeaderX().getNoCol()).getValue());
-                    listY.add(ds.getData(i, plot.getHeaderY().getNoCol()).getValue());
+                    listX.add(ds.getData(i, plot.getHeaderX().getNoCol()).getDoubleValue());
+                    listY.add(ds.getData(i, plot.getHeaderY().getNoCol()).getDoubleValue());
                 }
             }
         }
@@ -1401,9 +1487,9 @@ public class DataControllerDB implements ControllerInterface{
            for (int j=0; j<nbColsToPaste; j++){
                DataHeader header = null;
                if (subData.getDataHeader(j) != null){
-                   header = new DataHeader(-1, subData.getDataHeader(j).getValue(),subData.getDataHeader(j).getUnit(),  idC+j);
+                   header = new DataHeader(-1, subData.getDataHeader(j).getValue(),subData.getDataHeader(j).getUnit(),  idC+j, subData.getDataHeader(j).getType(), subData.getDataHeader(j).getDescription());
                    ArrayList v2 = new ArrayList();
-                   cr = DatasetFromDB.createDataHeaderInDB(dbC, header.getValue(), header.getUnit(), header.getNoCol(), dataset.getDbKey(), v2);
+                   cr = DatasetFromDB.createDataHeaderInDB(dbC, header.getValue(), header.getUnit(), header.getNoCol(), header.getType(), header.getDescription(), dataset.getDbKey(), v2);
                    if(cr.isError())
                        return cr;
                    long dbKeyH = (Long)v2.get(0);
@@ -1499,7 +1585,7 @@ public class DataControllerDB implements ControllerInterface{
                         value = (String) lineParser.nextElement();
                         System.out.println(value);
                         if (id == 0){
-                            DataSetColumn c = new DataSetColumn(value, value, "double");
+                            DataSetColumn c = new DataSetColumn(value, "", MyConstants.TYPE_DOUBLE);
                             listC.add(c);
                         }else{
                             values.add(value);

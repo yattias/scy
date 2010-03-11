@@ -35,6 +35,7 @@ import eu.scy.tools.dataProcessTool.utilities.ActionMenu;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
+import eu.scy.tools.dataProcessTool.utilities.MyConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
@@ -536,7 +537,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         this.menuItemAvg.setEnabled(canOp);
         this.menuItemMin.setEnabled(canOp);
         this.menuItemMax.setEnabled(canOp);
-        boolean isData = isData();
+        boolean isData = isData() && dataset.getListDataHeaderDouble(true).length > 0;
         this.menuItemAddGraph.setEnabled(isData);
         if(menuItemPrint != null)
             this.menuItemPrint.setEnabled(dataset != null);
@@ -662,10 +663,32 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
      /* ouverture dialog creation viuals */
     public void openDialogCreateVisual(){
-        CreateDataVisualDialog dialog = new CreateDataVisualDialog(this, tabTypeVis, dataset.getListDataHeader());
+        DataHeader[] tabHeader = dataset.getListDataHeaderDouble(true);
+        TypeVisualization[] tabVis = getListTypeVisualization(tabHeader.length);
+        DataHeader[] tabHeaderLabel = dataset.getListDataHeaderDouble(false);
+        CreateDataVisualDialog dialog = new CreateDataVisualDialog(this, tabVis, tabHeader, tabHeaderLabel);
         dialog.setVisible(true);
     }
 
+    private TypeVisualization[] getListTypeVisualization(int nbHeader){
+        int nb = tabTypeVis.length;
+        if(nbHeader <2){
+            for(int i=0; i<tabTypeVis.length; i++){
+                if(tabTypeVis[i].getNbColParam() > 1)
+                    nb--;
+            }
+            TypeVisualization[] tab = new TypeVisualization[nb];
+            int id = 0;
+            for(int i=0; i<tabTypeVis.length; i++){
+                if(tabTypeVis[i].getNbColParam() <= 1){
+                    tab[id] = tabTypeVis[i];
+                    id++;
+                }
+            }
+            return tab;
+        }
+        return tabTypeVis;
+    }
 
     /*ouverture de la fenetre de tri*/
     private void openDialogSort(){
@@ -691,10 +714,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* creation d'un graphique */
-    public boolean createVisualization(String name, TypeVisualization typeVis, DataHeader header1, ArrayList<PlotXY> listPlot){
+    public boolean createVisualization(String name, TypeVisualization typeVis, DataHeader header1, DataHeader headerLabel, ArrayList<PlotXY> listPlot){
         Visualization vis = null;
         if(header1 != null){
-            vis = new SimpleVisualization(-1, name, typeVis, header1.getNoCol()) ;
+            vis = new SimpleVisualization(-1, name, typeVis, header1.getNoCol(), headerLabel) ;
         }else
         if (typeVis.getCode() == DataConstants.VIS_GRAPH){
             ParamGraph paramGraph = new ParamGraph(listPlot, -10, 10,  -10,10,1,1, true);
@@ -826,9 +849,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* mise a jour d'une donnees dans la table */
-    public void updateData(Dataset ds, Double value, int rowIndex, int columnIndex){
+    public void updateData(Dataset ds, String value, int rowIndex, int columnIndex){
         Data oldData = ds.getData(rowIndex, columnIndex);
-        Double oldValue = ds.getData(rowIndex, columnIndex) == null ? null : ds.getData(rowIndex, columnIndex).getValue();
+        String oldValue = ds.getData(rowIndex, columnIndex) == null ? null : ds.getData(rowIndex, columnIndex).getValue();
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateData(ds, rowIndex, columnIndex, value, v);
         if (cr.isError()){
@@ -845,15 +868,28 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataProcessToolPanel.logEditData(ds, oldData, newData);
     }
     /* mise a jour d'une donnees header */
-    public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex){
+    public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type){
         DataHeader oldHeader = ds.getDataHeader(colIndex);
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getUnit();
+        String oldDescription = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getDescription();
+        String oldType = ds.getDataHeader(colIndex) == null ? MyConstants.DEFAULT_TYPE_COLUMN : ds.getDataHeader(colIndex).getType();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(ds, colIndex, value, unit,v);
+        CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
+        }else if(cr.isWarning()){
+            boolean isOk = displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+            if(isOk){
+                cr = this.controller.updateDataHeader(ds,true, colIndex, value, unit,description, type, v);
+                if(cr.isError()){
+                    displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                    return false;
+                }
+            }else{
+                return true;
+            }
         }
         Dataset nds = (Dataset)v.get(0);
         DataHeader newHeader = nds.getDataHeader(colIndex);
@@ -861,7 +897,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         //datasetTable.updateDataset(nds, true);
         updateDataset(nds);
         datasetModif = true;
-        datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex));
+        datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type));
         dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
         return true;
     }
@@ -1177,34 +1213,17 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
      /* ajout d'une ligne de donnees   */
     public void addData(DataSetRow row ){
         List<String> listValues = row.getValues() ;
-        int nbVTotal = listValues.size() ;
         int nbV = listValues.size() ;
-        for (int i=0; i<nbVTotal; i++){
-           try{
-                double d = Double.parseDouble(listValues.get(i));
-            }catch(NumberFormatException e){
-                nbV--;
-            }
-        }
-        Double[] values = new Double[nbV];
-        int id = 0;
+        String[] values = new String[nbV];
         for (int i=0; i<nbV; i++){
-            double d = 0;
-            try{
-                d = Double.parseDouble(listValues.get(i));
-                values[id] = d ;
-                id++;
-            }catch(NumberFormatException e){
-
-            }
-            
+            values[i] = listValues.get(i) ;
         }
         addData(values);
     }
 
 
     /* ajout d'une ligne de donnees   */
-    private void addData(Double[] values){
+    private void addData(String[] values){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.addData(dataset.getDbKey(), values,  v);
         if (cr.isError()){

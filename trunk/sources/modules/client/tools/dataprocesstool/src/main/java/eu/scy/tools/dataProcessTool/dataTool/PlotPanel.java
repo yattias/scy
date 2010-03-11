@@ -7,41 +7,41 @@ package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
-import eu.scy.tools.dataProcessTool.utilities.ActionCopexButton;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlot;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlotPanel;
-import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
 import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+import eu.scy.tools.fitex.GUI.DrawPanel;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
  * plot panel : list of xyplotpanel
  * @author Marjolaine
  */
-public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPanel {
+public class PlotPanel extends JPanel implements  ActionPlotPanel {
     private FitexToolPanel owner;
     /* liste des colonnes */
     private DataHeader[] listCol;
-    private String[] tabPlot  = null;
+    private Color[] tabColor = null;
     private ActionPlot actionPlot;
 
     private JPanel xyPlotPanel;
     private ArrayList<XYPlotPanel> listPlotPanel;
-    private CopexButtonPanel buttonAddPlot;
-    private CopexButtonPanel buttonRemovePlot;
+    private JButton buttonAddPlot;
 
     public PlotPanel(FitexToolPanel owner, DataHeader[] listCol) {
         super();
         this.owner = owner;
         this.listCol = listCol;
-        tabPlot = new String[MyConstants.MAX_PLOT];
-        tabPlot[0] = (owner.getBundleString("LABEL_AXIS_RED"));
-        tabPlot[1] = (owner.getBundleString("LABEL_AXIS_PURPLE"));
-        tabPlot[2] = (owner.getBundleString("LABEL_AXIS_ORANGE"));
-        tabPlot[3] = (owner.getBundleString("LABEL_AXIS_BROWN"));
+        tabColor = new Color[MyConstants.MAX_PLOT];
+        tabColor[0] = DrawPanel.SCATTER_PLOT_COLOR_1;
+        tabColor[1] = DrawPanel.SCATTER_PLOT_COLOR_2;
+        tabColor[2] = DrawPanel.SCATTER_PLOT_COLOR_3;
+        tabColor[3] = DrawPanel.SCATTER_PLOT_COLOR_4;
         listPlotPanel = new ArrayList();
         initGUI();
     }
@@ -55,7 +55,6 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
         this.setLayout(null);
         this.add(getXYPlotPanel());
         this.add(getButtonAddPlot());
-        this.add(getButtonRemoveParam());
         addPlot();
     }
 
@@ -68,7 +67,8 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
         return xyPlotPanel;
     }
     private XYPlotPanel getXYPlotPanel(int id){
-        XYPlotPanel aPlot = new XYPlotPanel(owner, tabPlot[id], listCol);
+        int idColor = getIdColor();
+        XYPlotPanel aPlot = new XYPlotPanel(owner, tabColor[idColor], listCol);
         aPlot.addActionPlotPanel(this);
         listPlotPanel.add(aPlot);
         xyPlotPanel.add(aPlot);
@@ -77,50 +77,52 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
         return aPlot;
     }
 
-    
-    private CopexButtonPanel getButtonAddPlot(){
+    private int getIdColor(){
+        for (int i=0; i<tabColor.length; i++){
+            XYPlotPanel panel = getXYPlotPanelWithColor(tabColor[i]);
+            if(panel == null)
+                return i;
+        }
+        return 0;
+    }
+
+    private XYPlotPanel getXYPlotPanelWithColor(Color color){
+        for (Iterator<XYPlotPanel> panel = listPlotPanel.iterator();panel.hasNext();){
+            XYPlotPanel p = panel.next();
+            if(p.getPlotColor().equals(color))
+                return p;
+        }
+        return null;
+    }
+
+    private JButton getButtonAddPlot(){
         if(this.buttonAddPlot == null){
-            ImageIcon buttonAdd = owner.getCopexImage("Bouton-onglet_ouverture.png");
-            ImageIcon buttonAddSurvol = owner.getCopexImage("Bouton-onglet_ouverture_sur.png");
-            ImageIcon buttonAddClic = owner.getCopexImage("Bouton-onglet_ouverture_cli.png");
-            ImageIcon buttonAddDisabled = owner.getCopexImage("Bouton-onglet_ouverture_grise.png");
-            buttonAddPlot = new CopexButtonPanel(28, buttonAdd.getImage(), buttonAddSurvol.getImage(), buttonAddClic.getImage(), buttonAddDisabled.getImage());
-            buttonAddPlot.addActionCopexButton(this);
+            buttonAddPlot = new JButton();
+            buttonAddPlot.setName("buttonAddPlot");
+            buttonAddPlot.setText(owner.getBundleString("BUTTON_ADD_PLOT"));
+            buttonAddPlot.setSize(60+MyUtilities.lenghtOfString(buttonAddPlot.getText(), buttonAddPlot.getFontMetrics(buttonAddPlot.getFont())), 23);
             buttonAddPlot.setToolTipText(owner.getBundleString("TOOLTIPTEXT_ADD_PLOT"));
-            buttonAddPlot.setBounds(10, 0, 28, 20);
+            buttonAddPlot.setBounds(10, 0, buttonAddPlot.getWidth(), buttonAddPlot.getHeight());
+            buttonAddPlot.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    addPlot();
+                }
+            });
         }
         return buttonAddPlot ;
     }
 
-    private CopexButtonPanel getButtonRemoveParam(){
-        if(this.buttonRemovePlot == null){
-            ImageIcon buttonRemove = owner.getCopexImage("Bouton-onglet_moins.png");
-            ImageIcon buttonRemoveSurvol = owner.getCopexImage("Bouton-onglet_moins_sur.png");
-            ImageIcon buttonRemoveClic = owner.getCopexImage("Bouton-onglet_moins_cli.png");
-            ImageIcon buttonRemoveDisabled = owner.getCopexImage("Bouton-onglet_moins_grise.png");
-            buttonRemovePlot = new CopexButtonPanel(28, buttonRemove.getImage(), buttonRemoveSurvol.getImage(), buttonRemoveClic.getImage(), buttonRemoveDisabled.getImage());
-            buttonRemovePlot.addActionCopexButton(this);
-            buttonRemovePlot.setToolTipText(owner.getBundleString("TOOLTIPTEXT_REMOVE_PLOT"));
-            buttonRemovePlot.setBounds(buttonAddPlot.getX()+buttonAddPlot.getWidth()+5, buttonAddPlot.getY(), 28,20);
-        }
-        return buttonRemovePlot ;
-    }
-
-    @Override
-    public void actionCopexButtonClic(CopexButtonPanel button) {
-        if(button.equals(this.buttonAddPlot)){
-            addPlot();
-        }else{
-            removePlot();
-        }
-    }
-
+    
     
     private void updateButtons(){
-        if(buttonAddPlot== null || buttonRemovePlot ==null)
+        if(buttonAddPlot== null)
             return;
         int nb = listPlotPanel.size();
-        buttonRemovePlot.setEnabled(nb > 1);
+        boolean removeEnabled = nb > 1;
+        for (Iterator<XYPlotPanel> p = listPlotPanel.iterator();p.hasNext();){
+            p.next().setRemoveEnabled(removeEnabled);
+        }
         //buttonAddPlot.setEnabled(nb < MyConstants.MAX_PLOT && nb < listCol.length && controlUnitCoherence());
         buttonAddPlot.setEnabled(nb < MyConstants.MAX_PLOT && nb < listCol.length );
     }
@@ -132,20 +134,15 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
         updateButtons();
     }
 
-    private void removePlot(){
-        int id = listPlotPanel.size()-1;
-        xyPlotPanel.remove(listPlotPanel.get(id));
-        listPlotPanel.remove(id);
-        xyPlotPanel.revalidate();
-        xyPlotPanel.repaint();
-        resizePanel();
-        updateButtons();
-    }
-
+   
     private void resizePanel(){
         int nb = listPlotPanel.size();
         int width = 0;
         int startX = 0;
+        int nbP = listPlotPanel.size();
+        for (int i=0; i<nbP; i++){
+            listPlotPanel.get(i).setBounds(listPlotPanel.get(i).getX(), i*XYPlotPanel.HEIGHT_PANEL_PARAM, listPlotPanel.get(i).getWidth(), listPlotPanel.get(i).getHeight());
+        }
         for(Iterator<XYPlotPanel> p = listPlotPanel.iterator();p.hasNext();){
             XYPlotPanel plotPanel = p.next();
             //width = Math.max(width, plotPanel.getWidth());
@@ -160,7 +157,6 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
         xyPlotPanel.setSize(width, height);
         xyPlotPanel.setBounds(0,0,xyPlotPanel.getWidth(), xyPlotPanel.getHeight());
         buttonAddPlot.setBounds(buttonAddPlot.getX(), xyPlotPanel.getY()+xyPlotPanel.getHeight()+10, buttonAddPlot.getWidth(), buttonAddPlot.getHeight());
-        buttonRemovePlot.setBounds(buttonRemovePlot.getX(), buttonAddPlot.getY(), buttonRemovePlot.getWidth(), buttonRemovePlot.getHeight());
         setSize(width, buttonAddPlot.getY()+buttonAddPlot.getHeight()+20);
         revalidate();
         repaint();
@@ -185,6 +181,7 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
             addPlot();
             listPlotPanel.get(i).setSelectedPlot(listPlots.get(i));
         }
+        resizePanel();
     }
 
     // controle s'il reste des donnees a plotter encore coherente avec celles deja demandees
@@ -230,5 +227,18 @@ public class PlotPanel extends JPanel implements ActionCopexButton, ActionPlotPa
     @Override
     public void updatePlotValue() {
         updateButtons();
+    }
+
+    @Override
+    public void removePlot(XYPlotPanel plotPanel) {
+        int id = listPlotPanel.indexOf(plotPanel);
+        if(id != -1){
+            xyPlotPanel.remove(listPlotPanel.get(id));
+            listPlotPanel.remove(id);
+            xyPlotPanel.revalidate();
+            xyPlotPanel.repaint();
+            resizePanel();
+            updateButtons();
+        }
     }
 }

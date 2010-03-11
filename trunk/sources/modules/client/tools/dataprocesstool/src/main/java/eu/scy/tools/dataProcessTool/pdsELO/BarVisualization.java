@@ -16,10 +16,12 @@ import roolo.elo.JDomStringConversion;
 public class BarVisualization extends Visualization {
     /* id row/col */
     private int id;
+    private int idLabelHeader;
 
-    public BarVisualization(String type, String name,  int id) {
+    public BarVisualization(String type, String name,  int id, int idLabelHeader) {
         super(type, name);
         this.id = id;
+        this.idLabelHeader = idLabelHeader;
     }
 
     public BarVisualization(Element xmlElem) throws JDOMException {
@@ -32,13 +34,21 @@ public class BarVisualization extends Visualization {
             try{
                 this.id = Integer.parseInt(el.getText());
             } catch(NumberFormatException e){
-                throw(new JDOMException("Pie operation expects id as Integer ."));
+                throw(new JDOMException("Bar operation expects id as Integer ."));
+            }
+            idLabelHeader = -1;
+            if(elDef.getChild(Visualization.TAG_VISUALIZATION_LABEL_HEADER) !=null){
+                try{
+                    this.idLabelHeader = Integer.parseInt(elDef.getChild(Visualization.TAG_VISUALIZATION_LABEL_HEADER).getText());
+                } catch(NumberFormatException e){
+                    throw(new JDOMException("Bar operation expects idLabel as Integer."));
+                }
             }
 
-		} else {
-			throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
 
     public BarVisualization(String xmlString) throws JDOMException {
@@ -49,6 +59,10 @@ public class BarVisualization extends Visualization {
         return id;
     }
 
+    public int getIdLabelHeader() {
+        return idLabelHeader;
+    }
+
     // toXML
     @Override
     public Element toXML(){
@@ -57,6 +71,8 @@ public class BarVisualization extends Visualization {
         Element elDef = new Element(TAG_VISUALIZATION_DEFINITION);
         elDef.addContent(new Element(TAG_VISUALIZATION_DEF_NAME).setText(this.name));
         elDef.addContent(new Element(TAG_VISUALIZATION_DEF_ID_COL).setText(Integer.toString(this.id)));
+        if(idLabelHeader != -1)
+            elDef.addContent(new Element(TAG_VISUALIZATION_LABEL_HEADER).setText(Integer.toString(idLabelHeader)));
         element.addContent(elDef);
 
 		return element;

@@ -18,6 +18,7 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
 import eu.scy.tools.fitex.GUI.FitexPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
@@ -198,11 +199,17 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
 
     private CopexGraph constructPieGraph(){
         DataHeader header = dataset.getDataHeader(((SimpleVisualization)visualization).getNoCol());
+        DataHeader labelHeader = ((SimpleVisualization)visualization).getHeaderLabel();
         DefaultPieDataset pieDataset = new DefaultPieDataset();
         for (int i=0; i<dataset.getNbRows(); i++){
             int no = i+1;
-            if (dataset.getData(i, header.getNoCol()) != null && !dataset.getData(i, header.getNoCol()).isIgnoredData())
-                pieDataset.setValue(""+no, dataset.getData(i, header.getNoCol()).getValue());
+            if (dataset.getData(i, header.getNoCol()) != null && !dataset.getData(i, header.getNoCol()).isIgnoredData()){
+                String label = ""+no;
+                if(labelHeader != null){
+                    label = dataset.getData(i, labelHeader.getNoCol()) == null ? "" : dataset.getData(i, labelHeader.getNoCol()).getValue();
+                }
+                pieDataset.setValue(label, dataset.getData(i, header.getNoCol()).getDoubleValue());
+            }
         }
 
         JFreeChart pieChart = ChartFactory.createPieChart(header.getValue(), pieDataset, true, true, true);
@@ -217,11 +224,17 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
 
     private CopexGraph constructBarGraph(){
         DataHeader header = dataset.getDataHeader(((SimpleVisualization)visualization).getNoCol());
+        DataHeader labelHeader = ((SimpleVisualization)visualization).getHeaderLabel();
         DefaultCategoryDataset ds = new DefaultCategoryDataset();
         for (int i=0; i<dataset.getNbRows(); i++){
             int no = i+1;
-            if (dataset.getData(i, header.getNoCol()) != null && !dataset.getData(i, header.getNoCol()).isIgnoredData())
-                ds.addValue(dataset.getData(i, header.getNoCol()).getValue(), ""+no, ""+no);
+            if (dataset.getData(i, header.getNoCol()) != null && !dataset.getData(i, header.getNoCol()).isIgnoredData()){
+                String label = ""+no;
+                if(labelHeader != null){
+                    label = dataset.getData(i, labelHeader.getNoCol()) == null ? "" : dataset.getData(i, labelHeader.getNoCol()).getValue();
+                }
+                ds.addValue(dataset.getData(i, header.getNoCol()).getDoubleValue(), label, label);
+            }
         }
 
         JFreeChart barChart = ChartFactory.createBarChart(header.getValue(), "",
@@ -237,6 +250,7 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
     private CopexGraph constructXYGraph(){
         int nbPlots = ((Graph)visualization).getNbPlots();
         DefaultTableModel[] datamodel = new DefaultTableModel[nbPlots];
+        Color[] plotsColor = new Color[nbPlots];
         int nbRows = dataset.getNbRows();
         for (int d=0; d<nbPlots; d++){
             DataHeader header1 = dataset.getDataHeader(((Graph)visualization).getParamGraph().getPlots().get(d).getHeaderX().getNoCol());
@@ -246,17 +260,18 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
             Object[][] datas = new Object[dataset.getNbRows()][3];
             for (int i=0; i<nbRows; i++){
                 if (dataset.getData(i, id1) != null && dataset.getData(i, id2) !=null ){
-                    datas[i][0] = dataset.getData(i, id1).getValue();
-                    datas[i][1] = dataset.getData(i, id2).getValue();
+                    datas[i][0] = dataset.getData(i, id1).getDoubleValue();
+                    datas[i][1] = dataset.getData(i, id2).getDoubleValue();
                     datas[i][2] = dataset.getData(i, id1).isIgnoredData() || dataset.getData(i, id2).isIgnoredData() ;
                 }
             }
+            plotsColor[d] = ((Graph)visualization).getParamGraph().getPlots().get(d).getPlotColor();
             String[] columnNames = new String[3];
             datamodel[d] = new DefaultTableModel(datas, columnNames);
         }
         ArrayList<FunctionModel> listFunctionModel = ((Graph)visualization).getListFunctionModel() ;
         ParamGraph pg = ((Graph)visualization).getParamGraph() ;
-        FitexPanel gPanel = new FitexPanel(fitex.getLocale(), datamodel, listFunctionModel,pg) ;
+        FitexPanel gPanel = new FitexPanel(fitex.getLocale(), datamodel, plotsColor, listFunctionModel,pg) ;
         return new FitexGraph(fitex, dataset.getDbKey(), visualization, gPanel) ;
     }
 

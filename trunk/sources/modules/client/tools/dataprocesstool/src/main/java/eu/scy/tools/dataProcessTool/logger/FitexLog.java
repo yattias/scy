@@ -63,12 +63,12 @@ public class FitexLog {
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         if(oldData != null){
-            list.add(new FitexProperty(TAG_OLD, Double.toString(oldData.getValue()), oldData.toXMLLog()));
+            list.add(new FitexProperty(TAG_OLD, oldData.getValue(), oldData.toXMLLog()));
         }
         if(newData == null){
             list.add(new FitexProperty(TAG_NEW, "", null));
         }else{
-            list.add(new FitexProperty(TAG_NEW, Double.toString(newData.getValue()), newData.toXMLLog()));
+            list.add(new FitexProperty(TAG_NEW, newData.getValue(), newData.toXMLLog()));
         }
         return list;
     }
@@ -146,7 +146,7 @@ public class FitexLog {
     public static List<FitexProperty> logAddRow(Dataset ds, Data data){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
-        list.add(new FitexProperty(TAG_DATA, Double.toString(data.getValue()), data.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATA, data.getValue(), data.toXMLLog()));
         return list;
     }
 
@@ -197,7 +197,7 @@ public class FitexLog {
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         for(Iterator<Data> d = listData.iterator();d.hasNext();){
             Data data = d.next();
-            list.add(new FitexProperty(TAG_DATA, Double.toString(data.getValue()), data.toXMLLog()));
+            list.add(new FitexProperty(TAG_DATA, data.getValue(), data.toXMLLog()));
         }
         return list;
     }
@@ -275,7 +275,7 @@ public class FitexLog {
         e.addContent(new Element(TAG_ROW).setText(Integer.toString(cell[0])));
         e.addContent(new Element(TAG_COL).setText(Integer.toString(cell[1])));
         if(cell[0] < ds.getNbRows() && cell[1] < ds.getNbCol() && ds.getData(cell[0], cell[1]) != null){
-            e.addContent(new Element(TAG_DATA).setText(TAG_ID).setText(Double.toString(ds.getData(cell[0], cell[1]).getValue())));
+            e.addContent(new Element(TAG_DATA).setText(TAG_ID).setText(ds.getData(cell[0], cell[1]).getValue()));
         }
         return e;
     }

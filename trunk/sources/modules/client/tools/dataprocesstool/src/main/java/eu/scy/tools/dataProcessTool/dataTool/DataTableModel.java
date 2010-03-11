@@ -9,6 +9,7 @@ import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.dnd.SubData;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.text.NumberFormat;
@@ -119,7 +120,15 @@ public class DataTableModel extends AbstractTableModel {
             tabNoRow[i] = i+1;
             this.tabData[i+1][0] = i+1;
             for (int j=0; j<nbColDs; j++){
-                this.tabData[i+1][j+1] = this.datas[i][j] == null ? "" :numberFormat.format(this.datas[i][j].getValue());
+                String s = "";
+                if(this.datas[i][j] != null && this.datas[i][j].isDoubleValue()){
+                    s = numberFormat.format(this.datas[i][j].getDoubleValue());
+                    if(Double.isNaN(this.datas[i][j].getDoubleValue()))
+                        s = "";
+                }else if (this.datas[i][j] != null){
+                    s = this.datas[i][j].getValue();
+                }
+                this.tabData[i+1][j+1] =s;
             }
         }
         
@@ -184,7 +193,7 @@ public class DataTableModel extends AbstractTableModel {
         this.tabData[rowIndex][columnIndex] = aValue;
         super.setValueAt(aValue, rowIndex, columnIndex);
         if (isValueHeader(rowIndex, columnIndex)){
-            owner.updateDataHeader(dataset, v1, v2,columnIndex-1);
+            owner.updateDataHeader(dataset, v1, v2,columnIndex-1, dataset.getDataHeader(columnIndex-1).getDescription(), dataset.getDataHeader(columnIndex-1).getType());
         }else if (isValueTitleOperation(rowIndex, columnIndex)){
             DataOperation operation = null;
             if(rowIndex == 0){
@@ -203,21 +212,27 @@ public class DataTableModel extends AbstractTableModel {
             }
             owner.updateDataOperation(dataset, v1, operation);
         }else if (isValueData(rowIndex, columnIndex)){
-            Double val = null;
-            v1 = v1.replace(",", ".");
-            try{
-                if(v1 != null && !v1.equals("")){
-                    val = Double.parseDouble(v1);
+            if(dataset.getDataHeader(columnIndex-1).getType().equals(MyConstants.TYPE_DOUBLE)){
+                Double val = null;
+                v1 = v1.replace(",", ".");
+                try{
+                    if(v1 != null && !v1.equals("")){
+                        val = Double.parseDouble(v1);
+                        owner.updateData(dataset,Double.toString(val), rowIndex-1, columnIndex-1);
+                    }else{
+                        owner.updateData(dataset, null, rowIndex-1, columnIndex-1);
+                    }
+                }catch(NumberFormatException e){
+                    System.out.println("excep : "+e);
+                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_DOUBLE_VALUE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    setValueAt(oldValue, rowIndex, columnIndex);
+                    table.setValueAt(oldValue, rowIndex, columnIndex);
+                    table.setCellSelected(rowIndex, columnIndex);
+                    return;
                 }
-            }catch(NumberFormatException e){
-                System.out.println("excep : "+e);
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_DOUBLE_VALUE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                //setValueAt(oldValue, rowIndex, columnIndex);
-                table.setValueAt(oldValue, rowIndex, columnIndex);
-                table.setCellSelected(rowIndex, columnIndex);
-                return;
+            }else{
+                owner.updateData(dataset,v1, rowIndex-1, columnIndex-1);
             }
-            owner.updateData(dataset,val, rowIndex-1, columnIndex-1);
         }
         table.resizeColumn();
     }
@@ -301,6 +316,10 @@ public class DataTableModel extends AbstractTableModel {
      /* retourne vrai s'il s'agit d'une cellule contenant un header (hors titre) */
     public boolean isValueHeader(int noRow, int noCol){
         return  noRow == 0 && noCol > 0 && noCol <= nbColDs;
+    }
+    /* retourne vrai s'il s'agit d'une cellule contenant un header (hors titre) de type double */
+    public boolean isValueDoubleHeader(int noRow, int noCol){
+        return  noRow == 0 && noCol > 0 && noCol <= nbColDs && dataset.getDataHeader(noCol-1).isDouble();
     }
     
     /* retourne vrai s'il s'agit d'une cellule operations */

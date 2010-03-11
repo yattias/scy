@@ -17,7 +17,6 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.fitex.GUI.DrawPanel;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -289,7 +288,7 @@ public class Dataset implements Cloneable{
         List<DataSetHeader> headers = new LinkedList<DataSetHeader>() ;
         List<DataSetColumn> variables = new LinkedList<DataSetColumn>();
         for (int j=0; j<nbC; j++){
-            DataSetColumn dsCol = new DataSetColumn(getDataHeader(j) == null ?"" : getDataHeader(j).getValue(), "", getDataHeader(j) == null ?"" : getDataHeader(j).getUnit()) ;
+            DataSetColumn dsCol = new DataSetColumn(getDataHeader(j) == null ?"" : getDataHeader(j).getValue(), getDataHeader(j) == null ?"" : getDataHeader(j).getDescription(), getDataHeader(j) == null ?"" : getDataHeader(j).getType(), getDataHeader(j) == null ?"" : getDataHeader(j).getUnit()) ;
             variables.add(dsCol);
         }
         DataSetHeader header = new DataSetHeader(variables, locale);
@@ -303,7 +302,7 @@ public class Dataset implements Cloneable{
         for (int i=0; i<nbR; i++){
             List<String> values = new LinkedList<String>();
             for (int j=0; j<nbC; j++){
-                values.add(new String(getData(i, j) == null ?Double.toString(Double.NaN):Double.toString(getData(i, j).getValue())));
+                values.add(new String(getData(i, j) == null ?"":getData(i, j).getValue()));
                 if (getData(i, j) != null && getData(i, j).isIgnoredData())
                     listIgnoredData.add(new eu.scy.tools.dataProcessTool.pdsELO.Data(Integer.toString(i), Integer.toString(j)));
             }
@@ -353,12 +352,17 @@ public class Dataset implements Cloneable{
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> listFunction = getListFunctionModel(g.getListFunctionModel());
                 List<XYAxis> axis = getAxis(pg);
                 vis = new GraphVisualization(DataConstants.TYPE_VIS_GRAPH, myVis.getName(), axis, pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
-                        DrawPanel.SCATTER_PLOT_COLOR_1.getRed(), DrawPanel.SCATTER_PLOT_COLOR_1.getGreen(), DrawPanel.SCATTER_PLOT_COLOR_1.getBlue(),
                         listFunction);
             }else if (type.getCode() == DataConstants.VIS_PIE){
-                vis = new eu.scy.tools.dataProcessTool.pdsELO.PieVisualization(DataConstants.TYPE_VIS_PIE, myVis.getName(),  ((SimpleVisualization)myVis).getNoCol());
+                int idHeaderLabel = -1;
+                if(((SimpleVisualization)myVis).getHeaderLabel() != null)
+                        idHeaderLabel = ((SimpleVisualization)myVis).getHeaderLabel().getNoCol();
+                vis = new eu.scy.tools.dataProcessTool.pdsELO.PieVisualization(DataConstants.TYPE_VIS_PIE, myVis.getName(),  ((SimpleVisualization)myVis).getNoCol(), idHeaderLabel);
             }else if (type.getCode() == DataConstants.VIS_BAR){
-                vis = new eu.scy.tools.dataProcessTool.pdsELO.BarVisualization(DataConstants.TYPE_VIS_BAR, myVis.getName(),  ((SimpleVisualization)myVis).getNoCol());
+                int idHeaderLabel = -1;
+                if(((SimpleVisualization)myVis).getHeaderLabel() != null)
+                        idHeaderLabel = ((SimpleVisualization)myVis).getHeaderLabel().getNoCol();
+                vis = new eu.scy.tools.dataProcessTool.pdsELO.BarVisualization(DataConstants.TYPE_VIS_BAR, myVis.getName(),  ((SimpleVisualization)myVis).getNoCol(), idHeaderLabel);
             }
             if(vis != null)
                 listVisualizations.add(vis);
@@ -372,7 +376,7 @@ public class Dataset implements Cloneable{
         List<XYAxis> axis = new LinkedList();
         for (Iterator<PlotXY> p = pg.getPlots().iterator();p.hasNext();){
             PlotXY plot = p.next();
-            XYAxis a = new XYAxis(plot.getHeaderX().getNoCol(), plot.getHeaderY().getNoCol(), plot.getHeaderX().getValue(), plot.getHeaderY().getValue());
+            XYAxis a = new XYAxis(plot.getHeaderX().getNoCol(), plot.getHeaderY().getNoCol(), plot.getHeaderX().getValue(), plot.getHeaderY().getValue(), plot.getPlotColor().getRed(), plot.getPlotColor().getGreen(), plot.getPlotColor().getBlue());
             axis.add(a);
         }
         return axis;
@@ -643,11 +647,11 @@ public class Dataset implements Cloneable{
         setData(newData);
         
         // maj nb Col
-        this.nbCol = this.nbCol-1;
         tabDel[0] = listOperationToUpdate;
         tabDel[1] = listOperationToDel;
         tabDel[2] = listVisualizationToUpdate;
         tabDel[3] = listVisualizationToDel;
+        this.nbCol = this.nbCol-1;
         return tabDel;
     }
 
@@ -899,10 +903,12 @@ public class Dataset implements Cloneable{
     /* retourne la liste des valeurs prises en compte pour le calcul dans la colonne donnee */
     private ArrayList<Double> getListValueCol(int idCol){
         ArrayList<Double> listValue = new ArrayList();
-        for (int i=0; i<nbRows; i++){
-            Data d = this.data[i][idCol];
-            if (d != null && !d.isIgnoredData()){
-                listValue.add(d.getValue());
+        if(getDataHeader(idCol).isDouble()){
+            for (int i=0; i<nbRows; i++){
+                Data d = this.data[i][idCol];
+                if (d != null && !d.isIgnoredData() ){
+                    listValue.add(d.getDoubleValue());
+                }
             }
         }
         return listValue;
@@ -912,9 +918,11 @@ public class Dataset implements Cloneable{
     private ArrayList<Double> getListValueRow(int idRow){
         ArrayList<Double> listValue = new ArrayList();
         for (int j=0; j<nbCol ; j++){
-            Data d = this.data[idRow][j];
-            if (d != null && !d.isIgnoredData()){
-                listValue.add(d.getValue());
+            if(getDataHeader(j).isDouble()){
+                Data d = this.data[idRow][j];
+                if (d != null && !d.isIgnoredData()){
+                    listValue.add(d.getDoubleValue());
+                }
             }
         }
         return listValue;
@@ -973,7 +981,7 @@ public class Dataset implements Cloneable{
                 Data d = this.data[i][col];
                 int l = 0;
                 if (d != null){
-                    l = Double.toString(d.getValue()).length();
+                    l = d.getValue().length();
                 }
                 maxlenght = Math.max(maxlenght, l);
             }
@@ -1002,7 +1010,7 @@ public class Dataset implements Cloneable{
                 int l1 = 0;
                 int l2 = 0;
                 if (d != null){
-                    String s = Double.toString(d.getValue());
+                    String s = d.getValue();
                     if (s.startsWith("-"))
                         s = s.substring(1);
                     l1 = s.indexOf(".");
@@ -1103,6 +1111,110 @@ public class Dataset implements Cloneable{
         return null;
     }
 
+    public ArrayList<DataOperation> getOperationOnCol(int noCol){
+        ArrayList<DataOperation> list = new ArrayList();
+        for(Iterator<DataOperation> o = listOperation.iterator(); o.hasNext();){
+            DataOperation op = o.next();
+            if(op.isOnCol(noCol)){
+                list.add(op);
+            }
+        }
+        return list;
+    }
+    public ArrayList<Visualization> getVisualizationOnCol(int noCol){
+        ArrayList<Visualization> list = new ArrayList();
+        for(Iterator<Visualization> v = listVisualization.iterator(); v.hasNext();){
+            Visualization vis = v.next();
+            if(vis.isOnNo(noCol)){
+                list.add(vis);
+            }
+        }
+        return list;
+    }
+
+    /* supprime les operations sur cette colonne */
+    public ArrayList[] removeOperationAndVisualizationOn(int colIndex){
+        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
+        ArrayList<DataOperation> listOperationToDel = new ArrayList();
+        ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
+        ArrayList<Visualization> listVisualizationToDel = new ArrayList();
+        // maj list operation
+        // clone les operations
+        ArrayList<DataOperation> listOpC = new ArrayList();
+        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
+            listOpC.add((DataOperation)o.next().clone());
+        }
+        int nbOp = listOperation.size();
+        for (int i=0; i<nbOp; i++){
+            if (listOperation.get(i).isOnCol()){
+                ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
+                int idNo = listNo.indexOf(new Integer(colIndex));
+                boolean remove = listNo.remove(new Integer(colIndex));
+                int size = listNo.size();
+                if(size > 0 && remove)
+                    listOperationToUpdate.add(listOpC.get(i));
+                if (remove && i<listOperationResult.size()){
+                    listOperationResult.get(i).remove(idNo);
+                }
+
+            }
+        }
+        // suppresssion des operations qui n'ont pas lieu d'etre
+        for (int i=nbOp-1; i>=0; i--){
+            if (listOperation.get(i).isOnCol()){
+                ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
+                int size = listNo.size();
+                if(size == 0){
+                    listOperationToDel.add(listOpC.get(i));
+                    removeOperation(listOperation.get(i));
+                }
+            }
+        }
+        calculateOperation();
+        // clone les vis
+        ArrayList<Visualization> listVisC = new ArrayList();
+        for(Iterator<Visualization> o = listVisualization.iterator();o.hasNext();){
+            listVisC.add((Visualization)o.next().clone());
+        }
+        // maj list visualization
+        int nbVis = listVisualization.size();
+        for (int i=nbVis-1; i>=0; i--){
+            Visualization v = listVisualization.get(i);
+            if (v.isOnNo(colIndex)){
+                if(v instanceof SimpleVisualization){
+                    listVisualization.remove(i);
+                    listVisualizationToDel.add(listVisC.get(i));
+                }else if(v instanceof Graph){
+                    boolean remove = ((Graph)v).removePlotWithNo(colIndex);
+                    int nb = ((Graph)v).getNbPlots();
+                    if(nb==0){
+                        listVisualizationToDel.add(listVisC.get(i));
+                        listVisualization.remove(i);
+                    }else if(remove)
+                        listVisualizationToUpdate.add(listVisC.get(i));
+                }
+            }
+        }
+        for(int i=0; i<listVisualization.size(); i++){
+            Visualization v = listVisualization.get(i);
+            if(v instanceof SimpleVisualization){
+                int n = ((SimpleVisualization)v).getNoCol();
+                if ( n > colIndex){
+                    ((SimpleVisualization)v).setNoCol(n-1);
+                }
+            }else if (v instanceof Graph){
+                //((Graph)v).updateNoCol(no, -1);
+            }
+        }
+        tabDel[0] = listOperationToUpdate;
+        tabDel[1] = listOperationToDel;
+        tabDel[2] = listVisualizationToUpdate;
+        tabDel[3] = listVisualizationToDel;
+        return tabDel;
+    }
+
+
     /* xml logger */
     public Element toXMLLog(){
         Element e = new Element(TAG_DATASET);
@@ -1133,5 +1245,29 @@ public class Dataset implements Cloneable{
             }
         }
         return e;
+    }
+
+    public boolean hasAtLeastADoubleColumn(){
+        for(int j=0; j<nbCol; j++){
+            if(getDataHeader(j).isDouble())
+                return true;
+        }
+        return false;
+    }
+
+    public DataHeader[] getListDataHeaderDouble(boolean isDouble) {
+       ArrayList<DataHeader> list = new ArrayList();
+       int nb = 0;
+       for(int j=0; j<nbCol; j++){
+           if((isDouble && getDataHeader(j).isDouble()) || (!isDouble && !getDataHeader(j).isDouble())){
+               list.add(getDataHeader(j));
+               nb++;
+           }
+       }
+       DataHeader[] tab = new DataHeader[nb];
+       for( int i=0; i<nb; i++){
+           tab[i] = list.get(i);
+       }
+       return tab;
     }
 }
