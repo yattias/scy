@@ -6,6 +6,8 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import cc.mallet.topics.TopicModelAnnotator;
 import cc.mallet.topics.TopicModelParameter;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
@@ -27,7 +29,11 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	static final String NAME = "eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent";
 
+	private static final Logger logger = Logger.getLogger(ExtractTopicModelKeywordsAgent.class.getName());
+
 	private Tuple activationTuple;
+
+	private int listenerId = -1;
 
 	public ExtractTopicModelKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
@@ -38,24 +44,22 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		try {
+			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = null;
-			if (getCommandSpace().isConnected()) {
-				tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.COMMAND_EXPIRATION);
-			}
-			if (tuple != null) {
-				String queryId = (String) tuple.getField(2).getValue();
-				String text = (String) tuple.getField(3).getValue();
-
-				Set<String> keywords = extractKeywords(text);
-
-				getCommandSpace().write(getResponseTuple(keywords, queryId));
-			}
 			sendAliveUpdate();
+			try {
+				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
+			} catch (InterruptedException e) {
+				throw new AgentLifecycleException(e.getMessage());
+			}
 		}
 	}
 
@@ -104,6 +108,26 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	@Override
 	public boolean isStopped() {
 		return status == Status.Stopping;
+	}
+
+	@Override
+	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+		if (listenerId != seq) {
+			logger.debug("Callback passed to Superclass.");
+			super.call(command, seq, afterTuple, beforeTuple);
+			return;
+		} else {
+			String queryId = (String) afterTuple.getField(2).getValue();
+			String text = (String) afterTuple.getField(3).getValue();
+
+			Set<String> keywords = extractKeywords(text);
+
+			try {
+				getCommandSpace().write(getResponseTuple(keywords, queryId));
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

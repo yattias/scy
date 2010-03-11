@@ -126,7 +126,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			return;
 		} else {
 			IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
-			// logger.info("Found following proerties in the action: " + action.getAttributes());
 			if (AgentProtocol.ACTION_TOOL_STARTED.equals(action.getType())) {
 				handleToolStarted(action);
 			} else if (AgentProtocol.ACTION_NODE_ADDED.equals(action.getType())) {
@@ -217,28 +216,37 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				ContextInformation contextInformation = user2Context.get(user);
 				logger.debug(contextInformation);
 				if (userNeedsToBeNotified(currentTime, contextInformation)) {
-					logger.info("Notifiying " + user);
-					String text = getEloText(contextInformation.webresourcerELO);
-					if (!"".equals(text)) {
-						sendAliveUpdate();
-						List<String> keywords = getKeywords(text);
-						sendAliveUpdate();
-						logger.info("found keywords to send to " + user + ": " + keywords);
-						sendNotification(contextInformation, keywords);
-						contextInformation.lastAdded = currentTime;
-					}
+					notifyUser(currentTime, user, contextInformation);
 				}
 			}
 			sendAliveUpdate();
-			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
+			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 		}
+	}
+
+	private void notifyUser(final long currentTime, final String user, final ContextInformation contextInformation) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				logger.info("Notifiying " + user);
+				String text = getEloText(contextInformation.webresourcerELO);
+				if (!"".equals(text)) {
+					List<String> keywords = getKeywords(text);
+					logger.info("found keywords to send to " + user + ": " + keywords);
+					sendNotification(contextInformation, keywords);
+					contextInformation.lastAdded = currentTime;
+				}
+			}
+		}, "NotifyUser").start();
+
 	}
 
 	private boolean userNeedsToBeNotified(long currentTime, ContextInformation contextInformation) {
 		boolean userNeedsToBeNotified = contextInformation.webresourcerStarted;
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
 		long timeSinceLastAction = currentTime - contextInformation.lastAdded;
-		logger.info(timeSinceLastAction + "");
+		logger.debug(timeSinceLastAction + " : " + idleTimeInMS);
 		userNeedsToBeNotified &= timeSinceLastAction > idleTimeInMS;
 		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
 		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
@@ -299,13 +307,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			Tuple responseTuple = null;
 			if (getCommandSpace().isConnected()) {
 				getCommandSpace().write(extractKeywordsTriggerTuple);
-				int retries = 0;
-				while (responseTuple == null && retries < MAX_RETRIES) {
-					responseTuple = getCommandSpace().waitToTake(
-							new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
-									.createWildCardField()), AgentProtocol.COMMAND_EXPIRATION);
-					sendAliveUpdate();
-				}
+				responseTuple = getCommandSpace().waitToTake(
+						new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
+								.createWildCardField()));
 			}
 			if (responseTuple != null) {
 				ArrayList<String> keywords = new ArrayList<String>();
