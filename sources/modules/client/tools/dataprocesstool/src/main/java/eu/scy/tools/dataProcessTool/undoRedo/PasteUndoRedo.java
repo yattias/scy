@@ -66,7 +66,7 @@ public class PasteUndoRedo extends DataUndoRedo {
             DataHeader oldH = this.listHeader.get(i)[0];
             DataHeader newH = this.listHeader.get(i)[1];
             String title = oldH == null ? "" : oldH.getValue() ;
-            String unit = oldH == null ? "" : oldH.getUnit() ;
+            String unit = oldH == null ? "" : (oldH.getUnit() == null ?"" : oldH.getUnit()) ;
             String description = oldH == null ? "" : oldH.getDescription();
             String type = oldH == null ?MyConstants.DEFAULT_TYPE_COLUMN : oldH.getType();
             CopexReturn cr = this.controller.updateDataHeader(getDataset(),true, newH.getNoCol(), title,unit,description, type,  v );

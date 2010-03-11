@@ -871,7 +871,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type){
         DataHeader oldHeader = ds.getDataHeader(colIndex);
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
-        String oldUnit = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getUnit();
+        String oldUnit = ds.getDataHeader(colIndex) == null ? "" : (ds.getDataHeader(colIndex).getUnit() == null ? "" : ds.getDataHeader(colIndex).getUnit());
         String oldDescription = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getDescription();
         String oldType = ds.getDataHeader(colIndex) == null ? MyConstants.DEFAULT_TYPE_COLUMN : ds.getDataHeader(colIndex).getType();
         ArrayList v = new ArrayList();

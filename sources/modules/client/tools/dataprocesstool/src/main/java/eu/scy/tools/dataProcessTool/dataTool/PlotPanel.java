@@ -218,7 +218,9 @@ public class PlotPanel extends JPanel implements  ActionPlotPanel {
     private boolean canPlotWith(DataHeader header, ArrayList<PlotXY> listPlot){
         for(Iterator<PlotXY> p = listPlot.iterator();p.hasNext();){
             PlotXY plot = p.next();
-            if(plot.getHeaderX().getUnit().equals(header.getUnit()) || plot.getHeaderY().getUnit().equals(header.getUnit()))
+            if((plot.getHeaderX() == null && header.getUnit() == null) || (plot.getHeaderY() == null && header.getUnit() == null))
+                return true;
+            if(header.getUnit()!= null && ( (plot.getHeaderX().getUnit() != null && plot.getHeaderX().getUnit().equals(header.getUnit())) || (plot.getHeaderY().getUnit() != null && plot.getHeaderY().getUnit().equals(header.getUnit()))  ))
                 return true;
         }
         return false;

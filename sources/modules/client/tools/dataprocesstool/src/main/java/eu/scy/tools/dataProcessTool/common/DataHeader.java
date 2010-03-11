@@ -94,6 +94,10 @@ public class DataHeader implements Cloneable {
     public boolean isDouble(){
         return getType().equals(MyConstants.TYPE_DOUBLE);
     }
+
+    public boolean isUnitNull(){
+        return this.unit == null || this.unit.equals("");
+    }
     // CLONE
     @Override
     public Object clone()  {
