@@ -29,7 +29,7 @@
         <argument>-enableLocalLogging</argument>
         <argument>true</argument>
         <argument>-redirectSystemStream</argument>
-        <argument>true</argument>
+        <argument>false</argument>
         <argument>-loginType</argument>
         <argument>remote</argument>
     </application-desc>
