@@ -18,6 +18,7 @@ import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 
 import java.awt.Dimension;
+import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.api.IRepository;
@@ -59,11 +60,19 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
   public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
-            if ((object as ISynchronizable).getToolName().equals("simulator")) {
+            if ((object as ISynchronizable).getToolName().equals("simulator") or (object as ISynchronizable).getToolName().equals("fitex")) {
                 return true;
             }
         }
         return false;
+    }
+
+    public function isDnDSimulator(object: ISynchronizable): Boolean{
+        return (object as ISynchronizable).getToolName().equals("simulator");
+    }
+
+    public function isDnDFitex(object: ISynchronizable): Boolean{
+        return (object as ISynchronizable).getToolName().equals("fitex");
     }
 
     public override function acceptDrop(object: Object) {
@@ -74,27 +83,53 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         }else{
             var yesNoOptions = ["Yes", "No"];
             var n = -1;
-            n = JOptionPane.showOptionDialog( null,
-                "Do you want to synchronise\nwith the Simulator?",               // question
-                "Synchronise?",           // title
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,  // icon
-                null, yesNoOptions,yesNoOptions[0] );
-            if (n == 0) {
-                initializeDatasync(object as ISynchronizable);
+            if(isDnDSimulator(object as ISynchronizable)){
+                n = JOptionPane.showOptionDialog( null,
+                    "Do you want to synchronise\nwith the Simulator?",               // question
+                    "Synchronise?",           // title
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,  // icon
+                    null, yesNoOptions,yesNoOptions[0] );
+                if (n == 0) {
+                    initializeDatasync(object as ISynchronizable);
+                }
+            }else if(isDnDFitex(object as ISynchronizable)){
+                    var question = "Do you want to merge\nthese dataset?";
+                    if(isSynchronizing()){
+                        question = "Do you want to stop the synchronization\nwith the Simulator and merge the datasets?";
+                    }
+
+                 n = JOptionPane.showOptionDialog( null,
+                    question,               // question
+                    "Merge?",           // title
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,  // icon
+                    null, yesNoOptions,yesNoOptions[0] );
+                if (n == 0) {
+                    leave(null);
+                    mergeDataset(object as ISynchronizable);
+                }
             }
+
         }
    }
 
    /* return true is fitex is synchronizing with scysimulator with this sessionID*/
    function isSynchronizingWith(simulator : ISynchronizable) : Boolean {
-       if(simulator.getSessionID() != null and getSessionID() != null and getSessionID().equals(simulator.getSessionID())){
+       if(isDnDSimulator(simulator) and simulator.getSessionID() != null and getSessionID() != null and getSessionID().equals(simulator.getSessionID())){
             return true;
        }else{
             return false;
        }
 
    }
+
+   /* return true is fitex is synchronizing: sessionID not null*/
+   function isSynchronizing() : Boolean {
+       return getSessionID() != null;
+   }
+
+
    public function initializeDatasync(simulator: ISynchronizable) {
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
         this.join(datasyncsession.getId());
@@ -119,6 +154,15 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
     public override function getToolName() {
         return "fitex";
+    }
+
+    public function mergeDataset(fitex: ISynchronizable){
+        if(fitex instanceof FitexNode)
+        fitexPanel.mergeELO((fitex as FitexNode).getDataset());
+    }
+
+    public function getDataset():Element{
+        return fitexPanel.getPDS();
     }
 
    public override function initialize(windowContent: Boolean):Void{
