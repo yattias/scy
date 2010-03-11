@@ -101,7 +101,8 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
     private void initHeader(){
         if(header != null){
             this.textFieldHeaderName.setText(header.getValue());
-            this.textFieldUnit.setText(header.getUnit());
+            if(header.getUnit() != null)
+                this.textFieldUnit.setText(header.getUnit());
             this.areaDescription.setText(header.getDescription());
             if(header.getType().equalsIgnoreCase(MyConstants.TYPE_DOUBLE)){
                 cbType.setSelectedIndex(0);

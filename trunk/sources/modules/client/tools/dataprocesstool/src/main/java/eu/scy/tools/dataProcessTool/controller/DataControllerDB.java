@@ -508,7 +508,7 @@ public class DataControllerDB implements ControllerInterface{
                         }else if(plot.getHeaderY().getNoCol() == colIndex){
                             uy = unit;
                         }
-                        if(!ux.equals(unitX) || !uy.equals(unitY)){
+                        if((ux != null && unitX != null && !ux.equals(unitX)) || (uy != null && unitY != null && !uy.equals(unitY))){
                             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_AXIS_COHERENCE"), false);
                         }
                     }

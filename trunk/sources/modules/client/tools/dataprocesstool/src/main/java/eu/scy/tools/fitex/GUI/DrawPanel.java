@@ -129,8 +129,12 @@ public class DrawPanel extends javax.swing.JPanel {
    
     /* */
     private void setParamWithoutRepaint(ParamGraph pg){
-        this.x_axisUnit = "("+pg.getPlot1().getHeaderX().getUnit()+")";
-        this.y_axisUnit = "("+pg.getPlot1().getHeaderY().getUnit()+")";
+        this.x_axisUnit = "";
+        if(!pg.getPlot1().getHeaderX().isUnitNull())
+            this.x_axisUnit = "("+pg.getPlot1().getHeaderX().getUnit()+")";
+        this.y_axisUnit = "";
+        if(!pg.getPlot1().getHeaderY().isUnitNull())
+            this.y_axisUnit = "("+pg.getPlot1().getHeaderY().getUnit()+")";
         this.x_axisName = new ArrayList();
         this.x_color = new ArrayList();
         this.y_axisName = new ArrayList();

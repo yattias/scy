@@ -605,7 +605,7 @@ public class DataController implements ControllerInterface{
                         }else if(plot.getHeaderY().getNoCol() == colIndex){
                             uy = unit;
                         }
-                        if(!ux.equals(unitX) || !uy.equals(unitY)){
+                        if((ux != null && unitX != null && !ux.equals(unitX)) || (uy != null && unitY != null &&  !uy.equals(unitY))){
                             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_AXIS_COHERENCE"), false);
                         }
                     }
@@ -809,10 +809,10 @@ public class DataController implements ControllerInterface{
         int nbP = pg.getPlots().size();
         for (int i=1; i<nbP; i++){
             PlotXY plot = pg.getPlots().get(i);
-            if(!plot.getHeaderX().getUnit().equals(unitX)){
+            if(unitX != null && plot.getHeaderX().getUnit() != null && !plot.getHeaderX().getUnit().equals(unitX)){
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UNIT_X"), false);
             }
-            if(!plot.getHeaderY().getUnit().equals(unitY)){
+            if(unitY != null && plot.getHeaderY().getUnit() != null && !plot.getHeaderY().getUnit().equals(unitY)){
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UNIT_Y"), false);
             }
         }
