@@ -37,7 +37,7 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
 
 	@Override
 	public void start() throws AgentLifecycleException {
-		new Thread(this).start();
+		new Thread(this, name).start();
 	}
 
 	@Override
