@@ -19,7 +19,6 @@ import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
@@ -32,7 +31,6 @@ import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import java.io.File;
-//import eu.scy.toolbroker.ToolBrokerImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -57,7 +55,6 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     private ISyncSession session = null;
     private String session_name = "sessionName";
     private IActionLogger actionLogger;
-    private IDataSyncService datasync;
     private final Logger debugLogger;
     private String toolName;
 
@@ -125,6 +122,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     public void readAllSyncObjects(){
         List<ISyncObject> syncObjects = session.getAllSyncObjects();
+        debugLogger.log(Level.SEVERE, "readAllSyncObjects ("+syncObjects.size()+") "+session.getId());
         // find the header first
         for (ISyncObject syncObject : syncObjects) {
             if (syncObject.getProperties() != null && syncObject.getProperty(TYPE_DATASET_HEADER) != null) {
@@ -207,8 +205,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     /* merge ELO with the current dataset */
-    public void mergeELO(String xmlContent){
-        this.dataProcessPanel.mergeELO(new JDomStringConversion().stringToXml(xmlContent));
+//    public void mergeELO(String xmlContent){
+//        this.dataProcessPanel.mergeELO(new JDomStringConversion().stringToXml(xmlContent));
+//    }
+    /* merge ELO with the current dataset */
+    public void mergeELO(Element element){
+        this.dataProcessPanel.mergeELO(element);
     }
 
     public Element getPDS(){
@@ -259,7 +261,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {
-        debugLogger.log(Level.SEVERE, "syncObjectAdded "+session.getId());
+        debugLogger.log(Level.SEVERE, "syncObjectAdded ("+syncObject.getID()+") "+session.getId());
         readSyncObject(syncObject);
     }
 
