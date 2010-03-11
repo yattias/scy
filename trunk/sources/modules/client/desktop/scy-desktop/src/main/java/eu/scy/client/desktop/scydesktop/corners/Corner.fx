@@ -81,7 +81,7 @@ public abstract class Corner extends CustomNode {
       }
       width = newWidth;
       height = newHeight;
-//      println("corner.resize(), width:{width} * height:{height}, clb:{content.layoutBounds}");
+//      println("{this.getClass()}.resize(), width:{width} * height:{height}, clb:{content.layoutBounds}");
       placeInCorner();
    }
 
