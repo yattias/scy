@@ -19,14 +19,12 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
-import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import java.lang.IllegalArgumentException;
 import java.lang.Integer;
@@ -72,24 +70,19 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import java.lang.IllegalStateException;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
-import javafx.lang.FX;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.layout.Resizable;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.notification.api.INotification;
-import java.lang.String;
 import java.lang.Void;
 import java.net.URI;
 import javax.swing.JOptionPane;
 import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
+import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 
 /**
  * @author sikkenj
@@ -289,12 +282,14 @@ public class ScyDesktop extends CustomNode, INotifiable {
             content: topRightCornerTool;
             color: Color.GREEN;
         }
-        var SPTButton = ImageButton {
-                    toolTip: "Open the Student Planning Tool!";
-                    tooltipManager: tooltipManager;
-                    normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
-                    selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
-                    onMouseClicked: function (e) {
+        var SPTButton = MultiImageButton {
+                    imageName:"planning"
+                    disable:initializer.offlineMode
+//                    toolTip: "Open the Student Planning Tool!";
+//                    tooltipManager: tooltipManager;
+//                    normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
+//                    selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
+                    action: function ():Void {
 
                         var userName = config.getToolBrokerAPI().getLoginUserName();
                         var missionId = config.getToolBrokerAPI().getMission();
@@ -334,10 +329,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
                         newWindow.openWindow(700, 600);
                     }
                 }
-        if (not initializer.offlineMode){
-           topRightCorner = TopRightCorner {
-               content: SPTButton;
-           }
+        topRightCorner = TopRightCorner {
+            content: SPTButton;
         }
         bottomRightCorner = BottomRightCorner {
             // TODO, replace with specified tool

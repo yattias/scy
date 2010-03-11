@@ -29,6 +29,7 @@ public class ModalDialogBox extends CustomNode {
    public var title:String;
    public var eloIcon : EloIcon;
    public var color:Color;
+   public var closeAction:function():Void;
 
    var dialogWindow:ScyWindow;
 
@@ -75,6 +76,7 @@ public class ModalDialogBox extends CustomNode {
       var sceneContentList = scene.content;
       delete this from sceneContentList;
       scene.content = sceneContentList;
+      closeAction();
    }
 
    public function place():Void{

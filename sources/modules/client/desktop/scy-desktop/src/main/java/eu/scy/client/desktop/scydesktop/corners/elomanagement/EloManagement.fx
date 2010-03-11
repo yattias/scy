@@ -33,9 +33,7 @@ import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
-import javafx.ext.swing.SwingButton;
-import javafx.ext.swing.SwingIcon;
-import javafx.scene.image.Image;
+import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 
 /**
  * @author sikken
@@ -63,26 +61,28 @@ public class EloManagement extends CustomNode {
 
    def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
 
-   def newFromEloTemplateButton =  Button {
-      text: "New"
-      action: createNewEloFromTemplateAction
-   }
-//   def newFromEloTemplateButton =  SwingButton {
+//   def newFromEloTemplateButton =  Button {
 //      text: "New"
-//      icon:SwingIcon{
-//         image:Image{
-//            url:"{__DIR__}images/new.png"
-//            backgroundLoading:false;
-//         }
-//      }
 //      action: createNewEloFromTemplateAction
 //   }
-   def searchButton =  Button {
-      text: "Search"
+//   def searchButton =  Button {
+//      text: "Search"
+//      action: searchEloAction
+//   }
+//   def createBlankEloButton =  Button {
+//      text: "Create (Dev/Author)"
+//      action: createNewBlankEloAction
+//   }
+   def newFromEloTemplateButton:MultiImageButton =  MultiImageButton {
+      imageName: "new"
+      action: createNewEloFromTemplateAction
+   }
+   def searchButton:MultiImageButton =  MultiImageButton {
+      imageName: "search"
       action: searchEloAction
    }
-   def createBlankEloButton =  Button {
-      text: "Create (Dev/Author)"
+   def createBlankEloButton:MultiImageButton =  MultiImageButton {
+      imageName: "new"
       action: createNewBlankEloAction
    }
 
@@ -120,7 +120,7 @@ public class EloManagement extends CustomNode {
             newFromEloTemplateButton,
             searchButton,
             if (showCreateBlankElo){
-            createBlankEloButton
+               createBlankEloButton
             }
             else{
                null
@@ -178,6 +178,7 @@ public class EloManagement extends CustomNode {
    }
 
    function createNewEloFromTemplateAction(): Void{
+      newFromEloTemplateButton.turnedOn = true;
       var createNewElo = CreateNewElo{
          createAction:createNewEloFromTemplate
          cancelAction:cancelNewElo
@@ -207,9 +208,11 @@ public class EloManagement extends CustomNode {
          logger.error("can't find template elo, with uri: {eloTemplateUri}");
       }
       createNewElo.modalDialogBox.close();
+      newFromEloTemplateButton.turnedOn = false;
    }
 
    function createNewBlankEloAction(): Void{
+      createBlankEloButton.turnedOn = true;
       var createNewElo = CreateNewElo{
          createAction:createNewBlankElo
          cancelAction:cancelNewElo
@@ -238,10 +241,12 @@ public class EloManagement extends CustomNode {
 
    function cancelNewElo(createNewElo: CreateNewElo):Void{
       createNewElo.modalDialogBox.close();
+      newFromEloTemplateButton.turnedOn = false;
+      createBlankEloButton.turnedOn = false;
    }
 
 
-   function createModalDialog(color:Color,eloIcon:EloIcon, title:String,modalDialogNode:ModalDialogNode){
+   function createModalDialog(color:Color,eloIcon:EloIcon, title:String,modalDialogNode:ModalDialogNode):Void{
       modalDialogNode.modalDialogBox = ModalDialogBox {
             content: Group{
                content:modalDialogNode.getContentNodes();
@@ -250,10 +255,16 @@ public class EloManagement extends CustomNode {
             title: title
             eloIcon: eloIcon
             color: color
+            closeAction:function():Void{
+               newFromEloTemplateButton.turnedOn = false;
+               createBlankEloButton.turnedOn = false;
+               searchButton.turnedOn = false;
+            }
          }
    }
 
    function searchEloAction(): Void{
+      searchButton.turnedOn = true;
       var searchElos = SearchElos{
          cancelAction:cancelSearchElo
          searchAction:searchForElos
@@ -341,10 +352,12 @@ public class EloManagement extends CustomNode {
       }
 
       searchElos.modalDialogBox.close();
+      searchButton.turnedOn = false;
    }
 
    function cancelSearchElo(searchElos: SearchElos):Void{
       searchElos.modalDialogBox.close();
+      searchButton.turnedOn = false;
    }
 
 }
