@@ -61,6 +61,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
 
+	private static final int MAX_RETRIES = 10;
+
 	private long idleTimeInMS = 60 * 1000;
 	private int minimumNumberOfConcepts = 5;
 	private int listenerId = -1;
@@ -218,7 +220,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 					logger.info("Notifiying " + user);
 					String text = getEloText(contextInformation.webresourcerELO);
 					if (!"".equals(text)) {
+						sendAliveUpdate();
 						List<String> keywords = getKeywords(text);
+						sendAliveUpdate();
 						logger.info("found keywords to send to " + user + ": " + keywords);
 						sendNotification(contextInformation, keywords);
 						contextInformation.lastAdded = currentTime;
@@ -226,7 +230,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				}
 			}
 			sendAliveUpdate();
-			// Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
+			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
 		}
 	}
 
@@ -295,9 +299,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			Tuple responseTuple = null;
 			if (getCommandSpace().isConnected()) {
 				getCommandSpace().write(extractKeywordsTriggerTuple);
-				responseTuple = getCommandSpace().waitToTake(
-						new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
-								.createWildCardField()));
+				int retries = 0;
+				while (responseTuple == null && retries < MAX_RETRIES) {
+					responseTuple = getCommandSpace().waitToTake(
+							new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
+									.createWildCardField()), AgentProtocol.COMMAND_EXPIRATION);
+					sendAliveUpdate();
+				}
 			}
 			if (responseTuple != null) {
 				ArrayList<String> keywords = new ArrayList<String>();
