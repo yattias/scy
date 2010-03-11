@@ -22,6 +22,7 @@ public class DataSetColumn implements Serializable {
     @JcrProperty private String symbol;
     @JcrProperty private String description;
     @JcrProperty private String type;
+    @JcrProperty private String unit;
     
     public DataSetColumn(){
     	
@@ -31,6 +32,14 @@ public class DataSetColumn implements Serializable {
         this.symbol = symbol;
         this.description = description;
         this.type = type;
+        this.unit = null;
+    }
+    
+    public DataSetColumn(String symbol, String description, String type, String unit) {
+        this.symbol = symbol;
+        this.description = description;
+        this.type = type;
+        this.unit = unit;
     }
     
     public DataSetColumn(Element xmlElem) throws JDOMException {
@@ -38,6 +47,9 @@ public class DataSetColumn implements Serializable {
             symbol = xmlElem.getChild("symbol").getText();
             description = xmlElem.getChild("description").getText();
             type = xmlElem.getChild("type").getText();
+            unit = null;
+            if(xmlElem.getChild("unit")!= null)
+                unit = xmlElem.getChild("unit").getText();
         } else {
             throw(new JDOMException("DataSetColumn expects <column> as root element, but found <"+xmlElem.getName()+">."));
         }
@@ -46,7 +58,7 @@ public class DataSetColumn implements Serializable {
     public DataSetColumn(String xmlString) throws JDOMException {
         this(new JDomStringConversion().stringToXml(xmlString));
     }
-    
+
     public String getSymbol() {
         return symbol;
     }
@@ -58,12 +70,18 @@ public class DataSetColumn implements Serializable {
     public String getType() {
         return type;
     }
+
+    public String getUnit() {
+        return unit;
+    }
     
     public Element toXML() {
         Element elem = new Element("column");
         elem.addContent(new Element("symbol").setText(symbol));
         elem.addContent(new Element("description").setText(description));
         elem.addContent(new Element("type").setText(type));
+        if(unit != null)
+            elem.addContent(new Element("unit").setText(unit));
         return elem;
     }
     
