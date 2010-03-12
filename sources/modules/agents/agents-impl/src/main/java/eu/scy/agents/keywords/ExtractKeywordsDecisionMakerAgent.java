@@ -37,7 +37,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		public boolean webresourcerStarted = false;
 		public boolean scyMapperStarted = false;
 
-		public long lastAdded;
+		public long lastAction;
 		public int numberOfConcepts = 0;
 		public URI webresourcerELO = null;
 
@@ -45,7 +45,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		public String toString() {
 			String webresourcerURL = webresourcerELO != null ? webresourcerELO.toString() : "null";
 			return user + "|web:" + webresourcerStarted + "|map:" + scyMapperStarted + "|url:" + webresourcerURL + "|"
-					+ lastAdded + "|" + numberOfConcepts;
+					+ lastAction + "|" + numberOfConcepts;
 		}
 	}
 
@@ -61,10 +61,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
 
-	private static final int MAX_RETRIES = 10;
-
 	private long idleTimeInMS = 60 * 1000;
 	private int minimumNumberOfConcepts = 5;
+	private long saveToRemove = 5 * idleTimeInMS;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
@@ -89,6 +88,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		}
 		if (params.containsKey(IDLE_TIME_INMS)) {
 			idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
+			saveToRemove = 5 * idleTimeInMS;
 		}
 		if (params.containsKey(MINIMUM_NUMBER_OF_CONCEPTS)) {
 			minimumNumberOfConcepts = (Integer) params.get(MINIMUM_NUMBER_OF_CONCEPTS);
@@ -162,7 +162,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		logger.info("node added");
 		ContextInformation contextInfo = getContextInformation(action);
 		contextInfo.numberOfConcepts++;
-		contextInfo.lastAdded = action.getTimeInMillis();
+		contextInfo.lastAction = action.getTimeInMillis();
 	}
 
 	private void handleToolStopped(IAction action) {
@@ -202,7 +202,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			result.user = action.getUser();
 			result.mission = action.getContext(ContextConstants.mission);
 			result.session = action.getContext(ContextConstants.session);
-			result.lastAdded = action.getTimeInMillis();
+			result.lastAction = action.getTimeInMillis();
 			user2Context.put(result.user, result);
 		}
 		return result;
@@ -217,11 +217,18 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				logger.debug(contextInformation);
 				if (userNeedsToBeNotified(currentTime, contextInformation)) {
 					notifyUser(currentTime, user, contextInformation);
+					if (userIsIdleForToLongTime(currentTime, contextInformation)) {
+						user2Context.remove(user);
+					}
 				}
 			}
 			sendAliveUpdate();
 			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 		}
+	}
+
+	private boolean userIsIdleForToLongTime(long currentTime, ContextInformation contextInformation) {
+		return (currentTime - contextInformation.lastAction) > saveToRemove;
 	}
 
 	private void notifyUser(final long currentTime, final String user, final ContextInformation contextInformation) {
@@ -235,7 +242,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 					List<String> keywords = getKeywords(text);
 					logger.info("found keywords to send to " + user + ": " + keywords);
 					sendNotification(contextInformation, keywords);
-					contextInformation.lastAdded = currentTime;
+					contextInformation.lastAction = currentTime;
 				}
 			}
 		}, "NotifyUser").start();
@@ -245,7 +252,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	private boolean userNeedsToBeNotified(long currentTime, ContextInformation contextInformation) {
 		boolean userNeedsToBeNotified = contextInformation.webresourcerStarted;
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
-		long timeSinceLastAction = currentTime - contextInformation.lastAdded;
+		long timeSinceLastAction = currentTime - contextInformation.lastAction;
 		logger.debug(timeSinceLastAction + " : " + idleTimeInMS);
 		userNeedsToBeNotified &= timeSinceLastAction > idleTimeInMS;
 		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
@@ -294,7 +301,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		String text = content.getXml();
 		text = text.substring(text.indexOf(ANNOTATIONS_START), text.lastIndexOf(ANNOTATIONS_END)
 				+ ANNOTATIONS_END.length());
-		logger.info("Got text " + text);
+		logger.debug("Got text " + text);
 		return text;
 	}
 
