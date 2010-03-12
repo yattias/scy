@@ -115,7 +115,7 @@ public class MultiImageButton extends CustomNode {
                newImageState();
             }
             onMouseReleased: function (e: MouseEvent): Void {
-               if (not turnedOn){
+               if (not turnedOn and mouseOver){
                   action();
                }
                mousePressed = false;
