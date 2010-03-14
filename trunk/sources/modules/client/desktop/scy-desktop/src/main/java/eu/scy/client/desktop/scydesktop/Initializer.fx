@@ -66,7 +66,7 @@ public class Initializer {
     public-init var indicateOnlineStateByOpacity = true;
     public-init var showEloRelations = true;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
-    public-init var showOfflineContacts = false;
+    public-init var showOfflineContacts = true;
     public-read var backgroundImage: Image;
     public-read var localLoggingDirectory: File = null;
     public-read var toolBrokerLogin: ToolBrokerLogin;
