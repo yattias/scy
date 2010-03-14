@@ -29,7 +29,7 @@ var initializer = Initializer{
    loginType:"local"
    storeElosOnDisk:false
    createPersonalMissionMap:true
-   enableLocalLogging:false
+   enableLocalLogging:true
    redirectSystemStream:false
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
 //   eloImagesPath:"file:eloImages/"
