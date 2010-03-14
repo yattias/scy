@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
+import eu.scy.client.desktop.scydesktop.utils.SetupLoggingToFiles;
 import javax.jnlp.ServiceManager;
 import eu.scy.common.configuration.Configuration;
 import javax.swing.JOptionPane;
@@ -45,6 +46,7 @@ public class Initializer {
     public-init var enableLocalLogging = true;
     public-init var loggingDirectoryName = "logging";
     public-init var redirectSystemStream = false;
+    public-init var writeJavaLoggingToFile = true;
     public-init var lookAndFeel = "nimbus";
     public-init var loginType = "local";
     public-init var localToolBrokerLoginConfigFile: String = "/config/localScyServices.xml";
@@ -83,6 +85,7 @@ public class Initializer {
     def enableLocalLoggingOption = "enableLocalLogging";
     def loggingDirectoryNameOption = "loggingDirectoryName";
     def redirectSystemStreamOption = "redirectSystemStream";
+    def writeJavaLoggingToFileOption = "writeJavaLoggingToFile";
     def lookAndFeelOption = "lookAndFeel";
     def loginTypeOption = "loginType";
     def localToolBrokerLoginConfigFileOption = "localToolBrokerLoginConfigFile";
@@ -103,6 +106,8 @@ public class Initializer {
     def indicateOnlineStateByOpacityOption = "indicateOnlineStateByOpacity";
     def showEloRelationsOption = "showEloRelations";
 
+    var setupLoggingToFiles:SetupLoggingToFiles;
+
     init {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
         parseApplicationParameters();
@@ -115,8 +120,10 @@ public class Initializer {
         if (enableLocalLogging) {
             localLoggingDirectory = findLocalLoggingDirectory();
             if (localLoggingDirectory != null) {
+                setupLoggingToFiles = new SetupLoggingToFiles(localLoggingDirectory);
                 if (redirectSystemStream) {
-                    doRedirectSystemStream();
+                   setupLoggingToFiles.redirectSystemStreams();
+                   // doRedirectSystemStream();
                 }
                 loggingDirectoryKeyValue = localLoggingDirectory.getAbsolutePath();
             }
@@ -157,6 +164,9 @@ public class Initializer {
                 } else if (option == redirectSystemStreamOption.toLowerCase()) {
                     redirectSystemStream = argumentsList.nextBooleanValue(redirectSystemStreamOption);
                     logger.info("app: {redirectSystemStreamOption}: {redirectSystemStream}");
+                } else if (option == writeJavaLoggingToFileOption.toLowerCase()) {
+                    writeJavaLoggingToFile = argumentsList.nextBooleanValue(writeJavaLoggingToFileOption);
+                    logger.info("app: {writeJavaLoggingToFileOption}: {writeJavaLoggingToFile}");
                 } else if (option == lookAndFeelOption.toLowerCase()) {
                     lookAndFeel = argumentsList.nextStringValue(lookAndFeelOption);
                     logger.info("app: {lookAndFeelOption}: {lookAndFeel}");
@@ -229,6 +239,7 @@ public class Initializer {
         enableLocalLogging = getWebstartParameterBooleanValue(enableLocalLoggingOption, enableLocalLogging);
         loggingDirectoryName = getWebstartParameterStringValue(loggingDirectoryNameOption, loggingDirectoryName);
         redirectSystemStream = getWebstartParameterBooleanValue(redirectSystemStreamOption, redirectSystemStream);
+        writeJavaLoggingToFile = getWebstartParameterBooleanValue(writeJavaLoggingToFileOption, writeJavaLoggingToFile);
         lookAndFeel = getWebstartParameterStringValue(lookAndFeelOption, lookAndFeel);
         loginType = getWebstartParameterStringValue(loginTypeOption, loginType);
         localToolBrokerLoginConfigFile = getWebstartParameterStringValue(localToolBrokerLoginConfigFileOption, localToolBrokerLoginConfigFile);
@@ -278,6 +289,7 @@ public class Initializer {
         println("- enableLocalLogging: {enableLocalLogging}");
         println("- loggingDirectoryName: {loggingDirectoryName}");
         println("- redirectSystemStream: {redirectSystemStream}");
+        println("- writeJavaLoggingToFile: {writeJavaLoggingToFile}");
         println("- lookAndFeel: {lookAndFeel}");
         println("- loginType: {loginType}");
         println("- localToolBrokerLoginConfigFile: {localToolBrokerLoginConfigFile}");
@@ -330,6 +342,13 @@ public class Initializer {
         } else {
             InitJavaUtilLogging.initJavaUtilLogging();
         }
+        println("writeJavaLoggingToFile: {writeJavaLoggingToFile}");
+        if (writeJavaLoggingToFile){
+           println("setupLoggingToFiles.setupJavaUtilLogFile(): {setupLoggingToFiles}");
+           setupLoggingToFiles.setupJavaUtilLogFile();
+           setupLoggingToFiles.setuplog4JLogFile();
+        }
+
     }
 
     function setupBackgroundImage() {
