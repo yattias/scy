@@ -41,9 +41,9 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         String suggestedUserName = generateUserNameIfAlreadyExists(username);
         SCYUserImpl newUser = new SCYUserImpl();
         UserDetails userDetails = null;
-        if(role.equals("ROLE_STUDENT")) {
+        if (role.equals("ROLE_STUDENT")) {
             userDetails = createStudentUserDetails(suggestedUserName, password);
-        } else if(role.equals("ROLE_TEACHER")) {
+        } else if (role.equals("ROLE_TEACHER")) {
             userDetails = createTeacherUserDetails(suggestedUserName, password);
         }
 
@@ -58,7 +58,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         }
 
         save(newUser);
-        log.info("CREATED USER : " + userDetails.getUsername() );
+        log.info("CREATED USER : " + userDetails.getUsername());
         return newUser;
     }
 
@@ -66,9 +66,14 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     public List<User> getStudents() {
         List studentUsers = getSession().createQuery("from SCYStudentUserDetails")
                 .list();
-        return getSession().createQuery("from SCYUserImpl user where user.userDetails in (:userDetails)")
-                .setParameterList("userDetails", studentUsers)
-                .list();
+        if (studentUsers == null && studentUsers.size() == 0) {
+            return getSession().createQuery("from SCYUserImpl user where user.userDetails in (:userDetails)")
+                    .setParameterList("userDetails", studentUsers)
+                    .list();
+        }
+
+        return Collections.EMPTY_LIST;
+
     }
 
     private UserDetails createTeacherUserDetails(String suggestedUserName, String password) {
@@ -79,7 +84,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         userDetails.setLastName("ln");
         userDetails.setLastLoginTime(new Date());
         userDetails.setNumberOfLogins(0);
-        userDetails.setCurriculumsubjects(new String [0]);
+        userDetails.setCurriculumsubjects(new String[0]);
         userDetails.setDisplayName("dn");
         userDetails.setCountry("Some Country");
         userDetails.setCity("Some City");
