@@ -82,7 +82,7 @@ public class EloManagement extends CustomNode {
       action: searchEloAction
    }
    def createBlankEloButton:MultiImageButton =  MultiImageButton {
-      imageName: "new"
+      imageName: "new_a"
       action: createNewBlankEloAction
    }
 
