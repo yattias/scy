@@ -5,7 +5,7 @@
 package eu.scy.client.desktop.scydesktop;
 
 import java.io.File;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.security.AccessControlException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,9 +34,9 @@ public class JavaProperties
     *
     * @see writePropertiesForApplet()
     */
-   public static void writePropertiesForApplication()
+   public static void writePropertiesForApplication(PrintWriter out)
    {
-      System.out.println("System properties");
+      out.println("System properties");
       ArrayList<String> propNames = new ArrayList<String>();
       int maxPropNameLength = 0;
       Enumeration<?> enumeration;
@@ -67,18 +67,18 @@ public class JavaProperties
             || sunBootClassPathPropName.equals(propName)
             || sunBootLibraryPathPropName.equals(propName))
          {
-            writeClassPath(label, propName, System.out);
+            writeClassPath(label, propName, out);
 
          }
          else
          {
-            System.out.println(label + ": " + System.getProperty(propName));
+            out.println(label + ": " + System.getProperty(propName));
          }
       }
-      System.out.println();
+      out.println();
    }
 
-   protected static void writeClassPath(String label, String propName, PrintStream out)
+   protected static void writeClassPath(String label, String propName, PrintWriter out)
    {
       String classPath;
       try
@@ -126,13 +126,13 @@ public class JavaProperties
       return "does not exists";
    }
 
-   public static void writeApplicationParameters(String[] args)
+   public static void writeApplicationParameters(String[] args, PrintWriter out)
    {
-      System.out.println("Application parameters");
+      out.println("Application parameters");
       for (int i = 0; i < args.length; i++)
       {
-         System.out.println("" + i + ": " + args[i]);
+         out.println("" + i + ": " + args[i]);
       }
-      System.out.println("\n");
+      out.println("\n");
    }
 }
