@@ -58,6 +58,27 @@ var errors = ['',
 	'Set activity time for devices!',
 	'Select consuming type!'
 	]
+var query_string = {}; 
+var query = window.location.search.substring(1); 
+var vars = query.split("&"); 
+for (var i=0;i<vars.length;i++)   {
+    var pair = vars[i].split("="); 
+    if (typeof query_string[pair[0]] === "undefined") {
+        query_string[pair[0]] = pair[1]; 
+    } else if (typeof query_string[pair[0]] === "string") {
+        var arr = [ query_string[pair[0]], pair[1] ]; 
+        query_string[pair[0]] = arr; 
+    } else { 
+        query_string[pair[0]].push(pair[1]); 
+    }
+}
+var lang = 'en';
+var lang_qs = query_string['lang'];
+if (lang_qs!=undefined) {
+    if (lang_qs=='en' || lang_qs=='fr') {
+        lang=lang_qs;
+    }
+}
 function myFlash_DoFSCommand(command, args)                {
   var myFlashObj = InternetExplorer ? myFlash : document.myFlash;
 	switch(command) {
@@ -66,7 +87,7 @@ function myFlash_DoFSCommand(command, args)                {
 		case 'help':
 				switch (args) {
 					case 2: aken=window.open("olmeelekter_teooria.htm", "abiaken", "width=700,height=500,toolbars=no,scrollbars=yes,resize=no"); aken.focus(); break;
-					case 1: aken=window.open("olmeelekter_abi.htm", "abiaken", "width=700,height=500,toolbars=no,scrollbars=yes,resize=no"); break;
+					case 1: aken=window.open("help/"+lang+"/index.html", "abiaken", "width=700,height=500,toolbars=no,scrollbars=yes,resize=no"); break;
 				}; break;
 		case 'elosaver':
 			args = unescape(args);
