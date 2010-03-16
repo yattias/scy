@@ -33,6 +33,9 @@ import java.util.Date;
 import java.net.InetAddress;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.client.desktop.scydesktop.uicontrols.DynamicTypeBackground;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -110,6 +113,7 @@ public class Initializer {
     def showEloRelationsOption = "showEloRelations";
 
     var setupLoggingToFiles:SetupLoggingToFiles;
+    package var background:DynamicTypeBackground;
 
     init {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
@@ -342,6 +346,25 @@ public class Initializer {
         }
         return null;
     }
+
+    public function getScene(createScyDesktop: function( tbi:  ToolBrokerAPI,userName: String): ScyDesktop):Scene{
+       var scene = Scene{
+
+       };
+       background = DynamicTypeBackground{
+
+       };
+
+      scene.content=[
+            background,
+            LoginDialog {
+              createScyDesktop: createScyDesktop
+              initializer:this;
+            }
+         ];
+       scene
+    }
+
 
     function setupCodeLogging() {
         if (log4JInitFile.length() > 0) {

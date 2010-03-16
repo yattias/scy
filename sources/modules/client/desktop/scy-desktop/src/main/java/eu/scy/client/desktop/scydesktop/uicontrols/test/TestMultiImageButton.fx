@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.animation.Timeline;
+import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 /**
  * @author sikken
@@ -28,7 +29,6 @@ public class TestMultiImageButton extends CustomNode {
          disable: bind testMultiImageButtonDesign.disabledCheckbox.selected
          turnedOn: bind testMultiImageButtonDesign.turnedOnCheckbox.selected
          imageName: "new"
-         imageLocation: imageLocation
          action:buttonAction
          layoutX: 220
          layoutY: 100
@@ -86,6 +86,8 @@ public class TestMultiImageButton extends CustomNode {
 }
 
 function run() {
+   InitLog4JFX.initLog4J("/config/log4j.xml");
+
    Stage {
       title: "Test multi image button"
       scene: Scene {
