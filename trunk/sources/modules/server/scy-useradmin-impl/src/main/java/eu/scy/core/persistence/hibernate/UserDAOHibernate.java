@@ -66,14 +66,9 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     public List<User> getStudents() {
         List studentUsers = getSession().createQuery("from SCYStudentUserDetails")
                 .list();
-        if (studentUsers == null && studentUsers.size() == 0) {
-            return getSession().createQuery("from SCYUserImpl user where user.userDetails in (:userDetails)")
-                    .setParameterList("userDetails", studentUsers)
-                    .list();
-        }
-
-        return Collections.EMPTY_LIST;
-
+        return getSession().createQuery("from SCYUserImpl user where user.userDetails in (:userDetails)")
+                .setParameterList("userDetails", studentUsers)
+                .list();
     }
 
     private UserDetails createTeacherUserDetails(String suggestedUserName, String password) {
