@@ -143,6 +143,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
     public-read var highDebugGroup = Group { };
 
     def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
+    var backgroundUpdater:BackgroundUpdater;
 
     init {
         if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -388,6 +389,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
             dragAndDropManager: dragAndDropManager
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
             showEloInfoDisplay:initializer.debugMode
+        }
+        backgroundUpdater = BackgroundUpdater{
+           eloInfoControl:eloInfoControl
+           background:initializer.background
+           activeLas:bind missionModelFX.activeLas
         }
     }
 

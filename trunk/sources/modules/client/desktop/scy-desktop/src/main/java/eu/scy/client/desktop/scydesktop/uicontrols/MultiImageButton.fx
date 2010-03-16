@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 
 /**
  * @author sikken
@@ -20,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 public class MultiImageButton extends CustomNode {
 
    public var imageName = "test" on replace {loadImages()};
-   public var imageLocation = "{__DIR__}images/";
    public-init var extension = ".png";
    public var action:function():Void;
    public-read var errorsLoadingImage=false;
@@ -43,24 +43,14 @@ public class MultiImageButton extends CustomNode {
    var imageView:ImageView;
    var mouseOver = false;
    var mousePressed = false;
+   def imageLoader = ImageLoader.getImageLoader();
 
    function loadImage(activeType:String):Image{
       var image:Image;
-      if (imageName!="" and imageLocation!="" and extension!=""){
-         image = Image{
-            backgroundLoading:false;
-            url:createUrl(activeType)
-         }
-         if (image.error){
-            println("failed to load image {image.url}");
-            errorsLoadingImage = true;
-         }
+      if (imageName!="" and extension!=""){
+         image = imageLoader.getImage("{imageName}{activeType}{extension}");
       }
-      return image;
-   }
-
-   function createUrl(activeType:String):String{
-      "{imageLocation}{imageName}{activeType}{extension}"
+      image
    }
 
    function loadImages(){

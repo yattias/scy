@@ -1,4 +1,4 @@
-/*
+   /*
  * Main.fx
  *
  * Created on 14-mei-2009, 17:41:07
@@ -71,20 +71,9 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    return scyDesktop;
 }
 
-var stage: Stage;
-var scene:Scene;
-
-stage = Stage {
-   title: "SCY Desktop"
-   width: 400
-   height: 300
-   scene: scene=Scene {
-      content: [
-         initializer.getBackgroundImageView(scene),
-         LoginDialog {
-           createScyDesktop: createScyDesktop
-           initializer:initializer;
-        }
-      ]
-   }
+Stage {
+	title : "SCY Desktop"
+   width:400
+   height:300
+	scene: initializer.getScene(createScyDesktop);
 }
