@@ -168,20 +168,5 @@ var stage = Stage {
            title: "SCY-Lab"
            width: 1024
            height: 700
-           scene: scene = Scene {
-              content: [
-                 initializer.getBackgroundImageView(scene),
-//                 ImageView {
-//                    image: initializer.backgroundImage
-//                    fitWidth: bind scene.width
-//                    fitHeight: bind scene.height
-//                    preserveRatio: false
-//                    cache: true
-//                 }
-                 LoginDialog {
-                    createScyDesktop: createScyDesktop
-                    initializer: initializer;
-                 }
-              ]
-           }
+           scene: initializer.getScene(createScyDesktop);
         }
