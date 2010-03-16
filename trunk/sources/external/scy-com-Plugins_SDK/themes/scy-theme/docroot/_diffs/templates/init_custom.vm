@@ -1,0 +1,16 @@
+#*
+This file allows you to override and define new velocity variables.
+*#
+
+#set ($user_roles = $user.getRoles())
+
+#set ($show_doc = false)
+#set ($show_my_account = false)
+#set ($show_my_account_icon = false)
+
+#foreach($role in $user_roles)
+  #if ($role.getTitle($locale).equals("Administrator"))
+			#set ($show_doc = true)
+			#set ($show_my_account = true)
+    #end
+#end
