@@ -10,14 +10,7 @@ Publish settings:
 
 Web interface control file: index.html
 Web interface flash file: korteren.swf
-Web interface uses also files:
- * abi.gif
- * bl.gif
- * olmeelekter_abi.htm (help file for model users)
- * pkell.gif
- * rkell.gif
- * tagasi.gif
- * timer.gif
+Web interface uses also files under directory help
 
 REQUIREMENTS
 Flash versions see above.
@@ -30,7 +23,7 @@ ELO SAVE LOGIC
 
 Model output in JSON format. In top level there are elements:
  * content - part "content" in ELO
- * username - constant "username"
+ * username - entered by user
  * password - constant "password"
  * language - constant "en"
  * country - constant "country"
@@ -38,11 +31,12 @@ Model output in JSON format. In top level there are elements:
  * description - description entered by user
  * type - constant "scy/dataset"
 
-How to invoke SCY JSON web service?
-There is row in index.html:
-			makePOSTRequest('http://scy.collide.info:8080/roolo-ws/webresources/saveELOelectricity', args);
-Change web service address to correct address.
-Possible issue: "same origin policy" problems can arise. If all in one server then no problems. If Roolo web service and electricity web in different servers then possible security problems can be (server can block and some browsers can block something).
+MULTI-LANGUAGE HELP
+
+To use help in different languages you should create folder <language> under folder "help" and create file index.html there with help content and then register this language in main index.html file (see code snapshot below), currently "en" and "fr" are registered:
+    if (lang_qs=='en' || lang_qs=='fr') {
+Invoking different language version: add ?lang=<language> to URL, for example: ?lang=fr
+Default language is en (english).
 
 AUTHORS
 Main version: Imre Raudsepp and Kristjan Adojaan
