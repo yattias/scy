@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2005 JSON.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -116,6 +116,82 @@ class JSON {
             return 'null';
         }
     }
+
+    function stringify_escapeonly(arg):String {
+
+        var c, i, l, s = '', v;
+
+        switch (typeof arg) {
+        case 'object':
+            if (arg) {
+                if (arg instanceof Array) {
+                    for (i = 0; i < arg.length; ++i) {
+                        v = stringify(arg[i]);
+                        if (s) {
+                            s += ',';
+                        }
+                        s += v;
+                    }
+                    return '[' + s + ']';
+                } else if (typeof arg.toString != 'undefined') {
+                    for (i in arg) {
+                        v = arg[i];
+                        if (typeof v != 'undefined' && typeof v != 'function') {
+                            v = stringify(v);
+                            if (s) {
+                                s += ',';
+                            }
+                            s += stringify(i) + ':' + v;
+                        }
+                    }
+                    return '{' + s + '}';
+                }
+            }
+            return 'null';
+        case 'number':
+            return isFinite(arg) ? String(arg) : 'null';
+        case 'string':
+            l = arg.length;
+            s = '';//'"';
+            for (i = 0; i < l; i += 1) {
+                c = arg.charAt(i);
+                if (c >= ' ') {
+                    if (c == '\\' || c == '"') {
+                        s += '\\';
+                    }
+                    s += c;
+                } else {
+                    switch (c) {
+                        case '\b':
+                            s += '\\b';
+                            break;
+                        case '\f':
+                            s += '\\f';
+                            break;
+                        case '\n':
+                            s += '\\n';
+                            break;
+                        case '\r':
+                            s += '\\r';
+                            break;
+                        case '\t':
+                            s += '\\t';
+                            break;
+                        default:
+                            c = c.charCodeAt();
+                            s += '\\u00' + Math.floor(c / 16).toString(16) +
+                                (c % 16).toString(16);
+                    }
+                }
+            }
+            return s;// + '"';
+        case 'boolean':
+            return String(arg);
+        default:
+            return 'null';
+        }
+    }
+
         function white() {
             while (ch) {
                 if (ch <= ' ') {
