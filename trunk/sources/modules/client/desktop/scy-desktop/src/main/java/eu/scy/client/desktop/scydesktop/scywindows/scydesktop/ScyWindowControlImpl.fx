@@ -17,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
 import javafx.util.Sequences;
 import java.lang.Void;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  * @author sikken
@@ -28,6 +29,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    public var showEloInfoDisplay= false;
 
    var firstNewLas = true;
+   def techniocalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
          activeLasChanged(oldActiveLas);
          if (firstNewLas and activeLas != null) {
@@ -242,7 +244,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       var scyWindow = StandardScyWindow {
             eloUri: eloUri;
             eloType: eloInfoControl.getEloType(eloUri);
-            title: eloInfoControl.getEloTitle(eloUri);
+            title: eloInfoControl.getEloTitle(eloUri)
             setScyContent: setScyContent;
             missionModelFX: missionModel
             tooltipManager: tooltipManager

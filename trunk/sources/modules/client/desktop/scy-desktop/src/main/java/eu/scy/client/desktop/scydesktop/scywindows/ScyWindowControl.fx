@@ -7,7 +7,7 @@
 package eu.scy.client.desktop.scydesktop.scywindows;
 
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 

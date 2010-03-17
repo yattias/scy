@@ -6,12 +6,10 @@
 package eu.scy.client.desktop.scydesktop;
 
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
-import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerCreator;

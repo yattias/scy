@@ -6,7 +6,7 @@
 
 package eu.scy.client.desktop.scydesktop.dummy;
 
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.utils.UriUtils;

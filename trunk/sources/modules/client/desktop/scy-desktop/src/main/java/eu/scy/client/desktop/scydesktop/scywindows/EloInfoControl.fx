@@ -4,7 +4,7 @@
  * Created on 24-jun-2009, 17:37:54
  */
 
-package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
+package eu.scy.client.desktop.scydesktop.scywindows;
 
 import java.net.URI;
 

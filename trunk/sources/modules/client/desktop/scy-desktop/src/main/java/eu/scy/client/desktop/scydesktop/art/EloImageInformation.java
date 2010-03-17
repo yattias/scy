@@ -19,9 +19,9 @@ public enum EloImageInformation
    document("scy/doc","document",ScyColors.pink),
    drawing("scy/drawing","drawing",ScyColors.blue),
    googleSketchup("scy/skp","drawing",ScyColors.blue),
-   image("scy/image",null,ScyColors.blue),
+   image("scy/image","info",ScyColors.blue),
    interview("scy/interview","interview",ScyColors.orange),
-   melo("scy/melo",null,ScyColors.blue),
+   melo("scy/melo","info",ScyColors.blue),
    modelEditor("scy/model","model_editor",ScyColors.blue),
    presentation("scy/ppt","presentation",ScyColors.pink),
    richText("scy/rtf","document",ScyColors.pink),
@@ -31,6 +31,7 @@ public enum EloImageInformation
    url("scy/url","info",ScyColors.magenta),
    video("scy/video","info",ScyColors.magenta),
    xproc("scy/xproc","exp_design",ScyColors.orange),
+   assignment("special/assignment","assignment",ScyColors.brown),
    generalNew("general/new","new",ScyColors.darkRed),
    generalSearch("general/search","search",ScyColors.darkBlue),
    generalLogo("general/logo","logo_gray",ScyColors.darkGray);
@@ -59,6 +60,6 @@ public enum EloImageInformation
       return typeNamesMap.get(type);
    }
    public static String getColorString(String type){
-      return typeNamesMap.get(type);
+      return colorStringsMap.get(type);
    }
 }
