@@ -219,6 +219,7 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public JFreeChart createChart(XYDataset dataset) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart(CHART_TITLE, TIME_AXIS_LABEL, VALUE_AXIS_LABEL, dataset, true, true, true);
         XYPlot plot = (XYPlot) chart.getPlot();
