@@ -48,7 +48,7 @@ extended liferay community portlet (at moment chat-portlet and wol-portlet):
 
 1. Change build.user.properties file name to build."username of local system".properties (scy-com-Plugins_SDK)
 2. Change app.server.dir at property file to tomcat destination folder
-3. "ant deploy" at /scy-com-Plugins_SDK/portlets/chat-portlet and wol-portlet
+3. "ant deploy" at /scy-com-Plugins_SDK/portlets/wol-portlet
 
 Liferay scy theme:
 
@@ -56,4 +56,11 @@ Liferay scy theme:
 2. "ant deploy" at /scy-com-Plugins_SDK/themes/scy-theme
 3. wait for autodeploy
 
+
+Chat potlet:
+
+1. goto admin - control panel - plugin installtion
+2. "install more"
+3. search "chat"
+4. "Chat (v5.2.2.1)" install
 
