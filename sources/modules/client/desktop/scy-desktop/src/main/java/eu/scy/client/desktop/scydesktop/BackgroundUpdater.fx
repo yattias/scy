@@ -7,7 +7,7 @@
 package eu.scy.client.desktop.scydesktop;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
 import eu.scy.client.desktop.scydesktop.uicontrols.DynamicTypeBackground;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 
 /**
  * @author sikken
@@ -16,14 +16,14 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 public class BackgroundUpdater {
    public-init var background: DynamicTypeBackground;
    public var activeLas:Las on replace {updateBackground()}
-   public-init var eloInfoControl: EloInfoControl;
+   public-init var eloDisplayTypeControl: EloDisplayTypeControl;
 
    init{
       updateBackground();
    }
 
    function updateBackground():Void{
-      var type = eloInfoControl.getEloType(activeLas.mainAnchor.eloUri);
+      var type = eloDisplayTypeControl.getEloType(activeLas.mainAnchor.eloUri);
       background.type = type;
    }
 

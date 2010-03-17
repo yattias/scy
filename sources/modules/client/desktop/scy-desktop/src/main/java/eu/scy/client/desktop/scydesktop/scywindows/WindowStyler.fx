@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 
 import java.net.URI;
 
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 
 /**
@@ -18,7 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
  */
 
 public mixin class WindowStyler {
-   public var eloInfoControl: EloInfoControl;
+   public var eloTypeControl: EloDisplayTypeControl;
 
    public function getScyColor(type:String):Color{
       return Color.GREEN;
@@ -36,18 +36,18 @@ public mixin class WindowStyler {
    }
 
    public function getScyEloIcon(uri:URI):EloIcon{
-      var type = eloInfoControl.getEloType(uri);
+      var type = eloTypeControl.getEloType(uri);
       return getScyEloIcon(type);
    }
 
    public function getScyColor(uri:URI):Color{
-      var type = eloInfoControl.getEloType(uri);
+      var type = eloTypeControl.getEloType(uri);
       var scyColor = getScyColor(type);
       return scyColor;
    }
 
    public function style(window:ScyWindow,uri:URI){
-      var type = eloInfoControl.getEloType(uri);
+      var type = eloTypeControl.getEloType(uri);
       var color = getScyColor(type);
       var eloIcon = getScyEloIcon(type);
       window.color = color;

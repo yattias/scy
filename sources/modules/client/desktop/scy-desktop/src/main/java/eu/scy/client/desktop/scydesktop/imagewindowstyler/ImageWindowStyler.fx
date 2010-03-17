@@ -3,7 +3,6 @@
  *
  * Created on 14-jan-2010, 17:41:12
  */
-
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
@@ -16,13 +15,15 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.FunctionalTypes;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import java.util.HashMap;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
  */
-
 // place your code here
-
 // technical types
 public def datasetProcessingType = "scy/pds";
 public def datasetType = "scy/dataset";
@@ -55,284 +56,93 @@ public def scyBrown = Color.web("#9F8B55");
 public def scyDarkBlue = Color.web("#00015F");
 public def scyDarkRed = Color.web("#9F1938");
 
+public class ImageWindowStyler extends WindowStyler {
 
-public class ImageWindowStyler extends WindowStyler{
    public-init var impagesPath = "{__DIR__}images/";
-   public var repository:IRepository;
-   public var metadataTypeManager:IMetadataTypeManager;
+   public var repository: IRepository;
+   public var metadataTypeManager: IMetadataTypeManager;
+   public var imageLoader: ImageLoader;
+   def imgageEloIconMap = new HashMap();
 
-   def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
+   init {
+      if (imageLoader==null){
+         imageLoader = ImageLoader.getImageLoader();
+      }
 
-   def conceptMapImageSet = EloImageSet{
-      path:impagesPath;
-      name:"con_map"
-      color:scyBlue
-   }
-   def datasetImageSet = EloImageSet{
-      path:impagesPath;
-      name:"dataset"
-      color:scyGreen
-   }
-   def documentImageSet = EloImageSet{
-      path:impagesPath;
-      name:"doc"
-      color:scyPink
-   }
-   def drawingImageSet = EloImageSet{
-      path:impagesPath;
-      name:"drawing"
-      color:scyBlue
-   }
-   def experimentalDesignImageSet = EloImageSet{
-      path:impagesPath;
-      name:"exp_design"
-      color:scyOrange
-   }
-   def hypotheseImageSet = EloImageSet{
-      path:impagesPath;
-      name:"hypoth"
-      color:scyOrange
-   }
-   def assignmentImageSet = EloImageSet{
-      path:impagesPath;
-      name:"info"
-      color:scyMagenta
-   }
-   def interviewImageSet = EloImageSet{
-      path:impagesPath;
-      name:"interview"
-      color:scyOrange
-   }
-   def modelEditorImageSet = EloImageSet{
-      path:impagesPath;
-      name:"mod_editor"
-      color:scyBlue
-   }
-   def newImageSet = EloImageSet{
-      path:impagesPath;
-      name:"new"
-      color:scyDarkRed
-   }
-   def studentPlanningToolImageSet = EloImageSet{
-      path:impagesPath;
-      name:"pL_tool"
-      color:scyGreen
-   }
-   def presentaionToolImageSet = EloImageSet{
-      path:impagesPath;
-      name:"pres"
-      color:scyPink
-   }
-   def processingDataImageSet = EloImageSet{
-      path:impagesPath;
-      name:"proc_data"
-      color:scyGreen
-   }
-   def informationImageSet = EloImageSet{
-      path:impagesPath;
-      name:"quest"
-      color:scyBrown
-   }
-   def searchImageSet = EloImageSet{
-      path:impagesPath;
-      name:"search"
-      color:scyDarkBlue
-   }
-   def simulatorImageSet = EloImageSet{
-      path:impagesPath;
-      name:"sim"
-      color:scyOrange
-   }
-//   def videoImageSet = EloImageSet{
-//      path:impagesPath;
-//      name:"video"
-//   }
-//   def webBrowserImageSet = EloImageSet{
-//      path:impagesPath;
-//      name:"web_br"
-//   }
-
-   public override function getScyColor(type:String):Color{
-      var scyColor = scyMagenta;
-      var eloImageSet:EloImageSet = getEloImageSet(type);
-      if (eloImageSet!=null)
-         scyColor = eloImageSet.color
-      else if (type == drawingType)
-         scyColor = scyGreen
-      else if (type == datasetType)
-         scyColor = scyPurple
-      else if (type == simulationConfigType)
-         scyColor = scyPink
-      else if (type == mappingType)
-         scyColor = scyBlue
-      else if (type == imageType)
-         scyColor = scyOrange
-      else if (type == videoType)
-         scyColor = scyOrange
-      else if (type == meloType)
-         scyColor = scyOrange
-      else if (type == textType)
-         scyColor = scyBlue
-      else if (type == urlType)
-         scyColor = scyOrange
-      else if (type == urlType)
-         scyColor = scyOrange
-      else if (type == interviewType)
-         scyColor = scyBlue
-      else if (type == xprocType)
-         scyColor = scyPink;
-      return scyColor;
+      for (eloImageInformation in EloImageInformation.values()) {
+         var activeImage = imageLoader.getImage("{eloImageInformation.iconName}_act.png");
+         var inactiveImage = imageLoader.getImage("{eloImageInformation.iconName}_inact.png");
+         if (not activeImage.error and not inactiveImage.error) {
+            var eloImageSet = EloImageSet {
+                  activeImage: activeImage
+                  inactiveImage: inactiveImage
+               }
+            imgageEloIconMap.put(eloImageInformation.type, eloImageSet);
+         }
+      }
    }
 
-   public override function getScyIconCharacter(type:String):String{
+   public override function getScyColor(type: String): Color {
+      var colorName = EloImageInformation.getColorString(type);
+      if (colorName == null) {
+         colorName = ScyColors.darkGray.colorName;
+      }
+      return Color.web(colorName);
+   }
+
+   public override function getScyIconCharacter(type: String): String {
       var iconChar = "?";
       if (type == drawingType)
-         iconChar = "D"
-      else if (type == datasetType)
-         iconChar = "V"
-      else if (type == simulationConfigType)
-         iconChar = "S"
-      else if (type == datasetProcessingType)
-         iconChar = "P"
-      else if (type == textType)
-         iconChar = "T"
-      else if (type == imageType)
-         iconChar = "I"
-      else if (type == meloType)
-         iconChar = "I"
-      else if (type == mappingType)
-         iconChar = "M"
-      else if (type == urlType)
-         iconChar = "W"
-      else if (type == videoType)
-         iconChar = "V"
-      else if (type == interviewType)
-         iconChar = "I"
-      else if (type == xprocType)
+         iconChar = "D" else if (type == datasetType)
+         iconChar = "V" else if (type == simulationConfigType)
+         iconChar = "S" else if (type == datasetProcessingType)
+         iconChar = "P" else if (type == textType)
+         iconChar = "T" else if (type == imageType)
+         iconChar = "I" else if (type == meloType)
+         iconChar = "I" else if (type == mappingType)
+         iconChar = "M" else if (type == urlType)
+         iconChar = "W" else if (type == videoType)
+         iconChar = "V" else if (type == interviewType)
+         iconChar = "I" else if (type == xprocType)
          iconChar = "X";
       return iconChar;
    }
 
-   public override function getScyEloIcon(type:String):EloIcon{
-      var eloImageSet:EloImageSet = getEloImageSet(type);
-
-      if (eloImageSet!=null and not eloImageSet.errorsLoadingImage){
-         ImageEloIcon{
-            activeImage:eloImageSet.activeImage;
-            inactiveImage:eloImageSet.inactiveImage;
-         }
+   public override function getScyEloIcon(type: String): EloIcon {
+      var eloImageSet = imgageEloIconMap.get(type) as EloImageSet;
+      if (eloImageSet!=null){
+         return createEloIcon(eloImageSet);
       }
-      else{
-         CharacterEloIcon{
-            iconCharacter:getScyIconCharacter(type);
-            color:getScyColor(type)
-         };
-      }
+      CharacterEloIcon {
+         iconCharacter: getScyIconCharacter(type);
+         color: getScyColor(type)
+      };
    }
 
-   public override function style(window:ScyWindow,uri:URI){
-      var color:Color;
-      var eloIcon:EloIcon;
-      if (isAssignment(uri)){
-         color = assignmentImageSet.color;
-         eloIcon = createEloIcon(assignmentImageSet);
-      }
-      else{
-         var type = eloInfoControl.getEloType(uri);
-         color = getScyColor(type);
-         eloIcon = getScyEloIcon(type);
-      }
+   public override function style(window: ScyWindow, uri: URI)  {
+      var type = eloTypeControl.getEloType(uri);
+      var color = getScyColor(type);
+      var eloIcon = getScyEloIcon(type);
       window.color = color;
       window.drawerColor = color;
       window.eloIcon = eloIcon;
    }
 
-   public override function getScyEloIcon(uri:URI):EloIcon{
-      if (isAssignment(uri)){
-         return createEloIcon(assignmentImageSet);
-      }
-
-      var type = eloInfoControl.getEloType(uri);
+   public override function getScyEloIcon(uri: URI): EloIcon {
+      var type = eloTypeControl.getEloType(uri);
       return getScyEloIcon(type);
    }
 
-   public override function getScyColor(uri:URI):Color{
-      if (isAssignment(uri)){
-         return assignmentImageSet.color;
-      }
-
-      var type = eloInfoControl.getEloType(uri);
+   public override function getScyColor(uri: URI): Color {
+      var type = eloTypeControl.getEloType(uri);
       var scyColor = getScyColor(type);
       return scyColor;
    }
 
-   function isAssignment(uri:URI):Boolean{
-      var type = eloInfoControl.getEloType(uri);
-      //println("isAssignment({uri}), type={type}");
-      if (type==urlType){
-         var metadata = repository.retrieveMetadata(uri);
-         if (metadata!=null){
-            var functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
-            //println("isAssignment({uri}), functionalType={functionalType} -> {FunctionalTypes.ASSIGMENT.equals(functionalType)}");
-            return FunctionalTypes.ASSIGMENT.equals(functionalType);
-         }
-      }
-      return false;
-   }
-
-   function createEloIcon(eloImageSet:EloImageSet):EloIcon{
-      ImageEloIcon{
-         activeImage:eloImageSet.activeImage;
-         inactiveImage:eloImageSet.inactiveImage;
+   function createEloIcon(eloImageSet: EloImageSet): EloIcon {
+      ImageEloIcon {
+         activeImage: eloImageSet.activeImage;
+         inactiveImage: eloImageSet.inactiveImage;
       }
    }
-
-
-   function getEloImageSet(type:String):EloImageSet{
-      var eloImageSet:EloImageSet;
-
-      if (type == datasetProcessingType)
-         eloImageSet = processingDataImageSet
-      else if (type == datasetType)
-         eloImageSet = datasetImageSet
-      else if (type == drawingType)
-         eloImageSet = drawingImageSet
-      else if (type == googleSketchupType)
-         eloImageSet = drawingImageSet
-      else if (type == generalNew)
-         eloImageSet = newImageSet
-      else if (type == generalSearch)
-         eloImageSet = searchImageSet
-      else if (type == imageType)
-         eloImageSet = informationImageSet
-      else if (type == interviewType)
-         eloImageSet = interviewImageSet
-      else if (type == mappingType)
-         eloImageSet = conceptMapImageSet
-      else if (type == meloType)
-         eloImageSet = informationImageSet
-      else if (type == modelEditorType)
-         eloImageSet = modelEditorImageSet
-      else if (type == presentationType)
-         eloImageSet = presentaionToolImageSet
-      else if (type == richTextType)
-         eloImageSet = documentImageSet
-      else if (type == simulationConfigType)
-         eloImageSet = simulatorImageSet
-      else if (type == studentPlanningType)
-         eloImageSet = studentPlanningToolImageSet
-      else if (type == textType)
-         eloImageSet = documentImageSet
-      else if (type == urlType)
-         eloImageSet = informationImageSet
-      else if (type == videoType)
-         eloImageSet = informationImageSet
-      else if (type == wordType)
-         eloImageSet = documentImageSet
-      else if (type == xprocType)
-         eloImageSet = hypotheseImageSet;
-
-      return eloImageSet;
-   }
-
 }

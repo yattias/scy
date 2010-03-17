@@ -11,7 +11,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
 import eu.scy.client.desktop.scydesktop.config.Config;
@@ -25,7 +25,6 @@ import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.Object;
@@ -33,13 +32,11 @@ import java.lang.String;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
@@ -63,12 +60,10 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import java.lang.IllegalStateException;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
@@ -83,6 +78,12 @@ import javax.swing.JOptionPane;
 import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
+import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 
 /**
  * @author sikkenj
@@ -95,6 +96,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
     def desktopScene = bind scene;
     public var missionModelFX: MissionModelFX = MissionModelFX { };
     public var eloInfoControl: EloInfoControl;
+    public var eloDisplayTypeControl: EloDisplayTypeControl;
     public var windowStyler: WindowStyler;
     public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
     public var newEloCreationRegistry: NewEloCreationRegistry;
@@ -391,7 +393,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             showEloInfoDisplay:initializer.debugMode
         }
         backgroundUpdater = BackgroundUpdater{
-           eloInfoControl:eloInfoControl
+           eloDisplayTypeControl:eloDisplayTypeControl
            background:initializer.background
            activeLas:bind missionModelFX.activeLas
         }
@@ -416,7 +418,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 //                height:bind boundsInLocal.height,
                 //                fill:Color.BLACK
                 //            },
-                backgroundImageView,
+                //backgroundImageView,
                 lowDebugGroup,
                 edgesManager,
                 windows.scyWindows,
