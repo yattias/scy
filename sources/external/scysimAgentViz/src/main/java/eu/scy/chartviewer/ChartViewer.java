@@ -58,7 +58,7 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
 
     private static final int UPDATE_DELAY = 6 * 1000;
 
-    private static final String FRAME_TITLE = "GraphViewer Version 0.1";
+    private static final String FRAME_TITLE = "SCYSim Agent Viz Version 0.2";
 
     private static final String VALUE_AXIS_LABEL = "Experience/Votat/Canonical";
 
@@ -162,7 +162,6 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
             jf = new JFrame(FRAME_TITLE);
             jf.setSize(900, 900);
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            jf.setVisible(true);
             dataset = createDataset();
             JFreeChart chart = createChart(dataset);
             JMenuItem notItem = new JMenuItem("Notification");
@@ -174,16 +173,17 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
             canoSeries = new HashMap<String, TimeSeries>();
             this.chart = chart;
             startTime = 0;
-            sensorSpace = new TupleSpace(new User("ChartViewer"), TS_HOST, TS_PORT, SENSOR_SPACE);
-            commandSpace = new TupleSpace(new User("ChartViewer"), TS_HOST, TS_PORT, COMMAND_SPACE);
+            sensorSpace = new TupleSpace(new User("ScySim AgentViz"), TS_HOST, TS_PORT, SENSOR_SPACE);
+            commandSpace = new TupleSpace(new User("ScySim AgentViz"), TS_HOST, TS_PORT, COMMAND_SPACE);
             rebuildFromSpace();
             userExpSeq = sensorSpace.eventRegister(Command.ALL, USER_EXP_TEMPLATE, this, true);
             votatSeq = sensorSpace.eventRegister(Command.ALL, VOTAT_TEMPLATE, this, true);
             canonicalSeq = sensorSpace.eventRegister(Command.ALL, CANONICAL_TEMPLATE, this, true);
             timer = new Timer(UPDATE_DELAY, this);
             timer.start();
+            panel.invalidate();
             panel.repaint();
-            panel.validate();
+            jf.setVisible(true);
 
         } catch (TupleSpaceException e) {
             if (e.getMessage().contains("establish")) {
@@ -386,7 +386,7 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (list.getSelectedValue() == null) {
-                        JOptionPane.showMessageDialog(jd, "You havn't selected any receiver.");
+                        JOptionPane.showMessageDialog(jd, "You haven't selected any receiver.");
                     } else {
                         Tuple t;
                         if (cb.isSelected()) {
@@ -399,9 +399,9 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
                             }
                             byte[] bytesOut = baos.toByteArray();
                             String string = Base64.encodeToString(bytesOut, false);
-                            t = new Tuple("notification", new VMID().toString(), (String) list.getSelectedValue(), "SCY Simulator", "ChartViewer", "mission1", "session1", "message=" + jtf.getText(), "popup=" + popup.isSelected(), "image=" + string);
+                            t = new Tuple("notification", new VMID().toString(), (String) list.getSelectedValue(), "SCY Simulator", FRAME_TITLE, "mission1", "session1", "message=" + jtf.getText(), "popup=" + popup.isSelected(), "image=" + string);
                         } else {
-                            t = new Tuple("notification", new VMID().toString(), (String) list.getSelectedValue(), "SCY Simulator", "ChartViewer", "mission1", "session1", "popup=" + popup.isSelected(), "message=" + jtf.getText());
+                            t = new Tuple("notification", new VMID().toString(), (String) list.getSelectedValue(), "SCY Simulator", FRAME_TITLE, "mission1", "session1", "popup=" + popup.isSelected(), "message=" + jtf.getText());
                         }
                         try {
                             commandSpace.write(t);
