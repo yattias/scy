@@ -72,12 +72,6 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
 
     private static final String SENSOR_SPACE = "command";
 
-    private static final Tuple USER_EXP_TEMPLATE = new Tuple("user_exp", Field.createWildCardField());
-
-    private static final Tuple VOTAT_TEMPLATE = new Tuple("votat", Field.createWildCardField());
-
-    private static final Tuple CANONICAL_TEMPLATE = new Tuple("inc_change", Field.createWildCardField());
-
     private JFrame jf;
 
     private TupleSpace sensorSpace;
@@ -120,6 +114,8 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
 
     private Vector<String> activeUsers;
 
+    private String selectedUser;
+
     public enum SeriesType {
         EXP_SERIES("User Experience"),
         VOTAT_SERIES("Votat"),
@@ -139,9 +135,13 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
     }
 
     public void rebuildFromSpace() throws TupleSpaceException, IOException {
-        Tuple[] allCano = sensorSpace.readAll(CANONICAL_TEMPLATE);
-        Tuple[] allExp = sensorSpace.readAll(USER_EXP_TEMPLATE);
-        Tuple[] allVotat = sensorSpace.readAll(VOTAT_TEMPLATE);
+        System.out.println("Fetching all logs ...");
+        Tuple[] allCano = sensorSpace.readAll(getIncChangeTuple());
+        System.out.println("Got " + allCano.length + " canonical tuples");
+        Tuple[] allExp = sensorSpace.readAll(getUserExpTuple());
+        System.out.println("Got " + allExp.length + " tool experience tuples");
+        Tuple[] allVotat = sensorSpace.readAll(getVotatTuple());
+        System.out.println("Got " + allVotat.length + " votat tuples");
         for (Tuple tuple : allCano) {
             updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.CANO_SERIES, tuple, false, Long.parseLong(tuple.getField(5).getValue().toString()));
         }
@@ -151,12 +151,18 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
         for (Tuple tuple : allExp) {
             updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.EXP_SERIES, tuple, false, Long.parseLong(tuple.getField(5).getValue().toString()));
         }
-
     }
 
     public ChartViewer() {
         try {
             // tbi = new ToolBrokerImpl("ChartViewer","chartviewer");
+            int answer = JOptionPane.showConfirmDialog(null, "Do you want to limit the chart to one user?", "Question", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                selectedUser = JOptionPane.showInputDialog(null, "For which user should a chart be displayed?");
+                selectedUser += "*";
+            } else {
+                selectedUser = null;
+            }
             lock = new ReentrantLock();
             activeUsers = new Vector<String>();
             jf = new JFrame(FRAME_TITLE);
@@ -176,9 +182,9 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
             sensorSpace = new TupleSpace(new User("ScySim AgentViz"), TS_HOST, TS_PORT, SENSOR_SPACE);
             commandSpace = new TupleSpace(new User("ScySim AgentViz"), TS_HOST, TS_PORT, COMMAND_SPACE);
             rebuildFromSpace();
-            userExpSeq = sensorSpace.eventRegister(Command.ALL, USER_EXP_TEMPLATE, this, true);
-            votatSeq = sensorSpace.eventRegister(Command.ALL, VOTAT_TEMPLATE, this, true);
-            canonicalSeq = sensorSpace.eventRegister(Command.ALL, CANONICAL_TEMPLATE, this, true);
+            userExpSeq = sensorSpace.eventRegister(Command.ALL, getUserExpTuple(), this, true);
+            votatSeq = sensorSpace.eventRegister(Command.ALL, getVotatTuple(), this, true);
+            canonicalSeq = sensorSpace.eventRegister(Command.ALL, getIncChangeTuple(), this, true);
             timer = new Timer(UPDATE_DELAY, this);
             timer.start();
             panel.invalidate();
@@ -267,6 +273,9 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
     }
 
     public void updateChart(String tool, String userName, SeriesType type, Tuple changeTuple, boolean update, long timeOccured) throws IOException, TupleSpaceException {
+        if (selectedUser != null && !Field.doesMatchSemiformally(userName, selectedUser)) {
+            return;
+        }
         lock.lock();
         if (tool == null) {
             System.err.println("Tool is null");
@@ -462,4 +471,28 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {}
+    
+    private Tuple getUserExpTuple() {
+        if (selectedUser != null) {
+            return new Tuple("user_exp", Field.createSemiformalField(selectedUser), Field.createWildCardField());
+        } else {
+            return new Tuple("user_exp", Field.createWildCardField());
+        }
+    }
+    
+    private Tuple getVotatTuple() {
+        if (selectedUser != null) {
+            return new Tuple("votat", Field.createSemiformalField(selectedUser), Field.createWildCardField());
+        } else {
+            return new Tuple("votat", Field.createWildCardField());
+        }
+    }
+
+    private Tuple getIncChangeTuple() {
+        if (selectedUser != null) {
+            return new Tuple("inc_change", Field.createSemiformalField(selectedUser), Field.createWildCardField());
+        } else {
+            return new Tuple("inc_change", Field.createWildCardField());
+        }
+    }
 }
