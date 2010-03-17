@@ -229,7 +229,6 @@ public class TagsAssetFinderImpl extends BasePersistenceImpl implements TagsAsse
 		}
 	}
 
-	@Override
 	public Vector<Class<?>> getTagsAssetTypes() {
 		Session session = null;
 
@@ -238,7 +237,7 @@ public class TagsAssetFinderImpl extends BasePersistenceImpl implements TagsAsse
 		try {
 			session = openSession();
 
-			String sql = "SELECT DISTINCT VALUE FROM tagsasset,className_ WHERE tagsasset.classNameId=className_.classNameId";
+			String sql = "SELECT DISTINCT VALUE FROM TagsAsset,ClassName_ WHERE TagsAsset.classNameId=ClassName_.classNameId";
 
 			SQLQuery q = session.createSQLQuery(sql);
 
