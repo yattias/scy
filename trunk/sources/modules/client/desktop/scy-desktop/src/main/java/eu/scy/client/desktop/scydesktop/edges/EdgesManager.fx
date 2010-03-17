@@ -43,7 +43,7 @@ public class EdgesManager extends IEdgesManager {
 
     public override function findLinks(sourceWindow: ScyWindow)   {
         delete nodes;
-        if (sourceWindow.eloUri!=null and sourceWindow.eloUri.toString() != "" ) {
+        if (not(sourceWindow.eloUri==null) and sourceWindow.eloUri.toString() != "" ) {
             def metadata: IMetadata = repository.retrieveMetadata(sourceWindow.eloUri);
             var targetURI: URI;
             var targetWindow;
