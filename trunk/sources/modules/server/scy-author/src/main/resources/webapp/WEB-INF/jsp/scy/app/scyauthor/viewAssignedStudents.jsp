@@ -9,7 +9,11 @@
                     </tr>
                     <c:forEach var="student" items="${students}">
                         <tr>
-                            <td>${student.userDetails.username}</td>
+                            <td>
+                                <div id="user_details">
+                                    <img src="/webapp/common/filestreamer.html?username=${student.userDetails.username}&showIcon"/>&nbsp;<strong>${student.userDetails.firstname}&nbsp;${student.userDetails.lastname}</strong>
+                                </div>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
