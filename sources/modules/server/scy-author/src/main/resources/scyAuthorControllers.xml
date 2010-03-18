@@ -43,6 +43,7 @@
                    /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
                    /app/scyauthor/viewScenario.html=viewScenarioController
                    /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
+                   /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
                </value>
            </property>
        </bean>
@@ -81,6 +82,11 @@
     <bean id="viewAnchorELOController" class="eu.scy.server.controllers.ViewAnchorELOController">
         <property name="serverService" ref="serverService"/>
         <property name="anchorELOService" ref="anchorELOService"/>
+    </bean>
+
+    <bean id="viewAssignedStudentsController" class="eu.scy.server.controllers.ViewAssignedStudentsController">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="selectToolsForActivityController" class="eu.scy.server.controllers.SelectToolForActivityController">

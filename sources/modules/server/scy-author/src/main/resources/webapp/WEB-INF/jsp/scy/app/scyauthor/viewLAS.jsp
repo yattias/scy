@@ -23,12 +23,14 @@
                             <th>Activity</th>
                             <th>ELO</th>
                             <th>Tools</th>
+                            <th>Auto add to student plan</th>
                         </tr>
                         <c:forEach var="activity" items="${model.activities}">
                             <tr>
                                 <td><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
                                 <td>${activity.anchorELO.name}</td>
                                 <td><a href="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}">+</a></td>
+                                <td><input type="checkbox"></td>
                             </tr>
                         </c:forEach>
                     </table>
