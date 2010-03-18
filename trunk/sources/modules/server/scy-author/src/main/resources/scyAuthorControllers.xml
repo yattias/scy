@@ -41,6 +41,7 @@
                    /app/scyauthor/viewActivity.html=viewActivityController
                    /app/scyauthor/viewAgents.html=viewAgentsController
                    /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
+                   /app/scyauthor/viewScenario.html=viewScenarioController
                </value>
            </property>
        </bean>
@@ -67,6 +68,12 @@
     </bean>
 
     <bean id="viewAgentsController" class="eu.scy.server.controllers.ViewAgentsController">
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="viewScenarioController" class="eu.scy.server.controllers.ViewScenarioController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
         <property name="serverService" ref="serverService"/>
     </bean>
 
