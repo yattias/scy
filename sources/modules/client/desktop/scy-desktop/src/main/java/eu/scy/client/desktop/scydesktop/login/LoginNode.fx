@@ -14,40 +14,48 @@ import javafx.scene.control.Button;
 
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import java.lang.System;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.animation.Interpolator;
+import eu.scy.client.desktop.scydesktop.uicontrols.LanguageSelector;
+import org.apache.log4j.Logger;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.geometry.HPos;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.MissingResourceException;
 
 /**
  * @author sikken
  */
 // place your code here
 public class LoginNode extends CustomNode {
+   def logger = Logger.getLogger(this.getClass());
 
-   public-init
-      var defaultUserName =   "name";
-
-                    public-init var defaultPassword = "pass";
-                    public-init var autoLogin = false;
-   public
-      var loginAction   :
-
-
-     function(userName:String,password:String): Void;
+   public-init var defaultUserName =   "name";
+   public-init var defaultPassword = "pass";
+   public-init var autoLogin = false;
+   public var loginAction  : function(userName:String,password:String): Void;
+   public-read var language:String = bind languageSelector.language on replace {languageSelected()};;
 
    def spacing = 5;
    def borderSize = 5;
    def entryFieldOffset = 100;
    def rowHeight = 30;
    def textBoxColumns = 15;
+   var userNameLabel:Label;
    var userNameField: TextBox;
    var passwordLabel:Label;
    var passwordField: PasswordBox;
    var loginButton: Button;
    var quitButton: Button;
+   var currentLocale = Locale.getDefault();
+   def languageSelector = LanguageSelector{
+         languages: ["nl","en","et","fr","el"]
+         language: currentLocale.getLanguage()
+      };
    def loginEnabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0);
 
    postinit{
@@ -73,13 +81,43 @@ public class LoginNode extends CustomNode {
       }
    }
 
+   function languageSelected():Void{
+      logger.info("languageSelected: {language}");
+      if (language==null or language==""){
+         return;
+      }
+      var newLocale = new Locale(language);
+      if (newLocale!=null){
+         Locale.setDefault(newLocale);
+         setLanguageLabels();
+      }
+      else{
+         logger.error("could not find locale for language {language}");
+      }
+    }
+
+    function setLanguageLabels(){
+       try{
+          var bundle = ResourceBundle.getBundle("languages/scy-desktop");
+          userNameLabel.text = bundle.getString("LoginDialog.username");
+          passwordLabel.text = bundle.getString("LoginDialog.password");
+          loginButton.text = bundle.getString("LoginDialog.login");
+          quitButton.text = bundle.getString("LoginDialog.quit");
+          layout();
+       }
+       catch (e:MissingResourceException){
+          logger.info("failed to find resource bundle, {e.getMessage()}");
+       }
+    }
+
 
    public override function create(): Node {
+
       var loginGroup = Group {
-                 layoutX: 4*borderSize
+                 layoutX: 3*borderSize
                  layoutY: 3*borderSize
                  content: [
-                    Label {
+                    userNameLabel = Label {
                        text: "User name"
                     }
                     userNameField = TextBox {
@@ -131,19 +169,28 @@ public class LoginNode extends CustomNode {
                     }
                  ]
               };
+      languageSelected();
       quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.boundsInLocal.width;
-      return Group {
-                 content: [
-                    Rectangle {
-                       x: 0, y: 0
-                       width: loginGroup.boundsInLocal.width + 2 * borderSize
-                       height: loginGroup.boundsInLocal.height + 2 * borderSize
-                       fill: Color.WHITE
-                    }
-                    loginGroup
-                 ]
-              }
-
+      var vbox = VBox{
+         layoutX:spacing+borderSize;
+         layoutY:spacing+borderSize;
+         spacing:spacing;
+         hpos:HPos.RIGHT
+         nodeHPos:HPos.RIGHT
+         content:[
+            languageSelector,
+            loginGroup,
+            Rectangle {
+               x: 0, y: 0
+               width: 1, height: 1
+               fill: Color.TRANSPARENT
+            }
+         ]
+      }
+      vbox.layout();
+      Group{
+         content:vbox
+      }
    }
 
 

@@ -11,7 +11,7 @@ package eu.scy.client.desktop.scydesktop.uicontrols.test;
 public class mainDesign {
 
     public-read var multiImageButtonRadioButton: javafx.scene.control.RadioButton;//GEN-BEGIN:main
-    public-read var backgroundRadioButton: javafx.scene.control.RadioButton;
+    public-read var languageSelectorRadioButton: javafx.scene.control.RadioButton;
     public-read var dynamicTypeBackgroundRadioButton: javafx.scene.control.RadioButton;
     public-read var stack: javafx.scene.layout.Stack;
     public-read var scene: javafx.scene.Scene;
@@ -37,17 +37,17 @@ public class mainDesign {
         toggleGroup = javafx.scene.control.ToggleGroup {
         };
         dynamicTypeBackgroundRadioButton = javafx.scene.control.RadioButton {
-            layoutX: 268.0
+            layoutX: 148.0
             layoutY: 5.0
             onMouseClicked: radioButton3OnMouseClicked
             text: "DynamicTypeBackground"
             toggleGroup: toggleGroup
         };
-        backgroundRadioButton = javafx.scene.control.RadioButton {
-            layoutX: 155.0
-            layoutY: 5.0
+        languageSelectorRadioButton = javafx.scene.control.RadioButton {
+            layoutX: 334.0
+            layoutY: 6.0
             onMouseClicked: radioButton2OnMouseClicked
-            text: "Background"
+            text: "LanguageSelector"
             toggleGroup: toggleGroup
         };
         multiImageButtonRadioButton = javafx.scene.control.RadioButton {
@@ -76,7 +76,7 @@ public class mainDesign {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Design Functions">
     public function getDesignRootNodes () : javafx.scene.Node[] {
-        [ multiImageButtonRadioButton, backgroundRadioButton, dynamicTypeBackgroundRadioButton, stack, ]
+        [ multiImageButtonRadioButton, languageSelectorRadioButton, dynamicTypeBackgroundRadioButton, stack, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
@@ -84,23 +84,32 @@ public class mainDesign {
     }// </editor-fold>//GEN-END:main
 
    function radioButton2OnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      // language selector
       testMultiImageButton.visible = false;
       testDynamicTypeBackground.visible = false;
+      testLanguageSelector.visible = true;
          }
 
    function radioButton3OnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      // dynamic background
       testMultiImageButton.visible = false;
       testDynamicTypeBackground.visible = true;
+      testLanguageSelector.visible = false;
    }
 
    function radioButtonOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      // multi image button
       testMultiImageButton.visible = true;
       testDynamicTypeBackground.visible = false;
+      testLanguageSelector.visible = false;
    }
 
    public def testMultiImageButton = TestMultiImageButton {
          imageLocation: "file:images/"
          visible:false;
+      }
+   public def testLanguageSelector = TestLanguageSelector {
+         visible:false
       }
    public def testDynamicTypeBackground = TestDynamicTypeBackground {
          visible:false

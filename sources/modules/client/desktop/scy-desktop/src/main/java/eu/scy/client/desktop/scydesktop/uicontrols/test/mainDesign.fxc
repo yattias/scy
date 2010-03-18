@@ -57,19 +57,19 @@
         <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
     </Instance>
     <Instance classID="RadioButtonModel" instanceID="RadioButtonModel2">
-        <Reference name="instanceName" value="str:backgroundRadioButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:155.0,4,null,"/>
-        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
+        <Reference name="instanceName" value="str:languageSelectorRadioButton"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:334.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:6.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:37,anim:,,str:radioButton2OnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:21,anim:,,str:Background,4,null,"/>
+        <Reference name="text" value="prop:27,anim:,,str:LanguageSelector,4,null,"/>
         <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
     </Instance>
     <Instance classID="RadioButtonModel" instanceID="RadioButtonModel3">
         <Reference name="instanceName" value="str:dynamicTypeBackgroundRadioButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:268.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:148.0,4,null,"/>
         <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:37,anim:,,str:radioButton3OnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>

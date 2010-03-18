@@ -17,7 +17,8 @@ InitLog4JFX.initLog4J();
 var mainDesign = mainDesign{};
 mainDesign.stack.content = [
       mainDesign.testMultiImageButton,
-      mainDesign.testDynamicTypeBackground
+      mainDesign.testDynamicTypeBackground,
+      mainDesign.testLanguageSelector
    ];
 
 mainDesign.toggleGroup.selectedButton = mainDesign.multiImageButtonRadioButton;
