@@ -68,6 +68,10 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
+	<bean id="anchorELODAO" class="eu.scy.core.persistence.hibernate.AnchorELODAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
     <bean id="fileDAO" class="eu.scy.core.persistence.hibernate.FileDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="imageConverter" ref="imageConverter"/>

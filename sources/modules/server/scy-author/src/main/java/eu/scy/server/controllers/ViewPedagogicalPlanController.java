@@ -2,11 +2,15 @@ package eu.scy.server.controllers;
 
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,11 +41,32 @@ public class ViewPedagogicalPlanController extends BaseController {
         ModelAndView modelAndView = new ModelAndView();
         logger.info("Setting plan: " + plan.getName());
         modelAndView.addObject("pedagogicalPlan", plan);
+        modelAndView.addObject("anchorElos", getAnchorELOs(plan));
 
         modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
 
         return modelAndView;
 
+
+    }
+
+    private List getAnchorELOs(PedagogicalPlan plan) {
+
+        List returnList = new LinkedList();
+        List <LearningActivitySpace> lases = getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario());
+        for (int i = 0; i < lases.size(); i++) {
+            LearningActivitySpace learningActivitySpace = lases.get(i);
+            List <AnchorELO> anchorELOs = getLasService().getAnchorELOsProducedByLAS(learningActivitySpace);
+            logger.info("LearningActivitySpace: " + learningActivitySpace + " " + anchorELOs.size());
+
+            for (int j = 0; j < anchorELOs.size(); j++) {
+                AnchorELO anchorELO = anchorELOs.get(j);
+                logger.info("ADDING ANCHOR ELO: " + anchorELO);
+                returnList.add(anchorELO);
+            }
+        }
+
+        return returnList;
 
     }
 
