@@ -191,13 +191,17 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
                 userModel.setStarts(userModel.getStops());
             }
             logger.log(Level.FINE, "Tool started with user: " + a.getUser() + " and SessionID: " + sessionid);
-            timer.start();
+          if (!initializing){
+              timer.start();
+          }
         } else if (a.getType().equals("tool_closed")) {
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel exp = userModels.get(a.getUser());
             exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
             logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
-            timer.stop();
+            if (!initializing){
+                timer.stop();
+            }
 
         } else if (a.getType().equals("tool_gotfocus")) {
             String sessionid = a.getContext(ContextConstants.session);
@@ -210,14 +214,18 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             }
             exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime, false);
             logger.log(Level.FINE, "Focus gained with user: " + a.getUser() + " and SessionID: " + sessionid);
-            timer.start();
+            if (!initializing){
+                timer.start();
+            }
         } else if (a.getType().equals("tool_lostfocus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser());
             exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime, false);
             logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
-            timer.stop();
+            if (!initializing){
+                timer.stop();
+            }
         }
     }
 
