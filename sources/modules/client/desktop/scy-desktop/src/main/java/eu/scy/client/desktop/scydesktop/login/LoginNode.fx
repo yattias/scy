@@ -26,6 +26,7 @@ import javafx.geometry.HPos;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import javafx.geometry.VPos;
 
 /**
  * @author sikken
@@ -34,17 +35,19 @@ import java.util.MissingResourceException;
 public class LoginNode extends CustomNode {
    def logger = Logger.getLogger(this.getClass());
 
-   public-init var defaultUserName =   "name";
+   public-init var defaultUserName = "name";
    public-init var defaultPassword = "pass";
    public-init var autoLogin = false;
    public var loginAction  : function(userName:String,password:String): Void;
-   public-read var language:String = bind languageSelector.language on replace {languageSelected()};;
+   public-read var language:String = bind languageSelector.language on replace {languageSelected()};
+   public-read var loginTitle:String = "SCY-Lab login";
 
    def spacing = 5;
    def borderSize = 5;
-   def entryFieldOffset = 100;
+   def entryFieldOffset = 120;
+   def labelVOffset = 5;
    def rowHeight = 30;
-   def textBoxColumns = 15;
+   def textBoxColumns = 20;
    var userNameLabel:Label;
    var userNameField: TextBox;
    var passwordLabel:Label;
@@ -57,6 +60,8 @@ public class LoginNode extends CustomNode {
          language: currentLocale.getLanguage()
       };
    def loginEnabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0);
+   def loginButtonText = "               ";
+   def quitButtonText  = "               ";
 
    postinit{
       if (autoLogin){
@@ -98,18 +103,17 @@ public class LoginNode extends CustomNode {
 
     function setLanguageLabels(){
        try{
-          var bundle = ResourceBundle.getBundle("languages/scy-desktop");
+          var bundle = ResourceBundle.getBundle("languages/scydesktop");
+          loginTitle = bundle.getString("LoginDialog.title");
           userNameLabel.text = bundle.getString("LoginDialog.username");
           passwordLabel.text = bundle.getString("LoginDialog.password");
           loginButton.text = bundle.getString("LoginDialog.login");
           quitButton.text = bundle.getString("LoginDialog.quit");
-          layout();
        }
        catch (e:MissingResourceException){
           logger.info("failed to find resource bundle, {e.getMessage()}");
        }
     }
-
 
    public override function create(): Node {
 
@@ -118,7 +122,8 @@ public class LoginNode extends CustomNode {
                  layoutY: 3*borderSize
                  content: [
                     userNameLabel = Label {
-                       text: "User name"
+                       layoutY:labelVOffset
+                       text: "User name             "
                     }
                     userNameField = TextBox {
                        layoutX: entryFieldOffset;
@@ -128,11 +133,10 @@ public class LoginNode extends CustomNode {
                        action:function(){
                           passwordField.requestFocus();
                        }
-
                     }
                     passwordLabel = Label {
-                       layoutY: rowHeight;
-                       text: "Password"
+                       layoutY: rowHeight+labelVOffset;
+                       text: "Password             "
                     }
                     passwordField = PasswordBox {
                        layoutX: entryFieldOffset;
@@ -153,7 +157,7 @@ public class LoginNode extends CustomNode {
                        layoutX: entryFieldOffset;
                        layoutY: 2 * rowHeight + spacing;
                        strong:true
-                       text: "Login"
+                       text: loginButtonText
                        disable: bind loginEnabled
                        action: function () {
                           loginAction(userNameField.text,passwordField.password);
@@ -162,7 +166,7 @@ public class LoginNode extends CustomNode {
                     quitButton = Button {
                        layoutX: entryFieldOffset;
                        layoutY: 2 * rowHeight + spacing;
-                       text: "Quit"
+                       text: quitButtonText
                        action: function () {
                           FX.exit();
                        }

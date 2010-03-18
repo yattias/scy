@@ -74,7 +74,7 @@ public class LoginDialog extends CustomNode {
                  autoLogin:initializer.autoLogin
               }
       loginWindow = StandardScyWindow {
-         title: "SCY-Lab login"
+         title: bind loginNode.loginTitle
          eloIcon: CharacterEloIcon {
             iconCharacter: "L"
             color: loginColor
