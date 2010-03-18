@@ -61,6 +61,7 @@
                         <th>Can be included</th>
                         <th>Obligatory</th>
                         <th>Anchor ELO</th>
+                        <th>Assessment strategy</th>
 
                     </tr>
                     <c:forEach var="anchorElo" items="${anchorElos}">
@@ -68,12 +69,27 @@
                             <td><input type="checkbox"></td>
                             <td><input type="checkbox"></td>
                             <td>${anchorElo.name}</td>
+                            <td>
+                                <select>
+                                    <option>Peer to peer</option>
+                                    <option>Teacher</option>
+                                    <option>Mucho Mucho</option>
+                                </select>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
                 <br>
             </c:when>
         </c:choose>
+
+
+        <table width="100%" border="2">
+            <tr>
+                <td>Assigned students</td>
+                <td>4 <a href="viewAssignedStudents.html" target="_blank">select</a>"</td>
+            </tr>
+        </table>
 
 
 
