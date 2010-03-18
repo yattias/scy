@@ -36,5 +36,7 @@
                 <a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&publish=false">Unpublish</a>
             </c:when>
         </c:choose>
+
+        <a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">View agents</a>
     </tiles:putAttribute>
 </tiles:insertDefinition>

@@ -54,6 +54,10 @@
 		<property name="serverDAO" ref="serverDAO"/>
 	</bean>
 
+    <bean id="activityService" class="eu.scy.core.ActivityServiceImpl">
+		<property name="activityDAO" ref="activityDAO"/>
+	</bean>
+
     <bean id="fileService" class="eu.scy.core.FileServiceImpl">
         <property name="fileDAO" ref="fileDAO"/>
     </bean>
