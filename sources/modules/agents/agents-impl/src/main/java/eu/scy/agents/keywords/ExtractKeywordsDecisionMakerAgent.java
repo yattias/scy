@@ -219,7 +219,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		while (status == Status.Running) {
 			toRemove.clear();
 			long currentTime = System.currentTimeMillis();
-			for (String user : user2Context.keySet()) {
+			HashSet<String> users = new HashSet<String>(user2Context.keySet());
+			for (String user : users) {
 				ContextInformation contextInformation = user2Context.get(user);
 				logger.debug(contextInformation);
 				if (userNeedsToBeNotified(currentTime, contextInformation)) {
