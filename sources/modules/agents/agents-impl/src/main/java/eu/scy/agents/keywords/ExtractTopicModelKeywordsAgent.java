@@ -35,6 +35,8 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	private int listenerId = -1;
 
+	private PersistentStorage storage;
+
 	public ExtractTopicModelKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
@@ -44,6 +46,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
 		} catch (TupleSpaceException e) {
@@ -73,7 +76,6 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	private Set<String> extractKeywords(String text) {
-		PersistentStorage storage = new PersistentStorage(host, port);
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 		TopicModelAnnotator tm = new TopicModelAnnotator((TopicModelParameter) storage.get("co2_scy_english"));
 
