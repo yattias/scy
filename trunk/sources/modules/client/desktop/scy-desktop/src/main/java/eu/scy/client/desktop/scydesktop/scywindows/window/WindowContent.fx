@@ -10,10 +10,15 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 
 
-import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import java.lang.Void;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.lang.Void;
@@ -61,6 +66,9 @@ public class WindowContent extends CustomNode {
 	}
 
    public override function create(): Node {
+      if (content instanceof Parent){
+         (content as Parent).layout();
+      }
       resizeTheContent();
       return Group {
          content: [

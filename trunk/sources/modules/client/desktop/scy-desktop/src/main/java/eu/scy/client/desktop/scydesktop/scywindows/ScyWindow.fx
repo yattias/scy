@@ -17,11 +17,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import javafx.scene.CustomNode;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
-import eu.scy.client.desktop.scydesktop.edges.Edge;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
-import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 
 /**
  * @author sikkenj

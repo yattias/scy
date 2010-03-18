@@ -11,14 +11,21 @@ import javafx.scene.Node;
 
 import javafx.scene.paint.Color;
 
-import javafx.util.Math;
 
+import javafx.scene.shape.Rectangle;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowClose;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 
 /**
  * @author sikkenj
@@ -142,6 +149,9 @@ public abstract class Drawer extends CustomNode {
    function createOpenDrawerNode(): Node {
       if (not openedOnce) {
          // it will be opened for the first time, find good initial size
+         if (content instanceof Parent){
+            (content as Parent).layout();
+         }
          if (content instanceof Resizable) {
             var resizableContent = content as Resizable;
             if (not horizontal){

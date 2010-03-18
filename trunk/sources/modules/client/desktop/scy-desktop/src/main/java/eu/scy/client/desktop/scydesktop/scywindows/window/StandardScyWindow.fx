@@ -6,6 +6,17 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
+
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import javafx.scene.control.Button;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,31 +24,33 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.util.Math;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
-import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
-
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import java.lang.Void;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-
-import eu.scy.client.desktop.scydesktop.edges.Edge;
+import eu.scy.client.desktop.scydesktop.scywindows.window.BottomDrawer;
+import eu.scy.client.desktop.scydesktop.scywindows.window.EmptyWindow;
+import eu.scy.client.desktop.scydesktop.scywindows.window.LeftDrawer;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
+import eu.scy.client.desktop.scydesktop.scywindows.window.RightDrawer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
+import eu.scy.client.desktop.scydesktop.scywindows.window.TopDrawer;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowClose;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowMinimize;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowRotate;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
-import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
-import java.lang.System;
-import java.lang.Void;
+import java.lang.Object;
 
 /**
  * @author sikkenj
@@ -201,6 +214,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 
    function scyContentChanged(){
+      if (scyContent instanceof Parent){
+         (scyContent as Parent).layout();
+      }
       if (scyContent instanceof Resizable){
          var resizableContent = scyContent as Resizable;
          var prefWidth = Math.max(resizableContent.getPrefWidth(desiredWidth), minimumWidth);
@@ -236,8 +252,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             limittedHeight = Math.min(limittedHeight, resizableContent.getMaxHeight());
          }
          else{
-            limittedWidth = scyContent.boundsInLocal.width;
-            limittedHeight = scyContent.boundsInLocal.height;
+            limittedWidth = scyContent.layoutBounds.maxX;
+            limittedHeight = scyContent.layoutBounds.maxY;
          }
          // this is check on content limits, add "border" sizes
          limittedWidth += deltaHeightContentHeight;
