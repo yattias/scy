@@ -119,7 +119,9 @@ import com.liferay.portal.security.ldap.PortalLDAPUtil;
 import com.liferay.portal.security.permission.PermissionCacheUtil;
 import com.liferay.portal.security.pwd.PwdEncryptor;
 import com.liferay.portal.security.pwd.PwdToolkitUtil;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.UserGroupLocalServiceUtil;
 import com.liferay.portal.service.base.PrincipalBean;
 import com.liferay.portal.service.base.UserLocalServiceBaseImpl;
 import com.liferay.portal.util.FriendlyURLNormalizer;
@@ -138,22 +140,38 @@ import com.liferay.util.Encryptor;
 import com.liferay.util.EncryptorException;
 
 /**
- * <a href="UserLocalServiceImpl.java.html"><b><i>View Source</i></b></a>
+ * add function that for the guest community a group created with
+ * SUBSCRIBED_TEACHER_GROUP name. The group is added to role for subscribe
+ * teacher. This is required because the role security from liferay work right
+ * if role add a community.
  * 
- * @author Brian Wing Shun Chan
- * @author Scott Lee
- * @author Raymond Augé
- * @author Jorge Ferrer
- * @author Julio Camarero
- * 
+ * @author Daniel
  */
 public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
+
+	public static String SUBSCRIBED_TEACHER_GROUP = "subscribed teacher group";
+	public static String SUBSCRIBED_TEACHER_DESCRIPTION = "this group add all guest user. Do not assign members manually.";
 
 	public void addGroupUsers(long groupId, long[] userIds) throws PortalException, SystemException {
 
 		groupPersistence.addUsers(groupId, userIds);
 
 		Group group = groupPersistence.findByPrimaryKey(groupId);
+
+		// start extend code
+
+		UserGroup userGroup;
+		try {
+			userGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
+
+		} catch (NoSuchUserGroupException nsuge) {
+			userGroup = UserGroupLocalServiceUtil.addUserGroup(group.getCreatorUserId(), group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP,
+					SUBSCRIBED_TEACHER_DESCRIPTION);
+		}
+
+		userGroupPersistence.addUsers(userGroup.getUserGroupId(), userIds);
+
+		// end extend code
 
 		Role role = rolePersistence.findByC_N(group.getCompanyId(), RoleConstants.COMMUNITY_MEMBER);
 
@@ -1494,6 +1512,31 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		userGroupRoleLocalService.deleteUserGroupRoles(userIds, groupId);
 
+		// start extend code
+
+		Group group;
+		try {
+			group = groupPersistence.findByPrimaryKey(groupId);
+		} catch (NoSuchGroupException e) {
+			group = GroupLocalServiceUtil.getGroups(0, GroupLocalServiceUtil.getGroupsCount()).get(0);
+			e.printStackTrace();
+		}
+
+		UserGroup userGroup = null;
+		try {
+			userGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
+
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		if (userGroup != null) {
+			unsetUserGroupUsers(userGroup.getUserGroupId(), userIds);
+
+		}
+
+		// end extend code
+
 		groupPersistence.removeUsers(groupId, userIds);
 
 		try {
@@ -2127,10 +2170,63 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		// User groups
 
 		if (userGroupIds != null) {
-			copyUserGroupLayouts(userGroupIds, userId);
+			// start extend code
+			UserGroup guestUserGroup = null;
+			Group guestGroup = null;
 
-			userPersistence.setUserGroups(userId, userGroupIds);
+			boolean isAllreadyAtGuestGroup = false;
+			boolean isGuestMember = false;
+
+			try {
+				guestGroup = GroupLocalServiceUtil.getGroup(user.getCompanyId(), RoleConstants.GUEST);
+			} catch (Exception e) {
+				System.out.println("no guest group exists");
+			}
+
+			try {
+				guestUserGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
+
+			} catch (NoSuchUserGroupException nsuge) {
+				guestUserGroup = UserGroupLocalServiceUtil.addUserGroup(group.getCreatorUserId(), group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP,
+						SUBSCRIBED_TEACHER_DESCRIPTION);
+			}
+
+			for (Long l : userGroupIds) {
+				if (l.equals(guestUserGroup.getUserGroupId())) {
+					isAllreadyAtGuestGroup = true;
+				}
+			}
+
+			if (guestGroup != null) {
+				for (Long l : groupIds) {
+					if (l.equals(guestGroup.getGroupId())) {
+						isGuestMember = true;
+					}
+				}
+			}
+			int size = userGroupIds.length + 1;
+			long newUserGroupIds[] = new long[size];
+
+			if (isGuestMember && !isAllreadyAtGuestGroup) {
+				for (int i = 0; i < userGroupIds.length; i++) {
+					newUserGroupIds[i] = userGroupIds[i];
+				}
+
+				newUserGroupIds[size - 1] = guestUserGroup.getUserGroupId();
+
+				copyUserGroupLayouts(newUserGroupIds, userId);
+				userPersistence.setUserGroups(userId, newUserGroupIds);
+
+			} else if (!isGuestMember && isAllreadyAtGuestGroup) {
+				userPersistence.removeUserGroup(userId, guestUserGroup.getUserGroupId());
+			} else {
+				copyUserGroupLayouts(userGroupIds, userId);
+				userPersistence.setUserGroups(userId, userGroupIds);
+			}
+
 		}
+
+		// end extend code
 
 		// Announcements
 
