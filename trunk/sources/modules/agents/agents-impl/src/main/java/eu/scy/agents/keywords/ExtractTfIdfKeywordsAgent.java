@@ -40,6 +40,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	private static final Logger logger = Logger.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
+	private PersistentStorage storage = null;
+
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
@@ -49,6 +51,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
 		} catch (TupleSpaceException e) {
@@ -58,6 +61,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
+
 		while (status == Status.Running) {
 			sendAliveUpdate();
 			try {
@@ -78,7 +82,6 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	private Set<String> extractKeywords(String text) {
-		PersistentStorage storage = new PersistentStorage(host, port);
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		Document document = convertTextToDocument(text);
