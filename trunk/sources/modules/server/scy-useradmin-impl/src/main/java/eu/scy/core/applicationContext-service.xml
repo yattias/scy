@@ -58,6 +58,10 @@
 		<property name="activityDAO" ref="activityDAO"/>
 	</bean>
 
+    <bean id="anchorELOService" class="eu.scy.core.AnchorELOServiceImpl">
+		<property name="anchorELODAO" ref="anchorELODAO"/>
+	</bean>
+
     <bean id="fileService" class="eu.scy.core.FileServiceImpl">
         <property name="fileDAO" ref="fileDAO"/>
     </bean>
