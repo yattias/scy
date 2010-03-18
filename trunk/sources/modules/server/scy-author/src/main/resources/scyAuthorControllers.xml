@@ -38,6 +38,9 @@
                    /app/scyauthor/ScyAuthorIndex.html=scyauthorIndexController
                    /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
                    /app/scyauthor/viewLAS.html=viewLASController
+                   /app/scyauthor/viewActivity.html=viewActivityController
+                   /app/scyauthor/viewAgents.html=viewAgentsController
+                   /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
                </value>
            </property>
        </bean>
@@ -55,6 +58,19 @@
 
     <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">
         <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="viewActivityController" class="eu.scy.server.controllers.ViewActivityController">
+        <property name="serverService" ref="serverService"/>
+        <property name="activityService" ref="activityService"/>
+    </bean>
+
+    <bean id="viewAgentsController" class="eu.scy.server.controllers.ViewAgentsController">
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="selectToolsForActivityController" class="eu.scy.server.controllers.SelectToolForActivityController">
         <property name="serverService" ref="serverService"/>
     </bean>
 
