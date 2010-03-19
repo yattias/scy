@@ -4,6 +4,7 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import eu.scy.client.common.scyi18n.UriLocalizer;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
