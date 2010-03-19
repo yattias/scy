@@ -14,8 +14,8 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.provider.ProviderManager;
 
 import eu.scy.common.packetextension.SCYPacketTransformer;
-import eu.scy.commons.smack.SmacketExtension;
-import eu.scy.commons.smack.SmacketExtensionProvider;
+import eu.scy.common.smack.SmacketExtension;
+import eu.scy.common.smack.SmacketExtensionProvider;
 import eu.scy.notification.NotificationPacketTransformer;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;

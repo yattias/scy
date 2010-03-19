@@ -7,7 +7,7 @@ import eu.scy.actionlogging.ActionPacketTransformer;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.common.configuration.Configuration;
-import eu.scy.commons.smack.SmacketExtension;
+import eu.scy.common.smack.SmacketExtension;
 
 public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 		IActionLogger {
