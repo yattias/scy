@@ -52,6 +52,8 @@ public class AgentManager implements Callback {
 
 	private Map<String, Long> agentAlive;
 
+	private Map<String, Class<?>> agentClasses;
+
 	private static final Logger logger = Logger.getLogger(AgentManager.class.getName());
 
 	private static final Level LOGLEVEL = Level.OFF;
@@ -78,6 +80,7 @@ public class AgentManager implements Callback {
 		agentIdMap = new HashMap<String, IThreadedAgent>();
 		oldAgents = new HashMap<String, IThreadedAgent>();
 		startParameters = new HashMap<String, Map<String, Object>>();
+		agentClasses = new HashMap<String, Class<?>>();
 		try {
 
 			// TODO COmmand.all
@@ -188,7 +191,11 @@ public class AgentManager implements Callback {
 	 */
 	public IThreadedAgent startAgent(String name, Map<String, Object> params) throws AgentLifecycleException {
 		try {
-			Class<?> c = Class.forName(name);
+		        Class<?> c = agentClasses.get(name);
+		        if (c == null) {
+		            c = Class.forName(name);
+		            agentClasses.put(name, c);
+		        }
 			Constructor<?> con = c.getConstructor(Map.class);
 			String agentId = new VMID().toString();
 			// if the params are null a new HashMap have to be created
