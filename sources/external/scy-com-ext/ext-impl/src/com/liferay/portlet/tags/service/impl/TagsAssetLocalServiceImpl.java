@@ -47,8 +47,12 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.Role;
+import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.User;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PortalInstances;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PortletKeys;
@@ -65,18 +69,22 @@ import com.liferay.portlet.tags.model.TagsAssetDisplay;
 import com.liferay.portlet.tags.model.TagsAssetType;
 import com.liferay.portlet.tags.model.TagsEntry;
 import com.liferay.portlet.tags.model.TagsEntryConstants;
+import com.liferay.portlet.tags.service.TagsEntryLocalServiceUtil;
 import com.liferay.portlet.tags.service.base.TagsAssetLocalServiceBaseImpl;
 import com.liferay.portlet.tags.util.TagsAssetValidator;
 import com.liferay.portlet.tags.util.TagsUtil;
 import com.liferay.portlet.wiki.model.WikiPage;
 
 /**
-/**
- * Extend original class with method getTagsAssetTypes to get all classNames
+ * /** Extend original class with method getTagsAssetTypes to get all classNames
  * from tagsAsset table.
  * 
  */
 public class TagsAssetLocalServiceImpl extends TagsAssetLocalServiceBaseImpl {
+
+	public final static String APPROVED = "approved";
+	public final static String UNDER_CONSTRUCTION = "under_construction";
+	public final static String SCYCOM_MODERATOR = "SCYCOM moderator";
 
 	public void deleteAsset(long assetId) throws PortalException, SystemException {
 
@@ -125,7 +133,7 @@ public class TagsAssetLocalServiceImpl extends TagsAssetLocalServiceBaseImpl {
 	@Override
 	public Vector<Class<?>> getTagsAssetTypes() {
 		return tagsAssetFinder.getTagsAssetTypes();
-	
+
 	}
 
 	public List<TagsAsset> getAssets(long[] entryIds, long[] notEntryIds, boolean andOperator, boolean excludeZeroViewCount, int start, int end)
@@ -375,7 +383,10 @@ public class TagsAssetLocalServiceImpl extends TagsAssetLocalServiceBaseImpl {
 
 		TagsAsset asset = tagsAssetPersistence.fetchByC_C(classNameId, classPK);
 
+		boolean isNewAssetEntry = false;
+
 		if (asset == null) {
+			isNewAssetEntry = true;
 			long assetId = counterLocalService.increment();
 
 			asset = tagsAssetPersistence.create(assetId);
@@ -418,29 +429,142 @@ public class TagsAssetLocalServiceImpl extends TagsAssetLocalServiceBaseImpl {
 
 		// Entries
 
+		List<TagsEntry> tagsEntriesList = TagsEntryLocalServiceUtil.getEntries(asset.getClassNameId(), asset.getClassPK());
 		List<TagsEntry> entries = new ArrayList<TagsEntry>(entryNames.length);
 
-		for (int i = 0; i < entryNames.length; i++) {
-			TagsEntry entry = null;
+		
+		/** start extend code */
+		
+		// check if user has moderator or admin role
+		boolean isModerator = false;
 
+		List<Role> roleList = RoleLocalServiceUtil.getUserRoles(userId);
+		for (Role role : roleList) {
+			if (role.getName().equals(SCYCOM_MODERATOR)) {
+				isModerator = true;
+			} else if (role.getName().equals(RoleConstants.ADMINISTRATOR)) {
+				isModerator = true;
+			}
+		}
+
+		// check if user want to add or delete moderator tags and has not the rights
+		if (!isModerator) {
+			boolean isApprovedBefore = false;
+			boolean isUnderConBefore = false;
+			boolean isApprovedAfter = false;
+			boolean isUnderConAfter = false;
+
+			for (TagsEntry tagsEntry : tagsEntriesList) {
+				if (tagsEntry.getName().equals(APPROVED)) {
+					isApprovedBefore = true;
+				} else if (tagsEntry.getName().equals(UNDER_CONSTRUCTION)) {
+					isUnderConBefore = true;
+				}
+			}
+
+			for (String entryName : entryNames) {
+				if (entryName.equals(APPROVED)) {
+					isApprovedAfter = true;
+				} else if (entryName.equals(UNDER_CONSTRUCTION)) {
+					isUnderConAfter = true;
+				}
+			}
+
+			List<String> bewareOldEntriesList = new ArrayList<String>();
+
+			for (String oldNames : entryNames) {
+				boolean addName = true;
+				if (oldNames.equals(APPROVED) && !isApprovedBefore && isApprovedAfter) {
+					addName = false;
+				} else if (oldNames.equals(UNDER_CONSTRUCTION) && !isUnderConBefore && isUnderConAfter) {
+					addName = false;
+				}
+
+				if (addName) {
+					bewareOldEntriesList.add(oldNames);
+				}
+			}
+
+			if (isApprovedBefore && !isApprovedAfter) {
+				bewareOldEntriesList.add(APPROVED);
+			}
+			if (isUnderConBefore && !isUnderConAfter) {
+				bewareOldEntriesList.add(UNDER_CONSTRUCTION);
+			}
+
+			for (String entryName : bewareOldEntriesList) {
+
+				TagsEntry entry = null;
+
+				try {
+					entry = tagsEntryLocalService.getEntry(groupId, entryName, TagsEntryConstants.FOLKSONOMY_TAG);
+				} catch (NoSuchEntryException nsee) {
+					ServiceContext serviceContext = new ServiceContext();
+
+					serviceContext.setAddCommunityPermissions(true);
+					serviceContext.setAddGuestPermissions(true);
+					serviceContext.setScopeGroupId(groupId);
+
+					entry = tagsEntryLocalService.addEntry(user.getUserId(), null, entryName, null, PropsValues.TAGS_PROPERTIES_DEFAULT, serviceContext);
+					tagsPropertyLocalService.addProperty(userId, entry.getEntryId(), String.valueOf(user.getUserId()) + String.valueOf(asset.getAssetId())
+							+ String.valueOf(entry.getEntryId()), String.valueOf(asset.getAssetId()));
+				}
+
+				if (entry != null) {
+					entries.add(entry);
+				}
+			}
+
+			/** end extend code */
+		} else {
+			for (int i = 0; i < entryNames.length; i++) {
+				TagsEntry entry = null;
+
+				try {
+					entry = tagsEntryLocalService.getEntry(groupId, entryNames[i], TagsEntryConstants.FOLKSONOMY_TAG);
+				} catch (NoSuchEntryException nsee) {
+					ServiceContext serviceContext = new ServiceContext();
+
+					serviceContext.setAddCommunityPermissions(true);
+					serviceContext.setAddGuestPermissions(true);
+					serviceContext.setScopeGroupId(groupId);
+
+					entry = tagsEntryLocalService.addEntry(user.getUserId(), null, entryNames[i], null, PropsValues.TAGS_PROPERTIES_DEFAULT, serviceContext);
+					tagsPropertyLocalService.addProperty(userId, entry.getEntryId(), String.valueOf(user.getUserId()) + String.valueOf(asset.getAssetId())
+							+ String.valueOf(entry.getEntryId()), String.valueOf(asset.getAssetId()));
+				}
+
+				if (entry != null) {
+					entries.add(entry);
+				}
+			}
+		}
+
+		/** start extend code */
+		// add UNDER_CONSTRUCTION tag to new files
+		if (isNewAssetEntry) {
+
+			TagsEntry entry = null;
 			try {
-				entry = tagsEntryLocalService.getEntry(groupId, entryNames[i], TagsEntryConstants.FOLKSONOMY_TAG);
+				entry = tagsEntryLocalService.getEntry(groupId, UNDER_CONSTRUCTION, TagsEntryConstants.FOLKSONOMY_TAG);
 			} catch (NoSuchEntryException nsee) {
+				long defaultUserId = UserLocalServiceUtil.getDefaultUser(user.getCompanyId()).getUserId();
 				ServiceContext serviceContext = new ServiceContext();
 
 				serviceContext.setAddCommunityPermissions(true);
 				serviceContext.setAddGuestPermissions(true);
 				serviceContext.setScopeGroupId(groupId);
 
-				entry = tagsEntryLocalService.addEntry(user.getUserId(), null, entryNames[i], null, PropsValues.TAGS_PROPERTIES_DEFAULT, serviceContext);
-				tagsPropertyLocalService.addProperty(
-						userId, entry.getEntryId(), String.valueOf(user.getUserId()) + String.valueOf(asset.getAssetId()) + String.valueOf(entry.getEntryId()), String.valueOf(asset.getAssetId()));
+				entry = tagsEntryLocalService.addEntry(defaultUserId, null, UNDER_CONSTRUCTION, null, PropsValues.TAGS_PROPERTIES_DEFAULT, serviceContext);
+				tagsPropertyLocalService.addProperty(defaultUserId, entry.getEntryId(), String.valueOf(defaultUserId) + String.valueOf(asset.getAssetId())
+						+ String.valueOf(entry.getEntryId()), String.valueOf(asset.getAssetId()));
 			}
 
 			if (entry != null) {
 				entries.add(entry);
 			}
 		}
+		/** end extend code */
 
 		// Categories
 
