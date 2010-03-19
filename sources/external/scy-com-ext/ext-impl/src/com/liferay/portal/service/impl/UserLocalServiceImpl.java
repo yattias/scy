@@ -158,20 +158,30 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		Group group = groupPersistence.findByPrimaryKey(groupId);
 
-		// start extend code
-
-		UserGroup userGroup;
+		/** start extend code */
+		
+		Group guestGroup = null;
 		try {
-			userGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
-
-		} catch (NoSuchUserGroupException nsuge) {
-			userGroup = UserGroupLocalServiceUtil.addUserGroup(group.getCreatorUserId(), group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP,
-					SUBSCRIBED_TEACHER_DESCRIPTION);
+			guestGroup = GroupLocalServiceUtil.getGroup(group.getCompanyId(), RoleConstants.GUEST);
+		} catch (Exception e) {
+			System.out.println("no guest group exists");
+		}
+		
+		if(guestGroup != null && group.getGroupId() == guestGroup.getGroupId()){
+			UserGroup userGroup;
+			try {
+				userGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
+				
+			} catch (NoSuchUserGroupException nsuge) {
+				userGroup = UserGroupLocalServiceUtil.addUserGroup(group.getCreatorUserId(), group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP,
+						SUBSCRIBED_TEACHER_DESCRIPTION);
+				System.out.println("create subribe teacher group");
+			}
+			System.out.println("add users to subribe teacher group");
+			userGroupPersistence.addUsers(userGroup.getUserGroupId(), userIds);			
 		}
 
-		userGroupPersistence.addUsers(userGroup.getUserGroupId(), userIds);
-
-		// end extend code
+		/** end extend code */
 
 		Role role = rolePersistence.findByC_N(group.getCompanyId(), RoleConstants.COMMUNITY_MEMBER);
 
@@ -1512,7 +1522,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		userGroupRoleLocalService.deleteUserGroupRoles(userIds, groupId);
 
-		// start extend code
+		/** start extend code */
 
 		Group group;
 		try {
@@ -1521,21 +1531,29 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			group = GroupLocalServiceUtil.getGroups(0, GroupLocalServiceUtil.getGroupsCount()).get(0);
 			e.printStackTrace();
 		}
-
-		UserGroup userGroup = null;
+		
+		Group guestGroup = null;
 		try {
-			userGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
-
-		} catch (PortalException e) {
-			e.printStackTrace();
+			guestGroup = GroupLocalServiceUtil.getGroup(group.getCompanyId(), RoleConstants.GUEST);
+		} catch (Exception e) {
+			System.out.println("no guest group exists");
 		}
-
-		if (userGroup != null) {
-			unsetUserGroupUsers(userGroup.getUserGroupId(), userIds);
-
+		
+		if(guestGroup != null && group.getGroupId() == guestGroup.getGroupId()){
+			UserGroup userGroup = null;
+			try {
+				userGroup = UserGroupLocalServiceUtil.getUserGroup(group.getCompanyId(), SUBSCRIBED_TEACHER_GROUP);
+				
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+			
+			if (userGroup != null) {
+				unsetUserGroupUsers(userGroup.getUserGroupId(), userIds);
+				
+			}			
 		}
-
-		// end extend code
+		/** end extend code */
 
 		groupPersistence.removeUsers(groupId, userIds);
 
@@ -2170,7 +2188,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		// User groups
 
 		if (userGroupIds != null) {
-			// start extend code
+			/** start extend code */
 			UserGroup guestUserGroup = null;
 			Group guestGroup = null;
 
@@ -2226,7 +2244,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		}
 
-		// end extend code
+		/** end extend code */
 
 		// Announcements
 
