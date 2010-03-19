@@ -32,7 +32,10 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ResourceConstants;
+import com.liferay.portal.model.Role;
+import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.User;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
@@ -73,10 +76,34 @@ public class TagsEntryLocalServiceImpl extends TagsEntryLocalServiceBaseImpl {
 		throws PortalException, SystemException {
 
 		// Entry
-
+		
 		User user = userPersistence.findByPrimaryKey(userId);
 		long groupId = serviceContext.getScopeGroupId();
-
+	
+		/** start extend code */
+		
+		// check if user is in role moderator or admin, only if true moderator tags can be added
+		boolean isModerator = false;
+		List<Role> roleList = RoleLocalServiceUtil.getUserRoles(userId);
+		for (Role role : roleList) {
+			if(role.getName().equals(TagsAssetLocalServiceImpl.SCYCOM_MODERATOR)){
+				isModerator = true;
+			}else if(role.getName().equals(RoleConstants.ADMINISTRATOR)){
+				isModerator = true;
+			}			
+		}
+		
+		if(name.equals(TagsAssetLocalServiceImpl.APPROVED) && !isModerator){
+			throw new DuplicateEntryException(
+					"the tag " + name + " is exclusive for moderators");
+		}
+		if(name.equals(TagsAssetLocalServiceImpl.UNDER_CONSTRUCTION) && !isModerator){
+			throw new DuplicateEntryException(
+					"the tag " + name + " is exclusive for moderators");
+		}
+		
+		/** end extend code */
+		
 		if (Validator.isNull(vocabularyName)) {
 			vocabularyName = PropsValues.TAGS_VOCABULARY_DEFAULT;
 		}
