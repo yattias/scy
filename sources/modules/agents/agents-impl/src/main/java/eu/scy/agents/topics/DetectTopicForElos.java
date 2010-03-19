@@ -32,7 +32,7 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class DetectTopicForElos extends AbstractRequestAgent implements IRepositoryAgent {
 
-	public static final String NAME = "eu.scy.agents.topics.DetectTopicForElos";
+	public static final String NAME = DetectTopicForElos.class.getName();
 
 	private String modelName;
 

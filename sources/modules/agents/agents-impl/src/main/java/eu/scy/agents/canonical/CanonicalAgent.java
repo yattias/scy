@@ -8,8 +8,8 @@ import eu.scy.agents.impl.PrologAgent;
 public class CanonicalAgent extends PrologAgent {
 
 	public CanonicalAgent(Map<String, Object> map) {
-		super("Canonical Agent", (String) map.get(AgentProtocol.PARAM_AGENT_ID), "canonical_agent.pl",
+		super(CanonicalAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), "canonical_agent.pl",
 				"canonical_agent");
 	}
-
+	
 }

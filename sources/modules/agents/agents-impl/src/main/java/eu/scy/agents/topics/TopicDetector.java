@@ -27,7 +27,7 @@ import eu.scy.agents.impl.PersistentStorage;
  */
 public class TopicDetector extends AbstractRequestAgent {
 
-	static final String NAME = "eu.scy.agents.topics.TopicDetector";
+	static final String NAME = TopicDetector.class.getName();
 
 	private PersistentStorage agentDatabase;
 	private Tuple activationTuple;

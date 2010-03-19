@@ -33,7 +33,7 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class SupervisingAgent extends AbstractThreadedAgent implements Callback {
 
-	public static final String NAME = "eu.scy.agents.impl.SupervisingAgent";
+	public static final String NAME = SupervisingAgent.class.getName();
 
 	private static final Tuple alive_template = new Tuple(AgentProtocol.COMMAND_LINE, String.class, String.class,
 			String.class, AgentProtocol.ALIVE);

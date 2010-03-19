@@ -52,7 +52,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
     private int lastUserExp;
 
     public ScySimBehaviourClassifier(Map<String, Object> map) {
-        super("eu.scy.agents.serviceprovider.userexperience.ScySimBehaviourClassifier", (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
+        super(ScySimBehaviourClassifier.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             userExpSeq = commandSpace.eventRegister(Command.WRITE, USER_EXP_TEMPLATE, this, true);
