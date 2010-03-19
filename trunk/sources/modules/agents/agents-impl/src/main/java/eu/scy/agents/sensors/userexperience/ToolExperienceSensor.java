@@ -60,6 +60,8 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
     private boolean isStopped;
 
     private List<Action> actionQueue;
+    
+   
 
     public ToolExperienceSensor(Map<String, Object> map) {
         super(ToolExperienceSensor.class.toString(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
@@ -282,7 +284,9 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (Entry<String, UserToolExperienceModel> userModel : userModels.entrySet()) {
+        //Cloning to prevent ConcurrentModificationExceptions
+        Set<Entry<String, UserToolExperienceModel>> clonedEntrySet = userModels.entrySet();
+        for (Entry<String, UserToolExperienceModel> userModel : clonedEntrySet) {
             UserToolExperienceModel user = userModel.getValue();
             user.updateActiveToolExperience(UPDATE_INTERVAL, System.currentTimeMillis());
         }
