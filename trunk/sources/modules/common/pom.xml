@@ -33,6 +33,7 @@
 		<module>scy-commons</module>
 		<module>scy-model-api</module>
 		<module>scy-model-impl</module>
+		<module>smacket-extension</module>
 		<module>notification-api</module>
 		<module>notification-impl</module>	
 		<module>scy-sessionmanager-api</module>
