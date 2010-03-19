@@ -9,14 +9,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
-import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 
 /**
  * @author sikkenj
@@ -24,7 +23,7 @@ import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
 var initializer = Initializer {
            log4JInitFile: "/config/scy-flying-saucer-log4j.xml"
            scyDesktopConfigFile: "config/scyDesktopFlyingSaucerTestConfig.xml"
-           storeElosOnDisk:false;
+           storeElosOnDisk:true;
            loginType:"local"
         }
 
@@ -44,11 +43,13 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-   scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+   scyDesktop.bottomLeftCornerTool = EloManagement {
       scyDesktop: scyDesktop;
       repository: scyDesktopCreator.config.getRepository();
+      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+      userId:userName
    }
 
    return scyDesktop;
@@ -60,13 +61,5 @@ stage = Stage {
    title: "SCY desktop with Flying saucer tool"
    width: 400
    height: 300
-   scene: scene = Scene {
-      content: [
-         initializer.getBackgroundImageView(scene),
-         LoginDialog {
-            createScyDesktop: createScyDesktop
-            initializer: initializer;
-         }
-      ]
-   }
+	scene: initializer.getScene(createScyDesktop);
 }

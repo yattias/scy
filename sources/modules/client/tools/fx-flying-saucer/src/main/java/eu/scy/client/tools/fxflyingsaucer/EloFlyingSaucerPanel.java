@@ -42,6 +42,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    private IMetadataKey technicalFormatKey;
    private EloSaver eloSaver;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
+   private UriLocalizer uriLocalizer = new UriLocalizer();
 
    public void addEloSavedListener(EloSavedListener eloSavedListener)
    {
@@ -104,7 +105,8 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
          return;
       }
       String homeUrl = getUrlFromContent(elo.getContent());
-      setHomeUrl(homeUrl);
+      String localizedHomeUrl = uriLocalizer.localizeUri(homeUrl);
+      setHomeUrl(localizedHomeUrl);
    }
 
    @Override
