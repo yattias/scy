@@ -30,7 +30,7 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IRepositoryAgent {
 
-	static final String NAME = "eu.scy.agents.topics.RetrieveEloForGivenTopic";
+	static final String NAME = RetrieveEloForGivenTopic.class.getName();
 
 	private IMetadataTypeManager typeManager;
 	private IRepository repository;

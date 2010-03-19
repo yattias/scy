@@ -13,7 +13,7 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 	/**
 	 * Name of the agent.
 	 */
-	public static final String NAME = "eu.scy.agents.impl.ThreadedAgentMock";
+	public static final String NAME = ThreadedAgentMock.class.getName();
 
 	private boolean first = true;
 

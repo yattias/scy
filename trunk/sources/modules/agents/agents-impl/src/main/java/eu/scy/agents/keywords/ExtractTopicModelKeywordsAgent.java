@@ -27,7 +27,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	public static final String EXTRACT_TOPIC_MODEL_KEYWORDS = "ExtractTopicModelKeywords";
 
-	static final String NAME = "eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent";
+	static final String NAME = ExtractTopicModelKeywordsAgent.class.getName();
 
 	private static final Logger logger = Logger.getLogger(ExtractTopicModelKeywordsAgent.class.getName());
 

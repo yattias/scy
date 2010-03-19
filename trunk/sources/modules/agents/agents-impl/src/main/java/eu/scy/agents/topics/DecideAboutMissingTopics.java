@@ -26,10 +26,9 @@ import eu.scy.agents.impl.AgentProtocol;
 public class DecideAboutMissingTopics extends AbstractDecisionAgent {
 
 	private static final double MINIMUM_TOPIC_PROBABILITY = 0.5;
-	private static final String NAME = "eu.scy.agents.topics.DecideAboutMissingTopics";
 
 	protected DecideAboutMissingTopics(Map<String, Object> params) {
-		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
+		super(DecideAboutMissingTopics.class.getName(), (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 	}
 
 	@Override

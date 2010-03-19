@@ -32,7 +32,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	public static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTfIdfKeywords";
 
-	static final String NAME = "eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent";
+	static final String NAME = ExtractTfIdfKeywordsAgent.class.getName();
 
 	private Tuple activationTuple;
 
