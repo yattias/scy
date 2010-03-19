@@ -54,7 +54,7 @@
         </dependency>
 
         <dependency>
-            <groupId>eu.scy.common</groupId>
+            <groupId>eu.scy.client.client-common</groupId>
             <artifactId>rich-text-editor</artifactId>
             <version>${pom.version}</version>
         </dependency>

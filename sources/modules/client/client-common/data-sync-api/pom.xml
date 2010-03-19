@@ -3,12 +3,11 @@
 	
 	<parent>
 		<artifactId>parent</artifactId>
-		<groupId>eu.scy.common</groupId>
+		<groupId>eu.scy.client.client-common</groupId>
 		<version>9.8.0-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy.common</groupId>
 	<artifactId>data-sync-api</artifactId>
 	<name>client datasync commons</name>
 	<version>9.8.0-SNAPSHOT</version>
@@ -22,7 +21,7 @@
 			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-        	<groupId>eu.scy.common</groupId>
+        	<groupId>eu.scy.client.client-common</groupId>
         	<artifactId>smacket-extension</artifactId>
         	<version>9.8.0-SNAPSHOT</version>
         </dependency>
