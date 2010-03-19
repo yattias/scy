@@ -13,23 +13,19 @@
 	<version>9.8.0-SNAPSHOT</version>
 	
 	<dependencies>
-	
-	
+		
 		<dependency>
 			<groupId>jivesoftware</groupId>
 			<artifactId>smackx</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		<dependency>
-        	<groupId>eu.scy.client.client-common</groupId>
-        	<artifactId>smacket-extension</artifactId>
-        	<version>9.8.0-SNAPSHOT</version>
-        </dependency>
+
 		<dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>packet-transformer</artifactId>
         	<version>9.8.0-SNAPSHOT</version>
         </dependency>
+		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>data-sync-common</artifactId>
@@ -41,6 +37,7 @@
 			<artifactId>configuration</artifactId>
 			<version>9.8.0-SNAPSHOT</version>
 		</dependency>
+		
 	</dependencies>
 
 </project>
