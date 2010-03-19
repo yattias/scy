@@ -43,7 +43,7 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>eu.scy.common</groupId>
+			<groupId>eu.scy.client.client-common</groupId>
 			<artifactId>data-sync-api</artifactId>
 			<version>${pom.version}</version>
 		</dependency>

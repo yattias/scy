@@ -3,7 +3,7 @@
  
 	<parent>
 		<artifactId>parent</artifactId>
-		<groupId>eu.scy</groupId>
+		<groupId>eu.scy.client</groupId>
 		<version>9.8.0-SNAPSHOT</version>
 	</parent> 	
  
@@ -67,6 +67,6 @@
 		<module>rich-text-editor</module>
 		<module>data-sync-api</module>
 		<module>smacket-extension</module>
-                <module>scy-i18n</module>
+		<module>scy-i18n</module>
   </modules>
 </project>

@@ -18,7 +18,7 @@
   	</dependency>
 	
   	<dependency>
-  		<groupId>eu.scy.common</groupId>
+  		<groupId>eu.scy.client.client-common</groupId>
   		<artifactId>smacket-extension</artifactId>
   		<version>${pom.version}</version>
   	</dependency>
