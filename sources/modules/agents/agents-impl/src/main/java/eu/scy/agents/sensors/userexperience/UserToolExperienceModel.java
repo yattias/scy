@@ -133,6 +133,7 @@ public class UserToolExperienceModel {
             logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] User has now onlineTime for Tool " + activeTool + " of " + toolTimeMap.get(activeTool));
             updateChart(activeTool);
             activeTool = null;
+            
 
         } else {
             logger.log(Level.SEVERE, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] Fatal! The Tool " + tool + " that should be closed isn't open! The open Tool is " + activeTool);
@@ -150,6 +151,9 @@ public class UserToolExperienceModel {
                 oldTime = 0l;
             }
             long newTime = oldTime + (updateTime - startTime);
+            if (oldTime==newTime){
+                return;
+            }
             toolTimeMap.put(activeTool, newTime);
             TupleID tupleID = toolTIDMap.get(activeTool);
             // if (tupleID != null) {
@@ -172,13 +176,17 @@ public class UserToolExperienceModel {
             for (TupleID tupleID : values) {
                 try {
                     Tuple readTupleById = sensorSpace.readTupleById(tupleID);
-                    readTupleById.getField(5).setValue(System.currentTimeMillis());
-                    // sensorSpace.update(tupleID, readTupleById);
-                    sensorSpace.write(readTupleById);
-                    // updateChart(activeTool);
-                    String user = (String) readTupleById.getField(1).getValue();
-                    String tool = (String) readTupleById.getField(2).getValue();
-                    updateChart(tool);
+                   if (readTupleById!=null){
+                       readTupleById.getField(5).setValue(System.currentTimeMillis());
+                       // sensorSpace.update(tupleID, readTupleById);
+                       sensorSpace.write(readTupleById);
+                       // updateChart(activeTool);
+                       String user = (String) readTupleById.getField(1).getValue();
+                       String tool = (String) readTupleById.getField(2).getValue();
+                       updateChart(tool);
+                   }else{
+                       logger.log(Level.SEVERE,"Tuple is null...");
+                   }
                 } catch (TupleSpaceException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
