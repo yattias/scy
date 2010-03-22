@@ -55,6 +55,7 @@
 		<community-defaults>
 			<action-key>SUBSCRIBE</action-key>
 			<action-key>VIEW</action-key>
+			<action-key>ADD_PAGE</action-key>
 		</community-defaults>
 		<guest-defaults />
 		<guest-unsupported>
@@ -84,6 +85,7 @@
 		<community-defaults>
 			<action-key>SUBSCRIBE</action-key>
 			<action-key>VIEW</action-key>
+			<action-key>ADD_DISCUSSION</action-key>
 		</community-defaults>
 		<guest-defaults />
 		<guest-unsupported>

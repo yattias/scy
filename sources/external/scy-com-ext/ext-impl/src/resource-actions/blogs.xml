@@ -26,7 +26,12 @@
 			<action-key>LINK</action-key>
 			<action-key>ADD_CLIPBOARD</action-key>
 		</supports>
-		<community-defaults />
+		<community-defaults>
+			<action-key>ADD_ENTRY</action-key>
+			<action-key>ADD_TAG</action-key>
+			<action-key>DELETE_TAG</action-key>
+			<action-key>ADD_CLIPBOARD</action-key>
+		</community-defaults>
 		<guest-defaults />
 		<guest-unsupported>
 			<action-key>VIEW</action-key>
@@ -54,6 +59,8 @@
 		</supports>
 		<community-defaults>
 			<action-key>VIEW</action-key>
+			<action-key>ADD_DISCUSSION</action-key>
+			<action-key>UPDATE_DISCUSSION</action-key>
 		</community-defaults>
 		<guest-defaults />
 		<guest-unsupported>
