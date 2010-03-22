@@ -11,21 +11,17 @@ import javax.servlet.http.HttpServletResponse;
  * Date: 18.mar.2010
  * Time: 19:02:05
  */
-public class SelectToolForActivityController extends BaseController{
+public class SelectToolForActivityController extends BaseController {
 
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String id = request.getParameter("id");
         String clazz = request.getParameter("clazz");
-
-        ModelAndView modelAndView = new ModelAndView();
-        populateView(request, httpServletResponse, modelAndView);
 
         modelAndView.addObject("id", id);
         modelAndView.addObject("class", clazz);
 
-        return modelAndView;
     }
+
 }

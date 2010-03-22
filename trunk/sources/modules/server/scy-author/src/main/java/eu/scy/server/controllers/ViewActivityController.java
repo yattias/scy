@@ -18,17 +18,13 @@ public class ViewActivityController extends BaseController {
 
     private ActivityService activityService;
 
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
 
+    @Override
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String activityId = request.getParameter("activityId");
         setModel(getActivityService().getActivity(activityId));
-
-        ModelAndView modelAndView = new ModelAndView();
-        populateView(request, httpServletResponse, modelAndView);
-        
-        return modelAndView;
     }
+
 
     public ActivityService getActivityService() {
         return activityService;

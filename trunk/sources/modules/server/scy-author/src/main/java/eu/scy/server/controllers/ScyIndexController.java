@@ -14,17 +14,14 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 10:26:12
  * To change this template use File | Settings | File Templates.
  */
-public class ScyIndexController extends AbstractController {
+public class ScyIndexController extends BaseController {
 
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        ModelAndView modelAndView = new ModelAndView();
-
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         modelAndView.addObject("pedagogicalPlans", getPedagogicalPlanPersistenceService().getPedagogicalPlans());
 
-        return modelAndView;
     }
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {

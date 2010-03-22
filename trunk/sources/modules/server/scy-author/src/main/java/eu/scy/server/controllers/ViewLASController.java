@@ -17,22 +17,13 @@ public class ViewLASController extends BaseController{
 
     private LASService lasService;
 
-
-
-
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String id = request.getParameter("id");
         logger.info("LAS ID: " + id);
         setModel(getLasService().getLearningActivitySpace(id));
-
-
-        ModelAndView modelAndView = new ModelAndView();
-        populateView(request, httpServletResponse, modelAndView);
-        return modelAndView;
-
-
     }
+
 
     public LASService getLasService() {
         return lasService;

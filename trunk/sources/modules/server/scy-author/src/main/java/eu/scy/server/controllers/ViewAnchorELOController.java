@@ -19,16 +19,12 @@ public class ViewAnchorELOController extends BaseController {
     private AnchorELOService anchorELOService;
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        logger.info("ANCHOR ELO: " + getAnchorELOService().getAnchorELO(request.getParameter("anchorELOId"))) ;
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+        logger.info("ANCHOR ELO: " + getAnchorELOService().getAnchorELO(request.getParameter("anchorELOId")));
         setModel(getAnchorELOService().getAnchorELO(request.getParameter("anchorELOId")));
 
-        ModelAndView modelAndView = new ModelAndView();
-
-        populateView(request, httpServletResponse, modelAndView);
-
-        return modelAndView;    
     }
+
 
     public AnchorELOService getAnchorELOService() {
         return anchorELOService;
