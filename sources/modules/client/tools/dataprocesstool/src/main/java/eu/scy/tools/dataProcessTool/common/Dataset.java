@@ -352,7 +352,7 @@ public class Dataset implements Cloneable{
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> listFunction = getListFunctionModel(g.getListFunctionModel());
                 List<XYAxis> axis = getAxis(pg);
                 vis = new GraphVisualization(DataConstants.TYPE_VIS_GRAPH, myVis.getName(), axis, pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
-                        listFunction);
+                        pg.isDeltaFixedAutoscale(), listFunction);
             }else if (type.getCode() == DataConstants.VIS_PIE){
                 int idHeaderLabel = -1;
                 if(((SimpleVisualization)myVis).getHeaderLabel() != null)
@@ -625,6 +625,10 @@ public class Dataset implements Cloneable{
                 if ( n > no){
                     ((SimpleVisualization)v).setNoCol(n-1);
                 }
+                if(((SimpleVisualization)v).getHeaderLabel() != null){
+                    n = ((SimpleVisualization)v).getHeaderLabel().getNoCol();
+                    ((SimpleVisualization)v).getHeaderLabel().setNoCol(n-1);
+                }
             }else if (v instanceof Graph){
                 //((Graph)v).updateNoCol(no, -1);
             }
@@ -829,17 +833,23 @@ public class Dataset implements Cloneable{
                 if(n >= idBefore){
                     ((SimpleVisualization)v).setNoCol(n+nbColsToInsert);
                 }
-            }else if (v instanceof Graph){
-                ArrayList<PlotXY> plots = ((Graph)v).getParamGraph().getPlots();
-                for(Iterator<PlotXY> p = plots.iterator();p.hasNext();){
-                    PlotXY plot = p.next();
-                    if(plot.getHeaderX().getNoCol() >= idBefore){
-                        plot.getHeaderX().setNoCol(plot.getHeaderX().getNoCol()+ nbColsToInsert);
-                    }
-                    if(plot.getHeaderY().getNoCol() >= idBefore){
-                        plot.getHeaderY().setNoCol(plot.getHeaderY().getNoCol()+ nbColsToInsert);
+                if(((SimpleVisualization)v).getHeaderLabel() != null ){
+                    n = ((SimpleVisualization)v).getHeaderLabel().getNoCol();
+                    if(n >= idBefore){
+                        ((SimpleVisualization)v).getHeaderLabel().setNoCol(n+nbColsToInsert);
                     }
                 }
+            }else if (v instanceof Graph){
+//                ArrayList<PlotXY> plots = ((Graph)v).getParamGraph().getPlots();
+//                for(Iterator<PlotXY> p = plots.iterator();p.hasNext();){
+//                    PlotXY plot = p.next();
+//                    if(plot.getHeaderX().getNoCol() >= idBefore){
+//                        plot.getHeaderX().setNoCol(plot.getHeaderX().getNoCol()+ nbColsToInsert);
+//                    }
+//                    if(plot.getHeaderY().getNoCol() >= idBefore){
+//                        plot.getHeaderY().setNoCol(plot.getHeaderY().getNoCol()+ nbColsToInsert);
+//                    }
+//                }
             }
         }
        // maj nb Col
@@ -1269,5 +1279,9 @@ public class Dataset implements Cloneable{
            tab[i] = list.get(i);
        }
        return tab;
+    }
+
+    public Data[] getRow(int i){
+        return data[i];
     }
 }

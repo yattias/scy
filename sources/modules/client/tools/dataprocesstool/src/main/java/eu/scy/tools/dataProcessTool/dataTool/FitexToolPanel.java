@@ -191,8 +191,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     public URL getHelpManualPage(){
-        String helpFile = "fitexHelpManual-"+getLocale().getLanguage()+".xhtml";
-        return  this.getClass().getClassLoader().getResource(helpFile);
+        String helpFile = "languages/fitexHelpManual-"+getLocale().getLanguage()+".xhtml";
+        URL urlhelp = this.getClass().getClassLoader().getResource(helpFile);
+        if(urlhelp != null)
+            return urlhelp;
+        return  this.getClass().getClassLoader().getResource("languages/fitexHelpManual-en.xhtml");
+        
     }
     
     /* construction desktop*/
@@ -720,7 +724,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             vis = new SimpleVisualization(-1, name, typeVis, header1.getNoCol(), headerLabel) ;
         }else
         if (typeVis.getCode() == DataConstants.VIS_GRAPH){
-            ParamGraph paramGraph = new ParamGraph(listPlot, -10, 10,  -10,10,1,1, true);
+            ParamGraph paramGraph = new ParamGraph(listPlot, -10, 10,  -10,10,1,1, false);
             vis = new Graph(-1, name, typeVis, paramGraph, null);
         }
         ArrayList v = new ArrayList();
@@ -1290,9 +1294,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
 
+    public void autoscale(Visualization vis){
+        setAutoScale(dataset.getDbKey(), vis.getDbKey(),true);
+    }
 
     /* maj autoscale */
-    public void setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale){
+    private void setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.setAutoScale(dbKeyDs, dbKeyVis,autoScale,  v);
         if (cr.isError()){
@@ -1308,7 +1315,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         if(gFrame != null){
             gFrame.updateVisualization(vis);
         }
-
     }
 
     private InternalGraphFrame getInternalFrame(long dbKeyVis){
@@ -1371,10 +1377,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public void setGraphMode(Visualization vis, char graphMode){
         if (vis != null && vis instanceof Graph){
-            setAutoScale(dataset.getDbKey(), vis.getDbKey(), graphMode == DataConstants.MODE_AUTOSCALE);
+            //setAutoScale(dataset.getDbKey(), vis.getDbKey(), graphMode == DataConstants.MODE_AUTOSCALE);
             dataProcessToolPanel.logGraphMode(dataset, vis, graphMode);
         }
     }
+
 
     /* fermeture d'un graphe */
     public boolean closeGraph(Visualization vis){
@@ -1569,5 +1576,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     /* log: undo*/
     public void logRedo(DataUndoRedo redoAction){
         dataProcessToolPanel.logRedo(dataset, redoAction);
+    }
+
+    public void setPreviousZoom(Graph graph){
+        InternalGraphFrame gFrame = getInternalFrame(graph.getDbKey());
+        if(gFrame != null){
+            gFrame.setPreviousZoom();
+        }
     }
 }

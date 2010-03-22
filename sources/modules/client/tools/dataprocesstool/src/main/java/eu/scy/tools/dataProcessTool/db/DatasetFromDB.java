@@ -658,7 +658,7 @@ public class DatasetFromDB {
     /* chargement des parametres d'un graphe */
     public static CopexReturn getAllParamGraph(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol, ArrayList v){
         ParamGraph param = null;
-        String query = "SELECT X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
+        String query = "SELECT X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y DELTA_FIXED_AUTOSCALE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("X_MIN");
@@ -667,6 +667,7 @@ public class DatasetFromDB {
         listFields.add("Y_MAX");
         listFields.add("DELTA_X");
         listFields.add("DELTA_Y");
+        listFields.add("DELTA_FIXED_AUTOSCALE");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -721,12 +722,23 @@ public class DatasetFromDB {
                 deltaY = Float.parseFloat(s);
             }catch(NumberFormatException e){
             }
+            s = rs.getColumnData("DELTA_FIXED_AUTOSCALE");
+            if(s== null)
+                continue;
+            boolean deltaFixedAutoscale = false;
+            try{
+                int d = Integer.parseInt(s);
+                if(d==1)
+                    deltaFixedAutoscale = true;
+            }catch(NumberFormatException e){
+                
+            }
             ArrayList v3 = new ArrayList();
             cr= getAllPlotsXYFromDB(dbC, dbKey, listCol, v3);
             if(cr.isError())
                 return cr;
             ArrayList<PlotXY> plots = (ArrayList<PlotXY>)v3.get(0);
-            param = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, false);
+            param = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, deltaFixedAutoscale);
 
         }
         v.add(param);

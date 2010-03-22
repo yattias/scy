@@ -22,6 +22,7 @@ public class ParamGraph implements Cloneable{
     private final static String TAG_Y_MAX = "y_max";
     private final static String TAG_DELTA_Y = "delta_y";
     private final static String TAG_AUTOSCALE = "autoscale";
+    private final static String TAG_FIXED_AUTOSCALE = "delta_fixed_autoscale";
     /*axes */
     private ArrayList<PlotXY> plots;
     /* x min*/
@@ -36,11 +37,11 @@ public class ParamGraph implements Cloneable{
     private double deltaX ;
     /* delta Y */
     private double deltaY;
-    /*autoscale*/
-    private boolean autoscale;
+    /* delta fixed while autoscaling */
+    private boolean deltaFixedAutoscale;
 
     // CONSTRUCTOR 
-    public ParamGraph(PlotXY plot,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
+    public ParamGraph(PlotXY plot,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean deltaFixedAutoscale) {
         this.plots = new ArrayList();
         this.plots.add(plot);
         this.x_min = x_min;
@@ -49,9 +50,9 @@ public class ParamGraph implements Cloneable{
         this.y_max = y_max;
         this.deltaX = deltaX;
         this.deltaY = deltaY;
-        this.autoscale = autoscale;
+        this.deltaFixedAutoscale = deltaFixedAutoscale;
     }
-    public ParamGraph(ArrayList<PlotXY> plots,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
+    public ParamGraph(ArrayList<PlotXY> plots,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY,  boolean deltaFixedAutoscale) {
         this.plots = plots;
         this.x_min = x_min;
         this.x_max = x_max;
@@ -59,7 +60,7 @@ public class ParamGraph implements Cloneable{
         this.y_max = y_max;
         this.deltaX = deltaX;
         this.deltaY = deltaY;
-        this.autoscale = autoscale;
+        this.deltaFixedAutoscale = deltaFixedAutoscale;
     }
 
     public double getDeltaX() {
@@ -113,12 +114,13 @@ public class ParamGraph implements Cloneable{
     }
 
    
-    public boolean isAutoscale() {
-        return autoscale;
+
+    public boolean isDeltaFixedAutoscale() {
+        return deltaFixedAutoscale;
     }
 
-    public void setAutoscale(boolean autoscale) {
-        this.autoscale = autoscale;
+    public void setDeltaFixedAutoscale(boolean deltaFixedAutoscale) {
+        this.deltaFixedAutoscale = deltaFixedAutoscale;
     }
 
     public ArrayList<PlotXY> getPlots() {
@@ -171,7 +173,7 @@ public class ParamGraph implements Cloneable{
             param.setY_max(y_maxC);
             param.setDeltaX(deltaXC);
             param.setDeltaY(deltayC);
-            param.setAutoscale(this.autoscale);
+            param.setDeltaFixedAutoscale(this.deltaFixedAutoscale);
 
             return param;
         } catch (CloneNotSupportedException e) {
@@ -193,7 +195,7 @@ public class ParamGraph implements Cloneable{
         element.addContent(new Element(TAG_Y_MIN).setText(Double.toString(y_min)));
         element.addContent(new Element(TAG_Y_MAX).setText(Double.toString(y_max)));
         element.addContent(new Element(TAG_DELTA_Y).setText(Double.toString(deltaY)));
-        element.addContent(new Element(TAG_AUTOSCALE).setText(autoscale ? "true":"false"));
+        element.addContent(new Element(TAG_FIXED_AUTOSCALE).setText(deltaFixedAutoscale ? "true":"false"));
         return element;
     }
 

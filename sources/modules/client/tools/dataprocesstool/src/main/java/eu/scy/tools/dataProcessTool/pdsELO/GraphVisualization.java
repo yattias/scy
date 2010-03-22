@@ -32,6 +32,7 @@ public class GraphVisualization extends Visualization {
     public final static String TAG_VISUALIZATION_PARAM_Y_MIN="ymin";
     public final static String TAG_VISUALIZATION_PARAM_Y_MAX="ymax";
     public final static String TAG_VISUALIZATION_PARAM_DELTAY="deltaY";
+    public final static String TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE= "deltaFixedAutoscale";
     
     public final static String TAG_VISUALIZATION_FUNCTIONS_MODEL="functions";
     
@@ -46,11 +47,13 @@ public class GraphVisualization extends Visualization {
     private double yMin;
     private double yMax;
     private double deltaY;
+
+    private boolean deltaFixedAutoscale;
     
     /* function model */
     private List<FunctionModel> listFunctionModel;
 
-    public GraphVisualization(String type, String name, List<XYAxis> axis, double xMin, double xMax, double deltaX, double yMin, double yMax, double deltaY,  List<FunctionModel> listFunctionModel) {
+    public GraphVisualization(String type, String name, List<XYAxis> axis, double xMin, double xMax, double deltaX, double yMin, double yMax, double deltaY,  boolean deltaFixedAutoscale, List<FunctionModel> listFunctionModel) {
         super(type, name);
         this.axis = axis;
         this.xMin = xMin;
@@ -59,6 +62,7 @@ public class GraphVisualization extends Visualization {
         this.yMin = yMin;
         this.yMax = yMax;
         this.deltaY = deltaY;
+        this.deltaFixedAutoscale = deltaFixedAutoscale;
         this.listFunctionModel = listFunctionModel;
     }
 
@@ -126,6 +130,9 @@ public class GraphVisualization extends Visualization {
                 this.yMax = Double.parseDouble(elParam.getChild(TAG_VISUALIZATION_PARAM_Y_MAX).getText());
                 this.deltaX = Double.parseDouble(elParam.getChild(TAG_VISUALIZATION_PARAM_DELTAX).getText());
                 this.deltaY = Double.parseDouble(elParam.getChild(TAG_VISUALIZATION_PARAM_DELTAY).getText());
+                deltaFixedAutoscale = false;
+                if(elParam.getChild(TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE) != null)
+                    this.deltaFixedAutoscale = elParam.getChild(TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE).equals("true") ? true : false;
             }catch(NumberFormatException e){
                 throw(new JDOMException("Graph visualization parameters  expects param as Double ."));
             }
@@ -184,6 +191,10 @@ public class GraphVisualization extends Visualization {
         return axis;
     }
 
+    public boolean isDeltaFixedAutoscale() {
+        return deltaFixedAutoscale;
+    }
+
     
 
      // toXML
@@ -206,7 +217,7 @@ public class GraphVisualization extends Visualization {
         elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_Y_MIN).setText(Double.toString(this.yMin)));
         elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_Y_MAX).setText(Double.toString(this.yMax)));
         elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_DELTAY).setText(Double.toString(this.deltaY)));
-        
+        elParam.addContent(new Element(TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE).setText(deltaFixedAutoscale ? "true" : "false"));
         element.addContent(elParam);
         // FUNCTIONS MODEL
         if (this.listFunctionModel != null && this.listFunctionModel.size() > 0){

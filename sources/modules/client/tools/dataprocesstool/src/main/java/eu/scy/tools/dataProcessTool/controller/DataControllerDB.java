@@ -27,6 +27,7 @@ import eu.scy.tools.dataProcessTool.print.DataPrint;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -1060,7 +1061,7 @@ public class DataControllerDB implements ControllerInterface{
                     XYAxis axis = a.next();
                     plots.add(new PlotXY(dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()], axis.getPlotColor()));
                 }
-                ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), true);
+                ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(),  g.isDeltaFixedAutoscale());
                 ArrayList<FunctionModel> listFunctionModel  = null;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> lfm = g.getListFunctionModel();
                 if (lfm != null){
@@ -1313,14 +1314,6 @@ public class DataControllerDB implements ControllerInterface{
         Visualization vis = dataset.getListVisualization().get(idVis);
         if (vis instanceof Graph){
             ((Graph)vis).setParamGraph(paramGraph);
-            if (paramGraph.isAutoscale()){
-                ArrayList v2 = new ArrayList();
-                CopexReturn cr = findAxisParam(dataset, ((Graph)vis), v2);
-                if(cr.isError())
-                    return cr;
-                ParamGraph pg = (ParamGraph)(v2.get(0));
-                ((Graph)vis).setParamGraph(pg);
-            }
         }
         v.add(vis.clone());
         return new CopexReturn();
@@ -1362,15 +1355,23 @@ public class DataControllerDB implements ControllerInterface{
             double  y_min  = minY -Math.abs(minY/10) ;
             double  x_max  = maxX +Math.abs(maxX/10) ;
             double  y_max  = maxY +Math.abs(maxY/10);
-            double deltaX = Math.abs((x_max - x_min) / 10) ;
-            double deltaY = Math.abs((y_max - y_min) / 10) ;
-            deltaX = Math.floor(deltaX*10)*0.1;
-            deltaY = Math.floor(deltaY*10)*0.1;
-            if(deltaX == 0)
-                deltaX = 0.0001;
-            if(deltaY == 0)
-                deltaY = 0.0001;
-            pg = new ParamGraph(vis.getParamGraph().getPlots(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
+            double deltaX = vis.getParamGraph().getDeltaX();
+            double deltaY = vis.getParamGraph().getDeltaY();
+            if(!vis.getParamGraph().isDeltaFixedAutoscale()){
+                deltaX = Math.abs((x_max - x_min) / 10) ;
+                deltaY = Math.abs((y_max - y_min) / 10) ;
+//                deltaX = Math.floor(deltaX*10)*0.1;
+//                deltaY = Math.floor(deltaY*10)*0.1;
+                deltaX = MyUtilities.floor(deltaX, 3);
+                deltaY = MyUtilities.floor(deltaY, 3);
+                if(deltaX == 0)
+                    deltaX = 0.0001;
+                if(deltaY == 0)
+                    deltaY = 0.0001;
+            }
+            pg = new ParamGraph(vis.getParamGraph().getPlots(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isDeltaFixedAutoscale());
+        }else{
+            pg = new ParamGraph(vis.getParamGraph().getPlots(), -10, 10, -10 ,10, 1,1, vis.getParamGraph().isDeltaFixedAutoscale());
         }
         v.add(pg);
         return new CopexReturn();
@@ -1390,8 +1391,17 @@ public class DataControllerDB implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
         Visualization vis = dataset.getListVisualization().get(idVis);
         if (vis instanceof Graph){
-            ((Graph)vis).getParamGraph().setAutoscale(autoScale);
+            if(autoScale){
+                ArrayList v2 = new ArrayList();
+                CopexReturn cr =findAxisParam(dataset, (Graph)vis, v2);
+                if(cr.isError())
+                    return cr;
+                ParamGraph pg = (ParamGraph)(v2.get(0));
+                ((Graph)vis).setParamGraph(pg);
+                dataset.getListVisualization().set(idVis, ((Graph)vis));
+            }
         }
+        listDataset.set(idDs, dataset);
         v.add(vis);
         return new CopexReturn();
     }

@@ -75,6 +75,6 @@ public class SimpleVisualization extends Visualization{
 
     @Override
     public boolean isOnNo(int no){
-         return no==noCol;
-     }
+         return no==noCol || (headerLabel != null && headerLabel.getNoCol() == no);
+    }
 }

@@ -40,8 +40,7 @@ public class DataConstants {
     /* MODE GRAPH */
     public static final char MODE_ZOOM = 'Z';
     public static final char MODE_MOVE = 'M';
-    public static final char MODE_AUTOSCALE = 'A';
-    public static final char MODE_DEFAULT = MODE_AUTOSCALE;
+    public static final char MODE_DEFAULT = MODE_ZOOM;
 
     /* DROITS */
     public static final char NONE_RIGHT='N';

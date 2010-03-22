@@ -156,7 +156,7 @@ public class PlotPanel extends JPanel implements  ActionPlotPanel {
         int height = XYPlotPanel.HEIGHT_PANEL_PARAM*nb;
         xyPlotPanel.setSize(width, height);
         xyPlotPanel.setBounds(0,0,xyPlotPanel.getWidth(), xyPlotPanel.getHeight());
-        buttonAddPlot.setBounds(buttonAddPlot.getX(), xyPlotPanel.getY()+xyPlotPanel.getHeight()+10, buttonAddPlot.getWidth(), buttonAddPlot.getHeight());
+        buttonAddPlot.setBounds(buttonAddPlot.getX(), xyPlotPanel.getY()+xyPlotPanel.getHeight(), buttonAddPlot.getWidth(), buttonAddPlot.getHeight());
         setSize(width, buttonAddPlot.getY()+buttonAddPlot.getHeight()+20);
         revalidate();
         repaint();

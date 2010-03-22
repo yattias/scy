@@ -74,7 +74,8 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
     }
 
     private void initGUI(){
-        
+        int w = MyUtilities.lenghtOfString(this.cbFixedAutoscale.getText(), cbFixedAutoscale.getFontMetrics(this.cbFixedAutoscale.getFont()));
+        cbFixedAutoscale.setSize(60+w, 23);
         // nom de la visualization
         fieldName.setText(this.vis.getName());
         if(isGraph()){
@@ -95,6 +96,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
 //                textFieldYMin.setText(""+paramGraph.getY_min());
 //                textFieldYMax.setText(""+paramGraph.getY_max());
 //                textFieldDeltaY.setText(""+paramGraph.getDeltaY());
+                cbFixedAutoscale.setSelected(paramGraph.isDeltaFixedAutoscale());
             }
         }else{
             remove(labelXMin);
@@ -109,6 +111,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             remove(textFieldYMax);
             remove(labelDeltaY);
             remove(textFieldDeltaY);
+            remove(cbFixedAutoscale);
 //            remove(plotPanel);
             resizeElements();
         }
@@ -117,7 +120,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
     private PlotPanel getPlotPanel(){
         if(plotPanel == null){
             plotPanel = new PlotPanel(dataToolPanel, listCol);
-            plotPanel.setBounds(10, textFieldYMin.getY()+textFieldYMin.getHeight()+20, plotPanel.getWidth(), plotPanel.getHeight());
+            plotPanel.setBounds(10, textFieldYMin.getY()+textFieldYMin.getHeight()+30, plotPanel.getWidth(), plotPanel.getHeight());
             plotPanel.addActionPlot(this);
         }
         return plotPanel;
@@ -247,15 +250,15 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
+        // delta fixed?
+        boolean deltaFixedAutoscale = cbFixedAutoscale.isSelected();
         //controle la coherence des axes
         if (xMin>=xMax || yMin>=yMax) {
              dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
              return;
         }
         ArrayList<PlotXY> plots = plotPanel.getListPlotXY();
-        //
-        ParamGraph paramGraph = ((Graph)vis).getParamGraph();
-        ParamGraph newParamGraph = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, paramGraph == null ? false : paramGraph.isAutoscale());
+        ParamGraph newParamGraph = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, deltaFixedAutoscale);
         boolean isOk = dataToolPanel.updateGraphParam(((Graph)vis), name, newParamGraph);
         if(isOk){
             this.dispose();
@@ -290,6 +293,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
         buttonCancel = new javax.swing.JButton();
         labelName = new javax.swing.JLabel();
         fieldName = new javax.swing.JTextField();
+        cbFixedAutoscale = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(dataToolPanel.getBundleString("TITLE_DIALOG_GRAPH_PARAM"));
@@ -298,59 +302,59 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
         setResizable(false);
         getContentPane().setLayout(null);
 
-        labelXMin.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelXMin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelXMin.setText(dataToolPanel.getBundleString("LABEL_XMIN"));
         getContentPane().add(labelXMin);
-        labelXMin.setBounds(10, 50, 50, 14);
+        labelXMin.setBounds(10, 70, 50, 14);
 
-        labelXMax.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelXMax.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelXMax.setText(dataToolPanel.getBundleString("LABEL_XMAX"));
         getContentPane().add(labelXMax);
-        labelXMax.setBounds(160, 50, 50, 14);
+        labelXMax.setBounds(160, 70, 50, 14);
 
-        labelDeltaX.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelDeltaX.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelDeltaX.setText(dataToolPanel.getBundleString("LABEL_DELTAX"));
         getContentPane().add(labelDeltaX);
-        labelDeltaX.setBounds(320, 50, 50, 14);
+        labelDeltaX.setBounds(320, 70, 50, 14);
 
-        labelYMin.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelYMin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelYMin.setText(dataToolPanel.getBundleString("LABEL_YMIN"));
         getContentPane().add(labelYMin);
-        labelYMin.setBounds(10, 90, 50, 14);
+        labelYMin.setBounds(10, 100, 50, 14);
 
-        labelYMax.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelYMax.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelYMax.setText(dataToolPanel.getBundleString("LABEL_YMAX"));
         getContentPane().add(labelYMax);
-        labelYMax.setBounds(160, 90, 50, 14);
+        labelYMax.setBounds(160, 100, 50, 14);
 
-        labelDeltaY.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelDeltaY.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelDeltaY.setText(dataToolPanel.getBundleString("LABEL_DELTAY"));
         getContentPane().add(labelDeltaY);
-        labelDeltaY.setBounds(320, 90, 50, 14);
+        labelDeltaY.setBounds(320, 100, 50, 14);
 
         textFieldXMin.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldXMin);
-        textFieldXMin.setBounds(70, 45, 80, 27);
+        textFieldXMin.setBounds(70, 60, 80, 27);
 
         textFieldXMax.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldXMax);
-        textFieldXMax.setBounds(220, 45, 80, 27);
+        textFieldXMax.setBounds(230, 60, 80, 27);
 
         textFieldDeltaX.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldDeltaX);
-        textFieldDeltaX.setBounds(380, 45, 80, 27);
+        textFieldDeltaX.setBounds(380, 60, 80, 27);
 
         textFieldYMin.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldYMin);
-        textFieldYMin.setBounds(70, 85, 80, 27);
+        textFieldYMin.setBounds(70, 90, 80, 27);
 
         textFieldYMax.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldYMax);
-        textFieldYMax.setBounds(220, 85, 80, 27);
+        textFieldYMax.setBounds(230, 90, 80, 27);
 
         textFieldDeltaY.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldDeltaY);
-        textFieldDeltaY.setBounds(380, 85, 80, 27);
+        textFieldDeltaY.setBounds(380, 90, 80, 27);
 
         buttonOk.setText(dataToolPanel.getBundleString("BUTTON_OK"));
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -370,14 +374,20 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
         getContentPane().add(buttonCancel);
         buttonCancel.setBounds(270, 190, 99, 23);
 
-        labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelName.setText(dataToolPanel.getBundleString("LABEL_NAME"));
         getContentPane().add(labelName);
-        labelName.setBounds(10, 10, 75, 14);
+        labelName.setBounds(10, 20, 75, 14);
 
         fieldName.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(fieldName);
-        fieldName.setBounds(150, 5, 230, 27);
+        fieldName.setBounds(70, 10, 230, 27);
+
+        cbFixedAutoscale.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cbFixedAutoscale.setSelected(true);
+        cbFixedAutoscale.setText(dataToolPanel.getBundleString("LABEL_FIXED_AUTOSCALE"));
+        getContentPane().add(cbFixedAutoscale);
+        cbFixedAutoscale.setBounds(320, 120, 101, 23);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -410,6 +420,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonOk;
+    private javax.swing.JCheckBox cbFixedAutoscale;
     private javax.swing.JTextField fieldName;
     private javax.swing.JLabel labelDeltaX;
     private javax.swing.JLabel labelDeltaY;

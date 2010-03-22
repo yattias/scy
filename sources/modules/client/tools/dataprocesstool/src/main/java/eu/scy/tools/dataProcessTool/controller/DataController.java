@@ -30,6 +30,7 @@ import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.print.DataPrint;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -104,9 +105,9 @@ public class DataController implements ControllerInterface{
         // liste des visualisations possibles
         tabTypeVisual = new TypeVisualization[3];
         id=0;
-        tabTypeVisual[id++] = new TypeVisualization(1, 0,"XY GRAPH", 2 );
-        tabTypeVisual[id++] = new TypeVisualization(2, 1,"PIE", 1 );
-        tabTypeVisual[id++] = new TypeVisualization(3, 2,"BAR", 1 );
+        tabTypeVisual[id++] = new TypeVisualization(1, 0,dataToolPanel.getBundleString("LABEL_GRAPH"), 2 );
+        tabTypeVisual[id++] = new TypeVisualization(2, 1,dataToolPanel.getBundleString("LABEL_PIECHART"), 1 );
+        tabTypeVisual[id++] = new TypeVisualization(3, 2,dataToolPanel.getBundleString("LABEL_BARCHART"), 1 );
 
         idDataSet = 1;
         idOperation = 1;
@@ -220,7 +221,10 @@ public class DataController implements ControllerInterface{
             DataHeader[] dataHeader = new DataHeader[nbCols];
             for (int i=0; i<nbCols; i++){
                 String unit = header.getColumns().get(i).getUnit();
-                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, header.getColumns().get(i).getType(), header.getColumns().get(i).getDescription()) ;
+                String type = header.getColumns().get(i).getType();
+                if (type == null || !type.equals(MyConstants.TYPE_DOUBLE) || !type.equals(MyConstants.TYPE_STRING))
+                    type = MyConstants.DEFAULT_TYPE_COLUMN;
+                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription()) ;
             }
             // data
             Data[][] data = new Data[nbRows][nbCols];
@@ -260,7 +264,10 @@ public class DataController implements ControllerInterface{
         DataHeader[] dataHeader = new DataHeader[nbCols];
         for (int i=0; i<nbCols; i++){
             String unit = header.getColumns().get(i).getUnit();
-            dataHeader[i] = new DataHeader(idDataHeader++, header.getColumns().get(i).getSymbol(), unit, i, header.getColumns().get(i).getType(), header.getColumns().get(i).getDescription()) ;
+            String type = header.getColumns().get(i).getType();
+            if (type == null || !type.equals(MyConstants.TYPE_DOUBLE) || !type.equals(MyConstants.TYPE_STRING))
+                    type = MyConstants.DEFAULT_TYPE_COLUMN;
+            dataHeader[i] = new DataHeader(idDataHeader++, header.getColumns().get(i).getSymbol(), unit, i, type, header.getColumns().get(i).getDescription()) ;
         }
         // data
         List<DataSetRow> listRows = eloDs.getValues() ;
@@ -342,7 +349,7 @@ public class DataController implements ControllerInterface{
                     XYAxis axis = a.next();
                     plots.add(new PlotXY(dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()], axis.getPlotColor()));
                 }
-                ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), true);
+                ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(),  g.isDeltaFixedAutoscale());
                 ArrayList<FunctionModel> listFunctionModel  = null;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> lfm = g.getListFunctionModel();
                 if (lfm != null){
@@ -423,19 +430,7 @@ public class DataController implements ControllerInterface{
         }
         // recalcule des operations
         dataset.calculateOperation();
-        // visualisations
-        if (dataset.getListVisualization() != null){
-            for (int i=0; i<dataset.getListVisualization().size(); i++){
-                if (dataset.getListVisualization().get(i) instanceof Graph && ((Graph)dataset.getListVisualization().get(i)).getParamGraph().isAutoscale()){
-                    ArrayList v2 = new ArrayList();
-                    CopexReturn cr = findAxisParam(dataset, (Graph)dataset.getListVisualization().get(i), v2);
-                    if(cr.isError())
-                        return cr;
-                    ParamGraph pg = (ParamGraph)(v2.get(0));
-                    ((Graph)(dataset.getListVisualization().get(i))).setParamGraph(pg);
-                }
-            }
-        }
+        
         // en v[0] le nouveau dataset clone
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -700,19 +695,7 @@ public class DataController implements ControllerInterface{
         }
         // recalcule des operations
         dataset.calculateOperation();
-        // visualisations
-        if (dataset.getListVisualization() != null){
-            for (int i=0; i<dataset.getListVisualization().size(); i++){
-                if (dataset.getListVisualization().get(i) instanceof Graph && ((Graph)dataset.getListVisualization().get(i)).getParamGraph().isAutoscale()){
-                    ArrayList v2 = new ArrayList();
-                    CopexReturn cr = findAxisParam(dataset, (Graph)dataset.getListVisualization().get(i), v2);
-                    if(cr.isError())
-                        return cr;
-                    ParamGraph pg = (ParamGraph)(v2.get(0));
-                    ((Graph)(dataset.getListVisualization().get(i))).setParamGraph(pg);
-                }
-            }
-        }
+        
         // en v[0] : le nouveau dataset
         //System.out.println("dataset apres updateData : "+dataset.toString());
         listDataset.set(idDs, dataset);
@@ -1233,7 +1216,20 @@ public class DataController implements ControllerInterface{
             if(cr.isError())
                 return cr;
         }
-        
+        // si besoin on reajuste les axes des graphes
+       for(Iterator<Visualization> vis = dataset.getListVisualization().iterator(); vis.hasNext();){
+           Visualization aVis = vis.next();
+           if(aVis instanceof Graph){
+               if (! ((Graph)aVis).contains(dataset.getRow(idRow))){
+                   v2 = new ArrayList();
+                   cr = findAxisParam(dataset, (Graph)aVis, v2);
+                   if(cr.isError())
+                       return cr;
+                   ParamGraph pg = (ParamGraph)(v2.get(0));
+                  ((Graph)aVis).setParamGraph(pg);
+               }
+           }
+       }
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn() ;
@@ -1307,18 +1303,28 @@ public class DataController implements ControllerInterface{
             double  y_min  = minY -Math.abs(minY/10) ;
             double  x_max  = maxX +Math.abs(maxX/10) ;
             double  y_max  = maxY +Math.abs(maxY/10);
-            double deltaX = Math.abs((x_max - x_min) / 10) ;
-            double deltaY = Math.abs((y_max - y_min) / 10) ;
-            deltaX = Math.floor(deltaX*10)*0.1;
-            deltaY = Math.floor(deltaY*10)*0.1;
-            if(deltaX == 0)
-                deltaX = 0.0001;
-            if(deltaY == 0)
-                deltaY = 0.0001;
-            pg = new ParamGraph(vis.getParamGraph().getPlots(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
+            double deltaX = vis.getParamGraph().getDeltaX();
+            double deltaY = vis.getParamGraph().getDeltaY();
+            if(!vis.getParamGraph().isDeltaFixedAutoscale()){
+                deltaX = Math.abs((x_max - x_min) / 10) ;
+                deltaY = Math.abs((y_max - y_min) / 10) ;
+//                deltaX = Math.floor(deltaX*10)*0.1;
+//                deltaY = Math.floor(deltaY*10)*0.1;
+                deltaX = MyUtilities.floor(deltaX, 3);
+                deltaY = MyUtilities.floor(deltaY, 3);
+                if(deltaX == 0)
+                    deltaX = 0.001;
+                if(deltaY == 0)
+                    deltaY = 0.001;
+            }
+            pg = new ParamGraph(vis.getParamGraph().getPlots(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isDeltaFixedAutoscale());
         }else{
-            pg = new ParamGraph(vis.getParamGraph().getPlots(), -10, 10, -10 ,10, 1,1,vis.getParamGraph().isAutoscale());
+            pg = new ParamGraph(vis.getParamGraph().getPlots(), -10, 10, -10 ,10, 1,1, vis.getParamGraph().isDeltaFixedAutoscale());
         }
+//        System.out.println("findAxisParam : \n");
+//        System.out.println("...x : "+pg.getX_min()+" / "+pg.getX_max());
+//        System.out.println("...y : "+pg.getY_min()+" / "+pg.getY_max());
+//        System.out.println("...delta : "+pg.getDeltaX()+" / "+pg.getDeltaY()+"\n");
         v.add(pg);
         return new CopexReturn();
     }
@@ -1336,7 +1342,6 @@ public class DataController implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
         Visualization vis = dataset.getListVisualization().get(idVis);
         if (vis instanceof Graph){
-            ((Graph)vis).getParamGraph().setAutoscale(autoScale);
             if(autoScale){
                 ArrayList v2 = new ArrayList();
                 CopexReturn cr =findAxisParam(dataset, (Graph)vis, v2);
@@ -1420,7 +1425,7 @@ public class DataController implements ControllerInterface{
                         PlotXY plot = p.next();
                         listPlots.add(new PlotXY(dataset.getDataHeader(plot.getHeaderX().getNoCol()+nbCols1), dataset.getDataHeader(plot.getHeaderY().getNoCol()+nbCols1), plot.getPlotColor()));
                     }
-                    ParamGraph pg = new ParamGraph(listPlots, ((Graph)vis).getParamGraph().getX_min(),((Graph)vis).getParamGraph().getX_max(), ((Graph)vis).getParamGraph().getX_min(), ((Graph)vis).getParamGraph().getY_max(), ((Graph)vis).getParamGraph().getDeltaX(), ((Graph)vis).getParamGraph().getDeltaY(), ((Graph)vis).getParamGraph().isAutoscale());
+                    ParamGraph pg = new ParamGraph(listPlots, ((Graph)vis).getParamGraph().getX_min(),((Graph)vis).getParamGraph().getX_max(), ((Graph)vis).getParamGraph().getX_min(), ((Graph)vis).getParamGraph().getY_max(), ((Graph)vis).getParamGraph().getDeltaX(), ((Graph)vis).getParamGraph().getDeltaY(),  ((Graph)vis).getParamGraph().isDeltaFixedAutoscale());
                     Graph g = new Graph(idVisualization++, vis.getName(), vis.getType(),pg,((Graph)vis).getListFunctionModel());
                     dataset.addVisualization(g);
                 }
@@ -1571,19 +1576,6 @@ public class DataController implements ControllerInterface{
         }
         // recalcule des operations
         dataset.calculateOperation();
-        // visualisations
-        if (dataset.getListVisualization() != null){
-            for (int i=0; i<dataset.getListVisualization().size(); i++){
-                if (dataset.getListVisualization().get(i) instanceof Graph && ((Graph)dataset.getListVisualization().get(i)).getParamGraph().isAutoscale()){
-                    ArrayList v2 = new ArrayList();
-                    CopexReturn cr = findAxisParam(dataset, (Graph)dataset.getListVisualization().get(i), v2);
-                    if(cr.isError())
-                        return cr;
-                    ParamGraph pg = (ParamGraph)(v2.get(0));
-                    ((Graph)(dataset.getListVisualization().get(i))).setParamGraph(pg);
-                }
-            }
-        }
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         v.add(listData);
