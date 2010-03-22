@@ -19,8 +19,8 @@ import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncAction;
 import eu.scy.common.datasync.SyncActionPacketTransformer;
 import eu.scy.common.datasync.ISyncAction.Type;
-import eu.scy.commons.smack.SmacketExtension;
-import eu.scy.commons.smack.SmacketExtensionProvider;
+import eu.scy.common.smack.SmacketExtension;
+import eu.scy.common.smack.SmacketExtensionProvider;
 
 public class SyncSession implements ISyncSession {
 	
