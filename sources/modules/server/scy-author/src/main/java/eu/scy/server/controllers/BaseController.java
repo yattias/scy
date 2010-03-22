@@ -4,6 +4,7 @@ import eu.scy.core.ServerService;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.Server;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.server.common.OddEven;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -41,6 +42,7 @@ public abstract class BaseController extends AbstractController {
 
     private void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
         modelAndView.addObject("model", getModel());
+        modelAndView.addObject("oddEven", new OddEven());
         if(getServer() != null) modelAndView.addObject("css", getServer().getServerCSS());
     }
 
