@@ -24,6 +24,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.api.IMetadata;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 
 /**
  * @author sikken
@@ -75,12 +76,13 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          eloIcon = windowStyler.getScyEloIcon(window.eloType);
          color = windowStyler.getScyColor(window.eloType);
       }
+      Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes());
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
             content: Group {
                content: eloSaveAsPanel.getDesignRootNodes()
             }
             targetScene: window.scene
-            title: "Enter title"
+            title: ##"Enter title"
             eloIcon: eloIcon
             color: color
          }
