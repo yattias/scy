@@ -97,11 +97,7 @@ public class TagsEntryLocalServiceImpl extends TagsEntryLocalServiceBaseImpl {
 			throw new DuplicateEntryException(
 					"the tag " + name + " is exclusive for moderators");
 		}
-		if(name.equals(TagsAssetLocalServiceImpl.UNDER_CONSTRUCTION) && !isModerator){
-			throw new DuplicateEntryException(
-					"the tag " + name + " is exclusive for moderators");
-		}
-		
+			
 		/** end extend code */
 		
 		if (Validator.isNull(vocabularyName)) {
