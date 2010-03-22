@@ -30,7 +30,11 @@
 			<action-key>LINK</action-key>
 			<action-key>ADD_CLIPBOARD</action-key>
 		</supports>
-		<community-defaults />
+		<community-defaults>
+			<action-key>ADD_TAG</action-key>
+			<action-key>DELETE_TAG</action-key>
+			<action-key>ADD_CLIPBOARD</action-key>
+		</community-defaults>
 		<guest-defaults />
 		<guest-unsupported>
 			<action-key>ADD_FOLDER</action-key>
@@ -57,6 +61,8 @@
 		</supports>
 		<community-defaults>
 			<action-key>VIEW</action-key>
+			<action-key>ADD_IMAGE</action-key>
+			<action-key>UPDATE</action-key>
 		</community-defaults>
 		<guest-defaults>
 		</guest-defaults>
