@@ -9,10 +9,16 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
@@ -106,8 +112,21 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
          return;
       }
       String homeUrl = getUrlFromContent(elo.getContent());
-      String localizedHomeUrl = uriLocalizer.localizeUri(homeUrl);
+      String localizedHomeUrl = getLocalizedUri(homeUrl);
       setHomeUrl(localizedHomeUrl);
+   }
+
+   private String getLocalizedUri(String urlString){
+      try
+      {
+         URL url = uriLocalizer.localizeUrlwithChecking(new URL(urlString));
+         return url.toString();
+      }
+      catch (MalformedURLException ex)
+      {
+         java.util.logging.Logger.getLogger(EloFlyingSaucerPanel.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      return urlString;
    }
 
    @Override
