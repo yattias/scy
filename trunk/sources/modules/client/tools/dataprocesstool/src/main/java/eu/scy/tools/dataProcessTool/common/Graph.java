@@ -100,10 +100,7 @@ public class Graph extends Visualization implements Cloneable {
             listFunctionModel.remove(id);
     }
 
-    public void setAutoScale(boolean autoScale){
-        this.paramGraph.setAutoscale(autoScale);
-    }
-
+    
     @Override
     public Element toXMLLog(){
         Element element = super.toXMLLog();
@@ -147,5 +144,26 @@ public class Graph extends Visualization implements Cloneable {
 
     public void updateNoCol(int no, int delta){
         paramGraph.updateNoCol(no, delta);
+    }
+
+    public boolean contains(Data[] row){
+        for(int j=0; j<row.length; j++){
+            for(Iterator<PlotXY> p = paramGraph.getPlots().iterator();p.hasNext();){
+                PlotXY plot = p.next();
+                if(plot.getHeaderX().getNoCol() == j){
+                    if(row[j] != null && row[j].isDoubleValue() && !isInclude(row[j].getDoubleValue(), paramGraph.getX_min(), paramGraph.getX_max()))
+                        return false;
+                }
+                if(plot.getHeaderY().getNoCol() == j){
+                    if(row[j] != null && row[j].isDoubleValue() && !isInclude(row[j].getDoubleValue(), paramGraph.getY_min(), paramGraph.getY_max()))
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isInclude(double value, double minValue, double maxValue ){
+        return value >= minValue && value <= maxValue;
     }
 }

@@ -115,7 +115,7 @@ public class DrawPanel extends javax.swing.JPanel {
         this.width = width;
         this.height = height;
         isZoom = false;
-        this.graphMode = DataConstants.MODE_AUTOSCALE;
+        this.graphMode = DataConstants.MODE_DEFAULT;
         initComponents();
         setPreferredSize(getSize());
     }
@@ -503,6 +503,13 @@ public class DrawPanel extends javax.swing.JPanel {
         
     }
 
+    public char updateGraphMode(){
+        char g = DataConstants.MODE_ZOOM;
+        if(graphMode == DataConstants.MODE_ZOOM)
+            g = DataConstants.MODE_MOVE;
+        setGraphMode(g);
+        return g;
+    }
     public char getGraphMode() {
         return graphMode;
     }
@@ -681,8 +688,11 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMouseMoved
 
     private void zoneDeTraceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseClicked
-        if (evt.getClickCount()==2 && graphMode == DataConstants.MODE_ZOOM){
+        // le 12/03/10: un-zoom, quelque soit  le mode
+        //if (evt.getClickCount()==2 && graphMode == DataConstants.MODE_ZOOM){
+        if (evt.getClickCount()==2){
             float facteurZoom = 0.5f ;
+            fitexPanel.setPreviousParam();
             fitexPanel.setParameters(chiffresSignificatifs(x_min-facteurZoom*(x_max-x_min) , 3),
                     chiffresSignificatifs(x_max+facteurZoom*(x_max-x_min) , 3) ,
                     chiffresSignificatifs(y_min-facteurZoom*(y_max-y_min) , 3) ,
@@ -692,6 +702,9 @@ public class DrawPanel extends javax.swing.JPanel {
 
     private void zoneDeTraceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseEntered
         setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+        if(graphMode == DataConstants.MODE_MOVE){
+            setCursor(new Cursor(Cursor.MOVE_CURSOR));
+        }
 }//GEN-LAST:event_zoneDeTraceMouseEntered
 
     private void zoneDeTraceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseExited
@@ -739,6 +752,7 @@ public class DrawPanel extends javax.swing.JPanel {
             //tracerZone();
             // effectue le zoom si  x2!=x1 et y2!=y1
             if (x_zoom1 != x_zoom2 && y_zoom1 != y_zoom2) {
+                fitexPanel.setPreviousParam();
                 // met a jour les coordonnees
                 fitexPanel.setParameters(chiffresSignificatifs(xEcranToX(Math.min(x_zoom1,x_zoom2)) , 3),
                    chiffresSignificatifs(xEcranToX(Math.max(x_zoom1,x_zoom2)) , 3),
@@ -773,6 +787,7 @@ public class DrawPanel extends javax.swing.JPanel {
                     y2 = y_max - deltay;
                 }
                 if(x1 < x2 && y1 < y2)
+                    fitexPanel.setPreviousParam();
                     fitexPanel.setParameters(chiffresSignificatifs(x1,3),
                             chiffresSignificatifs(x2,3),
                             chiffresSignificatifs(y1,3),
@@ -780,6 +795,9 @@ public class DrawPanel extends javax.swing.JPanel {
              }
              
             setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+            if(graphMode == DataConstants.MODE_MOVE){
+                setCursor(new Cursor(Cursor.MOVE_CURSOR));
+            }
         }
 }//GEN-LAST:event_zoneDeTraceMouseReleased
 

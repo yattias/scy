@@ -121,4 +121,16 @@ public class MyUtilities {
     public static File getXMLFile(File file){
         return new File(file.getParent(), file.getName()+".xml");
     }
+
+    /**
+     * Arrondi d'un double avec n éléments après la virgule.
+    * @param a La valeur à convertir.
+    * @param n Le nombre de décimales à conserver.
+    * @return La valeur arrondi à n décimales.
+    */
+    public static double floor(double a, int n) {
+	double p = Math.pow(10.0, n);
+	return Math.floor((a*p)+0.5) / p;
+    }
+
 }

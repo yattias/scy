@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -67,7 +68,13 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     }
 
     private void initDataProcessTool(){
-        dataProcessPanel = new DataProcessToolPanel(false);
+        // i18n
+        Locale locale = Locale.getDefault();
+        locale = new Locale("en");
+        //locale = new Locale("fr");
+        //locale = new Locale("de");
+        Locale.setDefault(locale);
+        dataProcessPanel = new DataProcessToolPanel(false, locale);
         setTitle("SCYDataViewer Fitex "+dataProcessPanel.getVersion());
         setIconImage(dataProcessPanel.getIconDialog());
         dataProcessPanel.addActionCopexButton(this);

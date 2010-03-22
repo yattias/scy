@@ -16,12 +16,11 @@ import eu.scy.tools.fitex.analyseFn.Function;
 import eu.scy.tools.dataProcessTool.common.FunctionModel;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.FocusEvent;
@@ -29,9 +28,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -54,9 +50,7 @@ public class FitexPanel extends javax.swing.JPanel {
      // definition d'une couleur vert fonce
     public static  final Color DARK_GREEN = new java.awt.Color(51, 153, 0) ;
     
-    // PROPERTY
-    private Locale locale;
-    private ResourceBundle bundle;
+    private FitexToolPanel owner;
     /* donnees */
     private DefaultTableModel[] datas = null;
     private Color[] plotsColor = null;
@@ -95,13 +89,17 @@ public class FitexPanel extends javax.swing.JPanel {
     private JScrollPane scrollPaneParametresFn;
     private JSeparator sepDrawFct;
 
+    /* param precedant, on garde 1 niveau de zoom*/
+    private ParamGraph previousParam = null;
+    private ParamGraph nextParam = null;
+
 
 
     
     /** Creates new form FitexPanel */
-    public FitexPanel(Locale locale, DefaultTableModel[] datas, Color[] plotsColor, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
+    public FitexPanel(FitexToolPanel owner, DefaultTableModel[] datas, Color[] plotsColor, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
         super();
-        this.locale = locale;
+        this.owner = owner;
         this.datas = datas ;
         this.plotsColor = plotsColor;
         this.paramGraph = pg;
@@ -111,21 +109,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
     private void initGUI(ArrayList<FunctionModel> listFunctionModel){
         this.setLayout(new BorderLayout());
-        // i18n
-        //locale = Locale.getDefault();
-        try{
-            this.bundle = ResourceBundle.getBundle("FitexBundle", locale);
-        }catch(MissingResourceException e){
-          try{
-              // par defaut on prend l'anglais
-              locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("FitexBundle", locale);
-          }catch (MissingResourceException e2){
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR lors du chargement de fitex, la langue specifiee "+locale+" n'existe pas : "+e2);
-            return;
-            }
-        }
+        
         initComponents();
         getPanelFct();
         isPanelFunction = false;
@@ -140,11 +124,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
     }
 
-
-    @Override
-    public Locale getLocale(){
-        return this.locale;
-    }
+    
     public DrawPanel getDrawPanel(){
         return this.zoneDeTrace ;
     }
@@ -351,7 +331,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
 
     public  ImageIcon getFitexImage(String img){
-        return new ImageIcon(getClass().getResource( "/" +img));
+        return new ImageIcon(getClass().getResource( "/Images/" +img));
     }
 
     /* affichage des erreurs*/
@@ -372,19 +352,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
     /* retourne un message selon cle*/
     public String getBundleString(String key){
-       String s = "";
-        try{
-            s = this.bundle.getString(key);
-        }catch(Exception e){
-            try{
-                String msg = this.bundle.getString("ERROR_KEY");
-                msg = MyUtilities.replace(msg, 0, key);
-                displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
-            }catch(Exception e2){
-                displayError(new CopexReturn("No message found !"+key, false) ,"ERROR");
-             }
-        }
-        return s;
+       return owner.getBundleString(key);
 
     }
 
@@ -409,7 +377,7 @@ public class FitexPanel extends javax.swing.JPanel {
         drawFct();
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
-            Function f = new Function(locale, fm.getDescription(), datas);
+            Function f = new Function(owner.getLocale(), fm.getDescription(), datas);
             int nbP = fm.getListParam().size();
             for (int k=0; k<nbP; k++){
                 f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
@@ -438,7 +406,7 @@ public class FitexPanel extends javax.swing.JPanel {
         this.paramGraph.setY_max(y_max);
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(paramGraph) ;
-        actionFitex.setParam(paramGraph.getPlots(), paramGraph.isAutoscale(), x_min, x_max, paramGraph.getDeltaX(), y_min, y_max, paramGraph.getDeltaY());
+        actionFitex.setParam(paramGraph.getPlots(),  x_min, x_max, paramGraph.getDeltaX(), y_min, y_max, paramGraph.getDeltaY(), paramGraph.isDeltaFixedAutoscale());
     }
     
 
@@ -452,10 +420,10 @@ public class FitexPanel extends javax.swing.JPanel {
     /** affichage des tous les K definis */
     public void affichageK(Color coul) {
         Double k;
-        NumberFormat nfE = NumberFormat.getNumberInstance(locale);
+        NumberFormat nfE = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat formatE = (DecimalFormat)nfE;
         formatE.applyPattern("0.#####E0");
-        NumberFormat nf = NumberFormat.getNumberInstance(locale);
+        NumberFormat nf = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat format = (DecimalFormat)nf;
         format.applyPattern("###.#####");
         //DecimalFormat formatE = new DecimalFormat("0.####E0");
@@ -492,7 +460,7 @@ public class FitexPanel extends javax.swing.JPanel {
         if (!isRows())
             return ;
         if (mapDesFonctions.get(couleurSelect) == null)
-            mapDesFonctions.put(couleurSelect, new Function(locale, textFieldFct.getText(), datas));
+            mapDesFonctions.put(couleurSelect, new Function(owner.getLocale(), textFieldFct.getText(), datas));
         else
             mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText()) ;
         // affichage des parametres de la fonction
@@ -604,6 +572,13 @@ public class FitexPanel extends javax.swing.JPanel {
        }
    }
 
+   public char updateGraphMode(){
+       if (zoneDeTrace != null){
+           return zoneDeTrace.updateGraphMode();
+       }
+       return DataConstants.MODE_DEFAULT;
+   }
+
    public void displayFunctionModel(){
        if (isPanelFunction){
            this.remove(panelFctModel);
@@ -659,6 +634,41 @@ public class FitexPanel extends javax.swing.JPanel {
        }
        return parametresFn;
    }
+
+   /* return true if a previous param */
+   public boolean isPreviousParam(){
+       return previousParam != null;
+   }
+
+   /* return true if a next param */
+   public boolean isNextParam(){
+       return nextParam != null;
+   }
+
+   public void setPreviousParam(){
+       nextParam = null;
+       if(paramGraph != null)
+            previousParam= (ParamGraph)paramGraph.clone();
+       if(this.actionFitex != null)
+           actionFitex.setPreviousZoom();
+   }
+
+   
+   public void previousParam(){
+       if(previousParam != null){
+           nextParam = (ParamGraph)paramGraph.clone();
+           setParameters(previousParam.getX_min(), previousParam.getX_max(), previousParam.getY_min(), previousParam.getY_max());
+           previousParam = null;
+       }else if (nextParam != null){
+           previousParam = (ParamGraph)paramGraph.clone();
+           setParameters(nextParam.getX_min(), nextParam.getX_max(), nextParam.getY_min(), nextParam.getY_max());
+           nextParam = null;
+       }
+       if(zoneDeTrace != null)
+           zoneDeTrace.repaint();
+   }
+
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

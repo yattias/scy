@@ -11,6 +11,7 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
@@ -42,8 +43,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import javax.swing.*;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -77,7 +76,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* locale */
     private Locale locale ;
     /* ressource bundle */
-    private ResourceBundle bundle;
+    private ResourceBundleWrapper bundle;
     /* version */
     private String version = "3.2";
     /* number format */
@@ -113,9 +112,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     private transient SAXBuilder builder = new SAXBuilder(false);
 
-    public DataProcessToolPanel(boolean scyMode) {
+    public DataProcessToolPanel(boolean scyMode, Locale locale) {
         super();
         this.scyMode = scyMode;
+        this.locale = locale;
         this.dbMode = false;
         initComponents();
         initData(null);
@@ -125,9 +125,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         this.userName = "";
     }
 
-    public DataProcessToolPanel(URL url, long dbKeyMission, long dbKeyUser) {
+    public DataProcessToolPanel(URL url, Locale locale, long dbKeyMission, long dbKeyUser) {
         super();
         this.scyMode = false;
+        this.locale = locale;
         this.dbMode = true;
         this.dbKeyMission = dbKeyMission;
         this.dbKeyUser = dbKeyUser;
@@ -137,24 +138,25 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     
 
     private void initData(URL url){
-        // i18n
-        locale = Locale.getDefault();
-        locale = new Locale("en", "GB");
-        //locale = new Locale("fr", "FR");
-        try{
-            this.bundle = ResourceBundle.getBundle("DataToolBundle" , locale);
-        }catch(MissingResourceException e){
-          try{
-              // par defaut on prend l'anglais
-              locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("DataToolBundle", locale);
-          }catch (MissingResourceException e2){
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR lors du chargement de l'applet, la langue specifiee "+locale+" n'existe pas : "+e2);
-            displayError(new CopexReturn("ERREUR lors du chargement de l'application : "+e, false), "ERROR LANGUAGE");
-            return;
-            }
-        }
+//        // i18n
+//        locale = Locale.getDefault();
+//        locale = new Locale("en", "GB");
+//        //locale = new Locale("fr", "FR");
+//        try{
+//            this.bundle = ResourceBundle.getBundle("FitexBundle" , locale);
+//        }catch(MissingResourceException e){
+//          try{
+//              // english language by def.
+//              locale = new Locale("en", "GB");
+//              bundle = ResourceBundle.getBundle("FitexBundle", locale);
+//          }catch (MissingResourceException e2){
+//            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//            System.out.println("ERREUR lors du chargement de l'applet, la langue specifiee "+locale+" n'existe pas : "+e2);
+//            displayError(new CopexReturn("ERREUR lors du chargement de l'application : "+e, false), "ERROR LANGUAGE");
+//            return;
+//          }
+//        }
+        bundle = new ResourceBundleWrapper(this,"fitex");
         //
         initNumberFormat();
         // noyau
@@ -205,20 +207,21 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
     /* retourne un message selon cle*/
     public String getBundleString(String key){
-       String s = "";
-        try{
-            s = this.bundle.getString(key);
-        }catch(Exception e){
-            System.out.println("getBundleString "+e);
-            try{
-                String msg = this.bundle.getString("ERROR_KEY");
-                msg = MyUtilities.replace(msg, 0, key);
-                displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
-            }catch(Exception e2){
-                displayError(new CopexReturn("No message found !"+key, false) ,"ERROR");
-             }
-        }
-        return s;
+        return bundle.getString(key);
+//       String s = "";
+//        try{
+//            s = this.bundle.getString(key);
+//        }catch(Exception e){
+//            System.out.println("getBundleString "+e);
+//            try{
+//                String msg = this.bundle.getString("ERROR_KEY");
+//                msg = MyUtilities.replace(msg, 0, key);
+//                displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
+//            }catch(Exception e2){
+//                displayError(new CopexReturn("No message found !"+key, false) ,"ERROR");
+//             }
+//        }
+//        return s;
 
     }
 
@@ -255,7 +258,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     public  ImageIcon getCopexImage(String img){
-        ImageIcon imgIcon = new ImageIcon(getClass().getResource( "/" +img));
+        ImageIcon imgIcon = new ImageIcon(getClass().getResource( "/Images/" +img));
         if (imgIcon == null){
             displayError(new CopexReturn(getBundleString("MSG_ERROR_IMAGE")+img, false), getBundleString("TITLE_DIALOG_ERROR"));
             return null;

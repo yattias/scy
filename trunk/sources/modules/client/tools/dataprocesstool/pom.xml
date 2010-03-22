@@ -72,29 +72,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/java/eu/scy/tools/dataProcessTool/utilities</directory>
-                <includes>
-                    <include>*.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/java/eu/scy/tools/fitex/GUI</directory>
-                <includes>
-                    <include>*.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                 <directory>src/main/resources/Images</directory>
-                <includes>
-                    <include>*.png</include>
-                    <include>*.gif</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/fitexHelp</directory>
-                <includes>
-                    <include>*.xhtml</include>
-                </includes>
+                <directory>src/main/resources/</directory>
             </resource>
         </resources>
     </build>
@@ -123,7 +101,13 @@
         	<groupId>eu.scy.common</groupId>
         	<artifactId>scy-commons</artifactId>
         	<version>${pom.version}</version>
-        </dependency>      
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.client.client-common</groupId>
+            <artifactId>scy-i18n</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
     </dependencies>
-   
+
 </project>
+

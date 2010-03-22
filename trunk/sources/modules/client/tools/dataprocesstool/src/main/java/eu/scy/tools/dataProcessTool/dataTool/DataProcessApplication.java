@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JFrame;
 
 /**
@@ -50,7 +51,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             }
         });
         
-        fitexPanel = new DataProcessToolPanel(fitexURL, dbKeyMission,dbKeyUser);
+        fitexPanel = new DataProcessToolPanel(fitexURL, Locale.getDefault(), dbKeyMission,dbKeyUser);
         add(fitexPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
         setTitle(fitexPanel.getBundleString("TITLE_FITEX"));

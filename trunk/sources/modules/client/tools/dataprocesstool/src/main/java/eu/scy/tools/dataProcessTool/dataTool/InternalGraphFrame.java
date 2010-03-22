@@ -46,12 +46,11 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
 
     private JMenuBar menuBarGraph;
     private JSeparator sepV1;
-    private JSeparator sepV2;
     private MyMenuItem menuItemParam;
     private MyMenuItem menuItemAutoScale;
-    private MyMenuItem menuItemZoom;
+    private MyMenuItem menuItemUnZoom;
     private MyMenuItem menuItemMove;
-    private MyMenuItem menuItemCurve;
+    private MyMenuItem menuItemFunction;
 
     private JPanel panelGraph;
     private JPanel mainPanel;
@@ -100,12 +99,11 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
             this.menuBarGraph.setPreferredSize(this.menuBarGraph.getSize());
             menuBarGraph.add(getMenuItemParam());
             if (visualization.getType().getCode() == DataConstants.VIS_GRAPH){
-                menuBarGraph.add(getSepV1());
-                menuBarGraph.add(getMenuItemAutoScale());
                 menuBarGraph.add(getMenuItemMove());
-                menuBarGraph.add(getMenuItemZoom());
-                menuBarGraph.add(getSepV2());
-                menuBarGraph.add(getMenuItemCurve());
+                menuBarGraph.add(getMenuItemAutoScale());
+                menuBarGraph.add(getMenuItemUnZoom());
+                menuBarGraph.add(getSepV1());
+                menuBarGraph.add(getMenuItemFunction());
             }
         }
         return this.menuBarGraph;
@@ -124,14 +122,14 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
      private JSeparator getSepV1(){
         if(sepV1 == null){
             sepV1 = new JSeparator(JSeparator.VERTICAL);
-            sepV1.setBounds(menuItemParam.getX()+menuItemParam.getWidth(), 0, 5, DataProcessToolPanel.MENU_BAR_HEIGHT);
+            sepV1.setBounds(menuItemUnZoom.getX()+menuItemUnZoom.getWidth(), 0, 5, DataProcessToolPanel.MENU_BAR_HEIGHT);
         }
         return sepV1;
     }
     private MyMenuItem getMenuItemAutoScale(){
         if (menuItemAutoScale == null){
             menuItemAutoScale = new MyMenuItem(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_AUTOSCALE"),menuBarGraph.getBackground(),fitex.getCopexImage("Bouton-AdT-28_graph_autoscale.png"), fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_sur.png"), fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_cli.png"), fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_gri.png"));
-            menuItemAutoScale.setBounds(sepV1.getX()+sepV1.getWidth(), 0, menuItemAutoScale.getWidth(), menuItemAutoScale.getHeight());
+            menuItemAutoScale.setBounds(menuItemMove.getX()+menuItemMove.getWidth(), 0, menuItemAutoScale.getWidth(), menuItemAutoScale.getHeight());
             menuItemAutoScale.addActionMenu(this);
         }
         return menuItemAutoScale;
@@ -140,35 +138,28 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
     private MyMenuItem getMenuItemMove(){
         if (menuItemMove == null){
             menuItemMove = new MyMenuItem(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_MOVE"),menuBarGraph.getBackground(),fitex.getCopexImage("Bouton-AdT-28_graph_move.png"), fitex.getCopexImage("Bouton-AdT-28_graph_move_sur.png"), fitex.getCopexImage("Bouton-AdT-28_graph_move_cli.png"), fitex.getCopexImage("Bouton-AdT-28_graph_move_gri.png"));
-            menuItemMove.setBounds(menuItemAutoScale.getX()+menuItemAutoScale.getWidth(), 0, menuItemMove.getWidth(), menuItemMove.getHeight());
+            menuItemMove.setBounds(menuItemParam.getX()+menuItemParam.getWidth(), 0, menuItemMove.getWidth(), menuItemMove.getHeight());
             menuItemMove.addActionMenu(this);
         }
         return menuItemMove;
     }
 
-    private MyMenuItem getMenuItemZoom(){
-        if (menuItemZoom == null){
-            menuItemZoom = new MyMenuItem(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_ZOOM"),menuBarGraph.getBackground(),fitex.getCopexImage("Bouton-AdT-28_graph_zoom.png"), fitex.getCopexImage("Bouton-AdT-28_graph_zoom_sur.png"), fitex.getCopexImage("Bouton-AdT-28_graph_zoom_cli.png"), fitex.getCopexImage("Bouton-AdT-28_graph_zoom_gri.png"));
-            menuItemZoom.setBounds(menuItemMove.getX()+menuItemMove.getWidth(), 0, menuItemZoom.getWidth(), menuItemZoom.getHeight());
-            menuItemZoom.addActionMenu(this);
+    private MyMenuItem getMenuItemUnZoom(){
+        if (menuItemUnZoom == null){
+            menuItemUnZoom = new MyMenuItem(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_PREVIOUS_ZOOM"),menuBarGraph.getBackground(),fitex.getCopexImage("zoomPrev.png"), fitex.getCopexImage("zoomPrev_survol.png"), fitex.getCopexImage("zoomNext.png"), fitex.getCopexImage("zoomPrev_grise.png"));
+            menuItemUnZoom.setBounds(menuItemAutoScale.getX()+menuItemAutoScale.getWidth(), 0, menuItemUnZoom.getWidth(), menuItemUnZoom.getHeight());
+            menuItemUnZoom.addActionMenu(this);
         }
-        return menuItemZoom;
+        return menuItemUnZoom;
     }
-    private JSeparator getSepV2() {
-        if(sepV2 == null){
-            sepV2 = new JSeparator(JSeparator.VERTICAL);
-            sepV2.setBounds(menuItemZoom.getX()+menuItemZoom.getWidth(), 0, 5, DataProcessToolPanel.MENU_BAR_HEIGHT);
+    
+    private MyMenuItem getMenuItemFunction(){
+        if (menuItemFunction == null){
+            menuItemFunction = new MyMenuItem(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_CURVE"),menuBarGraph.getBackground(),fitex.getCopexImage("Bouton-AdT-28_graph.png"), fitex.getCopexImage("Bouton-AdT-28_graph_sur.png"), fitex.getCopexImage("Bouton-AdT-28_graph_cli.png"), fitex.getCopexImage("Bouton-AdT-28_graph_gri.png"));
+            menuItemFunction.setBounds(sepV1.getX()+sepV1.getWidth(), 0, menuItemFunction.getWidth(), menuItemFunction.getHeight());
+            menuItemFunction.addActionMenu(this);
         }
-        return sepV2;
-    }
-
-    private MyMenuItem getMenuItemCurve(){
-        if (menuItemCurve == null){
-            menuItemCurve = new MyMenuItem(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_CURVE"),menuBarGraph.getBackground(),fitex.getCopexImage("Bouton-AdT-28_graph.png"), fitex.getCopexImage("Bouton-AdT-28_graph_sur.png"), fitex.getCopexImage("Bouton-AdT-28_graph_cli.png"), fitex.getCopexImage("Bouton-AdT-28_graph_gri.png"));
-            menuItemCurve.setBounds(sepV2.getX()+sepV2.getWidth(), 0, menuItemCurve.getWidth(), menuItemCurve.getHeight());
-            menuItemCurve.addActionMenu(this);
-        }
-        return menuItemCurve;
+        return menuItemFunction;
     }
 
     private JPanel getPanelGraph(){
@@ -271,7 +262,7 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         }
         ArrayList<FunctionModel> listFunctionModel = ((Graph)visualization).getListFunctionModel() ;
         ParamGraph pg = ((Graph)visualization).getParamGraph() ;
-        FitexPanel gPanel = new FitexPanel(fitex.getLocale(), datamodel, plotsColor, listFunctionModel,pg) ;
+        FitexPanel gPanel = new FitexPanel(fitex, datamodel, plotsColor, listFunctionModel,pg) ;
         return new FitexGraph(fitex, dataset.getDbKey(), visualization, gPanel) ;
     }
 
@@ -305,34 +296,29 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         if (item.equals(getMenuItemParam())){
             fitex.openDialogGraphParam(visualization);
             return;
-        }else if (item.equals(getMenuItemZoom())){
-            if(cGraph instanceof FitexGraph){
-                ((FitexGraph)cGraph).getFitexPanel().setGraphMode(DataConstants.MODE_ZOOM);
-            }
-            fitex.setGraphMode(visualization, DataConstants.MODE_ZOOM);
-            updateMenuGraph();
-            return;
         }else if (item.equals(getMenuItemMove())){
+            char graphMode = DataConstants.MODE_DEFAULT;
             if(cGraph instanceof FitexGraph){
-                ((FitexGraph)cGraph).getFitexPanel().setGraphMode(DataConstants.MODE_MOVE);
+                graphMode = ((FitexGraph)cGraph).getFitexPanel().updateGraphMode();
             }
-            fitex.setGraphMode(visualization, DataConstants.MODE_MOVE);
+            fitex.setGraphMode(visualization, graphMode);
             updateMenuGraph();
             return;
         }else if (item.equals(getMenuItemAutoScale())){
-            if(cGraph instanceof FitexGraph){
-                ((FitexGraph)cGraph).getFitexPanel().setGraphMode(DataConstants.MODE_AUTOSCALE);
-            }
-            fitex.setGraphMode(visualization, DataConstants.MODE_AUTOSCALE);
-            if (visualization instanceof Graph){
-                fitex.setAutoScale(this.dataset.getDbKey(),visualization.getDbKey() , true);
-            }
+            ((FitexPanel)cGraph.getGraphComponent()).setPreviousParam();
+            fitex.autoscale(visualization);
             updateMenuGraph();
             return;
-        }else if (item.equals(getMenuItemCurve())){
+        }else if (item.equals(getMenuItemFunction())){
             displayFunctionModel();
             updateMenuGraph();
             return;
+        }else if (item.equals(getMenuItemUnZoom())){
+            if(cGraph.getGraphComponent() instanceof FitexPanel){
+               ((FitexPanel)(cGraph.getGraphComponent())).previousParam();
+               updateMenuGraph();
+               return;
+            }
         }
     }
 
@@ -367,38 +353,36 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         //this.menuItemParam.setEnabled(enabled);
         this.menuItemAutoScale.setEnabled(enabled);
         this.menuItemMove.setEnabled(enabled );
-        this.menuItemZoom.setEnabled(enabled );
+        this.menuItemUnZoom.setEnabled(enabled );
+        if(cGraph.getGraphComponent() instanceof FitexPanel){
+            boolean isPreviousParam = ((FitexPanel)(cGraph.getGraphComponent())).isPreviousParam();
+            boolean isNextParam = ((FitexPanel)(cGraph.getGraphComponent())).isNextParam();
+            this.menuItemUnZoom.setEnabled(isPreviousParam || isNextParam);
+            if(isPreviousParam){
+                this.menuItemUnZoom.setItemIcon(fitex.getCopexImage("zoomPrev.png"));
+                this.menuItemUnZoom.setItemRolloverIcon(fitex.getCopexImage("zoomPrev_survol.png"));
+            }else if (isNextParam){
+                this.menuItemUnZoom.setItemIcon(fitex.getCopexImage("zoomNext.png"));
+                this.menuItemUnZoom.setItemRolloverIcon(fitex.getCopexImage("zoomNext_survol.png"));
+            }
+        }
         if(isDisplayFunctionModel()){
-            this.menuItemCurve.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_push.png"));
-            this.menuItemCurve.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_surcli.png"));
+            this.menuItemFunction.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_push.png"));
+            this.menuItemFunction.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_surcli.png"));
         }else{
-            this.menuItemCurve.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph.png"));
-            this.menuItemCurve.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_sur.png"));
+            this.menuItemFunction.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph.png"));
+            this.menuItemFunction.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_sur.png"));
         }
         switch (graphMode){
-            case DataConstants.MODE_AUTOSCALE :
-                this.menuItemAutoScale.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_push.png"));
-                this.menuItemAutoScale.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_surcli.png"));
-                this.menuItemMove.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_move.png"));
-                this.menuItemMove.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_move_sur.png"));
-                this.menuItemZoom.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_zoom.png"));
-                this.menuItemZoom.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_zoom_sur.png"));
-                break;
             case DataConstants.MODE_MOVE :
-                this.menuItemAutoScale.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_autoscale.png"));
-                this.menuItemAutoScale.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_sur.png"));
                 this.menuItemMove.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_move_push.png"));
                 this.menuItemMove.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_move_surcli.png"));
-                this.menuItemZoom.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_zoom.png"));
-                this.menuItemZoom.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_zoom_sur.png"));
+                this.menuItemMove.setToolTipText(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_ZOOM"));
                 break;
             case DataConstants.MODE_ZOOM :
-                this.menuItemAutoScale.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_autoscale.png"));
-                this.menuItemAutoScale.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_autoscale_sur.png"));
                 this.menuItemMove.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_move.png"));
                 this.menuItemMove.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_move_sur.png"));
-                this.menuItemZoom.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_zoom_push.png"));
-                this.menuItemZoom.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_zoom_surcli.png"));
+                this.menuItemMove.setToolTipText(fitex.getBundleString("TOOLTIPTEXT_MENU_GRAPH_MOVE"));
                 break;
         }
         repaint();
@@ -463,5 +447,9 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
     public void updateVisualizationName(String newName){
         this.visualization.setName(newName);
         setTitle(newName);
+    }
+
+    public void setPreviousZoom(){
+        updateMenuGraph();
     }
 }

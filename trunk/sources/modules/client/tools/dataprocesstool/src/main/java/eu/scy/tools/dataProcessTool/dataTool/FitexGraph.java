@@ -5,7 +5,6 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
-import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
@@ -39,18 +38,23 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
     }
 
     @Override
-    public void setParam(ArrayList<PlotXY> plots, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY) {
-        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(plots,  xmin, xmax, ymin, ymax, deltaX, deltaY, autoScale));
+    public void setParam(ArrayList<PlotXY> plots, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY, boolean deltaFixedAutoscale) {
+        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(plots,  xmin, xmax, ymin, ymax, deltaX, deltaY, deltaFixedAutoscale));
     }
 
-    @Override
-    public void setAutoScale(boolean autoScale) {
-        owner.setAutoScale(dbKeyDs, vis.getDbKey(), autoScale);
-    }
+//    @Override
+//    public void setAutoScale(boolean autoScale) {
+//        owner.setAutoScale(dbKeyDs, vis.getDbKey(), autoScale);
+//    }
 
     @Override
     public void setFunctionModel(String function, Color color, ArrayList<FunctionParam> listParam) {
         owner.setFunctionModel((Graph)vis, function, color, listParam);
+    }
+
+    @Override
+    public void setPreviousZoom() {
+        owner.setPreviousZoom((Graph)vis);
     }
 
 }

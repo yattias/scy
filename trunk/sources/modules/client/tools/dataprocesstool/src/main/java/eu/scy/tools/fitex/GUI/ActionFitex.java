@@ -19,12 +19,12 @@ public interface ActionFitex {
     public void openDatas();
 
     /* mise a jour des parametres */
-    public void setParam(ArrayList<PlotXY> plots, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY);
+    public void setParam(ArrayList<PlotXY> plots,double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY, boolean deltaFixedAutoscale);
 
-    /* mise a jour auto scale */
-    public void setAutoScale(boolean autoScale);
-
+    
     /*mise a jour d'une fonction modele */
     public void setFunctionModel(String function, Color color, ArrayList<FunctionParam> listParam);
 
+    /* zoom */
+    public void setPreviousZoom();
 }
