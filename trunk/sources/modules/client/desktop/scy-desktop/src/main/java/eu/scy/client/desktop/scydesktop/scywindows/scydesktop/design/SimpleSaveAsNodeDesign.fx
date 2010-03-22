@@ -30,13 +30,13 @@ public class SimpleSaveAsNodeDesign {
             layoutX: 2.0
             layoutY: 1.0
             fill: javafx.scene.paint.Color.WHITE
-            width: 310.0
-            height: 80.0
+            width: 300.0
+            height: 70.0
         };
         titleLabel = javafx.scene.control.Label {
             layoutX: 12.0
             layoutY: 12.0
-            text: "Title"
+            text: "##Title"
         };
         titleTextBox = javafx.scene.control.TextBox {
             layoutX: 54.0
@@ -51,16 +51,16 @@ public class SimpleSaveAsNodeDesign {
             action: titleTextBoxAction
         };
         cancelButton = javafx.scene.control.Button {
-            layoutX: 239.0
+            layoutX: 223.0
             layoutY: 44.0
-            text: "Cancel"
+            text: "##Cancel"
             action: cancelButtonAction
         };
         saveButton = javafx.scene.control.Button {
             disable: true
-            layoutX: 176.0
+            layoutX: 150.0
             layoutY: 44.0
-            text: "Save"
+            text: "##Save"
             action: saveButtonAction
         };
         
