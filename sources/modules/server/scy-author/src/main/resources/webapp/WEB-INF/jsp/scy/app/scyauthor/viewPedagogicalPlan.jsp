@@ -22,7 +22,7 @@
                     Mission
                 </td>
                 <td>
-                    ${pedagogicalPlan.mission.name}
+                    <a href="viewMission.html?missionId=${pedagogicalPlan.mission.id}">${pedagogicalPlan.mission.name}</a>
                 </td>
                 <td>
                     ${pedagogicalPlan.mission.description}

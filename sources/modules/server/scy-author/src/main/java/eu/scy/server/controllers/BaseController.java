@@ -17,37 +17,43 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 09:47:07
  * To change this template use File | Settings | File Templates.
  */
-public class BaseController extends AbstractController {
+public abstract class BaseController extends AbstractController {
 
     private ServerService serverService;
 
     private ScyBase model;
 
-    public ScyBase getModel(){
+    public ScyBase getModel() {
         return model;
     }
+
     public void setModel(ScyBase model) {
         this.model = model;
     }
 
     public Server getServer() {
-        return getServerService().getServer();    
+        if (getServerService() != null) {
+            return getServerService().getServer();
+        }
+        return null;
+
     }
 
-    protected void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
+    private void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
         modelAndView.addObject("model", getModel());
-        modelAndView.addObject("css", getServer().getServerCSS());
-
+        if(getServer() != null) modelAndView.addObject("css", getServer().getServerCSS());
     }
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+    protected final ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
 
-        
-
+        handleRequest(request, httpServletResponse, modelAndView);
+        populateView(request, httpServletResponse, modelAndView);
         return modelAndView;
     }
+
+    protected abstract void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView);
 
     public ServerService getServerService() {
         return serverService;

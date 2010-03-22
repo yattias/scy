@@ -19,13 +19,10 @@ public class ScyAuthorRuntimeIndexController extends BaseController {
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        ModelAndView modelAndView = new ModelAndView();
-
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         modelAndView.addObject("pedagogicalPlans", getPedagogicalPlanPersistenceService().getPedagogicalPlans());
-
-        return modelAndView;
     }
+
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
         return pedagogicalPlanPersistenceService;

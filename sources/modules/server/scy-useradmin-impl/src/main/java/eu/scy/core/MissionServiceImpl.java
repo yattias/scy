@@ -1,6 +1,7 @@
 package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.BaseObject;
+import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.persistence.MissionDAO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,4 +29,9 @@ public class MissionServiceImpl extends BaseServiceImpl implements MissionServic
 	public void save(BaseObject baseObject) {
 		getMissionDAO().save(baseObject);
 	}
+
+    @Override
+    public Mission getMission(String parameter) {
+        return getMissionDAO().getMission(parameter);
+    }
 }

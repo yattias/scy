@@ -1,6 +1,8 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.pedagogicalplan.BaseObject;
+import eu.scy.core.model.pedagogicalplan.Mission;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,5 +13,7 @@ import eu.scy.core.model.pedagogicalplan.BaseObject;
  */
 public interface MissionService extends BaseService{
 
-    void save(BaseObject baseObject);
+    public void save(BaseObject baseObject);
+
+    public Mission getMission(String parameter);
 }

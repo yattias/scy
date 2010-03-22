@@ -25,7 +25,7 @@ public class ViewPedagogicalPlanController extends BaseController {
     private LASService lasService;
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String pedPlanId = request.getParameter("id");
         logger.info("PED PLAN ID: " + pedPlanId);
         PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
@@ -38,17 +38,13 @@ public class ViewPedagogicalPlanController extends BaseController {
             }
             getPedagogicalPlanPersistenceService().save(plan);
         }
-        ModelAndView modelAndView = new ModelAndView();
         logger.info("Setting plan: " + plan.getName());
         modelAndView.addObject("pedagogicalPlan", plan);
         modelAndView.addObject("anchorElos", getAnchorELOs(plan));
 
         modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
-
-        return modelAndView;
-
-
     }
+
 
     private List getAnchorELOs(PedagogicalPlan plan) {
 
