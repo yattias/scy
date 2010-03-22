@@ -11,7 +11,10 @@
 			<action-key>VIEW</action-key>
 		</community-defaults>
 		<guest-defaults />
-		<guest-unsupported />
+		<guest-unsupported>
+			<action-key>CONFIGURATION</action-key>
+			<action-key>VIEW</action-key>
+		</guest-unsupported>
 	</portlet-resource>
 	<model-resource>
 		<model-name>com.liferay.portlet.documentlibrary</model-name>
@@ -86,10 +89,10 @@
 			<action-key>VIEW</action-key>
 		</supports>
 		<community-defaults>
+			<action-key>ADD_DISCUSSION</action-key>
 			<action-key>VIEW</action-key>
 		</community-defaults>
-		<guest-defaults>
-		</guest-defaults>
+		<guest-defaults />
 		<guest-unsupported>
 			<action-key>ADD_DISCUSSION</action-key>
 			<action-key>DELETE</action-key>
@@ -97,6 +100,7 @@
 			<action-key>PERMISSIONS</action-key>
 			<action-key>UPDATE</action-key>
 			<action-key>UPDATE_DISCUSSION</action-key>
+			<action-key>VIEW</action-key>
 		</guest-unsupported>
 	</model-resource>
 	<model-resource>
@@ -116,8 +120,7 @@
 		<community-defaults>
 			<action-key>VIEW</action-key>
 		</community-defaults>
-		<guest-defaults>
-		</guest-defaults>
+		<guest-defaults />
 		<guest-unsupported>
 			<action-key>ADD_DOCUMENT</action-key>
 			<action-key>ADD_SHORTCUT</action-key>
@@ -125,6 +128,7 @@
 			<action-key>DELETE</action-key>
 			<action-key>PERMISSIONS</action-key>
 			<action-key>UPDATE</action-key>
+			<action-key>VIEW</action-key>
 		</guest-unsupported>
 	</model-resource>
 </resource-action-mapping>
