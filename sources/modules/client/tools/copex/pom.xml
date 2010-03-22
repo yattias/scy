@@ -39,6 +39,11 @@
             <version>2.1.4</version>
         </dependency>
         <dependency>
+            <groupId>eu.scy.client.client-common</groupId>
+            <artifactId>scy-i18n</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>drawingtool</artifactId>
             <version>${pom.version}</version>
@@ -63,7 +68,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                            <!--<mainClass>eu.scy.tools.copex.edp.CopexApplet</mainClass> -->
-                           <mainClass>eu.scy.tools.copex.edp.EdPFrame</mainClass>
+                           <mainClass>eu.scy.client.tools.copex.edp.EdPFrame</mainClass>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                     </archive>
@@ -80,29 +85,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/java/eu/scy/tools/copex/utilities</directory>
-                <includes>
-                    <include>*.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/Images</directory>
-                <includes>
-                    <include>*.png</include>
-                    <include>*.gif</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/config</directory>
-                <includes>
-                    <include>*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/copexHelp</directory>
-                <includes>
-                    <include>*.xhtml</include>
-                </includes>
+                <directory>src/main/resources/</directory>
             </resource>
         </resources>
     </build>
