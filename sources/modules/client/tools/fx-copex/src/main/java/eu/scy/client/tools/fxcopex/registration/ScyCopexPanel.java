@@ -13,15 +13,15 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.tools.copex.common.LearnerProcedure;
-import eu.scy.tools.copex.edp.CopexPanel;
-import eu.scy.tools.copex.logger.CopexLog;
-import eu.scy.tools.copex.logger.CopexProperty;
-import eu.scy.tools.copex.utilities.ActionCopex;
+import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.logger.CopexProperty;
+import eu.scy.client.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import org.jdom.Element;
 import javax.swing.JPanel;
 
@@ -45,7 +45,11 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     }
 
     public void initCopex(){
-        copex = new CopexPanel(true);
+        // i18n
+        Locale locale = Locale.getDefault();
+        //locale = new Locale("en", "GB");
+        //locale = new Locale("fr", "FR");
+        copex = new CopexPanel(true, locale);
         setPreferredSize(new Dimension(550,350));
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
