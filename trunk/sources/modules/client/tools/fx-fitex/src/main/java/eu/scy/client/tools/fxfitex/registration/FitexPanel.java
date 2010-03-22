@@ -31,6 +31,7 @@ import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import java.io.File;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -185,7 +186,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void initDataProcessTool(){
-        dataProcessPanel = new DataProcessToolPanel(true);
+        dataProcessPanel = new DataProcessToolPanel(true, Locale.getDefault());
         dataProcessPanel.addActionCopexButton(this);
         add(dataProcessPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
