@@ -37,8 +37,8 @@ import eu.scy.common.message.SyncMessage.Event;
 import eu.scy.common.message.SyncMessage.Response;
 import eu.scy.common.message.SyncMessage.Type;
 import eu.scy.common.packetextension.SCYPacketTransformer;
-import eu.scy.commons.smack.SmacketExtension;
-import eu.scy.commons.smack.SmacketExtensionProvider;
+import eu.scy.common.smack.SmacketExtension;
+import eu.scy.common.smack.SmacketExtensionProvider;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.scyhub.SCYHubModule;
 
