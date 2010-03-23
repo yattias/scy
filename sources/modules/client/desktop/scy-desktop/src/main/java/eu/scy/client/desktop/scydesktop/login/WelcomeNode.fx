@@ -41,7 +41,7 @@ public class WelcomeNode extends CustomNode {
                   size: 12
                }
                x: leftBorder, y: 30
-               content: ##"Welcome, {name} to SCY-Lab"
+               content: ##"Welcome, to SCY-Lab"
             }
             Text {
                font : Font {
