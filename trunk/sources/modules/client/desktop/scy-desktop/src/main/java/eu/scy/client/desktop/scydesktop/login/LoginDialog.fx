@@ -72,6 +72,7 @@ public class LoginDialog extends CustomNode {
                  defaultUserName: initializer.defaultUserName
                  defaultPassword: initializer.defaultPassword
                  autoLogin:initializer.autoLogin
+                 languages: initializer.languages
               }
       loginWindow = StandardScyWindow {
          title: bind loginNode.loginTitle

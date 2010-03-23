@@ -36,6 +36,8 @@ import java.io.StringWriter;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.uicontrols.DynamicTypeBackground;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.util.StringTokenizer;
+import javafx.util.Sequences;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -73,6 +75,8 @@ public class Initializer {
     public-init var showEloRelations = true;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
     public-init var showOfflineContacts = true;
+    public-init var languageList = "nl,en,et,fr,el";
+    public-read var languages:String[];
     public-read var backgroundImage: Image;
     public-read var localLoggingDirectory: File = null;
     public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -111,6 +115,7 @@ public class Initializer {
     def showOfflineContactsOption = "showOfflineContacts";
     def indicateOnlineStateByOpacityOption = "indicateOnlineStateByOpacity";
     def showEloRelationsOption = "showEloRelations";
+    def languageListOption = "languageList";
 
     var setupLoggingToFiles:SetupLoggingToFiles;
     package var background:DynamicTypeBackground;
@@ -136,6 +141,7 @@ public class Initializer {
         }
         System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
         System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
+        setupLanguages();
         setupCodeLogging();
         logProperties();
         setLookAndFeel();
@@ -227,6 +233,9 @@ public class Initializer {
                 } else if (option == showEloRelationsOption.toLowerCase()) {
                     showEloRelations = argumentsList.nextBooleanValue(showEloRelationsOption);
                     logger.info("app: {showEloRelationsOption}: {showEloRelations}");
+                } else if (option == languageListOption.toLowerCase()) {
+                    languageList = argumentsList.nextStringValue(languageListOption);
+                    logger.info("app: {languageListOption}: {languageList}");
                 } else {
                     logger.info("Unknown option: {option}");
                 }
@@ -262,6 +271,7 @@ public class Initializer {
         showOfflineContacts = getWebstartParameterBooleanValue(showOfflineContactsOption, showOfflineContacts);
         indicateOnlineStateByOpacity = getWebstartParameterBooleanValue(indicateOnlineStateByOpacityOption, indicateOnlineStateByOpacity);
         showEloRelations = getWebstartParameterBooleanValue(showEloRelationsOption, showEloRelations);
+        languageList = getWebstartParameterStringValue(languageListOption, languageList);
 
     }
 
@@ -314,6 +324,7 @@ public class Initializer {
         printWriter.println("- showOfflineContacts: {showOfflineContacts}");
         printWriter.println("- indicateOnlineStateByOpacity: {indicateOnlineStateByOpacity}");
         printWriter.println("- showEloRelations: {showEloRelations}");
+        printWriter.println("- languages: {for (lan in languages) '{lan},'}");
     }
 
     public function isEmpty(string: String): Boolean {
@@ -363,6 +374,16 @@ public class Initializer {
             }
          ];
        scene
+    }
+
+    function setupLanguages(): Void{
+      var tokenizer = new StringTokenizer(languageList,", ");
+      while (tokenizer.hasMoreTokens()){
+         var language = tokenizer.nextToken();
+         if (language!="" and Sequences.indexOf(languages,language)<0){
+            insert language into languages;
+         }
+      }
     }
 
 
