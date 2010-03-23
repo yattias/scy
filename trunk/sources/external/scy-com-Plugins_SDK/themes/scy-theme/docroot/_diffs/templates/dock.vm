@@ -14,6 +14,12 @@
 	#if ($show_my_account)
 			<a class="my-account" href="$my_account_url">| $my_account_text</a>
 	#end
+	
+	#if ($show_my_home)
+	<br />
+			<a class="my-account" href="$user.getDisplayURL($themeDisplay)">| My Home</a>
+	#end
+
 </div>
 #if ($show_doc && ($show_control_panel || $show_add_content || $show_page_settings || $show_staging || $show_toggle_controls))
 	<div class="lfr-dock interactive-mode">

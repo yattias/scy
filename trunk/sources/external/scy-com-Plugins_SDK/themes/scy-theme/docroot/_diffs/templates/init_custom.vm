@@ -7,10 +7,20 @@ This file allows you to override and define new velocity variables.
 #set ($show_doc = false)
 #set ($show_my_account = false)
 #set ($show_my_account_icon = false)
+#set ($show_my_home = false)
+
+#set ($my_url = $htmlUtil.escape($theme_display.getURLHome().toString()))
+
+
 
 #foreach($role in $user_roles)
   #if ($role.getTitle($locale).equals("Administrator"))
 			#set ($show_doc = true)
 			#set ($show_my_account = true)
-    #end
+			#set ($show_my_home = true)
+  #end
+  #if ($role.getTitle($locale).equals("User"))
+			#set ($show_my_account = true)
+			#set ($show_my_home = true)
+  #end
 #end
