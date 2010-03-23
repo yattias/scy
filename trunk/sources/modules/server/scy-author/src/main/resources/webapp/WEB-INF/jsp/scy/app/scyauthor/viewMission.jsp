@@ -32,8 +32,10 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <br>
             </c:when>
+            <c:otherwise>
+                0 learning materials found
+            </c:otherwise>
         </c:choose>
 
         <br/>
@@ -54,8 +56,10 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <br/>
             </c:when>
+            <c:otherwise>
+                0 learning goals found
+            </c:otherwise>
         </c:choose>
         <td><a href="viewMission.html?missionId=${model.id}&newObject=${'NEW_LEARNING_GOAL'}">+</a></td>
         <br/>

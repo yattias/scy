@@ -18,7 +18,8 @@ import java.util.*;
 @Table(name = "mission")
 public class MissionImpl extends LearningGoalContainerImpl implements Mission {
 
-
+    private String missionOutline = null;
+    private String targetGroup = null;
 
     private List<LearningGoal> learningGoals;
 
@@ -34,22 +35,20 @@ public class MissionImpl extends LearningGoalContainerImpl implements Mission {
 
     @Override
     public void setMissionOutline(String missionOutline) {
-
+        this.missionOutline = missionOutline;
     }
 
-    @Transient
     public String getMissionOutline() {
-        return null;
+        return missionOutline;
     }
 
     @Override
     public void setTargetGroup(String targetGroup) {
-
+        this.targetGroup = targetGroup;
     }
 
-    @Transient
     public String getTargetGroup() {
-        return null;
+        return targetGroup;
     }
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningGoalContainer", targetEntity = LearningGoalImpl.class, fetch = FetchType.LAZY)
