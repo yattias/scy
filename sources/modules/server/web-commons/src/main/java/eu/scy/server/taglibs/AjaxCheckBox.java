@@ -20,7 +20,9 @@ public class AjaxCheckBox extends TagSupport {
         try {
             pageContext.getOut().write("Class: " +getModelClass() + " id: " + getModelId() + " property : " +getProperty());
             pageContext.getOut().write("<a href=\"/webapp/components/ajaxCheckBox.html\">clique me</a>");
+            pageContext.getOut().write("<form method=\"post\" action=\"/webapp/components/ajaxCheckBox.html\">");
             pageContext.getOut().write("<input type=\"checkbox\">");
+            pageContext.getOut().write("</form>");
         } catch(Exception e) {
             e.printStackTrace();
         }
