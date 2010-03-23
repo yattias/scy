@@ -56,6 +56,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  * REST Web Service
@@ -99,11 +100,13 @@ public class GetELO {
 
         try {
             IELO elo = configLoader.getRepository().retrieveELO(new URI(uri));
+            logger.info("elo-version: "+elo.getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.VERSION.getId())).getValue());
             if (elo != null) {
+                //TODO: do the flattening specific for different types of metadata keys
                 for (IMetadataKey metadataKey : elo.getMetadata().getAllMetadataKeys()) {
                     metadata.put(metadataKey.getId(), elo.getMetadata().getMetadataValueContainer(metadataKey).getValue());
                 }
-
+                logger.info("GET ELO - CONTRIBUTE: "+elo.getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId())).getValue());
                 String contentString = elo.getContent().getXmlString();
 
                 eloAsJson.put("metadata", metadata);
@@ -116,7 +119,6 @@ public class GetELO {
         } catch (URISyntaxException ex) {
             logger.error(ex.getMessage());
         }
-
         return null;
     }
 }
