@@ -2,6 +2,7 @@ package eu.scy.server.taglibs;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.lang.reflect.Method;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,18 +16,36 @@ public class AjaxCheckBox extends TagSupport {
     private String modelClass;
     private String modelId;
     private String property;
+    private Object model;
+    private String checked;
 
-     public int doEndTag() throws JspException {
+    public int doEndTag() throws JspException {
         try {
+            System.out.println("MODEL: " + getModel() + " property: " + getProperty());
+
+
+            double id = Math.random() ;
+
+
             pageContext.getOut().write("Class: " +getModelClass() + " id: " + getModelId() + " property : " +getProperty());
             pageContext.getOut().write("<a href=\"/webapp/components/ajaxCheckBox.html\">clique me</a>");
-            pageContext.getOut().write("<form method=\"post\" action=\"/webapp/components/ajaxCheckBox.html\">");
-            pageContext.getOut().write("<input type=\"checkbox\">");
+            pageContext.getOut().write("<form id=" + id + " method=\"post\" action=\"/webapp/components/ajaxCheckBox.html\">");
+            pageContext.getOut().write("<input id=\"" + id + "\" " +  getChecked() + " type=\"checkbox\">");
             pageContext.getOut().write("</form>");
         } catch(Exception e) {
             e.printStackTrace();
         }
         return EVAL_PAGE;
+    }
+
+    private Boolean executeGetter(Object object, String property) {
+        return true;
+        /*try {
+            Method method = object.getClass().getMethod("get" + property);
+            return (Boolean) method.invoke(object, null);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } */
     }
 
     public String getModelClass() {
@@ -51,5 +70,18 @@ public class AjaxCheckBox extends TagSupport {
 
     public void setProperty(String property) {
         this.property = property;
+    }
+
+    public Object getModel() {
+        return model;
+    }
+
+    public void setModel(Object model) {
+        this.model = model;
+    }
+
+    public String getChecked() {
+        if(executeGetter(getModel(), getProperty())) return "checked";
+        return "";
     }
 }
