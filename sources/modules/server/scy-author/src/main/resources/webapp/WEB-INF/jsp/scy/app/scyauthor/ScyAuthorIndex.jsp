@@ -3,7 +3,6 @@
 	<tiles:putAttribute name="main">
 
         <h1>My pedagogical plans</h1>
-         <s:ajaxCheckBox model="eu.scy.core.ActivityServiceImpl"/>
 		<c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">
             <table id="pedagogicalPlansTable" border="2" width="100%">

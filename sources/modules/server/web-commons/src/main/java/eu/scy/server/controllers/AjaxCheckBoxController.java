@@ -5,6 +5,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 public class AjaxCheckBoxController extends AbstractController {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+
+        String checked = httpServletRequest.getParameter("ajaxCheckBox");
+        logger.info("CHECKBOX: " + checked);
+
+
+        Iterator it = httpServletRequest.getParameterMap().keySet().iterator();
+        while (it.hasNext()) {
+            String s = (String) it.next();
+            logger.info(s + " " + httpServletRequest.getParameterMap().get(s));
+        }
+
+
         ModelAndView modelAndView = new ModelAndView();
 
         return modelAndView;
