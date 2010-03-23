@@ -72,8 +72,8 @@ public class CopexPanel extends JPanel {
     /* locale */
     private Locale locale ;
     /* ressource bundle */
-    //private ResourceBundle bundle;
-    private ResourceBundleWrapper bundle;
+    private ResourceBundle bundle;
+    //private ResourceBundleWrapper bundle;
     /* images de l'editeur */
     private ArrayList<CopexImage> listImage;
     private boolean scyMode;
@@ -155,21 +155,21 @@ public class CopexPanel extends JPanel {
 //        locale = Locale.getDefault();
 //        locale = new Locale("en", "GB");
 //        //locale = new Locale("fr", "FR");
-//        try{
-//            this.bundle = ResourceBundle.getBundle("CopexBundle", locale);
-//        }catch(MissingResourceException e){
-//          try{
-//              // by default, english language
-//              locale = new Locale("en", "GB");
-//              bundle = ResourceBundle.getBundle("CopexBundle", locale);
-//          }catch (MissingResourceException e2){
-//            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//            System.out.println("Error while loading COPEX, the specified language "+locale+" does not exist: "+e2);
-//            displayError(new CopexReturn("Error while loading COPEX: "+e2, false), "ERROR LANGUAGE");
-//            return;
-//            }
-//        }
-        bundle = new ResourceBundleWrapper(this,"copex");
+        try{
+            this.bundle = ResourceBundle.getBundle("languages/copex", locale);
+        }catch(MissingResourceException e){
+          try{
+              // by default, english language
+              locale = new Locale("en");
+              bundle = ResourceBundle.getBundle("languages/copex", locale);
+          }catch (MissingResourceException e2){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            System.out.println("Error while loading COPEX, the specified language "+locale+" does not exist: "+e2);
+            displayError(new CopexReturn("Error while loading COPEX: "+e2, false), "ERROR LANGUAGE");
+            return;
+            }
+        }
+        //bundle = new ResourceBundleWrapper(this,"copex");
        // Initialisation du look and feel
 //        try{
 //            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
