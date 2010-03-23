@@ -5,10 +5,10 @@
 
 package eu.scy.tools.fitex.analyseFn;
 
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.fitex.analyseFn.Analyseur.ErreurDeSyntaxe;
 import eu.scy.tools.fitex.dataStruct.*;
 import java.util.HashMap;
-import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Function
 {
-    // Locale
-    private Locale locale;
+    // 
+    private FitexToolPanel owner;
     //L'intitulie de la fonction
     private String intitule ;
     // l'expression de la fonction
@@ -40,9 +40,9 @@ public class Function
     private Double[] reliabilityFactor ;
     
     /** Creates a new instance of Function */
-    public Function(Locale locale, String intitule, DefaultTableModel[] data) {
+    public Function(FitexToolPanel owner, String intitule, DefaultTableModel[] data) {
         this.data = data ;
-        this.locale = locale;
+        this.owner = owner;
         this.reliabilityFactor = new Double[data.length];
         maJFonction(intitule) ;
     }
@@ -62,7 +62,7 @@ public class Function
             /* on passe l'object fonction en parametre pour que l'analyseur ait
              * connaissance de la fonction : ainsi les parametres pourront s'enregistrer
              * dans la HashMap de la fonction prevue a cet effet */
-            expression = new Analyseur(locale, intitule, this).analyser() ;
+            expression = new Analyseur(owner, intitule, this).analyser() ;
         } catch (ErreurDeSyntaxe e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage());

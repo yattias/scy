@@ -28,7 +28,7 @@ public class BoxSpinner extends javax.swing.JPanel {
     }
 
     public  ImageIcon getFitexImage(String img){
-        return new ImageIcon(getClass().getResource( "/" +img));
+        return new ImageIcon(getClass().getResource( "/Images/" +img));
     }
 
     public void setFocus(){
