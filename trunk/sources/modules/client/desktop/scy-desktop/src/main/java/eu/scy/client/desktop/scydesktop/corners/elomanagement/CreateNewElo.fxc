@@ -47,7 +47,7 @@
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:26,anim:,,str:Select ELO type,4,null,"/>
+        <Reference name="text" value="prop:28,anim:,,str:##Select ELO type,4,null,"/>
     </Instance>
     <Instance classID="ListViewModel" instanceID="ListViewModel1">
         <Reference name="instanceName" value="str:listView"/>
@@ -62,23 +62,23 @@
     </Instance>
     <Instance classID="ButtonModel" instanceID="ButtonModel1">
         <Reference name="instanceName" value="str:cancelButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:210.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:198.0,4,null,"/>
         <Reference name="layoutY" value="prop:16,anim:,,flt:152.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:17,anim:,,str:Cancel,4,null,"/>
+        <Reference name="text" value="prop:19,anim:,,str:##Cancel,4,null,"/>
         <Reference name="action" value="prop:29,anim:,,str:cancelButtonAction,4,null,"/>
     </Instance>
     <Instance classID="ButtonModel" instanceID="ButtonModel2">
         <Reference name="instanceName" value="str:createButton"/>
         <Reference name="disable" value="prop:16,anim:,,bool:true,4,null,"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:135.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:111.0,4,null,"/>
         <Reference name="layoutY" value="prop:16,anim:,,flt:152.0,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
         <Reference name="graphicNode" value="null"/>
-        <Reference name="text" value="prop:17,anim:,,str:Create,4,null,"/>
+        <Reference name="text" value="prop:19,anim:,,str:##Create,4,null,"/>
         <Reference name="action" value="prop:29,anim:,,str:createButtonAction,4,null,"/>
         <Reference name="strong" value="prop:16,anim:,,bool:true,4,null,"/>
     </Instance>

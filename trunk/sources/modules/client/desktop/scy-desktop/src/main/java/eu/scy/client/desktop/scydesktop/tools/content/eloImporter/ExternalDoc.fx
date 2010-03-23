@@ -80,7 +80,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
     var assignment:String;
 
     def nrOfColumns = 40;
-    def valueOffset = 90.0;
+    def valueOffset = 100.0;
     def labelOffset = 4.0;
    def spacing = 5.0;
    var assignmentGroup:Group;
@@ -111,7 +111,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      content:[
                         Label {
                            layoutY:labelOffset
-                           text: "Assignment"
+                           text: ##"Assignment"
                         }
                         assignmentGroup = Group{
                            layoutX:valueOffset
@@ -140,7 +140,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      content:[
                         Label {
                            layoutY:labelOffset
-                           text: "File name"
+                           text: ##"File name"
                         }
                         fileNameTextBox = TextBox {
                            layoutX:valueOffset
@@ -155,7 +155,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      content:[
                         Label {
                            layoutY:labelOffset
-                           text: "File path"
+                           text: ##"File path"
                         }
                         TextBox {
                            layoutX:valueOffset
@@ -170,7 +170,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      content:[
                         Label {
                            layoutY:labelOffset
-                           text: "Last modified"
+                           text: ##"Last modified"
                         }
                         TextBox {
                            layoutX:valueOffset
@@ -185,7 +185,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      content:[
                         Label {
                            layoutY:labelOffset
-                           text: "Sync state"
+                           text: ##"Sync state"
                         }
                         TextBox {
                            layoutX:valueOffset
@@ -261,25 +261,25 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    function updateSyncState():Void{
       reloadPossible = false;
       if (file==null){
-         syncState = "no file uploaded"
+         syncState = ##"no file uploaded"
       }
       else if (not file.exists()){
-         syncState = "file not found"
+         syncState = ##"file not found"
       }
       else if (file.lastModified()<fileLastModified){
-         syncState = "file older";
+         syncState = ##"file older";
          reloadPossible = true;
       }
       else if (file.lastModified()>fileLastModified){
-         syncState = "file newer";
+         syncState = ##"file newer";
          reloadPossible = true;
       }
       else if (file.length()!=fileSize){
-         syncState = "file size changed";
+         syncState = ##"file size changed";
          reloadPossible = true;
       }
       else{
-         syncState = "equal";
+         syncState = ##"equal";
       }
 
    }
@@ -319,27 +319,27 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                      spacing:spacing;
                      content:[
                         Button {
-                           text: "Save"
+                           text: ##"Save"
                            //disable:bind file==null
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
-                           text: "Save as"
+                           text: ##"Save as"
                            //disable:bind file==null
                            action: function() {
 										doSaveAsElo();
                            }
                         }
                         Button {
-                           text: "Upload file"
+                           text: ##"Upload file"
                            action: function() {
 										importFile();
                            }
                         }
                         Button {
-                           text: "Download file"
+                           text: ##"Download file"
                            disable:bind file==null
                            action: function() {
 										exportFile();
