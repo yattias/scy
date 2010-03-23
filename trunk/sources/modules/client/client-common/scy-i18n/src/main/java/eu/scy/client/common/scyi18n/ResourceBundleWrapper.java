@@ -19,7 +19,8 @@ public class ResourceBundleWrapper {
     private final static String languageDir = "languages";
     private final static Locale defaultLocale = new Locale("en");
 
-    private URLClassLoader loader;
+    //private URLClassLoader loader;
+    private ClassLoader loader;
     private String baseName = null;
     private ResourceBundle bundle;
     private static final Logger logger = Logger.getLogger(ResourceBundleWrapper.class.getName());
@@ -57,23 +58,25 @@ public class ResourceBundleWrapper {
      * @param number the specified number
      * @return the string for the given number and locale
      */
-    public String getNumberToString(Locale locale, double number){
-        return getNumberFormat(locale).format(number);
+    public String getNumberToString(double number){
+        return getNumberFormat().format(number);
     }
 
     /** Gets a numberFormat for a given locale
      * @param locale the specified locale
      * @return the numberFormat for the given locale
      */
-    public NumberFormat getNumberFormat(Locale locale){
-        return NumberFormat.getNumberInstance(locale);
+    public NumberFormat getNumberFormat(){
+        return NumberFormat.getNumberInstance(Locale.getDefault());
     }
 
-
+    
     private void initBundle(Object o, String moduleName){
         baseName = languageDir+"/"+moduleName;
-        URL urlList[] = {o.getClass().getResource(languageDir+"/")};
-        loader = new URLClassLoader(urlList);
+//        URL urlList[] = {o.getClass().getClassLoader().getResource(languageDir+"/")};
+//        loader = new URLClassLoader(urlList);
+        loader=Thread.currentThread().getContextClassLoader();
+
         try{
             this.bundle  = ResourceBundle.getBundle(baseName, Locale.getDefault(), loader);
         }catch(MissingResourceException e){
@@ -84,6 +87,8 @@ public class ResourceBundleWrapper {
           }catch (MissingResourceException e2){
               logger.log(Level.SEVERE, "No bundle for baseName "+baseName);
           }
+        }catch(Exception e3){
+            logger.log(Level.SEVERE, "failed to load bundle resources "+e3);
         }
     }
 
