@@ -22,8 +22,8 @@ public class AjaxCheckBox extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             double id = Math.random() ;
-            pageContext.getOut().write("<form id=\"checkboxForm" + id + " method=\"post\" action=\"/webapp/components/ajaxCheckBox.html\">");
-            pageContext.getOut().write("<input id=\"" + id + "\" name=\"" + id +  "\" value=\"\" dojoType=\"dijit.form.CheckBox\" onChange=\"postForm('checkboxForm"+ id + "')\""  +  getChecked() + " >");
+            pageContext.getOut().write("<form id=\"checkboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCheckBox.html\">");
+            pageContext.getOut().write("<input id=\"ajaxCheckBox" + id + "\" name=\"ajaxCheckBox" + id +  "\" value=\"true\" dojoType=\"dijit.form.CheckBox\" onChange=\"postForm('checkboxForm"+ id + "');\" "  +  getChecked() + " >");
             pageContext.getOut().write("</form>");
         } catch(Exception e) {
             e.printStackTrace();
