@@ -3,7 +3,7 @@
 	<tiles:putAttribute name="main">
 
         <h1>My pedagogical plans</h1>
-         <s:ajaxCheckBox modelClass="eu.scy.core.ActivityServiceImpl" modelId="sdf" property="name"/>
+         <s:ajaxCheckBox model="eu.scy.core.ActivityServiceImpl"/>
 		<c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">
             <table id="pedagogicalPlansTable" border="2" width="100%">
@@ -23,6 +23,7 @@
                         <td><a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a></td>
                         <td>${pedagogicalPlan.description}</td>
                         <td>${pedagogicalPlan.published}</td>
+                        <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/> </td>
                     </tr>
                 </c:forEach>
             </table>
