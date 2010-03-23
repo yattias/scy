@@ -58,9 +58,16 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     public override var height on replace {
                 resizeContent()
             };
+    def rotation = bind scyWindow.rotate on replace {
+                if (dataCollector != null) {
+                    //logger.info("setting rotation to {rotation}");
+                    dataCollector.setRotation(rotation);
+                }
+            };
     var fixedDimension = new Dimension(575, 275);
     var wrappedSimquestPanel: SwingComponent;
     var technicalFormatKey: IMetadataKey;
+    var keywordsKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
     var eloSimconfig: IELO;
     var eloDataset: IELO;
@@ -105,7 +112,6 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
        }else{
             return false;
        }
-
    }
 
     public function initializeDatasync(fitex: ISynchronizable) {
@@ -114,7 +120,6 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         this.join(datasyncsession.getId());
     }
 
-    
     public function removeDatasync(fitex: ISynchronizable) {
         this.leave(dataCollector.getSessionID());
         fitex.leave(fitex.getSessionID());
@@ -137,6 +142,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        //keywordKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.);
     }
 
     public override function newElo() {
@@ -301,6 +307,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (eloDataset == null) {
             eloDataset = eloFactory.createELO();
             eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
+            //eloDataset.getMetadata().getMetadataValueContainer()
         }
         eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
         return eloDataset;

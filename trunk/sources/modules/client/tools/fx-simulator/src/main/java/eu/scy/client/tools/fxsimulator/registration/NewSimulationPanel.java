@@ -18,7 +18,7 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
     protected JButton load;
 
     public NewSimulationPanel(ActionListener listener) {
-        this.setLayout(new GridLayout(6,1));
+        this.setLayout(new GridLayout(7,1));
         JRadioButton radio;
         JPanel panel;
         FlowLayout flow = new FlowLayout();
@@ -70,7 +70,19 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         panel.add(radio);
         panel.add(new JLabel("old CO2-House simulation (slow loading)"));
         this.add(panel);
-        
+
+        radio = new JRadioButton();
+        radio.setName("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
+        //radio.setName("http://www.scy-lab.eu/sqzx/house_05022010.sqzx");
+        radio.setActionCommand("setsimulation");
+        radio.addActionListener(this);
+        radios.add(radio);
+        panel = new JPanel();
+        panel.setLayout(flow);
+        panel.add(radio);
+        panel.add(new JLabel("pendulum"));
+        this.add(panel);
+
         radio = new JRadioButton();
         radio.setName("free");
         radio.setActionCommand("setsimulation");
