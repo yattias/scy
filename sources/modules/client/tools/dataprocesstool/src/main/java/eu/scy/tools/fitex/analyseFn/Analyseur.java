@@ -5,13 +5,11 @@
 
 package eu.scy.tools.fitex.analyseFn;
 
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.fitex.dataStruct.*;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 /**
  *
@@ -24,26 +22,13 @@ public class Analyseur
     // cette fonction est passe en parametre 
     private Function fonction ;
 
-    /* locale */
-    protected Locale locale ;
-    /* ressource bundle */
-    protected ResourceBundle bundle;
+    private FitexToolPanel owner;
+    
     
     /** Creates a new instance of Analyseur */
-    public Analyseur(Locale locale, String texte) throws IOException
+    public Analyseur(FitexToolPanel owner, String texte) throws IOException
     {
-        // i18n
-        try{
-            this.bundle = ResourceBundle.getBundle("FitexBundle", locale);
-        }catch(MissingResourceException e){
-          try{
-              // par defaut on prend l'anglais
-              locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("FitexBundle");
-          }catch (MissingResourceException e2){
-            System.out.println("ERROR , la langue specifiee "+locale+" n'existe pas : "+e2);
-            }
-        }
+        this.owner = owner;
 
             lexical = new StreamTokenizer(new StringReader(texte));
             lexical.ordinaryChar('/');
@@ -57,9 +42,9 @@ public class Analyseur
      * etre stockee le produit de l'analyseur 
      * niecessaire lorsque l'on a une fonction paramietriee
      */
-    public Analyseur(Locale locale,String texte, Function fonction) throws IOException
+    public Analyseur(FitexToolPanel owner,String texte, Function fonction) throws IOException
     {
-            this(locale,texte) ;
+            this(owner,texte) ;
             this.fonction = fonction ;
     }
     
@@ -73,14 +58,7 @@ public class Analyseur
 
      /* retourne un message selon cle*/
     public String getBundleString(String key){
-        String s = "";
-        try{
-            s = this.bundle.getString(key);
-        }catch(Exception e){
-            System.out.println("Error : no message found ("+key+") !");
-            return "";
-        }
-        return s;
+        return owner.getBundleString(key);
     }
     
     public Expression analyser() throws IOException, ErreurDeSyntaxe

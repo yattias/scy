@@ -377,7 +377,7 @@ public class FitexPanel extends javax.swing.JPanel {
         drawFct();
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
-            Function f = new Function(owner.getLocale(), fm.getDescription(), datas);
+            Function f = new Function(owner, fm.getDescription(), datas);
             int nbP = fm.getListParam().size();
             for (int k=0; k<nbP; k++){
                 f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
@@ -460,7 +460,7 @@ public class FitexPanel extends javax.swing.JPanel {
         if (!isRows())
             return ;
         if (mapDesFonctions.get(couleurSelect) == null)
-            mapDesFonctions.put(couleurSelect, new Function(owner.getLocale(), textFieldFct.getText(), datas));
+            mapDesFonctions.put(couleurSelect, new Function(owner, textFieldFct.getText(), datas));
         else
             mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText()) ;
         // affichage des parametres de la fonction
