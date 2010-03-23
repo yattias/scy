@@ -60,6 +60,8 @@ import javax.swing.JTable;
  */
 public class DataCollector extends JPanel implements ActionListener, IDataClient {
 
+    private ModelVariable rotationVariable = null;
+
     public enum SCAFFOLD {
 
         VOTAT,
@@ -79,7 +81,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private DataSet dataset;
     private DatasetTableModel tableModel;
     private DatasetSandbox sandbox = null;
-    private BalanceSlider balanceSlider;
+    private BalanceSlider balanceSlider = null;
     private ScySimLogger logger;
     private Logger debugLogger;
     private ToolBrokerAPI tbi;
@@ -117,7 +119,17 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
         simquestViewer.getDataServer().register(dataAgent);
 
-        balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
+        // rotation awareness stuff
+        for (ModelVariable var: simquestViewer.getDataServer().getVariables("name is not relevant")) {
+            if (var.getName().equals("rotation")) {
+                rotationVariable = var;
+                debugLogger.info("rotation variable found.");
+            }
+        }
+        if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
+            balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
+            debugLogger.info("balance simulation found.");
+        }
     }
 
     private void initGUI() {
@@ -167,7 +179,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void setRotation(double angle) {
-        balanceSlider.setRotationAngle(angle);
+        if (balanceSlider != null) {
+            balanceSlider.setRotationAngle(angle);
+        }
+        if (rotationVariable != null) {
+            rotationVariable.setValue(angle);
+            simquestViewer.getDataServer().updateClients();
+        }
     }
 
     public void addCurrentDatapoint() {
