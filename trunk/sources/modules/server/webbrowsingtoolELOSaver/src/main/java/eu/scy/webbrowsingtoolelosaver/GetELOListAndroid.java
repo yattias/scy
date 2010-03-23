@@ -60,8 +60,8 @@ import org.codehaus.jettison.json.JSONObject;
 
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import roolo.elo.BasicMetadataQuery;
+import roolo.elo.BasicSearchOperations;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
