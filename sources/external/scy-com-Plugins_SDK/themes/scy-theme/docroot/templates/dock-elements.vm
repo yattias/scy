@@ -19,7 +19,7 @@
 			<li class="my-account-menu">
 				<a href="$my_account_url">$my_account_text</a>
 			</li>
-
+			#end
 
 			#if ($show_my_places)
 			<li class="my-places lfr-flyout has-children myplaces-out">
