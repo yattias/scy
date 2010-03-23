@@ -26,7 +26,6 @@ import javafx.geometry.HPos;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
-import javafx.geometry.VPos;
 
 /**
  * @author sikken
@@ -38,6 +37,7 @@ public class LoginNode extends CustomNode {
    public-init var defaultUserName = "name";
    public-init var defaultPassword = "pass";
    public-init var autoLogin = false;
+   public-init var languages = ["nl","en","et","fr","el"];
    public var loginAction  : function(userName:String,password:String): Void;
    public-read var language:String = bind languageSelector.language on replace {languageSelected()};
    public-read var loginTitle:String = "SCY-Lab login";
@@ -56,7 +56,7 @@ public class LoginNode extends CustomNode {
    var quitButton: Button;
    var currentLocale = Locale.getDefault();
    def languageSelector = LanguageSelector{
-         languages: ["nl","en","et","fr","el"]
+         languages: languages
          language: currentLocale.getLanguage()
       };
    def loginEnabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0);
