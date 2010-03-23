@@ -43,6 +43,8 @@ package eu.scy.webbrowsingtoolelosaver;
 import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -119,6 +121,7 @@ public class SaveELO {
      * <li>  uri: the URI of the ELO to update. If specified, not a new ELO will be created, but an existing one will be updated
      * <li>  country: country code (ISO-3166)
      * <li>  description: a short description of the ELO
+     * <li>  dateCreated: The date of ELO creation - if this is not specified, it will be created.
      * </ul>
      * @param jsonData The data formed as json, of which the ELO will be created - or updated
      * @return the URI of the saved/updated ELO
@@ -137,6 +140,7 @@ public class SaveELO {
         String uri = null;
         String country = null;
         String description = null;
+        String dateCreated = null;
         try {
             //non-optional parameters:
             content = jsonData.getString("content");
@@ -154,6 +158,9 @@ public class SaveELO {
             }
             if (jsonData.has("country")) {
                 country = jsonData.getString("country");
+            }
+            if (jsonData.has("dateCreated")) {
+                dateCreated = jsonData.getString("dateCreated");
             }
 
             //TODO authenticate User!
@@ -197,6 +204,7 @@ public class SaveELO {
 
                     Contribute contribute = new Contribute(username, new Date().getTime());
                     elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
+                    log.info("SAVE ELO - CONTRIBUTE: "+elo.getMetadata().getMetadataValueContainer(authorKey).getValue());
 
                     IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
                     if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
@@ -205,7 +213,12 @@ public class SaveELO {
                     elo.getMetadata().addMetadataPair(typeKey, container);
                     elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
                     elo.getMetadata().getMetadataValueContainer(typeKey).setValue(type);
-                    elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
+                    if (dateCreated == null) {
+                        //dateCreated is optional
+                        elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
+                    } else {
+                        elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(dateCreated);
+                    }
                     if (description != null) {
                         //description is optional
                         elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
