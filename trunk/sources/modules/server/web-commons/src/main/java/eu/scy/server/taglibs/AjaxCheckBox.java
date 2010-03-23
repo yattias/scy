@@ -21,14 +21,7 @@ public class AjaxCheckBox extends TagSupport {
 
     public int doEndTag() throws JspException {
         try {
-            System.out.println("MODEL: " + getModel() + " property: " + getProperty());
-
-
             double id = Math.random() ;
-
-
-            pageContext.getOut().write("Class: " +getModelClass() + " id: " + getModelId() + " property : " +getProperty());
-
             pageContext.getOut().write("<form id=\"checkboxForm" + id + " method=\"post\" action=\"/webapp/components/ajaxCheckBox.html\">");
             pageContext.getOut().write("<input id=\"" + id + "\" name=\"" + id +  "\" value=\"\" dojoType=\"dijit.form.CheckBox\" onChange=\"postForm('checkboxForm"+ id + "')\""  +  getChecked() + " >");
             pageContext.getOut().write("</form>");
@@ -39,13 +32,22 @@ public class AjaxCheckBox extends TagSupport {
     }
 
     private Boolean executeGetter(Object object, String property) {
-        return true;
-        /*try {
+        if(property == null) return false;
+        try {
+            String firstLetter = property.substring(0,1);
+            firstLetter = firstLetter.toUpperCase();
+
+            property = firstLetter + property.substring(1, property.length());
+
             Method method = object.getClass().getMethod("get" + property);
-            return (Boolean) method.invoke(object, null);
+
+            Boolean returnValue =  (Boolean) method.invoke(object, null);
+            System.out.println(method.getName() + " " + returnValue);
+            return returnValue;
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } */
+        }
+        throw new RuntimeException("NOOO");
     }
 
     public String getModelClass() {
