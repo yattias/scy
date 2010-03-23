@@ -40,6 +40,7 @@
  */
 package eu.scy.webbrowsingtoolelosaver;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
@@ -72,6 +73,7 @@ import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer
  *
  * @author __SVEN__
  */
+@Singleton //XXX try this out!!!
 @Path("/saveELO")
 public class SaveELO {
 

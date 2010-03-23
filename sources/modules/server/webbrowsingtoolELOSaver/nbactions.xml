@@ -17,11 +17,20 @@
         <action>
             <actionName>run</actionName>
             <goals>
-                <goal>package</goal>
-                
+                <goal>jetty:run</goal>
             </goals>
             <properties>
                 <netbeans.deploy>true</netbeans.deploy>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-jetty:run DEBUG</actionName>
+            <displayName>jetty:run DEBUG</displayName>
+            <goals>
+                <goal>jetty:run</goal>
+            </goals>
+            <properties>
+                <jpda.listen>maven</jpda.listen>
             </properties>
         </action>
     </actions>
