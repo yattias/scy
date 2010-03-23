@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+        "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>sc</shortname>
+    <uri>http://scy.collide.info/taglibs</uri>
+    <info>SCY-Taglib</info>
+    <tag>
+        <name>ajaxCheckBox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxCheckBox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax check box</info>
+        <attribute>
+            <name>modelClass</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>modelId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+</taglib>
