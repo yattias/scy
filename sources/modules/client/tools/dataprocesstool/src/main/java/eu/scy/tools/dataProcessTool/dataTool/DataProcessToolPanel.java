@@ -43,6 +43,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import javax.swing.*;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -76,7 +78,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* locale */
     private Locale locale ;
     /* ressource bundle */
-    private ResourceBundleWrapper bundle;
+    //private ResourceBundleWrapper bundle;
+    private ResourceBundle bundle;
     /* version */
     private String version = "3.2";
     /* number format */
@@ -142,21 +145,21 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 //        locale = Locale.getDefault();
 //        locale = new Locale("en", "GB");
 //        //locale = new Locale("fr", "FR");
-//        try{
-//            this.bundle = ResourceBundle.getBundle("FitexBundle" , locale);
-//        }catch(MissingResourceException e){
-//          try{
-//              // english language by def.
-//              locale = new Locale("en", "GB");
-//              bundle = ResourceBundle.getBundle("FitexBundle", locale);
-//          }catch (MissingResourceException e2){
-//            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//            System.out.println("ERREUR lors du chargement de l'applet, la langue specifiee "+locale+" n'existe pas : "+e2);
-//            displayError(new CopexReturn("ERREUR lors du chargement de l'application : "+e, false), "ERROR LANGUAGE");
-//            return;
-//          }
-//        }
-        bundle = new ResourceBundleWrapper(this,"fitex");
+        try{
+            this.bundle = ResourceBundle.getBundle("languages/fitex" , locale);
+        }catch(MissingResourceException e){
+          try{
+              // english language by def.
+              locale = new Locale("en");
+              bundle = ResourceBundle.getBundle("languages/fitex", locale);
+          }catch (MissingResourceException e2){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            System.out.println("ERREUR lors du chargement de l'applet, la langue specifiee "+locale+" n'existe pas : "+e2);
+            displayError(new CopexReturn("ERREUR lors du chargement de l'application : "+e, false), "ERROR LANGUAGE");
+            return;
+          }
+        }
+        //bundle = new ResourceBundleWrapper(this,"fitex");
         //
         initNumberFormat();
         // noyau
