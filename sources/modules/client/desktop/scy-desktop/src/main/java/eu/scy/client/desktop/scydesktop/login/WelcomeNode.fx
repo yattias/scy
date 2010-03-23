@@ -41,14 +41,14 @@ public class WelcomeNode extends CustomNode {
                   size: 12
                }
                x: leftBorder, y: 30
-               content: "Welcome, {name} to SCY-Lab"
+               content: ##"Welcome, {name} to SCY-Lab"
             }
             Text {
                font : Font {
                   size: 12
                }
                x: leftBorder, y: 70
-               content: "Please wait, while SCY-Lab is loading..."
+               content: ##"Please wait, while SCY-Lab is loading..."
             }
 
          ]

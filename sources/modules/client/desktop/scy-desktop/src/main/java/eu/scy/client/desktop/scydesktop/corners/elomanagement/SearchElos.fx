@@ -37,12 +37,12 @@ public class SearchElos extends ModalDialogNode {
         label = javafx.scene.control.Label {
             layoutX: 6.0
             layoutY: 6.0
-            text: "Query:"
+            text: "##Query:"
         };
         label2 = javafx.scene.control.Label {
-            layoutX: 131.0
+            layoutX: 125.0
             layoutY: 6.0
-            text: "All"
+            text: "##All"
         };
         allTypesCheckBox = javafx.scene.control.CheckBox {
             layoutX: 158.0
@@ -65,7 +65,7 @@ public class SearchElos extends ModalDialogNode {
         label3 = javafx.scene.control.Label {
             layoutX: 240.0
             layoutY: 6.0
-            text: "Title"
+            text: "##Title"
         };
         nameTextbox = javafx.scene.control.TextBox {
             layoutX: 240.0
@@ -78,34 +78,40 @@ public class SearchElos extends ModalDialogNode {
             }
         };
         mineCheckBox = javafx.scene.control.CheckBox {
-            layoutX: 276.0
+            layoutX: 283.0
             layoutY: 108.0
+            width: 17.0
+            height: 17.0
+            layoutInfo: javafx.scene.layout.LayoutInfo {
+                width: bind mineCheckBox.width
+                height: bind mineCheckBox.height
+            }
             onMouseClicked: onlyMineCheckBoxOnMouseClicked
             text: ""
         };
         label4 = javafx.scene.control.Label {
             layoutX: 240.0
             layoutY: 86.0
-            text: "Owner"
+            text: "##Author"
         };
         line = javafx.scene.shape.Line {
             layoutX: 0.0
             layoutY: 143.0
             stroke: javafx.scene.paint.Color.LIGHTBLUE
             strokeWidth: 2.0
-            endX: 490.0
+            endX: 500.0
             endY: 0.0
         };
         searchButton = javafx.scene.control.Button {
             layoutX: 426.0
             layoutY: 102.0
-            text: "Search"
+            text: "##Search"
             action: searchButtonAction
         };
         label5 = javafx.scene.control.Label {
             layoutX: 6.0
             layoutY: 153.0
-            text: "Results:"
+            text: "##Results:"
         };
         resultsListView = javafx.scene.control.ListView {
             layoutX: 25.0
@@ -122,27 +128,27 @@ public class SearchElos extends ModalDialogNode {
             disable: true
             layoutX: 435.0
             layoutY: 223.0
-            text: "Open"
+            text: "##Open"
             action: openButtonAction
         };
         cancelButton = javafx.scene.control.Button {
             layoutX: 429.0
             layoutY: 259.0
-            text: "Cancel"
+            text: "##Cancel"
             action: cancelButtonAction
         };
         label6 = javafx.scene.control.Label {
             layoutX: 240.0
             layoutY: 108.0
-            text: "Mine"
+            text: "##Me"
         };
         label7 = javafx.scene.control.Label {
             layoutX: 316.0
             layoutY: 108.0
-            text: "Others"
+            text: "##Others"
         };
         othersCheckBox = javafx.scene.control.CheckBox {
-            layoutX: 363.0
+            layoutX: 373.0
             layoutY: 108.0
             text: ""
         };

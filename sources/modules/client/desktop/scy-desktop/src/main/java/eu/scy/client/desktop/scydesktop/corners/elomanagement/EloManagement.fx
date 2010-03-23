@@ -22,7 +22,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import javafx.scene.Group;
 import javafx.util.Sequences;
 import java.net.URI;
-import javafx.scene.control.Button;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.api.search.IQuery;
@@ -34,6 +33,7 @@ import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 
 /**
  * @author sikken
@@ -166,7 +166,7 @@ public class EloManagement extends CustomNode {
       if (showAuthor){
          var authorName = author.getVCard();
          if (authorName==null){
-            authorName = "unknown"
+            authorName = ##"unknown"
          }
          authorDisplay = "{authorName}: "
       }
@@ -185,11 +185,11 @@ public class EloManagement extends CustomNode {
       }
       createNewElo.listView.items = eloTemplateUriDisplays;
 
-      createNewElo.label.text = "Select template";
+      createNewElo.label.text = ##"Select template";
       var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
       var color = windowStyler.getScyColor(ImageWindowStyler.generalNew);
 
-      createModalDialog(color,eloIcon,"Create new",createNewElo);
+      createModalDialog(color,eloIcon,##"Create new",createNewElo);
    }
 
    function createNewEloFromTemplate(createNewElo: CreateNewElo):Void{
@@ -223,7 +223,7 @@ public class EloManagement extends CustomNode {
       var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
       var color = windowStyler.getScyColor(ImageWindowStyler.generalNew);
 
-      createModalDialog(color,eloIcon,"Create new",createNewElo);
+      createModalDialog(color,eloIcon,##"Create new",createNewElo);
    }
 
    function createNewBlankElo(createNewElo: CreateNewElo):Void{
@@ -247,6 +247,7 @@ public class EloManagement extends CustomNode {
 
 
    function createModalDialog(color:Color,eloIcon:EloIcon, title:String,modalDialogNode:ModalDialogNode):Void{
+      Composer.localizeDesign(modalDialogNode.getContentNodes());
       modalDialogNode.modalDialogBox = ModalDialogBox {
             content: Group{
                content:modalDialogNode.getContentNodes();
@@ -276,7 +277,7 @@ public class EloManagement extends CustomNode {
       var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
       var color = windowStyler.getScyColor(ImageWindowStyler.generalSearch);
 
-      createModalDialog(color,eloIcon,"Search",searchElos);
+      createModalDialog(color,eloIcon,##"Search",searchElos);
    }
 
    function searchForElos(searchElos: SearchElos):Void{

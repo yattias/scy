@@ -30,7 +30,7 @@ public class CreateNewElo extends ModalDialogNode {
                 width: bind label.width
                 height: bind label.height
             }
-            text: "Select ELO type"
+            text: "##Select ELO type"
         };
         listView = javafx.scene.control.ListView {
             layoutX: 13.0
@@ -45,16 +45,16 @@ public class CreateNewElo extends ModalDialogNode {
             onMouseClicked: listViewOnMouseClicked
         };
         cancelButton = javafx.scene.control.Button {
-            layoutX: 210.0
+            layoutX: 198.0
             layoutY: 152.0
-            text: "Cancel"
+            text: "##Cancel"
             action: cancelButtonAction
         };
         createButton = javafx.scene.control.Button {
             disable: true
-            layoutX: 135.0
+            layoutX: 111.0
             layoutY: 152.0
-            text: "Create"
+            text: "##Create"
             action: createButtonAction
             strong: true
         };
