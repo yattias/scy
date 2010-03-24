@@ -106,6 +106,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger());
         }
+        //logger.sendListOfInputVariables();
+        logger.logListOfVariables("input_variables", logger.getInputVariables());
         setSelectedVariables(new ArrayList<ModelVariable>());
         // initialize user interface
         initGUI();
@@ -129,7 +131,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
             balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
             debugLogger.info("balance simulation found.");
-        }
+        }      
     }
 
     private void initGUI() {
@@ -385,7 +387,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     public void setSelectedVariables(List<ModelVariable> selection) {
         selectedVariables = selection;
         cleanDataSet();
-        logger.logSelectedVariables(selectedVariables);
+        logger.logListOfVariables("variables_selected", selectedVariables);
     }
 
     private ModelVariable getVariableByName(String name) {
