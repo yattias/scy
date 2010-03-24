@@ -74,11 +74,6 @@
                             <td>${anchorElo.name}</td>
                             <td>
                                 <s:ajaxCombobox property="name" model="${anchorElo}" comboBoxValues="${assessmentStrategies}"/>
-                                <!--select>
-                                    <option>Peer to peer</option>
-                                    <option>Teacher</option>
-                                    <option>Mucho Mucho</option>
-                                </select-->
                             </td>
                         </tr>
                     </c:forEach>

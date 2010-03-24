@@ -63,4 +63,26 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>ajaxSlider</name>
+        <tagclass>eu.scy.server.taglibs.AjaxSlider</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax slider</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>sliderValues</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
 </taglib>

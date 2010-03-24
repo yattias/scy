@@ -4,7 +4,21 @@
 
         <h1>Specify agents/scaffolds</h1>
 
-        <table>
+
+        <div>
+            <table>
+                <tr>
+                    <td>Overall level SCYLab</td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                </tr>
+                <tr>
+                    <td>Overall level Mission content</td>
+                    <td><s:ajaxSlider sliderValues="${contentLevels}"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <!--table>
             <tr>
                 <td rowspan="3">Overall level SCYLab</td>
                 <td>Low</td>
@@ -31,7 +45,7 @@
                 <td>High</td>
                 <td><input type="radio"/></td>
             </tr>
-        </table>
+        </table-->
 
 
     </tiles:putAttribute>
