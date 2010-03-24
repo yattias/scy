@@ -1,5 +1,6 @@
 package eu.scy.server.controllers;
 
+import eu.scy.core.ScenarioService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -15,22 +16,29 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class AjaxCheckBoxController extends AbstractController {
+
+    private ScenarioService scenarioService;
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
-        String checked = httpServletRequest.getParameter("ajaxCheckBox");
-        logger.info("CHECKBOX: " + checked);
-
-
-        Iterator it = httpServletRequest.getParameterMap().keySet().iterator();
-        while (it.hasNext()) {
-            String s = (String) it.next();
-            logger.info(s + " " + httpServletRequest.getParameterMap().get(s));
+        final String CHECKED = "ajaxCheckBoxValue";
+        Boolean checked = Boolean.FALSE;
+        String checkedString = httpServletRequest.getParameter(CHECKED);
+        if(checkedString != null) {
+            checked = Boolean.TRUE;
         }
-
 
         ModelAndView modelAndView = new ModelAndView();
 
         return modelAndView;
+    }
+
+    public ScenarioService getScenarioService() {
+        return scenarioService;
+    }
+
+    public void setScenarioService(ScenarioService scenarioService) {
+        this.scenarioService = scenarioService;
     }
 }

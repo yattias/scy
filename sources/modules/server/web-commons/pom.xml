@@ -13,12 +13,19 @@
   <name>web-commons</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-      <!--dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.4</version>
-          <scope>compile</scope>
-      </dependency-->
+
+      <dependency>
+          <groupId>eu.scy.server</groupId>
+          <artifactId>scy-useradmin-api</artifactId>
+          <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>eu.scy.common</groupId>
+          <artifactId>scy-model-api</artifactId>
+          <version>${pom.version}</version>
+      </dependency>
+
       <dependency>
           <groupId>javax.servlet</groupId>
           <artifactId>jsp-api</artifactId>
@@ -30,6 +37,8 @@
           <artifactId>spring-webmvc</artifactId>
           <version>2.5.6</version>
       </dependency>
+
+
       
     
   </dependencies>
