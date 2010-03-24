@@ -16,13 +16,10 @@ import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerC
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
-import javafx.util.StringLocalizer;
 
 /**
  * @author sikkenj
  */
-
-StringLocalizer.associate("languages.scydesktop","eu.scy.client.desktop.scydesktop");
 
 var initializer = Initializer{
    log4JInitFile:"/config/scy-desktop-log4j.xml"

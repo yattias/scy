@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.utils.i18n;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.util.StringLocalizer;
+import java.util.Locale;
 
 /**
  * @author sikken
@@ -18,6 +19,7 @@ import javafx.util.StringLocalizer;
 def toLocalizeCode = "##";
 
 public function localizeDesign(nodes: Node[]):Void{
+   //println("localizeDesign in {Locale.getDefault().getLanguage()}");
    var stringLocalizer = StringLocalizer{};
    for (node in nodes){
       if (node instanceof Labeled){
