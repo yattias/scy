@@ -26,6 +26,7 @@
     <general>
       <title>
         <string language="en">Word document</string>
+        <string language="fr">Document Word</string>
       </title>
       <mission>co2Mission</mission>
       <las>startPage</las>
