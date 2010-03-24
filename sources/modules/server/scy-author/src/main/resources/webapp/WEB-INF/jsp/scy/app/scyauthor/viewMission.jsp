@@ -51,8 +51,12 @@
                     </tr>
                     <c:forEach var="lg" items="${learningGoals}">
                         <tr>
-                            <td>${lg.name}</td>
-                            <td>${lg.description}</td>
+                            <td>
+                                <s:ajaxTextField property="name" model="${lg}"/>
+                            </td>
+                            <td>
+                                <s:ajaxTextField property="description" model="${lg}"/>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
