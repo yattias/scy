@@ -26,6 +26,7 @@
     <general>
       <title>
         <string language="en">Google SketchUp document</string>
+        <string language="fr">Document Google SketchUp</string>
       </title>
       <mission>co2Mission</mission>
       <las>startPage</las>
