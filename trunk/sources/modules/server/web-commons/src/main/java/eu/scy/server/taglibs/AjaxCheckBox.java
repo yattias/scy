@@ -13,12 +13,8 @@ import java.lang.reflect.Method;
  * Time: 12:59:43
  * To change this template use File | Settings | File Templates.
  */
-public class AjaxCheckBox extends TagSupport {
-    
-    private String modelClass;
-    private String modelId;
-    private String property;
-    private Object model;
+public class AjaxCheckBox extends AjaxBaseComponent{
+
     private String checked;
 
     public int doEndTag() throws JspException {
@@ -53,38 +49,6 @@ public class AjaxCheckBox extends TagSupport {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         throw new RuntimeException("NOOO");
-    }
-
-    public String getModelClass() {
-        return modelClass;
-    }
-
-    public void setModelClass(String modelClass) {
-        this.modelClass = modelClass;
-    }
-
-    public String getModelId() {
-        return modelId;
-    }
-
-    public void setModelId(String modelId) {
-        this.modelId = modelId;
-    }
-
-    public String getProperty() {
-        return property;
-    }
-
-    public void setProperty(String property) {
-        this.property = property;
-    }
-
-    public Object getModel() {
-        return model;
-    }
-
-    public void setModel(Object model) {
-        this.model = model;
     }
 
     public String getChecked() {
