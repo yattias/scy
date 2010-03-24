@@ -42,6 +42,7 @@
 
      <!-- HEAD VERSION -->
     <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
 
 

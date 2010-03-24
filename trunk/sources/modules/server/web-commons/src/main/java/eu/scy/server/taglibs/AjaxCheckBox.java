@@ -28,6 +28,7 @@ public class AjaxCheckBox extends TagSupport {
             pageContext.getOut().write("<input id=\"ajaxCheckBox" + id + "\" name=\"ajaxCheckBoxValue\" value=\"true\" dojoType=\"dijit.form.CheckBox\" onChange=\"postForm('checkboxForm"+ id + "');\" "  +  getChecked() + " >");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
+            pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
             pageContext.getOut().write("</form>");
         } catch(Exception e) {
             e.printStackTrace();
