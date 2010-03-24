@@ -4,6 +4,7 @@
     <general>
       <title>
         <string language="en">Empty concept map</string>
+        <string language="fr">Nouvelle carte conceptuelle</string>
       </title>
       <mission>co2Mission</mission>
       <las>startPage</las>

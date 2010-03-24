@@ -34,6 +34,7 @@
     <general>
       <title>
         <string language="en">Individual report</string>
+	<string language="fr">Rapport individuel</string>
       </title>
       <description>
         <string language="en" />

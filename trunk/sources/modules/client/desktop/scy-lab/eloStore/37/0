@@ -4,6 +4,7 @@
     <general>
       <title>
         <string language="en">Glossary</string>
+        <string language="fr">Glossaire</string>
       </title>
       <identifier>
         <catalog>memory</catalog>

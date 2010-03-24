@@ -11,6 +11,8 @@
     <general>
       <title>
         <string language="en">House data from the Thermal simulation</string>
+	<string language="fr">Données de la maison issues de la simulation sur l'énergie thermique</string>
+
       </title>
       <description>
         <string language="en" />
