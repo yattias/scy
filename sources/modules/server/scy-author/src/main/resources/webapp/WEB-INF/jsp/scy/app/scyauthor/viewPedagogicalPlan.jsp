@@ -4,6 +4,7 @@
 
         <h1>Pedagogical Plan: ${pedagogicalPlan.name}</h1>
 
+        <s:ajaxTextField model="${pedagogicalPlan}" property="name"/>
 
         <table width="100%" border="2">
             <tr>

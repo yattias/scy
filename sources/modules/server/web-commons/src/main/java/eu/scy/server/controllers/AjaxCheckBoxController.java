@@ -18,17 +18,12 @@ import java.lang.reflect.*;
  * Time: 13:16:04
  * To change this template use File | Settings | File Templates.
  */
-public class AjaxCheckBoxController extends AbstractController {
-
-    private AjaxPersistenceService ajaxPersistenceService;
+public class AjaxCheckBoxController extends AbstractAjaxController {
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
-        final String CHECKED = "ajaxCheckBoxValue";
-        final String CLASS = "clazz";
-        final String ID = "id";
-        final String PROPERTY="property";
+
         Boolean checked = Boolean.FALSE;
         String checkedString = httpServletRequest.getParameter(CHECKED);
         if(checkedString != null) {
@@ -73,11 +68,4 @@ public class AjaxCheckBoxController extends AbstractController {
         throw new RuntimeException("NOOO");
     }
 
-    public AjaxPersistenceService getAjaxPersistenceService() {
-        return ajaxPersistenceService;
-    }
-
-    public void setAjaxPersistenceService(AjaxPersistenceService ajaxPersistenceService) {
-        this.ajaxPersistenceService = ajaxPersistenceService;
-    }
 }

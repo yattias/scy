@@ -36,12 +36,16 @@
            <property name="mappings">
                <value>
                    /components/ajaxCheckBox.html=ajaxCheckBoxController
+                   /components/ajaxTextField.html=ajaxTextFieldController
                </value>
            </property>
        </bean>
 
-     <!-- HEAD VERSION -->
     <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTextFieldController" class="eu.scy.server.controllers.AjaxTextFieldController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
 
