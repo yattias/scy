@@ -21,11 +21,11 @@ public class AjaxCombobox extends AjaxBaseComponent {
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<form id=\"ajaxComboboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
-            pageContext.getOut().write("<select name=\"value\" value=\"" + executeGetter(getModel(), getProperty()) + "\">");
+            pageContext.getOut().write("<form id=\"ajaxComboboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\" >");
+            pageContext.getOut().write("<select name=\"value\" onchange=\"postForm('ajaxComboboxForm" + id + "');\">");
             for (int i = 0; i < comboBoxValues.size(); i++) {
                 Object o = comboBoxValues.get(i);
-                pageContext.getOut().write("<option>" + o.toString() + "</option>");     
+                pageContext.getOut().write("<option value=\""+o.toString()+"\">" + o.toString() + "</option>");
             }
             pageContext.getOut().write("</select>");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
