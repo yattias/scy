@@ -28,6 +28,7 @@ public class EloDisplayTypeControlImpl extends EloDisplayTypeControl {
 
    def techniocalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
+   def iconTypeNameKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.ICON_TYPE.getId());
 
    override public function getEloType (eloUri : URI) : String {
       if (eloUri==null){
@@ -35,6 +36,10 @@ public class EloDisplayTypeControlImpl extends EloDisplayTypeControl {
       }
       var metadata = repository.retrieveMetadata(eloUri);
       if (metadata!=null){
+         var iconTypeName = metadata.getMetadataValueContainer(iconTypeNameKey).getValue() as String;
+         if (iconTypeName.length()>0){
+            return iconTypeName;
+         }
          var technicalFormat = metadata.getMetadataValueContainer(techniocalFormatKey).getValue() as String;
          var functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
          return getEloType(technicalFormat,functionalType);

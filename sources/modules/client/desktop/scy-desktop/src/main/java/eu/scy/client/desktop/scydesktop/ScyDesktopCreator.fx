@@ -84,6 +84,7 @@ public class ScyDesktopCreator {
    var lasKey:IMetadataKey;
    var containsAssignmentEloKey:IMetadataKey;
    var functionalTypeKey:IMetadataKey;
+   var iconTypeKey:IMetadataKey;
 
    init {
       findConfig();
@@ -195,6 +196,7 @@ public class ScyDesktopCreator {
       lasKey = findMetadataKey(ScyRooloMetadataKeyIds.LAS.getId());
       containsAssignmentEloKey = findMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
       functionalTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
+      iconTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.ICON_TYPE.getId());
    }
 
    function findMetadataKey(id: String):IMetadataKey{
@@ -332,6 +334,14 @@ public class ScyDesktopCreator {
       if (missionAnchor.metadata != null) {
          missionAnchor.exists = true;
          missionAnchor.title = missionAnchor.metadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
+         if (missionAnchor.iconType.length()>0){
+            // add the icon type name as metadata
+            var newMetadata = config.getEloFactory().createMetadata();
+            newMetadata.getMetadataValueContainer(iconTypeKey).setValue(missionAnchor.iconType);
+            config.getRepository().addMetadata(missionAnchor.eloUri,newMetadata);
+            missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+         }
+
       } else {
          missionAnchor.exists = false;
          // change the color, to show the elo does not exists

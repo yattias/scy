@@ -31,6 +31,7 @@ def anchorName = "anchor";
 def xPosName = "xPos";
 def yPosName = "yPos";
 def eloUriName = "eloUri";
+def iconTypeName = "iconType";
 def mainAnchorName = "mainAnchor";
 def toolTipName = "toolTip";
 def nextAnchorsName = "nextAnchors";
@@ -93,6 +94,7 @@ function createLasXml(las:Las):Element{
 function createMissionAnchorXml(tagName:String, missionAnchor:MissionAnchorFX):Element{
    var root = new Element(tagName);
    root.addContent(createElement(eloUriName, "{missionAnchor.eloUri.toString()}"));
+   root.addContent(createElement(iconTypeName, "{missionAnchor.iconType}"));
    root.addContent(createElement(mainAnchorName, "{missionAnchor.mainAnchor}"));
    root.addContent(createEloUriListXml(loElosName,missionAnchor.loEloUris));
    root.addContent(createAnchorListXml(inputAnchorsName,missionAnchor.inputAnchors));
@@ -186,6 +188,7 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
 function createMissionAnchor(root:Element):MissionAnchorFX{
    var missionAnchor = MissionAnchorFX{
       eloUri: new URI(root.getChildText(eloUriName))
+      iconType: root.getChildText(iconTypeName)
       mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
       loEloUris: createEloUriList(root.getChild(loElosName))
       relationNames: createStringList(root.getChild(relationsName),relationsName)

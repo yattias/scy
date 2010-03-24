@@ -108,6 +108,7 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
          var missionAnchor = MissionAnchorFX {
                id: anchor.getId()
                eloUri: anchor.getUri()
+               iconType: anchor.getIconType()
                metadata: anchor.getMetadata();
                exists: anchor.getMetadata() != null;
                loEloUris: createExistingEloUriSequence(anchor.getLoEloUris(), "las {anchor.getId()}", config)

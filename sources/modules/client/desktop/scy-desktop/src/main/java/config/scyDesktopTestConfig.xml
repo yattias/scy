@@ -184,6 +184,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="missionDescription"/>
                <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
+               <property name="iconType" value="general/new"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionBackground</value>

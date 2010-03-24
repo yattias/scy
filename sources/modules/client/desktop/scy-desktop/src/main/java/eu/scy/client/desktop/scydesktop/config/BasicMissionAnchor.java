@@ -18,6 +18,7 @@ public class BasicMissionAnchor// implements MissionAnchor
    private URI uri;
    private IMetadata metadata;
    private String id;
+   private String iconType;
    private List<URI> loEloUris;
    private List<String> inputMissionAnchorIds;
    private List<String> relationNames;
@@ -82,5 +83,13 @@ public class BasicMissionAnchor// implements MissionAnchor
       return metadata;
    }
 
+   public String getIconType()
+   {
+      return iconType;
+   }
 
+   public void setIconType(String iconType)
+   {
+      this.iconType = iconType;
+   }
 }
