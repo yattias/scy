@@ -62,6 +62,10 @@
 		<property name="anchorELODAO" ref="anchorELODAO"/>
 	</bean>
 
+    <bean id="ajaxPersistenceService" class="eu.scy.core.AjaxPersistenceServiceImpl">
+		<property name="ajaxPersistenceDAO" ref="ajaxPersistenceDAO"/>
+	</bean>
+
     <bean id="fileService" class="eu.scy.core.FileServiceImpl">
         <property name="fileDAO" ref="fileDAO"/>
     </bean>

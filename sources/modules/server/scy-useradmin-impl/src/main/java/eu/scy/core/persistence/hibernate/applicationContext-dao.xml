@@ -72,6 +72,10 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
+	<bean id="ajaxPersistenceDAO" class="eu.scy.core.persistence.hibernate.AjaxPersistenceDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
     <bean id="fileDAO" class="eu.scy.core.persistence.hibernate.FileDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="imageConverter" ref="imageConverter"/>
