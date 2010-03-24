@@ -38,10 +38,16 @@ public class ViewPedagogicalPlanController extends BaseController {
             }
             getPedagogicalPlanPersistenceService().save(plan);
         }
+
+        List assessmentStrategies = new LinkedList();
+        assessmentStrategies.add("Peer to peer");
+        assessmentStrategies.add("Single");
+        assessmentStrategies.add("Teacher");
+
         logger.info("Setting plan: " + plan.getName());
         modelAndView.addObject("pedagogicalPlan", plan);
         modelAndView.addObject("anchorElos", getAnchorELOs(plan));
-
+        modelAndView.addObject("assessmentStrategies", assessmentStrategies);
         modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
     }
 

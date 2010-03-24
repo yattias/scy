@@ -73,11 +73,12 @@
                             <td><input type="checkbox"></td>
                             <td>${anchorElo.name}</td>
                             <td>
-                                <select>
+                                <s:ajaxCombobox property="name" model="${anchorElo}" comboBoxValues="${assessmentStrategies}"/>
+                                <!--select>
                                     <option>Peer to peer</option>
                                     <option>Teacher</option>
                                     <option>Mucho Mucho</option>
-                                </select>
+                                </select-->
                             </td>
                         </tr>
                     </c:forEach>
