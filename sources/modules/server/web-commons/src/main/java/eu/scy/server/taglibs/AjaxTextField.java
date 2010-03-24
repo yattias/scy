@@ -18,7 +18,10 @@ public class AjaxTextField extends AjaxBaseComponent{
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"ajaxTextFieldForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTextField.html\">");
-            pageContext.getOut().write("<input type=\"textfield\" name=\"value\" value=\"" + executeGetter(getModel(), getProperty()) + "\">");
+            pageContext.getOut().write("<span dojoType=\"dijit.InlineEditBox\" onchange=\"document.getElementById('ajaxTextField" + id +"').value = this.value;postForm('ajaxTextFieldForm" + id + "');\" autoSave=\"true\" editor=\"dijit.form.Textarea\" >" + executeGetter(getModel(), getProperty()) + "</span>");
+
+
+            pageContext.getOut().write("<input type=\"hidden\" id=\"ajaxTextField" + id + "\" name=\"value\" value=\"\" + executeGetter(getModel(), getProperty()) + \"\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
