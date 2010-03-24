@@ -85,4 +85,32 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>dialog</name>
+        <tagclass>eu.scy.server.taglibs.Dialog</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax slider</info>
+        <attribute>
+            <name>url</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>height</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+
+    </tag>
+
 </taglib>

@@ -29,7 +29,10 @@
                             <tr>
                                 <td><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
                                 <td>${activity.anchorELO.name}</td>
-                                <td><a href="javascript:loadDialog('selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}', 'Tools');">+</a></td>
+                                <td>
+                                    <s:dialog url="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}" title="+"/>
+                                </td>
+                                <td><!--a href="javascript:loadDialog('selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}', 'Tools');">+</a></td.-->
                                 <td><input type="checkbox"></td>
                             </tr>
                         </c:forEach>
