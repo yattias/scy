@@ -1,7 +1,5 @@
 package eu.scy.server.taglibs;
 
-import eu.scy.core.model.ScyBase;
-
 import javax.servlet.jsp.JspException;
 import java.util.List;
 
@@ -19,12 +17,23 @@ public class AjaxSlider extends AjaxBaseComponent{
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<form id=\"ajaxComboboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
-            pageContext.getOut().write("SLIDER HERE");
+            pageContext.getOut().write("<form id=\"ajaxSliderForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
+            pageContext.getOut().write("<div id=\"horizontalSlider"+ id + "\" dojoType=\"dijit.form.HorizontalSlider\" value=\"0\"\n" +
+                    "minimum=\"-1\" maximum=\"1\" discreteValues=\"3\" intermediateChanges=\"true\"\n" +
+                    "showButtons=\"false\" style=\"width:400px;\" onchange=\"dojo.byId('sliderValue" + id +"').value=this.value\">\n" +
+                    "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"topDecoration\"\n" +
+                    "    style=\"height:1.5em;font-size:75%;color:gray;\">");
             for (int i = 0; i < sliderValues.size(); i++) {
                 Object o = sliderValues.get(i);
-                pageContext.getOut().write("[" + o.toString() + "] ");
+                pageContext.getOut().write("<li>" + o.toString() + "</li>");
             }
+            pageContext.getOut().write("<div dojoType=\"dijit.form.HorizontalRule\" container=\"bottomDecoration\"\n" +
+                    "    count=3 style=\"height:5px;\">\n" +
+                    "    </div>\n" +
+                    "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"bottomDecoration\"\n" +
+                    "    style=\"height:1em;font-size:75%;color:gray;\">" +
+                    "</ol></div>");
+            pageContext.getOut().write("<input type=\"text\" id=\"sliderValue" + id + "\" dojoType=\"dijit.form.TextBox\" />");
             pageContext.getOut().write("</form>");
         } catch (Exception e) {
             e.printStackTrace();
