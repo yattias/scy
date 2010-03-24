@@ -68,9 +68,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
         this.dataServer = dataServer;
         xmlOutputter = new XMLOutputter();
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
-        // find input variables
+        // find input and output variables
         inputVariables = getVariables(ModelVariable.VK_INPUT);
         outputVariables = getVariables(ModelVariable.VK_OUTPUT, "Mtot");
+        
         // store the values to find the changed value later
         storeOldValues();
         // subscribe to variables
@@ -103,13 +104,17 @@ public class ScySimLogger implements ActionListener, IDataClient {
             }
         });
         outputVariableTimer.setRepeats(false);
-        actionLogger = logger;
+        actionLogger = logger;        
     }
-
+      
     public ScySimLogger(DataServer dataServer){
         this(dataServer,new DevNullActionLogger());
     }
 
+    public ArrayList<ModelVariable> getInputVariables() {
+    	return inputVariables;
+    }
+    
     public void setUsername(String name) {
         this.username = name;
     }
@@ -214,8 +219,9 @@ public class ScySimLogger implements ActionListener, IDataClient {
         write(action);
     }
 
-    public void logSelectedVariables(List<ModelVariable> selectedVariables) {
-        action = createBasicAction("variables_selected");
+    public void logListOfVariables(String actionType, List<ModelVariable> selectedVariables) {
+        //action = createBasicAction("variables_selected");
+        action = createBasicAction(actionType);
         String selection = new String();
         for (ModelVariable var : selectedVariables) {
             selection = selection + var.getName() + ", ";
@@ -223,10 +229,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
         if (selection.length() > 2) {
             selection = selection.substring(0, selection.length() - 2);
         }
-        action.addAttribute("selected_variables", selection);
+        action.addAttribute("variables", selection);
         write(action);
     }
-
+    
     private synchronized void write(IAction action) {
        //TODO Dirty workaround for toronto
         if (action.getType() != null && action.getType().equals("value_changed") && action.getAttribute("name")!=null&& action.getAttribute("name").trim().toLowerCase().equals("mtot")){
