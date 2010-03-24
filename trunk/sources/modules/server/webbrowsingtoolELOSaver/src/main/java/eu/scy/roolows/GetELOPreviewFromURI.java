@@ -1,8 +1,8 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- * 
+ *
  * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
- * 
+ *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common
  * Development and Distribution License("CDDL") (collectively, the
@@ -20,13 +20,13 @@
  * License Header, with the fields enclosed by brackets [] replaced by
  * your own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Contributor(s):
- * 
+ *
  * The Original Software is NetBeans. The Initial Developer of the Original
  * Software is Sun Microsystems, Inc. Portions Copyright 1997-2007 Sun
  * Microsystems, Inc. All Rights Reserved.
- * 
+ *
  * If you wish your version of this file to be governed by only the CDDL
  * or only the GPL Version 2, indicate your decision by adding
  * "[Contributor] elects to include this software in this distribution
@@ -38,48 +38,63 @@
  * Version 2 license, then the option applies only if the new code is
  * made subject to such option by the copyright holder.
  */
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import roolo.api.search.IMetadataQuery;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.content.BasicContent;
-import roolo.elo.metadata.keys.ContributeMetadataKey;
 
 /**
  * REST Web Service
  *
  * @author __SVEN__
  */
-@Path("/updateELOAndroid")
-public class UpdateELOResource {
+@Path("/getELOPreview")
+public class GetELOPreviewFromURI {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
     private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
     private IELO elo;
+    private IMetadataKey uriKey;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-    private ContributeMetadataKey authorKey;
+//    private IMetadataKey authorKey;
+    private IMetadataKey technicalFormat;
+    IMetadataQuery query;
+    private Vector<IELO> retrievedELOs;
 
     /** Creates a new instance of SaveELOResource */
-    public UpdateELOResource() {
+    public GetELOPreviewFromURI() {
     }
 
     /**
@@ -106,39 +121,61 @@ public class UpdateELOResource {
 
     /**
      * POST method for creating a new ELO Resource
-     * @param summary the summary representation of the ELO content
+     * @param xml the xml representation of the ELO content
      * @param username the username of the ELO's creator
      * @param password the password of the ELO's creator
      * @return an HTTP response with content of the updated or created resource.
      */
     @POST
     @Consumes("application/json")
-    @Produces("text/plain")
-    public String updateELO(JSONObject jsonData) {
+    @Produces("application/json")
+    public JSONObject getHtmlELO(JSONObject jsonData) throws ParserConfigurationException, URISyntaxException, SAXException, IOException {
 
-        String content = null;
+        log.info("Trying to load the Preview of selected ELO");
+
         String uri = null;
+//        String password = null;
         try {
-            content = jsonData.getString("content");
             uri = jsonData.getString("uri");
+//            password = jsonData.getString("password");
         } catch (JSONException ex) {
-            Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            elo = configLoader.getRepository().retrieveELO(new URI(uri));
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
-            return "eloUpdateFailed";
-        }
-        elo.setContent(new BasicContent(content));
-        configLoader.getRepository().updateELO(elo);
-        log.info("Updated ELO");
+        elo = configLoader.getRepository().retrieveELO(new URI(uri));
 
-        //return simplified codes for easier localization!
-        //ELO saved
-        return "eloUpdated";
+        String contentString = elo.getContent().getXml();
+        log.info("content: \n=====================\n"+contentString+"\n=====================");
+
+        //Get an Instance of the DocumentBuilder for parsing the xml-String
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = documentBuilder.parse(new InputSource(new StringReader(contentString)));
+        log.info("doc.getNodeName(): "+doc.getNodeName());
+        log.info("doc.getDocumentElement():"+doc.getDocumentElement());
+        log.info("doc.getDocumentElement().getElementsByTagName(\"annotations\").item(0).getTextContent(): "+ doc.getDocumentElement().getElementsByTagName("annotations").item(0).getTextContent());
+        
+        //The content of the html-ELO consists of 3 parts...
+        String annotations = doc.getDocumentElement().getElementsByTagName("annotations").item(0).getTextContent();
+        log.info(annotations);
+        String preview = doc.getDocumentElement().getElementsByTagName("preview").item(0).getTextContent();
+        log.info(preview);
+        String html = doc.getDocumentElement().getElementsByTagName("html").item(0).getTextContent();
+//        System.out.println(annotations);
+
+
+        //TODO Fix the XML-Structure (seems to be not well-formed) and correct the parsing
+//        String test = doc.getElementById(uri).getNodeValue();
+//        log.warning(doc.getDocumentElement().getElementsByTagName("preview").item(0).getNodeValue());
+//        log.warning(String.valueOf(((Element)doc.getRootElement().getChildren().get(0)).getChildren().size()));
+//        String preview = doc.getDocumentElement().getElementsByTagName("preview").item(0).getNodeValue();
+//        log.warning("Preview: \n **********************"+preview+"\n **********************");
+
+        JSONObject output = new JSONObject();
+        try {
+            output.put("preview", preview);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetELOPreviewFromURI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return output;
     }
 }
-
-
-

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -11,8 +11,8 @@ import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
-import eu.scy.webbrowsingtoolelosaver.config.Config;
-import eu.scy.webbrowsingtoolelosaver.config.SpringConfigFactory;
+import eu.scy.roolows.config.Config;
+import eu.scy.roolows.config.SpringConfigFactory;
 
 /**
  * 

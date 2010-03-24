@@ -4,11 +4,10 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
-import eu.scy.webbrowsingtoolelosaver.ConfigLoader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -22,6 +21,7 @@ import roolo.elo.metadata.keys.BasicMetadataKey;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.keys.LongMetadataKey;
+import roolo.elo.metadata.keys.RelationMetadataKey;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.keys.UriMetadataKey;
 
@@ -30,10 +30,10 @@ import roolo.elo.metadata.keys.UriMetadataKey;
  * 
  * @author __SVEN__
  */
-public class GetELOClient extends JerseyTest {
+public class TestClient extends JerseyTest {
 
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private static final Logger logger = Logger.getLogger(GetELOClient.class.getName());
+    private static final Logger logger = Logger.getLogger(TestClient.class.getName());
     private IMetadataKey authorKey;
     private IMetadataKey typeKey;
     private IMetadataKey titleKey;
@@ -51,29 +51,34 @@ public class GetELOClient extends JerseyTest {
                 final String key = (String) keys.next();
                 final Object value = metadata.get(key);
                 final IMetadataKey metadatakey = configLoader.getTypeManager().getMetadataKey(key);
-                if (metadatakey instanceof StringMetadataKey) {
-                    elo.getMetadata().getMetadataValueContainer(metadatakey).setValue((String) value);
-                } else if (metadatakey instanceof UriMetadataKey) {
-                    elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(new URI((String) value));
-                } else if (metadatakey instanceof ContributeMetadataKey) {
-                    Contribute contribute = new Contribute();
-                    contribute.setVCard((String) value);
-                    elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(contribute);
-                } else if (metadatakey instanceof LongMetadataKey) {
-                    ///this has to be done, because JCR-RoOLO uses String version numbers and RoOLO-Mock uses Integer version numbers
-                    if (value instanceof Integer) {
-                        elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(value);
-                    } else {
-                        elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(Long.parseLong((String) value));
+                if (value == JSONObject.NULL) {
+                    elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(null);
+                } else {
+                    if (metadatakey instanceof StringMetadataKey) {
+                        elo.getMetadata().getMetadataValueContainer(metadatakey).setValue((String) value);
+                    } else if (metadatakey instanceof UriMetadataKey) {
+                        elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(new URI((String) value));
+                    } else if (metadatakey instanceof ContributeMetadataKey) {
+                        Contribute contribute = new Contribute();
+                        contribute.setVCard(((JSONObject) value).getString("vcard"));
+                        contribute.setDate(((JSONObject) value).getLong("date"));
+                        elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(contribute);
+                    } else if (metadatakey instanceof LongMetadataKey) {
+                        ///this has to be done, because JCR-RoOLO uses String version numbers and RoOLO-Mock uses Integer version numbers
+                        if (value instanceof Integer) {
+                            elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(value);
+                        } else {
+                            elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(Long.parseLong((String) value));
+                        }
+                    } else if (metadatakey instanceof BasicMetadataKey) {
+                        //last exit
+                        elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(value.toString());
                     }
-                } else if (metadatakey instanceof BasicMetadataKey) {
-                    //last exit
-                    elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(value.toString());
                 }
             }
             //set elo content
             IContent eloContent = configLoader.getEloFactory().createContent();
-            logger.info("ELO-content: "+contentString);
+            logger.info("ELO-content: " + contentString);
             eloContent.setXmlString(contentString);
             elo.setContent(eloContent);
 
@@ -84,8 +89,8 @@ public class GetELOClient extends JerseyTest {
         return null;
     }
 
-    public GetELOClient() {
-        super(new WebAppDescriptor.Builder("eu.scy.webbrowsingtoolelosaver").contextPath("scy-roolo-ws").build());
+    public TestClient() {
+        super(new WebAppDescriptor.Builder("eu.scy.roolows").contextPath("scy-roolo-ws").build());
         initMetadataKeys();
     }
 
@@ -122,50 +127,50 @@ public class GetELOClient extends JerseyTest {
         Assert.assertNotNull(responseEntity);
     }
 
-//    /**
-//     * This is a test of the full cycle of saving and retrieving an ELO
-//     * 1. creates an ELO
-//     * 2. saves that ELO via /saveELO. The response is the ELO URI of the saved ELO
-//     * 3. retrieve the ELO via /getELO. The response will be the ELO as JSON
-//     * 4. test the ELOs' XML for equality (The ELOs itself dont have a working equals()-method)
-//     * @throws java.lang.Exception
-//     */
-//    @Test
-//    public void testSaveAndRetrieveELO() throws Exception {
-//        //1. create JSON from test-ELO
-//        IELO elo = getExampleElo();
-//        JSONObject jsonData = getExampleEloAsJson(elo);
-//        IELO retrievedELO = null;
-//
-//        //2. save ELO on path /saveELO
-//        WebResource saveELOResource = resource();
-//        saveELOResource.accept("text/plain");
-//        ClientResponse saveELOResponse = saveELOResource.path("saveELO").type("application/json").post(ClientResponse.class, jsonData);
-//        String eloUri = null;
-//        if (saveELOResponse.hasEntity()) {
-//            eloUri = saveELOResponse.getEntity(String.class);
-//            logger.info("eloUri: " + eloUri);
-//
-//            //3. retrieve ELO on path /getELO
-//            WebResource getELOResource = resource();
-//            getELOResource.accept("application/json");
-//            ClientResponse getELOResponse = getELOResource.path("getELO").type("text/plain").post(ClientResponse.class, eloUri);
-//            if (getELOResponse.hasEntity()) {
-//                JSONObject retrievedELOAsJson = getELOResponse.getEntity(JSONObject.class);
-//                retrievedELO = parseJsonELO(retrievedELOAsJson);
-//                //the original ELO has no identifier, so the ELO has to be retrieved directly to be compared to the webservice ELO
-//                elo = configLoader.getRepository().retrieveELO(new URI(eloUri));
-//
-//                logger.info("**********************************************");
-//                logger.info("retrievedELO (XML): \n" + retrievedELO.getXml());
-//                logger.info("**********************************************");
-//                logger.info("sourceELO (XML): \n" + elo.getXml());
-//                logger.info("**********************************************");
-//            }
-//        }
-//        //ELOs dont have a working equals()-method
-//        Assert.assertEquals(retrievedELO.getXml(), elo.getXml());
-//    }
+    /**
+     * This is a test of the full cycle of saving and retrieving an ELO
+     * 1. creates an ELO
+     * 2. saves that ELO via /saveELO. The response is the ELO URI of the saved ELO
+     * 3. retrieve the ELO via /getELO. The response will be the ELO as JSON
+     * 4. test the ELOs' XML for equality (The ELOs itself dont have a working equals()-method)
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testSaveAndRetrieveELO() throws Exception {
+        //1. create JSON from test-ELO
+        IELO elo = getExampleElo();
+        JSONObject jsonData = getExampleEloAsJson(elo);
+        IELO retrievedELO = null;
+
+        //2. save ELO on path /saveELO
+        WebResource saveELOResource = resource();
+        saveELOResource.accept("text/plain");
+        ClientResponse saveELOResponse = saveELOResource.path("saveELO").type("application/json").post(ClientResponse.class, jsonData);
+        String eloUri = null;
+        if (saveELOResponse.hasEntity()) {
+            eloUri = saveELOResponse.getEntity(String.class);
+            logger.info("eloUri: " + eloUri);
+            //the original ELO has no identifier, so the ELO has to be retrieved directly to be compared to the webservice ELO
+            elo = configLoader.getRepository().retrieveELO(new URI(eloUri));
+
+            //3. retrieve ELO on path /getELO
+            WebResource getELOResource = resource();
+            getELOResource.accept("application/json");
+            ClientResponse getELOResponse = getELOResource.path("getELO").type("text/plain").post(ClientResponse.class, eloUri);
+            if (getELOResponse.hasEntity()) {
+                JSONObject retrievedELOAsJson = getELOResponse.getEntity(JSONObject.class);
+                retrievedELO = parseJsonELO(retrievedELOAsJson);
+
+                logger.info("**********************************************");
+                logger.info("retrievedELO (XML): \n" + retrievedELO.getXml());
+                logger.info("**********************************************");
+                logger.info("sourceELO (XML): \n" + elo.getXml());
+                logger.info("**********************************************");
+            }
+        }
+        //ELOs dont have a working equals()-method
+        Assert.assertEquals(retrievedELO.getXml(), elo.getXml());
+    }
 
 //    @Test
 //    public void testQueryingELOs() {
@@ -193,9 +198,10 @@ public class GetELOClient extends JerseyTest {
         contribute.setVCard("testuser");
         elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
         elo.getMetadata().getMetadataValueContainer(titleKey).setValue("Test Title");
-        elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date().getTime());
+        elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
         elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue("Description Test");
-
+        Locale locale = new Locale("de");
+        elo.setDefaultLanguage(locale);
         return elo;
     }
 
@@ -206,7 +212,7 @@ public class GetELOClient extends JerseyTest {
         jsonData.put("author", ((Contribute) elo.getMetadata().getMetadataValueContainer(authorKey).getValue()).getVCard());
         jsonData.put("title", (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue());
         jsonData.put("type", (String) elo.getMetadata().getMetadataValueContainer(typeKey).getValue());
-        jsonData.put("dateCreated", ((Long) elo.getMetadata().getMetadataValueContainer(dateCreatedKey).getValue()).toString());
+        jsonData.put("dateCreated", ((Long) elo.getMetadata().getMetadataValueContainer(dateCreatedKey).getValue()));
         jsonData.put("language", elo.getDefaultLanguage());
         jsonData.put("username", "testuser");
         jsonData.put("password", "testpassword");

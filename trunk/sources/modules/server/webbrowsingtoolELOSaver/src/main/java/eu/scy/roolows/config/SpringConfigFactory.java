@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.webbrowsingtoolelosaver.config;
+package eu.scy.roolows.config;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

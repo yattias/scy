@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.webbrowsingtoolelosaver.config;
+package eu.scy.roolows.config;
 
 import java.io.File;
 

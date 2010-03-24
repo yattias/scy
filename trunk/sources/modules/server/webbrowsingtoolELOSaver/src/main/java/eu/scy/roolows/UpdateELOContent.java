@@ -1,8 +1,8 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- *
+ * 
  * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
- *
+ * 
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common
  * Development and Distribution License("CDDL") (collectively, the
@@ -20,13 +20,13 @@
  * License Header, with the fields enclosed by brackets [] replaced by
  * your own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- *
+ * 
  * Contributor(s):
- *
+ * 
  * The Original Software is NetBeans. The Initial Developer of the Original
  * Software is Sun Microsystems, Inc. Portions Copyright 1997-2007 Sun
  * Microsystems, Inc. All Rights Reserved.
- *
+ * 
  * If you wish your version of this file to be governed by only the CDDL
  * or only the GPL Version 2, indicate your decision by adding
  * "[Contributor] elects to include this software in this distribution
@@ -38,63 +38,47 @@
  * Version 2 license, then the option applies only if the new code is
  * made subject to such option by the copyright holder.
  */
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Vector;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import roolo.api.search.IMetadataQuery;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.exceptions.ELONotAddedException;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.content.BasicContent;
 
 /**
  * REST Web Service
  *
  * @author __SVEN__
  */
-@Path("/getELOPreview")
-public class GetELOPreviewFromURI {
+@Path("/updateELO")
+public class UpdateELOContent {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private final static Logger log = Logger.getLogger(UpdateELOContent.class.getName());
     private IELO elo;
-    private IMetadataKey uriKey;
     private IMetadataKey titleKey;
-    private IMetadataKey typeKey;
-    private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-//    private IMetadataKey authorKey;
-    private IMetadataKey technicalFormat;
-    IMetadataQuery query;
-    private Vector<IELO> retrievedELOs;
+    private IMetadataKey dateLastModiefiedKey;
 
     /** Creates a new instance of SaveELOResource */
-    public GetELOPreviewFromURI() {
+    public UpdateELOContent() {
     }
 
     /**
@@ -121,61 +105,78 @@ public class GetELOPreviewFromURI {
 
     /**
      * POST method for creating a new ELO Resource
-     * @param xml the xml representation of the ELO content
+     * @param summary the summary representation of the ELO content
      * @param username the username of the ELO's creator
      * @param password the password of the ELO's creator
      * @return an HTTP response with content of the updated or created resource.
      */
     @POST
     @Consumes("application/json")
-    @Produces("application/json")
-    public JSONObject getHtmlELO(JSONObject jsonData) throws ParserConfigurationException, URISyntaxException, SAXException, IOException {
+    @Produces("text/plain")
+    public String saveHtmlELO(JSONObject jsonData) {
 
-        log.info("Trying to load the Preview of selected ELO");
-
-        String uri = null;
-//        String password = null;
+        String identifier = null;
+        String annotations = null;
+        String html = null;
+        String preview = null;
+        String username = null;
+        String password = null;
+        String language = null;
+        String title = null;
         try {
-            uri = jsonData.getString("uri");
-//            password = jsonData.getString("password");
+            identifier = jsonData.getString("identifier");
+            annotations = jsonData.getString("annotations");
+            html = jsonData.getString("html");
+            preview = jsonData.getString("preview");
+            username = jsonData.getString("username");
+            password = jsonData.getString("password");
+            language = jsonData.getString("language");
+            title = jsonData.getString("title");
         } catch (JSONException ex) {
-            Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateELOContent.class.getName()).log(Level.SEVERE, null, ex);
         }
-        elo = configLoader.getRepository().retrieveELO(new URI(uri));
-
-        String contentString = elo.getContent().getXml();
-        log.info("content: \n=====================\n"+contentString+"\n=====================");
-
-        //Get an Instance of the DocumentBuilder for parsing the xml-String
-        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = documentBuilder.parse(new InputSource(new StringReader(contentString)));
-        log.info("doc.getNodeName(): "+doc.getNodeName());
-        log.info("doc.getDocumentElement():"+doc.getDocumentElement());
-        log.info("doc.getDocumentElement().getElementsByTagName(\"annotations\").item(0).getTextContent(): "+ doc.getDocumentElement().getElementsByTagName("annotations").item(0).getTextContent());
-        
-        //The content of the html-ELO consists of 3 parts...
-        String annotations = doc.getDocumentElement().getElementsByTagName("annotations").item(0).getTextContent();
-        log.info(annotations);
-        String preview = doc.getDocumentElement().getElementsByTagName("preview").item(0).getTextContent();
-        log.info(preview);
-        String html = doc.getDocumentElement().getElementsByTagName("html").item(0).getTextContent();
-//        System.out.println(annotations);
-
-
-        //TODO Fix the XML-Structure (seems to be not well-formed) and correct the parsing
-//        String test = doc.getElementById(uri).getNodeValue();
-//        log.warning(doc.getDocumentElement().getElementsByTagName("preview").item(0).getNodeValue());
-//        log.warning(String.valueOf(((Element)doc.getRootElement().getChildren().get(0)).getChildren().size()));
-//        String preview = doc.getDocumentElement().getElementsByTagName("preview").item(0).getNodeValue();
-//        log.warning("Preview: \n **********************"+preview+"\n **********************");
-
-        JSONObject output = new JSONObject();
         try {
-            output.put("preview", preview);
-        } catch (JSONException ex) {
-            Logger.getLogger(GetELOPreviewFromURI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            //User user = new User(saveBean.getUsername(),saveBean.getPassword());
+            //TODO authenticate User!
+            if (true) { //XXX replace by real User-Management
+                //Authentication ok
 
-        return output;
+                //Creating the ELO
+                elo = configLoader.getRepository().retrieveELO(new URI(identifier));
+
+                log.info("ELO loeaded");
+
+                dateLastModiefiedKey =  configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId());
+                elo.getMetadata().getMetadataValueContainer(dateLastModiefiedKey).setValue(new Date());
+                titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+                elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
+                log.info("Metadata updated");
+                
+                //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
+                String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
+                elo.setContent(new BasicContent(content));
+                try {
+                    configLoader.getRepository().updateELO(elo);
+                } catch (ELONotAddedException e) {
+                    log.warning(e.getMessage());
+                } catch (Exception e) {
+                    log.warning(e.getMessage());
+                }
+                log.info("Content updated");
+
+                //return simplified codes for easier localization!
+                //ELO saved
+                return "";
+            } else {//Authentication failed!
+                //return simplified codes for easier localization!
+                //Login failed. Please Check Your Login-Data
+                return "";
+            }
+        } catch (Exception e) {//Exception: Filewriting didnt work
+            log.warning(e.getMessage());
+            //return simplified codes for easier localization!
+            //Server-Error during saving ELO. The Admin should clean up his harddisk
+            return "";
+        }
     }
 }

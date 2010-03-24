@@ -38,10 +38,10 @@
  * Version 2 license, then the option applies only if the new code is
  * made subject to such option by the copyright holder.
  */
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
-import java.net.URI;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Path;
@@ -55,30 +55,39 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.exceptions.ELONotAddedException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
+import roolo.elo.metadata.keys.Contribute;
+import roolo.elo.metadata.keys.ContributeMetadataKey;
+import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
+
 
 /**
  * REST Web Service
  *
  * @author __SVEN__
  */
-@Path("/updateELO")
-public class UpdateELOContent {
+@Path("/saveELOAndroid")
+public class SaveAndroidELOResource {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(UpdateELOContent.class.getName());
+    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
+    private IMetadataKey typeKey;
+    private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-    private IMetadataKey dateLastModiefiedKey;
+    private IMetadataKey descriptionKey;
+    private IMetadataKey authorKey;
 
     /** Creates a new instance of SaveELOResource */
-    public UpdateELOContent() {
+    public SaveAndroidELOResource() {
     }
 
     /**
@@ -115,25 +124,23 @@ public class UpdateELOContent {
     @Produces("text/plain")
     public String saveHtmlELO(JSONObject jsonData) {
 
-        String identifier = null;
-        String annotations = null;
-        String html = null;
-        String preview = null;
+        String content = null;
         String username = null;
         String password = null;
         String language = null;
+        String country = null;
         String title = null;
+        String description = null;
         try {
-            identifier = jsonData.getString("identifier");
-            annotations = jsonData.getString("annotations");
-            html = jsonData.getString("html");
-            preview = jsonData.getString("preview");
+            content = jsonData.getString("content");
             username = jsonData.getString("username");
             password = jsonData.getString("password");
             language = jsonData.getString("language");
+            country = jsonData.getString("country");
             title = jsonData.getString("title");
+            description = jsonData.getString("description");
         } catch (JSONException ex) {
-            Logger.getLogger(UpdateELOContent.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SaveAndroidELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //User user = new User(saveBean.getUsername(),saveBean.getPassword());
@@ -142,41 +149,65 @@ public class UpdateELOContent {
                 //Authentication ok
 
                 //Creating the ELO
-                elo = configLoader.getRepository().retrieveELO(new URI(identifier));
+                elo = configLoader.getEloFactory().createELO();
 
-                log.info("ELO loeaded");
+                log.info("ELO created");
+                Locale defaultLocale = new Locale(language,country);
+                elo.setDefaultLanguage(defaultLocale);
 
-                dateLastModiefiedKey =  configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId());
-                elo.getMetadata().getMetadataValueContainer(dateLastModiefiedKey).setValue(new Date());
+                //Authenticate the user and set real user name, not user-id
+                authorKey = (ContributeMetadataKey)configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+                //FIXME replace username by vcard
+                Contribute contribute = new Contribute(username, new Date().getTime());
+                elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
+
+                typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+                IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
+                if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
+                    configLoader.getTypeManager().registerMetadataKey(typeKey);
+                }
+                elo.getMetadata().addMetadataPair(typeKey, container);
+
                 titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-                elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
-                log.info("Metadata updated");
+                dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+                descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
                 
+                elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
+                elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
+
+                configLoader.getExtensionManager().registerExtension("scy/form", ".form");
+                elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/form");
+
+                elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
+                log.info("Metadata set");
+
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
-                String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
+                
                 elo.setContent(new BasicContent(content));
                 try {
-                    configLoader.getRepository().updateELO(elo);
+                    IMetadata metadata = configLoader.getRepository().addNewELO(elo);
+                    if(metadata != null) {
+                    	log.info("Added ELO to repository");
+                    	return metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue().toString();
+                    }
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());
                 } catch (Exception e) {
                     log.warning(e.getMessage());
                 }
-                log.info("Content updated");
-
-                //return simplified codes for easier localization!
-                //ELO saved
-                return "";
             } else {//Authentication failed!
                 //return simplified codes for easier localization!
                 //Login failed. Please Check Your Login-Data
-                return "";
+                return "loginFailedCheckLoginData";
             }
         } catch (Exception e) {//Exception: Filewriting didnt work
             log.warning(e.getMessage());
             //return simplified codes for easier localization!
             //Server-Error during saving ELO. The Admin should clean up his harddisk
-            return "";
+            return "serverErrorSaving";
         }
+        return null;
     }
 }
+
+
