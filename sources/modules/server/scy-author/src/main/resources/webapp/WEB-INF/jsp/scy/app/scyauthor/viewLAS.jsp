@@ -5,11 +5,11 @@
         <table width="100%" border="2">
             <tr>
                 <td><strong>Name</strong></td>
-                <td>${model.name}</td>
+                <td><s:ajaxTextField property="name" model="${model}"/></td>
             </tr>
             <tr>
                 <td><strong>Description</strong></td>
-                <td>${model.description}</td>
+                <td><s:ajaxTextField property="description" model="${model}"/></td>
             </tr>
         </table>
         <br/>
