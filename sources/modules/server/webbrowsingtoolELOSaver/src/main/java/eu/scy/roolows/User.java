@@ -1,4 +1,4 @@
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
 import javax.ws.rs.Produces;
 import javax.xml.bind.annotation.XmlAccessType;

@@ -38,14 +38,11 @@
  * Version 2 license, then the option applies only if the new code is
  * made subject to such option by the copyright holder.
  */
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
 import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.ws.rs.Consumes;
@@ -200,11 +197,11 @@ public class SaveELO {
                     } else {
                         defaultLocale = new Locale(language);
                     }
+                    log.info("locale: "+defaultLocale.toString());
                     elo.setDefaultLanguage(defaultLocale);
 
-                    Contribute contribute = new Contribute(username, new Date().getTime());
+                    Contribute contribute = new Contribute(username, System.currentTimeMillis());
                     elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
-                    log.info("SAVE ELO - CONTRIBUTE: "+elo.getMetadata().getMetadataValueContainer(authorKey).getValue());
 
                     IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
                     if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {

@@ -38,56 +38,58 @@
  * Version 2 license, then the option applies only if the new code is
  * made subject to such option by the copyright holder.
  */
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.exceptions.ELONotAddedException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
-
 
 /**
  * REST Web Service
  *
  * @author __SVEN__
  */
-@Path("/saveELOAndroid")
-public class SaveAndroidELOResource {
+@Path("/saveELOelectricity")
+public class SaveELOResourceElectricity {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private final static Logger log = Logger.getLogger(SaveELOResourceElectricity.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
-    private IMetadataKey missionKey;
+    private ContributeMetadataKey authorKey;
     private IMetadataKey descriptionKey;
-    private IMetadataKey authorKey;
 
     /** Creates a new instance of SaveELOResource */
-    public SaveAndroidELOResource() {
+    public SaveELOResourceElectricity() {
     }
 
     /**
@@ -128,9 +130,10 @@ public class SaveAndroidELOResource {
         String username = null;
         String password = null;
         String language = null;
-        String country = null;
         String title = null;
+        String country = null;
         String description = null;
+        String type = null;
         try {
             content = jsonData.getString("content");
             username = jsonData.getString("username");
@@ -139,8 +142,9 @@ public class SaveAndroidELOResource {
             country = jsonData.getString("country");
             title = jsonData.getString("title");
             description = jsonData.getString("description");
+            type = jsonData.getString("type");
         } catch (JSONException ex) {
-            Logger.getLogger(SaveAndroidELOResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SaveELOResourceElectricity.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //User user = new User(saveBean.getUsername(),saveBean.getPassword());
@@ -152,11 +156,11 @@ public class SaveAndroidELOResource {
                 elo = configLoader.getEloFactory().createELO();
 
                 log.info("ELO created");
-                Locale defaultLocale = new Locale(language,country);
+                Locale defaultLocale = new Locale(language);
                 elo.setDefaultLanguage(defaultLocale);
 
                 //Authenticate the user and set real user name, not user-id
-                authorKey = (ContributeMetadataKey)configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+                authorKey = (ContributeMetadataKey) configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
                 //FIXME replace username by vcard
                 Contribute contribute = new Contribute(username, new Date().getTime());
                 elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
@@ -171,43 +175,42 @@ public class SaveAndroidELOResource {
                 titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
                 dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
                 descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
-                
+
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
                 elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
 
-                configLoader.getExtensionManager().registerExtension("scy/form", ".form");
-                elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/form");
-
+                elo.getMetadata().getMetadataValueContainer(typeKey).setValue(type);
                 elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
                 log.info("Metadata set");
 
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
-                
-                elo.setContent(new BasicContent(content));
+                IContent eloContent = configLoader.getEloFactory().createContent();
+                eloContent.setXmlString(content);
+                elo.setContent(eloContent);
                 try {
                     IMetadata metadata = configLoader.getRepository().addNewELO(elo);
-                    if(metadata != null) {
-                    	log.info("Added ELO to repository");
-                    	return metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue().toString();
-                    }
+                    String uri = ((URI) metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue()).toString();
+                    //return the uri that the client knows it and can perform an update as the next save
+                    return uri;
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());
                 } catch (Exception e) {
                     log.warning(e.getMessage());
                 }
+                log.info("Added ELO to repository");
+                //if saving not successful, return an empty String for convenience
+                return "";
+                //return simplified codes for easier localization!
             } else {//Authentication failed!
                 //return simplified codes for easier localization!
                 //Login failed. Please Check Your Login-Data
-                return "loginFailedCheckLoginData";
+                return "";
             }
         } catch (Exception e) {//Exception: Filewriting didnt work
             log.warning(e.getMessage());
             //return simplified codes for easier localization!
             //Server-Error during saving ELO. The Admin should clean up his harddisk
-            return "serverErrorSaving";
+            return "";
         }
-        return null;
     }
 }
-
-

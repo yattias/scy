@@ -1,8 +1,8 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- *
+ * 
  * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
- *
+ * 
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common
  * Development and Distribution License("CDDL") (collectively, the
@@ -20,13 +20,13 @@
  * License Header, with the fields enclosed by brackets [] replaced by
  * your own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- *
+ * 
  * Contributor(s):
- *
+ * 
  * The Original Software is NetBeans. The Initial Developer of the Original
  * Software is Sun Microsystems, Inc. Portions Copyright 1997-2007 Sun
  * Microsystems, Inc. All Rights Reserved.
- *
+ * 
  * If you wish your version of this file to be governed by only the CDDL
  * or only the GPL Version 2, indicate your decision by adding
  * "[Contributor] elects to include this software in this distribution
@@ -38,87 +38,107 @@
  * Version 2 license, then the option applies only if the new code is
  * made subject to such option by the copyright holder.
  */
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Path;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import org.apache.log4j.Logger;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.content.BasicContent;
+import roolo.elo.metadata.keys.ContributeMetadataKey;
 
 /**
  * REST Web Service
- * 
+ *
  * @author __SVEN__
  */
-@Path("/getELO")
-public class GetELO {
+@Path("/updateELOAndroid")
+public class UpdateELOResource {
 
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger logger = Logger.getLogger(GetELO.class.getName());
     @Context
     private UriInfo context;
+    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private IELO elo;
+    private IMetadataKey titleKey;
+    private IMetadataKey typeKey;
+    private IMetadataKey dateCreatedKey;
+    private IMetadataKey missionKey;
+    private ContributeMetadataKey authorKey;
 
     /** Creates a new instance of SaveELOResource */
-    public GetELO() {
+    public UpdateELOResource() {
     }
 
     /**
-     * GET method for testing purpose: returns a "Hello World" html-doc
+     * Retrieves representation of an instance of saveelo.SaveELOResource
+     * For testing purpose!
      * @return an instance of java.lang.String
      */
     @GET
     @Produces("text/html")
-    public String echoAlive() {
+    public String getXml() {
         return "<html><body><h1>Hello World!</body></h1></html>";
     }
 
     /**
-     * POST method for retrieving an ELO from RoOLO (specified by config) as JSON.
-     * This service consumes <b>text/plain</b> consisting of the URI of the ELO
-     * @param uri The String of the ELO to retrieve
-     * @return The ELO mapped to JSON
+     * PUT method for updating or creating an instance of SaveELOResource
+     * For testing purpose!
+     * @param content representation for the resource
+     * @return an HTTP response with content of the updated or created resource.
+     */
+    @PUT
+    @Consumes("application/xml")
+    public void putXml(String content) {
+    }
+
+    /**
+     * POST method for creating a new ELO Resource
+     * @param summary the summary representation of the ELO content
+     * @param username the username of the ELO's creator
+     * @param password the password of the ELO's creator
+     * @return an HTTP response with content of the updated or created resource.
      */
     @POST
-    @Consumes("text/plain")
-    @Produces("application/json")
-    public JSONObject getELO(String uri) {
-        JSONObject eloAsJson = new JSONObject();
-        JSONObject metadata = new JSONObject();
+    @Consumes("application/json")
+    @Produces("text/plain")
+    public String updateELO(JSONObject jsonData) {
 
+        String content = null;
+        String uri = null;
         try {
-            IELO elo = configLoader.getRepository().retrieveELO(new URI(uri));
-            logger.info("elo-version: "+elo.getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.VERSION.getId())).getValue());
-            if (elo != null) {
-                //TODO: do the flattening specific for different types of metadata keys
-                for (IMetadataKey metadataKey : elo.getMetadata().getAllMetadataKeys()) {
-                    metadata.put(metadataKey.getId(), elo.getMetadata().getMetadataValueContainer(metadataKey).getValue());
-                }
-                logger.info("GET ELO - CONTRIBUTE: "+elo.getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId())).getValue());
-                String contentString = elo.getContent().getXmlString();
-
-                eloAsJson.put("metadata", metadata);
-                eloAsJson.put("content", contentString);
-                logger.info("retrieved ELO: " + eloAsJson);
-                return eloAsJson;
-            }
+            content = jsonData.getString("content");
+            uri = jsonData.getString("uri");
         } catch (JSONException ex) {
-            logger.error(ex.getMessage());
-        } catch (URISyntaxException ex) {
-            logger.error(ex.getMessage());
+            Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        try {
+            elo = configLoader.getRepository().retrieveELO(new URI(uri));
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
+            return "eloUpdateFailed";
+        }
+        elo.setContent(new BasicContent(content));
+        configLoader.getRepository().updateELO(elo);
+        log.info("Updated ELO");
+
+        //return simplified codes for easier localization!
+        //ELO saved
+        return "eloUpdated";
     }
 }
+
+
+

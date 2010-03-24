@@ -1,4 +1,4 @@
-package eu.scy.webbrowsingtoolelosaver;
+package eu.scy.roolows;
 
 import java.net.URI;
 import java.util.Iterator;
