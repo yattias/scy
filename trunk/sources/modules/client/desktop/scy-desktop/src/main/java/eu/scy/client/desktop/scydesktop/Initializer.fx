@@ -38,12 +38,14 @@ import eu.scy.client.desktop.scydesktop.uicontrols.DynamicTypeBackground;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.StringTokenizer;
 import javafx.util.Sequences;
+import javafx.util.StringLocalizer;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
  * @author sikken
  */
 // place your code here
+
 public class Initializer {
 
     def logger = Logger.getLogger(this.getClass());
@@ -121,6 +123,8 @@ public class Initializer {
     package var background:DynamicTypeBackground;
 
     init {
+        StringLocalizer.associate("languages.scydesktop","eu.scy.client.desktop.scydesktop");
+
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
         parseApplicationParameters();
         parseWebstartParameters();
