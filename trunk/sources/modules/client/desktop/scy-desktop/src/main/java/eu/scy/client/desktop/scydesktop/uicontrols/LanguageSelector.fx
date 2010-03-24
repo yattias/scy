@@ -83,6 +83,14 @@ public class LanguageSelector extends CustomNode {
       //println("newExternalLanguage: {language}");
       var index = Sequences.indexOf(avaiableLanguages,language);
       selectFlag(index);
+      if (index<0){
+         if (sizeof avaiableLanguages>0){
+            language = avaiableLanguages[0];
+         }
+         else{
+            language = "";
+         }
+      }
    }
 
    public override function create(): Node {
