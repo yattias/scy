@@ -16,6 +16,7 @@ public class MissionAnchorFX {
 
    public var id:String;
    public var eloUri: URI;
+   public var iconType:String;
    public var inputAnchors: MissionAnchorFX[];
    public var relationNames: String[];
    public var mainAnchor = true;
