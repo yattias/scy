@@ -4,6 +4,8 @@
     <general>
       <title>
         <string language="en">Inventory of expert solutions</string>
+	<string language="fr">Inventaire des solutions des experts</string>
+
       </title>
       <description>
         <string language="en" />

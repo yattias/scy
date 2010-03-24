@@ -33,6 +33,8 @@
     <general>
       <title>
         <string language="en">House drawings</string>
+	<string language="fr">Dessins de la maison</string>
+
       </title>
       <description>
         <string language="en" />
