@@ -59,7 +59,7 @@ public class LoginNode extends CustomNode {
          languages: languages
          language: currentLocale.getLanguage()
       };
-   def loginEnabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0);
+   def loginDisabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0 or languageSelector.language.length()==0);
    def loginButtonText = "               ";
    def quitButtonText  = "               ";
 
@@ -158,7 +158,7 @@ public class LoginNode extends CustomNode {
                        layoutY: 2 * rowHeight + spacing;
                        strong:true
                        text: loginButtonText
-                       disable: bind loginEnabled
+                       disable: bind loginDisabled
                        action: function () {
                           loginAction(userNameField.text,passwordField.password);
                        }
