@@ -29,7 +29,7 @@
                             <tr>
                                 <td><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
                                 <td>${activity.anchorELO.name}</td>
-                                <td><a href="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}">+</a></td>
+                                <td><a href="javascript:loadDialog('selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}', 'Tools');">+</a></td>
                                 <td><input type="checkbox"></td>
                             </tr>
                         </c:forEach>
