@@ -192,6 +192,6 @@ public class AbstractTestFixture {
 
 	protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis, String uuid) {
 		return new Tuple("action", uuid, currentTimeInMillis, AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
-				"SomeMission", "TestSession", AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri, "type=" + type);
+				"SomeMission", "TestSession", eloUri, "type=" + type);
 	}
 }
