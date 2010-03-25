@@ -29,6 +29,8 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent implements IRepositoryAgent {
 
+	private static final String UNSAVED_ELO = "unsavedELO";
+
 	class ContextInformation {
 
 		public String mission;
@@ -117,7 +119,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private Tuple getActionTupleTemplate() {
 		return new Tuple(AgentProtocol.ACTION, String.class, Long.class, String.class, String.class, String.class,
-				String.class, String.class, Field.createWildCardField());
+				String.class, String.class, String.class, Field.createWildCardField());
 	}
 
 	@Override
@@ -144,13 +146,18 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private void handleELOLoaded(IAction action) {
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(WEBRESOURCER + " elo loaded " + action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI));
+			logger.info(WEBRESOURCER + " elo loaded " + action.getContext(ContextConstants.eloURI));
 			ContextInformation contextInfo = getContextInformation(action);
 			contextInfo.lastAction = action.getTimeInMillis();
-			try {
-				contextInfo.webresourcerELO = new URI(action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI));
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
+			String eloUri = action.getContext(ContextConstants.eloURI);
+			if (eloUri.startsWith(UNSAVED_ELO)) {
+				contextInfo.webresourcerELO = null;
+			} else {
+				try {
+					contextInfo.webresourcerELO = new URI(eloUri);
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
