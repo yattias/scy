@@ -196,6 +196,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    public var missionModelFX:MissionModelFX;
 
+   var mainContentGroup:Group;
+
+   public override var cache on replace {
+      mainContentGroup.cache = cache;
+      scyContent.cache = cache;
+   }
+   var oldCacheValue = false;
+
+
    var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
  
    postinit {
@@ -329,23 +338,31 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    /**
    *    method added to 'catch' the startResize event
    */
-   function startResize(e: MouseEvent) {
+   function startResize(e: MouseEvent):Void {
         // TODO: check if listener notification takes too long -> thread
         for( wcl in changesListeners) {
             wcl.resizeStarted();
         }
         startDragging(e);
+        oldCacheValue = cache;
+        cache = false;
+//        scyContent.cache = false;
+//        contentElement.cache = false;
+        println("caching set from {oldCacheValue} to false");
    }
 
    /**
    *    method added to 'catch' the stopResize event
    */
-   function stopResize(e: MouseEvent) {
+   function stopResize(e: MouseEvent):Void {
         // TODO: check if listener notification takes too long -> thread
         for( wcl in changesListeners) {
             wcl.resizeFinished();
         }
         stopDragging(e);
+        cache = oldCacheValue;
+//        scyContent.cache = oldCacheValue;
+//        contentElement.cache = oldCacheValue;
    }
 
    function placeAttributes(){
@@ -872,7 +889,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //         fill: Color.color(1,.25,.25,.75)
 //      }
 
-		return Group {
+		return mainContentGroup = Group {
          cursor: Cursor.MOVE;
          cache:true;
 			content: [

@@ -10,10 +10,7 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 
 
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import java.lang.Void;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -21,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import java.lang.Void;
 
 /**
  * @author sikken
