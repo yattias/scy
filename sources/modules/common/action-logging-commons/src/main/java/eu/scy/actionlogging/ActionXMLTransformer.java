@@ -50,7 +50,11 @@ public class ActionXMLTransformer {
             e.setText(actionPojo.getContext(ContextConstants.session));
             contextElement.add(e);
             e = new DefaultElement("eloURI");
-            e.setText(actionPojo.getContext(ContextConstants.eloURI));
+            if (actionPojo.getContext(ContextConstants.eloURI)==null) {
+            	e.setText("n/a");
+            } else {
+            	e.setText(actionPojo.getContext(ContextConstants.eloURI));
+            }
             contextElement.add(e);
             actionElement.add(contextElement);
 
