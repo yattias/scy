@@ -32,7 +32,7 @@
                                 <td>
                                     <s:dialog url="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}" title="+"/>
                                 </td>
-                                <td><!--s:ajaxCheckBox model="${activity}" property="autoAddToStudentPlan"/--><input type="checkbox"></td>
+                                <td><!--s:ajaxCheckBox model="${activity}" property="autoAddToStudentPlan"/--><input type="checkbox"/></td>
                             </tr>
                         </c:forEach>
                     </table>
