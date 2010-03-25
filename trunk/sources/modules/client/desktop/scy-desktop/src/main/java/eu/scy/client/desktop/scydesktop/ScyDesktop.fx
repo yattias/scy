@@ -123,7 +123,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 scyDesktop: this
             //       activeAnchor: bind missionModelFX.activeAnchor;
             };
-    var scyToolActionLogger: ScyToolActionLogger;
     public def tooltipManager: TooltipManager = SimpleTooltipManager { };
     public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
                 windowManager: windows;
@@ -556,7 +555,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     myEloChanged: myEloChanged;
                     newTitleGenerator: newTitleGenerator;
                     windowStyler: windowStyler;
-                    scyToolActionLogger: scyToolActionLogger
+                    scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
                 };
         // do the initialize cycle on the created tools
         scyToolsList.setEloSaver(myEloSaver);
