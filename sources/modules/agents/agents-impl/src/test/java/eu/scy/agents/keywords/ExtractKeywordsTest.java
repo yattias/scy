@@ -64,8 +64,12 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
-			removeTopicModel();
+			if (getPersistentStorage() != null) {
+				getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+				removeTopicModel();
+			} else {
+				System.out.println("break");
+			}
 			stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
