@@ -17,8 +17,8 @@ body {
 /* ---------- Main content body ---------- */
 
 #wrapper {
-	width:1200px;
-	min-width:1200px;
+	width:1020px;
+	min-width:1020px;
 }
 
 #content-wrapper {
@@ -59,9 +59,8 @@ body {
 }
 
 
-#navigation {
-	padding: 40px 80px 0;
-}
+
+/*-------------------Portal Head with Logo ------------------------------*/
 
 div.scy_logo {
 display:block;
@@ -70,34 +69,7 @@ height:45px;
 margin-top:25px;
 width:80px;
 }
-div.scy_logo_home, div.scy_logo_aboutscy {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scylogo_home.png) no-repeat scroll 0 0;
-}
-div.scy_logo_partners, div.scy_logo_impression {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scylogo_partners.png) no-repeat scroll 0 0;
-}
-div.scy_logo_news, div.scy_logo_contact {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scylogo_news.png) no-repeat scroll 0 0;
-}
-div.scy_eulogos {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scyeulogos.png) repeat scroll 0 0;
-height:42px;
-margin-left:50px;
-margin-top:50px;
-width:97px;
-}
+
 div.article_section {
 display:block;
 float:left;
@@ -105,7 +77,7 @@ height:132px;
 left:20px;
 position:absolute;
 top:0;
-width:980px;
+width:800px;
 }
 div.article_section_box {
 display:block;
@@ -115,50 +87,11 @@ margin-left:190px;
 margin-top:34px;
 width:26px;
 }
-div.article_section_box_home {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#339999 none repeat scroll 0 0;
-}
 div.article_section_box_aboutscy {
 -moz-background-clip:border;
 -moz-background-inline-policy:continuous;
 -moz-background-origin:padding;
 background:#663399 none repeat scroll 0 0;
-}
-div.article_section_box_partners {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#99CC33 none repeat scroll 0 0;
-}
-div.article_section_box_impression {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#FC6E00 none repeat scroll 0 0;
-}
-div.article_section_box_news {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#0066FF none repeat scroll 0 0;
-}
-div.article_section_box_contact {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#FF0EA0 none repeat scroll 0 0;
-}
-div.article_section_text {
-display:block;
-float:left;
-font-family:Verdana;
-font-size:50px;
-margin-left:10px;
-margin-top:10px;
-width:630px;
 }
 div.sectionclass_aboutscy {
 -moz-background-clip:border;
@@ -167,187 +100,176 @@ div.sectionclass_aboutscy {
 background:transparent url(../images/section_aboutscy2.png) no-repeat scroll 0 0;
 color:#663399;
 }
-div.sectionclass_home {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_home.png) repeat scroll 0 0;
-color:#339999;
-}
-div.sectionclass_partners {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_partners.png) repeat scroll 0 0;
-color:#99CC33;
-}
-div.sectionclass_impression {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_impression.png) repeat scroll 0 0;
-color:#FF6600;
-}
-div.sectionclass_news {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_news.png) repeat scroll 0 0;
-color:#0066FF;
-}
-div.sectionclass_contact {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_contact.png) repeat scroll 0 0;
-color:#FF0EA0;
-}
-div.article_wrap {
-color:#003A9F;
-font-family:Verdana;
-font-size:12px;
-position:relative;
-}
-div.article_headline {
-display:block;
-font-family:Verdana;
-font-size:26px;
-padding-left:50px;
-padding-top:40px;
-}
-div.article_headline_aboutscy {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_aboutscy_headline.png) repeat scroll 0 0;
-color:#663399;
-}
-div.article_headline_home {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_home_headline.png) repeat scroll 0 0;
-color:#339999;
-}
-div.article_headline_partners {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_partners_headline.png) repeat scroll 0 0;
-color:#99CC33;
-}
-div.article_headline_impression {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_impression_headline.png) repeat scroll 0 0;
-color:#FF6600;
-}
-div.article_headline_news {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_news_headline.png) repeat scroll 0 0;
-color:#0066FF;
-}
-div.article_headline_contact {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_contact_headline.png) repeat scroll 0 0;
-color:#FF0EA0;
-}
-div.article_content {
-display:block;
-padding-left:55px;
-padding-right:85px;
-padding-top:10px;
-text-align:justify;
-width:536px;
-}
-div.article_content_aboutscy {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_aboutscy_content.png) repeat-y scroll 0 0;
-}
-div.article_content_home {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_home_content.png) repeat-y scroll 0 0;
-}
-div.article_content_partners {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_partners_content.png) repeat-y scroll 0 0;
-}
-div.article_content_impression {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_impression_content.png) repeat-y scroll 0 0;
-}
-div.article_content_news {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_news_content.png) repeat-y scroll 0 0;
-}
-div.article_content_contact {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_contact_content.png) repeat-y scroll 0 0;
-}
-div.article_bottom {
-display:block;
-height:90px;
-width:676px;
-}
-div.article_bottom_aboutscy {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_aboutscy_bottom.png) repeat scroll 0 0;
-}
-div.article_bottom_home {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_home_bottom.png) repeat scroll 0 0;
-}
-div.article_bottom_partners {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_partners_bottom.png) repeat scroll 0 0;
-}
-div.article_bottom_impression {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_impression_bottom.png) repeat scroll 0 0;
-}
-div.article_bottom_news {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_news_bottom.png) repeat scroll 0 0;
-}
-div.article_bottom_contact {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/section_contact_bottom.png) repeat scroll 0 0;
-}
 div.article_content_clear {
 clear:both;
 display:block;
 height:1px;
 }
 
+
+/*-------------------Portlet------------------------------*/
+
+.portlet-title-default{
+background-color: #FFFFFF;
+color:#9F9F9F;
+}
+
+.portlet-title
+{
+display: block;
+font-weight: bold;
+font-size: 12px;
+position:relative;
+left:5px;
+bottom: 5px;
+margin-right:50px;
+margin-top:2px;
+}
+
+
+/*-------------------Portlet-Head------------------------------*/
+
+.portlet-topper{
+background: #CCD9EA;
+text-decoration:bold;
+color: #00386a;
+text-transform:uppercase;
+width:auto; /*Verhindert das Abschneiden von Titelleisten im IE*/
+height:auto; /*Verhindert das Hineinwachsen des Titels in den Portlet-Rumpf*/
+padding-top:8px;
+margin-top:15px;
+font-family: Verdana;
+padding-left:3px;
+font-weight:200;
+font-size:130%;
+z-index=100;
+}
+
+.ie6 .portlet-topper {
+border: 1px solid #fff; /* ie6 stellt hintergrundbildernur dar, wenn border vorhanden...*/
+}
+
+.lfr-menu-list {
+z-index:150;
+}
+
+
+/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
+/*Workaround um klicken der Topper-buttons für Startseite zu ermöglichen*/
+.ie .lfr-grid:hover > tbody > tr > td > .lfr-portlet-column > .portlet-boundary > .portlet > .portlet-topper
+{
+background-color:#D4DDE6 !important;
+}
+
+/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
+/*Workaround um klicken der Topper-buttons für alle Seiten mit ausnahme der Startseite zu ermöglichen*/
+.ie .lfr-column:hover > .lfr-portlet-column > .portlet-boundary > .portlet > .portlet-topper
+{
+background-color:#D4DDE6 !important;
+}
+
+/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
+/*Workaround um klicken des Topper-Links im maximierten Modus*/
+.ie .columns-max:hover > .lfr-column > .portlet-boundary > .portlet > .portlet-topper
+{
+background-color:#D4DDE6 !important;
+}
+
+
+
+/*-------------------Portlet-Main------------------------------*/
+
+.portlet-content{
+background-color:#EFF5FF; //#C2D0DB;
+padding-left:3px;
+color:#00386a;
+margin-bottom:5px;
+text-decoration:none;
+} 
+
+body.portal-iframe,
+.portal-iframe #content-wrapper {
+	background: #DDD;
+}
+
+/*-------------------Top-Dock------------------------------*/
+#top-dock a {
+	margin-left: 0em;
+	color: #999;
+	font-size: 10px;
+	text-decoration: none;
+}
+
+#top-dock a:hover {
+	color: #06C;
+}
+
+#top-dock {
+	margin-top: 7px;
+	margin-right: 50px;
+	margin-bottom: 15px;
+	float: right;
+}
+
+
+
+/*-------------------User Menue------------------------------*/
+
+#lfr-dock
+{
+	top:100px;
+	bottom:0px;
+	margin-top:100px;
+	padding-top:0px;
+	margin-bottom:0px;
+	padding-bottom:0px;
+}
+
+
+#lfr-dock-menu{
+	position:relative;
+	right:10%;
+	float:right;
+
+}
+
+
+/*-------------------Administrations Menue------------------------------*/
+
+/*li element welches ds Administrations-Menu enthält*/
+#lfr-dock-menu li.administration-menu
+{
+position:absolute;
+float: none;
+}
+
+
+/*"Administration" Drop Down menüs*/
+.js .interactive-mode{
+color: #FFF;
+background: #020509 url(../images/center_bg.png) repeat-x;
+position: relative !important;
+margin-top: 30px;
+left: 150px;
+top: 0px;
+bottom: 0px;
+right:5%;
+}
+
+
+/*Das eigentlich Drop Down Menü*/
+.js .interactive-mode ul{
+position:absolute;
+z-index:83;
+}
+
+/*-------------------Portal Navigation ------------------------------*/
+
+#navigation {
+	padding: 10px 50px 0;
+}
+
+/* navigation links*/
 a.menulink {
 display:block;
 font-family:Verdana;
@@ -425,9 +347,10 @@ a.menulink_10:hover {
 color:#FF9933;
 }
 
+/* navigation div (top,middle,botton and end)*/
 div.menuend0 {
 display:block;
-height:15px;
+height:5px;
 width:192px;
 }
 div.menu_top_0 {
@@ -450,8 +373,7 @@ height:29px;
 width:192px;
 }
 
-/* ---------- Navi DIV ---------- */
-
+/* every navigation div with other color*/
 div.menu_top1 {
 -moz-background-clip:border;
 -moz-background-inline-policy:continuous;
@@ -944,71 +866,6 @@ margin-left:13px;
 margin-top:2px;
 width:161px;
 }
-
-/* Navi Div Spacer */
-
-div.menuspacer_1_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_1/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_2_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_2/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_3_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_3/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_4_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_4/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_5_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_5/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_6_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_6/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_7_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_1/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_8_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_2/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_9_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_3/spacer.png) no-repeat scroll 0 0;
-}
-div.menuspacer_10_1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_4/spacer.png) no-repeat scroll 0 0;
-}
-
-
 ul.menulist_0 {
 list-style-image:none;
 list-style-position:outside;
@@ -1070,198 +927,5 @@ display:none;
 }
 div.closermenuisactive_1 {
 display:block;
-}
-div#menu_closer1 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_1/closer.png) no-repeat scroll 0 0;
-}
-div#menu_closer2 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_2/closer.png) no-repeat scroll 0 0;
-}
-div#menu_closer3 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_3/closer.png) no-repeat scroll 0 0;
-}
-div#menu_closer4 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_4/closer.png) no-repeat scroll 0 0;
-}
-div#menu_closer5 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_5/closer.png) no-repeat scroll 0 0;
-}
-div#menu_closer6 {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:transparent url(../images/scymenu_6/closer.png) no-repeat scroll 0 0;
-}
-
-
-/* ---------- Portlet ---------- */
-
-.portlet-title-default{
-background-color: #FFFFFF;
-color:#9F9F9F;
-}
-
-.portlet-title
-{
-display: block;
-font-weight: bold;
-font-size: 12px;
-position:relative;
-left:5px;
-bottom: 5px;
-margin-right:50px;
-margin-top:2px;
-}
-
-
-/*Portlets-Kopf*/
-
-.portlet-topper{
-background: #CCD9EA;
-text-decoration:bold;
-color: #00386a;
-text-transform:uppercase;
-width:auto; /*Verhindert das Abschneiden von Titelleisten im IE*/
-height:auto; /*Verhindert das Hineinwachsen des Titels in den Portlet-Rumpf*/
-padding-top:8px;
-margin-top:15px;
-font-family: Verdana;
-padding-left:3px;
-font-weight:200;
-font-size:130%;
-z-index=100;
-}
-
-.ie6 .portlet-topper {
-border: 1px solid #fff; /* ie6 stellt hintergrundbildernur dar, wenn border vorhanden...*/
-}
-
-.lfr-menu-list {
-z-index:150;
-}
-
-
-/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
-/*Workaround um klicken der Topper-buttons für Startseite zu ermöglichen*/
-.ie .lfr-grid:hover > tbody > tr > td > .lfr-portlet-column > .portlet-boundary > .portlet > .portlet-topper
-{
-background-color:#D4DDE6 !important;
-}
-
-/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
-/*Workaround um klicken der Topper-buttons für alle Seiten mit ausnahme der Startseite zu ermöglichen*/
-.ie .lfr-column:hover > .lfr-portlet-column > .portlet-boundary > .portlet > .portlet-topper
-{
-background-color:#D4DDE6 !important;
-}
-
-/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
-/*Workaround um klicken des Topper-Links im maximierten Modus*/
-.ie .columns-max:hover > .lfr-column > .portlet-boundary > .portlet > .portlet-topper
-{
-background-color:#D4DDE6 !important;
-}
-
-
-
-/*Portlets-Körper*/
-
-.portlet-content{
-background-color:#EFF5FF; //#C2D0DB;
-padding-left:3px;
-color:#00386a;
-margin-bottom:5px;
-text-decoration:none;
-} 
-
-body.portal-iframe,
-.portal-iframe #content-wrapper {
-	background: #DDD;
-}
-
-/* ----- top-dock ----- */
-#top-dock a {
-	margin-left: 0em;
-	color: #999;
-	font-size: 10px;
-	text-decoration: none;
-}
-
-#top-dock a:hover {
-	color: #06C;
-}
-
-#top-dock {
-	margin-top: 7px;
-	margin-right: 4px;
-	margin-bottom: 15px;
-	float: right;
-}
-
-
-
-/* ------- User Menü in dem auch das Administrationsmenü liegt ------ */
-
-#lfr-dock
-{
-	top:100px;
-	bottom:0px;
-	margin-top:100px;
-	padding-top:0px;
-	margin-bottom:0px;
-	padding-bottom:0px;
-}
-
-
-#lfr-dock-menu{
-	position:relative;
-	right:10%;
-	float:right;
-
-}
-
-
-*-------------------Administrations Menü (oben Rechts)------------------------------*/
-
-/*li element welches ds Administrations-Menu enthält*/
-#lfr-dock-menu li.administration-menu
-{
-position:absolute;
-float: none;
-}
-
-
-/*"Administration" Drop Down menüs*/
-.js .interactive-mode{
-color: #FFF;
-background: #020509 url(../images/center_bg.png) repeat-x;
-position: relative !important;
-margin-top: 30px;
-left: 150px;
-top: 0px;
-bottom: 0px;
-right:5%;
-}
-
-
-/*Das eigentlich Drop Down Menü*/
-.js .interactive-mode ul{
-position:absolute;
-z-index:83;
 }
 
