@@ -11,7 +11,7 @@ import eu.scy.actionlogging.api.IAction;
 
 public class ActionTupleTransformer {
 
-	private static final int ATTRIBUTES_START = 8;
+	private static final int ATTRIBUTES_START = 9;
 
 	public static IAction getActionFromTuple(Tuple actionAsTuple) {
 		Action actionAsPojo = new Action((String) actionAsTuple.getField(1).getValue());
@@ -23,6 +23,7 @@ public class ActionTupleTransformer {
 		actionAsPojo.addContext(ContextConstants.tool, (String) actionAsTuple.getField(5).getValue());
 		actionAsPojo.addContext(ContextConstants.mission, (String) actionAsTuple.getField(6).getValue());
 		actionAsPojo.addContext(ContextConstants.session, (String) actionAsTuple.getField(7).getValue());
+		actionAsPojo.addContext(ContextConstants.eloURI, (String) actionAsTuple.getField(8).getValue());
 
 		// creating the attribute list (key/value)
 		for (int i = ATTRIBUTES_START; i < actionAsTuple.getNumberOfFields(); i++) {
@@ -46,6 +47,7 @@ public class ActionTupleTransformer {
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.tool)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.mission)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.session)));
+		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.eloURI)));
 
 		// creating the attribute list (key/value)
 		Set<Entry<String, String>> entrySet = actionAsPojo.getAttributes().entrySet();

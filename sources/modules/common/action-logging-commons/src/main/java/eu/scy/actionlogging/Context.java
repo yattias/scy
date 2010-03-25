@@ -14,12 +14,15 @@ public class Context implements IContext{
 	
 	private String session;
 	
+	private String eloURI;
+	
 	public Context() {}
 	
-	public Context(String tool, String mission, String session) {
+	public Context(String tool, String mission, String session, String eloURI) {
 		this.tool = tool;
 		this.mission = mission;
 		this.session = session;
+		this.eloURI = eloURI;
 	}
 	
 	/**
@@ -64,6 +67,14 @@ public class Context implements IContext{
 		this.session = session;
 	}
 
+	public String getEloURI() {
+		return eloURI;
+	}
+	
+	public void setEloURI(String eloURI) {
+		this.eloURI = eloURI;
+	}
+	
 	
 	/**
 	 * 
@@ -75,6 +86,7 @@ public class Context implements IContext{
 			case tool: return getTool();
 			case mission: return getMission();
 			case session: return getSession();
+			case eloURI: return getEloURI();
 			default: throw new IllegalArgumentException("Constant " + constant + " not known!");
 		}
 	}
@@ -92,6 +104,7 @@ public class Context implements IContext{
 			case tool: setTool(value); break;
 			case mission: setMission(value); break;
 			case session: setSession(value); break;
+			case eloURI: setEloURI(value); break;
 			default: throw new IllegalArgumentException("Constant " + constant + " not known!");
 		}
 	}
@@ -106,6 +119,7 @@ public class Context implements IContext{
 		result = prime * result + ((mission == null) ? 0 : mission.hashCode());
 		result = prime * result + ((session == null) ? 0 : session.hashCode());
 		result = prime * result + ((tool == null) ? 0 : tool.hashCode());
+		result = prime * result + ((eloURI == null) ? 0 : eloURI.hashCode());
 		return result;
 	}
 
@@ -135,6 +149,11 @@ public class Context implements IContext{
 			if (other.tool != null)
 				return false;
 		} else if (!tool.equals(other.tool))
+			return false;
+		if (eloURI == null) {
+			if (other.eloURI != null)
+				return false;
+		} else if (!eloURI.equals(other.eloURI))
 			return false;
 		return true;
 	}

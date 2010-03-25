@@ -49,6 +49,9 @@ public class ActionXMLTransformer {
             e = new DefaultElement("session");
             e.setText(actionPojo.getContext(ContextConstants.session));
             contextElement.add(e);
+            e = new DefaultElement("eloURI");
+            e.setText(actionPojo.getContext(ContextConstants.eloURI));
+            contextElement.add(e);
             actionElement.add(contextElement);
 
             // creating the attribute list (name/value)
@@ -92,6 +95,7 @@ public class ActionXMLTransformer {
             actionPojo.addContext(ContextConstants.tool, contextElement.elementText("tool"));
             actionPojo.addContext(ContextConstants.mission, contextElement.elementText("mission"));
             actionPojo.addContext(ContextConstants.session, contextElement.elementText("session"));
+            actionPojo.addContext(ContextConstants.eloURI, contextElement.elementText("eloURI"));
             // creating the attribute list (key/value)
             Element attributesElement = actionElement.element("attributes");
             for (Iterator<Element> it = attributesElement.elementIterator("property"); it.hasNext();) {
