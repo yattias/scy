@@ -1,7 +1,7 @@
 package eu.scy.client.common.scyi18n;
 
-import java.net.URL;
-import java.net.URLClassLoader;
+//import java.net.URL;
+//import java.net.URLClassLoader;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -25,10 +25,11 @@ public class ResourceBundleWrapper {
     private ResourceBundle bundle;
     private static final Logger logger = Logger.getLogger(ResourceBundleWrapper.class.getName());
 
-    /** Creates a ResourceBundleWrapper from the specified class object */
-//    public ResourceBundleWrapper(Object o) {
-//        initBundle(o, getModuleName(o));
-//    }
+    /** Creates a ResourceBundleWrapper from the specified class object,
+     * the name of the package starts with eu.scy.client.xxx.moduleName */
+    public ResourceBundleWrapper(Object o) {
+        initBundle(o, getModuleName(o));
+    }
 
     /** Creates a ResourceBundleWrapper from the specified class object and moduleName */
     public ResourceBundleWrapper(Object o, String moduleName) {
@@ -92,5 +93,22 @@ public class ResourceBundleWrapper {
         }
     }
 
+
+    private String getModuleName(Object o){
+        String scyclientName = "eu.scy.client";
+        int beginIndex = scyclientName.length();
+        String packageName = o.getClass().getPackage().getName();
+        if(packageName.startsWith(scyclientName) && packageName.length() > beginIndex+1){
+            packageName = packageName.substring(beginIndex+1);
+            int id = packageName.indexOf(".");
+            if(id != -1){
+                packageName = packageName.substring(id+1);
+                id = packageName.indexOf(".");
+                if(id != -1)
+                    return packageName.substring(0, id);
+            }
+        }
+        return o.getClass().getName();
+    }
     
 }
