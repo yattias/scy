@@ -90,14 +90,6 @@
             </tr>
         </table>
 
-
-
-
-
-
-
-
-       
         <c:choose>
             <c:when test="${!pedagogicalPlan.published}">
                 <a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&publish=true">Publish</a>

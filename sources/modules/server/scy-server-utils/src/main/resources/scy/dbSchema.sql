@@ -29,6 +29,8 @@ CREATE TABLE `anchorelo` (
     `inputTo_primKey` varchar(55) default NULL,
     `outputFrom_primKey` varchar(55) default NULL,
     `producedBy_primKey` varchar(55) default NULL,
+    `includedInPortfolio` tinyint(1) default 0,
+    `obligatoryInPortfolio` tinyint(1) default 0,
     PRIMARY KEY  (`primKey`),
     KEY `inputTo_primKey_key` (`inputTo_primKey`),
     KEY `outputFrom_primKey_key` (`outputFrom_primKey`),
