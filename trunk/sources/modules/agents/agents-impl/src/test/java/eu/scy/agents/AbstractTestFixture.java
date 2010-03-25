@@ -100,7 +100,7 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
-		storage.shutdown();
+		storage.close();
 	}
 
 	protected void removeTopicModel() {
