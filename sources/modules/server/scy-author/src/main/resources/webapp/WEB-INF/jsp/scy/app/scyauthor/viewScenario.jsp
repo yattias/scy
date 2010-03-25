@@ -11,7 +11,7 @@
                         <th>Learning activity space</th>
                     </tr>
                     <c:forEach var="las" items="${learningActivitySpaces}">
-                        <tr>
+                        <tr class="${oddEven.oddEven}">
                             <td><a href="viewLAS.html?id=${las.id}">${las.name}</a></td>
                         </tr>
                     </c:forEach>
@@ -27,7 +27,7 @@
                         <th>Learning goals</th>
                     </tr>
                     <c:forEach var="learningGoal" items="${learningGoals}">
-                        <tr>
+                        <tr class="${oddEven.oddEven}">
                             <td>${learningGoal.name}</td>
                         </tr>
                     </c:forEach>

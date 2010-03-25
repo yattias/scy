@@ -2,6 +2,8 @@ package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.Tool;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -13,4 +15,7 @@ public interface ToolService extends BaseService{
 
     public Tool findToolByName(String name);
 
+    List getTools();
+
+    void addTool();
 }

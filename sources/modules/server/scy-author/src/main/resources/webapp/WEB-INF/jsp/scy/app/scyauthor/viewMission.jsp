@@ -26,7 +26,7 @@
 
                     </tr>
                     <c:forEach var="lm" items="${learningMaterials}">
-                        <tr>
+                        <tr class="${oddEven.oddEven}">
                             <td>${lm.name}</td>
                             <td>${lm.description}</td>
                         </tr>
@@ -50,7 +50,7 @@
 
                     </tr>
                     <c:forEach var="lg" items="${learningGoals}">
-                        <tr>
+                        <tr class="${oddEven.oddEven}">
                             <td>
                                 <s:ajaxTextField property="name" model="${lg}"/>
                             </td>

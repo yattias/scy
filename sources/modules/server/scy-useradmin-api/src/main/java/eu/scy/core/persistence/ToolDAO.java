@@ -2,6 +2,8 @@ package eu.scy.core.persistence;
 
 import eu.scy.core.model.pedagogicalplan.Tool;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -14,4 +16,9 @@ public interface ToolDAO {
     void save(Tool tool);
 
     Tool findToolByName(String name);
+
+    List getTools();
+
+    void addTool();
+
 }
