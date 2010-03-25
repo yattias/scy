@@ -17,8 +17,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	// ("action":String, <ID>:String, <Timestamp>:long, elo_saved:String, <User>:String, <Tool>:String,
 	// <Mission>:String, <Session>:String, <Key=Value>:String*)
 	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-			AgentProtocol.ACTION_ELO_SAVED, String.class, String.class, String.class, String.class,
-			String.class, String.class);
+			AgentProtocol.ACTION_ELO_SAVED, String.class, String.class, String.class, String.class, String.class,
+			String.class);
 
 	private static final Logger logger = Logger.getLogger(AbstractELOSavedAgent.class.getName());
 
@@ -93,7 +93,7 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 		} else {
 			processELOSavedAction(action.getId(), action.getUser(), action.getTimeInMillis(), action
 					.getContext(ContextConstants.tool), action.getContext(ContextConstants.mission), action
-					.getContext(ContextConstants.session), action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI), action
+					.getContext(ContextConstants.session), action.getContext(ContextConstants.eloURI), action
 					.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));
 		}
 	}
