@@ -27,6 +27,7 @@ public class ActionXMLTransformerTest {
         action.addContext(ContextConstants.mission, "Test Mission");
         action.addContext(ContextConstants.tool, "Test Tool");
         action.addContext(ContextConstants.session, "Test Session");
+        action.addContext(ContextConstants.eloURI, "Test URI");
         // add attributes
         action.addAttribute("job", "queen");
         action.addAttribute("country", "netherland");
