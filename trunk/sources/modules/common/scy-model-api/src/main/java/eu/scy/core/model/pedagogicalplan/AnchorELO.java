@@ -27,11 +27,11 @@ public interface AnchorELO extends PlannedELO, Assessable, PositionedObject {
     public LearningActivitySpace getInputTo();
     public void setInputTo(LearningActivitySpace inputTo);
 
-    public boolean getIncludedInPortfolio();
-    public void setIncludedInPortfolio(boolean includedInPortfolio);
+    public Boolean getIncludedInPortfolio();
+    public void setIncludedInPortfolio(Boolean includedInPortfolio);
 
-    public void setObligatoryInPortfolio(boolean obligatoryInPortfolio);
-    public boolean getObligatoryInPortfolio();
+    public void setObligatoryInPortfolio(Boolean obligatoryInPortfolio);
+    public Boolean getObligatoryInPortfolio();
 
     String getMissionMapId();
     void setMissionMapId(String missionMapId);

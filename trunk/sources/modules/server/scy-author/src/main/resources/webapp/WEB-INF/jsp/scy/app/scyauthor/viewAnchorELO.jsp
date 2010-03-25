@@ -5,13 +5,13 @@
         <h1>Anchor ELO: ${model.name}</h1>
 
         <h2>Portfolio</h2>
-        <table width="200%" border="2">
+        <table width="100%">
             <tr>
                 <td>
                     Can be included in portfolio
                 </td>
                 <td>
-                    <input type="checkbox">
+                    <s:ajaxCheckBox model="${model}" property="includedInPortfolio"/>
                 </td>
             </tr>
             <tr>
@@ -19,7 +19,7 @@
                     Obligatory in portfolio
                 </td>
                 <td>
-                    <input type="checkbox">
+                    <s:ajaxCheckBox model="${model}" property="obligatoryInPortfolio"/>
                 </td>
             </tr>
 

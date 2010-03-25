@@ -59,21 +59,19 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
         this.inputTo = inputTo;
     }
 
-    @Transient
-    public boolean getIncludedInPortfolio() {
+    public Boolean getIncludedInPortfolio() {
         return includedInPortfolio;
     }
 
-    public void setIncludedInPortfolio(boolean includedInPortfolio) {
+    public void setIncludedInPortfolio(Boolean includedInPortfolio) {
         this.includedInPortfolio = includedInPortfolio;
     }
 
-    public void setObligatoryInPortfolio(boolean obligatoryInPortfolio) {
+    public void setObligatoryInPortfolio(Boolean obligatoryInPortfolio) {
         this.obligatoryInPortfolio = obligatoryInPortfolio;
     }
 
-    @Transient
-    public boolean getObligatoryInPortfolio() {
+    public Boolean getObligatoryInPortfolio() {
         return this.obligatoryInPortfolio;
     }
 

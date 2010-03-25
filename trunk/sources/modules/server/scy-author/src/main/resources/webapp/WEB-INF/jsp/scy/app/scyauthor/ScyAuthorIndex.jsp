@@ -21,8 +21,7 @@
                     <tr>
                         <td><a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a></td>
                         <td>${pedagogicalPlan.description}</td>
-                        <td>${pedagogicalPlan.published}</td>
-                        <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/> </td>
+                        <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/></td>
                     </tr>
                 </c:forEach>
             </table>
