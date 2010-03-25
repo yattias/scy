@@ -129,7 +129,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	/**
 	 * Clean up the agent.
 	 */
-	protected abstract void doStop();
+	protected abstract void doStop() throws AgentLifecycleException;
 
 	/**
 	 * This method returns a Tuple which identifies the agent with TupleDoc Entries.<br />
@@ -234,11 +234,13 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 		if (aliveTupleID == null) {
 			// write new alive tuple
 			if (getCommandSpace().isConnected()) {
+				// System.err.println("********** Writing new alive tuple " + getName());
 				aliveTupleID = getCommandSpace().write(AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
 			}
 		} else {
 			// update already present alive tuple
 			if (getCommandSpace().isConnected()) {
+				// System.err.println("********** Updating alive tuple" + getName());
 				getCommandSpace().update(aliveTupleID, AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
 			}
 		}
@@ -303,8 +305,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	public final void tidy() {
 		try {
 			if (getCommandSpace() != null && getCommandSpace().isConnected()) {
-//				getCommandSpace().eventDeRegister(commandId);
-//				getCommandSpace().eventDeRegister(identifyId);
+				// getCommandSpace().eventDeRegister(commandId);
+				// getCommandSpace().eventDeRegister(identifyId);
 				getCommandSpace().disconnect();
 			}
 			// if (getActionSpace() != null && getActionSpace().isConnected()) {
