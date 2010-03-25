@@ -106,7 +106,12 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	@Override
-	protected void doStop() {
+	protected void doStop() throws AgentLifecycleException {
+		try {
+			getCommandSpace().eventDeRegister(listenerId);
+		} catch (TupleSpaceException e) {
+			throw new AgentLifecycleException("Could not deregister listener", e);
+		}
 		status = Status.Stopping;
 	}
 

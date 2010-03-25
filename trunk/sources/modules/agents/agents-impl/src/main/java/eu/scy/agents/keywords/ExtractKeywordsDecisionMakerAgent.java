@@ -332,7 +332,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
 					queryId, text);
-			extractKeywordsTriggerTuple.setExpiration(2 * AgentProtocol.COMMAND_EXPIRATION);
+			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (getCommandSpace().isConnected()) {
 				getCommandSpace().write(extractKeywordsTriggerTuple);

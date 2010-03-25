@@ -59,7 +59,9 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			responseTuple.add(keyword);
 		}
 		try {
-			getCommandSpace().write(responseTuple);
+			if (getCommandSpace().isConnected()) {
+				getCommandSpace().write(responseTuple);
+			}
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -119,7 +121,13 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	@Override
-	protected void doStop() {
+	protected void doStop() throws AgentLifecycleException {
+		try {
+			getCommandSpace().eventDeRegister(listenerId);
+		} catch (TupleSpaceException e) {
+			throw new AgentLifecycleException("Could not deregister listener", e);
+		}
+
 		status = Status.Stopping;
 	}
 
