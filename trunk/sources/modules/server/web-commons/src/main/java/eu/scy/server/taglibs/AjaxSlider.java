@@ -20,7 +20,7 @@ public class AjaxSlider extends AjaxBaseComponent{
             pageContext.getOut().write("<form id=\"ajaxSliderForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
             pageContext.getOut().write("<div id=\"horizontalSlider"+ id + "\" dojoType=\"dijit.form.HorizontalSlider\" value=\"0\"\n" +
                     "minimum=\"-1\" maximum=\"1\" discreteValues=\"3\" intermediateChanges=\"true\"\n" +
-                    "showButtons=\"false\" style=\"width:400px;\" onchange=\"dojo.byId('sliderValue" + id +"').value=this.value\">\n" +
+                    "showButtons=\"false\" style=\"width:400px;\" onChange=\"updateAjaxSlider('" + id + "', this);\">\n" +
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"topDecoration\"\n" +
                     "    style=\"height:1.5em;font-size:75%;color:gray;\">");
             for (int i = 0; i < sliderValues.size(); i++) {
@@ -33,7 +33,7 @@ public class AjaxSlider extends AjaxBaseComponent{
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"bottomDecoration\"\n" +
                     "    style=\"height:1em;font-size:75%;color:gray;\">" +
                     "</ol></div>");
-            pageContext.getOut().write("<input type=\"text\" id=\"sliderValue" + id + "\" dojoType=\"dijit.form.TextBox\" />");
+            pageContext.getOut().write("<input type=\"text\" name=\"value\" id=\"sliderValue" + id + "\" dojoType=\"dijit.form.TextBox\" style=\"display:none;\"/>");
             pageContext.getOut().write("</form>");
         } catch (Exception e) {
             e.printStackTrace();
