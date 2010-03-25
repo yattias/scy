@@ -34,12 +34,12 @@ import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.client.tools.fxrichtexteditor.registration.RichTextEditorContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
 import java.util.HashMap;
+import eu.scy.client.desktop.scydesktop.tools.speedtest.SpeedTestPanelCreator;
 
 /**
  * @author sikkenj
@@ -77,6 +77,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def sketchUpUploadId = "sketchUpUpload";
    def wordUploadId = "wordUpload";
    def scyRichTextId = "richtext";
+   def speedTestPanelId = "speedTestPanel";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -127,7 +128,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
+
+scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("xmlViewer");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
