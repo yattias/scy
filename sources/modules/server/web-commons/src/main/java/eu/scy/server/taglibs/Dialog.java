@@ -1,7 +1,5 @@
 package eu.scy.server.taglibs;
 
-import eu.scy.core.model.ScyBase;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -22,7 +20,7 @@ public class Dialog extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<a id=\"" + id + "\" href=\"" + getUrl() + "\" target=\"_blank\">" + getTitle() + "</a>");
+            pageContext.getOut().write("<a href=\"javascript:loadDialog('"+getUrl()+"', '" + getTitle() + "');\">" + getTitle() + "</a>");            
         } catch (Exception e) {
             e.printStackTrace();
         }
