@@ -2,6 +2,9 @@ package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.core.persistence.ToolDAO;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,5 +28,17 @@ public class ToolServiceImpl extends BaseServiceImpl implements ToolService{
     @Override
     public Tool findToolByName(String name) {
         return getToolDAO().findToolByName(name);
+    }
+
+    @Override
+    public List getTools() {
+        return getToolDAO().getTools();
+    }
+
+    @Override
+    @Transactional
+    public void addTool() {
+        getToolDAO().addTool();
+
     }
 }

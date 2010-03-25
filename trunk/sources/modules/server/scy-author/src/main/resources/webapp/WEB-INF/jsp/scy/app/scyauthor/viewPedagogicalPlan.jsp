@@ -66,7 +66,7 @@
 
                     </tr>
                     <c:forEach var="anchorElo" items="${anchorElos}">
-                        <tr>
+                        <tr class="${oddEven.oddEven}">
                             <td>
                                 <input id="mycheck-${anchorElo.id}" name="mycheck" dojoType="dijit.form.CheckBox" value="agreed" checked onChange="alert('hei');">
                             </td>

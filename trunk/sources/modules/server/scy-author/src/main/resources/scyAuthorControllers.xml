@@ -47,6 +47,8 @@
                    /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
                    /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
 
+                   /app/tools/Toolbank.html=toolbankController
+
                    /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
                </value>
            </property>
@@ -110,6 +112,11 @@
     <bean id="scyAuthorRuntimeIndexController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeIndexController">
         <property name="serverService" ref="serverService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+    </bean>
+
+    <bean id="toolbankController" class="eu.scy.server.controllers.tools.ToolbankController">
+        <property name="serverService" ref="serverService"/>
+        <property name="toolService" ref="toolService"/>
     </bean>
 
 
