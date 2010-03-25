@@ -37,6 +37,8 @@ public class SQLSpacesActionLogger implements IActionLogger {
 
     private Field dataField;
 
+	private Field eloURIField;
+
     public SQLSpacesActionLogger(String ip, int port, String space) {
         // creating / connecting to a space
         try {
@@ -66,11 +68,12 @@ public class SQLSpacesActionLogger implements IActionLogger {
             toolField = new Field(action.getContext(ContextConstants.tool));
             missionField = new Field(action.getContext(ContextConstants.mission));
             sessionField = new Field(action.getContext(ContextConstants.session));
+            eloURIField = new Field(action.getContext(ContextConstants.eloURI));
            
             //dataTypeField = (action.getDataType()==null)?new Field(String.class):new Field(action.getDataType());
             //dataField = (action.getData()==null)?new Field(String.class):new Field(action.getData());
             
-            actionTuple = new Tuple(actionField,idField, timeField, typeField, userField, toolField, missionField, sessionField, dataTypeField,dataField);
+            actionTuple = new Tuple(actionField,idField, timeField, typeField, userField, toolField, missionField, sessionField, eloURIField, dataTypeField,dataField);
             for (Entry<String, String> entry : action.getAttributes().entrySet()) {
                 actionTuple.add(entry.getKey()+'='+entry.getValue());
                 
