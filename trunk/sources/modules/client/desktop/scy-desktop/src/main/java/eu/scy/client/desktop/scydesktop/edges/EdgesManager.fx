@@ -17,6 +17,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import java.net.URI;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
+import java.lang.Void;
 
 public class EdgesManager extends IEdgesManager {
 
@@ -26,19 +28,22 @@ public class EdgesManager extends IEdgesManager {
     public var metadataTypeManager: IMetadataTypeManager;
     public-init var showEloRelations: Boolean;
 
-    public function addLink(source: ScyWindow, target: ScyWindow, text: String): Void {
-        def edge: Edge = Edge {
-                    start: source
-                    end: target
-                    manager: this;
-                    text: text;
-                    visible: showEloRelations;
-                    opacity: 0.0
-                }
-        insert edge into nodes;
-        Timeline {
-            keyFrames: [at (0.5s) {edge.opacity => 1.0 tween Interpolator.EASEIN}]
-        }.play();
+
+    public function addLink(source:ScyWindow, target:ScyWindow, text:String):Void {
+            def edge:Edge = Edge {
+                start: (source as StandardScyWindow);
+                end: (target as StandardScyWindow);
+                manager: this;
+                text: text;
+                visible:showEloRelations;
+                opacity: 0.0
+            }
+            insert edge into nodes;
+            Timeline{
+                keyFrames: [at (0.5s){ edge.opacity => 1.0 tween Interpolator.EASEIN}]
+            }.play();
+
+
     }
 
     public override function findLinks(sourceWindow: ScyWindow)   {
