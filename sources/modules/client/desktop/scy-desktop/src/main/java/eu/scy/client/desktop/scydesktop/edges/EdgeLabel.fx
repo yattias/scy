@@ -23,22 +23,22 @@ public class EdgeLabel extends CustomNode {
 
     public var labelText:String;
     //todo: label is not realy in the center.
-    var x:Number = bind (edge.line.startX+edge.line.endX) / 2;
-    var y:Number= bind (edge.line.startY+edge.line.endY) / 2;
+    public var x:Number = 0.0;
+    public var y:Number = 0.0;
     public-read var width:Number = bind border.width;
     public-read var height:Number = bind border.height;
-    
+
     var label:Text = Text {
             content: bind labelText;
-            translateX: bind x+2;
-            translateY: bind y+14;
+            translateX: bind border.translateX + 2;
+            translateY: bind border.translateY + 6 + (label.layoutBounds.height / 2);
     }
 
     var border:Rectangle = Rectangle {
-        translateX: bind x;
-        translateY: bind y;
-        height: bind label.boundsInParent.height+5;
-        width: bind label.boundsInParent.width+5;
+        translateX: bind x - (label.layoutBounds.width / 2) - 2;
+        translateY: bind y - (label.layoutBounds.height / 2) - 2;
+        height: bind label.layoutBounds.height+4;
+        width: bind label.layoutBounds.width+4;
         fill: Color.WHITE;
         stroke: Color.BLACK;
     }
