@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+import java.lang.Runtime;
 
 /**
  * @author sikken
@@ -116,7 +118,12 @@ public class PropertiesViewer extends CustomNode, ScyToolFX {
                   }
                ]
             }
-
+            Button {
+               text: "GC"
+               action: function() {
+                  Runtime.getRuntime().gc();
+               }
+            }
          ]
       }
 

@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerC
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
+import eu.scy.client.desktop.scydesktop.tools.speedtest.SpeedTestPanelCreator;
 
 /**
  * @author sikkenj
@@ -41,6 +42,7 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    def scyToolViewerId = "scyToolViewer";
    def propertiesViewerId = "propertiesViewer";
    def presentationViewerId = "presentationUpload";
+   def speedTestPanelId = "speedTestPanel";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -54,6 +56,7 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new PropertiesViewerCreator(), propertiesViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{extensions: ["ppt","pptx"];fileFilterDescription:"PowerPoint Presentations"}, presentationViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    

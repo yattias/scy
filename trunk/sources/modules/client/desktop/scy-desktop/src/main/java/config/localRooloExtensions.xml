@@ -133,6 +133,12 @@
                </key>
                <value>.studentplan</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/speedtest</value>
+               </key>
+               <value>.speedtest</value>
+            </entry>
          </map>
       </property>
    </bean>
