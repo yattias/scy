@@ -46,6 +46,7 @@
                    /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
                    /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
                    /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
+                   /app/scyauthor/viewPortfolio.html=viewPortfolioController
 
                    /app/tools/Toolbank.html=toolbankController
 
@@ -62,7 +63,6 @@
 
     <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
-        <property name="lasService" ref="lasService"/>
         <property name="serverService" ref="serverService"/>
     </bean>
 
@@ -119,5 +119,9 @@
         <property name="toolService" ref="toolService"/>
     </bean>
 
-
+    <bean id="viewPortfolioController" class="eu.scy.server.controllers.ViewPortfolioController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+    </bean>
 </beans>

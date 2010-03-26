@@ -3,6 +3,18 @@
     <tiles:putAttribute name="main">
 
         <h1>Scenario: ${model.name}</h1>
+        <table>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <td>
+                     <s:ajaxTextField property="name" model="${model}"/>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <br/>
 
         <c:choose>
             <c:when test="${fn:length(learningActivitySpaces) > 0}">
@@ -13,7 +25,7 @@
                             <table width="100%">
                                 <th width="40%">Activity</th>
                                 <th width="40%">Anchor ELO</th>
-                                <th width="20%">Audo add</th>
+                                <th width="20%">Audo add to SP</th>
                             </table>
                         </th>
                     </tr>
@@ -25,7 +37,7 @@
                                     <c:forEach var="activity" items="${las.activities}">
                                         <tr>
                                             <td width="40%"><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
-                                            <td width="40%">${activity.anchorELO.name}</td>
+                                            <td width="40%"><a href="viewAnchorELO.html?anchorELOId=${activity.anchorELO.id}">${activity.anchorELO.name}</a></td>
                                             <td width="20%"><!--s:ajaxCheckBox model="${activity}" property="autoAddToStudentPlan"/--><input type="checkbox"/></td>
                                         </tr>
                                     </c:forEach>

@@ -2,14 +2,22 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <h1>Mission: <s:ajaxTextField property="name" model="${model}"/></h1>
+        <h1>Mission: ${model.name}</h1>
         <table>
             <tr>
-                <th>Target group:</th>
+                <th>
+                    Name
+                </th>
+                <td>
+                   d <s:ajaxTextField property="name" model="${model}"/>
+                </th>
+            </tr>
+            <tr>
+                <th>Target group</th>
                 <td><s:ajaxTextField property="targetGroup" model="${model}"/></td>
             </tr>
             <tr>
-                <th>Mission outline:</th>
+                <th>Mission outline</th>
                 <td><s:ajaxTextField property="missionOutline" model="${model}"/></td>
             </tr>
         </table>

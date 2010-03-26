@@ -1,11 +1,11 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.ActivityService;
-import eu.scy.core.model.pedagogicalplan.Activity;
-import org.springframework.web.servlet.ModelAndView;
-
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,6 +23,20 @@ public class ViewActivityController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String activityId = request.getParameter("activityId");
         setModel(getActivityService().getActivity(activityId));
+
+        List teacherRoles = new LinkedList();
+        teacherRoles.add("Activator");
+        teacherRoles.add("Facilitator");
+        teacherRoles.add("Observer");
+
+        modelAndView.addObject("teacherRoles", teacherRoles);
+
+        List workArrangement = new LinkedList();
+        workArrangement.add("Individual");
+        workArrangement.add("Group");
+        workArrangement.add("Peer to peer");
+
+        modelAndView.addObject("workArrangement", workArrangement);
     }
 
 
