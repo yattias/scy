@@ -199,11 +199,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    var mainContentGroup:Group;
 
    public override var cache on replace {
-      mainContentGroup.cache = cache;
-      scyContent.cache = cache;
+//      mainContentGroup.cache = cache;
+//      scyContent.cache = cache;
    }
-   var oldCacheValue = false;
-
 
    var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
  
@@ -286,13 +284,13 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       
       if (activated){
          scyToolsList.onGotFocus();
-         this.effect = activeWindowEffect;
+         //this.effect = activeWindowEffect;
          //display edges if on screen
          windowManager.scyDesktop.edgesManager.findLinks(this);
       }
       else{
          scyToolsList.onLostFocus();
-         this.effect = inactiveWindowEffect;
+         //this.effect = inactiveWindowEffect;
          //hide edges
       }
    }
@@ -344,11 +342,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             wcl.resizeStarted();
         }
         startDragging(e);
-        oldCacheValue = cache;
-        cache = false;
+//        oldCacheValue = cache;
+//        cache = false;
 //        scyContent.cache = false;
 //        contentElement.cache = false;
-        println("caching set from {oldCacheValue} to false");
+//        println("caching set from {oldCacheValue} to false");
    }
 
    /**
@@ -360,7 +358,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             wcl.resizeFinished();
         }
         stopDragging(e);
-        cache = oldCacheValue;
+//        cache = oldCacheValue;
 //        scyContent.cache = oldCacheValue;
 //        contentElement.cache = oldCacheValue;
    }
