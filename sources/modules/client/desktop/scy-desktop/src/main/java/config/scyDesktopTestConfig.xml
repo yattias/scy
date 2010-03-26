@@ -134,8 +134,8 @@
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="las1"/>
-                     <property name="xPosition" value="20"/>
-                     <property name="yPosition" value="20"/>
+                     <property name="xPosition" value="0"/>
+                     <property name="yPosition" value="0"/>
                      <property name="tooltip" value="A great small las top left"/>
                      <property name="loEloUris">
                         <list>
@@ -160,11 +160,12 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="las2"/>
-                     <property name="xPosition" value="40"/>
-                     <property name="yPosition" value="60"/>
+                     <property name="xPosition" value="20"/>
+                     <property name="yPosition" value="40"/>
                      <property name="tooltip" value="A great small las at the bottom"/>
                      <property name="nextLasses">
                         <list>
+                           <value>las1</value>
                            <value>las3</value>
                         </list>
                      </property>
@@ -172,8 +173,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="las3"/>
-                     <property name="xPosition" value="60"/>
-                     <property name="yPosition" value="20"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="0"/>
                      <property name="tooltip" value="A great small las to right"/>
                      <property name="nextLasses">
                         <list>
@@ -192,7 +193,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="missionDescription"/>
                <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
-               <property name="iconType" value="general/new"/>
+               <property name="iconType" value="scy/drawing"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionBackground</value>

@@ -23,6 +23,9 @@ import javafx.util.Math;
 import javafx.scene.text.TextOrigin;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
+import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
+import eu.scy.client.desktop.scydesktop.art.ArtSource;
 
 /**
  * @author sikken
@@ -38,9 +41,12 @@ public class MissionMap extends CustomNode {
    public var scyDesktop: ScyDesktop;
    public var metadataTypeManager: IMetadataTypeManager;
    public var showLasId = false;
+   public var eloDisplayTypeControl: EloDisplayTypeControl;
+
 
    var maximumLasXpos = -1e6;
    var minimumLasYPos = 1e6;
+   var displayGroup = Group{};
    var anchorDisplays: AnchorDisplay[];
    var anchorMap = new HashMap();
    var anchorLinks: AnchorLink[];
@@ -48,6 +54,11 @@ public class MissionMap extends CustomNode {
          scyDesktop: scyDesktop
          metadataTypeManager: metadataTypeManager
       }
+   def selectedFxdImageLoader: FxdImageLoader = FxdImageLoader{
+      sourceName: ArtSource.selectedIconsPackage
+      backgroundLoading: false;
+      loadedAction:fillDisplayGroup
+   }
 
    postinit {
       if (missionModel.activeLas != null) {
@@ -60,20 +71,22 @@ public class MissionMap extends CustomNode {
    }
 
    public override function create(): Node {
+      displayGroup
+   }
+
+   function fillDisplayGroup():Void{
       anchorDisplays = createAnchorDisplays();
       anchorLinks = createAnchorLinks();
       var lasIdDisplay:Node;
       if (showLasId){
          lasIdDisplay = createLasIdDisplay();
       }
-      return Group {
-            content: [
-               lasIdDisplay,
-               anchorLinks,
-               anchorDisplays
-            ]
-         };
+      displayGroup.content = [lasIdDisplay,anchorLinks,anchorDisplays];
+      if (missionModel.activeLas != null) {
+         getAnchorDisplay(missionModel.activeLas).selected = true;
+      }
    }
+
 
    function createLasIdDisplay(): Node {
       println("maximumLasXpos: {maximumLasXpos}, minimumLasYPos: {minimumLasYPos}");
@@ -102,6 +115,8 @@ public class MissionMap extends CustomNode {
                selectionAction: anchorSelected;
                dragAndDropManager: dragAndDropManager
                windowStyler: scyDesktop.windowStyler
+               selectedFxdImageLoader:selectedFxdImageLoader
+               eloDisplayTypeControl:eloDisplayTypeControl
             }
          anchorMap.put(las, anchorDisplay);
          tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);

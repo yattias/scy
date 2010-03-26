@@ -272,6 +272,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             scyDesktop: this
             metadataTypeManager: config.getMetadataTypeManager()
             showLasId:initializer.debugMode
+            eloDisplayTypeControl:eloDisplayTypeControl
         //         translateX:40;
         //         translateY:40;
         }
