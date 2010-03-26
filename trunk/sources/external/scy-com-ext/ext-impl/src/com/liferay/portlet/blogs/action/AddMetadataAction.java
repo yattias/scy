@@ -1,13 +1,10 @@
-package com.liferay.portlet.blogs.action;
+package com.ext.portlet.asset_p.action;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.ext.portlet.metadata.model.MetadataEntry;
@@ -53,7 +50,7 @@ public class AddMetadataAction extends PortletAction {
 				metaEntry = MetadataActionUtil.addMetadata(className, entryId, req);
 			}
 			req.setAttribute("meta", metaEntry);
-			setForward(req, "portlet.blogs.view_addMetadata");
+			setForward(req, "portlet.asset_publisher.view_addMetadata");
 			return;
 		}
 		// add methods
@@ -61,10 +58,4 @@ public class AddMetadataAction extends PortletAction {
 
 		res.sendRedirect(redirect);
 	}
-
-	public ActionForward render(ActionMapping mapping, ActionForm form, PortletConfig portletConfig, RenderRequest renderRequest, RenderResponse renderResponse)
-			throws Exception {
-		return mapping.findForward(getForward(renderRequest, "portlet.blogs.view"));
-	}
-
 }
