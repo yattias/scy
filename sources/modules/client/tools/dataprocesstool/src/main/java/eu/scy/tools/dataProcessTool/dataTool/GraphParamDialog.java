@@ -75,7 +75,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
 
     private void initGUI(){
         int w = MyUtilities.lenghtOfString(this.cbFixedAutoscale.getText(), cbFixedAutoscale.getFontMetrics(this.cbFixedAutoscale.getFont()));
-        cbFixedAutoscale.setSize(60+w, 23);
+        cbFixedAutoscale.setSize(w+40, 23);
         // nom de la visualization
         fieldName.setText(this.vis.getName());
         if(isGraph()){
@@ -113,8 +113,8 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             remove(textFieldDeltaY);
             remove(cbFixedAutoscale);
 //            remove(plotPanel);
-            resizeElements();
         }
+        resizeElements();
     }
 
     private PlotPanel getPlotPanel(){
@@ -143,6 +143,9 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             this.labelYMin.setSize(MyUtilities.lenghtOfString(this.labelYMin.getText(), getFontMetrics(this.labelYMin.getFont())), this.labelYMin.getHeight());
             this.labelYMax.setSize(MyUtilities.lenghtOfString(this.labelYMax.getText(), getFontMetrics(this.labelYMax.getFont())), this.labelYMax.getHeight());
             this.labelDeltaY.setSize(MyUtilities.lenghtOfString(this.labelDeltaY.getText(), getFontMetrics(this.labelDeltaY.getFont())), this.labelDeltaY.getHeight());
+            int wMax = cbFixedAutoscale.getWidth()+cbFixedAutoscale.getX();
+            if(getWidth() < wMax)
+                setSize(wMax, getHeight());
         }
        // bouton Ok
        this.buttonOk.setSize(60+MyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
