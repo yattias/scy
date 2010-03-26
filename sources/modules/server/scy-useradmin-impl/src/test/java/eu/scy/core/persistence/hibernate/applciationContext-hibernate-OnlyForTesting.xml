@@ -91,40 +91,6 @@
 
     </bean>
 
-    <!--bean id="grantedAuthorityDao"
-        class="net.sf.sail.webapp.dao.authentication.impl.HibernateGrantedAuthorityDao">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean-->
-
-
-    <!--bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">
-        <property name="sessionFactory">
-            <ref local="sessionFactory"/>
-        </property>
-    </bean>
-
-    <bean id="projectDAO" class="eu.scy.core.persistence.hibernate.ProjectDAOHibernate">
-        <property name="sessionFactory">
-            <ref local="sessionFactory"/>
-        </property>
-    </bean>
-
-    <bean id="userSessionDAO" class="eu.scy.core.persistence.hibernate.UserSessionDAOHibernate">
-        <property name="sessionFactory">
-            <ref local="sessionFactory"/>
-        </property>
-    </bean-->
-
-    <!--bean id="eloContainerManager" class="eu.scy.core.service.impl.EloContainerManagerMock">
-        <property name="repository" ref="repository"/>
-        <property name="factory" ref="eloFactory"/>
-    </bean-->
-
-    <!--bean id="userSessionService" class="eu.scy.core.service.impl.UserSessionServiceImpl">
-
-    </bean-->
-
-
     <bean id="jdbcUserService" class="org.springframework.security.userdetails.jdbc.JdbcDaoImpl">
         <property name="rolePrefix" value="ROLE_"/>
         <property name="dataSource" ref="dataSource"/>
@@ -181,6 +147,10 @@
     </bean>
 
     <bean id="agentDAO" class="eu.scy.core.persistence.hibernate.AgentDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="assignedAssessmentDAO" class="eu.scy.core.persistence.hibernate.AssignedAssessmentDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

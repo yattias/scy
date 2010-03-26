@@ -1,7 +1,7 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.*;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.List;
  * Time: 14:29:31
  * To change this template use File | Settings | File Templates.
  */
-@Test
 public class ScenarioTest extends AbstractPedagogicalPlanTest{
 
     @Test

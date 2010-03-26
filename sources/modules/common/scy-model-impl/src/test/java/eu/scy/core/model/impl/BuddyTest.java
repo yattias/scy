@@ -2,8 +2,8 @@ package eu.scy.core.model.impl;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.BuddyConnection;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,8 +12,7 @@ import org.testng.annotations.Test;
  * Time: 06:25:03
  * To change this template use File | Settings | File Templates.
  */
-@Test
-public class BuddyTest {
+public class BuddyTest extends TestCase {
 
 
     private User me;
@@ -21,7 +20,6 @@ public class BuddyTest {
     private User secondBestBuddy;
 
 
-    @BeforeTest
     private void initialize() {
 
     }
