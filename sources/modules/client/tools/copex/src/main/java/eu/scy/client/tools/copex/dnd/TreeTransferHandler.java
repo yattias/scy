@@ -71,6 +71,9 @@ public class TreeTransferHandler extends TransferHandler {
                         CopexNode insertNode = getNodeInsert(dropLocation, subTreeToMove.getOwner(), v);
                         boolean brother = (Boolean )v.get(0);
                         boolean markNode = (Boolean)v.get(1);
+                        // si le noeud n'est pas de l'arbre des taches => on refuse
+                        if(insertNode.isQuestion() || insertNode.isHypothesis() || insertNode.isGeneralPrinciple() || insertNode.isMaterial() ||insertNode.isDatasheet() || insertNode.isEvaluation())
+                            return false;
                         // si le noeud insertion appartient au sous arbre => on refuse le drag and drop
                         if (subTreeToMove.containNode(insertNode)){
                             if(debug)
@@ -253,7 +256,7 @@ public class TreeTransferHandler extends TransferHandler {
             insertNode = (CopexNode)node.getChildAt(id-1);
             brother = true;
         }
-        if(insertNode.isManipulation() || insertNode.isQuestion() && brother){
+        if((insertNode.isManipulation() || insertNode.isQuestion()) && brother){
             if(insertNode.getChildCount() == 0){
                 brother = false;
             }else{
