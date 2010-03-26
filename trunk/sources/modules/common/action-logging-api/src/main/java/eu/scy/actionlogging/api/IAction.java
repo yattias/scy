@@ -17,6 +17,7 @@ public interface IAction {
      * for all kinds of actions, like "tool", "mission", etc.
      * @param key	->property key
      * @param value	-> property value
+     * @throws IllegalArgumentException if the value is null
      */
     public void addContext(ContextConstants constant, String value);
     
@@ -27,12 +28,24 @@ public interface IAction {
      */
     public String getContext(ContextConstants constant);
     
+    /**
+     * 
+     * @param key
+     * @param value
+     * 
+     * @throws IllegalArgumentException if the value is null
+     */
     public void addAttribute(String key, String value);
     
     public String getAttribute(String key);
     
     public Map<String, String> getAttributes();
     
+    /**
+     * 
+     * @param context
+     * @throws IllegalArgumentException if one of the values inside the context is null
+     */
     public void setContext(IContext context);
     
     public IContext getContext();
