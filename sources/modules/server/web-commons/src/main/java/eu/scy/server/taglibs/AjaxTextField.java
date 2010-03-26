@@ -13,12 +13,25 @@ import java.lang.reflect.Method;
  * To change this template use File | Settings | File Templates.
  */
 public class AjaxTextField extends AjaxBaseComponent{
+    private Boolean isMultiLine = false;
+
+    public void setIsMultiLine(Boolean isMultiLine){
+        this.isMultiLine = isMultiLine;
+    }
+
+    public Boolean getIsMultiline(){
+        return this.isMultiLine;
+    }
 
      public int doEndTag() throws JspException {
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"ajaxTextFieldForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTextField.html\">");
-            pageContext.getOut().write("<span dojoType=\"dijit.InlineEditBox\" onchange=\"document.getElementById('ajaxTextField" + id +"').value = this.value;postForm('ajaxTextFieldForm" + id + "');\" autoSave=\"true\" editor=\"dijit.form.Textarea\" >" + executeGetter(getModel(), getProperty()) + "</span>");
+            if(getIsMultiline()){
+                pageContext.getOut().write("<span dojoType=\"dijit.InlineEditBox\" onchange=\"document.getElementById('ajaxTextField" + id +"').value = this.value;postForm('ajaxTextFieldForm" + id + "');\"  autoSave='false' editor=\"dijit.form.Textarea\" >" + executeGetter(getModel(), getProperty()) + "</span>");
+            } else {
+               pageContext.getOut().write("<span dojoType=\"dijit.InlineEditBox\" onchange=\"document.getElementById('ajaxTextField" + id +"').value = this.value;postForm('ajaxTextFieldForm" + id + "');\" autoSave='true'  >" + executeGetter(getModel(), getProperty()) + "</span>");
+            }
 
 
             pageContext.getOut().write("<input type=\"hidden\" id=\"ajaxTextField" + id + "\" name=\"value\" value=\"\" + executeGetter(getModel(), getProperty()) + \"\">");
