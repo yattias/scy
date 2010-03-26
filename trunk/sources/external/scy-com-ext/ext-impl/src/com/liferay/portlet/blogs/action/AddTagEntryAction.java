@@ -1,20 +1,14 @@
-package com.liferay.portlet.blogs.action;
+package com.ext.portlet.asset_p.action;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.struts.PortletAction;
-import com.liferay.portal.util.WebKeys;
-import com.liferay.portlet.blogs.model.BlogsEntry;
-import com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil;
 import com.liferay.portlet.tags.model.TagsAsset;
 import com.liferay.portlet.tags.service.TagsAssetLocalServiceUtil;
 import com.liferay.util.TagActionUtil;
@@ -39,7 +33,6 @@ public class AddTagEntryAction extends PortletAction {
 		String redirect = req.getParameter("redirect");
 
 		TagsAsset tagsAssstentry = TagsAssetLocalServiceUtil.getAsset(className, entryId);
-		BlogsEntry entry = BlogsEntryLocalServiceUtil.getEntry(entryId);
 
 		if (cmd.equals(Constants.VIEW)) {
 			req.setAttribute("entryId", entryId);
@@ -47,8 +40,7 @@ public class AddTagEntryAction extends PortletAction {
 			req.setAttribute("className", className);
 			req.setAttribute("struts_action", struts_action);
 			req.setAttribute("redirect", redirect);
-			req.setAttribute(WebKeys.BLOGS_ENTRY, entry);
-			setForward(req, "portlet.blogs.view_addTag");
+			setForward(req, "portlet.asset_publisher.view_addTag");
 			return;
 		}
 
@@ -56,10 +48,4 @@ public class AddTagEntryAction extends PortletAction {
 
 		res.sendRedirect(redirect);
 	}
-
-	public ActionForward render(ActionMapping mapping, ActionForm form, PortletConfig portletConfig, RenderRequest renderRequest, RenderResponse renderResponse)
-			throws Exception {
-		return mapping.findForward(getForward(renderRequest, "portlet.blogs.view"));
-	}
-
 }
