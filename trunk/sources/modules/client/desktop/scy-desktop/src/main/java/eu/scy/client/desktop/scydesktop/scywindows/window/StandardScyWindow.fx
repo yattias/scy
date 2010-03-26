@@ -29,7 +29,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Math;
 import javafx.util.Sequences;
@@ -51,6 +50,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowRotate;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 import java.lang.Object;
+import java.lang.Void;
 
 /**
  * @author sikkenj
