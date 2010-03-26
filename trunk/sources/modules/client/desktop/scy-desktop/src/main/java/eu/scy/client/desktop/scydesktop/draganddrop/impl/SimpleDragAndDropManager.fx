@@ -107,7 +107,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    function checkDropStatus(e: MouseEvent): Void {
       var windowUnderMouse = windowManager.getWindowUnderMouse(e.sceneX, e.sceneY);
-      println("windowUnderMouse: {windowUnderMouse.eloUri}");
+      //println("windowUnderMouse: {windowUnderMouse.eloUri}");
       if (windowUnderMouse!=currentWindowUnderMouse){
          if (currentWindowUnderMouse!=null){
             logger.debug("mouse left {currentWindowUnderMouse.eloUri}")
