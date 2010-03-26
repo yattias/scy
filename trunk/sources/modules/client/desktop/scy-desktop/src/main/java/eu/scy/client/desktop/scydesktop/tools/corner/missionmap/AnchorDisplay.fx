@@ -112,6 +112,7 @@ public class AnchorDisplay extends CustomNode {
    var dragging = false;
    var originalAnchorXPos:Number;
    var originalAnchorYPos:Number;
+   
    function mousePressed( e: MouseEvent ):Void{
 //      println("anchorDisplay.onMousePressed");
       if (not e.controlDown){
@@ -136,6 +137,7 @@ public class AnchorDisplay extends CustomNode {
       originalAnchorXPos = las.xPos;
       originalAnchorYPos = las.yPos;
    }
+
    function mouseDragged( e: MouseEvent ):Void{
 //      println("anchorDisplay.onMouseDragged");
       if (not dragging){
@@ -145,6 +147,7 @@ public class AnchorDisplay extends CustomNode {
       las.xPos = originalAnchorXPos+mouseEventInScene.dragX;
       las.yPos = originalAnchorYPos+mouseEventInScene.dragY;
    }
+
    function mouseReleased( e: MouseEvent ):Void{
 //      println("anchorDisplay.onMouseReleased");
       dragging = false;

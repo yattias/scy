@@ -42,16 +42,10 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       dropObject = object;
       dragNode = node;
       sourceNode = e.node;
+      dragNode.opacity = 0.0;
 
       dragNode.layoutX = e.sceneX - e.x;
       dragNode.layoutY = e.sceneY - e.y;
-
-      currentWindowUnderMouse = null;
-      dragNode.opacity = dragOpacity;
-
-      var sceneContent = source.scene.content;
-      insert dragNode into sceneContent;
-      source.scene.content = sceneContent;
 
       orginalDragNodeX = dragNode.layoutX;
       orginalDragNodeY = dragNode.layoutY;
@@ -63,8 +57,21 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       mousehasBeenDragged = false;
    }
 
+   function realStartDrag():Void{
+      
+   }
+
+
    function mouseDragged(e: MouseEvent): Void {
       if (dragNode != null) {
+         if (not mousehasBeenDragged){
+            dragNode.opacity = dragOpacity;
+
+            var sceneContent = sourceNode.scene.content;
+            insert dragNode into sceneContent;
+            sourceNode.scene.content = sceneContent;
+         }
+
          mousehasBeenDragged = true;
          var mouseEventInScene = MouseEventInScene{mouseEvent:e};
          dragNode.layoutX = orginalDragNodeX + mouseEventInScene.dragX;
