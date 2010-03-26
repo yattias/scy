@@ -49,6 +49,11 @@ public class Action implements IAction {
 
     @Override
     public void setContext(IContext context) {
+        for (ContextConstants cc : ContextConstants.values()) {
+            if (context.get(cc) == null) {
+                throw new IllegalArgumentException("You cannot add null to the context " + cc);
+            }
+        }
         this.context = context;
     }
 
@@ -62,16 +67,27 @@ public class Action implements IAction {
         if (context == null) {
             context = new Context();
         }
+        if (value == null) {
+            throw new IllegalArgumentException("You cannot add null to the context " + constant);
+        }
         context.set(constant, value);
     }
 
     @Override
     public String getContext(ContextConstants constant) {
-        return context.get(constant);
+        String contextEntry = context.get(constant);
+        if (contextEntry == null) {
+            return "n/a";
+        } else {
+            return contextEntry;
+        }
     }
 
     @Override
     public void addAttribute(String name, String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("You cannot add null as the attribute " + name);
+        }
         attributes.put(name, value);
     }
 
