@@ -76,6 +76,10 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
+	<bean id="assignedAssessmentDAO" class="eu.scy.core.persistence.hibernate.AssignedAssessmentDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
     <bean id="fileDAO" class="eu.scy.core.persistence.hibernate.FileDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="imageConverter" ref="imageConverter"/>

@@ -143,6 +143,21 @@ CREATE TABLE `pedagogicalplan` (
     CONSTRAINT `pedagogicalPlanRefMission` FOREIGN KEY (`mission_primKey`) REFERENCES `mission` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `assignedpedagogicalplan`;
+CREATE TABLE `assignedpedagogicalplan` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `pedagogicalPlan_primKey` varchar(55) default NULL,
+    `user_primKey` bigint(20) NULL,
+	PRIMARY KEY  (`primKey`),
+    KEY `assPedPlanToPedPlan` (`pedagogicalPlan_primKey`),
+    KEY `assignedPedagogicalPlanUser` (`user_primKey`),
+    CONSTRAINT `constAssPedPlanToTemplate` FOREIGN KEY (`pedagogicalPlan_primKey`) REFERENCES `pedagogicalplan` (`primKey`),
+    CONSTRAINT `constAssignedPedagogicalPlanUser` FOREIGN KEY (`user_primKey`) REFERENCES `users` (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `mission`;
 CREATE TABLE `mission` (

@@ -2,8 +2,8 @@ package eu.scy.core.model.impl;
 
 import eu.scy.core.model.SCYProject;
 import eu.scy.core.model.SCYGroup;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,14 +11,12 @@ import org.testng.annotations.Test;
  * Date: 16.okt.2008
  * Time: 06:32:10
  */
-@Test
-public class ProjectTest {
+public class ProjectTest extends TestCase {
 
     private SCYProject project;
 
 
-    @BeforeTest
-    private void initializeData() {
+    protected void setUp() throws Exception {
         project = new SCYProjectImpl();
     }
 

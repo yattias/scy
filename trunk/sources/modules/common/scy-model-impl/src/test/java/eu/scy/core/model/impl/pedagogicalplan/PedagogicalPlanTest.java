@@ -2,7 +2,7 @@ package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,12 +10,10 @@ import org.testng.annotations.Test;
  * Date: 09.des.2009
  * Time: 05:26:41
  */
-@Test
 public class PedagogicalPlanTest extends AbstractPedagogicalPlanTest {
 
 
-    @Test
-    public void setupPedagogicalPlan() {
+    protected void setUp() throws Exception {
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
         template.setName("Exploring shit");
 
@@ -26,5 +24,8 @@ public class PedagogicalPlanTest extends AbstractPedagogicalPlanTest {
         assert (template.getScenario().equals(scenario));
     }
 
+    public void testSomething() {
+
+    }
 
 }

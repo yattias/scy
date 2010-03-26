@@ -34,6 +34,7 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LASConfiguration"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.AssignedPedagogicalPlanImpl"/>
 
 
     </session-factory>

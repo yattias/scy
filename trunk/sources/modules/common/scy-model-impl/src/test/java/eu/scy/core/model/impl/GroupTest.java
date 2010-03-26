@@ -2,8 +2,8 @@ package eu.scy.core.model.impl;
 
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.User;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.logging.Logger;
 
@@ -14,8 +14,8 @@ import java.util.logging.Logger;
  * Time: 06:30:33
  * To change this template use File | Settings | File Templates.
  */
-@Test
-public class GroupTest {
+
+public class GroupTest extends TestCase {
 
      private static Logger log = Logger.getLogger("GroupTest.class");
 
@@ -26,8 +26,9 @@ public class GroupTest {
 
     public static final String GROUP_NAME = "HEnriks cool group";
 
-    @BeforeTest
-    private void initializeTest() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
         testGroup = new SCYGroupImpl();
         testGroup.setName(GROUP_NAME);
 

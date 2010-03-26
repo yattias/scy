@@ -58,7 +58,7 @@
             <type>jar</type>
             <scope>test</scope>
         </dependency>
-        
+
 
         <dependency>
             <groupId>${pom.groupId}</groupId>
@@ -283,6 +283,7 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
