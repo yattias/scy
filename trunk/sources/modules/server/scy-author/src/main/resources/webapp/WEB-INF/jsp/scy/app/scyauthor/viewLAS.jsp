@@ -30,7 +30,7 @@
                                 <td><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
                                 <td>${activity.anchorELO.name}</td>
                                 <td>
-                                    <s:dialog url="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}" title="+"/>
+                                    <s:dialog url="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}" dialogHeader="Tools" title="+"/>
                                 </td>
                                 <td><!--s:ajaxCheckBox model="${activity}" property="autoAddToStudentPlan"/--><input type="checkbox"/></td>
                             </tr>

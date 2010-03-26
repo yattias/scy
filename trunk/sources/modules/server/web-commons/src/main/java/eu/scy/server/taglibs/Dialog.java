@@ -16,11 +16,12 @@ public class Dialog extends TagSupport {
     private String title;
     private String width;
     private String height;
+    private String dialogHeader = "";
 
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<a href=\"javascript:loadDialog('"+getUrl()+"', '" + getTitle() + "');\">" + getTitle() + "</a>");            
+            pageContext.getOut().write("<a href=\"javascript:loadDialog('"+getUrl()+"', '" + getDialogHeader() + "');\">" + getTitle() + "</a>");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,5 +60,13 @@ public class Dialog extends TagSupport {
 
     public void setHeight(String height) {
         this.height = height;
+    }
+
+    public String getDialogHeader() {
+        return dialogHeader;
+    }
+
+    public void setDialogHeader(String dialogHeader) {
+        this.dialogHeader = dialogHeader;
     }
 }
