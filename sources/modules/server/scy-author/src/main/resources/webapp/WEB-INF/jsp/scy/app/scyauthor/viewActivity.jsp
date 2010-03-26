@@ -5,26 +5,14 @@
 
         <table width="100%" border="2">
             <tr>
-                <td rowspan="3">Work arrangement</td>
-                <td><input type="radio">Individual</td>
-            </tr>
-            <tr>
-                <td><input type="radio">Group</td>
-            </tr>
-            <tr>
-                <td><input type="radio">Peer to peer</td>
+                <td>Work arrangement</td>
+                <td><s:ajaxCombobox property="workArrangementType" model="${model}" comboBoxValues="${workArrangement}"/></td>
             </tr>
 
             </tr>
             <tr>
-                <td rowspan="3">Teacher role</td>
-                <td><input type="radio">Activator</td>
-            </tr>
-            <tr>
-                <td><input type="radio">Facilitator</td>
-            </tr>
-            <tr>
-                <td><input type="radio">Observer</td>
+                <td>Teacher role</td>
+                <td><s:ajaxCombobox property="teacherRoleType" model="${model}" comboBoxValues="${teacherRoles}"/></td>
             </tr>
 
             </tr>
