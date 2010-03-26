@@ -40,7 +40,7 @@ public class EdgesManager extends IEdgesManager {
             }
             insert edge into nodes;
             Timeline{
-                keyFrames: [at (0.5s){ edge.opacity => 1.0 tween Interpolator.EASEIN}]
+                keyFrames: [at (0.5s){ edge.opacity => 0.3 tween Interpolator.EASEIN}]
             }.play();
 
 

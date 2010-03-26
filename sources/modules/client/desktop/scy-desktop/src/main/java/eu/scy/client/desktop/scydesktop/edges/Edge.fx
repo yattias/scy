@@ -27,14 +27,15 @@ public class Edge extends CustomNode {
     public-init var start:ScyWindow;
     public-init var end:ScyWindow;
     public-init var text:String;
+    //public-init var opacity = 0.3;
     var nodes:Node[];
     public-read var line:Line = Line {
             startX: bind (start as StandardScyWindow).layoutX + (start.width/2);
             startY: bind (start as StandardScyWindow).layoutY + (start.height/2);
             endX:  (end as StandardScyWindow).layoutX + (end.width / 2);
             endY:  (end as StandardScyWindow).layoutY + (end.height / 2);
-            strokeWidth: 4.0;
-            opacity: 0.3;
+            strokeWidth: 3.0;
+            //opacity: bind opacity;
              stroke: start.color;
     }
     var watchmenStartX = bind line.startX on replace { update() };
@@ -43,7 +44,7 @@ public class Edge extends CustomNode {
     //var watchmenEndY = bind line.endY on replace { update() };
     var arrow:Arrow = Arrow {
             color: end.color;
-            opacity: 0.3;
+            //opacity: 0.3;
     }
     def label: EdgeLabel = EdgeLabel {
                 edge: this;
@@ -74,10 +75,10 @@ public class Edge extends CustomNode {
 
    function approxCut(repeats:Integer, target:StandardScyWindow, sX:Number, sY:Number, eX:Number, eY:Number):Number[] {
            var tester:TestBlock = TestBlock {
-               translateX: target.layoutX-4;
-               translateY: target.layoutY-4;
-               width: target.width+12;
-               height: target.height+13;
+               translateX: target.layoutX-19;
+               translateY: target.layoutY-20;
+               width: target.width+37;
+               height: target.height+45;
            }
             var startX = sX;
             var startY = sY;
@@ -126,6 +127,7 @@ public class Edge extends CustomNode {
     }
 
     override protected function create () : Node {
+       // this.opacity = 0.3;
         var g:Group = Group {
             content: bind [
                     line,

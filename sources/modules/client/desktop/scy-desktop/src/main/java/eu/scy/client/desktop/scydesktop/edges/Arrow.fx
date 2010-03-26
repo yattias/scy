@@ -45,6 +45,16 @@ public class Arrow extends CustomNode {
     }
 
 
+    def arrowPolygon:Polygon = Polygon {
+        points: [
+                    0, -7.0,
+                    15.0, 0.0,
+                    0.0, 7.0
+                ]
+        fill: bind color;
+    }
+
+
     def line_a:Line = Line {
         startX: -25;
         startY: -10;
@@ -76,13 +86,14 @@ public class Arrow extends CustomNode {
                 content: [
                         //line_a,
                         //line_c,
-                        arrowPolygonTop,
-                        arrowPolygonBottom,
+                        //arrowPolygonTop,
+                        //arrowPolygonBottom,
+                        arrowPolygon,
                         Rectangle {
-                            x: 0;
-                            y: -8;
+                            x: -15;
+                            y: -7;
                             width: 15;
-                            height: 16;
+                            height: 14;
                             fill: Color.TRANSPARENT;
                         }
                         ]
