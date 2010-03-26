@@ -58,7 +58,7 @@ public class MetadataActionUtil {
 		metadataEntry.setDc_title(image.getName());
 		metadataEntry.setDc_description(image.getDescription());
 		metadataEntry.setDc_format(mimeType.getContentType("." + image.getImageType()));
-		metadataEntry.setDc_type(image.getImageType());
+		metadataEntry.setDc_type("");
 		metadataEntry.setDc_publisher(userName);
 		metadataEntry.setDc_creator(userName);
 		metadataEntry.setDc_contributor(userName);
@@ -103,7 +103,7 @@ public class MetadataActionUtil {
 		metadataEntry.setDc_title(tagsAssstEntry.getTitle());
 		metadataEntry.setDc_description(tagsAssstEntry.getDescription());
 		metadataEntry.setDc_format(tagsAssstEntry.getMimeType());
-		metadataEntry.setDc_type(tagsAssstEntry.getMimeType());
+		metadataEntry.setDc_type("");
 		metadataEntry.setDc_publisher(userName);
 		metadataEntry.setDc_creator(userName);
 		metadataEntry.setDc_contributor(userName);
@@ -158,22 +158,28 @@ public class MetadataActionUtil {
 		String source = req.getParameter("source");
 		String title = req.getParameter("title");
 
-		String[] subject = (String[])req.getParameterValues("subject");
-		String[] type = (String[])req.getParameterValues("type");
-		
-		
+		String[] subject = (String[]) req.getParameterValues("subject");
+		String[] type = (String[]) req.getParameterValues("type");
+
 		StringBuffer sbSubject = new StringBuffer();
-		for (int i = 0; i < subject.length; i++) {
-			sbSubject.append(subject[i]);
-			if(i < (subject.length - 1)){
-				sbSubject.append(", ");
+
+		if (subject != null) {
+			for (int i = 0; i < subject.length; i++) {
+				sbSubject.append(subject[i]);
+				if (i < (subject.length - 1)) {
+					sbSubject.append(", ");
+				}
 			}
 		}
+
 		StringBuffer sbType = new StringBuffer();
-		for (int i = 0; i < type.length; i++) {
-			sbType.append(type[i]);
-			if(i < (type.length - 1)){
-				sbType.append(", ");
+
+		if (type != null) {
+			for (int i = 0; i < type.length; i++) {
+				sbType.append(type[i]);
+				if (i < (type.length - 1)) {
+					sbType.append(", ");
+				}
 			}
 		}
 

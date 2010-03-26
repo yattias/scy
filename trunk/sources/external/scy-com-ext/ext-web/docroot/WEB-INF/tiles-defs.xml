@@ -3,6 +3,15 @@
 
 <tiles-definitions>
 
+	<!-- Asset Publisher -->
+	
+	<definition name="portlet.asset_publisher.view_addTag" extends="portlet">
+		<put name="portlet_content" value="/taglib/ui/add_own_tags/view_addTag.jsp" />
+	</definition>
+	<definition name="portlet.asset_publisher.view_addMetadata" extends="portlet">
+		<put name="portlet_content" value="/portlet/ext/metadata/view_addMeta.jsp" />
+	</definition>
+
 	<!-- Reports -->
 
 	<definition name="portlet.ext.reports.view" extends="portlet">
