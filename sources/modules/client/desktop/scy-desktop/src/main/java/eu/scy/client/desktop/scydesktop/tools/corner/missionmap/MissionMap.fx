@@ -26,6 +26,7 @@ import javafx.scene.text.FontWeight;
 import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import javafx.util.Sequences;
 
 /**
  * @author sikken
@@ -127,14 +128,30 @@ public class MissionMap extends CustomNode {
    }
 
    function createAnchorLinks(): AnchorLink[] {
+      var links:AnchorLink[];
+      var processedLasses:Las[];
       for (fromAnchor in anchorDisplays) {
-         for (toAnchor in fromAnchor.las.nextLasses) {
-            AnchorLink {
-               fromAnchor: fromAnchor;
-               toAnchor: getAnchorDisplay(toAnchor);
+         for (toLas in fromAnchor.las.nextLasses) {
+            var addLink = true;
+            var bidirectional = Sequences.indexOf(toLas.nextLasses,fromAnchor.las)>=0;
+            if (bidirectional){
+               // if the toLas is allready processed, then a bidirectional link as already added
+               addLink = Sequences.indexOf(processedLasses,toLas)<0;
+            }
+            if (addLink){
+               var anchorLink = AnchorLink {
+                  fromAnchor: fromAnchor;
+                  toAnchor: getAnchorDisplay(toLas);
+                  bidirectional:bidirectional
+               }
+               insert anchorLink into links;
+            }
+            else{
             }
          }
+         insert fromAnchor.las into processedLasses;
       }
+      links
    }
 
    function getAnchorDisplay(las: Las): AnchorDisplay {
