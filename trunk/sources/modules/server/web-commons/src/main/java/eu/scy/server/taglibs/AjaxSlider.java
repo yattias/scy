@@ -19,7 +19,7 @@ public class AjaxSlider extends AjaxBaseComponent{
             double id = Math.random();
             pageContext.getOut().write("<form id=\"ajaxSliderForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
             pageContext.getOut().write("<div id=\"horizontalSlider"+ id + "\" dojoType=\"dijit.form.HorizontalSlider\" value=\"0\"\n" +
-                    "minimum=\"-1\" maximum=\"1\" discreteValues=\"3\" intermediateChanges=\"true\"\n" +
+                    "minimum=\"0\" maximum=\"" + (sliderValues.size()-1) + "\" discreteValues=\"" + sliderValues.size() + "\" intermediateChanges=\"true\"\n" +
                     "showButtons=\"false\" style=\"width:400px;\" onChange=\"updateAjaxSlider('" + id + "', this);\">\n" +
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"topDecoration\"\n" +
                     "    style=\"height:1.5em;font-size:75%;color:gray;\">");
@@ -28,7 +28,7 @@ public class AjaxSlider extends AjaxBaseComponent{
                 pageContext.getOut().write("<li>" + o.toString() + "</li>");
             }
             pageContext.getOut().write("<div dojoType=\"dijit.form.HorizontalRule\" container=\"bottomDecoration\"\n" +
-                    "    count=3 style=\"height:5px;\">\n" +
+                    "    count=" + sliderValues.size() + " style=\"height:5px;\">\n" +
                     "    </div>\n" +
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"bottomDecoration\"\n" +
                     "    style=\"height:1em;font-size:75%;color:gray;\">" +
