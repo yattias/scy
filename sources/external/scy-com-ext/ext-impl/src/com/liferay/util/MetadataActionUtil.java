@@ -156,9 +156,26 @@ public class MetadataActionUtil {
 		String relation = req.getParameter("relation");
 		String rights = req.getParameter("rights");
 		String source = req.getParameter("source");
-		String subject = req.getParameter("subject");
 		String title = req.getParameter("title");
-		String type = req.getParameter("type");
+
+		String[] subject = (String[])req.getParameterValues("subject");
+		String[] type = (String[])req.getParameterValues("type");
+		
+		
+		StringBuffer sbSubject = new StringBuffer();
+		for (int i = 0; i < subject.length; i++) {
+			sbSubject.append(subject[i]);
+			if(i < (subject.length - 1)){
+				sbSubject.append(", ");
+			}
+		}
+		StringBuffer sbType = new StringBuffer();
+		for (int i = 0; i < type.length; i++) {
+			sbType.append(type[i]);
+			if(i < (type.length - 1)){
+				sbType.append(", ");
+			}
+		}
 
 		MetadataEntry metadataEntry = getMetadata(className, entryId);
 		Date now = new Date();
@@ -175,9 +192,9 @@ public class MetadataActionUtil {
 		metadataEntry.setDc_relation(relation);
 		metadataEntry.setDc_rights(rights);
 		metadataEntry.setDc_source(source);
-		metadataEntry.setDc_subject(subject);
+		metadataEntry.setDc_subject(sbSubject.toString());
 		metadataEntry.setDc_title(title);
-		metadataEntry.setDc_type(type);
+		metadataEntry.setDc_type(sbType.toString());
 
 		MetadataEntryLocalServiceUtil.updateMetadataEntry(metadataEntry);
 		System.out.println("update metadataEntry with id: " + metadataEntry.getEntryId());
