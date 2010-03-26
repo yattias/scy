@@ -49,8 +49,8 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     private void initEdP(){
         // i18n
         Locale locale = Locale.getDefault();
-        //locale = new Locale("en");
-        locale = new Locale("fr");
+        locale = new Locale("en");
+        //locale = new Locale("fr");
         //locale = new Locale("de");
         Locale.setDefault(locale);
         copex = new CopexPanel(this,false, locale);

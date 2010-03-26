@@ -1707,7 +1707,6 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     /* retourne le sous arbre a copier */
     public SubTree getSubTreeCopy(boolean dragNdrop){
         // on selectionne egalement les taches enfants des etapes / ss question
-
         SubTree st = new SubTree(owner, owner.getController(), proc, this, getSelectedTasks(), getSelectedNodes(), dragNdrop);
         return st;
     }
