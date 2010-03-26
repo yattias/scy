@@ -23,6 +23,16 @@
 			<forward name="portlet.requests.error" path="portlet.requests.error" />
 		</action>
 		
+		<!-- Asset Publisher -->
+		
+		<action path="/asset_publisher/add_tag" type="com.ext.portlet.asset_p.action.AddTagEntryAction">
+			<forward name="portlet.asset_publisher.view_addTag" path="portlet.asset_publisher.view_addTag" />
+		</action>
+
+		<action path="/asset_publisher/add_meta" type="com.ext.portlet.asset_p.action.AddMetadataAction">
+			<forward name="portlet.asset_publisher.view_addMetadata" path="portlet.asset_publisher.view_addMetadata" />
+		</action>
+		
 		<!-- Asset by ratio -->
 		
 	
