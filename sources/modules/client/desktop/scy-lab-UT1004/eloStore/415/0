@@ -1,0 +1,59 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/url</format>
+      <customElements>
+        <dateCreated>1268137208965</dateCreated>
+        <dateLastModified>1268137208965</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Data from the energy consumption simulation</string>
+        <string language="fr">Données issues de la simulation sur la consommation d'énergie électrique</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/415/0/Data_from_the_energy_consumption_simulation.url</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-03-09T13:20:08.965+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission1_UT1004/LAS_Experiment_expert/Assignments/A_Data_consumption_simulation.html</url>
+</content>
+<resources>
+</resources>
+</elo>
