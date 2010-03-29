@@ -34,18 +34,18 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 		sqv.setContainer(simquestPanel);
 		dataCollector = null;
 	        //TODO remove hardcoded username/pass
-		tbi = new ToolBrokerImpl("scysim", "scysim");
+		tbi = null;
+		//tbi = new ToolBrokerImpl("scysim", "scysim");
 
 		try {
 			sqv.run();
 
 			simquestPanel.setLayout(new BorderLayout());
-			sqv.getInterfacePanel().setMinimumSize(
-					new Dimension(450, 450));
+			sqv.getInterfacePanel().setMinimumSize(sqv.getRealSize());
 			simquestPanel.add(sqv.getInterfacePanel(),
 					BorderLayout.CENTER);
 
-			dataCollector = new DataCollector(sqv, tbi);
+			dataCollector = new DataCollector(sqv, tbi, "n/a");
 			simquestPanel.add(dataCollector, BorderLayout.SOUTH);
 			simquestPanel.add(new StandAloneMenu(dataCollector), BorderLayout.NORTH);
 
