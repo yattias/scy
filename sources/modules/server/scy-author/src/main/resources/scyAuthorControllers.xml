@@ -63,7 +63,6 @@
 
     <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
-        <property name="lasService" ref="lasService"/>
         <property name="serverService" ref="serverService"/>
     </bean>
 
