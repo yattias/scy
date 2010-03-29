@@ -202,4 +202,9 @@ public class MaterialStrategy implements Cloneable{
         return element;
     }
 
+
+    public boolean hasMaterial(){
+        return !code.equals("S0");
+        //return listItem.size() > 0 || addMaterial ;
+    }
 }

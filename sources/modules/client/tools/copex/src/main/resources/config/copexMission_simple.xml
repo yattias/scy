@@ -24,6 +24,7 @@
         <draw_principle>false</draw_principle>
         <is_task_repeat>false</is_task_repeat>
         <is_free_action>true</is_free_action>
+        <is_task>false</is_task>
         <strategy_ref>
             <code>S4</code>
         </strategy_ref>

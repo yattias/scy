@@ -63,7 +63,7 @@ public class CopexTreeModel extends DefaultTreeModel{
         }
         // materials
         MaterialProc m = proc.getMaterials();
-        if(m != null){
+        if(m != null && proc.hasMaterial()){
             CopexNode matChild = new CopexNode(m);
             insertNodeInto(matChild, rootNode, rootNode.getChildCount());
         }

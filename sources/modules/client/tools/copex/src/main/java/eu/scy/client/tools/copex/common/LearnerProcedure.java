@@ -197,7 +197,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
     }
 
     public boolean isTaskProc(){
-        return initialProc.isTaskProc();
+        return initialProc.isTaskMode();
     }
 
     public boolean isValidQuestion(Locale locale){
@@ -310,5 +310,10 @@ public class LearnerProcedure extends ExperimentalProcedure{
         if(id != -1)
             return getListMaterialUsed().get(id);
         return null;
+    }
+
+    /* return true if material strategy  != S0 */
+    public boolean hasMaterial(){
+        return initialProc.getMaterialStrategy().hasMaterial();
     }
 }
