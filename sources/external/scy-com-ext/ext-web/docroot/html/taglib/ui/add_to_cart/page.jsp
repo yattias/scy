@@ -15,7 +15,7 @@ boolean showAddClipboardButton = PermissionUtil.contains(permissionChecker, port
 <portlet:actionURL var="AddCartURL">
                     <portlet:param name="struts_action" value="<%= struts_action  %>" />
                     <portlet:param name="entryId" value="<%= String.valueOf(classPK) %>" />      
-                    <portlet:param name="className" value="<%= String.valueOf(className) %>" />   
+                    <portlet:param name="className" value="<%= className %>" />  
                     <portlet:param name="redirect" value="<%= redirect %>" />   
 </portlet:actionURL>
 

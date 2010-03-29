@@ -24,7 +24,6 @@
 					title = blogEntry.getTitle();			
 	%>
 	
-
 					<portlet:actionURL var="blogPreview">
 			                    <portlet:param name="struts_action" value="<%= struts_action %>" />
 			                    <portlet:param name="entryId" value="<%= String.valueOf(entryId) %>" />

@@ -11,6 +11,16 @@
 	<definition name="portlet.asset_publisher.view_addMetadata" extends="portlet">
 		<put name="portlet_content" value="/portlet/ext/metadata/view_addMeta.jsp" />
 	</definition>
+	
+	<definition name="portlet.asset_publisher.view_link" extends="portlet">
+		<put name="portlet_content" value="/portlet/asset_publisher/view_link.jsp" />
+	</definition>	
+	<definition name="portlet.asset_publisher.view_linkIntern" extends="portlet">
+		<put name="portlet_content" value="/portlet/asset_publisher/view_linkIntern.jsp" />
+	</definition>	
+	<definition name="portlet.asset_publisher.view_links" extends="portlet">
+		<put name="portlet_content" value="/portlet/ext/links/view_content.jsp" />
+	</definition>
 
 	<!-- Reports -->
 

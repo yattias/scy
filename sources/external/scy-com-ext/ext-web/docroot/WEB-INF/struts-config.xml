@@ -33,6 +33,22 @@
 			<forward name="portlet.asset_publisher.view_addMetadata" path="portlet.asset_publisher.view_addMetadata" />
 		</action>
 		
+		<action path="/asset_publisher/delete_tag" type="com.ext.portlet.asset_p.action.DeleteTagEntryAction">
+		</action>
+		
+		<action path="/asset_publisher/add_cart" type="com.ext.portlet.asset_p.action.AddCartAction">
+		</action>	
+		
+		<action path="/asset_publisher/link" type="com.ext.portlet.asset_p.action.LinkAction">
+			<forward name="portlet.asset_publisher.view_link" path="portlet.asset_publisher.view_link" />
+		</action>		
+		<action path="/asset_publisher/link_intern" type="com.ext.portlet.asset_p.action.LinkInternAction">
+			<forward name="portlet.asset_publisher.view_link" path="portlet.asset_publisher.view_link" />
+			<forward name="portlet.asset_publisher.view_linkIntern" path="portlet.asset_publisher.view_linkIntern" />
+		</action>			
+						
+		<action path="/asset_publisher/view_links" forward="portlet.asset_publisher.view_links" />
+		
 		<!-- Asset by ratio -->
 		
 	

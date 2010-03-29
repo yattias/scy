@@ -161,8 +161,15 @@
 	background: url(<%= themeImagesPath %>/common/date.png) no-repeat 0 0;
 	color: #999;
 	margin-bottom: 5px;
+	margin-right: 10px;
 	padding-left: 25px;
 	padding-bottom: 5px;
+}
+
+.portlet-asset-publisher .metadata-flag {
+	margin-right: 10px;
+	padding-left: 5px;
+	padding-top: 5px;
 }
 
 .portlet-asset-publisher .metadata-priority {
