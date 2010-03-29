@@ -8,6 +8,7 @@ package eu.scy.client.tools.fxcopex.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import javafx.scene.Node;
+
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 /**
  * @author Marjolaine

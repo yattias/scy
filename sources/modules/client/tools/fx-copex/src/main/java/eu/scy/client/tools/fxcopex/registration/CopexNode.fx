@@ -30,6 +30,9 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+
+
 
 /**
  * @author Marjolaine
@@ -56,6 +59,8 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    def spacing = 5.0;
 
+   var bundle:ResourceBundleWrapper;
+
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       scyCopexPanel.setTBI(toolBrokerAPI);
@@ -68,6 +73,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    }
 
    public override function create(): Node {
+      bundle = new ResourceBundleWrapper(this, "fxcopex");
       wrappedCopexPanel = SwingComponent.wrap(scyCopexPanel);
       return Group {
          blocksMouse:true;
@@ -81,13 +87,13 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                      spacing:spacing;
                      content:[
                         Button {
-                           text: "Save"
+                           text: getBundleString("MENU_SAVE");
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
-                           text: "Save as"
+                           text: getBundleString("MENU_SAVE_AS");
                            action: function() {
 			      doSaveAsElo();
                            }
@@ -162,5 +168,9 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    public override function getMinWidth() : Number{
       return 550;
+   }
+
+   public function getBundleString(key:String) : String{
+       return bundle.getString(key);
    }
 }
