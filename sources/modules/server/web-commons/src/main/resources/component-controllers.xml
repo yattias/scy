@@ -39,6 +39,8 @@
                    /components/ajaxTextField.html=ajaxTextFieldController
                    /components/ajaxCombobox.html=ajaxComboboxController
                    /components/ajaxSlider.html=ajaxSliderController
+                   /editors/studentEditor.html=editSCYStudentUserController
+                   /components/fileupload/fileupload.html=fileUploadController
                </value>
            </property>
        </bean>
@@ -57,6 +59,17 @@
 
     <bean id="ajaxSliderController" class="eu.scy.server.controllers.AjaxSliderController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="fileUploadController" class="eu.scy.server.controllers.components.fileupload.FileUploadController">
+        <property name="fileService" ref="fileService"/>
+        <property name="commandClass" value="eu.scy.server.controllers.components.fileupload.FileUploadBean"/>
+        <property name="formView" value="fileuploadform"/>
+	</bean>
+
+
+    <bean id="editSCYStudentUserController" class="eu.scy.server.controllers.editors.EditSCYStudentController">
+        <property name="userService" ref="userService"/>
 	</bean>
 
 

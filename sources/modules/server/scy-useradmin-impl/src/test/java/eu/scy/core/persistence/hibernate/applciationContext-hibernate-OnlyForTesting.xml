@@ -154,6 +154,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="setupDAO" class="eu.scy.core.persistence.hibernate.SetupDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="buddyfier" class="eu.scy.core.openfire.BuddyServiceImpl"></bean>
     
 
