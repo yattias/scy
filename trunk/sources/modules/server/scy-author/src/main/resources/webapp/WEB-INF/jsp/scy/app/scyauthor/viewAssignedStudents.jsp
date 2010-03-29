@@ -10,9 +10,10 @@
                     <c:forEach var="student" items="${students}">
                         <tr>
                             <td>
-                                <div id="user_details">
+                                <s:studentEditor username="${student.userDetails.username}"/>
+                                <!--div id="user_details">
                                     <img src="/webapp/common/filestreamer.html?username=${student.userDetails.username}&showIcon"/>&nbsp;<strong>${student.userDetails.firstname}&nbsp;${student.userDetails.lastname}</strong>
-                                </div>
+                                </div-->
                             </td>
                         </tr>
                     </c:forEach>

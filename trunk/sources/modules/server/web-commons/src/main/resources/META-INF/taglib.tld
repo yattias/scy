@@ -123,4 +123,28 @@
 
     </tag>
 
+    <tag>
+        <name>studentEditor</name>
+        <tagclass>eu.scy.server.taglibs.editors.StudentEditor</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student Editor</info>
+        <attribute>
+            <name>username</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>uploadFile</name>
+        <tagclass>eu.scy.server.taglibs.components.UploadFile</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student Editor</info>
+        <attribute>
+            <name>listener</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
 </taglib>

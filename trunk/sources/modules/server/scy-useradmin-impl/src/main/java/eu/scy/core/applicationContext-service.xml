@@ -66,6 +66,10 @@
 		<property name="ajaxPersistenceDAO" ref="ajaxPersistenceDAO"/>
 	</bean>
 
+    <bean id="setupService" class="eu.scy.core.SetupServiceImpl">
+		<property name="setupDAO" ref="setupDAO"/>
+	</bean>
+
     <bean id="fileService" class="eu.scy.core.FileServiceImpl">
         <property name="fileDAO" ref="fileDAO"/>
     </bean>
