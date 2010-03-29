@@ -13,6 +13,7 @@
             <ref bean="dateCreatedKey"/>
             <ref bean="dateLastModifiedKey"/>
             <ref bean="authorKey"/>
+            <ref bean="languagesKey"/>
             <ref bean="descriptionKey"/>
             <ref bean="isVersionOfKey"/>
             <ref bean="isVersionedByKey"/>
@@ -88,6 +89,13 @@
       <constructor-arg index="2" value="UNIVERSAL"/>
       <constructor-arg index="3" value="SINGLE"/>
       <constructor-arg index="4" ref="defaultLongValidator"/>
+   </bean>
+   <bean name="languagesKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+      <constructor-arg index="0" value="languages"/>
+      <constructor-arg index="1" value="/lom/general/language"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="LIST"/>
+      <constructor-arg index="4" ref="defaultUriValidator"/>
    </bean>
 
    <bean name="isVersionOfKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
