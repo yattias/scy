@@ -2,30 +2,23 @@
 <metadata>
   <lom>
     <technical>
-      <format>scy/rtf</format>
+      <format>scy/drawing</format>
       <customElements>
-        <dateCreated>1266852935874</dateCreated>
-        <dateLastModified>1266852935875</dateLastModified>
+        <dateCreated>1267436238493</dateCreated>
+        <dateLastModified>1267436238493</dateLastModified>
       </customElements>
     </technical>
     <general>
       <title>
-        <string language="en">Research questions</string>
+        <string language="en">List of choices</string>
       </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure>plainText</structure>
       <mission>co2Mission</mission>
-      <las>conceptualizationExperts</las>
+      <las>startPage</las>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/303/0/Research_questions_of_my_expert_group.rtf</entry>
+        <entry>roolo://memory/502/0/List+of+choices.scydraw</entry>
       </identifier>
     </general>
-    <educational>
-      <learningResourceType>researchQuestion</learningResourceType>
-    </educational>
     <lifecycle>
       <contribute>
         <role>
@@ -34,7 +27,7 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2010-02-22T16:35:35.874+0100</dateTime>
+          <dateTime>2010-03-01T10:37:18.493+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
@@ -60,12 +53,9 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red0\green0\blue0;}
-
-\f1\fs24\i0\b0\cf1\par
-}</RichText>
+<whiteboard>
+  <whiteboardContainers />
+</whiteboard>
 </content>
 <resources>
 </resources>

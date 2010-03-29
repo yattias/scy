@@ -3,8 +3,7 @@
   <lom>
     <general>
       <title>
-        <string language="en">House choices</string>
-	<string language="fr">Choix de la maison</string>
+        <string language="en">List of choices</string>
       </title>
       <description>
         <string language="en" />

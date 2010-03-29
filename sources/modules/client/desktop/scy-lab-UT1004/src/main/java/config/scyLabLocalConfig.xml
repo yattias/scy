@@ -387,6 +387,14 @@
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/image"/>
+               <property name="display" value="Image"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="image"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/speedTest"/>
                <property name="display" value="Speed test"/>
                <property name="creatable" value="true"/>
@@ -434,7 +442,7 @@
                      <property name="id" value="conceptualizationDesign"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="First ideas of my design group"/>
+                     <property name="tooltip" value="First ideas"/>
                      <property name="nextLasses">
                         <list>
                            <value>conceptualizationExperts</value>
@@ -450,7 +458,7 @@
                      <property name="id" value="conceptualizationExperts"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Hypotheses of my expert group"/>
+                     <property name="tooltip" value="Research questions and hypotheses"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
@@ -463,10 +471,10 @@
                            <value>experimentExperts</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="hypothesis"/>
+                     <property name="anchorEloId" value="researchQuestions"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>researchQuestions</value>
+                           <value>hypothesis</value>
                         </list>
                      </property>
                   </bean>
@@ -474,10 +482,12 @@
                      <property name="id" value="experimentExperts"/>
                      <property name="xPosition" value="120"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Conclusion of expert experiments"/>
+                     <property name="tooltip" value="Experiments and conclusions"/>
                      <property name="loEloUris">
                         <list>
+                           <!--
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
+                           -->
                            <value>roolo://memory/415/0/Data_from_the_energy_consumption_simulation.url</value>
                         </list>
                      </property>
@@ -487,10 +497,10 @@
                            <value>reportingExperts</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="conclusion"/>
+                     <property name="anchorEloId" value="becomingAnExpert"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>experimentalProcedure</value>
+                           <value>conclusion</value>
                            <value>simulatorExpertThermal</value>
                            <value>simulatorExpertConverter</value>
                            <value>dataExpertReal</value>
@@ -513,7 +523,7 @@
                      <property name="id" value="construction"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="House drawings"/>
+                     <property name="tooltip" value="House design"/>
                      <property name="nextLasses">
                         <list>
                         </list>
@@ -528,17 +538,17 @@
                      <property name="id" value="design"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="House choices"/>
+                     <property name="tooltip" value="Design implications"/>
                      <property name="nextLasses">
                         <list>
                            <value>construction</value>
                            <value>experimentDesign</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="firstChoices"/>
+                     <property name="anchorEloId" value="inventorySolution"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>inventorySolution</value>
+                           <value>firstChoices</value>
                         </list>
                      </property>
                   </bean>
@@ -546,16 +556,15 @@
                      <property name="id" value="reportingExperts"/>
                      <property name="xPosition" value="120"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Expert presentation"/>
+                     <property name="tooltip" value="Present conclusions"/>
                      <property name="nextLasses">
                         <list>
                            <value>design</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="expertPresentation"/>
+                     <property name="anchorEloId" value="expertConceptMap"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>expertConceptMap</value>
                         </list>
                      </property>
                   </bean>
@@ -587,7 +596,7 @@
                      <property name="id" value="reportingDesign"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="80"/>
-                     <property name="tooltip" value="Presentation of house design"/>
+                     <property name="tooltip" value="Final presentation"/>
                      <property name="nextLasses">
                         <list>
                            <value>reportingIndividual</value>
@@ -642,12 +651,21 @@
                      <value>roolo://memory/349/0/Texts_about_global_warming.url</value>
                      <value>roolo://memory/348/0/Websites_about_global_warming.url</value>
                      <value>roolo://memory/347/0/Videos_about_global_warming.url</value>
+                     <value>roolo://memory/510/0/Concept+map+by+Ann.jpg</value>
+                     <value>roolo://memory/511/0/Concept+map+by+Bob.jpg</value>
+                     <value>roolo://memory/512/0/Concept+map+by+Chris.jpg</value>
+                     <value>roolo://memory/513/0/Concept+map+by+Dave.jpg</value>
+                     <value>roolo://memory/514/0/Concept+map+by+Elisa.jpg</value>
+                     <value>roolo://memory/515/0/Concept+map+by+Fred.jpg</value>
+                     <value>roolo://memory/516/0/Concept+map+by+Gina.jpg</value>
+                     <value>roolo://memory/517/0/Concept+map+by+Helen.jpg</value>
+                     <value>roolo://memory/518/0/Concept+map+by+Ivy.jpg</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="firstIdeas"/>
-               <property name="uri" value="roolo://memory/301/0/First_ideas_of_my_design_group.scymapping"/>
+               <property name="uri" value="roolo://memory/500/0/First+ideas.scydraw"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -698,6 +716,18 @@
                <property name="loEloUris">
                   <list>
                      <value>roolo://memory/308/0/Experimental_procedure.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="becomingAnExpert"/>
+               <property name="uri" value="roolo://memory/309/0/Becoming_an_expert.url"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
                   </list>
                </property>
             </bean>
@@ -794,7 +824,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inventorySolution"/>
-               <property name="uri" value="roolo://memory/320/0/Inventory_of_expert_solutions.scymapping"/>
+               <property name="uri" value="roolo://memory/501/0/List+of+possible+solutions.scydraw"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>expertPresentation</value>
@@ -808,7 +838,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="firstChoices"/>
-               <property name="uri" value="roolo://memory/322/0/House_choices.scymapping"/>
+               <property name="uri" value="roolo://memory/502/0/List+of+choices.scydraw"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
