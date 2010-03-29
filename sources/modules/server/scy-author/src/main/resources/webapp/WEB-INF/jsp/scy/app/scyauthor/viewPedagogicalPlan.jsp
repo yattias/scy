@@ -74,7 +74,7 @@
         <table width="100%" border="2">
             <tr>
                 <td>Assigned students</td>
-                <td>4 <a href="viewAssignedStudents.html" target="_blank">select</a>"</td>
+                <td><s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select student"/></td>
             </tr>
         </table>
     </tiles:putAttribute>

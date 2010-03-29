@@ -17,7 +17,7 @@ public class UploadFile extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<form method=\"post\" action=\"/webapp/components/fileupload/fileupload.html\" enctype=\"multipart/form-data\">");
+            pageContext.getOut().write("<form method=\"post\" action=\"/webapp/components/fileupload/fileupload.html\" enctype=\"multipart/form-data\" accept-charset=\"UTF-8\">");
             pageContext.getOut().write("<input type=\"file\" name=\"file\"/>");
             pageContext.getOut().write("<input type=\"text\" name=\"listener\" value=\"" + getListener() + "\"/>");
             pageContext.getOut().write("<input type=\"submit\"/>");

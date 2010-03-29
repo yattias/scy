@@ -3,6 +3,7 @@ package eu.scy.server.controllers.components.fileupload;
 import eu.scy.core.FileService;
 import eu.scy.core.model.FileRef;
 import eu.scy.core.model.ImageRef;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.Map;
  * Time: 05:53:45
  * To change this template use File | Settings | File Templates.
  */
-public class FileUploadController extends SimpleFormController {
+public class FileUploadController extends SimpleFormController implements ApplicationContextAware {
 
     private FileService fileService;
 
@@ -42,10 +44,12 @@ public class FileUploadController extends SimpleFormController {
             HttpServletResponse response,
             Object command,
             BindException errors) throws Exception {
-logger.info("*********************************************************************************************************************************************************");
+        logger.info("*********************************************************************************************************************************************************");
         FileUploadBean bean = (FileUploadBean) command;
+        request.setCharacterEncoding("UTF-8");
 
         logger.info("Uploading file!!");
+        logger.info("encoding: " + request.getCharacterEncoding());
 
         MultipartFile file = bean.getFile();
         File tmpFile = new File(file.getOriginalFilename());
@@ -61,14 +65,26 @@ logger.info("*******************************************************************
         }
 
         if (listener != null) {
-            Class fileUploadListener = Class.forName(listener);
-            FileUploadListener uploadListener = (FileUploadListener) fileUploadListener.newInstance();
-            uploadListener.fileUploaded(tmpFile);
+            FileUploadListener fileUploaded = (FileUploadListener) getApplicationContext().getBean(bean.getListener());
+            fileUploaded.fileUploaded(tmpFile);
         }
 
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         return modelAndView;
     }
+
+    protected boolean isFormSubmission(HttpServletRequest request) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException uee) {
+            logger.error(uee);
+            throw new RuntimeException(uee);
+        }
+        logger.info("encoding: " + request.getCharacterEncoding());
+
+        return super.isFormSubmission(request);
+    }
+
 
     public FileService getFileService() {
         return fileService;
