@@ -1,0 +1,61 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Glossary</string>
+        <string language="fr">Glossaire</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/37/0/Glossary.url</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>informationResource</learningResourceType>
+    </educational>
+    <technical>
+      <format>scy/url</format>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T14:05:44.759+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <lifecycle>
+      <version>0</version>
+    </lifecycle>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission1_UT1004/R_Glossary.html</url>
+</content>
+<resources>
+</resources>
+</elo>
