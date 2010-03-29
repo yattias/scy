@@ -32,6 +32,8 @@ public class ScySimLogger implements ActionListener, IDataClient {
     private String missionname = "mission 1";
 
     private String sessionname = "n/a";
+    
+    private String eloURI = "n/a";
 
     private DataServer dataServer;
 
@@ -63,9 +65,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     private static int COUNT = 0;
 
-    public ScySimLogger(DataServer dataServer, IActionLogger logger) {
+    public ScySimLogger(DataServer dataServer, IActionLogger logger, String eloURI) {
         COUNT++;
         this.dataServer = dataServer;
+        this.eloURI = eloURI;
         xmlOutputter = new XMLOutputter();
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
         // find input and output variables
@@ -108,7 +111,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
       
     public ScySimLogger(DataServer dataServer){
-        this(dataServer,new DevNullActionLogger());
+        this(dataServer,new DevNullActionLogger(), "n/a");
     }
 
     public ArrayList<ModelVariable> getInputVariables() {
@@ -119,6 +122,14 @@ public class ScySimLogger implements ActionListener, IDataClient {
         this.username = name;
     }
 
+    public String getEloURI() {
+		return eloURI;
+	}
+
+	public void setEloURI(String eloURI) {
+		this.eloURI = eloURI;
+	}
+    
     private ArrayList<ModelVariable> getVariables(int mv) {
         return getVariables(mv, null);
         // ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
@@ -210,6 +221,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
         action.addContext(ContextConstants.tool, toolname);
         action.addContext(ContextConstants.mission, missionname);
         action.addContext(ContextConstants.session, sessionname);
+        action.addContext(ContextConstants.eloURI, eloURI);
         return action;
     }
 
