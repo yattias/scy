@@ -30,6 +30,7 @@ public class InitialProcedure extends ExperimentalProcedure {
     private final static String TAG_INITIAL_PROC_EVALUATION_MODE = "evaluation_mode";
     private final static String TAG_INITIAL_PROC_TASK_REPEAT = "is_task_repeat";
     private final static String TAG_INITIAL_PROC_FREE_ACTION = "is_free_action";
+    private final static String TAG_INITIAL_PROC_TASK = "is_task";
 
 
     /*code */
@@ -38,6 +39,7 @@ public class InitialProcedure extends ExperimentalProcedure {
     private ArrayList<InitialNamedAction> listNamedAction;
     /* action libre autorisee */
     private boolean isFreeAction;
+    private boolean taskMode;
     /* tache repeat */
     private boolean isTaskRepeat;
      /* liste du materiel disponible associe */
@@ -54,10 +56,11 @@ public class InitialProcedure extends ExperimentalProcedure {
     private MaterialStrategy materialStrategy;
 
     // CONSTRUCTOR
-    public InitialProcedure(long dbKey, List<LocalText> listName, Date dateLastModification, boolean isActiv, char right, String code, boolean isFreeAction, boolean isTaskRepeat, ArrayList<InitialNamedAction> listNamedAction,
+    public InitialProcedure(long dbKey, List<LocalText> listName, Date dateLastModification, boolean isActiv, char right, String code, boolean isFreeAction, boolean isTaskMode, boolean isTaskRepeat, ArrayList<InitialNamedAction> listNamedAction,
             char hypothesisMode, char principleMode, boolean drawPrinciple, char evaluationMode, MaterialStrategy materialStrategy) {
         super(dbKey, listName, dateLastModification, isActiv, right);
         this.isFreeAction = isFreeAction ;
+        this.taskMode = isTaskMode;
         this.isTaskRepeat = isTaskRepeat ;
         this.code = code;
         this.listNamedAction = listNamedAction ;
@@ -175,6 +178,10 @@ public class InitialProcedure extends ExperimentalProcedure {
                 }
             }
             isFreeAction = xmlElem.getChild(TAG_INITIAL_PROC_FREE_ACTION).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            taskMode = isTaskProc();
+            if(xmlElem.getChild(TAG_INITIAL_PROC_TASK) != null){
+                taskMode = xmlElem.getChild(TAG_INITIAL_PROC_TASK).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            }
             isTaskRepeat = xmlElem.getChild(TAG_INITIAL_PROC_TASK_REPEAT).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             manipulation = new Manipulation(xmlElem.getChild(Manipulation.TAG_MANIPULATION), question,idTask++, idRepeat++, idParam++, idValue++, idActionParam++, idQuantity++, idMaterial++,
                     this,  listPhysicalQuantity, listTypeMaterial, listMatC);
@@ -198,6 +205,7 @@ public class InitialProcedure extends ExperimentalProcedure {
                     this.dbKey = proc.getDbKey();
                     this.listName = proc.getListName();
                     this.isFreeAction = proc.isFreeAction() ;
+                    this.taskMode = proc.isTaskMode();
                     this.isTaskRepeat = proc.isTaskRepeat ;
                     this.listNamedAction = proc.getListNamedAction() ;
                     this.hypothesisMode = proc.getHypothesisMode();
@@ -226,6 +234,14 @@ public class InitialProcedure extends ExperimentalProcedure {
 
     public void setFreeAction(boolean isFreeAction) {
         this.isFreeAction = isFreeAction;
+    }
+
+    public boolean isTaskMode() {
+        return taskMode;
+    }
+
+    public void setTaskMode(boolean taskMode) {
+        this.taskMode = taskMode;
     }
 
     public boolean isTaskRepeat() {
@@ -321,6 +337,7 @@ public class InitialProcedure extends ExperimentalProcedure {
     public Object clone()  {
          InitialProcedure p = (InitialProcedure) super.clone() ;
             p.setFreeAction(this.isFreeAction);
+            p.setTaskMode(this.taskMode);
             p.setTaskRepeat(this.isTaskRepeat);
             p.setCode(new String(this.code));
             ArrayList<InitialNamedAction> l = null;
@@ -466,6 +483,7 @@ public class InitialProcedure extends ExperimentalProcedure {
         Element element = super.toXML(el);
         element.addContent(new Element(TAG_INITIAL_PROC_CODE).setText(code));
         element.addContent(new Element(TAG_INITIAL_PROC_FREE_ACTION).setText(isFreeAction ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
+        element.addContent(new Element(TAG_INITIAL_PROC_TASK).setText(taskMode ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
         element.addContent(new Element(TAG_INITIAL_PROC_TASK_REPEAT).setText(isTaskRepeat ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
         element.addContent(new Element(TAG_INITIAL_PROC_HYPOTHESIS_MODE).setText(Character.toString(hypothesisMode)));
         element.addContent(new Element(TAG_INITIAL_PROC_PRINCIPLE_MODE).setText(Character.toString(principleMode)));
@@ -489,7 +507,7 @@ public class InitialProcedure extends ExperimentalProcedure {
     }
 
     // retourne vrai si seulement que des actions libres
-    public boolean isTaskProc(){
+    private boolean isTaskProc(){
         return isFreeAction && (listNamedAction == null || listNamedAction.size() == 0);
     }
 
