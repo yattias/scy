@@ -68,10 +68,12 @@ public class SCYSimulatorStandalone implements INotifiable {
     private DataCollector dataCollector;
 
     public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
-        //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_converter.sqzx");
-        URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
-        SimQuestViewer simquestViewer = new SimQuestViewer(false);
-        //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter_210110_mod1.sqzx");
+        //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
+    	URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
+    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_converter.sqzx");
+    	
+    	SimQuestViewer simquestViewer = new SimQuestViewer(false);
+        //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter.sqzx");
         //FileName fileName = new FileName("D:/temp/sqzx/co2-house/co2_house.sqzx");
         //URI fileUri = fileName.toURI();
         System.out.println("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
@@ -86,9 +88,9 @@ public class SCYSimulatorStandalone implements INotifiable {
         try {
             simquestViewer.run();
             simquestPanel.setLayout(new BorderLayout());
-            simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450, 450));
+            simquestViewer.getInterfacePanel().setMinimumSize(simquestViewer.getRealSize());
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
-            dataCollector = new DataCollector(simquestViewer, tbi);
+            dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
         } catch (java.lang.Exception e) {
             System.out.println("SimQuestNode.createSimQuestNode(). exception caught:");
