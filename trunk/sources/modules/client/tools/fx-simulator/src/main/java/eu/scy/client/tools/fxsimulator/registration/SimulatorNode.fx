@@ -40,6 +40,8 @@ import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.datasync.DummySyncListener;
+import java.util.UUID;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -230,6 +232,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             if (dataCollector != null) {
                 logger.info("setting simconfig {newElo}");
                 dataCollector.setSimConfig(simConfig);
+                dataCollector.setEloURI(eloUri.toString());
             } else {
                 logger.info("datacollector == null, can't load ");
             }
@@ -250,12 +253,9 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         try {
             simquestViewer.run();
             simquestPanel.setLayout(new BorderLayout());
-            // TODO: infering correct dimension rather than guessing
-            //simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450, 450));
-            //suestViewer.getInterfacePanel().
             simquestPanel.removeAll();
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
-            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
+            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
             toolBrokerAPI.registerForNotifications(this as INotifiable);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
             fixedDimension = simquestViewer.getRealSize();
@@ -269,7 +269,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                         dragObject: this };
             insert syncAttrib into scyWindow.scyWindowAttributes;
         } catch (e: java.lang.Exception) {
-            logger.info("SimQuestNode.createSimQuestNode(). exception caught: {e.getMessage()}");
+            logger.info("exception caught: {e.getMessage()}");
             var info = new JTextArea(4, 42);
             info.append("Simulation could not be loaded.\n");
             info.append("Probably the simulation file was not found,\n");
@@ -319,6 +319,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     override public function eloSaved(elo: IELO): Void {
         if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(simconfigType)) {
             this.eloSimconfig = elo;
+            dataCollector.setEloURI(elo.getUri().toString());
         } else if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(datasetType)) {
             this.eloDataset = elo;
         }
