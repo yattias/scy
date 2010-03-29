@@ -93,18 +93,18 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private Vector<String> shownMessages;
     private String notificationSender;
 
-    public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi) {
+    public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
         // initialize the logger(s)
         debugLogger = Logger.getLogger(DataCollector.class.getName());
         shownMessages = new Vector<String>();
         this.tbi = tbi;
         if (tbi != null) {
             debugLogger.info("setting action logger to " + tbi.getActionLogger());
-            logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger());
+            logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger(), eloURI);
             logger.setUsername(tbi.getLoginUserName());
         } else {
             debugLogger.info("setting action logger to DevNullActionLogger");
-            logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger());
+            logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger(), eloURI);
         }
         //logger.sendListOfInputVariables();
         logger.logListOfVariables("input_variables", logger.getInputVariables());
@@ -188,6 +188,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             rotationVariable.setValue(angle);
             simquestViewer.getDataServer().updateClients();
         }
+    }
+
+    public void setEloURI(String eloURI) {
+        logger.setEloURI(eloURI);
     }
 
     public void addCurrentDatapoint() {
