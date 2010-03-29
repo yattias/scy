@@ -35,6 +35,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     private String session_name = "sessionName";
     private IActionLogger actionLogger;
 
+
     private String toolName;
 
     public ScyCopexPanel(String toolName) {
@@ -118,4 +119,5 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         if(actionLogger != null)
             actionLogger.log(action);
     }
+    
 }
