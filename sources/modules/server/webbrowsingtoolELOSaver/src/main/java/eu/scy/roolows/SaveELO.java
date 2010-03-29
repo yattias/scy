@@ -191,14 +191,6 @@ public class SaveELO {
 
                     elo = configLoader.getEloFactory().createELO();
 
-                    Locale defaultLocale;
-                    if (country != null) { //country code is optional
-                        defaultLocale = new Locale(language, country);
-                    } else {
-                        defaultLocale = new Locale(language);
-                    }
-                    log.info("locale: "+defaultLocale.toString());
-                    elo.setDefaultLanguage(defaultLocale);
 
                     Contribute contribute = new Contribute(username, System.currentTimeMillis());
                     elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
@@ -222,6 +214,13 @@ public class SaveELO {
                     }
 
                     IContent eloContent = configLoader.getEloFactory().createContent();
+                    Locale defaultLocale;
+                    if (country != null) { //country code is optional
+                        defaultLocale = new Locale(language, country);
+                    } else {
+                        defaultLocale = new Locale(language);
+                    }
+                    eloContent.setLanguage(defaultLocale);
                     eloContent.setXmlString(content);
                     elo.setContent(eloContent);
                     log.info("Elo created. Metadata and content set");
