@@ -35,6 +35,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.common.datasync.DummySyncListener;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 /**
  * @author Marjolaine
@@ -57,6 +58,8 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    var technicalFormatKey: IMetadataKey;
    var elo:IELO;
    def spacing = 5.0;
+
+   var bundle:ResourceBundleWrapper;
 
   public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -81,12 +84,12 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         if(isSync){
             removeDatasync(object as ISynchronizable);
         }else{
-            var yesNoOptions = ["Yes", "No"];
+            var yesNoOptions = [getBundleString("YES"), getBundleString("NO")];
             var n = -1;
             if(isDnDSimulator(object as ISynchronizable)){
                 n = JOptionPane.showOptionDialog( null,
-                    "Do you want to synchronise\nwith the Simulator?",               // question
-                    "Synchronise?",           // title
+                    getBundleString("MSG_SYNCHRONIZE_SIMULATOR"),               // question
+                    getBundleString("TITLE_DIALOG_SYNCHRONIZE"),           // title
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE,  // icon
                     null, yesNoOptions,yesNoOptions[0] );
@@ -94,14 +97,14 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                     initializeDatasync(object as ISynchronizable);
                 }
             }else if(isDnDFitex(object as ISynchronizable)){
-                    var question = "Do you want to merge\nthese dataset?";
+                    var question = getBundleString("MSG_MERGE_DATASET");
                     if(isSynchronizing()){
-                        question = "Do you want to stop the synchronization\nwith the Simulator and merge the datasets?";
+                        question = getBundleString("MSG_STOP_SYNC_BEFORE_MERGE");
                     }
 
                  n = JOptionPane.showOptionDialog( null,
                     question,               // question
-                    "Merge?",           // title
+                    getBundleString("TITLE_DIALOG_MERGE"),           // title
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE,  // icon
                     null, yesNoOptions,yesNoOptions[0] );
@@ -181,6 +184,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
 
    public override function create(): Node {
+      bundle = new ResourceBundleWrapper(this, "fxfitex");
       wrappedFitexPanel = SwingComponent.wrap(fitexPanel);
       return Group {
          blocksMouse:true;
@@ -194,7 +198,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                      spacing:spacing;
                      content:[
                         Button {
-                           text: "Import data"
+                           text: getBundleString("MENU_IMPORT_DATA");
                            action: function() {
                               doImportCSVFile();
                            }
@@ -206,13 +210,13 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 //                           }
 //                        }
                         Button {
-                           text: "Save"
+                           text: getBundleString("MENU_SAVE");
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
-                           text: "Save as"
+                           text: getBundleString("MENU_SAVE_AS");
                            action: function() {
                                 doSaveAsElo();
                            }
@@ -308,5 +312,9 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
    public override function getMinWidth() : Number{
       return 460;
+   }
+
+   public function getBundleString(key:String) : String{
+       return bundle.getString(key);
    }
 }
