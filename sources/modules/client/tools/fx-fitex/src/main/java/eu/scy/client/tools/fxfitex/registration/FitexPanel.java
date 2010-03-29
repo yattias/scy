@@ -21,6 +21,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
@@ -59,12 +60,15 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     private final Logger debugLogger;
     private String toolName;
 
+    private ResourceBundleWrapper bundle;
+
     /* Constructor data ToolImpl panel - blank */
     public FitexPanel(String toolName) {
         super();
         this.toolName = toolName;
         debugLogger = Logger.getLogger(FitexPanel.class.getName());
         this.setLayout(new BorderLayout());
+        this.bundle = new ResourceBundleWrapper(this, "fxfitex");
     }
 
     public void initFitex(){
@@ -294,7 +298,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 	if (userResponse == JFileChooser.APPROVE_OPTION){
 		File file = aFileChooser.getSelectedFile();
                 if(!isCSVFile(file)){
-                    JOptionPane.showMessageDialog(this ,"Error: the file must be a csv file." , "Error Import csv",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this ,getBundleString("MSG_ERROR_CSV_FILE") , getBundleString("TITLE_DIALOG_ERROR_CSV"),JOptionPane.ERROR_MESSAGE);
                     return null;
                 }
                 lastUsedFileImport = file;
@@ -312,6 +316,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         return file.getName().substring(id+1).equals("csv");
     }
 
-   
+   private String getBundleString(String key){
+       return this.bundle.getString(key);
+   }
 
 }
