@@ -91,6 +91,8 @@ for (int j = 0; j < metadataFields.length; j++) {
 						portletURL="<%= portletURL %>"
 					/>
 					
+					<br />		
+							
 				</c:when>
 				<c:otherwise>
 				
@@ -115,36 +117,39 @@ MetadataEntry metadataEntry = MetadataActionUtil.getMetadata(asset.getClassName(
 %>
 
 
+						
+
+
 
 <c:if test="<%= metadataEntry != null %>">
 	<c:if test="<%= metadataEntry.getDc_language() != null && metadataEntry.getDc_language().length() > 0%>">
 		<c:if test="<%= metadataEntry.getDc_language().equals(\"en\") %>">
-			<span class="metadata-entry">
+			<span class="metadata-entry metadata-flag">
 				<img title="English" src="/html/themes/classic/images/language/en_US.png" class="icon" />
 			</span>
 		</c:if>
 		<c:if test="<%= metadataEntry.getDc_language().equals(\"de\") %>">
-			<span class="metadata-entry">
+			<span class="metadata-entry metadata-flag">
 				<img title="German" src="/html/themes/classic/images/language/de_DE.png" class="icon" />
 			</span>
 		</c:if>
 		<c:if test="<%= metadataEntry.getDc_language().equals(\"nl\") %>">
-			<span class="metadata-entry">
+			<span class="metadata-entry metadata-flag">
 				<img title="Netherland" src="/html/themes/classic/images/language/nl_NL.png" class="icon" />
 			</span>
 		</c:if>
 		<c:if test="<%= metadataEntry.getDc_language().equals(\"fr\") %>">
-			<span class="metadata-entry">
+			<span class="metadata-entry metadata-flag">
 				<img title="France" src="/html/themes/classic/images/language/fr_FR.png" class="icon" />
 			</span>
 		</c:if>
 		<c:if test="<%= metadataEntry.getDc_language().equals(\"no\") %>">
-			<span class="metadata-entry">
+			<span class="metadata-entry metadata-flag">
 				<img title="Norway" src="/html/themes/classic/images/language/nb_NO.png" class="icon" />
 			</span>
 		</c:if>
 		<c:if test="<%= metadataEntry.getDc_language().equals(\"cy\") %>">
-			<span class="metadata-entry">
+			<span class="metadata-entry metadata-flag">
 				<img title="Cyprus" src="../../scy-theme/images/language/cy_CY.png" class="icon" />
 			</span>
 		</c:if>		

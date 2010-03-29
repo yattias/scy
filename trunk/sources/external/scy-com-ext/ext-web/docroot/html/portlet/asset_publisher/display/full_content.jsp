@@ -124,7 +124,6 @@ request.setAttribute("view.jsp-showIconLabel", true);
 				
 			</div>
 			<div class="asset-content">	
-				
 						<liferay-ui-ext:add-own-tags
 							className="<%= BlogsEntry.class.getName() %>"
 							classPK="<%= entry.getEntryId() %>"
@@ -138,6 +137,22 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+						
+						<liferay-ui-ext:add-to-cart
+							className="<%= BlogsEntry.class.getName() %>"
+							classPK="<%= entry.getEntryId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						
+						<liferay-ui-ext:add-link
+							className="<%= BlogsEntry.class.getName() %>"
+							classPK="<%= entry.getEntryId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
+						
 						<br />				
 						<br />				
 			</div>
@@ -222,6 +237,20 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+						
+						<liferay-ui-ext:add-to-cart
+							className="<%= BookmarksEntry.class.getName() %>"
+							classPK="<%= entry.getEntryId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						<liferay-ui-ext:add-link
+							className="<%= BookmarksEntry.class.getName() %>"
+							classPK="<%= entry.getEntryId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
 						<br />				
 						<br />				
 			</div>
@@ -310,6 +339,21 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+												
+						<liferay-ui-ext:add-to-cart
+							className="<%= DLFileEntry.class.getName() %>"
+							classPK="<%= fileEntry.getFileEntryId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						<liferay-ui-ext:add-link
+							className="<%= DLFileEntry.class.getName() %>"
+							classPK="<%= fileEntry.getFileEntryId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
+						
 						<br />				
 						<br />				
 			</div>
@@ -398,6 +442,21 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+						
+						<liferay-ui-ext:add-to-cart
+							className="<%= IGImage.class.getName() %>"
+							classPK="<%= image.getImageId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						<liferay-ui-ext:add-link
+							className="<%= IGImage.class.getName() %>"
+							classPK="<%= image.getImageId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
+						
 						<br />				
 						<br />				
 			</div>
@@ -539,6 +598,21 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+						
+						<liferay-ui-ext:add-to-cart
+							className="<%= JournalArticle.class.getName() %>"
+							classPK="<%= articleDisplay.getResourcePrimKey() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						<liferay-ui-ext:add-link
+							className="<%= JournalArticle.class.getName() %>"
+							classPK="<%= articleDisplay.getResourcePrimKey() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
+						
 						<br />				
 						<br />				
 			</div>
@@ -624,6 +698,21 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+						
+						<liferay-ui-ext:add-to-cart
+							className="<%= MBMessage.class.getName() %>"
+							classPK="<%= message.getMessageId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						<liferay-ui-ext:add-link
+							className="<%= MBMessage.class.getName() %>"
+							classPK="<%= message.getMessageId() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
+						
 						<br />				
 						<br />				
 			</div>
@@ -745,6 +834,21 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							portletURL="<%= renderResponse.createRenderURL() %>"
 							strutsAction="/asset_publisher/add_meta"
 						/>	
+						
+						<liferay-ui-ext:add-to-cart
+							className="<%= WikiPage.class.getName() %>"
+							classPK="<%= wikiPage.getResourcePrimKey() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/add_cart"
+						/>
+						
+						<liferay-ui-ext:add-link
+							className="<%= WikiPage.class.getName() %>"
+							classPK="<%= wikiPage.getResourcePrimKey() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/link"
+						/>
+						
 						<br />				
 						<br />				
 			</div>
@@ -758,6 +862,22 @@ request.setAttribute("view.jsp-showIconLabel", true);
 		<div class="asset-metadata">
 			<%@ include file="/html/portlet/asset_publisher/asset_metadata.jspf" %>
 		</div>
+		
+		<div style="padding: 0pt 25px;">
+			<liferay-ui-ext:asset-owntags-summary
+								className="<%= asset.getClassName() %>"
+								classPK="<%= asset.getClassPK () %>"
+								portletURL="<%= portletURL %>"
+								strutsAction="/asset_publisher/delete_tag"
+						/>	
+						
+			<liferay-ui-ext:show-link
+							classPK="<%= asset.getClassPK() %>"
+							portletURL="<%= renderResponse.createRenderURL() %>"
+							strutsAction="/asset_publisher/"
+			/>
+		</div>
+		
 	</c:if>
 </div>
 

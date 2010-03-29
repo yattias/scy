@@ -8,7 +8,6 @@
 <div align="right">
 	&laquo; <a href="<%= HtmlUtil.escape(redirect) %>"<%= onClickHtml %>><liferay-ui:message key="back" /></a>
 </div>
-			      
    			 
 <br/><br/>
 
@@ -18,7 +17,7 @@
 			                method="post" name="<portlet:namespace />choseType">
 			                 <input name="<portlet:namespace />entryId" type="hidden" value="<%= String.valueOf(entryId) %>" />
 			                 <input name="<portlet:namespace />redirect" type="hidden" value="<%= redirect %>" />
-			                 <input name="<portlet:namespace />className" type="hidden" value="<%= startResourceclassName %>" />
+			                 <input name="<portlet:namespace />className" type="hidden" value="<%= classPK %>" />
 			                 <input name="<%= Constants.CMD %>" type="hidden" value="choseType" />
 			                 
 			                         Auswahl Typen: <select name="sType" size="1" onChange="submitForm(document.<portlet:namespace />choseType);">

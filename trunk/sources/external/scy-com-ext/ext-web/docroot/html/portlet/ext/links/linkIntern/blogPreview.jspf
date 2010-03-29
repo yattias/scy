@@ -3,6 +3,7 @@
 				PortletURL viewFullContentURL = renderResponse.createRenderURL();
 				viewFullContentURL.setParameter("struts_action", struts_actionViewContent);
 				viewFullContentURL.setParameter("assetEntryId", String.valueOf(entryId));
+				viewFullContentURL.setParameter("className", String.valueOf(classPK));
 				String title = StringPool.BLANK;
 				String summary = StringPool.BLANK;												
 				String viewURL = StringPool.BLANK;
