@@ -1,4 +1,4 @@
-package com.ext.portlet.asset_p.action;
+package com.liferay.portlet.blogs.action;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
