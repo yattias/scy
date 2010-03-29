@@ -40,6 +40,7 @@ import eu.scy.client.tools.fxrichtexteditor.registration.RichTextEditorContentCr
 import eu.scy.awareness.IAwarenessService;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.tools.speedtest.SpeedTestPanelCreator;
+import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
 
 /**
  * @author sikkenj
@@ -78,6 +79,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def sketchUpUploadId = "sketchUpUpload";
    def wordUploadId = "wordUpload";
    def scyRichTextId = "richtext";
+   def scyImageId = "image";
    def speedTestPanelId = "speedTestPanel";
 
    var scyDesktopCreator = ScyDesktopCreator {
@@ -111,7 +113,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
-   var presentationExternalDocCreator = ExternalDocCreator{
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
+
+var presentationExternalDocCreator = ExternalDocCreator{
       extensions: ["ppt","pptx"]
       fileFilterDescription:"PowerPoint Presentations"
    }
