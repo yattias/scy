@@ -36,7 +36,7 @@
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssignedPedagogicalPlanImpl"/>
-		<mapping class="eu.scy.core.model.impl.pedagogicalplan.Setup"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.SetupImpl"/>
 
 
         <mapping class="eu.scy.core.model.impl.FileDataImpl"/>
