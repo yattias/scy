@@ -27,7 +27,6 @@ import roolo.elo.api.IMetadataKey;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Resizable;
 import javafx.scene.control.TextBox;
-import javafx.scene.control.CheckBox;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
@@ -43,6 +42,9 @@ import java.awt.Component;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.ExternalDocAnnotation;
+import javafx.util.Math;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -80,7 +82,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
     var assignment:String;
 
     def nrOfColumns = 40;
-    def valueOffset = 100.0;
+    def valueOffset = 130.0;
     def labelOffset = 4.0;
    def spacing = 5.0;
    var assignmentGroup:Group;
@@ -236,6 +238,9 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    var technicalFormatKey: IMetadataKey;
    var titleKey: IMetadataKey;
    var externalDocAnnotationKey:IMetadataKey;
+
+   var minimumSizeBottomRightNode:Node;
+   var contentGroup:Group;
    
    var autoSyncStateUpdateer = Timeline {
          repeatCount: Timeline.INDEFINITE
@@ -306,7 +311,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    
 
    public override function create(): Node {
-      return Group {
+      contentGroup = Group {
          blocksMouse:true;
          content: [
             VBox{
@@ -338,7 +343,7 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 										importFile();
                            }
                         }
-                        Button {
+                        minimumSizeBottomRightNode = Button {
                            text: ##"Download file"
                            disable:bind file==null
                            action: function() {
@@ -352,6 +357,8 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
             }
          ]
       };
+      contentGroup.layout();
+      contentGroup;
    }
 
 
@@ -486,26 +493,58 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
         this.elo = elo;
     }
 
+    override public function getMinHeight () : Number {
+        minimumSizeBottomRightNode.boundsInParent.maxY;
+    }
+
+    override public function getMinWidth () : Number {
+        minimumSizeBottomRightNode.boundsInParent.maxX;
+    }
+
     override public function getPrefHeight (arg0 : Number) : Number {
-        return 100;
+        contentGroup.boundsInLocal.maxY;
     }
 
     override public function getPrefWidth (arg0 : Number) : Number {
-        return 200;
+        contentGroup.boundsInLocal.maxX;
     }
 }
 
 
 function run(){
+   var externalDoc = ExternalDoc{
+
+   }
+   //externalDoc.layout();
+   var prefSizeDsiplay = Rectangle {
+      x: 0, y: 0
+      width: 0, height: 0
+      fill: Color.YELLOW
+   }
+   Timeline {
+      repeatCount: 1
+      keyFrames : [
+         KeyFrame {
+            time : 1s
+            canSkip : true
+            action:function():Void{
+               prefSizeDsiplay.width = externalDoc.getPrefWidth(200);
+               prefSizeDsiplay.height = externalDoc.getPrefHeight(200)
+            }
+
+         }
+      ]
+   }.play();
+
+
    Stage {
 	title : "External doc tester"
 	scene: Scene {
-		width: 200
-		height: 200
+		width: externalDoc.getPrefWidth(200)
+		height: externalDoc.getPrefHeight(200)
 		content: [
-         ExternalDoc{
-            
-         }
+         prefSizeDsiplay,
+         externalDoc
 
       ]
 	}
