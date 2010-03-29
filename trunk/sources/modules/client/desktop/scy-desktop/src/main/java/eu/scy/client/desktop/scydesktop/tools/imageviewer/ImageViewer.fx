@@ -91,7 +91,12 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
          lastUsedDirectory = fileChooser.getCurrentDirectory();
          var imageUrl = "{fileChooser.getSelectedFile().toURL()}";
          showImage(imageUrl);
-         getElo().getMetadata().getMetadataValueContainer(titleKey).setValue(fileChooser.getSelectedFile().getName());
+         var eloTitle = fileChooser.getSelectedFile().getName();
+         var lastPointPos = eloTitle.lastIndexOf(".");
+         if (lastPointPos>=0){
+            eloTitle = eloTitle.substring(0, lastPointPos);
+         }
+         getElo().getMetadata().getMetadataValueContainer(titleKey).setValue(eloTitle);
          eloSaver.eloUpdate(elo,this);
       }
    }
