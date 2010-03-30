@@ -39,7 +39,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
 
    var titleColor = defaultTitleColor;
    var contentColor = defaultContentColor;
-   var selected = bind anchorDisplay.selected on replace {
+   def selected = bind scyWindow.activated on replace {
       setColors()
    };
 
@@ -89,12 +89,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
             }
          ]
          onMouseClicked: function( e: MouseEvent ):Void {
-            if (anchorDisplay.selectionAction != null){
-               anchorDisplay.selectionAction(anchorDisplay,missionAnchor);
-            }
-            else {
-               selected = not selected;
-            }
+            anchorDisplay.selectionAction(anchorDisplay,missionAnchor);
             windowAction(missionAnchor);
          },
       };
