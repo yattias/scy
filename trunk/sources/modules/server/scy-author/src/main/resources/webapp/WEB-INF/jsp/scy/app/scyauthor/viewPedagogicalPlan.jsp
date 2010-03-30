@@ -74,7 +74,7 @@
         <table width="100%" border="2">
             <tr>
                 <td>Assigned students</td>
-                <td><s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select student"/></td>
+                <td><s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select student" extraParameters="id=${pedagogicalPlan.id}"/></td>
             </tr>
         </table>
     </tiles:putAttribute>

@@ -46,7 +46,7 @@
                    /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
                    /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
                    /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
-                   /app/scyauthor/viewPortfolio.html=viewPortfolioController
+                   /app/scyauthor/selectStudentsForPedagogicalPlan.html=selectStudentsForPedagogicalPlan 
 
                    /app/tools/Toolbank.html=toolbankController
 
@@ -64,6 +64,7 @@
     <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">
@@ -107,6 +108,11 @@
 
     <bean id="selectToolsForActivityController" class="eu.scy.server.controllers.SelectToolForActivityController">
         <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="selectStudentsForPedagogicalPlan" class="eu.scy.server.controllers.SelectStudentsForPedagogicalPlan">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="scyAuthorRuntimeIndexController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeIndexController">

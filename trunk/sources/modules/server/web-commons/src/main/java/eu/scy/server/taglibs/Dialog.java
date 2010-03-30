@@ -17,6 +17,7 @@ public class Dialog extends TagSupport {
     private String width;
     private String height;
     private String dialogHeader = "";
+    private String extraParameters;
 
     public int doEndTag() throws JspException {
         try {
@@ -29,6 +30,9 @@ public class Dialog extends TagSupport {
     }
 
     public String getUrl() {
+        if(getExtraParameters() != null && getExtraParameters().length() > 0) {
+            url = url + "?" + getExtraParameters();
+        }
         return url;
     }
 
@@ -68,5 +72,13 @@ public class Dialog extends TagSupport {
 
     public void setDialogHeader(String dialogHeader) {
         this.dialogHeader = dialogHeader;
+    }
+
+    public String getExtraParameters() {
+        return extraParameters;
+    }
+
+    public void setExtraParameters(String extraParameters) {
+        this.extraParameters = extraParameters;
     }
 }

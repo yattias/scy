@@ -5,6 +5,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +20,8 @@ public class SelectStudentsForPedagogicalPlan extends BaseController{
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        logger.info("GETTING STUDENTS!");
+        List students = getUserService().getStudents();
+        modelAndView.addObject("students", students);
     }
 
     public UserService getUserService() {
