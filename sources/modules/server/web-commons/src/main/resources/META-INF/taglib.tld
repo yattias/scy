@@ -175,4 +175,11 @@
 
     </tag>
 
+    <tag>
+        <name>currentStudentActivity</name>
+        <tagclass>eu.scy.server.taglibs.components.realtime.CurrentStudentActivity</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Delete link</info>
+    </tag>
+
 </taglib>

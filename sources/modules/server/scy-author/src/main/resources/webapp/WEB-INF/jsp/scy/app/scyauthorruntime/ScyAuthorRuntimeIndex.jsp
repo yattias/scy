@@ -14,7 +14,7 @@
                 </tr>
                 <c:forEach var="pedagogicalPlan" items="${pedagogicalPlans}">
                     <tr>
-                        <td><a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a></td>
+                        <td><a href="viewActivePedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a></td>
                         <td>${pedagogicalPlan.published}</td>
                         <td>6</td>
                     </tr>
