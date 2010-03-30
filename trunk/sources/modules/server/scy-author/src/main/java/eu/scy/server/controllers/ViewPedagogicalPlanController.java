@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import eu.scy.core.openfire.BuddyService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -101,4 +102,6 @@ public class ViewPedagogicalPlanController extends BaseController {
     public void setAssignedPedagogicalPlanService(AssignedPedagogicalPlanService assignedPedagogicalPlanService) {
         this.assignedPedagogicalPlanService = assignedPedagogicalPlanService;
     }
+
+
 }

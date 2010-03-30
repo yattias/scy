@@ -51,6 +51,14 @@
                     <s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Make all students buddies
+                </td>
+                <td colspan="2">
+                    <s:ajaxCheckBox model="${pedagogicalPlan}" property="makeAllAssignedStudentsBuddies"/>
+                </td>
+            </tr>
         </table>
         <br/>
 

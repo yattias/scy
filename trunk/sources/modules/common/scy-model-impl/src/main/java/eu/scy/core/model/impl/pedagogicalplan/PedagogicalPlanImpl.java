@@ -22,6 +22,7 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     private PedagogicalPlanTemplate pedagogicalPlanTemplate = null;
 
     private Boolean published = false;
+    private Boolean makeAllAssignedStudentsBuddies = false;
 
 
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
@@ -45,5 +46,13 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
         this.published = published;
     }
 
+    @Override
+    public Boolean getMakeAllAssignedStudentsBuddies() {
+        return makeAllAssignedStudentsBuddies;
+    }
 
+    @Override
+    public void setMakeAllAssignedStudentsBuddies(Boolean makeAllAssignedStudentsBuddies) {
+        this.makeAllAssignedStudentsBuddies = makeAllAssignedStudentsBuddies;
+    }
 }
