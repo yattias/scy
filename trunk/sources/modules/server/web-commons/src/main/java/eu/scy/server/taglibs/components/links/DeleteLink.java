@@ -14,10 +14,11 @@ public class DeleteLink extends TagSupport {
 
     private String href;
     private String title;
+    private String confirmText;
 
     public int doEndTag() throws JspException {
         try {
-            pageContext.getOut().write("<a href=\"" + getHref() + "\">" + getTitle() + "</a>");
+            pageContext.getOut().write("<a href=\"" + getHref() + "\">" + getTitle() + "</a>" + getConfirmText());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,5 +39,13 @@ public class DeleteLink extends TagSupport {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getConfirmText() {
+        return confirmText;
+    }
+
+    public void setConfirmText(String confirmText) {
+        this.confirmText = confirmText;
     }
 }
