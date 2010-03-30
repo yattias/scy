@@ -77,5 +77,32 @@
                 <td><s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select student" extraParameters="id=${pedagogicalPlan.id}"/></td>
             </tr>
         </table>
+
+        <c:choose>
+            <c:when test="${fn:length(assignedPedagogicalPlans) > 0}">
+                <table id="teachersTable" border="2" width="100%">
+                    <tr>
+                        <th></th>
+                        <th>User name</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                    </tr>
+                    <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
+                        <tr class="${oddEven.oddEven}">
+                            <td><img src="/webapp/common/filestreamer.html?username=${assignedPedagogicalPlan.user.userDetails.username}&showIcon"/>
+                            </td>
+                            <td>
+                                ${assignedPedagogicalPlan.user.userDetails.username}
+                            </td>
+                            <td>${assignedPedagogicalPlan.user.userDetails.firstname} </td>
+                            <td>${assignedPedagogicalPlan.user.userDetails.lastname}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br>
+            </c:when>
+        </c:choose>
+
+
     </tiles:putAttribute>
 </tiles:insertDefinition>

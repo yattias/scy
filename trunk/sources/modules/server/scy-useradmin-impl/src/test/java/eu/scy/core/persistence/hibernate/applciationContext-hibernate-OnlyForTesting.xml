@@ -150,7 +150,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="assignedAssessmentDAO" class="eu.scy.core.persistence.hibernate.AssignedAssessmentDAOHibernate">
+    <bean id="assignedPedagogicalPlanDAO" class="eu.scy.core.persistence.hibernate.AssignedPedagogicalPlanDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

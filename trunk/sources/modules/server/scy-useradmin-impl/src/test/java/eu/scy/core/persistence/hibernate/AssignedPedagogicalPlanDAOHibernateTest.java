@@ -1,11 +1,10 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.User;
-import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanTemplateImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.persistence.AssignedAssessmentDAO;
+import eu.scy.core.persistence.AssignedPedagogicalPlanDAO;
 import eu.scy.core.persistence.UserDAO;
 import org.junit.Test;
 
@@ -20,15 +19,15 @@ import java.util.List;
  */
 public class AssignedPedagogicalPlanDAOHibernateTest extends AbstractPedagogicalPlanRelatedTest {
 
-    private AssignedAssessmentDAO assignedAssessmentDAO;
+    private AssignedPedagogicalPlanDAO assignedPedagogicalPlanDAO;
     private UserDAO userDAO;
 
-    public AssignedAssessmentDAO getAssignedAssessmentDAO() {
-        return assignedAssessmentDAO;
+    public AssignedPedagogicalPlanDAO getAssignedAssessmentDAO() {
+        return assignedPedagogicalPlanDAO;
     }
 
-    public void setAssignedAssessmentDAO(AssignedAssessmentDAO assignedAssessmentDAO) {
-        this.assignedAssessmentDAO = assignedAssessmentDAO;
+    public void setAssignedAssessmentDAO(AssignedPedagogicalPlanDAO assignedPedagogicalPlanDAO) {
+        this.assignedPedagogicalPlanDAO = assignedPedagogicalPlanDAO;
     }
 
     public UserDAO getUserDAO() {

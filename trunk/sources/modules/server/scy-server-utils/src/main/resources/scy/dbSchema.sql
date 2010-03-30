@@ -268,6 +268,15 @@ CREATE TABLE `studentplannedactivities_related_to_users` (
 	KEY  `studentplannedactivity_fk_key` (`studentplannedactivity_fk`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `pedagogicalplan_related_to_users`;
+CREATE TABLE `pedagogicalplan_related_to_users` (
+	`user_fk` bigint(20) NULL,
+	`pedagogicalplan_fk` varchar(55) NOT NULL default '',
+	PRIMARY KEY (`user_fk`,`pedagogicalplan_fk`),
+	KEY  `user_fk_key` (`user_fk`),
+	KEY  `pedagogicalplan_fk_key` (`pedagogicalplan_fk`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 DROP TABLE IF EXISTS `eloref`;
