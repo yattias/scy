@@ -21,6 +21,8 @@ import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -44,6 +46,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    def jdomStringConversion = new JDomStringConversion();
 
    public-init var scyCopexPanel:ScyCopexPanel;
+   public-init var scyWindow: ScyWindow;
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
@@ -64,6 +67,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       scyCopexPanel.setTBI(toolBrokerAPI);
+      scyCopexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       scyCopexPanel.initActionLogger();
       scyCopexPanel.initCopex();
    }
@@ -113,6 +117,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null)
       {
+         scyCopexPanel.setEloUri(eloUri.toString());
          scyCopexPanel.loadELO(newElo.getContent().getXmlString());
          logger.info("elo loaded");
          elo = newElo;
@@ -121,6 +126,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    function doSaveElo(){
       eloSaver.eloUpdate(getElo(),this);
+      scyCopexPanel.setEloUri(elo.getUri().toString());
    }
 
    function doSaveAsElo(){
@@ -141,6 +147,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
     override public function eloSaved (elo : IELO) : Void {
         this.elo = elo;
+        scyCopexPanel.setEloUri(elo.getUri().toString());
     }
 
    function resizeContent(){
