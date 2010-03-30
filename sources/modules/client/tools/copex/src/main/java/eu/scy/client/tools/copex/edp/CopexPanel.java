@@ -635,11 +635,13 @@ public class CopexPanel extends JPanel {
 
     /* log : start tool */
     public void logStartTool(){
-        actionCopex.logAction(MyConstants.LOG_TYPE_START_TOOL, new LinkedList());
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_START_TOOL, new LinkedList());
     }
      /* log : end tool */
     public void logEndTool(){
-        actionCopex.logAction(MyConstants.LOG_TYPE_END_TOOL, new LinkedList());
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_END_TOOL, new LinkedList());
     }
      /* log : open help */
     public void logOpenHelp(){
