@@ -21,5 +21,5 @@ public interface AssignedPedagogicalPlanService extends BaseService{
 
     List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(User user);
 
-
+    void removeAssignedAssessment(User user, PedagogicalPlan plan);
 }

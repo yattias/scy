@@ -83,12 +83,16 @@
                 <table id="teachersTable" border="2" width="100%">
                     <tr>
                         <th></th>
+                        <th></th>
                         <th>User name</th>
                         <th>First name</th>
                         <th>Last name</th>
                     </tr>
                     <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
                         <tr class="${oddEven.oddEven}">
+                            <td>
+                                DEL<s:deleteLink href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&action=removeStudent&username=${assignedPedagogicalPlan.user.userDetails.username}" title="-"/>
+                            </td>
                             <td><img src="/webapp/common/filestreamer.html?username=${assignedPedagogicalPlan.user.userDetails.username}&showIcon"/>
                             </td>
                             <td>
