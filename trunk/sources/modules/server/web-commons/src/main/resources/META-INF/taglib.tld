@@ -182,4 +182,17 @@
         <info>Delete link</info>
     </tag>
 
+    <tag>
+        <name>helpLink</name>
+        <tagclass>eu.scy.server.taglibs.components.links.HelpLink</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Delete link</info>
+
+        <attribute>
+            <name>helpId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
 </taglib>

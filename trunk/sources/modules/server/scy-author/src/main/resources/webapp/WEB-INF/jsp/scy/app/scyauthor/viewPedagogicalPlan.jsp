@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <td>
-                    Make all students buddies
+                    Make all students buddies <s:helpLink helpId="1"/>
                 </td>
                 <td colspan="2">
                     <s:ajaxCheckBox model="${pedagogicalPlan}" property="makeAllAssignedStudentsBuddies"/>
