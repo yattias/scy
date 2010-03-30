@@ -32,8 +32,9 @@ import javax.swing.JPanel;
 public class ScyCopexPanel extends JPanel implements ActionCopex{
     private CopexPanel copex;
     private ToolBrokerAPI tbi;
-    private String session_name = "sessionName";
+    private String session_name = "n/a";
     private IActionLogger actionLogger;
+    private String eloUri = "n/a";
 
 
     private String toolName;
@@ -57,7 +58,12 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         copex.loadData();
         copex.setQuestionDialog();
     }
-    
+
+    public void setEloUri(String eloUri){
+        this.eloUri = eloUri;
+    }
+
+
     public void setTBI(ToolBrokerAPI tbi) {
         this.tbi = tbi;
     }
@@ -105,6 +111,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
             action.addContext(ContextConstants.tool, this.toolName);
             action.addContext(ContextConstants.mission, tbi.getMission());
             action.addContext(ContextConstants.session, session_name);
+            action.addContext(ContextConstants.eloURI, eloUri);
         }
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
             CopexProperty property = p.next();
