@@ -78,6 +78,7 @@
 
 	<bean id="assignedPedagogicalPlanDAO" class="eu.scy.core.persistence.hibernate.AssignedPedagogicalPlanDAOHibernate">
 		<property name="sessionFactory" ref="sessionFactory"/>
+        <property name="buddyService" ref="buddyService"/>
 	</bean>
 
 	<bean id="setupDAO" class="eu.scy.core.persistence.hibernate.SetupDAOHibernate">

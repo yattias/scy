@@ -1,3 +1,5 @@
+\. dropandcreatesaildatabase.sql
+
 set FOREIGN_KEY_CHECKS=0;
 
 set character_set_connection=utf8;

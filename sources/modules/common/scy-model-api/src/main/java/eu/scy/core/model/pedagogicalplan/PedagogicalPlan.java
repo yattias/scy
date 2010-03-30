@@ -27,4 +27,7 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
 
     void setPublished(Boolean published);
 
+    Boolean getMakeAllAssignedStudentsBuddies();
+
+    void setMakeAllAssignedStudentsBuddies(Boolean makeAllAssignedStudentsBuddies);
 }
