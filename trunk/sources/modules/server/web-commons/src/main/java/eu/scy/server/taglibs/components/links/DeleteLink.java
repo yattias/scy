@@ -18,7 +18,7 @@ public class DeleteLink extends TagSupport {
 
     public int doEndTag() throws JspException {
         try {
-            pageContext.getOut().write("<a href=\"" + getHref() + "\">" + getTitle() + "</a>" + getConfirmText());
+            pageContext.getOut().write("<a href=\"javascript:if(confirm('" + getConfirmText() + "')){ location.href = '" + getHref() + "';} \">" + getTitle() + "</a>");
         } catch (Exception e) {
             e.printStackTrace();
         }
