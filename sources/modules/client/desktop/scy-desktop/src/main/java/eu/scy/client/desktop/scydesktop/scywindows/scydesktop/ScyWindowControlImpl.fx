@@ -253,6 +253,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          }
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
       if (anchorAttribute != null) {
+         anchorAttribute.scyWindow = scyWindow;
          scyWindow.scyWindowAttributes = anchorAttribute;
          anchorAttribute.windowAction = function (anchor: MissionAnchorFX): Void {
             windowPositioner.makeMainWindow(getScyWindow(anchor.eloUri));
