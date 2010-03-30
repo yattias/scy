@@ -340,6 +340,7 @@ public class ScyDesktopCreator {
             newMetadata.getMetadataValueContainer(iconTypeKey).setValue(missionAnchor.iconType);
             config.getRepository().addMetadata(missionAnchor.eloUri,newMetadata);
             missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+            missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
          }
 
       } else {

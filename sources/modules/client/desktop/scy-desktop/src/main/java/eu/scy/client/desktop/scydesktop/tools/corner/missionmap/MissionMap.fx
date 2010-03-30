@@ -67,9 +67,9 @@ public class MissionMap extends CustomNode {
       }
    }
 
-   function colorMissionAnchor(missionAnchor: MissionAnchorFX) {
-      missionAnchor.color = scyDesktop.windowStyler.getScyColor(missionAnchor.eloUri);
-   }
+//   function colorMissionAnchor(missionAnchor: MissionAnchorFX) {
+//      missionAnchor.color = scyDesktop.windowStyler.getScyColor(missionAnchor.eloUri);
+//   }
 
    public override function create(): Node {
       displayGroup
@@ -90,7 +90,7 @@ public class MissionMap extends CustomNode {
 
 
    function createLasIdDisplay(): Node {
-      println("maximumLasXpos: {maximumLasXpos}, minimumLasYPos: {minimumLasYPos}");
+      //println("maximumLasXpos: {maximumLasXpos}, minimumLasYPos: {minimumLasYPos}");
       var lasIdDisplay = Text {
          font:Font.font("Verdana",FontWeight.BOLD ,12);
 
