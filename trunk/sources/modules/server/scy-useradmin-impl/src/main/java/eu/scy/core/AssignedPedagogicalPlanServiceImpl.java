@@ -36,6 +36,12 @@ public class AssignedPedagogicalPlanServiceImpl extends BaseServiceImpl implemen
         return getAssignedPedagogicalPlanDAO().getAssignedPedagogicalPlans(user);
     }
 
+    @Override
+    @Transactional
+    public void removeAssignedAssessment(User user, PedagogicalPlan plan) {
+        getAssignedPedagogicalPlanDAO().removeAssignedAssessment(user, plan);
+    }
+
     public AssignedPedagogicalPlanDAO getAssignedPedagogicalPlanDAO() {
         return assignedPedagogicalPlanDAO;
     }

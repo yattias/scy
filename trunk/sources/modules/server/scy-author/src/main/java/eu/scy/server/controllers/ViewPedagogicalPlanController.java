@@ -40,6 +40,8 @@ public class ViewPedagogicalPlanController extends BaseController {
         if (action != null) {
             if (action.equals("addStudent")) {
                 addStudent(request.getParameter("username"), modelAndView, plan);
+            } else if(action.equals("removeStudent")) {
+                removeStudent(request.getParameter("username"), modelAndView, plan);
             }
         }
 
@@ -56,8 +58,13 @@ public class ViewPedagogicalPlanController extends BaseController {
         modelAndView.addObject("agentLevels", agentLevels);
         modelAndView.addObject("contentLevels", contentLevels);
 
-        logger.info("Setting plan: " + plan.getName());
         modelAndView.addObject("pedagogicalPlan", plan);
+        modelAndView.addObject("assignedPedagogicalPlans", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(plan));
+    }
+
+    private void removeStudent(String username, ModelAndView modelAndView, PedagogicalPlan plan) {
+        User user = getUserService().getUser(username);
+        getAssignedPedagogicalPlanService().removeAssignedAssessment(user, plan);
     }
 
     private void addStudent(String username, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
@@ -67,7 +74,7 @@ public class ViewPedagogicalPlanController extends BaseController {
         logger.info("Adding " + details.getUsername() + " " + details.getFirstname() + " " + details.getLastname() + " to ped plan");
 
         getAssignedPedagogicalPlanService().assignPedagogicalPlanToUser(pedagogicalPlan, user);
-        modelAndView.addObject("assignedPedagogicalPlans", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(pedagogicalPlan));
+
     }
 
 

@@ -40,4 +40,17 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
                 .setEntity("pedagogicalPlan", pedagogicalPlan)
                 .list();
     }
+
+    @Override
+    public void removeAssignedAssessment(User user, PedagogicalPlan plan) {
+        AssignedPedagogicalPlan assignedPedagogicalPlan = (AssignedPedagogicalPlan) getSession().createQuery("from AssignedPedagogicalPlanImpl where user = :user and pedagogicalPlan = :pedagogicalPlan")
+                .setEntity("user", user)
+                .setEntity("pedagogicalPlan", plan)
+                .setMaxResults(1)
+                .uniqueResult();
+        if(assignedPedagogicalPlan != null) {
+            getHibernateTemplate().delete(assignedPedagogicalPlan);
+        }
+
+    }
 }
