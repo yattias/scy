@@ -17,6 +17,8 @@ public class HelpController extends AbstractController {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
+        String helpId =httpServletRequest.getParameter("id");
+        modelAndView.addObject("id", helpId);
         return modelAndView;
     }
 }

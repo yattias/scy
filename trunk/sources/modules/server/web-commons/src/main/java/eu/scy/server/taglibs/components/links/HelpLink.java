@@ -19,6 +19,7 @@ public class HelpLink extends TagSupport {
      public int doEndTag() throws JspException {
         try {
             double id = Math.random();
+            helpUrl = helpUrl + "?id=" + getHelpId();
             pageContext.getOut().write("<a href=\"javascript:loadDialog('"+ helpUrl +"', '" + "" + "');\">" + "(?)" + "</a>");
         } catch (Exception e) {
             e.printStackTrace();
