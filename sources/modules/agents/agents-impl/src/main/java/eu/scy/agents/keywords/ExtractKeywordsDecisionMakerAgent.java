@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		public String toString() {
 			String webresourcerURL = webresourcerELO != null ? webresourcerELO.toString() : "null";
 			return user + "|web:" + webresourcerStarted + "|map:" + scyMapperStarted + "|url:" + webresourcerURL + "|"
-					+ lastAction + "|" + numberOfConcepts;
+					+ new Date(lastAction).toString() + "|" + numberOfConcepts;
 		}
 	}
 
@@ -151,7 +152,21 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			contextInfo.lastAction = action.getTimeInMillis();
 			String eloUri = action.getContext(ContextConstants.eloURI);
 			if (eloUri.startsWith(UNSAVED_ELO)) {
+				logger.warn("eloUri not present");
 				contextInfo.webresourcerELO = null;
+				// } else if ("n/a".equals(eloUri)) {
+				// eloUri = action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI);
+				// if (eloUri.startsWith(UNSAVED_ELO)) {
+				// logger.warn("eloUri not present");
+				// contextInfo.webresourcerELO = null;
+				// } else {
+				// try {
+				// contextInfo.webresourcerELO = new URI(eloUri);
+				// } catch (URISyntaxException e) {
+				// e.printStackTrace();
+				// }
+				// }
+				// }
 			} else {
 				try {
 					contextInfo.webresourcerELO = new URI(eloUri);
@@ -230,7 +245,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 				HashSet<String> users = new HashSet<String>(user2Context.keySet());
 				for (String user : users) {
 					ContextInformation contextInformation = user2Context.get(user);
-					logger.debug(contextInformation);
+					logger.info(contextInformation);
 					if (userNeedsToBeNotified(currentTime, contextInformation)) {
 						notifyUser(currentTime, user, contextInformation);
 						// if (userIsIdleForTooLongTime(currentTime, contextInformation)) {
