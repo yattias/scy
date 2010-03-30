@@ -41,6 +41,7 @@
                    /components/ajaxSlider.html=ajaxSliderController
                    /editors/studentEditor.html=editSCYStudentUserController
                    /components/fileupload/fileupload.html=fileUploadController
+                   /components/links/help.html=helpController
                </value>
            </property>
        </bean>
@@ -70,6 +71,10 @@
 
     <bean id="editSCYStudentUserController" class="eu.scy.server.controllers.editors.EditSCYStudentController">
         <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="helpController" class="eu.scy.server.controllers.components.help.HelpController">
+
 	</bean>
 
 

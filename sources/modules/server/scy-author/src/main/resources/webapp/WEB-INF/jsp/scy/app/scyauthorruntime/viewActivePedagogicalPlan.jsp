@@ -7,7 +7,7 @@
         <c:choose>
             <c:when test="${fn:length(assignedPedagogicalPlans) > 0}">
 
-                <h2>Active students</h2>
+                <h2>Current activity summary</h2>
 
                 <table id="teachersTable" border="2" width="100%">
                     <tr>
