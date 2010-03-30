@@ -660,11 +660,13 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
     /* log: start tool */
     public void logStartTool(){
-        action.logAction(DataConstants.LOG_TYPE_START_TOOL, new LinkedList());
+        if(!scyMode)
+            action.logAction(DataConstants.LOG_TYPE_START_TOOL, new LinkedList());
     }
     /* log: end tool */
     public void logEndTool(){
-        action.logAction(DataConstants.LOG_TYPE_END_TOOL, new LinkedList());
+        if(!scyMode)
+            action.logAction(DataConstants.LOG_TYPE_END_TOOL, new LinkedList());
     }
 
     /* log: open dataset */
