@@ -91,7 +91,7 @@
                     <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
                         <tr class="${oddEven.oddEven}">
                             <td>
-                                DEL<s:deleteLink href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&action=removeStudent&username=${assignedPedagogicalPlan.user.userDetails.username}" title="-"/>
+                                <s:deleteLink href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&action=removeStudent&username=${assignedPedagogicalPlan.user.userDetails.username}" title="-" confirmText="Do you really want to remove ${assignedPedagogicalPlan.user.userDetails.username} from ${pedagogicalPlan.name}?" />
                             </td>
                             <td><img src="/webapp/common/filestreamer.html?username=${assignedPedagogicalPlan.user.userDetails.username}&showIcon"/>
                             </td>
