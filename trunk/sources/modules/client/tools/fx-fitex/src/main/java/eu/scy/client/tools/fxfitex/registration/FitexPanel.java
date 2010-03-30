@@ -55,7 +55,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     private ToolBrokerAPI tbi;
     private ISyncSession session = null;
-    private String session_name = "sessionName";
+    private String session_name = "n/a";
+    private String eloUri = "n/a";
     private IActionLogger actionLogger;
     private final Logger debugLogger;
     private String toolName;
@@ -74,6 +75,10 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     public void initFitex(){
         initDataProcessTool();
         load();
+    }
+
+    public void setEloUri(String eloUri){
+        this.eloUri = eloUri;
     }
 
     public void setTBI(ToolBrokerAPI tbi) {
@@ -244,6 +249,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
             action.addContext(ContextConstants.tool, this.toolName);
             action.addContext(ContextConstants.mission, tbi.getMission());
             action.addContext(ContextConstants.session, session_name);
+            action.addContext(ContextConstants.eloURI, eloUri);
         }
 
         for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){

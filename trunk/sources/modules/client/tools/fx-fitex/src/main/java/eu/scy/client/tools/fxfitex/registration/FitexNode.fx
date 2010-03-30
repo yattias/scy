@@ -20,6 +20,7 @@ import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
 import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
@@ -171,6 +172,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       fitexPanel.setTBI(toolBrokerAPI);
+      fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       var syncAttrib = DatasyncAttribute{
                     dragAndDropManager:scyWindow.dragAndDropManager;
                     dragObject:this};
@@ -242,6 +244,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null)
       {
+         fitexPanel.setEloUri(eloUri.toString());
          fitexPanel.loadELO(newElo.getContent().getXmlString());
          logger.info("elo loaded");
          elo = newElo;
@@ -250,6 +253,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
    function doSaveElo(){
       eloSaver.eloUpdate(getElo(),this);
+      fitexPanel.setEloUri(elo.getUri().toString());
    }
 
    function doSaveAsElo(){
@@ -270,6 +274,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
     override public function eloSaved (elo : IELO) : Void {
         this.elo = elo;
+        fitexPanel.setEloUri(elo.getUri().toString());
     }
 
    /*function doSynchronizeTool(){
