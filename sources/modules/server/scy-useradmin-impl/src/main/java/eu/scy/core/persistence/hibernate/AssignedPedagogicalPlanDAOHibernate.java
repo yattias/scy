@@ -55,6 +55,7 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
 
     public List <User> getAssignedUsers(PedagogicalPlan pedagogicalPlan) {
         return getSession().createQuery("select ap.user from AssignedPedagogicalPlanImpl as ap where ap.pedagogicalPlan = :pedagogicalPlan")
+                .setEntity("pedagogicalPlan", pedagogicalPlan)
                 .list();
     }
 
