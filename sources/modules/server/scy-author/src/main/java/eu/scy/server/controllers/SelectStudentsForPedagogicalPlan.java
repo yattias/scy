@@ -20,6 +20,8 @@ public class SelectStudentsForPedagogicalPlan extends BaseController{
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+        String pedPlanId = request.getParameter("id");
+        modelAndView.addObject("id", pedPlanId);
         List students = getUserService().getStudents();
         modelAndView.addObject("students", students);
     }

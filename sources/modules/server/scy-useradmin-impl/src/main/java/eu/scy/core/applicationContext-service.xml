@@ -74,4 +74,8 @@
         <property name="fileDAO" ref="fileDAO"/>
     </bean>
 
+    <bean id="assignedPedagogicalPlanService" class="eu.scy.core.AssignedPedagogicalPlanServiceImpl">
+        <property name="assignedPedagogicalPlanDAO" ref="assignedPedagogicalPlanDAO"/>
+    </bean>
+
 </beans>

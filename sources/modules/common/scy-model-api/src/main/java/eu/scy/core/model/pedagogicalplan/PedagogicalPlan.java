@@ -1,5 +1,9 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import eu.scy.core.model.User;
+
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -22,4 +26,5 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
     Boolean getPublished();
 
     void setPublished(Boolean published);
+
 }

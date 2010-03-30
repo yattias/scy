@@ -8,4 +8,9 @@ package eu.scy.core.persistence.hibernate;
  * To change this template use File | Settings | File Templates.
  */
 public class SetupDAOHibernateTest extends AbstractDAOTest{
+
+    public void testSetup() {
+        
+    }
+
 }

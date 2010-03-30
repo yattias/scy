@@ -65,6 +65,7 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="serverService" ref="serverService"/>
         <property name="userService" ref="userService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
     </bean>
 
     <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">

@@ -1,9 +1,12 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.User;
+import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,8 +23,9 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     private Boolean published = false;
 
+
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
-    @JoinColumn(name="pedagogicalPlanTemplate_primKey")
+    @JoinColumn(name = "pedagogicalPlanTemplate_primKey")
     public PedagogicalPlanTemplate getTemplate() {
         return pedagogicalPlanTemplate;
     }
@@ -40,4 +44,6 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     public void setPublished(Boolean published) {
         this.published = published;
     }
+
+
 }
