@@ -84,6 +84,16 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     }
 
     /**
+     * Sets eloUri of actionlogger.
+     * @param eloUri eloUri
+     */
+    public void setEloUri(String eloUri) {
+        if (rtfLogger != null) {
+            rtfLogger.setEloUri(eloUri);
+        }
+    }
+
+    /**
      * Gets logger.
      * @return logger assigned to this component
      */
