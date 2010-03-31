@@ -224,7 +224,7 @@ public class EloManagement extends CustomNode {
       }
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       createNewElo.listView.items = Sequences.sort(typeNames);
-      createNewElo.label.text = "Select type";
+      createNewElo.label.text = ##"Select type";
       var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
       var color = windowStyler.getScyColor(ImageWindowStyler.generalNew);
 
