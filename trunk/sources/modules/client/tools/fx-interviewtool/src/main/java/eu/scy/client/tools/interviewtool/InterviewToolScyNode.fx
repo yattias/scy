@@ -29,6 +29,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -74,11 +75,19 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    public var scyWindow:ScyWindow;
    var technicalFormatKey: IMetadataKey;
 
+   function setLoggerEloUri() {
+      var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
+      if (myEloUri == null and scyWindow.eloUri != null)
+         myEloUri = scyWindow.eloUri.toString();
+      interviewLogger.eloUri = myEloUri;
+      schemaEditor.setEloUri(myEloUri);
+   }
+
    public override function initialize(windowContent:Boolean):Void{
       var username:String = toolBrokerAPI.getLoginUserName();
       var toolname:String = "interviewtool";
       var missionname:String = toolBrokerAPI.getMission();
-      var sessionname:String = "sessionname";
+      var sessionname:String = "n/a";
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       interviewLogger = InterviewLogger{
          actionLogger: actionLogger
@@ -89,6 +98,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       };
       schemaEditor.setRichTextEditorLogger(actionLogger,
          username, toolname, missionname, sessionname, "interview schema");
+      setLoggerEloUri();
    }
 
    public override function loadElo(uri:URI){
@@ -103,6 +113,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
          logger.info("elo interview loaded");
          elo = newElo;
       }
+      setLoggerEloUri();
    }
 
    function openElo() {
@@ -133,6 +144,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
 
     override public function eloSaved (elo : IELO) : Void {
         this.elo = elo;
+        setLoggerEloUri();
     }
 
    function getElo():IELO{
