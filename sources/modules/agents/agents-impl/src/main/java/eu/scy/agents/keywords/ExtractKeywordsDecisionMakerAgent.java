@@ -170,6 +170,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			} else {
 				try {
 					contextInfo.webresourcerELO = new URI(eloUri);
+			                contextInfo.webresourcerStarted = true;
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
