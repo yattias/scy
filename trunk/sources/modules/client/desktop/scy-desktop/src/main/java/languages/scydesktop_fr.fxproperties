@@ -14,6 +14,7 @@
 "Open" = "Ouvrir"
 "unknown" = "inconnu"
 "Select template" = "Sélectionner un modèle"
+"Select type" = "Select type"
 "Create new" = "Créer un nouveau"
 "Assignment" = "Consigne"
 "File name" = "Nom du fichier"
@@ -31,3 +32,4 @@
 "Download file" = "Télécharger le fichier"
 "Welcome to SCY-Lab" = "Bienvenue dans SCY-Lab"
 "Please wait, while SCY-Lab is loading..." = "Veuillez patienter pendant le chargement de SCY-Lab..."
+"Loading, please wait..." = "Loading, please wait..."

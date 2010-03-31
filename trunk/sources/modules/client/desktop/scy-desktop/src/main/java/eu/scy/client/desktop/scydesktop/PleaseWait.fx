@@ -30,7 +30,7 @@ public class PleaseWait extends CustomNode {
                        }
                        x: border, y: border
                        textOrigin:TextOrigin.TOP
-                       content: "Loading, please wait..."
+                       content: ##"Loading, please wait..."
                     }
        return  Group{
                  content:

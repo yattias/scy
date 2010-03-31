@@ -14,6 +14,7 @@
 "Open" = "Open"
 "unknown" = "onbekend"
 "Select template" = "Selecteer voorbeeld"
+"Select type" = "Selecteer type"
 "Create new" = "Maak nieuw"
 "Assignment" = "Opdracht"
 "File name" = "Archief naam"
@@ -31,3 +32,4 @@
 "Download file" = "Download archief"
 "Welcome to SCY-Lab" = "Welkom bij SCY-Lab"
 "Please wait, while SCY-Lab is loading..." = "Even geduld alstublief, SCY-Lab wordt nu geladen..."
+"Loading, please wait..." = "Even geduld alstublief,\ninhoud wordt geladen..."
