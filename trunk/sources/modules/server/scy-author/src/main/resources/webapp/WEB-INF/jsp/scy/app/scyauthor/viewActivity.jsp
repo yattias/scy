@@ -4,19 +4,19 @@
         <h1>Activity: ${model.name}</h1>
 
         <table width="100%" border="2">
-            <tr>
+            <tr class="tablerow-odd">
                 <td>Work arrangement</td>
                 <td><s:ajaxCombobox property="workArrangementType" model="${model}" comboBoxValues="${workArrangement}"/></td>
             </tr>
 
-            </tr>
-            <tr>
+
+            <tr class="tablerow-even">
                 <td>Teacher role</td>
                 <td><s:ajaxCombobox property="teacherRoleType" model="${model}" comboBoxValues="${teacherRoles}"/></td>
             </tr>
 
-            </tr>
-            <tr>
+
+            <tr class="tablerow-odd">
                 <td>
                     Expected duration in minutes
                 </td>
@@ -25,7 +25,7 @@
                 </td>
 
             </tr>
-            <tr>
+            <tr class="tablerow-even">
                 <td>
                     Anchor ELO
                 </td>
