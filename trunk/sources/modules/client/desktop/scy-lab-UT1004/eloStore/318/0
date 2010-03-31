@@ -18,11 +18,11 @@
         <assignment>To make your presentation, you have to:&#xD;
 - Go to the PowerPoint application of your computer&#xD;
 - Create your presentation&#xD;
-- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the “print screen” button of your keyboard(or the snipping tool of your computer) and paste your image in your presentation&#xD;
+- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the "print screen" button of your keyboard(or the snipping tool of your computer) and paste your image in your presentation&#xD;
 - Save your presentation in your computer&#xD;
 - Then come back here and click on the upload file button&#xD;
 - Select your presentation document&#xD;
-- Press “open”&#xD;
+- Press "open"&#xD;
 - Save your presentation in SCY-Lab</assignment>
         <description />
         <name />
@@ -34,7 +34,7 @@
     <general>
       <title>
         <string language="en">Expert presentation</string>
-	<string language="fr">Présentation des experts</string>
+	<string language="fr">PrÃ©sentation des experts</string>
       </title>
       <description>
         <string language="en" />
