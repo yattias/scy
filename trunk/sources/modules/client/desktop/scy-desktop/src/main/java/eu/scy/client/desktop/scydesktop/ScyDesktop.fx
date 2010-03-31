@@ -84,6 +84,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
+import javafx.scene.effect.Effect;
 
 /**
  * @author sikkenj
@@ -142,6 +143,15 @@ public class ScyDesktop extends CustomNode, INotifiable {
     var backgroundImageView: ImageView;
     public-read var lowDebugGroup = Group { };
     public-read var highDebugGroup = Group { };
+
+    def cornerToolEffect: Effect = null;
+//    def cornerToolEffect = DropShadow {
+//         offsetX: 5
+//         offsetY: 5
+//         color: Color.GRAY
+//         radius: 5
+//      }
+
 
     def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
     var backgroundUpdater:BackgroundUpdater;
@@ -273,6 +283,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             metadataTypeManager: config.getMetadataTypeManager()
             showLasId:initializer.debugMode
             eloDisplayTypeControl:eloDisplayTypeControl
+
         //         translateX:40;
         //         translateY:40;
         }
@@ -280,11 +291,13 @@ public class ScyDesktop extends CustomNode, INotifiable {
         topLeftCorner = TopLeftCorner {
             content: contactList;
             color: Color.RED;
+            effect: cornerToolEffect
         }
-        topRightCorner = TopRightCorner {
-            content: topRightCornerTool;
-            color: Color.GREEN;
-        }
+//        topRightCorner = TopRightCorner {
+//            content: topRightCornerTool;
+//            color: Color.GREEN;
+//            effect: cornerToolEffect
+//        }
         var SPTButton = MultiImageButton {
                     imageName:"planning"
                     disable:initializer.offlineMode
@@ -334,15 +347,18 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 }
         topRightCorner = TopRightCorner {
             content: SPTButton;
+            effect: cornerToolEffect
         }
         bottomRightCorner = BottomRightCorner {
             // TODO, replace with specified tool
             content: missionMap;
             color: Color.BLUE;
+            effect: cornerToolEffect
         }
         bottomLeftCorner = BottomLeftCorner {
             content: bottomLeftCornerTool;
             color: Color.GRAY;
+            effect: cornerToolEffect
         }
         if (initializer.windowPositioner.equalsIgnoreCase("simple")) {
             // this is the default
