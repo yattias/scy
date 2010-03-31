@@ -109,6 +109,9 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE,
 							queryId, String.class));
+			if (response == null) {
+				return new ArrayList<String>();
+			}
 			String keywordString = (String) response.getField(3).getValue();
 			StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
 			while (tokenizer.hasMoreTokens()) {
