@@ -6,7 +6,7 @@
 
         <h2>Portfolio</h2>
         <table width="100%">
-            <tr>
+            <tr class="tablerow-odd">
                 <td>
                     Can be included in portfolio
                 </td>
@@ -14,7 +14,7 @@
                     <s:ajaxCheckBox model="${model}" property="includedInPortfolio"/>
                 </td>
             </tr>
-            <tr>
+            <tr class="tablerow-even">
                 <td>
                     Obligatory in portfolio
                 </td>

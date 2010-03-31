@@ -8,17 +8,17 @@
                 <th>
                     Name
                 </th>
-                <td>
+                <td class="tablerow-odd">
                    d <s:ajaxTextField property="name" model="${model}"/>
-                </th>
+                </td>
             </tr>
             <tr>
                 <th>Target group</th>
-                <td><s:ajaxTextField property="targetGroup" model="${model}"/></td>
+                <td class="tablerow-odd"><s:ajaxTextField property="targetGroup" model="${model}"/></td>
             </tr>
             <tr>
                 <th>Mission outline</th>
-                <td><s:ajaxTextField property="missionOutline" model="${model}"/></td>
+                <td class="tablerow-odd"><s:ajaxTextField property="missionOutline" model="${model}"/></td>
             </tr>
         </table>
 

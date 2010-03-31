@@ -15,6 +15,7 @@ public class FileUploadBean {
     private String listener;
 
     public MultipartFile getFile() {
+        System.out.println("returning file: " + file);
         return file;
     }
 
