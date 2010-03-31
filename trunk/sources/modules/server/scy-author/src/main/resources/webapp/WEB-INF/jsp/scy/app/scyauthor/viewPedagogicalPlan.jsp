@@ -5,7 +5,7 @@
         <h1>Pedagogical Plan: ${pedagogicalPlan.name}</h1>
 
         <table width="100%" border="2">
-            <tr>
+            <tr class="tablerow-odd">
                 <td>
                     Name
                 </td>
@@ -13,7 +13,7 @@
                     <s:ajaxTextField model="${pedagogicalPlan}" property="name"/>
                 </td>
             </tr>
-            <tr>
+            <tr class="tablerow-even">
                 <td>
                     Scenario
                 </td>
@@ -24,7 +24,7 @@
                         ${pedagogicalPlan.scenario.description}
                 </td>
             </tr>
-            <tr>
+            <tr class="tablerow-odd">
                 <td>
                     Mission
                 </td>
@@ -35,7 +35,7 @@
                         ${pedagogicalPlan.mission.description}
                 </td>
             </tr>
-            <tr>
+            <tr class="tablerow-even">
                 <td>
                     Portfolio settings
                 </td>
@@ -43,7 +43,7 @@
                     <a href="viewPortfolio.html?id=${pedagogicalPlan.id}">Edit</a>
                 </td>
             </tr>
-            <tr>
+            <tr class="tablerow-odd">
                 <td>
                     Published
                 </td>
@@ -51,7 +51,7 @@
                     <s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/>
                 </td>
             </tr>
-            <tr>
+            <tr class="tablerow-even">
                 <td>
                     Make all students buddies <s:helpLink helpId="HELP_PAGE_1_AUTO_MAKE_BUDDIES"/>
                 </td>
@@ -65,12 +65,12 @@
         <h2>Scaffolding</h2>
 
         <table cellpadding="10" cellspacing="10">
-            <tr>
+            <tr class="tablerow-odd">
                 <td width="30%">Overall level SCYLab</td>
                 <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
-            <tr>
+            <tr class="tablerow-even">
                 <td>Overall level Mission content</td>
                 <td><s:ajaxSlider sliderValues="${contentLevels}"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
