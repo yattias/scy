@@ -34,6 +34,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 
 /**
  * @author sikken
@@ -52,6 +53,7 @@ public class EloManagement extends CustomNode {
    public var tooltipManager: TooltipManager;
    public var userId:String;
    public var windowStyler: WindowStyler;
+   public var eloInfoControl: EloInfoControl;
 
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
 
@@ -109,6 +111,9 @@ public class EloManagement extends CustomNode {
       if (templateEloUris == null) {
          templateEloUris = scyDesktop.config.getTemplateEloUris();
       }
+      if (eloInfoControl == null) {
+         eloInfoControl = scyDesktop.eloInfoControl;
+      }
       //newFromEloTemplateButton.disable = templateEloUris == null or templateEloUris.isEmpty();
       findTemplateEloInformation();
    }
@@ -158,7 +163,7 @@ public class EloManagement extends CustomNode {
       if (metadata==null){
          return null;
       }
-      var title = metadata.getMetadataValueContainer(titleKey).getValue() as String;
+      var title = eloInfoControl.getEloTitle(uri);
       var technicalFormat = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
       var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
       var typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
