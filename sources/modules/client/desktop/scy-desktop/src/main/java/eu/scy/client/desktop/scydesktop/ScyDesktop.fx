@@ -499,6 +499,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
         var scyToolsList = ScyToolsList {
                     }
         // create the tools
+        scyToolsList.actionLoggerTool = ScyToolActionLogger{
+                window:window;
+                config:config};
         if (not collaboration and eloConfig.isContentCollaboration()) {
             // currently, the content tool must be created on the first call, which is with collaboration false
             // otherwise the first set of tools are not informed of the elo load messages
@@ -519,14 +522,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
         if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
             scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
         }
-        // check already there
-        //scyToolActionLogger = ScyToolActionLogger{
-        //        window:window;
-        //        config:config};
-        //scyToolsList.actionLoggerTool = scyToolActionLogger;
-        scyToolsList.actionLoggerTool = ScyToolActionLogger{
-                window:window;
-                config:config};
+        
+        
         // all tools are created and placed in the window
         // now do the ScyTool initialisation
         var myEloChanged = SimpleMyEloChanged {
@@ -558,12 +555,16 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     windowStyler: windowStyler;
                     scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
                 };
+        // place the logger first
+        if (scyToolsList.actionLoggerTool != null) {
+            window.scyToolsList.actionLoggerTool = scyToolsList.actionLoggerTool;
+        }
         // do the initialize cycle on the created tools
         scyToolsList.setEloSaver(myEloSaver);
         scyToolsList.setMyEloChanged(myEloChanged);
         scyToolsList.initialize();
         scyToolsList.postInitialize();
-        // place the tools in the window
+        // place the tools in the window      
         if (scyToolsList.windowContentTool != null) {
             window.scyContent = scyToolsList.windowContentTool;
         }
@@ -590,10 +591,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             if (collaboration){
                window.openDrawer("left");
             }
-        }
-        if (scyToolsList.actionLoggerTool != null) {
-            window.scyToolsList.actionLoggerTool = scyToolsList.actionLoggerTool;
-        }
+        }       
         // if the window content tool is defined, meaning a new or existing elo is loaded, report this
         if (window.scyContent != null) {
             if (window.eloUri != null) {
@@ -603,9 +601,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
             }
             scyToolsList.loadedEloChanged(window.eloUri);
         }
-        // check if already in
-        //scyToolsList.actionLoggerTool = scyToolActionLogger;
-        //window.scyToolsList.actionLoggerTool = scyToolActionLogger;
     }
 
     public override function processNotification(notification: INotification): Void {
