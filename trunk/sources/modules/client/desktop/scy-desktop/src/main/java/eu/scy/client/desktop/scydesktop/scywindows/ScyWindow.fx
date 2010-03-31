@@ -16,10 +16,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 
 import javafx.scene.CustomNode;
 
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import javafx.scene.layout.Resizable;
 
 /**
  * @author sikkenj
@@ -91,6 +91,13 @@ public abstract class ScyWindow extends CustomNode {
 	public-read protected var isClosed = true;
 
    public function open():Void{
+//      var openWidth = minimumWidth;
+//      var openHeight = minimumHeight;
+//      if (scyContent instanceof Resizable){
+//         var resizableContent = scyContent as Resizable;
+//         openWidth = resizableContent.getPrefWidth(openWidth);
+//         openHeight = resizableContent.getPrefHeight(openHeight);
+//      }
       openWindow(minimumWidth,minimumHeight)
    }
 
@@ -100,8 +107,8 @@ public abstract class ScyWindow extends CustomNode {
    
    public abstract function setMinimize(state: Boolean):Void;
 
-   public abstract function addChangesListener(wcl:WindowChangesListener):Void;
-   public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
+//   public abstract function addChangesListener(wcl:WindowChangesListener):Void;
+//   public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
 
 
    public abstract function canAcceptDrop(object:Object):Boolean;

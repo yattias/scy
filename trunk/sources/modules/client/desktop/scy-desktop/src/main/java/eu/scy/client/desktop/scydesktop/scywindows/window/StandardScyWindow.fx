@@ -270,6 +270,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          // no content
          limittedHeight = closedHeight;
       }
+      // now limit it to the scy desktop window size
+      if (scene.width>0){
+         limittedWidth = Math.min(limittedWidth, scene.width-deltaWidthContentWidth);
+         limittedHeight = Math.min(limittedHeight, scene.height-deltaHeightContentHeight);
+      }
 
 //      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
       return Point2D{
@@ -325,14 +330,14 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 
 
-   override function addChangesListener(wcl:WindowChangesListener) {
-       insert wcl into changesListeners;
-   }
-
-   override function removeChangesListener(wcl:WindowChangesListener) {
-       delete wcl from changesListeners;
-   }
-
+//   override function addChangesListener(wcl:WindowChangesListener) {
+//       insert wcl into changesListeners;
+//   }
+//
+//   override function removeChangesListener(wcl:WindowChangesListener) {
+//       delete wcl from changesListeners;
+//   }
+//
    /**
    *    method added to 'catch' the startResize event
    */
@@ -374,6 +379,18 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
 
    }
+
+	public override function open():Void{
+		checkScyContent();
+      var openWidth = minimumWidth;
+      var openHeight = minimumHeight;
+      if (scyContent instanceof Resizable){
+         var resizableContent = scyContent as Resizable;
+         openWidth = resizableContent.getPrefWidth(openWidth);
+         openHeight = resizableContent.getPrefHeight(openHeight);
+      }
+      openWindow(openWidth,openHeight);
+	}
 
 	public override function openWindow(openWidth:Number,openHeight:Number):Void{
 		checkScyContent();
@@ -619,7 +636,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    function handleDoubleClick(e:MouseEvent):Void{
       if (isClosed){
-         openWindow(10, 10);
+         open();
       }
       else if (isMinimized){
          setMinimized(not isMinimized);
