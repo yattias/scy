@@ -66,6 +66,7 @@ public-init var username:String;
 public-init var toolname:String;
 public-init var missionname:String;
 public-init var sessionname:String;
+public var eloUri:String = null;
 def loggerCount:Integer = ++COUNT;
 var action : IAction;
 
@@ -79,6 +80,8 @@ function createBasicAction(type:String):IAction {
     action.addContext(ContextConstants.tool, "{toolname}_{loggerCount}");
     action.addContext(ContextConstants.mission, missionname);
     action.addContext(ContextConstants.session, sessionname);
+    if (eloUri != null)
+        action.addContext(ContextConstants.eloURI, eloUri);
     return action;
 }
 function initObjectAction(objectType:String,type:String,objects:InterviewObject[]) {
