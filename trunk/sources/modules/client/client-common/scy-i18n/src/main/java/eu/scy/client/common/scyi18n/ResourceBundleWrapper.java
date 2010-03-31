@@ -110,5 +110,28 @@ public class ResourceBundleWrapper {
         }
         return o.getClass().getName();
     }
+
+    private final static String[] commonPackageNames = {"eu.scy.client.tools.","eu.scy.client.desktop."};
+
+   protected String getModuleName(String packageName)
+   {
+      for (String commonPackageName : commonPackageNames)
+      {
+         if (packageName.startsWith(commonPackageName))
+         {
+            String longModuleName = packageName.substring(commonPackageName.length());
+            if (longModuleName.length() > 0)
+            {
+               int pointPos = longModuleName.indexOf('.');
+               if (pointPos >= 0)
+               {
+                  return longModuleName.substring(0, pointPos);
+               }
+               return longModuleName;
+            }
+         }
+      }
+      return null;
+   }
     
 }
