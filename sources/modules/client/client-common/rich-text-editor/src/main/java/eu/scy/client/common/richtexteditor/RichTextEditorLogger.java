@@ -24,6 +24,7 @@ public class RichTextEditorLogger {
     private String toolname;
     private String missionname;
     private String sessionname;
+    private String eloUri = null;
     private String parent;
     private int loggerCount;
     private IAction action;
@@ -42,6 +43,10 @@ public class RichTextEditorLogger {
         loggerCount = ++COUNT;
     }
 
+    public void setEloUri(String eloUri) {
+        this.eloUri = eloUri;
+    }
+
     private void write() {
         actionLogger.log(action);
     }
@@ -53,6 +58,9 @@ public class RichTextEditorLogger {
         action.addContext(ContextConstants.tool, toolname+"_"+String.valueOf(loggerCount));
         action.addContext(ContextConstants.mission, missionname);
         action.addContext(ContextConstants.session, sessionname);
+        if (eloUri != null) {
+            action.addContext(ContextConstants.eloURI, eloUri);
+        }
         action.addAttribute("parent", parent);
     }
 
