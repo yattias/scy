@@ -77,7 +77,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    }
 
    public override function create(): Node {
-      bundle = new ResourceBundleWrapper(this, "fxcopex");
+      bundle = new ResourceBundleWrapper(this);
       wrappedCopexPanel = SwingComponent.wrap(scyCopexPanel);
       return Group {
          blocksMouse:true;
