@@ -69,7 +69,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         this.toolName = toolName;
         debugLogger = Logger.getLogger(FitexPanel.class.getName());
         this.setLayout(new BorderLayout());
-        this.bundle = new ResourceBundleWrapper(this, "fxfitex");
+        this.bundle = new ResourceBundleWrapper(this);
     }
 
     public void initFitex(){
