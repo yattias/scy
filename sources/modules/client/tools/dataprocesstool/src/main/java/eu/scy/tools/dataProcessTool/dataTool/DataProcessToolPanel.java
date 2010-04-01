@@ -159,7 +159,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 //            return;
 //          }
 //        }
-        bundle = new ResourceBundleWrapper(this,"fitex");
+        bundle = new ResourceBundleWrapper("fitex");
         //
         initNumberFormat();
         // noyau
