@@ -68,7 +68,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private long idleTimeInMS = 60 * 1000;
 	private int minimumNumberOfConcepts = 5;
-	// private long timeAfterThatItIsSaveToRemoveUser = 5 * idleTimeInMS;
+	private long timeAfterThatItIsSaveToRemoveUser = 5 * idleTimeInMS;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
@@ -93,7 +93,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		}
 		if (params.containsKey(IDLE_TIME_INMS)) {
 			idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
-			// timeAfterThatItIsSaveToRemoveUser = 5 * idleTimeInMS;
+			timeAfterThatItIsSaveToRemoveUser = 5 * idleTimeInMS;
 		}
 		if (params.containsKey(MINIMUM_NUMBER_OF_CONCEPTS)) {
 			minimumNumberOfConcepts = (Integer) params.get(MINIMUM_NUMBER_OF_CONCEPTS);
@@ -170,7 +170,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			} else {
 				try {
 					contextInfo.webresourcerELO = new URI(eloUri);
-			                contextInfo.webresourcerStarted = true;
+					contextInfo.webresourcerStarted = true;
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
@@ -249,14 +249,14 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 					logger.info(contextInformation);
 					if (userNeedsToBeNotified(currentTime, contextInformation)) {
 						notifyUser(currentTime, user, contextInformation);
-						// if (userIsIdleForTooLongTime(currentTime, contextInformation)) {
-						// toRemove.add(user);
-						// }
+						if (userIsIdleForTooLongTime(currentTime, contextInformation)) {
+							toRemove.add(user);
+						}
 					}
 				}
-				// for (String user : toRemove) {
-				// user2Context.remove(user);
-				// }
+				for (String user : toRemove) {
+					user2Context.remove(user);
+				}
 				logger.debug("Sending Alive-Tuple");
 				sendAliveUpdate();
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
@@ -271,10 +271,10 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		}
 	}
 
-	// private boolean userIsIdleForTooLongTime(long currentTime, ContextInformation contextInformation) {
-	// long timeSinceLastAction = currentTime - contextInformation.lastAction;
-	// return timeSinceLastAction > timeAfterThatItIsSaveToRemoveUser;
-	// }
+	private boolean userIsIdleForTooLongTime(long currentTime, ContextInformation contextInformation) {
+		long timeSinceLastAction = currentTime - contextInformation.lastAction;
+		return timeSinceLastAction > timeAfterThatItIsSaveToRemoveUser;
+	}
 
 	private void notifyUser(final long currentTime, final String user, final ContextInformation contextInformation) {
 		new Thread(new Runnable() {
