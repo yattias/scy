@@ -186,7 +186,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
 
    public override function create(): Node {
-      bundle = new ResourceBundleWrapper(this, "fxfitex");
+      bundle = new ResourceBundleWrapper(this);
       wrappedFitexPanel = SwingComponent.wrap(fitexPanel);
       return Group {
          blocksMouse:true;
