@@ -19,7 +19,7 @@ import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
-import javafx.scene.layout.Resizable;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 
 /**
  * @author sikkenj
@@ -107,8 +107,8 @@ public abstract class ScyWindow extends CustomNode {
    
    public abstract function setMinimize(state: Boolean):Void;
 
-//   public abstract function addChangesListener(wcl:WindowChangesListener):Void;
-//   public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
+   public abstract function addChangesListener(wcl:WindowChangesListener):Void;
+   public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
 
 
    public abstract function canAcceptDrop(object:Object):Boolean;
