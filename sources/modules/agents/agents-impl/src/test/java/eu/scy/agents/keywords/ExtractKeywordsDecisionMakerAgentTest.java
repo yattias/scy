@@ -68,7 +68,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
 		params.put(ExtractKeywordsDecisionMakerAgent.IDLE_TIME_INMS, IDLE_TIME);
-		params.put(ExtractKeywordsDecisionMakerAgent.MINIMUM_NUMBER_OF_CONCEPTS, 2);
+		params.put(ExtractKeywordsDecisionMakerAgent.MINIMUM_NUMBER_OF_CONCEPTS, 5);
 		agentMap.put(ExtractKeywordsAgent.NAME, params);
 		agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
 		agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
@@ -152,7 +152,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	}
 
 	@Test
-	public void testTuplesAreSentRepeatedly() throws InterruptedException, TupleSpaceException {
+	public void testUsersAreRemovedAfterTimeOfNotReacting() throws InterruptedException, TupleSpaceException {
 		sendWebresourcerStarted();
 		sendScyMapperStarted();
 		sendELoLoaded();
@@ -199,11 +199,82 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			assertEquals(expectedKeywords[i - 8], keyword);
 		}
 
+		// for (int i = 0; i < 10; i++) {
+		// System.out.println("Getting " + (i + 3) + " notification");
+		// Thread.sleep(2 * IDLE_TIME);
+		// notificationTuple = getCommandSpace().waitToTake(
+		// new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
+		// String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+		// assertNotNull("no notification received", notificationTuple);
+		// }
+
 		Thread.sleep(5 * IDLE_TIME);
 		notificationTuple = getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
-		assertNotNull("notification received", notificationTuple);
+		assertNull("notification received", notificationTuple);
+
+	}
+
+	@Test
+	public void testNotificationsStopAfterEnoughConceptsAreAdded() throws InterruptedException, TupleSpaceException {
+		sendWebresourcerStarted();
+		sendScyMapperStarted();
+		sendELoLoaded();
+
+		sendConceptAdded();
+		Thread.sleep(IDLE_TIME);
+
+		Tuple notificationTuple = getCommandSpace().waitToTake(
+				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
+						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+		assertNotNull("no notification received", notificationTuple);
+		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0).getValue());
+		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple.getField(2).getValue());
+		assertEquals(ExtractKeywordsDecisionMakerAgent.SCYMAPPER, notificationTuple.getField(3).getValue());
+		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(), notificationTuple.getField(4).getValue());
+		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals("n/a", notificationTuple.getField(6).getValue());
+		assertEquals("type=concept_proposal", notificationTuple.getField(7).getValue());
+		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
+			String keyword = (String) notificationTuple.getField(i).getValue();
+			assertEquals(expectedKeywords[i - 8], keyword);
+		}
+		assertNull(getCommandSpace().take(
+				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
+						String.class, Field.createWildCardField())));
+
+		sendConceptAdded();
+
+		System.out.println("Getting second notification");
+		Thread.sleep(IDLE_TIME);
+		notificationTuple = getCommandSpace().waitToTake(
+				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
+						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+		assertNotNull("no notification received", notificationTuple);
+		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0).getValue());
+		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple.getField(2).getValue());
+		assertEquals(ExtractKeywordsDecisionMakerAgent.SCYMAPPER, notificationTuple.getField(3).getValue());
+		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(), notificationTuple.getField(4).getValue());
+		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals("n/a", notificationTuple.getField(6).getValue());
+		assertEquals("type=concept_proposal", notificationTuple.getField(7).getValue());
+		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
+			String keyword = (String) notificationTuple.getField(i).getValue();
+			assertEquals(expectedKeywords[i - 8], keyword);
+		}
+
+		sendConceptAdded();
+		sendConceptAdded();
+		sendConceptAdded();
+		sendConceptAdded();
+
+		Thread.sleep(2 * IDLE_TIME);
+		notificationTuple = getCommandSpace().waitToTake(
+				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
+						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+		assertNull("notification received", notificationTuple);
+
 	}
 
 	private void sendELoLoaded() {
