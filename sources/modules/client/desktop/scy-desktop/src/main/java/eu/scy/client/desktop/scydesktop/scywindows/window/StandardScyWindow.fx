@@ -330,14 +330,14 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 
 
-//   override function addChangesListener(wcl:WindowChangesListener) {
-//       insert wcl into changesListeners;
-//   }
-//
-//   override function removeChangesListener(wcl:WindowChangesListener) {
-//       delete wcl from changesListeners;
-//   }
-//
+   override function addChangesListener(wcl:WindowChangesListener) {
+       insert wcl into changesListeners;
+   }
+
+   override function removeChangesListener(wcl:WindowChangesListener) {
+       delete wcl from changesListeners;
+   }
+
    /**
    *    method added to 'catch' the startResize event
    */
