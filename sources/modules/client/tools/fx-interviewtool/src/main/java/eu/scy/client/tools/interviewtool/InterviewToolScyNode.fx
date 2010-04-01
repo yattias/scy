@@ -73,6 +73,9 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    public var dataSyncService:IDataSyncService;
    public var pedagogicalPlanService:PedagogicalPlanService;
    public var scyWindow:ScyWindow;
+   public var metadataTypeManager: IMetadataTypeManager;
+   public var toolBrokerAPI:ToolBrokerAPI;
+   protected var elo:IELO;
    var technicalFormatKey: IMetadataKey;
 
    function setLoggerEloUri() {
@@ -297,5 +300,16 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
          ]
       };
    }
+protected override function getAuthors(anonUser:String, andStr:String) {
+/*
+    if (elo != null) {
+logger.debug(CoreRooloMetadataKeyIds.AUTHOR);
+logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).toString());
+logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString());
+        name = elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString();
+    }
+*/
+    return  "{toolBrokerAPI.getLoginUserName()} {andStr} [{anonUser}]";
+}
 
 }
