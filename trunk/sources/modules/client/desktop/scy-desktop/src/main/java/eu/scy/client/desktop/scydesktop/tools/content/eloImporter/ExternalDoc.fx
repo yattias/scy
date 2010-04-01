@@ -380,14 +380,13 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
             fileLastModified = externalDocAnnotation.getFileLastModified();
             fileSize = externalDocAnnotation.getFileSize();
             if (fileSize>=0){
-               fileContent.setBytes(elo.getContent().getBytes());
+               fileContent.setBytes(newElo.getContent().getBytes());
                file =new File(filePath,fileName);
             }
             else{
                file=null;
             }
-            logger.info("externalDocAnnotation retrieved: {externalDocAnnotation}");
-
+            logger.info("externalDocAnnotation retrieved: {externalDocAnnotation}, with {if (fileContent.getBytes()!=null)fileContent.getBytes().length else "null"} bytes");
          }
          else{
             logger.warn("there is no externalDocAnnotation found");
@@ -472,6 +471,8 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
    function exportFile():Void{
       fileChooser.setCurrentDirectory(lastUsedDirectory);
+      var proposedFile = new File(filePath,fileName);
+      fileChooser.setSelectedFile(proposedFile);
       if (JFileChooser.APPROVE_OPTION == fileChooser.showSaveDialog(getParentComponent())) {
          //getting the file from the fileChooser
          lastUsedDirectory = fileChooser.getCurrentDirectory();
