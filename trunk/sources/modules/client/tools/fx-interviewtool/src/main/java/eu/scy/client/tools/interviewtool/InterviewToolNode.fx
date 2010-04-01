@@ -31,10 +31,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.util.ResourceBundle;
 import java.lang.Exception;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author kaido
@@ -72,9 +68,6 @@ def vPadding = hPadding;
 def toolBottomOffset = 10;
 protected var parentHeightOffset = 0;
 protected def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
-public var metadataTypeManager: IMetadataTypeManager;
-public var toolBrokerAPI:ToolBrokerAPI;
-protected var elo:IELO;
 var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
 var interviewStrings:InterviewStrings = InterviewStrings{};
 protected var interviewLogger: InterviewLogger;
@@ -499,30 +492,26 @@ def zoomSchemaIn: function() =
         schemaMaximized = true;
         interviewLogger.logBasicAction(InterviewLogger.ZOOM_SCHEMA_IN);
     };
+protected function getAuthors(anonUser:String, andStr:String) {
+    return "{anonUser} {andStr} {anonUser}";
+}
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
     guidePane.setTextFromFile(interviewStrings.guideDesignFileName);
-    var name:String = toolBrokerAPI.getLoginUserName();
-/*
-    if (elo != null) {
-logger.debug(CoreRooloMetadataKeyIds.AUTHOR);
-logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).toString());
-logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString());
-        name = elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString();
-    }
-*/
     var nl = "\n";
     var stInterviewSchema = ##"Interview Schema";
     var stIntroduction = ##"Introduction";
     var stWeAre = ##"We are";
+    var stYourName = ##"your name";
     var stAnd = ##"and";
+    var name:String = getAuthors(stYourName, stAnd);
     var stDoingInterview = ##"and we are doing an interview for a school project. We are doing this interview because";
     var stQuestionAbout = ##"question is about";
     var stIsThat = ##"Is that";
     var stOtherNamely = ##"Other, namely...";
     var i: String = "{stInterviewSchema}{nl}{nl}";
     i = "{i}{stIntroduction}{nl}";
-    i = "{i}{stWeAre} {name} {stAnd} [your name] {stDoingInterview} {question}{nl}";
+    i = "{i}{stWeAre} {name} {stAnd} [{stYourName}] {stDoingInterview} {question}{nl}";
     var tNo: Integer = 0;
     for (topic in topics) {
         tNo++;
