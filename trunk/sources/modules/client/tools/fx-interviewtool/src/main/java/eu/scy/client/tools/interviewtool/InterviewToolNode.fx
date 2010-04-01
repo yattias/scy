@@ -9,6 +9,7 @@ package eu.scy.client.tools.interviewtool;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -47,7 +48,7 @@ def normalFont = Font {
 def treeFont = normalFont;
 def labelFont = normalFont;
 protected def buttonFont = normalFont;
-protected def INTERVIEW_TOOL_HOME = 1;
+public def INTERVIEW_TOOL_HOME = 1;
 def INTERVIEW_TOOL_PREPARE = 2;
 def INTERVIEW_TOOL_QUESTION = 3;
 def INTERVIEW_TOOL_TOPICS = 4;
@@ -66,11 +67,11 @@ def lowerNodesHeight = rightBottomHeight - buttonBarHeight;
 def hPadding = 10;
 def vPadding = hPadding;
 def toolBottomOffset = 10;
-protected var parentHeightOffset = 0;
+protected var parentHeightOffset = 50;
 protected def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
 var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
 var interviewStrings:InterviewStrings = InterviewStrings{};
-protected var interviewLogger: InterviewLogger;
+public var interviewLogger: InterviewLogger;
 var log = true;
 var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
 var lowerNodes : Node;
@@ -493,7 +494,7 @@ def zoomSchemaIn: function() =
         interviewLogger.logBasicAction(InterviewLogger.ZOOM_SCHEMA_IN);
     };
 protected function getAuthors(anonUser:String, andStr:String) {
-    return "{anonUser} {andStr} {anonUser}";
+    return "[{anonUser}] {andStr} [{anonUser}]";
 }
 function showDesign() {
     interviewLogger.logBasicAction(interviewLogger.SHOW_DESIGN);
@@ -511,7 +512,7 @@ function showDesign() {
     var stOtherNamely = ##"Other, namely...";
     var i: String = "{stInterviewSchema}{nl}{nl}";
     i = "{i}{stIntroduction}{nl}";
-    i = "{i}{stWeAre} {name} {stAnd} [{stYourName}] {stDoingInterview} {question}{nl}";
+    i = "{i}{stWeAre} {name} {stDoingInterview} {question}{nl}";
     var tNo: Integer = 0;
     for (topic in topics) {
         tNo++;
@@ -644,7 +645,7 @@ function activateTreeNode(node: DefaultMutableTreeNode) {
     interviewTree.selectedValue = node.getUserObject();
     interviewTreeClick(node.getUserObject());
 }
-protected function activateTreeNodeByValue(value: Integer) {
+public function activateTreeNodeByValue(value: Integer) {
     var e : Enumeration = (interviewTree.model.getRoot() as DefaultMutableTreeNode).preorderEnumeration();
     while (e.hasMoreElements()) {
         var node: DefaultMutableTreeNode = e.nextElement() as DefaultMutableTreeNode;
@@ -761,8 +762,48 @@ protected var content: Node[] = [
           drawNormalWindow();
       }
    }
+   protected def treeZoomButton:Button =
+    Button {
+       text: ##"Zoom tree in/out"
+       font: buttonFont
+       action: function() {
+            if (not schemaMaximized and not guidelinesMaximized) {
+                if (treeMaximized) {
+                    interviewTree.width=width - rightWidth;
+                    treeMaximized = false;
+                    resizeContent();
+                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
+                } else {
+                    interviewTree.width=width;
+                    treeMaximized = true;
+                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
+                }
+            }
+       }
+    }
    public override function create(): Node {
-      return Group{content: bind content}
+      var node:Node = Group{content: bind content};
+      var buttons:Node =
+          HBox{
+             translateX:10;
+             spacing:10;
+             content:[
+                treeZoomButton
+             ]
+          }
+      return Group {
+         blocksMouse:true;
+         content: [
+            VBox{
+               translateY:10;
+               spacing:10;
+               content:[
+                  buttons,
+                  node
+               ]
+            }
+         ]
+      };
    }
 
 }

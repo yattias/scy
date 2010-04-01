@@ -265,27 +265,9 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
                         doSaveAsElo();
                    }
                 }
-                Button {
-                   text: ##"Zoom tree in/out"
-                   font: buttonFont
-                   action: function() {
-                        if (not schemaMaximized and not guidelinesMaximized) {
-                            if (treeMaximized) {
-                                interviewTree.width=width - rightWidth;
-                                treeMaximized = false;
-                                resizeContent();
-                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
-                            } else {
-                                interviewTree.width=width;
-                                treeMaximized = true;
-                                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
-                            }
-                        }
-                   }
-                }
+                treeZoomButton
              ]
           }
-      parentHeightOffset = 50;
       return Group {
          blocksMouse:true;
          content: [
