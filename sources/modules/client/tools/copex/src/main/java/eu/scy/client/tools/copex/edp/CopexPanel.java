@@ -170,7 +170,7 @@ public class CopexPanel extends JPanel {
 //            return;
 //            }
 //        }
-        bundle = new ResourceBundleWrapper(this,"copex");
+        bundle = new ResourceBundleWrapper(this);
        // Initialisation du look and feel
 //        try{
 //            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
