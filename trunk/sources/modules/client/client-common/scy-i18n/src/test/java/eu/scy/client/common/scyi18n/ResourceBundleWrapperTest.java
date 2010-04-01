@@ -95,12 +95,12 @@ public class ResourceBundleWrapperTest {
 
     @Test
     public void testGetModuleName(){
+        resourceBundleWrapper = new ResourceBundleWrapper(this);
         assertEquals("dataProcessTool",resourceBundleWrapper.getModuleName("eu.scy.client.tools.dataProcessTool.dataTool.DataProcessToolPanel"));
         assertEquals("scydesktop",resourceBundleWrapper.getModuleName("eu.scy.client.desktop.scydesktop.name"));
         assertEquals("scydesktop",resourceBundleWrapper.getModuleName("eu.scy.client.desktop.scydesktop"));
         assertNull(resourceBundleWrapper.getModuleName("eu.scy.Xclient.desktop.scydesktop"));
         assertNull(resourceBundleWrapper.getModuleName("eu.scy.client.desktop"));
         assertNull(resourceBundleWrapper.getModuleName("eu.scy.client.tools"));
-        
     }
 }
