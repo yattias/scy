@@ -4,13 +4,15 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.extend.UserAgentCallback;
+import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.simple.XHTMLPanel;
 import org.xhtmlrenderer.simple.extend.FormSubmissionListener;
 import org.xhtmlrenderer.swing.CursorListener;
 import org.xhtmlrenderer.swing.HoverListener;
-import org.xhtmlrenderer.swing.LinkListener;
 
 /**
  *
@@ -43,6 +45,19 @@ public class MyXhtmlPanel extends XHTMLPanel
    {
    }
 
+   // overrride some methods to prevent null pointer exceptions
+
+   @Override
+   protected Document loadDocument(String uri)
+   {
+      XMLResource localXmlResource = sharedContext.getUac().getXMLResource(uri);
+      if (localXmlResource != null)
+      {
+         return super.loadDocument(uri);
+      }
+      return null;
+   }
+
    @Override
    public void setDocument(Document doc)
    {
@@ -58,6 +73,20 @@ public class MyXhtmlPanel extends XHTMLPanel
       if (doc != null)
       {
          super.setDocument(doc, url);
+      }
+   }
+
+   // in case of problems with a misformed url, throw an appropriate exception
+   @Override
+   public URL getURL()
+   {
+      try
+      {
+         return new URL(getSharedContext().getUac().getBaseURL());
+      }
+      catch (MalformedURLException e)
+      {
+         throw new IllegalArgumentException(e);
       }
    }
 }
