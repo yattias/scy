@@ -4,6 +4,7 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -93,6 +94,8 @@ public class UriManager extends NaiveUserAgent
 
       try
       {
+         // just to force a check on a valid url
+         URL url = new URL(uri);
          return super.getXMLResource(uri);
       }
       catch (Exception ex)

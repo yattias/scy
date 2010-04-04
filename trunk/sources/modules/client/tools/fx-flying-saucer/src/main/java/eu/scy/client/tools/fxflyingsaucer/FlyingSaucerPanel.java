@@ -5,7 +5,6 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.io.StringReader;
 import java.net.URL;
 import javax.swing.SwingUtilities;
@@ -64,10 +63,12 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          public void documentLoaded()
          {
 //            System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
-            if (urlFieldIsTitle){
+            if (urlFieldIsTitle)
+            {
                urlField.setText(browser.getDocumentTitle());
             }
-            else{
+            else
+            {
                urlField.setText(browser.getURL().toString());
             }
          }
@@ -118,8 +119,10 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       //homeButton.setText("H");
       homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("images/home.png"))); // NOI18N
       homeButton.setEnabled(false);
-      if (homeUrl==null)
+      if (homeUrl == null)
+      {
          homeButton.setToolTipText("Save as ELO");
+      }
       homeButton.addActionListener(new java.awt.event.ActionListener()
       {
 
@@ -174,7 +177,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt)
    {
-      if (homeUrl==null)
+      if (homeUrl == null)
       {
          if (isPageLoaded)
          {
@@ -217,6 +220,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    private String homeUrl = null;
    private boolean isPageLoaded = false;
    private boolean urlFieldIsTitle = false;
+   private boolean urlFieldIsTitleBeforeLoading = false;
+   private boolean errorInPage = false;
 
    public void setHomeUrl(String homeUrl)
    {
@@ -242,26 +247,32 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void loadUrl(String url)
    {
-      boolean initialUrlFieldIsTitle = urlFieldIsTitle;
+      urlFieldIsTitleBeforeLoading = urlFieldIsTitle;
+      errorInPage = false;
       try
       {
          urlFieldIsTitle = true;
          browser.setDocument(url);
-         isPageLoaded = true;
-         urlField.setEditable(false);
-         homeButton.setEnabled(true);
+         if (!errorInPage)
+         {
+            isPageLoaded = true;
+            urlField.setEditable(false);
+            homeButton.setEnabled(true);
+         }
       }
       catch (Exception e)
       {
-         //logger.info("An exception occured while loading '" + url + "', " + e.getMessage());
-         handlePageLoadFailed(url, e);
-         urlFieldIsTitle  = initialUrlFieldIsTitle;
+         // the error should allready be handled
+         logger.info("An exception occured while loading '" + url + "', " + e.getMessage(), e);
+         //handlePageLoadFailed(url, e);
+         urlFieldIsTitle = urlFieldIsTitleBeforeLoading;
       }
    }
 
    public void updatePreviousNextButtonState()
    {
-      if (urlFieldIsTitle){
+      if (urlFieldIsTitle)
+      {
          homeButton.setEnabled(uriManager.hasPrevious() || uriManager.hasNext());
       }
       previousButton.setEnabled(uriManager.hasPrevious());
@@ -295,6 +306,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    {
       //logger.info("show error for url: " + url_text, ex);
       logger.info("show error for url: " + url_text + " : " + ex.getMessage());
+      urlFieldIsTitle = urlFieldIsTitleBeforeLoading;
+      errorInPage = true;
       isPageLoaded = false;
       final XMLResource xr;
       final String rootCause = getRootCause(ex);
@@ -346,14 +359,20 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 //      {
 //         return exceptionMessage;
 //      }
-      if (isEmpty(lastNotNullExceptionMessage)){
-          return lastCause.getClass().getName();
+      if (isEmpty(lastNotNullExceptionMessage))
+      {
+         return lastCause.getClass().getName();
+      }
+      if (lastNotNullExceptionMessage.equals("Stream closed"))
+      {
+         lastNotNullExceptionMessage += " (file does not exists?)";
       }
       return lastNotNullExceptionMessage;
    }
 
-   private boolean isEmpty(String string){
-      return string==null || string.length()==0;
+   private boolean isEmpty(String string)
+   {
+      return string == null || string.length() == 0;
    }
 
    private String addLineBreaks(String _text, int maxLineLength)
@@ -394,6 +413,4 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       preferedSize.height = Math.max(preferedSize.height, 100);
       return preferedSize;
    }
-
-
 }
