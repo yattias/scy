@@ -5,8 +5,13 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -313,6 +318,13 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       final String rootCause = getRootCause(ex);
       final String msg = GeneralUtil.escapeHTML(addLineBreaks(rootCause, 80));
       final String triedUri = url_text;
+      final String httpResult = getHttpResult(url_text);
+      String httpResultError = "";
+      if (httpResult != null)
+      {
+         httpResultError = "<p>HTTP result code was:</p>\n"
+            + "<pre>" + httpResult + "</pre>\n";
+      }
       String notFound =
          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
          + "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
@@ -322,8 +334,9 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          + "<h1>Document can't be loaded</h1>\n"
          + "<p>Could not load the page at </p>\n"
          + "<pre>" + GeneralUtil.escapeHTML(url_text) + "</pre>\n"
-         + "<p>The page failed to load; the error was </p>\n"
+         + "<p>The page failed to load; the error was:</p>\n"
          + "<pre>" + msg + "</pre>\n"
+         + httpResultError
          + "</body>\n"
          + "</html>";
       logger.debug("error message xhtml:\n" + notFound);
@@ -363,11 +376,33 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       {
          return lastCause.getClass().getName();
       }
-      if (lastNotNullExceptionMessage.equals("Stream closed"))
-      {
-         lastNotNullExceptionMessage += " (file does not exists?)";
-      }
+//      if (lastNotNullExceptionMessage.equals("Stream closed"))
+//      {
+//         lastNotNullExceptionMessage += " (file does not exists?)";
+//      }
       return lastNotNullExceptionMessage;
+   }
+
+   private String getHttpResult(String urlText)
+   {
+      String httpResult = null;
+      try
+      {
+         URL url = new URL(urlText);
+         URLConnection urlLConnection = url.openConnection();
+         urlLConnection.connect();
+         httpResult = urlLConnection.getHeaderField(null);
+         Map<String, List<String>> headerFields = urlLConnection.getHeaderFields();
+         for (Map.Entry<String, List<String>> entry : headerFields.entrySet())
+         {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+         }
+      }
+      catch (IOException ex1)
+      {
+         logger.debug("failed to get http result code, " + ex1.getMessage());
+      }
+      return httpResult;
    }
 
    private boolean isEmpty(String string)
