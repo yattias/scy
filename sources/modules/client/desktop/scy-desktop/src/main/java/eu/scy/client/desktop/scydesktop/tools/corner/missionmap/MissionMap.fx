@@ -43,6 +43,8 @@ public class MissionMap extends CustomNode {
    public var metadataTypeManager: IMetadataTypeManager;
    public var showLasId = false;
    public var eloDisplayTypeControl: EloDisplayTypeControl;
+   public var selectedScale = 1.5;
+   public var notSelectedScale = 1.0;
 
 
    var maximumLasXpos = -1e6;
@@ -57,6 +59,11 @@ public class MissionMap extends CustomNode {
       }
    def selectedFxdImageLoader: FxdImageLoader = FxdImageLoader{
       sourceName: ArtSource.selectedIconsPackage
+      backgroundLoading: false;
+      loadedAction:fillDisplayGroup
+   }
+   def notSelectedFxdImageLoader: FxdImageLoader = FxdImageLoader{
+      sourceName: ArtSource.notSelectedIconsPackage
       backgroundLoading: false;
       loadedAction:fillDisplayGroup
    }
@@ -76,6 +83,11 @@ public class MissionMap extends CustomNode {
    }
 
    function fillDisplayGroup():Void{
+      if (not selectedFxdImageLoader.loaded or not notSelectedFxdImageLoader.loaded){
+         // one the image loaders is not ready
+         return;
+      }
+
       anchorDisplays = createAnchorDisplays();
       anchorLinks = createAnchorLinks();
       var lasIdDisplay:Node;
@@ -117,7 +129,10 @@ public class MissionMap extends CustomNode {
                dragAndDropManager: dragAndDropManager
                windowStyler: scyDesktop.windowStyler
                selectedFxdImageLoader:selectedFxdImageLoader
+               notSelectedFxdImageLoader:notSelectedFxdImageLoader
                eloDisplayTypeControl:eloDisplayTypeControl
+               selectedScale: selectedScale
+               notSelectedScale:notSelectedScale
             }
          anchorMap.put(las, anchorDisplay);
          tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);

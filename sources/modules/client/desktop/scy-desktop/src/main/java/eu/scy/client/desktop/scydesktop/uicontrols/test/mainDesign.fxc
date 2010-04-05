@@ -35,6 +35,7 @@
             <Item value="inst:RadioButtonModel2"/>
             <Item value="inst:RadioButtonModel3"/>
             <Item value="inst:StackModel1"/>
+            <Item value="inst:RadioButtonModel4"/>
         </List>
         <Reference name="width" value="prop:25,anim:0,DISCRETE,flt:480.0,"/>
         <Reference name="height" value="prop:25,anim:0,DISCRETE,flt:320.0,"/>
@@ -58,8 +59,8 @@
     </Instance>
     <Instance classID="RadioButtonModel" instanceID="RadioButtonModel2">
         <Reference name="instanceName" value="str:languageSelectorRadioButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:334.0,4,null,"/>
-        <Reference name="layoutY" value="prop:14,anim:,,flt:6.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:290.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:37,anim:,,str:radioButton2OnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
         <Reference name="postCreationCode" value="null"/>
@@ -69,7 +70,7 @@
     </Instance>
     <Instance classID="RadioButtonModel" instanceID="RadioButtonModel3">
         <Reference name="instanceName" value="str:dynamicTypeBackgroundRadioButton"/>
-        <Reference name="layoutX" value="prop:16,anim:,,flt:148.0,4,null,"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:126.0,4,null,"/>
         <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
         <Reference name="onMouseClicked" value="prop:37,anim:,,str:radioButton3OnMouseClicked,4,null,"/>
         <Reference name="preCreationCode" value="null"/>
@@ -89,5 +90,16 @@
         <List name="content"/>
         <Reference name="nodeHPos" value="prop:16,anim:,,hpos:LEFT,4,null,"/>
         <Reference name="nodeVPos" value="prop:15,anim:,,vpos:TOP,4,null,"/>
+    </Instance>
+    <Instance classID="RadioButtonModel" instanceID="RadioButtonModel4">
+        <Reference name="instanceName" value="str:imagesRadioButton"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:419.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
+        <Reference name="onMouseClicked" value="prop:42,anim:,,str:imagesRadioButtonOnMouseClicked,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:17,anim:,,str:Images,4,null,"/>
+        <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
     </Instance>
 </Model>

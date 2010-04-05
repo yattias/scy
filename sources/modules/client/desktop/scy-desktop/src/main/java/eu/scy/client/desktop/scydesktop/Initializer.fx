@@ -78,6 +78,8 @@ public class Initializer {
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
     public-init var showOfflineContacts = true;
     public-init var languageList = "nl,en,et,fr,el";
+    public-init var missionMapSelectedImageScale = 1.5;
+    public-init var missionMapNotSelectedImageScale = 1.0;
     public-read var languages:String[];
     public-read var backgroundImage: Image;
     public-read var localLoggingDirectory: File = null;
@@ -118,6 +120,8 @@ public class Initializer {
     def indicateOnlineStateByOpacityOption = "indicateOnlineStateByOpacity";
     def showEloRelationsOption = "showEloRelations";
     def languageListOption = "languageList";
+    def missionMapSelectedImageScaleOption = "missionMapSelectedImageScale";
+    def missionMapNotSelectedImageScaleOption = "missionMapNotSelectedImageScale";
 
     var setupLoggingToFiles:SetupLoggingToFiles;
     package var background:DynamicTypeBackground;
@@ -240,6 +244,12 @@ public class Initializer {
                 } else if (option == languageListOption.toLowerCase()) {
                     languageList = argumentsList.nextStringValue(languageListOption);
                     logger.info("app: {languageListOption}: {languageList}");
+                } else if (option == missionMapSelectedImageScaleOption.toLowerCase()) {
+                    missionMapSelectedImageScale = argumentsList.nextNumberValue(missionMapSelectedImageScaleOption);
+                    logger.info("app: {missionMapSelectedImageScaleOption}: {missionMapSelectedImageScale}");
+                } else if (option == missionMapNotSelectedImageScaleOption.toLowerCase()) {
+                    missionMapNotSelectedImageScale = argumentsList.nextNumberValue(missionMapNotSelectedImageScaleOption);
+                    logger.info("app: {missionMapNotSelectedImageScaleOption}: {missionMapNotSelectedImageScale}");
                 } else {
                     logger.info("Unknown option: {option}");
                 }
@@ -276,7 +286,8 @@ public class Initializer {
         indicateOnlineStateByOpacity = getWebstartParameterBooleanValue(indicateOnlineStateByOpacityOption, indicateOnlineStateByOpacity);
         showEloRelations = getWebstartParameterBooleanValue(showEloRelationsOption, showEloRelations);
         languageList = getWebstartParameterStringValue(languageListOption, languageList);
-
+        missionMapSelectedImageScale = getWebstartParameterNumberValue(missionMapSelectedImageScaleOption, missionMapSelectedImageScale);
+        missionMapNotSelectedImageScale = getWebstartParameterNumberValue(missionMapNotSelectedImageScaleOption, missionMapNotSelectedImageScale);
     }
 
     function getWebstartParameterStringValue(name: String, default: String): String {
@@ -296,6 +307,16 @@ public class Initializer {
         var boolValue = "true".equalsIgnoreCase(webstartValue);
         logger.info("ws: {name}: {boolValue}");
         return boolValue;
+    }
+
+    function getWebstartParameterNumberValue(name: String, default: Number): Number {
+        var webstartValue = FX.getArgument(name) as String;
+        if (isEmpty(webstartValue)) {
+            return default;
+        }
+        var numberValue = Float.parseFloat(webstartValue);
+        logger.info("ws: {name}: {numberValue}");
+        return numberValue;
     }
 
     function printInitializerValues(printWriter:PrintWriter) {
