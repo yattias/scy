@@ -251,7 +251,7 @@
             <dependency>
                 <groupId>info.collide</groupId>
             	<artifactId>sqlspaces-server</artifactId>
-            	<version>${sqlspaces-version}</version>
+            	<version>3.7.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>info.collide</groupId>
