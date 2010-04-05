@@ -14,6 +14,7 @@ public class mainDesign {
     public-read var languageSelectorRadioButton: javafx.scene.control.RadioButton;
     public-read var dynamicTypeBackgroundRadioButton: javafx.scene.control.RadioButton;
     public-read var stack: javafx.scene.layout.Stack;
+    public-read var imagesRadioButton: javafx.scene.control.RadioButton;
     public-read var scene: javafx.scene.Scene;
     public-read var toggleGroup: javafx.scene.control.ToggleGroup;
     
@@ -36,16 +37,23 @@ public class mainDesign {
         };
         toggleGroup = javafx.scene.control.ToggleGroup {
         };
+        imagesRadioButton = javafx.scene.control.RadioButton {
+            layoutX: 419.0
+            layoutY: 5.0
+            onMouseClicked: imagesRadioButtonOnMouseClicked
+            text: "Images"
+            toggleGroup: toggleGroup
+        };
         dynamicTypeBackgroundRadioButton = javafx.scene.control.RadioButton {
-            layoutX: 148.0
+            layoutX: 126.0
             layoutY: 5.0
             onMouseClicked: radioButton3OnMouseClicked
             text: "DynamicTypeBackground"
             toggleGroup: toggleGroup
         };
         languageSelectorRadioButton = javafx.scene.control.RadioButton {
-            layoutX: 334.0
-            layoutY: 6.0
+            layoutX: 290.0
+            layoutY: 5.0
             onMouseClicked: radioButton2OnMouseClicked
             text: "LanguageSelector"
             toggleGroup: toggleGroup
@@ -76,25 +84,35 @@ public class mainDesign {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Design Functions">
     public function getDesignRootNodes () : javafx.scene.Node[] {
-        [ multiImageButtonRadioButton, languageSelectorRadioButton, dynamicTypeBackgroundRadioButton, stack, ]
+        [ multiImageButtonRadioButton, languageSelectorRadioButton, dynamicTypeBackgroundRadioButton, stack, imagesRadioButton, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
         scene
     }// </editor-fold>//GEN-END:main
 
+   function imagesRadioButtonOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      // image test
+      testMultiImageButton.visible = false;
+      testDynamicTypeBackground.visible = false;
+      testLanguageSelector.visible = false;
+      testImages.visible = true;
+   }
+
    function radioButton2OnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
       // language selector
       testMultiImageButton.visible = false;
       testDynamicTypeBackground.visible = false;
       testLanguageSelector.visible = true;
-         }
+      testImages.visible = false;
+   }
 
    function radioButton3OnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
       // dynamic background
       testMultiImageButton.visible = false;
       testDynamicTypeBackground.visible = true;
       testLanguageSelector.visible = false;
+      testImages.visible = false;
    }
 
    function radioButtonOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
@@ -102,16 +120,20 @@ public class mainDesign {
       testMultiImageButton.visible = true;
       testDynamicTypeBackground.visible = false;
       testLanguageSelector.visible = false;
+      testImages.visible = false;
    }
 
    public def testMultiImageButton = TestMultiImageButton {
          imageLocation: "file:images/"
-         visible:false;
+         visible: false;
       }
    public def testLanguageSelector = TestLanguageSelector {
-         visible:false
+         visible: false
       }
    public def testDynamicTypeBackground = TestDynamicTypeBackground {
-         visible:false
+         visible: false
+      }
+   public def testImages = TestImages {
+         visible: false
       }
 }

@@ -31,6 +31,8 @@ var initializer = Initializer{
    createPersonalMissionMap:true
    enableLocalLogging:true
    redirectSystemStream:false
+   debugMode:true
+   authorMode:true
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
 //   eloImagesPath:"file:eloImages/"
 }

@@ -283,6 +283,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
             metadataTypeManager: config.getMetadataTypeManager()
             showLasId:initializer.debugMode
             eloDisplayTypeControl:eloDisplayTypeControl
+            selectedScale:initializer.missionMapSelectedImageScale
+            notSelectedScale:initializer.missionMapNotSelectedImageScale
 
         //         translateX:40;
         //         translateY:40;

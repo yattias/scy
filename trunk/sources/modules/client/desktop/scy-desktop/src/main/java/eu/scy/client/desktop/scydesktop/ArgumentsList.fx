@@ -37,4 +37,9 @@ public class ArgumentsList {
       var stringValue = nextStringValue(valueName);
       return "true".equalsIgnoreCase(stringValue);
    }
+
+   public function nextNumberValue(valueName: String): Number {
+      var stringValue = nextStringValue(valueName);
+      return Float.parseFloat(stringValue);
+   }
 }
