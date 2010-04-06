@@ -48,22 +48,33 @@ votat_agent :-
 		       [ tuple_type(action),
 			 action_type('value_changed'),
 			 callback(change_variables_callback)
+		       ]),
+	agent_register(InTS,
+		       [ tuple_type(action),
+			 action_type('input_variables'),
+			 callback(process_variables_callback)
 		       ]).
 
-
-ignore_vars(['Mtot']).
+process_variables_callback(write, _SeqId, [], [Tuple]) :-
+	tspl_tuple_field(Tuple, 4, Learner),
+	tspl_tuple_field(Tuple, 8, ELOURI),
+	log_key_value(Tuple, variables, ValidVars),
+	assert(valid_vars(Learner, ELOURI, ValidVars)),
+	thread_self(Thread),
+	thread_detach(Thread).
 
 change_variables_callback(write, _SeqId, [], [Tuple]) :-
-	ignore_vars(IgVars),
 	tspl_tuple_field(Tuple, 2, Time),
 	tspl_tuple_field(Tuple, 4, Learner),
 	tspl_tuple_field(Tuple, 5, Tool),
 	tspl_tuple_field(Tuple, 6, Mission),
 	tspl_tuple_field(Tuple, 7, Session),
+	tspl_tuple_field(Tuple, 8, ELOURI),
 	log_key_value(Tuple, name, VarName),
-	not(member(VarName, IgVars)),
-	change_variables_evaluation(Learner, Tool, Session, VarName, Time, Votat),
-	change_variables_feedback(Learner, Tool, Mission, Session, Votat), !,
+	valid_vars(Learner, ELOURI, ValidVars),
+	member(VarName, ValidVars),
+	change_variables_evaluation(Learner, Tool, ELOURI, VarName, Time, Votat),
+	change_variables_feedback(Learner, Tool, Mission, Session, ELOURI, Votat), !,
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -80,11 +91,11 @@ vc_timeout_min(1).
 % Calculate from last
 % This is just another way of calculating a VOTAT value
 % alternative implementation for the next predicate
-change_variables_evaluation_last(Learner, Tool, Session, VarName, Time, Votat) :-
-	assert(var_change(Learner,Tool, Session, Time, VarName)),
+change_variables_evaluation_last(Learner, Tool, ELOURI, VarName, Time, Votat) :-
+	assert(var_change(Learner,Tool, ELOURI, Time, VarName)),
 	remove_old_changes,
-	findall(var_change(Learner, Tool, Session, TimeX, VarNameX), var_change(Learner, Tool, Session, TimeX, VarNameX), VCs),
-	findall(var_change(Learner, Tool, Session, TimeX, VarName), (member(var_change(Learner, Tool, Session, TimeX, VarName), VCs)), SameVCs),
+	findall(var_change(Learner, Tool, ELOURI, TimeX, VarNameX), var_change(Learner, Tool, ELOURI, TimeX, VarNameX), VCs),
+	findall(var_change(Learner, Tool, ELOURI, TimeX, VarName), (member(var_change(Learner, Tool, ELOURI, TimeX, VarName), VCs)), SameVCs),
 	length(VCs, VCsLength),
 	length(SameVCs, SameVCsLength),
 	Votat is SameVCsLength / VCsLength,
@@ -92,10 +103,10 @@ change_variables_evaluation_last(Learner, Tool, Session, VarName, Time, Votat) :
 
 
 % Calculate from average
-change_variables_evaluation(Learner, Tool, Session, VarName, Time, Votat) :-
-	assert(var_change(Learner,Tool, Session, Time, VarName)),
+change_variables_evaluation(Learner, Tool, ELOURI, VarName, Time, Votat) :-
+	assert(var_change(Learner,Tool, ELOURI, Time, VarName)),
 	remove_old_changes,
-	findall(VarNameX, var_change(Learner, Tool, Session, _, VarNameX), VarNames),
+	findall(VarNameX, var_change(Learner, Tool, ELOURI, _, VarNameX), VarNames),
 	number_of_switches(VarNames, Switches),
 	(Switches > 1
 	->	Votat is 1
@@ -142,7 +153,7 @@ remove_old_changes :-
 	write('Expiring: '), writeln(DelVCs),
 	forall(member(DelVC, DelVCs), retract(DelVC)).
 
-change_variables_feedback(Learner, Tool, Mission, Session, Votat) :-
+change_variables_feedback(Learner, Tool, Mission, Session, ELOURI, Votat) :-
 	% Create fields for the feedback 
 	get_time(T1), T is T1 * 1000, sformat(Time, '~0f', [T]),
 	tspl_actual_field(string, votat, F0),
@@ -150,9 +161,10 @@ change_variables_feedback(Learner, Tool, Mission, Session, Votat) :-
 	tspl_actual_field(string, Tool, F2),
 	tspl_actual_field(string, Mission, F3),
 	tspl_actual_field(string, Session, F4),
-	tspl_actual_field(long, Time, F5),
-	tspl_actual_field(double, Votat, F6),
-	tspl_tuple([F0,F1,F2,F3,F4,F5,F6], Response),
+	tspl_actual_field(string, ELOURI, F5),
+	tspl_actual_field(long, Time, F6),
+	tspl_actual_field(double, Votat, F7),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7], Response),
 	out_ts(TS),
 	tspl_write(TS, Response).
 
@@ -191,7 +203,7 @@ agent_connect(InTS, OutTS, Options) :-
 log_key_value(Tuple, Key, Value) :-
 	string_concat(Key, '=', KeyEq),
 	tspl_tuple_field(Tuple, Num, FieldVal),
-	Num > 7,
+	Num > 8,
 	string_concat(KeyEq, ValueStr, FieldVal),
 	string_to_atom(ValueStr, Value).
 
