@@ -116,6 +116,8 @@ if(status != null){
 			</p>
 
 			<%
+			String facebookSn = user2.getContact().getFacebookSn();
+			String mySpaceSn = user2.getContact().getMySpaceSn();
 			String twitterSn = user2.getContact().getTwitterSn();
 			%>
 
@@ -127,6 +129,62 @@ if(status != null){
 				</p>
 			</c:if>
 
+			<c:if test="<%= Validator.isNotNull(facebookSn) %>">
+				<p>
+					<span class="user-facebook-sn"><liferay-ui:message key="facebook" /></span>
+
+						<a class="user-facebook-link" href="http://de-de.facebook.com/people/<%= facebookSn %>" target="_blank"><%= facebookSn %></a>
+				</p>
+			</c:if>
+			
+			<c:if test="<%= Validator.isNotNull(mySpaceSn) %>">
+				<p>
+					<span class="user-myspace-sn"><liferay-ui:message key="myspace" /></span>
+
+						<a class="user-myspace-link" href="http://www.myspace.com/<%= mySpaceSn %>" target="_blank"><%= mySpaceSn %></a>
+				</p>
+			</c:if>
+			
+			
+			<%
+			String aimSn = user2.getContact().getAimSn();
+			String icqSn = user2.getContact().getIcqSn();
+			String jabberSn = user2.getContact().getJabberSn();
+			String msnSn = user2.getContact().getMsnSn();
+			String skypeSn = user2.getContact().getSkypeSn();
+			%>
+			
+			<p>
+				<span class="user-instant-messager-sn"><liferay-ui:message key="messenger" /></span>
+					<c:if test="<%= Validator.isNotNull(aimSn) %>">
+						<span class="user-aim-icon">
+							<%= aimSn %>	
+						</span>					
+					</c:if>
+					<c:if test="<%= Validator.isNotNull(icqSn) %>">
+						<span class="user-icq-icon">
+							<%= icqSn %>	
+						</span>					
+					</c:if>
+					<c:if test="<%= Validator.isNotNull(jabberSn) %>">
+						<span class="user-jabber-icon">
+							<%= jabberSn %>	
+						</span>					
+					</c:if>
+					<c:if test="<%= Validator.isNotNull(msnSn) %>">
+						<span class="user-msn-icon">
+							<%= msnSn %>	
+						</span>					
+					</c:if>
+					<c:if test="<%= Validator.isNotNull(skypeSn) %>">
+						<span class="user-skype-icon">
+							<%= skypeSn %>	
+						</span>					
+					</c:if>
+			</p>
+
+			
+			
 			<%
 			String aboutMe = user2.getComments();
 			%>
