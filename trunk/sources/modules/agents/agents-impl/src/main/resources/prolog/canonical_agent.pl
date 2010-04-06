@@ -56,8 +56,20 @@ canonical_agent :-
 		       [ tuple_type(action),
 			 action_type('value_changed'),
 			 callback(change_variables_callback)
+		       ]),
+	agent_register(InTS,
+		       [ tuple_type(action),
+			 action_type('input_variables'),
+			 callback(process_variables_callback)
 		       ]).
 
+process_variables_callback(write, _SeqId, [], [Tuple]) :-
+	tspl_tuple_field(Tuple, 4, Learner),
+	tspl_tuple_field(Tuple, 8, ELOURI),
+	log_key_value(Tuple, variables, ValidVars),
+	assert(valid_vars(Learner, ELOURI, ValidVars)),
+	thread_self(Thread),
+	thread_detach(Thread).
 
 %%	same_model_run_callback(+Command:atom, +SeqId:int, +Before:list, +After:list) is det.
 %
@@ -65,27 +77,25 @@ canonical_agent :-
 %	TupleSpace.  We extract the run_model Action itself and from the action
 %	the Model being run.  Then the evaluation is performed and a feedback
 %	tuple is put in the TupleSpace.
-	
-	
-	
-ignore_vars(['Mtot']).
+
 	
 change_variables_callback(write, _SeqId, [], [Tuple]) :-
-	ignore_vars(IgVars),
 	tspl_tuple_field(Tuple, 2, Time),
 	tspl_tuple_field(Tuple, 4, Learner),
 	tspl_tuple_field(Tuple, 5, Tool),
 	tspl_tuple_field(Tuple, 6, Mission),
 	tspl_tuple_field(Tuple, 7, Session),
+	tspl_tuple_field(Tuple, 8, ELOURI),
 	log_key_value(Tuple, name, VarName),
-	not(member(VarName, IgVars)),
+	valid_vars(Learner, ELOURI, ValidVars),
+	member(VarName, ValidVars),
 	log_key_value(Tuple, newValue, NewValueStr),
 	term_to_atom(NewValue, NewValueStr),
 	log_key_value(Tuple, oldValue, OldValueStr),
 	term_to_atom(OldValue, OldValueStr),
 	Diff is abs(OldValue - NewValue),
 	change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChange),
-	change_variables_feedback(Learner, Tool, Mission, Session, IncChange), !,
+	change_variables_feedback(Learner, Tool, Mission, Session, ELOURI, IncChange), !,
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -117,7 +127,7 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChan
 	term_to_atom(DO, DiffOld),
 	term_to_atom(D, Diff),
 	number_of_switches(VarName, Switches),
-	Switches > 1,
+	Switches > 2,
 	(   DO =:= D
 	->  IncChange is 1
 	;   IncChange is 0
@@ -157,7 +167,7 @@ remove_old_changes :-
 %	Creates a feedback tuple using the original action Tuple as template
 %	for some of the fields.
 
-change_variables_feedback(Learner, Tool, Mission, Session, IncChange) :-
+change_variables_feedback(Learner, Tool, Mission, Session, ELOURI, IncChange) :-
 	% Create fields for the feedback 
 	get_time(T1), T is T1 * 1000, sformat(Time, '~0f', [T]),
 	tspl_actual_field(string, inc_change, F0),
@@ -165,9 +175,10 @@ change_variables_feedback(Learner, Tool, Mission, Session, IncChange) :-
 	tspl_actual_field(string, Tool, F2),
 	tspl_actual_field(string, Mission, F3),
 	tspl_actual_field(string, Session, F4),
-	tspl_actual_field(long, Time, F5),
-	tspl_actual_field(double, IncChange, F6),
-	tspl_tuple([F0,F1,F2,F3,F4,F5,F6], Response),
+	tspl_actual_field(string, ELOURI, F5),
+	tspl_actual_field(long, Time, F6),
+	tspl_actual_field(double, IncChange, F7),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7], Response),
 	out_ts(TS),
 	tspl_write(TS, Response).
 
@@ -226,7 +237,7 @@ agent_connect(InTS, OutTS, Options) :-
 log_key_value(Tuple, Key, Value) :-
 	string_concat(Key, '=', KeyEq),
 	tspl_tuple_field(Tuple, Num, FieldVal),
-	Num > 7,
+	Num > 8,
 	string_concat(KeyEq, ValueStr, FieldVal),
 	string_to_atom(ValueStr, Value).
 
