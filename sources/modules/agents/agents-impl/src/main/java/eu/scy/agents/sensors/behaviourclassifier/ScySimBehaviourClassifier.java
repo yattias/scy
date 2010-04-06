@@ -8,7 +8,6 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -105,12 +104,12 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         logger.addHandler(cH);
     }
 
-    public BehavioralModel getModel(String user, String tool, String session, String mission) {
-        BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session);
+    public BehavioralModel getModel(String user, String tool, String session, String mission, String eloUri) {
+        BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session+ "/" + eloUri);
         if (model == null) {
-            model = new BehavioralModel(user, tool, mission, session, 0, 0, 0, commandSpace);
-            userModels.put(user + "/" + tool + "/" + mission + "/" + session, model);
-            logger.log(Level.FINE, "New Model for " + user + " with tool " + tool + " created...");
+            model = new BehavioralModel(user, tool, mission, session,eloUri, 0, 0, 0, commandSpace);
+            userModels.put(user + "/" + tool + "/" + mission + "/" + session+"/"+eloUri, model);
+            logger.log(Level.FINE, "New Model for " + user + " with tool " + tool + " and EloUri "+eloUri+" created...");
         }
         return model;
 
@@ -122,29 +121,34 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         String tool = afterTuple.getField(2).getValue().toString();
         String mission = afterTuple.getField(3).getValue().toString();
         String session = afterTuple.getField(4).getValue().toString();
+        String eloUri;
+         
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
+            eloUri = afterTuple.getField(8).getValue().toString();
             int newVotat = ((Double) afterTuple.getField(6).getValue()).intValue();
             if (newVotat != lastVotat) {
-                model = getModel(user, tool, mission, session);
+                model = getModel(user, tool, mission, session, eloUri);
                 model.updateVotat(newVotat);
             }
             lastVotat = newVotat;
 
         } else if (seqnum == userExpSeq) {
+            eloUri = afterTuple.getField(9).getValue().toString();
             int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
             if (newUserExp != lastUserExp) {
                 int l = (int) (newUserExp / MAX_EXP_TIME * 100);
                 l = Math.min(l, 100);
-                model = getModel(user, tool, mission, session);
+                model = getModel(user, tool, mission, session,eloUri);
                 model.updateUserExp(l);
             }
             lastUserExp = newUserExp;
 
         } else if (seqnum == canoSeq) {
+            eloUri = afterTuple.getField(8).getValue().toString();
             int newCanonical = ((Double) afterTuple.getField(6).getValue()).intValue();
             if (newCanonical != lastCanonical) {
-                model = getModel(user, tool, mission, session);
+                model = getModel(user, tool, mission, session,eloUri);
                 model.updateCanonical(newCanonical);
             }
             lastCanonical = newCanonical;

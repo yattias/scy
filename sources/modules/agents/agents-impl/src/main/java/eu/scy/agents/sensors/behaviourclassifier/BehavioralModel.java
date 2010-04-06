@@ -56,6 +56,8 @@ public class BehavioralModel {
 
     private Timer timer;
 
+    private String eloUri;
+
     /**
      * This Model provides information over the aggregated output of three agents:<br/>
      * <ul>
@@ -85,15 +87,17 @@ public class BehavioralModel {
      * @param commandSpace
      *            The {@link TupleSpace} where the notification will be delivered
      */
-    public BehavioralModel(String name, String tool, String mission, String session, int canonical, int votat, int userExp, TupleSpace commandSpace) {
+    public BehavioralModel(String name, String tool, String mission, String session,String eloUri, int canonical, int votat, int userExp, TupleSpace commandSpace) {
         this.name = name;
         this.tool = tool;
+        this.eloUri=eloUri;
         this.canonical = canonical;
         this.votat = votat;
         this.userExp = userExp;
         this.commandSpace = commandSpace;
         this.mission = mission;
         this.session = session;
+        
         sentScaffolds = new Vector<SCAFFOLD>();
     }
 
