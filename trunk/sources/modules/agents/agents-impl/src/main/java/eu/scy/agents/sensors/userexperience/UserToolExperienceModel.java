@@ -17,12 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IContext;
 
 public class UserToolExperienceModel {
 
@@ -48,32 +44,22 @@ public class UserToolExperienceModel {
 
     private int stopCount;
 
-    private static JFreeChart chart;
-
-    private Map<String, XYSeries> series;
-
-    private static XYSeriesCollection dataset;
-
     private long ustemStartTime;
-    
-    private String session;
-    
-    private String mission;
+
+    private IContext context;
 
     private static final Logger logger = Logger.getLogger(UserToolExperienceModel.class.getName());
 
-    public UserToolExperienceModel(String userName,String mission, String session, TupleSpace sensorSpace, int startCount, int stopCount) {
+    public UserToolExperienceModel(String userName, IContext context, TupleSpace sensorSpace, int startCount, int stopCount) {
         ustemStartTime = System.currentTimeMillis();
         initLogger();
         this.startCount = startCount;
         this.stopCount = stopCount;
         this.userName = userName;
         this.sensorSpace = sensorSpace;
-        this.session = session;
-        this.mission = mission;
+        this.context = context;
         toolTimeMap = new HashMap<String, Long>();
         toolTIDMap = new HashMap<String, TupleID>();
-        series = new HashMap<String, XYSeries>();
     }
 
     public Set<String> getToolsList() {
@@ -105,7 +91,7 @@ public class UserToolExperienceModel {
             if (oldTime == null) {
                 logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] Tool " + tool + " not yet in Map...will add it now");
                 oldTime = 0l;
-                Tuple t = new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), endTime, timeToAdd, startCount, stopCount);
+                Tuple t = new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), endTime, timeToAdd, startCount, stopCount,getEloUri());
                 TupleID id = null;
                 try {
                     id = sensorSpace.write(t);
@@ -122,8 +108,7 @@ public class UserToolExperienceModel {
             TupleID tupleID = toolTIDMap.get(tool);
             if (tupleID != null) {
                 try {
-                    toolTIDMap.put(tool, sensorSpace.write(new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), timeOccured, this.getExperience(tool), startCount, stopCount)));
-                    // sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), endTime, tool, newTime, startCount, stopCount));
+                    sensorSpace.update(tupleID,new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), timeOccured, this.getExperience(tool), startCount, stopCount, getEloUri()));
                 } catch (TupleSpaceException e) {
                     e.printStackTrace();
                 }
@@ -131,9 +116,7 @@ public class UserToolExperienceModel {
                 logger.log(Level.WARNING, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive]: TupleID not found!");
             }
             logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] User has now onlineTime for Tool " + activeTool + " of " + toolTimeMap.get(activeTool));
-            updateChart(activeTool);
             activeTool = null;
-            
 
         } else {
             logger.log(Level.SEVERE, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] Fatal! The Tool " + tool + " that should be closed isn't open! The open Tool is " + activeTool);
@@ -151,23 +134,23 @@ public class UserToolExperienceModel {
                 oldTime = 0l;
             }
             long newTime = oldTime + (updateTime - startTime);
-            if (oldTime==newTime){
+            if (oldTime == newTime) {
                 return;
             }
             toolTimeMap.put(activeTool, newTime);
             TupleID tupleID = toolTIDMap.get(activeTool);
-            // if (tupleID != null) {
             try {
-                toolTIDMap.put(activeTool, sensorSpace.write(new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount)));
-                // sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), updateTime, activeTool, newTime, startCount, stopCount));
-                updateChart(activeTool);
+                if (tupleID != null) {
+                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(),activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri()));
+
+                } else {
+
+                    toolTIDMap.put(activeTool, sensorSpace.write(new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri())));
+                }
+
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
-            //
             startTime = updateTime;
             logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] Tool " + activeTool + " [updateActiveToolExperience] User " + this.getUserName() + " has now onlineTime for Tool " + activeTool + " of " + toolTimeMap.get(activeTool));
         } else {
@@ -176,21 +159,13 @@ public class UserToolExperienceModel {
             for (TupleID tupleID : values) {
                 try {
                     Tuple readTupleById = sensorSpace.readTupleById(tupleID);
-                   if (readTupleById!=null){
-                       readTupleById.getField(5).setValue(System.currentTimeMillis());
-                       // sensorSpace.update(tupleID, readTupleById);
-                       sensorSpace.write(readTupleById);
-                       // updateChart(activeTool);
-                       String user = (String) readTupleById.getField(1).getValue();
-                       String tool = (String) readTupleById.getField(2).getValue();
-                       updateChart(tool);
-                   }else{
-                       logger.log(Level.SEVERE,"Tuple is null...");
-                   }
+                    if (readTupleById != null) {
+                        readTupleById.getField(5).setValue(System.currentTimeMillis());
+                        sensorSpace.update(tupleID,readTupleById);
+                    } else {
+                        logger.log(Level.SEVERE, "Tuple is null...");
+                    }
                 } catch (TupleSpaceException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -215,43 +190,6 @@ public class UserToolExperienceModel {
         logger.addHandler(cH);
     }
 
-    // private void requestAliveTuple() throws TupleSpaceException {
-    // Thread t = new Thread(new Runnable() {
-    //
-    // @Override
-    // public void run() {
-    // logger.log(Level.FINE, "requestAlive-Thread started...user: " + getUserName() + " tool: " + activeTool);
-    // Tuple alive = null;
-    // boolean retrieveAliveOK = true;
-    // while (retrieveAliveOK) {
-    // synchronized (this) {
-    // try {
-    // this.wait(2000);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-    // }
-    // if (activeTool != null) {
-    // try {
-    // alive = toolAliveSpace.read(new Tuple(activeTool, getUserName(), Field.createWildCardField()));
-    // } catch (TupleSpaceException e) {
-    // e.printStackTrace();
-    // retrieveAliveOK = false;
-    // }
-    // if (alive == null) {
-    // logger.log(Level.WARNING, "Alive tuple for tool " + activeTool + " from user " + getUserName() + " not found...assuming the tool crashed");
-    // lock.lock();
-    // activeTool = null;
-    // lock.unlock();
-    // }
-    // }
-    // }
-    // logger.log(Level.FINE, "requestAliveTuple for user " + getUserName() + " and tool " + activeTool + "was stopped.");
-    // }
-    // });
-    // t.start();
-    // }
-
     public int getStarts() {
         return startCount;
     }
@@ -268,44 +206,15 @@ public class UserToolExperienceModel {
         this.stopCount = stopCount;
     }
 
-    public JFreeChart createChart(XYDataset dataset) {
-        JFreeChart chart = ChartFactory.createXYLineChart("User Experience", "User", "Experience", dataset, PlotOrientation.HORIZONTAL, true, true, true);
-        return chart;
-
+    public String getMission() {
+        return context.get(ContextConstants.mission);
     }
 
-    public void createSeries(String tool) {
-        String string = getUserName() + "/" + tool;
-        XYSeries s = new XYSeries(string);
-        dataset.addSeries(s);
-        series.put(string, s);
-
+    public String getSession() {
+        return context.get(ContextConstants.session);
     }
 
-    public XYSeriesCollection createDataset() {
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        return dataset;
-    }
-
-    public void updateChart(String tool) throws IOException, TupleSpaceException {
-    // if (tool==null){
-    // System.out.println();
-    // }
-    // if (chart == null) {
-    // dataset = createDataset();
-    // }
-    // if (!series.containsKey(getUserName() + "/" + tool)) {
-    // createSeries(tool);
-    // }
-    // XYSeries s = series.get(getUserName() + "/" + tool);
-    // s.add( getExperience(tool),System.currentTimeMillis()-ustemStartTime);
-    // System.out.println("added");
-    // }
-    }
-    public String getMission(){
-        return this.mission;
-    }
-    public String getSession(){
-        return this.session;
+    public String getEloUri() {
+        return context.get(ContextConstants.eloURI);
     }
 }
