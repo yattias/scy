@@ -64,6 +64,8 @@
 	text-transform: uppercase;
 }
 
+
+
 .wol-portlet-summary .summary-container .user-profile-image {
 	max-width: 180px;
 }
@@ -74,6 +76,45 @@
 
 .wol-portlet-summary .summary-container .user-twitter-link {
 	background: url(<%= request.getContextPath() %>/summary/images/twitter.png) no-repeat 0 50%;
+	padding-left: 18px;
+}
+
+.wol-portlet-summary .summary-container .user-facebook-link {
+	background: url(<%= request.getContextPath() %>/summary/images/facebook.gif) no-repeat 0 50%;
+	padding-left: 18px;
+}
+.wol-portlet-summary .summary-container .user-myspace-link {
+	background: url(<%= request.getContextPath() %>/summary/images/myspace.gif) no-repeat 0 50%;
+	padding-left: 18px;
+}
+.wol-portlet-summary .summary-container .user-aim-icon {
+	display: inline-block;
+	text-transform: none;
+	background: url(<%= request.getContextPath() %>/summary/images/aim_icon.png) no-repeat 0 50%;
+	padding-left: 18px;
+}
+.wol-portlet-summary .summary-container .user-icq-icon {
+	display: inline-block;
+	text-transform: none;
+	background: url(<%= request.getContextPath() %>/summary/images/icq-icon.png) no-repeat 0 50%;
+	padding-left: 18px;
+}
+.wol-portlet-summary .summary-container .user-jabber-icon {
+	display: inline-block;
+	text-transform: none;
+	background: url(<%= request.getContextPath() %>/summary/images/jabber.png) no-repeat 0 50%;
+	padding-left: 18px;
+}
+.wol-portlet-summary .summary-container .user-msn-icon {
+	display: inline-block;
+	text-transform: none;
+	background: url(<%= request.getContextPath() %>/summary/images/msn_16x16.gif) no-repeat 0 50%;
+	padding-left: 18px;
+}
+.wol-portlet-summary .summary-container .user-skype-icon {
+	display: inline-block;
+	text-transform: none;
+	background: url(<%= request.getContextPath() %>/summary/images/skype_16x16.png) no-repeat 0 50%;
 	padding-left: 18px;
 }
 
