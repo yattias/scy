@@ -49,7 +49,7 @@ var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
            loginType:"local"
-           storeElosOnDisk:false;
+           storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:false
            languageList:"en"
