@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<artifactId>parent</artifactId>
@@ -12,6 +12,11 @@
 	<packaging>jar</packaging>
 	<name>SCYMapper concept mapping tool</name>
 	<dependencies>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>0.9.7</version>
+		</dependency>
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout</artifactId>
@@ -69,12 +74,11 @@
 			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-model-impl</artifactId>
 			<version>${pom.version}</version>
-			<!--exclusions>
-							<exclusion>
-								<groupId>org.hibernate</groupId>
-								<artifactId>hibernate-annotations</artifactId>
-							</exclusion>
-						</exclusions-->
+			<!--
+				exclusions> <exclusion> <groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId> </exclusion>
+				</exclusions
+			-->
 		</dependency>
 		<dependency>
 			<groupId>org.igniterealtime.smack</groupId>
@@ -151,22 +155,31 @@
 					<!--outputDirectory></outputDirectory--> <!-- not required?? -->
 
 					<!--
-										Set to true to exclude all transitive dependencies. Default is false.
-										-->
+						Set to true to exclude all transitive dependencies. Default is
+						false.
+					-->
 					<excludeTransitive>false</excludeTransitive>
 
-					<!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
+					<!--
+						The path where the libraries are stored within the jnlp structure.
+						not required. by default the libraries are within the working
+						directory
+					-->
 					<!--<libPath>lib</libPath>-->
 
 					<!-- JNLP generation -->
 					<jnlp>
 						<!-- default values -->
-						<!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
+						<!--
+							inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath
+						-->
 						<inputTemplate>src/main/jnlp/template_filtered.vm</inputTemplate>
 						<!-- relative to inputTemplateResourcePath -->
 						<outputFile>scymapper.jnlp</outputFile>
 						<!-- defaults to launch.jnlp -->
-						<!-- used to automatically identify the jar containing the main class. -->
+						<!--
+							used to automatically identify the jar containing the main class.
+						-->
 						<!-- this is perhaps going to change -->
 						<mainClass>eu.scy.scymapper.SCYMapperStandalone</mainClass>
 					</jnlp>
@@ -191,7 +204,10 @@
 					<gzip>false</gzip>
 					<!-- default force when pack200 false, true when pack200 selected ?? -->
 
-					<!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+					<!--
+						causes a version attribute to be output in each jar resource
+						element, optional, default is false
+					-->
 					<outputJarVersions>false</outputJarVersions>
 
 					<!--install>false</install--> <!-- not yet supported -->
