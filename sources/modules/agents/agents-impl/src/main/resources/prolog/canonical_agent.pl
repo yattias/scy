@@ -106,14 +106,18 @@ change_variables_callback(_, _, _, _) :-
 
 vc_timeout_min(1).
 
-change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, IncChange) :-
-	retract(inc_change(Learner, Tool, Session, VarName, DiffOld)),
+change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChange) :-
+	remove_old_changes,
+	inc_change(Learner, Tool, Session, VarName, DiffOld, Time),
+	!,
+	asserta(inc_change(Learner, Tool, Session, VarName, Diff, Time)), 
 	write('next run for '), writeln(VarName),
 	write('OldDiff: '), writeln(DiffOld),
-	assert(inc_change(Learner, Tool, Session, VarName, Diff)),
 	write('NewDiff: '), writeln(Diff),
 	term_to_atom(DO, DiffOld),
 	term_to_atom(D, Diff),
+	number_of_switches(VarName, Switches),
+	Switches > 1,
 	(   DO =:= D
 	->  IncChange is 1
 	;   IncChange is 0
@@ -121,12 +125,31 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, IncChange)
 	write('inc_change: '), writeln(IncChange),
 	!.
 
-change_variables_evaluation(Learner, Tool, Session, VarName, Diff, _, _) :-
+change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, _) :-
 	write('asserting first for '), writeln(VarName),
-	assert(inc_change(Learner, Tool, Session, VarName, Diff)), 
+	asserta(inc_change(Learner, Tool, Session, VarName, Diff, Time)), 
 	!, 
 	fail.
 
+number_of_switches(VarName, Switches) :-
+	findall(Diff, inc_change(_, _, _, VarName, Diff, _), Diffs),
+	count_switches(Diffs, Switches).
+
+count_switches([], 0). 
+count_switches([_], 0). 
+count_switches([A,A|T], Switches) :-
+	count_switches([A|T], Switches).
+count_switches([A,B|T], Switches) :-
+	A \== B,
+	count_switches([B|T], NewSwitches),
+	Switches is NewSwitches + 1.
+
+remove_old_changes :-
+	vc_timeout_min(Timeout),
+	get_time(CurrTime),
+	findall(inc_change(L, T, S, V, D, Time), (inc_change(L, T, S, V, D, Time), Time < CurrTime * 1000 - Timeout * 60000), DelICs),
+	write('Expiring: '), writeln(DelICs),
+	forall(member(DelIC, DelICs), retract(DelIC)).
 
 
 %%	same_model_run_feedback(+NoRuns:int, +NoUnique:int, +Tuple:term) is det.

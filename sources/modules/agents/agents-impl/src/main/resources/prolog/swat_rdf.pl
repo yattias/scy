@@ -2,9 +2,6 @@
 :- dynamic(ont/3).
 :- dynamic(current_ont/1).
 
-ts_host('localhost').
-ts_host('2525').
-
 ont_connect(TS, OntoName, NS) :-
 	ont(TS, OntoName, NS),
 	retractall(current_ont(_)),

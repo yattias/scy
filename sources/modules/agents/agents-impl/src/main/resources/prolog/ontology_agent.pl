@@ -2,13 +2,15 @@
 
 agent_name('onto').
 command_space('command').
+ts_host('localhost').
 
 connect :-
 	retractall(ts(_,_)),
 	command_space(CommandSpace),
 	ts_host(TsHost),
 	ts_port(TsPort),
-	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, CommandTS),
+	agent_id(ID),
+	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, ID, '', CommandTS),
 	assert(ts(command, CommandTS)).
 
 next_command(Cmd, Id, Params) :-
@@ -81,6 +83,13 @@ process_command(Cmd, Id, Params) :-
 			tspl_actual_field(string, SiblingsCSV, SiblingsField),
 			respond(Id, [SiblingsField])
 		; true),
+	(Cmd == 'entities'
+		-> 	Params = [OntName], 
+			entities(OntName, Entities),
+			list_to_csv(Entities, EntitiesCSV),
+			tspl_actual_field(string, EntitiesCSV, EntitiesField),
+			respond(Id, [EntitiesField])
+		; true),
 	!.
 
 list_to_csv([], '').
@@ -145,6 +154,13 @@ siblings(OntName, OntTerm, Siblings) :-
 			findall(Class, (prdf(OntTerm, subclassof, SuperClass), prdf(Class, subclassof, SuperClass)), Siblings)
 		)
 	).
+
+% (<ID>:String, "onto":String, "entities":String, <OntName>:String) -> (<ID>:String, <EntitiesList>:String)
+entities(OntName, Entities) :-
+	ont_connect(_, OntName, _),
+	findall(ClassName, prdf(ClassName, type, class), Classes),
+	findall(InstanceName, (member(ClassName, Classes), prdf(InstanceName, type, ClassName)), Instances),
+	append(Classes, Instances, Entities).
 
 annotationproperty(Prop) :-
 	member(Prop, [comment, isdefinedby, label, seealso, versioninfo]).

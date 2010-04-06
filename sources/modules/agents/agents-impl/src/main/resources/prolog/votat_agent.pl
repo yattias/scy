@@ -78,6 +78,8 @@ change_variables_callback(_, _, _, _) :-
 vc_timeout_min(1).
 
 % Calculate from last
+% This is just another way of calculating a VOTAT value
+% alternative implementation for the next predicate
 change_variables_evaluation_last(Learner, Tool, Session, VarName, Time, Votat) :-
 	assert(var_change(Learner,Tool, Session, Time, VarName)),
 	remove_old_changes,
