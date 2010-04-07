@@ -80,6 +80,7 @@ public class Initializer {
     public-init var languageList = "nl,en,et,fr,el";
     public-init var missionMapSelectedImageScale = 1.5;
     public-init var missionMapNotSelectedImageScale = 1.0;
+    public-init var missionMapPositionScale = 1.0;
     public-read var languages:String[];
     public-read var backgroundImage: Image;
     public-read var localLoggingDirectory: File = null;
@@ -122,6 +123,7 @@ public class Initializer {
     def languageListOption = "languageList";
     def missionMapSelectedImageScaleOption = "missionMapSelectedImageScale";
     def missionMapNotSelectedImageScaleOption = "missionMapNotSelectedImageScale";
+    def missionMapPositionScaleOption = "missionMapPositionScale";
 
     var setupLoggingToFiles:SetupLoggingToFiles;
     package var background:DynamicTypeBackground;
@@ -250,6 +252,9 @@ public class Initializer {
                 } else if (option == missionMapNotSelectedImageScaleOption.toLowerCase()) {
                     missionMapNotSelectedImageScale = argumentsList.nextNumberValue(missionMapNotSelectedImageScaleOption);
                     logger.info("app: {missionMapNotSelectedImageScaleOption}: {missionMapNotSelectedImageScale}");
+                } else if (option == missionMapPositionScaleOption.toLowerCase()) {
+                    missionMapPositionScale = argumentsList.nextNumberValue(missionMapPositionScaleOption);
+                    logger.info("app: {missionMapPositionScaleOption}: {missionMapPositionScale}");
                 } else {
                     logger.info("Unknown option: {option}");
                 }
@@ -288,6 +293,7 @@ public class Initializer {
         languageList = getWebstartParameterStringValue(languageListOption, languageList);
         missionMapSelectedImageScale = getWebstartParameterNumberValue(missionMapSelectedImageScaleOption, missionMapSelectedImageScale);
         missionMapNotSelectedImageScale = getWebstartParameterNumberValue(missionMapNotSelectedImageScaleOption, missionMapNotSelectedImageScale);
+        missionMapPositionScale = getWebstartParameterNumberValue(missionMapPositionScaleOption, missionMapPositionScale);
     }
 
     function getWebstartParameterStringValue(name: String, default: String): String {
@@ -350,6 +356,9 @@ public class Initializer {
         printWriter.println("- indicateOnlineStateByOpacity: {indicateOnlineStateByOpacity}");
         printWriter.println("- showEloRelations: {showEloRelations}");
         printWriter.println("- languages: {for (lan in languages) '{lan},'}");
+        printWriter.println("- missionMapSelectedImageScale: {missionMapSelectedImageScale}");
+        printWriter.println("- missionMapNotSelectedImageScale: {missionMapNotSelectedImageScale}");
+        printWriter.println("- missionMapPositionScale: {missionMapPositionScale}");
     }
 
     public function isEmpty(string: String): Boolean {
