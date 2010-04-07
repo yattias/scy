@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* Copyright (c) 2007 Encore Research Group, University of Toronto
+	*
+	* This library is free software; you can redistribute it and/or
+	* modify it under the terms of the GNU Lesser General Public
+	* License as published by the Free Software Foundation; either
+	* version 2.1 of the License, or (at your option) any later version.
+	*
+	* This library is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	* Lesser General Public License for more details.
+	*
+	* You should have received a copy of the GNU Lesser General Public
+	* License along with this library; if not, write to the Free Software
+	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
+       <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+           <property name="order" value="2"></property>
+           <property name="mappings">
+               <value>
+                   /app/scyauthor/ScyAuthorIndex.html=scyauthorIndexController
+                   /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
+                   /app/scyauthor/viewLAS.html=viewLASController
+                   /app/scyauthor/viewActivity.html=viewActivityController
+                   /app/scyauthor/viewAgents.html=viewAgentsController
+                   /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
+                   /app/scyauthor/viewScenario.html=viewScenarioController
+                   /app/scyauthor/viewMission.html=viewMissionController
+                   /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
+                   /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
+                   /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
+                   /app/scyauthor/selectStudentsForPedagogicalPlan.html=selectStudentsForPedagogicalPlan 
+
+                   /app/tools/Toolbank.html=toolbankController
+
+                   /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
+                   /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
+               </value>
+           </property>
+       </bean>
+    
+     <!-- HEAD VERSION -->
+    <bean id="scyauthorIndexController" class="eu.scy.server.controllers.ScyIndexController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="serverService" ref="serverService"/>
+	</bean>
+
+    <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+    </bean>
+
+    <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="viewActivityController" class="eu.scy.server.controllers.ViewActivityController">
+        <property name="serverService" ref="serverService"/>
+        <property name="activityService" ref="activityService"/>
+    </bean>
+
+    <bean id="viewAgentsController" class="eu.scy.server.controllers.ViewAgentsController">
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="viewScenarioController" class="eu.scy.server.controllers.ViewScenarioController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="viewAnchorELOController" class="eu.scy.server.controllers.ViewAnchorELOController">
+        <property name="serverService" ref="serverService"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+    </bean>
+
+    <bean id="viewAssignedStudentsController" class="eu.scy.server.controllers.ViewAssignedStudentsController">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="viewCreateNewPedagogicalPlanController" class="eu.scy.server.controllers.ViewCreateNewPedagogicalPlanController">
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="viewMissionController" class="eu.scy.server.controllers.ViewMissionController">
+        <property name="serverService" ref="serverService"/>
+        <property name="missionService" ref="missionService"/>
+    </bean>
+
+    <bean id="selectToolsForActivityController" class="eu.scy.server.controllers.SelectToolForActivityController">
+        <property name="serverService" ref="serverService"/>
+    </bean>
+
+    <bean id="selectStudentsForPedagogicalPlan" class="eu.scy.server.controllers.SelectStudentsForPedagogicalPlan">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="scyAuthorRuntimeIndexController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+    </bean>
+
+    <bean id="viewActivePedagogicalPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewActivePedagogicalPlanController">
+        <property name="serverService" ref="serverService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+    </bean>
+
+    <bean id="toolbankController" class="eu.scy.server.controllers.tools.ToolbankController">
+        <property name="serverService" ref="serverService"/>
+        <property name="toolService" ref="toolService"/>
+    </bean>
+
+
+</beans>
