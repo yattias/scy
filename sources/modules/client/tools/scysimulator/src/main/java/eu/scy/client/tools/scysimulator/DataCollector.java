@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
@@ -87,7 +88,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private ToolBrokerAPI tbi;
     private JButton notifyButton;
     private String notificationMessage;
-    private Thread notifyThread;
     protected boolean notify;
     private boolean notThreadRunning = false;
     private Vector<String> shownMessages;
@@ -531,12 +531,12 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private void startNotifyThread() {
         if (!notThreadRunning && !notify) {
             notThreadRunning = true;
-            notifyButton.setVisible(true);
             notify = true;
-            notifyThread = new Thread(new Runnable() {
+            SwingUtilities.invokeLater(new Runnable() {
 
                 @Override
                 public void run() {
+                    notifyButton.setVisible(true);
                     boolean up = true;
                     Color upColor = Color.RED;
                     Color downColor = notifyButton.getBackground();
@@ -595,8 +595,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     notThreadRunning = false;
                 }
             });
-            notifyThread.start();
-
         }
     }
 }
