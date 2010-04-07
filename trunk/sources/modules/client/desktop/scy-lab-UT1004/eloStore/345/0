@@ -81,6 +81,10 @@
         <identifier />
       </resource>
     </relation>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>ard/report</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true">

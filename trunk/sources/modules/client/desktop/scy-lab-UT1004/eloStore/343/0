@@ -80,6 +80,10 @@
         <identifier />
       </resource>
     </relation>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>ard/presentation</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true">

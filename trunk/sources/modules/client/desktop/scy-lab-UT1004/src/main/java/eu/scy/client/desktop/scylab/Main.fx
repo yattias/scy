@@ -53,6 +53,9 @@ var initializer = Initializer {
            createPersonalMissionMap:true
            redirectSystemStream:false
            languageList:"en"
+           missionMapNotSelectedImageScale:2.0
+           missionMapSelectedImageScale:2.5
+           missionMapPositionScale:1.4
 //           enableLocalLogging:false
 //           authorMode:true
 //           redirectSystemStream:true
