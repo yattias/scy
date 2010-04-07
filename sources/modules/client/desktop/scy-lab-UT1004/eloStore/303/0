@@ -57,6 +57,10 @@
         <identifier />
       </resource>
     </relation>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>ard/hypothese</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">

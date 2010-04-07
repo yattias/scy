@@ -79,6 +79,10 @@
         <identifier />
       </resource>
     </relation>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>ard/drawing</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true">

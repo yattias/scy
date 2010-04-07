@@ -58,6 +58,10 @@
         <identifier />
       </resource>
     </relation>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>ard/house</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
