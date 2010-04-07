@@ -74,8 +74,8 @@ public abstract class Corner extends CustomNode {
       var newWidth = 2*emptyBorderWidth;
       var newHeight = 2*emptyBorderWidth;
       if (content!=null){
-         newWidth += content.layoutBounds.width;
-         newHeight += content.layoutBounds.height;
+         newWidth += content.layoutBounds.maxX;
+         newHeight += content.layoutBounds.maxY;
          content.translateX = emptyBorderWidth;
          content.translateY = emptyBorderWidth;
       }

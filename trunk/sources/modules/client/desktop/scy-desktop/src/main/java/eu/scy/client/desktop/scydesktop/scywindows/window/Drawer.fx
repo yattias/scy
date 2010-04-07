@@ -174,13 +174,13 @@ public abstract class Drawer extends CustomNode {
 
       Group {
          content: [
-            //            Rectangle {
-            //               x: 0, y: 0
-            //               width: bind width, height: bind height
-            //               fill: subColor
-            //               strokeWidth: borderSize
-            //               stroke: bind color;
-            //            }
+//                        Rectangle {
+//                           x: 0, y: 0
+//                           width: bind width, height: bind height
+//                           fill: subColor
+//                           strokeWidth: borderSize
+//                           stroke: bind color;
+//                        }
             createControlElements()
          ]
       }
