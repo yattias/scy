@@ -285,6 +285,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             eloDisplayTypeControl:eloDisplayTypeControl
             selectedScale:initializer.missionMapSelectedImageScale
             notSelectedScale:initializer.missionMapNotSelectedImageScale
+            positionScale:initializer.missionMapPositionScale
 
         //         translateX:40;
         //         translateY:40;

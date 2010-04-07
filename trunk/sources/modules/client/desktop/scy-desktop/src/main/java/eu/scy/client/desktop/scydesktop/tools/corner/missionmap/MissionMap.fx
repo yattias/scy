@@ -45,6 +45,7 @@ public class MissionMap extends CustomNode {
    public var eloDisplayTypeControl: EloDisplayTypeControl;
    public var selectedScale = 1.5;
    public var notSelectedScale = 1.0;
+   public var positionScale = 2.0;
 
 
    var maximumLasXpos = -1e6;
@@ -123,6 +124,8 @@ public class MissionMap extends CustomNode {
 
    function createAnchorDisplays(): AnchorDisplay[] {
       for (las in missionModel.lasses) {
+         las.xPos *= positionScale;
+         las.yPos *= positionScale;
          var anchorDisplay = AnchorDisplay {
                las: las,
                selectionAction: anchorSelected;
@@ -133,6 +136,7 @@ public class MissionMap extends CustomNode {
                eloDisplayTypeControl:eloDisplayTypeControl
                selectedScale: selectedScale
                notSelectedScale:notSelectedScale
+//               positionScale:positionScale
             }
          anchorMap.put(las, anchorDisplay);
          tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);
@@ -158,6 +162,7 @@ public class MissionMap extends CustomNode {
                   fromAnchor: fromAnchor;
                   toAnchor: getAnchorDisplay(toLas);
                   bidirectional:bidirectional
+//                  positionScale:positionScale
                }
                insert anchorLink into links;
             }

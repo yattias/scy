@@ -33,6 +33,9 @@ var initializer = Initializer{
    redirectSystemStream:false
    debugMode:true
    authorMode:true
+   missionMapNotSelectedImageScale:2.0
+   missionMapSelectedImageScale:2.5
+   missionMapPositionScale:2.0
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
 //   eloImagesPath:"file:eloImages/"
 }
