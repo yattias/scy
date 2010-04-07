@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-
-<resource-action-mapping>
-	<resource file="resource-actions/book.xml" />
-	<resource file="resource-actions/freestyler.xml" />
-</resource-action-mapping>
