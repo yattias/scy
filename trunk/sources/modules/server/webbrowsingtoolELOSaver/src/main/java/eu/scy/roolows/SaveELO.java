@@ -171,16 +171,7 @@ public class SaveELO {
                     try {
                         elo = configLoader.getRepository().retrieveELO(new URI(uri));
                         if (elo != null) {
-                            IContent eloContent = configLoader.getEloFactory().createContent();
-                            Locale defaultLocale;
-                            if (country != null) { //country code is optional
-                                defaultLocale = new Locale(language, country);
-                            } else {
-                                defaultLocale = new Locale(language);
-                            }
-                            eloContent.setLanguage(defaultLocale);
-                            eloContent.setXmlString(content);
-                            elo.setContent(eloContent);
+                            elo.setContent(createELOContent(language, country, content));
                             configLoader.getRepository().updateELO(elo);
                             log.info("Updated ELO with uri: " + uri);
                             return uri;
@@ -220,16 +211,7 @@ public class SaveELO {
                         elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
                     }
 
-                    IContent eloContent = configLoader.getEloFactory().createContent();
-                    Locale defaultLocale;
-                    if (country != null) { //country code is optional
-                        defaultLocale = new Locale(language, country);
-                    } else {
-                        defaultLocale = new Locale(language);
-                    }
-                    eloContent.setLanguage(defaultLocale);
-                    eloContent.setXmlString(content);
-                    elo.setContent(eloContent);
+                    elo.setContent(createELOContent(language, country, content));
                     log.info("Elo created. Metadata and content set");
                     try {
                         IMetadata metadata = configLoader.getRepository().addNewELO(elo);
@@ -259,5 +241,18 @@ public class SaveELO {
         dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
         identifierKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
         descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+    }
+
+    private IContent createELOContent(String language, String country, String content) {
+        IContent eloContent = configLoader.getEloFactory().createContent();
+        Locale defaultLocale;
+        if (country != null) { //country code is optional
+            defaultLocale = new Locale(language, country);
+        } else {
+            defaultLocale = new Locale(language);
+        }
+        eloContent.setLanguage(defaultLocale);
+        eloContent.setXmlString(content);
+        return eloContent;
     }
 }
