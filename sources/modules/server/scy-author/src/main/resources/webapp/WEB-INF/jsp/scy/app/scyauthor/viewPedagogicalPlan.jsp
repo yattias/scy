@@ -4,12 +4,12 @@
 
         <h1>Pedagogical Plan: ${pedagogicalPlan.name}</h1>
 
-        <table width="100%" border="2">
+        <table width="100%">
             <tr class="tablerow-odd">
                 <td>
                     Name
                 </td>
-                <td colspan="2">
+                <td>
                     <s:ajaxTextField model="${pedagogicalPlan}" property="name"/>
                 </td>
             </tr>
@@ -20,9 +20,6 @@
                 <td>
                     <a href="viewScenario.html?scenarioId=${pedagogicalPlan.scenario.id}&pedagogicalPlanId=${pedagogicalPlan.id}">${pedagogicalPlan.scenario.name}</a>
                 </td>
-                <td>
-                        ${pedagogicalPlan.scenario.description}
-                </td>
             </tr>
             <tr class="tablerow-odd">
                 <td>
@@ -30,16 +27,13 @@
                 </td>
                 <td>
                     <a href="viewMission.html?missionId=${pedagogicalPlan.mission.id}">${pedagogicalPlan.mission.name}</a>
-                </td>
-                <td>
-                        ${pedagogicalPlan.mission.description}
-                </td>
+                </td>                
             </tr>
             <tr class="tablerow-even">
                 <td>
                     Portfolio settings
                 </td>
-                <td colspan="2">
+                <td>
                     <a href="viewPortfolio.html?id=${pedagogicalPlan.id}">Edit</a>
                 </td>
             </tr>
@@ -47,7 +41,7 @@
                 <td>
                     Published
                 </td>
-                <td colspan="2">
+                <td>
                     <s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/>
                 </td>
             </tr>
@@ -55,11 +49,12 @@
                 <td>
                     Make all students buddies <s:helpLink helpId="HELP_PAGE_1_AUTO_MAKE_BUDDIES"/>
                 </td>
-                <td colspan="2">
+                <td>
                     <s:ajaxCheckBox model="${pedagogicalPlan}" property="makeAllAssignedStudentsBuddies"/>
                 </td>
             </tr>
         </table>
+        <br/>
         <br/>
 
         <h2>Scaffolding</h2>
@@ -79,16 +74,13 @@
         <br/>
         <br/>        
 
-        <table width="100%" border="2">
-            <tr>
-                <td>Assigned students</td>
-                <td><s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select student" extraParameters="id=${pedagogicalPlan.id}"/></td>
-            </tr>
-        </table>
+        <h2>Assigned students</h2>
+
+        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select students" extraParameters="id=${pedagogicalPlan.id}"/>
 
         <c:choose>
             <c:when test="${fn:length(assignedPedagogicalPlans) > 0}">
-                <table id="teachersTable" border="2" width="100%">
+                <table id="teachersTable" width="100%">
                     <tr>
                         <th></th>
                         <th></th>

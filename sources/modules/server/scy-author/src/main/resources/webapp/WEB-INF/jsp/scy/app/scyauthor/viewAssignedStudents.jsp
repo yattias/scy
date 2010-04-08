@@ -3,7 +3,7 @@
     <tiles:putAttribute name="main">
         <c:choose>
             <c:when test="${fn:length(students) > 0}">
-                <table id="activityTable" border="2"  width="100%">
+                <table id="activityTable" width="100%">
                     <tr>
                         <th>Student</th>
                     </tr>

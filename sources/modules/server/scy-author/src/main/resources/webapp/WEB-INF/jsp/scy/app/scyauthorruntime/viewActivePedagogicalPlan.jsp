@@ -9,13 +9,14 @@
 
                 <h2>Current activity summary</h2>
 
-                <table id="teachersTable" border="2" width="100%">
+                <table id="teachersTable" width="100%">
                     <tr>
                         <th></th>
                         <th>User name</th>
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Current activity</th>
+                        <th>Student plans</th>
                     </tr>
                     <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
                         <tr class="${oddEven.oddEven}">
@@ -27,6 +28,7 @@
                             <td>${assignedPedagogicalPlan.user.userDetails.firstname} </td>
                             <td>${assignedPedagogicalPlan.user.userDetails.lastname}</td>
                             <td><s:currentStudentActivity/></td>
+                            <td></td>
                         </tr>
                     </c:forEach>
                 </table>

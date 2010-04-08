@@ -18,7 +18,7 @@
 
         <c:choose>
             <c:when test="${fn:length(learningActivitySpaces) > 0}">
-                <table id="pedagogicalPlansTable" border="2" width="100%">
+                <table id="pedagogicalPlansTable" width="100%">
                     <tr>
                         <th>Learning activity space</th>
                         <th>
@@ -38,7 +38,7 @@
                                         <tr>
                                             <td width="40%"><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
                                             <td width="40%"><a href="viewAnchorELO.html?anchorELOId=${activity.anchorELO.id}">${activity.anchorELO.name}</a></td>
-                                            <td width="20%"><!--s:ajaxCheckBox model="${activity}" property="autoAddToStudentPlan"/--><input type="checkbox"/></td>
+                                            <td width="20%"><s:ajaxCheckBox model="${activity}" property="autoaddToStudentPlan"/></td>
                                         </tr>
                                     </c:forEach>
                                 </table>
@@ -52,7 +52,7 @@
 
         <c:choose>
             <c:when test="${fn:length(learningGoals) > 0}">
-                <table id="learningGoalsTable" border="2" width="100%">
+                <table id="learningGoalsTable" width="100%">
                     <tr>
                         <th>Learning goals</th>
                     </tr>

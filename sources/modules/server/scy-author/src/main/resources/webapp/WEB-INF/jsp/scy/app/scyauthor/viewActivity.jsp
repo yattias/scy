@@ -3,7 +3,7 @@
     <tiles:putAttribute name="main">
         <h1>Activity: ${model.name}</h1>
 
-        <table width="100%" border="2">
+        <table width="100%">
             <tr class="tablerow-odd">
                 <td>Work arrangement</td>
                 <td><s:ajaxCombobox property="workArrangementType" model="${model}" comboBoxValues="${workArrangement}"/></td>
