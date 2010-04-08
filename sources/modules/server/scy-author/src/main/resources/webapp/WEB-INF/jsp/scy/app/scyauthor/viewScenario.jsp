@@ -5,11 +5,23 @@
         <h1>Scenario: ${model.name}</h1>
         <table>
             <tr>
-                <th>
+                <th>Scenario properties</th>
+                <th>Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
                     Name
-                </th>
+                </td>
                 <td>
                      <s:ajaxTextField property="name" model="${model}"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Description
+                </td>
+                <td>
+                     <s:ajaxTextField property="description" model="${model}" isMultiLine="true"/>
                 </td>
             </tr>
         </table>

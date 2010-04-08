@@ -8,45 +8,31 @@
         <div>
             <table>
                 <tr>
-                    <td>Overall level SCYLab</td>
-                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <th>Agent / agent group properties</th>
+                    <th>Values</th>
+                    <th>Description</th>
                 </tr>
-                <tr>
-                    <td>Overall level Mission content</td>
-                    <td><s:ajaxSlider sliderValues="${contentLevels}"/></td>
+                <tr class="${oddEven.oddEven}">
+                    <td>Collaboration agent</td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <td></td>
+                </tr>
+                <tr class="${oddEven.oddEven}">
+                    <td>Votat agent</td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <td></td>
+                </tr>
+                <tr class="${oddEven.oddEven}">
+                    <td>Agent group 1</td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <td>Agent group 1 consists of agents related to ...</td>
+                </tr>
+                <tr class="${oddEven.oddEven}">
+                    <td>Agent group 2</td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <td>Agent group 2 consists of agents related to and so on ...</td>
                 </tr>
             </table>
         </div>
-
-        <!--table>
-            <tr>
-                <td rowspan="3">Overall level SCYLab</td>
-                <td>Low</td>
-                <td><input type="radio"/></td>
-            </tr>
-            <tr>
-                <td>Medium</td>
-                <td><input type="radio"/></td>
-            </tr>
-            <tr>
-                <td>High</td>
-                <td><input type="radio"/></td>
-            </tr>
-            <tr>
-                <td rowspan="3">Overall level Mission content</td>
-                <td>Low</td>
-                <td><input type="radio"/></td>
-            </tr>
-            <tr>
-                <td>Medium</td>
-                <td><input type="radio"/></td>
-            </tr>
-            <tr>
-                <td>High</td>
-                <td><input type="radio"/></td>
-            </tr>
-        </table-->
-
-
     </tiles:putAttribute>
 </tiles:insertDefinition>

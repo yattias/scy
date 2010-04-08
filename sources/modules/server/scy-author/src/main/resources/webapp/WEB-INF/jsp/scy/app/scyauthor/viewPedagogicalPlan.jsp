@@ -5,7 +5,11 @@
         <h1>Pedagogical Plan: ${pedagogicalPlan.name}</h1>
 
         <table width="100%">
-            <tr class="tablerow-odd">
+            <tr>
+                <th width="35%">Pedagogical plan properties</th>
+                <th width="65%">Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Name
                 </td>
@@ -13,31 +17,15 @@
                     <s:ajaxTextField model="${pedagogicalPlan}" property="name"/>
                 </td>
             </tr>
-            <tr class="tablerow-even">
+            <tr class="${oddEven.oddEven}">
                 <td>
-                    Scenario
+                    Description
                 </td>
                 <td>
-                    <a href="viewScenario.html?scenarioId=${pedagogicalPlan.scenario.id}&pedagogicalPlanId=${pedagogicalPlan.id}">${pedagogicalPlan.scenario.name}</a>
-                </td>
-            </tr>
-            <tr class="tablerow-odd">
-                <td>
-                    Mission
-                </td>
-                <td>
-                    <a href="viewMission.html?missionId=${pedagogicalPlan.mission.id}">${pedagogicalPlan.mission.name}</a>
-                </td>                
-            </tr>
-            <tr class="tablerow-even">
-                <td>
-                    Portfolio settings
-                </td>
-                <td>
-                    <a href="viewPortfolio.html?id=${pedagogicalPlan.id}">Edit</a>
+                    <s:ajaxTextField model="${pedagogicalPlan}" property="description" isMultiLine="true"/>
                 </td>
             </tr>
-            <tr class="tablerow-odd">
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Published
                 </td>
@@ -45,7 +33,7 @@
                     <s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/>
                 </td>
             </tr>
-            <tr class="tablerow-even">
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Make all students buddies <s:helpLink helpId="HELP_PAGE_1_AUTO_MAKE_BUDDIES"/>
                 </td>
@@ -57,16 +45,52 @@
         <br/>
         <br/>
 
-        <h2>Scaffolding</h2>
+        <table width="100%">
+            <tr>
+                <th>Main components pedagogical plan</th>
+                <th>Component</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Scenario
+                </td>
+                <td>
+                    <a href="viewScenario.html?scenarioId=${pedagogicalPlan.scenario.id}&pedagogicalPlanId=${pedagogicalPlan.id}">${pedagogicalPlan.scenario.name}</a>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Mission
+                </td>
+                <td>
+                    <a href="viewMission.html?missionId=${pedagogicalPlan.mission.id}">${pedagogicalPlan.mission.name}</a>
+                </td>                
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Portfolio
+                </td>
+                <td>
+                    <a href="viewPortfolio.html?id=${pedagogicalPlan.id}">Edit</a>
+                </td>
+            </tr>            
+        </table>
+        <br/>
+        <br/>
 
         <table cellpadding="10" cellspacing="10">
-            <tr class="tablerow-odd">
-                <td width="30%">Overall level SCYLab</td>
+            <tr>
+                <th>Overall scaffold level</th>
+                <th>Values</th>
+                <th>Zoom in/<th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td width="30%">SCYLab use</td>
                 <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
-            <tr class="tablerow-even">
-                <td>Overall level Mission content</td>
+            <tr class="${oddEven.oddEven}">
+                <td>Mission content</td>
                 <td><s:ajaxSlider sliderValues="${contentLevels}"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>

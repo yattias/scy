@@ -87,14 +87,14 @@ public interface Activity extends BaseObject {
      *
      * @return the activity's expected duration in minutes
      */
-    public int expectedDurationInMinutes();
+    public Integer getExpectedDurationInMinutes();
 
     /**
      * Sets the expected duration time in minutes for this activity
      *
      * @param expectedDurationInMinutes the activity's expected duration-time
      */
-    public void setExpectedDurationInMinutes(int expectedDurationInMinutes);
+    public void setExpectedDurationInMinutes(Integer expectedDurationInMinutes);
 
     public List<PlannedELO> getPlannedELOs();
     public void setPlannedELOs(List <PlannedELO> plannedELOs);

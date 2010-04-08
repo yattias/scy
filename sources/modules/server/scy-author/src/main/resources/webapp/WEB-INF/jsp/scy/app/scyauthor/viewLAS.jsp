@@ -3,13 +3,17 @@
     <tiles:putAttribute name="main">
         <h1>Learning Activity Space</h1>
         <table width="100%">
-            <tr class="tablerow-odd">
+            <tr>
+                <th>Learning Activity Space properties</th>
+                <th>Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
                 <td><strong>Name</strong></td>
                 <td><s:ajaxTextField property="name" model="${model}"/></td>
             </tr>
-            <tr class="tablerow-even">
+            <tr class="${oddEven.oddEven}">
                 <td><strong>Description</strong></td>
-                <td><s:ajaxTextField property="description" model="${model}"/></td>
+                <td><s:ajaxTextField property="description" model="${model}" isMultiLine="true"/></td>
             </tr>
         </table>
         <br/>

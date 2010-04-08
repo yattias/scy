@@ -2,11 +2,13 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <h1>Anchor ELO: ${model.name}</h1>
-
-        <h2>Portfolio</h2>
+        <h1>Anchor ELO: ${model.name}</h1>        
         <table width="100%">
-            <tr class="tablerow-odd">
+            <tr>
+                <th>Anchor ELO portfolio properties</th>
+                <th>Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Can be included in portfolio
                 </td>
@@ -14,7 +16,7 @@
                     <s:ajaxCheckBox model="${model}" property="includedInPortfolio"/>
                 </td>
             </tr>
-            <tr class="tablerow-even">
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Obligatory in portfolio
                 </td>
