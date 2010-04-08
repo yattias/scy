@@ -172,6 +172,13 @@ public class SaveELO {
                         elo = configLoader.getRepository().retrieveELO(new URI(uri));
                         if (elo != null) {
                             IContent eloContent = configLoader.getEloFactory().createContent();
+                            Locale defaultLocale;
+                            if (country != null) { //country code is optional
+                                defaultLocale = new Locale(language, country);
+                            } else {
+                                defaultLocale = new Locale(language);
+                            }
+                            eloContent.setLanguage(defaultLocale);
                             eloContent.setXmlString(content);
                             elo.setContent(eloContent);
                             configLoader.getRepository().updateELO(elo);
