@@ -63,4 +63,5 @@ Chat potlet:
 2. "install more"
 3. search "chat"
 4. "Chat (v5.2.2.1)" install
+5. change portlet properties at /tomcat/webapps/chat-portlet/WEB-INF/classes/portlet.properties file to buddy.list.strategy=friends
 
