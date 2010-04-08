@@ -10,7 +10,7 @@ String onClickHtml = StringPool.BLANK;
 onClickHtml = "onclick=\"Liferay.Util.forcePost(this); return false;\"";
 
 %>
-
+<!--  remove sim button 
 					<liferay-portlet:actionURL portletName="similarity" windowState="<%= WindowState.MAXIMIZED.toString() %>" var="myIPCUrl" >
 		                <portlet:param name="struts_action" value="<%= struts_action %>" />    
 		                <portlet:param name="entryId" value="<%= entryId %>" />      
@@ -19,3 +19,4 @@ onClickHtml = "onclick=\"Liferay.Util.forcePost(this); return false;\"";
 					</liferay-portlet:actionURL>
 		
 					<a href="<%= myIPCUrl.toString() %>"<%= onClickHtml %>><input type="button" value="SIM"></a>
+-->
