@@ -76,7 +76,7 @@ public class ViewAction extends PortletAction {
 
 		for (TagsAsset tagsAsset : allAssetEntries) {
 			String className = ClassNameLocalServiceUtil.getClassName(tagsAsset.getClassNameId()).getClassName();
-			if (permissionChecker.hasPermission(tagsAsset.getGroupId(), className, tagsAsset.getClassPK(), ActionKeys.VIEW)) {
+			if (group.getGroupId() == tagsAsset.getGroupId() && permissionChecker.hasPermission(tagsAsset.getGroupId(), className, tagsAsset.getClassPK(), ActionKeys.VIEW)) {
 				allUserAllowedEntries.add(tagsAsset);
 			}
 		}
@@ -84,7 +84,7 @@ public class ViewAction extends PortletAction {
 		Vector<Class<?>> allowedClassesList = ResourceTypeList.getAllSingleValueClasses();
 		List<TagsAsset> allAllowdAssetEntries = new ArrayList<TagsAsset>();
 
-		for (TagsAsset assetEntry : allAssetEntries) {
+		for (TagsAsset assetEntry : allUserAllowedEntries) {
 			for (Class<?> allowedClass : allowedClassesList) {
 				if (assetEntry.getClassName().equals(allowedClass.getName())) {
 					List<RatingsEntry> listRatingsTag0;
