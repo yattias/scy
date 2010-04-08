@@ -1,5 +1,6 @@
 package eu.scy.roolows;
 
+import com.ctc.wstx.sr.ElemAttrs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
@@ -7,8 +8,11 @@ import com.sun.jersey.test.framework.WebAppDescriptor;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
@@ -78,6 +82,13 @@ public class TestClient extends JerseyTest {
             }
             //set elo content
             IContent eloContent = configLoader.getEloFactory().createContent();
+            //contentLanguages -> parse JSONArray to Locales
+            JSONArray contentLanguagesAsJson = json.getJSONArray("contentLanguages");
+            List<Locale> contentLanguages = new Vector<Locale>();
+            for (int i=0; i<contentLanguagesAsJson.length();i++){
+                contentLanguages.add(new Locale(contentLanguagesAsJson.getString(i)));
+            }
+            eloContent.setLanguages(contentLanguages);
             logger.info("ELO-content: " + contentString);
             eloContent.setXmlString(contentString);
             elo.setContent(eloContent);
@@ -189,6 +200,8 @@ public class TestClient extends JerseyTest {
 
         //ELO content
         IContent content = configLoader.getEloFactory().createContent();
+        Locale locale = new Locale("de");
+        content.setLanguage(locale);
         content.setXmlString("<test>this is testcontent</test>");
         elo.setContent(content);
 
@@ -200,8 +213,6 @@ public class TestClient extends JerseyTest {
         elo.getMetadata().getMetadataValueContainer(titleKey).setValue("Test Title");
         elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
         elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue("Description Test");
-        Locale locale = new Locale("de");
-        elo.setDefaultLanguage(locale);
         return elo;
     }
 
@@ -213,7 +224,7 @@ public class TestClient extends JerseyTest {
         jsonData.put("title", (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue());
         jsonData.put("type", (String) elo.getMetadata().getMetadataValueContainer(typeKey).getValue());
         jsonData.put("dateCreated", ((Long) elo.getMetadata().getMetadataValueContainer(dateCreatedKey).getValue()));
-        jsonData.put("language", elo.getDefaultLanguage());
+        jsonData.put("language", elo.getContent().getLanguages());
         jsonData.put("username", "testuser");
         jsonData.put("password", "testpassword");
 

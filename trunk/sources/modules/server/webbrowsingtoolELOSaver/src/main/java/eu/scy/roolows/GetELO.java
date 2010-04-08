@@ -50,6 +50,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONArray;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -118,9 +119,11 @@ public class GetELO {
                     }
                 }
                 String contentString = elo.getContent().getXmlString();
+                JSONArray contentLanguages =new JSONArray(elo.getContent().getLanguages());
 
                 eloAsJson.put("metadata", metadata);
                 eloAsJson.put("content", contentString);
+                eloAsJson.put("contentLanguages", contentLanguages);
                 logger.info("retrieved ELO: " + eloAsJson);
                 return eloAsJson;
             }
