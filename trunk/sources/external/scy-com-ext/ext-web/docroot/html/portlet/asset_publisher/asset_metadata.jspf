@@ -160,10 +160,10 @@ MetadataEntry metadataEntry = MetadataActionUtil.getMetadata(asset.getClassName(
 			<tr>
             	<td style="color: #12558E; padding: 5px;" title="<%= LanguageUtil.get(themeDisplay.getLocale(), "metadata.subject_tooltip") %>"> Age <img src="/html/themes/classic/images/common/help.png" class="icon" /></td>
             	<td style="color: #12558E; padding: 5px;">                       
-					           <input type="checkbox" name="<portlet:namespace />subject" value="1012"<%= metadataEntry.getDc_subject().contains("1012") ? " checked" : "" %>> 10-12
-					           <input type="checkbox" name="<portlet:namespace />subject" value="1214"<%= metadataEntry.getDc_subject().contains("1214") ? " checked" : "" %>> 12-14
-					           <input type="checkbox" name="<portlet:namespace />subject" value="1416"<%= metadataEntry.getDc_subject().contains("1416") ? " checked" : "" %>> 14-16
-					           <input type="checkbox" name="<portlet:namespace />subject" value="1618"<%= metadataEntry.getDc_subject().contains("1618") ? " checked" : "" %>> 16-18					                   
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />subject" value="1012"<%= metadataEntry.getDc_subject().contains("1012") ? " checked" : "" %>> 10-12
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />subject" value="1214"<%= metadataEntry.getDc_subject().contains("1214") ? " checked" : "" %>> 12-14
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />subject" value="1416"<%= metadataEntry.getDc_subject().contains("1416") ? " checked" : "" %>> 14-16
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />subject" value="1618"<%= metadataEntry.getDc_subject().contains("1618") ? " checked" : "" %>> 16-18					                   
 				</td>
             </tr> 
 		</c:if>
@@ -171,10 +171,10 @@ MetadataEntry metadataEntry = MetadataActionUtil.getMetadata(asset.getClassName(
            <tr>
              	<td style="color: #12558E; padding: 5px;" title="<%= LanguageUtil.get(themeDisplay.getLocale(), "metadata.type_tooltip") %>"> Type <img src="/html/themes/classic/images/common/help.png" class="icon" /></td>
                 <td style="color: #12558E; padding: 5px;">                       
-					           <input type="checkbox" name="<portlet:namespace />type" value="image"<%= metadataEntry.getDc_type().contains("image") ? " checked" : "" %>> image
-					           <input type="checkbox" name="<portlet:namespace />type" value="video"<%= metadataEntry.getDc_type().contains("video") ? " checked" : "" %>> video
-					           <input type="checkbox" name="<portlet:namespace />type" value="text"<%= metadataEntry.getDc_type().contains("text") ? " checked" : "" %>> text
-					           <input type="checkbox" name="<portlet:namespace />type" value="elo"<%= metadataEntry.getDc_type().contains("elo") ? " checked" : "" %>> elo					                   
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />type" value="image"<%= metadataEntry.getDc_type().contains("image") ? " checked" : "" %>> image
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />type" value="video"<%= metadataEntry.getDc_type().contains("video") ? " checked" : "" %>> video
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />type" value="text"<%= metadataEntry.getDc_type().contains("text") ? " checked" : "" %>> text
+					           <input type="checkbox" disabled="disabled" name="<portlet:namespace />type" value="elo"<%= metadataEntry.getDc_type().contains("elo") ? " checked" : "" %>> elo					                   
 				</td>
              </tr> 
 		</c:if>
