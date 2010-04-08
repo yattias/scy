@@ -7,8 +7,15 @@ import com.ext.portlet.resourcehandling.interfaces.MultivalueResource;
 import com.ext.portlet.resourcehandling.interfaces.ResourceViewInterface;
 import com.ext.portlet.resourcehandling.interfaces.SimilarityComparable;
 import com.ext.portlet.resourcehandling.interfaces.SingleValueResource;
+import com.liferay.portlet.blogs.model.BlogsEntry;
+import com.liferay.portlet.bookmarks.model.BookmarksEntry;
+import com.liferay.portlet.documentlibrary.model.DLFileEntry;
+import com.liferay.portlet.imagegallery.model.IGImage;
+import com.liferay.portlet.journal.model.JournalArticle;
+import com.liferay.portlet.messageboards.model.MBMessage;
 import com.liferay.portlet.tags.service.TagsAssetLocalServiceUtil;
 import com.liferay.portlet.tags.util.TagsUtil;
+import com.liferay.portlet.wiki.model.WikiPage;
 
 /**
  * Class to receive all allowed class names for resource types.
@@ -91,7 +98,7 @@ public class ResourceTypeList {
 	 */
 	public static Vector<Class<?>> getAllSingleValueClasses() {
 		resourceList = new Vector<Class<?>>();
-		for (String className : TagsUtil.ASSET_TYPE_CLASS_NAMES) {
+		for (String className : ASSET_TYPE_CLASS_NAMES) {
 			try {
 				resourceList.add(Class.forName(className));
 			} catch (ClassNotFoundException e) {
@@ -137,5 +144,10 @@ public class ResourceTypeList {
 		Vector<Class<?>> allAssetTypes = TagsAssetLocalServiceUtil.getTagsAssetTypes();
 		return allAssetTypes;
 	}
+	
+	public static final String[] ASSET_TYPE_CLASS_NAMES = {
+		BookmarksEntry.class.getName(),	DLFileEntry.class.getName(), IGImage.class.getName(),
+		JournalArticle.class.getName(), MBMessage.class.getName()		
+	};
 
 }
