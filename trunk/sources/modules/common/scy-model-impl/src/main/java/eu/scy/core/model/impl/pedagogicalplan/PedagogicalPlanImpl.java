@@ -1,19 +1,18 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
-import eu.scy.core.model.User;
-import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
  * Date: 09.des.2009
  * Time: 06:27:57
- * To change this template use File | Settings | File Templates.
  */
 @Entity
 @DiscriminatorValue("pedagogicalPlan")
@@ -23,6 +22,8 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     private Boolean published = false;
     private Boolean makeAllAssignedStudentsBuddies = false;
+    private Integer minimumNumberOfAnchorELOsInPortfolio = 0;
+    private Integer maximumNumberOfAnchorELOsInPortfolio = 0;
 
 
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
@@ -54,5 +55,21 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     @Override
     public void setMakeAllAssignedStudentsBuddies(Boolean makeAllAssignedStudentsBuddies) {
         this.makeAllAssignedStudentsBuddies = makeAllAssignedStudentsBuddies;
+    }
+
+    public Integer getMaximumNumberOfAnchorELOsInPortfolio() {
+        return maximumNumberOfAnchorELOsInPortfolio;
+    }
+
+    public void setMaximumNumberOfAnchorELOsInPortfolio(Integer maximumNumberOfAnchorELOsInPortfolio) {
+        this.maximumNumberOfAnchorELOsInPortfolio = maximumNumberOfAnchorELOsInPortfolio;
+    }
+
+    public Integer getMinimumNumberOfAnchorELOsInPortfolio() {
+        return minimumNumberOfAnchorELOsInPortfolio;
+    }
+
+    public void setMinimumNumberOfAnchorELOsInPortfolio(Integer minimumNumberOfAnchorELOsInPortfolio) {
+        this.minimumNumberOfAnchorELOsInPortfolio = minimumNumberOfAnchorELOsInPortfolio;
     }
 }

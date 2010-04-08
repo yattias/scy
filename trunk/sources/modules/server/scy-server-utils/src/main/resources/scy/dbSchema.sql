@@ -129,6 +129,8 @@ CREATE TABLE `pedagogicalplan` (
 	`pedtype` varchar(250) default NULL,
 	`description` text,
 	`published` tinyint(1) default 0,
+	`maximumNumberOfAnchorELOsInPortfolio` tinyint(2) default 0,
+	`minimumNumberOfAnchorELOsInPortfolio` tinyint(2) default 0,
 	`makeAllAssignedStudentsBuddies` tinyint(1) default 0,
     `timeCreated` bigint(20) NOT NULL default '0',
     `pedagogicalPlanTemplate_primKey` varchar(55) default NULL,

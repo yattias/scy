@@ -37,6 +37,7 @@
                <value>
                    /components/ajaxCheckBox.html=ajaxCheckBoxController
                    /components/ajaxTextField.html=ajaxTextFieldController
+                   /components/ajaxNumberField.html=ajaxNumberFieldController
                    /components/ajaxCombobox.html=ajaxComboboxController
                    /components/ajaxSlider.html=ajaxSliderController
                    /editors/studentEditor.html=editSCYStudentUserController
@@ -51,6 +52,10 @@
 	</bean>
 
     <bean id="ajaxTextFieldController" class="eu.scy.server.controllers.AjaxTextFieldController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxNumberFieldController" class="eu.scy.server.controllers.AjaxNumberFieldController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
 
