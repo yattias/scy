@@ -27,7 +27,6 @@ public class ViewMissionController extends BaseController {
         if (rq != null && rq.equals(NEW_LEARNING_GOAL)) {
             LearningGoalImpl lg = new LearningGoalImpl();
             lg.setName("Name " + mission.getLearningGoals().size());
-            lg.setDescription("My description");
             mission.addLearningGoal(lg);
             getMissionService().save(lg);
         }

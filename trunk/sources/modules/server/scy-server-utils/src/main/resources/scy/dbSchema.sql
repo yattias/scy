@@ -70,6 +70,7 @@ CREATE TABLE `activity` (
     `learningActivitySpace_primKey` varchar(55) default NULL,
     `anchorElo_primKey` varchar(55) default NULL,
     `autoaddToStudentPlan` tinyint(1) default 0,
+    `expectedDurationInMinutes` int(8) default 0,    
 	PRIMARY KEY  (`primKey`),
     KEY `activitylas_key` (`learningActivitySpace_primKey`),
     KEY `anchorElo_primKey_key` (`anchorElo_primKey`),

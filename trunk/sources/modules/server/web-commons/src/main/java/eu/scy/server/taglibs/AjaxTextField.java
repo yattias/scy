@@ -55,6 +55,11 @@ public class AjaxTextField extends AjaxBaseComponent{
             Method method = object.getClass().getMethod("get" + property);
 
             String returnValue = (String) method.invoke(object, null);
+
+            if (returnValue == null) {
+                returnValue = "Edit";
+            }
+
             return returnValue;
         } catch (Exception e) {
             e.printStackTrace();  

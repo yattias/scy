@@ -26,6 +26,8 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
 
     private Boolean autoaddToStudentPlan = false;
 
+    private Integer expectedDurationInMinutes = 0;
+
     @Override
     public void setAnchorELO(AnchorELO anchorELO) {
         this.anchorELO = anchorELO;
@@ -86,14 +88,12 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Transient
-    public int expectedDurationInMinutes() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    public Integer getExpectedDurationInMinutes() {
+        return expectedDurationInMinutes;
     }
 
-    @Override
-    public void setExpectedDurationInMinutes(int expectedDurationInMinutes) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void setExpectedDurationInMinutes(Integer expectedDurationInMinutes) {
+        this.expectedDurationInMinutes = expectedDurationInMinutes;
     }
 
     @Transient

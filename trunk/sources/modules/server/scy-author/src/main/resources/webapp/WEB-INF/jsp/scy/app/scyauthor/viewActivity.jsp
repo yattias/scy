@@ -4,28 +4,28 @@
         <h1>Activity: ${model.name}</h1>
 
         <table width="100%">
-            <tr class="tablerow-odd">
+            <tr>
+                <th>Activity properties</th>
+                <th>Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
                 <td>Work arrangement</td>
                 <td><s:ajaxCombobox property="workArrangementType" model="${model}" comboBoxValues="${workArrangement}"/></td>
             </tr>
-
-
-            <tr class="tablerow-even">
+            <tr class="${oddEven.oddEven}">
                 <td>Teacher role</td>
                 <td><s:ajaxCombobox property="teacherRoleType" model="${model}" comboBoxValues="${teacherRoles}"/></td>
             </tr>
-
-
-            <tr class="tablerow-odd">
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Expected duration in minutes
                 </td>
                 <td>
-                    <input type="text">
+                    <s:ajaxNumberField model="${model}" property="expectedDurationInMinutes"/>                    
                 </td>
 
             </tr>
-            <tr class="tablerow-even">
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Anchor ELO
                 </td>

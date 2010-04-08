@@ -6,6 +6,15 @@
 
         <table width="100%">
             <tr>
+                <th>
+                    Settings
+                </th>
+                <th>
+                    Number
+                </th>
+            </tr>
+
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Minimum number of AnchorELOs
                 </td>
@@ -13,7 +22,7 @@
                     <s:ajaxNumberField model="${pedagogicalPlan}" property="minimumNumberOfAnchorELOsInPortfolio"/>
                 </td>
             </tr>
-            <tr>
+            <tr class="${oddEven.oddEven}">
                 <td>
                     Maximum number of AnchorELOs
                 </td>

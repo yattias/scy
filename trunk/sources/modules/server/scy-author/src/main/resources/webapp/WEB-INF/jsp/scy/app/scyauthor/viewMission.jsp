@@ -5,24 +5,28 @@
         <h1>Mission: ${model.name}</h1>
         <table>
             <tr>
-                <th>
+                <th>Mission properties</th>
+                <th>Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
                     Name
-                </th>
+                </td>
                 <td class="tablerow-odd">
-                   d <s:ajaxTextField property="name" model="${model}"/>
+                   <s:ajaxTextField property="name" model="${model}"/>
                 </td>
             </tr>
-            <tr>
-                <th>Target group</th>
+            <tr class="${oddEven.oddEven}">
+                <td>Target group</th>
                 <td class="tablerow-odd"><s:ajaxTextField property="targetGroup" model="${model}"/></td>
             </tr>
-            <tr>
-                <th>Mission outline</th>
-                <td class="tablerow-odd"><s:ajaxTextField property="missionOutline" model="${model}"/></td>
+            <tr class="${oddEven.oddEven}">
+                <td>Mission outline</th>
+                <td class="tablerow-odd"><s:ajaxTextField property="missionOutline" model="${model}" isMultiLine="true"/></td>
             </tr>
         </table>
 
-        <br/>
+        <br/><br/>
 
         <h2>Learning materials</h2>
         <c:choose>
@@ -46,7 +50,7 @@
             </c:otherwise>
         </c:choose>
 
-        <br/>
+        <br/><br/>
 
         <h2>Learning goals</h2>
         <c:choose>
