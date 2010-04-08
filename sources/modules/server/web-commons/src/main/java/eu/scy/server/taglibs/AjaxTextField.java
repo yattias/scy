@@ -61,6 +61,4 @@ public class AjaxTextField extends AjaxBaseComponent{
         }
         throw new RuntimeException("NOOO");
     }
-
-
 }

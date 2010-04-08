@@ -10,7 +10,7 @@
                     Minimum number of AnchorELOs
                 </td>
                 <td>
-                    <input type="text">
+                    <s:ajaxNumberField model="${pedagogicalPlan}" property="minimumNumberOfAnchorELOsInPortfolio"/>
                 </td>
             </tr>
             <tr>
@@ -18,7 +18,7 @@
                     Maximum number of AnchorELOs
                 </td>
                 <td>
-                    <input type="text">
+                    <s:ajaxNumberField model="${pedagogicalPlan}" property="maximumNumberOfAnchorELOsInPortfolio"/>
                 </td>
             </tr>
         </table>

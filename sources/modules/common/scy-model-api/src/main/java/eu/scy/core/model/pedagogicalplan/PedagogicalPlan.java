@@ -1,9 +1,5 @@
 package eu.scy.core.model.pedagogicalplan;
 
-import eu.scy.core.model.User;
-
-import java.util.List;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -30,4 +26,12 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
     Boolean getMakeAllAssignedStudentsBuddies();
 
     void setMakeAllAssignedStudentsBuddies(Boolean makeAllAssignedStudentsBuddies);
+
+    public Integer getMaximumNumberOfAnchorELOsInPortfolio();
+
+    public void setMaximumNumberOfAnchorELOsInPortfolio(Integer maximumNumberOfAnchorELOsInPortfolio);
+
+    public Integer getMinimumNumberOfAnchorELOsInPortfolio();
+
+    public void setMinimumNumberOfAnchorELOsInPortfolio(Integer minimumNumberOfAnchorELOsInPortfolio);
 }
