@@ -270,14 +270,6 @@ viewURL = _checkViewURL(viewURL, currentURL, themeDisplay);
 				</div>
 			</c:if>
 		</div>
-		<div class="asset-metadata">
-				<liferay-ui:ratings
-						className="<%= asset.getClassName() %>"
-						classPK="<%= asset.getClassPK() %>"
-				/>
-				
-			<%@ include file="/html/portlet/asset_publisher/asset_metadata.jspf" %>
-		</div>
 	</div>
 
 	<c:if test="<%= (assetIndex + 1) == results.size() %>">
