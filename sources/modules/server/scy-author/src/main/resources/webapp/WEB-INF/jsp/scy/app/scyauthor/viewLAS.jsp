@@ -4,8 +4,8 @@
         <h1>Learning Activity Space</h1>
         <table width="100%">
             <tr>
-                <th>Learning Activity Space properties</th>
-                <th>Values</th>
+                <th width="35%">Learning Activity Space properties</th>
+                <th width="65%">Values</th>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td><strong>Name</strong></td>
@@ -36,14 +36,13 @@
                                 <td>
                                     <s:dialog url="selectToolForActivity.html?id=${activity.id}&clazz=${activity.class.name}" dialogHeader="Tools" title="+"/>
                                 </td>
-                                <td><!--s:ajaxCheckBox model="${activity}" property="autoAddToStudentPlan"/--><input type="checkbox"/></td>
+                                <td><s:ajaxCheckBox model="${activity}" property="autoaddToStudentPlan"/></td>
                             </tr>
                         </c:forEach>
                     </table>
                     <br>
                 </c:when>
             </c:choose>
-        </div>
-
+        </div>        
     </tiles:putAttribute>
 </tiles:insertDefinition>
