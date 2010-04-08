@@ -25,7 +25,7 @@
 <%@ include file="/html/portlet/communities/init.jsp" %>
 
 <%
-String tabs1 = ParamUtil.getString(request, "tabs1", "communities-owned");
+String tabs1 = ParamUtil.getString(request, "tabs1", "communities-joined");
 
 boolean showTabs1 = true;
 
@@ -50,6 +50,8 @@ portletURL.setParameter("tabs1", tabs1);
 pageContext.setAttribute("portletURL", portletURL);
 %>
 
+
+
 <liferay-ui:success key="membership_request_sent" message="your-request-was-sent-you-will-receive-a-reply-by-email" />
 
 <form action="<%= portletURL.toString() %>" method="get" name="<portlet:namespace />fm">
@@ -58,7 +60,7 @@ pageContext.setAttribute("portletURL", portletURL);
 <c:choose>
 	<c:when test="<%= showTabs1 %>">
 		<liferay-ui:tabs
-			names="communities-owned,communities-joined,available-communities"
+			names="communities-joined,available-communities,communities-owned"
 			url="<%= portletURL.toString() %>"
 		/>
 	</c:when>
@@ -79,7 +81,7 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 	showAddButton="<%= showTabs1 %>"
 />
 
-<c:if test="<%= windowState.equals(WindowState.MAXIMIZED) %>">
+<c:if test="<%= true %>">
 
 	<%
 	GroupSearchTerms searchTerms = (GroupSearchTerms)searchContainer.getSearchTerms();
@@ -172,18 +174,19 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 	if (tabs1.equals("communities-owned")) {
 		headerNames.add("pending-requests");
 	}
+	headerNames.add("description");
 
 	headerNames.add(StringPool.BLANK);
 
 	searchContainer.setHeaderNames(headerNames);
 
 	List resultRows = searchContainer.getResultRows();
-
+		
 	for (int i = 0; i < results.size(); i++) {
 		Group group = (Group)results.get(i);
 
 		group = group.toEscapedModel();
-
+		
 		ResultRow row = new ResultRow(new Object[] {group, tabs1}, group.getGroupId(), i);
 
 		PortletURL rowURL = renderResponse.createActionURL();
@@ -216,28 +219,22 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 		if ((tabs1.equals("communities-owned") || tabs1.equals("communities-joined") || tabs1.equals("all-communities")) &&
 			((publicLayoutsPageCount > 0) || (privateLayoutsPageCount > 0))) {
 
-			sb.append("<br />");
 
 			if (publicLayoutsPageCount > 0) {
+				sb.append("<br />");
 				rowURL.setParameter("groupId", String.valueOf(group.getGroupId()));
 				rowURL.setParameter("privateLayout", Boolean.FALSE.toString());
 
 				sb.append("<a href=\"");
 				sb.append(rowURL.toString());
-				sb.append("\">");
-				sb.append(LanguageUtil.get(pageContext, "public-pages"));
-				sb.append(" - ");
-				sb.append(LanguageUtil.get(pageContext, "live"));
+				sb.append("\" target=\"_blank\">");
+				sb.append(LanguageUtil.get(pageContext, "view"));
 				sb.append(" (");
 				sb.append(group.getPublicLayoutsPageCount());
 				sb.append(")");
 				sb.append("</a>");
 			}
-			else {
-				sb.append(LanguageUtil.get(pageContext, "public-pages"));
-				sb.append(" (0)");
-			}
-
+		
 			if ((stagingGroup != null) && GroupPermissionUtil.contains(permissionChecker, group.getGroupId(), ActionKeys.MANAGE_LAYOUTS)) {
 				rowURL.setParameter("groupId", String.valueOf(stagingGroup.getGroupId()));
 				rowURL.setParameter("privateLayout", Boolean.FALSE.toString());
@@ -252,28 +249,22 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 				}
 			}
 
-			sb.append("<br />");
 
 			if (privateLayoutsPageCount > 0) {
+				sb.append("<br />");
 				rowURL.setParameter("groupId", String.valueOf(group.getGroupId()));
 				rowURL.setParameter("privateLayout", Boolean.TRUE.toString());
 
 				sb.append("<a href=\"");
 				sb.append(rowURL.toString());
-				sb.append("\">");
-				sb.append(LanguageUtil.get(pageContext, "private-pages"));
-				sb.append(" - ");
-				sb.append(LanguageUtil.get(pageContext, "live"));
+				sb.append("\" target=\"_blank\">");
+				sb.append(LanguageUtil.get(pageContext, "view"));
 				sb.append(" (");
 				sb.append(group.getPrivateLayoutsPageCount());
 				sb.append(")");
 				sb.append("</a>");
 			}
-			else {
-				sb.append(LanguageUtil.get(pageContext, "private-pages"));
-				sb.append(" (0)");
-			}
-
+			
 			if ((stagingGroup != null) && GroupPermissionUtil.contains(permissionChecker, group.getGroupId(), ActionKeys.MANAGE_LAYOUTS)) {
 				rowURL.setParameter("groupId", String.valueOf(stagingGroup.getGroupId()));
 				rowURL.setParameter("privateLayout", Boolean.TRUE.toString());
@@ -293,12 +284,8 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 
 		// Type
 
-		if ((publicLayoutsPageCount > 0) || (privateLayoutsPageCount > 0)) {
-			row.addText(LanguageUtil.get(pageContext, group.getTypeLabel()), rowURL);
-		}
-		else {
-			row.addText(LanguageUtil.get(pageContext, group.getTypeLabel()));
-		}
+		row.addText(LanguageUtil.get(pageContext, group.getTypeLabel()));
+
 
 		// Members
 
@@ -335,8 +322,31 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 			}
 		}
 
+		// Description
+		
+		StringBuilder sb2 = new StringBuilder();
+		
+		if(group.getDescription() !=null && group.getDescription().length() > 0){
+			sb2.append("<a style=\"text-decoration: none;\" href=\"");
+			sb2.append("\" title=\"");
+			sb2.append(group.getDescription());
+			sb2.append("\">");
+			sb2.append("info");
+			sb2.append("</a>");			
+		}else{
+			sb2.append("<a style=\"text-decoration: none;\" href=\"");
+			sb2.append("\" title=\"");
+			sb2.append("not description set");
+			sb2.append("\">");
+			sb2.append("info");
+			sb2.append("</a>");
+		}
+		
+		
+		row.addText(sb2.toString());
+		
 		// Action
-
+		
 		row.addJSP("right", SearchEntry.DEFAULT_VALIGN, "/html/portlet/communities/community_action.jsp");
 
 		// Add result row
@@ -344,7 +354,6 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 		resultRows.add(row);
 	}
 	%>
-
 	<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" />
 </c:if>
 
