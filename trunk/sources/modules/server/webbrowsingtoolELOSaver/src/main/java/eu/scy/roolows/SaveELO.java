@@ -147,18 +147,10 @@ public class SaveELO {
             title = jsonData.getString("title");
             type = jsonData.getString("type");
             //optional parameters:
-            if (jsonData.has("uri")) {
-                uri = jsonData.getString("uri");
-            }
-            if (jsonData.has("description")) {
-                description = jsonData.getString("description");
-            }
-            if (jsonData.has("country")) {
-                country = jsonData.getString("country");
-            }
-            if (jsonData.has("dateCreated")) {
-                dateCreated = jsonData.getString("dateCreated");
-            }
+            uri = jsonData.optString("uri", null);
+            description = jsonData.optString("description", null);
+            country = jsonData.optString("country", null);
+            dateCreated = jsonData.optString("DateCreated", null);
 
             //TODO authenticate User!
             if (true) {
@@ -186,31 +178,8 @@ public class SaveELO {
 
                 } else {
                     //save ELO
-
                     elo = configLoader.getEloFactory().createELO();
-
-
-                    Contribute contribute = new Contribute(username, System.currentTimeMillis());
-                    elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
-
-                    IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
-                    if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
-                        configLoader.getTypeManager().registerMetadataKey(typeKey);
-                    }
-                    elo.getMetadata().addMetadataPair(typeKey, container);
-                    elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
-                    elo.getMetadata().getMetadataValueContainer(typeKey).setValue(type);
-                    if (dateCreated == null) {
-                        //dateCreated is optional
-                        elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
-                    } else {
-                        elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(dateCreated);
-                    }
-                    if (description != null) {
-                        //description is optional
-                        elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
-                    }
-
+                    elo.setMetadata(createELOMetadata(username, title, type, dateCreated, description));
                     elo.setContent(createELOContent(language, country, content));
                     log.info("Elo created. Metadata and content set");
                     try {
@@ -254,5 +223,30 @@ public class SaveELO {
         eloContent.setLanguage(defaultLocale);
         eloContent.setXmlString(content);
         return eloContent;
+    }
+
+    private IMetadata createELOMetadata(String username, String title, String type, String dateCreated, String description) {
+        IMetadata metadata = configLoader.getEloFactory().createMetadata();
+        Contribute contribute = new Contribute(username, System.currentTimeMillis());
+        metadata.getMetadataValueContainer(authorKey).addValue(contribute);
+
+        IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(metadata, typeKey);
+        if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
+            configLoader.getTypeManager().registerMetadataKey(typeKey);
+        }
+        metadata.addMetadataPair(typeKey, container);
+        metadata.getMetadataValueContainer(titleKey).setValue(title);
+        metadata.getMetadataValueContainer(typeKey).setValue(type);
+        if (dateCreated == null) {
+            //dateCreated is optional
+            metadata.getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
+        } else {
+            metadata.getMetadataValueContainer(dateCreatedKey).setValue(dateCreated);
+        }
+        if (description != null) {
+            //description is optional
+            metadata.getMetadataValueContainer(descriptionKey).setValue(description);
+        }
+        return metadata;
     }
 }
