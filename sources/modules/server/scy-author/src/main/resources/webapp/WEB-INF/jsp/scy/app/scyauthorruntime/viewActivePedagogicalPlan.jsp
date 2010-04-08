@@ -20,24 +20,33 @@
                     </tr>
                     <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
                         <tr class="${oddEven.oddEven}">
-                            <td><img src="/webapp/common/filestreamer.html?username=${assignedPedagogicalPlan.user.userDetails.username}&showIcon"/>
+                            <td><img src="/webapp/common/filestreamer.html?username=${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.username}&showIcon"/>
                             </td>
                             <td>
-                                ${assignedPedagogicalPlan.user.userDetails.username}
+                                ${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.username}
                             </td>
-                            <td>${assignedPedagogicalPlan.user.userDetails.firstname} </td>
-                            <td>${assignedPedagogicalPlan.user.userDetails.lastname}</td>
+                            <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.firstname} </td>
+                            <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.lastname}</td>
                             <td><s:currentStudentActivity/></td>
-                            <td></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${fn:length(assignedPedagogicalPlan.studentPlans) > 0}">
+                                         <table>
+                                             <c:forEach var="sp" items="${assignedPedagogicalPlan.studentPlans}">
+                                                 <tr>
+                                                     <td>
+                                                     <td><a href="viewStudentPlan.html?studentPlanId=${sp.id}">${sp.pedagogicalPlan.name}</a></td>
+                                                 </tr>
+                                             </c:forEach>
+                                         </table>
+                                    </c:when>
+                                </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
                 <br>
             </c:when>
         </c:choose>
-
-
-
-
     </tiles:putAttribute>
 </tiles:insertDefinition>
