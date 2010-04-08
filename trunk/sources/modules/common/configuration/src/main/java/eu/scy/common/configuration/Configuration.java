@@ -76,6 +76,9 @@ public class Configuration {
         props.setProperty("filestreamer.server", "scy.collide.info");
         props.setProperty("filestreamer.context", "/webapp/common/filestreamer.html");
         props.setProperty("filestreamer.port", "8080");
+        props.setProperty("roolo.server", "scy.collide.info");
+        props.setProperty("roolo.context", "extcomp");
+        props.setProperty("roolo.port", "8080");
         props.setProperty("sail.db.name", "sail_database");
         props.setProperty("sail.db.host", "localhost");
         props.setProperty("sail.db.username", "root");
@@ -197,5 +200,33 @@ public class Configuration {
 
     public void setFilestreamerPort(String port) {
         props.setProperty("filestreamer.port", port);
+    }
+
+    // ### RoOLO (-> for remoting, like from elo-save-webservice)
+    public String getRooloServer() {
+        if (isScyServerHostDefined()) {
+            return scyServerHost;
+        }
+        return props.getProperty("roolo.server");
+    }
+
+    public String getRooloContext() {
+        return props.getProperty("roolo.context");
+    }
+
+    public String getRooloPort() {
+        return props.getProperty("roolo.port");
+    }
+
+    public void setRooloServer(String server) {
+        props.setProperty("roolo.server", server);
+    }
+
+    public void setRooloContext(String context) {
+        props.setProperty("roolo.context", context);
+    }
+
+    public void setRooloPort(String port) {
+        props.setProperty("roolo.port", port);
     }
 }
