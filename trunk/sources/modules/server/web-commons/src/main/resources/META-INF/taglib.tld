@@ -59,6 +59,28 @@
     </tag>
 
     <tag>
+        <name>ajaxNumberField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxNumberField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax numberfield</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>initialValue</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
         <name>ajaxTextField</name>
         <tagclass>eu.scy.server.taglibs.AjaxTextField</tagclass>
         <bodycontent>empty</bodycontent>
