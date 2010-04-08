@@ -47,8 +47,8 @@
 
         <table width="100%">
             <tr>
-                <th>Main components pedagogical plan</th>
-                <th>Component</th>
+                <th width="35%">Main components pedagogical plan</th>
+                <th width="65%">Component</th>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
@@ -82,7 +82,7 @@
             <tr>
                 <th>Overall scaffold level</th>
                 <th>Values</th>
-                <th>Zoom in/<th>
+                <th>Zoom in</th>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td width="30%">SCYLab use</td>

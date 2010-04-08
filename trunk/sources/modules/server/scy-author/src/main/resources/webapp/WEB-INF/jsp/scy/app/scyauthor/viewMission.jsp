@@ -5,8 +5,8 @@
         <h1>Mission: ${model.name}</h1>
         <table>
             <tr>
-                <th>Mission properties</th>
-                <th>Values</th>
+                <th width="35%">Mission properties</th>
+                <th width="65%">Values</th>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
@@ -57,8 +57,8 @@
             <c:when test="${fn:length(learningGoals) > 0}">
                 <table id="learningGoalsTable" width="100%">
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th width="35%">Name</th>
+                        <th width="65%">Description</th>
 
                     </tr>
                     <c:forEach var="lg" items="${learningGoals}">

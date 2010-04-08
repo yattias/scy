@@ -6,10 +6,10 @@
 
         <table width="100%">
             <tr>
-                <th>
+                <th width="35%">
                     Settings
                 </th>
-                <th>
+                <th width="65%">
                     Number
                 </th>
             </tr>
