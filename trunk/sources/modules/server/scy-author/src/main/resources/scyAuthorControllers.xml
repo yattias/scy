@@ -48,10 +48,12 @@
                    /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
                    /app/scyauthor/selectStudentsForPedagogicalPlan.html=selectStudentsForPedagogicalPlan 
                    /app/scyauthor/viewPortfolio.html=viewPortfolioController
+
                    /app/tools/Toolbank.html=toolbankController
 
                    /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
                    /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
+                   /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
                </value>
            </property>
        </bean>
@@ -121,11 +123,17 @@
         <property name="serverService" ref="serverService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
     </bean>
+    
+    <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+    </bean>
 
     <bean id="viewActivePedagogicalPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewActivePedagogicalPlanController">
         <property name="serverService" ref="serverService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
     </bean>
 
     <bean id="toolbankController" class="eu.scy.server.controllers.tools.ToolbankController">
