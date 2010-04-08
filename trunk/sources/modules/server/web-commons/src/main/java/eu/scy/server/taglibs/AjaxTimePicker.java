@@ -3,7 +3,6 @@ package eu.scy.server.taglibs;
 import eu.scy.core.model.ScyBase;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.lang.reflect.Method;
 
 /**
@@ -20,7 +19,7 @@ public class AjaxTimePicker extends AjaxBaseComponent{
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"timePickerForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTimePicker.html\">");
-            pageContext.getOut().write("<input type=\"text\" name=\"date"+id+"\" id=\"date"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" />");
+            pageContext.getOut().write("<input type=\"text\" name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" />");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
