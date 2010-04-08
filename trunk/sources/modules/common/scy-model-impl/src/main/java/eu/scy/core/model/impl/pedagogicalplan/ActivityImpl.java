@@ -12,7 +12,6 @@ import java.util.Set;
  * User: Henrik
  * Date: 21.okt.2009
  * Time: 10:52:17
- * To change this template use File | Settings | File Templates.
  */
 
 @Entity
@@ -24,6 +23,8 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
     private AnchorELO anchorELO;
 
     private Set <LearningActivitySpaceToolConfiguration> learningActivitySpaceToolConfigurations = new HashSet<LearningActivitySpaceToolConfiguration>();
+
+    private Boolean autoaddToStudentPlan = false;
 
     @Override
     public void setAnchorELO(AnchorELO anchorELO) {
@@ -103,5 +104,13 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
     @Override
     public void setPlannedELOs(List<PlannedELO> plannedELOs) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Boolean getAutoaddToStudentPlan() {
+        return autoaddToStudentPlan;
+    }
+
+    public void setAutoaddToStudentPlan(Boolean autoaddToStudentPlan) {
+        this.autoaddToStudentPlan = autoaddToStudentPlan;
     }
 }

@@ -6,17 +6,17 @@
 
         <c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">
-            <table id="pedagogicalPlansTable" border="2">
+            <table id="pedagogicalPlansTable">
                 <tr>
                     <th>Pedagogical Plan</th>
                     <th>Active</th>
                     <th>Number of online students</th>
                 </tr>
                 <c:forEach var="pedagogicalPlan" items="${pedagogicalPlans}">
-                    <tr>
+                    <tr class="${oddEven.oddEven}">
                         <td><a href="viewActivePedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a></td>
-                        <td>${pedagogicalPlan.published}</td>
-                        <td>6</td>
+                        <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/></td>
+                        <td>?</td>
                     </tr>
                 </c:forEach>
             </table>

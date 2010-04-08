@@ -5,7 +5,7 @@
         <h1>My pedagogical plans</h1>
 		<c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">
-            <table id="pedagogicalPlansTable" border="2" width="100%">
+            <table id="pedagogicalPlansTable" width="100%">
                 <tr>
                     <th>
                         Name

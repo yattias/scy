@@ -7,7 +7,7 @@
 
         <c:choose>
            <c:when test="${fn:length(learningActivitySpaces) > 0}">
-               <table id="toolTable" border="2" width="100%">
+               <table id="toolTable" width="100%">
                    <tr>
                        <th>Tool</th>
                    </tr>

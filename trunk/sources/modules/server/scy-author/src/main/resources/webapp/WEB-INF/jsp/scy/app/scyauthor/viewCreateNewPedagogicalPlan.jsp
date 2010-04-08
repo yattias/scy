@@ -6,7 +6,7 @@
 
         <c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">
-            <table id="pedagogicalPlansTable" border="2">
+            <table id="pedagogicalPlansTable">
                 <tr>
                     <th>
                         Name

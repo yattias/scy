@@ -61,8 +61,6 @@ CREATE TABLE `learningactivityspace` (
     CONSTRAINT `las_assessment_const` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
 	`primKey` varchar(55) NOT NULL default '',
@@ -71,6 +69,7 @@ CREATE TABLE `activity` (
     `timeCreated` bigint(20) NOT NULL default '0',
     `learningActivitySpace_primKey` varchar(55) default NULL,
     `anchorElo_primKey` varchar(55) default NULL,
+    `autoaddToStudentPlan` tinyint(1) default 0,
 	PRIMARY KEY  (`primKey`),
     KEY `activitylas_key` (`learningActivitySpace_primKey`),
     KEY `anchorElo_primKey_key` (`anchorElo_primKey`),

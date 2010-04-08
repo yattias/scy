@@ -4,7 +4,7 @@
 
         <c:choose>
             <c:when test="${fn:length(students) > 0}">
-                <table id="teachersTable" border="2" width="100%">
+                <table id="teachersTable" width="100%">
                     <tr>
                         <th></th>
                         <th>User name</th>

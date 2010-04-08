@@ -2,7 +2,7 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
         <h1>Learning Activity Space</h1>
-        <table width="100%" border="2">
+        <table width="100%">
             <tr class="tablerow-odd">
                 <td><strong>Name</strong></td>
                 <td><s:ajaxTextField property="name" model="${model}"/></td>
@@ -17,7 +17,7 @@
         <div>
             <c:choose>
                 <c:when test="${fn:length(model.activities) > 0}">
-                    <table id="activityTable" border="2"  width="100%">
+                    <table id="activityTable" width="100%">
                         <h2>Activities</h2>
                         <tr>
                             <th>Activity</th>

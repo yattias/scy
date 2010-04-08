@@ -99,5 +99,8 @@ public interface Activity extends BaseObject {
     public List<PlannedELO> getPlannedELOs();
     public void setPlannedELOs(List <PlannedELO> plannedELOs);
 
-    void setLearningActivitySpaceToolConfigurations(Set<LearningActivitySpaceToolConfiguration> toolConfigurations);
+    public void setLearningActivitySpaceToolConfigurations(Set<LearningActivitySpaceToolConfiguration> toolConfigurations);
+
+    public Boolean getAutoaddToStudentPlan();
+    public void setAutoaddToStudentPlan(Boolean autoaddToStudentPlan);
 }

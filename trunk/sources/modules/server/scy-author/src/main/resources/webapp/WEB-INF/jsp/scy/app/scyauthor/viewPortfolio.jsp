@@ -4,7 +4,7 @@
 
         <h1>Portfolio for pedagogical Plan: ${pedagogicalPlan.name}</h1>
 
-        <table border="2" width="100%">
+        <table width="100%">
             <tr>
                 <td>
                     Minimum number of AnchorELOs
@@ -28,7 +28,7 @@
         <h2>Anchor ELOs in portfolio</h2>
         <c:choose>
             <c:when test="${fn:length(anchorElos) > 0}">
-                <table id="activityTable" border="2" width="100%">
+                <table id="activityTable" width="100%">
                     <tr>
                         <th>Can be included</th>
                         <th>Obligatory</th>
@@ -38,16 +38,10 @@
                     </tr>
                     <c:forEach var="anchorElo" items="${anchorElos}">
                         <tr class="${oddEven.oddEven}">
-                            <td>
-                                <input id="mycheck-${anchorElo.id}" name="mycheck" dojoType="dijit.form.CheckBox"
-                                       value="agreed" checked onChange="alert('hei');">
-                            </td>
-                            <td><input type="checkbox"></td>
+                            <td><s:ajaxCheckBox model="${anchorElo}" property="includedInPortfolio"/></td>
+                            <td><s:ajaxCheckBox model="${anchorElo}" property="obligatoryInPortfolio"/></td>
                             <td><a href="viewAnchorELO.html?anchorELOId=${anchorElo.id}">${anchorElo.name}</a></td>
-                            <td>
-                                <s:ajaxCombobox property="name" model="${anchorElo}"
-                                                comboBoxValues="${assessmentStrategies}"/>
-                            </td>
+                            <td><s:ajaxCombobox property="name" model="${anchorElo}" comboBoxValues="${assessmentStrategies}"/></td>
                         </tr>
                     </c:forEach>
                 </table>

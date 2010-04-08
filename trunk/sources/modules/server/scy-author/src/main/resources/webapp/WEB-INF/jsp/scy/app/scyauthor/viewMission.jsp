@@ -27,7 +27,7 @@
         <h2>Learning materials</h2>
         <c:choose>
             <c:when test="${fn:length(learningMaterials) > 0}">
-                <table id="learningMaterialsTable" border="2"  width="100%">
+                <table id="learningMaterialsTable" width="100%">
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
@@ -51,7 +51,7 @@
         <h2>Learning goals</h2>
         <c:choose>
             <c:when test="${fn:length(learningGoals) > 0}">
-                <table id="learningGoalsTable" border="2"  width="100%">
+                <table id="learningGoalsTable" width="100%">
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
