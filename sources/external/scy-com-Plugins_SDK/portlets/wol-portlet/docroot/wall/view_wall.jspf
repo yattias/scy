@@ -189,7 +189,7 @@
 						</c:when>
 						<c:otherwise>
 							<liferay-portlet:actionURL var="addAsFriendURL" name="addFriend" portletName="1_WAR_wolportlet">
-								<liferay-portlet:param name="redirect" value='<%= PortalUtil.getPathFriendlyURLPublic() + StringPool.SLASH + user2.getScreenName() + "/home" %>' />
+								<liferay-portlet:param name="redirect" value='<%= PortalUtil.getPathFriendlyURLPublic() + StringPool.SLASH + user2.getScreenName() %>' />
 							</liferay-portlet:actionURL>
 
 							<a href="<%= addAsFriendURL %>"><%= LanguageUtil.format(pageContext, "ask-x-to-be-your-friend", user2.getFirstName()) %></a>
