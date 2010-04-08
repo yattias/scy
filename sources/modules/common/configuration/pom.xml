@@ -51,6 +51,10 @@
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
 				<scyhub.name>scyhub</scyhub.name>
 				<studentplanningtool.service.url>http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+                                
+                                <roolo.server>scy.collide.info</roolo.server>
+                                <roolo.context>extcomp</roolo.context>
+                                <roolo.port>8080</roolo.port>
 			</properties>
 		</profile>
 		<profile>
@@ -75,6 +79,10 @@
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
 				<scyhub.name>scyhub</scyhub.name>
 				<studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                                <roolo.server>http://83.168.205.138</roolo.server>
+                                <roolo.context>extcomp</roolo.context>
+                                <roolo.port>8080</roolo.port>
 			</properties>
 		</profile>
 		<profile>
@@ -99,6 +107,10 @@
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
 				<scyhub.name>scyhub</scyhub.name>
 				<studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                                <roolo.server>scy.intermedia.uio.no</roolo.server>
+                                <roolo.context>extcomp</roolo.context>
+                                <roolo.port>8080</roolo.port>
 			</properties>
 		</profile>
 		<profile>
@@ -122,6 +134,10 @@
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
 				<scyhub.name>scyhubadam</scyhub.name>
+
+                                <roolo.server>scy.collide.info</roolo.server>
+                                <roolo.context>extcomp</roolo.context>
+                                <roolo.port>8080</roolo.port>
 			</properties>
 		</profile>
 	</profiles>
