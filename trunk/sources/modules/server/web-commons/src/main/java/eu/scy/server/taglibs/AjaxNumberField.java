@@ -29,7 +29,7 @@ public class AjaxNumberField  extends AjaxBaseComponent{
 
 
 
-            pageContext.getOut().write("<input id=\"q05\" type=\"text\" dojoType=\"dijit.form.NumberTextBox\" name=\"elevation\" value=\""+ getInitialValue() + "\" >");
+            pageContext.getOut().write("<input id=\"ajaxNumberField" + id +"\" type=\"text\" dojoType=\"dijit.form.NumberTextBox\" name=\"number\" value=\""+ getInitialValue() + "\" >");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
