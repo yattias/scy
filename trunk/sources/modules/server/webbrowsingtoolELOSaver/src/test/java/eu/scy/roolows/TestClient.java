@@ -1,6 +1,5 @@
 package eu.scy.roolows;
 
-import com.ctc.wstx.sr.ElemAttrs;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
