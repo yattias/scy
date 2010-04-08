@@ -68,8 +68,8 @@ public class TestClient extends JerseyTest {
                         contribute.setDate(((JSONObject) value).getLong("date"));
                         elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(contribute);
                     } else if (metadatakey instanceof LongMetadataKey) {
-                        ///this has to be done, because JCR-RoOLO uses String version numbers and RoOLO-Mock uses Integer version numbers
-                        if (value instanceof Integer) {
+                        ///this has to be done, because JCR-RoOLO uses String version numbers and RoOLO-Mock uses Integer version numbers and the DateCreated-Key uses Long
+                        if (value instanceof Integer || value instanceof Long) {
                             elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(value);
                         } else {
                             elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(Long.parseLong((String) value));
@@ -85,7 +85,7 @@ public class TestClient extends JerseyTest {
             //contentLanguages -> parse JSONArray to Locales
             JSONArray contentLanguagesAsJson = json.getJSONArray("contentLanguages");
             List<Locale> contentLanguages = new Vector<Locale>();
-            for (int i=0; i<contentLanguagesAsJson.length();i++){
+            for (int i = 0; i < contentLanguagesAsJson.length(); i++) {
                 contentLanguages.add(new Locale(contentLanguagesAsJson.getString(i)));
             }
             eloContent.setLanguages(contentLanguages);
