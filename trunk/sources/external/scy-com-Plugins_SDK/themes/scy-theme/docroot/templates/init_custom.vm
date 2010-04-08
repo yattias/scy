@@ -19,7 +19,7 @@ This file allows you to override and define new velocity variables.
 			#set ($show_my_account = true)
 			#set ($show_my_home = true)
   #end
-  #if ($role.getTitle($locale).equals("User"))
+  #if ($role.getTitle($locale).equals("User") && $user.isAgreedToTermsOfUse())
 			#set ($show_my_account = true)
 			#set ($show_my_home = true)
   #end
