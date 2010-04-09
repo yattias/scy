@@ -22,21 +22,32 @@
  */
 %>
 
+<%@page import="java.util.*"%>
+
 <%
 PortletURL portletURL = renderResponse.createRenderURL();
 
 boolean previous = false;
 
-for (int j = 0; j < metadataFields.length; j++) {
-	String value = null;
 
-	if (metadataFields[j].equals("create-date")) {
+List<String> myList = new ArrayList<String>();
+myList.add("tags");
+myList.add("modified-date");
+myList.add("author");
+myList.add("view-count");
+
+for (int j = 0; j < myList.size(); j++) {
+	String value = null;
+	
+	
+
+	if (myList.get(j).equals("create-date")) {
 		value = dateFormatDate.format(asset.getCreateDate());
 	}
-	else if (metadataFields[j].equals("modified-date")) {
+	else if (myList.get(j).equals("modified-date")) {
 		value = dateFormatDate.format(asset.getModifiedDate());
 	}
-	else if (metadataFields[j].equals("publish-date")) {
+	else if (myList.get(j).equals("publish-date")) {
 		if (asset.getPublishDate() == null) {
 			value = StringPool.BLANK;
 		}
@@ -44,7 +55,7 @@ for (int j = 0; j < metadataFields.length; j++) {
 			value = dateFormatDate.format(asset.getPublishDate());
 		}
 	}
-	else if (metadataFields[j].equals("expiration-date")) {
+	else if (myList.get(j).equals("expiration-date")) {
 		if (asset.getExpirationDate() == null) {
 			value = StringPool.BLANK;
 		}
@@ -52,18 +63,18 @@ for (int j = 0; j < metadataFields.length; j++) {
 			value = dateFormatDate.format(asset.getExpirationDate());
 		}
 	}
-	else if (metadataFields[j].equals("priority")) {
+	else if (myList.get(j).equals("priority")) {
 		value = LanguageUtil.get(pageContext, "priority") + StringPool.COLON + StringPool.SPACE + asset.getPriority();
 	}
-	else if (metadataFields[j].equals("author")) {
+	else if (myList.get(j).equals("author")) {
 		value = LanguageUtil.get(pageContext, "by") + StringPool.SPACE + asset.getUserName();
 	}
-	else if (metadataFields[j].equals("view-count")) {
+	else if (myList.get(j).equals("view-count")) {
 		int viewCount = asset.getViewCount();
 
 		value = viewCount + StringPool.SPACE + LanguageUtil.get(pageContext, (viewCount == 1) ? "view" : "views");
 	}
-	else if (metadataFields[j].equals("tags")) {
+	else if (myList.get(j).equals("tags")) {
 		value = "tags";
 	}
 
@@ -82,7 +93,8 @@ for (int j = 0; j < metadataFields.length; j++) {
 
 		previous = true;
 %>
-	<span class="metadata-entry <%= "metadata-" + metadataFields[j] %>">
+	
+<span class="metadata-entry <%= "metadata-" + myList.get(j) %>">
 			<c:choose>
 				<c:when test='<%= value.equals("tags") %>' >
 					<liferay-ui:tags-summary

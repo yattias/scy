@@ -58,7 +58,31 @@
 
 		<action path="/ext/asset_by_ratio/view_content" forward="portlet.ext.asset_by_ratio.view_content" />
 		
+		<action path="/ext/asset_by_ratio/add_tag" type="com.ext.portlet.asset_p.action.AddTagEntryAction">
+			<forward name="portlet.asset_publisher.view_addTag" path="portlet.asset_publisher.view_addTag" />
+		</action>
+
+		<action path="/ext/asset_by_ratio/add_meta" type="com.ext.portlet.asset_p.action.AddMetadataAction">
+			<forward name="portlet.asset_publisher.view_addMetadata" path="portlet.asset_publisher.view_addMetadata" />
+		</action>
 		
+		<action path="/ext/asset_by_ratio/delete_tag" type="com.ext.portlet.asset_p.action.DeleteTagEntryAction">
+		</action>
+		
+		<action path="/ext/asset_by_ratio/add_cart" type="com.ext.portlet.asset_p.action.AddCartAction">
+		</action>	
+		
+		<action path="/ext/asset_by_ratio/link" type="com.ext.portlet.assetviewbyratio.action.LinkAction">
+			<forward name="portlet.ext.asset_by_ratio.view_link" path="portlet.ext.asset_by_ratio.view_link" />
+		</action>		
+		<action path="/ext/asset_by_ratio/link_intern" type="com.ext.portlet.assetviewbyratio.action.LinkInternAction">
+			<forward name="portlet.ext.asset_by_ratio.view_link" path="portlet.ext.asset_by_ratio.view_link" />
+			<forward name="portlet.ext.asset_by_ratio.view_linkIntern" path="portlet.ext.asset_by_ratio.view_linkIntern" />
+		</action>			
+						
+		<action path="/ext/asset_by_ratio/view_links" forward="com.ext.portlet.assetviewbyratio.action.ViewAction" />
+		
+			
 		<!-- Book reports -->
 		
 		<action path="/ext/book_reports/update_request" type="com.liferay.portlet.requests.action.UpdateRequestAction">
