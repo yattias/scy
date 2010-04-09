@@ -248,7 +248,7 @@
         <name>helpLink</name>
         <tagclass>eu.scy.server.taglibs.components.links.HelpLink</tagclass>
         <bodycontent>empty</bodycontent>
-        <info>Delete link</info>
+        <info>Help link</info>
 
         <attribute>
             <name>helpId</name>
