@@ -14,7 +14,7 @@
                 </tr>
                 <tr class="${oddEven.oddEven}">
                     <td>Collaboration agent</td>
-                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}" defaultValue="2"/></td>
                     <td></td>
                 </tr>
                 <tr class="${oddEven.oddEven}">
@@ -29,7 +29,7 @@
                 </tr>
                 <tr class="${oddEven.oddEven}">
                     <td>Agent group 2</td>
-                    <td><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                    <td><s:ajaxSlider sliderValues="${agentLevels}" defaultValue="1"/></td>
                     <td>Agent group 2 consists of agents related to and so on ...</td>
                 </tr>
             </table>

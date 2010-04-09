@@ -23,7 +23,6 @@
                 <td>
                     <s:ajaxNumberField model="${model}" property="expectedDurationInMinutes"/>                    
                 </td>
-
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
@@ -31,6 +30,14 @@
                 </td>
                 <td>
                     <a href="viewAnchorELO.html?anchorELOId=${model.anchorELO.id}">${model.anchorELO.name}</a>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Auto add to student plan
+                </td>
+                <td>
+                    <s:ajaxCheckBox model="${model}" property="autoaddToStudentPlan"/>
                 </td>
             </tr>
         </table>
