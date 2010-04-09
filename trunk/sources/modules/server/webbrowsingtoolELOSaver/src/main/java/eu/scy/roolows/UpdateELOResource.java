@@ -65,6 +65,7 @@ import roolo.elo.metadata.keys.ContributeMetadataKey;
  * @author __SVEN__
  */
 @Path("/updateELOAndroid")
+@Deprecated
 public class UpdateELOResource {
 
     @Context

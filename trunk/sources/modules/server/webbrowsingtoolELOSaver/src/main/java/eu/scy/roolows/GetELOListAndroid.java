@@ -71,6 +71,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
  *
  * @author __SVEN__
  */
+@Deprecated
 @Path("/getELOListAndroid")
 public class GetELOListAndroid {
 
