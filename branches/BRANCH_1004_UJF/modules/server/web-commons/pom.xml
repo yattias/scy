@@ -5,11 +5,11 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>eu.scy.server</groupId>
-    <version>9.8.0-SNAPSHOT</version>
+    <version>9.8.0-UJF-SNAPSHOT</version>
   </parent>
   <groupId>eu.scy.server</groupId>
   <artifactId>web-commons</artifactId>
-  <version>9.8.0-SNAPSHOT</version>
+  <version>9.8.0-UJF-SNAPSHOT</version>
   <name>web-commons</name>
   <url>http://maven.apache.org</url>
   <dependencies>
