@@ -76,6 +76,7 @@ import roolo.elo.api.IMetadataKey;
  * @author __SVEN__
  */
 @Path("/getELOPreview")
+@Deprecated
 public class GetELOPreviewFromURI {
 
     @Context

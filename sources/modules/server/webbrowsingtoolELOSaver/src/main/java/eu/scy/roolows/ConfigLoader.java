@@ -20,7 +20,7 @@ import eu.scy.roolows.config.SpringConfigFactory;
  */
 public class ConfigLoader {
 
-	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
+	private final static Logger logger = Logger.getLogger(ConfigLoader.class.getName());
 	
 	private Config config;
 	private IRepository repository;

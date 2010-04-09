@@ -75,6 +75,7 @@ import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer
  * @author __SVEN__
  */
 @Path("/saveELOelectricity")
+@Deprecated
 public class SaveELOResourceElectricity {
 
     @Context

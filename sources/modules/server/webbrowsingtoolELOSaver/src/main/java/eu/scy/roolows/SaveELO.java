@@ -160,47 +160,40 @@ public class SaveELO {
 
                 if (uri != null) {
                     //update ELO
-                    try {
-                        elo = configLoader.getRepository().retrieveELO(new URI(uri));
-                        if (elo != null) {
-                            elo.setContent(createELOContent(language, country, content));
-                            configLoader.getRepository().updateELO(elo);
-                            log.info("Updated ELO with uri: " + uri);
-                            return uri;
-                        } else {
-                            log.error("ELO is null - could not update!");
-                            return null;
-                        }
-                    } catch (URISyntaxException ex) {
-                        log.error(ex.getMessage());
-                        return null;
+                    elo = configLoader.getRepository().retrieveELO(new URI(uri));
+                    if (elo != null) {
+                        elo.setContent(createELOContent(language, country, content));
+                        configLoader.getRepository().updateELO(elo);
+                        log.info("Updated ELO with uri: " + uri);
+                    } else {
+                        log.error("could not update! <- Could not retrieve ELO (ELO is null)");
+                        //since the ELO could not be retrieved, the URI isnt correct
+                        uri = null;
                     }
-
                 } else {
                     //save ELO
                     elo = configLoader.getEloFactory().createELO();
                     elo.setMetadata(createELOMetadata(username, title, type, dateCreated, description));
                     elo.setContent(createELOContent(language, country, content));
                     log.info("Elo created. Metadata and content set");
-                    try {
-                        IMetadata metadata = configLoader.getRepository().addNewELO(elo);
-                        uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
-                        log.info("Saved ELO with uri: " + uri);
-                        //return the uri that the client knows it and can perform an update as the next save
-                        return uri;
-                    } catch (ELONotAddedException e) {
-                        log.error(e.getMessage());
-                    }
-                    return null;
+                    IMetadata metadata = configLoader.getRepository().addNewELO(elo);
+                    uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
+                    log.info("Saved ELO with uri: " + uri);
+                    //return the uri that the client knows it and can perform an update as the next save
                 }
             } else {
                 log.error("authentication of user " + username + " failed.");
-                return null;
             }
         } catch (JSONException ex) {
             log.error(ex.getMessage());
+        } catch (URISyntaxException ex) {
+            log.error(ex.getMessage());
+        } catch (ELONotAddedException ex) {
+            log.error(ex.getMessage());
+        } finally {
+            //uri is null if the whole thing isnt working
+            return uri;
         }
-        return null;
     }
 
     private void initMetadataKeys() {

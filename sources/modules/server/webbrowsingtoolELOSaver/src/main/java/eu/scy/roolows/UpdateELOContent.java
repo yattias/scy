@@ -66,6 +66,7 @@ import roolo.elo.content.BasicContent;
  * @author __SVEN__
  */
 @Path("/updateELO")
+@Deprecated
 public class UpdateELOContent {
 
     @Context

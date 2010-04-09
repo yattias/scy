@@ -35,6 +35,7 @@ import roolo.elo.metadata.value.validators.StringValidator;
  * @author __SVEN__
  */
 @Path("/getELOList")
+@Deprecated
 public class GetELOResource {
 
     @Context

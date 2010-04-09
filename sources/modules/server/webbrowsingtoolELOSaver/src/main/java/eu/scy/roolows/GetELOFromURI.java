@@ -71,6 +71,7 @@ import roolo.elo.api.IELO;
  *
  * @author __SVEN__
  */
+@Deprecated
 @Path("/getELOFromURI")
 public class GetELOFromURI {
 
