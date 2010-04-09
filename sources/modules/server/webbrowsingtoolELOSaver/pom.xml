@@ -166,6 +166,12 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.6.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>configuration</artifactId>
             <version>9.8.0-SNAPSHOT</version>
