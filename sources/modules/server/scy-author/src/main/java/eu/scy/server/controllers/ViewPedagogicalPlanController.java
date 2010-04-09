@@ -32,8 +32,6 @@ public class ViewPedagogicalPlanController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String pedPlanId = request.getParameter("id");
-
-
         logger.info("PED PLAN ID: " + pedPlanId);
         PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
 

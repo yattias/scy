@@ -21,7 +21,7 @@
                     <tr class="${oddEven.oddEven}">
                         <td>
                             <a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a>
-                            <s:modellink parameters="${pedagogicalPlan} ${pedagogicalPlan}"/>
+                            <!--s:modellink model="{pedagogicalPlan}" href="viewPedagogicalPlan.html"/-->
                         </td>
                         <td>${pedagogicalPlan.description}</td>
                         <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/></td>
