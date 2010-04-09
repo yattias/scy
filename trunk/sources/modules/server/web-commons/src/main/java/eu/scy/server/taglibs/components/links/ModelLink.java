@@ -20,7 +20,7 @@ public class ModelLink extends AbstractLink {
 
     public int doEndTag() throws JspException {
         try {
-             pageContext.getOut().write(START_TAG + getHref() + "?" + getParameter("model",getModel()) + "\">click</a>");        
+             pageContext.getOut().write(START_TAG + getHref() + "?" + getParameter("model",getModel()) + "\">" + getBodyContent().getString() + "</a>");        
         } catch (Exception e) {
             e.printStackTrace();
         }

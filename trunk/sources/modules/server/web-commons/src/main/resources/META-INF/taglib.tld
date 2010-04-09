@@ -239,7 +239,7 @@
 
     <tag>
         <name>currentStudentActivity</name>
-        <tagclass>eu.scy.server.taglibs.components.realtime.CurrentStudentActivity</tagclass>
+        <tagclass>eu.scy.server.taglibs.components.realtime.CurrentStudentActivityController</tagclass>
         <bodycontent>empty</bodycontent>
         <info>Delete link</info>
     </tag>
@@ -267,7 +267,6 @@
     <tag>
         <name>modellink</name>
         <tagclass>eu.scy.server.taglibs.components.links.ModelLink</tagclass>
-        <bodycontent>empty</bodycontent>
         <info>Model link</info>
 
         <attribute>
