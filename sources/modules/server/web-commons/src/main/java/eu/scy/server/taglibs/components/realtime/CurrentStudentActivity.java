@@ -13,8 +13,12 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class CurrentStudentActivity extends TagSupport {
 
     public int doEndTag() throws JspException {
-           try {
-               pageContext.getOut().write("<i>Offline</i>");
+        double id = Math.random() ;
+        try {
+               pageContext.getOut().write("<span id=\"activityStatus" + id + "\"><i>Offline</i></span>");
+               pageContext.getOut().write("<script type=\"text/javascript\" language=\"javascript\">" +
+                       "setInterval(\"updateActivityStatus('activityStatus" + id + "');\", 5000);" +
+                       "</script>");
            } catch (Exception e) {
                e.printStackTrace();
            }
