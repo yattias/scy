@@ -22,12 +22,13 @@ public class UrlInspector {
         if(modelString != null) {
             String type = modelString.substring(0, modelString.indexOf("_"));
             String id = modelString.substring(modelString.indexOf("_")+1, modelString.length());
-            System.out.println("URL INSPECTOR: TYPE: " + type);
-            System.out.println("URL INSPECTOR: ID: " + id);
-
             try {
                 Class clazz = Class.forName(type);
-                return getService().get(clazz, id);
+                ScyBase model =  getService().get(clazz, id);
+
+                request.setAttribute("modelObject", model);
+
+                return model;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();  
             }
