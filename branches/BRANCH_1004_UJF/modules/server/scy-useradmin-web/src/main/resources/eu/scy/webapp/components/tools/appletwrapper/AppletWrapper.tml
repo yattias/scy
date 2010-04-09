@@ -1,0 +1,18 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <script language="JavaScript">
+
+        function postEvent(eventString) {
+        SCYInfobus.postEvent(eventString);
+        return "Hei";
+        }
+
+    </script>
+
+    <t:any element="applet" codebase="${codeBase}" code="${code}"
+           archive="${archive}" width="${width}" height="${height}">
+        <t:any element="param" name="mayscript" value="yes"/>
+        <t:any element="param" name="scriptable" value="true"/>
+    </t:any>
+
+</t:container>

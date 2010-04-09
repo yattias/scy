@@ -1,0 +1,535 @@
+<?xml version="1.0"?>
+<project>
+
+    <!--parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.server</groupId>
+        <version>9.8.0-SNAPSHOT</version>
+    </parent-->
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>scy-useradmin-web</artifactId>
+    <packaging>war</packaging>
+    <name>scy-useradmin-web</name>
+
+
+    <build>
+        <!--filters>
+            <filter>${filter.file}</filter>
+        </filters-->
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.tml</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.tml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
+                <filtering>true</filtering>
+            </resource>
+            <!--resource>
+                <directory>target/jnlp</directory>
+                <includes>
+                    <include>**/*.jar</include>
+                    <include>**/*.jnlp</include>
+                </includes>
+                <targetPath>target/scy-useradmin-web</targetPath>
+                <filtering>false</filtering>
+            </resource-->
+        </resources>
+
+        <finalName>scy-useradmin-web</finalName>
+
+        <plugins>
+
+
+            <!--plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin-->
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.14</version>
+                <configuration>
+                    <requestLog implementation="org.mortbay.jetty.NCSARequestLog">
+                        <append>true</append>
+                    </requestLog>
+                    <webDefaultXml>target/classes/webdefault.xml</webDefaultXml>
+                    <jettyEnvXml>target/classes/jetty-env.xml</jettyEnvXml>
+                    <webAppSourceDirectory>target/classes/</webAppSourceDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archiveClasses>true</archiveClasses>
+                    <filters>
+                    </filters>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp/META-INF</directory>
+                            <targetPath>META-INF</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <finalName>scy-model-api</finalName>
+                    <attach>true</attach>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>Compiling JavaFX test sources</echo>
+                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask"
+                                         classpathref="maven.compile.classpath" name="javafxc"/>
+                                <mkdir dir="target/classes"/>
+                                <javafxc destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                                    <src path="src/main/java"/>
+                                    <classpath refid="maven.compile.classpath"/>
+                                </javafxc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!--plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>jnlp</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <excludeTransitive>false</excludeTransitive>
+                    <jnlp>
+                        <inputTemplate>src/main/scy-useradmin-web/template.vm</inputTemplate>
+                        <outputFile>scylab.jnlp</outputFile>
+                        <mainClass>eu.scy.elobrowser.main.EloBrowser</mainClass>
+                    </jnlp>
+
+                    <sign>
+                        <keypass>scylab</keypass>
+                        <storepass>scylab</storepass>
+                        <alias>scykeystore</alias>
+                        <keystore>${project.build.directory}/../scykeystore.jks</keystore>
+                        <verify>true</verify>
+                        <keystoreConfig>
+                            <delete>false</delete>
+                            <gen>false</gen>
+                        </keystoreConfig>
+                    </sign>
+                    <unsign>true</unsign>
+                    <pack200>false</pack200>
+                    <gzip>false</gzip>
+                    <outputJarVersions>false</outputJarVersions>
+                    <verbose>false</verbose>
+                </configuration>
+            </plugin-->
+
+            <!--plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/webapp/webstart</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>target/jnlp</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin-->
+
+
+        </plugins>
+
+    </build>
+    <repositories>
+        <repository>
+            <id>tapestry-snapshots</id>
+            <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
+        </repository>
+        <repository>
+            <id>codehaus.snapshots</id>
+            <url>http://snapshots.repository.codehaus.org</url>
+        </repository>
+        <repository>
+            <id>OpenQA_Release</id>
+            <name>OpenQA Release Repository</name>
+            <url>http://archiva.openqa.org/repository/releases/</url>
+        </repository>
+        <repository>
+            <id>t5components</id>
+            <name>T5Components Maven Repository</name>
+            <url>http://87.193.218.134:8080/t5components/maven-repository</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>tapestry-snapshots</id>
+            <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <dependencies>
+
+        <!-- SCY DEPENDENCIES -->
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-hub</artifactId>
+            <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>pull-parser</artifactId>
+                    <groupId>pull-parser</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-useradmin-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-useradmin-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-sessionmanager-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-sessionmanager-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>elo-browser</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <!-- SQL SPACES -->
+
+        <!--dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-server-web</artifactId>
+            <version>3.6.0</version>
+        </dependency-->
+
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-commons</artifactId>
+            <version>3.6.0</version>
+        </dependency>
+
+        <!-- TAPESTRY -->
+
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-core</artifactId>
+            <version>${tapestry-release-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tapestry</groupId>
+                    <artifactId>tapestry-ioc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-ioc</artifactId>
+            <version>${tapestry-release-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-spring</artifactId>
+            <version>${tapestry-release-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-test</artifactId>
+            <version>${tapestry-release-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-hibernate</artifactId>
+            <version>${tapestry-release-version}</version>
+        </dependency>
+
+
+        <!-- TAPESTRY EXTENSIONS -->
+
+
+        <!-- SPRING -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+
+        <!-- HIBERNATE -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>3.2.2.ga</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm-attrs</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.1_3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.2.1.ga</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.1</version>
+            <classifier>jdk15</classifier>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.0.5</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>commons-dbcp</artifactId>
+            <groupId>commons-dbcp</groupId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>agent-api</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.agents</groupId>
+            <artifactId>agents-base</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.agents</groupId>
+            <artifactId>agents-impl</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jfxtras</groupId>
+            <artifactId>jfxtras</artifactId>
+            <version>0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxrt</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxc</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>toolchain</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxgui</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>Scenario</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>websvc</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>whack</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-common-utilities</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <properties>
+        <tapestry-release-version>5.1.0.5</tapestry-release-version>
+        <slf4j.version>1.5.6</slf4j.version>
+        <t5components.version>0.5.13</t5components.version>
+        <colemo.version>1.0-SNAPSHOT</colemo.version>
+       <filter.file>${basedir}/src/main/filters/serverfilter.properties</filter.file>
+
+    </properties>
+
+</project>

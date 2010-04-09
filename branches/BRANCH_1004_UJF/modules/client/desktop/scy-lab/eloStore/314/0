@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/rtf</format>
+      <customElements>
+        <dateCreated>1266921130672</dateCreated>
+        <dateLastModified>1266921130673</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Conclusion of expert experiments</string>
+        <string language="fr">Conclusion des expérimentations des experts</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>plainText</structure>
+      <mission>co2Mission</mission>
+      <las>experimentDesign</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/314/0/Conclusion_of_expert_experiments.rtf</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>experimentConclusion</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T11:32:10.658+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red0\green0\blue0;}
+
+\f1\fs24\i0\b0\cf1\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

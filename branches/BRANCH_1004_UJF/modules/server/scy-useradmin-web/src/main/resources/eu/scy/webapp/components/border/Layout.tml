@@ -1,0 +1,62 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<head>
+    <title>SCY</title>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.1/build/reset-fonts-grids/reset-fonts-grids.css"/>
+	<link rel="stylesheet" type="text/css" href="layout.css"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dijit/themes/soria/soria.css"/>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojox/layout/resources/FloatingPane.css"/>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojox/layout/resources/ResizeHandle.css"/>
+    <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="doc3" class="yui-t7" style="">
+	<div style="height:1em"></div>
+	<div id="hd" class="border top header">
+		<div style="background:url('${asset:context:graphics/logo.jpg}') no-repeat;height: 3.5em;">
+			<div class="title">
+				SCY - Science Created by YOU
+			</div>
+		</div>
+		<div style="border-top: 1px solid #e0e0e0;height: 2em;background:url('${asset:context:graphics/menubar-bg.jpg}') repeat-x;">
+			<div class="topmenu" style="margin: 4px 1em 2px  1em;">
+				<t:pagelink page="Index" title="Index">Home</t:pagelink>
+				<img src="${asset:context:graphics/sep.png}" class="sep" alt=""/>
+ 				<t:loop source="actions" value="baseAction">
+					 <t:actionlink t:id="actionMenuItem" t:context="actionContext">${baseAction.name}</t:actionlink>
+					 <img src="${asset:context:graphics/sep.png}" class="sep" alt=""/>
+				</t:loop>
+				<a href="webstart/scylab.jnlp">SCY-Lab</a>
+
+				<t:actionlink t:id="logout" style="float:right">Log out</t:actionlink>
+				<div style="color: #999;float:right; text-align:right;padding-right: 1em;">
+                    Logged in as ${currentUsersUserName} (${currentProjectName})
+				</div>
+			</div>
+		</div>
+		<div style="border-top: 1px solid #e0e0e0;height: 2em;background:url('${asset:context:graphics/menubar-bg.jpg}') repeat-x;">
+			<div class="topmenu" style="margin: 4px 1em 2px  1em;">
+				<div style="float:left" t:type="breadcrumbs/BreadCrumbs" model="userObject"/>
+			</div>
+		</div>
+	</div>
+	<div id="bd" class="border bottom">
+		<div id="yui-main">
+			<div class="yui-b body" style="margin:0">
+                <div id="bodyContainer" style="position:relative;height: 600px; width: 100%;">
+					<!--div dojoType="scy.layout.SCYPane" dockTo="taskbar" title="Window containing plain ol' html" resizable="true" id="html"
+						 style="position:absolute; width:250px; height:300px; top:100px; left:50px; " duration="300"-->
+						<t:body/>
+					<!--/div-->
+                </div>
+			</div>
+		</div>
+		<div class="yui-b">
+			<!--div id="taskbar"></div-->
+		</div>
+	</div>
+	<div id="ft">
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <t:beaneditform t:id="userDetailsEditor" object="userDetails"></t:beaneditform>
+
+    <t:if test="disabled">
+        User is disabled
+    </t:if>
+
+</html>
