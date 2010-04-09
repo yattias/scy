@@ -38,12 +38,14 @@
 		<column name="dc_type" type="String" />
 			
 
-
 		<!-- Order -->
 
 		<order by="asc">
 			<order-column name="dc_title" case-sensitive="false" />
 		</order>		
+		<finder name="AssertEntryId" return-type="TagsAsset">
+			<finder-column name="assertEntryId" />
+		</finder>
 	</entity>
 	<exceptions>
 		<exception>MetadateEntryNotFound</exception>
