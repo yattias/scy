@@ -20,7 +20,7 @@ delete from ofProperty where name like 'xmpp.component.socket.active';
 delete from ofProperty where name like 'xmpp.session.conflict-limit';
 
 
-insert into ofProperty (name, propValue) values ('admin.authorizedJIDs', 'scy@collide.info,admin@collide.info');
+insert into ofProperty (name, propValue) values ('admin.authorizedJIDs', 'scy@collide.info,admin@collide.info,chazot@collide.info');
 insert into ofProperty (name, propValue) values ('jdbcAuthProvider.passwordSQL', 'SELECT password FROM user_details where username like ?');
 insert into ofProperty (name, propValue) values ('jdbcUserProvider.loadUserSQL', 'SELECT username,email_address FROM user_details WHERE username=?');
 insert into ofProperty (name, propValue) values ('jdbcUserProvider.emailField', 'email_address');

@@ -251,4 +251,11 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>breadcrumbs</name>
+        <tagclass>eu.scy.server.taglibs.components.breadcrumbs.BreadCrumbs</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Bread crumbs</info>
+    </tag>
+
 </taglib>
