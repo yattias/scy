@@ -8,9 +8,9 @@ import com.liferay.portlet.ratings.model.RatingsEntry;
 import com.liferay.portlet.ratings.service.RatingsEntryLocalServiceUtil;
 import com.liferay.portlet.tags.model.TagsAsset;
 
-public class TagsAssetComparator implements Comparator<TagsAsset> {
+public class TagsAssetRatioComparator implements Comparator<TagsAsset> {
 
-	public TagsAssetComparator() {
+	public TagsAssetRatioComparator() {
 	}
 
 	@Override
