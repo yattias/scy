@@ -1,8 +1,10 @@
 package eu.scy.server.taglibs.components.breadcrumbs;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.util.Enumeration;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,8 +26,17 @@ public class BreadCrumbs extends TagSupport {
 
     @Override
     public void setPageContext(PageContext pageContext) {
-        super.setPageContext(pageContext);    //To change body of overridden methods use File | Settings | File Templates.
-        pageContext.getRequest().getParameter("model");
+        super.setPageContext(pageContext);
+        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+        System.out.println("QureryStrign: " +req.getQueryString());
+        System.out.println("URI: " + req.getRequestURI());
+        Enumeration enumeration = pageContext.getRequest().getParameterNames();
+        while(enumeration.hasMoreElements()) {
+            String param = (String) enumeration.nextElement();
+            System.out.println("       " + param + " ::: " + pageContext.getRequest().getParameter(param));
+        }
+
+
     }
 
     private String createHomeLink() {

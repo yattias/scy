@@ -258,4 +258,19 @@
         <info>Bread crumbs</info>
     </tag>
 
+    <tag>
+        <name>modellink</name>
+        <tagclass>eu.scy.server.taglibs.components.links.ModelLink</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Model link</info>
+
+        <attribute>
+            <name>parameters</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+
+        </attribute>
+
+    </tag>
+
 </taglib>
