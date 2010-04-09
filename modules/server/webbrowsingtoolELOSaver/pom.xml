@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.server</groupId>
-        <version>9.8.0-SNAPSHOT</version>
+        <version>9.8.0-UJF-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
@@ -168,7 +168,7 @@
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>configuration</artifactId>
-            <version>9.8.0-SNAPSHOT</version>
+            <version>9.8.0-UJF-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
