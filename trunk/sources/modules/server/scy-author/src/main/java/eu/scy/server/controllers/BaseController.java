@@ -50,9 +50,18 @@ public abstract class BaseController extends AbstractController {
     protected final ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
 
+        instpectRequest(request, httpServletResponse);
+
         handleRequest(request, httpServletResponse, modelAndView);
         populateView(request, httpServletResponse, modelAndView);
         return modelAndView;
+    }
+
+    protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+        if(request.getParameter("model") != null) {
+            logger.info("FOUND MODEL .... " + request.getParameter("model"));
+            logger.info("TRYING TO CONVERT....");
+        }
     }
 
     protected abstract void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView);

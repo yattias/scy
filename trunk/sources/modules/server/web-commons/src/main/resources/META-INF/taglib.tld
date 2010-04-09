@@ -144,6 +144,12 @@
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>defaultValue</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
     </tag>
 
     <tag>
@@ -265,10 +271,14 @@
         <info>Model link</info>
 
         <attribute>
-            <name>parameters</name>
+            <name>href</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
-
+        </attribute>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
         </attribute>
 
     </tag>

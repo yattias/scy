@@ -15,10 +15,12 @@ public class ModelLink extends AbstractLink {
 
     private Object model;
     private Object parameters;
+    private String context;
+    private String href;
 
     public int doEndTag() throws JspException {
         try {
-                
+             pageContext.getOut().write(START_TAG + getHref() + "?" + getParameter("model",getModel()) + "\">click</a>");        
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,11 +28,13 @@ public class ModelLink extends AbstractLink {
     }
 
     private String getConvertedParameterValue(Object model) {
+        System.out.println("converting: " +model.getClass().getName());
         if (model instanceof ScyBase) {
             String convertedParameter = model.getClass().getName() + "_" + ((ScyBase) model).getId();
+            return convertedParameter;
+        } else {
+        throw new RuntimeException("Cannot convert " + model + " to link parameter, it is not instanceof ScyBase!");
         }
-
-        throw new RuntimeException("Cannot convert " + model + " to link parameter");
     }
 
     private String getParameter(String parameterName, Object object) {
@@ -42,6 +46,8 @@ public class ModelLink extends AbstractLink {
     }
 
     public void setModel(Object model) {
+        System.out.println("MODEL: " + model);
+        System.out.println("MODEL TYPE: " + model.getClass().getName());
         this.model = model;
     }
 
@@ -53,5 +59,21 @@ public class ModelLink extends AbstractLink {
         System.out.println("PARAMETERS: " + parameters);
         System.out.println("PARAMERTER TYP: " + parameters.getClass().getName());
         this.parameters = parameters;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 }

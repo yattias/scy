@@ -13,6 +13,7 @@ import java.util.List;
 public class AjaxSlider extends AjaxBaseComponent{
 
     private List sliderValues;
+    private String defaultValue;
 
     public int doEndTag() throws JspException {
         try {
@@ -47,5 +48,13 @@ public class AjaxSlider extends AjaxBaseComponent{
 
     public void setSliderValues(List sliderValues) {
         this.sliderValues = sliderValues;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }
