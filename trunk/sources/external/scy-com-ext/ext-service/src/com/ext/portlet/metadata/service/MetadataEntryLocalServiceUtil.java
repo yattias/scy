@@ -66,6 +66,13 @@ public class MetadataEntryLocalServiceUtil {
             com.liferay.portal.SystemException {
         return getService().getMetadataEntry(entryId);
     }
+    
+    public static com.ext.portlet.metadata.model.MetadataEntry getMetadataEntryByAssetId(
+    		java.lang.Long assetId)
+    throws com.liferay.portal.PortalException,
+    com.liferay.portal.SystemException {
+    	return getService().getMetadataEntryByAssetId(assetId);
+    }
 
     public static java.util.List<com.ext.portlet.metadata.model.MetadataEntry> getMetadataEntries(
         int start, int end) throws com.liferay.portal.SystemException {

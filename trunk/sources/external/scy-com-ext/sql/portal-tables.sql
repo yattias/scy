@@ -739,6 +739,30 @@ create table MembershipRequest (
 	statusId INTEGER
 );
 
+create table MetadataEntry (
+	entryId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	createDate DATE null,
+	modifiedDate DATE null,
+	assertEntryId LONG,
+	dc_contributor VARCHAR(75) null,
+	dc_coverage VARCHAR(75) null,
+	dc_creator VARCHAR(75) null,
+	dc_date VARCHAR(75) null,
+	dc_description VARCHAR(75) null,
+	dc_format VARCHAR(75) null,
+	dc_identifier VARCHAR(75) null,
+	dc_language VARCHAR(75) null,
+	dc_publisher VARCHAR(75) null,
+	dc_relation VARCHAR(75) null,
+	dc_rights VARCHAR(75) null,
+	dc_source VARCHAR(75) null,
+	dc_subject VARCHAR(75) null,
+	dc_title VARCHAR(75) null,
+	dc_type VARCHAR(75) null
+);
+
 create table MissionEntry (
 	missionEntryId LONG not null primary key,
 	companyId LONG,
