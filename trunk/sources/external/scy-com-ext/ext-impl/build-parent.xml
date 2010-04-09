@@ -317,6 +317,12 @@ ${exception.message}
 			<param name="service.file" value="src/com/ext/portlet/missionhandling/service.xml" />
 		</antcall>
 	</target>
+	
+	<target name="build-service-portlet-metadataEntry">
+		<antcall target="build-service">
+			<param name="service.file" value="src/com/ext/portlet/metadata/service.xml" />
+		</antcall>
+	</target>
 
 	<target name="build-services">
 		<antcall target="build-service-portlet-reports" />
