@@ -123,6 +123,7 @@ public class MetadataEntryModelImpl extends BaseModelImpl<MetadataEntry> {
     private Date _createDate;
     private Date _modifiedDate;
     private Long _assertEntryId;
+    private Long _originalAssertEntryId;
     private String _dc_contributor;
     private String _dc_coverage;
     private String _dc_creator;
@@ -238,6 +239,14 @@ public class MetadataEntryModelImpl extends BaseModelImpl<MetadataEntry> {
 
     public void setAssertEntryId(Long assertEntryId) {
         _assertEntryId = assertEntryId;
+
+        if (_originalAssertEntryId == null) {
+            _originalAssertEntryId = assertEntryId;
+        }
+    }
+
+    public Long getOriginalAssertEntryId() {
+        return _originalAssertEntryId;
     }
 
     public String getDc_contributor() {

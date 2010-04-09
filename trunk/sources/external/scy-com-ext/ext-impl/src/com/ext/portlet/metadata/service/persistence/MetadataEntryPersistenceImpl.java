@@ -13,13 +13,16 @@ import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -34,6 +37,14 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
     public static final String FINDER_CLASS_NAME_ENTITY = MetadataEntryImpl.class.getName();
     public static final String FINDER_CLASS_NAME_LIST = FINDER_CLASS_NAME_ENTITY +
         ".List";
+    public static final FinderPath FINDER_PATH_FETCH_BY_ASSERTENTRYID = new FinderPath(MetadataEntryModelImpl.ENTITY_CACHE_ENABLED,
+            MetadataEntryModelImpl.FINDER_CACHE_ENABLED,
+            FINDER_CLASS_NAME_ENTITY, "fetchByAssertEntryId",
+            new String[] { Long.class.getName() });
+    public static final FinderPath FINDER_PATH_COUNT_BY_ASSERTENTRYID = new FinderPath(MetadataEntryModelImpl.ENTITY_CACHE_ENABLED,
+            MetadataEntryModelImpl.FINDER_CACHE_ENABLED,
+            FINDER_CLASS_NAME_LIST, "countByAssertEntryId",
+            new String[] { Long.class.getName() });
     public static final FinderPath FINDER_PATH_FIND_ALL = new FinderPath(MetadataEntryModelImpl.ENTITY_CACHE_ENABLED,
             MetadataEntryModelImpl.FINDER_CACHE_ENABLED,
             FINDER_CLASS_NAME_LIST, "findAll", new String[0]);
@@ -48,6 +59,9 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
         EntityCacheUtil.putResult(MetadataEntryModelImpl.ENTITY_CACHE_ENABLED,
             MetadataEntryImpl.class, metadataEntry.getPrimaryKey(),
             metadataEntry);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+            new Object[] { metadataEntry.getAssertEntryId() }, metadataEntry);
     }
 
     public void cacheResult(List<MetadataEntry> metadataEntries) {
@@ -149,6 +163,11 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST);
 
+        MetadataEntryModelImpl metadataEntryModelImpl = (MetadataEntryModelImpl) metadataEntry;
+
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+            new Object[] { metadataEntryModelImpl.getOriginalAssertEntryId() });
+
         EntityCacheUtil.removeResult(MetadataEntryModelImpl.ENTITY_CACHE_ENABLED,
             MetadataEntryImpl.class, metadataEntry.getPrimaryKey());
 
@@ -209,6 +228,10 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
     public MetadataEntry updateImpl(
         com.ext.portlet.metadata.model.MetadataEntry metadataEntry,
         boolean merge) throws SystemException {
+        boolean isNew = metadataEntry.isNew();
+
+        MetadataEntryModelImpl metadataEntryModelImpl = (MetadataEntryModelImpl) metadataEntry;
+
         Session session = null;
 
         try {
@@ -228,6 +251,20 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
         EntityCacheUtil.putResult(MetadataEntryModelImpl.ENTITY_CACHE_ENABLED,
             MetadataEntryImpl.class, metadataEntry.getPrimaryKey(),
             metadataEntry);
+
+        if (!isNew &&
+                (!Validator.equals(metadataEntry.getAssertEntryId(),
+                    metadataEntryModelImpl.getOriginalAssertEntryId()))) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+                new Object[] { metadataEntryModelImpl.getOriginalAssertEntryId() });
+        }
+
+        if (isNew ||
+                (!Validator.equals(metadataEntry.getAssertEntryId(),
+                    metadataEntryModelImpl.getOriginalAssertEntryId()))) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+                new Object[] { metadataEntry.getAssertEntryId() }, metadataEntry);
+        }
 
         return metadataEntry;
     }
@@ -274,6 +311,118 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
         }
 
         return metadataEntry;
+    }
+
+    public MetadataEntry findByAssertEntryId(Long assertEntryId)
+        throws NoSuchEntryException, SystemException {
+        MetadataEntry metadataEntry = fetchByAssertEntryId(assertEntryId);
+
+        if (metadataEntry == null) {
+            StringBuilder msg = new StringBuilder();
+
+            msg.append("No MetadataEntry exists with the key {");
+
+            msg.append("assertEntryId=" + assertEntryId);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchEntryException(msg.toString());
+        }
+
+        return metadataEntry;
+    }
+
+    public MetadataEntry fetchByAssertEntryId(Long assertEntryId)
+        throws SystemException {
+        return fetchByAssertEntryId(assertEntryId, true);
+    }
+
+    public MetadataEntry fetchByAssertEntryId(Long assertEntryId,
+        boolean retrieveFromCache) throws SystemException {
+        Object[] finderArgs = new Object[] { assertEntryId };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+                    finderArgs, this);
+        }
+
+        if (result == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                StringBuilder query = new StringBuilder();
+
+                query.append(
+                    "FROM com.ext.portlet.metadata.model.MetadataEntry WHERE ");
+
+                if (assertEntryId == null) {
+                    query.append("assertEntryId IS NULL");
+                } else {
+                    query.append("assertEntryId = ?");
+                }
+
+                query.append(" ");
+
+                query.append("ORDER BY ");
+
+                query.append("dc_title ASC");
+
+                Query q = session.createQuery(query.toString());
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (assertEntryId != null) {
+                    qPos.add(assertEntryId.longValue());
+                }
+
+                List<MetadataEntry> list = q.list();
+
+                result = list;
+
+                MetadataEntry metadataEntry = null;
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+                        finderArgs, list);
+                } else {
+                    metadataEntry = list.get(0);
+
+                    cacheResult(metadataEntry);
+
+                    if ((metadataEntry.getAssertEntryId() == null) ||
+                            !metadataEntry.getAssertEntryId()
+                                              .equals(assertEntryId)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+                            finderArgs, metadataEntry);
+                    }
+                }
+
+                return metadataEntry;
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (result == null) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ASSERTENTRYID,
+                        finderArgs, new ArrayList<MetadataEntry>());
+                }
+
+                closeSession(session);
+            }
+        } else {
+            if (result instanceof List) {
+                return null;
+            } else {
+                return (MetadataEntry) result;
+            }
+        }
     }
 
     public List<Object> findWithDynamicQuery(DynamicQuery dynamicQuery)
@@ -380,10 +529,70 @@ public class MetadataEntryPersistenceImpl extends BasePersistenceImpl
         return list;
     }
 
+    public void removeByAssertEntryId(Long assertEntryId)
+        throws NoSuchEntryException, SystemException {
+        MetadataEntry metadataEntry = findByAssertEntryId(assertEntryId);
+
+        remove(metadataEntry);
+    }
+
     public void removeAll() throws SystemException {
         for (MetadataEntry metadataEntry : findAll()) {
             remove(metadataEntry);
         }
+    }
+
+    public int countByAssertEntryId(Long assertEntryId)
+        throws SystemException {
+        Object[] finderArgs = new Object[] { assertEntryId };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ASSERTENTRYID,
+                finderArgs, this);
+
+        if (count == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                StringBuilder query = new StringBuilder();
+
+                query.append("SELECT COUNT(*) ");
+                query.append(
+                    "FROM com.ext.portlet.metadata.model.MetadataEntry WHERE ");
+
+                if (assertEntryId == null) {
+                    query.append("assertEntryId IS NULL");
+                } else {
+                    query.append("assertEntryId = ?");
+                }
+
+                query.append(" ");
+
+                Query q = session.createQuery(query.toString());
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (assertEntryId != null) {
+                    qPos.add(assertEntryId.longValue());
+                }
+
+                count = (Long) q.uniqueResult();
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (count == null) {
+                    count = Long.valueOf(0);
+                }
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ASSERTENTRYID,
+                    finderArgs, count);
+
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
     }
 
     public int countAll() throws SystemException {
