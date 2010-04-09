@@ -20,8 +20,7 @@
                 <c:forEach var="pedagogicalPlan" items="${pedagogicalPlans}">
                     <tr class="${oddEven.oddEven}">
                         <td>
-                            <a href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}">${pedagogicalPlan.name}</a>
-                            <!--s:modellink model="{pedagogicalPlan}" href="viewPedagogicalPlan.html"/-->
+                            <s:modellink model="${pedagogicalPlan}" href="viewPedagogicalPlan.html">${pedagogicalPlan.name}</s:modellink>
                         </td>
                         <td>${pedagogicalPlan.description}</td>
                         <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/></td>

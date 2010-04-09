@@ -1,5 +1,6 @@
 package eu.scy.server.taglibs.components.links;
 
+import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
@@ -9,7 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * Time: 06:01:25
  * To change this template use File | Settings | File Templates.
  */
-public class AbstractLink extends TagSupport {
+public class AbstractLink extends BodyTagSupport {
 
     public static final String START_TAG = "<a href=\"";
 

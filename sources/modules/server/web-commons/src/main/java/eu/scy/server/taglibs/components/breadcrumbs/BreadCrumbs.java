@@ -1,6 +1,7 @@
 package eu.scy.server.taglibs.components.breadcrumbs;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -24,12 +25,25 @@ public class BreadCrumbs extends TagSupport {
         return EVAL_PAGE;
     }
 
+     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+         String modelString = request.getParameter("model");
+        if(modelString != null) {
+            String type = modelString.substring(0, modelString.indexOf("_"));
+            String id = modelString.substring(modelString.indexOf("_")+1, modelString.length());
+            System.out.println("TYPE: " + type);
+            System.out.println("ID: " + id);
+
+        }
+    }
+
+
     @Override
     public void setPageContext(PageContext pageContext) {
         super.setPageContext(pageContext);
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-        System.out.println("QureryStrign: " +req.getQueryString());
-        System.out.println("URI: " + req.getRequestURI());
+        instpectRequest(req, (HttpServletResponse) pageContext.getResponse());
+        System.out.println("BREAD CRUMBS: QureryStrign: " +req.getQueryString());
+        System.out.println("BREAD CRUMBS : URI: " + req.getRequestURI());
         Enumeration enumeration = pageContext.getRequest().getParameterNames();
         while(enumeration.hasMoreElements()) {
             String param = (String) enumeration.nextElement();

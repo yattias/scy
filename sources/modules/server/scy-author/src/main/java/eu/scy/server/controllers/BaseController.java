@@ -5,6 +5,7 @@ import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.Server;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.server.common.OddEven;
+import eu.scy.server.url.UrlInspector;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -21,14 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class BaseController extends AbstractController {
 
     private ServerService serverService;
-
     private ScyBase model;
+    private UrlInspector urlInspector;
 
     public ScyBase getModel() {
         return model;
     }
 
     public void setModel(ScyBase model) {
+        logger.info("SETTING MODEL : " + model);
         this.model = model;
     }
 
@@ -58,10 +60,12 @@ public abstract class BaseController extends AbstractController {
     }
 
     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-        if(request.getParameter("model") != null) {
-            logger.info("FOUND MODEL .... " + request.getParameter("model"));
-            logger.info("TRYING TO CONVERT....");
+        logger.info("-----------------------------------------------------");
+        if(getUrlInspector() != null) {
+            ScyBase model = getUrlInspector().instpectRequest(request, httpServletResponse);
+            setModel(model);
         }
+        logger.info("*******************************************************");
     }
 
     protected abstract void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView);
@@ -72,5 +76,13 @@ public abstract class BaseController extends AbstractController {
 
     public void setServerService(ServerService serverService) {
         this.serverService = serverService;
+    }
+
+    public UrlInspector getUrlInspector() {
+        return urlInspector;
+    }
+
+    public void setUrlInspector(UrlInspector urlInspector) {
+        this.urlInspector = urlInspector;
     }
 }

@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * Time: 08:33:42
  * To change this template use File | Settings | File Templates.
  */
-public class CurrentStudentActivity extends TagSupport {
+public class CurrentStudentActivityController extends TagSupport {
 
     public int doEndTag() throws JspException {
         double id = Math.random() ;

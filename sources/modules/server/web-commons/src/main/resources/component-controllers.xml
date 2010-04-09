@@ -43,6 +43,7 @@
                    /editors/studentEditor.html=editSCYStudentUserController
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
+                   /components/realtime/currentStudentActivity.html=currentStudentActivityController 
                </value>
            </property>
        </bean>
@@ -79,8 +80,14 @@
 	</bean>
 
     <bean id="helpController" class="eu.scy.server.controllers.components.help.HelpController">
-
 	</bean>
+    
+    <bean id="urlInspector" class="eu.scy.server.url.UrlInspector">
+        <property name="service" ref="ajaxPersistenceService"/>
+    </bean>
 
+    <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">
+
+    </bean>
 
 </beans>
