@@ -63,6 +63,12 @@ public interface MetadataEntryLocalService {
         java.lang.Long entryId)
         throws com.liferay.portal.SystemException,
             com.liferay.portal.PortalException;
+    
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public com.ext.portlet.metadata.model.MetadataEntry getMetadataEntryByAssetId(
+    		java.lang.Long assetId)
+    throws com.liferay.portal.SystemException,
+    com.liferay.portal.PortalException;
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<com.ext.portlet.metadata.model.MetadataEntry> getMetadataEntries(

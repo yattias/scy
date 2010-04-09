@@ -60,6 +60,18 @@ public interface MetadataEntryPersistence extends BasePersistence {
     public com.ext.portlet.metadata.model.MetadataEntry fetchByPrimaryKey(
         java.lang.Long entryId) throws com.liferay.portal.SystemException;
 
+    public com.ext.portlet.metadata.model.MetadataEntry findByAssertEntryId(
+        java.lang.Long assertEntryId)
+        throws com.ext.portlet.metadata.NoSuchEntryException,
+            com.liferay.portal.SystemException;
+
+    public com.ext.portlet.metadata.model.MetadataEntry fetchByAssertEntryId(
+        java.lang.Long assertEntryId) throws com.liferay.portal.SystemException;
+
+    public com.ext.portlet.metadata.model.MetadataEntry fetchByAssertEntryId(
+        java.lang.Long assertEntryId, boolean retrieveFromCache)
+        throws com.liferay.portal.SystemException;
+
     public java.util.List<Object> findWithDynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.SystemException;
@@ -78,7 +90,14 @@ public interface MetadataEntryPersistence extends BasePersistence {
         int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
         throws com.liferay.portal.SystemException;
 
+    public void removeByAssertEntryId(java.lang.Long assertEntryId)
+        throws com.ext.portlet.metadata.NoSuchEntryException,
+            com.liferay.portal.SystemException;
+
     public void removeAll() throws com.liferay.portal.SystemException;
+
+    public int countByAssertEntryId(java.lang.Long assertEntryId)
+        throws com.liferay.portal.SystemException;
 
     public int countAll() throws com.liferay.portal.SystemException;
 }

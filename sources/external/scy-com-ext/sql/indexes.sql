@@ -280,6 +280,8 @@ create index IX_8A1CC4B on MembershipRequest (groupId);
 create index IX_C28C72EC on MembershipRequest (groupId, statusId);
 create index IX_66D70879 on MembershipRequest (userId);
 
+create index IX_F238D16E on MetadataEntry (assertEntryId);
+
 create index IX_60659BFC on MissionEntry (companyId);
 create index IX_9935B16A on MissionEntry (createDate);
 create index IX_7D5CF17E on MissionEntry (groupId);
