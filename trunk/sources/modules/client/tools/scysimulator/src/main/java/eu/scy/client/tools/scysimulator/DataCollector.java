@@ -557,68 +557,77 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
                 @Override
                 public void run() {
-                    System.out.println("run method entered...");
                     notifyButton.setVisible(true);
-                    boolean up = true;
-                    Color upColor = Color.RED;
-                    Color downColor = notifyButton.getBackground();
-                    Color currentColor = downColor;
-                    float upFontSize = 22;
-                    float downFontSize = notifyButton.getFont().getSize();
-                    float currentFontSize = downFontSize;
-                    double updateMillis = 2;
-                    double cycleLengthInMillis = 1000;
-                    int count = 0;
-                    double step = cycleLengthInMillis / updateMillis;
-                    while (notify) {
-                        System.out.println("in while(notify)....");
-                        if (count > step) {
-                            up = !up;
-                            count = 0;
-                            if (up) {
-                                currentColor = downColor;
-                            } else {
-                                currentColor = upColor;
-                            }
-                        }
-                        int red = currentColor.getRed();
-                        int green = currentColor.getGreen();
-                        int blue = currentColor.getBlue();
-                        if (up) {
-                            red += (upColor.getRed() - downColor.getRed()) / step;
-                            green += (upColor.getGreen() - downColor.getGreen()) / step;
-                            blue += (upColor.getBlue() - downColor.getBlue()) / step;
-                            currentFontSize += (upFontSize - downFontSize) / step;
-                        } else {
-                            red += (downColor.getRed() - upColor.getRed()) / step;
-                            green += (downColor.getGreen() - upColor.getGreen()) / step;
-                            blue += (downColor.getBlue() - upColor.getBlue()) / step;
-                            currentFontSize += (downFontSize - upFontSize) / step;
-                        }
-                        red = Math.min(red, 230);
-                        green = Math.min(green, 230);
-                        blue = Math.min(blue, 230);
-                        red = Math.max(red, 30);
-                        green = Math.max(green, 30);
-                        blue = Math.max(blue, 30);
-                        currentFontSize = Math.min(upFontSize, currentFontSize);
-                        currentFontSize = Math.max(downFontSize, currentFontSize);
-                        currentColor = new Color(red, green, blue);
-                        notifyButton.setForeground(currentColor);
-                        notifyButton.setFont(notifyButton.getFont().deriveFont(currentFontSize));
-                        count++;
-                        try {
-                            System.out.println("before Thread.sleep...");
-                            Thread.sleep((long) updateMillis);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    notifyButton.setForeground(downColor);
-                    notifyButton.setFont(notifyButton.getFont().deriveFont(downFontSize));
-                    notThreadRunning = false;
                 }
             });
+            
+            boolean up = true;
+            Color upColor = Color.RED;
+            Color downColor = notifyButton.getBackground();
+            Color currentColor = downColor;
+            float upFontSize = 22;
+            float downFontSize = notifyButton.getFont().getSize();
+            float currentFontSize = downFontSize;
+            double updateMillis = 2;
+            double cycleLengthInMillis = 1000;
+            int count = 0;
+            double step = cycleLengthInMillis / updateMillis;
+            while (notify) {
+                System.out.println("in while(notify)....");
+                if (count > step) {
+                    up = !up;
+                    count = 0;
+                    if (up) {
+                        currentColor = downColor;
+                    } else {
+                        currentColor = upColor;
+                    }
+                }
+                int red = currentColor.getRed();
+                int green = currentColor.getGreen();
+                int blue = currentColor.getBlue();
+                if (up) {
+                    red += (upColor.getRed() - downColor.getRed()) / step;
+                    green += (upColor.getGreen() - downColor.getGreen()) / step;
+                    blue += (upColor.getBlue() - downColor.getBlue()) / step;
+                    currentFontSize += (upFontSize - downFontSize) / step;
+                } else {
+                    red += (downColor.getRed() - upColor.getRed()) / step;
+                    green += (downColor.getGreen() - upColor.getGreen()) / step;
+                    blue += (downColor.getBlue() - upColor.getBlue()) / step;
+                    currentFontSize += (downFontSize - upFontSize) / step;
+                }
+                red = Math.min(red, 230);
+                green = Math.min(green, 230);
+                blue = Math.min(blue, 230);
+                red = Math.max(red, 30);
+                green = Math.max(green, 30);
+                blue = Math.max(blue, 30);
+                currentFontSize = Math.min(upFontSize, currentFontSize);
+                currentFontSize = Math.max(downFontSize, currentFontSize);
+                currentColor = new Color(red, green, blue);
+                setButtonStyle(currentColor, currentFontSize);
+                count++;
+                try {
+                    System.out.println("before Thread.sleep...");
+                    Thread.sleep((long) updateMillis);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            setButtonStyle(downColor, downFontSize);
+            notThreadRunning = false;
         }
+    }
+
+    private void setButtonStyle(final Color currentColor, final float currentFontSize) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                notifyButton.setForeground(currentColor);
+                notifyButton.setFont(notifyButton.getFont().deriveFont(currentFontSize));
+            }
+        });
     }
 }
