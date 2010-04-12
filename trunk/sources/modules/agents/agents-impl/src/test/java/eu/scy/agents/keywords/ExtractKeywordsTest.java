@@ -23,7 +23,6 @@ import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
-import eu.scy.agents.serviceprovider.ontology.OntologyLookupAgent;
 
 public class ExtractKeywordsTest extends AbstractTestFixture {
 
@@ -47,31 +46,31 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initTopicModel();
-		initDfModel();
+		this.initTopicModel();
+		this.initDfModel();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
-		agentMap.put(ExtractKeywordsAgent.NAME, params);
-		agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
-		agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
-		agentMap.put(OntologyLookupAgent.class.getName(), params);
-		startAgentFramework(agentMap);
+		this.agentMap.put(ExtractKeywordsAgent.NAME, params);
+		this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
+		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
+		// agentMap.put(OntologyLookupAgent.class.getName(), params);
+		this.startAgentFramework(this.agentMap);
 	}
 
 	@Override
 	@After
 	public void tearDown() {
 		try {
-			if (getPersistentStorage() != null) {
-				getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
-				removeTopicModel();
+			if (this.getPersistentStorage() != null) {
+				this.getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+				this.removeTopicModel();
 			} else {
 				System.out.println("break");
 			}
-			stopAgentFrameWork();
+			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
 			e.printStackTrace();
@@ -82,22 +81,22 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
 		ObjectInputStream in = new ObjectInputStream(inStream);
 		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
-		getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+		this.getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
 	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
-		getCommandSpace().write(
+		this.getCommandSpace().write(
 				new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY, queryId.toString(), TEXT));
 
-		Tuple response = getCommandSpace().waitToTake(
+		Tuple response = this.getCommandSpace().waitToTake(
 				new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId.toString(), Field
 						.createWildCardField()), AgentProtocol.ALIVE_INTERVAL * 6);
 		assertNotNull("no response received", response);
 		for (int i = 3; i < response.getNumberOfFields(); i++) {
 			String keyword = (String) response.getField(i).getValue();
-			assertEquals(expectedKeywords[i - 3], keyword);
+			assertEquals(this.expectedKeywords[i - 3], keyword);
 		}
 	}
 }
