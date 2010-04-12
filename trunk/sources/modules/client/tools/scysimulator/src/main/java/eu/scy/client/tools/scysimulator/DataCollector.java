@@ -448,13 +448,11 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void processNotification(INotification notification) {
-        System.out.println("processNotification entered...");
         String message = notification.getFirstProperty("message");
         String type = notification.getFirstProperty("type");
         String popup = notification.getFirstProperty("popup");
         if (message != null) {
             if (popup != null && popup.equals("true")) {
-                System.out.println("message with popup received...");
                 final JDialog jd = new JDialog();
                 jd.setSize(850, 600);
                 jd.setLocationRelativeTo(this);
@@ -547,12 +545,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     private void startNotifyThread() {
-        System.out.println("startNotifyThread entered...");
 
         if (!notThreadRunning && !notify) {
             notThreadRunning = true;
             notify = true;
-            System.out.println("before invokeLater...");
             SwingUtilities.invokeLater(new Runnable() {
 
                 @Override
@@ -573,7 +569,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             int count = 0;
             double step = cycleLengthInMillis / updateMillis;
             while (notify) {
-                System.out.println("in while(notify)....");
                 if (count > step) {
                     up = !up;
                     count = 0;
@@ -609,7 +604,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 setButtonStyle(currentColor, currentFontSize);
                 count++;
                 try {
-                    System.out.println("before Thread.sleep...");
                     Thread.sleep((long) updateMillis);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
