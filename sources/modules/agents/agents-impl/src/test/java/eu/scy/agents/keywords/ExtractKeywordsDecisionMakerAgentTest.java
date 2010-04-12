@@ -40,8 +40,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	// nontoxic, ingredients, binder, solvent, chemical, toxic, labels, paint, voc, health, natural, pigment
 
-	private String[] expectedKeywords = new String[] { "keyword=nontoxic", "keyword=ingredients", "keyword=binder",
-			"keyword=solvent", "keyword=chemical", "keyword=toxic", "keyword=labels", "keyword=paint", "keyword=voc",
+	private String[] expectedKeywords = new String[] { "keyword=ingredients", "keyword=nontoxic", "keyword=binder",
+			"keyword=solvent", "keyword=labels", "keyword=toxic", "keyword=chemical", "keyword=voc", "keyword=paint",
 			"keyword=health", "keyword=natural", "keyword=pigment" };
 	private String eloPath;
 
@@ -60,8 +60,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initTopicModel();
-		initDfModel();
+		this.initTopicModel();
+		this.initDfModel();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
@@ -69,22 +69,22 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		params.put(AgentProtocol.TS_PORT, TSPORT);
 		params.put(ExtractKeywordsDecisionMakerAgent.IDLE_TIME_INMS, IDLE_TIME);
 		params.put(ExtractKeywordsDecisionMakerAgent.MINIMUM_NUMBER_OF_CONCEPTS, 5);
-		agentMap.put(ExtractKeywordsAgent.NAME, params);
-		agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
-		agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
-		agentMap.put(ExtractKeywordsDecisionMakerAgent.NAME, params);
+		this.agentMap.put(ExtractKeywordsAgent.NAME, params);
+		this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
+		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
+		this.agentMap.put(ExtractKeywordsDecisionMakerAgent.NAME, params);
 
-		startAgentFramework(agentMap);
+		this.startAgentFramework(this.agentMap);
 
-		elo = createNewElo("Test", "scy/webresourcer");
+		this.elo = this.createNewElo("Test", "scy/webresourcer");
 		IContent content = new BasicContent();
 		content.setXmlString(ELO_CONTENT);
-		elo.setContent(content);
+		this.elo.setContent(content);
 
-		IMetadata metadata = repository.addNewELO(elo);
+		IMetadata metadata = this.repository.addNewELO(this.elo);
 		URI eloUri = (URI) metadata.getMetadataValueContainer(
-				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
-		eloPath = eloUri.toString();
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+		this.eloPath = eloUri.toString();
 		System.out.println(eloUri.toString());
 	}
 
@@ -92,9 +92,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
-			removeTopicModel();
-			stopAgentFrameWork();
+			this.getPersistentStorage().remove(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+			this.removeTopicModel();
+			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
 			e.printStackTrace();
@@ -105,19 +105,19 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
 		ObjectInputStream in = new ObjectInputStream(inStream);
 		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
-		getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+		this.getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
 	@Test
 	public void testRun() throws InterruptedException, TupleSpaceException {
-		sendWebresourcerStarted();
-		sendScyMapperStarted();
-		sendELoLoaded();
+		this.sendWebresourcerStarted();
+		this.sendScyMapperStarted();
+		this.sendELoLoaded();
 
-		sendConceptAdded();
+		this.sendConceptAdded();
 		Thread.sleep(5000);
 
-		Tuple notificationTuple = getCommandSpace().waitToTake(
+		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no notification received", notificationTuple);
@@ -131,21 +131,21 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
 			// System.out.println(keyword);
-			assertEquals(expectedKeywords[i - 8], keyword);
+			assertEquals(this.expectedKeywords[i - 8], keyword);
 		}
 	}
 
 	@Test
 	public void testNoEloRun() throws InterruptedException, TupleSpaceException {
-		eloPath = "unsavedELO";
-		sendWebresourcerStarted();
-		sendScyMapperStarted();
-		sendELoLoaded();
+		this.eloPath = "unsavedELO";
+		this.sendWebresourcerStarted();
+		this.sendScyMapperStarted();
+		this.sendELoLoaded();
 
-		sendConceptAdded();
+		this.sendConceptAdded();
 		Thread.sleep(5000);
 
-		Tuple notificationTuple = getCommandSpace().waitToTake(
+		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNull("notification received", notificationTuple);
@@ -153,14 +153,14 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	@Test
 	public void testUsersAreRemovedAfterTimeOfNotReacting() throws InterruptedException, TupleSpaceException {
-		sendWebresourcerStarted();
-		sendScyMapperStarted();
-		sendELoLoaded();
+		this.sendWebresourcerStarted();
+		this.sendScyMapperStarted();
+		this.sendELoLoaded();
 
-		sendConceptAdded();
+		this.sendConceptAdded();
 		Thread.sleep(IDLE_TIME);
 
-		Tuple notificationTuple = getCommandSpace().waitToTake(
+		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no notification received", notificationTuple);
@@ -174,17 +174,17 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
 			// System.out.println(keyword);
-			assertEquals(expectedKeywords[i - 8], keyword);
+			assertEquals(this.expectedKeywords[i - 8], keyword);
 		}
-		assertNull(getCommandSpace().take(
+		assertNull(this.getCommandSpace().take(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField())));
 
 		System.out.println("Getting second notification");
 		Thread.sleep(IDLE_TIME);
-		notificationTuple = getCommandSpace().waitToTake(
+		notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
-						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL * 3);
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0).getValue());
 		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple.getField(2).getValue());
@@ -196,7 +196,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
 			// System.out.println(keyword);
-			assertEquals(expectedKeywords[i - 8], keyword);
+			assertEquals(this.expectedKeywords[i - 8], keyword);
 		}
 
 		// for (int i = 0; i < 10; i++) {
@@ -209,7 +209,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		// }
 
 		Thread.sleep(5 * IDLE_TIME);
-		notificationTuple = getCommandSpace().waitToTake(
+		notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNull("notification received", notificationTuple);
@@ -218,14 +218,14 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	@Test
 	public void testNotificationsStopAfterEnoughConceptsAreAdded() throws InterruptedException, TupleSpaceException {
-		sendWebresourcerStarted();
-		sendScyMapperStarted();
-		sendELoLoaded();
+		this.sendWebresourcerStarted();
+		this.sendScyMapperStarted();
+		this.sendELoLoaded();
 
-		sendConceptAdded();
+		this.sendConceptAdded();
 		Thread.sleep(IDLE_TIME);
 
-		Tuple notificationTuple = getCommandSpace().waitToTake(
+		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no notification received", notificationTuple);
@@ -238,19 +238,19 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertEquals("type=concept_proposal", notificationTuple.getField(7).getValue());
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
-			assertEquals(expectedKeywords[i - 8], keyword);
+			assertEquals(this.expectedKeywords[i - 8], keyword);
 		}
-		assertNull(getCommandSpace().take(
+		assertNull(this.getCommandSpace().take(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField())));
 
-		sendConceptAdded();
+		this.sendConceptAdded();
 
 		System.out.println("Getting second notification");
 		Thread.sleep(IDLE_TIME);
-		notificationTuple = getCommandSpace().waitToTake(
+		notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
-						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL * 3);
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0).getValue());
 		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple.getField(2).getValue());
@@ -261,16 +261,16 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertEquals("type=concept_proposal", notificationTuple.getField(7).getValue());
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
-			assertEquals(expectedKeywords[i - 8], keyword);
+			assertEquals(this.expectedKeywords[i - 8], keyword);
 		}
 
-		sendConceptAdded();
-		sendConceptAdded();
-		sendConceptAdded();
-		sendConceptAdded();
+		this.sendConceptAdded();
+		this.sendConceptAdded();
+		this.sendConceptAdded();
+		this.sendConceptAdded();
 
 		Thread.sleep(2 * IDLE_TIME);
-		notificationTuple = getCommandSpace().waitToTake(
+		notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, "scymapper", String.class,
 						String.class, Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNull("notification received", notificationTuple);
@@ -279,10 +279,10 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	private void sendELoLoaded() {
 		try {
-			getActionSpace().write(
+			this.getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id3", System.currentTimeMillis(), AgentProtocol.ACTION_ELO_LOADED,
 							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							"mission1", "n/a", eloPath));
+							"mission1", "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -290,10 +290,10 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	private void sendConceptAdded() {
 		try {
-			getActionSpace().write(
+			this.getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", System.currentTimeMillis(), AgentProtocol.ACTION_NODE_ADDED,
 							"jeremy@scy.collide.info/Smack", ExtractKeywordsDecisionMakerAgent.SCYMAPPER, "mission1",
-							"n/a", eloPath, "id=111", "name=label"));
+							"n/a", this.eloPath, "id=111", "name=label"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -301,10 +301,10 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	private void sendWebresourcerStarted() {
 		try {
-			getActionSpace().write(
+			this.getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", System.currentTimeMillis(),
 							AgentProtocol.ACTION_TOOL_STARTED, "jeremy@scy.collide.info/Smack",
-							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER, "mission1", "n/a", eloPath));
+							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER, "mission1", "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -312,10 +312,10 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	private void sendScyMapperStarted() {
 		try {
-			getActionSpace().write(
+			this.getActionSpace().write(
 					new Tuple(AgentProtocol.ACTION, "id1", System.currentTimeMillis(),
 							AgentProtocol.ACTION_TOOL_STARTED, "jeremy@scy.collide.info/Smack",
-							ExtractKeywordsDecisionMakerAgent.CONCEPTMAP, "mission1", "n/a", eloPath));
+							ExtractKeywordsDecisionMakerAgent.CONCEPTMAP, "mission1", "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

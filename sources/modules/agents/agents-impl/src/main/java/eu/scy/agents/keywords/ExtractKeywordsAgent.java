@@ -1,9 +1,7 @@
 package eu.scy.agents.keywords;
 
 import java.rmi.dgc.VMID;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -67,25 +65,23 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private Set<String> mergeKeywords(List<String> keywords1, List<String> keywords2) {
+	private Set<String> mergeKeywords(Set<String> tfIdfKeywords, Set<String> topicKeywords, Set<String> ontologyKeywords) {
 		Set<String> mergedResult = new HashSet<String>();
-		mergedResult.addAll(keywords1);
-		mergedResult.addAll(keywords2);
+		mergedResult.addAll(tfIdfKeywords);
+		mergedResult.addAll(topicKeywords);
+		mergedResult.addAll(ontologyKeywords);
 		return mergedResult;
 	}
 
-	private ArrayList<String> getTfIdfKeywords(Tuple tuple) {
-		String text = (String) tuple.getField(3).getValue();
+	private Set<String> callKeywordsAgent(String agent, String text) {
 		String queryId = new VMID().toString();
-		ArrayList<String> result = new ArrayList<String>();
+		Set<String> result = new HashSet<String>();
 		try {
-			getCommandSpace().write(
-					new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, queryId, text));
+			getCommandSpace().write(new Tuple(agent, AgentProtocol.QUERY, queryId, text));
 			Tuple response = getCommandSpace().waitToTake(
-					new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId,
-							String.class));
+					new Tuple(agent, AgentProtocol.RESPONSE, queryId, String.class), AgentProtocol.ALIVE_INTERVAL * 3);
 			if (response == null) {
-				return new ArrayList<String>();
+				return result;
 			}
 			String keywordString = (String) response.getField(3).getValue();
 			StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
@@ -98,30 +94,29 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		return result;
 	}
 
-	private ArrayList<String> getTopicKeywords(Tuple tuple) {
-		String text = (String) tuple.getField(3).getValue();
-		String queryId = new VMID().toString();
-		ArrayList<String> result = new ArrayList<String>();
-		try {
-			getCommandSpace().write(
-					new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY,
-							queryId, text));
-			Tuple response = getCommandSpace().waitToTake(
-					new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE,
-							queryId, String.class));
-			if (response == null) {
-				return new ArrayList<String>();
-			}
-			String keywordString = (String) response.getField(3).getValue();
-			StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
-			while (tokenizer.hasMoreTokens()) {
-				result.add(tokenizer.nextToken());
-			}
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+	// private ArrayList<String> getTopicKeywords(String text) {
+	// String queryId = new VMID().toString();
+	// ArrayList<String> result = new ArrayList<String>();
+	// try {
+	// getCommandSpace().write(
+	// new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY,
+	// queryId, text));
+	// Tuple response = getCommandSpace().waitToTake(
+	// new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE,
+	// queryId, String.class));
+	// if (response == null) {
+	// return new ArrayList<String>();
+	// }
+	// String keywordString = (String) response.getField(3).getValue();
+	// StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
+	// while (tokenizer.hasMoreTokens()) {
+	// result.add(tokenizer.nextToken());
+	// }
+	// } catch (TupleSpaceException e) {
+	// e.printStackTrace();
+	// }
+	// return result;
+	// }
 
 	@Override
 	protected void doStop() throws AgentLifecycleException {
@@ -152,14 +147,40 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			return;
 		} else {
 			String queryId = (String) tuple.getField(2).getValue();
-			ArrayList<String> tfIdfKeywords = getTfIdfKeywords(tuple);
-			ArrayList<String> topicKeywords = getTopicKeywords(tuple);
+			String text = (String) tuple.getField(3).getValue();
 
-			Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords);
+			Set<String> tfIdfKeywords = callKeywordsAgent(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, text);
+			Set<String> topicKeywords = callKeywordsAgent(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
+					text);
+			Set<String> ontologyKeywords = callKeywordsAgent(OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text);
+
+			Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords, ontologyKeywords);
 			logger.info("found keywords: " + mergedKeywords);
 
 			sendAnswer(mergedKeywords, queryId);
 		}
 	}
 
+	// private ArrayList<String> getOntologyKeywords(String text) {
+	// String queryId = new VMID().toString();
+	// ArrayList<String> result = new ArrayList<String>();
+	// try {
+	// getCommandSpace().write(
+	// new Tuple(OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.QUERY, queryId, text));
+	// Tuple response = getCommandSpace().waitToTake(
+	// new Tuple(OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.RESPONSE, queryId,
+	// String.class));
+	// if (response == null) {
+	// return new ArrayList<String>();
+	// }
+	// String keywordString = (String) response.getField(3).getValue();
+	// StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
+	// while (tokenizer.hasMoreTokens()) {
+	// result.add(tokenizer.nextToken());
+	// }
+	// } catch (TupleSpaceException e) {
+	// e.printStackTrace();
+	// }
+	// return result;
+	// }
 }
