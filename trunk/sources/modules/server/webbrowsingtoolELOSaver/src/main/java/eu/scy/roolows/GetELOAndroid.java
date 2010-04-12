@@ -68,7 +68,7 @@ import roolo.elo.api.IELO;
 @Deprecated
 public class GetELOAndroid {
 
-	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
+	private final static Logger logger = Logger.getLogger(GetELOAndroid.class.getName());
 
 	@Context
 	private UriInfo context;
