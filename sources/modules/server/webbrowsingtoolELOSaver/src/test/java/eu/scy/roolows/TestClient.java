@@ -17,7 +17,10 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
+import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -231,6 +234,10 @@ public class TestClient extends JerseyTest {
         for (ISearchResult result : searchResults){
             resultsFromRepository.add(((URI)result.getMetadata().getMetadataValueContainer(identifierKey).getValue()).toString());
         }
+
+        //Alternative search - to see if the repo could return ELOs via alternative search engine
+        IQuery query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/webresourcer", null);
+        logger.info("Alternative search brought "+beans.getRepository().search(query).size()+" results.");
 
         Assert.assertEquals(resultsFromRepository.size(), resultsViaWebservice.size());
         Assert.assertEquals(resultsFromRepository, resultsViaWebservice);

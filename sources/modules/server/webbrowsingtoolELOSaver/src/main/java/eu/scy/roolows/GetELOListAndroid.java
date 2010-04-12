@@ -75,7 +75,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 @Path("/getELOListAndroid")
 public class GetELOListAndroid {
 
-	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
+	private final static Logger logger = Logger.getLogger(GetELOListAndroid.class.getName());
 
 	private static final Beans beans = Beans.getInstance();
 	

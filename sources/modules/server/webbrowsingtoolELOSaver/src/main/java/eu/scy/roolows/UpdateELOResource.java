@@ -71,7 +71,7 @@ public class UpdateELOResource {
     @Context
     private UriInfo context;
     private static final Beans beans = Beans.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private final static Logger log = Logger.getLogger(UpdateELOResource.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
