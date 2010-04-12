@@ -86,11 +86,11 @@ request.setAttribute("view.jsp-results", results);
 					<td class="td-extra-settings">
 						Language:
 					</td>
-					<td class="td-extra-settings">
+					<td class="td-extra-settings2">
 						<form action="<portlet:actionURL>
 				                    <portlet:param name="struts_action" value="/ext/asset_by_ratio/view" />
 									  </portlet:actionURL>" method="post" name="<portlet:namespace />chooseLanguageType">		                
-										 <select name="assetLanguageType" size="1" onChange="submitForm(document.<portlet:namespace />chooseLanguageType);">
+										 <select class="language-option-panel" name="assetLanguageType" size="1" onChange="submitForm(document.<portlet:namespace />chooseLanguageType);">
 							             <option value="all"<%= "all".equals(assetLanguageType) ? " selected" : "" %>>all Languages</option>
 							             <option value="en"<%= "en".equals(assetLanguageType) ? " selected" : "" %>>english</option>
 							             <option value="de"<%= "de".equals(assetLanguageType) ? " selected" : "" %>>german</option>
@@ -107,11 +107,11 @@ request.setAttribute("view.jsp-results", results);
 					<td class="td-extra-settings">
 						Content Type:
 					</td>
-					<td class="td-extra-settings">
+					<td class="td-extra-settings2">
 						<form action="<portlet:actionURL>
 				                    <portlet:param name="struts_action" value="/ext/asset_by_ratio/view" />
 									  </portlet:actionURL>" method="post" name="<portlet:namespace />chooseContentType">		                
-										 <select name="assetContentType" size="1" onChange="submitForm(document.<portlet:namespace />chooseContentType);">
+										 <select class="content-option-panel" name="assetContentType" size="1" onChange="submitForm(document.<portlet:namespace />chooseContentType);">
 							             <option value="allContent"<%= "allContent".equals(assetContentType) ? " selected" : "" %>>all content</option>
 							             <option value="image"<%= "image".equals(assetContentType) ? " selected" : "" %>>only images</option>
 							             <option value="text"<%= "text".equals(assetContentType) ? " selected" : "" %>>only text</option>
@@ -125,7 +125,7 @@ request.setAttribute("view.jsp-results", results);
 					<td class="td-extra-settings">
 						Age:
 					</td>
-					<td class="td-extra-settings">
+					<td class="td-extra-settings2">
  						<form action="<portlet:actionURL>
 					                    <portlet:param name="struts_action" value="/ext/asset_by_ratio/view" />
 										  </portlet:actionURL>" method="post" name="<portlet:namespace />choseAgeChecklist">		
@@ -151,7 +151,7 @@ request.setAttribute("view.jsp-results", results);
 					<td class="td-extra-settings">
 						extra settings:
 					</td>
-					<td class="td-extra-settings">
+					<td class="td-extra-settings2">
 						<portlet:actionURL var="hideExtras">
 		          					    <portlet:param name="struts_action" value="/ext/asset_by_ratio/view" />
 					                    <portlet:param name="showDurable" value="<%= String.valueOf(!showDurable) %>" />

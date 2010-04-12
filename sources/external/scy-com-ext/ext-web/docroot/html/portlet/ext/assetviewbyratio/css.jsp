@@ -247,6 +247,13 @@
      width: auto;
      height: auto;
      padding-top: 10px;
+     padding-left: 5px;
+}
+.box4{     
+     width: auto;
+     height: auto;
+     padding-top: 10px;
+     padding-left: 5px;
 }
 
 .table-extra-settings{     
@@ -255,12 +262,25 @@
 }
 
 .td-extra-settings{     
-	padding: 5px
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.td-extra-settings2{     
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 11px;
+	width: 80px;
 }
 .top-option-panel{     
 	padding-left: 1px;
 	margin-left: 17px;
-	margin-right: 9px;
+	width: 107px;
+}
+.language-option-panel{     
+	width: 107px;
+}
+.content-option-panel{     
+	width: 107px;
 }
 .div-center{     
 	text-align: center
@@ -273,5 +293,8 @@
 	padding-top: 10px
 }
 
+.select{
+	width: 107px;
+}
 
 
