@@ -1,8 +1,8 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- *
+ * 
  * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
- *
+ * 
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common
  * Development and Distribution License("CDDL") (collectively, the
@@ -20,13 +20,13 @@
  * License Header, with the fields enclosed by brackets [] replaced by
  * your own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- *
+ * 
  * Contributor(s):
- *
+ * 
  * The Original Software is NetBeans. The Initial Developer of the Original
  * Software is Sun Microsystems, Inc. Portions Copyright 1997-2007 Sun
  * Microsystems, Inc. All Rights Reserved.
- *
+ * 
  * If you wish your version of this file to be governed by only the CDDL
  * or only the GPL Version 2, indicate your decision by adding
  * "[Contributor] elects to include this software in this distribution
@@ -40,8 +40,9 @@
  */
 package eu.scy.roolows;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.sun.jersey.spi.resource.Singleton;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -54,26 +55,39 @@ import org.codehaus.jettison.json.JSONArray;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
 
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.metadata.keys.Contribute;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.search.LuceneQuery;
 
 /**
  * REST Web Service
- * 
+ *
  * @author __SVEN__
  */
-@Path("/getELO")
-public class GetELO {
+@Singleton //XXX try this out!!!
+@Path("/query")
+public class Query {
 
-    private static final Beans beans = Beans.getInstance();
-    private final static Logger logger = Logger.getLogger(GetELO.class.getName());
     @Context
     private UriInfo context;
+    private static final Beans beans = Beans.getInstance();
+    private final static Logger log = Logger.getLogger(Query.class.getName());
+    private IELO elo;
+    private IMetadataKey titleKey;
+    private IMetadataKey typeKey;
+    private IMetadataKey dateCreatedKey;
+    private IMetadataKey authorKey;
+    private IMetadataKey identifierKey;
+    private IMetadataKey descriptionKey;
 
-    /** Creates a new instance of SaveELOResource */
-    public GetELO() {
+    /** Creates a new instance of SaveELO */
+    public Query() {
+        initMetadataKeys();
     }
 
     /**
@@ -87,51 +101,54 @@ public class GetELO {
     }
 
     /**
-     * POST method for retrieving an ELO from RoOLO (specified by config) as JSON.
-     * This service consumes <b>text/plain</b> consisting of the URI of the ELO
-     * @param uri The String of the ELO to retrieve
-     * @return The ELO mapped to JSON
+     * POST method for querying RoOLO for ELOs. As a plain text parameter, a lucene query string is submitted
+     * 
+     * @param queryString The lucene query string
+     * @return a JSONArray of all results as JSONObjects. Every Object includes the following JSON params
+     * <ul>
+     * <li> uri
+     * <li> title
+     * <li> type
+     * <li> author
+     * <li> description
+     * <li> relevance
+     * </ul>
      */
     @POST
     @Consumes("text/plain")
     @Produces("application/json")
-    public JSONObject getELO(String uri) {
-        JSONObject eloAsJson = new JSONObject();
-        JSONObject metadata = new JSONObject();
-
+    public JSONArray query(String queryString) {
+        JSONArray queriedURIs = new JSONArray();
         try {
-            IELO elo = beans.getRepository().retrieveELO(new URI(uri));
-            if (elo != null) {
-                //TODO: do the flattening specific for different types of metadata keys
-                for (IMetadataKey metadataKey : elo.getMetadata().getAllMetadataKeys()) {
-                    final Object value = elo.getMetadata().getMetadataValueContainer(metadataKey).getValue();
-                    if (value == null) {
-                        metadata.put(metadataKey.getId(), JSONObject.NULL);
-                    } else {
-                        if (value instanceof Contribute) {
-                            JSONObject contribute = new JSONObject();
-                            contribute.put("vcard", ((Contribute) value).getVCard());
-                            contribute.put("date", ((Contribute) value).getDate());
-                            metadata.put(metadataKey.getId(), contribute);
-                        } else {
-                            metadata.put(metadataKey.getId(), value);
-                        }
-                    }
-                }
-                String contentString = elo.getContent().getXmlString();
-                JSONArray contentLanguages =new JSONArray(elo.getContent().getLanguages());
 
-                eloAsJson.put("metadata", metadata);
-                eloAsJson.put("content", contentString);
-                eloAsJson.put("contentLanguages", contentLanguages);
-                logger.info("retrieved ELO: " + eloAsJson);
-                return eloAsJson;
+            //query roolo
+            IQuery query = new LuceneQuery(queryString);
+            final List<ISearchResult> results = beans.getRepository().search(query);
+            for (ISearchResult result : results){
+                JSONObject resultAsJson = new JSONObject();
+                IMetadata resultMetadata = result.getMetadata();
+                resultAsJson.put("uri", resultMetadata.getMetadataValueContainer(identifierKey));
+                resultAsJson.put("title", resultMetadata.getMetadataValueContainer(titleKey));
+                resultAsJson.put("type", resultMetadata.getMetadataValueContainer(typeKey));
+                resultAsJson.put("author", resultMetadata.getMetadataValueContainer(authorKey));
+                resultAsJson.put("description", resultMetadata.getMetadataValueContainer(descriptionKey));
+                resultAsJson.put("relevance", result.getRelevance());
+                queriedURIs.put(resultAsJson);
             }
         } catch (JSONException ex) {
-            logger.error(ex.getMessage());
-        } catch (URISyntaxException ex) {
-            logger.error(ex.getMessage());
+            log.error(ex.getMessage());
+        } finally {
+            return queriedURIs;
         }
-        return null;
     }
+
+    private void initMetadataKeys() {
+        authorKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+        dateCreatedKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+        identifierKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+        descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+    }
+
 }

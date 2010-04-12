@@ -40,7 +40,7 @@ public class GetELOResource {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
     private IELO elo;
     private IMetadataKey uriKey;
@@ -121,25 +121,25 @@ public class GetELOResource {
                 //Authentication ok
 
                 //This query was only for testing purpose. Real queries would be passed to this service.
-                IMetadataKey searchKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+                IMetadataKey searchKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
                 IMetadataQuery metadataQuery = new BasicMetadataQuery(searchKey, BasicSearchOperations.EQUALS, "scy/html", null);
 
                 //make a query to the repository, retrieve a list of search results, create a List of ELOS
-                List<ISearchResult> searchResultList = configLoader.getRepository().search(metadataQuery);
+                List<ISearchResult> searchResultList = beans.getRepository().search(metadataQuery);
                 log.info(searchResultList.size() + " search results foung.");
                 
                 JSONArray elos = new JSONArray();
 
                 for (Iterator<ISearchResult> it = searchResultList.iterator(); it.hasNext();) {
                     ISearchResult searchResult = it.next();
-                    IELO retrievedElo = configLoader.getRepository().retrieveELO(searchResult.getUri());
+                    IELO retrievedElo = beans.getRepository().retrieveELO(searchResult.getUri());
                     URI uri = searchResult.getUri();
 
-                    IMetadataKey titleKey = configLoader.getTypeManager().getMetadataKey("title");
-                    IMetadataKey dateCreatedKey = configLoader.getTypeManager().getMetadataKey("dateCreated");
+                    IMetadataKey titleKey = beans.getTypeManager().getMetadataKey("title");
+                    IMetadataKey dateCreatedKey = beans.getTypeManager().getMetadataKey("dateCreated");
 
-                    String eloTitle = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(titleKey).getValue().toString();
-                    String eloDate = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(dateCreatedKey).getValue().toString();
+                    String eloTitle = beans.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(titleKey).getValue().toString();
+                    String eloDate = beans.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(dateCreatedKey).getValue().toString();
 
                     JSONObject eloAsJson = new JSONObject();
                     eloAsJson.put("title",eloTitle);

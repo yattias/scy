@@ -80,7 +80,7 @@ public class SaveELOResourceElectricity {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger log = Logger.getLogger(SaveELOResourceElectricity.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
@@ -154,28 +154,28 @@ public class SaveELOResourceElectricity {
                 //Authentication ok
 
                 //Creating the ELO
-                elo = configLoader.getEloFactory().createELO();
+                elo = beans.getEloFactory().createELO();
 
                 log.info("ELO created");
                 Locale defaultLocale = new Locale(language);
                 elo.setDefaultLanguage(defaultLocale);
 
                 //Authenticate the user and set real user name, not user-id
-                authorKey = (ContributeMetadataKey) configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+                authorKey = (ContributeMetadataKey) beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
                 //FIXME replace username by vcard
                 Contribute contribute = new Contribute(username, new Date().getTime());
                 elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
 
-                typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+                typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
                 IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
-                if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
-                    configLoader.getTypeManager().registerMetadataKey(typeKey);
+                if (!beans.getTypeManager().isMetadataKeyRegistered(typeKey)) {
+                    beans.getTypeManager().registerMetadataKey(typeKey);
                 }
                 elo.getMetadata().addMetadataPair(typeKey, container);
 
-                titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-                dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-                descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+                titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+                dateCreatedKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+                descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
 
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
                 elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
@@ -185,12 +185,12 @@ public class SaveELOResourceElectricity {
                 log.info("Metadata set");
 
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
-                IContent eloContent = configLoader.getEloFactory().createContent();
+                IContent eloContent = beans.getEloFactory().createContent();
                 eloContent.setXmlString(content);
                 elo.setContent(eloContent);
                 try {
-                    IMetadata metadata = configLoader.getRepository().addNewELO(elo);
-                    String uri = ((URI) metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue()).toString();
+                    IMetadata metadata = beans.getRepository().addNewELO(elo);
+                    String uri = ((URI) metadata.getMetadataValueContainer(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue()).toString();
                     //return the uri that the client knows it and can perform an update as the next save
                     return uri;
                 } catch (ELONotAddedException e) {

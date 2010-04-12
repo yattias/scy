@@ -81,7 +81,7 @@ public class GetELOPreviewFromURI {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
     private IELO elo;
     private IMetadataKey uriKey;
@@ -142,7 +142,7 @@ public class GetELOPreviewFromURI {
         } catch (JSONException ex) {
             Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        elo = configLoader.getRepository().retrieveELO(new URI(uri));
+        elo = beans.getRepository().retrieveELO(new URI(uri));
 
         String contentString = elo.getContent().getXml();
         log.info("content: \n=====================\n"+contentString+"\n=====================");

@@ -70,7 +70,7 @@ public class UpdateELOResource {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
@@ -126,13 +126,13 @@ public class UpdateELOResource {
             Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            elo = configLoader.getRepository().retrieveELO(new URI(uri));
+            elo = beans.getRepository().retrieveELO(new URI(uri));
         } catch (URISyntaxException ex) {
             Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
             return "eloUpdateFailed";
         }
         elo.setContent(new BasicContent(content));
-        configLoader.getRepository().updateELO(elo);
+        beans.getRepository().updateELO(elo);
         log.info("Updated ELO");
 
         //return simplified codes for easier localization!

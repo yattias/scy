@@ -71,7 +71,7 @@ public class UpdateELOContent {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger log = Logger.getLogger(UpdateELOContent.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
@@ -143,13 +143,13 @@ public class UpdateELOContent {
                 //Authentication ok
 
                 //Creating the ELO
-                elo = configLoader.getRepository().retrieveELO(new URI(identifier));
+                elo = beans.getRepository().retrieveELO(new URI(identifier));
 
                 log.info("ELO loeaded");
 
-                dateLastModiefiedKey =  configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId());
+                dateLastModiefiedKey =  beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId());
                 elo.getMetadata().getMetadataValueContainer(dateLastModiefiedKey).setValue(new Date());
-                titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+                titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
                 log.info("Metadata updated");
                 
@@ -157,7 +157,7 @@ public class UpdateELOContent {
                 String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
                 elo.setContent(new BasicContent(content));
                 try {
-                    configLoader.getRepository().updateELO(elo);
+                    beans.getRepository().updateELO(elo);
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());
                 } catch (Exception e) {

@@ -5,6 +5,8 @@
 
 package eu.scy.roolows.config;
 
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.common.configuration.Configuration;
 import java.io.File;
 
 import roolo.api.IExtensionManager;
@@ -33,4 +35,7 @@ public interface Config {
 
    public String getBackgroundImageFileName();
    public boolean isBackgroundImageFileNameRelative();
+
+   public Configuration getServerConfig();
+   public IActionLogger getActionLogger();
 }
