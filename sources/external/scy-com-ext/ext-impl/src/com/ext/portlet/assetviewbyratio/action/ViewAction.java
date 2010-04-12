@@ -66,6 +66,8 @@ public class ViewAction extends PortletAction {
 		String assetLanguageType = req.getParameter("assetLanguageType");
 		String assetContentType = req.getParameter("assetContentType");
 		String[] metadataAgeChecklist = req.getParameterValues("metadataAgeChecklist");
+		Boolean showDurable = Boolean.valueOf(req.getParameter("showDurable"));
+		Boolean changeDurable = Boolean.valueOf(req.getParameter("changeDurable"));
 
 		HttpSession oHttpSession = getActionRequestSession(req);
 
@@ -85,6 +87,20 @@ public class ViewAction extends PortletAction {
 			oHttpSession.setAttribute("metadataAgeChecklist", metadataAgeChecklist);
 		}
 
+		if (changeDurable != null && changeDurable == true && showDurable != null) {
+			oHttpSession.setAttribute("showDurable", showDurable);
+				if(showDurable == true){
+					
+				try {
+
+					Thread.sleep(2000);
+				} catch (Exception ex) {
+					System.out.println(ex);
+				}
+			}
+		
+		}
+
 		// start sim calculation and set parameter to user session
 	}
 
@@ -96,6 +112,7 @@ public class ViewAction extends PortletAction {
 		String assetLanguageType = (String) oHttpSession.getAttribute("assetLanguageType");
 		String assetContentType = (String) oHttpSession.getAttribute("assetContentType");
 		String[] metadataAgeChecklist = (String[]) oHttpSession.getAttribute("metadataAgeChecklist");
+		Boolean showDurable = (Boolean) oHttpSession.getAttribute("showDurable");
 
 		String sortBy = "";
 
@@ -103,6 +120,9 @@ public class ViewAction extends PortletAction {
 
 		if (metadataAgeChecklist == null) {
 			metadataAgeChecklist = new String[] {};
+		}
+		if (showDurable == null) {
+			showDurable = false;
 		}
 		if (assetLanguageType == null) {
 			assetLanguageType = LANGUAGE_ALL;
@@ -136,7 +156,9 @@ public class ViewAction extends PortletAction {
 			}
 		}
 
-		if (metadataAgeChecklist.length > 0) {
+		// only limit assetEntries if user check more than one or not all age
+		// checkboxes
+		if (metadataAgeChecklist.length > 0 && metadataAgeChecklist.length < 4) {
 			allAllowdAssetEntries = getAllMetadataAgeAssetEntries(metadataAgeChecklist, allAllowdAssetEntries);
 		}
 
@@ -168,6 +190,7 @@ public class ViewAction extends PortletAction {
 		renderRequest.setAttribute("assetLanguageType", assetLanguageType);
 		renderRequest.setAttribute("assetContentType", assetContentType);
 		renderRequest.setAttribute("metadataAgeChecklist", metadataAgeChecklist);
+		renderRequest.setAttribute("showDurable", showDurable);
 		renderRequest.setAttribute("allAllowdAssetEntries", allAllowdAssetEntries);
 
 		return mapping.findForward("portlet.ext.asset_by_ratio.view");

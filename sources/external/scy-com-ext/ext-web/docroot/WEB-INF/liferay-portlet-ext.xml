@@ -21,7 +21,7 @@
 		<portlet-name>assetviewbyratio</portlet-name>
 		<struts-path>ext/asset_by_ratio</struts-path>
 		<use-default-template>false</use-default-template>
-		<header-portlet-css>/html/portlet/asset_publisher/css.jsp</header-portlet-css>
+		<header-portlet-css>/html/portlet/ext/assetviewbyratio/css.jsp</header-portlet-css>
 		<css-class-wrapper>portlet-asset-publisher</css-class-wrapper>
 	</portlet>
 	
