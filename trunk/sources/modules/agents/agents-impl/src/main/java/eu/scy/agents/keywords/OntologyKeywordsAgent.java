@@ -86,6 +86,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 
 	private Set<String> merge(Set<String> ontologyKeywords, Set<String> tokens) {
 		tokens.retainAll(ontologyKeywords);
+		logger.info("Keywords that match on the ontology: " + tokens);
 		return tokens;
 	}
 
@@ -107,6 +108,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			while (tokenizer.hasMoreTokens()) {
 				ontologyKeywords.add(this.unCamelize(tokenizer.nextToken()));
 			}
+			logger.info("found " + ontologyKeywords + " in the ontology");
 		} catch (TupleSpaceException e) {
 			logger.warn("No ontology keywords found: " + e.getMessage());
 		}
