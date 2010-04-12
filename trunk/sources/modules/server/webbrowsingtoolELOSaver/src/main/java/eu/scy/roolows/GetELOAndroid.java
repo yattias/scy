@@ -122,7 +122,7 @@ public class GetELOAndroid {
 		String uri = null;
 		try {
 			uri = jsonData.getString("uri");
-			IELO elo = ConfigLoader.getInstance().getRepository().retrieveELO(new URI(uri));
+			IELO elo = Beans.getInstance().getRepository().retrieveELO(new URI(uri));
 			String contentString = elo.getContent().getXmlString();
 			output.put("content", contentString);
 		} catch (JSONException ex) {

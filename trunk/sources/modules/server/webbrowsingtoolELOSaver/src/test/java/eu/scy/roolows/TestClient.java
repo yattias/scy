@@ -6,6 +6,7 @@ import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -16,8 +17,10 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
+import roolo.api.search.ISearchResult;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.BasicMetadataKey;
@@ -27,6 +30,7 @@ import roolo.elo.metadata.keys.LongMetadataKey;
 import roolo.elo.metadata.keys.RelationMetadataKey;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.keys.UriMetadataKey;
+import roolo.search.LuceneQuery;
 
 /**
  * Tests the REST Webservice as a client using jersey testframework and jUnit 4
@@ -35,25 +39,26 @@ import roolo.elo.metadata.keys.UriMetadataKey;
  */
 public class TestClient extends JerseyTest {
 
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private static final Logger logger = Logger.getLogger(TestClient.class.getName());
     private IMetadataKey authorKey;
     private IMetadataKey typeKey;
     private IMetadataKey titleKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey descriptionKey;
+    private IMetadataKey identifierKey;
 
     public static IELO parseJsonELO(JSONObject json) throws URISyntaxException {
         try {
             JSONObject metadata = json.getJSONObject("metadata");
             String contentString = json.getString("content");
             final Iterator keys = metadata.keys();
-            IELO elo = configLoader.getEloFactory().createELO();
+            IELO elo = beans.getEloFactory().createELO();
             //set elo metadata
             while (keys.hasNext()) {
                 final String key = (String) keys.next();
                 final Object value = metadata.get(key);
-                final IMetadataKey metadatakey = configLoader.getTypeManager().getMetadataKey(key);
+                final IMetadataKey metadatakey = beans.getTypeManager().getMetadataKey(key);
                 if (value == JSONObject.NULL) {
                     elo.getMetadata().getMetadataValueContainer(metadatakey).setValue(null);
                 } else {
@@ -80,7 +85,7 @@ public class TestClient extends JerseyTest {
                 }
             }
             //set elo content
-            IContent eloContent = configLoader.getEloFactory().createContent();
+            IContent eloContent = beans.getEloFactory().createContent();
             //contentLanguages -> parse JSONArray to Locales
             JSONArray contentLanguagesAsJson = json.getJSONArray("contentLanguages");
             List<Locale> contentLanguages = new Vector<Locale>();
@@ -161,7 +166,7 @@ public class TestClient extends JerseyTest {
             eloUri = saveELOResponse.getEntity(String.class);
             logger.info("eloUri: " + eloUri);
             //the original ELO has no identifier, so the ELO has to be retrieved directly to be compared to the webservice ELO
-            elo = configLoader.getRepository().retrieveELO(new URI(eloUri));
+            elo = beans.getRepository().retrieveELO(new URI(eloUri));
 
             //3. retrieve ELO on path /getELO
             WebResource getELOResource = resource();
@@ -182,23 +187,72 @@ public class TestClient extends JerseyTest {
         Assert.assertEquals(retrievedELO.getXml(), elo.getXml());
     }
 
+     /**
+     * This is a test of querying roolo with lucene search strings
+     * 1. creates an ELO
+     * 2. saves that ELO, so that the repository has at least one ELO for the search.
+     * 3. query it via webservice!
+     * 4. query it directly
+     * 5. compare both searches (only by URIs)
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testQueryingELOs() throws Exception{
+        //create JSON from test-ELO
+        IELO elo = getExampleElo();
+        final String savedEloUri = ((URI)beans.getRepository().addNewELO(elo).getMetadataValueContainer(identifierKey).getValue()).toString();
+        logger.info("saved ELO, URI: "+savedEloUri);
+        logger.info("repository contains: "+beans.getRepository().retrieveELO(new URI(savedEloUri)));
+
+        String searchString = "*:*";
+        WebResource webResource = resource();
+        webResource.accept("text/plain");
+        ClientResponse response = webResource.path("query").type("text/plain").post(ClientResponse.class, searchString);
+        JSONArray responseEntity = null;
+        if (response.hasEntity()) {
+            responseEntity = response.getEntity(JSONArray.class);
+        }
+        logger.info("found "+responseEntity.length()+" results via webservice");
+
+        //Make a Hashset of all URIs (-> retrieved via Webservice)
+        HashSet<String> resultsViaWebservice = new HashSet<String>();
+        for(int i=0; i<responseEntity.length();i++){
+            String uri = responseEntity.getJSONObject(i).getString("uri");
+            if(!resultsViaWebservice.add(uri)){
+                throw new Exception("Search results contain same uri twice (or more).");
+            }
+        }
+        logger.info("response entity: " + responseEntity);
+
+        final List<ISearchResult> searchResults = beans.getRepository().search(new LuceneQuery(searchString));
+        logger.info("found "+searchResults.size()+" results in repo");
+        //Make a Hashset of all URIs (-> retrieved directly from repository)
+        HashSet<String> resultsFromRepository = new HashSet<String>();
+        for (ISearchResult result : searchResults){
+            resultsFromRepository.add(((URI)result.getMetadata().getMetadataValueContainer(identifierKey).getValue()).toString());
+        }
+
+        Assert.assertEquals(resultsFromRepository.size(), resultsViaWebservice.size());
+        Assert.assertEquals(resultsFromRepository, resultsViaWebservice);
+    }
+
 //    @Test
 //    public void testQueryingELOs() {
 //        IELO elo = getExampleElo();
-//        configLoader.getRepository().addNewELO(elo);
+//        beans.getRepository().addNewELO(elo);
 //        IQuery query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, (String) elo.getMetadata().getMetadataValueContainer(typeKey).getValue(), null);
 //        //TODO replace by /search Webservice
-//        final List<ISearchResult> searchResults = configLoader.getRepository().search(query);
+//        final List<ISearchResult> searchResults = beans.getRepository().search(query);
 //        for (ISearchResult searchResult : searchResults) {
 //            logger.info("SearchResult URI: " + searchResult.getUri());
 //        }
 //        logger.info("SearchResult URI (size): " + searchResults.size());
 //    }
     public IELO getExampleElo() {
-        IELO elo = configLoader.getEloFactory().createELO();
+        IELO elo = beans.getEloFactory().createELO();
 
         //ELO content
-        IContent content = configLoader.getEloFactory().createContent();
+        IContent content = beans.getEloFactory().createContent();
         Locale locale = new Locale("de");
         content.setLanguage(locale);
         content.setXmlString("<test>this is testcontent</test>");
@@ -231,10 +285,11 @@ public class TestClient extends JerseyTest {
     }
 
     private void initMetadataKeys() {
-        authorKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-        typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-        titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-        dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-        descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+        authorKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+        dateCreatedKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+        descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+        identifierKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
     }
 }

@@ -5,6 +5,8 @@
 
 package eu.scy.roolows.config;
 
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.common.configuration.Configuration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -40,7 +42,6 @@ public class SpringConfigFactory {
       if (context==null){
          throw new IllegalArgumentException("failed to load context from classpath: " + location);
       }
-//      readBeans();
    }
 
    public void initFromFileSystem(String location)
@@ -49,7 +50,6 @@ public class SpringConfigFactory {
       if (context==null){
          throw new IllegalArgumentException("failed to load context from file system: " + location);
       }
-//      readBeans();
    }
 
    public void addFromClassPath(String location)
@@ -68,15 +68,14 @@ public class SpringConfigFactory {
 
    private void readBeans(){
 
-//      config = (Config) getBean("scyDesktopConfig");
-      
-      BasicConfig config = new BasicConfig();
-      config.setMetadataTypeManager((IMetadataTypeManager) getBean("metadataTypeManager"));
-      config.setExtensionManager((IExtensionManager) getBean("extensionManager"));
-      config.setEloFactory((IELOFactory) getBean("eloFactory"));
-      config.setRepository((IRepository) getBean("repository"));
-      
-      this.config = config;
+      BasicConfig newConfig = new BasicConfig();
+      newConfig.setMetadataTypeManager((IMetadataTypeManager) getBean("metadataTypeManager"));
+      newConfig.setExtensionManager((IExtensionManager) getBean("extensionManager"));
+      newConfig.setEloFactory((IELOFactory) getBean("eloFactory"));
+      newConfig.setRepository((IRepository) getBean("repository"));
+      newConfig.setServerConfig((Configuration) getBean("serverConfig"));
+      newConfig.setActionLogger((IActionLogger) getBean("actionLogger"));
+      this.config = newConfig;
    }
 
    private Object getBean(String name)

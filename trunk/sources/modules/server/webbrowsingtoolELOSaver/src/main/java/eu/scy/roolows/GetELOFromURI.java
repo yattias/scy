@@ -77,7 +77,7 @@ public class GetELOFromURI {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
 
     /** Creates a new instance of SaveELOResource */
@@ -124,7 +124,7 @@ public class GetELOFromURI {
         try {
             uri = jsonData.getString("uri");
             //password = jsonData.getString("password");
-            elo = configLoader.getRepository().retrieveELO(new URI(uri));
+            elo = beans.getRepository().retrieveELO(new URI(uri));
             String contentString = elo.getContent().getXmlString();
             StringReader stringReader = new StringReader(contentString);
             InputSource inputSource = new InputSource(stringReader);
