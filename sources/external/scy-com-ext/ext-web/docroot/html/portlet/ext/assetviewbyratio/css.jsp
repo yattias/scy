@@ -247,13 +247,13 @@
      width: auto;
      height: auto;
      padding-top: 10px;
-     padding-left: 5px;
+
 }
 .box4{     
      width: auto;
      height: auto;
      padding-top: 10px;
-     padding-left: 5px;
+
 }
 
 .table-extra-settings{     
@@ -264,6 +264,7 @@
 .td-extra-settings{     
 	padding-top: 5px;
 	padding-bottom: 5px;
+	padding-left: 3px;
 }
 .td-extra-settings2{     
 	padding-top: 5px;
