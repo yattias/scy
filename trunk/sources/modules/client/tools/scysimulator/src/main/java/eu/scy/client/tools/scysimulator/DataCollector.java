@@ -72,25 +72,45 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         IDENT_HYPO,
         SHOWBUTTON;
     }
+
     private JScrollPane pane;
+
     private JTable table;
+
     private ISimQuestViewer simquestViewer;
+
     private SCYDataAgent dataAgent;
+
     private List<ModelVariable> simulationVariables;
+
     private List<ModelVariable> selectedVariables;
+
     private JCheckBox checkbox;
+
     private DataSet dataset;
+
     private DatasetTableModel tableModel;
+
     private DatasetSandbox sandbox = null;
+
     private BalanceSlider balanceSlider = null;
+
     private ScySimLogger logger;
+
     private Logger debugLogger;
+
     private ToolBrokerAPI tbi;
+
     private JButton notifyButton;
+
     private String notificationMessage;
+
     protected boolean notify;
+
     private boolean notThreadRunning = false;
+
     private Vector<String> shownMessages;
+
     private String notificationSender;
 
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
@@ -106,7 +126,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger(), eloURI);
         }
-        //logger.sendListOfInputVariables();
+        // logger.sendListOfInputVariables();
         logger.logListOfVariables("input_variables", logger.getInputVariables());
         setSelectedVariables(new ArrayList<ModelVariable>());
         // initialize user interface
@@ -114,7 +134,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
-        //setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
+        // setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
 
         // register agent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
@@ -122,7 +142,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         simquestViewer.getDataServer().register(dataAgent);
 
         // rotation awareness stuff
-        for (ModelVariable var: simquestViewer.getDataServer().getVariables("name is not relevant")) {
+        for (ModelVariable var : simquestViewer.getDataServer().getVariables("name is not relevant")) {
             if (var.getName().equals("rotation")) {
                 rotationVariable = var;
                 debugLogger.info("rotation variable found.");
@@ -131,7 +151,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
             balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
             debugLogger.info("balance simulation found.");
-        }      
+        }
     }
 
     private void initGUI() {
@@ -284,13 +304,9 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     }
 
-    /*public void newELO() {
-    dataset.removeAll();
-    if (sandbox != null) {
-    initSandbox();
-    }
-    //text.setText("");
-    }*/
+    /*
+     * public void newELO() { dataset.removeAll(); if (sandbox != null) { initSandbox(); } //text.setText(""); }
+     */
     public DataSet getDataSet() {
         return dataset;
     }
@@ -432,12 +448,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void processNotification(INotification notification) {
-
+        System.out.println("processNotification entered...");
         String message = notification.getFirstProperty("message");
         String type = notification.getFirstProperty("type");
         String popup = notification.getFirstProperty("popup");
         if (message != null) {
             if (popup != null && popup.equals("true")) {
+                System.out.println("message with popup received...");
                 final JDialog jd = new JDialog();
                 jd.setSize(850, 600);
                 jd.setLocationRelativeTo(this);
@@ -509,6 +526,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 jd.setVisible(true);
 
             } else {
+                System.out.println("message without popup received...");
                 startNotifyThread();
                 notificationSender = notification.getSender();
                 notificationMessage = message;
@@ -529,13 +547,17 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     private void startNotifyThread() {
+        System.out.println("startNotifyThread entered...");
+
         if (!notThreadRunning && !notify) {
             notThreadRunning = true;
             notify = true;
+            System.out.println("before invokeLater...");
             SwingUtilities.invokeLater(new Runnable() {
 
                 @Override
                 public void run() {
+                    System.out.println("run method entered...");
                     notifyButton.setVisible(true);
                     boolean up = true;
                     Color upColor = Color.RED;
@@ -549,6 +571,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     int count = 0;
                     double step = cycleLengthInMillis / updateMillis;
                     while (notify) {
+                        System.out.println("in while(notify)....");
                         if (count > step) {
                             up = !up;
                             count = 0;
@@ -585,6 +608,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                         notifyButton.setFont(notifyButton.getFont().deriveFont(currentFontSize));
                         count++;
                         try {
+                            System.out.println("before Thread.sleep...");
                             Thread.sleep((long) updateMillis);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
