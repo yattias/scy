@@ -166,7 +166,7 @@ public class SaveELO {
                         elo.setContent(createELOContent(language, country, content));
                         beans.getRepository().updateELO(elo);
                         log.info("Updated ELO with uri: " + uri);
-                        //logSavedELOAction(username, uri, "elo_updated");
+                        logSavedELOAction(username, uri, "elo_updated");
                     } else {
                         log.error("could not update! <- Could not retrieve ELO (ELO is null)");
                         //since the ELO could not be retrieved, the URI isnt correct
@@ -181,7 +181,7 @@ public class SaveELO {
                     IMetadata metadata = beans.getRepository().addNewELO(elo);
                     uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
                     log.info("Saved ELO with uri: " + uri);
-                    //logSavedELOAction(username, uri, "elo_saved");
+                    logSavedELOAction(username, uri, "elo_saved");
                 }
             } else {
                 log.error("authentication of user " + username + " failed.");
@@ -192,7 +192,12 @@ public class SaveELO {
             log.error(ex.getMessage());
         } catch (ELONotAddedException ex) {
             log.error(ex.getMessage());
-        }  finally {
+        } catch (Exception ex) {
+            log.error("**********CATCH ALL**************");
+            log.error(ex);
+            ex.printStackTrace();
+            log.error("*********************************");
+        } finally {
             //uri is null if the whole thing isnt working
             return uri;
         }
