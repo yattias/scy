@@ -83,9 +83,10 @@ public class ImageWindowStyler extends WindowStyler {
    }
 
    public override function getScyColor(type: String): Color {
-      var colorName = EloImageInformation.getColorString(type);
-      if (colorName == null) {
-         colorName = ScyColors.darkGray.colorName;
+      var scyColors = EloImageInformation.getScyColors(type);
+      var colorName = ScyColors.darkGray.mainColorName;
+      if (scyColors != null) {
+         colorName = scyColors.mainColorName;
       }
       return Color.web(colorName);
    }

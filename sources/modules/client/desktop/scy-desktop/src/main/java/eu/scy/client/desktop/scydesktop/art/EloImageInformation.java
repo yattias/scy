@@ -34,43 +34,33 @@ public enum EloImageInformation
    assignment("special/assignment","assignment",ScyColors.brown),
    generalNew("general/new","new",ScyColors.darkRed),
    generalSearch("general/search","search",ScyColors.darkBlue),
-   generalLogo("general/logo","logo_gray",ScyColors.darkGray),
-   conceptMap2("ard/concept_map","concept_map2",ScyColors.blue),
-   assignment2("ard/assignment","assignment2",ScyColors.magenta),
-   choices2("ard/choices","choices2",ScyColors.blue),
-   conclusion2("ard/conclusion","conclusion2",ScyColors.pink),
-   drawing2("ard/drawing","drawing2",ScyColors.blue),
-   house2("ard/house","house2",ScyColors.orange),
-   hypothese2("ard/hypothese","hypothese2",ScyColors.pink),
-   info2("ard/info","info2",ScyColors.magenta),
-   idea2("ard/idea","idea2",ScyColors.blue),
-   presentation2("ard/presentation","presentation2",ScyColors.pink),
-   report2("ard/report","report2",ScyColors.pink);
+   generalLogo("general/logo","logo_gray",ScyColors.darkGray);
    
    public final String type;
    public final String iconName;
-   public final String colorString;
+   public final ScyColors scyColors;
    private final static Map<String,String> typeNamesMap = new HashMap<String,String>();
-   private final static Map<String,String> colorStringsMap = new HashMap<String,String>();
+   private final static Map<String,ScyColors> colorStringsMap = new HashMap<String,ScyColors>();
 
    static{
       for (EloImageInformation technicalType : EloImageInformation.values()){
          typeNamesMap.put(technicalType.type, technicalType.iconName);
-         colorStringsMap.put(technicalType.type, technicalType.colorString);
+         colorStringsMap.put(technicalType.type, technicalType.scyColors);
       }
    }
 
-   private EloImageInformation(String type,String iconName,ScyColors color)
+   private EloImageInformation(String type,String iconName,ScyColors scyColors)
    {
       this.type = type;
       this.iconName = iconName;
-      this.colorString = color.colorName;
+      this.scyColors = scyColors;
    }
 
    public static String getIconName(String type){
       return typeNamesMap.get(type);
    }
-   public static String getColorString(String type){
+   
+   public static ScyColors getScyColors(String type){
       return colorStringsMap.get(type);
    }
 }
