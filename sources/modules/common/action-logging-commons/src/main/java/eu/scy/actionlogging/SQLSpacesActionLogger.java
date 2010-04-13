@@ -1,7 +1,5 @@
 package eu.scy.actionlogging;
 
-import java.util.Map.Entry;
-
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
@@ -22,8 +20,6 @@ public class SQLSpacesActionLogger implements IActionLogger {
     private Field typeField;
 
     private Field timeField;
-
-    private Tuple actionTuple;
 
     private Field toolField;
 
@@ -70,14 +66,7 @@ public class SQLSpacesActionLogger implements IActionLogger {
             sessionField = new Field(action.getContext(ContextConstants.session));
             eloURIField = new Field(action.getContext(ContextConstants.eloURI));
            
-            //dataTypeField = (action.getDataType()==null)?new Field(String.class):new Field(action.getDataType());
-            //dataField = (action.getData()==null)?new Field(String.class):new Field(action.getData());
-            
-            actionTuple = new Tuple(actionField,idField, timeField, typeField, userField, toolField, missionField, sessionField, eloURIField, dataTypeField,dataField);
-            for (Entry<String, String> entry : action.getAttributes().entrySet()) {
-                actionTuple.add(entry.getKey()+'='+entry.getValue());
-                
-            }
+            Tuple actionTuple = ActionTupleTransformer.getActionAsTuple(action);
             
             try {
                 ts.write(actionTuple);
