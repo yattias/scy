@@ -91,7 +91,7 @@ public class UserToolExperienceModel {
             if (oldTime == null) {
                 logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] Tool " + tool + " not yet in Map...will add it now");
                 oldTime = 0l;
-                Tuple t = new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), endTime, timeToAdd, startCount, stopCount,getEloUri());
+                Tuple t = new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), endTime, timeToAdd, startCount, stopCount, getEloUri());
                 TupleID id = null;
                 try {
                     id = sensorSpace.write(t);
@@ -108,7 +108,7 @@ public class UserToolExperienceModel {
             TupleID tupleID = toolTIDMap.get(tool);
             if (tupleID != null) {
                 try {
-                    sensorSpace.update(tupleID,new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), timeOccured, this.getExperience(tool), startCount, stopCount, getEloUri()));
+                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), timeOccured, this.getExperience(tool), startCount, stopCount, getEloUri()));
                 } catch (TupleSpaceException e) {
                     e.printStackTrace();
                 }
@@ -135,14 +135,14 @@ public class UserToolExperienceModel {
             }
             long newTime = oldTime + (updateTime - startTime);
             if (oldTime == newTime) {
+                lock.unlock();
                 return;
             }
             toolTimeMap.put(activeTool, newTime);
             TupleID tupleID = toolTIDMap.get(activeTool);
             try {
                 if (tupleID != null) {
-                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(),activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri()));
-
+                   sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri()));
                 } else {
 
                     toolTIDMap.put(activeTool, sensorSpace.write(new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri())));
@@ -161,7 +161,7 @@ public class UserToolExperienceModel {
                     Tuple readTupleById = sensorSpace.readTupleById(tupleID);
                     if (readTupleById != null) {
                         readTupleById.getField(5).setValue(System.currentTimeMillis());
-                        sensorSpace.update(tupleID,readTupleById);
+                        sensorSpace.update(tupleID, readTupleById);
                     } else {
                         logger.log(Level.SEVERE, "Tuple is null...");
                     }
