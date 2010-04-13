@@ -187,6 +187,7 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
             canonicalSeq = sensorSpace.eventRegister(Command.ALL, getIncChangeTuple(), this, true);
             timer = new Timer(UPDATE_DELAY, this);
             timer.start();
+            timer.setRepeats(true);
             panel.invalidate();
             panel.repaint();
             jf.setVisible(true);
