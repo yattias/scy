@@ -67,7 +67,9 @@ process_variables_callback(write, _SeqId, [], [Tuple]) :-
 	tspl_tuple_field(Tuple, 4, Learner),
 	tspl_tuple_field(Tuple, 8, ELOURI),
 	log_key_value(Tuple, variables, ValidVars),
-	assert(valid_vars(Learner, ELOURI, ValidVars)),
+	csv_to_list(ValidVars, ValidVarsList),
+	retractall(valid_vars(Learner, ELOURI, _)),
+	assert(valid_vars(Learner, ELOURI, ValidVarsList)),
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -102,6 +104,31 @@ change_variables_callback(write, _SeqId, [], [Tuple]) :-
 change_variables_callback(_, _, _, _) :-
 	thread_self(Thread),
 	thread_detach(Thread).
+
+csv_to_list(Text, [TextTrimmed]) :-
+	not(sub_string(Text, _, 1, _, ',')),
+	trim_text(Text, TextTrimmed).
+
+csv_to_list(CSV, List) :-
+	sub_string(CSV, Pos, 1, After, ','),
+	sub_string(CSV, 0, Pos, _, FirstPart),
+	Pos1 is Pos + 1,
+	sub_string(CSV, Pos1, After, 0, SecondPart),
+	csv_to_list(FirstPart, FirstList),
+	csv_to_list(SecondPart, SecondList),
+	append(FirstList, SecondList, List).
+
+trim_text(Text, TextAtom) :-
+	not(sub_string(Text, 0, 1, _, ' ')),
+	not(sub_string(Text, _, 1, 0, ' ')),
+	string_to_atom(Text, TextAtom).
+	
+trim_text(Text, TrimmedText) :-
+	string_concat(' ', TrimmedTextAux, Text),
+	trim_text(TrimmedTextAux, TrimmedText).
+trim_text(Text, TrimmedText) :-
+	string_concat(TrimmedTextAux, ' ', Text),
+	trim_text(TrimmedTextAux, TrimmedText).
 
 
 %%	same_model_run_evaluation(+Model:atom, +Learner:atom, -NoRuns:int, -NoUnique:int) is det.
