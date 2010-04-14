@@ -11,19 +11,13 @@ import org.jdom.input.SAXBuilder;
 
 public class XMLData {
     private Document doc;
-    private String title;
+    private String title = "empty";
     private List<String> bullets;
-    private String comments;
-    private String sources;
+    private String comments = "";
+    private String sources = "";
     private SAXBuilder sb;
 
     public XMLData(String input) throws JDOMException, IOException {
-        if(input == null) {
-            return;
-        }
-        if(input.length() == 0) {
-            return;
-        }
 
         //System.out.println(input);
             sb = new SAXBuilder();
@@ -33,6 +27,10 @@ public class XMLData {
             //read what's inside of <![CDATA[ - should that not be <![PCDATA[ ?
             //ugly dirty hack:
             int start = input.indexOf("<annotations>");
+            if(start == -1) {
+                //whoops. not the kind of xml i expect
+                return;
+            }
             int stop = input.indexOf("</annotations>");
             String piece = input.substring(start+13, stop);
             //System.out.println(piece);
