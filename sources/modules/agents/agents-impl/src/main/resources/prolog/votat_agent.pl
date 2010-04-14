@@ -142,10 +142,10 @@ change_variables_evaluation(Learner, Tool, ELOURI, VarName, Time, Votat) :-
 		(
 			most_often(_, VarNames, Count),
 			length(VarNames, VarNamesLength),
-			Votat is Count / VarNamesLength,
-			write(Count), write(' / '), write(VarNamesLength), write(' => '), writeln(Votat)
+			Votat is Count / VarNamesLength
 		)
-	).
+	),
+	write(Count), write(' / '), write(VarNamesLength), write(' => '), writeln(Votat).
 
 number_of_switches([H|T], Number) :-
 	next_switch(H, T, Number).
