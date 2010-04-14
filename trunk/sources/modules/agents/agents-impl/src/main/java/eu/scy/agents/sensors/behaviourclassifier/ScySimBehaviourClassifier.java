@@ -125,8 +125,8 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
          
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
-            eloUri = afterTuple.getField(8).getValue().toString();
-            int newVotat = ((Double) afterTuple.getField(6).getValue()).intValue();
+            eloUri = afterTuple.getField(5).getValue().toString();
+            int newVotat = ((Double) afterTuple.getField(7).getValue()).intValue();
             if (newVotat != lastVotat) {
                 model = getModel(user, tool, mission, session, eloUri);
                 model.updateVotat(newVotat);
@@ -145,8 +145,8 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             lastUserExp = newUserExp;
 
         } else if (seqnum == canoSeq) {
-            eloUri = afterTuple.getField(8).getValue().toString();
-            int newCanonical = ((Double) afterTuple.getField(6).getValue()).intValue();
+            eloUri = afterTuple.getField(5).getValue().toString();
+            int newCanonical = ((Double) afterTuple.getField(7).getValue()).intValue();
             if (newCanonical != lastCanonical) {
                 model = getModel(user, tool, mission, session,eloUri);
                 model.updateCanonical(newCanonical);
