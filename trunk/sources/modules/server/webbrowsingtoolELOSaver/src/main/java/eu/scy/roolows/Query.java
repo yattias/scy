@@ -42,6 +42,7 @@ package eu.scy.roolows;
 
 import com.sun.jersey.spi.resource.Singleton;
 import java.util.List;
+import java.util.Vector;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -49,14 +50,19 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import roolo.api.search.AndQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
+import roolo.elo.BasicMetadataQuery;
+import roolo.elo.BasicSearchOperationNames;
+import roolo.elo.BasicSearchOperations;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -91,13 +97,101 @@ public class Query {
     }
 
     /**
-     * GET method for testing purpose: returns a "Hello World" html-doc
-     * @return an instance of java.lang.String
+     * GET method for performing AND-queries on metadata via HTTP Query String
+     * @return a JSONArray of all results as JSONObjects. Every Object includes the following JSON params
+     * <ul>
+     * <li> uri
+     * <li> title
+     * <li> type
+     * <li> author
+     * <li> description
+     * <li> relevance
+     * </ul>
      */
     @GET
-    @Produces("text/html")
-    public String echoAlive() {
-        return "<html><body><h1>Hello World!</body></h1></html>";
+    @Produces("text/xml")
+    public String andQueryAsXML(@Context UriInfo ui) {
+        StringBuffer xmlString = new StringBuffer();
+        List<ISearchResult> results = doAndQuery(ui);
+        log.info("found " + results.size() + " hits");
+        xmlString.append("<results count=\""+ results.size()+"\">");
+        for (ISearchResult result : results) {
+            IMetadata resultMetadata = result.getMetadata();
+            xmlString.append("<elo>");
+            xmlString.append("<uri>" + resultMetadata.getMetadataValueContainer(identifierKey) + "</uri>");
+            xmlString.append("<title>" + resultMetadata.getMetadataValueContainer(titleKey) + "</title>");
+            xmlString.append("<type>" + resultMetadata.getMetadataValueContainer(typeKey) + "</type>");
+            xmlString.append("<author>" + resultMetadata.getMetadataValueContainer(authorKey) + "</author>");
+            xmlString.append("<description>" + resultMetadata.getMetadataValueContainer(descriptionKey) + "</description>");
+            xmlString.append("<relevance>" + result.getRelevance() + "</relevance>");
+            xmlString.append("</elo>");
+        }
+        xmlString.append("</results>");
+        return xmlString.toString();
+    }
+    
+    /**
+     * GET method for performing AND-queries on metadata via HTTP Query String
+     * @return a JSONArray of all results as JSONObjects. Every Object includes the following JSON params
+     * <ul>
+     * <li> uri
+     * <li> title
+     * <li> type
+     * <li> author
+     * <li> description
+     * <li> relevance
+     * </ul>
+     */
+    @GET
+    @Produces("application/json")
+    public JSONArray andQueryAsJson(@Context UriInfo ui) {
+        JSONArray queriedURIs = new JSONArray();
+        List<ISearchResult> results = doAndQuery(ui);
+        log.info("found " + results.size() + " hits");
+        try {
+            for (ISearchResult result : results) {
+                JSONObject resultAsJson = new JSONObject();
+                IMetadata resultMetadata = result.getMetadata();
+                resultAsJson.put("uri", resultMetadata.getMetadataValueContainer(identifierKey));
+                resultAsJson.put("title", resultMetadata.getMetadataValueContainer(titleKey));
+                resultAsJson.put("type", resultMetadata.getMetadataValueContainer(typeKey));
+                resultAsJson.put("author", resultMetadata.getMetadataValueContainer(authorKey));
+                resultAsJson.put("description", resultMetadata.getMetadataValueContainer(descriptionKey));
+                resultAsJson.put("relevance", result.getRelevance());
+                queriedURIs.put(resultAsJson);
+            }
+        } catch (JSONException ex) {
+            log.error(ex.getMessage());
+        } finally {
+            return queriedURIs;
+        }
+    }
+
+
+    private List<ISearchResult> doAndQuery(UriInfo ui) {
+        MultivaluedMap<String, String> params = ui.getQueryParameters();
+        log.info("params: " + params);
+        String[] keys = new String[params.keySet().size()];
+        params.keySet().toArray(keys);
+        String value = params.getFirst(keys[0]);
+        log.info("value: "+value);
+
+        IQuery query = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[0])), BasicSearchOperations.EQUALS, value, null);
+        List<IQuery> queries = new Vector<IQuery>();
+        for (int i = 1; i < keys.length; i++) {
+            IQuery newQuery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[i])), BasicSearchOperations.EQUALS, params.getFirst(keys[i]), null);
+            queries.add(newQuery);
+        }
+        IQuery[] queriesArray = new IQuery[queries.size()];
+        queries.toArray(queriesArray);
+        IQuery andQuery;
+        if (queries.size() == 0) {
+            andQuery = query;
+        }
+        andQuery = new AndQuery(query, queriesArray);
+
+        return beans.getRepository().search(andQuery);
+
     }
 
     /**
@@ -124,7 +218,7 @@ public class Query {
             //query roolo
             IQuery query = new LuceneQuery(queryString);
             final List<ISearchResult> results = beans.getRepository().search(query);
-            for (ISearchResult result : results){
+            for (ISearchResult result : results) {
                 JSONObject resultAsJson = new JSONObject();
                 IMetadata resultMetadata = result.getMetadata();
                 resultAsJson.put("uri", resultMetadata.getMetadataValueContainer(identifierKey));
@@ -150,5 +244,4 @@ public class Query {
         identifierKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
         descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
     }
-
 }
