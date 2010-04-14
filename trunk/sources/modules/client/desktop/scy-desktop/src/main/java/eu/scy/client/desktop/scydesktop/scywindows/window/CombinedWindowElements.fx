@@ -88,7 +88,7 @@ public class CombinedWindowElements  extends ScyWindow {
 
    def borderWidth = 2.0;
    def controlSize = 10.0;
-   def cornerRadius = 10;
+   def cornerRadius = 10.0;
    def separatorLength = 7.0;
    def titleBarTopOffset = borderWidth/2 + 3;
    def titleBarLeftOffset = borderWidth/2 + 5;
