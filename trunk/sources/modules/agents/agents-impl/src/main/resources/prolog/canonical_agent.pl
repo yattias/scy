@@ -154,8 +154,7 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChan
 	term_to_atom(DO, DiffOld),
 	term_to_atom(D, Diff),
 	number_of_switches(VarName, Switches),
-	Switches > 2,
-	(   DO =:= D
+	(   (DO =:= D ; Switches =< 3)
 	->  IncChange is 1
 	;   IncChange is 0
 	),
