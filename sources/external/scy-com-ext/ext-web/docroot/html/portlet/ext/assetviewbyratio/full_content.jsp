@@ -38,6 +38,8 @@ long classPK = ((Long)request.getAttribute("view.jsp-classPK")).longValue();
 
 boolean show = ((Boolean)request.getAttribute("view.jsp-show")).booleanValue();
 
+enableComments = true;
+
 request.setAttribute("view.jsp-showIconLabel", true);
 %>
 
