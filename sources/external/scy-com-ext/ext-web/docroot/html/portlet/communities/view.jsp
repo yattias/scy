@@ -216,6 +216,10 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 		
 		int publicLayoutsPageCount = group.getPublicLayoutsPageCount();
 		int privateLayoutsPageCount = group.getPrivateLayoutsPageCount();
+		
+		if(!isAdmin && group.getName().equals("Projects")){
+			privateLayoutsPageCount = 0;
+		}
 
 		Group stagingGroup = null;
 
