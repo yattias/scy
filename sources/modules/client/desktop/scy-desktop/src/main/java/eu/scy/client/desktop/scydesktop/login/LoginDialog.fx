@@ -27,6 +27,8 @@ import eu.scy.toolbrokerapi.LoginFailedException;
 import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.lang.System;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
@@ -80,15 +82,16 @@ public class LoginDialog extends CustomNode {
             iconCharacter: "L"
             color: loginColor
          }
-         color: loginColor
-         drawerColor: loginColor;
+         windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
          scyContent: loginNode
          allowClose: false;
          allowResize: false;
          allowRotate: false;
          allowMinimize: false;
+         activated:true
          opacity:0.0;
       };
+      loginWindow.windowColorScheme.mainColor = loginColor;
       loginWindow.openWindow(0, 0);
       loginWindow.activated = true;
       FX.deferAction(placeWindowCenter);
@@ -152,7 +155,7 @@ public class LoginDialog extends CustomNode {
             keyFrames : [
                KeyFrame {
                   time : 750ms
-                  values:window.color => successColor tween Interpolator.LINEAR;
+                  values:window.windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
                   action:function(){
                      loginWindow.scyContent = WelcomeNode{
                         name:userName;
@@ -179,11 +182,11 @@ public class LoginDialog extends CustomNode {
             keyFrames : [
                KeyFrame {
                   time : 0ms
-                  values:window.color => loginColor tween Interpolator.LINEAR;
+                  values:window.windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
                }
                KeyFrame {
                   time : 500ms
-                  values:window.color => failedColor tween Interpolator.LINEAR;
+                  values:window.windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
                }
             ]
          }.play();

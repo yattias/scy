@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
@@ -25,6 +24,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.api.IMetadata;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -67,14 +67,14 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          }
       eloSaveAsPanel.setTitle(suggestedEloTitle);
       var eloIcon: EloIcon;
-      var color: Color;
+      var windowColorScheme: WindowColorScheme;
       if (window.eloUri != null) {
          eloIcon = windowStyler.getScyEloIcon(window.eloUri);
-         color = windowStyler.getScyColor(window.eloUri);
+         windowColorScheme = windowStyler.getWindowColorScheme(window.eloUri);
       }
       else {
          eloIcon = windowStyler.getScyEloIcon(window.eloType);
-         color = windowStyler.getScyColor(window.eloType);
+         windowColorScheme = windowStyler.getWindowColorScheme(window.eloType);
       }
       Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes());
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
@@ -84,7 +84,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             targetScene: window.scene
             title: ##"Enter title"
             eloIcon: eloIcon
-            color: color
+            windowColorScheme: windowColorScheme
          }
    }
 
