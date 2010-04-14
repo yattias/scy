@@ -31,7 +31,8 @@
 				<!-- ref bean="supervisor" /-->
 				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
-				<ref bean="topicdetector" />
+				<!-- <ref bean="topicdetector" /> -->
+				<ref bean="generalELOSavedAgent" />
 				<ref bean="scysim" />
 				<ref bean="votat" />
 				<ref bean="toolexperience" />

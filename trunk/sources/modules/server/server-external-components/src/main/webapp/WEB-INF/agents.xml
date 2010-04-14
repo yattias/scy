@@ -92,4 +92,12 @@
 			<map />
 		</constructor-arg>
 	</bean>
+	<bean id="generalELOSavedAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+        <constructor-arg index="0"
+            value="eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent" />
+        <constructor-arg index="1">
+            <map />
+        </constructor-arg>
+    </bean>
+	
 </beans>
