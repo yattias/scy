@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
@@ -23,55 +23,82 @@ import javafx.scene.shape.Polyline;
 // place your code here
 public class WindowClose extends WindowActiveElement {
 
-   public
-
-
-    var closeAction: function(): Void;
+   public var closeAction: function(): Void;
    public var activated = true;
    public var outlineFactor = 0.5;
    public var backgroundExtender = 0.0;
-   def closeCrossInset = 2 * strokeWidth;
-   def outsideColor = bind if (activated) {
-              if (highLighted) subColor else color
+//   def closeCrossInset = 2 * strokeWidth;
+   def outsideColor = bind if (not activated) {
+              if (highLighted) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor
            } else {
-              if (highLighted) color else subColor
+              if (highLighted) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor
            };
-   def insideColor = bind if (activated) {
-              if (highLighted) color else subColor
+   def insideColor = bind if (not activated) {
+              if (highLighted) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor
            } else {
-              if (highLighted) subColor else color
+              if (highLighted) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor
            };
 
    public override function create(): Node {
+      var box = Rectangle {
+               x:0, y: 0
+               width: size, height: size
+               fill: bind outsideColor
+            }
+      var fillBox = Rectangle{
+         x:1
+         y:1
+         width: size-2
+         height:size-2
+         fill: bind insideColor
+      }
+
       Group { // the close element
          cursor: Cursor.HAND
          blocksMouse: true;
          content: [
-            Rectangle {
-               x: -backgroundExtender, y: -backgroundExtender
-               width: size+1+2*backgroundExtender, height: size+1+2*backgroundExtender
-               fill: bind if (activated) color else subColor
+            box,
+            fillBox,
+            Line{
+               startX:1
+               startY:1
+               endX:size-2
+               endY:size-2
+               stroke:bind outsideColor
             }
-            Polyline {
-               points: [0, 0, size, size]
-               strokeWidth: strokeWidth
-               stroke: bind outsideColor;
+            Line{
+               startX:size-2
+               startY:1
+               endX:1
+               endY:size-2
+               stroke:bind outsideColor
             }
-            Polyline {
-               points: [size, 0, 0, size]
-               strokeWidth: strokeWidth
-               stroke: bind outsideColor;
-            }
-            Polyline {
-               points: [0, 0, size, size]
-               strokeWidth: outlineFactor * strokeWidth
-               stroke: bind insideColor;
-            }
-            Polyline {
-               points: [size, 0, 0, size]
-               strokeWidth: outlineFactor * strokeWidth
-               stroke: bind insideColor;
-            }
+
+//            Rectangle {
+//               x: -backgroundExtender, y: -backgroundExtender
+//               width: size+1+2*backgroundExtender, height: size+1+2*backgroundExtender
+//               fill: bind if (activated) color else subColor
+//            }
+//            Polyline {
+//               points: [0, 0, size, size]
+//               strokeWidth: strokeWidth
+//               stroke: bind outsideColor;
+//            }
+//            Polyline {
+//               points: [size, 0, 0, size]
+//               strokeWidth: strokeWidth
+//               stroke: bind outsideColor;
+//            }
+//            Polyline {
+//               points: [0, 0, size, size]
+//               strokeWidth: outlineFactor * strokeWidth
+//               stroke: bind insideColor;
+//            }
+//            Polyline {
+//               points: [size, 0, 0, size]
+//               strokeWidth: outlineFactor * strokeWidth
+//               stroke: bind insideColor;
+//            }
          ]
          onMousePressed: function( e: MouseEvent ):Void {
             activate();
@@ -90,6 +117,14 @@ public class WindowClose extends WindowActiveElement {
 }
 
 function run()   {
+   var windowColorScheme = WindowColorScheme{
+      mainColor:Color.web("#0042f1")
+      backgroundColor:Color.web("#f0f8db")
+      titleStartGradientColor:Color.web("#4080f8")
+      titleEndGradientColor:Color.WHITE
+      emptyBackgroundColor:Color.WHITE
+   }
+
 
    Stage {
       title: "window close test"
@@ -98,12 +133,14 @@ function run()   {
          height: 200
          content: [
             WindowClose {
+               windowColorScheme: windowColorScheme
                layoutX: 20
                layoutY: 20
                activated: false
                highLighted: false
             }
             WindowClose {
+               windowColorScheme: windowColorScheme
                layoutX: 50
                layoutY: 20
                activated: false
@@ -112,15 +149,17 @@ function run()   {
             Rectangle {
                x: 15, y: 40
                width: 140, height: 30
-               fill: Color.GREEN
+               fill: windowColorScheme.mainColor
             }
             WindowClose {
+               windowColorScheme: windowColorScheme
                layoutX: 20
                layoutY: 50
                activated: true
                highLighted: false
             }
             WindowClose {
+               windowColorScheme: windowColorScheme
                layoutX: 50
                layoutY: 50
                activated: true

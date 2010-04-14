@@ -36,14 +36,14 @@ public class Edge extends CustomNode {
             endY:  (end as StandardScyWindow).layoutY + (end.height / 2);
             strokeWidth: 3.0;
             //opacity: bind opacity;
-             stroke: start.color;
+             stroke: start.windowColorScheme.mainColor;
     }
     var watchmenStartX = bind line.startX on replace { update() };
     var watchmenStartY = bind line.startY on replace { update() };
     //var watchmenEndX = bind line.endX on replace { update() };
     //var watchmenEndY = bind line.endY on replace { update() };
     var arrow:Arrow = Arrow {
-            color: end.color;
+            color: end.windowColorScheme.mainColor;
             //opacity: 0.3;
     }
     def label: EdgeLabel = EdgeLabel {

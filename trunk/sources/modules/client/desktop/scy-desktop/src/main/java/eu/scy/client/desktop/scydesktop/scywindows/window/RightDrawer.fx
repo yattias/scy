@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Button;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 
 
@@ -26,8 +26,9 @@ public class RightDrawer extends Drawer{
    override def horizontal = false;
 
    override function positionControlElements():Void{
-      closeControl.layoutX = closeControlSize/2;
-      closeControl.layoutY = closeControlSize/2;
+      super.positionControlElements();
+//      closeControl.layoutX = closeControlSize/2;
+//      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }
@@ -35,21 +36,37 @@ public class RightDrawer extends Drawer{
 
 
 function run(){
+   var highcontrastColorScheme = WindowColorScheme {
+         mainColor: Color.BLUE
+         backgroundColor: Color.ORANGE
+         titleStartGradientColor: Color.LIGHTBLUE
+         titleEndGradientColor: Color.WHITE
+         emptyBackgroundColor: Color.WHITE
+      }
+   def width = 100.0;
+   def height = 100.0;
+   def borderWidth = 2.0;
+   def controlLength = 10.0;
+   def cornerRadius = 10;
+   var emptyWindow = EmptyWindow {
+         width: bind width;
+         height: bind height;
+         controlSize: cornerRadius;
+         borderWidth: borderWidth;
+         windowColorScheme: highcontrastColorScheme
+         layoutX:100;
+         layoutY:100
+      }
 
       Stage {
       title : "Test right drawer"
       scene: Scene {
-         width: 200
-         height: 200
+         width: 300
+         height: 300
          content: [
-            Rectangle {
-               x: 10, y: 10
-               width: 20, height: 100
-               fill: null
-               stroke:Color.GRAY
-               strokeWidth:4;
-            }
+            emptyWindow,
             RightDrawer{
+               windowColorScheme: highcontrastColorScheme
                closedSize:80;
                content:Button {
                      text: "Button"
@@ -57,8 +74,8 @@ function run(){
 
                      }
                   }
-               layoutX:30;
-               layoutY:20
+               layoutX:200;
+               layoutY:120
                opened:true
             }
 

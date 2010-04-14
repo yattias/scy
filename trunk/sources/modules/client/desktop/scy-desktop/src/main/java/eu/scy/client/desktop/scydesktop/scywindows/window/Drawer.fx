@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.CustomNode;
-import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.paint.Color;
@@ -15,38 +14,41 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowClose;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
  */
 // place your code here
+
 public abstract class Drawer extends CustomNode {
 
-   public var color = Color.RED;
-   public var subColor = Color.WHITE;
-   public var highliteColor = Color.WHITE;
-   public var borderSize = 1.0;
-   public var closedStrokeWidth = 4.0;
+   public var windowColorScheme:WindowColorScheme;
+//   public var color = Color.RED;
+//   public var subColor = Color.WHITE;
+//   public var highliteColor = Color.WHITE;
+   public var borderSize = 2.0;
+//   public var closedStrokeWidth = 2.0;
    public var closedSize = 40.0;
    public var content: Node;
    public var activated = false; // TODO, make only changeable from (sub) package
    public var activate: function():Void;
 
-   def contentBorder = 1.0;
+   def sideContentBorder = 5.0;
+   def topContentBorder = 19.0;
+   def bottomContentBorder = 10.0;
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
-   protected def closeControlSize = 8.0;
+   protected def closeControlSize = 10.0;
    protected var opened = false;
    protected var width = 50.0 on replace {
               sizeChanged()
@@ -61,6 +63,7 @@ public abstract class Drawer extends CustomNode {
    protected var drawerGroup: Group;
    protected var border: Rectangle;
    protected var contentElement: WindowContent;
+   protected var openControl: OpenDrawerControl;
    protected var closeControl: WindowClose;
    protected var resizeControl: WindowResize;
    protected var horizontalSizeExternal = false;
@@ -78,6 +81,8 @@ public abstract class Drawer extends CustomNode {
 //         fill: Color.color(1,.25,.25,.75)
 //      }
       positionControlElements();
+      println("layout: ({layoutX}, {layoutY})");
+      println("openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
    }
 
    public override function create(): Node {
@@ -87,6 +92,8 @@ public abstract class Drawer extends CustomNode {
                  createClosedDrawerNode();
               };
       positionControlElements();
+      println("create:layout: ({layoutX}, {layoutY})");
+      println("create:openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
       drawerGroup = Group {
          content: bind [
             drawerNode
@@ -95,42 +102,14 @@ public abstract class Drawer extends CustomNode {
    }
 
    function createClosedDrawerNode(): Node {
-      var rect: Rectangle;
+//      var rect: Rectangle;
       var mouseEntered = false;
       Group {
          cursor: Cursor.HAND;
          content: [
-            // thick background
-            if (horizontal) {
-               Line {
-                  startX: 0, startY: 0
-                  endX: bind closedSize, endY: 0
-                  strokeWidth: closedStrokeWidth
-                  stroke: bind if (mouseEntered) highliteColor else color;
-               }
-            } else {
-               Line {
-                  startX: 0, startY: 0
-                  endX: 0, endY: bind closedSize
-                  strokeWidth: closedStrokeWidth
-                  stroke: bind if (mouseEntered) highliteColor else color;
-               }
-            }
-            // inner line
-            if (horizontal) {
-               Line {
-                  startX: 0, startY: 0
-                  endX: bind closedSize, endY: 0
-                  strokeWidth: closedStrokeWidth / 2
-                  stroke: bind if (mouseEntered) color else highliteColor;
-               }
-            } else {
-               Line {
-                  startX: 0, startY: 0
-                  endX: 0, endY: bind closedSize
-                  strokeWidth: closedStrokeWidth / 2
-                  stroke: bind if (mouseEntered) color else highliteColor;
-               }
+            openControl = OpenDrawerControl{
+               windowColorScheme:windowColorScheme
+               size:closedSize
             }
          ]
          onMouseClicked: function (e: MouseEvent): Void {
@@ -190,27 +169,29 @@ public abstract class Drawer extends CustomNode {
       border = Rectangle {
          x: 0, y: 0
          width: bind width, height: bind height
-         fill: subColor
+         fill: bind windowColorScheme.backgroundColor
          strokeWidth: borderSize
-         stroke: bind color;
+         stroke: bind windowColorScheme.mainColor;
       }
       contentElement = WindowContent {
-         width: bind width - 2 * contentBorder - borderSize - 1;
-         height: bind height - 2 * contentBorder - borderSize - 1;
+         windowColorScheme:windowColorScheme
+         width: bind width - 2 * sideContentBorder - borderSize - 1;
+         height: bind height - topContentBorder - bottomContentBorder - borderSize - 1;
          content: bind content;
          activated: bind activated;
          activate:activate
-         layoutX: contentBorder + borderSize / 2 + 1;
-         layoutY: contentBorder + borderSize / 2 + 1;
+         layoutX: sideContentBorder + borderSize / 2 + 1;
+         layoutY: topContentBorder + borderSize / 2 + 1;
       }
       closeControl = WindowClose {
          size: closeControlSize;
-         strokeWidth: 4;
-         color: bind color;
-         subColor: bind subColor;
+//         strokeWidth: 4;
+         windowColorScheme:windowColorScheme
+//         color: bind color;
+//         subColor: bind subColor;
          activated:false
          activate:activate
-         outlineFactor:0.5
+//         outlineFactor:0.5
          closeAction: function () {
             opened = false;
             positionControlElements();
@@ -219,8 +200,9 @@ public abstract class Drawer extends CustomNode {
       if (resizeAllowed) {
          resizeControl = WindowResize {
             size: resizeControlSize;
-            color: bind color;
-            subColor: bind subColor;
+            windowColorScheme:windowColorScheme
+//            color: bind color;
+//            subColor: bind subColor;
             activate:activate
             startResize: startResize;
             doResize: doResize;
@@ -237,7 +219,9 @@ public abstract class Drawer extends CustomNode {
       }
    }
 
-   function positionControlElements(): Void {
+   protected function positionControlElements(): Void {
+      closeControl.layoutX = width-closeControlSize-sideContentBorder;
+      closeControl.layoutY = topContentBorder/2-closeControlSize/2 + borderSize/2;
 
    }
 

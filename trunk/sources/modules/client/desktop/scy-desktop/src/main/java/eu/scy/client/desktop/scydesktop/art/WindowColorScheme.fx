@@ -17,6 +17,15 @@ public class WindowColorScheme {
    public var titleStartGradientColor:Color;
    public var titleEndGradientColor:Color;
    public var emptyBackgroundColor:Color;
+
+   public function assign(windowColorScheme: WindowColorScheme):Void{
+      mainColor = windowColorScheme.mainColor;
+      backgroundColor = windowColorScheme.backgroundColor;
+      titleStartGradientColor = windowColorScheme.titleStartGradientColor;
+      titleEndGradientColor = windowColorScheme.titleEndGradientColor;
+      emptyBackgroundColor = windowColorScheme.emptyBackgroundColor;
+   }
+
 }
 
 public function getWindowColorScheme(scyColors:ScyColors):WindowColorScheme{

@@ -12,13 +12,12 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.FunctionalTypes;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -82,13 +81,26 @@ public class ImageWindowStyler extends WindowStyler {
       }
    }
 
-   public override function getScyColor(type: String): Color {
+   public override function getScyColor(type:String):Color{
       var scyColors = EloImageInformation.getScyColors(type);
       var colorName = ScyColors.darkGray.mainColorName;
       if (scyColors != null) {
          colorName = scyColors.mainColorName;
       }
       return Color.web(colorName);
+   }
+
+   public override function getScyColors(type:String):ScyColors{
+      var scyColors = EloImageInformation.getScyColors(type);
+      return scyColors;
+   }
+
+   public override function getWindowColorScheme(type:String):WindowColorScheme{
+      var scyColors = EloImageInformation.getScyColors(type);
+      if (scyColors==null){
+         scyColors = ScyColors.darkGray;
+      }
+      return WindowColorScheme.getWindowColorScheme(scyColors);
    }
 
    public override function getScyIconCharacter(type: String): String {
@@ -120,25 +132,18 @@ public class ImageWindowStyler extends WindowStyler {
       };
    }
 
-   public override function style(window: ScyWindow, uri: URI)  {
-      var type = eloTypeControl.getEloType(uri);
-      var color = getScyColor(type);
-      var eloIcon = getScyEloIcon(type);
-      window.color = color;
-      window.drawerColor = color;
-      window.eloIcon = eloIcon;
-   }
-
-   public override function getScyEloIcon(uri: URI): EloIcon {
-      var type = eloTypeControl.getEloType(uri);
-      return getScyEloIcon(type);
-   }
-
-   public override function getScyColor(uri: URI): Color {
-      var type = eloTypeControl.getEloType(uri);
-      var scyColor = getScyColor(type);
-      return scyColor;
-   }
+//   public override function style(window: ScyWindow, uri: URI)  {
+//      var type = eloTypeControl.getEloType(uri);
+//      var windowColorScheme = getWindowColorScheme(type);
+//      var eloIcon = getScyEloIcon(type);
+//      window.windowColorScheme = windowColorScheme;
+//      window.eloIcon = eloIcon;
+//   }
+//
+//   public override function getScyEloIcon(uri: URI): EloIcon {
+//      var type = eloTypeControl.getEloType(uri);
+//      return getScyEloIcon(type);
+//   }
 
    function createEloIcon(eloImageSet: EloImageSet): EloIcon {
       ImageEloIcon {

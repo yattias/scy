@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
@@ -49,44 +50,55 @@ class DrawerTest extends CustomNode {
 }
 
 Stage {
-//   var drawerColor = mainColor;
-   var drawerHighliteColor = Color.WHITE;
-   var borderOffset = 4;
+   var highcontrastColorScheme = WindowColorScheme {
+         mainColor: Color.BLUE
+         backgroundColor: Color.ORANGE
+         titleStartGradientColor: Color.LIGHTBLUE
+         titleEndGradientColor: Color.WHITE
+         emptyBackgroundColor: Color.WHITE
+      }
+   def width = 100.0;
+   def height = 100.0;
+   def borderWidth = 2.0;
+   def controlLength = 10.0;
+   def cornerRadius = 10;
+   var emptyWindow = EmptyWindow {
+         width: bind width;
+         height: bind height;
+         controlSize: cornerRadius;
+         borderWidth: borderWidth;
+         windowColorScheme: highcontrastColorScheme
+         layoutX:100;
+         layoutY:100
+      }
+   def borderOffset = 0.0;
    title : "Drawer test"
    scene: Scene {
       width: 300
       height: 300
       content: [
-         DrawerTest{
-            layoutX:100;
-            layoutY:100;
-         }
+         emptyWindow,
          TopDrawer{
-            color:drawerColor;
-            highliteColor:drawerHighliteColor;
+            windowColorScheme: highcontrastColorScheme
             closedSize:60;
             layoutX:120;
             layoutY:100-borderOffset;
          }
          RightDrawer{
-            color:drawerColor;
-            highliteColor:drawerHighliteColor;
+            windowColorScheme: highcontrastColorScheme
             closedSize:60;
            layoutX:200+borderOffset;
             layoutY:120;
          }
          BottomDrawer{
-            color:drawerColor;
-            highliteColor:drawerHighliteColor;
+            windowColorScheme: highcontrastColorScheme
             closedSize:60;
             layoutX:120;
             layoutY:200+borderOffset;
             opened:true
          }
          LeftDrawer{
-            highliteColor:drawerHighliteColor;
-            closedSize:60;
-            color:drawerColor;
+            windowColorScheme: highcontrastColorScheme
             layoutX:100-borderOffset;
             layoutY:120;
          }

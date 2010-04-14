@@ -245,6 +245,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             eloUri: eloUri;
             eloType: eloInfoControl.getEloType(eloUri);
             title: eloInfoControl.getEloTitle(eloUri)
+            windowColorScheme:windowStyler.getWindowColorScheme(eloUri)
+            eloIcon:windowStyler.getScyEloIcon(eloUri)
             setScyContent: setScyContent;
             missionModelFX: missionModel
             tooltipManager: tooltipManager
@@ -267,7 +269,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       //      applyMetadataAttributes(scyWindow,eloUri);
       //      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
       tooltipManager.registerNode(scyWindow, scyWindow);
-      windowStyler.style(scyWindow, eloUri);
+      //windowStyler.style(scyWindow, eloUri);
       insert scyWindow into scyWindows;
       return scyWindow;
    }
@@ -275,6 +277,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function createScyWindow(eloType: String): ScyWindow {
       var scyWindow = StandardScyWindow {
             eloType: eloType;
+            windowColorScheme:windowStyler.getWindowColorScheme(eloType)
+            eloIcon:windowStyler.getScyEloIcon(eloType)
             setScyContent: setScyContent;
             missionModelFX: missionModel
             tooltipManager: tooltipManager
@@ -285,7 +289,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
       }
       tooltipManager.registerNode(scyWindow, scyWindow);
-      windowStyler.style(scyWindow);
+      //windowStyler.style(scyWindow);
       insert scyWindow into scyWindows;
       return scyWindow;
    }

@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
@@ -28,15 +29,13 @@ public class EmptyWindow extends CustomNode {
    public var width = 100.0;
    public var height = 100.0;
    public var controlSize = 10.0;
-   public var borderWidth = 1.0;
-   public var borderColor = Color.RED;
-   public var secondBorderWidth = 2.0;
-   public var secondBorderColor = Color.WHITE;
-   public var backgroundColor = Color.WHITE;
+   public var borderWidth = 2.0;
+   public var windowColorScheme:WindowColorScheme;
+   public var borderColor = Color.color(0,70/255.0,231/255.0);
+   public var backgroundColor = Color.color(240/255.0,248/255.0,220/255.0);
 
 
    public override function create(): Node {
-      var secondBorderOffset = (borderWidth+secondBorderWidth)/2.0;
       return Group {
          content: [
             Group{ // the white background of the window
@@ -47,7 +46,7 @@ public class EmptyWindow extends CustomNode {
 							width: bind width,
 							height: bind height-controlSize
 							strokeWidth: borderWidth
-							fill: backgroundColor
+							fill: bind windowColorScheme.backgroundColor
 							stroke: null
 						},
                   Rectangle { // bottom left part until the arc
@@ -56,7 +55,7 @@ public class EmptyWindow extends CustomNode {
 							width: bind width - controlSize,
 							height: bind controlSize
 							strokeWidth: borderWidth
-							fill: backgroundColor
+							fill: bind windowColorScheme.backgroundColor
 							stroke: null
 						},
                   Arc { // the bottom left rotate arc part
@@ -68,28 +67,18 @@ public class EmptyWindow extends CustomNode {
 							length: 90
 							type: ArcType.ROUND
 							strokeWidth: borderWidth
-							fill: backgroundColor
+							fill: bind windowColorScheme.backgroundColor
 							stroke: null
 						}
 					]
 				}
-            // second border
-            WindowBorder{
-               translateX:-secondBorderOffset;
-               translateY:-secondBorderOffset;
-               width: bind width+2*secondBorderOffset+1;
-               height: bind height+2*secondBorderOffset+1;
-               controlSize: controlSize+secondBorderWidth/2;
-               borderWidth: secondBorderWidth;
-               color: bind secondBorderColor;
-            }
             // main border
             WindowBorder{
                width: bind width;
                height: bind height;
                controlSize: controlSize;
                borderWidth: borderWidth;
-               color: bind borderColor;
+               color: bind windowColorScheme.mainColor;
             }
          ]
       };
@@ -160,17 +149,26 @@ class WindowBorder extends CustomNode {
 
 
 public function run(){
+   var windowColorScheme = WindowColorScheme{
+      mainColor:Color.web("#0042f1")
+      backgroundColor:Color.web("#f0f8db")
+      titleStartGradientColor:Color.web("#4080f8")
+      titleEndGradientColor:Color.WHITE
+      emptyBackgroundColor:Color.WHITE
+   }
 
       Stage {
       title : "test empty window"
       scene: Scene {
          width: 200
          height: 200
+         fill:Color.YELLOW
          content: [
             EmptyWindow{
                translateX:10;
                translateY:10;
                controlSize:18;
+               windowColorScheme:windowColorScheme
             }
 
          ]

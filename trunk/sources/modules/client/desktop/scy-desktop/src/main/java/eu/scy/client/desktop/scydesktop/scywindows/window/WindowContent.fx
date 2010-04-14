@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -29,6 +30,7 @@ public class WindowContent extends CustomNode {
    public var width = 100.0 on replace {resizeTheContent()};
    public var height = 100.0 on replace {resizeTheContent()};
    public var content:Node;
+   public var windowColorScheme:WindowColorScheme;
 
    public var activated:Boolean;
    public var activate: function():Void;
@@ -51,6 +53,8 @@ public class WindowContent extends CustomNode {
       }
    }
 
+   def borderWidth = 0.5;
+
 	function resizeTheContent(){
       contentGlassPane.width=width;
       contentGlassPane.height = height;
@@ -68,6 +72,16 @@ public class WindowContent extends CustomNode {
       resizeTheContent();
       return Group {
          content: [
+            Rectangle{
+               x:-borderWidth
+               y:-borderWidth
+               width:bind width+2*borderWidth
+               height:bind height+2*borderWidth
+               fill:null
+               strokeWidth:borderWidth
+               stroke:windowColorScheme.mainColor
+            }
+
             Group{
                blocksMouse: true;
                cursor: Cursor.DEFAULT;
