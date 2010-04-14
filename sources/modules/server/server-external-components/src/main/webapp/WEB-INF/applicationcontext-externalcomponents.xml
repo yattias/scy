@@ -8,7 +8,7 @@
 		<property name="externalComponents">
 			<list>
                 <ref local="sqlSpacesComponent"/>
-                <ref local="swatComponent"/>
+                <!-- ref local="swatComponent"/-->
 				<ref local="scyHubExternalComponent"/>
 				<ref local="agentFrameworkComponent"/>
 			</list>
