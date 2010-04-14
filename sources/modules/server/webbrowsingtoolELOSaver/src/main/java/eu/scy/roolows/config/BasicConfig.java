@@ -67,8 +67,6 @@ public class BasicConfig implements Config
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
    {
       this.metadataTypeManager = metadataTypeManager;
-      titleKey = getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
-      technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
    private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId){
@@ -95,6 +93,9 @@ public class BasicConfig implements Config
    @Override
    public IMetadataKey getTitleKey()
    {
+      if (titleKey == null) {
+          titleKey = getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+      }
       return titleKey;
    }
 
@@ -106,6 +107,9 @@ public class BasicConfig implements Config
    @Override
    public IMetadataKey getTechnicalFormatKey()
    {
+      if (technicalFormatKey == null) {
+          technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      }
       return technicalFormatKey;
    }
 
