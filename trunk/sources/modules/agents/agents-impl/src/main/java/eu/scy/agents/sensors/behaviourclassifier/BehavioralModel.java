@@ -87,17 +87,17 @@ public class BehavioralModel {
      * @param commandSpace
      *            The {@link TupleSpace} where the notification will be delivered
      */
-    public BehavioralModel(String name, String tool, String mission, String session,String eloUri, int canonical, int votat, int userExp, TupleSpace commandSpace) {
+    public BehavioralModel(String name, String tool, String mission, String session, String eloUri, int canonical, int votat, int userExp, TupleSpace commandSpace) {
         this.name = name;
         this.tool = tool;
-        this.eloUri=eloUri;
+        this.eloUri = eloUri;
         this.canonical = canonical;
         this.votat = votat;
         this.userExp = userExp;
         this.commandSpace = commandSpace;
         this.mission = mission;
         this.session = session;
-        
+
         sentScaffolds = new Vector<SCAFFOLD>();
     }
 
@@ -170,7 +170,7 @@ public class BehavioralModel {
     public void updateUserExp(int newUserExp) {
         this.userExp = newUserExp;
         // Fix to prevent too many notifications
-       // checkForSystematicBehaviour();
+        // checkForSystematicBehaviour();
     }
 
     /**
@@ -189,8 +189,17 @@ public class BehavioralModel {
      */
     private void checkForSystematicBehaviour() {
         // Simple ruleset :externalize
-        if (userExp >= 20) {
-            sendNotification(SCAFFOLD.VOTAT);
+        if (userExp < 2) {
+            return;
+        } else {
+            if (votat < 100) {
+                sendNotification(SCAFFOLD.VOTAT);
+            } else if (canonical < 100) {
+                sendNotification(SCAFFOLD.INC_CHANGE);
+
+            } else {
+                sendNotification(SCAFFOLD.SHOWBUTTON);
+            }
         }
         // if (votat < 30 && canonical < 30 && userExp > 30) {
         // sendNotification(SCAFFOLD.VOTAT);
