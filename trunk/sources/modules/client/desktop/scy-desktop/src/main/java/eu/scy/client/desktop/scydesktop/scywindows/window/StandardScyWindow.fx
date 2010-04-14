@@ -51,6 +51,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 import java.lang.Object;
 import java.lang.Void;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 /**
  * @author sikkenj
@@ -380,25 +381,26 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    }
 
-	public override function open():Void{
-		checkScyContent();
-      var openWidth = minimumWidth;
-      var openHeight = minimumHeight;
-      if (scyContent instanceof Resizable){
-         var resizableContent = scyContent as Resizable;
-         openWidth = resizableContent.getPrefWidth(openWidth);
-         openHeight = resizableContent.getPrefHeight(openHeight);
-      }
-      openWindow(openWidth,openHeight);
-	}
+    public override function open(): Void {
+        checkScyContent();
+        var openWidth = minimumWidth;
+        var openHeight = minimumHeight;
+        if (scyContent instanceof Resizable) {
+            var resizableContent = scyContent as Resizable;
+            openWidth = resizableContent.getPrefWidth(openWidth);
+            openHeight = resizableContent.getPrefHeight(openHeight);
+        }
+        openWindow(openWidth, openHeight);
+    }
 
-	public override function openWindow(openWidth:Number,openHeight:Number):Void{
-		checkScyContent();
-		isClosed = false;
-      var useSize = limitSize(openWidth,openHeight);
-		width = useSize.x;
-		height = useSize.y;
-	}
+    public override function openWindow(openWidth: Number, openHeight: Number): Void {
+        checkScyContent();
+        isClosed = false;
+        var useSize = limitSize(openWidth, openHeight);
+        width = useSize.x;
+        height = useSize.y;
+        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
+    }
 
    public override function setMinimize(state: Boolean):Void{
       if (isClosed){
