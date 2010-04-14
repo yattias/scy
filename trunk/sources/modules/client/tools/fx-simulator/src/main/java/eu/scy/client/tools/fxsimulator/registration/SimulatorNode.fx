@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
+import java.lang.System;
 import java.awt.BorderLayout;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -42,12 +43,14 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.datasync.DummySyncListener;
 import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     def simconfigType = "scy/simconfig";
     def datasetType = "scy/dataset";
+    var bundle: ResourceBundleWrapper;
     public-init var simquestPanel: JPanel;
     public-init var scyWindow: ScyWindow;
     public var eloFactory: IELOFactory;
@@ -81,7 +84,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (object instanceof ISynchronizable) {
             if ((object as ISynchronizable).getToolName().equals("fitex")) {
                 return true;
-            }    
+            }
         }
         return false;
     }
@@ -89,32 +92,31 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     public override function acceptDrop(object: Object) {
         logger.debug("drop accepted.");
         var isSync = isSynchronizingWith(object as ISynchronizable);
-        if(isSync){
+        if (isSync) {
             removeDatasync(object as ISynchronizable);
-        }else{
-            var yesNoOptions = ["Yes", "No"];
+        } else {
+            var yesNoOptions = [getBundleString("ACCEPT_DROP_YES"), getBundleString("ACCEPT_DROP_NO")];
             var n = -1;
             n = JOptionPane.showOptionDialog(null,
-                "Do you want to synchronise\nwith the Dataprocessing tool?", // question
-                "Synchronise?", // title
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE, // icon
-                null, yesNoOptions, yesNoOptions[0]);
+            getBundleString("SYNC_QUESTION"), // question
+            getBundleString("SYNC_TITLE"), // title
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE, // icon
+            null, yesNoOptions, yesNoOptions[0]);
             if (n == 0) {
                 initializeDatasync(object as ISynchronizable);
             }
-         }
+        }
     }
 
-    
-   /* return true is scysimulator is synchronizing with fitex with this sessionID*/
-   function isSynchronizingWith(fitex : ISynchronizable) : Boolean {
-       if(fitex.getSessionID() != null and getSessionID() != null and getSessionID().equals(fitex.getSessionID())){
+    /* return true is scysimulator is synchronizing with fitex with this sessionID*/
+    function isSynchronizingWith(fitex: ISynchronizable): Boolean {
+        if (fitex.getSessionID() != null and getSessionID() != null and getSessionID().equals(fitex.getSessionID())) {
             return true;
-       }else{
+        } else {
             return false;
-       }
-   }
+        }
+    }
 
     public function initializeDatasync(fitex: ISynchronizable) {
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
@@ -126,6 +128,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         this.leave(dataCollector.getSessionID());
         fitex.leave(fitex.getSessionID());
     }
+
     public override function join(mucID: String) {
         dataCollector.join(mucID);
     }
@@ -144,7 +147,6 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        //keywordKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.);
     }
 
     public override function newElo() {
@@ -156,7 +158,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
             newSimulationPanel.remove(newSimulationPanel.load);
-            newSimulationPanel.add(new JLabel("Please wait while the simulation is loaded, this may take some seconds."));
+            newSimulationPanel.add(new JLabel(getBundleString("LOAD_SIMULATION_WAIT")));
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
@@ -177,6 +179,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function create(): Node {
+        bundle = new ResourceBundleWrapper(this, "scysimulator");
         wrappedSimquestPanel = SwingComponent.wrap(simquestPanel);
         return Group {
                     blocksMouse: true;
@@ -191,13 +194,13 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                     spacing: spacing;
                                     content: [
                                         Button {
-                                            text: "Save Simconfig"
+                                            text: getBundleString("BUTTON_SAVE_SIMCONFIG")
                                             action: function () {
                                                 doSaveSimconfig();
                                             }
                                         }
                                         Button {
-                                            text: "SaveAs Simconfig"
+                                            text: getBundleString("BUTTON_SAVEAS_SIMCONFIG")
                                             action: function () {
                                                 doSaveAsSimconfig();
                                             }
@@ -209,7 +212,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                         }
                                         }*/
                                         Button {
-                                            text: "SaveAs Dataset"
+                                            text: getBundleString("BUTTON_SAVEAS_DATASET")
                                             action: function () {
                                                 doSaveAsDataset();
                                             }
@@ -348,6 +351,14 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function getMinWidth(): Number {
         return fixedDimension.width;
+    }
+
+    public function getBundleString(key: String): String {
+        if (bundle == null) {
+            return "language-bundle is null";
+        } else {
+            return bundle.getString(key);
+        }
     }
 
 }
