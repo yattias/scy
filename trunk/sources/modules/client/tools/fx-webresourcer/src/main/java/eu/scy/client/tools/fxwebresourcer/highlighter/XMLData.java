@@ -18,6 +18,12 @@ public class XMLData {
     private SAXBuilder sb;
 
     public XMLData(String input) throws JDOMException, IOException {
+        if(input == null) {
+            return;
+        }
+        if(input.length() == 0) {
+            return;
+        }
 
         //System.out.println(input);
             sb = new SAXBuilder();
