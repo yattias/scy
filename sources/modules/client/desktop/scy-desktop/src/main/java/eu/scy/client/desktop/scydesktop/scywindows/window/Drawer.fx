@@ -81,8 +81,8 @@ public abstract class Drawer extends CustomNode {
 //         fill: Color.color(1,.25,.25,.75)
 //      }
       positionControlElements();
-      println("layout: ({layoutX}, {layoutY})");
-      println("openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
+//      println("layout: ({layoutX}, {layoutY})");
+//      println("openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
    }
 
    public override function create(): Node {
@@ -92,8 +92,8 @@ public abstract class Drawer extends CustomNode {
                  createClosedDrawerNode();
               };
       positionControlElements();
-      println("create:layout: ({layoutX}, {layoutY})");
-      println("create:openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
+//      println("create:layout: ({layoutX}, {layoutY})");
+//      println("create:openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
       drawerGroup = Group {
          content: bind [
             drawerNode

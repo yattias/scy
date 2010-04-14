@@ -54,7 +54,7 @@ var openWindow = CombinedWindowElements{
    allowClose:false
    scyContent:Rectangle {
       x: 0, y: 0
-      width: 100, height: 100
+      width: 150, height: 150
       fill: Color.RED
    }
    topDrawerTool:Rectangle {
@@ -81,7 +81,7 @@ var openWindow = CombinedWindowElements{
    layoutY: 150
 }
 
-openWindow.openWindow(100,100);
+openWindow.openWindow(150,120);
 
 Stage {
     title: "Drawer test"
