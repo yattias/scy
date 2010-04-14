@@ -143,10 +143,10 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
         Tuple[] allVotat = sensorSpace.readAll(getVotatTuple());
         System.out.println("Got " + allVotat.length + " votat tuples");
         for (Tuple tuple : allCano) {
-            updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.CANO_SERIES, tuple, false, Long.parseLong(tuple.getField(5).getValue().toString()));
+            updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.CANO_SERIES, tuple, false, Long.parseLong(tuple.getField(6).getValue().toString()));
         }
         for (Tuple tuple : allVotat) {
-            updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.VOTAT_SERIES, tuple, false, Long.parseLong(tuple.getField(5).getValue().toString()));
+            updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.VOTAT_SERIES, tuple, false, Long.parseLong(tuple.getField(6).getValue().toString()));
         }
         for (Tuple tuple : allExp) {
             updateChart((String) tuple.getField(2).getValue(), (String) tuple.getField(1).getValue(), SeriesType.EXP_SERIES, tuple, false, Long.parseLong(tuple.getField(5).getValue().toString()));
@@ -160,6 +160,9 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
             if (answer == JOptionPane.YES_OPTION) {
                 selectedUser = JOptionPane.showInputDialog(null, "For which user should a chart be displayed?");
                 selectedUser += "*";
+                if (selectedUser.equals("rick")){
+                    
+                }
             } else {
                 selectedUser = null;
             }
@@ -312,7 +315,7 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
                     createSeries(tool, userName, type);
                 }
                 s = votatSeries.get(getSeriesName(tool, userName, type));
-                double d = (Double) changeTuple.getField(6).getValue() * 100;
+                double d = (Double) changeTuple.getField(7).getValue() * 100;
                 long time2;
                 if (update) {
 
@@ -330,7 +333,7 @@ public class ChartViewer implements Callback, ActionListener, MouseListener {
                     createSeries(tool, userName, type);
                 }
                 s = canoSeries.get(getSeriesName(tool, userName, type));
-                double d2 = (Double) changeTuple.getField(6).getValue() * 100;
+                double d2 = (Double) changeTuple.getField(7).getValue() * 100;
                 long time3;
                 if (update) {
                     time3 = System.currentTimeMillis() - startTime;
