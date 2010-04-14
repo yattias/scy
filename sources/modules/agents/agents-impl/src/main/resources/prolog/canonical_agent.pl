@@ -139,13 +139,13 @@ trim_text(Text, TrimmedText) :-
 %	work is performed by sdm_model_identical/3, which is in the SDM library.
 
 :- dynamic
-	inc_change/5.	% Learner x Model
+	inc_change/6.	% Learner x Model
 
 vc_timeout_min(1).
 
 change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChange) :-
 	remove_old_changes,
-	inc_change(Learner, Tool, Session, VarName, DiffOld, Time),
+	inc_change(Learner, Tool, Session, VarName, DiffOld, _),
 	!,
 	asserta(inc_change(Learner, Tool, Session, VarName, Diff, Time)), 
 	write('next run for '), writeln(VarName),
