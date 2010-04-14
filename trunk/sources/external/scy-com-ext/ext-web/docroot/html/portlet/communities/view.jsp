@@ -180,6 +180,9 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 
 	searchContainer.setHeaderNames(headerNames);
 
+	boolean isAdmin = RoleLocalServiceUtil.hasUserRole(user.getUserId(), user.getCompanyId(), RoleConstants.ADMINISTRATOR, false);
+
+	
 	List resultRows = searchContainer.getResultRows();
 		
 	for (int i = 0; i < results.size(); i++) {
@@ -207,6 +210,10 @@ GroupSearch searchContainer = new GroupSearch(renderRequest, portletURL);
 			sb.append(group.getName());
 		}
 
+		if(!isAdmin && group.getName().contains("TEMPLATE")){
+			continue;
+		}
+		
 		int publicLayoutsPageCount = group.getPublicLayoutsPageCount();
 		int privateLayoutsPageCount = group.getPrivateLayoutsPageCount();
 
