@@ -94,6 +94,9 @@
 			<action-key>SUBSCRIBE</action-key>
 			<action-key>UPDATE</action-key>
 			<action-key>VIEW</action-key>
+			<action-key>ADD_DISCUSSION</action-key>
+			<action-key>DELETE_DISCUSSION</action-key>
+			<action-key>UPDATE_DISCUSSION</action-key>
 		</supports>
 		<community-defaults>
 			<action-key>SUBSCRIBE</action-key>
@@ -108,6 +111,9 @@
 			<action-key>SUBSCRIBE</action-key>
 			<action-key>UPDATE</action-key>
 			<action-key>VIEW</action-key>
+			<action-key>ADD_DISCUSSION</action-key>
+			<action-key>DELETE_DISCUSSION</action-key>
+			<action-key>UPDATE_DISCUSSION</action-key>
 		</guest-unsupported>
 	</model-resource>
 </resource-action-mapping>
