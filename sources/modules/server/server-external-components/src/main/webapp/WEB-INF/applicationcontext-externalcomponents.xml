@@ -39,6 +39,7 @@
 				<ref bean="collaboration" />
 				<ref bean="keywordsTfIdf" />
 				<ref bean="keywordsTopic" />
+				<ref bean="keywordsOntology" />
 				<ref bean="keywords" />
 				<ref bean="keywordsDecisionMaker" />
 			</set>
