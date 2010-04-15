@@ -2,6 +2,7 @@ package eu.scy.core.openfire;
 
 import java.util.Collection;
 
+import eu.scy.common.configuration.Configuration;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -22,11 +23,11 @@ import org.jivesoftware.smack.packet.Presence;
  * Time: 23:06:19
  * To change this template use File | Settings | File Templates.
  */
-public class BuddyServiceImpl implements BuddyService {
+public class BuddyServiceImpl extends OpenFireServiceImpl implements BuddyService {
     
 	private static final Logger logger = Logger.getLogger(BuddyServiceImpl.class);
 
-    private String host;
+    
 
     static {
         BasicConfigurator.configure();
@@ -112,95 +113,5 @@ public class BuddyServiceImpl implements BuddyService {
         return presence.getStatus();
     }
 
-    @Override
-    public XMPPConnection getConnection(String userName1, String password1) throws XMPPException {
-        ConnectionConfiguration config = new ConnectionConfiguration(getHost(), 5222);
-        config.setCompressionEnabled(true);
-        config.setReconnectionAllowed(true);
 
-        XMPPConnection connection;
-        connection = new XMPPConnection(config);
-        connection.connect();
-        connection.login(userName1, password1);
-        return connection;
-    }
-
-    private String getUsernameWithHost(String username) {
-        return username + "@" + getHost();
-    }
-
-    @Override
-    public String getHost() {
-        return host;
-    }
-
-    @Override
-    public void setHost(String host) {
-        this.host = host;
-    }
-    
-    static class BuddyClient implements PacketListener {
-
-		private String user;
-		
-		private String password;
-		
-		private String host;
-
-		private XMPPConnection connection;
-
-		/**
-		 * @param username
-		 * @param host 
-		 */
-		public BuddyClient(String username, String password, String host) {
-			this.user = username;
-			this.password = password;
-			this.host = host;
-
-			ConnectionConfiguration config = new ConnectionConfiguration(host, 5222);
-			config.setCompressionEnabled(true);
-			config.setReconnectionAllowed(true);
-
-			connection = new XMPPConnection(config);
-			try {
-				connection.connect();
-				logger.debug("Connected to server.");
-				connection.login(user, password, "buddyfier");
-				logger.debug("Logged in as " + connection.getUser());
-
-				PacketFilter filter = new PacketTypeFilter(Presence.class);
-				connection.addPacketListener(this, filter);
-			} catch (XMPPException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		public void disconnect() {
-			connection.disconnect();
-		}
-
-		public void subscribeToBuddy(String buddy) throws XMPPException {
-			connection.getRoster().createEntry(buddy + "@" + host, buddy, new String[] {"friends"});
-			logger.debug("Created roster: " + user + " -> " + buddy);
-		}
-
-		public void processPacket(Packet packet) {
-			Presence presence = (Presence) packet;
-			Presence response = null;
-
-			switch (presence.getType()) {
-			case subscribe:
-				response = new Presence(Presence.Type.subscribed);
-				response.setTo(presence.getFrom());
-				connection.sendPacket(response);
-				logger.debug("Accepted subscription: " + user + " -> " + presence.getFrom());
-				break;
-			}
-		}
-		
-		public String getUser() {
-			return user;
-		}
-	}
 }
