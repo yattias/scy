@@ -525,9 +525,9 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
             } else {
                 System.out.println("message without popup received...");
-                startNotifyThread();
                 notificationSender = notification.getSender();
                 notificationMessage = message;
+                startNotifyThread();
             }
         } else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
             if (type.equals("scaffold")) {
@@ -536,9 +536,9 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     notifyButton.setVisible(true);
                 } else {
 
+                    notificationMessage = notification.getFirstProperty("level");
                     startNotifyThread();
 
-                    notificationMessage = notification.getFirstProperty("level");
                 }
             }
         }
