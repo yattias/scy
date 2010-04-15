@@ -199,6 +199,8 @@ public abstract class Drawer extends CustomNode {
             opened = false;
             positionControlElements();
          }
+         layoutX: bind width-closeControlSize-sideContentBorder;
+         layoutY: bind topContentBorder/2-closeControlSize/2 + borderSize/2;
       }
       if (resizeAllowed) {
          resizeControl = WindowResize {
@@ -223,8 +225,10 @@ public abstract class Drawer extends CustomNode {
    }
 
    protected function positionControlElements(): Void {
-      closeControl.layoutX = width-closeControlSize-sideContentBorder;
-      closeControl.layoutY = topContentBorder/2-closeControlSize/2 + borderSize/2;
+      // this is somehow not (always??) called for the collaboration tools in the drawers
+      // as the closebox has now a fixed position, position is now handled by the binds in the creator.
+//      closeControl.layoutX = width-closeControlSize-sideContentBorder;
+//      closeControl.layoutY = topContentBorder/2-closeControlSize/2 + borderSize/2;
 
    }
 
