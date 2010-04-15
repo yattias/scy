@@ -122,10 +122,6 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         String mission = afterTuple.getField(3).getValue().toString();
         String session = afterTuple.getField(4).getValue().toString();
         String eloUri;
-        System.out.println(tool);
-        if (tool.equals("simulator") ){
-            System.out.println(user);
-        }
          
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
