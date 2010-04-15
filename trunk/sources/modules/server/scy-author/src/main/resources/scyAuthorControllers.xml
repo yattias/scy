@@ -173,5 +173,5 @@
     </bean>
 
 
-    <bean id="activityService" class="eu.scy.server.services.impl.ActivityServiceImpl"></bean>
+    <bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl"></bean>
 </beans>

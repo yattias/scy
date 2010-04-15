@@ -7,5 +7,5 @@ package eu.scy.server.services;
  * Time: 14:56:38
  * To change this template use File | Settings | File Templates.
  */
-public interface ActivityService {
+public interface UserActivityService {
 }

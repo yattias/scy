@@ -1,10 +1,12 @@
 package eu.scy.server.controllers;
 
-import eu.scy.core.ActivityService;
+
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import eu.scy.core.ActivityService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
