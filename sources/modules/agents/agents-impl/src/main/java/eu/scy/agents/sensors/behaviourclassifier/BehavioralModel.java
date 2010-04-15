@@ -38,9 +38,9 @@ public class BehavioralModel {
 
     private int userExp;
 
-    private int votat;
+    private int votat = 1;
 
-    private int canonical;
+    private int canonical =1;
 
     private String tool;
 
@@ -170,7 +170,7 @@ public class BehavioralModel {
     public void updateUserExp(int newUserExp) {
         this.userExp = newUserExp;
         // Fix to prevent too many notifications
-        // checkForSystematicBehaviour();
+        //checkForSystematicBehaviour();
     }
 
     /**
@@ -188,13 +188,14 @@ public class BehavioralModel {
      * This method checks if the current model is acting systematical based on the measures of the agents.
      */
     private void checkForSystematicBehaviour() {
+        
         // Simple ruleset :externalize
         if (userExp < 2) {
             return;
         } else {
-            if (votat < 100) {
+            if (votat < 1) {
                 sendNotification(SCAFFOLD.VOTAT);
-            } else if (canonical < 100) {
+            } else if (canonical < 1) {
                 sendNotification(SCAFFOLD.INC_CHANGE);
 
             } else {
