@@ -18,12 +18,12 @@
 			<version>3.9.0.GA</version>
 			<type>jar</type>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>eu.scy</groupId>
 			<artifactId>webbrowsingtoolELOSaver</artifactId>
 			<version>9.8.0-UJF-SNAPSHOT</version>
 			<type>war</type>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>eu.scy.server</groupId>
 			<artifactId>server-external-components</artifactId>
