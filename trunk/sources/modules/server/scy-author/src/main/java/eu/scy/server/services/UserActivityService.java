@@ -1,5 +1,7 @@
 package eu.scy.server.services;
 
+import eu.scy.core.UserService;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -8,4 +10,9 @@ package eu.scy.server.services;
  * To change this template use File | Settings | File Templates.
  */
 public interface UserActivityService {
+
+
+
+
+
 }
