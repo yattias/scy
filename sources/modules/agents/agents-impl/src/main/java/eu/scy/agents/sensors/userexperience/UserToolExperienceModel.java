@@ -134,10 +134,10 @@ public class UserToolExperienceModel {
                 oldTime = 0l;
             }
             long newTime = oldTime + (updateTime - startTime);
-            if (oldTime == newTime) {
-                lock.unlock();
-                return;
-            }
+//            if (oldTime == newTime) {
+//                lock.unlock();
+//                return;
+//            }
             toolTimeMap.put(activeTool, newTime);
             TupleID tupleID = toolTIDMap.get(activeTool);
             try {
