@@ -206,7 +206,7 @@ viewURL = _checkViewURL(viewURL, currentURL, themeDisplay);
 		<img src="<%= themeDisplay.getURLPortal() %>/html/icons/message_boards.png" class="icon"  />		
 	</c:if>
 	<c:if test="<%= isWikiPage %>">
-		<img src="<%= themeDisplay.getURLPortal() %>/html/icons/wiki.png" class="icon"  />		
+		<img src="<%= themeDisplay.getURLPortal() %>/html/themes/classic/images/common/pages.png" class="icon"  />		
 	</c:if>
 	
 	<c:if test="<%= show %>">
