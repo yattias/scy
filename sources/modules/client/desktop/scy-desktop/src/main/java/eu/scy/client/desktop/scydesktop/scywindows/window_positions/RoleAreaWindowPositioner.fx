@@ -185,10 +185,10 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 
    def mainHOffsetFactor = 0.4;
    def mainVOffsetFactor = 0.4;
-   def maximumHOffset = 220;
+   def maximumHOffset = 230;
    def maximumVOffset = 100;
    def mainAssignmentFactor = 0.6;
-   def areaSeparation = 17;
+   def areaSeparation = 15;
    def windowBottomMargin = 10;
    def windowRightMargin = 10;
 
