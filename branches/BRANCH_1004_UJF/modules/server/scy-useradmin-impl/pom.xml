@@ -34,6 +34,22 @@
         </dependency>
 
         <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-hub-commons</artifactId>
+            <version>9.11.0-UJF-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>9.8.0-UJF-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        
+
+        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.9.0.GA</version>

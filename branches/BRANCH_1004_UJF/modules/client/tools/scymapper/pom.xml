@@ -118,11 +118,11 @@
 			<artifactId>tool-broker-api</artifactId>
 			<version>9.8.0-UJF-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>eu.scy.server</groupId>
 			<artifactId>scy-sessionmanager-impl</artifactId>
 			<version>9.8.0-UJF-SNAPSHOT</version>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>

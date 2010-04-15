@@ -3,6 +3,7 @@ package eu.scy.scyhub;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.scy.core.openfire.ScyAuthorRuntimeModule;
 import org.apache.log4j.Logger;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentManager;
@@ -83,6 +84,7 @@ public class SCYHubComponent implements Component {
     	modules.add(new DataSyncModule(this));
     	modules.add(new ActionProcessModule(this));
     	modules.add(new Notificator(this));
+        modules.add(new ScyAuthorRuntimeModule(this));
     }
     
     
