@@ -257,6 +257,7 @@
 								<portlet:param name="mbCategoryId" value="<%= String.valueOf(message.getCategoryId()) %>" />
 								<portlet:param name="threadId" value="<%= String.valueOf(message.getThreadId()) %>" />
 								<portlet:param name="parentMessageId" value="<%= String.valueOf(message.getMessageId()) %>" />
+								<portlet:param name="categoryId" value="<%= String.valueOf(category.getCategoryId()) %>" />
 							</portlet:renderURL>
 
 							<liferay-ui:icon image="reply" url="<%= replyURL %>" label="<%= true %>" />
