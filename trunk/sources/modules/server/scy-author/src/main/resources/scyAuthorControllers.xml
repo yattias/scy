@@ -171,4 +171,7 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
+
+
+    <bean id="activityService" class="eu.scy.server.services.impl.ActivityServiceImpl"></bean>
 </beans>
