@@ -102,7 +102,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			if (response == null) {
 				return ontologyKeywords;
 			}
-			String keywordString = (String) response.getField(2).getValue();
+			String keywordString = (String) response.getField(1).getValue();
 			StringTokenizer tokenizer = new StringTokenizer(keywordString, ",");
 
 			while (tokenizer.hasMoreTokens()) {
