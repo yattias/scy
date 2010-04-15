@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
@@ -64,6 +65,7 @@ import roolo.elo.api.IELO;
  * 
  * @author __SVEN__
  */
+@Singleton
 @Path("/getELOAndroid")
 @Deprecated
 public class GetELOAndroid {

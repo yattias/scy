@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -71,6 +72,7 @@ import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer
  *
  * @author __SVEN__
  */
+@Singleton
 @Path("/saveELOAndroid")
 @Deprecated
 public class SaveAndroidELOResource {

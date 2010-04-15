@@ -81,7 +81,7 @@ public class SaveELO {
 
     @Context
     private UriInfo context;
-    private static final Beans beans = Beans.getInstance();
+    private static final Beans beans  = Beans.getInstance();
     private static final Logger log = Logger.getLogger(SaveELO.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
@@ -166,7 +166,7 @@ public class SaveELO {
                         elo.setContent(createELOContent(language, country, content));
                         beans.getRepository().updateELO(elo);
                         log.info("Updated ELO with uri: " + uri);
-                        logSavedELOAction(username, uri, "elo_update");
+                        logSavedELOAction(username, uri, "elo_update",type);
                     } else {
                         log.error("could not update! <- Could not retrieve ELO (ELO is null)");
                         //since the ELO could not be retrieved, the URI isnt correct
@@ -181,7 +181,7 @@ public class SaveELO {
                     IMetadata metadata = beans.getRepository().addNewELO(elo);
                     uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
                     log.info("Saved ELO with uri: " + uri);
-                    logSavedELOAction(username, uri, "elo_save");
+                    logSavedELOAction(username, uri, "elo_save",type);
                 }
             } else {
                 log.error("authentication of user " + username + " failed.");
@@ -250,12 +250,13 @@ public class SaveELO {
         return metadata;
     }
 
-    private void logSavedELOAction(String username, String eloUri, String type) {
+    private void logSavedELOAction(String username, String eloUri, String type,String elo_type) {
         IAction action = new Action();
         action.setType(type);
         action.setUser(getSmackName(username));
         action.addContext(ContextConstants.eloURI, eloUri);
         action.addContext(ContextConstants.tool, "roolo-ws");
+        action.addAttribute("elo_type", elo_type);
         beans.getActionLogger().log(action);
     }
 
