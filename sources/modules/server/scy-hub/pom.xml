@@ -134,6 +134,12 @@
         	<version>${pom.version}</version>
         </dependency>
 		
+        <dependency>
+        	<groupId>eu.scy.server</groupId>
+        	<artifactId>scy-useradmin-impl</artifactId>
+        	<version>${pom.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
