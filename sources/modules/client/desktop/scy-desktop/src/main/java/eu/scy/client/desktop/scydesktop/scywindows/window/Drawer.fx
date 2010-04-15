@@ -73,6 +73,9 @@ public abstract class Drawer extends CustomNode {
    var openedOnce = false;
    var resizeAllowed = false;
 
+   def heightOverhead = topContentBorder + bottomContentBorder + borderSize;
+   def widthOverhead = 2 * sideContentBorder + borderSize;
+
    function sizeChanged() {
       // show a filled rect as content for test purposes
 //      content = Rectangle {
@@ -134,17 +137,17 @@ public abstract class Drawer extends CustomNode {
          if (content instanceof Resizable) {
             var resizableContent = content as Resizable;
             if (not horizontal){
-               width = Math.max(resizableContent.getPrefWidth(width), absoluteMinimumWidth);
+               width = Math.max(resizableContent.getPrefWidth(width)+widthOverhead, absoluteMinimumWidth);
             }
             if (horizontal){
-               height = Math.max(resizableContent.getPrefHeight(height), absoluteMinimumHeight);
+               height = Math.max(resizableContent.getPrefHeight(height)+heightOverhead, absoluteMinimumHeight);
             }
          } else if (content != null) {
             if (not horizontal){
-               width = content.boundsInLocal.width;
+               width = content.boundsInLocal.width + widthOverhead;
             }
             if (horizontal){
-               height = content.boundsInLocal.height;
+               height = content.boundsInLocal.height + heightOverhead;
             }
             resizeAllowed = false;
          }
@@ -175,8 +178,8 @@ public abstract class Drawer extends CustomNode {
       }
       contentElement = WindowContent {
          windowColorScheme:windowColorScheme
-         width: bind width - 2 * sideContentBorder - borderSize - 1;
-         height: bind height - topContentBorder - bottomContentBorder - borderSize - 1;
+         width: bind width - widthOverhead - 1;
+         height: bind height - heightOverhead - 1;
          content: bind content;
          activated: bind activated;
          activate:activate
