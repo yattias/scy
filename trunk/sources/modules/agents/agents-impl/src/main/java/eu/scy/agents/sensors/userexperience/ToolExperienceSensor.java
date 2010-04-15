@@ -178,6 +178,9 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private synchronized void processAction(Action a, boolean queued) throws ParseException, TupleSpaceException, IOException {
         logger.log(Level.FINE, "Action to process occured, queued-flag is set to " + queued);
+        if (!a.getContext(ContextConstants.tool).equals("simulator")){
+            return;
+        }
         if (!initializing && queued) {
             actionQueue.add(a);
             return;
