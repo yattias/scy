@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
@@ -64,6 +65,7 @@ import roolo.elo.metadata.keys.ContributeMetadataKey;
  *
  * @author __SVEN__
  */
+@Singleton
 @Path("/updateELOAndroid")
 @Deprecated
 public class UpdateELOResource {

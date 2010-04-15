@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
@@ -71,6 +72,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
  *
  * @author __SVEN__
  */
+@Singleton
 @Deprecated
 @Path("/getELOListAndroid")
 public class GetELOListAndroid {
@@ -91,7 +93,6 @@ public class GetELOListAndroid {
 
     /** Creates a new instance of SaveELOResource */
     public GetELOListAndroid() {
-        
         //configure keys
         typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
         titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());

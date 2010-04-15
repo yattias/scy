@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.ws.rs.Consumes;
@@ -64,6 +65,7 @@ import roolo.elo.metadata.keys.Contribute;
  * 
  * @author __SVEN__
  */
+@Singleton
 @Path("/getELO")
 public class GetELO {
 
