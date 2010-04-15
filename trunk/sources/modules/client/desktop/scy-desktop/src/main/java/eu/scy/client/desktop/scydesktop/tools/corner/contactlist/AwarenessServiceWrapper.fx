@@ -46,6 +46,7 @@ public class AwarenessServiceWrapper {
             var contacts:Contact[];
             var offlineContacts:Contact[];
             def buddies = awarenessService.getBuddies();
+            println("Retrieved {buddies.size()} buddies from awareness service.");
             for (buddy in buddies){
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
                 def presence = awarenessUser.getPresence();
