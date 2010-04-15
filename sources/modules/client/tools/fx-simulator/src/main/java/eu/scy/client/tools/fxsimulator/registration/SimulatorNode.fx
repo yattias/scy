@@ -179,7 +179,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function create(): Node {
-        bundle = new ResourceBundleWrapper(this, "scysimulator");
+        bundle = new ResourceBundleWrapper(this);
         wrappedSimquestPanel = SwingComponent.wrap(simquestPanel);
         return Group {
                     blocksMouse: true;
