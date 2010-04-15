@@ -27,10 +27,10 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 	public ELOHasBeenSavedAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
-			host = (String) params.get(AgentProtocol.TS_HOST);
+			this.host = (String) params.get(AgentProtocol.TS_HOST);
 		}
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
-			port = (Integer) params.get(AgentProtocol.TS_PORT);
+			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 	}
 
@@ -64,10 +64,11 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 			String session, String eloUri, String eloType) {
 
 		Tuple notificationTuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), user, tool, NAME,
-				mission, session, AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri);
+				mission, session, AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri, AgentProtocol.ACTIONLOG_ELO_TYPE
+						+ "=" + eloType);
 
 		try {
-			getCommandSpace().write(notificationTuple);
+			this.getCommandSpace().write(notificationTuple);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
