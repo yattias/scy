@@ -93,4 +93,6 @@ public class UserActivityServiceImpl extends OpenFireServiceImpl implements User
         }
 
     }
+
+
 }
