@@ -135,14 +135,14 @@
 										</properties>
 										<type>war</type>
 									</deployable>
-									<deployable>
+									<!--deployable>
 										<groupId>eu.scy</groupId>
 										<artifactId>webbrowsingtoolELOSaver</artifactId>
 										<properties>
 											<context>/roolo-ws</context>
 										</properties>
 										<type>war</type>
-									</deployable>
+									</deployable-->
 									<deployable>
 										<groupId>info.collide</groupId>
 										<artifactId>sqlspaces-server-web</artifactId>
