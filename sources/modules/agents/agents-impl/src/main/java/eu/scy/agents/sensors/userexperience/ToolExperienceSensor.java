@@ -235,6 +235,15 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 //            if (!initializing){
 //                timer.stop();
 //            }
+        } else if (a.getType().equals("add_row")) {
+            String sessionid = a.getContext(ContextConstants.session);
+            long focusEndTime = a.getTimeInMillis();
+            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            exp.startExpPhase();
+            logger.log(Level.FINE, "startExpPhase with user: " + a.getUser() + " and SessionID: " + sessionid);
+//            if (!initializing){
+//                timer.stop();
+//            }
         }
     }
 
