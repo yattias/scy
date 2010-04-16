@@ -15,7 +15,7 @@ if(cartEntryList2.size() < 1 ){
 %>
 
 <div style="text-align: center" >
- Merkzettel <%= actualCart.getTitle() %>
+ <liferay-ui:message key="cart-entry" /> <%= actualCart.getTitle() %>
  <br/><br/>
 </div>
 
@@ -72,7 +72,7 @@ if(cartEntryList2.size() < 1 ){
 		onClickHtml = "onclick=\"Liferay.Util.forcePost(this); return false;\"";
 %>
 		<a href="<%= removeCart %>" <%= onClickHtml %>>
-			 <INPUT TYPE="BUTTON" VALUE="Merkzettel löschen">
+			 <input type="button" value=" <liferay-ui:message key="delete-cart-entrie-button" />">
 	    </a> 							
 	</div>
 	<br/><br/>
@@ -80,9 +80,9 @@ if(cartEntryList2.size() < 1 ){
 	<table style="maxwidth: 500;">
 		<tr class="portlet-section-header results-header">
 			<th width=300 >
-				<liferay-ui:message key="Gespeicherte Merkzettel" />
+				<liferay-ui:message key="saved-cart-entries" />
 			</th>
-			<th width=40>Löschen</th>
+			<th width=40><liferay-ui:message key="delete-cart-entry" /></th>
 		</tr>
 <%
 %>

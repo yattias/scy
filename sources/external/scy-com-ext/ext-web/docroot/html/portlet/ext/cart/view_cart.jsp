@@ -13,7 +13,7 @@ if(cartEntryList.size() < 1 ){
 %>
 
 <div style="text-align: center" >
- <h2>Aktueller Merkzettel</h2>
+ <h2><liferay-ui:message key="actual-cart-entry" /></h2>
  <br/>
 </div>
 
@@ -65,7 +65,7 @@ if (results.size() > 0) {
 				</tr>
 			</table>
 			<br/>
-             <input onClick="submitForm(document.<portlet:namespace />fmSave);" style="margin-top 5px;" type="button" value="Merkzettel speichern">
+             <input onClick="submitForm(document.<portlet:namespace />fmSave);" style="margin-top 5px;" type="button" value="<liferay-ui:message key="save-cart-entry" />">
          </c:if>                
     </form>
 <%
@@ -73,7 +73,8 @@ if (results.size() > 0) {
 else{
 %>
 	<div style="text-align: center" >
-		Kein Merkzettel Eintrag vorhanden.
+		<liferay-ui:message key="no-cart-entry-exist" />
+				
 	</div>
 <%
 }
@@ -86,10 +87,10 @@ else{
 	<table style="maxwidth: 500;">
 		<tr class="portlet-section-header results-header">
 			<th width=300>
-				<liferay-ui:message key="Gespeicherte Merkzettel" />
+				<liferay-ui:message key="saved-cart-entries" />
 			</th>
 			<th></th>
-			<th width=40>Löschen</th>
+			<th width=40><liferay-ui:message key="delete-cart-entry" /></th>
 		</tr>
 <%
 %>

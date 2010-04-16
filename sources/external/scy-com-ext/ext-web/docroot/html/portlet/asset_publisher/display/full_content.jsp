@@ -878,7 +878,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 			/>
 		</div>
 		
-		<div style="padding: 0 25px;">				
+		<div style="padding: 10px 25px;">				
 						<liferay-ui:ratings
 							className="<%= asset.getClassName() %>"
 							classPK="<%= asset.getClassPK() %>"

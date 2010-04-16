@@ -34,6 +34,6 @@ boolean urlIsNotNull = Validator.isNotNull(AddCartURL);
 <c:if test="<%= showAddClipboardButton %>">     
    <c:if test="<%= urlIsNotNull %>">
         <a style="text-decoration: none;" href="<%= AddCartURL %>" <%= onClickHtml %>>
-   		 </c:if><input type="button" value="Merkzettel">
+   		 </c:if><input type="button" value="Cart" title="save-to-own-cart">
     </a>
 </c:if>

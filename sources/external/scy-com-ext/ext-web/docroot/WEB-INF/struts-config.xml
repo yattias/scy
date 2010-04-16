@@ -330,6 +330,11 @@
 			<forward name="portlet.ext.freestyler.view_freestylerImage" path="portlet.ext.cart.view_entry" />
 		</action>		
 		
+		<action path="/ext/cart/edit_entry_discussion" type="com.liferay.portlet.messageboards.action.EditDiscussionAction">
+			<forward name="portlet.message_boards.error" path="portlet.blogs.error" />
+		</action>	
+		<action path="/ext/cart/view_content" forward="portlet.ext.cart.view_content" />
+		
 		<!-- Similarity -->
 		
 		<action path="/ext/similarity/view" forward="portlet.ext.similarity.view" />

@@ -1,7 +1,7 @@
 <%
 for (int assetEntryIndex = 0; assetEntryIndex < results.size(); assetEntryIndex++) {
 	TagsAsset assetEntry = (TagsAsset)results.get(assetEntryIndex);
-
+	
 	String className = PortalUtil.getClassName(assetEntry.getClassNameId());
 	long classPK = assetEntry.getClassPK();
 
@@ -54,7 +54,7 @@ for (int assetEntryIndex = 0; assetEntryIndex < results.size(); assetEntryIndex+
 %>
 			<c:if test="<%= !onlyView %>"> 
                      <div style="color: #12558E">
-                             <input onClick="submitForm(document.<portlet:namespace />fmRemoveCart2);" style="margin-top 5px;" type="button" value="Remove checked Carts">
+                             <input onClick="submitForm(document.<portlet:namespace />fmRemoveCart2);" style="margin-top 5px;" type="button" value="<liferay-ui:message key="remove-checked-carts" />">
                      </div>         
 
  			</c:if>     

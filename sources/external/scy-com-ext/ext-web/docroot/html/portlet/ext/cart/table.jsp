@@ -24,16 +24,16 @@ String actualImageId = "";
 viewFullContentURL.setParameter("struts_action", "/ext/cart/view_content");
 viewFullContentURL.setParameter("assetEntryId", String.valueOf(asset.getAssetId()));
 
+
 if (className.equals(BlogsEntry.class.getName())) {
 	BlogsEntry entry = BlogsEntryLocalServiceUtil.getEntry(classPK);
 
 	if (Validator.isNull(title)) {
 		title = entry.getTitle();
 	}
+	
 
-	viewFullContentURL.setParameter("urlTitle", entry.getUrlTitle());
 	viewFullContentURL.setParameter("type", AssetPublisherUtil.TYPE_BLOG);
-
 	viewURL = viewInContext ? themeDisplay.getURLPortal() + themeDisplay.getPathMain() + "/blogs/find_entry?noSuchEntryRedirect=" + HttpUtil.encodeURL(viewFullContentURL.toString()) + "&entryId=" + entry.getEntryId() : viewFullContentURL.toString();
 }
 else if (className.equals(BookmarksEntry.class.getName())) {
@@ -96,12 +96,15 @@ else if (className.equals(JournalArticle.class.getName())) {
 		}
 
 		PortletURL articleURL = renderResponse.createRenderURL();
+		
+		System.out.println(articleResource.getPrimaryKey());
+		
+		viewFullContentURL.setParameter("resourcePrimKey", String.valueOf(articleResource.getResourcePrimKey()));
+		viewFullContentURL.setParameter("primaryKey", String.valueOf(articleResource.getPrimaryKey()));
+		viewFullContentURL.setParameter("type", AssetPublisherUtil.TYPE_CONTENT);
 
-		articleURL.setParameter("struts_action", "/asset_publisher/view_content");
-		articleURL.setParameter("urlTitle", articleDisplay.getUrlTitle());
-		articleURL.setParameter("type", AssetPublisherUtil.TYPE_CONTENT);
+		viewURL = viewFullContentURL.toString();
 
-		viewURL = articleURL.toString();
 	}
 	else {
 		show = false;
