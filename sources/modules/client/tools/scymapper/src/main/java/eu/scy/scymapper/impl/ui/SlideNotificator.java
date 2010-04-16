@@ -19,15 +19,15 @@ public class SlideNotificator {
 	private int startY;
 	private Timer animationTimer;
 	private long animationStart;
-	private JFrame ownerFrame;
+	private Frame ownerFrame;
 
 	private JWindow window;
 
 	public SlideNotificator(JComponent ownerComponent, JComponent contents) {
 		Frame f = JOptionPane.getFrameForComponent(ownerComponent);
-		if (!(f instanceof JFrame))
-			throw new IllegalArgumentException("The ownerComponent component must be contained in a JFrame");
-		ownerFrame = (JFrame) f;
+//		if (!(f instanceof JFrame))
+//			throw new IllegalArgumentException("The ownerComponent component must be contained in a JFrame");
+		ownerFrame = f;
 		setContents(contents);
 	}
 
