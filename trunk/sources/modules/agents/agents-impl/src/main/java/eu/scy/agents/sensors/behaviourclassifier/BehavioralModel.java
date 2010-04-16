@@ -22,7 +22,7 @@ public class BehavioralModel {
 
     private static final Logger logger = Logger.getLogger(BehavioralModel.class.getSimpleName());
 
-    private static final int NOTIFICATION_DELAY = 10 * 1000;
+    private static final int NOTIFICATION_DELAY = 30 * 1000;
 
     // TODO This enum has to be externalized, cause the client (ScySim) is
     // using it, too. Be aware of this. If you change anything here, it has to be
@@ -57,6 +57,8 @@ public class BehavioralModel {
     private Timer timer;
 
     private String eloUri;
+
+    private boolean expPhaseStartet =false;
 
     /**
      * This Model provides information over the aggregated output of three agents:<br/>
@@ -183,6 +185,9 @@ public class BehavioralModel {
         this.votat = newVotat;
         checkForSystematicBehaviour();
     }
+    public void setExpPhaseStarted(){
+        this.expPhaseStartet  = true;
+    }
 
     /*
      * This method checks if the current model is acting systematical based on the measures of the agents.
@@ -190,7 +195,7 @@ public class BehavioralModel {
     private void checkForSystematicBehaviour() {
         
         // Simple ruleset :externalize
-        if (userExp < 2) {
+        if (!expPhaseStartet || userExp < 2) {
             return;
         } else {
             if (votat < 1) {
