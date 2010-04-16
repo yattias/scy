@@ -194,7 +194,7 @@ viewURL = _checkViewURL(viewURL, currentURL, themeDisplay);
 		<img src="<%= themeDisplay.getURLPortal() %>/html/themes/classic/images/ratings/star_hover.png" class="icon"  />		
 	</c:if>
 	<c:if test="<%= isDLFile %>">
-		<img src="<%= themeDisplay.getURLPortal() %>/html/icons/document_library.png" class="icon"  />		
+		<img src="<%= themeDisplay.getURLPortal() %>/html/themes/classic/images/common/clip.png" class="icon"  />		
 	</c:if>
 	<c:if test="<%= isIGImage %>">
 		<img src="<%= themeDisplay.getURLPortal() %>/html/icons/image_gallery.png" class="icon"  />		
