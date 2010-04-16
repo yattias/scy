@@ -33,9 +33,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.liferay.portal.model.Group;
+import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.service.permission.UserPermissionUtil;
 import com.liferay.portal.struts.PortletAction;
@@ -61,6 +63,8 @@ public class ViewAction extends PortletAction {
 		Group group = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
 
 		User user = themeDisplay.getUser();
+		
+		boolean isAdmin = RoleLocalServiceUtil.hasUserRole(user.getUserId(), themeDisplay.getCompanyId(), RoleConstants.ADMINISTRATOR, false);
 
 		if (group.isUser()) {
 			user = UserLocalServiceUtil.getUserById(group.getClassPK());
@@ -73,9 +77,9 @@ public class ViewAction extends PortletAction {
 			List<SocialRequest> requests = SocialRequestLocalServiceUtil.getReceiverUserRequests(user.getUserId(), SocialRequestConstants.STATUS_PENDING, 0,
 					100);
 
-			if (requests.size() == 0) {
+			if (requests.size() == 0 && !isAdmin) {
 				renderRequest.setAttribute(WebKeys.PORTLET_DECORATE, Boolean.FALSE);
-			} else {
+			}else {
 				renderRequest.setAttribute(WebKeys.SOCIAL_REQUESTS, requests);
 				return mapping.findForward("portlet.ext.requestsnew.view");
 			}
