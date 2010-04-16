@@ -49,11 +49,11 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
 
     private static final double MAX_EXP_TIME = 1 * 60 * 60 * 1000;
 
-    private int lastVotat;
-
-    private int lastCanonical;
-
-    private int lastUserExp;
+//    private int lastVotat;
+//
+//    private int lastCanonical;
+//
+//    private int lastUserExp;
 
     private int expPhaseSeq;
 
@@ -66,7 +66,6 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             canoSeq = commandSpace.eventRegister(Command.ALL, CANONICAL_TEMPLATE, this, true);
             expPhaseSeq = commandSpace.eventRegister(Command.ALL, EXP_PHASE_STARTET_TEMPLATE, this, true);
             userModels = new ConcurrentHashMap<String, BehavioralModel>();
-            System.out.println("new instance SSBC");
             initLogger();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -140,7 +139,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             model = getModel(user, tool, mission, session);
             model.updateVotat(newVotat);
             // }
-            lastVotat = newVotat;
+           // lastVotat = newVotat;
 
         } else if (seqnum == userExpSeq) {
             int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
@@ -150,7 +149,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             model = getModel(user, tool, mission, session);
             model.updateUserExp(l);
             // }
-            lastUserExp = newUserExp;
+          //  lastUserExp = newUserExp;
 
         } else if (seqnum == canoSeq) {
             int newCanonical = ((Double) afterTuple.getField(7).getValue()).intValue();
@@ -158,7 +157,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             model = getModel(user, tool, mission, session);
             model.updateCanonical(newCanonical);
             // }
-            lastCanonical = newCanonical;
+            //lastCanonical = newCanonical;
 
         } else if (seqnum == expPhaseSeq) {
             model = getModel(user, tool, mission, session);
