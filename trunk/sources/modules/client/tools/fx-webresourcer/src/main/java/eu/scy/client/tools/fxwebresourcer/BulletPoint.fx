@@ -15,6 +15,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 
 import javafx.scene.text.Font;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author pg
@@ -31,6 +33,8 @@ public class BulletPoint extends CustomNode {
                 radius: 3
                 fill: Color.BLACK
         }
+        var nodes:Node[] = { bullet };
+
         var contentText:Text = Text {
                 content:bind text;
                 font: Font { size: 16; }
@@ -38,11 +42,50 @@ public class BulletPoint extends CustomNode {
                 translateX: 30;
                 translateY: bind y;
         }
-        public var width:Number = bind 28 + contentText.layoutBounds.width;
-        public var height:Number = bind 5 + contentText.layoutBounds.height;
+
+        public var contentImage:Image = Image {
+
+        }
+
+        var contentImageView:ImageView = ImageView {
+                preserveRatio: true;
+                translateX: 30;
+                translateY: bind y;
+        }
+
+        public var width:Number;// = bind 28 + contentText.layoutBounds.width;
+        public var height:Number;// = bind 5 + contentText.layoutBounds.height;
+
+        public function setText(text:String) {
+            this.text = text;
+            height = 5 + contentText.layoutBounds.height;
+            width = 28 + contentText.layoutBounds.width;
+            insert contentText into nodes;
+        }
+
+        public function setImage(url:String) {
+            contentImage = Image {
+                url: url;
+            }
+            if(contentImage.width > 500) {
+                contentImageView.fitWidth = 500;
+            }
+            else if(contentImage.height > 500) {
+                contentImageView.fitHeight = 500;
+            }
+
+
+            contentImageView.image = contentImage;
+            height = 5 + contentImageView.layoutBounds.height+15;
+            width = 5 + contentImageView.layoutBounds.width;
+            insert contentImageView into nodes;
+
+        }
+
+
         public override function create():Node {
             var g = Group {
-                content: [bullet, contentText];
+                content: bind nodes; //[bullet, contentText, contentImageView];
             }
             return g;
 
