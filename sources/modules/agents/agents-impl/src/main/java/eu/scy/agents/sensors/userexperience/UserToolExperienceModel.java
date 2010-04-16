@@ -222,14 +222,13 @@ public class UserToolExperienceModel {
     }
 
     public void startExpPhase() {
-        if (!expPhase) {
-            expPhase = true;
+       
             try {
                 sensorSpace.write(new Tuple(EXP_PHASE, this.getUserName(), activeTool, this.getMission(), this.getSession(), this.getEloUri(), System.currentTimeMillis()));
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
-        }
+        
 
     }
 }
