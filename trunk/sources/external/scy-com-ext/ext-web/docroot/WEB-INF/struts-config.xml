@@ -78,7 +78,11 @@
 		<action path="/ext/asset_by_ratio/link_intern" type="com.ext.portlet.assetviewbyratio.action.LinkInternAction">
 			<forward name="portlet.ext.asset_by_ratio.view_link" path="portlet.ext.asset_by_ratio.view_link" />
 			<forward name="portlet.ext.asset_by_ratio.view_linkIntern" path="portlet.ext.asset_by_ratio.view_linkIntern" />
-		</action>			
+		</action>		
+		
+		<action path="/ext/asset_by_ratio/edit_entry_discussion" type="com.liferay.portlet.messageboards.action.EditDiscussionAction">
+			<forward name="portlet.message_boards.error" path="portlet.blogs.error" />
+		</action>	
 						
 		<action path="/ext/asset_by_ratio/view_links" forward="com.ext.portlet.assetviewbyratio.action.ViewAction" />
 		

@@ -107,7 +107,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 					<br />
 
 					<portlet:actionURL var="discussionURL">
-						<portlet:param name="struts_action" value="/asset_publisher/edit_entry_discussion" />
+						<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 					</portlet:actionURL>
 
 					<liferay-ui:discussion
@@ -209,7 +209,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 					<br />
 
 					<portlet:actionURL var="discussionURL">
-						<portlet:param name="struts_action" value="/asset_publisher/edit_file_entry_discussion" />
+						<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 					</portlet:actionURL>
 
 					<liferay-ui:discussion
@@ -311,7 +311,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 					<br />
 
 					<portlet:actionURL var="discussionURL">
-						<portlet:param name="struts_action" value="/asset_publisher/edit_file_entry_discussion" />
+						<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 					</portlet:actionURL>
 
 					<liferay-ui:discussion
@@ -414,7 +414,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 					<br />
 
 					<portlet:actionURL var="discussionURL">
-						<portlet:param name="struts_action" value="/asset_publisher/edit_file_entry_discussion" />
+						<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 					</portlet:actionURL>
 
 					<liferay-ui:discussion
@@ -456,7 +456,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							className="<%= IGImage.class.getName() %>"
 							classPK="<%= image.getImageId() %>"
 							portletURL="<%= renderResponse.createRenderURL() %>"
-							strutsAction="/asset_publisher/link"
+							strutsAction="/ext/asset_by_ratio/link"
 						/>
 						
 						<br />				
@@ -569,7 +569,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 						<br />
 
 						<portlet:actionURL var="discussionURL">
-							<portlet:param name="struts_action" value="/asset_publisher/edit_article_discussion" />
+							<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 						</portlet:actionURL>
 
 						<liferay-ui:discussion
@@ -670,7 +670,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 						<br />
 
 						<portlet:actionURL var="discussionURL">
-							<portlet:param name="struts_action" value="/asset_publisher/edit_article_discussion" />
+							<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 						</portlet:actionURL>
 
 						<liferay-ui:discussion
@@ -806,7 +806,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 					<br />
 
 					<portlet:actionURL var="discussionURL">
-						<portlet:param name="struts_action" value="/asset_publisher/edit_page_discussion" />
+						<portlet:param name="struts_action" value="/ext/asset_by_ratio/edit_entry_discussion" />
 					</portlet:actionURL>
 
 					<liferay-ui:discussion
@@ -827,7 +827,7 @@ request.setAttribute("view.jsp-showIconLabel", true);
 							className="<%= WikiPage.class.getName() %>"
 							classPK="<%= wikiPage.getResourcePrimKey() %>"
 							portletURL="<%= renderResponse.createRenderURL() %>"
-							strutsAction="/asset_publisher/add_tag"
+							strutsAction="/ext/asset_by_ratio/add_tag"
 						/>
 						
 						<liferay-ui-ext:add-own-meta
