@@ -4,4 +4,5 @@
 	<resource file="resource-actions/book.xml" />
 	<resource file="resource-actions/freestyler.xml" />
 	<resource file="resource-actions/topfive.xml" />
+	<resource file="resource-actions/requestnew.xml" />
 </resource-action-mapping>
