@@ -23,6 +23,7 @@ import eu.scy.actionlogging.api.IContext;
 public class UserToolExperienceModel {
 
     private static final String USER_EXP = "user_exp";
+    private static final String EXP_PHASE = "exp_phase_started";
 
     private String userName;
 
@@ -47,6 +48,8 @@ public class UserToolExperienceModel {
     private long ustemStartTime;
 
     private IContext context;
+
+    private boolean expPhase = false;
 
     private static final Logger logger = Logger.getLogger(UserToolExperienceModel.class.getName());
 
@@ -134,15 +137,15 @@ public class UserToolExperienceModel {
                 oldTime = 0l;
             }
             long newTime = oldTime + (updateTime - startTime);
-//            if (oldTime == newTime) {
-//                lock.unlock();
-//                return;
-//            }
+            // if (oldTime == newTime) {
+            // lock.unlock();
+            // return;
+            // }
             toolTimeMap.put(activeTool, newTime);
             TupleID tupleID = toolTIDMap.get(activeTool);
             try {
                 if (tupleID != null) {
-                   sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri()));
+                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri()));
                 } else {
 
                     toolTIDMap.put(activeTool, sensorSpace.write(new Tuple(USER_EXP, this.getUserName(), activeTool, this.getMission(), this.getSession(), System.currentTimeMillis(), this.getExperience(activeTool), startCount, stopCount, this.getEloUri())));
@@ -216,5 +219,17 @@ public class UserToolExperienceModel {
 
     public String getEloUri() {
         return context.get(ContextConstants.eloURI);
+    }
+
+    public void startExpPhase() {
+        if (!expPhase) {
+            expPhase = true;
+            try {
+                sensorSpace.write(new Tuple(EXP_PHASE, this.getUserName(), activeTool, this.getMission(), this.getSession(), this.getEloUri(), System.currentTimeMillis()));
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
