@@ -195,9 +195,6 @@ public class BehavioralModel {
      * This method checks if the current model is acting systematical based on the measures of the agents.
      */
     private void checkForSystematicBehaviour() {
-        System.out.println(name);
-        System.out.println(tool);
-        System.out.println(userExp);
         // Simple ruleset :externalize
         if (!expPhaseStartet || userExp < 2) {
             return;
