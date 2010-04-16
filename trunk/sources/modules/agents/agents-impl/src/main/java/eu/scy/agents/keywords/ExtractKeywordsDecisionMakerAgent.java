@@ -49,8 +49,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		@Override
 		public String toString() {
 			String webresourcerURL = this.webresourcerELO != null ? this.webresourcerELO.toString() : "null";
-			return this.user + "|web:" + this.webresourcerStarted + "|map:" + this.scyMapperStarted + "|url:" + webresourcerURL + "|"
-					+ new Date(this.lastAction).toString() + "|" + this.numberOfConcepts;
+			return this.user + "|web:" + this.webresourcerStarted + "|map:" + this.scyMapperStarted + "|url:"
+					+ webresourcerURL + "|" + new Date(this.lastAction).toString() + "|" + this.numberOfConcepts;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private long idleTimeInMS = 60 * 1000;
 	private int minimumNumberOfConcepts = 5;
-	private long timeAfterThatItIsSaveToRemoveUser = 5 * this.idleTimeInMS;
+	private long timeAfterThatItIsSaveToRemoveUser = 30 * 6000;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
@@ -93,7 +93,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		}
 		if (params.containsKey(IDLE_TIME_INMS)) {
 			this.idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
-			this.timeAfterThatItIsSaveToRemoveUser = 5 * this.idleTimeInMS;
+			// this.timeAfterThatItIsSaveToRemoveUser = 5 * this.idleTimeInMS;
 		}
 		if (params.containsKey(MINIMUM_NUMBER_OF_CONCEPTS)) {
 			this.minimumNumberOfConcepts = (Integer) params.get(MINIMUM_NUMBER_OF_CONCEPTS);
@@ -102,7 +102,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private void registerToolStartedListener() {
 		try {
-			this.listenerId = this.getActionSpace().eventRegister(Command.WRITE, this.getActionTupleTemplate(), this, true);
+			this.listenerId = this.getActionSpace().eventRegister(Command.WRITE, this.getActionTupleTemplate(), this,
+					true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -181,13 +182,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	}
 
 	private void handleNodeRemoved(IAction action) {
-		logger.info("node removed");
+		logger.info("node_removed");
 		ContextInformation contextInfo = this.getContextInformation(action);
 		contextInfo.numberOfConcepts--;
 	}
 
 	private void handleNodeAdded(IAction action) {
-		logger.info("node added");
+		logger.info("node_added");
 		ContextInformation contextInfo = this.getContextInformation(action);
 		contextInfo.numberOfConcepts++;
 		contextInfo.lastAction = action.getTimeInMillis();
@@ -202,7 +203,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			logger.info(WEBRESOURCER + " stopped");
 			contextInfo.webresourcerStarted = false;
-			contextInfo.webresourcerELO = null;
 		}
 		contextInfo.lastAction = action.getTimeInMillis();
 	}
@@ -218,8 +218,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			logger.info(WEBRESOURCER + " started  by " + action.getUser()
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
-
-			contextInfo.webresourcerStarted = true;
+			try {
+				contextInfo.webresourcerELO = new URI(action.getContext(ContextConstants.eloURI));
+				contextInfo.webresourcerStarted = true;
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
 		contextInfo.lastAction = action.getTimeInMillis();
 	}
@@ -251,9 +255,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 					logger.info(contextInformation);
 					if (this.userNeedsToBeNotified(currentTime, contextInformation)) {
 						this.notifyUser(currentTime, user, contextInformation);
-						if (this.userIsIdleForTooLongTime(currentTime, contextInformation)) {
-							toRemove.add(user);
-						}
+					}
+					if (this.userIsIdleForTooLongTime(currentTime, contextInformation)) {
+						toRemove.add(user);
 					}
 				}
 				for (String user : toRemove) {
