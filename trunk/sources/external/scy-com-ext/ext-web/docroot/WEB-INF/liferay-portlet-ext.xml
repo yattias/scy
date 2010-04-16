@@ -42,6 +42,7 @@
 		<struts-path>ext/cart</struts-path>
 		<use-default-template>false</use-default-template>
 		<header-portlet-css>/html/portlet/ext/cart/css.jsp</header-portlet-css>
+				<footer-portlet-javascript>/html/portlet/enterprise_admin/javascript.js</footer-portlet-javascript>
 		<css-class-wrapper>portlet-asset-publisher</css-class-wrapper>
 	</portlet>
 

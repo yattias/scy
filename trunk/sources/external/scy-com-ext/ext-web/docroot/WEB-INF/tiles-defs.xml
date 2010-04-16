@@ -245,6 +245,10 @@
 	<definition name="portlet.ext.cart.view_entry" extends="portlet">
 		<put name="portlet_content" value="/portlet/ext/freestyler/freestylerImageView.jsp" />
 	</definition>
+	
+	<definition name="portlet.ext.cart.view_content" extends="portlet">
+		<put name="portlet_content" value="/portlet/ext/cart/view_content.jsp" />
+	</definition>
 
 	<!-- Similarity -->
 

@@ -157,7 +157,7 @@
 
 .portlet-asset-publisher .metadata-entry {
 	color: #999;
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 }
 
 .portlet-asset-publisher .metadata-modified-date, .portlet-asset-publisher .metadata-create-date, .portlet-asset-publisher .metadata-publish-date, .portlet-asset-publisher .metadata-expiration-date {
@@ -165,6 +165,7 @@
 	color: #999;
 	margin-bottom: 1em;
 	padding-left: 25px;
+	padding-right: 20px;
 }
 
 .portlet-asset-publisher .metadata-priority {
