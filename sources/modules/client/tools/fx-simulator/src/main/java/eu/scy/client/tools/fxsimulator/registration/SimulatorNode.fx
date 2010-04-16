@@ -43,14 +43,12 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.datasync.DummySyncListener;
 import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
-import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     def simconfigType = "scy/simconfig";
     def datasetType = "scy/dataset";
-    var bundle: ResourceBundleWrapper;
     public-init var simquestPanel: JPanel;
     public-init var scyWindow: ScyWindow;
     public var eloFactory: IELOFactory;
@@ -95,11 +93,11 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (isSync) {
             removeDatasync(object as ISynchronizable);
         } else {
-            var yesNoOptions = [getBundleString("ACCEPT_DROP_YES"), getBundleString("ACCEPT_DROP_NO")];
+            var yesNoOptions = ["Yes", "No"];
             var n = -1;
             n = JOptionPane.showOptionDialog(null,
-            getBundleString("SYNC_QUESTION"), // question
-            getBundleString("SYNC_TITLE"), // title
+            "Do you want to synchronise\nwith the Dataprocessing tool?", // question
+            "Synchronise?", // title
             JOptionPane.YES_NO_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE, // icon
             null, yesNoOptions, yesNoOptions[0]);
@@ -158,7 +156,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
             newSimulationPanel.remove(newSimulationPanel.load);
-            newSimulationPanel.add(new JLabel(getBundleString("LOAD_SIMULATION_WAIT")));
+            newSimulationPanel.add(new JLabel("Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
@@ -179,7 +177,6 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function create(): Node {
-        bundle = new ResourceBundleWrapper(this);
         wrappedSimquestPanel = SwingComponent.wrap(simquestPanel);
         return Group {
                     blocksMouse: true;
@@ -194,13 +191,13 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                     spacing: spacing;
                                     content: [
                                         Button {
-                                            text: getBundleString("BUTTON_SAVE_SIMCONFIG")
+                                            text: "Save Simconfig"
                                             action: function () {
                                                 doSaveSimconfig();
                                             }
                                         }
                                         Button {
-                                            text: getBundleString("BUTTON_SAVEAS_SIMCONFIG")
+                                            text: "SaveAs Simconfig"
                                             action: function () {
                                                 doSaveAsSimconfig();
                                             }
@@ -212,7 +209,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                         }
                                         }*/
                                         Button {
-                                            text: getBundleString("BUTTON_SAVEAS_DATASET")
+                                            text: "SaveAs Dataset"
                                             action: function () {
                                                 doSaveAsDataset();
                                             }
@@ -351,14 +348,6 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function getMinWidth(): Number {
         return fixedDimension.width;
-    }
-
-    public function getBundleString(key: String): String {
-        if (bundle == null) {
-            return "language-bundle is null";
-        } else {
-            return bundle.getString(key);
-        }
     }
 
 }
