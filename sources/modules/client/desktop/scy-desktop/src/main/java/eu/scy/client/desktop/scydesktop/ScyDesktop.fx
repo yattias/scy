@@ -641,9 +641,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
                processCollaborationRequestNotification(notification);
             } else if (notificationType == "collaboration_response") {
                 processCollaborationResponseNotification(notification);
-            } 
-        } else if(notificationSender == "eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent"){
+            }  else if(notificationSender == "eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent"){
                 processEloSaveNotification(notification);
+            }
         }
     }
 
