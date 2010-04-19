@@ -193,7 +193,18 @@ public class LoginNode extends CustomNode {
       }
       vbox.layout();
       Group{
-         content:vbox
+         content:[
+//            Rectangle{
+//               x: vbox.boundsInParent.minX
+//               y: vbox.boundsInParent.minY
+//               width: vbox.boundsInParent.width
+//               height: vbox.boundsInParent.height
+//               fill:Color.RED
+//               stroke:Color.GREEN
+//               strokeWidth:3
+//            }
+            vbox
+         ]
       }
    }
 

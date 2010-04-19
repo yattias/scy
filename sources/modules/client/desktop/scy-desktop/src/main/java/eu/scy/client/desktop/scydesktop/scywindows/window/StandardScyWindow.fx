@@ -142,10 +142,10 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    def contentSideBorder = 5.0;
    def contentTopOffset = titleBarLeftOffset+iconSize+contentSideBorder;
-   def deltaWidthContentWidth = borderWidth + 2 * contentSideBorder + 1;
-   def deltaHeightContentHeight = contentTopOffset + borderWidth / 2 + controlSize;
-   def contentWidth = bind width - deltaWidthContentWidth;
-   def contentHeight = bind height - deltaHeightContentHeight;
+   def deltaContentWidth = borderWidth + 2 * contentSideBorder + 1;
+   def deltaContentHeight = contentTopOffset + borderWidth / 2 + controlSize;
+   def contentWidth = bind width - deltaContentWidth;
+   def contentHeight = bind height - deltaContentHeight;
 
    def activeWindowEffect: Effect = DropShadow {
       offsetX: 6,
@@ -167,11 +167,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 	def animationDuration = 200ms;
 
-   var resizeHighLighted = false;
-   var rotateHighLighted = false;
-   var closeHighLighted = false;
-   var minimizeHighLighted = false;
-   var unminimizeHighLighted = false;
+//   var resizeHighLighted = false;
+//   var rotateHighLighted = false;
+//   var closeHighLighted = false;
+//   var minimizeHighLighted = false;
+//   var unminimizeHighLighted = false;
 
    public override var minimumHeight = 50 on replace{
       minimumHeight = Math.max(minimumHeight, contentTopOffset+2*controlSize);
@@ -216,8 +216,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 		if (isClosed){
 			height = closedHeight;
 		}
-      closedBoundsWidth = minimumWidth+deltaWidthContentWidth;
-      closedBoundsHeight = closedHeight+deltaHeightContentHeight;
+      closedBoundsWidth = minimumWidth+deltaContentWidth;
+      closedBoundsHeight = closedHeight+deltaContentHeight;
       setTopDrawer();
       setRightDrawer();
       setBottomDrawer();
@@ -256,10 +256,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       var limittedHeight = Math.max(h, minimumHeight);
       if (scyContent!=null){
          // this is check on content limits, subtract "border" sizes
-         limittedWidth -= deltaHeightContentHeight;
-         limittedHeight -= deltaHeightContentHeight;
+         limittedWidth -= deltaContentWidth;
+         limittedHeight -= deltaContentHeight;
          if (scyContent instanceof Resizable) {
             var resizableContent = scyContent as Resizable;
+            //println("size limits: width {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}, height: {resizableContent.getMinHeight()} - {resizableContent.getMaxHeight()}");
             limittedWidth = Math.max(limittedWidth, resizableContent.getMinWidth());
             limittedHeight = Math.max(limittedHeight, resizableContent.getMinHeight());
             limittedWidth = Math.min(limittedWidth, resizableContent.getMaxWidth());
@@ -270,8 +271,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             limittedHeight = scyContent.layoutBounds.maxY;
          }
          // this is check on content limits, add "border" sizes
-         limittedWidth += deltaHeightContentHeight;
-         limittedHeight += deltaHeightContentHeight;
+         limittedWidth += deltaContentWidth;
+         limittedHeight += deltaContentHeight;
       }
       else{
          // no content
@@ -279,11 +280,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       // now limit it to the scy desktop window size
       if (scene.width>0){
-         limittedWidth = Math.min(limittedWidth, scene.width-deltaWidthContentWidth);
-         limittedHeight = Math.min(limittedHeight, scene.height-deltaHeightContentHeight);
+         limittedWidth = Math.min(limittedWidth, scene.width-deltaContentWidth);
+         limittedHeight = Math.min(limittedHeight, scene.height-deltaContentHeight);
       }
 
-//      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
+      //println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
       return Point2D{
          x:limittedWidth;
          y:limittedHeight
@@ -393,8 +394,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
         var openHeight = minimumHeight;
         if (scyContent instanceof Resizable) {
             var resizableContent = scyContent as Resizable;
-            openWidth = resizableContent.getPrefWidth(openWidth);
-            openHeight = resizableContent.getPrefHeight(openHeight);
+            openWidth = resizableContent.getPrefWidth(openWidth) + deltaContentWidth;
+            openHeight = resizableContent.getPrefHeight(openHeight) + deltaContentHeight;
         }
         openWindow(openWidth, openHeight);
     }
@@ -567,8 +568,12 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 		//difX = (1 - Math.cos(angle)) * e.dragX/2;// + (1 - Math.sin(angle)) * e.dragY/2;
 		//difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
 
-      width = originalW + difW;
-      height = originalH + difH;
+      var newSize = limitSize( originalW + difW,originalH + difH);
+      width = newSize.x;
+      height = newSize.y;
+
+//      width = originalW + difW;
+//      height = originalH + difH;
 
 		layoutX = originalX - difX;
 		layoutY = originalY - difY;

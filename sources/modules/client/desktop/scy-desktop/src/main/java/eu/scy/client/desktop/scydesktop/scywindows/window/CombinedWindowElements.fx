@@ -21,7 +21,8 @@ import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import javafx.scene.shape.Rectangle;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
+import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
+import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
 
 /**
  * @author sikken
@@ -428,10 +429,9 @@ function run(){
       windowColorScheme:windowColorScheme
       eloIcon:loadEloIcon("scy/mapping")
       title:"open and not selected"
-      scyContent:Rectangle {
-         x: 0, y: 0
-         width: 200, height: 200
-         fill: Color.WHITE
+      scyContent:RulerRectangle {
+         xSize: 200
+         ySize: 200
       }
       isClosed:false
       allowClose:true
@@ -444,10 +444,8 @@ function run(){
       windowColorScheme:windowColorScheme
       eloIcon:loadEloIcon("scy/mapping")
       title:"opened and selllllll"
-      scyContent:Rectangle {
-         x: 0, y: 0
+      scyContent:ResizableRulerRectangle {
          width: 200, height: 200
-         fill: Color.WHITE
       }
       isClosed:false
       allowClose:true
