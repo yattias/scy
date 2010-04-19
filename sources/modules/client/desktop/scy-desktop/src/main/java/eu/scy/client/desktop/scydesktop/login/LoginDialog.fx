@@ -88,7 +88,6 @@ public class LoginDialog extends CustomNode {
          allowResize: false;
          allowRotate: false;
          allowMinimize: false;
-         activated:true
          opacity:0.0;
       };
       loginWindow.windowColorScheme.mainColor = loginColor;

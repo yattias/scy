@@ -65,6 +65,10 @@ public class WindowTitleBar extends WindowElement {
          },
       ]
    }
+   // make sure the background color of the title bar changes, when the main changes
+   def theMainColor = bind windowColorScheme.mainColor on replace {
+      activatedChanged()
+   }
 
 
    var nodeGroup:Group;
