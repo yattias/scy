@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 
 /**
  * @author sikken
@@ -83,7 +84,9 @@ public class LoginDialog extends CustomNode {
             color: loginColor
          }
          windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
-         scyContent: loginNode
+         scyContent: EmptyBorderNode{
+            content:loginNode
+         }
          allowClose: false;
          allowResize: false;
          allowRotate: false;
