@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
-import javafx.scene.Group;
 import javafx.util.Sequences;
 import java.net.URI;
 import roolo.elo.api.IMetadataTypeManager;
@@ -36,6 +35,8 @@ import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import javafx.scene.Group;
 
 /**
  * @author sikken
@@ -255,9 +256,12 @@ public class EloManagement extends CustomNode {
    function createModalDialog(windowColorScheme:WindowColorScheme,eloIcon:EloIcon, title:String,modalDialogNode:ModalDialogNode):Void{
       Composer.localizeDesign(modalDialogNode.getContentNodes());
       modalDialogNode.modalDialogBox = ModalDialogBox {
-            content: Group{
-               content:modalDialogNode.getContentNodes();
+            content: EmptyBorderNode{
+               content: Group{
+                  content:modalDialogNode.getContentNodes();
+               }
             }
+
             targetScene: scyDesktop.scene
             title: title
             eloIcon: eloIcon

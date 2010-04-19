@@ -118,8 +118,6 @@ public class LoginNode extends CustomNode {
    public override function create(): Node {
 
       var loginGroup = Group {
-                 layoutX: 3*borderSize
-                 layoutY: 3*borderSize
                  content: [
                     userNameLabel = Label {
                        layoutY:labelVOffset
@@ -174,35 +172,19 @@ public class LoginNode extends CustomNode {
                  ]
               };
       languageSelected();
-      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.boundsInLocal.width;
+      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
       var vbox = VBox{
-         layoutX:spacing+borderSize;
-         layoutY:spacing+borderSize;
          spacing:spacing;
          hpos:HPos.RIGHT
          nodeHPos:HPos.RIGHT
          content:[
             languageSelector,
             loginGroup,
-            Rectangle {
-               x: 0, y: 0
-               width: 1, height: 1
-               fill: Color.TRANSPARENT
-            }
          ]
       }
       vbox.layout();
       Group{
          content:[
-//            Rectangle{
-//               x: vbox.boundsInParent.minX
-//               y: vbox.boundsInParent.minY
-//               width: vbox.boundsInParent.width
-//               height: vbox.boundsInParent.height
-//               fill:Color.RED
-//               stroke:Color.GREEN
-//               strokeWidth:3
-//            }
             vbox
          ]
       }
