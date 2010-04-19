@@ -178,8 +178,8 @@ public abstract class Drawer extends CustomNode {
       }
       contentElement = WindowContent {
          windowColorScheme:windowColorScheme
-         width: bind width - widthOverhead - 1;
-         height: bind height - heightOverhead - 1;
+         width: bind width - widthOverhead
+         height: bind height - heightOverhead
          content: bind content;
          activated: bind activated;
          activate:activate
