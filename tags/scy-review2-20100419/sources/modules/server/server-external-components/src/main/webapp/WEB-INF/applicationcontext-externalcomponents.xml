@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="externalComponentManager"
+		class="eu.scy.server.externalcomponents.ExternalComponentManager"
+		singleton="true">
+		<property name="externalComponents">
+			<list>
+                <ref local="sqlSpacesComponent"/>
+                <!-- ref local="swatComponent"/-->
+				<ref local="scyHubExternalComponent"/>
+				<ref local="agentFrameworkComponent"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sqlSpacesComponent"
+		class="eu.scy.server.externalcomponents.sqlspaces.SQLSpacesComponent"
+		singleton="true" />
+	<bean id="swatComponent" class="eu.scy.server.externalcomponents.swat.SWATComponent"
+		singleton="true" />
+	<bean id="scyHubExternalComponent"
+		class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent"
+		singleton="true" />
+	<bean id="agentFrameworkComponent"
+		class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent"
+		singleton="true">
+		<property name="initialAgents">
+			<set>
+				<!-- ref bean="supervisor" /-->
+				<ref bean="canonical" />
+				<ref bean="ontologylookup" />
+				<!-- <ref bean="topicdetector" /> -->
+				<ref bean="generalELOSavedAgent" />
+				<ref bean="scysim" />
+				<ref bean="votat" />
+				<ref bean="toolexperience" />
+				<ref bean="collaboration" />
+				<ref bean="keywordsTfIdf" />
+				<ref bean="keywordsTopic" />
+				<ref bean="keywordsOntology" />
+				<ref bean="keywords" />
+				<ref bean="keywordsDecisionMaker" />
+			</set>
+		</property>
+		<property name="repository">
+			<ref bean="repository" />
+		</property>
+		<property name="metadataTypeManager">
+			<ref bean="metadataTypeManager" />
+		</property>
+	</bean>
+
+</beans>

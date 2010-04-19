@@ -1,0 +1,2 @@
+25-sep-2009 15:43:56 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to 129.240.212.15:2525 - exception: java.net.ConnectException: Connection refused: connect
