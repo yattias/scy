@@ -44,6 +44,7 @@ import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
@@ -62,6 +63,7 @@ import javax.swing.JTable;
 public class DataCollector extends JPanel implements ActionListener, IDataClient {
 
     private ModelVariable rotationVariable = null;
+    private final ResourceBundleWrapper bundle;
 
     public enum SCAFFOLD {
 
@@ -114,6 +116,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private String notificationSender;
 
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
+        this.bundle = new ResourceBundleWrapper(this);
         // initialize the logger(s)
         debugLogger = Logger.getLogger(DataCollector.class.getName());
         shownMessages = new Vector<String>();
@@ -156,22 +159,22 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     private void initGUI() {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createTitledBorder("SCY Dataset Collector"));
+        setBorder(BorderFactory.createTitledBorder(getBundleString("DATACOLLECTOR_TITLE")));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JButton button = new JButton("select relevant variables");
+        JButton button = new JButton(this.getBundleString("DATACOLLECTOR_SELECT_VARIABLES"));
         button.setActionCommand("configure");
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        button = new JButton("add current datapoint");
+        button = new JButton(getBundleString("DATACOLLECTOR_ADD_DATAPOINT"));
         button.setActionCommand("adddata");
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        checkbox = new JCheckBox("add datapoints continuosly");
+        checkbox = new JCheckBox(getBundleString("DATACOLLECTOR_ADD_DATAPOINTS_CONT"));
         checkbox.setSelected(false);
         buttonPanel.add(checkbox);
         // URL imageUrl = this.getClass().getResource("pc.gif");
@@ -216,7 +219,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     public void addCurrentDatapoint() {
         if (selectedVariables.size() == 0) {
-            JOptionPane.showMessageDialog(this, "You have not selected any relevant variables,\na new datapoint has not been added.", "Session created", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING"), getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING_TITLE"), JOptionPane.INFORMATION_MESSAGE);
 
         }
         ModelVariable var;
@@ -624,4 +627,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             }
         });
     }
+
+   private String getBundleString(String key){
+       return this.bundle.getString(key);
+   }
 }
