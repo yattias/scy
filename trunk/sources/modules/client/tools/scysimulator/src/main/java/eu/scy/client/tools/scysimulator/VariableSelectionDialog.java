@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scysimulator;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -34,16 +35,18 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 	private DataCollector collector;
 	private JPanel variablePanel;
 	private Map<ComparableJCheckBox, ModelVariable> variables;
+    private final ResourceBundleWrapper bundle;
 
 	public VariableSelectionDialog(Frame owner, DataCollector collector) {
 		super(owner, true); // modal
+                this.bundle = new ResourceBundleWrapper(this);
 		this.collector = collector;
 		variables = createVariables(collector.getSimulationVariables());
 		initGUI();
 	}
 
 	private void initGUI() {
-		setTitle("Select relevant variables...");
+		setTitle(getBundleString("VARIABLESELECTIONDIALOG_TITLE"));
 		setLayout(new BorderLayout());
 		this.setLocation((int) getOwner().getBounds().getCenterX(),
 				(int) getOwner().getBounds().getCenterY());
@@ -59,13 +62,13 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		}
 
 		JPanel selectPanel = new JPanel();
-		selectPanel.setBorder(new TitledBorder("quick selection"));
+		selectPanel.setBorder(new TitledBorder(getBundleString("VARIABLESELECTIONDIALOG_QUICK_SELECTION")));
 		selectPanel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
 		selectPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		BoxLayout boxLayout = new BoxLayout(selectPanel, BoxLayout.Y_AXIS);
 		selectPanel.setLayout(boxLayout);
 		// the select-all-button...
-		JButton button = new JButton("select all");
+		JButton button = new JButton(getBundleString("VARIABLESELECTIONDIALOG_ALL"));
 		button.setAlignmentY(JButton.CENTER_ALIGNMENT);
 		button.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		button.setActionCommand("all");
@@ -79,7 +82,7 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		button.addActionListener(this);
 		selectPanel.add(button);
 		// the invert-selection-button...
-		button = new JButton("invert selection");
+		button = new JButton(getBundleString("VARIABLESELECTIONDIALOG_INVERT"));
 		button.setAlignmentY(JButton.CENTER_ALIGNMENT);
 		button.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		button.setActionCommand("invert");
@@ -87,18 +90,18 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		selectPanel.add(button);
 
 		JScrollPane scroller = new JScrollPane();
-		scroller.setBorder(new TitledBorder("variables"));
+		scroller.setBorder(new TitledBorder(getBundleString("VARIABLESELECTIONDIALOG_VARIABLES")));
 		scroller.setViewportView(variablePanel);
 		scroller.setBorder(BorderFactory
-				.createTitledBorder("available variables"));
+				.createTitledBorder(getBundleString("VARIABLESELECTIONDIALOG_AVAILABLE_VARIABLES")));
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		button = new JButton("save");
+		button = new JButton(getBundleString("VARIABLESELECTIONDIALOG_SAVE"));
 		button.setActionCommand("save");
 		button.addActionListener(this);
 		buttonPanel.add(button);
-		button = new JButton("cancel");
+		button = new JButton(getBundleString("VARIABLESELECTIONDIALOG_CANCEL"));
 		button.setActionCommand("cancel");
 		button.addActionListener(this);
 		buttonPanel.add(button);
@@ -106,7 +109,7 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		getContentPane()
 		.add(
 				new JLabel(
-						"Please choose the variables that will be recorded."),
+						getBundleString("VARIABLESELECTIONDIALOG_PLEASE_CHOOSE")),
 						BorderLayout.NORTH);
 		getContentPane().add(scroller, BorderLayout.CENTER);
 		getContentPane().add(selectPanel, BorderLayout.WEST);
@@ -188,5 +191,9 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		}
 		return temp;
 	}
+
+   private String getBundleString(String key){
+       return this.bundle.getString(key);
+   }
 
 }
