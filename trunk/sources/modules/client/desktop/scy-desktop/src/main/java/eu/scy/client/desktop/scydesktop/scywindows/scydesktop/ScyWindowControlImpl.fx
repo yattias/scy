@@ -268,7 +268,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 
       //      applyMetadataAttributes(scyWindow,eloUri);
       //      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
-      tooltipManager.registerNode(scyWindow, scyWindow);
+//      tooltipManager.registerNode(scyWindow, scyWindow);
       //windowStyler.style(scyWindow, eloUri);
       insert scyWindow into scyWindows;
       return scyWindow;
@@ -288,7 +288,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       if (showEloInfoDisplay){
          insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
       }
-      tooltipManager.registerNode(scyWindow, scyWindow);
+//      tooltipManager.registerNode(scyWindow, scyWindow);
       //windowStyler.style(scyWindow);
       insert scyWindow into scyWindows;
       return scyWindow;

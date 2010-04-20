@@ -318,20 +318,20 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    public override function createTooltipNode(sourceNode:Node):Node{
       var tooltip:Node;
-      if (isClosed or isMinimized){
-         var titleTextWidth = windowTitleBar.titleTextWidth;
-         var titleDisplayWidth = windowTitleBar.titleDisplayWidth;
-         if (closeElement.visible){
-            titleDisplayWidth -= closeElement.layoutBounds.width;
-         }
-         //println("titleTextWidth:{titleTextWidth}, titleDisplayWidth:{titleDisplayWidth}, closeElement.visible:{closeElement.visible}");
-         if (titleTextWidth>titleDisplayWidth){
-            tooltip = ColoredTextTooltip{
-               content:title
-               color:windowColorScheme.mainColor
-            }
-         }
-      }
+//      if (isClosed or isMinimized){
+//         var titleTextWidth = windowTitleBar.titleTextWidth;
+//         var titleDisplayWidth = windowTitleBar.titleDisplayWidth;
+//         if (closeElement.visible){
+//            titleDisplayWidth -= closeElement.layoutBounds.width;
+//         }
+//         //println("titleTextWidth:{titleTextWidth}, titleDisplayWidth:{titleDisplayWidth}, closeElement.visible:{closeElement.visible}");
+//         if (titleTextWidth>titleDisplayWidth){
+//            tooltip = ColoredTextTooltip{
+//               content:title
+//               color:windowColorScheme.mainColor
+//            }
+//         }
+//      }
 
       return tooltip;
    }
