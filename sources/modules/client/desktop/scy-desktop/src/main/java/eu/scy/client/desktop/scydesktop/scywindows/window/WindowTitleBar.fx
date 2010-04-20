@@ -18,7 +18,6 @@ import javafx.scene.text.TextOrigin;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
@@ -26,6 +25,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 
 /**
  * @author sikkenj
@@ -34,10 +35,8 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 public class WindowTitleBar extends WindowElement {
 
    public var width = 100.0;
-//   public var height = 20.0;
    public var title = "very very long title";
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
-//   public var iconCharacter = "?";
    public var activated = true on replace{activatedChanged()};
    public var iconSize = 16.0;
    public var iconGap = 2.0;
@@ -69,18 +68,18 @@ public class WindowTitleBar extends WindowElement {
    def theMainColor = bind windowColorScheme.mainColor on replace {
       activatedChanged()
    }
+   def mouseOverBorderSize = 2.0;
 
 
    var nodeGroup:Group;
-//   var fixedGroup:Group;
    var textBackgroundFillRect:Rectangle;
    var titleText:Text;
    var clipRect:Rectangle;
    var textClipWidth = bind width - iconSize - textIconSpace;
+   var mouseOverTitleDisplay:MouseOverDisplay;
 
-   public-read var titleTextWidth = bind titleText.layoutBounds.maxX;
-   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
-
+//   public-read var titleTextWidth = bind titleText.layoutBounds.maxX;
+//   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
 
    function eloIconChanged(oldEloIcon:EloIcon){
       delete oldEloIcon from nodeGroup.content;
@@ -97,7 +96,6 @@ public class WindowTitleBar extends WindowElement {
       }
    }
 
-
    public override function create(): Node {
       textBackgroundFillRect = Rectangle{
          x: iconSize+textIconSpace
@@ -107,10 +105,10 @@ public class WindowTitleBar extends WindowElement {
        }
       clipRect= Rectangle{
          x: iconSize+textIconSpace
-         y: rectangleAntialiasOffset
-         width: bind textClipWidth
-         height: iconSize-rectangleAntialiasOffset
-         fill: bind mainColor
+         y: 0
+         width: bind width - iconSize - textIconSpace - closeBoxWidth
+         height: iconSize
+         fill: Color.BLACK
       };
       activatedChanged();
       nodeGroup = Group{
@@ -122,17 +120,9 @@ public class WindowTitleBar extends WindowElement {
                textOrigin:TextOrigin.BOTTOM;
                x: iconSize + textIconSpace+textInset,
                y: iconSize-textInset
-               clip:Rectangle{
-                  x: iconSize+textIconSpace
-                  y: 0
-                  width: bind width - iconSize - textIconSpace - closeBoxWidth
-                  height: iconSize
-                  fill: Color.BLACK
-               }
+               clip: clipRect
                fill: bind bgColor
-
                content: bind title;
-              // content: bind "- {title}";
             },
 
 				//				Group{ // just for checking title clip
@@ -147,15 +137,64 @@ public class WindowTitleBar extends WindowElement {
 				//					]
 				//				},
          ]
+         onMouseEntered: function (e: MouseEvent): Void {
+            mouseOverTitleDisplay = MouseOverDisplay{
+               createMouseOverDisplay:createMouseOverNode
+               myScene:scene
+            }
+         }
+         onMouseExited: function (e: MouseEvent): Void {
+            if (mouseOverTitleDisplay!=null){
+               mouseOverTitleDisplay.stop();
+               mouseOverTitleDisplay = null;
+            }
+         }
       };
-//      nodeGroup = Group{
-//         content:[
-//            eloIcon,
-//            fixedGroup
-//         ]
-//      }
-//
    }
+
+   function createMouseOverNode():Node{
+      var rightBorderSize = mouseOverBorderSize;
+      if (activated and (clipRect.layoutBounds.maxX>titleText.layoutBounds.maxX)){
+         // the window is active (it is on top)
+         // and the title is not clipped
+         // one would expects to assign 0, but to be sure that no white right border is shown due to anti-aliasing make it -2
+         rightBorderSize = -2;
+      }
+      var fullTitleGroup = Group{
+         content:[
+            Rectangle{
+               x:-mouseOverBorderSize
+               y:-mouseOverBorderSize
+               width:titleText.layoutBounds.maxX+mouseOverBorderSize+rightBorderSize+1
+               height:iconSize + 2*mouseOverBorderSize
+               fill:windowColorScheme.backgroundColor
+
+            }
+            eloIcon.clone(),
+            Rectangle{
+               x: iconSize+textIconSpace
+               y: rectangleAntialiasOffset
+               width: titleText.layoutBounds.width
+               height: iconSize-rectangleAntialiasOffset
+               fill: textBackgroundFillRect.fill
+//               fill: Color.GRAY
+             }
+            titleText = Text {
+               font: textFont
+               textOrigin:TextOrigin.BOTTOM;
+               x: iconSize + textIconSpace+textInset,
+               y: iconSize-textInset
+               fill: bgColor
+               content: title;
+            }
+         ]
+      }
+      var sceneLocation = localToScene(layoutBounds.minX, layoutBounds.minY);
+      fullTitleGroup.layoutX = sceneLocation.x;
+      fullTitleGroup.layoutY = sceneLocation.y;
+      fullTitleGroup
+   }
+
 }
 
 var imageLoader = ImageLoader.getImageLoader();
@@ -222,15 +261,15 @@ function run(){
                   translateX: 10;
                   translateY: 50;
                }
-               Button {
-                  translateX: 10;
-                  translateY: 90;
-                  text: "Swap icon"
-                  action: function () {
-                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
-                     windowTitleBar1.activated = not windowTitleBar1.activated;
-                  }
-               }
+//               Button {
+//                  translateX: 10;
+//                  translateY: 90;
+//                  text: "Swap icon"
+//                  action: function () {
+//                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
+//                     windowTitleBar1.activated = not windowTitleBar1.activated;
+//                  }
+//               }
             ]
          }
       }
