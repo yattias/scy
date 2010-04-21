@@ -4,15 +4,18 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
 
 import eu.scy.actionlogging.ActionPacketTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.common.smack.SmacketExtension;
+import org.apache.log4j.Logger;
 
 public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 		IActionLogger {
 
 	private XMPPConnection connection;
+        private static Logger debugLogger = Logger.getLogger(ActionLogger.class.getName());
 
 	/**
 	 * simple constructor for an actionlogger
@@ -33,6 +36,9 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 	 *            IAction thrown
 	 */
 	public void log(IAction action) {
+
+                debugLogger.debug("logging "+action.getType()+"-action for tool "+action.getContext(ContextConstants.tool));
+
 		Message packet = new Message();
 
 		packet.setFrom(connection.getUser());
@@ -55,6 +61,10 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 	@Deprecated
 	public void log(String username, String source, IAction action) {
 		log(action);
+	}
+	
+	public String toString() {
+		return "eu.scy.actionlogging.logger.ActionLogger connected via XMPP to "+connection.getHost()+":"+connection.getPort();
 	}
 
 }
