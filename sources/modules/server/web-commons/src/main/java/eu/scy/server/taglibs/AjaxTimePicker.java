@@ -1,9 +1,9 @@
 package eu.scy.server.taglibs;
 
 import eu.scy.core.model.ScyBase;
-
-import javax.servlet.jsp.JspException;
 import java.lang.reflect.Method;
+import java.sql.Time;
+import javax.servlet.jsp.JspException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@ public class AjaxTimePicker extends AjaxBaseComponent{
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"timePickerForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTimePicker.html\">");
-            pageContext.getOut().write("<input type=\"text\" name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" />");
+            pageContext.getOut().write("<input type=\"text\" value=\"" + executeGetter(getModel(), getProperty()) + "\"" + "name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" />");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
@@ -30,8 +30,8 @@ public class AjaxTimePicker extends AjaxBaseComponent{
         return EVAL_PAGE;
     }
 
-    private Boolean executeGetter(Object object, String property) {
-        if(property == null) return false;
+    private Time executeGetter(Object object, String property) {
+        if(property == null) return null;
         try {
             String firstLetter = property.substring(0,1);
             firstLetter = firstLetter.toUpperCase();
@@ -40,17 +40,12 @@ public class AjaxTimePicker extends AjaxBaseComponent{
 
             Method method = object.getClass().getMethod("get" + property);
 
-            Boolean returnValue =  (Boolean) method.invoke(object, null);
+            Time returnValue =  (Time) method.invoke(object, null);
             System.out.println(method.getName() + " " + returnValue);
             return returnValue;
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         throw new RuntimeException("NOOO");
-    }
-
-    public String getChecked() {
-        if(executeGetter(getModel(), getProperty())) return "checked";
-        return "";
     }
 }

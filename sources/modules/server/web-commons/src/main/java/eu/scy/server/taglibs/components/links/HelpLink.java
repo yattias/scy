@@ -18,7 +18,6 @@ public class HelpLink extends TagSupport {
         try {
             helpUrl = helpUrl + "?id=" + getHelpId();
             pageContext.getOut().write("<a href=\"javascript:loadDialog('" + helpUrl + "', '" + "" + "');\">" + "(?)" + "</a>");
-            System.out.println(getClass().getName() + " " + helpUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }
