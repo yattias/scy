@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.Cursor;
 
 /**
  * @author sikken
@@ -34,6 +35,7 @@ public class OpenDrawerControl extends WindowActiveElement {
       def mainSeparation = borderWidth+2.0;
       def secondSeparation = borderWidth-0;
       Group {
+         cursor: Cursor.HAND
          content: [
             Rectangle {
                x: 0, y: -borderWidth/2

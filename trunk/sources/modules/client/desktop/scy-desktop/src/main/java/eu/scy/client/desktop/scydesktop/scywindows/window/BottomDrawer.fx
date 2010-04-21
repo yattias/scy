@@ -20,13 +20,23 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 // place your code here
 public class BottomDrawer extends Drawer{
 
-   //override def absoluteMinimumWidth = 2*controlSize;
+   init{
+      closedYFactor = -1;
+   }
+
+   override function adjustClipRect():Void{
+      clipRect.x = -clipSize/2;
+      clipRect.y = borderSize;
+   }
 
    override function positionControlElements():Void{
       super.positionControlElements();
-      openControl.rotate = 90;
-//      openControl.layoutX = layoutX-openControl.mainRadius;
-//      openControl.layoutY = -2*openControl.mainRadius+borderSize;
+      openCloseControl.rotate = 90;
+      openCloseControl.layoutX = width-closedSize+closedSize/2.0-openCloseControl.mainRadius-handleOffset;
+      openCloseControl.layoutY = -closedSize/2.0+openCloseControl.mainRadius+1;
+      if (opened){
+         openCloseControl.layoutY += height;
+      }
 //      closeControl.layoutX = width-1.5*closeControlSize;
 //      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = width;
@@ -67,10 +77,11 @@ function run(){
             emptyWindow,
             BottomDrawer{
                windowColorScheme: highcontrastColorScheme
-               closedSize:80;
-               layoutX:120;
-               layoutY:200
-               opened:true
+               closedSize:20;
+               width:width-2*controlLength
+               layoutX:emptyWindow.layoutX+controlLength;
+               layoutY:emptyWindow.boundsInParent.maxY-borderWidth/2
+               opened:false
                content:Rectangle {
                   x: 0, y: 0
                   width: 60, height: 60

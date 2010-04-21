@@ -15,6 +15,8 @@ import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
+import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
 
 /**
  * @author sikken
@@ -52,36 +54,29 @@ var openWindow = CombinedWindowElements{
    eloIcon:loadEloIcon("scy/mapping")
    title:"Drawer test"
    allowClose:false
-   scyContent:Rectangle {
-      x: 0, y: 0
-      width: 150, height: 150
-      fill: Color.RED
+   scyContent:ResizableRulerRectangle {
+      preferredWidth: 150, preferredHeight: 150
    }
-   topDrawerTool:Rectangle {
-      x: 0, y: 0
-      width: 100, height: 100
-      fill: Color.RED
+   topDrawerTool:RulerRectangle {
+      xSize:100
+      ySize:100
    }
-   rightDrawerTool:Rectangle {
-      x: 0, y: 0
-      width: 100, height: 100
-      fill: Color.RED
+   rightDrawerTool:RulerRectangle {
+      xSize:120
+      ySize:100
    }
-   bottomDrawerTool:Rectangle {
-      x: 0, y: 0
-      width: 100, height: 100
-      fill: Color.RED
+   bottomDrawerTool:ResizableRulerRectangle {
+      preferredWidth: 100, preferredHeight: 120
    }
-   leftDrawerTool:Rectangle {
-      x: 0, y: 0
-      width: 100, height: 100
-      fill: Color.RED
+   leftDrawerTool:ResizableRulerRectangle {
+      preferredWidth: 100, preferredHeight: 100
    }
    layoutX: 150
    layoutY: 150
 }
 
 openWindow.openWindow(150,120);
+
 
 Stage {
     title: "Drawer test"
