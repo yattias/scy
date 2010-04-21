@@ -25,8 +25,23 @@ public class RightDrawer extends Drawer{
    //override def absoluteMinimumHeight = 2*controlSize;
    override def horizontal = false;
 
+   init{
+      closedXFactor = -1;
+   }
+
+   override function adjustClipRect():Void{
+      clipRect.x = borderSize;
+      clipRect.y = -clipSize/2;
+   }
+
    override function positionControlElements():Void{
       super.positionControlElements();
+      openCloseControl.layoutY = handleOffset;
+      openCloseControl.layoutX = 0;
+      if (opened){
+         openCloseControl.layoutX += width;
+      }
+
 //      closeControl.layoutX = closeControlSize/2;
 //      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = width;
@@ -67,15 +82,16 @@ function run(){
             emptyWindow,
             RightDrawer{
                windowColorScheme: highcontrastColorScheme
-               closedSize:80;
+               closedSize:40;
                content:Button {
                      text: "Button"
                      action: function() {
 
                      }
                   }
-               layoutX:200;
-               layoutY:120
+               height:height-2*controlLength
+               layoutX:emptyWindow.boundsInParent.maxX-borderWidth/2
+               layoutY:emptyWindow.boundsInParent.minY+borderWidth+controlLength
                opened:true
             }
 

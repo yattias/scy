@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
@@ -24,8 +23,14 @@ public class LeftDrawer extends Drawer{
 
    init{
       resizeXFactor = -1;
+      openedXFactor = 0;
+      closedXFactor = 1;
    }
 
+   override function adjustClipRect():Void{
+      clipRect.x = -clipSize-borderSize/2+width;
+      clipRect.y = -clipSize/2;
+   }
 
    override function positionControlElements():Void{
       super.positionControlElements();
@@ -36,10 +41,9 @@ public class LeftDrawer extends Drawer{
          this.translateX = 1;
       }
 
-      openControl.rotate = 180;
-      openControl.layoutX = -2*openControl.mainRadius-borderSize;
-//      println("this.layoutX:{this.layoutX}, this.translateX:{this.translateX},"
-//         " drawerGroup.layoutX:{drawerGroup.layoutX}, drawerGroup.translateX:{drawerGroup.translateX}");
+      openCloseControl.rotate = 180;
+      openCloseControl.layoutX = -2*openCloseControl.mainRadius-borderSize+1;
+      openCloseControl.layoutY = handleOffset;
 //      closeControl.layoutX = width-1.5*closeControlSize;
 //      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = resizeControlSize;
@@ -81,9 +85,10 @@ function run(){
             emptyWindow,
             LeftDrawer{
                windowColorScheme: highcontrastColorScheme
-               closedSize:80;
-               layoutX:100;
-               layoutY:120
+               closedSize:40;
+               height:height-2*controlLength
+               layoutX:emptyWindow.boundsInParent.minX+borderWidth
+               layoutY:emptyWindow.boundsInParent.minY+borderWidth+controlLength
                opened:true
             }
 

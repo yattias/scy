@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Slider;
 import javafx.scene.text.TextOrigin;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author sikken
@@ -28,13 +29,13 @@ public class RulerRectangle extends CustomNode {
    public var xSize = 100.0 on replace {sizeChanged()};
    public var ySize = 100.0 on replace {sizeChanged()};
 
+   public var background:Color = Color.YELLOWGREEN;
+
    def contentGroup = Group{
 
    }
 
    function sizeChanged(){
-      // this is not a very efficient implementation
-      // as this class is only used for testing purposes, it is not a big problem
       delete contentGroup.content;
       contentGroup.content = createContent();
    }
@@ -57,17 +58,12 @@ public class RulerRectangle extends CustomNode {
       sizeText.translateY = -sizeText.layoutBounds.height/2;
       Group {
             content: [
-               Line{
-                  startX:xSize
-                  startY:0
-                  endX:xSize
-                  endY:ySize
-               }
-               Line{
-                  startX:0
-                  startY:ySize
-                  endX:xSize
-                  endY:ySize
+               Rectangle{
+                  x:0
+                  y:0
+                  width:xSize
+                  height:ySize
+                  fill:background
                }
                for (x in [0..xSize step gridStep]){
                   Line{
@@ -137,7 +133,7 @@ function run() {
                layoutY:10
                min: 50
                max: 200
-               value:110
+               value:100.123
                vertical: false
             }
             Text{

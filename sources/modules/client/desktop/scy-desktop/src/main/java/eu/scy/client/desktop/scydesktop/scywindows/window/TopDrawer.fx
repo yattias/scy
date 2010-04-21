@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
@@ -24,6 +23,13 @@ public class TopDrawer extends Drawer{
 
    init{
       resizeYFactor = -1;
+      openedYFactor = 0;
+      closedYFactor = 1;
+   }
+
+   override function adjustClipRect():Void{
+      clipRect.x = -clipSize/2;
+      clipRect.y = -clipSize-borderSize/2+height;
    }
 
    override function positionControlElements():Void{
@@ -34,10 +40,9 @@ public class TopDrawer extends Drawer{
       else{
          this.translateY = 1;
       }
-      openControl.rotate = -90;
-//      openControl.layoutX = layoutX-openControl.mainRadius;
-      openControl.layoutX = width-closedSize/2-openControl.mainRadius;
-      openControl.layoutY = -5*openControl.mainRadius-1;
+      openCloseControl.rotate = -90;
+      openCloseControl.layoutX = width-closedSize/2-openCloseControl.mainRadius-handleOffset;
+      openCloseControl.layoutY = -closedSize/2.0-openCloseControl.mainRadius-1;
 //      closeControl.layoutX = width-1.5*closeControlSize;
 //      closeControl.layoutY = height-1.5*closeControlSize;
       resizeControl.layoutX = width;
@@ -79,10 +84,11 @@ function run(){
              emptyWindow,
            TopDrawer{
                windowColorScheme: highcontrastColorScheme
-               closedSize:80;
-               layoutX:120;
-               layoutY:100
-               opened:true
+               closedSize:30;
+               width:width-2*controlLength
+               layoutX:emptyWindow.layoutX+controlLength;
+               layoutY:emptyWindow.boundsInParent.minY+borderWidth
+               opened:false
             }
 
          ]
