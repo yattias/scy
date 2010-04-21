@@ -19,7 +19,7 @@ public class AjaxTimePicker extends AjaxBaseComponent{
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"timePickerForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTimePicker.html\">");
-            pageContext.getOut().write("<input type=\"text\" value=\"" + executeGetter(getModel(), getProperty()) + "\"" + "name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" />");
+            pageContext.getOut().write("<span value=\"" + executeGetter(getModel(), getProperty()) + "\"" + "name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" >" + executeGetter(getModel(), getProperty()) + "</span>");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
