@@ -40,6 +40,22 @@
                     <s:ajaxCheckBox model="${model}" property="autoaddToStudentPlan"/>
                 </td>
             </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Start time
+                </td>
+                <td>
+                    <s:ajaxTimePicker model="${model}" property="startTime"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    End time
+                </td>
+                <td>
+                    <s:ajaxTimePicker model="${model}" property="endTime"/>
+                </td>
+            </tr>
         </table>
 
     </tiles:putAttribute>

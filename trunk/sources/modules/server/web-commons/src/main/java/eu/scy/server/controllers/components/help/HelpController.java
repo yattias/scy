@@ -16,7 +16,6 @@ public class HelpController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         String helpId = httpServletRequest.getParameter("id");
-        System.out.println("***" + helpId);
 
         modelAndView.addObject("id", helpId);
         return modelAndView;

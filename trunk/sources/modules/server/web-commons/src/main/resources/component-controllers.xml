@@ -40,6 +40,7 @@
                    /components/ajaxNumberField.html=ajaxNumberFieldController
                    /components/ajaxCombobox.html=ajaxComboboxController
                    /components/ajaxSlider.html=ajaxSliderController
+                   /components/ajaxTimePicker.html=ajaxTimePickerController
                    /editors/studentEditor.html=editSCYStudentUserController
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
@@ -57,6 +58,10 @@
 	</bean>
 
     <bean id="ajaxNumberFieldController" class="eu.scy.server.controllers.AjaxNumberFieldController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTimePickerController" class="eu.scy.server.controllers.AjaxTimePickerController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
 
