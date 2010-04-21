@@ -42,6 +42,22 @@
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
+                    Start date
+                </td>
+                <td>
+                    <s:ajaxDatePicker model="${model}" property="startDate"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    End Date
+                </td>
+                <td>
+                    <s:ajaxDatePicker model="${model}" property="endDate"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
                     Start time
                 </td>
                 <td>

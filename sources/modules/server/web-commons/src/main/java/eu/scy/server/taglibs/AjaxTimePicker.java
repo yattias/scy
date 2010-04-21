@@ -11,10 +11,8 @@ import java.sql.Time;
  * User: Lars
  * Date: 07.apr.2010
  * Time: 09:33:52
- * To change this template use File | Settings | File Templates.
  */
 public class AjaxTimePicker extends AjaxBaseComponent{
-    private String checked;
 
     public int doEndTag() throws JspException {
         try {
