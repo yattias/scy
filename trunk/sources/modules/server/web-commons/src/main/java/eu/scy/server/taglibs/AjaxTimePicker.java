@@ -1,9 +1,10 @@
 package eu.scy.server.taglibs;
 
 import eu.scy.core.model.ScyBase;
+
+import javax.servlet.jsp.JspException;
 import java.lang.reflect.Method;
 import java.sql.Time;
-import javax.servlet.jsp.JspException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +20,7 @@ public class AjaxTimePicker extends AjaxBaseComponent{
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"timePickerForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTimePicker.html\">");
-            pageContext.getOut().write("<span value=\"" + executeGetter(getModel(), getProperty()) + "\"" + "name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.form.TimeTextBox\" required=\"true\" >" + executeGetter(getModel(), getProperty()) + "</span>");
+            pageContext.getOut().write("<span value=\"" + executeGetter(getModel(), getProperty()) + "\"  name=\"time\" id=\"time"+id+"\"  onChange=\"postForm('timePickerForm" + id + "');\" dojoType=\"dijit.InlineEditBox\" editor=\"dijit.form.TimeTextBox\"  required=\"true\" >" + executeGetter(getModel(), getProperty()) + "</span>");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
