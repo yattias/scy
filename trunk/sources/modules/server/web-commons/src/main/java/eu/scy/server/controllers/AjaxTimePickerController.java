@@ -33,17 +33,18 @@ public class AjaxTimePickerController extends AbstractAjaxController {
 
     }
 
-    private Time executeSetter(Object object, String property, String value) {
-       if(property == null) return null;
+    private Boolean executeSetter(Object object, String property, String value) {
+       if(property == null || value == null) return null;
        try {
            String firstLetter = property.substring(0,1);
            firstLetter = firstLetter.toUpperCase();
-
            property = firstLetter + property.substring(1, property.length());
            Method method = object.getClass().getMethod("set" + property, Time.class);
 
-           Time returnValue =  (Time) method.invoke(object, value);
-           System.out.println(method.getName() + " " + returnValue);
+           System.out.println(method.getName() + String.valueOf(value) + " TIME: " + Time.valueOf(value.substring(1, value.length())));
+           
+           Boolean returnValue =  (Boolean) method.invoke(object, Time.valueOf(value.substring(1, value.length())));
+
            return returnValue;
        } catch (Exception e) {
            e.printStackTrace();
