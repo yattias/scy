@@ -48,6 +48,7 @@ public abstract class Drawer extends CustomNode {
    protected def resizeControlSize = 10.0;
    protected def closeControlSize = 10.0;
    protected var opened = false on replace {
+         // only do the animated stuff, when the creation is completed
          if (drawerCreated){
             openCloseDrawer();
          }
@@ -163,7 +164,7 @@ public abstract class Drawer extends CustomNode {
       }
       if (content instanceof Resizable) {
          var resizableContent = content as Resizable;
-         println("preferred size: {resizableContent.getPrefWidth(width)}*{resizableContent.getPrefHeight(height)}");
+         //println("preferred size: {resizableContent.getPrefWidth(width)}*{resizableContent.getPrefHeight(height)}");
          if (not horizontal){
             width = Math.max(resizableContent.getPrefWidth(width)+widthOverhead +1, absoluteMinimumWidth);
          }
@@ -238,8 +239,6 @@ public abstract class Drawer extends CustomNode {
          }.play();
       }
       else{
-//         delete contentContainer.content;
-//         positionControlElements();
          openFactor = 1;
          Timeline {
             repeatCount: 1
@@ -276,17 +275,11 @@ public abstract class Drawer extends CustomNode {
    }
 
    protected function positionControlElements(): Void {
-      // this is somehow not (always??) called for the collaboration tools in the drawers
-      // as the closebox has now a fixed position, position is now handled by the binds in the creator.
-//      closeControl.layoutX = width-closeControlSize-sideContentBorder;
-//      closeControl.layoutY = topContentBorder/2-closeControlSize/2 + borderSize/2;
-
    }
 
    function startResize(e: MouseEvent): Void {
       originalWidth = width;
       originalHeight = height;
-//      contentElement.glassPaneBlocksMouse = true;
       MouseBlocker.startMouseBlocking();
    }
 
@@ -308,7 +301,6 @@ public abstract class Drawer extends CustomNode {
    }
 
    function stopResize(e: MouseEvent): Void {
-//      contentElement.glassPaneBlocksMouse = false;
       MouseBlocker.stopMouseBlocking();
    }
 }

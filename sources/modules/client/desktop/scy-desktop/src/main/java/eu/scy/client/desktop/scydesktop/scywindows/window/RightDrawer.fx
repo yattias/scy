@@ -41,9 +41,6 @@ public class RightDrawer extends Drawer{
       if (opened){
          openCloseControl.layoutX += width;
       }
-
-//      closeControl.layoutX = closeControlSize/2;
-//      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }
