@@ -12,6 +12,7 @@ import javafx.animation.KeyFrame;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
 import javafx.animation.Interpolator;
+import javafx.scene.Cursor;
 
 /**
  * @author sikken
@@ -52,6 +53,7 @@ public class MouseOverDisplay {
             canSkip : true
             values: contentGroup.opacity => 1.0 tween Interpolator.EASEBOTH;
             action: function():Void{
+               contentGroup.cursor = Cursor.NONE;
 //               println("mouse over 100 at {System.currentTimeMillis()-startMillis} ({animation.time}=?={AnimationTiming.fullAppearingTime})")
             }
 
