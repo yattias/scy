@@ -168,9 +168,9 @@ public class BehavioralModel {
     public void updateUserExp(int newUserExp) {
         if (newUserExp==0){
             
-            System.out.println("Problem! USerExp=0");
+            //System.out.println("Problem! USerExp=0");
         }else{
-            System.out.println(tool+"/"+name+" set to "+newUserExp);
+           //System.out.println(tool+"/"+name+" set to "+newUserExp);
         }
         this.userExp = newUserExp;
         // Fix to prevent too many notifications
