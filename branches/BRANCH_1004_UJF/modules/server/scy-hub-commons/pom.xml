@@ -7,7 +7,7 @@
   </parent>
   <groupId>eu.scy.server</groupId>
   <artifactId>scy-hub-commons</artifactId>
-  <version>9.11.0-UJF-SNAPSHOT</version>
+  <version>9.11.0-SNAPSHOT</version>
   <name>SCY-Hub-Commons</name>
   <description>Common classes for SCY-Hub and SCY-Hub-Modules</description>
   <dependencies>

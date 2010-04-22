@@ -10,7 +10,6 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
@@ -29,8 +28,8 @@ import javafx.ext.swing.SwingComponent;
 import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -133,14 +132,14 @@ public class ScyDesktopEloSaver extends EloSaver {
          }
       }
       var eloIcon:EloIcon;
-      var color:Color;
+      var windowColorScheme:WindowColorScheme;
       if (window.eloUri!=null){
          eloIcon = windowStyler.getScyEloIcon(window.eloUri);
-         color = windowStyler.getScyColor(window.eloUri);
+         windowColorScheme = windowStyler.getWindowColorScheme(window.eloUri);
       }
       else{
          eloIcon = windowStyler.getScyEloIcon(window.eloType);
-         color = windowStyler.getScyColor(window.eloType);
+         windowColorScheme = windowStyler.getWindowColorScheme(window.eloType);
       }
 
 
@@ -151,7 +150,7 @@ public class ScyDesktopEloSaver extends EloSaver {
          targetScene:window.scene
          title:"Enter ELO specification"
          eloIcon:eloIcon
-         color:color
+         windowColorScheme:windowColorScheme
       }
       eloSaveAsPanel.setEloSaveAsActionListener(EloSaveAsActionHandler{
             elo:elo;

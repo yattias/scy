@@ -6,48 +6,62 @@
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.CustomNode;
-import javafx.scene.Group;
 import javafx.scene.Node;
 
-import javafx.scene.paint.Color;
 
 
 import javafx.scene.shape.Rectangle;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowClose;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
+import javafx.animation.Interpolator;
+import javafx.scene.paint.Color;
 
 /**
  * @author sikkenj
  */
 // place your code here
+
 public abstract class Drawer extends CustomNode {
 
-   public var color = Color.RED;
-   public var subColor = Color.WHITE;
-   public var highliteColor = Color.WHITE;
-   public var borderSize = 1.0;
-   public var closedStrokeWidth = 4.0;
-   public var closedSize = 40.0;
+   public var windowColorScheme:WindowColorScheme;
+   public var borderSize = 2.0;
+   public var closedSize = 20.0;
    public var content: Node;
    public var activated = false; // TODO, make only changeable from (sub) package
    public var activate: function():Void;
 
-   def contentBorder = 1.0;
+   def sideContentBorder = 5.0;
+   def topContentBorder = 5.0;
+   def bottomContentBorder = 5.0;
+   protected def handleOffset = topContentBorder+2;
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
-   protected def closeControlSize = 8.0;
-   protected var opened = false;
+   protected def closeControlSize = 10.0;
+   protected var opened = false on replace {
+         // only do the animated stuff, when the creation is completed
+         if (drawerCreated){
+            openCloseDrawer();
+         }
+         else{
+            if (opened){
+               contentContainer.content = contentGroup;
+            }
+            else{
+               delete contentContainer.content;
+            }
+            positionControlElements();
+         }
+      };
    protected var width = 50.0 on replace {
               sizeChanged()
            };
@@ -58,193 +72,214 @@ public abstract class Drawer extends CustomNode {
    protected var absoluteMinimumHeight = closeControlSize+resizeControlSize;
    protected var resizeXFactor = 1.0;
    protected var resizeYFactor = 1.0;
-   protected var drawerGroup: Group;
+   protected var openedXFactor = 0.0;
+   protected var openedYFactor = 0.0;
+   protected var closedXFactor = 0.0;
+   protected var closedYFactor = 0.0;
    protected var border: Rectangle;
    protected var contentElement: WindowContent;
-   protected var closeControl: WindowClose;
+   protected var openCloseControl: OpenDrawerControl;
    protected var resizeControl: WindowResize;
    protected var horizontalSizeExternal = false;
    protected var verticalSizeExternal = false;
    var originalWidth: Number;
    var originalHeight: Number;
-   var openedOnce = false;
    var resizeAllowed = false;
 
+   def heightOverhead = topContentBorder + bottomContentBorder + borderSize+1;
+   def widthOverhead = 2 * sideContentBorder + borderSize+1;
+   protected def clipSize = 1000000.0;
+   protected def clipRect = Rectangle{
+      x:0
+      y:0
+      width: clipSize
+      height: clipSize
+   }
+   def drawerGroup = Group{
+   }
+   def contentContainer = Group{
+   }
+   def contentGroup = Group{
+   }
+   var clipRectColor = Color.TRANSPARENT;
+   var drawerCreated = false;
+
+
    function sizeChanged() {
-      // show a filled rect as content for test purposes
-//      content = Rectangle {
-//         x: -100, y: -100
-//         width: 1000, height: 1000
-//         fill: Color.color(1,.25,.25,.75)
-//      }
       positionControlElements();
+//      println("layout: ({layoutX}, {layoutY})");
+//      println("openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
    }
 
    public override function create(): Node {
-      var drawerNode = bind if (opened) {
-                 createOpenDrawerNode();
-              } else {
-                 createClosedDrawerNode();
-              };
+      createElements();
       positionControlElements();
-      drawerGroup = Group {
-         content: bind [
-            drawerNode
+      adjustClipRect();
+      contentGroup.content = [
+         border,
+         contentElement,
+         resizeControl
+      ];
+      if (opened){
+         contentContainer.content = contentGroup;
+      }
+      drawerGroup.content=[
+         contentContainer,
+         openCloseControl
+      ];
+      drawerCreated = true;
+      Group{
+         clip:clipRect
+         content:[
+//            Line{
+//               startX: -100
+//               startY:0
+//               endX:100
+//               endY:0
+//               fill:Color.BLACK
+//            }
+//            Line{
+//               startX: 0
+//               startY:-100
+//               endX:0
+//               endY:100
+//               fill:Color.BLACK
+//            }
+
+            drawerGroup
          ]
-      };
+      }
    }
 
-   function createClosedDrawerNode(): Node {
-      var rect: Rectangle;
-      var mouseEntered = false;
-      Group {
-         cursor: Cursor.HAND;
-         content: [
-            // thick background
-            if (horizontal) {
-               Line {
-                  startX: 0, startY: 0
-                  endX: bind closedSize, endY: 0
-                  strokeWidth: closedStrokeWidth
-                  stroke: bind if (mouseEntered) highliteColor else color;
-               }
-            } else {
-               Line {
-                  startX: 0, startY: 0
-                  endX: 0, endY: bind closedSize
-                  strokeWidth: closedStrokeWidth
-                  stroke: bind if (mouseEntered) highliteColor else color;
-               }
-            }
-            // inner line
-            if (horizontal) {
-               Line {
-                  startX: 0, startY: 0
-                  endX: bind closedSize, endY: 0
-                  strokeWidth: closedStrokeWidth / 2
-                  stroke: bind if (mouseEntered) color else highliteColor;
-               }
-            } else {
-               Line {
-                  startX: 0, startY: 0
-                  endX: 0, endY: bind closedSize
-                  strokeWidth: closedStrokeWidth / 2
-                  stroke: bind if (mouseEntered) color else highliteColor;
-               }
-            }
-         ]
+   function createElements():Void{
+      openCloseControl = OpenDrawerControl{
+         windowColorScheme:windowColorScheme
+         size:closedSize
          onMouseClicked: function (e: MouseEvent): Void {
-            opened = true;
-            positionControlElements();
-         }
-         onMouseEntered: function (e: MouseEvent): Void {
-            mouseEntered = true;
-         }
-         onMouseExited: function (e: MouseEvent): Void {
-            mouseEntered = false;
+            opened = not opened;
          }
       }
-   }
-
-   function createOpenDrawerNode(): Node {
-      if (not openedOnce) {
-         // it will be opened for the first time, find good initial size
-         if (content instanceof Parent){
-            (content as Parent).layout();
-         }
-         if (content instanceof Resizable) {
-            var resizableContent = content as Resizable;
-            if (not horizontal){
-               width = Math.max(resizableContent.getPrefWidth(width), absoluteMinimumWidth);
-            }
-            if (horizontal){
-               height = Math.max(resizableContent.getPrefHeight(height), absoluteMinimumHeight);
-            }
-         } else if (content != null) {
-            if (not horizontal){
-               width = content.boundsInLocal.width;
-            }
-            if (horizontal){
-               height = content.boundsInLocal.height;
-            }
-            resizeAllowed = false;
-         }
-
+      if (content instanceof Parent){
+         (content as Parent).layout();
       }
-
-      Group {
-         content: [
-//                        Rectangle {
-//                           x: 0, y: 0
-//                           width: bind width, height: bind height
-//                           fill: subColor
-//                           strokeWidth: borderSize
-//                           stroke: bind color;
-//                        }
-            createControlElements()
-         ]
+      if (content instanceof Resizable) {
+         var resizableContent = content as Resizable;
+         //println("preferred size: {resizableContent.getPrefWidth(width)}*{resizableContent.getPrefHeight(height)}");
+         if (not horizontal){
+            width = Math.max(resizableContent.getPrefWidth(width)+widthOverhead +1, absoluteMinimumWidth);
+         }
+         if (horizontal){
+            height = Math.max(resizableContent.getPrefHeight(height)+heightOverhead + 1, absoluteMinimumHeight);
+         }
+      } else if (content != null) {
+         if (not horizontal){
+            width = content.boundsInLocal.width + widthOverhead;
+         }
+         if (horizontal){
+            height = content.boundsInLocal.height + heightOverhead;
+         }
+         resizeAllowed = false;
       }
-   }
-
-   function createControlElements(): Node {
       border = Rectangle {
          x: 0, y: 0
          width: bind width, height: bind height
-         fill: subColor
+         fill: bind windowColorScheme.backgroundColor
          strokeWidth: borderSize
-         stroke: bind color;
+         stroke: bind windowColorScheme.mainColor;
       }
       contentElement = WindowContent {
-         width: bind width - 2 * contentBorder - borderSize - 1;
-         height: bind height - 2 * contentBorder - borderSize - 1;
+         windowColorScheme:windowColorScheme
+         width: bind width - widthOverhead - 1
+         height: bind height - heightOverhead - 1
          content: bind content;
          activated: bind activated;
          activate:activate
-         layoutX: contentBorder + borderSize / 2 + 1;
-         layoutY: contentBorder + borderSize / 2 + 1;
-      }
-      closeControl = WindowClose {
-         size: closeControlSize;
-         strokeWidth: 4;
-         color: bind color;
-         subColor: bind subColor;
-         activated:false
-         activate:activate
-         outlineFactor:0.5
-         closeAction: function () {
-            opened = false;
-            positionControlElements();
-         }
+         layoutX: sideContentBorder + borderSize / 2 + 1;
+         layoutY: topContentBorder + borderSize / 2 + 1;
       }
       if (resizeAllowed) {
          resizeControl = WindowResize {
             size: resizeControlSize;
-            color: bind color;
-            subColor: bind subColor;
+            windowColorScheme:windowColorScheme
             activate:activate
             startResize: startResize;
             doResize: doResize;
             stopResize: stopResize;
          }
       }
-      Group {
-         content: [
-            border,
-            contentElement,
-            closeControl,
-            resizeControl
-         ]
+   }
+
+   function openCloseDrawer():Void{
+      var openFactor = 0.0;
+      var animationInterpolation = Interpolator.EASEBOTH;
+      if (opened){
+         contentContainer.content = contentGroup;
+         openFactor = 1.0;
+         positionControlElements();
+         Timeline {
+            repeatCount: 1
+            keyFrames : [
+               KeyFrame {
+                  time : 0s
+                  canSkip : true
+                  values: [
+                     drawerGroup.translateX => closedXFactor*width,
+                     drawerGroup.translateY => closedYFactor*height
+                  ]
+               }
+               KeyFrame {
+                  time : AnimationTiming.drawerOpenCloseDuration
+                  canSkip : true
+                  values: [
+                     drawerGroup.translateX => openFactor*openedXFactor*width tween animationInterpolation,
+                     drawerGroup.translateY => openFactor*openedYFactor*height tween animationInterpolation
+                  ]
+               }
+            ]
+         }.play();
+      }
+      else{
+         openFactor = 1;
+         Timeline {
+            repeatCount: 1
+            keyFrames : [
+               KeyFrame {
+                  time : 0s
+                  canSkip : true
+                  values: [
+                     drawerGroup.translateX => openFactor*openedXFactor*width,
+                     drawerGroup.translateY => openFactor*openedYFactor*height
+                  ]
+               }
+               KeyFrame {
+                  time : AnimationTiming.drawerOpenCloseDuration
+                  canSkip : true
+                  values: [
+                     drawerGroup.translateX => closedXFactor*width tween animationInterpolation,
+                     drawerGroup.translateY => closedYFactor*height tween animationInterpolation
+                  ]
+                  action:function():Void{
+                     delete contentContainer.content;
+                     positionControlElements();
+                     drawerGroup.translateX = 0;
+                     drawerGroup.translateY = 0;
+                  }
+               }
+            ]
+         }.play();
       }
    }
 
-   function positionControlElements(): Void {
+   protected function adjustClipRect(): Void {
 
+   }
+
+   protected function positionControlElements(): Void {
    }
 
    function startResize(e: MouseEvent): Void {
       originalWidth = width;
       originalHeight = height;
-//      contentElement.glassPaneBlocksMouse = true;
       MouseBlocker.startMouseBlocking();
    }
 
@@ -266,7 +301,6 @@ public abstract class Drawer extends CustomNode {
    }
 
    function stopResize(e: MouseEvent): Void {
-//      contentElement.glassPaneBlocksMouse = false;
       MouseBlocker.stopMouseBlocking();
    }
 }

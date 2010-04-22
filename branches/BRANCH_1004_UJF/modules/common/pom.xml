@@ -23,8 +23,7 @@
 		<module>action-logging</module>
 		-->
 		<module>configuration</module>
-		<module>tool-broker-api</module>
-        <module>data-sync-common</module>
+		<module>data-sync-common</module>
 		<module>packet-transformer</module>
 		<module>action-logging-api</module>
 		<module>action-logging-commons</module>
@@ -38,6 +37,7 @@
 		<module>notification-api</module>
 		<module>notification-impl</module>	
 		<module>scy-sessionmanager-api</module>
+		<module>tool-broker-api</module>
         <module>pedagogical-plan-service-api</module>
   </modules>
 

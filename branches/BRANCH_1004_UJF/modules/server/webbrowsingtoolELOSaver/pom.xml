@@ -6,6 +6,7 @@
         <groupId>eu.scy.server</groupId>
         <version>9.8.0-UJF-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
     <artifactId>roolo-ws</artifactId>
@@ -166,9 +167,21 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.6.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>configuration</artifactId>
             <version>9.8.0-UJF-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>9.8.0-UJF-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 

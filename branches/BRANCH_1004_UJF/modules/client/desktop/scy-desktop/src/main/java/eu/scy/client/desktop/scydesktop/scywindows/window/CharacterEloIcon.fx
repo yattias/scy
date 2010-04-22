@@ -27,7 +27,7 @@ public class CharacterEloIcon extends EloIcon {
    public var iconCharacter = "?";
    public var color = Color.RED;
    public var backgroundColor = Color.WHITE;
-   public var iconSize = 17.0;
+   public var iconSize = 16.0;
    public var iconGap = 2.0;
    public var iconFont = Font.font("Verdana", FontWeight.BOLD, 14);
 

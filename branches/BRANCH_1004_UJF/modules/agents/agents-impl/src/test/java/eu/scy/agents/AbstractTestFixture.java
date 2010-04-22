@@ -71,56 +71,60 @@ public class AbstractTestFixture {
 
 	@Before
 	public void setUp() throws Exception {
-		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
-		actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.ACTION_SPACE_NAME);
+		this.tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+				AgentProtocol.COMMAND_SPACE_NAME);
+		this.actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+				AgentProtocol.ACTION_SPACE_NAME);
 
-		agentMap.clear();
+		this.agentMap.clear();
 
-		agentList = new ArrayList<String>();
+		this.agentList = new ArrayList<String>();
 
 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("test-config.xml");
 
-		typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
-		extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
-		repository = (IRepository) applicationContext.getBean("localRepository");
+		this.typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
+		this.extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
+		this.repository = (IRepository) applicationContext.getBean("localRepository");
 
-		storage = new PersistentStorage(TSHOST, TSPORT);
+		this.storage = new PersistentStorage(TSHOST, TSPORT);
 	}
 
 	@SuppressWarnings("unused")
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		System.err.println("super.tearDown");
-		if (tupleSpace != null) {
+		if (this.tupleSpace != null) {
 			try {
-				tupleSpace.disconnect();
-				actionSpace.disconnect();
+				this.tupleSpace.takeAll(new Tuple());
+				this.actionSpace.takeAll(new Tuple());
+				this.tupleSpace.disconnect();
+				this.actionSpace.disconnect();
 				System.err.println("********** Disconnected from TS ******************");
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
 		}
-		storage.close();
+		this.storage.close();
 	}
 
 	protected void removeTopicModel() {
-		storage.remove(TM_MODEL_NAME);
+		this.storage.remove(TM_MODEL_NAME);
 	}
 
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		elo.setIdentifierKey(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		return elo;
 	}
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		elo.setIdentifierKey(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(
-				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
 		titleContainer.setValue(title);
 		IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(
-				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
 		typeContainer.setValue(type);
 		return elo;
 	}
@@ -142,14 +146,14 @@ public class AbstractTestFixture {
 	}
 
 	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
-		agentList.clear();
-		agentFramework = new AgentManager(TSHOST, TSPORT);
-		agentFramework.setRepository(repository);
-		agentFramework.setMetadataTypeManager(typeManager);
+		this.agentList.clear();
+		this.agentFramework = new AgentManager(TSHOST, TSPORT);
+		this.agentFramework.setRepository(this.repository);
+		this.agentFramework.setMetadataTypeManager(this.typeManager);
 		for (String agentName : agents.keySet()) {
 			Map<String, Object> params = agents.get(agentName);
 			try {
-				agentList.add(agentFramework.startAgent(agentName, params).getId());
+				this.agentList.add(this.agentFramework.startAgent(agentName, params).getId());
 			} catch (AgentLifecycleException e) {
 				// TODO what to do with these exception.
 				e.printStackTrace();
@@ -158,21 +162,21 @@ public class AbstractTestFixture {
 	}
 
 	public TupleSpace getCommandSpace() {
-		return tupleSpace;
+		return this.tupleSpace;
 	}
 
 	public TupleSpace getActionSpace() {
-		return actionSpace;
+		return this.actionSpace;
 	}
 
 	protected void stopAgentFrameWork() throws AgentLifecycleException {
-		for (String agentId : agentList) {
-			agentFramework.killAgent(agentId);
+		for (String agentId : this.agentList) {
+			this.agentFramework.killAgent(agentId);
 		}
 	}
 
 	protected PersistentStorage getPersistentStorage() {
-		return storage;
+		return this.storage;
 	}
 
 	protected void initTopicModel() {
@@ -182,7 +186,7 @@ public class AbstractTestFixture {
 			in = new ObjectInputStream(inStream);
 			TopicModelParameter model = (TopicModelParameter) in.readObject();
 			in.close();
-			storage.put(TM_MODEL_NAME, model);
+			this.storage.put(TM_MODEL_NAME, model);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

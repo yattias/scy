@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
@@ -19,11 +20,23 @@ import javafx.scene.shape.Rectangle;
 // place your code here
 public class BottomDrawer extends Drawer{
 
-   //override def absoluteMinimumWidth = 2*controlSize;
+   init{
+      closedYFactor = -1;
+   }
+
+   override function adjustClipRect():Void{
+      clipRect.x = -clipSize/2;
+      clipRect.y = borderSize;
+   }
 
    override function positionControlElements():Void{
-      closeControl.layoutX = width-1.5*closeControlSize;
-      closeControl.layoutY = closeControlSize/2;
+      super.positionControlElements();
+      openCloseControl.rotate = 90;
+      openCloseControl.layoutX = width-closedSize+closedSize/2.0-openCloseControl.mainRadius-handleOffset;
+      openCloseControl.layoutY = -closedSize/2.0+openCloseControl.mainRadius+1;
+      if (opened){
+         openCloseControl.layoutY += height;
+      }
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }
@@ -31,25 +44,48 @@ public class BottomDrawer extends Drawer{
 
 
 function run(){
+   var highcontrastColorScheme = WindowColorScheme {
+         mainColor: Color.BLUE
+         backgroundColor: Color.ORANGE
+         titleStartGradientColor: Color.LIGHTBLUE
+         titleEndGradientColor: Color.WHITE
+         emptyBackgroundColor: Color.WHITE
+      }
+   def width = 100.0;
+   def height = 100.0;
+   def borderWidth = 2.0;
+   def controlLength = 10.0;
+   def cornerRadius = 10;
+   var emptyWindow = EmptyWindow {
+         width: bind width;
+         height: bind height;
+         controlSize: cornerRadius;
+         borderWidth: borderWidth;
+         windowColorScheme: highcontrastColorScheme
+         layoutX:100;
+         layoutY:100
+      }
 
       Stage {
       title : "Test bottom drawer"
       scene: Scene {
-         width: 200
-         height: 200
+         width: 300
+         height: 300
          content: [
-            Rectangle {
-               x: 10, y: 10
-               width: 100, height: 20
-               fill: null
-               stroke:Color.GRAY
-               strokeWidth:4;
-            }
+            emptyWindow,
             BottomDrawer{
-               closedSize:80;
-               layoutX:20;
-               layoutY:30
-               opened:true
+               windowColorScheme: highcontrastColorScheme
+               closedSize:20;
+               width:width-2*controlLength
+               layoutX:emptyWindow.layoutX+controlLength;
+               layoutY:emptyWindow.boundsInParent.maxY-borderWidth/2
+               opened:false
+               content:Rectangle {
+                  x: 0, y: 0
+                  width: 60, height: 60
+                  fill: Color.RED
+               }
+
             }
 
          ]

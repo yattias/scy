@@ -25,9 +25,9 @@ public class ContactList extends CustomNode {
     public-init var dragAndDropManager:DragAndDropManager;
     public var tooltipManager: TooltipManager;
     public-init var scyDesktop:ScyDesktop;
-    public-init var showOfflineContacts:Boolean = false;
+    public-init var showOfflineContacts:Boolean = true;
     public-init var columns: Integer;
-    public-init var stateIndicatorOpacity:Boolean = false;
+    public-init var stateIndicatorOpacity:Boolean = true;
 
     def contactTooltipCreator = ContactTooltipCreator{
    }

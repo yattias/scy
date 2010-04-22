@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -71,13 +72,15 @@ import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer
  *
  * @author __SVEN__
  */
+@Singleton
 @Path("/saveELOAndroid")
+@Deprecated
 public class SaveAndroidELOResource {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private static final Beans beans = Beans.getInstance();
+    private final static Logger log = Logger.getLogger(SaveAndroidELOResource.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
@@ -149,33 +152,33 @@ public class SaveAndroidELOResource {
                 //Authentication ok
 
                 //Creating the ELO
-                elo = configLoader.getEloFactory().createELO();
+                elo = beans.getEloFactory().createELO();
 
                 log.info("ELO created");
                 Locale defaultLocale = new Locale(language,country);
                 elo.setDefaultLanguage(defaultLocale);
 
                 //Authenticate the user and set real user name, not user-id
-                authorKey = (ContributeMetadataKey)configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+                authorKey = (ContributeMetadataKey)beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
                 //FIXME replace username by vcard
                 Contribute contribute = new Contribute(username, new Date().getTime());
                 elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
 
-                typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+                typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
                 IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
-                if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
-                    configLoader.getTypeManager().registerMetadataKey(typeKey);
+                if (!beans.getTypeManager().isMetadataKeyRegistered(typeKey)) {
+                    beans.getTypeManager().registerMetadataKey(typeKey);
                 }
                 elo.getMetadata().addMetadataPair(typeKey, container);
 
-                titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-                dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-                descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+                titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+                dateCreatedKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+                descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
                 
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
                 elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
 
-                configLoader.getExtensionManager().registerExtension("scy/form", ".form");
+                beans.getExtensionManager().registerExtension("scy/form", ".form");
                 elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/form");
 
                 elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
@@ -185,10 +188,10 @@ public class SaveAndroidELOResource {
                 
                 elo.setContent(new BasicContent(content));
                 try {
-                    IMetadata metadata = configLoader.getRepository().addNewELO(elo);
+                    IMetadata metadata = beans.getRepository().addNewELO(elo);
                     if(metadata != null) {
                     	log.info("Added ELO to repository");
-                    	return metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue().toString();
+                    	return metadata.getMetadataValueContainer(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue().toString();
                     }
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());

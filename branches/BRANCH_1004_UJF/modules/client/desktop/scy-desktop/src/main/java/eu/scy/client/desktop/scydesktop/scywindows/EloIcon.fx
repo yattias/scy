@@ -19,4 +19,8 @@ public abstract class EloIcon extends CustomNode {
 
    public var selected:Boolean;
 
+   public override function clone():EloIcon{
+      null
+   }
+
 }

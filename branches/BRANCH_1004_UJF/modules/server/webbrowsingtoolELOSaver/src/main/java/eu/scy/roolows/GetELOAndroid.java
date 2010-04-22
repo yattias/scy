@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
@@ -64,10 +65,12 @@ import roolo.elo.api.IELO;
  * 
  * @author __SVEN__
  */
+@Singleton
 @Path("/getELOAndroid")
+@Deprecated
 public class GetELOAndroid {
 
-	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
+	private final static Logger logger = Logger.getLogger(GetELOAndroid.class.getName());
 
 	@Context
 	private UriInfo context;
@@ -121,7 +124,7 @@ public class GetELOAndroid {
 		String uri = null;
 		try {
 			uri = jsonData.getString("uri");
-			IELO elo = ConfigLoader.getInstance().getRepository().retrieveELO(new URI(uri));
+			IELO elo = Beans.getInstance().getRepository().retrieveELO(new URI(uri));
 			String contentString = elo.getContent().getXmlString();
 			output.put("content", contentString);
 		} catch (JSONException ex) {

@@ -90,6 +90,11 @@
         <property name="imageConverter" ref="imageConverter"/>
     </bean>
 
+    <bean id="runtimeDAO" class="eu.scy.core.persistence.hibernate.RuntimeDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+
     <bean id="buddyService" class="eu.scy.core.openfire.BuddyServiceImpl"/>
 
 </beans>

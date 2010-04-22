@@ -67,7 +67,9 @@ process_variables_callback(write, _SeqId, [], [Tuple]) :-
 	tspl_tuple_field(Tuple, 4, Learner),
 	tspl_tuple_field(Tuple, 8, ELOURI),
 	log_key_value(Tuple, variables, ValidVars),
-	assert(valid_vars(Learner, ELOURI, ValidVars)),
+	csv_to_list(ValidVars, ValidVarsList),
+	retractall(valid_vars(Learner, ELOURI, _)),
+	assert(valid_vars(Learner, ELOURI, ValidVarsList)),
 	thread_self(Thread),
 	thread_detach(Thread).
 
@@ -103,6 +105,31 @@ change_variables_callback(_, _, _, _) :-
 	thread_self(Thread),
 	thread_detach(Thread).
 
+csv_to_list(Text, [TextTrimmed]) :-
+	not(sub_string(Text, _, 1, _, ',')),
+	trim_text(Text, TextTrimmed).
+
+csv_to_list(CSV, List) :-
+	sub_string(CSV, Pos, 1, After, ','),
+	sub_string(CSV, 0, Pos, _, FirstPart),
+	Pos1 is Pos + 1,
+	sub_string(CSV, Pos1, After, 0, SecondPart),
+	csv_to_list(FirstPart, FirstList),
+	csv_to_list(SecondPart, SecondList),
+	append(FirstList, SecondList, List).
+
+trim_text(Text, TextAtom) :-
+	not(sub_string(Text, 0, 1, _, ' ')),
+	not(sub_string(Text, _, 1, 0, ' ')),
+	string_to_atom(Text, TextAtom).
+	
+trim_text(Text, TrimmedText) :-
+	string_concat(' ', TrimmedTextAux, Text),
+	trim_text(TrimmedTextAux, TrimmedText).
+trim_text(Text, TrimmedText) :-
+	string_concat(TrimmedTextAux, ' ', Text),
+	trim_text(TrimmedTextAux, TrimmedText).
+
 
 %%	same_model_run_evaluation(+Model:atom, +Learner:atom, -NoRuns:int, -NoUnique:int) is det.
 %
@@ -112,13 +139,13 @@ change_variables_callback(_, _, _, _) :-
 %	work is performed by sdm_model_identical/3, which is in the SDM library.
 
 :- dynamic
-	inc_change/5.	% Learner x Model
+	inc_change/6.	% Learner x Model
 
 vc_timeout_min(1).
 
 change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChange) :-
 	remove_old_changes,
-	inc_change(Learner, Tool, Session, VarName, DiffOld, Time),
+	inc_change(Learner, Tool, Session, VarName, DiffOld, _),
 	!,
 	asserta(inc_change(Learner, Tool, Session, VarName, Diff, Time)), 
 	write('next run for '), writeln(VarName),
@@ -127,8 +154,7 @@ change_variables_evaluation(Learner, Tool, Session, VarName, Diff, Time, IncChan
 	term_to_atom(DO, DiffOld),
 	term_to_atom(D, Diff),
 	number_of_switches(VarName, Switches),
-	Switches > 2,
-	(   DO =:= D
+	(   (DO =:= D ; Switches =< 3)
 	->  IncChange is 1
 	;   IncChange is 0
 	),

@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.ws.rs.Consumes;
@@ -64,10 +65,11 @@ import roolo.elo.metadata.keys.Contribute;
  * 
  * @author __SVEN__
  */
+@Singleton
 @Path("/getELO")
 public class GetELO {
 
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private final static Logger logger = Logger.getLogger(GetELO.class.getName());
     @Context
     private UriInfo context;
@@ -100,7 +102,7 @@ public class GetELO {
         JSONObject metadata = new JSONObject();
 
         try {
-            IELO elo = configLoader.getRepository().retrieveELO(new URI(uri));
+            IELO elo = beans.getRepository().retrieveELO(new URI(uri));
             if (elo != null) {
                 //TODO: do the flattening specific for different types of metadata keys
                 for (IMetadataKey metadataKey : elo.getMetadata().getAllMetadataKeys()) {

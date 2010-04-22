@@ -23,7 +23,6 @@
                 <td>
                     <s:ajaxNumberField model="${model}" property="expectedDurationInMinutes"/>                    
                 </td>
-
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
@@ -31,6 +30,46 @@
                 </td>
                 <td>
                     <a href="viewAnchorELO.html?anchorELOId=${model.anchorELO.id}">${model.anchorELO.name}</a>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Auto add to student plan
+                </td>
+                <td>
+                    <s:ajaxCheckBox model="${model}" property="autoaddToStudentPlan"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Start date
+                </td>
+                <td>
+                    <s:ajaxDatePicker model="${model}" property="startDate"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    End Date
+                </td>
+                <td>
+                    <s:ajaxDatePicker model="${model}" property="endDate"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Start time
+                </td>
+                <td>
+                    <s:ajaxTimePicker model="${model}" property="startTime"/>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    End time
+                </td>
+                <td>
+                    <s:ajaxTimePicker model="${model}" property="endTime"/>
                 </td>
             </tr>
         </table>

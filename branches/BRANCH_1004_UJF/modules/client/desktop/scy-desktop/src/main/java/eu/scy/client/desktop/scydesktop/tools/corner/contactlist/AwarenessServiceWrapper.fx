@@ -28,7 +28,7 @@ public class AwarenessServiceWrapper {
         def filestreamerPort:String = config.getFilestreamerPort();
         //this should look like:
         //"http://scy.collide.info:8080/webapp/common/filestreamer.html";
-        public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}{filestreamerContext}";
+        public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}/{filestreamerContext}";
 
         def awarenessService:IAwarenessService = bind contactlist.scyDesktop.config.getToolBrokerAPI().getAwarenessService();
 
@@ -46,6 +46,7 @@ public class AwarenessServiceWrapper {
             var contacts:Contact[];
             var offlineContacts:Contact[];
             def buddies = awarenessService.getBuddies();
+            println("Retrieved {buddies.size()} buddies from awareness service.");
             for (buddy in buddies){
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
                 def presence = awarenessUser.getPresence();
@@ -59,6 +60,7 @@ public class AwarenessServiceWrapper {
                     //    (if(presence.equals("idle")) "{IMAGE_BASE_DIR}buddyicon_idle.png" else "{IMAGE_BASE_DIR}buddyicon_online.png" );
                     imageURL: "{IMAGE_BASE_DIR}?username={awarenessUser.getNickName()}";
                     }
+                    println("imageURL: {contact.imageURL}");
                 //filter names "" and " "
                 if (not(contact.name.equals("")) and not(contact.name.equals(" ")))
                 {

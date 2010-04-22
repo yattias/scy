@@ -22,8 +22,8 @@ public class CreateNewElo extends ModalDialogNode {
     // <editor-fold defaultstate="collapsed" desc="Generated Init Block">
     init {
         label = javafx.scene.control.Label {
-            layoutX: 13.0
-            layoutY: 6.0
+            layoutX: 0.0
+            layoutY: 0.0
             width: 259.0
             height: 16.0
             layoutInfo: javafx.scene.layout.LayoutInfo {
@@ -33,7 +33,7 @@ public class CreateNewElo extends ModalDialogNode {
             text: "##Select ELO type"
         };
         listView = javafx.scene.control.ListView {
-            layoutX: 13.0
+            layoutX: 0.0
             layoutY: 28.0
             width: 259.0
             height: 111.0
@@ -45,14 +45,14 @@ public class CreateNewElo extends ModalDialogNode {
             onMouseClicked: listViewOnMouseClicked
         };
         cancelButton = javafx.scene.control.Button {
-            layoutX: 198.0
+            layoutX: 181.0
             layoutY: 152.0
             text: "##Cancel"
             action: cancelButtonAction
         };
         createButton = javafx.scene.control.Button {
             disable: true
-            layoutX: 111.0
+            layoutX: 88.0
             layoutY: 152.0
             text: "##Create"
             action: createButtonAction

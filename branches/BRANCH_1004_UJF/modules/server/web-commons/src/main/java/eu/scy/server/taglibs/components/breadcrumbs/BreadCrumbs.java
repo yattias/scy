@@ -1,10 +1,16 @@
 package eu.scy.server.taglibs.components.breadcrumbs;
 
+import eu.scy.core.model.ScyBase;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,23 +21,47 @@ import java.util.Enumeration;
  */
 public class BreadCrumbs extends TagSupport {
 
+    List breadCrumbs = new LinkedList();
+
     public int doEndTag() throws JspException {
-        try {
-            pageContext.getOut().write(createHomeLink());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (breadCrumbs != null) {
+            Collections.reverse(breadCrumbs);
+            try {
+                pageContext.getOut().write(createHomeLink());
+                for (int i = 0; i < breadCrumbs.size(); i++) {
+                    ScyBase scyBase = (ScyBase) breadCrumbs.get(i);
+                    pageContext.getOut().write(" - " + scyBase.getName());
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return EVAL_PAGE;
     }
+
+    protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+        String modelString = request.getParameter("model");
+        ScyBase modelObject = (ScyBase) request.getAttribute("modelObject");
+        System.out.println("FOUND MODEL OBJECT: " + modelObject);
+        if (modelObject != null) {
+            breadCrumbs.add(modelObject);
+        }
+
+
+    }
+
 
     @Override
     public void setPageContext(PageContext pageContext) {
         super.setPageContext(pageContext);
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-        System.out.println("QureryStrign: " +req.getQueryString());
-        System.out.println("URI: " + req.getRequestURI());
+        instpectRequest(req, (HttpServletResponse) pageContext.getResponse());
+        System.out.println("BREAD CRUMBS: QureryStrign: " + req.getQueryString());
+        System.out.println("BREAD CRUMBS : URI: " + req.getRequestURI());
         Enumeration enumeration = pageContext.getRequest().getParameterNames();
-        while(enumeration.hasMoreElements()) {
+        while (enumeration.hasMoreElements()) {
             String param = (String) enumeration.nextElement();
             System.out.println("       " + param + " ::: " + pageContext.getRequest().getParameter(param));
         }

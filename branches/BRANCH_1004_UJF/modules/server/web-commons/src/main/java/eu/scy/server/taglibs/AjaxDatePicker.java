@@ -1,27 +1,23 @@
 package eu.scy.server.taglibs;
 
 import eu.scy.core.model.ScyBase;
-
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.lang.reflect.Method;
+import java.sql.Date;
+import javax.servlet.jsp.JspException;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
  * Date: 23.mar.2010
  * Time: 12:59:43
- * To change this template use File | Settings | File Templates.
  */
 public class AjaxDatePicker extends AjaxBaseComponent{
-
-    private String checked;
 
     public int doEndTag() throws JspException {
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"datePickerForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxDatePicker.html\">");
-            pageContext.getOut().write("<input type=\"text\" name=\"date"+id+"\" id=\"date"+id+"\" value=\"2005-12-30\" onChange=\"postForm('datePickerForm" + id + "');\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" />");
+            pageContext.getOut().write("<input type=\"text\" name=\"date" + "\" id=\"date"+id+"\" value=\"" + executeGetter(getModel(), getProperty()) + "\" onChange=\"postForm('datePickerForm" + id + "');\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" />");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
@@ -32,8 +28,8 @@ public class AjaxDatePicker extends AjaxBaseComponent{
         return EVAL_PAGE;
     }
 
-    private Boolean executeGetter(Object object, String property) {
-        if(property == null) return false;
+    private Date executeGetter(Object object, String property) {
+        if(property == null) return null;
         try {
             String firstLetter = property.substring(0,1);
             firstLetter = firstLetter.toUpperCase();
@@ -42,17 +38,12 @@ public class AjaxDatePicker extends AjaxBaseComponent{
 
             Method method = object.getClass().getMethod("get" + property);
 
-            Boolean returnValue =  (Boolean) method.invoke(object, null);
+            Date returnValue =  (Date) method.invoke(object, null);
             System.out.println(method.getName() + " " + returnValue);
             return returnValue;
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         throw new RuntimeException("NOOO");
-    }
-
-    public String getChecked() {
-        if(executeGetter(getModel(), getProperty())) return "checked";
-        return "";
     }
 }

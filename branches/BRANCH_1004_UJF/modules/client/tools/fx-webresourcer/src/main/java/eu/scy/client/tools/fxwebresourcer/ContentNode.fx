@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import javafx.scene.control.Button;
-
+import eu.scy.client.tools.fxflyingsaucer.BareBonesBrowserLaunch;
 
 /**
  * @author pg
@@ -68,7 +68,7 @@ public class ContentNode extends CustomNode {
         content: "Comments";
         font: Font { size: 18; name: "Times New Roman"; }
         translateX: 5;
-        translateY: bind pointsHeight + subtitle.translateY + 20;
+        translateY: bind pointsHeight + subtitle.translateY + 30;
     }
 
     var commentText:Text = Text {
@@ -76,14 +76,14 @@ public class ContentNode extends CustomNode {
         font: Font { size: 14; }
         wrappingWidth: 525;
         translateX: 30;
-        translateY: bind commentTitle.translateY + 20;
+        translateY: bind commentTitle.translateY + 30;
     }
 
 
     var commentClicker:Rectangle = Rectangle {
         translateX: 5;
         translateY: bind commentText.translateY-11;
-        height: bind commentText.layoutBounds.height;
+        height: bind commentText.layoutBounds.height + 15;
         width: 555;
         fill: Color.TRANSPARENT;
         //stroke: Color.BLACK;
@@ -125,6 +125,24 @@ public class ContentNode extends CustomNode {
         translateY: bind sourcesTitle.translateY + 20;
     }
 
+    var sourcesClicker:Rectangle = Rectangle {
+        translateX: 30;
+        translateY: bind sourcesTitle.translateY + 5;
+        height: bind sourcesText.boundsInLocal.height;
+        width: bind sourcesText.boundsInLocal.width;
+        fill: Color.TRANSPARENT;
+        onMouseEntered: function (e:MouseEvent):Void {
+            sourcesText.underline = true;
+        }
+        onMouseExited: function (e:MouseEvent):Void {
+            sourcesText.underline = false;
+        }
+        onMouseReleased: function (e:MouseEvent):Void {
+            BareBonesBrowserLaunch.openURL(sourcesText.content);
+        }
+    }
+
+
     public var testRectangle:Rectangle = Rectangle {
         height: 50;
         width: 50;
@@ -133,11 +151,19 @@ public class ContentNode extends CustomNode {
     }
 
     public-read var height:Number = bind sourcesText.layoutBounds.height + sourcesText.translateY;
-    
+
     public function addQuotation(text:String):Void {
         var newBullet:BulletPoint = BulletPoint {
             text: text;
             y: pointsHeight + subtitle.translateY + subtitle.layoutBounds.height + 5;
+        }
+        //check if we got an image :3
+        if(text.startsWith("http://") and text.endsWith(".jpg")) {
+            //display an image
+            newBullet.setImage(text);
+        }
+        else {
+            newBullet.setText(text);
         }
         insert newBullet into points;
         pointsHeight += newBullet.height+5;
@@ -199,7 +225,7 @@ public class ContentNode extends CustomNode {
 
      public override function create():Node {
         var g = Group {
-            content: bind [ 
+            content: bind [
                     titleText,
                     titleLine,
                     subtitle,
@@ -211,6 +237,7 @@ public class ContentNode extends CustomNode {
                     commentUpdateButton,
                     sourcesTitle,
                     sourcesText,
+                    sourcesClicker,
                     testRectangle];
         };
         return g;

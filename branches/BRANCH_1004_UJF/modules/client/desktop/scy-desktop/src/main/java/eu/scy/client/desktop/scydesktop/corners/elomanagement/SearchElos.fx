@@ -35,25 +35,25 @@ public class SearchElos extends ModalDialogNode {
     // <editor-fold defaultstate="collapsed" desc="Generated Init Block">
     init {
         label = javafx.scene.control.Label {
-            layoutX: 6.0
-            layoutY: 6.0
+            layoutX: 0.0
+            layoutY: 0.0
             text: "##Query:"
         };
         label2 = javafx.scene.control.Label {
             layoutX: 125.0
-            layoutY: 6.0
+            layoutY: 0.0
             text: "##All"
         };
         allTypesCheckBox = javafx.scene.control.CheckBox {
             layoutX: 158.0
-            layoutY: 5.0
+            layoutY: -1.0
             onMouseClicked: allTypesCheckBoxOnMouseClicked
             text: ""
             selected: true
         };
         typesListView = javafx.scene.control.ListView {
             layoutX: 25.0
-            layoutY: 34.0
+            layoutY: 28.0
             width: 150.0
             height: 93.0
             layoutInfo: javafx.scene.layout.LayoutInfo {
@@ -64,12 +64,12 @@ public class SearchElos extends ModalDialogNode {
         };
         label3 = javafx.scene.control.Label {
             layoutX: 240.0
-            layoutY: 6.0
+            layoutY: 0.0
             text: "##Title"
         };
         nameTextbox = javafx.scene.control.TextBox {
             layoutX: 240.0
-            layoutY: 34.0
+            layoutY: 28.0
             width: 169.0
             height: 24.0
             layoutInfo: javafx.scene.layout.LayoutInfo {
@@ -79,7 +79,7 @@ public class SearchElos extends ModalDialogNode {
         };
         mineCheckBox = javafx.scene.control.CheckBox {
             layoutX: 283.0
-            layoutY: 108.0
+            layoutY: 102.0
             width: 17.0
             height: 17.0
             layoutInfo: javafx.scene.layout.LayoutInfo {
@@ -91,12 +91,18 @@ public class SearchElos extends ModalDialogNode {
         };
         label4 = javafx.scene.control.Label {
             layoutX: 240.0
-            layoutY: 86.0
+            layoutY: 80.0
+            width: 49.0
+            height: 22.0
+            layoutInfo: javafx.scene.layout.LayoutInfo {
+                width: bind label4.width
+                height: bind label4.height
+            }
             text: "##Author"
         };
         line = javafx.scene.shape.Line {
             layoutX: 0.0
-            layoutY: 143.0
+            layoutY: 137.0
             stroke: javafx.scene.paint.Color.LIGHTBLUE
             strokeWidth: 2.0
             endX: 500.0
@@ -104,18 +110,18 @@ public class SearchElos extends ModalDialogNode {
         };
         searchButton = javafx.scene.control.Button {
             layoutX: 426.0
-            layoutY: 102.0
+            layoutY: 96.0
             text: "##Search"
             action: searchButtonAction
         };
         label5 = javafx.scene.control.Label {
-            layoutX: 6.0
-            layoutY: 153.0
+            layoutX: 0.0
+            layoutY: 147.0
             text: "##Results:"
         };
         resultsListView = javafx.scene.control.ListView {
             layoutX: 25.0
-            layoutY: 175.0
+            layoutY: 169.0
             width: 384.0
             height: 112.0
             layoutInfo: javafx.scene.layout.LayoutInfo {
@@ -127,29 +133,29 @@ public class SearchElos extends ModalDialogNode {
         openButton = javafx.scene.control.Button {
             disable: true
             layoutX: 435.0
-            layoutY: 223.0
+            layoutY: 217.0
             text: "##Open"
             action: openButtonAction
         };
         cancelButton = javafx.scene.control.Button {
-            layoutX: 429.0
-            layoutY: 259.0
+            layoutX: 426.0
+            layoutY: 257.0
             text: "##Cancel"
             action: cancelButtonAction
         };
         label6 = javafx.scene.control.Label {
             layoutX: 240.0
-            layoutY: 108.0
+            layoutY: 102.0
             text: "##Me"
         };
         label7 = javafx.scene.control.Label {
             layoutX: 316.0
-            layoutY: 108.0
+            layoutY: 102.0
             text: "##Others"
         };
         othersCheckBox = javafx.scene.control.CheckBox {
             layoutX: 373.0
-            layoutY: 108.0
+            layoutY: 102.0
             text: ""
         };
         

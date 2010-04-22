@@ -1,11 +1,27 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
-import eu.scy.core.model.pedagogicalplan.*;
-
-import javax.persistence.*;
+import eu.scy.core.model.pedagogicalplan.Activity;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
+import eu.scy.core.model.pedagogicalplan.PlannedELO;
+import eu.scy.core.model.pedagogicalplan.TeacherRoleType;
+import eu.scy.core.model.pedagogicalplan.WorkArrangementType;
+import java.sql.Time;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +33,11 @@ import java.util.Set;
 @Entity
 @Table(name="activity")
 public class ActivityImpl extends BaseObjectImpl implements Activity {
+
+    private Date startDate = null;
+    private Date endDate = null;
+    private Time startTime = null;
+    private Time endTime = null;
 
     private LearningActivitySpace learningActivitySpace;
 
@@ -98,12 +119,11 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
 
     @Transient
     public List<PlannedELO> getPlannedELOs() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
     public void setPlannedELOs(List<PlannedELO> plannedELOs) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public Boolean getAutoaddToStudentPlan() {
@@ -112,5 +132,39 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
 
     public void setAutoaddToStudentPlan(Boolean autoaddToStudentPlan) {
         this.autoaddToStudentPlan = autoaddToStudentPlan;
+    }
+
+    @Temporal(value = TemporalType.DATE)
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    @Temporal(value = TemporalType.DATE)
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
     }
 }

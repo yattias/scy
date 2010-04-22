@@ -40,9 +40,12 @@
                    /components/ajaxNumberField.html=ajaxNumberFieldController
                    /components/ajaxCombobox.html=ajaxComboboxController
                    /components/ajaxSlider.html=ajaxSliderController
+                   /components/ajaxTimePicker.html=ajaxTimePickerController
+                   /components/ajaxDatePicker.html=ajaxDatePickerController
                    /editors/studentEditor.html=editSCYStudentUserController
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
+                   /components/realtime/currentStudentActivity.html=currentStudentActivityController 
                </value>
            </property>
        </bean>
@@ -56,6 +59,14 @@
 	</bean>
 
     <bean id="ajaxNumberFieldController" class="eu.scy.server.controllers.AjaxNumberFieldController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTimePickerController" class="eu.scy.server.controllers.AjaxTimePickerController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxDatePickerController" class="eu.scy.server.controllers.AjaxDatePickerController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
 
@@ -79,8 +90,15 @@
 	</bean>
 
     <bean id="helpController" class="eu.scy.server.controllers.components.help.HelpController">
-
 	</bean>
+    
+    <bean id="urlInspector" class="eu.scy.server.url.UrlInspector">
+        <property name="service" ref="ajaxPersistenceService"/>
+    </bean>
 
+    <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
 
 </beans>

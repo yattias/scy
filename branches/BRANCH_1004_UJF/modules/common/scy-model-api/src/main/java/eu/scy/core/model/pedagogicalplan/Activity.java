@@ -1,7 +1,9 @@
 package eu.scy.core.model.pedagogicalplan;
 
-import java.util.Set;
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -103,4 +105,16 @@ public interface Activity extends BaseObject {
 
     public Boolean getAutoaddToStudentPlan();
     public void setAutoaddToStudentPlan(Boolean autoaddToStudentPlan);
+
+    public Date getStartDate();
+    public void setStartDate(Date startDate);
+
+    public Date getEndDate();
+    public void setEndDate(Date endDate);
+
+    public Time getStartTime();
+    public void setStartTime(Time startTime);
+
+    public Time getEndTime();
+    public void setEndTime(Time endTime);    
 }

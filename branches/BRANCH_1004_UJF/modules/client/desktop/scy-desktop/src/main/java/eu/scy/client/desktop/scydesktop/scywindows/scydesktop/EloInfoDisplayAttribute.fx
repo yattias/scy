@@ -51,7 +51,7 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
                centerX: circleRadius
                centerY: -circleRadius
                radius: circleRadius
-               fill: bind window.color
+               fill: bind window.windowColorScheme.mainColor
             }
          ]
 //         onMouseEntered: function (e: MouseEvent): Void {
@@ -67,7 +67,7 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
    override public function createTooltipNode(sourceNode: Node): Node {
       ColoredTextTooltip {
          content: getEloInfo()
-         color: window.color
+         color: window.windowColorScheme.mainColor
       }
    }
 

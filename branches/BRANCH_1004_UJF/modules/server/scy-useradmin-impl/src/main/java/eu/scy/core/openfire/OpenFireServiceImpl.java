@@ -39,7 +39,7 @@ public class OpenFireServiceImpl implements OpenFireService {
 
     @Override
     public String getUsernameWithHost(String username) {
-        return username;// + "@" + getHost();
+        return username + "@" + getHost();
     }
 
     @Override

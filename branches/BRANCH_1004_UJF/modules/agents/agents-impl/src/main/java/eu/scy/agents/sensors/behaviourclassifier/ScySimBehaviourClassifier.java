@@ -7,13 +7,14 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -27,12 +28,16 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
     private static final Logger logger = Logger.getLogger(ScySimBehaviourClassifier.class.getName());
 
     private boolean isStopped;
+    
+    private ReentrantLock l = new ReentrantLock();
 
     private static final Tuple USER_EXP_TEMPLATE = new Tuple("user_exp", Field.createWildCardField());
 
     private static final Tuple VOTAT_TEMPLATE = new Tuple("votat", Field.createWildCardField());
 
     private static final Tuple CANONICAL_TEMPLATE = new Tuple("inc_change", Field.createWildCardField());
+
+    private static final Tuple EXP_PHASE_STARTET_TEMPLATE = new Tuple("exp_phase_started", Field.createWildCardField());
 
     private Map<String, BehavioralModel> userModels;
 
@@ -44,20 +49,23 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
 
     private static final double MAX_EXP_TIME = 1 * 60 * 60 * 1000;
 
-    private int lastVotat;
+//    private int lastVotat;
+//
+//    private int lastCanonical;
+//
+//    private int lastUserExp;
 
-    private int lastCanonical;
-
-    private int lastUserExp;
+    private int expPhaseSeq;
 
     public ScySimBehaviourClassifier(Map<String, Object> map) {
         super(ScySimBehaviourClassifier.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
-            userExpSeq = commandSpace.eventRegister(Command.WRITE, USER_EXP_TEMPLATE, this, true);
-            votatSeq = commandSpace.eventRegister(Command.WRITE, VOTAT_TEMPLATE, this, true);
-            canoSeq = commandSpace.eventRegister(Command.WRITE, CANONICAL_TEMPLATE, this, true);
-            userModels = new HashMap<String, BehavioralModel>();
+            userExpSeq = commandSpace.eventRegister(Command.ALL, USER_EXP_TEMPLATE, this, true);
+            votatSeq = commandSpace.eventRegister(Command.ALL, VOTAT_TEMPLATE, this, true);
+            canoSeq = commandSpace.eventRegister(Command.ALL, CANONICAL_TEMPLATE, this, true);
+            expPhaseSeq = commandSpace.eventRegister(Command.ALL, EXP_PHASE_STARTET_TEMPLATE, this, true);
+            userModels = new ConcurrentHashMap<String, BehavioralModel>();
             initLogger();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -104,13 +112,15 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         logger.addHandler(cH);
     }
 
-    public BehavioralModel getModel(String user, String tool, String session, String mission, String eloUri) {
-        BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session+ "/" + eloUri);
+    public  BehavioralModel getModel(String user, String tool, String session, String mission) {
+       l.lock();
+        BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session);
         if (model == null) {
-            model = new BehavioralModel(user, tool, mission, session,eloUri, 0, 0, 0, commandSpace);
-            userModels.put(user + "/" + tool + "/" + mission + "/" + session+"/"+eloUri, model);
-            logger.log(Level.FINE, "New Model for " + user + " with tool " + tool + " and EloUri "+eloUri+" created...");
+            model = new BehavioralModel(user, tool, mission, session, 1, 1, 0, commandSpace);
+            userModels.put(user + "/" + tool + "/" + mission + "/" + session, model);
+            logger.log(Level.FINE, "New Model for " + user + " with tool " + tool  + " created...");
         }
+        l.unlock();
         return model;
 
     }
@@ -121,37 +131,37 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         String tool = afterTuple.getField(2).getValue().toString();
         String mission = afterTuple.getField(3).getValue().toString();
         String session = afterTuple.getField(4).getValue().toString();
-        String eloUri;
-         
+
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
-            eloUri = afterTuple.getField(8).getValue().toString();
-            int newVotat = ((Double) afterTuple.getField(6).getValue()).intValue();
-            if (newVotat != lastVotat) {
-                model = getModel(user, tool, mission, session, eloUri);
-                model.updateVotat(newVotat);
-            }
-            lastVotat = newVotat;
+            int newVotat = ((Double) afterTuple.getField(7).getValue()).intValue();
+            // if (newVotat != lastVotat) {
+            model = getModel(user, tool, mission, session);
+            model.updateVotat(newVotat);
+            // }
+           // lastVotat = newVotat;
 
         } else if (seqnum == userExpSeq) {
-            eloUri = afterTuple.getField(9).getValue().toString();
             int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
-            if (newUserExp != lastUserExp) {
-                int l = (int) (newUserExp / MAX_EXP_TIME * 100);
-                l = Math.min(l, 100);
-                model = getModel(user, tool, mission, session,eloUri);
-                model.updateUserExp(l);
-            }
-            lastUserExp = newUserExp;
+            // if (newUserExp != lastUserExp) {
+            int l = (int) (newUserExp / MAX_EXP_TIME * 100);
+            l = Math.min(l, 100);
+            model = getModel(user, tool, mission, session);
+            model.updateUserExp(l);
+            // }
+          //  lastUserExp = newUserExp;
 
         } else if (seqnum == canoSeq) {
-            eloUri = afterTuple.getField(8).getValue().toString();
-            int newCanonical = ((Double) afterTuple.getField(6).getValue()).intValue();
-            if (newCanonical != lastCanonical) {
-                model = getModel(user, tool, mission, session,eloUri);
-                model.updateCanonical(newCanonical);
-            }
-            lastCanonical = newCanonical;
+            int newCanonical = ((Double) afterTuple.getField(7).getValue()).intValue();
+            // if (newCanonical != lastCanonical) {
+            model = getModel(user, tool, mission, session);
+            model.updateCanonical(newCanonical);
+            // }
+            //lastCanonical = newCanonical;
+
+        } else if (seqnum == expPhaseSeq) {
+            model = getModel(user, tool, mission, session);
+            model.setExpPhaseStarted();
 
         } else {
             System.err.println("Callback without registered seqnum arrived!");
