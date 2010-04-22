@@ -51,6 +51,7 @@ var initializer = Initializer {
            storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:false
+           languageList:"fr"
 //           enableLocalLogging:false
 //           authorMode:true
 //           redirectSystemStream:true
