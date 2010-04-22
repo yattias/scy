@@ -27,7 +27,7 @@ public class CurrentStudentActivityController extends AbstractController {
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        logger.info("LOADING CURRENT STUDENT ACTIVITY!");
+        logger.debug("LOADING CURRENT STUDENT ACTIVITY!");
         ModelAndView modelAndView = new ModelAndView();
         String status = "<i>Initializing</i>";
         String username = httpServletRequest.getParameter("username");

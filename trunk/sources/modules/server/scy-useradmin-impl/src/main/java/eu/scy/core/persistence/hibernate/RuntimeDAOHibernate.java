@@ -31,13 +31,13 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
 
     @Override
     public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName) {
-        logger.info("STORING ACTION: " + type + " " + id + " " + timeInMillis + " " + tool + " " + mission + " " + session + " " + eloUri);
+        logger.debug("STORING ACTION: " + type + " " + id + " " + timeInMillis + " " + tool + " " + mission + " " + session + " " + eloUri);
         userName = userName.substring(0, userName.indexOf("@"));
-        logger.info("Loading user: " + userName);
+        logger.debug("Loading user: " + userName);
         User user = getUserDAO().getUserByUsername(userName);
         user = (User) getHibernateTemplate().merge(user);
         if (user != null) {
-            logger.info("ACTION PERFORMED BY: " + user.getUserDetails().getUsername());
+            logger.debug("ACTION PERFORMED BY: " + user.getUserDetails().getUsername());
             AbstractRuntimeAction runtimeAction = createRuntimeAction(type);
             if (runtimeAction != null) {
                 if (runtimeAction instanceof ToolRuntimeAction) {
