@@ -1,11 +1,12 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.model.ScyBase;
-import java.lang.reflect.Method;
-import java.sql.Time;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
+import java.lang.reflect.Method;
+import java.sql.Time;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,7 +35,10 @@ public class AjaxTimePickerController extends AbstractAjaxController {
     }
 
     private Boolean executeSetter(Object object, String property, String value) {
+
+
        if(property == null || value == null) return null;
+        value = value.replace(".", ":") + ":00";        
        try {
            String firstLetter = property.substring(0,1);
            firstLetter = firstLetter.toUpperCase();
