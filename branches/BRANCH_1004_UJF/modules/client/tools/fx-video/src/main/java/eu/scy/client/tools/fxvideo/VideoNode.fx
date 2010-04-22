@@ -89,7 +89,6 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
         var um:Unmarshaller = context.createUnmarshaller();
         dataFromXML = (um.unmarshal( new StringReader(xml)) as XMLVideoData);
         mediaBox.mediaSource = uriLocalizer.localizeUri(dataFromXML.getURI());
-        println("original uri: {dataFromXML.getURI()}\nLocalized uri: {uriLocalizer.localizeUri(dataFromXML.getURI())}");
         this.title = dataFromXML.getTitle();
         mediaBox.mediaTitle = dataFromXML.getTitle();
         mediaBox.mediaDescription = dataFromXML.getSubtitle();
