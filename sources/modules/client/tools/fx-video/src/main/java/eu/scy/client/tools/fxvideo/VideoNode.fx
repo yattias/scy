@@ -27,6 +27,7 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.client.common.scyi18n.UriLocalizer;
 
 import javafx.scene.layout.Resizable;
 
@@ -53,6 +54,8 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
     public var eloVideoActionWrapper:EloVideoActionWrapper;
+
+    def uriLocalizer = new UriLocalizer();
 
     var media:String;
     var title:String;
@@ -85,7 +88,7 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
         var context:JAXBContext = JAXBContext.newInstance(XMLVideoData.class);
         var um:Unmarshaller = context.createUnmarshaller();
         dataFromXML = (um.unmarshal( new StringReader(xml)) as XMLVideoData);
-        mediaBox.mediaSource = dataFromXML.getURI();
+        mediaBox.mediaSource = uriLocalizer.localizeUri(dataFromXML.getURI());
         this.title = dataFromXML.getTitle();
         mediaBox.mediaTitle = dataFromXML.getTitle();
         mediaBox.mediaDescription = dataFromXML.getSubtitle();
