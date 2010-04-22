@@ -27,7 +27,7 @@
                             </td>
                             <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.firstname} </td>
                             <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.lastname}</td>
-                            <td><s:currentStudentActivity/></td>
+                            <td><s:currentStudentActivity username="${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.username}"/></td>
                             <td>
                                 <c:choose>
                                     <c:when test="${fn:length(assignedPedagogicalPlan.studentPlans) > 0}">

@@ -1,5 +1,9 @@
 package eu.scy.server.controllers.components.realtime;
 
+import eu.scy.core.UserService;
+import eu.scy.core.model.User;
+import eu.scy.core.model.runtime.AbstractRuntimeAction;
+import eu.scy.core.runtime.RuntimeService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -17,13 +21,28 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class CurrentStudentActivityController extends AbstractController {
+
+    private RuntimeService runtimeService;
+    private UserService userService;
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         logger.info("LOADING CURRENT STUDENT ACTIVITY!");
         ModelAndView modelAndView = new ModelAndView();
+        String status = "<i>Initializing</i>";
+        String username = httpServletRequest.getParameter("username");
+        if (username != null) {
+            User user = getUserService().getUser(username);
+            List actions = getRuntimeService().getActions(user);
+            Collections.reverse(actions);
+            if (actions.size() > 0) {
+                AbstractRuntimeAction action = (AbstractRuntimeAction) actions.get(0);
+                status = action.getActionType();
+            }
 
-        String status = "Online";
+        }
 
+        /*String status = "Online";
 
         List randomStatuses = new LinkedList();
         randomStatuses.add("Online");
@@ -36,9 +55,26 @@ public class CurrentStudentActivityController extends AbstractController {
 
 
         int randomElement = (int)(Math.random() * (randomStatuses.size()- 1));
-
-        modelAndView.addObject("status", randomStatuses.get(randomElement));
+        */
+        //modelAndView.addObject("status", randomStatuses.get(randomElement));
+        modelAndView.addObject("status", status);
 
         return modelAndView;
+    }
+
+    public RuntimeService getRuntimeService() {
+        return runtimeService;
+    }
+
+    public void setRuntimeService(RuntimeService runtimeService) {
+        this.runtimeService = runtimeService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

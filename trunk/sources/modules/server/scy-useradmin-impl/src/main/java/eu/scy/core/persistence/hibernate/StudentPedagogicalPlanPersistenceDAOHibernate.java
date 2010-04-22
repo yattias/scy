@@ -123,6 +123,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     public List<StudentPlanELO> getStudentPlans(String username) {
+        username = trimUsername(username);
         log.info("Loading plans for " + username);
         User user = getUserByUsername(username);
         log.info("Found user: " + user.getUserDetails().getUsername());
@@ -130,6 +131,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     public User getUserByUsername(String username) {
+        username = trimUsername(username);
         User user = (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
                 .setString("username", username)
                 .uniqueResult();
@@ -154,6 +156,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     @Override
     public void addMemberToStudentPlannedActivity(String user, StudentPlannedActivity studentPlannedActivity) {
+        user = trimUsername(user);
         User realUser = getUserByUsername(user);
         if (realUser != null) {
             addMemberToStudentPlannedActivity(realUser, studentPlannedActivity);
@@ -176,6 +179,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     @Override
     public StudentPlannedActivity getStudentPlannedActivity(String anchorELOId, String userName, String studentPlanId) {
+        userName = trimUsername(userName);
         User user = getUserByUsername(userName);
         StudentPlannedActivity studentPlannedActivity = null;
         if (user != null) {
@@ -242,6 +246,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     @Override
     public void removeMember(StudentPlannedActivity studentPlannedActivity, String userName) {
+        userName = trimUsername(userName);
         getHibernateTemplate().refresh(studentPlannedActivity);
         User user = getUserByUsername(userName);
         studentPlannedActivity.getMembers().remove(user);
@@ -257,6 +262,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     public StudentPlanELO createStudentPlan(String username) {
+        username = trimUsername(username);
 
         User user = getUserByUsername(username);
         PedagogicalPlan pedagogicalPlan = null;
@@ -270,6 +276,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
         }
 
         log.info("Found pedagogical plan :" + pedagogicalPlan);
+        log.info("Searching for user: " + username);
 
         StudentPlanELOImpl plan = (StudentPlanELOImpl) getSession().createQuery("from StudentPlanELOImpl where user = :user and pedagogicalPlan = :pedplan")
                 .setEntity("user", user)
@@ -295,5 +302,12 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
         return plan;
 
+    }
+
+    private String trimUsername(String username) {
+        if(username.indexOf("@")> -1)  {
+            return username.substring(0, username.indexOf("@"));
+        }
+        return username;
     }
 }

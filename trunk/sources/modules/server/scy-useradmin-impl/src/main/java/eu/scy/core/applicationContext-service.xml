@@ -78,4 +78,8 @@
         <property name="assignedPedagogicalPlanDAO" ref="assignedPedagogicalPlanDAO"/>
     </bean>
 
+    <bean id="runtimeService" class="eu.scy.core.runtime.RuntimeServiceImpl">
+        <property name="runtimeDAO" ref="runtimeDAO"/>
+    </bean>
+
 </beans>

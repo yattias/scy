@@ -12,12 +12,17 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class CurrentStudentActivityController extends TagSupport {
 
+    private String username;
+
     public int doEndTag() throws JspException {
         double id = Math.random() ;
         try {
+
+            pageContext.getRequest().getParameter("username");
+
                pageContext.getOut().write("<span id=\"activityStatus" + id + "\"><i>Offline</i></span>");
                pageContext.getOut().write("<script type=\"text/javascript\" language=\"javascript\">" +
-                       "setInterval(\"updateActivityStatus('activityStatus" + id + "');\", 5000);" +
+                       "setInterval(\"updateActivityStatus('activityStatus" + id + "', '" + getUsername() + "');\", 5000);" +
                        "</script>");
            } catch (Exception e) {
                e.printStackTrace();
@@ -25,5 +30,11 @@ public class CurrentStudentActivityController extends TagSupport {
            return EVAL_PAGE;
        }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
