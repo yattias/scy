@@ -17,7 +17,7 @@ public class AjaxNumberField  extends AjaxBaseComponent{
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"ajaxNumberFieldForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxNumberField.html\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"number\" id=\"ajaxNumberHiddenField" + id +"\" value=\"" + getModel().getClass().getName() + "\" />");
-            pageContext.getOut().write("<span id=\"ajaxNumberField" + id +"\" onChange=\"document.getElementById('ajaxNumberHiddenField" + id +"').value = this.value;postForm('ajaxNumberFieldForm" + id + "');\"  dojoType=\"dijit.InlineEditBox\" editor=\"dijit.form.NumberTextBox\" value=\""+ executeGetter(getModel(), getProperty()) + "\" />");
+            pageContext.getOut().write("<span id=\"ajaxNumberField" + id +"\" onChange=\"document.getElementById('ajaxNumberHiddenField" + id +"').value = this.value;postForm('ajaxNumberFieldForm" + id + "');\"  dojoType=\"dijit.InlineEditBox\" editor=\"dijit.form.NumberTextBox\" value=\""+ executeGetter(getModel(), getProperty()) + "\" ></span>");
 
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\" />");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\" />");

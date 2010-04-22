@@ -43,5 +43,14 @@ public class ImageEloIcon extends EloIcon {
                     ]
               };
    }
+
+   public override function clone():EloIcon{
+      ImageEloIcon{
+         activeImage: activeImage
+         inactiveImage: inactiveImage
+         selected:selected
+      }
+   }
+
 }
 

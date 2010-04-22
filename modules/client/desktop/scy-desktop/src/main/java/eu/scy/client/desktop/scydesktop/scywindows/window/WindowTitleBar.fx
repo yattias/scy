@@ -8,21 +8,25 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import javafx.scene.text.TextOrigin;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 
-import javafx.scene.text.TextAlignment;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.scene.control.Button;
+import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
+import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 
 /**
  * @author sikkenj
@@ -31,67 +35,94 @@ import javafx.scene.control.Button;
 public class WindowTitleBar extends WindowElement {
 
    public var width = 100.0;
-//   public var height = 20.0;
    public var title = "very very long title";
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
-   public var iconCharacter = "?";
-   public var activated = true on replace{eloIcon.selected = activated;};
-   public var iconSize = 17.0;
+   public var activated = true on replace{activatedChanged()};
+   public var iconSize = 16.0;
    public var iconGap = 2.0;
-   public var textIconSpace = 2.0;
+   public var textIconSpace = 5.0;
    public var closeBoxWidth = 0.0;
    public var textInset = 1.0;
-   public var rectangleAntialiasOffset = 1.0;
+   public var rectangleAntialiasOffset = 0.0;
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
-   def eloTypeFontsize = 14;
-   def eloTypeFont = Font.font("Verdana", FontWeight.BOLD, eloTypeFontsize);
-   def mainColor = bind if (activated) color else subColor;
-   def bgColor = bind if (activated) subColor else color;
-//   def mainColor =  color;
-//   def bgColor = subColor;
+   def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
+   def bgColor = bind if (activated) windowColorScheme.backgroundColor else windowColorScheme.mainColor;
+   def textBackgroundGradient = bind LinearGradient {
+      startX : 0.0
+      startY : 0.0
+      endX : 0.0
+      endY : 1.0
+      stops: [
+         Stop {
+            color : windowColorScheme.titleStartGradientColor
+            offset: 0.0
+         },
+         Stop {
+            color : windowColorScheme.titleEndGradientColor
+            offset: 1.0
+         },
+      ]
+   }
+   // make sure the background color of the title bar changes, when the main changes
+   def theMainColor = bind windowColorScheme.mainColor on replace {
+      activatedChanged()
+   }
+   def mouseOverBorderSize = 2.0;
+
 
    var nodeGroup:Group;
-//   var fixedGroup:Group;
+   var textBackgroundFillRect:Rectangle;
    var titleText:Text;
    var clipRect:Rectangle;
    var textClipWidth = bind width - iconSize - textIconSpace;
+   var mouseOverTitleDisplay:MouseOverDisplay;
 
-   public-read var titleTextWidth = bind titleText.layoutBounds.maxX;
-   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
+//   public-read var titleTextWidth = bind titleText.layoutBounds.maxX;
+//   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
 
    function eloIconChanged(oldEloIcon:EloIcon){
       delete oldEloIcon from nodeGroup.content;
       insert eloIcon before nodeGroup.content[0];
    }
 
+   function activatedChanged(){
+      eloIcon.selected = activated;
+      if (activated){
+         textBackgroundFillRect.fill = windowColorScheme.mainColor;
+      }
+      else{
+         textBackgroundFillRect.fill = textBackgroundGradient;
+      }
+   }
+
    public override function create(): Node {
+      textBackgroundFillRect = Rectangle{
+         x: iconSize+textIconSpace
+         y: rectangleAntialiasOffset
+         width: bind textClipWidth
+         height: iconSize-rectangleAntialiasOffset
+       }
+      clipRect= Rectangle{
+         x: iconSize+textIconSpace
+         y: 0
+         width: bind width - iconSize - textIconSpace - closeBoxWidth
+         height: iconSize
+         fill: Color.BLACK
+      };
+      activatedChanged();
       nodeGroup = Group{
          content:[
             eloIcon,
-            clipRect= Rectangle{
-							x: iconSize+textIconSpace
-							y: rectangleAntialiasOffset
-							width: bind textClipWidth
-							height: iconSize-rectangleAntialiasOffset
-							fill: bind mainColor
-						},
+            textBackgroundFillRect,
             titleText = Text { // title
                font: textFont
                textOrigin:TextOrigin.BOTTOM;
                x: iconSize + textIconSpace+textInset,
                y: iconSize-textInset
-               clip:Rectangle{
-                  x: iconSize+textIconSpace
-                  y: 0
-                  width: bind width - iconSize - textIconSpace - closeBoxWidth
-                  height: iconSize
-                  fill: bind mainColor
-               }
+               clip: clipRect
                fill: bind bgColor
-
                content: bind title;
-              // content: bind "- {title}";
             },
 
 				//				Group{ // just for checking title clip
@@ -105,35 +136,91 @@ public class WindowTitleBar extends WindowElement {
 				//						}
 				//					]
 				//				},
-            Line { // line under title
-					startX: 0,
-					startY: iconSize + iconGap
-					endX: bind width-2,
-					endY: iconSize + iconGap
-					strokeWidth: 1.0
-					stroke: bind color
-				},
          ]
+         onMouseEntered: function (e: MouseEvent): Void {
+            mouseOverTitleDisplay = MouseOverDisplay{
+               createMouseOverDisplay:createMouseOverNode
+               myScene:scene
+            }
+         }
+         onMouseExited: function (e: MouseEvent): Void {
+            if (mouseOverTitleDisplay!=null){
+               mouseOverTitleDisplay.stop();
+               mouseOverTitleDisplay = null;
+            }
+         }
       };
-//      nodeGroup = Group{
-//         content:[
-//            eloIcon,
-//            fixedGroup
-//         ]
-//      }
-//
+   }
+
+   function createMouseOverNode():Node{
+      var rightBorderSize = mouseOverBorderSize;
+      if (activated and (clipRect.layoutBounds.maxX>titleText.layoutBounds.maxX)){
+         // the window is active (it is on top)
+         // and the title is not clipped
+         // one would expects to assign 0, but to be sure that no white right border is shown due to anti-aliasing make it -2
+         rightBorderSize = -2;
+      }
+      var fullTitleGroup = Group{
+         content:[
+            Rectangle{
+               x:-mouseOverBorderSize
+               y:-mouseOverBorderSize
+               width:titleText.layoutBounds.maxX+mouseOverBorderSize+rightBorderSize+1
+               height:iconSize + 2*mouseOverBorderSize
+               fill:windowColorScheme.backgroundColor
+
+            }
+            eloIcon.clone(),
+            Rectangle{
+               x: iconSize+textIconSpace
+               y: rectangleAntialiasOffset
+               width: titleText.layoutBounds.width
+               height: iconSize-rectangleAntialiasOffset
+               fill: textBackgroundFillRect.fill
+//               fill: Color.GRAY
+             }
+            titleText = Text {
+               font: textFont
+               textOrigin:TextOrigin.BOTTOM;
+               x: iconSize + textIconSpace+textInset,
+               y: iconSize-textInset
+               fill: bgColor
+               content: title;
+            }
+         ]
+      }
+      var sceneLocation = localToScene(layoutBounds.minX, layoutBounds.minY);
+      fullTitleGroup.layoutX = sceneLocation.x;
+      fullTitleGroup.layoutY = sceneLocation.y;
+      fullTitleGroup
+   }
+
+}
+
+var imageLoader = ImageLoader.getImageLoader();
+
+function loadEloIcon(type: String):EloIcon{
+   var name = EloImageInformation.getIconName(type);
+   ImageEloIcon{
+      activeImage:imageLoader.getImage("{name}_act.png")
+      inactiveImage:imageLoader.getImage("{name}_inact.png")
    }
 }
 
+
 function run(){
+   var windowColorScheme = WindowColorScheme{
+      mainColor:Color.web("#0042f1")
+      backgroundColor:Color.web("#f0f8db")
+      titleStartGradientColor:Color.web("#4080f8")
+      titleEndGradientColor:Color.WHITE
+      emptyBackgroundColor:Color.WHITE
+   }
+
    var windowTitleBar1:WindowTitleBar;
 
-   var eloIcon1 = CharacterEloIcon {
-                     iconCharacter: "1"
-                  }
-   var eloIcon2 = CharacterEloIcon {
-                     iconCharacter: "2"
-                  }
+   var eloIcon1 = loadEloIcon("scy/mapping");
+   var eloIcon2 = loadEloIcon("scy/drawing");
 
    var windowTitleBar2: WindowTitleBar;
    var stage:Stage;
@@ -142,39 +229,51 @@ function run(){
          scene: Scene {
             width: 200
             height: 200
+            fill:LinearGradient {
+               startX : 0.0
+               startY : -0.5
+               endX : 0.0
+               endY : 1.0
+               stops: [
+                  Stop {
+                     color : Color.GREEN
+                     offset: 0.0
+                  },
+                  Stop {
+                     color : Color.WHITE
+                     offset: 1.0
+                  },
+               ]
+            }
+
             content: [
                windowTitleBar1 = WindowTitleBar {
-                  eloIcon: CharacterEloIcon {
-                     iconCharacter: "?"
-                  }
+                  eloIcon: eloIcon1
+                  windowColorScheme: windowColorScheme
                   translateX: 10;
                   translateY: 10;
                   activated: true;
                }
                windowTitleBar2 =WindowTitleBar {
-                  eloIcon: CharacterEloIcon {
-                     iconCharacter: "W"
-                  }
-                  iconCharacter: "w"
+                  eloIcon: eloIcon2
+                  windowColorScheme: windowColorScheme
                   activated: false
                   translateX: 10;
                   translateY: 50;
                }
-               Button {
-                  translateX: 10;
-                  translateY: 90;
-                  text: "Swap icon"
-                  action: function () {
-                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
-                     windowTitleBar1.activated = not windowTitleBar1.activated;
-                  }
-               }
+//               Button {
+//                  translateX: 10;
+//                  translateY: 90;
+//                  text: "Swap icon"
+//                  action: function () {
+//                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
+//                     windowTitleBar1.activated = not windowTitleBar1.activated;
+//                  }
+//               }
             ]
          }
       }
-      windowTitleBar2.eloIcon = CharacterEloIcon {
-                     iconCharacter: "Y"
-                  }
+      windowTitleBar2.eloIcon = eloIcon2;
       stage;
 
    }

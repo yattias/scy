@@ -26,6 +26,7 @@ import javafx.geometry.Bounds;
 import javafx.util.Math;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
+import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
 
 /**
  * @author sikken
@@ -43,9 +44,9 @@ public class SimpleTooltipManager extends TooltipManager {
    var currentSourceNode: Node;
    var currentTooltip: Node;
    var currentTimeLine: Timeline;
-   def startShowTime = 1.0s;
-   def appearTime = 250ms;
-   def showTime = 10s;
+//   def startShowTime = 1.0s;
+//   def appearTime = 250ms;
+//   def showTime = 10s;
    def finalOpacity = 0.75;
    def useAnimation = true;
 
@@ -61,28 +62,28 @@ public class SimpleTooltipManager extends TooltipManager {
             //               }
             }
             KeyFrame {
-               time: startShowTime
+               time: AnimationTiming.startAppearingTime
                values: tooltipNode.opacity => 0.0;
             //               action: function () {
             //                  println("start opacity set: {tooltipNode.opacity}");
             //               }
             }
             KeyFrame {
-               time: startShowTime + appearTime
+               time: AnimationTiming.fullAppearingTime
                values: tooltipNode.opacity => finalOpacity tween Interpolator.EASEBOTH;
             //               action: function () {
             //                  println("final opacity set: {tooltipNode.opacity}");
             //               }
             }
             KeyFrame {
-               time: showTime
+               time: AnimationTiming.startDisappearingTime
                values: tooltipNode.opacity => finalOpacity tween Interpolator.EASEBOTH;
             //               action: function () {
             //                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");
             //               }
             }
             KeyFrame {
-               time: showTime + appearTime
+               time: AnimationTiming.fullDisappearingTime
                values: tooltipNode.opacity => 0.0 tween Interpolator.EASEBOTH;
             //               action: function () {
             //                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");

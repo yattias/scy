@@ -44,6 +44,7 @@ import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
@@ -62,6 +63,7 @@ import javax.swing.JTable;
 public class DataCollector extends JPanel implements ActionListener, IDataClient {
 
     private ModelVariable rotationVariable = null;
+    private final ResourceBundleWrapper bundle;
 
     public enum SCAFFOLD {
 
@@ -72,28 +74,49 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         IDENT_HYPO,
         SHOWBUTTON;
     }
+
     private JScrollPane pane;
+
     private JTable table;
+
     private ISimQuestViewer simquestViewer;
+
     private SCYDataAgent dataAgent;
+
     private List<ModelVariable> simulationVariables;
+
     private List<ModelVariable> selectedVariables;
+
     private JCheckBox checkbox;
+
     private DataSet dataset;
+
     private DatasetTableModel tableModel;
+
     private DatasetSandbox sandbox = null;
+
     private BalanceSlider balanceSlider = null;
+
     private ScySimLogger logger;
+
     private Logger debugLogger;
+
     private ToolBrokerAPI tbi;
+
     private JButton notifyButton;
+
     private String notificationMessage;
+
     protected boolean notify;
+
     private boolean notThreadRunning = false;
+
     private Vector<String> shownMessages;
+
     private String notificationSender;
 
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
+        this.bundle = new ResourceBundleWrapper(this);
         // initialize the logger(s)
         debugLogger = Logger.getLogger(DataCollector.class.getName());
         shownMessages = new Vector<String>();
@@ -106,7 +129,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger(), eloURI);
         }
-        //logger.sendListOfInputVariables();
+        // logger.sendListOfInputVariables();
         logger.logListOfVariables("input_variables", logger.getInputVariables());
         setSelectedVariables(new ArrayList<ModelVariable>());
         // initialize user interface
@@ -114,7 +137,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
-        //setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
+        // setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
 
         // register agent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
@@ -122,7 +145,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         simquestViewer.getDataServer().register(dataAgent);
 
         // rotation awareness stuff
-        for (ModelVariable var: simquestViewer.getDataServer().getVariables("name is not relevant")) {
+        for (ModelVariable var : simquestViewer.getDataServer().getVariables("name is not relevant")) {
             if (var.getName().equals("rotation")) {
                 rotationVariable = var;
                 debugLogger.info("rotation variable found.");
@@ -131,27 +154,27 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
             balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
             debugLogger.info("balance simulation found.");
-        }      
+        }
     }
 
     private void initGUI() {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createTitledBorder("SCY Dataset Collector"));
+        setBorder(BorderFactory.createTitledBorder(getBundleString("DATACOLLECTOR_TITLE")));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JButton button = new JButton("select relevant variables");
+        JButton button = new JButton(this.getBundleString("DATACOLLECTOR_SELECT_VARIABLES"));
         button.setActionCommand("configure");
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        button = new JButton("add current datapoint");
+        button = new JButton(getBundleString("DATACOLLECTOR_ADD_DATAPOINT"));
         button.setActionCommand("adddata");
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        checkbox = new JCheckBox("add datapoints continuosly");
+        checkbox = new JCheckBox(getBundleString("DATACOLLECTOR_ADD_DATAPOINTS_CONT"));
         checkbox.setSelected(false);
         buttonPanel.add(checkbox);
         // URL imageUrl = this.getClass().getResource("pc.gif");
@@ -196,7 +219,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     public void addCurrentDatapoint() {
         if (selectedVariables.size() == 0) {
-            JOptionPane.showMessageDialog(this, "You have not selected any relevant variables,\na new datapoint has not been added.", "Session created", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING"), getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING_TITLE"), JOptionPane.INFORMATION_MESSAGE);
 
         }
         ModelVariable var;
@@ -284,13 +307,9 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     }
 
-    /*public void newELO() {
-    dataset.removeAll();
-    if (sandbox != null) {
-    initSandbox();
-    }
-    //text.setText("");
-    }*/
+    /*
+     * public void newELO() { dataset.removeAll(); if (sandbox != null) { initSandbox(); } //text.setText(""); }
+     */
     public DataSet getDataSet() {
         return dataset;
     }
@@ -432,7 +451,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void processNotification(INotification notification) {
-
         String message = notification.getFirstProperty("message");
         String type = notification.getFirstProperty("type");
         String popup = notification.getFirstProperty("popup");
@@ -509,9 +527,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 jd.setVisible(true);
 
             } else {
-                startNotifyThread();
+                System.out.println("message without popup received...");
                 notificationSender = notification.getSender();
                 notificationMessage = message;
+                startNotifyThread();
             }
         } else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
             if (type.equals("scaffold")) {
@@ -520,15 +539,16 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     notifyButton.setVisible(true);
                 } else {
 
+                    notificationMessage = notification.getFirstProperty("level");
                     startNotifyThread();
 
-                    notificationMessage = notification.getFirstProperty("level");
                 }
             }
         }
     }
 
     private void startNotifyThread() {
+
         if (!notThreadRunning && !notify) {
             notThreadRunning = true;
             notify = true;
@@ -537,64 +557,78 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 @Override
                 public void run() {
                     notifyButton.setVisible(true);
-                    boolean up = true;
-                    Color upColor = Color.RED;
-                    Color downColor = notifyButton.getBackground();
-                    Color currentColor = downColor;
-                    float upFontSize = 22;
-                    float downFontSize = notifyButton.getFont().getSize();
-                    float currentFontSize = downFontSize;
-                    double updateMillis = 2;
-                    double cycleLengthInMillis = 1000;
-                    int count = 0;
-                    double step = cycleLengthInMillis / updateMillis;
-                    while (notify) {
-                        if (count > step) {
-                            up = !up;
-                            count = 0;
-                            if (up) {
-                                currentColor = downColor;
-                            } else {
-                                currentColor = upColor;
-                            }
-                        }
-                        int red = currentColor.getRed();
-                        int green = currentColor.getGreen();
-                        int blue = currentColor.getBlue();
-                        if (up) {
-                            red += (upColor.getRed() - downColor.getRed()) / step;
-                            green += (upColor.getGreen() - downColor.getGreen()) / step;
-                            blue += (upColor.getBlue() - downColor.getBlue()) / step;
-                            currentFontSize += (upFontSize - downFontSize) / step;
-                        } else {
-                            red += (downColor.getRed() - upColor.getRed()) / step;
-                            green += (downColor.getGreen() - upColor.getGreen()) / step;
-                            blue += (downColor.getBlue() - upColor.getBlue()) / step;
-                            currentFontSize += (downFontSize - upFontSize) / step;
-                        }
-                        red = Math.min(red, 230);
-                        green = Math.min(green, 230);
-                        blue = Math.min(blue, 230);
-                        red = Math.max(red, 30);
-                        green = Math.max(green, 30);
-                        blue = Math.max(blue, 30);
-                        currentFontSize = Math.min(upFontSize, currentFontSize);
-                        currentFontSize = Math.max(downFontSize, currentFontSize);
-                        currentColor = new Color(red, green, blue);
-                        notifyButton.setForeground(currentColor);
-                        notifyButton.setFont(notifyButton.getFont().deriveFont(currentFontSize));
-                        count++;
-                        try {
-                            Thread.sleep((long) updateMillis);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    notifyButton.setForeground(downColor);
-                    notifyButton.setFont(notifyButton.getFont().deriveFont(downFontSize));
-                    notThreadRunning = false;
                 }
             });
+            
+            boolean up = true;
+            Color upColor = Color.RED;
+            Color downColor = notifyButton.getBackground();
+            Color currentColor = downColor;
+            float upFontSize = 22;
+            float downFontSize = notifyButton.getFont().getSize();
+            float currentFontSize = downFontSize;
+            double updateMillis = 2;
+            double cycleLengthInMillis = 1000;
+            int count = 0;
+            double step = cycleLengthInMillis / updateMillis;
+            while (notify) {
+                if (count > step) {
+                    up = !up;
+                    count = 0;
+                    if (up) {
+                        currentColor = downColor;
+                    } else {
+                        currentColor = upColor;
+                    }
+                }
+                int red = currentColor.getRed();
+                int green = currentColor.getGreen();
+                int blue = currentColor.getBlue();
+                if (up) {
+                    red += (upColor.getRed() - downColor.getRed()) / step;
+                    green += (upColor.getGreen() - downColor.getGreen()) / step;
+                    blue += (upColor.getBlue() - downColor.getBlue()) / step;
+                    currentFontSize += (upFontSize - downFontSize) / step;
+                } else {
+                    red += (downColor.getRed() - upColor.getRed()) / step;
+                    green += (downColor.getGreen() - upColor.getGreen()) / step;
+                    blue += (downColor.getBlue() - upColor.getBlue()) / step;
+                    currentFontSize += (downFontSize - upFontSize) / step;
+                }
+                red = Math.min(red, 230);
+                green = Math.min(green, 230);
+                blue = Math.min(blue, 230);
+                red = Math.max(red, 30);
+                green = Math.max(green, 30);
+                blue = Math.max(blue, 30);
+                currentFontSize = Math.min(upFontSize, currentFontSize);
+                currentFontSize = Math.max(downFontSize, currentFontSize);
+                currentColor = new Color(red, green, blue);
+                setButtonStyle(currentColor, currentFontSize);
+                count++;
+                try {
+                    Thread.sleep((long) updateMillis);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            setButtonStyle(downColor, downFontSize);
+            notThreadRunning = false;
         }
     }
+
+    private void setButtonStyle(final Color currentColor, final float currentFontSize) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                notifyButton.setForeground(currentColor);
+                notifyButton.setFont(notifyButton.getFont().deriveFont(currentFontSize));
+            }
+        });
+    }
+
+   private String getBundleString(String key){
+       return this.bundle.getString(key);
+   }
 }

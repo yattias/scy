@@ -89,8 +89,8 @@ public class ScySimLogger implements ActionListener, IDataClient {
             public void actionPerformed(ActionEvent e) {
                 IAction action = createBasicAction("value_changed");
                 action.addAttribute("name", lastInputVariableValueChangedAction.getAttribute("name"));
-                action.addAttribute("oldValue", firstInputVariableValueChangedAction.getAttribute("oldValue"));
-                action.addAttribute("newValue", lastInputVariableValueChangedAction.getAttribute("newValue"));
+                action.addAttribute("oldValue", stripValue(firstInputVariableValueChangedAction.getAttribute("oldValue")));
+                action.addAttribute("newValue", stripValue(lastInputVariableValueChangedAction.getAttribute("newValue")));
                 write(action);
             }
         });
@@ -99,10 +99,12 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                stripValue(firstInputVariableValueChangedAction.getAttribute("oldValue"));
+                stripValue(lastInputVariableValueChangedAction.getAttribute("newValue"));
                 IAction action = createBasicAction("value_changed");
                 action.addAttribute("name", lastOutputVariableValueChangedAction.getAttribute("name"));
-                action.addAttribute("oldValue", firstOutputVariableValueChangedAction.getAttribute("oldValue"));
-                action.addAttribute("newValue", lastOutputVariableValueChangedAction.getAttribute("newValue"));
+                action.addAttribute("oldValue", stripValue(firstOutputVariableValueChangedAction.getAttribute("oldValue")));
+                action.addAttribute("newValue", stripValue(lastOutputVariableValueChangedAction.getAttribute("newValue")));
                 write(action);
             }
         });
@@ -176,10 +178,11 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     private void logValueChanged(String name, double oldValue, double newValue) {
+        
         action = createBasicAction("value_changed");
         action.addAttribute("name", name);
-        action.addAttribute("oldValue", oldValue + "");
-        action.addAttribute("newValue", newValue + "");
+        action.addAttribute("oldValue", stripValue(oldValue+""));
+        action.addAttribute("newValue", stripValue(newValue+""));
         for (ModelVariable inVar : inputVariables) {
             if (inVar.getName().equals(name)) {
                 if (!inputVariableTimer.isRunning()) {
@@ -285,6 +288,21 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     public String getUserName() {
         return username;
+    }
+
+    private String stripValue(String value) {
+        // if 0000 or 9999 is detected, round to a meaningful value
+        if (value.contains("0000")) {
+            value = value.substring(0, value.indexOf("0000"));
+        } else if (value.contains("9999")) {
+            int pot = value.indexOf("9999")+1-value.indexOf(".");
+            if (pot > 0) {
+                Double newValue = new Double(value) * 10 * pot;
+                newValue = java.lang.Math.ceil(newValue) / (10 * pot);
+                value = newValue.toString();
+            }
+        }
+        return value;
     }
 
 }

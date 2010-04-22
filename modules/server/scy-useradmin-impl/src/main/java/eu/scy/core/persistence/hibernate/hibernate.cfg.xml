@@ -45,5 +45,9 @@
 
 		<mapping class="eu.scy.core.model.impl.playful.PlayfulAssessmentImpl"/>
 		<mapping class="eu.scy.core.model.impl.ELORefImpl"/>
+
+        <mapping class="eu.scy.core.model.impl.runtime.AbstractRuntimeActionImpl"/>
+        <mapping class="eu.scy.core.model.impl.runtime.ToolRuntimeActionImpl"/>
+        <mapping class="eu.scy.core.model.impl.runtime.EloRuntimeActionImpl"/>
 	</session-factory>
 </hibernate-configuration>

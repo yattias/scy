@@ -3,6 +3,7 @@ package eu.scy.agents.impl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.actionlogging.ActionTupleTransformer;
@@ -17,8 +18,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	// ("action":String, <ID>:String, <Timestamp>:long, elo_saved:String, <User>:String, <Tool>:String,
 	// <Mission>:String, <Session>:String, <Key=Value>:String*)
 	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-			AgentProtocol.ACTION_ELO_SAVED, String.class, String.class, String.class, String.class, String.class,
-			String.class);
+			AgentProtocol.ACTION_ELO_SAVED, String.class, String.class, String.class, String.class, String.class, Field
+					.createWildCardField());
 
 	private static final Logger logger = Logger.getLogger(AbstractELOSavedAgent.class.getName());
 
@@ -32,7 +33,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 
 	private void initTSListener() {
 		try {
-			listenerId = getActionSpace().eventRegister(Command.WRITE, eloSavedTupleTemplate, this, true);
+			this.listenerId = this.getActionSpace()
+					.eventRegister(Command.WRITE, this.eloSavedTupleTemplate, this, true);
 			logger.log(Level.FINEST, "Callback registered");
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -42,28 +44,28 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	@Override
 	protected void beforeStart() {
 		super.beforeStart();
-		initTSListener();
+		this.initTSListener();
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
-		while (status == Status.Running) {
-			sendAliveUpdate();
+		while (this.status == Status.Running) {
+			this.sendAliveUpdate();
 			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
 		}
 	}
 
 	@Override
 	protected void doStop() {
-		status = Status.Stopping;
-		if (listenerId != 0) {
+		this.status = Status.Stopping;
+		if (this.listenerId != 0) {
 			try {
-				getActionSpace().eventDeRegister(listenerId);
+				this.getActionSpace().eventDeRegister(this.listenerId);
 			} catch (TupleSpaceException e) {
 				logger.log(Level.SEVERE, e.getMessage());
 			}
 		}
-		logger.log(Level.FINE, name + " stopped");
+		logger.log(Level.FINE, this.name + " stopped");
 	}
 
 	@Override
@@ -73,13 +75,13 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 
 	@Override
 	public boolean isStopped() {
-		return status == Status.Stopping;
+		return this.status == Status.Stopping;
 	}
 
 	@Override
 	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
 		System.err.println("Processing tuple");
-		if (listenerId != seq) {
+		if (this.listenerId != seq) {
 			// If a callback arrives here that wasn't registered from this class it is passed to the
 			// AbstractThreadedAgent.
 			logger.log(Level.FINEST, "Callback passed to Superclass.");
@@ -88,10 +90,10 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 		}
 		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 		if (!AgentProtocol.ACTION_ELO_SAVED.equals(action.getType())) {
-			logger.warning("Trying to process action log that does not match elo_saved signature. Type: "
+			logger.warning("Trying to process action log that does not match elo_save signature. Type: "
 					+ action.getType());
 		} else {
-			processELOSavedAction(action.getId(), action.getUser(), action.getTimeInMillis(), action
+			this.processELOSavedAction(action.getId(), action.getUser(), action.getTimeInMillis(), action
 					.getContext(ContextConstants.tool), action.getContext(ContextConstants.mission), action
 					.getContext(ContextConstants.session), action.getContext(ContextConstants.eloURI), action
 					.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));

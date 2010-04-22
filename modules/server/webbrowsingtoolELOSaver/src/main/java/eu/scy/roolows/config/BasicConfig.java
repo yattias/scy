@@ -4,19 +4,13 @@
  */
 package eu.scy.roolows.config;
 
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.common.configuration.Configuration;
 import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.lang.IllegalStateException;
 import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -35,11 +29,12 @@ public class BasicConfig implements Config
    private IELOFactory eloFactory;
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
-   private URI activeMissionAnchorUri;
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
    private String backgroundImageFileName;
    private boolean backgroundImageFileNameRelative;
+   private Configuration serverConfig;
+   private IActionLogger actionLogger;
 
    @Override
    public IELOFactory getEloFactory()
@@ -72,8 +67,6 @@ public class BasicConfig implements Config
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
    {
       this.metadataTypeManager = metadataTypeManager;
-      titleKey = getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
-      technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
    private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId){
@@ -100,6 +93,9 @@ public class BasicConfig implements Config
    @Override
    public IMetadataKey getTitleKey()
    {
+      if (titleKey == null) {
+          titleKey = getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+      }
       return titleKey;
    }
 
@@ -111,19 +107,15 @@ public class BasicConfig implements Config
    @Override
    public IMetadataKey getTechnicalFormatKey()
    {
+      if (technicalFormatKey == null) {
+          technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      }
       return technicalFormatKey;
    }
 
    public void setTechnicalFormatKey(IMetadataKey technicalFormatKey)
    {
       this.technicalFormatKey = technicalFormatKey;
-   }
-
-
-
-   public void setActiveMissionAnchorUri(URI activeMissionAnchorUri)
-   {
-      this.activeMissionAnchorUri = activeMissionAnchorUri;
    }
 
 
@@ -170,4 +162,22 @@ public class BasicConfig implements Config
    {
       this.backgroundImageFileNameRelative = backgroundImageFileNameRelative;
    }
+
+    @Override
+    public Configuration getServerConfig() {
+        return serverConfig;
+    }
+
+    public void setServerConfig(Configuration serverConfig) {
+        this.serverConfig = serverConfig;
+    }
+
+    @Override
+    public IActionLogger getActionLogger() {
+        return actionLogger;
+    }
+
+    public void setActionLogger (IActionLogger actionLogger){
+        this.actionLogger = actionLogger;
+    }
 }

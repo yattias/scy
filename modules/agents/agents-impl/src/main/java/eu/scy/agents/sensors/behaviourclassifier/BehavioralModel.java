@@ -22,7 +22,7 @@ public class BehavioralModel {
 
     private static final Logger logger = Logger.getLogger(BehavioralModel.class.getSimpleName());
 
-    private static final int NOTIFICATION_DELAY = 10 * 1000;
+    private static final int NOTIFICATION_DELAY = 30 * 1000;
 
     // TODO This enum has to be externalized, cause the client (ScySim) is
     // using it, too. Be aware of this. If you change anything here, it has to be
@@ -36,11 +36,11 @@ public class BehavioralModel {
         SHOWBUTTON;
     }
 
-    private int userExp;
+    private volatile int userExp;
 
-    private int votat;
+    private volatile int votat = 1;
 
-    private int canonical;
+    private volatile int canonical =1;
 
     private String tool;
 
@@ -56,7 +56,7 @@ public class BehavioralModel {
 
     private Timer timer;
 
-    private String eloUri;
+    private  boolean expPhaseStartet =false;
 
     /**
      * This Model provides information over the aggregated output of three agents:<br/>
@@ -87,17 +87,15 @@ public class BehavioralModel {
      * @param commandSpace
      *            The {@link TupleSpace} where the notification will be delivered
      */
-    public BehavioralModel(String name, String tool, String mission, String session,String eloUri, int canonical, int votat, int userExp, TupleSpace commandSpace) {
+    public BehavioralModel(String name, String tool, String mission, String session, int canonical, int votat, int userExp, TupleSpace commandSpace) {
         this.name = name;
         this.tool = tool;
-        this.eloUri=eloUri;
         this.canonical = canonical;
         this.votat = votat;
         this.userExp = userExp;
         this.commandSpace = commandSpace;
         this.mission = mission;
         this.session = session;
-        
         sentScaffolds = new Vector<SCAFFOLD>();
     }
 
@@ -168,9 +166,15 @@ public class BehavioralModel {
      *            The new value for the user experience for this model.
      */
     public void updateUserExp(int newUserExp) {
+        if (newUserExp==0){
+            
+            //System.out.println("Problem! USerExp=0");
+        }else{
+           //System.out.println(tool+"/"+name+" set to "+newUserExp);
+        }
         this.userExp = newUserExp;
         // Fix to prevent too many notifications
-       // checkForSystematicBehaviour();
+        //checkForSystematicBehaviour();
     }
 
     /**
@@ -183,22 +187,27 @@ public class BehavioralModel {
         this.votat = newVotat;
         checkForSystematicBehaviour();
     }
+    public void setExpPhaseStarted(){
+        this.expPhaseStartet  = true;
+    }
 
     /*
      * This method checks if the current model is acting systematical based on the measures of the agents.
      */
     private void checkForSystematicBehaviour() {
         // Simple ruleset :externalize
-        if (userExp >= 20) {
-            sendNotification(SCAFFOLD.VOTAT);
+        if (!expPhaseStartet || userExp < 2) {
+            return;
+        } else {
+            if (votat < 1) {
+                sendNotification(SCAFFOLD.VOTAT);
+            } else if (canonical < 1) {
+                sendNotification(SCAFFOLD.INC_CHANGE);
+
+            } else {
+                sendNotification(SCAFFOLD.SHOWBUTTON);
+            }
         }
-        // if (votat < 30 && canonical < 30 && userExp > 30) {
-        // sendNotification(SCAFFOLD.VOTAT);
-        // } else if (votat < 20 && canonical < 20 && userExp > 30) {
-        // sendNotification(SCAFFOLD.INC_CHANGE);
-        // } else if (votat < 10 && canonical < 10 && userExp > 30) {
-        // sendNotification(SCAFFOLD.EXTREME_VALUES);
-        // }
     }
 
     /*

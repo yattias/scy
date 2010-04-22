@@ -5,6 +5,9 @@ import java.util.List;
 
 import eu.scy.core.openfire.ScyAuthorRuntimeModule;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentManager;
 import org.xmpp.packet.JID;
@@ -21,11 +24,13 @@ import eu.scy.server.notification.Notificator;
  * @author giemza
  * @author anthonjp
  */
-public class SCYHubComponent implements Component {
+public class SCYHubComponent implements Component , ApplicationContextAware {
     
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class);
 
     private List<SCYHubModule> modules;
+
+    private ApplicationContext applicationContext;
 
     public SCYHubComponent() {
         logger.info("INITIALIZING SCY HUB COMPONENT!");
@@ -80,11 +85,10 @@ public class SCYHubComponent implements Component {
      * Init the modules
      */
     private void initModules() {
-    	// modules are instantiated pojoily, can be springified 
-    	modules.add(new DataSyncModule(this));
-    	modules.add(new ActionProcessModule(this));
-    	modules.add(new Notificator(this));
-        modules.add(new ScyAuthorRuntimeModule(this));
+        modules.add((SCYHubModule) getBean("dataSyncModule"));
+        modules.add((SCYHubModule) getBean("actionProcessModule"));
+        modules.add((SCYHubModule) getBean("notificator"));
+        modules.add((SCYHubModule) getBean("scyAuthorRuntimeModule"));
     }
     
     
@@ -103,5 +107,17 @@ public class SCYHubComponent implements Component {
         for(SCYHubModule module : modules) {
         	module.shutdown();
         }
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    private Object getBean(String name) {
+        return getApplicationContext().getBean(name);
     }
 }

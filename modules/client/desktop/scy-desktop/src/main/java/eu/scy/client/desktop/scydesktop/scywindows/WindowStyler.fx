@@ -12,6 +12,8 @@ import java.net.URI;
 
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
@@ -22,6 +24,14 @@ public mixin class WindowStyler {
 
    public function getScyColor(type:String):Color{
       return Color.GREEN;
+   }
+
+   public function getScyColors(type:String):ScyColors{
+      return ScyColors.green;
+   }
+
+   public function getWindowColorScheme(type:String):WindowColorScheme{
+      return WindowColorScheme.getWindowColorScheme(ScyColors.green);
    }
 
    public function getScyIconCharacter(type:String):String{
@@ -42,25 +52,34 @@ public mixin class WindowStyler {
 
    public function getScyColor(uri:URI):Color{
       var type = eloTypeControl.getEloType(uri);
-      var scyColor = getScyColor(type);
-      return scyColor;
+      return getScyColor(type);
+   }
+
+   public function getScyColors(uri:URI):ScyColors{
+      var type = eloTypeControl.getEloType(uri);
+      var scyColors = getScyColors(type);
+      return scyColors;
+   }
+
+   public function getWindowColorScheme(uri:URI):WindowColorScheme{
+      var type = eloTypeControl.getEloType(uri);
+      var windowColorScheme = getWindowColorScheme(type);
+      return windowColorScheme;
    }
 
    public function style(window:ScyWindow,uri:URI){
       var type = eloTypeControl.getEloType(uri);
-      var color = getScyColor(type);
+      var windowColorScheme = getWindowColorScheme(type);
       var eloIcon = getScyEloIcon(type);
-      window.color = color;
-      window.drawerColor = color;
+      window.windowColorScheme.assign(windowColorScheme);
       window.eloIcon = eloIcon;
    }
 
    public function style(window:ScyWindow){
-      var color = getScyColor(window.eloType);
+      var windowColorScheme = getWindowColorScheme(window.eloType);
       var ch = getScyIconCharacter(window.eloType);
       var eloIcon = getScyEloIcon(window.eloType);
-      window.color = color;
-      window.drawerColor = color;
+      window.windowColorScheme.assign(windowColorScheme);
       window.eloIcon = eloIcon;
    }
 

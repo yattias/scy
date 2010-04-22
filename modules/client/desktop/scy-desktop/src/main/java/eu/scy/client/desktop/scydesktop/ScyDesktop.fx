@@ -600,10 +600,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
             }
         }
         if (scyToolsList.bottomDrawerTool != null) {
+            window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
             if (collaboration){
                window.openDrawer("bottom");
             }
-            window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
         }
         if (scyToolsList.leftDrawerTool != null) {
             window.leftDrawerTool = scyToolsList.leftDrawerTool;
@@ -631,11 +631,23 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
     function handleProcessNotification(notification: INotification): Void {
         logger.debug("notification.getToolId(): {notification.getToolId()}");
+        logger.debug("notification.properties: {notification.getProperties()}");
         logger.debug("notification -> proposing_user: {notification.getFirstProperty("proposing_user")}");
         def notificationType: String = notification.getFirstProperty("type");
+        def notificationSender: String = notification.getSender();
         logger.debug("notification-type: {notificationType}");
         if (not (notificationType == null)) {
             if (notificationType == "collaboration_request") {
+               processCollaborationRequestNotification(notification);
+            } else if (notificationType == "collaboration_response") {
+                processCollaborationResponseNotification(notification);
+            }  else if(notificationSender == "eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent"){
+                processEloSaveNotification(notification);
+            }
+        }
+    }
+
+    function processCollaborationRequestNotification(notification:INotification){
                 logger.debug("********************collaboration_request*************************");
                 def user: String = notification.getFirstProperty("proposing_user");
                 //TODO submit user-nickname instead of extracting it
@@ -649,7 +661,9 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     logger.debug(" => denying collaboration");
                     config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
                 }
-            } else if (notificationType == "collaboration_response") {
+    }
+
+    function processCollaborationResponseNotification(notification:INotification){
                 logger.debug("********************collaboration_response*************************");
                 def accepted: String = notification.getFirstProperty("accepted");
                 def eloUri: String = notification.getFirstProperty("proposed_elo");
@@ -659,26 +673,33 @@ public class ScyDesktop extends CustomNode, INotifiable {
                     var uri = new URI(eloUri);
                     var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(uri);
                     if (collaborationWindow == null) {
-                        ///FIXME create a window/tool with the elo
                         collaborationWindow = scyWindowControl.addOtherScyWindow(uri);
                         collaborationWindow.mucId = mucid;
-                        //fillNewScyWindowCollaborative(collaborationWindow, mucid);
                     } else {
                         collaborationWindow.mucId = mucid;
                         installCollaborationTools(collaborationWindow);
-//                        realFillNewScyWindow2(collaborationWindow,true);
-//                        def toolNode: Node = collaborationWindow.scyContent;
-//                        if (toolNode instanceof CollaborationStartable) {
-//                            (toolNode as CollaborationStartable).startCollaboration(mucid);
-//                        }
                     }
                     scyWindowControl.makeMainScyWindow(uri);
                 } else {
                     JOptionPane.showMessageDialog(null, "Collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
                     logger.debug("collaboration not accepted");
                 }
-            }
-        }
+    }
+
+    function processEloSaveNotification(notification:INotification){
+                    logger.debug("*****************elo_save*Notification*********************");
+                    def uri = new URI(notification.getFirstProperty("elo_uri"));
+                    var toolWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(uri);
+                    if (toolWindow == null) {
+                            //the ELO is not opened yet
+                            toolWindow = scyWindowControl.addOtherScyWindow(uri);
+                            logger.debug("Placed externally saved ELO.");
+                            //fillNewScyWindow2(toolWindow);
+                    } else {
+                            //The ELO is already opened
+                                fillNewScyWindow2(toolWindow);
+                    }
+                    scyWindowControl.makeMainScyWindow(uri);
     }
 
     function scyDesktopShutdownAction():Void{

@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
@@ -64,13 +65,15 @@ import roolo.elo.metadata.keys.ContributeMetadataKey;
  *
  * @author __SVEN__
  */
+@Singleton
 @Path("/updateELOAndroid")
+@Deprecated
 public class UpdateELOResource {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private static final Beans beans = Beans.getInstance();
+    private final static Logger log = Logger.getLogger(UpdateELOResource.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
@@ -125,13 +128,13 @@ public class UpdateELOResource {
             Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            elo = configLoader.getRepository().retrieveELO(new URI(uri));
+            elo = beans.getRepository().retrieveELO(new URI(uri));
         } catch (URISyntaxException ex) {
             Logger.getLogger(UpdateELOResource.class.getName()).log(Level.SEVERE, null, ex);
             return "eloUpdateFailed";
         }
         elo.setContent(new BasicContent(content));
-        configLoader.getRepository().updateELO(elo);
+        beans.getRepository().updateELO(elo);
         log.info("Updated ELO");
 
         //return simplified codes for easier localization!

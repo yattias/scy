@@ -30,7 +30,7 @@
                             <th>Auto add to student plan</th>
                         </tr>
                         <c:forEach var="activity" items="${model.activities}">
-                            <tr>
+                            <tr class="${oddEven.oddEven}">
                                 <td><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
                                 <td>${activity.anchorELO.name}</td>
                                 <td>

@@ -178,6 +178,9 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private synchronized void processAction(Action a, boolean queued) throws ParseException, TupleSpaceException, IOException {
         logger.log(Level.FINE, "Action to process occured, queued-flag is set to " + queued);
+        if (!a.getContext(ContextConstants.tool).equals("simulator")){
+            return;
+        }
         if (!initializing && queued) {
             actionQueue.add(a);
             return;
@@ -197,17 +200,17 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
                 userModel.setStarts(userModel.getStops());
             }
             logger.log(Level.FINE, "Tool started with user: " + a.getUser() + " and SessionID: " + sessionid);
-          if (!initializing){
-              timer.start();
-          }
+//          if (!initializing){
+//              timer.start();
+//          }
         } else if (a.getType().equals("tool_closed")) {
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
             exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
             logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
-            if (!initializing){
-                timer.stop();
-            }
+//            if (!initializing){
+//                timer.stop();
+//            }
 
         } else if (a.getType().equals("tool_gotfocus")) {
             String sessionid = a.getContext(ContextConstants.session);
@@ -220,18 +223,27 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             }
             exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime, false);
             logger.log(Level.FINE, "Focus gained with user: " + a.getUser() + " and SessionID: " + sessionid);
-            if (!initializing){
-                timer.start();
-            }
+//            if (!initializing){
+//                timer.start();
+//            }
         } else if (a.getType().equals("tool_lostfocus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
             exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime, false);
             logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
-            if (!initializing){
-                timer.stop();
-            }
+//            if (!initializing){
+//                timer.stop();
+//            }
+        } else if (a.getType().equals("add_row")) {
+            String sessionid = a.getContext(ContextConstants.session);
+            long focusEndTime = a.getTimeInMillis();
+            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            exp.startExpPhase();
+            logger.log(Level.FINE, "startExpPhase with user: " + a.getUser() + " and SessionID: " + sessionid);
+//            if (!initializing){
+//                timer.stop();
+//            }
         }
     }
 

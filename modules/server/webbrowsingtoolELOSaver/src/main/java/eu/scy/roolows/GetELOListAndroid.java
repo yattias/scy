@@ -40,6 +40,7 @@
  */
 package eu.scy.roolows;
 
+import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
@@ -71,12 +72,14 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
  *
  * @author __SVEN__
  */
+@Singleton
+@Deprecated
 @Path("/getELOListAndroid")
 public class GetELOListAndroid {
 
-	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
+	private final static Logger logger = Logger.getLogger(GetELOListAndroid.class.getName());
 
-	private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+	private static final Beans beans = Beans.getInstance();
 	
     @Context
     private UriInfo context;
@@ -90,12 +93,11 @@ public class GetELOListAndroid {
 
     /** Creates a new instance of SaveELOResource */
     public GetELOListAndroid() {
-        
         //configure keys
-        typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-        titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-        descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
-        authorKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+        descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+        authorKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
     }
 
     /**
@@ -142,7 +144,7 @@ public class GetELOListAndroid {
                 //Authentication ok
 
                 //make a query to the repository, retrieve a list of search results, create a List of ELOS
-                List<ISearchResult> searchResultList = configLoader.getRepository().search(query);
+                List<ISearchResult> searchResultList = beans.getRepository().search(query);
                 logger.info(searchResultList.size() + " search results found.");
                 
                 JSONArray elos = new JSONArray();
@@ -150,7 +152,7 @@ public class GetELOListAndroid {
                 for (Iterator<ISearchResult> it = searchResultList.iterator(); it.hasNext();) {
                     ISearchResult searchResult = it.next();
                     URI uri = searchResult.getUri();
-                    IELO retrievedElo = configLoader.getRepository().retrieveELO(uri);
+                    IELO retrievedElo = beans.getRepository().retrieveELO(uri);
                     String eloTitle = retrievedElo.getMetadata().getMetadataValueContainer(titleKey).getValue().toString();
                     String eloDescription = retrievedElo.getMetadata().getMetadataValueContainer(descriptionKey).getValue().toString();
                     String eloAuthor = retrievedElo.getMetadata().getMetadataValueContainer(authorKey).getValue().toString();

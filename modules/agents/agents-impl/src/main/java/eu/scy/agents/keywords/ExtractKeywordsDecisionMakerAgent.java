@@ -48,9 +48,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 		@Override
 		public String toString() {
-			String webresourcerURL = webresourcerELO != null ? webresourcerELO.toString() : "null";
-			return user + "|web:" + webresourcerStarted + "|map:" + scyMapperStarted + "|url:" + webresourcerURL + "|"
-					+ new Date(lastAction).toString() + "|" + numberOfConcepts;
+			String webresourcerURL = this.webresourcerELO != null ? this.webresourcerELO.toString() : "null";
+			return this.user + "|web:" + this.webresourcerStarted + "|map:" + this.scyMapperStarted + "|url:"
+					+ webresourcerURL + "|" + new Date(this.lastAction).toString() + "|" + this.numberOfConcepts;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private long idleTimeInMS = 60 * 1000;
 	private int minimumNumberOfConcepts = 5;
-	private long timeAfterThatItIsSaveToRemoveUser = 5 * idleTimeInMS;
+	private long timeAfterThatItIsSaveToRemoveUser = 30 * 6000;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
@@ -78,31 +78,32 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	public ExtractKeywordsDecisionMakerAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 
-		setParameter(params);
+		this.setParameter(params);
 
-		registerToolStartedListener();
-		user2Context = Collections.synchronizedMap(new HashMap<String, ContextInformation>());
+		this.registerToolStartedListener();
+		this.user2Context = Collections.synchronizedMap(new HashMap<String, ContextInformation>());
 	}
 
 	private void setParameter(Map<String, Object> params) {
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
-			host = (String) params.get(AgentProtocol.TS_HOST);
+			this.host = (String) params.get(AgentProtocol.TS_HOST);
 		}
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
-			port = (Integer) params.get(AgentProtocol.TS_PORT);
+			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		if (params.containsKey(IDLE_TIME_INMS)) {
-			idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
-			timeAfterThatItIsSaveToRemoveUser = 5 * idleTimeInMS;
+			this.idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
+			// this.timeAfterThatItIsSaveToRemoveUser = 5 * this.idleTimeInMS;
 		}
 		if (params.containsKey(MINIMUM_NUMBER_OF_CONCEPTS)) {
-			minimumNumberOfConcepts = (Integer) params.get(MINIMUM_NUMBER_OF_CONCEPTS);
+			this.minimumNumberOfConcepts = (Integer) params.get(MINIMUM_NUMBER_OF_CONCEPTS);
 		}
 	}
 
 	private void registerToolStartedListener() {
 		try {
-			listenerId = getActionSpace().eventRegister(Command.WRITE, getActionTupleTemplate(), this, true);
+			this.listenerId = this.getActionSpace().eventRegister(Command.WRITE, this.getActionTupleTemplate(), this,
+					true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -111,8 +112,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	@Override
 	protected void doStop() {
 		try {
-			getActionSpace().eventDeRegister(listenerId);
-			listenerId = -1;
+			this.getActionSpace().eventDeRegister(this.listenerId);
+			this.listenerId = -1;
 		} catch (TupleSpaceException e) {
 			logger.fatal("Could not deregister tuple space listener: " + e.getMessage());
 		}
@@ -125,22 +126,24 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	@Override
 	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
-		if (listenerId != seq) {
+		if (this.listenerId != seq) {
 			logger.debug("Callback passed to Superclass.");
 			super.call(command, seq, afterTuple, beforeTuple);
 			return;
 		} else {
 			IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 			if (AgentProtocol.ACTION_TOOL_STARTED.equals(action.getType())) {
-				handleToolStarted(action);
+				this.handleToolStarted(action);
+			} else if (AgentProtocol.ACTION_TOOL_OPENED.equals(action.getType())) {
+				this.handleToolStarted(action);
 			} else if (AgentProtocol.ACTION_NODE_ADDED.equals(action.getType())) {
-				handleNodeAdded(action);
+				this.handleNodeAdded(action);
 			} else if (AgentProtocol.ACTION_NODE_REMOVED.equals(action.getType())) {
-				handleNodeRemoved(action);
+				this.handleNodeRemoved(action);
 			} else if (AgentProtocol.ACTION_TOOL_CLOSED.equals(action.getType())) {
-				handleToolStopped(action);
+				this.handleToolStopped(action);
 			} else if (AgentProtocol.ACTION_ELO_LOADED.equals(action.getType())) {
-				handleELOLoaded(action);
+				this.handleELOLoaded(action);
 			}
 		}
 	}
@@ -148,7 +151,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	private void handleELOLoaded(IAction action) {
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			logger.info(WEBRESOURCER + " elo loaded " + action.getContext(ContextConstants.eloURI));
-			ContextInformation contextInfo = getContextInformation(action);
+			ContextInformation contextInfo = this.getContextInformation(action);
 			contextInfo.lastAction = action.getTimeInMillis();
 			String eloUri = action.getContext(ContextConstants.eloURI);
 			if (eloUri.startsWith(UNSAVED_ELO)) {
@@ -179,20 +182,20 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	}
 
 	private void handleNodeRemoved(IAction action) {
-		logger.info("node removed");
-		ContextInformation contextInfo = getContextInformation(action);
+		logger.info("node_removed");
+		ContextInformation contextInfo = this.getContextInformation(action);
 		contextInfo.numberOfConcepts--;
 	}
 
 	private void handleNodeAdded(IAction action) {
-		logger.info("node added");
-		ContextInformation contextInfo = getContextInformation(action);
+		logger.info("node_added");
+		ContextInformation contextInfo = this.getContextInformation(action);
 		contextInfo.numberOfConcepts++;
 		contextInfo.lastAction = action.getTimeInMillis();
 	}
 
 	private void handleToolStopped(IAction action) {
-		ContextInformation contextInfo = getContextInformation(action);
+		ContextInformation contextInfo = this.getContextInformation(action);
 		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
 			logger.info(CONCEPTMAP + " stopped");
 			contextInfo.scyMapperStarted = false;
@@ -200,13 +203,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			logger.info(WEBRESOURCER + " stopped");
 			contextInfo.webresourcerStarted = false;
-			contextInfo.webresourcerELO = null;
 		}
 		contextInfo.lastAction = action.getTimeInMillis();
 	}
 
 	private void handleToolStarted(IAction action) {
-		ContextInformation contextInfo = getContextInformation(action);
+		ContextInformation contextInfo = this.getContextInformation(action);
 		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
 			logger
 					.info(CONCEPTMAP + " started by " + action.getUser()
@@ -216,14 +218,18 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			logger.info(WEBRESOURCER + " started  by " + action.getUser()
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
-
-			contextInfo.webresourcerStarted = true;
+			try {
+				contextInfo.webresourcerELO = new URI(action.getContext(ContextConstants.eloURI));
+				contextInfo.webresourcerStarted = true;
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
 		contextInfo.lastAction = action.getTimeInMillis();
 	}
 
 	public ContextInformation getContextInformation(IAction action) {
-		ContextInformation result = user2Context.get(action.getUser());
+		ContextInformation result = this.user2Context.get(action.getUser());
 		if (result == null) {
 			result = new ContextInformation();
 			result.user = action.getUser();
@@ -231,7 +237,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			result.session = action.getContext(ContextConstants.session);
 			result.lastAction = action.getTimeInMillis();
 			result.lastNotification = action.getTimeInMillis();
-			user2Context.put(result.user, result);
+			this.user2Context.put(result.user, result);
 		}
 		return result;
 	}
@@ -240,25 +246,25 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		try {
 			HashSet<String> toRemove = new HashSet<String>();
-			while (status == Status.Running) {
+			while (this.status == Status.Running) {
 				toRemove.clear();
 				long currentTime = System.currentTimeMillis();
-				HashSet<String> users = new HashSet<String>(user2Context.keySet());
+				HashSet<String> users = new HashSet<String>(this.user2Context.keySet());
 				for (String user : users) {
-					ContextInformation contextInformation = user2Context.get(user);
+					ContextInformation contextInformation = this.user2Context.get(user);
 					logger.info(contextInformation);
-					if (userNeedsToBeNotified(currentTime, contextInformation)) {
-						notifyUser(currentTime, user, contextInformation);
-						if (userIsIdleForTooLongTime(currentTime, contextInformation)) {
-							toRemove.add(user);
-						}
+					if (this.userNeedsToBeNotified(currentTime, contextInformation)) {
+						this.notifyUser(currentTime, user, contextInformation);
+					}
+					if (this.userIsIdleForTooLongTime(currentTime, contextInformation)) {
+						toRemove.add(user);
 					}
 				}
 				for (String user : toRemove) {
-					user2Context.remove(user);
+					this.user2Context.remove(user);
 				}
 				logger.debug("Sending Alive-Tuple");
-				sendAliveUpdate();
+				this.sendAliveUpdate();
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			}
 		} catch (Exception e) {
@@ -266,14 +272,14 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			e.printStackTrace();
 			throw new AgentLifecycleException(e.getMessage(), e);
 		}
-		if (status != Status.Stopping) {
+		if (this.status != Status.Stopping) {
 			logger.warn("************** Agent not stopped but run loop terminated *****************1");
 		}
 	}
 
 	private boolean userIsIdleForTooLongTime(long currentTime, ContextInformation contextInformation) {
 		long timeSinceLastAction = currentTime - contextInformation.lastAction;
-		return timeSinceLastAction > timeAfterThatItIsSaveToRemoveUser;
+		return timeSinceLastAction > this.timeAfterThatItIsSaveToRemoveUser;
 	}
 
 	private void notifyUser(final long currentTime, final String user, final ContextInformation contextInformation) {
@@ -282,11 +288,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			@Override
 			public void run() {
 				logger.info("Notifiying " + user);
-				String text = getEloText(contextInformation.webresourcerELO);
+				String text = ExtractKeywordsDecisionMakerAgent.this.getEloText(contextInformation.webresourcerELO);
 				if (!"".equals(text)) {
-					List<String> keywords = getKeywords(text);
+					List<String> keywords = ExtractKeywordsDecisionMakerAgent.this.getKeywords(text);
 					logger.info("found keywords to send to " + user + ": " + keywords);
-					sendNotification(contextInformation, keywords);
+					ExtractKeywordsDecisionMakerAgent.this.sendNotification(contextInformation, keywords);
 					contextInformation.lastNotification = currentTime;
 				}
 			}
@@ -298,9 +304,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 		boolean userNeedsToBeNotified = contextInformation.webresourcerStarted;
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
 		long timeSinceLastAction = currentTime - contextInformation.lastNotification;
-		logger.debug(timeSinceLastAction + " : " + idleTimeInMS);
-		userNeedsToBeNotified &= timeSinceLastAction > idleTimeInMS;
-		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
+		logger.debug(timeSinceLastAction + " : " + this.idleTimeInMS);
+		userNeedsToBeNotified &= timeSinceLastAction > this.idleTimeInMS;
+		userNeedsToBeNotified &= contextInformation.numberOfConcepts < this.minimumNumberOfConcepts;
 		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
 		return userNeedsToBeNotified;
 	}
@@ -319,8 +325,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 			notificationTuple.add("keyword=" + keyword);
 		}
 		try {
-			if (getCommandSpace().isConnected()) {
-				getCommandSpace().write(notificationTuple);
+			if (this.getCommandSpace().isConnected()) {
+				this.getCommandSpace().write(notificationTuple);
 			}
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -329,11 +335,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	private String getEloText(URI webresourcerELO) {
 		logger.info("Getting elo: " + webresourcerELO);
-		if (repository == null) {
+		if (this.repository == null) {
 			logger.fatal("repository is null");
 			return "";
 		}
-		IELO elo = repository.retrieveELO(webresourcerELO);
+		IELO elo = this.repository.retrieveELO(webresourcerELO);
 		if (elo == null) {
 			logger.fatal("ELO " + webresourcerELO + " was null");
 			return "";
@@ -357,9 +363,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 					queryId, text);
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
-			if (getCommandSpace().isConnected()) {
-				getCommandSpace().write(extractKeywordsTriggerTuple);
-				responseTuple = getCommandSpace().waitToTake(
+			if (this.getCommandSpace().isConnected()) {
+				this.getCommandSpace().write(extractKeywordsTriggerTuple);
+				responseTuple = this.getCommandSpace().waitToTake(
 						new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.RESPONSE, queryId, Field
 								.createWildCardField()));
 			}
@@ -384,7 +390,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 
 	@Override
 	public boolean isStopped() {
-		return (listenerId == -1) && (status == Status.Stopping);
+		return (this.listenerId == -1) && (this.status == Status.Stopping);
 	}
 
 	@Override
@@ -395,6 +401,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	@Override
 	public void setRepository(IRepository rep) {
 		logger.debug("Setting repository ");
-		repository = rep;
+		this.repository = rep;
 	}
 }

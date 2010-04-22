@@ -29,8 +29,8 @@ public class AreaPositioner {
    public var ignoreWindow: ScyWindow;
    def initialX = 10;
    def initialY = 25;
-   def xStep = 25;
-   def yStep = 25;
+   def xStep = 10;
+   def yStep = 10;
    def maximumIntersectionTarget = 1.0;
    var placedWindows: ScyWindow[];
 

@@ -18,12 +18,12 @@
 			<version>3.9.0.GA</version>
 			<type>jar</type>
 		</dependency>
-		<!--dependency>
+		<dependency>
 			<groupId>eu.scy</groupId>
-			<artifactId>webbrowsingtoolELOSaver</artifactId>
+			<artifactId>roolo-ws</artifactId>
 			<version>9.8.0-UJF-SNAPSHOT</version>
 			<type>war</type>
-		</dependency-->
+		</dependency>
 		<dependency>
 			<groupId>eu.scy.server</groupId>
 			<artifactId>server-external-components</artifactId>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-server-web</artifactId>
-			<version>3.7.0-SNAPSHOT</version>
+			<version>${sqlspaces-version}</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
@@ -65,18 +65,10 @@
 							<configuration>
 								<deployables>
 									<deployable>
-										<groupId>net.sf.sail</groupId>
-										<artifactId>webapp</artifactId>
+										<groupId>eu.scy.server</groupId>
+										<artifactId>server-external-components</artifactId>
 										<properties>
-											<context>/webapp</context>
-										</properties>
-										<type>war</type>
-									</deployable>
-									<deployable>
-										<groupId>eu.scy</groupId>
-										<artifactId>webbrowsingtoolELOSaver</artifactId>
-										<properties>
-											<context>/roolo-ws</context>
+											<context>/extcomp</context>
 										</properties>
 										<type>war</type>
 									</deployable>
@@ -89,10 +81,18 @@
 										<type>war</type>
 									</deployable>
 									<deployable>
-										<groupId>eu.scy.server</groupId>
-										<artifactId>server-external-components</artifactId>
+										<groupId>net.sf.sail</groupId>
+										<artifactId>webapp</artifactId>
 										<properties>
-											<context>/extcomp</context>
+											<context>/webapp</context>
+										</properties>
+										<type>war</type>
+									</deployable>
+									<deployable>
+										<groupId>eu.scy</groupId>
+										<artifactId>roolo-ws</artifactId>
+										<properties>
+											<context>/roolo-ws</context>
 										</properties>
 										<type>war</type>
 									</deployable>
@@ -128,21 +128,13 @@
 								<type>remote</type>
 								<deployables>
 									<deployable>
-										<groupId>net.sf.sail</groupId>
-										<artifactId>webapp</artifactId>
+										<groupId>eu.scy.server</groupId>
+										<artifactId>server-external-components</artifactId>
 										<properties>
-											<context>/webapp</context>
+											<context>/extcomp</context>
 										</properties>
 										<type>war</type>
 									</deployable>
-									<!--deployable>
-										<groupId>eu.scy</groupId>
-										<artifactId>webbrowsingtoolELOSaver</artifactId>
-										<properties>
-											<context>/roolo-ws</context>
-										</properties>
-										<type>war</type>
-									</deployable-->
 									<deployable>
 										<groupId>info.collide</groupId>
 										<artifactId>sqlspaces-server-web</artifactId>
@@ -152,10 +144,18 @@
 										<type>war</type>
 									</deployable>
 									<deployable>
-										<groupId>eu.scy.server</groupId>
-										<artifactId>server-external-components</artifactId>
+										<groupId>net.sf.sail</groupId>
+										<artifactId>webapp</artifactId>
 										<properties>
-											<context>/extcomp</context>
+											<context>/webapp</context>
+										</properties>
+										<type>war</type>
+									</deployable>
+									<deployable>
+										<groupId>eu.scy</groupId>
+										<artifactId>roolo-ws</artifactId>
+										<properties>
+											<context>/roolo-ws</context>
 										</properties>
 										<type>war</type>
 									</deployable>

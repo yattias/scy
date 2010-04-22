@@ -37,7 +37,7 @@
                             <table width="100%">
                                 <th width="40%">Activity</th>
                                 <th width="40%">Anchor ELO</th>
-                                <th width="20%">Audo add to SP</th>
+                                <th width="20%">Auto add to SP</th>
                             </table>
                         </th>
                     </tr>

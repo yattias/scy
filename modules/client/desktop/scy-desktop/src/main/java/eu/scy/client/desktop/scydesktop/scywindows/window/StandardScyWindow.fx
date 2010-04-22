@@ -49,8 +49,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowRotate;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
-import java.lang.Object;
-import java.lang.Void;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikkenj
@@ -64,9 +65,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 	public override var eloType = "?123";
    public override var eloUri on replace oldEloUri {missionModelFX.eloUriChanged(oldEloUri, eloUri);};
 //   public override var iconCharacter = "?";
-	public override var color = Color.GREEN;
-	public override var drawerColor = Color.LIGHTGREEN;
-	public override var backgroundColor = color.WHITE;
+//	public override var color = Color.GREEN;
+//	public override var drawerColor = Color.LIGHTGREEN;
+//	public override var backgroundColor = color.WHITE;
 	public override var width = 150 on replace{
 		if (not isAnimating){
          width = limitSize(width,height).x;
@@ -114,31 +115,37 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 	var isAnimating = false;
 
 	// layout constants
-	def windowBackgroundColor = Color.WHITE;
-	def controlColor = Color.WHITE;
-	def controlLength = 18.0;
-	def controlStrokeWidth = 4.0;
-   def closeBoxSize = 8.0;
-
-   def iconSize = 16.0;
-   def iconGap = 2.0;
-	def borderWidth = 1.0;
-   def secondBorderWidth = 2.0;
-   def controlBorderOffset = (borderWidth+secondBorderWidth)/2;
+   def borderWidth = 2.0;
+   def controlSize = 10.0;
+   def cornerRadius = 10.0;
    def titleBarTopOffset = borderWidth/2 + 3;
-   def titleBarLeftOffset = 12.0;
+   def titleBarLeftOffset = borderWidth/2 + 5;
+   def titleBarRightOffset = titleBarLeftOffset;
+   def closeBoxSize = 10.0;
+   def iconSize = 16.0;
+   def separatorLength = 7.0;
+
+//   def iconSize = 16.0;
+//   def iconGap = 2.0;
+//	def borderWidth = 1.0;
+//   def secondBorderWidth = 2.0;
+//   def controlBorderOffset = (borderWidth+secondBorderWidth)/2;
+//   def titleBarTopOffset = borderWidth/2 + 3;
+//   def titleBarLeftOffset = 12.0;
    def closedHeight = titleBarTopOffset+iconSize+borderWidth+1;
-   def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
-   def contentBorder = 2.0;
+//   def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
+//   def contentBorder = 2.0;
 
-   def drawerCornerOffset = controlLength+borderWidth;
-   def drawerBorderGap = secondBorderWidth;
-   def drawerBorderOffset = controlBorderOffset+drawerBorderGap+controlStrokeWidth/2;
+   def drawerCornerOffset = controlSize+1.5*separatorLength;
+//   def drawerBorderGap = secondBorderWidth;
+   def drawerBorderOffset = borderWidth;
 
-   def deltaWidthContentWidth = borderWidth + 2 * contentBorder + 1;
-   def deltaHeightContentHeight = contentTopOffset + borderWidth / 2 + 2 * contentBorder;
-   def contentWidth = bind width - deltaWidthContentWidth;
-   def contentHeight = bind height - deltaHeightContentHeight;
+   def contentSideBorder = 5.0;
+   def contentTopOffset = titleBarLeftOffset+iconSize+contentSideBorder;
+   def deltaContentWidth = borderWidth + 2 * contentSideBorder + 1;
+   def deltaContentHeight = contentTopOffset + borderWidth / 2 + controlSize;
+   def contentWidth = bind width - deltaContentWidth;
+   def contentHeight = bind height - deltaContentHeight;
 
    def activeWindowEffect: Effect = DropShadow {
       offsetX: 6,
@@ -160,17 +167,17 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 	def animationDuration = 200ms;
 
-   var resizeHighLighted = false;
-   var rotateHighLighted = false;
-   var closeHighLighted = false;
-   var minimizeHighLighted = false;
-   var unminimizeHighLighted = false;
+//   var resizeHighLighted = false;
+//   var rotateHighLighted = false;
+//   var closeHighLighted = false;
+//   var minimizeHighLighted = false;
+//   var unminimizeHighLighted = false;
 
    public override var minimumHeight = 50 on replace{
-      minimumHeight = Math.max(minimumHeight, contentTopOffset+2*contentBorder);
+      minimumHeight = Math.max(minimumHeight, contentTopOffset+2*controlSize);
    }
-   public override var minimumWidth = 70 on replace{
-      minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlLength);
+   public override var minimumWidth = 90 on replace{
+      minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlSize);
    }
 
    var emptyWindow:EmptyWindow;
@@ -209,8 +216,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 		if (isClosed){
 			height = closedHeight;
 		}
-      closedBoundsWidth = minimumWidth+deltaWidthContentWidth;
-      closedBoundsHeight = closedHeight+deltaHeightContentHeight;
+      closedBoundsWidth = minimumWidth+deltaContentWidth;
+      closedBoundsHeight = closedHeight+deltaContentHeight;
       setTopDrawer();
       setRightDrawer();
       setBottomDrawer();
@@ -249,10 +256,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       var limittedHeight = Math.max(h, minimumHeight);
       if (scyContent!=null){
          // this is check on content limits, subtract "border" sizes
-         limittedWidth -= deltaHeightContentHeight;
-         limittedHeight -= deltaHeightContentHeight;
+         limittedWidth -= deltaContentWidth;
+         limittedHeight -= deltaContentHeight;
          if (scyContent instanceof Resizable) {
             var resizableContent = scyContent as Resizable;
+            //println("size limits: width {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}, height: {resizableContent.getMinHeight()} - {resizableContent.getMaxHeight()}");
             limittedWidth = Math.max(limittedWidth, resizableContent.getMinWidth());
             limittedHeight = Math.max(limittedHeight, resizableContent.getMinHeight());
             limittedWidth = Math.min(limittedWidth, resizableContent.getMaxWidth());
@@ -263,8 +271,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             limittedHeight = scyContent.layoutBounds.maxY;
          }
          // this is check on content limits, add "border" sizes
-         limittedWidth += deltaHeightContentHeight;
-         limittedHeight += deltaHeightContentHeight;
+         limittedWidth += deltaContentWidth;
+         limittedHeight += deltaContentHeight;
       }
       else{
          // no content
@@ -272,11 +280,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       // now limit it to the scy desktop window size
       if (scene.width>0){
-         limittedWidth = Math.min(limittedWidth, scene.width-deltaWidthContentWidth);
-         limittedHeight = Math.min(limittedHeight, scene.height-deltaHeightContentHeight);
+         limittedWidth = Math.min(limittedWidth, scene.width-deltaContentWidth);
+         limittedHeight = Math.min(limittedHeight, scene.height-deltaContentHeight);
       }
 
-//      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
+      //println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
       return Point2D{
          x:limittedWidth;
          y:limittedHeight
@@ -310,20 +318,20 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    public override function createTooltipNode(sourceNode:Node):Node{
       var tooltip:Node;
-      if (isClosed or isMinimized){
-         var titleTextWidth = windowTitleBar.titleTextWidth;
-         var titleDisplayWidth = windowTitleBar.titleDisplayWidth;
-         if (closeElement.visible){
-            titleDisplayWidth -= closeElement.layoutBounds.width;
-         }
-         //println("titleTextWidth:{titleTextWidth}, titleDisplayWidth:{titleDisplayWidth}, closeElement.visible:{closeElement.visible}");
-         if (titleTextWidth>titleDisplayWidth){
-            tooltip = ColoredTextTooltip{
-               content:title
-               color:color
-            }
-         }
-      }
+//      if (isClosed or isMinimized){
+//         var titleTextWidth = windowTitleBar.titleTextWidth;
+//         var titleDisplayWidth = windowTitleBar.titleDisplayWidth;
+//         if (closeElement.visible){
+//            titleDisplayWidth -= closeElement.layoutBounds.width;
+//         }
+//         //println("titleTextWidth:{titleTextWidth}, titleDisplayWidth:{titleDisplayWidth}, closeElement.visible:{closeElement.visible}");
+//         if (titleTextWidth>titleDisplayWidth){
+//            tooltip = ColoredTextTooltip{
+//               content:title
+//               color:windowColorScheme.mainColor
+//            }
+//         }
+//      }
 
       return tooltip;
    }
@@ -380,25 +388,26 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    }
 
-	public override function open():Void{
-		checkScyContent();
-      var openWidth = minimumWidth;
-      var openHeight = minimumHeight;
-      if (scyContent instanceof Resizable){
-         var resizableContent = scyContent as Resizable;
-         openWidth = resizableContent.getPrefWidth(openWidth);
-         openHeight = resizableContent.getPrefHeight(openHeight);
-      }
-      openWindow(openWidth,openHeight);
-	}
+    public override function open(): Void {
+        checkScyContent();
+        var openWidth = minimumWidth;
+        var openHeight = minimumHeight;
+        if (scyContent instanceof Resizable) {
+            var resizableContent = scyContent as Resizable;
+            openWidth = resizableContent.getPrefWidth(openWidth) + deltaContentWidth;
+            openHeight = resizableContent.getPrefHeight(openHeight) + deltaContentHeight;
+        }
+        openWindow(openWidth, openHeight);
+    }
 
-	public override function openWindow(openWidth:Number,openHeight:Number):Void{
-		checkScyContent();
-		isClosed = false;
-      var useSize = limitSize(openWidth,openHeight);
-		width = useSize.x;
-		height = useSize.y;
-	}
+    public override function openWindow(openWidth: Number, openHeight: Number): Void {
+        checkScyContent();
+        isClosed = false;
+        var useSize = limitSize(openWidth, openHeight);
+        width = useSize.x;
+        height = useSize.y;
+        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
+    }
 
    public override function setMinimize(state: Boolean):Void{
       if (isClosed){
@@ -559,8 +568,12 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 		//difX = (1 - Math.cos(angle)) * e.dragX/2;// + (1 - Math.sin(angle)) * e.dragY/2;
 		//difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
 
-      width = originalW + difW;
-      height = originalH + difH;
+      var newSize = limitSize( originalW + difW,originalH + difH);
+      width = newSize.x;
+      height = newSize.y;
+
+//      width = originalW + difW;
+//      height = originalH + difH;
 
 		layoutX = originalX - difX;
 		layoutY = originalY - difY;
@@ -681,15 +694,16 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       if (topDrawerTool!=null){
          topDrawer = TopDrawer{
-            color:bind drawerColor;
-            highliteColor:controlColor;
-            closedSize:bind width-2*drawerCornerOffset;
-            closedStrokeWidth:controlStrokeWidth;
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedSize:bind width-2*drawerCornerOffset;
+//            closedStrokeWidth:controlStrokeWidth;
             content:topDrawerTool;
             activated:bind activated;
             activate: activate;
             layoutX:drawerCornerOffset;
-            layoutY:-drawerBorderOffset;
+            layoutY:0;
             width:bind width-2*drawerCornerOffset
          }
          insert topDrawer into drawerGroup.content;
@@ -708,14 +722,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       if (rightDrawerTool!=null){
          rightDrawer = RightDrawer{
-            color:bind drawerColor;
-            highliteColor:controlColor;
-            closedStrokeWidth:controlStrokeWidth;
-            closedSize:bind height-2*drawerCornerOffset;
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedStrokeWidth:controlStrokeWidth;
+//            closedSize:bind height-2*drawerCornerOffset;
             content:rightDrawerTool;
             activated:bind activated;
             activate: activate;
-            layoutX:bind width+drawerBorderOffset;
+            layoutX:bind width;
             layoutY:drawerCornerOffset;
             height:bind height-2*drawerCornerOffset
          }
@@ -736,15 +751,16 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       if (bottomDrawerTool!=null){
          //println("new BottomDrawer with color {drawerColor}");
          bottomDrawer = BottomDrawer{
-            color:bind drawerColor;
-            highliteColor:controlColor;
-            closedSize:bind width-2*drawerCornerOffset;
-            closedStrokeWidth:controlStrokeWidth;
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedSize:bind width-2*drawerCornerOffset;
+//            closedStrokeWidth:controlStrokeWidth;
             content:bottomDrawerTool;
             activated:bind activated;
             activate: activate;
             layoutX:drawerCornerOffset;
-            layoutY:bind height+drawerBorderOffset;
+            layoutY:bind height;
             width:bind width-2*drawerCornerOffset
          }
          insert bottomDrawer into drawerGroup.content;
@@ -763,14 +779,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       if (leftDrawerTool!=null){
          leftDrawer = LeftDrawer{
-            color:bind drawerColor;
-            highliteColor:controlColor;
-            closedStrokeWidth:controlStrokeWidth;
-            closedSize:bind height-2*drawerCornerOffset;
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedStrokeWidth:controlStrokeWidth;
+//            closedSize:bind height-2*drawerCornerOffset;
             content:leftDrawerTool;
             activated:bind activated;
             activate: activate;
-            layoutX:-drawerBorderOffset;
+            layoutX:0;
             layoutY:drawerCornerOffset;
             height:bind height-2*drawerCornerOffset
          }
@@ -802,22 +819,20 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       emptyWindow = EmptyWindow{
          width: bind width;
          height:bind height;
-         controlSize:controlLength;
+         controlSize:cornerRadius;
          borderWidth:borderWidth;
-         borderColor:bind color;
-         secondBorderWidth:secondBorderWidth;
-         secondBorderColor:windowBackgroundColor;
-         backgroundColor:bind windowBackgroundColor;
+         windowColorScheme:windowColorScheme
       }
 
       contentElement = WindowContent{
          width:bind contentWidth;
          height:bind contentHeight;
+         windowColorScheme:windowColorScheme
          content:bind scyContent;
          activated:bind activated;
          activate: activate;
-         layoutX: borderWidth / 2 + 1 + contentBorder;
-         layoutY: contentTopOffset + contentBorder;
+         layoutX: borderWidth / 2 + 1 + contentSideBorder;
+         layoutY: contentTopOffset;
       }
 
 //      drawerGroup = Group{
@@ -831,64 +846,61 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //      }
 //
       windowTitleBar = WindowTitleBar{
-         width:bind width - 1 * borderWidth - titleBarLeftOffset
-         iconSize:iconSize;
-         iconGap:iconGap;
-         closeBoxWidth:bind if (closeElement.visible) closeBoxSize+1.5*controlStrokeWidth else 0.0;
-         color:bind color;
+         width:bind width - titleBarLeftOffset-titleBarRightOffset
+//         iconSize:iconSize;
+//         iconGap:iconGap;
+         closeBoxWidth:bind if (closeElement.visible) closeBoxSize+2*borderWidth+2 else 0.0;
+         iconSize:iconSize
          title:bind title;
-//         iconCharacter:bind iconCharacter;
          eloIcon:bind eloIcon;
          activated:bind activated
+         windowColorScheme:windowColorScheme
          layoutX:titleBarLeftOffset;
          layoutY:titleBarTopOffset;
       }
 
       resizeElement = WindowResize{
          visible: bind allowResize or isClosed;
-         size:controlLength;
-         strokeWidth:controlStrokeWidth;
-         color:bind color;
-         subColor:controlColor;
+         size:controlSize;
+         borderWidth:borderWidth;
+         separatorLength:separatorLength
+         windowColorScheme:windowColorScheme
          activate: activate;
          startResize:startResize;
          doResize:doResize;
          stopResize:stopResize;
-         layoutX: bind width+controlBorderOffset+controlStrokeWidth;
-         layoutY: bind height+controlBorderOffset+controlStrokeWidth;
+         layoutX: bind width
+         layoutY: bind height
       }
 
       rotateElement = WindowRotate{
          visible: bind allowRotate;
-         size:controlLength;
-         strokeWidth:controlStrokeWidth;
-         color:bind color;
-         subColor:controlColor;
+         size:controlSize;
+         borderWidth:borderWidth;
+         separatorLength:separatorLength
+         windowColorScheme:windowColorScheme
          activate: activate;
          rotateWindow:this;
-         layoutX: controlLength-controlBorderOffset-controlStrokeWidth+1;
-         layoutY: bind height-controlLength+controlBorderOffset+controlStrokeWidth;
+         layoutX: 0;
+         layoutY: bind height;
       }
 
       closeElement = WindowClose{
          visible: bind allowClose and not isClosed;
          size:closeBoxSize;
-         strokeWidth:controlStrokeWidth;
-         color:bind color;
-         subColor:controlColor;
+         windowColorScheme:windowColorScheme
          activate: activate;
          activated:bind activated
          closeAction:doClose;
-         layoutX: bind width -1.0*controlStrokeWidth - closeBoxSize - 1;
-         layoutY: 2*controlStrokeWidth;
+         layoutX: bind width - titleBarRightOffset -1.0*borderWidth - closeBoxSize - 1;
+         layoutY: borderWidth+closeBoxSize/2;
       }
 
       minimizeElement = WindowMinimize{
          visible: bind allowMinimize and not isClosed;
-         size:controlLength;
-         strokeWidth:controlStrokeWidth/2;
-         color:bind color;
-         subColor:controlColor;
+         size:controlSize;
+         separatorLength:separatorLength
+         windowColorScheme:windowColorScheme
          activate: activate;
          minimizeAction:doMinimize;
          unminimizeAction:doUnminimize;
@@ -1127,8 +1139,7 @@ function run() {
 
    var fixedScyWindow = StandardScyWindow{
       title: "Fixed"
-      color: Color.GREEN
-      drawerColor: Color.color(0.3, 0.7, 0.3);
+      windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
       height: 150;
 		//      scyContent:newGroup
       allowClose: false;
@@ -1164,9 +1175,7 @@ function run() {
    var closedScyWindow = StandardScyWindow{
       title: "Closed and very closed"
       eloType: "M"
-      color: Color.GRAY
-      drawerColor:Color.GRAY
-//      drawerColor:Color.DARKGRAY
+      windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.darkGray)
       height: 27;
       isClosed: true
       allowClose: true;
@@ -1201,8 +1210,7 @@ function run() {
 
    var eloWindow = StandardScyWindow{
       title: bind "elo window";
-      color: bind Color.DARKRED;
-      drawerColor: bind Color.RED;
+      windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.pink)
       allowClose: true;
       allowMinimize: true;
       allowResize: false;

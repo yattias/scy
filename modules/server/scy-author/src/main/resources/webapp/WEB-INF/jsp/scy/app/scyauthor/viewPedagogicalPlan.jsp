@@ -86,12 +86,12 @@
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td width="30%">SCYLab use</td>
-                <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}"/></td>
+                <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}" defaultValue="2"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>Mission content</td>
-                <td><s:ajaxSlider sliderValues="${contentLevels}"/></td>
+                <td><s:ajaxSlider sliderValues="${contentLevels}" defaultValue="1"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
         </table>

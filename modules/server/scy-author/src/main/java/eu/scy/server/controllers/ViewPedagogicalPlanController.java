@@ -32,33 +32,43 @@ public class ViewPedagogicalPlanController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String pedPlanId = request.getParameter("id");
-        logger.info("PED PLAN ID: " + pedPlanId);
-        PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
-
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("addStudent")) {
-                addStudent(request.getParameter("username"), modelAndView, plan);
-            } else if(action.equals("removeStudent")) {
-                removeStudent(request.getParameter("username"), modelAndView, plan);
-            }
+        PedagogicalPlan plan = null;
+        if(pedPlanId != null) {
+            logger.info("PED PLAN ID: " + pedPlanId);
+            plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
+        }
+        if(getModel() != null) {
+            plan = (PedagogicalPlan) getModel();
         }
 
+        if (plan!= null)  {
+            //plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
 
-        List agentLevels = new LinkedList();
-        agentLevels.add("Low");
-        agentLevels.add("Medium");
-        agentLevels.add("High");
+            String action = request.getParameter("action");
+            if (action != null) {
+                if (action.equals("addStudent")) {
+                    addStudent(request.getParameter("username"), modelAndView, plan);
+                } else if (action.equals("removeStudent")) {
+                    removeStudent(request.getParameter("username"), modelAndView, plan);
+                }
+            }
 
-        List contentLevels = new LinkedList();
-        contentLevels.add("Low");
-        contentLevels.add("Medium");
-        contentLevels.add("High");
-        modelAndView.addObject("agentLevels", agentLevels);
-        modelAndView.addObject("contentLevels", contentLevels);
 
-        modelAndView.addObject("pedagogicalPlan", plan);
-        modelAndView.addObject("assignedPedagogicalPlans", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(plan));
+            List agentLevels = new LinkedList();
+            agentLevels.add("Low");
+            agentLevels.add("Medium");
+            agentLevels.add("High");
+
+            List contentLevels = new LinkedList();
+            contentLevels.add("Low");
+            contentLevels.add("Medium");
+            contentLevels.add("High");
+            modelAndView.addObject("agentLevels", agentLevels);
+            modelAndView.addObject("contentLevels", contentLevels);
+
+            modelAndView.addObject("pedagogicalPlan", plan);
+            modelAndView.addObject("assignedPedagogicalPlans", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(plan));
+        }
     }
 
     private void removeStudent(String username, ModelAndView modelAndView, PedagogicalPlan plan) {

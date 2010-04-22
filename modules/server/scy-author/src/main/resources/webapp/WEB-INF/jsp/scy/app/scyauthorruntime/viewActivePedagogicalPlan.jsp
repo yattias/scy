@@ -11,12 +11,12 @@
 
                 <table id="teachersTable" width="100%">
                     <tr>
-                        <th></th>
-                        <th>User name</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Current activity</th>
-                        <th>Student plans</th>
+                        <th width="16%"></th>
+                        <th width="17%">User name</th>
+                        <th width="17%">First name</th>
+                        <th width="17%">Last name</th>
+                        <th width="16%">Current activity</th>
+                        <th width="17%">Student plans</th>
                     </tr>
                     <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
                         <tr class="${oddEven.oddEven}">
@@ -27,7 +27,7 @@
                             </td>
                             <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.firstname} </td>
                             <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.lastname}</td>
-                            <td><s:currentStudentActivity/></td>
+                            <td><s:currentStudentActivity username="${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.username}"/></td>
                             <td>
                                 <c:choose>
                                     <c:when test="${fn:length(assignedPedagogicalPlan.studentPlans) > 0}">

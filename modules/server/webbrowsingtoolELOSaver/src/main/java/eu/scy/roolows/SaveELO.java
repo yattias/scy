@@ -41,6 +41,9 @@
 package eu.scy.roolows;
 
 import com.sun.jersey.spi.resource.Singleton;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.Action;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
@@ -78,8 +81,8 @@ public class SaveELO {
 
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELO.class.getName());
+    private static final Beans beans  = Beans.getInstance();
+    private static final Logger log = Logger.getLogger(SaveELO.class.getName());
     private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
@@ -90,6 +93,7 @@ public class SaveELO {
 
     /** Creates a new instance of SaveELO */
     public SaveELO() {
+        initMetadataKeys();
     }
 
     /**
@@ -155,65 +159,61 @@ public class SaveELO {
             //TODO authenticate User!
             if (true) {
                 //Authentication ok
-
-                initMetadataKeys();
-
                 if (uri != null) {
                     //update ELO
-                    try {
-                        elo = configLoader.getRepository().retrieveELO(new URI(uri));
-                        if (elo != null) {
-                            elo.setContent(createELOContent(language, country, content));
-                            configLoader.getRepository().updateELO(elo);
-                            log.info("Updated ELO with uri: " + uri);
-                            return uri;
-                        } else {
-                            log.error("ELO is null - could not update!");
-                            return null;
-                        }
-                    } catch (URISyntaxException ex) {
-                        log.error(ex.getMessage());
-                        return null;
+                    elo = beans.getRepository().retrieveELO(new URI(uri));
+                    if (elo != null) {
+                        elo.setContent(createELOContent(language, country, content));
+                        beans.getRepository().updateELO(elo);
+                        log.info("Updated ELO with uri: " + uri);
+                        logSavedELOAction(username, uri, "elo_update",type);
+                    } else {
+                        log.error("could not update! <- Could not retrieve ELO (ELO is null)");
+                        //since the ELO could not be retrieved, the URI isnt correct
+                        uri = null;
                     }
-
                 } else {
                     //save ELO
-                    elo = configLoader.getEloFactory().createELO();
+                    elo = beans.getEloFactory().createELO();
                     elo.setMetadata(createELOMetadata(username, title, type, dateCreated, description));
                     elo.setContent(createELOContent(language, country, content));
                     log.info("Elo created. Metadata and content set");
-                    try {
-                        IMetadata metadata = configLoader.getRepository().addNewELO(elo);
-                        uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
-                        log.info("Saved ELO with uri: " + uri);
-                        //return the uri that the client knows it and can perform an update as the next save
-                        return uri;
-                    } catch (ELONotAddedException e) {
-                        log.error(e.getMessage());
-                    }
-                    return null;
+                    IMetadata metadata = beans.getRepository().addNewELO(elo);
+                    uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
+                    log.info("Saved ELO with uri: " + uri);
+                    logSavedELOAction(username, uri, "elo_save",type);
                 }
             } else {
                 log.error("authentication of user " + username + " failed.");
-                return null;
             }
         } catch (JSONException ex) {
             log.error(ex.getMessage());
+        } catch (URISyntaxException ex) {
+            log.error(ex.getMessage());
+        } catch (ELONotAddedException ex) {
+            log.error(ex.getMessage());
+        } catch (Exception ex) {
+            log.error("**********CATCH ALL**************");
+            log.error(ex);
+            ex.printStackTrace();
+            log.error("*********************************");
+        } finally {
+            //uri is null if the whole thing isnt working
+            return uri;
         }
-        return null;
     }
 
     private void initMetadataKeys() {
-        authorKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-        typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-        titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-        dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-        identifierKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-        descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+        authorKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        typeKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        titleKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+        dateCreatedKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+        identifierKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+        descriptionKey = beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
     }
 
     private IContent createELOContent(String language, String country, String content) {
-        IContent eloContent = configLoader.getEloFactory().createContent();
+        IContent eloContent = beans.getEloFactory().createContent();
         Locale defaultLocale;
         if (country != null) { //country code is optional
             defaultLocale = new Locale(language, country);
@@ -226,13 +226,13 @@ public class SaveELO {
     }
 
     private IMetadata createELOMetadata(String username, String title, String type, String dateCreated, String description) {
-        IMetadata metadata = configLoader.getEloFactory().createMetadata();
+        IMetadata metadata = beans.getEloFactory().createMetadata();
         Contribute contribute = new Contribute(username, System.currentTimeMillis());
         metadata.getMetadataValueContainer(authorKey).addValue(contribute);
 
         IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(metadata, typeKey);
-        if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
-            configLoader.getTypeManager().registerMetadataKey(typeKey);
+        if (!beans.getTypeManager().isMetadataKeyRegistered(typeKey)) {
+            beans.getTypeManager().registerMetadataKey(typeKey);
         }
         metadata.addMetadataPair(typeKey, container);
         metadata.getMetadataValueContainer(titleKey).setValue(title);
@@ -248,5 +248,19 @@ public class SaveELO {
             metadata.getMetadataValueContainer(descriptionKey).setValue(description);
         }
         return metadata;
+    }
+
+    private void logSavedELOAction(String username, String eloUri, String type,String elo_type) {
+        IAction action = new Action();
+        action.setType(type);
+        action.setUser(getSmackName(username));
+        action.addContext(ContextConstants.eloURI, eloUri);
+        action.addContext(ContextConstants.tool, "roolo-ws");
+        action.addAttribute("elo_type", elo_type);
+        beans.getActionLogger().log(action);
+    }
+
+    private String getSmackName(String username) {
+        return (username + "@" + beans.getServerConfig().getOpenFireHost() + "/Smack");
     }
 }

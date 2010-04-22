@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 
 import javafx.scene.Node;
 import javafx.scene.effect.Effect;
-import javafx.scene.paint.Color;
 import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
@@ -20,6 +19,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -31,9 +32,10 @@ public abstract class ScyWindow extends CustomNode {
    public var eloUri:URI;
    public var eloIcon:EloIcon;
 //   public var iconCharacter = "?";
-	public var color = Color.GREEN;
-	public var drawerColor = Color.LIGHTGREEN;
-	public var backgroundColor = color.WHITE;
+//	public var color = Color.GREEN;
+//	public var drawerColor = Color.LIGHTGREEN;
+//	public var backgroundColor = color.WHITE;
+   public-init var windowColorScheme:WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
    public var activated = false; // TODO, make only changeable from (sub) package
 	public var width: Number = 150;

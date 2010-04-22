@@ -8,19 +8,16 @@ import javax.servlet.jsp.tagext.TagSupport;
  * User: Henrik
  * Date: 30.mar.2010
  * Time: 08:45:31
- * To change this template use File | Settings | File Templates.
  */
 public class HelpLink extends TagSupport {
 
     private String helpId;
     private String helpUrl = "/webapp/components/links/help.html";
 
-
-     public int doEndTag() throws JspException {
+    public int doEndTag() throws JspException {
         try {
-            double id = Math.random();
             helpUrl = helpUrl + "?id=" + getHelpId();
-            pageContext.getOut().write("<a href=\"javascript:loadDialog('"+ helpUrl +"', '" + "" + "');\">" + "(?)" + "</a>");
+            pageContext.getOut().write("<a href=\"javascript:loadDialog('" + helpUrl + "', '" + "" + "');\">" + "(?)" + "</a>");
         } catch (Exception e) {
             e.printStackTrace();
         }
