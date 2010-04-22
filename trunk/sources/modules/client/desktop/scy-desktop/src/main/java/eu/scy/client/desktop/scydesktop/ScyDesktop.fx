@@ -600,10 +600,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
             }
         }
         if (scyToolsList.bottomDrawerTool != null) {
+            window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
             if (collaboration){
                window.openDrawer("bottom");
             }
-            window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
         }
         if (scyToolsList.leftDrawerTool != null) {
             window.leftDrawerTool = scyToolsList.leftDrawerTool;

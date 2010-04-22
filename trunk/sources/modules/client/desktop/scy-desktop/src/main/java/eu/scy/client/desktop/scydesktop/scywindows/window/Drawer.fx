@@ -47,7 +47,20 @@ public abstract class Drawer extends CustomNode {
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
    protected def closeControlSize = 10.0;
-   protected var opened = false;
+   protected var opened = false on replace {
+         if (drawerCreated){
+            openCloseDrawer();
+         }
+         else{
+            if (opened){
+               contentContainer.content = contentGroup;
+            }
+            else{
+               delete contentContainer.content;
+            }
+            positionControlElements();
+         }
+      };
    protected var width = 50.0 on replace {
               sizeChanged()
            };
@@ -88,6 +101,7 @@ public abstract class Drawer extends CustomNode {
    def contentGroup = Group{
    }
    var clipRectColor = Color.TRANSPARENT;
+   var drawerCreated = false;
 
 
    function sizeChanged() {
@@ -98,6 +112,7 @@ public abstract class Drawer extends CustomNode {
 
    public override function create(): Node {
       createElements();
+      positionControlElements();
       adjustClipRect();
       contentGroup.content = [
          border,
@@ -111,6 +126,7 @@ public abstract class Drawer extends CustomNode {
          contentContainer,
          openCloseControl
       ];
+      drawerCreated = true;
       Group{
          clip:clipRect
          content:[
@@ -139,7 +155,7 @@ public abstract class Drawer extends CustomNode {
          windowColorScheme:windowColorScheme
          size:closedSize
          onMouseClicked: function (e: MouseEvent): Void {
-            openCloseDrawer();
+            opened = not opened;
          }
       }
       if (content instanceof Parent){
@@ -194,7 +210,6 @@ public abstract class Drawer extends CustomNode {
 
    function openCloseDrawer():Void{
       var openFactor = 0.0;
-      opened = not opened;
       var animationInterpolation = Interpolator.EASEBOTH;
       if (opened){
          contentContainer.content = contentGroup;
