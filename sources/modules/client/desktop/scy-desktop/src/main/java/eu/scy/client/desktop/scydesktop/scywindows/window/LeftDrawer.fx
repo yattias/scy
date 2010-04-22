@@ -18,7 +18,6 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 // place your code here
 public class LeftDrawer extends Drawer{
 
-   //override def absoluteMinimumHeight = 2*controlSize;
    override def horizontal = false;
 
    init{

@@ -19,8 +19,6 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 // place your code here
 public class TopDrawer extends Drawer{
 
-  // override def absoluteMinimumWidth = 2*controlSize;
-
    init{
       resizeYFactor = -1;
       openedYFactor = 0;
