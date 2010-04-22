@@ -97,7 +97,8 @@
     </bean>
 
     <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">
-
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
 </beans>

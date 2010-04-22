@@ -242,6 +242,11 @@
         <tagclass>eu.scy.server.taglibs.components.realtime.CurrentStudentActivityController</tagclass>
         <bodycontent>empty</bodycontent>
         <info>Delete link</info>
+        <attribute>
+            <name>username</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 
     <tag>

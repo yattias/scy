@@ -371,6 +371,25 @@ CREATE TABLE `setup` (
     PRIMARY KEY  (`primKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `runtimeaction`;
+CREATE TABLE `runtimeaction` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	`actionType` varchar(250) default NULL,
+	`tool` varchar(250) default NULL,
+	`session` varchar(250) default NULL,
+	`mission` varchar(250) default NULL,
+	`runtimeactiontype` varchar(55) default NULL,
+	`actionId` varchar(250) default NULL,
+    `timeInMillis` bigint(20) NOT NULL default '0',
+    `user_primKey` bigint(20) DEFAULT NULL,
+    KEY `runtimeactionrefuser` (`user_primKey`),
+    CONSTRAINT `runtimeactionrefuserconst` FOREIGN KEY (`user_primKey`) REFERENCES `users` (`id`),
+    PRIMARY KEY  (`primKey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 

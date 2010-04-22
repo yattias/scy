@@ -33,8 +33,8 @@ public class SCYHubExternalComponent implements IExternalComponent {
         	manager = new ExternalComponentManager(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFireExternalComponentPort());
         	manager.setSecretKey(Configuration.getInstance().getSCYHubName(), Configuration.getInstance().getOpenFireExternalComponentSecretKey());
         	manager.setMultipleAllowed(Configuration.getInstance().getSCYHubName(), true);
-        	scyhub = new SCYHubComponent();
-            manager.addComponent(Configuration.getInstance().getSCYHubName(), scyhub);
+        	//scyhub = new SCYHubComponent();
+            manager.addComponent(Configuration.getInstance().getSCYHubName(), getScyhub());
         } catch (ComponentException e) {
             throw new ExternalComponentFailedException("Could not start SCY-Hub!", e);
         }
@@ -54,4 +54,11 @@ public class SCYHubExternalComponent implements IExternalComponent {
 		}
 	}
 
+    public SCYHubComponent getScyhub() {
+        return scyhub;
+    }
+
+    public void setScyhub(SCYHubComponent scyhub) {
+        this.scyhub = scyhub;
+    }
 }

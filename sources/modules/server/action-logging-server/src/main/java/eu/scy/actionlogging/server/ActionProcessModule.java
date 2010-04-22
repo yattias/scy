@@ -39,7 +39,7 @@ public class ActionProcessModule extends SCYHubModule {
         	Tuple actionTuple = ActionTupleTransformer.getActionAsTuple(action);
             try {
                 ts.write(actionTuple);
-                logger.debug("Tuple with " + action.getId() + " written into the logging space");
+                logger.info("Tuple with " + action.getId() + " written into the logging space");
             } catch (TupleSpaceException e) {
             	logger.error("Could not write tuple into space", e);
             }
@@ -49,7 +49,7 @@ public class ActionProcessModule extends SCYHubModule {
 	@Override
 	protected void process(Packet packet, WhacketExtension extension) {
 		Action action = (Action) extension.getPojo();
-		logger.debug("Received action for logging: " + action);
+		logger.info("Received action for logging: " + action);
 		try {
 			writeAction(action);
 		} catch (TupleSpaceException e) {
