@@ -37,8 +37,6 @@ public class BottomDrawer extends Drawer{
       if (opened){
          openCloseControl.layoutY += height;
       }
-//      closeControl.layoutX = width-1.5*closeControlSize;
-//      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }
