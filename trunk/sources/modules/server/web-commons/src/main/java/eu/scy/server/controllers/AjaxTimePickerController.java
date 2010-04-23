@@ -38,7 +38,8 @@ public class AjaxTimePickerController extends AbstractAjaxController {
 
 
        if(property == null || value == null) return null;
-        value = value.replace(".", ":") + ":00";        
+        value = value.replace(".", ":") + ":00";
+        System.out.println("VVVAAAALLUUUE: " + value);
        try {
            String firstLetter = property.substring(0,1);
            firstLetter = firstLetter.toUpperCase();
