@@ -95,11 +95,12 @@ public class ScyMapperRepositoryWrapper {
             IMetadata metadata = foundElo.getMetadata();
             IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
             // TODO fixe the locale problem!!!
-            Object titleObject = metadataValueContainer.getValue();
-            Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-            Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
+            Object titleObject = metadataValueContainer.getValue(Locale.getDefault());
+            if (titleObject==null){
+               titleObject = metadataValueContainer.getValue();
+            }
 
-            setDocName(titleObject3.toString());
+            setDocName(titleObject.toString());
             return foundElo;
         }
         return null;
