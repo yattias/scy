@@ -17,6 +17,7 @@ import eu.scy.agents.impl.AgentProtocol;
 public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 
 	private static final String NAME = ELOHasBeenSavedAgent.class.getName();
+	private static final Object TYPE = "type=elo_show";
 
 	/**
 	 * Create a new ELOHasBeenSavedAgent filtering agent. The argument <code>map</code> is used to initialize special
@@ -34,38 +35,13 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 		}
 	}
 
-	// @Override
-	// public void processElo(IELO elo) {
-	// if (elo == null) {
-	// return;
-	// }
-	//
-	// if (elo.getUri() == null) {
-	// return;
-	// }
-	//
-	// Tuple tuple = new Tuple("notifyEloBrowser", elo.getUri().toString());
-	//
-	// try {
-	// getCommandSpace().write(tuple);
-	// } catch (TupleSpaceException e) {
-	// e.printStackTrace();
-	// }
-	// // sender.send("roolo", "roolo", notification);
-	// }
-
-	// @Override
-	// protected void processELOSavedAction(IAction action) {
-	//
-	// }
-
 	@Override
 	protected void processELOSavedAction(String actionId, String user, long timeInMillis, String tool, String mission,
 			String session, String eloUri, String eloType) {
 
 		Tuple notificationTuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), user, tool, NAME,
 				mission, session, AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri, AgentProtocol.ACTIONLOG_ELO_TYPE
-						+ "=" + eloType);
+						+ "=" + eloType, TYPE);
 
 		try {
 			this.getCommandSpace().write(notificationTuple);
