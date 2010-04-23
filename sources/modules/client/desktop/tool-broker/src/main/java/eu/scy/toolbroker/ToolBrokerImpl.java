@@ -308,7 +308,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
                 logger.debug("Login successful" + userName + " " + password);
             } catch (XMPPException e) {
                 logger.error("Login failed  " + e);
-                e1.printStackTrace();
+                e.printStackTrace();
                 throw new LoginFailedException(userName);
             }
 
