@@ -108,7 +108,7 @@ public class TestClient extends JerseyTest {
     }
 
     public TestClient() {
-        super(new WebAppDescriptor.Builder("eu.scy.roolows").contextPath("scy-roolo-ws").build());
+        super(new WebAppDescriptor.Builder("eu.scy.roolows").contextPath("roolo-ws").build());
         initMetadataKeys();
     }
 
