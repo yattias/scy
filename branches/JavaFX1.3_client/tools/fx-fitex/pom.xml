@@ -1,0 +1,210 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+
+<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>9.8.0-SNAPSHOT</version>
+	</parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fx-fitex</artifactId>
+    <packaging>jar</packaging>
+    <name>FxFitex</name>
+
+
+    <!--<modelVersion>4.0.0</modelVersion>
+    <groupId>eu.scy.client.tools</groupId>
+    <version>9.8.0-SNAPSHOT</version>
+    <artifactId>fx-fitex</artifactId>
+    <name>FxFitex</name>
+    <packaging>jar</packaging> -->
+
+    <licenses>
+        <license>
+            <name>lgpl</name>
+        </license>
+    </licenses>
+
+    <dependencies>
+
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>dataprocesstool</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>drawingtool</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
+     <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>scy-desktop</artifactId>
+         <version>${pom.version}</version>
+      </dependency> 
+
+     <dependency>
+
+      <groupId>eu.scy.common</groupId>
+	<artifactId>tool-broker-api</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+
+     <dependency>
+        <groupId>eu.scy.client.desktop</groupId>
+        <artifactId>tool-broker</artifactId>
+        <version>${pom.version}</version>
+    </dependency> 
+
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>action-logging-api</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>action-logging-commons</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+           
+   </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                         <tasks>
+                        <echo>Compiling JavaFX test sources</echo>
+                        <property name="javafx.home" value="${env.JAVAFX_HOME}" />
+                        <path id="javafxc.classpath">
+                           <fileset dir="${javafx.home}">
+                              <include name="**/javafxrt.jar"/>
+                              <include name="**/javafxc.jar"/>
+                              <include name="**/toolchain.jar"/>
+                           </fileset>
+                        </path>
+                        <path id="javafx.classpath">
+                           <fileset dir="${javafx.home}">
+                              <!-- shared 1.2 -->
+                              <include name="**/fxdtools.jar" />
+                              <include name="**/javafxc.jar" />
+                              <include name="**/javafxrt.jar" />
+                              <include name="**/toolchain.jar" />
+                              <!-- desktop 1.2 -->
+                              <include name="**/javafx-anim.jar" />
+                              <include name="**/javafx-common.jar" />
+                              <include name="**/javafx-geom.jar" />
+                              <include name="**/javafx-io.jar" />
+                              <include name="**/javafx-ui-charts.jar" />
+                              <include name="**/javafx-ui-common.jar" />
+                              <include name="**/javafx-ui-controls.jar" />
+                              <include name="**/javafx-ui-desktop.jar" />
+                              <include name="**/javafx-ui-swing.jar" />
+                              <include name="**/websvc.jar" />
+                           </fileset>
+                        </path>
+                        <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="javafxc.classpath" name="javafxc"/>
+                        <mkdir dir="target/classes"/>
+                        <javafxc debug="true" destdir="target/classes" compilerclasspathref="javafxc.classpath">
+                           <src path="src/main/java"/>
+                           <classpath refid="maven.compile.classpath"/>
+                           <classpath refid="javafx.classpath"/>
+                        </javafxc>
+                     </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+           <!--outputDirectory></outputDirectory--> <!-- not required?? -->
+
+           <!--
+           Set to true to exclude all transitive dependencies. Default is false.
+           -->
+                    <excludeTransitive>false</excludeTransitive>
+
+           <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
+                    <!--<libPath>lib</libPath>-->
+
+           <!-- JNLP generation -->
+                    <jnlp>
+             <!-- default values -->
+             <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
+                <!--        <inputTemplate>src/main/jnlp/template.vm</inputTemplate> --> <!-- relative to inputTemplateResourcePath -->
+                        <outputFile>fxFitex.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+             <!-- used to automatically identify the jar containing the main class. -->
+             <!-- this is perhaps going to change -->
+                        <mainClass>eu.scy.client.tools.fxfitex.Main</mainClass>
+                    </jnlp>
+
+               <!--     <sign>
+                        <keypass>scylab</keypass>
+                        <storepass>scylab</storepass>
+                        <alias>scykeystore</alias>
+                        <keystore>${project.build.directory}/../scykeystore.jks</keystore>
+                        <verify>true</verify>
+                        <keystoreConfig>
+                            <delete>false</delete>
+                            <gen>false</gen>
+                        </keystoreConfig>
+
+                    </sign> -->
+                    <unsign>false</unsign>
+
+           <!-- BUILDING PROCESS -->
+
+                    <pack200>false</pack200>
+                    <gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+           <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+                    <outputJarVersions>false</outputJarVersions>
+
+           <!--install>false</install--> <!-- not yet supported -->
+                    <verbose>false</verbose>
+
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java/</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

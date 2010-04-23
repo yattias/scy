@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/scy-commons"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Users/anthonjp/dev/libs/javaFx/layouts/JFXtras-0.5.jar" sourcepath="/Users/anthonjp/dev/libs/javaFx/layouts/JFXtras Core 0.5/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.sun.javafx.eclipse.core.classpath.SDKClasspathContainer/reserved/desktop"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

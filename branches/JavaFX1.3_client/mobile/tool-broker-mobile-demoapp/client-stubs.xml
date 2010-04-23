@@ -1,0 +1,6 @@
+<configuration xmlns="http://java.sun.com/xml/ns/jax-rpc/ri/config">
+
+<wsdl location="http://scy.collide.info:8080/scy-useradmin-web/services/RepositoryService?wsdl"
+      packageName="eu.scy.mobile.toolbroker.demo.client.stubs"/>
+
+</configuration>

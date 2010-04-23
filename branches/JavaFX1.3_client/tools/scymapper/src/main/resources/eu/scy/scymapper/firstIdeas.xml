@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	   default-autowire="byName">
+
+	<import resource="genericShapes.xml"/>
+	<import resource="scymapperToolConfig.xml"/>
+
+	<bean id="firstIdeasConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration"
+		  factory-method="getInstance" parent="simpleConfiguration">
+		<property name="predefinedNodes">
+			<list>
+				<bean name="houseConcept" class="eu.scy.scymapper.impl.model.NodeModel">
+					<property name="label" value=""/>
+					<property name="shape" ref="houseShape"/>
+					<property name="x" value="50"/>
+					<property name="y" value="50"/>
+					<property name="height" value="379"/>
+					<property name="width" value="300"/>
+					<property name="constraints" ref="locked"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.model.NodeModel">
+					<property name="label" value="Heat loss"/>
+					<property name="x" value="350"/>
+					<property name="y" value="50"/>
+					<property name="width" value="250"/>
+					<property name="height" value="68"/>
+					<property name="constraints" ref="locked"/>
+					<property name="shape" ref="firstIdeasArrow"/>
+					<property name="style" ref="firstIdeasArrowStyle"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.model.NodeModel">
+					<property name="label" value="Energy input"/>
+					<property name="x" value="450"/>
+					<property name="y" value="450"/>
+					<property name="width" value="250"/>
+					<property name="height" value="68"/>
+					<property name="constraints" ref="locked"/>
+					<property name="shape" ref="firstIdeasArrow"/>
+					<property name="style" ref="firstIdeasArrowStyle"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.model.NodeModel">
+					<property name="label" value="Energy use inside the house"/>
+					<property name="x" value="150"/>
+					<property name="y" value="450"/>
+					<property name="width" value="250"/>
+					<property name="height" value="118"/>
+					<property name="constraints" ref="locked"/>
+					<property name="shape" ref="firstIdeasEnergyUseInside"/>
+					<property name="style" ref="firstIdeasArrowStyle"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="locked" class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+		<property name="canConnect" value="true"/>
+		<property name="canDelete" value="false"/>
+		<property name="canSelect" value="false"/>
+		<property name="canEditLabel" value="true"/>
+		<property name="canMove" value="true"/>
+		<property name="canResize" value="false"/>
+		<property name="alwaysOnTop" value="true"/>
+	</bean>
+
+	<bean id="lockedResizable" parent="locked" class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+		<property name="canResize" value="true"/>
+	</bean>
+	<bean name="houseShape" class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+		<constructor-arg value="/eu/scy/scymapper/firstideas/house.png"/>
+	</bean>
+
+	<bean id="firstIdeasArrowStyle" class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+		<property name="minWidth" value="40"/>
+		<property name="minHeight" value="40"/>
+		<property name="background" ref="red"/>
+		<property name="foreground" ref="black"/>
+		<property name="paintShadow" value="false"/>
+	</bean>
+	<bean name="firstIdeasArrow" class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+		<constructor-arg value="/eu/scy/scymapper/firstideas/arrow.png"/>
+	</bean>
+	<bean name="firstIdeasEnergyUseInside" class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+		<constructor-arg value="/eu/scy/scymapper/firstideas/energy-use-inside.png"/>
+	</bean>
+</beans>
