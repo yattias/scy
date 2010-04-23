@@ -1,12 +1,13 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.model.ScyBase;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,16 +36,23 @@ public class AjaxDatePickerController extends AbstractAjaxController {
     }
 
     private Boolean executeSetter(Object object, String property, String value) {
-       if(property == null) return null;
+       System.out.println("VALUE!!!: " + value);
+
+        if(property == null) return null;
        try {
            String firstLetter = property.substring(0,1);
            firstLetter = firstLetter.toUpperCase();
            property = firstLetter + property.substring(1, property.length());
            Method method = object.getClass().getMethod("set" + property, Date.class);
 
-           String year = value.substring(0,4);
-           String month = value.substring(5,7);
-           String day = value.substring(8,10);
+           //String[] dateParts = value.split(".");
+           //System.out.println("Length: " + dateParts.length);
+           String year = value.substring(6,10);
+           //String year = dateParts[2];
+           String month = value.substring(3,5);
+           //String month = dateParts[1];
+           String day = value.substring(0,2);
+           //String day = dateParts[0];
            System.out.println(year);
            System.out.println(month);
            System.out.println(day);

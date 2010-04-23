@@ -1,9 +1,10 @@
 package eu.scy.server.taglibs;
 
 import eu.scy.core.model.ScyBase;
+
+import javax.servlet.jsp.JspException;
 import java.lang.reflect.Method;
 import java.sql.Date;
-import javax.servlet.jsp.JspException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,10 +18,12 @@ public class AjaxDatePicker extends AjaxBaseComponent{
         try {
             double id = Math.random() ;
             pageContext.getOut().write("<form id=\"datePickerForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxDatePicker.html\">");
-            pageContext.getOut().write("<input type=\"text\" name=\"date" + "\" id=\"date"+id+"\" value=\"" + executeGetter(getModel(), getProperty()) + "\" onChange=\"postForm('datePickerForm" + id + "');\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" />");
+
+            pageContext.getOut().write("<input type=\"hidden\" name=\"date\" id=\"dateValue" + id +"\" value=\"" + executeGetter(getModel(), getProperty()) + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
+            pageContext.getOut().write("<span  id=\"date"+id+"\" value=\"" + executeGetter(getModel(), getProperty()) + "\" onChange=\"document.getElementById('dateValue"+ id +"').value=this.value;postForm('datePickerForm" + id + "');\" editor=\"dijit.form.DateTextBox\" dojoType=\"dijit.InlineEditBox\" required=\"true\" />");
             pageContext.getOut().write("</form>");
         } catch(Exception e) {
             e.printStackTrace();
