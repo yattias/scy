@@ -263,30 +263,30 @@ public class StudentPlanningController {
 	}
 	public StudentPedagogicalPlanService getStudentPlanService() throws NullPointerException {
 
-//		String url1 = "http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker";
-//		String url2 = "http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker";
-//		// service =
-//		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
-////		if (studentPedagogicalPlanService == null)
-//		configuration = Configuration.getInstance();
-//		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
-//		//studentPedagogicalPlanService = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
-//		//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
-//		
-//		if( this.toolbrokerApi == null || this.toolbrokerApi.getStudentPedagogicalPlanService() == null) {
-//			log.severe("StudentPedagogicalPlanService is NULL, LAME, using backup: " + url1);
-//			return getWithUrl(url2);
-//		}
-//		return null;
-//		
-		if( this.getToolbrokerApi() == null ) {
-			throw new NullPointerException("Tool broker is null");
-		} else if(  this.getToolbrokerApi().getStudentPedagogicalPlanService() == null ) {
-			throw new NullPointerException("getStudentPedagogicalPlanService is null");
-		} else {
-			return this.getToolbrokerApi().getStudentPedagogicalPlanService();
-		}
+		String url1 = "http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker";
+		String url2 = "http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker";
+		// service =
+		// getWithUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+//		if (studentPedagogicalPlanService == null)
+		configuration = Configuration.getInstance();
+		//studentPedagogicalPlanService = getWithUrl(configuration.getStudentPlanningToolUrl());
+		//studentPedagogicalPlanService = getWithUrl("http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker");
+		//studentPedagogicalPlanService = getWithUrl("http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker");
 		
+		if( this.toolbrokerApi == null || this.toolbrokerApi.getStudentPedagogicalPlanService() == null) {
+			log.severe("StudentPedagogicalPlanService is NULL, LAME, using backup: " + url2);
+			return getWithUrl(url2);
+		}
+		return null;
+		
+//		if( this.getToolbrokerApi() == null ) {
+//			throw new NullPointerException("Tool broker is null");
+//		} else if(  this.getToolbrokerApi().getStudentPedagogicalPlanService() == null ) {
+//			throw new NullPointerException("getStudentPedagogicalPlanService is null");
+//		} else {
+//			return this.getToolbrokerApi().getStudentPedagogicalPlanService();
+//		}
+//		
 	}
 	
 	private StudentPedagogicalPlanService getWithUrl(String url) {

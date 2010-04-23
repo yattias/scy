@@ -14,16 +14,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -50,7 +48,6 @@ import javax.swing.plaf.FontUIResource;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXDatePicker;
@@ -61,12 +58,9 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.VerticalLayout;
-import org.jdesktop.swingx.JXFrame.StartPosition;
-import org.jdesktop.swingx.calendar.CalendarUtils;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
-import roolo.elo.metadata.BasicMetadata;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.core.model.User;
@@ -85,21 +79,21 @@ import eu.scy.tools.planning.ui.images.Images;
 
 public class StudentPlanningTool {
 
-	private static Logger log = Logger.getLogger("StudentPlanningTool.class");
+	private static Logger log = Logger.getLogger("StudentPlanningTool.class"); //$NON-NLS-1$
 
-	private static final String NO_ELOS_LABEL = "NO_ELOS_LABEL";
+	private static final String NO_ELOS_LABEL = "NO_ELOS_LABEL"; //$NON-NLS-1$
 
-	private static final String TASKPANE = "TASKPANE";
+	private static final String TASKPANE = "TASKPANE"; //$NON-NLS-1$
 
-	private static final String ACTIVITY_NAME = "ACTIVITY_NAME";
+	private static final String ACTIVITY_NAME = "ACTIVITY_NAME"; //$NON-NLS-1$
 
-	private static final String END_DATE_MAP = "END_DATE_MAP";
+	private static final String END_DATE_MAP = "END_DATE_MAP"; //$NON-NLS-1$
 
-	private static final String START_DATE_MAP = "START_DATE_MAP";
+	private static final String START_DATE_MAP = "START_DATE_MAP"; //$NON-NLS-1$
 
-	private static final String STUDENT_PLANNED_ACTIVITY = "STUDENT_PLANNED_ACTIVITY";
+	private static final String STUDENT_PLANNED_ACTIVITY = "STUDENT_PLANNED_ACTIVITY"; //$NON-NLS-1$
 
-	Font activityFont = new Font("Segoe UI", Font.BOLD, 11);
+	Font activityFont = new Font("Segoe UI", Font.BOLD, 11); //$NON-NLS-1$
 
 	private PedagogicalPlanService pedagogicalPlanService;
 
@@ -107,14 +101,14 @@ public class StudentPlanningTool {
 
 	private StudentPlanningController studentPlanningController;
 
-	private String END_DATE_PICKER = "END_DATE_PICKER";
+	private String END_DATE_PICKER = "END_DATE_PICKER"; //$NON-NLS-1$
 
 	private JXLabel messageLabel;
 
 	private JScrollPane scrollPane;
 	
-	private String paneOpenStr = Images.class.getResource("PaneOpen.png").toExternalForm();
-	private String paneClosedStr = Images.class.getResource("PaneClosed.png").toExternalForm();
+	private String paneOpenStr = Images.class.getResource("PaneOpen.png").toExternalForm(); //$NON-NLS-1$
+	private String paneClosedStr = Images.class.getResource("PaneClosed.png").toExternalForm(); //$NON-NLS-1$
 
 	/**
 	 * creates a JFrame and calls {@link #doInit} to create a JXPanel and adds
@@ -125,6 +119,8 @@ public class StudentPlanningTool {
 	public StudentPlanningTool(
 			StudentPlanningController studentPlanningController) {
 
+		// Set the default locale to pre-defined locale
+		Locale.setDefault(new Locale("no", "NO"));
 		// if (studentPlanningController == null) {
 		// JOptionPane.showMessageDialog(null,
 		// "The Server is probably not stable if u can read this!");
@@ -133,7 +129,7 @@ public class StudentPlanningTool {
 		this.setStudentPlanningController(studentPlanningController);
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
+				if ("Nimbus".equals(info.getName())) { //$NON-NLS-1$
 					UIManager.setLookAndFeel(info.getClassName());
 					break;
 				}
@@ -158,17 +154,17 @@ public class StudentPlanningTool {
 
 	public void launchInFrame(final StudentPlanningTool studentPlanningToolMain) {
 
-		JFrame frame = new JFrame("Launcher");
+		JFrame frame = new JFrame("Launcher"); //$NON-NLS-1$
 
 		// add the panel to this frame
 
-		JXButton openFrame = new JXButton("Launch It");
+		JXButton openFrame = new JXButton("Launch It"); //$NON-NLS-1$
 		openFrame.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame("Planning Tool");
-				frame.setLayout(new MigLayout("insets 0 0 0 0"));
+				JFrame frame = new JFrame("Planning Tool"); //$NON-NLS-1$
+				frame.setLayout(new MigLayout("insets 0 0 0 0")); //$NON-NLS-1$
 				// JScrollPane scrollPane = new JScrollPane(doInit());
 				//				
 				// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -212,14 +208,14 @@ public class StudentPlanningTool {
 	}
 
 	public JXButton testButton() {
-		JXButton openFrame = new JXButton("Test components press here");
+		JXButton openFrame = new JXButton("Test components press here"); //$NON-NLS-1$
 		openFrame.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				JFrame frame = new JFrame("Test drag panel");
-				frame.setLayout(new MigLayout("insets 0 0 0 0"));
+				JFrame frame = new JFrame("Test drag panel"); //$NON-NLS-1$
+				frame.setLayout(new MigLayout("insets 0 0 0 0")); //$NON-NLS-1$
 
 				// frame.add(createDragPanel());
 				// frame.setPreferredSize(new Dimension(500, 600));
@@ -243,10 +239,10 @@ public class StudentPlanningTool {
 		changeUIdefaults();
 
 		messageLabel = new JXLabel(
-				"<html><b>Drag and Drop ELOs from the Mission Map to make a plan.</b></html>");
+				Messages.getString("StudentPlanningTool.0")); //$NON-NLS-1$
 		// create a taskpanecontainer
 		taskpanecontainer = new JXTaskPaneContainer();
-		taskpanecontainer.setLayout(new MigLayout("inset 0 0 0 0, wrap"));
+		taskpanecontainer.setLayout(new MigLayout("inset 0 0 0 0, wrap")); //$NON-NLS-1$
 		this.studentPlanningController.setEntryContainer(taskpanecontainer);
 		taskpanecontainer.setOpaque(true);
 		taskpanecontainer.setBackgroundPainter(getTaskPaneTitlePainter());
@@ -304,18 +300,18 @@ public class StudentPlanningTool {
 				
 				
 				
-				String msg = "<html>Using the Planning Tool is very simple!<br><br><b>1. </b>Drag and Drop ELOs from the <b>Mission Map</b> to add entries to the planner.<br><b>2. </b>Drag and Drop Buddys from the <b>Buddy List</b> to add collaborators.<br><b>3. </b>Set dates and notes." +
-								"<br><br><b>There two views to the Planning Tool:</b>"+
-								"<br><br><b>1.</b> Planning Entry collapsed.</b><br><br><img src='" + paneClosedStr +"'>" +
-										"<br><br><b>2.</b> Planning Entry expanded.</b><br><br><img src='" + paneOpenStr +"'>" +
-										"<br><br><b>Have fun!</b>"+
-												"</html>";
+				String msg = Messages.getString("StudentPlanningTool.21") + //$NON-NLS-1$
+								Messages.getString("StudentPlanningTool.22")+ //$NON-NLS-1$
+								Messages.getString("StudentPlanningTool.1") + paneClosedStr +"'>" + //$NON-NLS-1$ //$NON-NLS-2$
+										Messages.getString("StudentPlanningTool.25") + paneOpenStr +"'>" + //$NON-NLS-1$ //$NON-NLS-2$
+										Messages.getString("StudentPlanningTool.27")+ //$NON-NLS-1$
+												Messages.getString("StudentPlanningTool.28"); //$NON-NLS-1$
 
 				JOptionPane optionPane = new JOptionPane();
 				optionPane.setMessage(msg);
 				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 				JDialog dialog = optionPane.createDialog(null,
-						"For Your Information");
+						Messages.getString("StudentPlanningTool.29")); //$NON-NLS-1$
 				dialog.setVisible(true);
 			}
 		};
@@ -329,7 +325,7 @@ public class StudentPlanningTool {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JTextField source = (JTextField) e.getSource();
-				System.out.println("TEST IS " +source.getText());
+				System.out.println("TEST IS " +source.getText()); //$NON-NLS-1$
 				
 				String eloId = source.getText();
 				//StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
@@ -355,7 +351,7 @@ public class StudentPlanningTool {
 			public void keyPressed(KeyEvent e) {
 				if( e.getKeyChar() == 'b') {
 					JTextField source = (JTextField) e.getSource();
-					System.out.println("make buddy " +source.getText());
+					System.out.println("make buddy " +source.getText()); //$NON-NLS-1$
 					
 					IAwarenessUser a = new AwarenessUser();
 					a.setNickName(source.getText());
@@ -367,7 +363,7 @@ public class StudentPlanningTool {
 
 		infoAction.putValue(infoAction.SMALL_ICON, Images.Information.getIcon());
 		JXHyperlink infoLink = new JXHyperlink(infoAction);
-		infoLink.setToolTipText("Click me for help!");
+		infoLink.setToolTipText(Messages.getString("StudentPlanningTool.32")); //$NON-NLS-1$
 		
 		
 		JXPanel messagePanel = new JXPanel(new BorderLayout(0,0));
@@ -402,19 +398,19 @@ public class StudentPlanningTool {
 	public void acceptDrop(Object drop) {
 		
 	
-		log.severe("we just dropped a load of..." + drop.toString());
+		log.severe("we just dropped a load of..." + drop.toString()); //$NON-NLS-1$
 		
 		if( drop == null) {
 			
-			log.severe("DROOPPED IS NULL: " + drop);
+			log.severe("DROOPPED IS NULL: " + drop); //$NON-NLS-1$
 			
-			String msg = "<html>This ELO cant be planned, try another one</html>";
+			String msg = Messages.getString("StudentPlanningTool.35"); //$NON-NLS-1$
 
 			JOptionPane optionPane = new JOptionPane();
 			optionPane.setMessage(msg);
 			optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
 			JDialog dialog = optionPane.createDialog(null,
-					"For Your Information");
+					Messages.getString("StudentPlanningTool.36")); //$NON-NLS-1$
 			dialog.setVisible(true);
 			return;
 		}
@@ -428,13 +424,13 @@ public class StudentPlanningTool {
 			
 			if( studentPlanningController.doesTaskPaneExist(eloId) ) {
 				
-				String msg = "<html>The ELO <b>" + eloId +"</b> all ready has an entry.</html>";
+				String msg = Messages.getString("StudentPlanningTool.37") + eloId +Messages.getString("StudentPlanningTool.38"); //$NON-NLS-1$ //$NON-NLS-2$
 
 				JOptionPane optionPane = new JOptionPane();
 				optionPane.setMessage(msg);
 				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 				JDialog dialog = optionPane.createDialog(null,
-						"For Your Information");
+						Messages.getString("StudentPlanningTool.39")); //$NON-NLS-1$
 				dialog.setVisible(true);
 				
 				return;
@@ -442,11 +438,11 @@ public class StudentPlanningTool {
 			
 			
 			
-			log.severe("ELO ID DROPPED IN STUDENT PLANNING TOOL" + eloId);
+			log.severe("ELO ID DROPPED IN STUDENT PLANNING TOOL" + eloId); //$NON-NLS-1$
 			
 			StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
 			
-			log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId);
+			log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId); //$NON-NLS-1$
 			this.addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
 			
 		} else if(drop instanceof IAwarenessUser ){
@@ -459,18 +455,18 @@ public class StudentPlanningTool {
 				jxBuddyPanel.addBuddy(awarenessUser);
 			
 			
-				log.severe("Awareness user: jid" + awarenessUser.getJid() + " nick name" + awarenessUser.getNickName());
+				log.severe("Awareness user: jid" + awarenessUser.getJid() + " nick name" + awarenessUser.getNickName()); //$NON-NLS-1$ //$NON-NLS-2$
 			
 				studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
-				messageLabel.setText("<html><b>Buddy Added  Successfully</b><html>");
+				messageLabel.setText(Messages.getString("StudentPlanningTool.44")); //$NON-NLS-1$
 			} else {
-				String msg = "<html>You must have an Planning Entry open in order to drop a buddy.</html>";
+				String msg = Messages.getString("StudentPlanningTool.45"); //$NON-NLS-1$
 
 				JOptionPane optionPane = new JOptionPane();
 				optionPane.setMessage(msg);
 				optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 				JDialog dialog = optionPane.createDialog(null,
-						"Whoa!");
+						Messages.getString("StudentPlanningTool.2")); //$NON-NLS-1$
 				dialog.setVisible(true);
 				
 				return;
@@ -488,14 +484,14 @@ public class StudentPlanningTool {
 		
 		
 		
-		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController);
+		JXEntryPanel entryPanel = new JXEntryPanel(new MigLayout("insets 5 5 5 5"), this.studentPlanningController); //$NON-NLS-1$
 		entryPanel.setBackground(Colors.White.color());
 		//entryPanel.addEntry(taskpane, "w 600!");
-		entryPanel.addEntry(taskpane,"w 80%!, growx, right");
+		entryPanel.addEntry(taskpane,"w 80%!, growx, right"); //$NON-NLS-1$
 		entryPanel.setStudentPlannedActivity((StudentPlannedActivity) taskpane.getClientProperty(STUDENT_PLANNED_ACTIVITY));
 		//entryPanel.addEntry(taskpane,null);
 		
-		taskpanecontainer.add(entryPanel,"w 100%!");
+		taskpanecontainer.add(entryPanel,"w 100%!"); //$NON-NLS-1$
 		
 		Map<String, Date> endDateMap = (Map<String, Date>) taskpane
 		.getClientProperty(END_DATE_MAP);
@@ -523,7 +519,7 @@ public class StudentPlanningTool {
 		// create a taskpane, and set it's title and icon
 		JXTaskPane taskpane = new JXTaskPane();
 		taskpane.setName(assoicatedELO.getName());
-		taskpane.setToolTipText("Click to expand.");
+		taskpane.setToolTipText(Messages.getString("StudentPlanningTool.4")); //$NON-NLS-1$
 		taskpane.setCollapsed(true);
 		taskpane.setTitle(assoicatedELO.getName());
 		taskpane.setForeground(Color.white);
@@ -562,7 +558,7 @@ public class StudentPlanningTool {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("clicked !!");
+				System.out.println("clicked !!"); //$NON-NLS-1$
 
 				JXTaskPane source = (JXTaskPane) e.getSource();
 				studentPlanningController.collapseAllExcept(source.getName());
@@ -617,7 +613,7 @@ public class StudentPlanningTool {
 		}
 
 		Collections.sort((List<Date>) sortDates);
-		System.out.println("dates: " + sortDates.toString());
+		System.out.println("dates: " + sortDates.toString()); //$NON-NLS-1$
 		// TODO Auto-generated method stub
 		return sortDates;
 	}
@@ -631,11 +627,11 @@ public class StudentPlanningTool {
 		String activityName;
 
 		if (activity == null)
-			activityName = "Work on this ELO";
+			activityName = Messages.getString("StudentPlanningTool.53"); //$NON-NLS-1$
 		else
 			activityName = activity.getName();
 
-		JXTitledPanel activityPanel = new JXTitledPanel(activityNumber + ". "
+		JXTitledPanel activityPanel = new JXTitledPanel(activityNumber + ". " //$NON-NLS-1$
 				+ activityName);
 		activityPanel.setTitleFont(activityFont);
 		activityPanel.setTitleForeground(Colors.White.color());
@@ -652,7 +648,7 @@ public class StudentPlanningTool {
 		JXPanel innerMainPanel = new JXPanel();
 
 		innerMainPanel.setOpaque(true);
-		innerMainPanel.setLayout(new MigLayout("insets 0 3 4 3"));
+		innerMainPanel.setLayout(new MigLayout("insets 0 3 4 3")); //$NON-NLS-1$
 
 		JXBuddyPanel membersPanel = createMembersPanel(activityPanel,
 				studentPlannedActivity);
@@ -663,9 +659,9 @@ public class StudentPlanningTool {
 		JXPanel datePanel = createDatePanel(studentPlannedActivity, taskpane, activityName);
 		
 		
-		innerMainPanel.add(datePanel, "span, wrap, growx");
-		innerMainPanel.add(membersPanel, "span, wrap, growx");
-		innerMainPanel.add(notePanel, "span, wrap, growx");
+		innerMainPanel.add(datePanel, "span, wrap, growx"); //$NON-NLS-1$
+		innerMainPanel.add(membersPanel, "span, wrap, growx"); //$NON-NLS-1$
+		innerMainPanel.add(notePanel, "span, wrap, growx"); //$NON-NLS-1$
 
 		activityPanel.add(innerMainPanel);
 		
@@ -684,12 +680,12 @@ public class StudentPlanningTool {
 		noteTextPanel.setLayout(new BorderLayout(0, 0));
 		noteTextPanel.setOpaque(false);
 		noteTextPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
-				0, 0, 0)), new TitledBorder("What - Description")));
+				0, 0, 0)), new TitledBorder(Messages.getString("StudentPlanningTool.59")))); //$NON-NLS-1$
 		JTextArea noteTextArea = new JTextArea();
 
 		if (studentPlannedActivity.getNote() == null
 				|| StringUtils.stripToNull(studentPlannedActivity.getNote()) == null) {
-			noteTextArea.setText("Notes...");
+			noteTextArea.setText(Messages.getString("StudentPlanningTool.60")); //$NON-NLS-1$
 		} else {
 			noteTextArea.setText(studentPlannedActivity.getNote());
 		}
@@ -698,7 +694,7 @@ public class StudentPlanningTool {
 		noteTextArea.setRows(8);
 		noteTextArea.setWrapStyleWord(true);
 		noteTextArea
-				.setToolTipText("What do you need to do the task?\nHow do you that this is completed?");
+				.setToolTipText(Messages.getString("StudentPlanningTool.61")); //$NON-NLS-1$
 		noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
 		noteTextArea.addFocusListener(new FocusListener() {
@@ -717,7 +713,7 @@ public class StudentPlanningTool {
 					@Override
 					public void run() {
 						studentPlanningController.saveStudentActivity(stp);
-						messageLabel.setText("<html><b>Note saved.</b><html>");
+						messageLabel.setText(Messages.getString("StudentPlanningTool.3")); //$NON-NLS-1$
 					}
 				});
 
@@ -749,7 +745,7 @@ public class StudentPlanningTool {
 		 endDatePicker.getEditor().setEditable(false);
 		
 			 
-		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy"); //$NON-NLS-1$
 		
 		Map<String, Date> endDateMap = (Map<String, Date>) taskpane
 		.getClientProperty(END_DATE_MAP);
@@ -758,15 +754,15 @@ public class StudentPlanningTool {
 
 		startDatePicker.setFormats(formatter);
 		
-		startDatePicker.setToolTipText("The date of the start of this task.");
+		startDatePicker.setToolTipText(Messages.getString("StudentPlanningTool.64")); //$NON-NLS-1$
 		endDatePicker.setFormats(formatter);
 		
 		endDatePicker.putClientProperty(ACTIVITY_NAME, activityName);
 		endDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
-		endDatePicker.setToolTipText("The date of the end of this task.");
+		endDatePicker.setToolTipText(Messages.getString("StudentPlanningTool.65")); //$NON-NLS-1$
 		endDatePicker.putClientProperty(TASKPANE, taskpane);
-		endDatePicker.setToolTipText("Date you want to end working on this activity.");
+		endDatePicker.setToolTipText(Messages.getString("StudentPlanningTool.66")); //$NON-NLS-1$
 		if (studentPlannedActivity.getEndDate() == null) {
 			endDatePicker.setEnabled(false);
 		} else {
@@ -779,14 +775,14 @@ public class StudentPlanningTool {
 
 		}
 
-		startDatePicker.setToolTipText("Date you want to start working on this activity.");
+		startDatePicker.setToolTipText(Messages.getString("StudentPlanningTool.67")); //$NON-NLS-1$
 		startDatePicker.putClientProperty(ACTIVITY_NAME, activityName);
 		startDatePicker.putClientProperty(TASKPANE, taskpane);
 		startDatePicker.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
 		startDatePicker.putClientProperty(END_DATE_PICKER, endDatePicker);
 		if (studentPlannedActivity.getStartDate() != null) {
-			log.severe("Start date we got back: " + studentPlannedActivity.getStartDate());
+			log.severe(Messages.getString("StudentPlanningTool.68") + studentPlannedActivity.getStartDate()); //$NON-NLS-1$
 			java.util.Date date = new java.util.Date(studentPlannedActivity
 					.getStartDate().getTime());
 			startDatePicker.setDate(date);
@@ -826,17 +822,17 @@ public class StudentPlanningTool {
 					//when firstDate is greater than secondDate will return 1
 					if( startDate.compareTo(endDate) == 1 ) {
 						
-						final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+						final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy"); //$NON-NLS-1$
 						formatter.format(startDate);
 						
-						String msg = "<html>Your <b>End Date</b> can't be before your <b>Start Date</b>.<br>Choose <b>" + formatter.format(startDate) +"</b> or later</html>";
+						String msg = Messages.getString("StudentPlanningTool.70") + formatter.format(startDate) +Messages.getString("StudentPlanningTool.71"); //$NON-NLS-1$ //$NON-NLS-2$
 	
 
 						JOptionPane optionPane = new JOptionPane();
 						optionPane.setMessage(msg);
 						optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 						JDialog dialog = optionPane.createDialog(null,
-								"Whoa!");
+								Messages.getString("StudentPlanningTool.72")); //$NON-NLS-1$
 						dialog.setVisible(true);
 						
 						endDate = startDate;
@@ -866,7 +862,7 @@ public class StudentPlanningTool {
 					@Override
 					public void run() {
 						studentPlanningController.saveStudentActivity(stp);
-						messageLabel.setText("<html><b>End date saved successfully.</b><html>");
+						messageLabel.setText(Messages.getString("StudentPlanningTool.73")); //$NON-NLS-1$
 					}
 				});
 
@@ -905,16 +901,16 @@ public class StudentPlanningTool {
 					//when firstDate is greater than secondDate will return 1
 					if( startDate.compareTo(endDate) == 1 ) {
 						
-						final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy");
+						final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy"); //$NON-NLS-1$
 						formatter.format(endDate);
 						
-						String msg = "<html>Your <b>Start Date</b> can't after your <b>End Date</b>.<br>Choose <b>" + formatter.format(endDate) +"</b> or earlier</html>";
+						String msg = Messages.getString("StudentPlanningTool.75") + formatter.format(endDate) +Messages.getString("StudentPlanningTool.76"); //$NON-NLS-1$ //$NON-NLS-2$
 
 						JOptionPane optionPane = new JOptionPane();
 						optionPane.setMessage(msg);
 						optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 						JDialog dialog = optionPane.createDialog(null,
-								"Whoa!");
+								Messages.getString("StudentPlanningTool.77")); //$NON-NLS-1$
 						dialog.setVisible(true);
 						startDate = endDate;
 						startDatePicker.setDate(startDate);
@@ -944,7 +940,7 @@ public class StudentPlanningTool {
 					@Override
 					public void run() {
 						studentPlanningController.saveStudentActivity(stp);
-						messageLabel.setText("<html><b>Start date saved.</b><html>");
+						messageLabel.setText(Messages.getString("StudentPlanningTool.78")); //$NON-NLS-1$
 					}
 				});
 
@@ -957,20 +953,20 @@ public class StudentPlanningTool {
 		
 	
 
-		JXLabel startLabel = new JXLabel("<html><b>Start Date:</b></html>");
-		JXLabel endLabel = new JXLabel("<html><b>End Date:</b></html>");
+		JXLabel startLabel = new JXLabel(Messages.getString("StudentPlanningTool.79")); //$NON-NLS-1$
+		JXLabel endLabel = new JXLabel(Messages.getString("StudentPlanningTool.80")); //$NON-NLS-1$
 
-		JXPanel infoPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
+		JXPanel infoPanel = new JXPanel(new MigLayout("insets 0 0 0 0")); //$NON-NLS-1$
 
 		infoPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
 				0, 0, 0)), new TitledBorder(
-				"When - Dates")));
+				Messages.getString("StudentPlanningTool.82")))); //$NON-NLS-1$
 		infoPanel.add(startLabel);
 		infoPanel.add(startDatePicker);
 		infoPanel.add(endLabel);
 		infoPanel.add(endDatePicker);
 		infoPanel.setOpaque(false);
-		infoPanel.setToolTipText("This panel lets you select start and end working dates for this activity.");
+		infoPanel.setToolTipText(Messages.getString("StudentPlanningTool.83")); //$NON-NLS-1$
 		return infoPanel;
 	}
 	
@@ -986,7 +982,7 @@ public class StudentPlanningTool {
 		membersPanel.setStudentPlannedActivity(studentPlannedActivity);
 		membersPanel.setBorder(new CompoundBorder(new EmptyBorder(new Insets(0,
 				0, 0, 0)), new TitledBorder(
-				"Who - Collaboration Partners (Drag Here)")));
+				Messages.getString("StudentPlanningTool.84")))); //$NON-NLS-1$
 		membersPanel.setOpaque(false);
 		membersPanel.setBackground(Color.CYAN);
 		membersPanel.setPreferredSize(new Dimension(activityPanel
@@ -994,7 +990,7 @@ public class StudentPlanningTool {
 //		membersPanel.setDropTarget(new DropTarget(membersPanel,
 //				new JXDropTargetListener(this)));
 		membersPanel
-				.setToolTipText("Drag the persons that will work with the task from the desktop here.");
+				.setToolTipText(Messages.getString("StudentPlanningTool.85")); //$NON-NLS-1$
 		membersPanel.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
 		
@@ -1033,13 +1029,13 @@ public class StudentPlanningTool {
 			Map<String, Date> startDateMap, Map<String, Date> endDateMap) {
 
 		JXEntryPanel entryPanel = (JXEntryPanel) taskpane.getParent();
-		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
+		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd"); //$NON-NLS-1$
 
 		List<Date> endDateSort = sortDates(endDateMap);
 		List<Date> startDateSort = sortDates(startDateMap);
 
-		String startDateString = " ";
-		String endDateString = " ";
+		String startDateString = " "; //$NON-NLS-1$
+		String endDateString = " "; //$NON-NLS-1$
 
 		if (!endDateSort.isEmpty()) {
 			Date endDate = endDateSort.get(endDateSort.size() - 1);
@@ -1059,8 +1055,8 @@ public class StudentPlanningTool {
 		if( StringUtils.stripToNull(endDateString) == null)
 			title = startDateString;
 		else
-			title = startDateString + " to<br>" + endDateString;
-		 entryPanel.getDateLabel().setText("<html><i>"+title+"</i></html>");
+			title = startDateString + Messages.getString("StudentPlanningTool.89") + endDateString; //$NON-NLS-1$
+		 entryPanel.getDateLabel().setText(Messages.getString("StudentPlanningTool.90")+title+Messages.getString("StudentPlanningTool.91")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private void changeUIdefaults() {
@@ -1074,15 +1070,15 @@ public class StudentPlanningTool {
 		 */
 
 		// setting taskpanecontainer defaults
-		UIManager.put("TaskPaneContainer.useGradient", Boolean.TRUE);
-		UIManager.put("TaskPaneContainer.background", Colors.Gray.color(0.5f));
+		UIManager.put("TaskPaneContainer.useGradient", Boolean.TRUE); //$NON-NLS-1$
+		UIManager.put("TaskPaneContainer.background", Colors.Gray.color(0.5f)); //$NON-NLS-1$
 
 		// setting taskpane defaults
-		UIManager.put("TaskPane.font", new FontUIResource(new Font("Segoe UI",
+		UIManager.put("TaskPane.font", new FontUIResource(new Font("Segoe UI", //$NON-NLS-1$ //$NON-NLS-2$
 				Font.BOLD, 13)));
-		UIManager.put("TaskPane.titleBackgroundGradientStart", Colors.Black
+		UIManager.put("TaskPane.titleBackgroundGradientStart", Colors.Black //$NON-NLS-1$
 				.color(0.1f));
-		UIManager.put("TaskPane.titleBackgroundGradientEnd", Colors.Blue
+		UIManager.put("TaskPane.titleBackgroundGradientEnd", Colors.Blue //$NON-NLS-1$
 				.color(0.1f));
 	}
 

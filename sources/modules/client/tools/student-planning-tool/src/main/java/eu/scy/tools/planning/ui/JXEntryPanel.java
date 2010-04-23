@@ -18,19 +18,20 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
 import eu.scy.core.model.student.StudentPlannedActivity;
+import eu.scy.tools.planning.Messages;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.images.Images;
 
 public class JXEntryPanel extends JXPanel {
 
-	private static final String DELETE_BUTTON = "DELETE_BUTTON";
+	private static final String DELETE_BUTTON = "DELETE_BUTTON"; //$NON-NLS-1$
 	private JXButton deleteButton;
 	private JXTaskPane taskpane;
 	private JXLabel dateLabel;
 	private StudentPlanningController studentPlanningController;
 	private StudentPlannedActivity studentPlannedActivity;
 	
-	Font dataFont = new Font("Segoe UI", Font.PLAIN, 9);
+	Font dataFont = new Font("Segoe UI", Font.PLAIN, 9); //$NON-NLS-1$
 	
 	public JXEntryPanel(StudentPlanningController studentPlanningController) {
 		super();
@@ -117,14 +118,14 @@ public class JXEntryPanel extends JXPanel {
 	private void createDateLabel() {
 		
 		
-		JXLabel jxLabel = new JXLabel("");
+		JXLabel jxLabel = new JXLabel(""); //$NON-NLS-1$
 		
 		setDateLabel(jxLabel);
 		getDateLabel().setFont(dataFont);
 		
 		getDateLabel().setBackground(Colors.Red.color());
 		getDateLabel().setHorizontalAlignment(JXLabel.CENTER);
-		this.add(getDateLabel(),"w 50!, top");
+		this.add(getDateLabel(),"w 50!, top"); //$NON-NLS-1$
 		this.getDateLabel().setPreferredSize(new Dimension(90, this.getDateLabel().getPreferredSize().height));
 		
 	}
@@ -134,19 +135,19 @@ public class JXEntryPanel extends JXPanel {
 		deleteButton.setOpaque(false);
 		deleteButton.setBorder(BorderFactory.createEmptyBorder());
 		deleteButton.setEnabled(false);
-		deleteButton.setToolTipText("Click me to delete this entry");
+		deleteButton.setToolTipText(Messages.getString("JXEntryPanel.4")); //$NON-NLS-1$
 		this.putClientProperty(DELETE_BUTTON, deleteButton);
-		this.add(deleteButton, "wrap,top");
+		this.add(deleteButton, "wrap,top"); //$NON-NLS-1$
 
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JXButton b = (JXButton) e.getSource();
-				Object[] options = {"Yes, please",
-	                    "No, thanks"};
+				Object[] options = {Messages.getString("JXEntryPanel.6"), //$NON-NLS-1$
+	                    Messages.getString("JXEntryPanel.7")}; //$NON-NLS-1$
 				int n = JOptionPane
 						.showOptionDialog(null,
-								"Are you sure you want to delete this entry?", "What do you want to do?",
+								Messages.getString("JXEntryPanel.8"), Messages.getString("JXEntryPanel.9"), //$NON-NLS-1$ //$NON-NLS-2$
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.QUESTION_MESSAGE, null, options,
 								options[1]);
