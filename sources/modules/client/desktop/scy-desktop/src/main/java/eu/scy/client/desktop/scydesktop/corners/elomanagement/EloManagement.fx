@@ -212,7 +212,9 @@ public class EloManagement extends CustomNode {
             eloFactory.updateELOWithResult(newElo,metadata);
             scyWindowControl.addOtherScyWindow(newElo.getUri());
          }
-         logger.error("can't find template elo, with uri: {eloTemplateUri}");
+         else{
+            logger.error("can't find template elo, with uri: {eloTemplateUri}");
+         }
       }
       createNewElo.modalDialogBox.close();
       newFromEloTemplateButton.turnedOn = false;
