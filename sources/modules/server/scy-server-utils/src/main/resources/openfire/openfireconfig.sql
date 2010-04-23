@@ -18,6 +18,19 @@ delete from ofProperty where name like 'provider.vcard.className';
 delete from ofProperty where name like 'xmpp.component.defaultSecret';
 delete from ofProperty where name like 'xmpp.component.socket.active';
 delete from ofProperty where name like 'xmpp.session.conflict-limit';
+delete from ofProperty where name like 'plugin.subscription.level ';
+delete from ofProperty where name like 'plugin.subscription.type';
+delete from ofProperty where name like 'xmpp.auth.anonymous';
+delete from ofProperty where name like 'xmpp.component.permission';
+delete from ofProperty where name like 'register.inband';
+delete from ofProperty where name like 'register.password';
+delete from ofProperty where name like 'xmpp.client.tls.policy';
+delete from ofProperty where name like 'xmpp.proxy.enabled';
+delete from ofProperty where name like 'xmpp.server.certificate.accept-selfsigned';
+delete from ofProperty where name like 'xmpp.server.dialback.enabled';
+delete from ofProperty where name like 'xmpp.server.socket.active';
+delete from ofProperty where name like 'xmpp.server.tls.enabled';
+
 
 
 insert into ofProperty (name, propValue) values ('admin.authorizedJIDs', 'scy@127.0.0.1,admin@127.0.0.1,chazot@127.0.0.1');
@@ -40,6 +53,10 @@ insert into ofProperty (name, propValue) values ('provider.vcard.className', 'or
 insert into ofProperty (name, propValue) values ('xmpp.component.defaultSecret', 'java');
 insert into ofProperty (name, propValue) values ('xmpp.component.socket.active', 'true');
 insert into ofProperty (name, propValue) values ('xmpp.session.conflict-limit', 0);
+insert into ofProperty (name, propValue) values ('plugin.subscription.level ', 'local');
+insert into ofProperty (name, propValue) values ('plugin.subscription.type', 'disabled');
+insert into ofProperty (name, propValue) values ('xmpp.auth.anonymous', 'true');
+insert into ofProperty (name, propValue) values ('xmpp.component.permission', 'whitelist');
 
 delete from ofExtComponentConf where subdomain like 'scyhub';
 insert into ofExtComponentConf (subdomain, wildcard, secret, permission) values ('scyhub', 0, 'java', 'allowed');
