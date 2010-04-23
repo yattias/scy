@@ -1,35 +1,30 @@
 package eu.scy.tools.planning.ui;
 
-import java.awt.Container;
-import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.core.model.student.StudentPlannedActivity;
+import eu.scy.tools.planning.Messages;
 import eu.scy.tools.planning.controller.StudentPlanningController;
 import eu.scy.tools.planning.ui.images.Images;
 
 public class JXBuddyPanel extends JXPanel {
 	
-	private static final String KILL_LABEL = "KILL_LABEL";
-	private static final String USER = "USER";
+	private static final String KILL_LABEL = "KILL_LABEL"; //$NON-NLS-1$
+	private static final String USER = "USER"; //$NON-NLS-1$
 	private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
 	private JXLabel messageLabel;
 	private StudentPlanningController studentPlanningController;
@@ -70,7 +65,7 @@ public class JXBuddyPanel extends JXPanel {
 		studentPlanningController.removeMemberStudentPlannedActivity(this.studentPlannedActivity, user.getNickName());
 		getBuddies().remove(user);
 		this.remove(buddyLabel.getParent());
-		getMessageLabel().setText("<html><b>Buddy Removed Successfully.</b><html>");
+		getMessageLabel().setText(Messages.getString("JXBuddyPanel.2")); //$NON-NLS-1$
 		
 		this.validate();
 		this.revalidate();
@@ -87,7 +82,7 @@ public class JXBuddyPanel extends JXPanel {
 	
 	private void createBuddyIcon(final IAwarenessUser user) {
 		
-		JXPanel bPanel = new JXPanel(new MigLayout("insets 0 0 0 0, wrap"));
+		JXPanel bPanel = new JXPanel(new MigLayout("insets 0 0 0 0, wrap")); //$NON-NLS-1$
 		bPanel.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -103,7 +98,7 @@ public class JXBuddyPanel extends JXPanel {
 			public void mouseExited(MouseEvent e) {
 				JXPanel bp = (JXPanel) e.getSource();
 				
-				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
+				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL"); //$NON-NLS-1$
 				
 				
 				
@@ -118,7 +113,7 @@ public class JXBuddyPanel extends JXPanel {
 				JXPanel bp = (JXPanel) e.getSource();
 				
 				bp.setBackgroundPainter(Colors.getHighlightOnPainterBuddy());
-				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
+				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL"); //$NON-NLS-1$
 				
 				killLabel.setVisible(true);
 			}
@@ -151,11 +146,11 @@ public class JXBuddyPanel extends JXPanel {
 		
 		
 		//buddyLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		bPanel.add(killLabel, "align right");
+		bPanel.add(killLabel, "align right"); //$NON-NLS-1$
 		killLabel.setVisible(false);
 		bPanel.add(buddyLabel);
 		killLabel.putClientProperty(USER, user);
-		killLabel.setToolTipText("Click me to delete this buddy");
+		killLabel.setToolTipText(Messages.getString("JXBuddyPanel.7")); //$NON-NLS-1$
 		bPanel.putClientProperty(KILL_LABEL, killLabel);
 		killLabel.addMouseListener(new MouseListener() {
 			
@@ -190,14 +185,14 @@ public class JXBuddyPanel extends JXPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out
-						.println("JXBuddyPanel.createBuddyIcon(...).new MouseListener() {...}.mouseClicked()");
+						.println("JXBuddyPanel.createBuddyIcon(...).new MouseListener() {...}.mouseClicked()"); //$NON-NLS-1$
 				
 			
-				Object[] options = {"Yes, please",
-                "No, thanks"};
+				Object[] options = {Messages.getString("JXBuddyPanel.9"), //$NON-NLS-1$
+                Messages.getString("JXBuddyPanel.10")}; //$NON-NLS-1$
 				int n = JOptionPane
 				.showOptionDialog(null,
-						"<html>Are you sure you want to delete this buddy from this entry?<br>Remember, you can always drag them back later.</html>", "What do you want to do?",
+						Messages.getString("JXBuddyPanel.11"), Messages.getString("JXBuddyPanel.12"), //$NON-NLS-1$ //$NON-NLS-2$
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, options,
 						options[1]);
@@ -215,7 +210,7 @@ public class JXBuddyPanel extends JXPanel {
 		
 		String nickName = user.getNickName();
 		if( nickName == null )
-			nickName = "no name";
+			nickName = "no name"; //$NON-NLS-1$
 		
 		buddyLabel.setToolTipText(nickName);
 		buddyLabel.setName(nickName);
@@ -244,7 +239,7 @@ public class JXBuddyPanel extends JXPanel {
 				JXPanel bp = (JXPanel) l.getParent();
 				
 				bp.setBackgroundPainter(Colors.getHighlightOffPainter());
-				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
+				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL"); //$NON-NLS-1$
 				
 				killLabel.setVisible(false);
 			}
@@ -257,7 +252,7 @@ public class JXBuddyPanel extends JXPanel {
 				JXPanel bp = (JXPanel) l.getParent();
 				
 				bp.setBackgroundPainter(Colors.getHighlightOnPainterBuddy());
-				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL");
+				JXLabel killLabel = (JXLabel) bp.getClientProperty("KILL_LABEL"); //$NON-NLS-1$
 				
 				killLabel.setVisible(true);
 			}
