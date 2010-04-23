@@ -93,11 +93,11 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (isSync) {
             removeDatasync(object as ISynchronizable);
         } else {
-            var yesNoOptions = [##"ACCEPT_DROP_YES", ##"ACCEPT_DROP_NO"];
+            var yesNoOptions = [##"Yes", ##"No"];
             var n = -1;
             n = JOptionPane.showOptionDialog(null,
-            ##"SYNC_QUESTION", // question
-            ##"SYNC_TITLE", // title
+            ##"Do you want to synchronise\nwith the Dataprocessing tool?", // question
+            ##"Synchronise?", // title
             JOptionPane.YES_NO_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE, // icon
             null, yesNoOptions, yesNoOptions[0]);
@@ -156,7 +156,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
             newSimulationPanel.remove(newSimulationPanel.load);
-            newSimulationPanel.add(new JLabel(##"LOAD_SIMULATION_WAIT"));
+            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
@@ -191,13 +191,13 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                     spacing: spacing;
                                     content: [
                                         Button {
-                                            text: ##"BUTTON_SAVE_SIMCONFIG"
+                                            text: ##"Save Simconfig"
                                             action: function () {
                                                 doSaveSimconfig();
                                             }
                                         }
                                         Button {
-                                            text: ##"BUTTON_SAVEAS_SIMCONFIG"
+                                            text: ##"SaveAs Simconfig"
                                             action: function () {
                                                 doSaveAsSimconfig();
                                             }
@@ -209,7 +209,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                         }
                                         }*/
                                         Button {
-                                            text: ##"BUTTON_SAVEAS_DATASET"
+                                            text: ##"SaveAs Dataset"
                                             action: function () {
                                                 doSaveAsDataset();
                                             }
