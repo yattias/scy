@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
     <artifactId>roolo-ws</artifactId>
-    <name>RoOLO-SCY-Webservice</name>
+    <name>RoOLO-SCY-Webservice UJF</name>
     <url>http://www.intermedia.uio.no/display/SCY/Webbrowsing+Tool</url>
 
     <developers>
@@ -51,7 +51,7 @@
     </profiles>
 
     <build>
-        <finalName>scy-roolo-ws</finalName>
+        <finalName>roolo-ws</finalName>
         <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
