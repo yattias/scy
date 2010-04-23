@@ -280,10 +280,10 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
             this.userName = userName;
             this.password = password;
 
-            // make it a jid
-            if (!userName.contains("@")) {
-                userName = userName + "@" + Configuration.getInstance().getOpenFireHost();
-            }
+            // make it a jid - no we don't!
+//            if (!userName.contains("@")) {
+//                userName = userName + "@" + Configuration.getInstance().getOpenFireHost();
+//            }
 
             config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
             config.setCompressionEnabled(true);
@@ -293,10 +293,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
             try {
                 this.xmppConnection.connect();
+                logger.debug("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
                 SmackConfiguration.setPacketReplyTimeout(100000);
                 SmackConfiguration.setKeepAliveInterval(10000);
-                logger.debug("User logging in: " + userName + " " + password);
-                logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
             } catch (XMPPException e) {
                 logger.error("Error during xmpp connect");
                 e.printStackTrace();
@@ -304,10 +303,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
             }
 
             try {
+            	logger.debug("User logging in: " + userName + " " + password);
                 this.xmppConnection.login(userName, password);
-                logger.debug("xmpp login ok " + userName + " " + password);
-            } catch (XMPPException e1) {
-                logger.error("xmpp login failed. bummer. " + e1);
+                logger.debug("Login successful" + userName + " " + password);
+            } catch (XMPPException e) {
+                logger.error("Login failed  " + e);
                 e1.printStackTrace();
                 throw new LoginFailedException(userName);
             }
