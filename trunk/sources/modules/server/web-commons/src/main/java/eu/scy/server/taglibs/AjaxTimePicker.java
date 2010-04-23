@@ -30,7 +30,7 @@ public class AjaxTimePicker extends AjaxBaseComponent{
         return EVAL_PAGE;
     }
 
-    private Time executeGetter(Object object, String property) {
+    private String executeGetter(Object object, String property) {
         if(property == null) return null;
         try {
             String firstLetter = property.substring(0,1);
@@ -42,7 +42,12 @@ public class AjaxTimePicker extends AjaxBaseComponent{
 
             Time returnValue =  (Time) method.invoke(object, null);
             System.out.println(method.getName() + " " + returnValue);
-            return returnValue;
+
+            if (returnValue == null) {
+                return "Edit";
+            }
+
+            return returnValue.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
