@@ -66,11 +66,11 @@
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
                 <serverfilter.db.host>localhost</serverfilter.db.host>
 
-                <client.servername>http://83.168.205.138</client.servername>
+                <client.servername>83.168.205.138</client.servername>
                 <client.httpPort>80</client.httpPort>
                 <client.contextPath>/scy-useradmin-web</client.contextPath>
 
-                <sqlspaces.server.host>http://83.168.205.138</sqlspaces.server.host>
+                <sqlspaces.server.host>83.168.205.138</sqlspaces.server.host>
                 <sqlspaces.server.port>2525</sqlspaces.server.port>
 
                 <openfire.host>83.168.205.138</openfire.host>
@@ -86,7 +86,7 @@
                 <filestreamer.port>8080</filestreamer.port>
 
 
-                <roolo.server>http://83.168.205.138</roolo.server>
+                <roolo.server>83.168.205.138</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>8080</roolo.port>
             </properties>
@@ -134,11 +134,11 @@
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
                 <serverfilter.db.host>localhost</serverfilter.db.host>
 
-                <client.servername>http://scylab.imag.fr</client.servername>
+                <client.servername>scylab.imag.fr</client.servername>
                 <client.httpPort>80</client.httpPort>
                 <client.contextPath>/scy-useradmin-web</client.contextPath>
 
-                <sqlspaces.server.host>http://scylab.imag.fr</sqlspaces.server.host>
+                <sqlspaces.server.host>scylab.imag.fr</sqlspaces.server.host>
                 <sqlspaces.server.port>2525</sqlspaces.server.port>
 
                 <openfire.host>scylab.imag.fr</openfire.host>
