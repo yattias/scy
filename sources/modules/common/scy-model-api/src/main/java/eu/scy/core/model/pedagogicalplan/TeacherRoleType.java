@@ -7,9 +7,7 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 14:47:05
  */
 public enum TeacherRoleType {
-
     ACTIVATOR,
     FACILITATOR,
-    OBSERVER;
-
+    OBSERVER
 }
