@@ -68,7 +68,7 @@ public function initMouseBlocker(stage:Stage):Void{
    }
 }
 
-public function startMouseBlocking(){
+public function startMouseBlocking():Void{
    checkInitialisation();
    if (mouseBlockingActive){
       println("calling startMouseBlocking, while mouse blocking is already active");
@@ -83,7 +83,7 @@ public function startMouseBlocking(){
    theStage.scene.content = sceneContent;
 }
 
-public function stopMouseBlocking(){
+public function stopMouseBlocking():Void{
    checkInitialisation();
    if (not mouseBlockingActive){
       println("calling stopMouseBlocking, while mouse blocking is not active");
