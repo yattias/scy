@@ -84,14 +84,17 @@
                 <th>Values</th>
                 <th>Zoom in</th>
             </tr>
+
+            <s:ajaxCheckBox model="${pedagogicalPlan}" property="makeAllAssignedStudentsBuddies"/>
+
             <tr class="${oddEven.oddEven}">
                 <td width="30%">SCYLab use</td>
-                <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}" defaultValue="2"/></td>
+                <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}" model="${pedagogicalPlan}" property="overallSCYLabScaffoldingLevel"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>Mission content</td>
-                <td><s:ajaxSlider sliderValues="${contentLevels}" defaultValue="1"/></td>
+                <td><s:ajaxSlider sliderValues="${contentLevels}" model="${pedagogicalPlan}" property="overallMissionContentScaffoldingLevel"/></td>
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
         </table>

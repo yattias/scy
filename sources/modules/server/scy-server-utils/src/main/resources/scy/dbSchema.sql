@@ -132,6 +132,8 @@ CREATE TABLE `pedagogicalplan` (
 	`primKey` varchar(55) NOT NULL default '',
 	`name` varchar(250) default NULL,
 	`pedtype` varchar(250) default NULL,
+	`overallSCYLabScaffoldingLevel` varchar(250) default '1',
+	`overallMissionContentScaffoldingLevel` varchar(250) default '1',	
 	`description` text,
 	`published` tinyint(1) default 0,
 	`maximumNumberOfAnchorELOsInPortfolio` tinyint(2) default 0,

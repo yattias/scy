@@ -25,6 +25,9 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     private Integer minimumNumberOfAnchorELOsInPortfolio = 0;
     private Integer maximumNumberOfAnchorELOsInPortfolio = 0;
 
+    private String overallSCYLabScaffoldingLevel= null;
+    private String overallMissionContentScaffoldingLevel = null;
+
 
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "pedagogicalPlanTemplate_primKey")
@@ -71,5 +74,21 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     public void setMinimumNumberOfAnchorELOsInPortfolio(Integer minimumNumberOfAnchorELOsInPortfolio) {
         this.minimumNumberOfAnchorELOsInPortfolio = minimumNumberOfAnchorELOsInPortfolio;
+    }
+
+    public String getOverallSCYLabScaffoldingLevel() {
+        return overallSCYLabScaffoldingLevel;
+    }
+
+    public void setOverallSCYLabScaffoldingLevel(String overallSCYLabScaffoldingLevel) {
+        this.overallSCYLabScaffoldingLevel = overallSCYLabScaffoldingLevel;
+    }
+
+    public String getOverallMissionContentScaffoldingLevel() {
+        return overallMissionContentScaffoldingLevel;
+    }
+
+    public void setOverallMissionContentScaffoldingLevel(String overallMissionContentScaffoldingLevel) {
+        this.overallMissionContentScaffoldingLevel = overallMissionContentScaffoldingLevel;
     }
 }
