@@ -65,7 +65,6 @@ import roolo.elo.metadata.keys.Contribute;
  * 
  * @author __SVEN__
  */
-@Singleton
 @Path("/getELO")
 public class GetELO {
 
