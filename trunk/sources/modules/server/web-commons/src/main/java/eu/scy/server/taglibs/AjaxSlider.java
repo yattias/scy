@@ -1,5 +1,6 @@
 package eu.scy.server.taglibs;
 
+import java.lang.reflect.Method;
 import javax.servlet.jsp.JspException;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import java.util.List;
  * User: Henrik
  * Date: 24.mar.2010
  * Time: 11:02:27
- * To change this template use File | Settings | File Templates.
  */
 public class AjaxSlider extends AjaxBaseComponent{
 
@@ -19,7 +19,7 @@ public class AjaxSlider extends AjaxBaseComponent{
         try {
             double id = Math.random();
             pageContext.getOut().write("<form id=\"ajaxSliderForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
-            pageContext.getOut().write("<div id=\"horizontalSlider"+ id + "\" dojoType=\"dijit.form.HorizontalSlider\" value=\""+defaultValue+"\"\n" +
+            pageContext.getOut().write("<div id=\"horizontalSlider"+ id + "\" dojoType=\"dijit.form.HorizontalSlider\" value=\""+executeGetter(getModel(), getProperty())+"\"\n" +
                     "minimum=\"0\" maximum=\"" + (sliderValues.size()-1) + "\" discreteValues=\"" + sliderValues.size() + "\" intermediateChanges=\"true\"\n" +
                     "showButtons=\"false\" style=\"width:400px;\" onChange=\"updateAjaxSlider('" + id + "', this);\">\n" +
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"topDecoration\"\n" +
@@ -40,6 +40,28 @@ public class AjaxSlider extends AjaxBaseComponent{
             e.printStackTrace();
         }
         return EVAL_PAGE;
+    }
+
+    private String executeGetter(Object object, String property) {
+        try {
+            String firstLetter = property.substring(0,1);
+            firstLetter = firstLetter.toUpperCase();
+
+            property = firstLetter + property.substring(1, property.length());
+
+            Method method = object.getClass().getMethod("get" + property);
+
+            String returnValue = (String) method.invoke(object, null);
+
+            if (returnValue == null) {
+                returnValue = "Edit";
+            }
+
+            return returnValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("NOOO");
     }
 
     public List getSliderValues() {
