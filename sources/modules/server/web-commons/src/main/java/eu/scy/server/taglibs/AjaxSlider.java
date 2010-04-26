@@ -1,7 +1,9 @@
 package eu.scy.server.taglibs;
 
-import java.lang.reflect.Method;
+import eu.scy.core.model.ScyBase;
+
 import javax.servlet.jsp.JspException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class AjaxSlider extends AjaxBaseComponent{
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<form id=\"ajaxSliderForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\">");
+            pageContext.getOut().write("<form id=\"ajaxSliderForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxSlider.html\">");
             pageContext.getOut().write("<div id=\"horizontalSlider"+ id + "\" dojoType=\"dijit.form.HorizontalSlider\" value=\""+executeGetter(getModel(), getProperty())+"\"\n" +
                     "minimum=\"0\" maximum=\"" + (sliderValues.size()-1) + "\" discreteValues=\"" + sliderValues.size() + "\" intermediateChanges=\"true\"\n" +
                     "showButtons=\"false\" style=\"width:400px;\" onChange=\"updateAjaxSlider('" + id + "', this);\">\n" +
@@ -35,6 +37,9 @@ public class AjaxSlider extends AjaxBaseComponent{
                     "    style=\"height:1em;font-size:75%;color:gray;\">" +
                     "</ol></div>");
             pageContext.getOut().write("<input type=\"text\" name=\"value\" id=\"sliderValue" + id + "\" dojoType=\"dijit.form.TextBox\" style=\"display:none;\"/>");
+            pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
+            pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
+            pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
             pageContext.getOut().write("</form>");
         } catch (Exception e) {
             e.printStackTrace();
