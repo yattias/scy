@@ -75,7 +75,6 @@ import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer
  *
  * @author __SVEN__
  */
-@Singleton //XXX try this out!!!
 @Path("/saveELO")
 public class SaveELO {
 
@@ -93,7 +92,6 @@ public class SaveELO {
 
     /** Creates a new instance of SaveELO */
     public SaveELO() {
-        initMetadataKeys();
     }
 
     /**
@@ -132,6 +130,7 @@ public class SaveELO {
     @Produces("text/plain")
     public String saveELO(JSONObject jsonData) {
 
+        initMetadataKeys();
         String content = null;
         String username = null;
         String password = null;
