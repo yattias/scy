@@ -71,6 +71,8 @@ CREATE TABLE `activity` (
     `anchorElo_primKey` varchar(55) default NULL,
     `autoaddToStudentPlan` tinyint(1) default 0,
     `expectedDurationInMinutes` int(8) default 0,
+    `workArrangementType` varchar(250) default 'INDIVIDUAL',
+    `teacherRoleType` varchar(250) default 'OBSERVER',
     `startDate` date default NULL,
     `endDate` date default NULL,
     `startTime` time default NULL,

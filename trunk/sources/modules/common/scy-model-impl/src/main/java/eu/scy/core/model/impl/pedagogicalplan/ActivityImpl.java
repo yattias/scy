@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -48,6 +50,9 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
     private Boolean autoaddToStudentPlan = false;
 
     private Integer expectedDurationInMinutes = 0;
+
+    private WorkArrangementType workArrangementType = WorkArrangementType.INDIVIDUAL;
+    private TeacherRoleType teacherRoleType = TeacherRoleType.OBSERVER;
 
     @Override
     public void setAnchorELO(AnchorELO anchorELO) {
@@ -89,24 +94,22 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
         learningActivitySpaceToolConfiguration.setActivity(this);
     }
 
-    @Override
-    public void setWorkArrangementType(WorkArrangementType workArrangementType) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Transient
+    @Enumerated(EnumType.STRING)
     public WorkArrangementType getWorkArrangementType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return workArrangementType;
     }
 
-    @Override
-    public void setTeacherRoleType(TeacherRoleType teacherRoleType) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void setWorkArrangementType(WorkArrangementType workArrangementType) {
+        this.workArrangementType = workArrangementType;
     }
 
-    @Transient
+    @Enumerated(EnumType.STRING)
     public TeacherRoleType getTeacherRoleType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return teacherRoleType;
+    }
+
+    public void setTeacherRoleType(TeacherRoleType teacherRoleType) {
+        this.teacherRoleType = teacherRoleType;
     }
 
     public Integer getExpectedDurationInMinutes() {

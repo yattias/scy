@@ -7,7 +7,7 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 14:41:49
  */
 public enum WorkArrangementType {
-
-    GROUP, INDIVIDUAL, PEER_TO_PEER;
-
+    GROUP,
+    INDIVIDUAL,
+    PEER_TO_PEER
 }

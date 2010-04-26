@@ -1,12 +1,13 @@
 package eu.scy.server.controllers;
 
 
+import eu.scy.core.ActivityService;
+import eu.scy.core.model.pedagogicalplan.TeacherRoleType;
+import eu.scy.core.model.pedagogicalplan.WorkArrangementType;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import eu.scy.core.ActivityService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -27,16 +28,16 @@ public class ViewActivityController extends BaseController {
         setModel(getActivityService().getActivity(activityId));
 
         List teacherRoles = new LinkedList();
-        teacherRoles.add("Activator");
-        teacherRoles.add("Facilitator");
-        teacherRoles.add("Observer");
+        teacherRoles.add(TeacherRoleType.ACTIVATOR);
+        teacherRoles.add(TeacherRoleType.FACILITATOR);
+        teacherRoles.add(TeacherRoleType.OBSERVER);
 
         modelAndView.addObject("teacherRoles", teacherRoles);
 
         List workArrangement = new LinkedList();
-        workArrangement.add("Individual");
-        workArrangement.add("Group");
-        workArrangement.add("Peer to peer");
+        workArrangement.add(WorkArrangementType.INDIVIDUAL);
+        workArrangement.add(WorkArrangementType.GROUP);
+        workArrangement.add(WorkArrangementType.PEER_TO_PEER);
 
         modelAndView.addObject("workArrangement", workArrangement);
     }
