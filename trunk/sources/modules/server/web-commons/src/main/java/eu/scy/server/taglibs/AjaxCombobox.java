@@ -11,7 +11,6 @@ import java.util.List;
  * User: Henrik
  * Date: 24.mar.2010
  * Time: 10:11:59
- * To change this template use File | Settings | File Templates.
  */
 public class AjaxCombobox extends AjaxBaseComponent {
 
@@ -22,15 +21,16 @@ public class AjaxCombobox extends AjaxBaseComponent {
         try {
             double id = Math.random();
             pageContext.getOut().write("<form id=\"ajaxComboboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\" >");
-            pageContext.getOut().write("<select name=\"value\" onchange=\"postForm('ajaxComboboxForm" + id + "');\">");
-            for (int i = 0; i < comboBoxValues.size(); i++) {
+            pageContext.getOut().write("<select name=\"value\" value=\"" + executeGetter(getModel(), getProperty()) + "\"onchange=\"postForm('ajaxComboboxForm" + id + "');\">");
+            for (int i = 0; i < comboBoxValues.size(); i++) {                                                
                 Object o = comboBoxValues.get(i);
-                pageContext.getOut().write("<option value=\""+o.toString()+"\">" + o.toString() + "</option>");
+                pageContext.getOut().write("<option value=\""+o+"\">" + o + "</option>");
             }
             pageContext.getOut().write("</select>");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase) getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
+            pageContext.getOut().write("<input type=\"hidden\" name=\"setterClass\" value=\"" + executeGetter(getModel(), getProperty()).getClass().getName() + "\">");
             pageContext.getOut().write("</form>");
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class AjaxCombobox extends AjaxBaseComponent {
         this.comboBoxValues = comboBoxValues;
     }
 
-    private String executeGetter(Object object, String property) {
+    private Object executeGetter(Object object, String property) {
         try {
             String firstLetter = property.substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
@@ -55,7 +55,7 @@ public class AjaxCombobox extends AjaxBaseComponent {
 
             Method method = object.getClass().getMethod("get" + property);
 
-            String returnValue = (String) method.invoke(object, null);
+            Object returnValue = method.invoke(object, null);
             return returnValue;
         } catch (Exception e) {
             e.printStackTrace();
