@@ -19,18 +19,24 @@ public class AjaxCombobox extends AjaxBaseComponent {
 
     public int doEndTag() throws JspException {
         try {
+            Object selected = executeGetter(getModel(), getProperty());
+
             double id = Math.random();
             pageContext.getOut().write("<form id=\"ajaxComboboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxCombobox.html\" >");
-            pageContext.getOut().write("<select name=\"value\" value=\"" + executeGetter(getModel(), getProperty()) + "\"onchange=\"postForm('ajaxComboboxForm" + id + "');\">");
+            pageContext.getOut().write("<select name=\"value\" value=\"" + selected + "\"onchange=\"postForm('ajaxComboboxForm" + id + "');\">");
             for (int i = 0; i < comboBoxValues.size(); i++) {                                                
                 Object o = comboBoxValues.get(i);
-                pageContext.getOut().write("<option value=\""+o+"\">" + o + "</option>");
+                if (o.equals(selected)) {
+                    pageContext.getOut().write("<option value=\""+o+"\" selected>" + o + "</option>");
+                } else {
+                    pageContext.getOut().write("<option value=\""+o+"\">" + o + "</option>");
+                }
             }
             pageContext.getOut().write("</select>");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase) getModel()).getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
-            pageContext.getOut().write("<input type=\"hidden\" name=\"setterClass\" value=\"" + executeGetter(getModel(), getProperty()).getClass().getName() + "\">");
+            pageContext.getOut().write("<input type=\"hidden\" name=\"setterClass\" value=\"" + selected.getClass().getName() + "\">");
             pageContext.getOut().write("</form>");
         } catch (Exception e) {
             e.printStackTrace();
