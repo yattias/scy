@@ -40,7 +40,6 @@
  */
 package eu.scy.roolows;
 
-import com.sun.jersey.spi.resource.Singleton;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.Action;
