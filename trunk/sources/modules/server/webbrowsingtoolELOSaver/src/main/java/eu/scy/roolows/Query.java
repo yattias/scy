@@ -61,7 +61,6 @@ import roolo.api.search.AndQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import roolo.elo.BasicMetadataQuery;
-import roolo.elo.BasicSearchOperationNames;
 import roolo.elo.BasicSearchOperations;
 
 import roolo.elo.api.IELO;
@@ -75,7 +74,6 @@ import roolo.search.LuceneQuery;
  *
  * @author __SVEN__
  */
-@Singleton //XXX try this out!!!
 @Path("/query")
 public class Query {
 
@@ -93,7 +91,6 @@ public class Query {
 
     /** Creates a new instance of SaveELO */
     public Query() {
-        initMetadataKeys();
     }
 
     /**
@@ -111,6 +108,8 @@ public class Query {
     @GET
     @Produces("text/xml")
     public String andQueryAsXML(@Context UriInfo ui) {
+        initMetadataKeys();
+        
         StringBuffer xmlString = new StringBuffer();
         List<ISearchResult> results = doAndQuery(ui);
         log.info("found " + results.size() + " hits");
