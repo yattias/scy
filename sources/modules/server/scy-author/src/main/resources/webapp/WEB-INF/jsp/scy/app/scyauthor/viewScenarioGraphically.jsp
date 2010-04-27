@@ -2,7 +2,7 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <h1>Activity centric view scenario: ${model.name}</h1>
+        <h1>Scenario: ${model.name}</h1>
         <table>
             <tr>
                 <th width="35%">Scenario properties</th>
@@ -32,27 +32,25 @@
             <c:when test="${fn:length(learningActivitySpaces) > 0}">
                 <table id="pedagogicalPlansTable" width="100%">
                     <tr>
-                        <th width="20%">Learning activity space</th>
-                        <th width="80%">
+                        <th>Learning activity space</th>
+                        <th>
                             <table width="100%">
-                                <th width="25%">Activity</th>
-                                <th width="25%">Work arrangement</th>
-                                <th width="25%">Teacher role</th>
-                                <th width="25%">Expected duration</th>
+                                <th width="40%">Activity</th>
+                                <th width="40%">Anchor ELO</th>
+                                <th width="20%">Auto add to SP</th>
                             </table>
                         </th>
                     </tr>
                     <c:forEach var="las" items="${learningActivitySpaces}">
                         <tr class="${oddEven.oddEven}">
-                            <td width="20%"><a href="viewLAS.html?id=${las.id}">${las.name}</a></td>
-                            <td width="80%">
+                            <td><a href="viewLAS.html?id=${las.id}">${las.name}</a></td>
+                            <td>
                                 <table width="100%">
                                     <c:forEach var="activity" items="${las.activities}">
                                         <tr>
-                                            <td width="25%"><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
-                                            <td width="25%"><s:ajaxCombobox property="workArrangementType" model="${activity}" comboBoxValues="${workArrangement}"/></td>
-                                            <td width="25%"><s:ajaxCombobox property="teacherRoleType" model="${activity}" comboBoxValues="${teacherRoles}"/></td>
-                                            <td width="25%"><s:ajaxNumberField model="${activity}" property="expectedDurationInMinutes"/></td>
+                                            <td width="40%"><a href="viewActivity.html?activityId=${activity.id}">${activity.name}</a></td>
+                                            <td width="40%"><a href="viewAnchorELO.html?anchorELOId=${activity.anchorELO.id}">${activity.anchorELO.name}</a></td>
+                                            <td width="20%"><s:ajaxCheckBox model="${activity}" property="autoaddToStudentPlan"/></td>
                                         </tr>
                                     </c:forEach>
                                 </table>
@@ -76,14 +74,14 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <br>
+                <br/>
             </c:when>
         </c:choose>
 
         <br/>
         <br/>
         <a href="viewScenario.html?pedagogicalPlanId=${pedagogicalPlan.id}">Normal scenario view</a>
-        <a href="viewScenarioGraphically.html?pedagogicalPlanId=${pedagogicalPlan.id}">Graphical scenario view</a>
+        <a href="viewAllScenarioActivities.html?pedagogicalPlanId=${pedagogicalPlan.id}">Activity centric view</a>
 
     </tiles:putAttribute>
 </tiles:insertDefinition>

@@ -43,6 +43,7 @@
                    /app/scyauthor/viewAgents.html=viewAgentsController
                    /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
                    /app/scyauthor/viewScenario.html=viewScenarioController
+                   /app/scyauthor/viewScenarioGraphically.html=viewScenarioGraphicallyController
                    /app/scyauthor/viewMission.html=viewMissionController
                    /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
                    /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
@@ -53,6 +54,7 @@
                    /app/tools/Toolbank.html=toolbankController
 
                    /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
+                   /app/scyauthorruntime/ScyAuthorRuntimeGraphicalView.html=scyAuthorRuntimeGraphicalViewController
                    /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
                    /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
                </value>
@@ -105,6 +107,13 @@
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
 
+    <bean id="viewScenarioGraphicallyController" class="eu.scy.server.controllers.ViewScenarioGraphicallyController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
     <bean id="viewAnchorELOController" class="eu.scy.server.controllers.ViewAnchorELOController">
         <property name="serverService" ref="serverService"/>
         <property name="anchorELOService" ref="anchorELOService"/>
@@ -140,6 +149,12 @@
     </bean>
 
     <bean id="scyAuthorRuntimeIndexController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="scyAuthorRuntimeGraphicalViewController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeGraphicalViewController">
         <property name="serverService" ref="serverService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="urlInspector" ref="urlInspector"/>
