@@ -81,6 +81,7 @@
         <br/>
         <br/>
         <a href="viewAllScenarioActivities.html?pedagogicalPlanId=${pedagogicalPlan.id}">Activity centric view</a>
+        <a href="viewScenarioGraphically.html?pedagogicalPlanId=${pedagogicalPlan.id}">Graphical scenario view</a>
 
     </tiles:putAttribute>
 </tiles:insertDefinition>
