@@ -60,6 +60,7 @@
 
     <bean id="anchorELOService" class="eu.scy.core.AnchorELOServiceImpl">
 		<property name="anchorELODAO" ref="anchorELODAO"/>
+        <property name="scyBaseDAO" ref="agentDAO"/>
 	</bean>
 
     <bean id="ajaxPersistenceService" class="eu.scy.core.AjaxPersistenceServiceImpl">

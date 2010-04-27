@@ -1,10 +1,12 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.LASService;
-import org.springframework.web.servlet.ModelAndView;
-
+import eu.scy.core.model.pedagogicalplan.AssessmentStrategyType;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 12:02:09
  * To change this template use File | Settings | File Templates.
  */
-public class ViewLASController extends BaseController{
+public class ViewLASController extends BaseController {
 
     private LASService lasService;
 
@@ -22,6 +24,13 @@ public class ViewLASController extends BaseController{
         String id = request.getParameter("id");
         logger.info("LAS ID: " + id);
         setModel(getLasService().getLearningActivitySpace(id));
+
+        List assessmentStrategies = new LinkedList();
+        assessmentStrategies.add(AssessmentStrategyType.PEER_TO_PEER);
+        assessmentStrategies.add(AssessmentStrategyType.SINGLE);
+        assessmentStrategies.add(AssessmentStrategyType.TEACHER);
+
+        modelAndView.addObject("assessmentStrategies", assessmentStrategies);
     }
 
 

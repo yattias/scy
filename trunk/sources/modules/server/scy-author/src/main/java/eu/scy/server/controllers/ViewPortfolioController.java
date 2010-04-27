@@ -1,8 +1,12 @@
 package eu.scy.server.controllers;
 
+import eu.scy.core.AnchorELOService;
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
+import eu.scy.core.model.impl.pedagogicalplan.AssessmentImpl;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.Assessment;
+import eu.scy.core.model.pedagogicalplan.AssessmentStrategyType;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import java.util.LinkedList;
@@ -19,8 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ViewPortfolioController extends BaseController {
 
-    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
-    private LASService lasService;
+    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService = null;
+    private AnchorELOService anchorELOService = null;
+    private LASService lasService = null;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -28,10 +33,18 @@ public class ViewPortfolioController extends BaseController {
         logger.info("PED PLAN ID: " + pedPlanId);
         PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
 
+        Object rq = request.getParameter("newAssessment");
+        if (rq != null) {
+            AnchorELO ae = getAnchorELOService().getAnchorELO((String) rq);
+            Assessment assessment = new AssessmentImpl();
+            ae.setAssessment(assessment);
+            getAnchorELOService().save(ae);
+        }
+
         List assessmentStrategies = new LinkedList();
-        assessmentStrategies.add("Peer to peer");
-        assessmentStrategies.add("Single");
-        assessmentStrategies.add("Teacher");
+        assessmentStrategies.add(AssessmentStrategyType.PEER_TO_PEER);
+        assessmentStrategies.add(AssessmentStrategyType.SINGLE);
+        assessmentStrategies.add(AssessmentStrategyType.TEACHER);
 
         modelAndView.addObject("pedagogicalPlan", plan);
         modelAndView.addObject("anchorElos", getAnchorELOs(plan));
@@ -40,7 +53,6 @@ public class ViewPortfolioController extends BaseController {
 
 
     private List getAnchorELOs(PedagogicalPlan plan) {
-
         List returnList = new LinkedList();
         List <LearningActivitySpace> lases = getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario());
         for (int i = 0; i < lases.size(); i++) {
@@ -56,7 +68,6 @@ public class ViewPortfolioController extends BaseController {
         }
 
         return returnList;
-
     }
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
@@ -73,5 +84,31 @@ public class ViewPortfolioController extends BaseController {
 
     public void setLasService(LASService lasService) {
         this.lasService = lasService;
+    }
+
+    public AnchorELOService getAnchorELOService() {
+        return anchorELOService;
+    }
+
+    public void setAnchorELOService(AnchorELOService anchorELOService) {
+        this.anchorELOService = anchorELOService;
+    }
+
+    private class DataClass {
+        private AnchorELO anchorElo = null;
+        private Assessment assessment = null;
+
+        private DataClass(AnchorELO anchorElo, Assessment assessment) {
+            this.anchorElo = anchorElo;
+            this.assessment = assessment;
+        }
+
+        public AnchorELO getAnchorElo() {
+            return anchorElo;
+        }
+
+        public Assessment getAssessment() {
+            return assessment;
+        }
     }
 }

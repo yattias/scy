@@ -50,7 +50,16 @@
                             <td><s:ajaxCheckBox model="${anchorElo}" property="includedInPortfolio"/></td>
                             <td><s:ajaxCheckBox model="${anchorElo}" property="obligatoryInPortfolio"/></td>
                             <td><a href="viewAnchorELO.html?anchorELOId=${anchorElo.id}">${anchorElo.name}</a></td>
-                            <td><s:ajaxCombobox property="name" model="${anchorElo}" comboBoxValues="${assessmentStrategies}"/></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${anchorElo.assessment != null}">
+                                        <s:ajaxCombobox property="assessmentStrategyType" model="${anchorElo.assessment}" comboBoxValues="${assessmentStrategies}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="viewPortfolio.html?id=${pedagogicalPlan.id}&newAssessment=${anchorElo.id}">Create assessment</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

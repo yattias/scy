@@ -168,6 +168,7 @@
     <bean id="viewPortfolioController" class="eu.scy.server.controllers.ViewPortfolioController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="lasService" ref="lasService"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>

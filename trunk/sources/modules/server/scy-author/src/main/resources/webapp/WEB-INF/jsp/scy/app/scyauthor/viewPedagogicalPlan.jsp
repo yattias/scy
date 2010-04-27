@@ -85,8 +85,6 @@
                 <th>Zoom in</th>
             </tr>
 
-            <s:ajaxCheckBox model="${pedagogicalPlan}" property="makeAllAssignedStudentsBuddies"/>
-
             <tr class="${oddEven.oddEven}">
                 <td width="30%">SCYLab use</td>
                 <td width="60%"><s:ajaxSlider sliderValues="${agentLevels}" model="${pedagogicalPlan}" property="overallSCYLabScaffoldingLevel"/></td>

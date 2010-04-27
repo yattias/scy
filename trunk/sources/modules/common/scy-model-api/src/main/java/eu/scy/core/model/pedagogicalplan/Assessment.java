@@ -9,4 +9,7 @@ package eu.scy.core.model.pedagogicalplan;
 public interface Assessment extends BaseObject {
     public void setAssessmentStrategy(AssessmentStrategy assessmentStrategy);
     public AssessmentStrategy getAssessmentStrategy();
+
+    public void setAssessmentStrategyType(AssessmentStrategyType assessmentStrategyType);
+    public AssessmentStrategyType getAssessmentStrategyType();
 }
