@@ -7,8 +7,7 @@ import eu.scy.core.model.pedagogicalplan.AnchorELO;
  * User: Henrik
  * Date: 18.mar.2010
  * Time: 21:33:40
- * To change this template use File | Settings | File Templates.
  */
-public interface AnchorELODAO extends BaseDAO{
+public interface AnchorELODAO extends SCYBaseDAO {
     AnchorELO getAnchorELO(String anchorEloId);
 }

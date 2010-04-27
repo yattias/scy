@@ -31,13 +31,16 @@ CREATE TABLE `anchorelo` (
     `producedBy_primKey` varchar(55) default NULL,
     `includedInPortfolio` tinyint(1) default 0,
     `obligatoryInPortfolio` tinyint(1) default 0,
+    `assessment_primKey` varchar(55) default NULL,
     PRIMARY KEY  (`primKey`),
     KEY `inputTo_primKey_key` (`inputTo_primKey`),
     KEY `outputFrom_primKey_key` (`outputFrom_primKey`),
     KEY `producedBy_primKey_key` (`producedBy_primKey`),
+    KEY `aelo_assessment_key` (`assessment_primKey`),
     CONSTRAINT `anchorelo_las` FOREIGN KEY (`inputTo_primKey`) REFERENCES `learningactivityspace` (`primKey`),
     CONSTRAINT `outputFrom_const_las` FOREIGN KEY (`outputFrom_primKey`) REFERENCES `learningactivityspace` (`primKey`),
-    CONSTRAINT `producedBy_primKey_const_las` FOREIGN KEY (`producedBy_primKey`) REFERENCES `activity` (`primKey`)
+    CONSTRAINT `producedBy_primKey_const_las` FOREIGN KEY (`producedBy_primKey`) REFERENCES `activity` (`primKey`),
+    CONSTRAINT `aelo_assessment_const` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -200,6 +203,7 @@ CREATE TABLE `assessment` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `assessmentStrategy_primKey` varchar(55) default NULL,
+    `assessmentStrategyType` varchar(250) default 'PEER_TO_PEER',
 	PRIMARY KEY  (`primKey`),
     KEY `assessmentToAStrategy` (`assessmentStrategy_primKey`),
     CONSTRAINT `assessmentToAStrategyConst` FOREIGN KEY (`assessmentStrategy_primKey`) REFERENCES `assessmentstrategy` (`primKey`)

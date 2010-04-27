@@ -34,7 +34,9 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
     public void setAssessment(Assessment assessment) {
         this.assessment = assessment;
     }
-    @Transient
+
+    @OneToOne(targetEntity = AssessmentImpl.class, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn (name = "assessment_primKey")
     public Assessment getAssessment() {
         return assessment;
     }

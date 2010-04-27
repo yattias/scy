@@ -1,8 +1,8 @@
 package eu.scy.core;
 
 import eu.scy.core.model.ScyBase;
-import eu.scy.core.persistence.BaseDAO;
 import eu.scy.core.persistence.SCYBaseDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +23,7 @@ public class BaseServiceImpl implements BaseService{
         this.scyBaseDAO = scyBaseDAO;
     }
 
-    @Override
+    @Transactional
     public void save(ScyBase scyBaseObject) {
         getScyBaseDAO().save(scyBaseObject);
     }
