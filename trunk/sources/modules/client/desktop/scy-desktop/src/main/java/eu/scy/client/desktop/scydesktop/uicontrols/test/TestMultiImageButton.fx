@@ -33,21 +33,21 @@ public class TestMultiImageButton extends CustomNode {
          layoutX: 220
          layoutY: 100
       }
+   def clickedDisplay = testMultiImageButtonDesign.clickedLabel;
    var clickedAnimation = Timeline {
       repeatCount: 1
       keyFrames : [
          at (0s){
-            testMultiImageButtonDesign.clickedLabel.opacity => 0
+            clickedDisplay.opacity => 0
          }
          at (100ms){
-            testMultiImageButtonDesign.clickedLabel.opacity => 1.0
+            clickedDisplay.opacity => 1.0
          }
          at (1500ms){
-            testMultiImageButtonDesign.clickedLabel.opacity => 0.0
+            clickedDisplay.opacity => 0.0
          }
       ]
    }
-
 
    public override function create(): Node {
       testMultiImageButtonDesign.reloadButton.action = loadButtonImages;

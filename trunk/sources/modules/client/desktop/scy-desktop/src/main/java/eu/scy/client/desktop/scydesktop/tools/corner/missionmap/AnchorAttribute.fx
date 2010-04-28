@@ -31,9 +31,11 @@ public class AnchorAttribute extends ScyWindowAttribute {
    public var windowAction:function(MissionAnchorFX):Void;
    override public var priority = 5;
 
-   def size = 16.0;
-   def bottomAngleWidth = 50.0;
-   def anchorStrokeWidth = 2;
+   def size = 10.0;
+   def mainAngleWidth = 80.0;
+   def secondAngleWidth = 60.0;
+   def mainStrokeWidth = 2.0;
+   def secondStrokeWidth = 1.0;
    def defaultTitleColor = Color.WHITE;
    def defaultContentColor = Color.GRAY;
 
@@ -55,38 +57,63 @@ public class AnchorAttribute extends ScyWindowAttribute {
    }
 
    public override function create(): Node {
+      var mainRadius = 3*size/3;
       return Group {
          cursor: Cursor.HAND;
-         translateY: -size - 2;
+         blocksMouse:true
+         translateY: -size - mainStrokeWidth/2;
          content: [
-            EloContour{
-               width: size;
-               height: size;
-               controlLength: 5;
-               borderWidth: 2;
-					borderColor: bind missionAnchor.color;
-					fillColor: bind contentColor;
+//            EloContour{
+//               width: size;
+//               height: size;
+//               controlLength: 5;
+//               borderWidth: 2;
+//					borderColor: bind missionAnchor.color;
+//					fillColor: bind contentColor;
+//            }
+            Rectangle {
+               x: 0, y: 0
+               width: size, height: size+mainStrokeWidth
+               fill: Color.TRANSPARENT
             }
             Line {
                startX: size / 2,
-               startY: size / 4 + (if (mainAnchor) 0 else size/4)
+               startY: 0
                endX: size / 2,
-               endY: 3 * size / 4
-               strokeWidth: anchorStrokeWidth
-               stroke: bind titleColor
+               endY: size
+               strokeWidth: mainStrokeWidth
+               stroke: missionAnchor.color
             }
             Arc {
                centerX: size / 2,
-               centerY: 0
-               radiusX: 2 * size / 3,
-               radiusY: 2 * size / 3
-               startAngle: 270 - bottomAngleWidth / 2,
-               length: bottomAngleWidth
+               centerY: mainRadius
+               radiusX: mainRadius
+               radiusY: mainRadius
+               startAngle: 90 - mainAngleWidth / 2,
+               length: mainAngleWidth
                type: ArcType.OPEN
                fill: Color.TRANSPARENT
-               stroke: bind titleColor
-               strokeWidth: anchorStrokeWidth
+               stroke: missionAnchor.color
+               strokeWidth: mainStrokeWidth
             }
+            if (mainAnchor){
+               Arc {
+                  centerX: size / 2,
+                  centerY: mainRadius + 5
+                  radiusX: mainRadius
+                  radiusY: mainRadius
+                  startAngle: 90 - secondAngleWidth / 2,
+                  length: secondAngleWidth
+                  type: ArcType.OPEN
+                  fill: Color.TRANSPARENT
+                  stroke: missionAnchor.color
+                  strokeWidth: secondStrokeWidth
+               }
+            }
+            else{
+               null;
+            }
+
          ]
          onMouseClicked: function( e: MouseEvent ):Void {
             anchorDisplay.selectionAction(anchorDisplay,missionAnchor);
@@ -97,7 +124,9 @@ public class AnchorAttribute extends ScyWindowAttribute {
 }
 
 function run() {
-
+   var missionAnchor = MissionAnchorFX{
+         color: Color.RED
+      };
    var anchor1 = AnchorDisplay{
 //      anchor: MissionAnchorFX{
 //         iconCharacter: "1";
@@ -122,12 +151,19 @@ function run() {
                      y: 0
                      width: 100,
                      height: 20
-                     fill: Color.BLACK
+                     fill: Color.GRAY
                   }
                   AnchorAttribute{
                      translateX: 10;
                      translateY: 0;
-                     anchorDisplay: anchor1
+                     missionAnchor: missionAnchor
+                     mainAnchor:false
+                  }
+                  AnchorAttribute{
+                     translateX: 30;
+                     translateY: 0;
+                     missionAnchor: missionAnchor
+                     mainAnchor:true
                   }
                ]
             }

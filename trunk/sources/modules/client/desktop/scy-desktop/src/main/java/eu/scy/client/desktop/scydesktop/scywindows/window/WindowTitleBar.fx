@@ -192,6 +192,7 @@ public class WindowTitleBar extends WindowElement {
       var sceneLocation = localToScene(layoutBounds.minX, layoutBounds.minY);
       fullTitleGroup.layoutX = sceneLocation.x;
       fullTitleGroup.layoutY = sceneLocation.y;
+      fullTitleGroup.rotate = rotate;
       fullTitleGroup
    }
 

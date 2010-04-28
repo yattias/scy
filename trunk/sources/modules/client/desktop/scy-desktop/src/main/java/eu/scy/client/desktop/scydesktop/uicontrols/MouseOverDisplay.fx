@@ -87,7 +87,10 @@ public class MouseOverDisplay {
 
 
    public function stop(){
-      if (not disappearing){
+      if (animation.time<AnimationTiming.startAppearingTime){
+         animation.stop();
+      }
+      else {
          animation.time = AnimationTiming.startDisappearingTime;
       }
    }
