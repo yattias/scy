@@ -16,7 +16,6 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
@@ -24,19 +23,17 @@ import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.BasicMetadataKey;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.keys.LongMetadataKey;
-import roolo.elo.metadata.keys.RelationMetadataKey;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.keys.UriMetadataKey;
 import roolo.search.LuceneQuery;
 
-/**
+/** 
  * Tests the REST Webservice as a client using jersey testframework and jUnit 4
  * 
  * @author __SVEN__
@@ -117,7 +114,6 @@ public class TestClient extends JerseyTest {
      * Test that the expected response is sent back. This is testing the Echo ("Hello World") via HTTP GET.
      * @throws java.lang.Exception
      */
-    @Ignore
     @Test
     public void testEchoAlive() throws Exception {
         WebResource webResource = resource();
@@ -129,7 +125,6 @@ public class TestClient extends JerseyTest {
      * Test that the ELO is saved. The response should return an URI of the ELO
      * @throws java.lang.Exception
      */
-    @Ignore
     @Test
     public void testSaveELO() throws Exception {
         //create JSON from test-ELO
@@ -156,7 +151,6 @@ public class TestClient extends JerseyTest {
      * 4. test the ELOs' XML for equality (The ELOs itself dont have a working equals()-method)
      * @throws java.lang.Exception
      */
-    @Ignore
     @Test
     public void testSaveAndRetrieveELO() throws Exception {
         //1. create JSON from test-ELO
@@ -203,7 +197,6 @@ public class TestClient extends JerseyTest {
      * 5. compare both searches (only by URIs)
      * @throws java.lang.Exception
      */
-    @Ignore
     @Test
     public void testQueryingELOs() throws Exception{
         //create JSON from test-ELO
