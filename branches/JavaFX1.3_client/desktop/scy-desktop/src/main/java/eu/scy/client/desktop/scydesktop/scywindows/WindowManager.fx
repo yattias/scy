@@ -25,6 +25,8 @@ public mixin class WindowManager {
    public var scyWindows:Group;
    public var scyDesktop:ScyDesktop;
 
+   public-read protected var activeWindow:ScyWindow;
+
 //   public var activeAnchor:MissionAnchorFX;
 
    public function addScyWindow(scyWindow:ScyWindow):Void{
