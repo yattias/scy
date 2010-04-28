@@ -150,6 +150,7 @@ public class LoginDialog extends CustomNode {
 
    function showLoginResult(toolBrokerAPI:ToolBrokerAPI, userName: String){
       def window = loginWindow;
+      def windowColorScheme = window.windowColorScheme;
       if (toolBrokerAPI!=null){
          // successfull login
          Timeline {
@@ -157,7 +158,7 @@ public class LoginDialog extends CustomNode {
             keyFrames : [
                KeyFrame {
                   time : 750ms
-                  values:window.windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
+                  values:windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
                   action:function(){
                      loginWindow.scyContent = WelcomeNode{
                         name:userName;
@@ -184,11 +185,11 @@ public class LoginDialog extends CustomNode {
             keyFrames : [
                KeyFrame {
                   time : 0ms
-                  values:window.windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
+                  values:windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
                }
                KeyFrame {
                   time : 500ms
-                  values:window.windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
+                  values:windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
                }
             ]
          }.play();
