@@ -12,9 +12,9 @@ import javafx.fxd.FXDNode;
  */
 
 public class MyFxdLoader extends FXDNode {
-   public-init var sourceLocation = ArtSource.artSource;
-   public-init var sourceName:String;
-   override public var url = "{sourceLocation}{sourceName}";
+//   public-init var sourceLocation = ArtSource.artSource;
+//   public-init var sourceName:String;
+//   override public var url = "{sourceLocation}{sourceName}";
    public-read var loaded = false;
    public var loadedAction: function():Void;
    override protected function contentLoaded() {
@@ -22,4 +22,5 @@ public class MyFxdLoader extends FXDNode {
       loaded = true;
       FX.deferAction(loadedAction);
    }
+
 }
