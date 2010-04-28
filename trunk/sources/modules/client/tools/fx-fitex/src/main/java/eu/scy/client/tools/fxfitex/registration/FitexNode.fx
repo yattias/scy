@@ -174,6 +174,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
       fitexPanel.setTBI(toolBrokerAPI);
       fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       var syncAttrib = DatasyncAttribute{
+                    scyWindow:scyWindow
                     dragAndDropManager:scyWindow.dragAndDropManager;
                     dragObject:this};
       insert syncAttrib into scyWindow.scyWindowAttributes;
