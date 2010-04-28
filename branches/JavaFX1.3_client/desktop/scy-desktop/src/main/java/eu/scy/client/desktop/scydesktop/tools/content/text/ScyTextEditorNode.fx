@@ -166,21 +166,24 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
         this.elo = elo;
     }
 
-   function resizeContent(){
+   function resizeContent():Void{
       var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
+      wrappedTextEditor.width = size.width;
+      wrappedTextEditor.height = size.height;
+ 
       // setPreferredSize is needed
       textEditor.setPreferredSize(size);
 //      println("pref sized set to {size}");
       // setSize is not visual needed
       // but set it, so the component can react to it
       textEditor.setSize(size);
-      textEditor.setPreferredSize(size);
+//      textEditor.setPreferredSize(size);
       //println("resized whiteboardPanel to ({width},{height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
 //      return 200;
-//      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}");
+      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}, textEditor.getSize(): {textEditor.getSize()}");
       return textEditor.getPreferredSize().getHeight()+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
