@@ -265,6 +265,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             fixedDimension.height = fixedDimension.height + 260;
             scyWindow.open();
             var syncAttrib = DatasyncAttribute {
+                        scyWindow:scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this };
             insert syncAttrib into scyWindow.scyWindowAttributes;
