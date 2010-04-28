@@ -231,6 +231,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       if (scyContent instanceof Parent){
          (scyContent as Parent).layout();
       }
+      var contentWidth = width;
+      var contentHeight = height;
       if (scyContent instanceof Resizable){
          var resizableContent = scyContent as Resizable;
          var prefWidth = Math.max(resizableContent.getPrefWidth(desiredWidth), minimumWidth);
@@ -239,15 +241,17 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             prefWidth = desiredWidth;
             prefHeight = desiredHeight;
          }
-         width = prefWidth;
-         height = prefHeight;
+         contentWidth = prefWidth;
+         contentHeight = prefHeight;
          allowResize = true;
       }
       else{
-         width = scyContent.boundsInLocal.width;
-         height = scyContent.boundsInLocal.height;
+         contentWidth = scyContent.boundsInLocal.width;
+         contentHeight = scyContent.boundsInLocal.height;
          allowResize = false;
       }
+      width = contentWidth + deltaContentWidth;
+      height = contentHeight + deltaContentHeight;
       scyToolsList.windowContentTool = scyContent;
    }
 
@@ -267,6 +271,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             limittedHeight = Math.min(limittedHeight, resizableContent.getMaxHeight());
          }
          else{
+            println("scyContent.layoutBounds: {scyContent.layoutBounds}, scyContent.boundsInLocal: {scyContent.boundsInLocal}");
             limittedWidth = scyContent.layoutBounds.maxX;
             limittedHeight = scyContent.layoutBounds.maxY;
          }
@@ -406,6 +411,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
         var useSize = limitSize(openWidth, openHeight);
         width = useSize.x;
         height = useSize.y;
+        println("useSize: {useSize}, realy used: {width}*{height}");
         (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
     }
 

@@ -89,7 +89,7 @@ public class LoginDialog extends CustomNode {
             content:loginNode
          }
          allowClose: false;
-         allowResize: false;
+         allowResize: true;
          allowRotate: false;
          allowMinimize: false;
          opacity:0.0;

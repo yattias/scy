@@ -21,11 +21,11 @@ import javafx.animation.Interpolator;
 import eu.scy.client.desktop.scydesktop.uicontrols.LanguageSelector;
 import org.apache.log4j.Logger;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.geometry.HPos;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 
 /**
  * @author sikken
@@ -172,7 +172,6 @@ public class LoginNode extends CustomNode {
                  ]
               };
       languageSelected();
-      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
       var vbox = VBox{
          spacing:spacing;
          hpos:HPos.RIGHT
@@ -183,11 +182,11 @@ public class LoginNode extends CustomNode {
          ]
       }
       vbox.layout();
-      Group{
-         content:[
-            vbox
-         ]
-      }
+      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
+      vbox
+//      EmptyBorderNode{
+//         content: vbox
+//      }
    }
 
 

@@ -18,15 +18,15 @@ import javafx.stage.Stage;
 
 public class ResizableRulerRectangle extends RulerRectangle,Resizable {
 
-   public override var width on replace{xSize = width}
-   public override var height on replace{ySize = height}
-
    public var minimumWidth = 10;
    public var preferredWidth = width;
    public var maximumWidth = 1000;
    public var minimumHeight = 10;
    public var preferredHeight = height;
    public var maximumHeight = 1000;
+
+   public override var width on replace{xSize = width; preferredWidth = width}
+   public override var height on replace{ySize = height; preferredHeight = height}
 
     override public function getPrefWidth (arg0 : Number) : Number {
         preferredWidth
