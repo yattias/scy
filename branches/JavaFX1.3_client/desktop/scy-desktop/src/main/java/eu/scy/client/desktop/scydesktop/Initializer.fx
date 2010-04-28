@@ -382,7 +382,7 @@ public class Initializer {
     public function getBackground(scene: Scene): Node {
         if (backgroundImage != null) {
            println("scene: {scene}");
-           Background{
+           return Background{
               defaultBackgroundImage:backgroundImage;
               displayWith:bind scene.width;
               displayHeight:bind scene.height;
