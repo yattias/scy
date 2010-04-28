@@ -71,6 +71,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
 
    public override function create(): Node {
       wrappedTextEditor = SwingComponent.wrap(textEditor);
+      resizeContent();
       FX.deferAction(resizeContent);
       return Group {
          blocksMouse:true;
@@ -173,13 +174,14 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       // setSize is not visual needed
       // but set it, so the component can react to it
       textEditor.setSize(size);
+      textEditor.setPreferredSize(size);
       //println("resized whiteboardPanel to ({width},{height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
 //      return 200;
 //      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}");
-      return textEditor.getPreferredSize().getHeight();
+      return textEditor.getPreferredSize().getHeight()+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
