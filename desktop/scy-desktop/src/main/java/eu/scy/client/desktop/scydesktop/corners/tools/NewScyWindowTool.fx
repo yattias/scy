@@ -34,6 +34,7 @@ import roolo.api.search.ISearchResult;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import javafx.scene.control.Button;
 
 /**
  * @author sikkenj
@@ -71,29 +72,29 @@ public class NewScyWindowTool extends CustomNode {
 
 
 //   var newWindowCounter = 0;
-   var newButton:ButtonWithTooltip;
-   var loadButton:ButtonWithTooltip;
-   var createButton:ButtonWithTooltip;
+   var newButton:Button;
+   var loadButton:Button;
+   var createButton:Button;
 
    public override function create(): Node {
-      newButton = ButtonWithTooltip {
+      newButton = Button {
          text: "New"
-         tooltip:"Fork from template"
+//         tooltip:"Fork from template"
          action: createNewScyWindowFromTemplate
  //        disable:templateEloUris==null or templateEloUris.isEmpty()
       }
-      loadButton = ButtonWithTooltip {
+      loadButton = Button {
          text: "Search"
          action: loadElo
       }
-      createButton = ButtonWithTooltip {
+      createButton = Button {
          text: "Create (Dev/Author)"
-         tooltip:"Create new\nOnly for developers and authors"
+//         tooltip:"Create new\nOnly for developers and authors"
          action: createNewScyWindow
       }
-      tooltipManager.registerNode(newButton, newButton);
-      tooltipManager.registerNode(loadButton, loadButton);
-      tooltipManager.registerNode(createButton, createButton);
+//      tooltipManager.registerNode(newButton, newButton);
+//      tooltipManager.registerNode(loadButton, loadButton);
+//      tooltipManager.registerNode(createButton, createButton);
       return Group {
          content: [
             VBox{
