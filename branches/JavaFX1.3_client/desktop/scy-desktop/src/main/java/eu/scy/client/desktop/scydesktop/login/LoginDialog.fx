@@ -30,6 +30,7 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 
 /**
  * @author sikken
@@ -150,6 +151,7 @@ public class LoginDialog extends CustomNode {
 
    function showLoginResult(toolBrokerAPI:ToolBrokerAPI, userName: String){
       def window = loginWindow;
+      def windowColorScheme = window.windowColorScheme;
       if (toolBrokerAPI!=null){
          // successfull login
          Timeline {
@@ -157,7 +159,7 @@ public class LoginDialog extends CustomNode {
             keyFrames : [
                KeyFrame {
                   time : 750ms
-                  values:window.windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
+                  values:windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
                   action:function(){
                      loginWindow.scyContent = WelcomeNode{
                         name:userName;
@@ -184,11 +186,11 @@ public class LoginDialog extends CustomNode {
             keyFrames : [
                KeyFrame {
                   time : 0ms
-                  values:window.windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
+                  values:windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
                }
                KeyFrame {
                   time : 500ms
-                  values:window.windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
+                  values:windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
                }
             ]
          }.play();
@@ -200,11 +202,13 @@ public class LoginDialog extends CustomNode {
    function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String):ScyDesktop {
       // using the sceneContent, with a copy of scene.content, does work
       // directly adding scyDesktop to scene.content does not seem to work
-      var sceneContent = scene.content;
       var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
+      var sceneContent = scene.content;
       delete this from sceneContent;
       insert scyDesktop into sceneContent;
+      insert ModalDialogBox.modalDialogGroup into sceneContent;
       insert SimpleTooltipManager.tooltipGroup into sceneContent;
+      insert MouseBlocker.mouseBlockNode into sceneContent;
       scene.content = sceneContent;
       return scyDesktop;
    }

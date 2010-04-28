@@ -85,6 +85,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEl
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import javafx.scene.effect.Effect;
+import java.lang.System;
 
 /**
  * @author sikkenj
@@ -164,9 +165,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
         scyWindowControl.missionModel = missionModelFX;
         FX.deferAction(initialWindowPositioning);
-        FX.deferAction(function () {
-            MouseBlocker.initMouseBlocker(scene.stage);
-        });
+        FX.deferAction(initMouseBlocker);
+//        FX.deferAction(function () {
+//            MouseBlocker.initMouseBlocker(scene.stage);
+//        });
         logger.info("repository class: {config.getRepository().getClass()}");
         if (config.getRepository() instanceof RepositoryWrapper) {
             var repositoryWrapper = config.getRepository() as RepositoryWrapper;
@@ -181,7 +183,18 @@ public class ScyDesktop extends CustomNode, INotifiable {
         FX.addShutdownAction(scyDesktopShutdownAction);
     }
 
-    function initialWindowPositioning() {
+   function initMouseBlocker():Void{
+      var theStage = scene.stage;
+      if (theStage==null){
+         System.err.println("defering initMouseBlocker, because of the missing stage");
+         FX.deferAction(initMouseBlocker);
+      }
+      else{
+         MouseBlocker.initMouseBlocker(scene.stage);
+      }
+   }
+
+   function initialWindowPositioning() {
         //      scyWindowControl.positionWindows();
     }
 

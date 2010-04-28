@@ -42,6 +42,7 @@ public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter {
    public override function create(): Node {
       injectServices();
       swingComponent = SwingComponent.wrap(swingContent);
+//      resizeContent();
       return swingComponent;
    }
 
@@ -60,6 +61,7 @@ public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter {
       // set the size of the swing component, so it can adjust its content
       var newSize = new Dimension(width,height);
       swingContent.setSize(newSize);
+      swingContent.setPreferredSize(newSize);
    }
 
    public override function getMaxHeight() : Number{
