@@ -21,11 +21,10 @@ import javafx.animation.Interpolator;
 import eu.scy.client.desktop.scydesktop.uicontrols.LanguageSelector;
 import org.apache.log4j.Logger;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.geometry.HPos;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 /**
  * @author sikken
@@ -103,7 +102,7 @@ public class LoginNode extends CustomNode {
 
     function setLanguageLabels(){
        try{
-          var bundle = ResourceBundle.getBundle("languages/scydesktop");
+          var bundle = new ResourceBundleWrapper(this);
           loginTitle = bundle.getString("LoginDialog.title");
           userNameLabel.text = bundle.getString("LoginDialog.username");
           passwordLabel.text = bundle.getString("LoginDialog.password");
