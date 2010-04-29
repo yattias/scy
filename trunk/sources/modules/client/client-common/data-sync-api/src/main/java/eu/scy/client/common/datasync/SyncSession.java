@@ -157,6 +157,7 @@ public class SyncSession implements ISyncSession {
 		request.setToolId(toolid);
 		request.setEvent(Event.queryall);
 		
+		DataSyncMessagePacketTransformer syncMessageTransformer = new DataSyncMessagePacketTransformer();
 		syncMessageTransformer.setObject(request);
 		
 		Packet sentPacket = new Message();
