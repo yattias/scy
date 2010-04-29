@@ -48,7 +48,7 @@ public class DataSyncSessionBridge {
 
 	public void connect(XMPPConnection connection) throws Exception {
 		muc = new MultiUserChat(connection, id);
-		muc.create(id);
+		muc.create(connection.getUser());
 		Form form = new Form(Form.TYPE_SUBMIT);
 		muc.sendConfigurationForm(form);
 		logger.debug("Successfully connected to MUC session");
