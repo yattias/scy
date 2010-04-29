@@ -3,7 +3,12 @@
  */
 package eu.scy.common.message;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+
+import eu.scy.common.datasync.ISyncObject;
 
 /**
  * @author giemza
@@ -18,7 +23,7 @@ public class SyncMessage {
 	}
 
 	public enum Event {
-		create, kill, query
+		create, kill, queryall, queryone
 	}
 	
 	public enum Response {
@@ -36,7 +41,10 @@ public class SyncMessage {
     
     private String message;
     
+    private List<ISyncObject> syncobjects;
+    
     public SyncMessage(Type type) {
+    	this();
     	this.type = type;
     	
     	logger.info("SyncMessage created with type " + type);
@@ -47,7 +55,7 @@ public class SyncMessage {
      * Should only be used by DataSyncCommandPacketTransformer!
      */
     public SyncMessage() {
-    	logger.info("Empty SyncMessage created");
+    	syncobjects = new ArrayList<ISyncObject>();
     }
 
     /**
@@ -132,5 +140,19 @@ public class SyncMessage {
 	 */
 	public void setResponse(Response response) {
 		this.response = response;
+	}
+	
+	/**
+	 * @param syncobjects
+	 */
+	public void setSyncobjects(List<ISyncObject> syncobjects) {
+		this.syncobjects = syncobjects;
+	}
+	
+	/**
+	 * @return the list of syncobjects
+	 */
+	public List<ISyncObject> getSyncObjects() {
+		return syncobjects;
 	}
 }
