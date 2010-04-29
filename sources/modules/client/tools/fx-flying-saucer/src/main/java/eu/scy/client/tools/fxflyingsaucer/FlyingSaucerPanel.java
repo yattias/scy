@@ -4,6 +4,7 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.StringReader;
@@ -11,7 +12,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -222,6 +222,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    private javax.swing.JButton loadButton;
    private javax.swing.JTextField urlField;
    // End of variables declaration
+   private final ResourceBundleWrapper resourceBundleWrapper = new ResourceBundleWrapper(this);
    private String homeUrl = null;
    private boolean isPageLoaded = false;
    private boolean urlFieldIsTitle = false;
@@ -322,19 +323,27 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       String httpResultError = "";
       if (httpResult != null)
       {
-         httpResultError = "<p>HTTP result code was:</p>\n"
+         httpResultError = "<p>" + resourceBundleWrapper.getString("loadFailed.httpResultCode") + "</p>\n"
             + "<pre>" + httpResult + "</pre>\n";
       }
       String notFound =
          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
          + "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
          + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
-         + "<head><title>Document can't be loaded</title></head>\n"
+         + "<head><title>"
+         + resourceBundleWrapper.getString("loadFailed.htmlTitle")
+         + "</title></head>\n"
          + "<body>\n"
-         + "<h1>Document can't be loaded</h1>\n"
-         + "<p>Could not load the page at </p>\n"
+         + "<h1>"
+         + resourceBundleWrapper.getString("loadFailed.contentTitle")
+         + "</h1>\n"
+         + "<p>"
+         + resourceBundleWrapper.getString("loadFailed.couldNotLoadPageAt")
+         + "</p>\n"
          + "<pre>" + GeneralUtil.escapeHTML(url_text) + "</pre>\n"
-         + "<p>The page failed to load; the error was:</p>\n"
+         + "<p>"
+         + resourceBundleWrapper.getString("loadFailed.errorMessage")
+         + "</p>\n"
          + "<pre>" + msg + "</pre>\n"
          + httpResultError
          + "</body>\n"
