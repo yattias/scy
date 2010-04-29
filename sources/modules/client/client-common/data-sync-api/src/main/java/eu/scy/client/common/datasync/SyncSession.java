@@ -3,6 +3,9 @@ package eu.scy.client.common.datasync;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -14,11 +17,16 @@ import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.common.datasync.ISyncAction;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncAction;
 import eu.scy.common.datasync.SyncActionPacketTransformer;
 import eu.scy.common.datasync.ISyncAction.Type;
+import eu.scy.common.message.DataSyncMessagePacketTransformer;
+import eu.scy.common.message.SyncMessage;
+import eu.scy.common.message.SyncMessage.Event;
+import eu.scy.common.message.SyncMessage.Response;
 import eu.scy.common.smack.SmacketExtension;
 import eu.scy.common.smack.SmacketExtensionProvider;
 
@@ -27,31 +35,39 @@ public class SyncSession implements ISyncSession {
 	private MultiUserChat muc;
 	private XMPPConnection xmppConnection;
 	private Vector<ISyncListener> listeners;
+	private String toolid;
 	
-	private SyncActionPacketTransformer transformer;
+	private BlockingQueue<Packet> queryQueue;
 	
-	public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc) {
+	public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, String toolid) {
 		this.listeners = new Vector<ISyncListener>();
 		this.xmppConnection = xmppConnection;
 		this.muc = muc;
+		this.toolid = toolid;
 		
-		transformer = new SyncActionPacketTransformer();
+		final SyncActionPacketTransformer syncActionTransformer = new SyncActionPacketTransformer();
+		final DataSyncMessagePacketTransformer syncMessageTransformer = new DataSyncMessagePacketTransformer();
+		
+		queryQueue = new SynchronousQueue<Packet>();
 		
 		//add extenison provider
-		SmacketExtensionProvider.registerExtension(transformer);
+		SmacketExtensionProvider.registerExtension(syncActionTransformer);
+		SmacketExtensionProvider.registerExtension(syncMessageTransformer);
 		
 	    ProviderManager providerManager = ProviderManager.getInstance();
-	    providerManager.addExtensionProvider(SyncSession.this.transformer.getElementname(), SyncSession.this.transformer.getNamespace(), new SmacketExtensionProvider());
+	    SmacketExtensionProvider extensionProvider = new SmacketExtensionProvider();
+	    providerManager.addExtensionProvider(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace(), extensionProvider);
+	    providerManager.addExtensionProvider(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace(), extensionProvider);
 		
 		xmppConnection.addPacketListener(new PacketListener(){
 		
 			@Override
 			public void processPacket(Packet packet) {
-				for (ISyncListener listener : listeners) {
-					PacketExtension extension = packet.getExtension(SyncSession.this.transformer.getElementname(), SyncSession.this.transformer.getNamespace());
-					if(extension != null && extension instanceof SmacketExtension) {
-						SmacketExtension se = (SmacketExtension) extension;
-						SyncAction syncAction = (SyncAction) se.getTransformer().getObject();
+				if (packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
+					SmacketExtension extension = (SmacketExtension) packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace());
+					SmacketExtension se = (SmacketExtension) extension;
+					SyncAction syncAction = (SyncAction) se.getTransformer().getObject();
+					for (ISyncListener listener : listeners) {
 						switch (syncAction.getType()) {
 						case add:
 							listener.syncObjectAdded(syncAction.getSyncObject());
@@ -66,13 +82,30 @@ public class SyncSession implements ISyncSession {
 							break;
 						}
 					}
+				} else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
+					try {
+						queryQueue.put(packet);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}, new PacketFilter() {
 			
 			@Override
 			public boolean accept(Packet packet) {
-				return packet.getExtension(SyncSession.this.transformer.getElementname(), SyncSession.this.transformer.getNamespace()) != null;
+				if(packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
+					return true;
+				} else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
+					PacketExtension extension = packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace());
+					SmacketExtension se = (SmacketExtension) extension;
+					SyncMessage message = (SyncMessage) se.getTransformer().getObject();
+					if (message.getType().equals(eu.scy.common.message.SyncMessage.Type.answer) && message.getEvent().equals(Event.queryall)) {
+						return true;
+					}
+				}
+				return false;
+				
 			}
 		});
 	}
@@ -101,8 +134,8 @@ public class SyncSession implements ISyncSession {
 		
 		ISyncAction syncAction = new SyncAction(this.getId(), muc.getNickname(), type, syncObject);
 		
-		transformer = new SyncActionPacketTransformer(syncAction);
-		message.addExtension(new SmacketExtension(transformer));
+		SyncActionPacketTransformer syncActionTransformer = new SyncActionPacketTransformer(syncAction);
+		message.addExtension(new SmacketExtension(syncActionTransformer));
 		
 		try {
 			muc.sendMessage(message);
@@ -113,9 +146,41 @@ public class SyncSession implements ISyncSession {
 	
 	@Override
 	public List<ISyncObject> getAllSyncObjects() {
+		return getAllSyncObjects(10, TimeUnit.SECONDS);
+	}
+	
+	@Override
+	public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) {
 		List<ISyncObject> list = new LinkedList<ISyncObject>();
-		// TODO request a list of all syncobject the datasyncmodule
-		// for this session
+		SyncMessage request = new SyncMessage(eu.scy.common.message.SyncMessage.Type.request);
+		request.setUserId(xmppConnection.getUser());
+		request.setToolId(toolid);
+		request.setEvent(Event.queryall);
+		
+		syncMessageTransformer.setObject(request);
+		
+		Packet sentPacket = new Message();
+		sentPacket.setFrom(xmppConnection.getUser());
+		sentPacket.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+		
+		SmacketExtension extension = new SmacketExtension(syncMessageTransformer);
+		sentPacket.addExtension(extension);
+		
+		xmppConnection.sendPacket(sentPacket);
+		
+		try {
+			Packet packet = queryQueue.poll(20, TimeUnit.SECONDS);
+			extension = (SmacketExtension) packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace());
+			SyncMessage reply = (SyncMessage) extension.getTransformer().getObject();
+			if (reply.getResponse().equals(Response.success)) {
+				return reply.getSyncObjects();
+			} else {
+				//TODO throw new exception, now return empty list
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		return list;
 	}
 
@@ -141,5 +206,10 @@ public class SyncSession implements ISyncSession {
 	public String getId() {
 		return muc.getRoom();
 	}
-	
+
+	@Override
+	public void leaveSession() {
+		muc.leave();
+		listeners.removeAllElements();
+	}
 }

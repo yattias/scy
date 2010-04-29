@@ -1,11 +1,11 @@
 package eu.scy.client.common.datasync;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
@@ -13,6 +13,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.jivesoftware.smackx.muc.MultiUserChat;
@@ -28,26 +29,21 @@ import eu.scy.common.smack.SmacketExtension;
 import eu.scy.common.smack.SmacketExtensionProvider;
 
 public class DataSyncService implements IDataSyncService {
+	
+	private static final Logger logger = Logger.getLogger(DataSyncService.class);
 
-	private ReentrantLock lock = new ReentrantLock();
-	
-	private Condition condition = lock.newCondition();
-	
-	private Queue<Packet> queue;
+	private BlockingQueue<Packet> packetLock;
 	
 	private XMPPConnection xmppConnection;
 
-	private SCYPacketTransformer transformer;
-
 	public DataSyncService() {
-		
-		queue = new LinkedList<Packet>();
+		packetLock = new SynchronousQueue<Packet>();
 	}
 	
 	public void init(XMPPConnection xmppConnection) {
 		
 		this.xmppConnection = xmppConnection;
-		transformer = new DataSyncMessagePacketTransformer();
+		final SCYPacketTransformer transformer = new DataSyncMessagePacketTransformer();
 		
 		// add extenison provider
 		SmacketExtensionProvider.registerExtension(transformer);
@@ -60,29 +56,46 @@ public class DataSyncService implements IDataSyncService {
 		
 			@Override
 			public void processPacket(Packet packet) {
-				queue.add(packet);
-				
-				lock.lock();
-				condition.signalAll();
-				lock.unlock();
+				try {
+					packetLock.put(packet);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}, new PacketFilter() {
 		
 			@Override
 			public boolean accept(Packet packet) {
-				return packet.getExtension(transformer.getElementname(), transformer.getNamespace()) != null;
+				PacketExtension extension = packet.getExtension(transformer.getElementname(), transformer.getNamespace());
+				if(extension != null) {
+					SmacketExtension se = (SmacketExtension) extension;
+					SyncMessage message = (SyncMessage) se.getTransformer().getObject();
+					if (message.getType().equals(Type.answer) && message.getEvent().equals(Event.create)) {
+						return true;
+					}
+				}
+				return false;
 			}
 		});
 	}
 	
+	/**
+	 * @deprecated use {@link IDataSyncService#createSession(ISyncListener, String)} instead to provide a toolid
+	 */
+	@Deprecated
 	@Override
 	public ISyncSession createSession(ISyncListener listener) throws Exception {
-		
+		return createSession(listener, "default-tool");
+	}
+	
+	@Override
+	public ISyncSession createSession(ISyncListener listener, String toolid) throws Exception {
 		SyncMessage command = new SyncMessage(Type.command);
+		SCYPacketTransformer transformer = new DataSyncMessagePacketTransformer();
 		
 		command.setEvent(Event.create);
 		command.setUserId(xmppConnection.getUser());
-		command.setToolId("nutpad");
+		command.setToolId(toolid);
 		transformer.setObject(command);
 		
 		Packet sentPacket = new Message();
@@ -92,22 +105,19 @@ public class DataSyncService implements IDataSyncService {
 		SmacketExtension extension = new SmacketExtension(transformer);
 		sentPacket.addExtension(extension);
 		
+		logger.debug("Sending message to create session for tool " + toolid + " to receiver: " + Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+		
 		xmppConnection.sendPacket(sentPacket);
 		
 		Message receivedPacket = null;
 		ISyncSession newSession = null;
 		
-		lock.lock();
 		try {
-			do {
-				condition.await();//10, TimeUnit.SECONDS);
-				Packet peek = queue.peek();
-				// check IDs for request and response
-				if (peek.getPacketID().equals(sentPacket.getPacketID())){
-					receivedPacket = (Message) peek;
-					queue.remove(peek);
-				}
-			} while (receivedPacket == null);
+			// TODO: check IDs for request and response
+			receivedPacket = (Message) packetLock.poll(10, TimeUnit.SECONDS);
+			
+			logger.debug("Received response for session creating from server.");
+			
 			extension = (SmacketExtension) receivedPacket.getExtension(transformer.getElementname(), transformer.getNamespace());
 			SyncMessage message = (SyncMessage) extension.getTransformer().getObject();
 			
@@ -115,28 +125,37 @@ public class DataSyncService implements IDataSyncService {
 				String mucID = message.getMessage(); // defined by xmpp response
 				MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
 				muc.join(xmppConnection.getUser());
-				newSession = new SyncSession(xmppConnection, muc);
+				newSession = new SyncSession(xmppConnection, muc, toolid);
 				newSession.addSyncListener(listener);
+				
+				logger.debug("Session successfully created with id: " + mucID);
 				
 			} else if (message.getResponse().equals(Response.failure)) {
 				// TODO through exception
-				System.err.println("Failure during session creation");
+				logger.error("Failure during session creation");
 			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.error("Exception while creating session", e);
 			throw new IOException("Something really bad happened ...", e);
-		} finally {
-			lock.unlock();
 		}
 		return newSession;
 	}
 
 	@Override
 	public ISyncSession joinSession(String mucID, ISyncListener listener) {
+		return joinSession(mucID, listener, "default-tool");
+	}
+	@Override
+	public ISyncSession joinSession(String mucID, ISyncListener listener, String toolid) {
+		return joinSession(mucID, listener, toolid, false);
+	}
+
+	@Override
+	public ISyncSession joinSession(String mucID, ISyncListener listener, String toolid, boolean fetchState) {
 		MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
 		try {
 			muc.join(xmppConnection.getUser());
-			ISyncSession joinedSession = new SyncSession(xmppConnection, muc);
+			ISyncSession joinedSession = new SyncSession(xmppConnection, muc, toolid);
 			joinedSession.addSyncListener(listener);
 			return joinedSession;
 		} catch (XMPPException e) {
@@ -146,8 +165,7 @@ public class DataSyncService implements IDataSyncService {
 	}
 
 	@Override
-	public void leaveSession(ISyncSession iSyncSession,ISyncListener iSyncListener) {
-		// TODO Auto-generated method stub
-	}
+	@Deprecated
+	public void leaveSession(ISyncSession iSyncSession,ISyncListener iSyncListener) {}
 
 }
