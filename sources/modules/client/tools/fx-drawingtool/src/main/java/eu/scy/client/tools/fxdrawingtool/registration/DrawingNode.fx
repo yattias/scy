@@ -88,13 +88,13 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
                      spacing:spacing;
                      content:[
                         Button {
-                           text: "Save"
+                           text: ##"Save"
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
-                           text: "Save as"
+                           text: ##"Save as"
                            action: function() {
 										doSaveAsElo();
                            }
