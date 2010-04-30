@@ -189,7 +189,7 @@
     </bean>
 
 
-    <bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl">
+    <!--bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl">
         <property name="userService" ref="userService"/>
-    </bean>
+    </bean-->
 </beans>
