@@ -85,6 +85,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEl
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import javafx.scene.effect.Effect;
+import eu.scy.client.desktop.scydesktop.remotecontrol.RemoteCommandRegistryFX;
 
 /**
  * @author sikkenj
@@ -120,7 +121,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
             windowManager: bind windows;
             showEloRelations : initializer.showEloRelations
     };
-    def windows: WindowManager = WindowManagerImpl {
+    public def remoteCommandRegistryFX : RemoteCommandRegistryFX = RemoteCommandRegistryFX{
+      scyDesktop:this
+    };
+
+    public def windows: WindowManager = WindowManagerImpl {
                 scyDesktop: this
             //       activeAnchor: bind missionModelFX.activeAnchor;
             };
@@ -460,7 +465,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
         }
     }
 
-    function fillNewScyWindow2(window: ScyWindow): Void {
+    public function fillNewScyWindow2(window: ScyWindow): Void {
        if (window.eloUri!=null){
           var metadata = config.getRepository().retrieveMetadata(window.eloUri);
           var mucId = metadata.getMetadataValueContainer(mucIdKey).getValue() as String;
@@ -478,12 +483,11 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 if (window.mucId.length()>0 and not initializer.offlineMode){
                    installCollaborationTools(window);
                 }
-
             });
         });
     }
 
-    function installCollaborationTools(window:ScyWindow):Void{
+    public function installCollaborationTools(window:ScyWindow):Void{
        realFillNewScyWindow2(window, true);
        def toolNode: Node = window.scyContent;
        if (toolNode instanceof CollaborationStartable) {
@@ -624,82 +628,8 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
     public override function processNotification(notification: INotification): Void {
        FX.deferAction(function(){
-            handleProcessNotification(notification);
+               
           });
-    }
-
-
-    function handleProcessNotification(notification: INotification): Void {
-        logger.debug("notification.getToolId(): {notification.getToolId()}");
-        logger.debug("notification.properties: {notification.getProperties()}");
-        logger.debug("notification -> proposing_user: {notification.getFirstProperty("proposing_user")}");
-        def notificationType: String = notification.getFirstProperty("type");
-        def notificationSender: String = notification.getSender();
-        logger.debug("notification-type: {notificationType}");
-        if (not (notificationType == null)) {
-            if (notificationType == "collaboration_request") {
-               processCollaborationRequestNotification(notification);
-            } else if (notificationType == "collaboration_response") {
-                processCollaborationResponseNotification(notification);
-            }  else if(notificationSender == "eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent"){
-                processEloSaveNotification(notification);
-            }
-        }
-    }
-
-    function processCollaborationRequestNotification(notification:INotification){
-                logger.debug("********************collaboration_request*************************");
-                def user: String = notification.getFirstProperty("proposing_user");
-                //TODO submit user-nickname instead of extracting it
-                def userNickname = user.substring(0, user.indexOf("@"));
-                def eloUri: String = notification.getFirstProperty("proposed_elo");
-                def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
-                    logger.debug(" => accepting collaboration");
-                    config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUri);
-                } else if (option == JOptionPane.NO_OPTION) {
-                    logger.debug(" => denying collaboration");
-                    config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
-                }
-    }
-
-    function processCollaborationResponseNotification(notification:INotification){
-                logger.debug("********************collaboration_response*************************");
-                def accepted: String = notification.getFirstProperty("accepted");
-                def eloUri: String = notification.getFirstProperty("proposed_elo");
-                if (accepted == "true" and eloUri != null) {
-                    JOptionPane.showMessageDialog(null, "Starting collaboration on {eloUri}", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    def mucid: String = notification.getFirstProperty("mucid");
-                    var uri = new URI(eloUri);
-                    var collaborationWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(uri);
-                    if (collaborationWindow == null) {
-                        collaborationWindow = scyWindowControl.addOtherScyWindow(uri);
-                        collaborationWindow.mucId = mucid;
-                    } else {
-                        collaborationWindow.mucId = mucid;
-                        installCollaborationTools(collaborationWindow);
-                    }
-                    scyWindowControl.makeMainScyWindow(uri);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Collaboration was not accepted!", "Info", JOptionPane.WARNING_MESSAGE);
-                    logger.debug("collaboration not accepted");
-                }
-    }
-
-    function processEloSaveNotification(notification:INotification){
-                    logger.debug("*****************elo_save*Notification*********************");
-                    def uri = new URI(notification.getFirstProperty("elo_uri"));
-                    var toolWindow: ScyWindow = scyWindowControl.windowManager.findScyWindow(uri);
-                    if (toolWindow == null) {
-                            //the ELO is not opened yet
-                            toolWindow = scyWindowControl.addOtherScyWindow(uri);
-                            logger.debug("Placed externally saved ELO.");
-                            //fillNewScyWindow2(toolWindow);
-                    } else {
-                            //The ELO is already opened
-                                fillNewScyWindow2(toolWindow);
-                    }
-                    scyWindowControl.makeMainScyWindow(uri);
     }
 
     function scyDesktopShutdownAction():Void{

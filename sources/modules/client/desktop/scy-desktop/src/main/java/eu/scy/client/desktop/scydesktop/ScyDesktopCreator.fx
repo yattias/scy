@@ -442,6 +442,9 @@ public class ScyDesktopCreator {
       //register for notifications
       logger.debug("****************registering scyDesktop for notifications***************************");
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop);
+      logger.debug("****************registering RemoteControlRegistry for notifications***************************");
+      scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop.remoteCommandRegistryFX);
+
       return scyDesktop; 
    }
 }
