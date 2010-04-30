@@ -52,32 +52,31 @@ public class EdgesManager extends IEdgesManager {
             def metadata: IMetadata = repository.retrieveMetadata(sourceWindow.eloUri);
             var targetURI: URI;
             var targetWindow;
-
             // show "IS_VERSION_OF"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSION_OF.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetWindow == null)) {
+            if (not (targetURI==null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is version of");
             }
 
             // show "IS_VERSIONED_BY"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSIONED_BY.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetWindow == null)) {
+            if (not (targetURI==null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is versioned by");
             }
 
             // show "IS_FORK_OF"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetWindow == null)) {
+            if (not (targetURI==null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is fork of");
             }
 
             // show "IS_FORKED_BY"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetWindow == null)) {
+            if (not (targetURI==null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is forked by");
             }
         }
