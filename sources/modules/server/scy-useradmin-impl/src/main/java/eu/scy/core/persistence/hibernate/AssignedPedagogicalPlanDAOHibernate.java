@@ -1,5 +1,6 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.StudentPedagogicalPlanPersistenceService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.pedagogicalplan.AssignedPedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
@@ -18,6 +19,7 @@ import java.util.List;
 public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate implements AssignedPedagogicalPlanDAO {
 
     private BuddyService buddyService;
+    StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService;
 
     public BuddyService getBuddyService() {
         return buddyService;
@@ -25,6 +27,14 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
 
     public void setBuddyService(BuddyService buddyService) {
         this.buddyService = buddyService;
+    }
+
+    public StudentPedagogicalPlanPersistenceService getStudentPedagogicalPlanPersistenceService() {
+        return studentPedagogicalPlanPersistenceService;
+    }
+
+    public void setStudentPedagogicalPlanPersistenceService(StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService) {
+        this.studentPedagogicalPlanPersistenceService = studentPedagogicalPlanPersistenceService;
     }
 
     @Override
@@ -38,7 +48,15 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
             createBuddies(user, plan);
         }
 
+        assignStudentPlan(user, plan);
+
         return assignedPedagogicalPlan;
+    }
+
+    private void assignStudentPlan(User user, PedagogicalPlan plan) {
+
+        getStudentPedagogicalPlanPersistenceService().createStudentPlan(plan, user);
+
     }
 
     private void createBuddies(User user, PedagogicalPlan plan) {

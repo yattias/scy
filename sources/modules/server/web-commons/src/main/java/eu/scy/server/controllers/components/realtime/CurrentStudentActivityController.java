@@ -3,6 +3,8 @@ package eu.scy.server.controllers.components.realtime;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.runtime.AbstractRuntimeAction;
+import eu.scy.core.model.runtime.EloRuntimeAction;
+import eu.scy.core.model.runtime.ToolRuntimeAction;
 import eu.scy.core.runtime.RuntimeService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -27,38 +29,32 @@ public class CurrentStudentActivityController extends AbstractController {
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        long start = System.currentTimeMillis();
         logger.debug("LOADING CURRENT STUDENT ACTIVITY!");
         ModelAndView modelAndView = new ModelAndView();
         String status = "<i>Initializing</i>";
         String username = httpServletRequest.getParameter("username");
         if (username != null) {
             User user = getUserService().getUser(username);
-            List actions = getRuntimeService().getActions(user);
-            Collections.reverse(actions);
-            if (actions.size() > 0) {
-                AbstractRuntimeAction action = (AbstractRuntimeAction) actions.get(0);
-                status = action.getActionType();
+            AbstractRuntimeAction latestInterestingAction = getRuntimeService().getLatestInterestingAction(user);
+            String currentTool = getRuntimeService().getCurrentTool(user);
+            String currentELO = getRuntimeService().getCurrentELO(user);
+            if(currentTool.length() > 0) currentTool += ", ";
+            status = currentTool;
+
+            if(currentELO != null) status += currentELO + ", ";
+
+            if(latestInterestingAction  instanceof ToolRuntimeAction) {
+                status += latestInterestingAction.getActionType();
+            } else if (latestInterestingAction instanceof EloRuntimeAction) {
+                status += ((EloRuntimeAction)latestInterestingAction).getEloUri();
             }
 
         }
 
-        /*String status = "Online";
-
-        List randomStatuses = new LinkedList();
-        randomStatuses.add("Online");
-        randomStatuses.add("Offline");
-        randomStatuses.add("LAS: Start");
-        randomStatuses.add("Chatting with Hillary");
-        randomStatuses.add("Doin' the Bartman");
-        randomStatuses.add("LAS: Presentation");
-        randomStatuses.add("Added ELO to portfolio");
-
-
-        int randomElement = (int)(Math.random() * (randomStatuses.size()- 1));
-        */
-        //modelAndView.addObject("status", randomStatuses.get(randomElement));
         modelAndView.addObject("status", status);
 
+        logger.info("used " + (System.currentTimeMillis() - start) + " millis to prepare runtime activity for user " + username);
         return modelAndView;
     }
 

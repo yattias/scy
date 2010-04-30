@@ -1,5 +1,7 @@
 package eu.scy.core.model.impl.runtime;
 
+import eu.scy.core.model.runtime.EloRuntimeAction;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -12,5 +14,17 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue("eloruntimeaction")
-public class EloRuntimeActionImpl extends AbstractRuntimeActionImpl {
+public class EloRuntimeActionImpl extends AbstractRuntimeActionImpl implements EloRuntimeAction {
+
+    private String eloUri;
+
+    @Override
+    public String getEloUri() {
+        return eloUri;
+    }
+
+    @Override
+    public void setEloUri(String eloUri) {
+        this.eloUri = eloUri;
+    }
 }

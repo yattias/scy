@@ -2,6 +2,7 @@ package eu.scy.core.runtime;
 
 import eu.scy.core.BaseServiceImpl;
 import eu.scy.core.model.User;
+import eu.scy.core.model.runtime.AbstractRuntimeAction;
 import eu.scy.core.persistence.RuntimeDAO;
 import eu.scy.core.persistence.UserDAO;
 import org.apache.log4j.Logger;
@@ -40,6 +41,21 @@ public class RuntimeServiceImpl extends BaseServiceImpl implements RuntimeServic
     @Transactional
     public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName) {
         runtimeDAO.storeAction(type, id, timeInMillis, tool, mission, session, eloUri, userName);
+    }
+
+    @Override
+    public AbstractRuntimeAction getLatestInterestingAction(User user) {
+        return runtimeDAO.getLatestInterestingAction(user);
+    }
+
+    @Override
+    public String getCurrentTool(User user) {
+        return runtimeDAO.getCurrentTool(user);
+    }
+
+    @Override
+    public String getCurrentELO(User user) {
+        return runtimeDAO.getCurrentELO(user);
     }
 
 }

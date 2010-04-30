@@ -8,7 +8,12 @@ import eu.scy.core.model.runtime.EloRuntimeAction;
 import eu.scy.core.model.runtime.ToolRuntimeAction;
 import eu.scy.core.persistence.RuntimeDAO;
 import eu.scy.core.persistence.UserDAO;
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -21,6 +26,10 @@ import java.util.List;
 public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeDAO {
 
     private UserDAO userDAO;
+    private static final List CURRENT_TOOL_TRIGGERS = new LinkedList();
+    private IRepository repository;
+
+
 
     @Override
     public List getActions(User user) {
@@ -28,6 +37,55 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                 .setEntity("user", user)
                 .list();
     }
+
+    @Override
+    public AbstractRuntimeAction getLatestInterestingAction(User user) {
+         return (AbstractRuntimeAction) getSession().createQuery("from AbstractRuntimeActionImpl where user = :user order by timeCreated desc")
+                .setEntity("user", user)
+                 .setMaxResults(1)
+                .uniqueResult();
+    }
+
+    @Override
+    public String getCurrentTool(User user) {
+         ToolRuntimeAction toolAction = (ToolRuntimeAction) getSession().createQuery("from ToolRuntimeActionImpl where user = :user and actionType in (:actionTypes) order by timeCreated desc ")
+                 .setEntity("user", user)
+                 .setParameterList("actionTypes", getToolTriggers())
+                 .setMaxResults(1)
+                 .uniqueResult();
+        if(toolAction != null) return toolAction.getTool();
+        return "";
+    }
+
+    @Override
+    public String getCurrentELO(User user) {
+        EloRuntimeAction eloRuntimeAction = (EloRuntimeAction) getSession().createQuery("from EloRuntimeActionImpl where user = :user order by timeCreated desc")
+                .setEntity("user", user)
+                .setMaxResults(1)
+                .uniqueResult();
+        if(eloRuntimeAction != null) {
+            if(getRepository() != null) {
+                try {
+                    long start = System.currentTimeMillis();
+                    URI eloUri = new URI(eloRuntimeAction.getEloUri());
+                    logger.info("Trying to load elo: '" + eloUri.toString() +  "'");
+                    IELO elo = getRepository().retrieveELOLastVersion(eloUri);
+                    logger.info("ELO: " + elo);
+                    if(elo != null) {
+                        logger.info("used  "+ (System.currentTimeMillis() - start) + " millis to load ELO from ROOLO");
+                        return elo.getXml();
+                    }
+
+                } catch (URISyntaxException e) {
+                    logger.error(e);
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return "";
+    }
+
+
 
     @Override
     public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName) {
@@ -43,15 +101,15 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                 if (runtimeAction instanceof ToolRuntimeAction) {
                     ((ToolRuntimeAction) runtimeAction).setTool(tool);
                 } else if(runtimeAction instanceof EloRuntimeAction) {
-
+                    ((EloRuntimeAction) runtimeAction).setEloUri(eloUri);
                 }
-
                 runtimeAction.setUser(user);
                 runtimeAction.setActionId(id);
                 runtimeAction.setActionType(type);
                 runtimeAction.setTimeInMillis(timeInMillis);
-
-
+                runtimeAction.setMission(mission);
+                runtimeAction.setSession(session);
+               
                 save(runtimeAction);
 
 
@@ -75,5 +133,21 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
 
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
+    }
+
+    private List getToolTriggers() {
+        List returnList = new LinkedList();
+        returnList.add("tool_start");
+        returnList.add("tool_gotfocus");
+        returnList.add("tool_opened");
+        return returnList;
+    }
+
+    public IRepository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(IRepository repository) {
+        this.repository = repository;
     }
 }

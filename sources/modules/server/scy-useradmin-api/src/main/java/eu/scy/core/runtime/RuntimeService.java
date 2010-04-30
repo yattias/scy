@@ -2,6 +2,7 @@ package eu.scy.core.runtime;
 
 import eu.scy.core.BaseService;
 import eu.scy.core.model.User;
+import eu.scy.core.model.runtime.AbstractRuntimeAction;
 import info.collide.sqlspaces.commons.admin.ClientActivityMonitor;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface RuntimeService extends BaseService {
     List getActions(User user);
 
     void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String user);
+
+    AbstractRuntimeAction getLatestInterestingAction(User user);
+
+    public String getCurrentTool(User user);
+
+    public String getCurrentELO(User user);
 }
