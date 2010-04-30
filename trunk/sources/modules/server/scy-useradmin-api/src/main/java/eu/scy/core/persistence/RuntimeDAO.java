@@ -1,6 +1,7 @@
 package eu.scy.core.persistence;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.runtime.AbstractRuntimeAction;
 
 import java.util.List;
 
@@ -15,4 +16,10 @@ public interface RuntimeDAO extends SCYBaseDAO{
     void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName);
 
     List getActions(User user);
+
+    AbstractRuntimeAction getLatestInterestingAction(User user);
+
+    String getCurrentTool(User user);
+
+    String getCurrentELO(User user);
 }

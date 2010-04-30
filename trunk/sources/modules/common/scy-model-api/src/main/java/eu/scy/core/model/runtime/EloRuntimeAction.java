@@ -8,4 +8,8 @@ package eu.scy.core.model.runtime;
  * To change this template use File | Settings | File Templates.
  */
 public interface EloRuntimeAction extends AbstractRuntimeAction{
+    
+    String getEloUri();
+
+    void setEloUri(String eloUri);
 }

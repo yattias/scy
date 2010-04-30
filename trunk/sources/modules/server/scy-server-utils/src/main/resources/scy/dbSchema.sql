@@ -389,6 +389,7 @@ CREATE TABLE `runtimeaction` (
 	`tool` varchar(250) default NULL,
 	`session` varchar(250) default NULL,
 	`mission` varchar(250) default NULL,
+	`eloUri` varchar(250) default NULL,
 	`runtimeactiontype` varchar(55) default NULL,
 	`actionId` varchar(250) default NULL,
     `timeInMillis` bigint(20) NOT NULL default '0',

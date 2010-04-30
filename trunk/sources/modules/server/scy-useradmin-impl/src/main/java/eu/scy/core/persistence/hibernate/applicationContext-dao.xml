@@ -79,6 +79,7 @@
 	<bean id="assignedPedagogicalPlanDAO" class="eu.scy.core.persistence.hibernate.AssignedPedagogicalPlanDAOHibernate">
 		<property name="sessionFactory" ref="sessionFactory"/>
         <property name="buddyService" ref="buddyService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
 	</bean>
 
 	<bean id="setupDAO" class="eu.scy.core.persistence.hibernate.SetupDAOHibernate">
@@ -93,6 +94,7 @@
     <bean id="runtimeDAO" class="eu.scy.core.persistence.hibernate.RuntimeDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="userDAO" ref="userDAO"/>
+        <property name="repository" ref="repository"/>
     </bean>
 
     <bean id="buddyService" class="eu.scy.core.openfire.BuddyServiceImpl"/>

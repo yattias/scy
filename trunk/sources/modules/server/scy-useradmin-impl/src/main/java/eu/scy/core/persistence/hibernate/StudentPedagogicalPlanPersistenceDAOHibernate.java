@@ -11,6 +11,7 @@ import eu.scy.core.model.student.StudentPlannedActivity;
 import eu.scy.core.persistence.StudentPedagogicalPlanPersistenceDAO;
 import org.apache.log4j.Logger;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -46,27 +47,57 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
 
     private StudentPlanELO assignStudentPlanToStudent(StudentPlanELO studentPlan, PedagogicalPlan pedagogicalPlan) {
-        List<Activity> activities = getActivities(pedagogicalPlan);
-        for (int i = 0; i < activities.size(); i++) {
-            Activity activity = activities.get(i);
-            StudentPlannedActivity plannedActivity = new StudentPlannedActivityImpl();
-            plannedActivity.setName(activity.getName());
-            plannedActivity.setDescription(activity.getDescription());
-            AnchorELO anchorElo = activity.getAnchorELO();
-            anchorElo = (AnchorELO) getHibernateTemplate().merge(anchorElo);
-            plannedActivity.setStudentPlan(studentPlan);
-            plannedActivity.setAssoicatedELO(activity.getAnchorELO());
-            studentPlan.addStudentPlannedActivity(plannedActivity);
-            getHibernateTemplate().saveOrUpdate(plannedActivity);
-            getHibernateTemplate().saveOrUpdate(studentPlan);
-        }
+        addActivities(studentPlan, pedagogicalPlan);
 
         save(studentPlan);
 
         return studentPlan;
     }
 
+    private void addActivities(StudentPlanELO studentPlan, PedagogicalPlan pedagogicalPlan) {
+        pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(pedagogicalPlan);
+        log.info("Adding activities go plan: " + pedagogicalPlan);
+        List<Activity> activities = getActivities(pedagogicalPlan);
+        for (int i = 0; i < activities.size(); i++) {
+            Activity activity = (Activity) getHibernateTemplate().merge(activities.get(i));
+            if (activity.getAutoaddToStudentPlan()) {
+                StudentPlannedActivity plannedActivity = new StudentPlannedActivityImpl();
+                plannedActivity.setName(activity.getName());
+                plannedActivity.setDescription(activity.getDescription());
+                AnchorELO anchorElo = activity.getAnchorELO();
+                anchorElo = (AnchorELO) getHibernateTemplate().merge(anchorElo);
+                plannedActivity.setStudentPlan(studentPlan);
+                plannedActivity.setAssoicatedELO(activity.getAnchorELO());
+
+                if (activity != null) {
+                    if (activity.getStartDate() != null) {
+                        long startDate = activity.getStartDate().getTime();
+                        plannedActivity.setStartDate(new Date(startDate));
+                        log.info("Created start date from studentPlan");
+                    } else {
+                        log.info("No start date found");
+                    }
+                    if (activity.getEndDate() != null) {
+                        long endDL = activity.getEndDate().getTime();
+                        plannedActivity.setEndDate(new Date(endDL));
+                        log.info("Created end date from studentplan");
+                    } else {
+                        log.info("No end date found!");
+                    }
+
+
+                }
+
+
+                studentPlan.addStudentPlannedActivity(plannedActivity);
+                getHibernateTemplate().saveOrUpdate(plannedActivity);
+                getHibernateTemplate().saveOrUpdate(studentPlan);
+            }
+        }
+    }
+
     private List<Activity> getActivities(PedagogicalPlan pedagogicalPlan) {
+        pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(pedagogicalPlan);
         List<LearningActivitySpace> lass = getLearningActivitySpaces(pedagogicalPlan);
         return getSession().createQuery("from ActivityImpl as activity where activity.learningActivitySpace in (:lass)")
                 .setParameterList("lass", lass)
@@ -74,7 +105,10 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
     }
 
     private List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
-        Scenario scenario = pedagogicalPlan.getScenario();
+        pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(pedagogicalPlan);
+        log.info("GOT PED PLAN: " + pedagogicalPlan);
+        Scenario scenario = (Scenario) getHibernateTemplate().merge(pedagogicalPlan.getScenario());
+        log.info("GOT SCENARIO: " + scenario);
         return getSession().createQuery("from LearningActivitySpaceImpl as las where las.participatesIn = :scenario")
                 .setEntity("scenario", scenario)
                 .list();
@@ -205,9 +239,30 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
             studentPlannedActivity.setDescription(activity.getDescription());
             studentPlannedActivity.setStudentPlan(studentPlan);
             studentPlannedActivity.setAssoicatedELO(anchorELO);
+
+            if (activity != null) {
+                if (activity.getStartDate() != null) {
+                    long startDate = activity.getStartDate().getTime();
+                    studentPlannedActivity.setStartDate(new java.sql.Date(startDate));
+                    log.info("Created start date from studentPlan");
+                } else {
+                    log.info("No start date found");
+                }
+                if (activity.getEndDate() != null) {
+                    long endDL = activity.getEndDate().getTime();
+                    studentPlannedActivity.setEndDate(new Date(endDL));
+                    log.info("Created end date from studentplan");
+                } else {
+                    log.info("No end date found!");
+                }
+
+
+            }
+
+
             studentPlan.addStudentPlannedActivity(studentPlannedActivity);
             getHibernateTemplate().saveOrUpdate(studentPlannedActivity);
-            
+
             getHibernateTemplate().saveOrUpdate(studentPlan);
 
         }
@@ -239,6 +294,7 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
 
     @Override
     public StudentPlanELO getStudentPlanELOBasedOnELOId(String eloId) {
+        log.info("Trying to load studentplanelo: " + eloId);
         return (StudentPlanELO) getSession().createQuery("from StudentPlanELOImpl where id like :id")
                 .setString("id", eloId)
                 .uniqueResult();
@@ -270,42 +326,61 @@ public class StudentPedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHib
             List pedPlans = getSession().createQuery("from PedagogicalPlanImpl")
                     .list();
             for (int i = 0; i < pedPlans.size(); i++) {
-                PedagogicalPlan plan = (PedagogicalPlan) pedPlans.get(i);
-                if (plan.getPublished()) pedagogicalPlan = plan;
+                PedagogicalPlan suggestedPedagogicalPlan = (PedagogicalPlan) pedPlans.get(i);
+                if (suggestedPedagogicalPlan.getPublished()) {
+                    pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().load(PedagogicalPlanImpl.class, suggestedPedagogicalPlan.getId());
+                    pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(suggestedPedagogicalPlan);
+                }
             }
         }
+
 
         log.info("Found pedagogical plan :" + pedagogicalPlan);
         log.info("Searching for user: " + username);
 
-        StudentPlanELOImpl plan = (StudentPlanELOImpl) getSession().createQuery("from StudentPlanELOImpl where user = :user and pedagogicalPlan = :pedplan")
+        StudentPlanELOImpl studentPlan = (StudentPlanELOImpl) getSession().createQuery("from StudentPlanELOImpl where user = :user and pedagogicalPlan = :pedplan")
                 .setEntity("user", user)
                 .setEntity("pedplan", pedagogicalPlan)
                 .setMaxResults(1)
                 .uniqueResult();
 
 
-        if (pedagogicalPlan != null && plan == null) {
+        if (pedagogicalPlan != null && studentPlan == null)
+
+        {
+            log.info("STUDENT PLAN IS NULL - CREATING NEW");
             //return createStudentPlan(pedagogicalPlan, user);
-            plan = new StudentPlanELOImpl();
-            pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().load(PedagogicalPlanImpl.class, pedagogicalPlan.getId());
-            plan.setPedagogicalPlan(pedagogicalPlan);
-            plan.setUser(user);
-            save(plan);
+            studentPlan = new StudentPlanELOImpl();
+            log.info("PED PLAN: " + pedagogicalPlan);
+
+            studentPlan.setPedagogicalPlan(pedagogicalPlan);
+            studentPlan.setUser(user);
+            save(studentPlan);
+
+            //studentPlan = (StudentPlanELOImpl) getHibernateTemplate().load(StudentPlanELOImpl.class, studentPlan.getId());
+            pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(pedagogicalPlan);
+            addActivities(studentPlan, pedagogicalPlan);
+
+        } else
+
+        {
+            log.info("STUDENT PLAN WAS NOT NULL");
         }
 
-        if(plan == null) {
+        if (studentPlan == null)
+
+        {
             log.warn("DID NOT FIND A PEDAGOGICAL PLAN TO ASSIGN - ARE NO PLANS PUBLISHED?");
             return null;
         }
 
 
-        return plan;
+        return studentPlan;
 
     }
 
     private String trimUsername(String username) {
-        if(username.indexOf("@")> -1)  {
+        if (username.indexOf("@") > -1) {
             return username.substring(0, username.indexOf("@"));
         }
         return username;
