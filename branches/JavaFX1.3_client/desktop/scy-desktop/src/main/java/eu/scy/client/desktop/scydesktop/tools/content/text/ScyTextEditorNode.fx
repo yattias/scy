@@ -29,7 +29,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import java.lang.UnsupportedOperationException;
 
 /**
  * @author sikken
@@ -40,7 +39,6 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def logger = Logger.getLogger(this.getClass());
 
    def scyTextType = "scy/text";
-//   def untitledDocName = "untitled";
    def textTagName = "text";
    def jdomStringConversion = new JDomStringConversion();
 
@@ -112,13 +110,6 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       if (newElo != null)
       {
          var metadata = newElo.getMetadata();
-//         IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
-//         // TODO fixe the locale problem!!!
-//         Object titleObject = metadataValueContainer.getValue();
-//         Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-//         Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-//
-//         setDocName(titleObject3.toString());
          var text = eloContentXmlToText(newElo.getContent().getXmlString());
          textEditor.setText(text);
          logger.info("elo text loaded");
@@ -177,18 +168,15 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       // setSize is not visual needed
       // but set it, so the component can react to it
       textEditor.setSize(size);
-//      textEditor.setPreferredSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+//      println("resized ScyTextEditorNode to ({width},{height}), text: ({size.width},{size.height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
-//      return 200;
-      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}, textEditor.getSize(): {textEditor.getSize()}");
+//      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}, textEditor.getSize(): {textEditor.getSize()}");
       return textEditor.getPreferredSize().getHeight()+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-//      return 300;
       return textEditor.getPreferredSize().getWidth();
    }
 

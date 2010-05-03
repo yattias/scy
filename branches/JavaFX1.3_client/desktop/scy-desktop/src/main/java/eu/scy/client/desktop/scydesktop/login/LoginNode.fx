@@ -47,7 +47,7 @@ public class LoginNode extends CustomNode {
    def entryFieldOffset = 120;
    def labelVOffset = 5;
    def rowHeight = 30;
-   def textBoxColumns = 20;
+   def textBoxColumns = 23;
    var userNameLabel:Label;
    var userNameField: TextBox;
    var passwordLabel:Label;
@@ -162,7 +162,8 @@ public class LoginNode extends CustomNode {
                        }
                     }
                     quitButton = Button {
-                       layoutX: entryFieldOffset;
+                       //layoutX: entryFieldOffset;
+                       layoutX: bind passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
                        layoutY: 2 * rowHeight + spacing;
                        text: quitButtonText
                        action: function () {
@@ -171,6 +172,8 @@ public class LoginNode extends CustomNode {
                     }
                  ]
               };
+      loginGroup.layout();
+      languageSelector.layout();
       languageSelected();
       var vbox = VBox{
          spacing:spacing;
@@ -182,7 +185,7 @@ public class LoginNode extends CustomNode {
          ]
       }
       vbox.layout();
-      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
+//      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
       vbox
 //      EmptyBorderNode{
 //         content: vbox

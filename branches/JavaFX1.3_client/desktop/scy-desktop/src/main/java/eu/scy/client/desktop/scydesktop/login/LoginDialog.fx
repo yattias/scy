@@ -78,6 +78,7 @@ public class LoginDialog extends CustomNode {
                  autoLogin:initializer.autoLogin
                  languages: initializer.languages
               }
+//      loginNode.layout();
       loginWindow = StandardScyWindow {
          title: bind loginNode.loginTitle
          eloIcon: CharacterEloIcon {
@@ -87,9 +88,11 @@ public class LoginDialog extends CustomNode {
          windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
          scyContent: EmptyBorderNode{
             content:loginNode
+            widthCorrection:10.0
+            heightCorrection:6.0
          }
          allowClose: false;
-         allowResize: true;
+         allowResize: false;
          allowRotate: false;
          allowMinimize: false;
          opacity:0.0;
