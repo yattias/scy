@@ -814,6 +814,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 
 	public override function create(): Node {
+      if (isClosed){
+         width = minimumWidth;
+         height = closedHeight;
+      }
+
 		blocksMouse = true;
 
       emptyWindow = EmptyWindow{
