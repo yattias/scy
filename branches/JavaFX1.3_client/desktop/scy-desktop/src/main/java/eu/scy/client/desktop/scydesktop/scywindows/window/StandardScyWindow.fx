@@ -48,10 +48,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowMinimize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowRotate;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
-import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikkenj
@@ -262,19 +262,23 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          // this is check on content limits, subtract "border" sizes
          limittedWidth -= deltaContentWidth;
          limittedHeight -= deltaContentHeight;
-         if (scyContent instanceof Resizable) {
-            var resizableContent = scyContent as Resizable;
-            //println("size limits: width {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}, height: {resizableContent.getMinHeight()} - {resizableContent.getMaxHeight()}");
-            limittedWidth = Math.max(limittedWidth, resizableContent.getMinWidth());
-            limittedHeight = Math.max(limittedHeight, resizableContent.getMinHeight());
-            limittedWidth = Math.min(limittedWidth, resizableContent.getMaxWidth());
-            limittedHeight = Math.min(limittedHeight, resizableContent.getMaxHeight());
-         }
-         else{
-            println("scyContent.layoutBounds: {scyContent.layoutBounds}, scyContent.boundsInLocal: {scyContent.boundsInLocal}");
-            limittedWidth = scyContent.layoutBounds.maxX;
-            limittedHeight = scyContent.layoutBounds.maxY;
-         }
+         limittedWidth = Math.max(limittedWidth, Container.getNodeMinWidth(scyContent));
+         limittedHeight = Math.max(limittedHeight, Container.getNodeMinHeight(scyContent));
+         limittedWidth = Math.min(limittedWidth, Container.getNodeMaxWidth(scyContent));
+         limittedHeight = Math.min(limittedHeight, Container.getNodeMaxHeight(scyContent));
+//         if (scyContent instanceof Resizable) {
+//            var resizableContent = scyContent as Resizable;
+//            //println("size limits: width {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}, height: {resizableContent.getMinHeight()} - {resizableContent.getMaxHeight()}");
+//            limittedWidth = Math.max(limittedWidth, resizableContent.getMinWidth());
+//            limittedHeight = Math.max(limittedHeight, resizableContent.getMinHeight());
+//            limittedWidth = Math.min(limittedWidth, resizableContent.getMaxWidth());
+//            limittedHeight = Math.min(limittedHeight, resizableContent.getMaxHeight());
+//         }
+//         else{
+//            println("scyContent.layoutBounds: {scyContent.layoutBounds}, scyContent.boundsInLocal: {scyContent.boundsInLocal}");
+//            limittedWidth = scyContent.layoutBounds.maxX;
+//            limittedHeight = scyContent.layoutBounds.maxY;
+//         }
          // this is check on content limits, add "border" sizes
          limittedWidth += deltaContentWidth;
          limittedHeight += deltaContentHeight;
@@ -395,13 +399,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
     public override function open(): Void {
         checkScyContent();
-        var openWidth = minimumWidth;
-        var openHeight = minimumHeight;
-        if (scyContent instanceof Resizable) {
-            var resizableContent = scyContent as Resizable;
-            openWidth = resizableContent.getPrefWidth(openWidth) + deltaContentWidth;
-            openHeight = resizableContent.getPrefHeight(openHeight) + deltaContentHeight;
-        }
+        var openWidth = Container.getNodePrefWidth(scyContent);
+        var openHeight = Container.getNodePrefHeight(scyContent);
+//        var openWidth = minimumWidth;
+//        var openHeight = minimumHeight;
+//        if (scyContent instanceof Resizable) {
+//            var resizableContent = scyContent as Resizable;
+//            openWidth = resizableContent.getPrefWidth(openWidth) + deltaContentWidth;
+//            openHeight = resizableContent.getPrefHeight(openHeight) + deltaContentHeight;
+//        }
         openWindow(openWidth, openHeight);
     }
 
