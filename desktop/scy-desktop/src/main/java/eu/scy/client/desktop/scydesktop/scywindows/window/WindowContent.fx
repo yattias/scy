@@ -44,8 +44,8 @@ public class WindowContent extends CustomNode {
       blocksMouse:bind not activated;
       x: 0, y: 0
       width: 140, height: 90
-//      fill: Color.TRANSPARENT
-      fill: bind if (activated) Color.rgb(92,255,92,0.25) else Color.rgb(255,92,92,0.25)
+      fill: Color.TRANSPARENT
+//      fill: bind if (activated) Color.rgb(92,255,92,0.25) else Color.rgb(255,92,92,0.25)
       onMousePressed: function( e: MouseEvent ):Void {
          if (not activated){
             activate();
@@ -59,12 +59,7 @@ public class WindowContent extends CustomNode {
       contentGlassPane.width=width;
       contentGlassPane.height = height;
       Container.resizeNode(content, width, height);
-      println("content resized to {width}*{height}");
-//      if (content instanceof Resizable){
-//			var resizeableContent = content as Resizable;
-//			resizeableContent.width = width;
-//			resizeableContent.height = height;
-//		}
+//      println("content resized to {width}*{height}");
 	}
 
    public override function create(): Node {
