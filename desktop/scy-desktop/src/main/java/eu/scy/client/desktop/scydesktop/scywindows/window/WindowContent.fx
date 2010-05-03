@@ -10,7 +10,6 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 
 
-import javafx.scene.layout.Resizable;
 import java.lang.Void;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -19,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikken
@@ -29,7 +29,7 @@ public class WindowContent extends CustomNode {
 
    public var width = 100.0 on replace {resizeTheContent()};
    public var height = 100.0 on replace {resizeTheContent()};
-   public var content:Node;
+   public var content:Node on replace {resizeTheContent() };
    public var windowColorScheme:WindowColorScheme;
 
    public var activated:Boolean;
@@ -58,11 +58,13 @@ public class WindowContent extends CustomNode {
 	function resizeTheContent(){
       contentGlassPane.width=width;
       contentGlassPane.height = height;
-      if (content instanceof Resizable){
-			var resizeableContent = content as Resizable;
-			resizeableContent.width = width;
-			resizeableContent.height = height;
-		}
+      Container.resizeNode(content, width, height);
+      println("content resized to {width}*{height}");
+//      if (content instanceof Resizable){
+//			var resizeableContent = content as Resizable;
+//			resizeableContent.width = width;
+//			resizeableContent.height = height;
+//		}
 	}
 
    public override function create(): Node {
