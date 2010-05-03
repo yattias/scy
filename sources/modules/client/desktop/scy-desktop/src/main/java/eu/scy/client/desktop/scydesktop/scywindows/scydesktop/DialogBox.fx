@@ -44,11 +44,13 @@ public static def VGAP:Double = 15;
                     VBox{
                         hpos:HPos.CENTER
                         vpos:VPos.CENTER
+                        nodeHPos:HPos.CENTER
                         spacing:VGAP
                         content: [
                                 HBox{
                                     hpos: HPos.CENTER
                                     vpos: VPos.CENTER
+                                    nodeVPos:VPos.CENTER
                                     spacing:HGAP
                                     content: [
                                             indicatorImage,
