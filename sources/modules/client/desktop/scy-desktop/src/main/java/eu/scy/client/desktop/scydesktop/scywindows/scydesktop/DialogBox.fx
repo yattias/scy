@@ -17,11 +17,159 @@ import javafx.scene.input.KeyEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import javax.swing.JOptionPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.control.Button;
+import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 
 /**
- * @author sikken
+ * @author sven
  */
-// place your code here
+
+public static def DEFAULT_WIDTH: Double = 400;
+public static def HGAP: Double = 15;
+public static def VGAP:Double = 15;
+
+    
+    static function getDialogBoxContent(dialogWidth:Integer,dialogBox: DialogBox, dialogType:DialogType,text:String, action1:function(), action2:function(), action3:function()):Group{
+        def indicatorImage:ImageView = getIndicatorImage(dialogType);
+        def group:Group = Group{
+            content: [
+                    VBox{
+                        hpos:HPos.CENTER
+                        vpos:VPos.CENTER
+                        spacing:VGAP
+                        content: [
+                                HBox{
+                                    hpos: HPos.CENTER
+                                    vpos: VPos.CENTER
+                                    spacing:HGAP
+                                    content: [
+                                            indicatorImage,
+                                            Text{
+                                                content:text;
+                                                wrappingWidth: (dialogWidth - 3 * HGAP - indicatorImage.layoutBounds.width)
+                                            }
+                                            ];
+                                },
+                                getButtonBar(dialogBox, dialogType, action1, action2, action3)
+                                ];
+                    }
+                    ];
+        }
+        return group
+    }
+
+    static function getIndicatorImage(dialogType):ImageView{
+        def imageLoader = ImageLoader.getImageLoader();
+        if (dialogType==DialogType.OK_DIALOG){
+            return ImageView {
+                    image: imageLoader.getImage("info_red_x32.png");
+                };
+        } else if (dialogType==DialogType.YES_NO_DIALOG or dialogType == DialogType.OK_CANCEL_DIALOG){
+            return ImageView {
+                    image: imageLoader.getImage("question_blue_x32.png");
+                };
+        } else {
+            return ImageView {
+                    image: imageLoader.getImage("info_red_x32.png");
+                };
+        }
+    }
+
+    static function getButtonBar(dialogBox:DialogBox, dialogType:DialogType, action1:function(), action2:function(), action3:function()):HBox{
+        if (dialogType==DialogType.OK_DIALOG){
+            return getOkButtonBar(dialogBox, action1) 
+        } else if (dialogType==DialogType.YES_NO_DIALOG){
+            return getYesNoButtonBar(dialogBox,action1, action2)
+        } else {
+            return getOkButtonBar(dialogBox, function(){}) 
+        }
+    }
+
+    static function getOkButtonBar(dialogBox:DialogBox, okAction:function()):HBox{
+        def buttonBar:HBox = HBox{
+            hpos:HPos.CENTER
+            spacing:HGAP
+            content: [
+                    Button{
+                        text:"OK!"
+                        action:function():Void{
+                            okAction();
+                            dialogBox.close();
+                        }
+                    }
+                    ]
+        }
+        return buttonBar
+    }
+
+        static function getYesNoButtonBar(dialogBox:DialogBox,yesAction:function(), noAction:function()):HBox{
+        def buttonBar:HBox = HBox{
+            hpos:HPos.CENTER
+            spacing:HGAP
+            content: [
+                    Button{
+                        text:"Yes!"
+                        action:function():Void{
+                            yesAction();
+                            dialogBox.close();
+                        }
+                    }
+                     Button{
+                        text:"No!"
+                        action:function():Void{
+                            noAction();
+                            dialogBox.close();
+                        }
+                    }
+                    ]
+        }
+        return buttonBar
+    }
+
+public static function showMessageDialog(text:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, okAction:function()){
+   
+        def dialogBox: DialogBox = DialogBox {
+                    content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
+                    targetScene: scyDesktop.scene
+                    //eloIcon:
+                    title: "Information"
+                    modal: modal
+                    scyDesktop:scyDesktop
+                    closeAction: function () {
+
+                    }
+                    windowColorScheme: WindowColorScheme.getWindowColorScheme(EloImageInformation.getScyColors("general/new"));
+                };
+}
+
+public static function showOptionDialog(dialogType:DialogType,text:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, okAction:function(), cancelAction:function()){
+        def supportedOptionTypes = [DialogType.OK_CANCEL_DIALOG, DialogType.YES_NO_DIALOG];
+        def dialogBox: DialogBox = DialogBox {
+                    content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
+                                getDialogBoxContent(dialogWidth, dialogBox, dialogType,text, okAction, cancelAction, function(){})
+                            } else { //Default OptionPane Type
+                                getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
+                                }
+                    targetScene: scyDesktop.scene
+                    title: "Option"
+                    modal: modal
+                    scyDesktop:scyDesktop
+                    closeAction: function () {
+
+                    }
+                    windowColorScheme: WindowColorScheme.getWindowColorScheme(EloImageInformation.getScyColors("general/search"));
+                };
+}
+
+
 public class DialogBox extends CustomNode {
 
     public   var content: Node;
@@ -34,6 +182,7 @@ public class DialogBox extends CustomNode {
     public var windowColorScheme: WindowColorScheme;
     public var closeAction: function(): Void;
     public-init var modal: Boolean = true;
+    public-init var dialogType: Integer = JOptionPane.OK_OPTION;
     public-init var scyDesktop:ScyDesktop;
     var dialogWindow: ScyWindow;
 

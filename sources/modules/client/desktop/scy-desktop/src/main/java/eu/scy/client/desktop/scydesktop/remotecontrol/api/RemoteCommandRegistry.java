@@ -29,15 +29,23 @@ public class RemoteCommandRegistry {
         return instance;
     }
 
-    public static void registerRemoteAction(IRemoteCommand remoteAction) {
-        actionsToClasses.put(remoteAction.getActionName(), remoteAction);
-        logger.debug("registered IRemoteAction: " + remoteAction);
+    public static boolean unregisterRemoteCommand(String remoteCommandName){
+        if(actionsToClasses.containsKey(remoteCommandName)){
+            actionsToClasses.remove(remoteCommandName);
+            return true;
+        } 
+        return false;
     }
 
-    public static void registerRemoteCommands(IRemoteCommand... remoteActions) {
-        for (IRemoteCommand remoteAction : remoteActions) {
-            actionsToClasses.put(remoteAction.getActionName(), remoteAction);
-            logger.debug("registered IRemoteAction: " + remoteAction);
+    public static void registerremoteCommand(IRemoteCommand remoteCommand) {
+        actionsToClasses.put(remoteCommand.getActionName(), remoteCommand);
+        logger.debug("registered IremoteCommand: " + remoteCommand);
+    }
+
+    public static void registerRemoteCommands(IRemoteCommand... remoteCommands) {
+        for (IRemoteCommand remoteCommand : remoteCommands) {
+            actionsToClasses.put(remoteCommand.getActionName(), remoteCommand);
+            logger.debug("registered IremoteCommand: " + remoteCommand);
         }
     }
 
