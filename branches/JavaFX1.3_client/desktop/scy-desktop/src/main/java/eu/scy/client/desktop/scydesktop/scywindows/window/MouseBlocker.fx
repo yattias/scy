@@ -31,8 +31,8 @@ public var mouseBlockNode:Rectangle = Rectangle {
    visible:bind mouseBlockingActive
    x: testBorder, y: testBorder
    width: 100, height: 100
-   fill: Color.color(.5,.5,.5,.5)
-//   fill: Color.TRANSPARENT
+//   fill: Color.color(.5,.5,.5,.5)
+   fill: Color.TRANSPARENT
 //   stroke:null
    stroke:Color.color(.5,.5,.5,.5)
    strokeWidth:10.0

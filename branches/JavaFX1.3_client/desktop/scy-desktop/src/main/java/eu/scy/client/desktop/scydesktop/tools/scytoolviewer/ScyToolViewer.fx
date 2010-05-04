@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Container;
 import java.awt.Dimension;
 
 import java.text.SimpleDateFormat;
@@ -186,10 +187,8 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    }
 
    function resizeContent(){
-//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
-//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
-//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
       var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedTextEditor,size.width,size.height);
       // setPreferredSize is needed
       textEditor.setPreferredSize(size);
       // setSize is not visual needed
@@ -199,7 +198,7 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return textEditor.getPreferredSize().getHeight();
+      return textEditor.getPreferredSize().getHeight()+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
