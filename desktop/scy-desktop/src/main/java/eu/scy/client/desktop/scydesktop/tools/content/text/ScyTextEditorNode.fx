@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Container;
 import java.awt.Dimension;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
@@ -159,8 +160,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
 
    function resizeContent():Void{
       var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
-      wrappedTextEditor.width = size.width;
-      wrappedTextEditor.height = size.height;
+      Container.resizeNode(wrappedTextEditor,size.width,size.height);
  
       // setPreferredSize is needed
       textEditor.setPreferredSize(size);
