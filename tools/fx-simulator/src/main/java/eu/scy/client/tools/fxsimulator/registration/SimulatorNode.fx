@@ -24,6 +24,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javax.swing.JPanel;
+import javax.swing.JComponent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
 import eu.scy.client.tools.scysimulator.DataCollector;
@@ -43,6 +44,8 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.datasync.DummySyncListener;
 import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import javafx.scene.layout.Container;
+import javafx.util.Math;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -68,6 +71,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                 }
             };
     var fixedDimension = new Dimension(575, 275);
+    var displayComponent: JComponent;
     var wrappedSimquestPanel: SwingComponent;
     var technicalFormatKey: IMetadataKey;
     var keywordsKey: IMetadataKey;
@@ -77,6 +81,10 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var dataCollector: DataCollector;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
+    def simulatorContent = Group{
+
+    }
+
 
     public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -149,14 +157,16 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function newElo() {
         newSimulationPanel = new NewSimulationPanel(this);
-        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
+//        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
+         switchSwingDisplayComponent(newSimulationPanel);
     }
 
     public override function actionPerformed(evt: ActionEvent) {
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
-            newSimulationPanel.remove(newSimulationPanel.load);
-            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
+//            newSimulationPanel.remove(newSimulationPanel.load);
+//            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
+            switchSwingDisplayComponent(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
@@ -177,7 +187,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function create(): Node {
-        wrappedSimquestPanel = SwingComponent.wrap(simquestPanel);
+        switchSwingDisplayComponent(simquestPanel);
         return Group {
                     blocksMouse: true;
                     //         cache: bind scyWindow.cache
@@ -216,12 +226,21 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                         }
                                     ]
                                 }
-                                wrappedSimquestPanel
+                                simulatorContent
+//                                wrappedSimquestPanel
                             ]
                         }
                     ]
                 };
     }
+
+    function switchSwingDisplayComponent(newComponent : JComponent):Void{
+      displayComponent = newComponent;
+      wrappedSimquestPanel = SwingComponent.wrap(displayComponent);
+      simulatorContent.content = wrappedSimquestPanel;
+      resizeContent();
+    }
+
 
     function doLoadElo(eloUri: URI) {
         logger.info("Trying to load elo {eloUri}");
@@ -252,19 +271,29 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         dataCollector = null;
         try {
             simquestViewer.run();
-            simquestPanel.setLayout(new BorderLayout());
-            simquestPanel.removeAll();
-            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+//            simquestPanel.setLayout(new BorderLayout());
+//            simquestPanel.removeAll();
+//            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+//            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+//            toolBrokerAPI.registerForNotifications(this as INotifiable);
+//            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+            var simulationPanel = new JPanel();
+            simulationPanel.setLayout(new BorderLayout());
+            var simulationViewer = simquestViewer.getInterfacePanel();
+            simulationViewer.setPreferredSize(simquestViewer.getRealSize());
+            simulationPanel.add(simulationViewer, BorderLayout.CENTER);
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
             toolBrokerAPI.registerForNotifications(this as INotifiable);
-            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+            simulationPanel.add(dataCollector, BorderLayout.SOUTH);
             fixedDimension = simquestViewer.getRealSize();
+            switchSwingDisplayComponent(simulationPanel);
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
             }
             fixedDimension.height = fixedDimension.height + 260;
             scyWindow.open();
             var syncAttrib = DatasyncAttribute {
+                        scyWindow:scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this };
             insert syncAttrib into scyWindow.scyWindowAttributes;
@@ -326,28 +355,35 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     function resizeContent() {
-        var size = new Dimension(width, height - wrappedSimquestPanel.boundsInParent.minY - spacing);
-        // setPreferredSize is needed
-        simquestPanel.setPreferredSize(size);
-        // setSize is not visual needed
-        // but set it, so the component react to it
-        simquestPanel.setSize(size);
+        Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing);
+//        println("resized to {width}*{height-wrappedSimquestPanel.boundsInParent.minY-spacing}");
     }
 
     public override function getPrefHeight(width: Number): Number {
-        return fixedDimension.height;
+//        return fixedDimension.height+wrappedSimquestPanel.boundsInParent.minY+spacing;
+//        println("preferred size: {displayComponent.getPreferredSize()}");
+        return displayComponent.getPreferredSize().height+wrappedSimquestPanel.boundsInParent.minY+spacing;
     }
 
     public override function getPrefWidth(width: Number): Number {
-        return fixedDimension.width;
+//        return fixedDimension.width;
+        return displayComponent.getPreferredSize().width;
     }
 
-    public override function getMinHeight(): Number {
-        return fixedDimension.height;
-    }
+//    public override function getMinHeight(): Number {
+//        return fixedDimension.height;
+//    }
+//
+//    public override function getMinWidth(): Number {
+//        return fixedDimension.width;
+//    }
 
-    public override function getMinWidth(): Number {
-        return fixedDimension.width;
-    }
+//    public override function getMaxHeight(): Number {
+//        return Math.max(getPrefHeight(-1),0);
+//    }
+//
+//    public override function getMaxWidth(): Number {
+//        return Math.max(getPrefWidth(-1),100);
+//    }
 
 }
