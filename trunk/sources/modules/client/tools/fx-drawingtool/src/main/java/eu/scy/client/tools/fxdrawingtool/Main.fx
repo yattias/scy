@@ -26,6 +26,7 @@ var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopDrawingTestConfig.xml"
            storeElosOnDisk:false;
            loginType:"local"
+           authorMode:true
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {

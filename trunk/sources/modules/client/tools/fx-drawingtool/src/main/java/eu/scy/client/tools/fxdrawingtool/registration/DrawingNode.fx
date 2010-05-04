@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 
-import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -31,6 +30,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import javafx.scene.layout.Container;
 
 
 /**
@@ -146,17 +146,11 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
     }
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      whiteboardPanel.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      whiteboardPanel.setSize(size);
-//      println("resized whiteboardPanel to ({width},{height})");
+      Container.resizeNode(wrappedWhiteboardPanel,width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return whiteboardPanel.getPreferredSize().getHeight();
+      return whiteboardPanel.getPreferredSize().getHeight()+wrappedWhiteboardPanel.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
