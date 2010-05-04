@@ -9,6 +9,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import javafx.scene.Node;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import javafx.util.StringLocalizer;
 
 /**
  * @author sikken
@@ -18,6 +19,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 public class DrawingToolCreatorFX extends ScyToolCreatorFX{
     override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
+        StringLocalizer.associate("languages.fxdrawingtool","eu.scy.client.tools.fxdrawingtool");
         DrawingNode{
            whiteboardPanel: new WhiteboardPanel();
            scyWindow:scyWindow
