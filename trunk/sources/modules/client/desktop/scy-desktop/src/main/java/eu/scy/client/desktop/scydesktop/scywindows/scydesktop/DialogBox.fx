@@ -27,6 +27,7 @@ import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 
 /**
  * @author sven
@@ -35,6 +36,7 @@ import javafx.geometry.VPos;
 public static def DEFAULT_WIDTH: Double = 400;
 public static def HGAP: Double = 15;
 public static def VGAP:Double = 15;
+def imageLoader = ImageLoader.getImageLoader();
 
     
     static function getDialogBoxContent(dialogWidth:Integer,dialogBox: DialogBox, dialogType:DialogType,text:String, action1:function(), action2:function(), action3:function()):Group{
@@ -69,7 +71,6 @@ public static def VGAP:Double = 15;
     }
 
     static function getIndicatorImage(dialogType):ImageView{
-        def imageLoader = ImageLoader.getImageLoader();
         if (dialogType==DialogType.OK_DIALOG){
             return ImageView {
                     image: imageLoader.getImage("info_red_x32.png");
@@ -141,7 +142,10 @@ public static function showMessageDialog(text:String, dialogWidth:Integer, scyDe
         def dialogBox: DialogBox = DialogBox {
                     content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
                     targetScene: scyDesktop.scene
-                    //eloIcon:
+                    eloIcon: ImageEloIcon{
+                            activeImage:imageLoader.getImage("info_red_active_x16.png");
+                            inactiveImage:imageLoader.getImage("info_red_inactive_x16.png");
+                            }
                     title: "Information"
                     modal: modal
                     scyDesktop:scyDesktop
@@ -161,6 +165,10 @@ public static function showOptionDialog(dialogType:DialogType,text:String, dialo
                                 getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
                                 }
                     targetScene: scyDesktop.scene
+                    eloIcon: ImageEloIcon{
+                            activeImage:imageLoader.getImage("question_blue_active_x16.png");
+                            inactiveImage:imageLoader.getImage("question_blue_inactive_x16.png");
+                            }
                     title: "Option"
                     modal: modal
                     scyDesktop:scyDesktop
