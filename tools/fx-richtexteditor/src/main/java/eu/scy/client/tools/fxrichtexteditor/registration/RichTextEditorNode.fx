@@ -44,6 +44,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.awt.Dimension;
+import javafx.scene.layout.Container;
+import java.lang.Float;
 
 /**
  * @author kaido
@@ -208,11 +210,11 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return getMinHeight();
+      return richTextEditor.getPreferredSize().height+wrappedRichTextEditor.boundsInParent.minY+spacing
    }
 
    public override function getPrefWidth(height: Number) : Number{
-      return getMinWidth();
+      return richTextEditor.getPreferredSize().width
    }
 
    public override function getMinHeight() : Number {
@@ -228,6 +230,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
 
    function resizeContent(){
       var size = new Dimension(width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedRichTextEditor,size.width,size.height);
       richTextEditor.setPreferredSize(size);
       richTextEditor.setSize(size);
    }
