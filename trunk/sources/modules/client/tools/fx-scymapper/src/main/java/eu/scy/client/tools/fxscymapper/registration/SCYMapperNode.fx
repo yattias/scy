@@ -143,7 +143,11 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
  public override function canAcceptDrop(object:Object):Boolean{
       println("SCYMAPPER: canAcceptDrop of {object.getClass()}");
-      return true;
+      if(object instanceof ContactFrame ){
+        return true;
+      }
+      return false;
+
    }
 
    public override function acceptDrop(object:Object):Void{
