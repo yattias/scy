@@ -25,6 +25,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.scene.layout.Container;
 
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
@@ -137,6 +138,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 
    function resizeContent(){
       var size = new Dimension(width,height-wrappedModelEditor.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedModelEditor,size.width,size.height);
       // setPreferredSize is needed
       modelEditor.setPreferredSize(size);
       // setSize is not visual needed
@@ -146,7 +148,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return modelEditor.getPreferredSize().getHeight();
+      return modelEditor.getPreferredSize().getHeight()+wrappedModelEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
