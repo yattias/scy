@@ -37,6 +37,7 @@ import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.common.datasync.DummySyncListener;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author Marjolaine
@@ -174,6 +175,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
       fitexPanel.setTBI(toolBrokerAPI);
       fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       var syncAttrib = DatasyncAttribute{
+                    scyWindow:scyWindow
                     dragAndDropManager:scyWindow.dragAndDropManager;
                     dragObject:this};
       insert syncAttrib into scyWindow.scyWindowAttributes;
@@ -294,6 +296,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
    function resizeContent(){
       var size = new Dimension(width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedFitexPanel,size.width,size.height);
       // setPreferredSize is needed
       fitexPanel.setPreferredSize(size);
       // setSize is not visual needed
@@ -303,7 +306,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return fitexPanel.getPreferredSize().getHeight();
+      return fitexPanel.getPreferredSize().getHeight()+wrappedFitexPanel.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
