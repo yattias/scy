@@ -107,12 +107,13 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         if(session != null){
             leaveSession(session.getId());
         }
-        session = tbi.getDataSyncService().joinSession(mucID, this);
-        debugLogger.log(Level.SEVERE, "joinSession: "+session.getId());
+        session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
+        debugLogger.log(Level.INFO, "joinSession: "+session.getId());
         if (session == null) {
             JOptionPane.showMessageDialog(null, "join session error, null");
-        } else
+        } else{
             readAllSyncObjects();
+        }
     }
 
     public void leaveSession(String mucID){
@@ -132,7 +133,9 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     public void readAllSyncObjects(){
         List<ISyncObject> syncObjects = session.getAllSyncObjects();
-        debugLogger.log(Level.SEVERE, "readAllSyncObjects ("+syncObjects.size()+") "+session.getId());
+        if(syncObjects == null)
+            return;
+        debugLogger.log(Level.INFO, "readAllSyncObjects ("+syncObjects.size()+") "+session.getId());
         // find the header first
         for (ISyncObject syncObject : syncObjects) {
             if (syncObject.getProperties() != null && syncObject.getProperty(TYPE_DATASET_HEADER) != null) {
@@ -148,13 +151,13 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void readSyncObject(ISyncObject syncObject){
-        debugLogger.log(Level.SEVERE, "readSyncObject... "+session.getId());
+        debugLogger.log(Level.INFO, "readSyncObject... "+session.getId());
         if(syncObject.getToolname() != null && syncObject.getToolname().equals(SIMULATOR_NAME)){
             if(syncObject.getProperties() != null) {
                 String type = syncObject.getProperty(SYNC_OBJECT_TYPE);
                 if(type != null){
                     if(type.equals(TYPE_DATASET_HEADER)){
-                        debugLogger.log(Level.SEVERE, "...of type header "+session.getId());
+                        debugLogger.log(Level.INFO, "...of type header "+session.getId());
                         String dataheader = syncObject.getProperty(TYPE_DATASET_HEADER);
                         if(dataheader != null){
                             try{
@@ -166,7 +169,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
                             }
                         }
                     }else if (type.equals(TYPE_DATASET_ROW)){
-                        debugLogger.log(Level.SEVERE, "...of type row");
+                        debugLogger.log(Level.INFO, "...of type row");
                         String datarow = syncObject.getProperty(TYPE_DATASET_ROW);
                         if(datarow != null){
                             try{
@@ -196,7 +199,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     private void initDataProcessTool(){
         dataProcessPanel = new DataProcessToolPanel(true, Locale.getDefault());
-        dataProcessPanel.addActionCopexButton(this);
+        dataProcessPanel.addFitexAction(this);
         add(dataProcessPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
         setPreferredSize(getSize());
