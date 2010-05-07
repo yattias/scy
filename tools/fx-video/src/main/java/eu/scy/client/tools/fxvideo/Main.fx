@@ -8,12 +8,11 @@ package eu.scy.client.tools.fxvideo;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
-import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 
 /**
  * @author pg
@@ -21,6 +20,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopVideoTestConfig.xml"
            loginType:"local"
+           authorMode:true
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -41,11 +41,13 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
-   scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+   scyDesktop.bottomLeftCornerTool = EloManagement {
       scyDesktop: scyDesktop;
       repository: scyDesktopCreator.config.getRepository();
+      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+      userId:userName
    }
    return scyDesktop;
 }
@@ -56,13 +58,5 @@ stage = Stage {
    title: "video"
    width: 400
    height: 300
-   scene: scene = Scene {
-      content: [
-         initializer.getBackgroundImageView(scene),
-         LoginDialog {
-            createScyDesktop: createScyDesktop
-            initializer: initializer;
-         }
-      ]
-   }
+	scene: initializer.getScene(createScyDesktop);
 }
