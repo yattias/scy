@@ -147,7 +147,14 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
     }
 
    function resizeContent(){
-      Container.resizeNode(wrappedWhiteboardPanel,width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
+      var size = new Dimension(width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
+       Container.resizeNode(wrappedWhiteboardPanel,size.width,size.height);
+       // setPreferredSize is needed
+      whiteboardPanel.setPreferredSize(size);
+      // setSize is not visual needed
+      // but set it, so the component react to it
+      whiteboardPanel.setSize(size);
+      //println("resized whiteboardPanel to ({width},{height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
