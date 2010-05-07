@@ -41,10 +41,7 @@ public class MouseOverDisplay {
             canSkip : false
             values: contentGroup.opacity => 0.0
             action:function():Void{
-               contentGroup.content = createMouseOverDisplay();
-               var sceneContent = myScene.content;
-               insert contentGroup into sceneContent;
-               myScene.content = sceneContent;
+               displayMe();
 //               println("mouse over added at {System.currentTimeMillis()-startMillis} ({animation.time}=?={AnimationTiming.startAppearingTime})")
             }
          }
@@ -72,9 +69,7 @@ public class MouseOverDisplay {
             canSkip : false
             values: contentGroup.opacity => 0.0 tween Interpolator.EASEBOTH;
              action: function():Void{
-               var sceneContent = myScene.content;
-               delete contentGroup from sceneContent;
-               myScene.content = sceneContent;
+                removeMe();
 //              println("mouse over removed at {System.currentTimeMillis()-startMillis} ({animation.time}=?={AnimationTiming.fullDisappearingTime})")
             }
         }
@@ -85,6 +80,19 @@ public class MouseOverDisplay {
       animation.play();
    }
 
+   function displayMe():Void{
+      contentGroup.content = createMouseOverDisplay();
+      var sceneContent = myScene.content;
+      insert contentGroup into sceneContent;
+      myScene.content = sceneContent;
+   }
+
+   function removeMe():Void{
+      var sceneContent = myScene.content;
+      delete contentGroup from sceneContent;
+      myScene.content = sceneContent;
+      contentGroup.content = null;
+   }
 
    public function stop(){
       if (animation.time<AnimationTiming.startAppearingTime){
@@ -95,4 +103,10 @@ public class MouseOverDisplay {
       }
    }
 
+   public function abort(){
+      animation.stop();
+      if (contentGroup.content!=null){
+         removeMe();
+      }
+   }
 }

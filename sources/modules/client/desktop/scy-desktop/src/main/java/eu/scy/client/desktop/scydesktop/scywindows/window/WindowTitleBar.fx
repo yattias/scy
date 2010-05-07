@@ -44,6 +44,11 @@ public class WindowTitleBar extends WindowElement {
    public var closeBoxWidth = 0.0;
    public var textInset = 1.0;
    public var rectangleAntialiasOffset = 0.0;
+   public var beingDragged = false on replace{
+         if (beingDragged){
+            mouseOverTitleDisplay.abort();
+         }
+      };
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
@@ -69,7 +74,6 @@ public class WindowTitleBar extends WindowElement {
       activatedChanged()
    }
    def mouseOverBorderSize = 2.0;
-
 
    var nodeGroup:Group;
    var textBackgroundFillRect:Rectangle;
