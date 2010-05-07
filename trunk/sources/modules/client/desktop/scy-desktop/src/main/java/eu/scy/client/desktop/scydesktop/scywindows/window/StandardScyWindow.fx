@@ -158,12 +158,14 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 	var originalY: Number;
 	var originalW: Number;
 	var originalH: Number;
-	var rotateCenterX: Number;
-	var rotateCenterY: Number;
-	var initialRotation: Number;
+//	var rotateCenterX: Number;
+//	var rotateCenterY: Number;
+//	var initialRotation: Number;
    var maxDifX: Number;
    var maxDifY: Number;
 	var sceneTopLeft: Point2D;
+
+   var beingDragged = false;
 
 	def animationDuration = 200ms;
 
@@ -506,6 +508,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       maxDifX = 0;
       maxDifY = 0;
 		sceneTopLeft = localToScene(0,0);
+      beingDragged = true;
 //      contentElement.glassPaneBlocksMouse = true;
       MouseBlocker.startMouseBlocking();
 	}
@@ -515,6 +518,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                         wcl.draggingFinished();
              }
 //      contentElement.glassPaneBlocksMouse = false;
+      beingDragged = false;
       MouseBlocker.stopMouseBlocking();
 	}
 
@@ -854,6 +858,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          title:bind title;
          eloIcon:bind eloIcon;
          activated:bind activated
+         beingDragged:bind beingDragged
          windowColorScheme:windowColorScheme
          layoutX:titleBarLeftOffset;
          layoutY:titleBarTopOffset;
