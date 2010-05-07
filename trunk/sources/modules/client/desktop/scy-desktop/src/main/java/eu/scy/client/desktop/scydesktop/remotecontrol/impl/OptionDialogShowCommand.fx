@@ -14,6 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogType;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBoxParams;
 
 /**
  * @author sven
@@ -49,17 +50,25 @@ public class OptionDialogShowCommand extends ScyDesktopRemoteCommand {
     override public function executeRemoteCommand(notification: INotification): Void {
         logger.debug("*****************message dialog show action*********************");
         def modalProperty = notification.getFirstProperty("modal");
-        def modal: Boolean = if (not (modalProperty == null)) Boolean.parseBoolean(modalProperty) else true;
-        def text: String = notification.getFirstProperty("text");
-        def dialogWidth: Double = (if (notification.getFirstProperty("width") == null) DialogBox.DEFAULT_WIDTH else Math.min(scyDesktop.scene.width, Double.valueOf(notification.getFirstProperty("width"))));
+        def indicateFocusProperty = notification.getFirstProperty("indicateFocus");
         def dialogTypeProperty = notification.getFirstProperty("dialogType");
+
         optionDialogId = notification.getUniqueID();
         userId = notification.getUserId();
-        def dialogType: DialogType = if (dialogTypeProperty == null) DialogType.YES_NO_DIALOG else DialogType.valueOf(dialogTypeProperty);
+        
+        def params:DialogBoxParams = DialogBoxParams{
+                scyDesktop:scyDesktop;
+                dialogType: if (dialogTypeProperty == null) DialogType.YES_NO_DIALOG else DialogType.valueOf(dialogTypeProperty);
+                dialogWidth: if (notification.getFirstProperty("width") == null) DialogBox.DEFAULT_WIDTH else Math.min(scyDesktop.scene.width, Double.valueOf(notification.getFirstProperty("width")));
+                indicateFocus: if (not (indicateFocusProperty == null)) Boolean.parseBoolean(indicateFocusProperty) else true;
+                text: notification.getFirstProperty("text");
+                title: notification.getFirstProperty("title");
+                modal: if (not (modalProperty == null)) Boolean.parseBoolean(modalProperty) else true;
+                yesAction: yesAction;
+                noAction: noAction;
+                }
 
-        if (dialogType == DialogType.OK_CANCEL_DIALOG or dialogType == DialogType.YES_NO_DIALOG) {
-            DialogBox.showOptionDialog(dialogType, text, dialogWidth, scyDesktop, modal, yesAction, noAction);
-        }
+        DialogBox.showOptionDialog(params);
     }
 
 }
