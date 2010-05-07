@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.UIManager;
 
 /**
  *
@@ -58,13 +59,13 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
         }
         // i18n
         Locale locale = Locale.getDefault();
-        locale = new Locale("en", "GB");
-        //locale = new Locale("fr", "FR");
+        //locale = new Locale("en", "GB");
+        locale = new Locale("fr", "FR");
         copex = new CopexPanel(this,locale, copexURL, idUser, dbKeyMission, mode, userName, firstName);
         copex.addActionCopex(this);
         add(copex, BorderLayout.CENTER);
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
-        
+        setIconImage(copex.getIconDialog());
     }
 
     public void loadEdP(){
@@ -106,6 +107,16 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     * @param args the command line arguments
     */
     public static void main(String args[]) {
+        for (UIManager.LookAndFeelInfo laf :UIManager.getInstalledLookAndFeels() ){
+            if ("Nimbus".equals(laf.getName())) {
+                try {
+                    UIManager.setLookAndFeel(laf.getClassName());
+
+                } catch (Exception e) {
+                    System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+                }
+            }
+        }
         if(args == null || args.length  < 5){
 //            try {
 //                copexURL = new URL("http://copex.imag.fr/espaces/");

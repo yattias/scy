@@ -29,7 +29,6 @@ public class ParamFromDB {
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ID_PHYSICAL_QUANTITY");
         listFields.add("QUANTITY_NAME");
-
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -65,7 +64,6 @@ public class ParamFromDB {
         listFields.add("U.ID_UNIT");
         listFields.add("U.UNIT_NAME");
         listFields.add("U."+symbol);
-       
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;

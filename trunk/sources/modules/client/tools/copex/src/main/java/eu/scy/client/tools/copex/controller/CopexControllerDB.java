@@ -136,7 +136,6 @@ public class CopexControllerDB implements ControllerInterface {
             return cr;
         listMaterialStrategy = (ArrayList<MaterialStrategy>)v.get(0);
         // chargement user : nom et prenom
-        System.out.println("load user");
         v = new ArrayList();
         cr = db.getUserFromDB(dbKeyUser, v);
         if (cr.isError()){
@@ -167,7 +166,6 @@ public class CopexControllerDB implements ControllerInterface {
             dbKeyTrace = (Long)v.get(0); 
         }
         // chargement de la liste des protocoles de la mission
-        System.out.println("load proc");
         v = new ArrayList();
         Profiler.start("loadProtocole");
         // MBO le 27/05/09 : chargement des proc :
@@ -270,7 +268,6 @@ public class CopexControllerDB implements ControllerInterface {
             System.out.println("list proc null");
         }
         
-       System.out.println("loadOtherMission");
         // charge les missions et protocoles de l'utilisateur
         v = new ArrayList();
         Profiler.start("loadMissionUser");
@@ -293,7 +290,6 @@ public class CopexControllerDB implements ControllerInterface {
             this.listMissionsUser = new ArrayList();
             this.listProcMissionUser = new ArrayList();
         }
-        System.out.println("load help proc");
         Profiler.end("loadMissionUser");
         cr = loadHelpProc();
         if (cr.isError()){
@@ -309,7 +305,6 @@ public class CopexControllerDB implements ControllerInterface {
         if (setTrace()){
             copex.logStartTool();
         }
-        System.out.println("clone");
         // clone les objets 
         CopexMission m = (CopexMission)mission.clone();
         ArrayList<LearnerProcedure> listP = new ArrayList();
@@ -327,8 +322,6 @@ public class CopexControllerDB implements ControllerInterface {
         // MBo le 27/02/2009 : si ts les proc de la mission sont lockes on n'en cree pas d'autres
         boolean askForInitProc = false;
         if (listProc.size() == 0 && !allProcLocked){
-            System.out.println("*****pas de proc ") ;
-            System.out.println("Nombre de proc initiaux : "+nbIP);
             if (nbIP == 1){
                 System.out.println("   => creation d'un proc ");
                 cr = createProc(listInitialProc.get(0).getName(getLocale()), listInitialProc.get(0), false );
@@ -341,7 +334,6 @@ public class CopexControllerDB implements ControllerInterface {
         }
         Profiler.end("initEdp");
 
-        System.out.println("fin load");
         Profiler.end("loadData");
         System.out.println("Resultat :\n"+Profiler.display());
         System.out.println("\nStats  :\n"+Profiler.getStats());
