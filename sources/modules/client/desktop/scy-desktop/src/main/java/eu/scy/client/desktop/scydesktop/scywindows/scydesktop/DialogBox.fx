@@ -28,54 +28,56 @@ import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
+import javafx.animation.Timeline;
+import javafx.animation.Interpolator;
+import javafx.scene.effect.DropShadow;
 
 /**
  * @author sven
  */
-
 public static def DEFAULT_WIDTH: Double = 400;
 public static def HGAP: Double = 15;
-public static def VGAP:Double = 15;
+public static def VGAP: Double = 15;
 def imageLoader = ImageLoader.getImageLoader();
 
-    
-    static function getDialogBoxContent(dialogWidth:Integer,dialogBox: DialogBox, dialogType:DialogType,text:String, action1:function(), action2:function(), action3:function()):Group{
-        def indicatorImage:ImageView = getIndicatorImage(dialogType);
-        def group:Group = Group{
-            content: [
-                    VBox{
-                        hpos:HPos.CENTER
-                        vpos:VPos.CENTER
-                        nodeHPos:HPos.CENTER
-                        spacing:VGAP
-                        content: [
-                                HBox{
+static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(),  action2: function (),action3:function ()): Group{
+
+        def indicatorImage    : ImageView = getIndicatorImage(dialogType);
+        def group: Group = Group {
+                    content: [
+                        VBox {
+                            hpos: HPos.CENTER
+                            vpos: VPos.CENTER
+                            nodeHPos: HPos.CENTER
+                            spacing: VGAP
+                            content: [
+                                HBox {
                                     hpos: HPos.CENTER
                                     vpos: VPos.CENTER
-                                    nodeVPos:VPos.CENTER
-                                    spacing:HGAP
+                                    nodeVPos: VPos.CENTER
+                                    spacing: HGAP
                                     content: [
-                                            indicatorImage,
-                                            Text{
-                                                content:text;
-                                                wrappingWidth: (dialogWidth - 3 * HGAP - indicatorImage.layoutBounds.width)
-                                            }
-                                            ];
+                                        indicatorImage,
+                                        Text {
+                                            content: text;
+                                            wrappingWidth: (dialogWidth - 3 * HGAP - indicatorImage.layoutBounds.width)
+                                        }
+                                    ];
                                 },
                                 getButtonBar(dialogBox, dialogType, action1, action2, action3)
-                                ];
-                    }
+                            ];
+                        }
                     ];
-        }
+                }
         return group
     }
 
-    static function getIndicatorImage(dialogType):ImageView{
-        if (dialogType==DialogType.OK_DIALOG){
-            return ImageView {
-                    image: imageLoader.getImage("info_red_x32.png");
+   static  function getIndicatorImage(dialogType)  : ImageView   {
+        if (dialogType == DialogType.OK_DIALOG) {
+                return  ImageView{
+                     image: imageLoader.getImage("info_red_x32.png");
                 };
-        } else if (dialogType==DialogType.YES_NO_DIALOG or dialogType == DialogType.OK_CANCEL_DIALOG){
+        }else if (dialogType==DialogType.YES_NO_DIALOG or dialogType == DialogType.OK_CANCEL_DIALOG){
             return ImageView {
                     image: imageLoader.getImage("question_blue_x32.png");
                 };
@@ -102,7 +104,7 @@ def imageLoader = ImageLoader.getImageLoader();
             spacing:HGAP
             content: [
                     Button{
-                        text:"OK!"
+                        text:##"OK!"
                         action:function():Void{
                             okAction();
                             dialogBox.close();
@@ -119,14 +121,14 @@ def imageLoader = ImageLoader.getImageLoader();
             spacing:HGAP
             content: [
                     Button{
-                        text:"Yes!"
+                        text:##"Yes!"
                         action:function():Void{
                             yesAction();
                             dialogBox.close();
                         }
                     }
                      Button{
-                        text:"No!"
+                        text:##"No!"
                         action:function():Void{
                             noAction();
                             dialogBox.close();
@@ -137,7 +139,7 @@ def imageLoader = ImageLoader.getImageLoader();
         return buttonBar
     }
 
-public static function showMessageDialog(text:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, okAction:function()){
+public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function()){
    
         def dialogBox: DialogBox = DialogBox {
                     content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
@@ -146,8 +148,9 @@ public static function showMessageDialog(text:String, dialogWidth:Integer, scyDe
                             activeImage:imageLoader.getImage("info_red_active_x16.png");
                             inactiveImage:imageLoader.getImage("info_red_inactive_x16.png");
                             }
-                    title: "Information"
+                    title: dialogTitle
                     modal: modal
+                    indicateFocus: indicateFocus
                     scyDesktop:scyDesktop
                     closeAction: function () {
 
@@ -156,7 +159,16 @@ public static function showMessageDialog(text:String, dialogWidth:Integer, scyDe
                 };
 }
 
-public static function showOptionDialog(dialogType:DialogType,text:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, okAction:function(), cancelAction:function()){
+public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function()){
+    showMessageDialog(text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true,true,  okAction);
+}
+
+public static function showMessageDialog(params:DialogBoxParams){
+    showMessageDialog(params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal,params.indicateFocus, params.okAction);
+}
+
+
+public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function(), cancelAction:function()){
         def supportedOptionTypes = [DialogType.OK_CANCEL_DIALOG, DialogType.YES_NO_DIALOG];
         def dialogBox: DialogBox = DialogBox {
                     content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
@@ -169,8 +181,9 @@ public static function showOptionDialog(dialogType:DialogType,text:String, dialo
                             activeImage:imageLoader.getImage("question_blue_active_x16.png");
                             inactiveImage:imageLoader.getImage("question_blue_inactive_x16.png");
                             }
-                    title: "Option"
+                    title: dialogTitle
                     modal: modal
+                    indicateFocus: indicateFocus
                     scyDesktop:scyDesktop
                     closeAction: function () {
 
@@ -179,19 +192,28 @@ public static function showOptionDialog(dialogType:DialogType,text:String, dialo
                 };
 }
 
+public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function(), noAction:function()){
+    showOptionDialog(DialogType.YES_NO_DIALOG,text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, yesAction, noAction);
+} 
+
+public static function showOptionDialog(params:DialogBoxParams){
+    showOptionDialog(params.dialogType,params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal, params.indicateFocus, params.okAction, params.noAction);
+}
+
+
 
 public class DialogBox extends CustomNode {
 
-    public   var content: Node;
+    public var content: Node;
 
-    public   var targetScene: Scene;
+    public  var targetScene: Scene;
     var addedAsScyWindow:Boolean = false;
-
     public var title: String;
     public var eloIcon: EloIcon;
     public var windowColorScheme: WindowColorScheme;
     public var closeAction: function(): Void;
     public-init var modal: Boolean = true;
+    public-init var indicateFocus: Boolean = true;
     public-init var dialogType: Integer = JOptionPane.OK_OPTION;
     public-init var scyDesktop:ScyDesktop;
     var dialogWindow: ScyWindow;
@@ -215,6 +237,29 @@ public class DialogBox extends CustomNode {
             activated: true
         }
         dialogWindow.open();
+       
+        //scyDesktop.effect = glow;
+        if(indicateFocus){
+             /*def glow:Glow = Glow{
+            level:0.5
+        }*/
+        def outerGlow:DropShadow = DropShadow{
+            //color:Color.LIGHTYELLOW;
+            //color:Color.LIGHTYELLOW;
+            color:Color.rgb(243, 243, 150);
+            spread:0.5
+            radius:40
+        }
+         dialogWindow.effect  = outerGlow;
+        Timeline{
+             keyFrames: [
+                     at (0.25s) {outerGlow.radius => 40.0 tween Interpolator.EASEIN},
+                    at (0.5s) {outerGlow.radius => 0.0 tween Interpolator.EASEIN},
+                    at (0.75s) {outerGlow.radius => 40.0 tween Interpolator.EASEIN},
+                    at (1s) {outerGlow.radius => 0.0 tween Interpolator.EASEIN}]
+            }.play();
+
+        }
         return Group {
                     content: [
                         if (modal) {
@@ -230,13 +275,13 @@ public class DialogBox extends CustomNode {
                                 onKeyTyped: function (e: KeyEvent): Void {
                                 } }
                         } else []//,
-                        //dialogWindow
+                    //dialogWindow
                     ]
                 };
     }
 
     public function close(): Void {
-        if (not addedAsScyWindow){
+        if (not addedAsScyWindow) {
             var sceneContentList = scene.content;
             delete this from sceneContentList;
             delete dialogWindow from sceneContentList;
@@ -256,11 +301,11 @@ public class DialogBox extends CustomNode {
             targetScene.content = sceneContentList;
             this.requestFocus();
         } else {
-            if (not(scyDesktop==null)){
-            targetScene.content = sceneContentList;
-            scyDesktop.windows.addScyWindow(dialogWindow);
-            scyDesktop.windows.activateScyWindow(dialogWindow);
-            addedAsScyWindow = true;
+            if (not (scyDesktop == null)) {
+                targetScene.content = sceneContentList;
+                scyDesktop.windows.addScyWindow(dialogWindow);
+                scyDesktop.windows.activateScyWindow(dialogWindow);
+                addedAsScyWindow = true;
             }
         }
         center();
@@ -275,6 +320,7 @@ public class DialogBox extends CustomNode {
             dialogWindow.layoutY = scyDesktop.scene.height / 2 - dialogWindow.layoutBounds.height / 2;
         }
     }
+
 }
 
 public function placeInDialogBox(content: Node, scene: Scene): DialogBox {
