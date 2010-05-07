@@ -11,6 +11,7 @@
  
    <modelVersion>4.0.0</modelVersion>
    <artifactId>fx-scymapper</artifactId>
+   <version>9.8.0-JFX1.3-SNAPSHOT</version>
    <name>FX SCYMapper</name>
    <packaging>jar</packaging>
 
@@ -25,7 +26,7 @@
       <dependency>
          <groupId>eu.scy.client.tools</groupId>
          <artifactId>scymapper</artifactId>
-         <version>${pom.version}</version>
+         <version>9.8.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>
@@ -83,12 +84,12 @@
                         </path>
                         <path id="javafx.classpath">
                            <fileset dir="${javafx.home}">
-                              <!-- shared 1.2 -->
+                              <!-- shared 1.2/1.3 -->
                               <include name="**/fxdtools.jar" />
                               <include name="**/javafxc.jar" />
                               <include name="**/javafxrt.jar" />
                               <include name="**/toolchain.jar" />
-                              <!-- desktop 1.2 -->
+                              <!-- desktop 1.2/1.3 -->
                               <include name="**/javafx-anim.jar" />
                               <include name="**/javafx-common.jar" />
                               <include name="**/javafx-geom.jar" />
@@ -99,6 +100,9 @@
                               <include name="**/javafx-ui-desktop.jar" />
                               <include name="**/javafx-ui-swing.jar" />
                               <include name="**/websvc.jar" />
+                              <!-- desktop 1.3 -->
+                              <include name="**/fxdloader.jar" />
+                              <include name="**/javafx-ext-swing.jar" />
                            </fileset>
                         </path>
                         <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="javafxc.classpath" name="javafxc"/>

@@ -11,14 +11,11 @@ import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
-import eu.scy.awareness.IAwarenessUser;
 import java.awt.Dimension;
 
 import eu.scy.scymapper.impl.SCYMapperPanel;
@@ -29,16 +26,13 @@ import org.apache.log4j.Logger;
 
 import javax.swing.JOptionPane;
 
-import org.springframework.util.StringUtils;
 
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import java.lang.System;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import javafx.scene.layout.Container;
 
 
 public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
@@ -165,6 +159,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
     function resizeContent(){
         var size = new Dimension(width,height-wrappedScyMapperPanel.boundsInParent.minY-spacing);
+        Container.resizeNode(wrappedScyMapperPanel,size.width,size.height);
         // setPreferredSize is needed
         scyMapperPanel.setPreferredSize(size);
         // setSize is not visual needed
@@ -174,7 +169,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     public override function getPrefHeight(width: Number) : Number{
-        return scyMapperPanel.getPreferredSize().getHeight();
+        return scyMapperPanel.getPreferredSize().getHeight()+wrappedScyMapperPanel.boundsInParent.minY+spacing;
     }
 
     public override function getPrefWidth(width: Number) : Number{
