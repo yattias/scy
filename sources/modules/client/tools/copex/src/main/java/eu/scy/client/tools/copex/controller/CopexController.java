@@ -2267,4 +2267,6 @@ public class CopexController implements ControllerInterface {
     public CopexReturn logUserActionInDB(String type, List<CopexProperty> attribute) {
         return new CopexReturn();
     }
+
+    
 }
