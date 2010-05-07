@@ -17,6 +17,7 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +68,18 @@ public class Dataset implements Cloneable{
         calculateOperation();
     }
     
-
+    public Dataset(long dbKey, String name) {
+        this.dbKey = dbKey;
+        this.name = name;
+        this.nbCol = 0;
+        this.nbRows = 0;
+        this.listDataHeader = new DataHeader[0];
+        this.data = new Data[0][0];
+        this.listOperation = new ArrayList();
+        this.listOperationResult = new ArrayList();
+        this.listVisualization = new ArrayList() ;
+        this.isOpen = false;
+    }
    
      // GETTER AND SETTER
     public String getName() {
@@ -497,7 +509,7 @@ public class Dataset implements Cloneable{
         ArrayList<DataOperation> listOpToUpdate = new ArrayList();
         ArrayList<Visualization> listVisToUpdate = new ArrayList();
         int nbRowsSel = listRow.size();
-        ArrayList<Integer> list = getSortList(listRow);
+        ArrayList<Integer> list = MyUtilities.getSortList(listRow);
         for (int i=0; i<nbRowsSel; i++){
             ArrayList[] listV = deleteRow(list.get(i));
             for(Iterator<DataOperation> l = listV[0].iterator();l.hasNext();){
@@ -528,7 +540,7 @@ public class Dataset implements Cloneable{
         ArrayList<DataOperation> listOpToUpdate = new ArrayList();
         ArrayList<Visualization> listVisToUpdate = new ArrayList();
         int nbColsSel = listCol.size();
-        ArrayList<Integer> list = getSortList(listCol);
+        ArrayList<Integer> list = MyUtilities.getSortList(listCol);
         for (int i=0; i<nbColsSel; i++){
             ArrayList[] listV = deleteCol(list.get(i));
             for(Iterator<DataOperation> l = listV[0].iterator();l.hasNext();){
@@ -623,7 +635,7 @@ public class Dataset implements Cloneable{
             if(v instanceof SimpleVisualization){
                 int n = ((SimpleVisualization)v).getNoCol();
                 if ( n > no){
-                    ((SimpleVisualization)v).setNoCol(n-1);
+                    ((SimpleVisualization)v).getHeader().setNoCol(n-1);
                 }
                 if(((SimpleVisualization)v).getHeaderLabel() != null){
                     n = ((SimpleVisualization)v).getHeaderLabel().getNoCol();
@@ -726,23 +738,7 @@ public class Dataset implements Cloneable{
         return tab;
     }
 
-   /* tri la liste du plus grand au plus petit */
-    private ArrayList<Integer> getSortList(ArrayList<Integer> list){
-        int nb = list.size();
-        for (int i=1; i<nb; i++){
-            if (list.get(i)> list.get(i-1)){
-                int val = list.get(i);
-                for (int j=0; j<i; j++){
-                    if (list.get(j) < val ){
-                        list.remove(i);
-                        list.add(j, val);
-                        break;
-                    }
-                }
-            }
-        }
-        return list;
-    }
+   
 
     /* insertion de lignes : nbRowsToInsert avant le no idBefore
      * si id=0 : au debut, si id =nbRows : en fin
@@ -831,7 +827,7 @@ public class Dataset implements Cloneable{
             if(v instanceof SimpleVisualization){
                 int n= ((SimpleVisualization)v).getNoCol();
                 if(n >= idBefore){
-                    ((SimpleVisualization)v).setNoCol(n+nbColsToInsert);
+                    ((SimpleVisualization)v).getHeader().setNoCol(n+nbColsToInsert);
                 }
                 if(((SimpleVisualization)v).getHeaderLabel() != null ){
                     n = ((SimpleVisualization)v).getHeaderLabel().getNoCol();
@@ -1211,7 +1207,7 @@ public class Dataset implements Cloneable{
             if(v instanceof SimpleVisualization){
                 int n = ((SimpleVisualization)v).getNoCol();
                 if ( n > colIndex){
-                    ((SimpleVisualization)v).setNoCol(n-1);
+                    ((SimpleVisualization)v).getHeader().setNoCol(n-1);
                 }
             }else if (v instanceof Graph){
                 //((Graph)v).updateNoCol(no, -1);

@@ -12,7 +12,7 @@
 package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 /**
@@ -151,10 +151,10 @@ public class RenameDatasetDialog extends javax.swing.JDialog {
 
     private void validDialog(){
         String n = this.fieldName.getText();
-        if (n.length() > MyConstants.MAX_LENGHT_DATASET_NAME){
+        if (n.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
             String msg = fitex.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, fitex.getBundleString("LABEL_NAME"));
-            msg = MyUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_DATASET_NAME);
+            msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
             fitex.displayError(new CopexReturn(msg, false), fitex.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }

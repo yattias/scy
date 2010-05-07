@@ -27,7 +27,6 @@ public class ToolUserFromDB {
         listFields.add("USER_NAME");
         listFields.add("FIRSTNAME");
 
-        System.out.println("query user : "+query);
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;

@@ -15,7 +15,6 @@ import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Dimension;
 
@@ -104,9 +103,9 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
             if(header.getUnit() != null)
                 this.textFieldUnit.setText(header.getUnit());
             this.areaDescription.setText(header.getDescription());
-            if(header.getType().equalsIgnoreCase(MyConstants.TYPE_DOUBLE)){
+            if(header.getType().equalsIgnoreCase(DataConstants.TYPE_DOUBLE)){
                 cbType.setSelectedIndex(0);
-            }else if (header.getType().equalsIgnoreCase(MyConstants.TYPE_STRING)){
+            }else if (header.getType().equalsIgnoreCase(DataConstants.TYPE_STRING)){
                 cbType.setSelectedIndex(1);
             }
         }
@@ -169,9 +168,9 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         }
         // type
         int idT = cbType.getSelectedIndex();
-        String type = MyConstants.TYPE_DOUBLE;
+        String type = DataConstants.TYPE_DOUBLE;
         if(idT==1){
-            type =  MyConstants.TYPE_STRING;
+            type =  DataConstants.TYPE_STRING;
             unit = null;
         }
         // validation

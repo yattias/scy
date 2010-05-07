@@ -68,7 +68,7 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
                 if(cell instanceof JLabel && value != null && (value instanceof String[]) && (((String[])value).length ==2) ){
                 //if(cell instanceof JLabel){
                     String text = ((String[])value)[0];
-                    if (((String[])value)[1] != null && ((String[])value)[1].length() > 0)
+                    if (((String[])value)[1] != null && ((String[])value)[1].length() > 0 && !((String[])value)[1].equals("null"))
                         text += " ("+((String[])value)[1]+")";
                     ((JLabel)cell).setText(text);
                 }

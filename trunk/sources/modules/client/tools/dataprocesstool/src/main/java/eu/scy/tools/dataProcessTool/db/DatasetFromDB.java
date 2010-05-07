@@ -11,6 +11,7 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
+import java.util.Iterator;
 
 /**
  * Gestion en bd des dataset
@@ -19,7 +20,7 @@ import java.awt.Color;
 public class DatasetFromDB {
 
     /* chargement de tous les ds lie a un utilisateur et a une mission donnee */
-    public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, Mission mission, TypeOperation[] tabTypeOp,TypeVisualization[] tabTypeVis, ArrayList v){
+    public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, Mission mission, TypeOperation[] tabTypeOp,TypeVisualization[] tabTypeVis,Color[] plotsColor, Color[] functionsColor, ArrayList v){
         long dbKeyMission = mission.getDbKey();
         ArrayList<Dataset> listDataset = new ArrayList();
         String query = "SELECT D.ID_DATASET, D.DATASET_NAME, D.NB_COL, D.NB_ROW " +
@@ -83,10 +84,11 @@ public class DatasetFromDB {
             ArrayList<DataOperation> listOp = (ArrayList<DataOperation>)v3.get(0);
             // chargement des visualizations
             v3 = new ArrayList();
-            cr = getAllDatasetVisualizationFromDB(dbC, dbKey,tabTypeVis, tabDataHeader,  v3);
+            cr = getAllDatasetVisualizationFromDB(dbC, dbKey,tabTypeVis, plotsColor,functionsColor, tabDataHeader,  v3);
             if (cr.isError())
                 return cr;
             ArrayList<Visualization> listVis = (ArrayList<Visualization>)v3.get(0);
+            System.out.println("chargement dataset, nbVis : "+listVis.size());
             //creation du dataset
             Dataset ds= new Dataset(dbKey, name, nbCol, nbRow, tabDataHeader, data, listOp, listVis);
             listDataset.add(ds);
@@ -95,6 +97,52 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
+    /* chargemement de tous les datasets(nom) de la liste des missions donnees*/
+    public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, ArrayList<Mission> listMission, ArrayList v){
+        ArrayList<ArrayList<Dataset>> listDatasetMission = new ArrayList();
+        for(Iterator<Mission> m = listMission.iterator(); m.hasNext();){
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = getMissionDatasetFromDB(dbC, dbKeyUser,m.next().getDbKey(), v2 );
+            if(cr.isError())
+                return cr;
+            listDatasetMission.add((ArrayList<Dataset>)v2.get(0));
+        }
+        v.add(listDatasetMission);
+        return new CopexReturn();
+    }
+
+    private static CopexReturn getMissionDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission , ArrayList v){
+        ArrayList<Dataset> listDataset = new ArrayList();
+        String query = "SELECT D.ID_DATASET, D.DATASET_NAME  " +
+                " FROM DATASET D, LINK_DATASET_MISSION_USER  L WHERE " +
+                "L.ID_DATASET = D.ID_DATASET AND L.ID_MISSION = "+dbKeyMission+" AND L.ID_USER = "+dbKeyUser+" ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("D.ID_DATASET");
+        listFields.add("D.DATASET_NAME");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("D.ID_DATASET");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String name = rs.getColumnData("D.DATASET_NAME");
+            if (name == null)
+                continue;
+
+            //creation du dataset
+            Dataset ds= new Dataset(dbKey, name);
+            listDataset.add(ds);
+        }
+        v.add(listDataset);
+        return new CopexReturn();
+    }
+    
     /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
@@ -328,7 +376,7 @@ public class DatasetFromDB {
         String[] querys = new String[15];
         // suppression des visualisations associees 
         String queryDelVisType = "DELETE FROM LINK_VISUALIZATION_TYPE WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
-        String queryDelVisNo = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM  LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ " ) ;";
+        String queryDelVisNo = "DELETE FROM PIE_BAR_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM  LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ " ) ;";
         String queryDelParamGraph = "DELETE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelVis = "DELETE FROM DATA_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelLinkVis = "DELETE FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ " ;";
@@ -406,14 +454,18 @@ public class DatasetFromDB {
         type = MyUtilities.replace("\'",type,"''") ;
         description = MyUtilities.replace("\'",description,"''") ;
         String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"') ;";
+        System.out.println("createDataHeaderInDB : "+query);
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
+        System.out.println("createDataHeaderInDB : "+queryID);
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);
+        System.out.println("==> dbKey : "+dbKey);
         // lien dataset / header
         query = "INSERT INTO LINK_DATASET_HEADER (ID_DATASET, ID_HEADER) VALUES ("+dbKeyDs+", "+dbKey+") ;";
+        System.out.println("cree lien : "+query);
         String[] querys = new String[1];
         querys[0] = query;
         v2 = new ArrayList();
@@ -532,17 +584,15 @@ public class DatasetFromDB {
     }
 
     /* chargement de tous les visualizations d'un dataset donne */
-    public static CopexReturn getAllDatasetVisualizationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeVisualization[] tabTypeVis, DataHeader[] listCols, ArrayList v){
+    public static CopexReturn getAllDatasetVisualizationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeVisualization[] tabTypeVis, Color[] plotsColor, Color[] functionsColor,DataHeader[] listCols, ArrayList v){
         ArrayList<Visualization> listDataVis = new ArrayList();
-        String query = "SELECT D.ID_DATA_VISUALIZATION, D.VIS_NAME, D.IS_ON_COL, D.HEADER_LABEL, T.ID_TYPE_VISUALIZATION " +
+        String query = "SELECT D.ID_DATA_VISUALIZATION, D.VIS_NAME, T.ID_TYPE_VISUALIZATION " +
                 "FROM DATA_VISUALIZATION D, LINK_DATASET_VISUALIZATION L, LINK_VISUALIZATION_TYPE T " +
                 "WHERE D.ID_DATA_VISUALIZATION = L.ID_DATA_VISUALIZATION AND L.ID_DATASET = "+dbKeyDs+"  AND D.ID_DATA_VISUALIZATION = T.ID_DATA_VISUALIZATION;  ";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("D.ID_DATA_VISUALIZATION");
         listFields.add("D.VIS_NAME");
-        listFields.add("D.IS_ON_COL");
-        listFields.add("D.HEADER_LABEL");
         listFields.add("T.ID_TYPE_VISUALIZATION");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
@@ -558,29 +608,6 @@ public class DatasetFromDB {
             String name = rs.getColumnData("D.VIS_NAME");
             if (name == null)
                 continue;
-            s = rs.getColumnData("D.IS_ON_COL");
-            if (s == null)
-                continue;
-            int n = 0;
-            try{
-                n = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-                System.out.println(e);
-            }
-            boolean isOnCol = n==1;
-            s = rs.getColumnData("D.HEADER_LABEL");
-            if (s == null)
-                continue;
-            int idHeaderLabel = -1;
-            try{
-                idHeaderLabel = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-                System.out.println(e);
-            }
-            DataHeader headerLabel = null;
-            if(idHeaderLabel !=-1){
-                headerLabel = listCols[idHeaderLabel];
-            }
             s = rs.getColumnData("T.ID_TYPE_VISUALIZATION");
             if (s == null)
                 continue;
@@ -595,29 +622,27 @@ public class DatasetFromDB {
             }
             if (typeVisualization == null)
                 return new CopexReturn("ERROR TYPE VISUALIZATION", false);
-            // list des numeros de col/row surlesquells s'applique l'operation
-            ArrayList v3 = new ArrayList();
-            cr = getAllNoVisualization(dbC, dbKey, v3);
-            if (cr.isError())
-                return cr;
-            int no = (Integer)v3.get(0);
-            Visualization vis;
+            // si pie ou bar
+            Visualization vis = null;
+            if (typeVisualization.getCode() == DataConstants.VIS_BAR || typeVisualization.getCode() == DataConstants.VIS_PIE){
+                ArrayList v3 = new ArrayList();
+                cr = getSimpleVisualizationFromDB(dbC, dbKey, name, typeVisualization, listCols, v3);
+                if (cr.isError())
+                    return cr;
+                vis = (SimpleVisualization)v3.get(0);
+            }else if (typeVisualization.getCode() == DataConstants.VIS_GRAPH){
             // eventuellement charge les donnees du graphe
-            if (typeVisualization.getCode() == DataConstants.VIS_GRAPH){
-                v3 = new ArrayList();
-                cr = getAllParamGraph(dbC, dbKey, listCols, v3);
+                ArrayList v3 = new ArrayList();
+                cr = getAllParamGraph(dbC, dbKey, listCols, plotsColor, v3);
                 if (cr.isError())
                     return cr;
                 ParamGraph paramGraph = (ParamGraph)v3.get(0);
                 v3 = new ArrayList();
-                cr = getAllFunctionModelGraphFromDB(dbC, dbKey, v3);
+                cr = getAllFunctionModelGraphFromDB(dbC, dbKey, functionsColor, v3);
                 if (cr.isError())
                     return cr;
                 ArrayList<FunctionModel> listFunctionModel = (ArrayList<FunctionModel>)v3.get(0);
                 vis = new Graph(dbKey, name, typeVisualization, paramGraph, listFunctionModel) ;
-            }else{
-                // creation objet dataVisualization
-                vis = new SimpleVisualization(dbKey, name, typeVisualization,  no, headerLabel);
             }
             listDataVis.add(vis);
         }
@@ -626,39 +651,55 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
-    /* chargement des no col/lignes de la vis*/
-    private static CopexReturn getAllNoVisualization(DataBaseCommunication dbC, long dbKey, ArrayList v){
-            // list des numeros de col/row surlesquells s'applique la visualizaztion
-            Integer no=-1 ;
-            int nb = 0;
-            String query = "SELECT NO FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
-            ArrayList v2 = new ArrayList();
-            ArrayList<String> listFields = new ArrayList();
-            listFields.add("NO");
-            CopexReturn cr = dbC.sendQuery(query, listFields, v2);
-            if (cr.isError())
-                return cr;
-            int nbR = v2.size();
-            for (int i=0; i<nbR; i++){
-                ResultSetXML rs = (ResultSetXML)v2.get(i);
-                String s = rs.getColumnData("NO");
-                if (s == null)
-                    continue;
+    private static CopexReturn getSimpleVisualizationFromDB(DataBaseCommunication dbC, long dbKey,String name, TypeVisualization type, DataHeader[] listCols, ArrayList v){
+        SimpleVisualization vis = null;
+        String query = "SELECT ID_HEADER, ID_HEADER_LABEL FROM PIE_BAR_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_HEADER");
+        listFields.add("ID_HEADER_LABEL");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_HEADER");
+            if (s == null)
+                continue;
+            long dbKeyHeader = Long.parseLong(s);
+            DataHeader header = getHeader(dbKeyHeader, listCols);
+            s = rs.getColumnData("ID_HEADER_LABEL");
+            long dbKeyHeaderLabel = -1;
+            if(s != null){
                 try{
-                    no = Integer.parseInt(s);
+                    dbKeyHeaderLabel = Long.parseLong(s);
                 }catch(NumberFormatException e){
-                    System.out.println(e);
+
                 }
-                nb++;
             }
-            v.add(no);
-            return new CopexReturn();
+            DataHeader headerLabel = null;
+            if(dbKeyHeaderLabel != -1)
+                headerLabel = getHeader(dbKeyHeaderLabel, listCols);
+            vis = new SimpleVisualization(dbKey, name, type, header, headerLabel);
+        }
+        v.add(vis);
+        return new CopexReturn();
+    }
+
+    private static DataHeader getHeader(long dbKey, DataHeader[] list){
+        for(int i=0; i<list.length; i++){
+            if(list[i] != null && list[i].getDbKey() == dbKey)
+                return list[i];
+        }
+        return null;
     }
 
     /* chargement des parametres d'un graphe */
-    public static CopexReturn getAllParamGraph(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol, ArrayList v){
+    public static CopexReturn getAllParamGraph(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol, Color[] plotsColor, ArrayList v){
         ParamGraph param = null;
-        String query = "SELECT X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y DELTA_FIXED_AUTOSCALE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
+        String query = "SELECT X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y, DELTA_FIXED_AUTOSCALE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("X_MIN");
@@ -730,38 +771,34 @@ public class DatasetFromDB {
                 int d = Integer.parseInt(s);
                 if(d==1)
                     deltaFixedAutoscale = true;
+                System.out.println("d ... "+d);
             }catch(NumberFormatException e){
                 
             }
             ArrayList v3 = new ArrayList();
-            cr= getAllPlotsXYFromDB(dbC, dbKey, listCol, v3);
+            cr= getAllPlotsXYFromDB(dbC, dbKey, listCol, plotsColor, v3);
             if(cr.isError())
                 return cr;
             ArrayList<PlotXY> plots = (ArrayList<PlotXY>)v3.get(0);
             param = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, deltaFixedAutoscale);
-
         }
         v.add(param);
         return new CopexReturn();
     }
 
     /* chargement des plots xy*/
-    private static CopexReturn getAllPlotsXYFromDB(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol, ArrayList v){
+    private static CopexReturn getAllPlotsXYFromDB(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol,Color[] plotsColor, ArrayList v){
         ArrayList<PlotXY> plots = new ArrayList();
-        String query = "SELECT P.ID_PLOT, P.ID_HEADER_X, P.ID_HEADER_Y, P.NO_PLOT, P.PLOT_COLOR_R, P.PLOT_COLOR_G, P.PLOT_COLOR_G " +
+        String query = "SELECT P.ID_PLOT, P.ID_HEADER_X, P.ID_HEADER_Y, P.ID_PLOT_COLOR " +
                 "FROM PLOT_XY_GRAPH P, LINK_GRAPH_PLOT L " +
                 "WHERE L.ID_DATA_VISUALIZATION = "+dbKey+" AND " +
-                "L.ID_PLOT = P.ID_PLOT " +
-                "ORDER BY P.NO_PLOT;";
+                "L.ID_PLOT = P.ID_PLOT ;" ;
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("P.ID_PLOT");
         listFields.add("P.ID_HEADER_X");
         listFields.add("P.ID_HEADER_Y");
-        listFields.add("P.NO_PLOT");
-        listFields.add("P.PLOT_COLOR_R");
-        listFields.add("P.PLOT_COLOR_G");
-        listFields.add("P.PLOT_COLOR_B");
+        listFields.add("P.ID_PLOT_COLOR");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -790,28 +827,13 @@ public class DatasetFromDB {
                     break;
                 }
             }
-            s = rs.getColumnData("P.PLOT_COLOR_R");
-            int red = 0;
+            s = rs.getColumnData("P.ID_PLOT_COLOR");
+            int idPlotColor = -1;
             try{
-                red = Integer.parseInt(s);
+                idPlotColor = Integer.parseInt(s);
             }catch(NumberFormatException e){
-
             }
-            s = rs.getColumnData("P.PLOT_COLOR_G");
-            int green = 0;
-            try{
-                green = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-
-            }
-            s = rs.getColumnData("P.PLOT_COLOR_B");
-            int blue = 0;
-            try{
-                blue = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-
-            }
-            Color plotColor = new Color(red, green, blue);
+            Color plotColor = plotsColor[idPlotColor];
             PlotXY plot = new PlotXY(headerX, headerY, plotColor);
             plots.add(plot);
 
@@ -860,18 +882,16 @@ public class DatasetFromDB {
 
 
     /* chargement de la liste des function  model */
-    private static CopexReturn getAllFunctionModelGraphFromDB(DataBaseCommunication dbC, long dbKeyGraph, ArrayList v){
+    private static CopexReturn getAllFunctionModelGraphFromDB(DataBaseCommunication dbC, long dbKeyGraph, Color[] functionsColor, ArrayList v){
         ArrayList<FunctionModel> listFunctionModel = new ArrayList();
-        String query = "SELECT F.ID_FUNCTION_MODEL, F.DESCRIPTION, F.COLOR_R, F.COLOR_G, F.COLOR_B " +
+        String query = "SELECT F.ID_FUNCTION_MODEL, F.DESCRIPTION, F.ID_FUNCTION_COLOR " +
                 "FROM FUNCTION_MODEL F, LINK_GRAPH_FUNCTION_MODEL  L " +
                 "WHERE L.ID_DATA_VISUALIZATION = "+dbKeyGraph+" AND L.ID_FUNCTION_MODEL = L.ID_FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("F.ID_FUNCTION_MODEL");
         listFields.add("F.DESCRIPTION");
-        listFields.add("F.COLOR_R");
-        listFields.add("F.COLOR_G");
-        listFields.add("F.COLOR_B");
+        listFields.add("F.ID_FUNCTION_COLOR");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -883,39 +903,22 @@ public class DatasetFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             String description = rs.getColumnData("F.DESCRIPTION");
-            s = rs.getColumnData("F.COLOR_R");
+            s = rs.getColumnData("F.ID_FUNCTION_COLOR");
             if (s==null)
                 continue;
-            int colorR = 0;
+            int idFunctionColor = -1;
             try{
-                colorR = Integer.parseInt(s);
+                idFunctionColor = Integer.parseInt(s);
             }catch(NumberFormatException e){
 
             }
-            s = rs.getColumnData("F.COLOR_G");
-            if (s==null)
-                continue;
-            int colorG = 0;
-            try{
-                colorG = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-
-            }
-            s = rs.getColumnData("F.COLOR_B");
-            if (s==null)
-                continue;
-            int colorB = 0;
-            try{
-                colorB = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-
-            }
+            Color functionColor = functionsColor[idFunctionColor];
             ArrayList v3 = new ArrayList();
             cr = getAllFunctionParamFromDB(dbC, dbKey, v3);
             if(cr.isError())
                 return cr;
             ArrayList<FunctionParam> listParam = (ArrayList<FunctionParam>)v3.get(0);
-            FunctionModel fm = new FunctionModel(dbKey, description, new Color(colorR, colorG, colorB), listParam);
+            FunctionModel fm = new FunctionModel(dbKey, description, functionColor, listParam);
             listFunctionModel.add(fm);
         }
         v.add(listFunctionModel);
@@ -995,9 +998,7 @@ public class DatasetFromDB {
         cr = OperationFromDB.updateNoInDB(dbC, ds.getListOperation());
         if (cr.isError())
             return cr;
-        cr = VisualizationFromDB.updateNoInDB(dbC, ds.getListVisualization());
-        if (cr.isError())
-            return cr;
+        
         return new CopexReturn();
     }
 

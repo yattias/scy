@@ -6,10 +6,8 @@
 package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.common.*;
-import eu.scy.tools.dataProcessTool.dnd.SubData;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.text.NumberFormat;
@@ -212,12 +210,22 @@ public class DataTableModel extends AbstractTableModel {
             }
             owner.updateDataOperation(dataset, v1, operation);
         }else if (isValueData(rowIndex, columnIndex)){
-            if(dataset.getDataHeader(columnIndex-1).getType().equals(MyConstants.TYPE_DOUBLE)){
+            if(dataset.getDataHeader(columnIndex-1).getType().equals(DataConstants.TYPE_DOUBLE)){
                 Double val = null;
                 v1 = v1.replace(",", ".");
                 try{
                     if(v1 != null && !v1.equals("")){
                         val = Double.parseDouble(v1);
+                        if(Double.toString(val).length() > DataConstants.MAX_LENGHT_DATA){
+                            String msg = owner.getBundleString("MSG_LENGHT_MAX");
+                            msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
+                            msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATA);
+                            owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                            setValueAt(oldValue, rowIndex, columnIndex);
+                            table.setValueAt(oldValue, rowIndex, columnIndex);
+                            table.setCellSelected(rowIndex, columnIndex);
+                            return;
+                        }
                         owner.updateData(dataset,Double.toString(val), rowIndex-1, columnIndex-1);
                     }else{
                         owner.updateData(dataset, null, rowIndex-1, columnIndex-1);
@@ -231,6 +239,16 @@ public class DataTableModel extends AbstractTableModel {
                     return;
                 }
             }else{
+                if(v1.length() > DataConstants.MAX_LENGHT_DATA){
+                    String msg = owner.getBundleString("MSG_LENGHT_MAX");
+                    msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
+                    msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATA);
+                    owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    setValueAt(oldValue, rowIndex, columnIndex);
+                    table.setValueAt(oldValue, rowIndex, columnIndex);
+                    table.setCellSelected(rowIndex, columnIndex);
+                    return;
+                }
                 owner.updateData(dataset,v1, rowIndex-1, columnIndex-1);
             }
         }
@@ -758,10 +776,6 @@ public class DataTableModel extends AbstractTableModel {
         return headers ;
     }
 
-    /* move subData */
-    public void moveSubData(SubData subDataToMove, int noColInsertBefore) {
-       
-    }
 
    public int[] getBorders(int row, int col){
        int top = 1;

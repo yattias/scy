@@ -10,8 +10,8 @@ import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.utilities.ActionCopexButton;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlotPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
-import eu.scy.tools.fitex.GUI.DrawPanel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.ImageIcon;
@@ -75,13 +75,13 @@ public class XYPlotPanel extends JPanel implements ActionCopexButton{
     }
 
     private void setTitlePlot(){
-        if(plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_1))
+        if(plotColor.equals(DataConstants.SCATTER_PLOT_COLOR_1))
             titlePlot = owner.getBundleString("LABEL_AXIS_RED");
-        else if( plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_2))
+        else if( plotColor.equals(DataConstants.SCATTER_PLOT_COLOR_2))
             titlePlot = owner.getBundleString("LABEL_AXIS_PURPLE");
-        else if( plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_3))
+        else if( plotColor.equals(DataConstants.SCATTER_PLOT_COLOR_3))
             titlePlot = owner.getBundleString("LABEL_AXIS_ORANGE");
-        else if( plotColor.equals(DrawPanel.SCATTER_PLOT_COLOR_4))
+        else if( plotColor.equals(DataConstants.SCATTER_PLOT_COLOR_4))
             titlePlot = owner.getBundleString("LABEL_AXIS_BROWN");
     }
    public void addActionPlotPanel(ActionPlotPanel action){
