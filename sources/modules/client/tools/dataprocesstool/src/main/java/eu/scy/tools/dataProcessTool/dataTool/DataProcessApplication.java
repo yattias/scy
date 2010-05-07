@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 /**
  *
@@ -52,9 +53,11 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
         });
         
         fitexPanel = new DataProcessToolPanel(fitexURL, Locale.getDefault(), dbKeyMission,dbKeyUser);
+        fitexPanel.addFitexAction(this);
         add(fitexPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
         setTitle(fitexPanel.getBundleString("TITLE_FITEX"));
+        setIconImage(fitexPanel.getIconDialog());
     }
 
     public void load(){
@@ -76,6 +79,16 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
 
 
     public static void main(String args[]) {
+        for (UIManager.LookAndFeelInfo laf :UIManager.getInstalledLookAndFeels() ){
+            if ("Nimbus".equals(laf.getName())) {
+                try {
+                    UIManager.setLookAndFeel(laf.getClassName());
+
+                } catch (Exception e) {
+                    System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+                }
+            }
+        }
         if(args == null || args.length  < 2){
             try {
                 fitexURL = new URL("http://localhost/copex/espaces/");

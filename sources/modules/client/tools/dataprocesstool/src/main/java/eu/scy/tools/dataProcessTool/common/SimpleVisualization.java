@@ -14,23 +14,25 @@ import org.jdom.Element;
 public class SimpleVisualization extends Visualization{
     private final static String TAG_VIS_ID = "id";
     private final static String TAG_VIS_HEADER_LABEL = "header_label";
-    private int noCol;
+    private DataHeader header;
     // if null => no row, else header (type string)
     private DataHeader headerLabel;
 
-    public SimpleVisualization(long dbKey, String name, TypeVisualization type, int noCol, DataHeader headerLabel) {
+    public SimpleVisualization(long dbKey, String name, TypeVisualization type, DataHeader header, DataHeader headerLabel) {
         super(dbKey, name, type);
-        this.noCol = noCol;
+        this.header = header;
         this.headerLabel = headerLabel;
     }
 
-    public int getNoCol() {
-        return noCol;
+    public DataHeader getHeader() {
+        return header;
     }
 
-    public void setNoCol(int noCol) {
-        this.noCol = noCol;
+    public void setHeader(DataHeader header) {
+        this.header = header;
     }
+
+    
 
     public DataHeader getHeaderLabel() {
         return headerLabel;
@@ -44,7 +46,7 @@ public class SimpleVisualization extends Visualization{
      @Override
     public Object clone()  {
         SimpleVisualization vis = (SimpleVisualization) super.clone() ;
-        vis.setNoCol(new Integer(noCol));
+        vis.setHeader((DataHeader)header.clone());
         if(headerLabel == null)
             vis.setHeaderLabel(null);
         else{
@@ -56,7 +58,7 @@ public class SimpleVisualization extends Visualization{
     @Override
      public Element toXMLLog(){
          Element e = super.toXMLLog();
-         e.addContent(new Element(TAG_VIS_ID).setText(Integer.toString(noCol)));
+         e.addContent(new Element(TAG_VIS_ID).setText(Integer.toString(header.getNoCol())));
          if(headerLabel != null)
              e.addContent(new Element(TAG_VIS_HEADER_LABEL).setText(Integer.toString(headerLabel.getNoCol())));
          return e;
@@ -69,12 +71,16 @@ public class SimpleVisualization extends Visualization{
         if(headerLabel != null){
             s += " tagge par la colonne "+headerLabel.getNoCol()+" ";
         }
-         String toString = this.getName()+ " ("+this.getType().getCode()+") on col " + noCol+s+"\n";
+         String toString = this.getName()+ " ("+this.getType().getCode()+") on col " + header.getNoCol()+s+"\n";
          return toString;
      }
 
     @Override
     public boolean isOnNo(int no){
-         return no==noCol || (headerLabel != null && headerLabel.getNoCol() == no);
+         return no==header.getNoCol() || (headerLabel != null && headerLabel.getNoCol() == no);
+    }
+
+    public int getNoCol(){
+        return header.getNoCol();
     }
 }

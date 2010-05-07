@@ -1,5 +1,6 @@
 package eu.scy.tools.fitex.GUI;
 
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -95,7 +96,7 @@ public class DistancePanel extends JPanel{
         if (labelKBlue == null){
             labelKBlue = new JLabel();
             labelKBlue.setName("labelKBlue");
-            labelKBlue.setForeground(java.awt.Color.BLUE);
+            labelKBlue.setForeground(DataConstants.FUNCTION_COLOR_1);
             labelKBlue.setText(NO_DISTANCE);
         }
         return labelKBlue ;
@@ -177,8 +178,8 @@ public class DistancePanel extends JPanel{
     public void setText(Color coul, String txt){
         setPanels();
         JLabel jLab = null ;
-        if (coul == Color.BLUE) jLab = labelKBlue ;
-        else if (coul == FitexPanel.DARK_GREEN ) jLab = labelKGreen ;
+        if (coul == DataConstants.FUNCTION_COLOR_1) jLab = labelKBlue ;
+        else if (coul == DataConstants.FUNCTION_COLOR_2) jLab = labelKGreen ;
         else jLab = labelKBlack ;
         if(jLab != null){
             jLab.setText(txt);

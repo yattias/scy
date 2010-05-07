@@ -5,8 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.pdsELO;
 
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
-import eu.scy.tools.fitex.GUI.DrawPanel;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -80,11 +79,11 @@ public class GraphVisualization extends Visualization {
             }
             // si couleur non definie on attribue les couleurs par defaut
             int id = 0;
-            Color[] tabColor = new Color[MyConstants.MAX_PLOT];
-            tabColor[0] = DrawPanel.SCATTER_PLOT_COLOR_1;
-            tabColor[1] = DrawPanel.SCATTER_PLOT_COLOR_2;
-            tabColor[2] = DrawPanel.SCATTER_PLOT_COLOR_3;
-            tabColor[3] = DrawPanel.SCATTER_PLOT_COLOR_4;
+            Color[] tabColor = new Color[DataConstants.MAX_PLOT];
+            tabColor[0] = DataConstants.SCATTER_PLOT_COLOR_1;
+            tabColor[1] = DataConstants.SCATTER_PLOT_COLOR_2;
+            tabColor[2] = DataConstants.SCATTER_PLOT_COLOR_3;
+            tabColor[3] = DataConstants.SCATTER_PLOT_COLOR_4;
             for (Iterator<XYAxis> a = axis.iterator();a.hasNext();){
                 XYAxis ax = a.next();
                 if(ax.getColorR() == 0 && ax.getColorG() == 0 && ax.getColorB() == 0){
@@ -117,7 +116,7 @@ public class GraphVisualization extends Visualization {
                     y_name = elDef.getChild(TAG_VISUALIZATION_DEF_Y_NAME).getText();
                 }
                 if(x_axis != -1 && y_axis!=-1){
-                    axis.add(new XYAxis(x_axis, y_axis, x_name, y_name, DrawPanel.SCATTER_PLOT_COLOR_1.getRed(), DrawPanel.SCATTER_PLOT_COLOR_1.getGreen(), DrawPanel.SCATTER_PLOT_COLOR_1.getBlue()));
+                    axis.add(new XYAxis(x_axis, y_axis, x_name, y_name, DataConstants.SCATTER_PLOT_COLOR_1.getRed(), DataConstants.SCATTER_PLOT_COLOR_1.getGreen(), DataConstants.SCATTER_PLOT_COLOR_1.getBlue()));
                 }
 
             }
@@ -132,7 +131,7 @@ public class GraphVisualization extends Visualization {
                 this.deltaY = Double.parseDouble(elParam.getChild(TAG_VISUALIZATION_PARAM_DELTAY).getText());
                 deltaFixedAutoscale = false;
                 if(elParam.getChild(TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE) != null)
-                    this.deltaFixedAutoscale = elParam.getChild(TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE).equals("true") ? true : false;
+                    this.deltaFixedAutoscale = elParam.getChildText(TAG_VISUALIZATION_PARAM_DELTA_FIXED_AUTOSCALE).equals("true") ? true : false;
             }catch(NumberFormatException e){
                 throw(new JDOMException("Graph visualization parameters  expects param as Double ."));
             }

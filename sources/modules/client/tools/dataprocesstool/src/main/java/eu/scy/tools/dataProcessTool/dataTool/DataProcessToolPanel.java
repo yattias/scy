@@ -25,7 +25,6 @@ import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -179,7 +178,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     * Instancie l'objet ActionDataProcessTool.
     * @param action ActionDataProcessTool
     */
-    public void addActionCopexButton(ActionDataProcessTool action){
+    public void addFitexAction(ActionDataProcessTool action){
         this.action=action;
     }
 
@@ -368,7 +367,20 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     public void openDialogAddDataset(){
-        OpenFitexDialog openFitexDialog = new OpenFitexDialog(this, dbMode, lastUsedFileOpen, lastUsedFileImport, lastUsedFileMerge);
+        OpenFitexDialog openFitexDialog =null;
+        if(dbMode){
+            ArrayList v = new ArrayList();
+            CopexReturn cr = this.controller.getListDatasetToOpenOrMerge(v);
+            if (cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            ArrayList<Mission> listMission = (ArrayList)v.get(0);
+            ArrayList<ArrayList<Dataset>> listDatasetMission = (ArrayList) v.get(1);
+            openFitexDialog = new OpenFitexDialog(this, dbMode, listMission, listDatasetMission);
+        }else{
+            openFitexDialog = new OpenFitexDialog(this, dbMode, lastUsedFileOpen, lastUsedFileImport, lastUsedFileMerge);
+        }
         openFitexDialog.addOpenFitexAction(this);
         openFitexDialog.setVisible(true);
     }

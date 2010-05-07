@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -133,4 +134,21 @@ public class MyUtilities {
 	return Math.floor((a*p)+0.5) / p;
     }
 
+    /* tri la liste du plus grand au plus petit */
+    public static ArrayList<Integer> getSortList(ArrayList<Integer> list){
+        int nb = list.size();
+        for (int i=1; i<nb; i++){
+            if (list.get(i)> list.get(i-1)){
+                int val = list.get(i);
+                for (int j=0; j<i; j++){
+                    if (list.get(j) < val ){
+                        list.remove(i);
+                        list.add(j, val);
+                        break;
+                    }
+                }
+            }
+        }
+        return list;
+    }
 }

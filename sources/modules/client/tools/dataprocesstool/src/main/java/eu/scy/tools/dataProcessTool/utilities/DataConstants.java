@@ -5,6 +5,8 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
+import java.awt.Color;
+
 
 /**
  * Constantes de l'application
@@ -36,6 +38,7 @@ public class DataConstants {
     public static final int MAX_LENGHT_VISUALIZATION_NAME = 32;
     public static final int MAX_LENGHT_GRAPH_NAME = 32;
     public static final int MAX_LENGHT_AXIS_NAME= 10;
+    public final static int MAX_LENGHT_DATA=128;
 
     /* MODE GRAPH */
     public static final char MODE_ZOOM = 'Z';
@@ -46,6 +49,38 @@ public class DataConstants {
     public static final char NONE_RIGHT='N';
     public static final char EXECUTIVE_RIGHT='X';
 
+    /* applet de l'applet venant de SCY*/
+    public final static int SCY_MODE = 0;
+    /* appel de l'applet venant su site COPEX */
+    public final static int COPEX_MODE = 1;
+
+    /* base copex */
+    public final static int DB_COPEX = 0;
+    /* base editeur de protocole */
+    public final static int DB_COPEX_EDP = 1;
+    /* base data tool */
+    public final static int DB_COPEX_DATA = 2 ;
+
+    /* nombre max de plots */
+    public final static int MAX_PLOT = 4;
+    /* couleur points graphique */
+    public static final Color SCATTER_PLOT_COLOR_1 = Color.RED ;
+    public static final Color SCATTER_PLOT_COLOR_2 = new Color(153,0,153);
+    public static final Color SCATTER_PLOT_COLOR_3 = new Color(255,120,0);
+    public static final Color SCATTER_PLOT_COLOR_4 = new Color(102,51,0);
+
+    /* default type of a column */
+    public final static String DEFAULT_TYPE_COLUMN = "double";
+    public final static String TYPE_DOUBLE = "double";
+    public final static String TYPE_STRING = "String";
+
+    /* nombre max de plotsfonctions */
+    public final static int MAX_FUNCTION = 43;
+    /* couleur points graphique */
+    public static final Color FUNCTION_COLOR_1 = Color.BLUE ;
+    public static final Color FUNCTION_COLOR_2 = new Color(51, 153, 0);
+    public static final Color FUNCTION_COLOR_3 = Color.BLACK;
+    
     /* LOG TYPE */
     public static final String LOG_TYPE_START_TOOL = "start_tool";
     public static final String LOG_TYPE_END_TOOL = "end_tool";

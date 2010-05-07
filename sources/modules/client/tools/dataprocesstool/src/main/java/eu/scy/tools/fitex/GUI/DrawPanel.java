@@ -34,11 +34,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Marjolaine
  */
 public class DrawPanel extends javax.swing.JPanel {
-    /* couleur points graphique */
-    public static final Color SCATTER_PLOT_COLOR_1 = Color.RED ;
-    public static final Color SCATTER_PLOT_COLOR_2 = new Color(153,0,153);
-    public static final Color SCATTER_PLOT_COLOR_3 = new Color(255,120,0);
-    public static final Color SCATTER_PLOT_COLOR_4 = new Color(102,51,0);
+    
     /*font axes */
     private final static Font axisFont = new Font("dialog", Font.ITALIC, 10);
     private final static Font axisNameFont = new Font("dialog", Font.BOLD, 10);
@@ -80,7 +76,7 @@ public class DrawPanel extends javax.swing.JPanel {
     private int width ;
     private int height ;
     // couleur de la courbe selectionnee (initialement bleue)
-    private Color couleurSelect=Color.BLUE ;
+    private Color couleurSelect=DataConstants.FUNCTION_COLOR_1 ;
     /* indique si dessine le carre de zoom */
     private boolean isZoom;
     // move :
@@ -251,9 +247,9 @@ public class DrawPanel extends javax.swing.JPanel {
         // affichage coord
         tracerCoord(g);
         // MaJ des paramietres de distance
-        fitexPanel.affichageK(Color.BLUE) ;
-        fitexPanel.affichageK(FitexPanel.DARK_GREEN) ;
-        fitexPanel.affichageK(Color.BLACK) ;
+        fitexPanel.affichageK(DataConstants.FUNCTION_COLOR_1) ;
+        fitexPanel.affichageK(DataConstants.FUNCTION_COLOR_2) ;
+        fitexPanel.affichageK(DataConstants.FUNCTION_COLOR_3) ;
     }
 
     public void effacerZone(Graphics g){

@@ -6,6 +6,9 @@
 package eu.scy.tools.dataProcessTool.db;
 
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
+import eu.scy.tools.dataProcessTool.common.Graph;
+import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
@@ -13,6 +16,8 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * gestion de la visualisation des donnees dans la base
@@ -20,17 +25,18 @@ import java.util.ArrayList;
  */
 public class VisualizationFromDB {
     /* chargement des types de visualization : liste en v[0] */
-    public static CopexReturn getAllTypeVisualizationFromDB(DataBaseCommunication dbC, ArrayList v){
+    public static CopexReturn getAllTypeVisualizationFromDB(DataBaseCommunication dbC, Locale locale, ArrayList v){
         ArrayList<TypeVisualization> listVis = new ArrayList();
         TypeVisualization[] tabTypeVis = null;
         int nbVis = 0;
-        String query = "SELECT ID_TYPE_VISUALIZATION, CODE, TYPE, NB_COL_PARAM FROM TYPE_VISUALIZATION ;";
+        String lib = "LIBELLE_"+locale.getLanguage();
+        String query = "SELECT ID_TYPE_VISUALIZATION, CODE, "+lib+", NB_COL_PARAM FROM TYPE_VISUALIZATION ;";
 
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ID_TYPE_VISUALIZATION");
         listFields.add("CODE");
-        listFields.add("TYPE");
+        listFields.add(lib);
         listFields.add("NB_COL_PARAM");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
@@ -43,18 +49,16 @@ public class VisualizationFromDB {
             if (s == null)
                 continue;
             long dbKey = Long.parseLong(s);
-            String code = rs.getColumnData("CODE");
-            if (code == null)
-                continue;
-            s = rs.getColumnData("TYPE");
+            s = rs.getColumnData("CODE");
             if (s == null)
                 continue;
-            int type = 0;
+            int code = -1;
             try{
-                type = Integer.parseInt(s);
+                code = Integer.parseInt(s);
             }catch(NumberFormatException e){
-
+                
             }
+            String name = rs.getColumnData(lib);
             int nbColParam = 1;
             s = rs.getColumnData("NB_COL_PARAM");
             if (s == null)
@@ -65,7 +69,7 @@ public class VisualizationFromDB {
 
             }
             
-            TypeVisualization vis = new TypeVisualization(dbKey, type, code, nbColParam);
+            TypeVisualization vis = new TypeVisualization(dbKey, code,name, nbColParam);
             listVis.add(vis);
             nbVis++;
         }
@@ -90,10 +94,10 @@ public class VisualizationFromDB {
     }
     
     /*creation d'une nouvelle visualisation - retourne en v[0] le nouvel id*/
-    public static CopexReturn createVisualizationInDB(DataBaseCommunication dbC, long dbKeyDs, Visualization visualization, ArrayList v){
+    public static CopexReturn createVisualizationInDB(DataBaseCommunication dbC, long dbKeyDs, Visualization visualization, Color[] plotsColor,ArrayList v){
         String name = visualization.getName() ;
         name  = MyUtilities.replace("\'",name,"''") ;
-       String query = "INSERT INTO DATA_VISUALIZATION (ID_DATA_VISUALIZATION, VIS_NAME) VALUES (NULL, '"+name+"') ;";
+        String query = "INSERT INTO DATA_VISUALIZATION (ID_DATA_VISUALIZATION, VIS_NAME) VALUES (NULL, '"+name+"') ;";
         String queryID = "SELECT max(last_insert_id(`ID_DATA_VISUALIZATION`))   FROM DATA_VISUALIZATION ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -115,28 +119,80 @@ public class VisualizationFromDB {
         querys[i++] = query2;
         if(visualization instanceof SimpleVisualization){
             for (int k=0; k<nb; k++){
-                String query3 = "INSERT INTO LIST_NO_VISUALIZATION (ID_DATA_VISUALIZATION, NO) VALUES ("+dbKey+", "+((SimpleVisualization)visualization).getNoCol()+"); ";
+                long dbKeyHeader = ((SimpleVisualization)visualization).getHeader().getDbKey();
+                String headerLabel = "NULL";
+                if(((SimpleVisualization)visualization).getHeaderLabel() != null){
+                    headerLabel = Long.toString(((SimpleVisualization)visualization).getHeaderLabel().getDbKey());
+                }
+                String query3 = "INSERT INTO PIE_BAR_VISUALIZATION (ID_DATA_VISUALIZATION, ID_HEADER, ID_HEADER_LABEL) VALUES ("+dbKey+", "+dbKeyHeader+", "+headerLabel+"); ";
                 querys[i++] = query3;
             }
+        }else if(visualization instanceof Graph){
+            // graphe
+            ArrayList v3 = new ArrayList();
+            cr = createGraphInDB(dbC, dbKey, (Graph)visualization, plotsColor, v3);
+            if(cr.isError())
+                return cr;
         }
-        // graphe ?
+        
         v2 = new ArrayList();
         cr = dbC.executeQuery(querys, v2);
         v.add(dbKey);
         return cr;
     }
 
+    /* creation graphe */
+    private static CopexReturn createGraphInDB(DataBaseCommunication dbC, long dbKeyVis,Graph  graph , Color[] plotsColor, ArrayList v){
+        ParamGraph pg = graph.getParamGraph();
+        int deltaFixed = pg.isDeltaFixedAutoscale() ? 1 : 0;
+        String query = "INSERT INTO PARAM_VIS_GRAPH (ID_DATA_VISUALIZATION, X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y, DELTA_FIXED_AUTOSCALE)" +
+                "VALUES ("+dbKeyVis+", "+pg.getX_min()+", "+pg.getX_max()+", "+pg.getY_min()+", "+pg.getY_max()+", "+pg.getDeltaX()+", "+pg.getDeltaY()+", "+deltaFixed+"); ";
+        int nbPlot = pg.getPlots().size();
+        String[] querys = new String[1+nbPlot];
+        int i = 0;
+        querys[i++] = query;
+        for(Iterator<PlotXY> p = pg.getPlots().iterator();p.hasNext();){
+            PlotXY plot = p.next();
+            int idPlotColor = getIdPlotColor(plot.getPlotColor(), plotsColor);
+            String queryPlot = "INSERT INTO PLOT_XY_GRAPH (ID_PLOT, ID_HEADER_X, ID_HEADER_Y, ID_PLOT_COLOR) " +
+                    "VALUES (NULL,"+plot.getHeaderX().getDbKey()+", "+plot.getHeaderY().getDbKey()+", "+idPlotColor+") ;";
+            String queryID = "SELECT max(last_insert_id(`ID_PLOT`))   FROM PLOT_XY_GRAPH ;";
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = dbC.getNewIdInsertInDB(queryPlot, queryID, v2);
+            if (cr.isError())
+                return cr;
+            long dbKeyPlot = (Long)v2.get(0);
+            String queryPlotLink = "INSERT INTO LINK_GRAPH_PLOT (ID_DATA_VISUALIZATION, ID_PLOT) VALUES ("+dbKeyVis+", "+dbKeyPlot+");";
+            querys[i++] = queryPlotLink;
+        }
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        if(cr.isError())
+            return cr;
+        return new CopexReturn();
+    }
+
+    private static int getIdPlotColor(Color pColor, Color[] plotsColor){
+        for(int i=0; i<plotsColor.length; i++){
+            if(plotsColor[i].equals(pColor))
+                return i;
+        }
+        return -1;
+    }
+
     /* suppression d'une visualization en base  */
     public static CopexReturn deleteVisualizationFromDB(DataBaseCommunication dbC, long dbKeyVis){
         ArrayList v = new ArrayList();
-        String[] querys = new String[7];
+        String[] querys = new String[9];
         CopexReturn cr = deletePlotsXYInDB(dbC, dbKeyVis);
         if(cr.isError())
             return cr;
         // suppression des visualisations associees
         String queryDelVisType = "DELETE FROM LINK_VISUALIZATION_TYPE WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
-        String queryDelVisNo = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
+        String queryDelVisNo = "DELETE FROM PIE_BAR_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
         String queryDelParamGraph = "DELETE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
+        String queryDelFunctionParam = "DELETE FROM FUNCTION_PARAM WHERE ID_FUNCTION_PARAM IN (SELECT ID_FUNCTION_PARAM FROM LINK_FUNCTION_PARAM WHERE ID_FUNCTION_MODEL IN (SELECT ID_FUNCTION_MODEL FROM LINK_GRAPH_FUNCTION_MODEL WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+"));";
+        String queryDelFunctionParamLink = "DELETE FROM LINK_FUNCTION_PARAM WHERE ID_FUNCTION_MODEL IN (SELECT ID_FUNCTION_MODEL FROM LINK_GRAPH_FUNCTION_MODEL WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+");";
         String queryDelFunction = "DELETE FROM FUNCTION_MODEL WHERE ID_FUNCTION_MODEL IN (SELECT ID_FUNCTION_MODEL FROM LINK_GRAPH_FUNCTION_MODEL WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+");";
         String queryDelFunctionLink  = "DELETE FROM LINK_GRAPH_FUNCTION_MODEL WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+";";
         String queryDelVis = "DELETE FROM DATA_VISUALIZATION WHERE ID_DATA_VISUALIZATION  = "+dbKeyVis+" ;";
@@ -147,6 +203,8 @@ public class VisualizationFromDB {
         querys[i++] = queryDelVisType;
         querys[i++] = queryDelVisNo ;
         querys[i++] = queryDelParamGraph ;
+        querys[i++] = queryDelFunctionParam;
+        querys[i++] = queryDelFunctionParamLink;
         querys[i++] = queryDelFunction;
         querys[i++] = queryDelFunctionLink;
         querys[i++] = queryDelVis ;
@@ -167,15 +225,13 @@ public class VisualizationFromDB {
         querys[i++] = queryDel ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
-
-
     }
 
 
     /* ajout d'une fonction modele, en v[0] le nouvel id  */
-    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v){
+    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, int idFunctionColor, ArrayList<FunctionParam> listParam, ArrayList v){
         String desc  = MyUtilities.replace("\'",description,"''") ;
-        String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, COLOR_R, COLOR_G, COLOR_B) VALUES (NULL, '"+desc+"',"+fColor.getRed()+" , "+fColor.getGreen()+","+fColor.getBlue()+" ) ;";
+        String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, ID_FUNCTION_COLOR) VALUES (NULL, '"+desc+"',"+idFunctionColor+" );";
         String queryID = "SELECT max(last_insert_id(`ID_FUNCTION_MODEL`))   FROM FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -291,29 +347,17 @@ public class VisualizationFromDB {
         return new CopexReturn();
     }
 
-    /* mise a jour des no : on supprime tout et on recree tout */
-    public static CopexReturn updateNoInDB(DataBaseCommunication dbC, ArrayList<Visualization> listVisualization){
+    /* modification des axes */
+    public static CopexReturn updateGraphParamInDB(DataBaseCommunication dbC, long dbKeyGraph, ParamGraph pg){
+        int deltaFixed = pg.isDeltaFixedAutoscale() ? 1 : 0;
+        String query = "UPDATE PARAM_VIS_GRAPH SET  X_MIN = "+pg.getX_min()+", X_MAX = "+pg.getX_max()+", " +
+                "Y_MIN = "+pg.getY_min()+", Y_MAX = "+pg.getY_max()+", " +
+                "DELTA_X = "+pg.getDeltaX()+", DELTA_Y = "+pg.getDeltaY()+", DELTA_FIXED_AUTOSCALE = " +deltaFixed + " "+
+                "WHERE ID_DATA_VISUALIZATION = "+dbKeyGraph+ " ; ";
+        String[] querys = new String[1];
+        querys[0] = query ;
         ArrayList v2 = new ArrayList();
-        int nbVis= listVisualization.size();
-        String[] querys = new String[nbVis] ;
-        for (int i=0; i<nbVis; i++){
-            querys[i] = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+listVisualization.get(i).getDbKey()+" ;";
-        }
         CopexReturn cr = dbC.executeQuery(querys, v2);
-        if(cr.isError())
-            return cr;
-        ArrayList<String> listQ = new ArrayList();
-        for (int i=0; i<nbVis; i++){
-            if(listVisualization.get(i) instanceof SimpleVisualization){
-                listQ.add("INSERT INTO LIST_NO_VISUALIZATION (ID_DATA_VISUALIZATION, NO) VALUES ("+listVisualization.get(i).getDbKey()+", "+((SimpleVisualization)listVisualization.get(i)).getNoCol()+") ;");
-            }
-        }
-        int nb = listQ.size();
-        querys = new String[nb];
-        for (int i=0; i<nb; i++){
-            querys[i] = listQ.get(i);
-        }
-        cr = dbC.executeQuery(querys, v2);
         return cr;
     }
 }

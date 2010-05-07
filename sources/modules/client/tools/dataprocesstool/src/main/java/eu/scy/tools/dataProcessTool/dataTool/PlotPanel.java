@@ -9,9 +9,8 @@ import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlot;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlotPanel;
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
-import eu.scy.tools.fitex.GUI.DrawPanel;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,11 +36,11 @@ public class PlotPanel extends JPanel implements  ActionPlotPanel {
         super();
         this.owner = owner;
         this.listCol = listCol;
-        tabColor = new Color[MyConstants.MAX_PLOT];
-        tabColor[0] = DrawPanel.SCATTER_PLOT_COLOR_1;
-        tabColor[1] = DrawPanel.SCATTER_PLOT_COLOR_2;
-        tabColor[2] = DrawPanel.SCATTER_PLOT_COLOR_3;
-        tabColor[3] = DrawPanel.SCATTER_PLOT_COLOR_4;
+        tabColor = new Color[DataConstants.MAX_PLOT];
+        tabColor[0] = DataConstants.SCATTER_PLOT_COLOR_1;
+        tabColor[1] = DataConstants.SCATTER_PLOT_COLOR_2;
+        tabColor[2] = DataConstants.SCATTER_PLOT_COLOR_3;
+        tabColor[3] = DataConstants.SCATTER_PLOT_COLOR_4;
         listPlotPanel = new ArrayList();
         initGUI();
     }
@@ -124,7 +123,7 @@ public class PlotPanel extends JPanel implements  ActionPlotPanel {
             p.next().setRemoveEnabled(removeEnabled);
         }
         //buttonAddPlot.setEnabled(nb < MyConstants.MAX_PLOT && nb < listCol.length && controlUnitCoherence());
-        buttonAddPlot.setEnabled(nb < MyConstants.MAX_PLOT && nb < listCol.length );
+        buttonAddPlot.setEnabled(nb < DataConstants.MAX_PLOT && nb < listCol.length );
     }
     
     private void addPlot(){

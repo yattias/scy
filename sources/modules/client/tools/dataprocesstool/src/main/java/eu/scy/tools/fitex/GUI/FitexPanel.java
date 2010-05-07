@@ -47,8 +47,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FitexPanel extends javax.swing.JPanel {
 
-     // definition d'une couleur vert fonce
-    public static  final Color DARK_GREEN = new java.awt.Color(51, 153, 0) ;
     
     private FitexToolPanel owner;
     /* donnees */
@@ -65,7 +63,7 @@ public class FitexPanel extends javax.swing.JPanel {
     private int width ;
     private int height ;
     // couleur de la courbe selectionnee (initialement bleue)
-    private Color couleurSelect=Color.BLUE ;
+    private Color couleurSelect=DataConstants.FUNCTION_COLOR_1 ;
 
     // stockage des fonctions
     private HashMap<Color,Function> mapDesFonctions = new HashMap<Color,Function>();
@@ -172,7 +170,7 @@ public class FitexPanel extends javax.swing.JPanel {
             rbBlue.setMargin(new java.awt.Insets(0, 0, 0, 0));
             rbBlue.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    maJFonction(Color.BLUE);
+                    maJFonction(DataConstants.FUNCTION_COLOR_1);
                     rbBlue.setSelected(true);
                     if(rbGreen != null)
                             rbGreen.setSelected(false);
@@ -195,7 +193,7 @@ public class FitexPanel extends javax.swing.JPanel {
             rbGreen.setMargin(new java.awt.Insets(0, 0, 0, 0));
             rbGreen.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    maJFonction(DARK_GREEN);
+                    maJFonction(DataConstants.FUNCTION_COLOR_2);
                     rbGreen.setSelected(true);
                     rbBlue.setSelected(false);
                     if(rbBlack != null)
@@ -216,7 +214,7 @@ public class FitexPanel extends javax.swing.JPanel {
             rbBlack.setMargin(new java.awt.Insets(0, 0, 0, 0));
             rbBlack.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    maJFonction(Color.BLACK);
+                    maJFonction(DataConstants.FUNCTION_COLOR_3);
                     rbBlack.setSelected(true);
                     rbBlue.setSelected(false);
                     if(rbGreen != null)
@@ -242,7 +240,7 @@ public class FitexPanel extends javax.swing.JPanel {
         if (textFieldFct == null){
             textFieldFct = new JTextField();
             textFieldFct.setName("textFieldFct");
-            textFieldFct.setForeground(java.awt.Color.BLUE);
+            textFieldFct.setForeground(DataConstants.FUNCTION_COLOR_1);
             textFieldFct.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -387,7 +385,7 @@ public class FitexPanel extends javax.swing.JPanel {
             affichageParametres(fm.getColor()) ;
         }
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
-        maJFonction(Color.BLUE);
+        maJFonction(DataConstants.FUNCTION_COLOR_1);
     }
     
     /** miethode pour riecupierer les paramietres des axes et de la ZdT */

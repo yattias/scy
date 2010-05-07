@@ -5,7 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import org.jdom.Element;
 
 /**
@@ -92,7 +92,7 @@ public class DataHeader implements Cloneable {
     }
 
     public boolean isDouble(){
-        return getType().equals(MyConstants.TYPE_DOUBLE);
+        return getType().equals(DataConstants.TYPE_DOUBLE);
     }
 
     public boolean isUnitNull(){

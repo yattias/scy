@@ -9,7 +9,6 @@ import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
-import eu.scy.tools.dataProcessTool.dnd.SubDataTransfertHandler;
 import eu.scy.tools.dataProcessTool.undoRedo.DataUndoManager;
 import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import java.awt.Color;
@@ -64,9 +63,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* undo/redo */
     private DataUndoManager undoManager;
-    /* drag and drop */
-    private SubDataTransfertHandler transferHandler;
-
+    
     //min d'une colonne
     private int min_column_width = 100;
     private int ownerWidth = 500;

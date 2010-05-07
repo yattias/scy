@@ -12,7 +12,6 @@ import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
-import eu.scy.tools.dataProcessTool.dnd.SubData;
 import java.util.ArrayList;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.awt.Color;
@@ -79,10 +78,9 @@ public interface ControllerInterface {
     /* impression */
     public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph);
 
-    /* drag and drop de colonnes */
-    public CopexReturn moveSubData(SubData subDataToMove, int noColInsertBefore, ArrayList v);
-
-    /* mise a jour dataset apres sort */
+    /* retourne la liste des missions et la liste des dataset / mission */
+    public CopexReturn getListDatasetToOpenOrMerge(ArrayList v);
+   /* mise a jour dataset apres sort */
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v);
 
     /* creation d'un dataset avec l'en tete - 1 ligne de donnees */

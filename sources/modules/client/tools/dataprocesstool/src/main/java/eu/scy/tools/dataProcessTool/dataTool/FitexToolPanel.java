@@ -35,7 +35,6 @@ import eu.scy.tools.dataProcessTool.utilities.ActionMenu;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
@@ -650,7 +649,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public void openDialogGraphParam(Visualization vis){
         if(vis instanceof Graph){
-            GraphParamDialog dialog = new GraphParamDialog(this, vis, dataset.getListDataHeader());
+            GraphParamDialog dialog = new GraphParamDialog(this, vis, dataset.getListDataHeaderDouble(true));
             dialog.setVisible(true);
         }else{
             GraphParamDialog dialog = new GraphParamDialog(this, vis);
@@ -721,7 +720,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public boolean createVisualization(String name, TypeVisualization typeVis, DataHeader header1, DataHeader headerLabel, ArrayList<PlotXY> listPlot){
         Visualization vis = null;
         if(header1 != null){
-            vis = new SimpleVisualization(-1, name, typeVis, header1.getNoCol(), headerLabel) ;
+            vis = new SimpleVisualization(-1, name, typeVis, header1, headerLabel) ;
         }else
         if (typeVis.getCode() == DataConstants.VIS_GRAPH){
             ParamGraph paramGraph = new ParamGraph(listPlot, -10, 10,  -10,10,1,1, false);
@@ -877,7 +876,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : (ds.getDataHeader(colIndex).getUnit() == null ? "" : ds.getDataHeader(colIndex).getUnit());
         String oldDescription = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getDescription();
-        String oldType = ds.getDataHeader(colIndex) == null ? MyConstants.DEFAULT_TYPE_COLUMN : ds.getDataHeader(colIndex).getType();
+        String oldType = ds.getDataHeader(colIndex) == null ? DataConstants.DEFAULT_TYPE_COLUMN : ds.getDataHeader(colIndex).getType();
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, v);
         if (cr.isError()){

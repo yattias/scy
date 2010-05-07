@@ -8,7 +8,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.MyConstants;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
@@ -71,6 +71,18 @@ public class OpenFitexDialog extends JDialog {
         this.lastUsedFileOpen = openFile;
         this.lastUsedFileImport = importFile;
         this.lastUsedFileMerge = mergeFile;
+        initGUI();
+        setResizable(false);
+        setModal(true);
+        setLocationRelativeTo(owner);
+    }
+
+    public OpenFitexDialog(DataProcessToolPanel owner, boolean dbMode,ArrayList<Mission> listMission, ArrayList<ArrayList<Dataset>> listDatasetMission){
+        super();
+        this.owner = owner;
+        this.dbMode = dbMode;
+        this.listMission = listMission;
+        this.listDatasetMission = listDatasetMission;
         initGUI();
         setResizable(false);
         setModal(true);
@@ -472,10 +484,10 @@ public class OpenFitexDialog extends JDialog {
         boolean create = this.rbCreate.isSelected();
         if(create){
             String dsName = this.fieldName.getText();
-            if (dsName.length() > MyConstants.MAX_LENGHT_DATASET_NAME){
+            if (dsName.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
                 String msg = owner.getBundleString("MSG_LENGHT_MAX");
                 msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NEW_NAME_DATASET"));
-                msg = MyUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_DATASET_NAME);
+                msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
                 owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
