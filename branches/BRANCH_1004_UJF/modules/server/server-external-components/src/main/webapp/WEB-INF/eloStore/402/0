@@ -61,7 +61,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<simconfig simulationname="energy_converter" simulationuri="http://www.scy-lab.eu:8080/sqzx/co2_converter.sqzx">
+<simconfig simulationname="energy_converter" simulationuri="http://www.scy-lab.eu/sqzx/co2_converter.sqzx">
   <variable name="E" value="0.0" />
   <variable name="fuelinfo" value="Matrix" />
   <variable name="Ecoeff" value="1.0" />
