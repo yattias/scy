@@ -10,23 +10,14 @@ import eu.scy.notification.api.INotification;
 public class Notification implements INotification {
 
     private static final String SEPARATOR = ",";
-
     public static final String PATH = "notification";
-
     private long timestamp;
-
     private Map<String, String[]> properties;
-
     private String toolId;
-
     private String userId;
-
     private String sender;
-
     private String uniqueId;
-
     private String mission;
-
     private String session;
 
     public Notification() {
@@ -63,6 +54,7 @@ public class Notification implements INotification {
      * @param key
      * @param value
      */
+    @Override
     public void addProperty(String key, String value) {
         String[] values = properties.get(key);
         if (values == null) {
@@ -170,11 +162,14 @@ public class Notification implements INotification {
 
     @Override
     public String[] getPropertyArray(String key) {
-        return properties.get(key);
+        String[] props = properties.get(key);
+        if (props == null) {
+            props = new String[0];
+        }
+        return props;
     }
 
     public void addPropertyXMLString(String attribute, String value) {
         properties.put(attribute, value.split(SEPARATOR));
     }
-
 }
