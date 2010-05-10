@@ -61,7 +61,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<url>http://www.scy-lab.eu/content/en/mission1/LAS_Conceptualization_individual/Resources/R_Websites_Global_Warming.html</url>
+<url>http://www.scy-lab.eu:8080/content/en/mission1/LAS_Conceptualization_individual/Resources/R_Websites_Global_Warming.html</url>
 </content>
 <resources>
 </resources>
