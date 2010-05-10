@@ -51,7 +51,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<simconfig simulationname="Seesaw" simulationuri="http://www.scy-lab.eu/sqzx/balance.sqzx">
+<simconfig simulationname="Seesaw" simulationuri="http://www.scy-lab.eu:8080/sqzx/balance.sqzx">
   <variable name="l2" value="1.5" />
   <variable name="l2a" value="1.5" />
   <variable name="l1" value="-1.5" />
