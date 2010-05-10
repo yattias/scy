@@ -8,7 +8,7 @@ package eu.scy.client.desktop.scydesktop.remotecontrol.impl;
 import java.lang.String;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.remotecontrol.api.ScyDesktopRemoteCommand;
-import javax.swing.JOptionPane;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author sven
@@ -25,14 +25,19 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
         //TODO submit user-nickname instead of extracting it
         def userNickname = user.substring(0, user.indexOf("@"));
         def eloUri: String = notification.getFirstProperty("proposed_elo");
-        def option = JOptionPane.showConfirmDialog(null, "{userNickname} wants to start a collaboration with you on the ELO {eloUri}. Accept?", "Confirm", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+
+        def yesAction:function() = function(){
             logger.debug(" => accepting collaboration");
             scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUri);
-        } else if (option == JOptionPane.NO_OPTION) {
+        }
+        def noAction: function() = function(){
             logger.debug(" => denying collaboration");
             scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
         }
+        def text = "{userNickname} {##"wants to start a collaboration with you on the ELO"} {eloUri}. {##"Accept?"}";
+        DialogBox.showOptionDialog(text, ##"Collaboration Request", scyDesktop, yesAction, noAction);
+
+        
     }
 
 }

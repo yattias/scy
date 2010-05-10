@@ -32,5 +32,4 @@ public class DialogBoxParams {
         public-init var cancelAction:function() = function() {};
         
         public-init var dialogType:DialogType = DialogType.OK_DIALOG;
-
 }
