@@ -79,10 +79,10 @@ public class LoginDialog extends CustomNode {
               }
       loginWindow = StandardScyWindow {
          title: bind loginNode.loginTitle
-         eloIcon: CharacterEloIcon {
-            iconCharacter: "L"
-            color: loginColor
-         }
+//         eloIcon: CharacterEloIcon {
+//            iconCharacter: "L"
+//            color: loginColor
+//         }
          windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
          scyContent: EmptyBorderNode{
             content:loginNode
@@ -94,6 +94,11 @@ public class LoginDialog extends CustomNode {
          opacity:0.0;
       };
       loginWindow.windowColorScheme.mainColor = loginColor;
+      loginWindow.eloIcon = LogoEloIcon{
+         color: bind loginWindow.windowColorScheme.mainColor
+         selected:true
+      }
+
       loginWindow.openWindow(0, 0);
       loginWindow.activated = true;
       FX.deferAction(placeWindowCenter);
