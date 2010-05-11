@@ -469,7 +469,7 @@
         <spring-ws-version>1.5.7</spring-ws-version>
         <spring-dao-version>2.0.8</spring-dao-version>
         <spring-security-version>2.0.4</spring-security-version>
-        <sqlspaces-version>3.8.0-SNAPSHOT</sqlspaces-version>
+        <sqlspaces-version>3.9.0-SNAPSHOT</sqlspaces-version>
 
         <filter.test.file>src/main/filters/serverfilter.properties</filter.test.file>
     </properties>
