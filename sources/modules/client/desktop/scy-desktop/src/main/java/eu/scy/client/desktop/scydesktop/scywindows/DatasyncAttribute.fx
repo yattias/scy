@@ -35,6 +35,8 @@ public class DatasyncAttribute extends ScyWindowAttribute {
     public-init var dragAndDropManager:DragAndDropManager;
     public-init var dragObject:Object;
 
+    public-read def cableStartX = 3;
+    public-read def cableStartY = -12;
     def logger = Logger.getLogger(this.getClass());
     def size = 16.0;
     def strokeWidth = 2;

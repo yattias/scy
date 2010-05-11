@@ -6,7 +6,11 @@ package eu.scy.client.common.datasync;
  */
 public interface ISynchronizable {
 
+    public Object getDatasyncAttribute();
+
     public void join(String mucID);
+
+    public void join(String mudID, Object datasyncEdge);
 
     public void leave(String mucID);
 
