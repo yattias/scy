@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.edges;
 
 import javafx.scene.Node;
+import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -19,16 +20,44 @@ import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import java.lang.Void;
+import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import javafx.scene.shape.Circle;
 
 public class EdgesManager extends IEdgesManager {
 
     var nodes: Node[];
+    var datasyncNodes: Node[];
     public var windowManager: WindowManager;
     public var repository: IRepository;
     public var metadataTypeManager: IMetadataTypeManager;
     public-init var showEloRelations: Boolean;
+    def logger = Logger.getLogger(this.getClass());
 
+    public override function addDatasyncLink(source:DatasyncAttribute, target:DatasyncAttribute):DatasyncEdge {
+        def edge:DatasyncEdge = DatasyncEdge {
+                startAttrib: source;
+                endAttrib: target;
+                manager: this;
+                visible:true;
+                opacity: 0.5
+            }
+            logger.debug("adding a datasync-edge {edge} from {source} to {target}.");
+            insert edge into nodes;
+            insert edge into datasyncNodes;
+            return edge;
+    }
 
+    public override function removeDatasyncLink(edge: DatasyncEdge): Void {
+        //logger.debug("adding a datasync-edge {edge} from {source} to {target}.");
+        //logger.debug("#datasync edges before: {datasyncNodes.sizeof}");
+        delete edge from datasyncNodes;
+        delete edge from nodes;
+        //logger.debug("#datasync edges after: {datasyncNodes.sizeof}");
+
+    }
+
+    
     public function addLink(source:ScyWindow, target:ScyWindow, text:String):Void {
             def edge:Edge = Edge {
                 start: (source as StandardScyWindow);
@@ -42,12 +71,12 @@ public class EdgesManager extends IEdgesManager {
             Timeline{
                 keyFrames: [at (0.5s){ edge.opacity => 0.3 tween Interpolator.EASEIN}]
             }.play();
-
-
     }
 
     public override function findLinks(sourceWindow: ScyWindow)   {
+        logger.debug("finding links...");
         delete nodes;
+        insert datasyncNodes into nodes;
         if (not(sourceWindow.eloUri==null) and sourceWindow.eloUri.toString() != "" ) {
             def metadata: IMetadata = repository.retrieveMetadata(sourceWindow.eloUri);
             var targetURI: URI;

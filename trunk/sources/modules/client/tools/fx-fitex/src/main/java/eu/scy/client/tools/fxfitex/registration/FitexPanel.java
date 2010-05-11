@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -112,7 +113,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         if (session == null) {
             JOptionPane.showMessageDialog(null, "join session error, null");
         } else{
-            readAllSyncObjects();
+            // not working right now, ask Adam
+            //readAllSyncObjects();
         }
     }
 
@@ -273,10 +275,16 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         this.dataProcessPanel.endTool();
     }
 
+
     @Override
-    public void syncObjectAdded(ISyncObject syncObject) {
-        debugLogger.log(Level.SEVERE, "syncObjectAdded ("+syncObject.getID()+") "+session.getId());
-        readSyncObject(syncObject);
+    public void syncObjectAdded(final ISyncObject syncObject) {
+        debugLogger.log(Level.INFO, "syncObjectAdded ("+syncObject.getID()+") "+session.getId());
+         SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    readSyncObject(syncObject);
+                }
+            });
     }
 
     @Override

@@ -43,6 +43,7 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.datasync.DummySyncListener;
 import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -75,6 +76,8 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var eloSimconfig: IELO;
     var eloDataset: IELO;
     var dataCollector: DataCollector;
+    var syncAttrib: DatasyncAttribute;
+    var datasyncEdge: DatasyncEdge;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
 
@@ -117,22 +120,36 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public function initializeDatasync(fitex: ISynchronizable) {
+        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(syncAttrib, fitex.getDatasyncAttribute() as DatasyncAttribute);
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
-        fitex.join(datasyncsession.getId());
+        fitex.join(datasyncsession.getId(), datasyncEdge as Object);
         this.join(datasyncsession.getId());
+        datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
     }
 
     public function removeDatasync(fitex: ISynchronizable) {
+        scyWindow.windowManager.scyDesktop.edgesManager.removeDatasyncLink(datasyncEdge);
+        datasyncEdge = null;
         this.leave(dataCollector.getSessionID());
         fitex.leave(fitex.getSessionID());
+    }
+
+public override function getDatasyncAttribute(): DatasyncAttribute {
+        return syncAttrib;
     }
 
     public override function join(mucID: String) {
         dataCollector.join(mucID);
     }
 
+    public override function join(mucID: String, edge: Object) {
+        dataCollector.join(mucID);
+        this.datasyncEdge = edge as DatasyncEdge;
+    }
+
     public override function leave(mucID: String) {
         dataCollector.leave();
+        this.datasyncEdge = null;
     }
 
     public override function getSessionID(): String {
@@ -264,7 +281,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             }
             fixedDimension.height = fixedDimension.height + 260;
             scyWindow.open();
-            var syncAttrib = DatasyncAttribute {
+            syncAttrib = DatasyncAttribute {
                         scyWindow:scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this };
