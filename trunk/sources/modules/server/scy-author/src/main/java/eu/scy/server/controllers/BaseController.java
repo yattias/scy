@@ -45,6 +45,7 @@ public abstract class BaseController extends AbstractController {
     private void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
         modelAndView.addObject("model", getModel());
         modelAndView.addObject("oddEven", new OddEven());
+        modelAndView.addObject("baseUrl", request.getScheme() + "://" + request.getServerName() + request.getContextPath());
         if(getServer() != null) modelAndView.addObject("css", getServer().getServerCSS());
     }
 
