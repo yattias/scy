@@ -183,7 +183,9 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     override public function processNotification(note: INotification): Void {
         if (dataCollector != null) {
             logger.info("process notification, forwarding to DataCollector");
-            dataCollector.processNotification(note);
+            FX.deferAction(function () {
+                dataCollector.processNotification(note);
+            })
         } else {
             logger.info("notification not processed, DataCollector == null");
         }
