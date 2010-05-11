@@ -94,13 +94,13 @@ public class LoginDialog extends CustomNode {
          opacity:0.0;
       };
       loginWindow.windowColorScheme.mainColor = loginColor;
+      loginWindow.activated = true;
       loginWindow.eloIcon = LogoEloIcon{
          color: bind loginWindow.windowColorScheme.mainColor
-         selected:true
+         selected:false
       }
 
       loginWindow.openWindow(0, 0);
-      loginWindow.activated = true;
       FX.deferAction(placeWindowCenter);
 
       return loginWindow;
