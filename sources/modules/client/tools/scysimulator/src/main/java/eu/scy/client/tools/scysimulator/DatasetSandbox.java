@@ -31,9 +31,9 @@ public class DatasetSandbox implements ISyncListener {
     }
 
     public void clear() {
-        for (ISyncObject syncObject : currentSession.getAllSyncObjects()) {
-            currentSession.removeSyncObject(syncObject);
-        }
+        //for (ISyncObject syncObject : currentSession.getAllSyncObjects()) {
+        //    currentSession.removeSyncObject(syncObject);
+        //}
     }
 
     public void disconnect() {
