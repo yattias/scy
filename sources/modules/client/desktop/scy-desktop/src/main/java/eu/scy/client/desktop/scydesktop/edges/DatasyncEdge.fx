@@ -57,7 +57,7 @@ public class DatasyncEdge extends CustomNode, ISyncListener {
                 update()
             };
 
-    function update(): Void {
+    public function update(): Void {
         line.startX = startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).x;
         line.startY = startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).y;
         line.endX = endAttrib.localToScene(endAttrib.cableStartX, endAttrib.cableStartY).x;

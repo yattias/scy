@@ -194,7 +194,8 @@ public class MissionMap extends CustomNode {
          selectedAnchorDisplay.selected = false;
       }
       anchorDisplay.selected = true;
-      missionModel.anchorSelected(anchorDisplay.las, anchor)
+      missionModel.anchorSelected(anchorDisplay.las, anchor);
+      scyDesktop.edgesManager.findLinks(null);
    }
 
    public function getAnchorAttribute(anchor: MissionAnchorFX): AnchorAttribute {
