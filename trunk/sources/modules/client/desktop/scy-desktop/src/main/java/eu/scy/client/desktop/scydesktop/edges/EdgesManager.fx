@@ -23,6 +23,7 @@ import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.shape.Circle;
+import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 
 public class EdgesManager extends IEdgesManager {
 
@@ -34,18 +35,18 @@ public class EdgesManager extends IEdgesManager {
     public-init var showEloRelations: Boolean;
     def logger = Logger.getLogger(this.getClass());
 
-    public override function addDatasyncLink(source:DatasyncAttribute, target:DatasyncAttribute):DatasyncEdge {
-        def edge:DatasyncEdge = DatasyncEdge {
-                startAttrib: source;
-                endAttrib: target;
-                manager: this;
-                visible:true;
-                opacity: 0.5
-            }
-            logger.debug("adding a datasync-edge {edge} from {source} to {target}.");
-            insert edge into nodes;
-            insert edge into datasyncNodes;
-            return edge;
+    public override function addDatasyncLink(source: DatasyncAttribute, target: DatasyncAttribute): DatasyncEdge {
+        def edge: DatasyncEdge = DatasyncEdge {
+                    startAttrib: source;
+                    endAttrib: target;
+                    manager: this;
+                    visible: true;
+                    opacity: 0.5
+                }
+        logger.debug("adding a datasync-edge {edge} from {source} to {target}.");
+        insert edge into nodes;
+        insert edge into datasyncNodes;
+        return edge;
     }
 
     public override function removeDatasyncLink(edge: DatasyncEdge): Void {
@@ -57,58 +58,69 @@ public class EdgesManager extends IEdgesManager {
 
     }
 
-    
-    public function addLink(source:ScyWindow, target:ScyWindow, text:String):Void {
-            def edge:Edge = Edge {
-                start: (source as StandardScyWindow);
-                end: (target as StandardScyWindow);
-                manager: this;
-                text: text;
-                visible:showEloRelations;
-                opacity: 0.0
-            }
-            insert edge into nodes;
-            Timeline{
-                keyFrames: [at (0.5s){ edge.opacity => 0.3 tween Interpolator.EASEIN}]
-            }.play();
+    public function addLink(source: ScyWindow, target: ScyWindow, text: String): Void {
+        def edge: Edge = Edge {
+                    start: (source as StandardScyWindow);
+                    end: (target as StandardScyWindow);
+                    manager: this;
+                    text: text;
+                    visible: showEloRelations;
+                    opacity: 0.0
+                }
+        insert edge into nodes;
+        Timeline {
+            keyFrames: [at (0.5s) {edge.opacity => 0.3 tween Interpolator.EASEIN}]
+        }.play();
     }
 
-    public override function findLinks(sourceWindow: ScyWindow)   {
+    public override function findLinks(sourceWindow: ScyWindow)     {
         logger.debug("finding links...");
-        delete nodes;
-        insert datasyncNodes into nodes;
-        if (not(sourceWindow.eloUri==null) and sourceWindow.eloUri.toString() != "" ) {
+        delete  nodes;
+        // insert datasyncnodes if according window is visible
+        insertDatasyncNodes();
+        if (not (sourceWindow.eloUri == null) and sourceWindow.eloUri.toString() != "") {
             def metadata: IMetadata = repository.retrieveMetadata(sourceWindow.eloUri);
             var targetURI: URI;
-            var targetWindow;
+            var targetWindow ;
             // show "IS_VERSION_OF"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSION_OF.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI==null) and not (targetWindow == null)) {
+            if (not (targetURI == null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is version of");
             }
 
             // show "IS_VERSIONED_BY"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSIONED_BY.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI==null) and not (targetWindow == null)) {
+            if (not (targetURI == null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is versioned by");
             }
 
             // show "IS_FORK_OF"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI==null) and not (targetWindow == null)) {
+            if (not (targetURI == null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is fork of");
             }
 
             // show "IS_FORKED_BY"-Relation
             targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY.getId())).getValue() as URI;
             targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI==null) and not (targetWindow == null)) {
+            if (not (targetURI == null) and not (targetWindow == null)) {
                 addLink(sourceWindow, targetWindow, "is forked by");
             }
         }
+    }
+
+    protected function insertDatasyncNodes() {
+        for (datasyncNode in datasyncNodes) {
+                var window = windowManager.findScyWindow((datasyncNode as DatasyncEdge).startAttrib.scyWindow.eloUri);
+                if (not (window == null)) {
+                    insert datasyncNode into nodes;
+                    (datasyncNode as DatasyncEdge).update();
+                }           
+        }
+        //insert datasyncNodes into nodes;
     }
 
     override protected function create(): Node {
