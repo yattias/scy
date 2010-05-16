@@ -97,10 +97,17 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
                     RichTextEditorLogger.ITALIC,text,
                     editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Italic).toString());
 		} else if (e.getActionCommand().equals("underline")) {
-            if (editorPanel.getRichTextEditorLogger() != null)
+            if (editorPanel.getRichTextEditorLogger() != null) {
+                // In some reasons undeline behaves differently from bold and italic
+                // If at the end of document then getAttribute(StyleConstants.Underline)
+                // returns null
+                String underlineLogValue = "null";
+                if (editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline)!=null)
+                    underlineLogValue = editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline).toString();
+//                underlineLogValue = String.valueOf(StyleConstants.isUnderline(editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes()));
                 editorPanel.getRichTextEditorLogger().logFormatAction(
-                    RichTextEditorLogger.UNDERLINE,text,
-                    editorPanel.getJTextPane().getStyledDocument().getCharacterElement(pos).getAttributes().getAttribute(StyleConstants.Underline).toString());
+                    RichTextEditorLogger.UNDERLINE,text,underlineLogValue);
+            }
 		} else if (e.getActionCommand().equals("superscript")) {
     		RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
 			String in = (StyleConstants.isSuperscript(rtfek.getInputAttributes())) ? "true" : "false";
