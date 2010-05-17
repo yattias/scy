@@ -23,6 +23,7 @@ import eu.scy.actionlogging.api.IContext;
 public class UserToolExperienceModel {
 
     private static final String USER_EXP = "user_exp";
+
     private static final String EXP_PHASE = "exp_phase_started";
 
     private String userName;
@@ -222,13 +223,15 @@ public class UserToolExperienceModel {
     }
 
     public void startExpPhase() {
-       
-            try {
-                sensorSpace.write(new Tuple(EXP_PHASE, this.getUserName(), activeTool, this.getMission(), this.getSession(), this.getEloUri(), System.currentTimeMillis()));
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
+
+        try {
+            if (activeTool == null) {
+                return;
             }
-        
+            sensorSpace.write(new Tuple(EXP_PHASE, this.getUserName(), activeTool, this.getMission(), this.getSession(), this.getEloUri(), System.currentTimeMillis()));
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
 
     }
 }
