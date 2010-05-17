@@ -92,14 +92,18 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 		Document document = convertTextToDocument(text);
 
-		Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow().getOperator("Main");
-		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
-		extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-		extractKeywordsOperator.setInputParameter(KeywordConstants.TOPIC_MODEL, tm);
-		Container result = extractKeywordsOperator.run();
-		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
-
-		return doc.getFeature(KeywordConstants.TM_KEYWORDS);
+		// TODO real bad hack REMOVE
+		try {
+			Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow().getOperator("Main");
+			extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
+			extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+			extractKeywordsOperator.setInputParameter(KeywordConstants.TOPIC_MODEL, tm);
+			Container result = extractKeywordsOperator.run();
+			Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
+			return doc.getFeature(KeywordConstants.TM_KEYWORDS);
+		} catch (RuntimeException e) {
+			return new HashSet<String>();
+		}
 	}
 
 	private Document convertTextToDocument(String text) {
