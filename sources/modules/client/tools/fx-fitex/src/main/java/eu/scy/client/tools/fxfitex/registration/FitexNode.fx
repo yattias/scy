@@ -20,6 +20,9 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
@@ -34,6 +37,10 @@ import eu.scy.client.common.datasync.DummySyncListener;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 
 /**
  * @author Marjolaine
@@ -56,6 +63,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    var technicalFormatKey: IMetadataKey;
    var syncAttrib: DatasyncAttribute;
    var datasyncEdge: DatasyncEdge;
+   var acceptDialog: AcceptSyncModalDialog;
    var elo:IELO;
    def spacing = 5.0;
 
@@ -79,6 +87,41 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
     }
 
     public override function acceptDrop(object: Object) {
+        logger.debug("drop accepted.");
+        var isSync = isSynchronizingWith(object as ISynchronizable);
+        if (isSync) {
+            removeDatasync(object as ISynchronizable);
+        } else {
+            acceptDialog = AcceptSyncModalDialog {
+                        object: object as ISynchronizable
+                        okayAction: initializeDatasync
+                        cancelAction: cancelDialog
+                    }
+            createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
+        }
+    }
+
+    function cancelDialog(): Void {
+            acceptDialog.modalDialogBox.close();
+    }
+
+    function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
+        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        modalDialogNode.modalDialogBox = ModalDialogBox {
+            content: EmptyBorderNode {
+                content: Group {
+                    content: modalDialogNode.getContentNodes();
+                }
+            }
+            targetScene: scyWindow.windowManager.scyDesktop.scene
+            title: title
+            windowColorScheme: windowColorScheme
+            closeAction: function (): Void {
+            }
+        }
+    }
+
+    public  function acceptDrop_deprecated(object: Object) {
         logger.debug("drop accepted.");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if(isSync){
@@ -136,6 +179,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         this.join(datasyncsession.getId());
         simulator.join(datasyncsession.getId(), datasyncEdge as Object);
         datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
+        acceptDialog.modalDialogBox.close();
     }
 
     public function removeDatasync(simulator: ISynchronizable) {
