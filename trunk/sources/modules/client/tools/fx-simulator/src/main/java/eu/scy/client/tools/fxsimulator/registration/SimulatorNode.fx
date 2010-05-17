@@ -32,6 +32,7 @@ import sqv.SimQuestViewer;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.awt.event.ActionEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
 import javax.swing.JLabel;
 import eu.scy.notification.api.INotifiable;
 import java.lang.UnsupportedOperationException;
@@ -44,6 +45,11 @@ import eu.scy.client.common.datasync.DummySyncListener;
 import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -78,6 +84,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var dataCollector: DataCollector;
     var syncAttrib: DatasyncAttribute;
     var datasyncEdge: DatasyncEdge;
+    var acceptDialog: AcceptSyncModalDialog;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
 
@@ -91,6 +98,41 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function acceptDrop(object: Object) {
+        logger.debug("drop accepted.");
+        var isSync = isSynchronizingWith(object as ISynchronizable);
+        if (isSync) {
+            removeDatasync(object as ISynchronizable);
+        } else {
+            acceptDialog = AcceptSyncModalDialog {
+                        object: object as ISynchronizable
+                        okayAction: initializeDatasync
+                        cancelAction: cancelDialog
+                    }
+            createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
+        }
+    }
+
+    function cancelDialog(): Void {
+            acceptDialog.modalDialogBox.close();
+    }
+
+    function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
+        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        modalDialogNode.modalDialogBox = ModalDialogBox {
+            content: EmptyBorderNode {
+                content: Group {
+                    content: modalDialogNode.getContentNodes();
+                }
+            }
+            targetScene: scyWindow.windowManager.scyDesktop.scene
+            title: title
+            windowColorScheme: windowColorScheme
+            closeAction: function (): Void {
+            }
+        }
+    }
+
+    public function acceptDrop_(object: Object) {
         logger.debug("drop accepted.");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if (isSync) {
@@ -119,12 +161,13 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         }
     }
 
-    public function initializeDatasync(fitex: ISynchronizable) {
-        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(syncAttrib, fitex.getDatasyncAttribute() as DatasyncAttribute);
+    public function initializeDatasync(fitex: ISynchronizable):Void {
+        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
         fitex.join(datasyncsession.getId(), datasyncEdge as Object);
         this.join(datasyncsession.getId());
         datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
+        acceptDialog.modalDialogBox.close();
     }
 
     public function removeDatasync(fitex: ISynchronizable) {
