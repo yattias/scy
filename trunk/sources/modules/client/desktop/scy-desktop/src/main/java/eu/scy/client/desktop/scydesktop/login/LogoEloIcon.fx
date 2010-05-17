@@ -23,11 +23,11 @@ public class LogoEloIcon extends EloIcon {
            content:[
               SelectedLogo{
                  color:bind color
-                 visible: bind selected
+                 visible: selected
               }
               NotSelectedLogo{
                  color:bind color
-                 visible: bind not selected
+                 visible: not selected
               }
            ]
         }
