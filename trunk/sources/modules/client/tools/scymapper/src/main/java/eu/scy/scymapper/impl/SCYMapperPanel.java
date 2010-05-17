@@ -8,6 +8,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncElementControllerFactory;
@@ -27,7 +28,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User: Bjoerge Date: 27.aug.2009 Time: 13:29:56
@@ -75,12 +78,6 @@ public class SCYMapperPanel extends JPanel {
 	public void setToolBroker(ToolBrokerAPI tbi, String username) {
 		toolBroker = tbi;
 		if (toolBroker != null) {
-			// toolBroker.registerForNotifications(new INotifiable() {
-			// @Override
-			// public void processNotification(INotification notification) {
-			// showNotification(notification);
-			// }
-			// });
 			toolBroker.registerForNotifications(new INotifiable() {
 
 				@Override
@@ -102,6 +99,12 @@ public class SCYMapperPanel extends JPanel {
 	private void suggestKeywords(java.util.List<String> keywords) {
 
 		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
+
+		keywords = checkForAlreadyPresentConcepts(keywords);
+
+		if (keywords.isEmpty()) {
+			return;
+		}
 
 		if (keywords.size() == 1) {
 			panel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
@@ -133,6 +136,16 @@ public class SCYMapperPanel extends JPanel {
 		panel.add(BorderLayout.SOUTH, close);
 
 		notificator.show();
+	}
+
+	private List<String> checkForAlreadyPresentConcepts(List<String> keywords) {
+		Set<INodeModel> nodes = conceptMap.getDiagram().getNodes();
+		for (INodeModel node : nodes) {
+			if (keywords.contains(node.getLabel())) {
+				keywords.remove(node.getLabel());
+			}
+		}
+		return keywords;
 	}
 
 	public void joinSession(ISyncSession session) {
@@ -215,7 +228,7 @@ public class SCYMapperPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	                      String sessId = JOptionPane.showInputDialog("Enter session ID");
+				String sessId = JOptionPane.showInputDialog("Enter session ID");
 				joinSession(sessId);
 			}
 		});
@@ -275,7 +288,7 @@ public class SCYMapperPanel extends JPanel {
 			sessionPanel.add(showNotificationButton);
 		}
 		sessionPanel.add(testSuggestKeywordButton);
-//		topToolBarPanel.add(sessionPanel);
+		// topToolBarPanel.add(sessionPanel);
 
 		cmapPanel = new ConceptMapPanel(conceptMap);
 		cmapPanel.setBackground(Color.WHITE);
@@ -352,7 +365,7 @@ public class SCYMapperPanel extends JPanel {
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-	              String sessId = JOptionPane.showInputDialog("Enter session ID");
+			String sessId = JOptionPane.showInputDialog("Enter session ID");
 			joinSession(sessId);
 		}
 	}
