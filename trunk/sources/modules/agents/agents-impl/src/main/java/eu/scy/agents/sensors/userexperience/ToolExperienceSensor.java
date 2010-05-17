@@ -230,6 +230,10 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+           if (exp==null){
+               //Q&D hack 4 review
+               return;
+           }
             exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime, false);
             logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
 //            if (!initializing){
@@ -237,7 +241,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 //            }
         } else if (a.getType().equals("add_row")) {
             String sessionid = a.getContext(ContextConstants.session);
-            long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
             exp.startExpPhase();
             logger.log(Level.FINE, "startExpPhase with user: " + a.getUser() + " and SessionID: " + sessionid);
