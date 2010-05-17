@@ -27,6 +27,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,11 @@ public class SCYMapperPanel extends JPanel {
 							&& notification.getFirstProperty("type").equals("concept_proposal")) {
 						String[] keywords = notification.getPropertyArray("keyword");
 						if (keywords != null) {
-							suggestKeywords(Arrays.asList(keywords));
+							List<String> keywordsAsList = new ArrayList<String>();
+							for (String keyword : keywords) {
+								keywordsAsList.add(keyword);
+							}
+							suggestKeywords(keywordsAsList);
 						}
 					}
 				}
@@ -100,11 +105,11 @@ public class SCYMapperPanel extends JPanel {
 
 		KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
 
-		keywords = checkForAlreadyPresentConcepts(keywords);
-
 		if (keywords.isEmpty()) {
 			return;
 		}
+
+		checkForAlreadyPresentConcepts(keywords);
 
 		if (keywords.size() == 1) {
 			panel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
@@ -138,14 +143,13 @@ public class SCYMapperPanel extends JPanel {
 		notificator.show();
 	}
 
-	private List<String> checkForAlreadyPresentConcepts(List<String> keywords) {
+	private void checkForAlreadyPresentConcepts(List<String> keywords) {
 		Set<INodeModel> nodes = conceptMap.getDiagram().getNodes();
 		for (INodeModel node : nodes) {
-			if (keywords.contains(node.getLabel())) {
+			if (!keywords.contains(node.getLabel())) {
 				keywords.remove(node.getLabel());
 			}
 		}
-		return keywords;
 	}
 
 	public void joinSession(ISyncSession session) {
