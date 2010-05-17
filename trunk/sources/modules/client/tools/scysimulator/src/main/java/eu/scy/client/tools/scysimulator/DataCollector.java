@@ -63,6 +63,7 @@ import javax.swing.JTable;
 public class DataCollector extends JPanel implements ActionListener, IDataClient {
 
     private ModelVariable rotationVariable = null;
+
     private final ResourceBundleWrapper bundle;
 
     public enum SCAFFOLD {
@@ -530,7 +531,18 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 System.out.println("message without popup received...");
                 notificationSender = notification.getSender();
                 notificationMessage = message;
-                startNotifyThread();
+                if (SwingUtilities.isEventDispatchThread()) {
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            startNotifyThread();
+
+                        }
+                    }).start();
+                } else {
+                    startNotifyThread();
+                }
             }
         } else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
             if (type.equals("scaffold")) {
@@ -540,7 +552,18 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                 } else {
 
                     notificationMessage = notification.getFirstProperty("level");
-                    startNotifyThread();
+                    if (SwingUtilities.isEventDispatchThread()) {
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                startNotifyThread();
+
+                            }
+                        }).start();
+                    } else {
+                        startNotifyThread();
+                    }
 
                 }
             }
@@ -559,7 +582,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     notifyButton.setVisible(true);
                 }
             });
-            
+
             boolean up = true;
             Color upColor = Color.RED;
             Color downColor = notifyButton.getBackground();
@@ -628,7 +651,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         });
     }
 
-   private String getBundleString(String key){
-       return this.bundle.getString(key);
-   }
+    private String getBundleString(String key) {
+        return this.bundle.getString(key);
+    }
 }
