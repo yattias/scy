@@ -100,7 +100,7 @@ public class ResourceBundleWrapper {
         return null;
     }
 
-    private final static String[] commonPackageNames = {"eu.scy.client.tools.","eu.scy.client.desktop."};
+    private final static String[] commonPackageNames = {"eu.scy.client.tools.","eu.scy.client.desktop.", "eu.scy.client.common."};
 
    protected String getModuleName(String packageName)
    {
