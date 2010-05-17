@@ -80,6 +80,9 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	private Set<String> extractKeywords(String text) {
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+		if (dfModel == null) {
+			return new HashSet<String>();
+		}
 		TopicModelParameter tmParameter = (TopicModelParameter) storage.get(CO2_SCY_ENGLISH);
 		if (tmParameter == null) {
 			return new HashSet<String>();
