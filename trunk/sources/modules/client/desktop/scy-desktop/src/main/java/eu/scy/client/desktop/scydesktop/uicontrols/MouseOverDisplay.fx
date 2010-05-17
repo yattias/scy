@@ -9,7 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
-import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
 import javafx.animation.Interpolator;
 import javafx.scene.Cursor;
@@ -20,11 +19,15 @@ import javafx.scene.Cursor;
 public class MouseOverDisplay {
 
    public-init var createMouseOverDisplay: function(): Node;
-   public-init var myScene:Scene;
+   public-init var mySourceNode:Node;
+   public-init var offsetX = 0.0;
+   public-init var offsetY = 0.0;
+   public-init var showImmediate = false;
 
    def contentGroup = Group{
       opacity:0.0
    }
+   def myScene = mySourceNode.scene;
 
    var disappearing = false;
 //   var startMillis = System.currentTimeMillis();
@@ -77,7 +80,13 @@ public class MouseOverDisplay {
    };
 
    init{
-      animation.play();
+      if (showImmediate){
+          displayMe();
+          contentGroup.opacity = 1.0;
+      }
+      else{
+         animation.play();
+      }
    }
 
    function displayMe():Void{
@@ -85,6 +94,30 @@ public class MouseOverDisplay {
       var sceneContent = myScene.content;
       insert contentGroup into sceneContent;
       myScene.content = sceneContent;
+      positionMe();
+   }
+
+   function positionMe(){
+      contentGroup.rotate = getMySourceNodeRotation();
+      var mySourceScenePoint = mySourceNode.localToScene(mySourceNode.layoutBounds.minX, mySourceNode.layoutBounds.minY);
+      var myScenePoint = contentGroup.localToScene(contentGroup.layoutBounds.minX-offsetX, contentGroup.layoutBounds.minY-offsetX);
+      contentGroup.layoutX = mySourceScenePoint.x - myScenePoint.x;
+      contentGroup.layoutY = mySourceScenePoint.y - myScenePoint.y;
+//      var myNewScenePoint = contentGroup.localToScene(contentGroup.layoutBounds.minX-offsetX, contentGroup.layoutBounds.minY-offsetY);
+//      println("mySourceScenePoint: {mySourceScenePoint}, myScenePoint: {myScenePoint}");
+//      println("after adjustment: {myNewScenePoint}");
+//      println("mySourceNode.layoutX: {mySourceNode.layoutX}, mySourceNode.layoutY: {mySourceNode.layoutY}, mySourceNode.rotate: {mySourceNode.rotate}");
+//      println("contentGroup.layoutX: {contentGroup.layoutX}, contentGroup.layoutY: {contentGroup.layoutY}, contentGroup.rotate: {contentGroup.rotate}");
+   }
+
+   function getMySourceNodeRotation():Number{
+      var node = mySourceNode;
+      var sourceNodeRoation = node.rotate;
+      while (node.parent!=null){
+         node = node.parent;
+         sourceNodeRoation += node.rotate;
+      }
+      sourceNodeRoation
    }
 
    function removeMe():Void{
