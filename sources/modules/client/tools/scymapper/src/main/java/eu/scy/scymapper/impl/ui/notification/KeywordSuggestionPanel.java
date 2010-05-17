@@ -5,8 +5,6 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
-import net.miginfocom.swing.MigLayout;
-
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
@@ -22,6 +20,7 @@ import java.util.Collection;
  * @created 05.feb.2010 19:15:22
  */
 public class KeywordSuggestionPanel extends JPanel {
+
 	private JTextPane descriptionLabel;
 	private JPanel conceptButtonPane;
 
@@ -35,7 +34,7 @@ public class KeywordSuggestionPanel extends JPanel {
 		Icon icon = UIManager.getIcon("OptionPane.informationIcon");
 		JLabel label = new JLabel("Keyword Suggestion", icon, SwingConstants.LEFT);
 		add(BorderLayout.NORTH, label);
-		conceptButtonPane = new JPanel(new MigLayout("wrap 4", "[fill]"));
+		conceptButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));// new MigLayout("wrap 4", "[fill]"));
 		descriptionLabel = new JTextPane();
 
 		StyledDocument doc = descriptionLabel.getStyledDocument();
@@ -52,19 +51,18 @@ public class KeywordSuggestionPanel extends JPanel {
 
 	/**
 	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
-	 *
+	 * 
 	 * @param keyword
 	 * @param nodeFactories
 	 */
 	public void setSuggestion(String keyword, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
 
 		String[] text = {
-				"The SCY-Troll has discovered that you may have missed a relevant keyword in your concept map. Would you like to add ",
+				"A SCY-Agent has discovered that you may have missed a relevant keyword in your concept map. Would you like to add ",
 				keyword,
 				" as a concept to your concept map?\n\n",
-				"To do so, select first a shape for this concept from below, then click in the diagram at the place you would like to add it."
-		};
-		String[] styles = {"reqular", "bold", "regular", "regular"};
+				"To do so, select first a shape for this concept from below, then click in the diagram at the place you would like to add it." };
+		String[] styles = { "reqular", "bold", "regular", "regular" };
 
 		StyledDocument doc = descriptionLabel.getStyledDocument();
 		try {
@@ -82,17 +80,17 @@ public class KeywordSuggestionPanel extends JPanel {
 
 	/**
 	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
-	 *
+	 * 
 	 * @param keywords
 	 * @param nodeFactories
 	 */
-	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
+	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories,
+			ConceptMapPanel panel) {
 
 		String[] text = {
-				"The SCY-Troll has discovered that you may have missed relevant keywords in your concept map. ",
-				"Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have."
-		};
-		String[] styles = {"reqular", "regular"};
+				"A SCY-Agent has discovered that you may have missed relevant keywords in your concept map. ",
+				"Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have." };
+		String[] styles = { "reqular", "regular" };
 
 		StyledDocument doc = descriptionLabel.getStyledDocument();
 		try {
@@ -106,12 +104,14 @@ public class KeywordSuggestionPanel extends JPanel {
 		for (String keyword : keywords) {
 			final JPopupMenu popup = new JPopupMenu();
 			popup.setLayout(new GridLayout(0, 2));
-			popup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 1), BorderFactory.createTitledBorder("Select the shape")));
+			popup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 1),
+					BorderFactory.createTitledBorder("Select the shape")));
 			for (INodeFactory factory : nodeFactories) {
 				popup.add(createConceptButton(factory, keyword, panel));
 			}
 			final JButton btn = new JButton(keyword);
 			btn.addActionListener(new ActionListener() {
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					popup.show(btn, 0, btn.getHeight());
@@ -126,9 +126,11 @@ public class KeywordSuggestionPanel extends JPanel {
 		button.setText(keyword);
 		button.setHorizontalAlignment(JButton.CENTER);
 		button.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.getDiagramView().addMouseListener(new MouseAdapter() {
+
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						INodeModel node = factory.create();
