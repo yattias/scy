@@ -3,6 +3,7 @@ package eu.scy.agents.keywords;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +25,8 @@ import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
 
 public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
+
+	private static final String CO2_SCY_ENGLISH = "co2_scy_english";
 
 	public static final String EXTRACT_TOPIC_MODEL_KEYWORDS = "ExtractTopicModelKeywords";
 
@@ -77,7 +80,12 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	private Set<String> extractKeywords(String text) {
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
-		TopicModelAnnotator tm = new TopicModelAnnotator((TopicModelParameter) storage.get("co2_scy_english"));
+		TopicModelParameter tmParameter = (TopicModelParameter) storage.get(CO2_SCY_ENGLISH);
+		if (tmParameter == null) {
+			return new HashSet<String>();
+		}
+
+		TopicModelAnnotator tm = new TopicModelAnnotator(tmParameter);
 
 		Document document = convertTextToDocument(text);
 
