@@ -146,7 +146,7 @@ public class SCYMapperPanel extends JPanel {
 	private void checkForAlreadyPresentConcepts(List<String> keywords) {
 		Set<INodeModel> nodes = conceptMap.getDiagram().getNodes();
 		for (INodeModel node : nodes) {
-			if (!keywords.contains(node.getLabel())) {
+			if (keywords.contains(node.getLabel())) {
 				keywords.remove(node.getLabel());
 			}
 		}
