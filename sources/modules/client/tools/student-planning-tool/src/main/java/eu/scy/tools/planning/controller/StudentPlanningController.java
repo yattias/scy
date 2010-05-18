@@ -101,7 +101,7 @@ public class StudentPlanningController {
 	
 	public StudentPlanningController(StudentPlanELO studentPlanELO, ToolBrokerAPI toolBrokerAPI) {
 		this.setToolbrokerApi(toolBrokerAPI);
-		this.studentPlanELO = studentPlanELO;
+		this.setStudentPlanELO(studentPlanELO);
 		this.setUserName(getToolbrokerApi().getLoginUserName());
 		
 		log.severe("SPT GOT USERNAME GO BUDDY GO: " + getUserName());

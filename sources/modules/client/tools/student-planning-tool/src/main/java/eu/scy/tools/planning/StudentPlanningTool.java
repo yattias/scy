@@ -120,7 +120,7 @@ public class StudentPlanningTool {
 			StudentPlanningController studentPlanningController) {
 
 		// Set the default locale to pre-defined locale
-		Locale.setDefault(new Locale("no", "NO"));
+		//Locale.setDefault(new Locale("no", "NO"));
 		// if (studentPlanningController == null) {
 		// JOptionPane.showMessageDialog(null,
 		// "The Server is probably not stable if u can read this!");
@@ -313,6 +313,7 @@ public class StudentPlanningTool {
 				JDialog dialog = optionPane.createDialog(null,
 						Messages.getString("StudentPlanningTool.29")); //$NON-NLS-1$
 				dialog.setVisible(true);
+				
 			}
 		};
 		
@@ -371,7 +372,7 @@ public class StudentPlanningTool {
 		messagePanel.add(messageLabel,BorderLayout.WEST);
 		//messagePanel.add(new JXLabel(" "),"growx");
 		//messagePanel.add(lasTestTextField,BorderLayout.EAST);
-		messagePanel.add(infoLink,BorderLayout.EAST);
+		//messagePanel.add(infoLink,BorderLayout.EAST);
 //		topPanel.add(messageLabel);
 //		topPanel.add(new JXLabel(" "));
 		
