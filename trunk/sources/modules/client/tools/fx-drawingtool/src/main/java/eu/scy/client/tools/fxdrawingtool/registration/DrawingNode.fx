@@ -31,6 +31,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javafx.scene.layout.Container;
+import java.awt.Dimension;
 
 
 /**
@@ -146,7 +147,13 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
     }
 
    function resizeContent(){
-      Container.resizeNode(wrappedWhiteboardPanel,width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
+      var size = new Dimension(width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedWhiteboardPanel,size.width,size.height);
+      whiteboardPanel.setPreferredSize(size);
+//      println("pref sized set to {size}");
+      // setSize is not visual needed
+      // but set it, so the component can react to it
+      whiteboardPanel.setSize(size);
    }
 
    public override function getPrefHeight(width: Number) : Number{
