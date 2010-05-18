@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
@@ -119,6 +120,7 @@ public class StudentPlanningTool {
 	public StudentPlanningTool(
 			StudentPlanningController studentPlanningController) {
 
+		new Messages();
 		// Set the default locale to pre-defined locale
 		//Locale.setDefault(new Locale("no", "NO"));
 		// if (studentPlanningController == null) {
