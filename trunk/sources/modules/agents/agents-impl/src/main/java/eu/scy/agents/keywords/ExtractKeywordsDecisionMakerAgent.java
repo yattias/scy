@@ -30,6 +30,10 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent implements IRepositoryAgent {
 
+	private static final int SECOND = 1000;
+
+	private static final int MINUTE = 60 * SECOND;
+
 	private static final String UNSAVED_ELO = "unsavedELO";
 
 	class ContextInformation {
@@ -66,9 +70,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
 
-	private long idleTimeInMS = 60 * 1000;
+	private long idleTimeInMS = 5 * MINUTE;
 	private int minimumNumberOfConcepts = 5;
-	private long timeAfterThatItIsSaveToRemoveUser = 30 * 6000;
+	private long timeAfterThatItIsSaveToRemoveUser = 120 * MINUTE;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
