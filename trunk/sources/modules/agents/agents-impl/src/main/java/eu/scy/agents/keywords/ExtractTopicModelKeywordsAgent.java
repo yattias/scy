@@ -102,6 +102,8 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 			return doc.getFeature(KeywordConstants.TM_KEYWORDS);
 		} catch (RuntimeException e) {
+			logger.fatal(e.getMessage());
+			e.printStackTrace();
 			return new HashSet<String>();
 		}
 	}
