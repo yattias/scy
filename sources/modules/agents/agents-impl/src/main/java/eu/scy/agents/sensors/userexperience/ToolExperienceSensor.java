@@ -288,6 +288,9 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
+            if (afterTuple==null){
+                return;
+            }
             Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
             try {
                 processAction(a, false);
