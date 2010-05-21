@@ -50,6 +50,7 @@
                      
 
             var s1 = createLas(10, 60, 80, 50, 'Orientation');
+
             var s2 = createLas(200, 30, 120, 50, 'Conceptualization');
             var s3 = createLas(450, 30,  80, 50,'Design');
             var s4 = createLas(450, 120, 80, 50, 'Build');
@@ -96,6 +97,7 @@
                     fill: "90-#000-#0af:1-#fff"
                   },
                   actions: {
+
                    // entry: "create()"
                   }
                 }).toggleGhosting();
@@ -153,11 +155,24 @@
                 s2Div.style.width = s2w + "px";
                 s2Div.style.height = "40px";
                 s2Div.style.backgroundColor = "transparent";
+
+                s2Div.style.cursor = "pointer";
                 //s2Div.style.border = "1px solid #000000";
                 s2Div.style.position = "absolute"
                 s2Div.style.left = (worldLeftOffset + s2x) + "px";
                 //s2Div.style.left = s2x + "px";
-                s2Div.style.top = (worldTopOffset + s2y + 20) + "px";
+                s2Div.style.top = (worldTopOffset + s2y) -10 + "px";
+                s2Div.style.paddingTop = "30px";
+                s2Div.onclick = function(){
+                    var theDialog =  new dijit.Dialog({
+                        title: lasObj.label,
+                        style: "width:500px;height:300px;",
+                        id: "dialog_" + lasObj.label,
+                        content: "<div id='dialogContents_" + lasObj.label + "'>Contents here</div>"
+                    });
+
+                    theDialog.show();
+                }
                 document.getElementById("world").appendChild(s2Div);
                 //s2Div.innerHTML = "<img src=\"http://localhost:8080/webapp/themes/scy/default/images/brown_man_icon.png\" />";
             }
