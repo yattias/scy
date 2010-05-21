@@ -16,6 +16,10 @@
                 <td><s:ajaxTextField property="description" model="${model}" isMultiLine="true"/></td>
             </tr>
             <tr class="${oddEven.oddEven}">
+                <td><strong>Assessment</strong></td>
+                <td><s:ajaxTextField property="name" model="${model.assessment}"/></td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
                 <td><strong>Assessment strategy</strong></td>
                 <td><s:ajaxCombobox property="assessmentStrategyType" model="${model.assessment}" comboBoxValues="${assessmentStrategies}"/></td>
             </tr>
