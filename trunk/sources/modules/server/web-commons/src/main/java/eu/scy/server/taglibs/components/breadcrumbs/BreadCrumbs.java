@@ -1,6 +1,7 @@
 package eu.scy.server.taglibs.components.breadcrumbs;
 
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,16 +22,17 @@ import java.util.List;
  */
 public class BreadCrumbs extends TagSupport {
 
-    List breadCrumbs = new LinkedList();
+    List breadCrumbs = null;
 
     public int doEndTag() throws JspException {
+
         if (breadCrumbs != null) {
             Collections.reverse(breadCrumbs);
             try {
                 pageContext.getOut().write(createHomeLink());
                 for (int i = 0; i < breadCrumbs.size(); i++) {
                     ScyBase scyBase = (ScyBase) breadCrumbs.get(i);
-                    pageContext.getOut().write(" - " + scyBase.getName());
+                    pageContext.getOut().write(createLinkForObject(scyBase));
                 }
 
             } catch (Exception e) {
@@ -41,10 +43,10 @@ public class BreadCrumbs extends TagSupport {
         return EVAL_PAGE;
     }
 
+
     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         String modelString = request.getParameter("model");
         ScyBase modelObject = (ScyBase) request.getAttribute("modelObject");
-        System.out.println("FOUND MODEL OBJECT: " + modelObject);
         if (modelObject != null) {
             breadCrumbs.add(modelObject);
         }
@@ -56,6 +58,7 @@ public class BreadCrumbs extends TagSupport {
     @Override
     public void setPageContext(PageContext pageContext) {
         super.setPageContext(pageContext);
+        breadCrumbs = new LinkedList();
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         instpectRequest(req, (HttpServletResponse) pageContext.getResponse());
         System.out.println("BREAD CRUMBS: QureryStrign: " + req.getQueryString());
@@ -73,6 +76,17 @@ public class BreadCrumbs extends TagSupport {
         String link = createLink("AppIndex.html", "home");
         return link;
     }
+
+    private String createLinkForObject(ScyBase scyBase) {
+        if(scyBase instanceof PedagogicalPlan) return createLink("scyauthor/viewPedagogicalPlan.html?" + getModelLinkInfo(scyBase), scyBase.getName());
+        return "---->";
+    }
+
+    private String getModelLinkInfo(ScyBase scyBase) {
+        return "model=" + scyBase.getClass().getName() + "_" + scyBase.getId();
+    }
+
+
 
     private String createLink(String page, String pageName) {
         String link = "<a href=\"/webapp/app/" + page + "\">" + pageName + "</a>";

@@ -97,6 +97,10 @@
         <property name="repository" ref="repository"/>
     </bean>
 
+    <bean id="learningMaterialDAO" class="eu.scy.core.persistence.hibernate.LearningMaterialDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="buddyService" class="eu.scy.core.openfire.BuddyServiceImpl"/>
 
 </beans>

@@ -43,6 +43,10 @@
         <mapping class="eu.scy.core.model.impl.FileRefImpl"/>
         <mapping class="eu.scy.core.model.impl.ImageRefImpl"/>
 
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningMaterialImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.WebLinkImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningMaterialImageImpl"/>
+
 		<mapping class="eu.scy.core.model.impl.playful.PlayfulAssessmentImpl"/>
 		<mapping class="eu.scy.core.model.impl.ELORefImpl"/>
 

@@ -1,5 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import eu.scy.core.model.ImageRef;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -7,5 +9,8 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 12:25:53
  * represents an image/picture/illustration
  */
-public interface Image extends LearningMaterial{
+public interface LearningMaterialImage extends LearningMaterial{
+    ImageRef getImage();
+
+    void setImage(ImageRef image);
 }
