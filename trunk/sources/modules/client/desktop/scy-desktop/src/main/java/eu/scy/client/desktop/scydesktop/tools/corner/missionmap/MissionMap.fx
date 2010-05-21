@@ -15,6 +15,9 @@ import java.net.URI;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.Action;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
@@ -46,6 +49,8 @@ public class MissionMap extends CustomNode {
    public var selectedScale = 1.5;
    public var notSelectedScale = 1.0;
    public var positionScale = 2.0;
+
+   //public var lasHistory:String[];
 
 
    var maximumLasXpos = -1e6;
@@ -179,6 +184,9 @@ public class MissionMap extends CustomNode {
    }
 
    public function anchorSelected(anchorDisplay: AnchorDisplay, anchor: MissionAnchorFX): Void {
+            println("***********anchorSelected*****************");
+            println("Lasid: {missionModel.activeLas.id}");
+            println("******************************************");
       if (missionModel.activeLas != null) {
          var selectedAnchorDisplay = getAnchorDisplay(missionModel.activeLas);
          if (selectedAnchorDisplay == anchorDisplay) {
@@ -195,8 +203,30 @@ public class MissionMap extends CustomNode {
       }
       anchorDisplay.selected = true;
       missionModel.anchorSelected(anchorDisplay.las, anchor);
+      println("===================================");
+      println("Lasid: {missionModel.lasHistory}");
+      println("===================================");
+      //insert missionModel.activeLas.id into lasHistory;
+      //println("LasHistory: {lasHistory}");
+      println("===================================");
+      //if ((sizeof lasHistory)>1){
+      if ((sizeof missionModel.lasHistory)>1){
+          logLasChange(missionModel.lasHistory[(sizeof missionModel.lasHistory)-2],missionModel.activeLas.id);
+      }
       scyDesktop.edgesManager.findLinks(null);
    }
+
+   function logLasChange(oldLasId:String, newLasId:String):Void{
+        def action:IAction = new Action();
+        action.setType("las_change");
+        action.setUser(scyDesktop.config.getToolBrokerAPI().getLoginUserName());
+        action.addContext(ContextConstants.tool, "scy-lab");
+        action.addAttribute("oldLasId", oldLasId);
+        action.addAttribute("newLasId", newLasId);
+        scyDesktop.config.getToolBrokerAPI().getActionLogger().log(action);
+        logger.info("logged LasChange-action: {action}");
+   }
+
 
    public function getAnchorAttribute(anchor: MissionAnchorFX): AnchorAttribute {
       AnchorAttribute {
