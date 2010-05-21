@@ -83,4 +83,8 @@
         <property name="runtimeDAO" ref="runtimeDAO"/>
     </bean>
 
+    <bean id="learningMaterialService" class="eu.scy.core.LearningMaterialServiceImpl">
+        <property name="learningMaterialDAO" ref="learningMaterialDAO"/>
+    </bean>
+
 </beans>

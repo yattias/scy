@@ -8,4 +8,11 @@ package eu.scy.core.model.pedagogicalplan;
  * Superinterface for all types of learning materials
  */
 public interface LearningMaterial extends BaseObject {
+    LearningMaterialContainer getLearningMaterialContainer();
+
+    void setLearningMaterialContainer(LearningMaterialContainer learningMaterialContainer);
+
+    String getIcon();
+
+    void setIcon(String favico);
 }

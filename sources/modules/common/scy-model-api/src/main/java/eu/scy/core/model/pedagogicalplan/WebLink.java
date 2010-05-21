@@ -8,4 +8,8 @@ package eu.scy.core.model.pedagogicalplan;
  * represents a web link
  */
 public interface WebLink extends LearningMaterial{
+    String getUrl();
+
+    void setUrl(String url);
+
 }

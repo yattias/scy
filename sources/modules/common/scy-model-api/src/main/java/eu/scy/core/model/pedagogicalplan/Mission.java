@@ -1,5 +1,6 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,12 +11,15 @@ import java.util.Set;
  */
 public interface Mission extends LearningGoalContainer{
 
-    public Set <? extends LearningMaterial> getLearningMaterials();
-    public void setLearningMaterials(Set <? extends LearningMaterial> learningMaterials);
+    public List getLearningMaterials();
+    public void setLearningMaterials(List learningMaterials);
 
     public void setMissionOutline(String missionOutline);
     public String getMissionOutline();
 
     public void setTargetGroup(String targetGroup); 
     public String getTargetGroup();
+
+    void addLearningMaterial(LearningMaterial learningMaterial);
+    public void removeLearningMaterial(LearningMaterial learningMaterial);
 }

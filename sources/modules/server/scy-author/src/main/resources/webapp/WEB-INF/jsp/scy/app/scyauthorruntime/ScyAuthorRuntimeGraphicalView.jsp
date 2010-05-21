@@ -16,7 +16,7 @@
 
 
 
-        <h1>WELCOME TO SCYAuthor Runtime!</h1>
+        <h1>WELCOME TO SCYAuthor Runtime!</h1>  ${baseUrl}
 
         <c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">

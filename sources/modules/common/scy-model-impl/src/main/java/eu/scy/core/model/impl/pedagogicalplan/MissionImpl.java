@@ -1,6 +1,7 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
+import eu.scy.core.model.pedagogicalplan.LearningMaterialContainer;
 import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.LearningMaterial;
 
@@ -16,21 +17,32 @@ import java.util.*;
 
 @Entity
 @Table(name = "mission")
-public class MissionImpl extends LearningGoalContainerImpl implements Mission {
+public class MissionImpl extends LearningGoalContainerImpl implements Mission, LearningMaterialContainer {
 
     private String missionOutline = null;
     private String targetGroup = null;
 
     private List<LearningGoal> learningGoals;
+    private List<LearningMaterial> learningMaterials;
 
-    @Transient
-    public Set<? extends LearningMaterial> getLearningMaterials() {
-        return null;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningMaterialContainer", targetEntity = LearningMaterialImpl.class, fetch = FetchType.LAZY)
+    public List getLearningMaterials() {
+        return learningMaterials;
     }
 
     @Override
-    public void setLearningMaterials(Set<? extends LearningMaterial> learningMaterials) {
+    public void setLearningMaterials(List learningMaterials) {
+        this.learningMaterials = learningMaterials;
+    }
 
+    @Override
+    public void addLearningMaterial(LearningMaterial learningMaterial) {
+        getLearningMaterials().add(learningMaterial);
+        learningMaterial.setLearningMaterialContainer(this);
+    }
+
+    public void removeLearningMaterial(LearningMaterial learningMaterial) {
+        getLearningMaterials().remove(learningMaterial);
     }
 
     @Override

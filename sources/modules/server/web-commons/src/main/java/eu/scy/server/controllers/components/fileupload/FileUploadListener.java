@@ -1,5 +1,7 @@
 package eu.scy.server.controllers.components.fileupload;
 
+import eu.scy.core.model.impl.ScyBaseObject;
+
 import java.io.File;
 
 /**
@@ -12,5 +14,7 @@ import java.io.File;
 public interface FileUploadListener {
 
     public void fileUploaded(File file);
+
+    public void setModel(ScyBaseObject model);
     
 }

@@ -184,6 +184,7 @@ CREATE TABLE `mission` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 DROP TABLE IF EXISTS `learninggoal`;
 CREATE TABLE `learninggoal` (
 	`primKey` varchar(55) NOT NULL default '',
@@ -400,6 +401,23 @@ CREATE TABLE `runtimeaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `learningmaterial`;
+CREATE TABLE `learningmaterial` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`url` text,
+	`icon` text,
+	`materialtype` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `mission_primKey` varchar(55) default NULL ,
+    `image_primKey` varchar(55) default NULL ,
+	PRIMARY KEY  (`primKey`),
+    KEY `learningMaterialImageRef` (`image_primKey`),
+	KEY `learningmaterialtomission` (`mission_primKey`),
+    CONSTRAINT `learningMateraialImageRefConst` FOREIGN KEY (`image_primKey`) REFERENCES `fileref` (`primKey`),
+	CONSTRAINT `learningmaterialtomissionconst` FOREIGN KEY (`mission_primKey`) REFERENCES `mission` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 set FOREIGN_KEY_CHECKS=1;
