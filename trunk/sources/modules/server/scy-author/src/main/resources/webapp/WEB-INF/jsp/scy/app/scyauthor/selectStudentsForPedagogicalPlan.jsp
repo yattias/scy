@@ -16,7 +16,7 @@
                             <td><img src="/webapp/common/filestreamer.html?username=${student.userDetails.username}&showIcon"/>
                             </td>
                             <td>
-                                <a href="viewPedagogicalPlan.html?action=addStudent&username=${student.userDetails.username}&id=${id}">${student.userDetails.username}</a>
+                                <a href="viewStudentsForPedagogicalPlan.html?action=addStudent&username=${student.userDetails.username}&id=${id}">${student.userDetails.username}</a>
                             </td>
                             <td>${student.userDetails.firstname} </td>
                             <td>${student.userDetails.lastname}</td>

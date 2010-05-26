@@ -78,7 +78,7 @@
         <br/>
         <br/>
 
-        <table cellpadding="10" cellspacing="10">
+        <table width="100%" cellpadding="10" cellspacing="10">
             <tr>
                 <th>Overall scaffold level</th>
                 <th>Values</th>
@@ -96,42 +96,22 @@
                 <td width="10%"><a href="viewAgents.html?pedagogicalPlanId=${pedagogicalPlan.id}">Specify</a></td>
             </tr>
         </table>
+
         <br/>
-        <br/>        
-
-        <h2>Assigned students</h2>
-
-        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select students" extraParameters="id=${pedagogicalPlan.id}"/>
-
-        <c:choose>
-            <c:when test="${fn:length(assignedPedagogicalPlans) > 0}">
-                <table id="teachersTable" width="100%">
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>User name</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                    </tr>
-                    <c:forEach var="assignedPedagogicalPlan" items="${assignedPedagogicalPlans}">
-                        <tr class="${oddEven.oddEven}">
-                            <td>
-                                <s:deleteLink href="viewPedagogicalPlan.html?id=${pedagogicalPlan.id}&action=removeStudent&username=${assignedPedagogicalPlan.user.userDetails.username}" title="-" confirmText="Do you really want to remove ${assignedPedagogicalPlan.user.userDetails.username} from ${pedagogicalPlan.name}?" />
-                            </td>
-                            <td><img src="/webapp/common/filestreamer.html?username=${assignedPedagogicalPlan.user.userDetails.username}&showIcon"/>
-                            </td>
-                            <td>
-                                ${assignedPedagogicalPlan.user.userDetails.username}
-                            </td>
-                            <td>${assignedPedagogicalPlan.user.userDetails.firstname} </td>
-                            <td>${assignedPedagogicalPlan.user.userDetails.lastname}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                <br>
-            </c:when>
-        </c:choose>
-
-
+        <br/>
+        <table width="100%">
+            <tr>
+                <th width="50%">Pedagogical plan user administration</th>
+                <th width="50%">Object</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>Students</td>
+                <td><s:modellink model="${pedagogicalPlan}" href="viewStudentsForPedagogicalPlan.html">${assignedPedagogicalPlansCount} assigned students</s:modellink></td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>Grouping</td>
+                <td></td>
+            </tr>
+        </table>
     </tiles:putAttribute>
 </tiles:insertDefinition>
