@@ -11,13 +11,14 @@ import java.util.List;
  * User: Henrik
  * Date: 26.mar.2010
  * Time: 05:40:17
- * To change this template use File | Settings | File Templates.
  */
 public interface AssignedPedagogicalPlanService extends BaseService{
 
     List <AssignedPedagogicalPlan> getAssignedPedagogicalPlans(PedagogicalPlan pedagogicalPlan);
 
     AssignedPedagogicalPlan assignPedagogicalPlanToUser(PedagogicalPlan plan, User user);
+
+    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
 
     List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(User user);
 

@@ -11,7 +11,6 @@ import java.util.List;
  * User: Henrik
  * Date: 26.mar.2010
  * Time: 05:40:46
- * To change this template use File | Settings | File Templates.
  */
 public interface AssignedPedagogicalPlanDAO extends BaseDAO{
     AssignedPedagogicalPlan assignPedagogicalPlanToUser(PedagogicalPlan plan, User user);
@@ -19,6 +18,8 @@ public interface AssignedPedagogicalPlanDAO extends BaseDAO{
     List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(User user);
 
     List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(PedagogicalPlan pedagogicalPlan);
+
+    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
 
     void removeAssignedAssessment(User user, PedagogicalPlan plan);
 }

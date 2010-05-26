@@ -93,6 +93,12 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
                 .list();
     }
 
+    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan) {
+        return getSession().createQuery("select distinct count (app) from AssignedPedagogicalPlanImpl as app where app.pedagogicalPlan = :pedagogicalPlan")
+                .setEntity("pedagogicalPlan", pedagogicalPlan)
+                .list();
+    }
+
     @Override
     public void removeAssignedAssessment(User user, PedagogicalPlan plan) {
         AssignedPedagogicalPlan assignedPedagogicalPlan = (AssignedPedagogicalPlan) getSession().createQuery("from AssignedPedagogicalPlanImpl where user = :user and pedagogicalPlan = :pedagogicalPlan")

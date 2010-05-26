@@ -14,7 +14,6 @@ import java.util.List;
  * User: Henrik
  * Date: 26.mar.2010
  * Time: 05:42:12
- * To change this template use File | Settings | File Templates.
  */
 public class AssignedPedagogicalPlanServiceImpl extends BaseServiceImpl implements AssignedPedagogicalPlanService {
 
@@ -29,6 +28,10 @@ public class AssignedPedagogicalPlanServiceImpl extends BaseServiceImpl implemen
     @Transactional
     public AssignedPedagogicalPlan assignPedagogicalPlanToUser(PedagogicalPlan plan, User user) {
         return getAssignedPedagogicalPlanDAO().assignPedagogicalPlanToUser(plan, user);
+    }
+
+    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan) {
+        return getAssignedPedagogicalPlanDAO().getAssignedPedagogicalPlansCount(pedagogicalPlan);
     }
 
     @Override
