@@ -77,9 +77,11 @@ public class ScenarioDiagram extends TagSupport {
                         "        load: function(responseObject, ioArgs) {\n" +
                         "          // Now you can just use the object\n" +
                         "          console.dir(responseObject);  // Dump it to the console\n" +
-                        "          alert(\"LOADED JSON\" + responseObject.model.toString()); " +
-                        //"          alert(responseObject.length); " +
-                        "          return responseObject;\n" +
+                        
+                                "for(var i = 0;i<responseObject.model.LearningActivitySpace.length;i++){              " +
+                                "alert(responseObject.model.LearningActivitySpace[i].name);\n" +
+                                "          }"  +
+
                         "        }\n" +
                         "        // More properties for xhrGet...\n" +
                         "});");
