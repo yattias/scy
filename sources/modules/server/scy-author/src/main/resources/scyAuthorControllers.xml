@@ -60,6 +60,8 @@
                    /app/scyauthorruntime/ScyAuthorRuntimeGraphicalView.html=scyAuthorRuntimeGraphicalViewController
                    /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
                    /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
+
+                   /app/scyauthor/scenarioJsonView.html=scenarioJsonView
                </value>
            </property>
        </bean>
@@ -210,6 +212,11 @@
         <property name="missionService" ref="missionService"/>
         <property name="serverService" ref="serverService"/>
         <property name="learningMaterialService" ref="learningMaterialService"/>
+    </bean>
+
+
+    <bean id="scenarioJsonView" class="eu.scy.server.controllers.json.ScenarioJSONView">
+        
     </bean>
 
 

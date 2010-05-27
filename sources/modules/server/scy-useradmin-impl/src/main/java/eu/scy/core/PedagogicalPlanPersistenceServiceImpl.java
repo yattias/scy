@@ -69,4 +69,9 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
     public List<PedagogicalPlan> getPedagogicalPlans() {
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlans();
     }
+
+    @Override
+    public List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
+        return getPedagogicalPlanPersistenceDAO().getLearningActivitySpaces(pedagogicalPlan);
+    }
 }

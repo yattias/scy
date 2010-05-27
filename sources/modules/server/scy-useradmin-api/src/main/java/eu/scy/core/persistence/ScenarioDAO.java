@@ -23,4 +23,8 @@ public interface ScenarioDAO extends SCYBaseDAO{
     public List<Activity> getAllActivitiesForLAS(LearningActivitySpace las);
 
     public List<Mission> getMissions();
+
+    Scenario getScenario(String scenarioId);
+
+    List<LearningActivitySpace> getLearningActivitySpaces(Scenario scenario);
 }

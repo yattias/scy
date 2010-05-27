@@ -26,6 +26,6 @@
             </c:when>
         </c:choose>
 
-        <a href="ScyAuthorRuntimeGraphicalView.html">Graphical runtime view</a>
+        <!--a href="ScyAuthorRuntimeGraphicalView.html">Graphical runtime view</a-->
     </tiles:putAttribute>
 </tiles:insertDefinition>

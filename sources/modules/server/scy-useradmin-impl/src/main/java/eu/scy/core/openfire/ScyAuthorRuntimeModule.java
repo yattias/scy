@@ -47,14 +47,16 @@ public class ScyAuthorRuntimeModule extends SCYHubModule {
     @Override
     protected void process(Packet packet, WhacketExtension extension) {
         Action action = (Action) extension.getPojo();
-        logger.debug("ACTION TYPE: " + action.getType());
-        logger.debug("ID" + action.getId());
-        logger.debug("USER: " + action.getUser());
-        logger.debug("TIME: " + action.getTimeInMillis());
-        logger.debug("TOOL: " + action.getContext().get(ContextConstants.tool));
-        logger.debug("MISSION: " + action.getContext().get(ContextConstants.mission));
-        logger.debug("SESSION: " + action.getContext().get(ContextConstants.session));
-        logger.debug("ELOURI: " + action.getContext().get(ContextConstants.eloURI));
+        logger.info("ACTION TYPE: " + action.getType());
+        logger.info("ID" + action.getId());
+        logger.info("USER: " + action.getUser());
+        logger.info("TIME: " + action.getTimeInMillis());
+        logger.info("TOOL: " + action.getContext().get(ContextConstants.tool));
+        logger.info("MISSION: " + action.getContext().get(ContextConstants.mission));
+        logger.info("SESSION: " + action.getContext().get(ContextConstants.session));
+        logger.info("ELOURI: " + action.getContext().get(ContextConstants.eloURI));
+        logger.info("NEW LAS: " + action.getAttribute("newLasId"));
+        logger.info("OLD LAS: " + action.getAttribute("oldLasId"));
 
         getRuntimeService().storeAction(
                 action.getType(),
@@ -64,7 +66,11 @@ public class ScyAuthorRuntimeModule extends SCYHubModule {
                 action.getContext().get(ContextConstants.mission),
                 action.getContext().get(ContextConstants.session),
                 action.getContext().get(ContextConstants.eloURI),
-                action.getUser());
+                action.getUser(),
+                action.getAttribute("oldLasId"),
+                action.getAttribute("newLasId")
+
+                );
 
     }
 

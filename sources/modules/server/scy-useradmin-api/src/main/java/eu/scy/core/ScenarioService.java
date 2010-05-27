@@ -22,4 +22,8 @@ public interface ScenarioService extends BaseService{
     public List<Mission> getMissions();
 
     void save(Scenario scenario);
+
+    Scenario getScenario(String scenarioId);
+
+    List<LearningActivitySpace> getLearningActivitySpaces(Scenario scenario);
 }

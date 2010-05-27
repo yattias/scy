@@ -41,6 +41,16 @@ public class ScenarioServiceImpl extends BaseServiceImpl implements ScenarioServ
         getScenarioDAO().save(scenario);
     }
 
+    @Override
+    public Scenario getScenario(String scenarioId) {
+        return getScenarioDAO().getScenario(scenarioId);
+    }
+
+    @Override
+    public List<LearningActivitySpace> getLearningActivitySpaces(Scenario scenario) {
+        return getScenarioDAO().getLearningActivitySpaces(scenario);
+    }
+
     public ScenarioDAO getScenarioDAO() {
         return (ScenarioDAO) getScyBaseDAO();
     }

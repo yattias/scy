@@ -2,9 +2,11 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.runtime.EloRuntimeActionImpl;
+import eu.scy.core.model.impl.runtime.LASRuntimeActionImpl;
 import eu.scy.core.model.impl.runtime.ToolRuntimeActionImpl;
 import eu.scy.core.model.runtime.AbstractRuntimeAction;
 import eu.scy.core.model.runtime.EloRuntimeAction;
+import eu.scy.core.model.runtime.LASRuntimeAction;
 import eu.scy.core.model.runtime.ToolRuntimeAction;
 import eu.scy.core.persistence.RuntimeDAO;
 import eu.scy.core.persistence.UserDAO;
@@ -85,10 +87,19 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
         return "";
     }
 
+    @Override
+    public String getCurrentLAS(User user) {
+                 LASRuntimeAction runtimeAction = (LASRuntimeAction) getSession().createQuery("from LASRuntimeActionImpl where user = :user order by timeCreated desc ")
+                 .setEntity("user", user)
+                 .setMaxResults(1)
+                 .uniqueResult();
+        return runtimeAction.getNewLASId();
+
+    }
 
 
     @Override
-    public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName) {
+    public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName, String newLASId, String oldLASId) {
         logger.debug("STORING ACTION: " + type + " " + id + " " + timeInMillis + " " + tool + " " + mission + " " + session + " " + eloUri);
         userName = userName.substring(0, userName.indexOf("@"));
         logger.debug("Loading user: " + userName);
@@ -102,7 +113,13 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                     ((ToolRuntimeAction) runtimeAction).setTool(tool);
                 } else if(runtimeAction instanceof EloRuntimeAction) {
                     ((EloRuntimeAction) runtimeAction).setEloUri(eloUri);
+                } else if(runtimeAction instanceof LASRuntimeAction) {
+                    ((LASRuntimeAction) runtimeAction).setNewLASId(newLASId);
+                    ((LASRuntimeAction) runtimeAction).setOldLASId(oldLASId);
                 }
+
+                logger.debug("ACTION IS OF TYPE: " + runtimeAction.getClass().getName());
+
                 runtimeAction.setUser(user);
                 runtimeAction.setActionId(id);
                 runtimeAction.setActionType(type);
@@ -124,6 +141,7 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
     private AbstractRuntimeAction createRuntimeAction(String type) {
         if (type.contains("tool")) return new ToolRuntimeActionImpl();
         else if(type.contains("elo")) return new EloRuntimeActionImpl();
+        else if(type.contains("las")) return new LASRuntimeActionImpl();
         return null;
     }
 

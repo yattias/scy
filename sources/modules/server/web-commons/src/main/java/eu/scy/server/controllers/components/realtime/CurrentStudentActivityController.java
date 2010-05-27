@@ -4,6 +4,7 @@ import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.runtime.AbstractRuntimeAction;
 import eu.scy.core.model.runtime.EloRuntimeAction;
+import eu.scy.core.model.runtime.LASRuntimeAction;
 import eu.scy.core.model.runtime.ToolRuntimeAction;
 import eu.scy.core.runtime.RuntimeService;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,10 +38,13 @@ public class CurrentStudentActivityController extends AbstractController {
         if (username != null) {
             User user = getUserService().getUser(username);
             AbstractRuntimeAction latestInterestingAction = getRuntimeService().getLatestInterestingAction(user);
+            String las = getRuntimeService().getCurrentLAS(user);
+            status = las + ", " ;
             String currentTool = getRuntimeService().getCurrentTool(user);
             String currentELO = getRuntimeService().getCurrentELO(user);
             if(currentTool.length() > 0) currentTool += ", ";
-            status = currentTool;
+
+            status += currentTool;
 
             if(currentELO != null) status += currentELO + ", ";
 

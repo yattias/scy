@@ -53,5 +53,7 @@
         <mapping class="eu.scy.core.model.impl.runtime.AbstractRuntimeActionImpl"/>
         <mapping class="eu.scy.core.model.impl.runtime.ToolRuntimeActionImpl"/>
         <mapping class="eu.scy.core.model.impl.runtime.EloRuntimeActionImpl"/>
+        <mapping class="eu.scy.core.model.impl.runtime.LASRuntimeActionImpl"/>
+        
 	</session-factory>
 </hibernate-configuration>

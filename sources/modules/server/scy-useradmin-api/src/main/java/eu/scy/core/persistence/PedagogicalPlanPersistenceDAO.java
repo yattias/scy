@@ -1,9 +1,6 @@
 package eu.scy.core.persistence;
 
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 
 import java.util.List;
 
@@ -30,4 +27,6 @@ public interface PedagogicalPlanPersistenceDAO extends SCYBaseDAO {
     public List<PedagogicalPlan> getPedagogicalPlans();
 
     public PedagogicalPlan getPedagogicalPlan(String id);
+
+    List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan);
 }

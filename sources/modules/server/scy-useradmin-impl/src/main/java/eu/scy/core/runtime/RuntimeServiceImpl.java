@@ -4,7 +4,6 @@ import eu.scy.core.BaseServiceImpl;
 import eu.scy.core.model.User;
 import eu.scy.core.model.runtime.AbstractRuntimeAction;
 import eu.scy.core.persistence.RuntimeDAO;
-import eu.scy.core.persistence.UserDAO;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +38,8 @@ public class RuntimeServiceImpl extends BaseServiceImpl implements RuntimeServic
 
     @Override
     @Transactional
-    public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName) {
-        runtimeDAO.storeAction(type, id, timeInMillis, tool, mission, session, eloUri, userName);
+    public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName, String oldLASId, String newLASId) {
+        runtimeDAO.storeAction(type, id, timeInMillis, tool, mission, session, eloUri, userName, newLASId, oldLASId);
     }
 
     @Override
@@ -56,6 +55,11 @@ public class RuntimeServiceImpl extends BaseServiceImpl implements RuntimeServic
     @Override
     public String getCurrentELO(User user) {
         return runtimeDAO.getCurrentELO(user);
+    }
+
+    @Override
+    public String getCurrentLAS(User user) {
+        return runtimeDAO.getCurrentLAS(user);
     }
 
 }
