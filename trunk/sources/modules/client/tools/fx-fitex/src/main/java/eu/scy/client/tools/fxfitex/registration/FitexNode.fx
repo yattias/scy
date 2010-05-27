@@ -35,7 +35,6 @@ import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.common.datasync.DummySyncListener;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import java.lang.System;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
@@ -278,12 +277,13 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                                 doSaveAsElo();
                            }
                         }
-                        Button {
-                           text: "flash";
-                           action: function() {
-                                datasyncEdge.flash();
-                           }
-                        }
+//                        Button {
+//                           text: "flash";
+//                           action: function() {
+//                                if( datasyncEdge != null)
+//                                    datasyncEdge.flash();
+//                           }
+//                        }
                         /*Button {
                            text: "Synchronize"
                            action: function() {
