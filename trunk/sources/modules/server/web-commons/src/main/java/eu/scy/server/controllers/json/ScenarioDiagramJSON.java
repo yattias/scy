@@ -5,7 +5,9 @@ import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
+import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -53,13 +55,27 @@ public class ScenarioDiagramJSON extends AbstractController {
         if(scenarioId != null) {
             scenario = getScenarioService().getScenario(scenarioId);
             list = getScenarioService().getLearningActivitySpaces(scenario);
-            XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+
+            List objectsToStream = new LinkedList();
+            for (int i = 0; i < list.size(); i++) {
+                LearningActivitySpace learningActivitySpace = (LearningActivitySpace) list.get(i);
+                LearningActivitySpace copy = new LearningActivitySpaceImpl();
+                copy.setName(learningActivitySpace.getName());
+                copy.setDescription(learningActivitySpace.getDescription());
+                copy.setXPos(learningActivitySpace.getXPos());
+                copy.setYPos(learningActivitySpace.getYPos());
+                objectsToStream.add(copy);
+            }
+
+            XStream xstream = new XStream(new JettisonMappedXmlDriver());
+            //XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
 
             httpServletResponse.setContentType("text/json");
 
-            //xstream.setMode(XStream.NO_REFERENCES);
-            xstream.alias("model", List.class);
-            xstream.toXML(list, httpServletResponse.getWriter());
+            xstream.setMode(XStream.NO_REFERENCES);
+            xstream.alias("model", LinkedList.class);
+            xstream.aliasField("name", LearningActivitySpaceImpl.class, "name");
+            xstream.toXML(objectsToStream, httpServletResponse.getWriter());
 
         }
 
