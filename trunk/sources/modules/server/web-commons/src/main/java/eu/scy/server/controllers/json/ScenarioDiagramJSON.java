@@ -2,6 +2,7 @@ package eu.scy.server.controllers.json;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
 import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
@@ -52,9 +53,12 @@ public class ScenarioDiagramJSON extends AbstractController {
         if(scenarioId != null) {
             scenario = getScenarioService().getScenario(scenarioId);
             list = getScenarioService().getLearningActivitySpaces(scenario);
-            XStream xstream = new XStream(new JettisonMappedXmlDriver());
+            XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+
+            httpServletResponse.setContentType("text/json");
+
             //xstream.setMode(XStream.NO_REFERENCES);
-            xstream.alias("model", LinkedList.class);
+            xstream.alias("model", List.class);
             xstream.toXML(list, httpServletResponse.getWriter());
 
         }
