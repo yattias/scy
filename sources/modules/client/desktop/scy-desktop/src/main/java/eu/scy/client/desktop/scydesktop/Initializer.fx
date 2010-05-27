@@ -39,6 +39,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.StringTokenizer;
 import javafx.util.Sequences;
 import javafx.util.StringLocalizer;
+import eu.scy.client.common.scyi18n.UriLocalizer;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -81,6 +82,7 @@ public class Initializer {
     public-init var missionMapSelectedImageScale = 1.5;
     public-init var missionMapNotSelectedImageScale = 1.0;
     public-init var missionMapPositionScale = 1.0;
+    public-init var localUriReplacements = "";
     public-read var languages:String[];
     public-read var backgroundImage: Image;
     public-read var localLoggingDirectory: File = null;
@@ -124,6 +126,7 @@ public class Initializer {
     def missionMapSelectedImageScaleOption = "missionMapSelectedImageScale";
     def missionMapNotSelectedImageScaleOption = "missionMapNotSelectedImageScale";
     def missionMapPositionScaleOption = "missionMapPositionScale";
+    def localUriReplacementsOption = "localUriReplacements";
 
     var setupLoggingToFiles:SetupLoggingToFiles;
     package var background:DynamicTypeBackground;
@@ -154,6 +157,7 @@ public class Initializer {
         setupLanguages();
         setupCodeLogging();
         logProperties();
+        setLocalUriReplacement();
         setLookAndFeel();
         setupScyServerHost();
         setupToolBrokerLogin();
@@ -255,6 +259,9 @@ public class Initializer {
                 } else if (option == missionMapPositionScaleOption.toLowerCase()) {
                     missionMapPositionScale = argumentsList.nextNumberValue(missionMapPositionScaleOption);
                     logger.info("app: {missionMapPositionScaleOption}: {missionMapPositionScale}");
+                } else if (option == localUriReplacementsOption.toLowerCase()) {
+                    localUriReplacements = argumentsList.nextStringValue(localUriReplacementsOption);
+                    logger.info("app: {localUriReplacementsOption}: {localUriReplacements}");
                 } else {
                     logger.info("Unknown option: {option}");
                 }
@@ -294,6 +301,7 @@ public class Initializer {
         missionMapSelectedImageScale = getWebstartParameterNumberValue(missionMapSelectedImageScaleOption, missionMapSelectedImageScale);
         missionMapNotSelectedImageScale = getWebstartParameterNumberValue(missionMapNotSelectedImageScaleOption, missionMapNotSelectedImageScale);
         missionMapPositionScale = getWebstartParameterNumberValue(missionMapPositionScaleOption, missionMapPositionScale);
+        localUriReplacements = getWebstartParameterStringValue(localUriReplacementsOption, localUriReplacements);
     }
 
     function getWebstartParameterStringValue(name: String, default: String): String {
@@ -359,6 +367,7 @@ public class Initializer {
         printWriter.println("- missionMapSelectedImageScale: {missionMapSelectedImageScale}");
         printWriter.println("- missionMapNotSelectedImageScale: {missionMapNotSelectedImageScale}");
         printWriter.println("- missionMapPositionScale: {missionMapPositionScale}");
+        printWriter.println("- localUriReplacements: {localUriReplacements}");
     }
 
     public function isEmpty(string: String): Boolean {
@@ -513,6 +522,9 @@ public class Initializer {
       logger.info("System information:\n{stringWriter.toString()}");
     }
 
+    function setLocalUriReplacement(){
+       UriLocalizer.localUriReplacements = UriLocalizer.createLocalUriReplacementFromString(localUriReplacements);
+    }
 
     function setLookAndFeel() {
         if (lookAndFeel.length() > 0) {
