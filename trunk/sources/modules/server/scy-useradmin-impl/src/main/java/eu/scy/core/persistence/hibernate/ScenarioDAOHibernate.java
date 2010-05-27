@@ -1,9 +1,6 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.ScenarioDAO;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -44,5 +41,21 @@ public class ScenarioDAOHibernate extends ScyBaseDAOHibernate implements Scenari
         return getSession().createQuery("from MissionImpl order by name")
                 .list();
     }
+
+    @Override
+    public Scenario getScenario(String scenarioId) {
+        return (Scenario) getSession().createQuery("from ScenarioImpl where id=:id")
+                .setString("id", scenarioId)
+                .uniqueResult();
+    }
+
+    @Override
+    public List<LearningActivitySpace> getLearningActivitySpaces(Scenario scenario) {
+        return getSession().createQuery("from LearningActivitySpaceImpl as las where las.participatesIn = :scenario")
+                .setEntity("scenario", scenario)
+                .list();
+
+    }
+
 
 }

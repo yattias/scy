@@ -275,6 +275,28 @@
     </tag>
 
     <tag>
+        <name>scenariodiagram</name>
+        <tagclass>eu.scy.server.taglibs.components.scenario.ScenarioDiagram</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Scenario diagram</info>
+        <attribute>
+            <name>scenario</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>pedagogicalPlan</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>loadJSON</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
         <name>modellink</name>
         <tagclass>eu.scy.server.taglibs.components.links.ModelLink</tagclass>
         <info>Model link</info>

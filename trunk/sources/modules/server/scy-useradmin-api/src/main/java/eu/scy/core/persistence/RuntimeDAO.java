@@ -13,7 +13,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface RuntimeDAO extends SCYBaseDAO{
-    void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName);
+    void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName, String newLASId, String oldLASId);
 
     List getActions(User user);
 
@@ -22,4 +22,6 @@ public interface RuntimeDAO extends SCYBaseDAO{
     String getCurrentTool(User user);
 
     String getCurrentELO(User user);
+
+    String getCurrentLAS(User user);
 }

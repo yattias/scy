@@ -1,10 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 import java.util.Collections;
 import java.util.List;
@@ -93,4 +90,17 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .uniqueResult();
 
     }
+
+    @Override
+    public List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
+        pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(pedagogicalPlan);
+        log.info("GOT PED PLAN: " + pedagogicalPlan);
+        Scenario scenario = (Scenario) getHibernateTemplate().merge(pedagogicalPlan.getScenario());
+        log.info("GOT SCENARIO: " + scenario);
+        return getSession().createQuery("from LearningActivitySpaceImpl as las where las.participatesIn = :scenario")
+                .setEntity("scenario", scenario)
+                .list();
+
+    }
+
 }

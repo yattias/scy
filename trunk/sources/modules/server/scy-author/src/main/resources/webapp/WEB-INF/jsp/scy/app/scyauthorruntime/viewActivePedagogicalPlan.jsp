@@ -4,6 +4,9 @@
 
         <h1>${model.name}</h1>
 
+        <s:modellink href="ScyAuthorRuntimeGraphicalView.html" model="${model}">Graphical runtime view</s:modellink>
+        <!--a href="ScyAuthorRuntimeGraphicalView.html?id=${model.id}">Graphical runtime view</a-->
+
         <c:choose>
             <c:when test="${fn:length(assignedPedagogicalPlans) > 0}">
 

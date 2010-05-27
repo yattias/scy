@@ -46,6 +46,8 @@
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
                    /components/realtime/currentStudentActivity.html=currentStudentActivityController 
+                   /components/json/JSonView.html=jsonView 
+                   /components/json/ScenarioDiagramJSON.html=scenarioDiagramJSON 
                </value>
            </property>
        </bean>
@@ -100,5 +102,12 @@
         <property name="runtimeService" ref="runtimeService"/>
         <property name="userService" ref="userService"/>
     </bean>
+
+    <bean id="scenarioDiagramJSON" class="eu.scy.server.controllers.json.ScenarioDiagramJSON">
+        <property name="scenarioService" ref="scenarioService"/>
+    </bean>
+
+    <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
+
 
 </beans>

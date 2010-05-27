@@ -393,6 +393,8 @@ CREATE TABLE `runtimeaction` (
 	`eloUri` varchar(250) default NULL,
 	`runtimeactiontype` varchar(55) default NULL,
 	`actionId` varchar(250) default NULL,
+	`newLASId` varchar(250) default NULL,
+	`oldLASId` varchar(250) default NULL,
     `timeInMillis` bigint(20) NOT NULL default '0',
     `user_primKey` bigint(20) DEFAULT NULL,
     KEY `runtimeactionrefuser` (`user_primKey`),

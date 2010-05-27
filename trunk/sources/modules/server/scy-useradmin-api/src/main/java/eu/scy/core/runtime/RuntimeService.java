@@ -18,11 +18,13 @@ public interface RuntimeService extends BaseService {
 
     List getActions(User user);
 
-    void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String user);
+    void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String user, String oldLASId, String newLASId);
 
     AbstractRuntimeAction getLatestInterestingAction(User user);
 
     public String getCurrentTool(User user);
 
     public String getCurrentELO(User user);
+
+    public String getCurrentLAS(User user);
 }
