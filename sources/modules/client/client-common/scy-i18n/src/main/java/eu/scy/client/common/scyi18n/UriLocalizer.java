@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +37,25 @@ public class UriLocalizer
    private final Pattern languageOnlyNameInPathPattern = Pattern.compile("/[a-z]{2}/");
    private final Pattern languageOnlyNameAtBeginPathPattern = Pattern.compile("^[a-z]{2}/");
    private final Pattern languageInNamePattern = Pattern.compile("_[a-z]{2}\\.[\\w]+$");
+   public static LocalUriReplacement[] localUriReplacements;
+
+   public static LocalUriReplacement[] createLocalUriReplacementFromString(String string)
+   {
+      if (string == null)
+      {
+         return null;
+      }
+      StringTokenizer tokenizer = new StringTokenizer(string, ";");
+      LocalUriReplacement[] newLocalUriReplacements = new LocalUriReplacement[tokenizer.countTokens()];
+      int i = 0;
+      while (tokenizer.hasMoreTokens())
+      {
+         String specification = tokenizer.nextToken();
+         newLocalUriReplacements[i] = new LocalUriReplacement(specification);
+         ++i;
+      }
+      return newLocalUriReplacements;
+   }
 
    public UriLocalizer()
    {
@@ -83,11 +103,9 @@ public class UriLocalizer
       }
       catch (FileNotFoundException ex)
       {
-
       }
       catch (IOException ex)
       {
-
       }
       return false;
    }
@@ -142,8 +160,10 @@ public class UriLocalizer
       String localizedPath = localizePath(uri.getPath(), targetLanguage);
       try
       {
-         return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-                  localizedPath, uri.getQuery(), uri.getFragment());
+         URI localizedUri = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
+            localizedPath, uri.getQuery(), uri.getFragment());
+         String localLocalizedUri = makePathLocalIfSpecified(localizedUri.toString());
+         return new URI(localLocalizedUri);
       }
       catch (URISyntaxException ex)
       {
@@ -188,7 +208,9 @@ public class UriLocalizer
     */
    public String localizePath(String path)
    {
-      return localizePath(path, localeLanguage);
+      String localizedPath = localizePath(path, localeLanguage);
+      String localLocalizedPath = makePathLocalIfSpecified(localizedPath);
+      return localLocalizedPath;
    }
 
    private String localizePath(String path, String targetLanguage)
@@ -217,7 +239,7 @@ public class UriLocalizer
       {
          int startMatchPos = languageInNameMatch.start();
          return path.substring(0, startMatchPos) + "_" + targetLanguage + "."
-                  + path.substring(startMatchPos + targetLanguage.length() + 2);
+            + path.substring(startMatchPos + targetLanguage.length() + 2);
       }
       return path;
    }
@@ -227,5 +249,36 @@ public class UriLocalizer
       int startMatchPos = matcher.start();
       int endMatchPos = matcher.end();
       return path.substring(0, startMatchPos) + replacement + path.substring(endMatchPos);
+   }
+
+   String makePathLocalIfSpecified(String path)
+   {
+      if (localUriReplacements == null || path==null)
+      {
+         return path;
+      }
+      String localPath = path;
+      for (LocalUriReplacement localUriReplacement : localUriReplacements)
+      {
+         localPath = doLocalUriReplacement(localUriReplacement, localPath);
+      }
+      return localPath;
+   }
+
+   String doLocalUriReplacement(LocalUriReplacement localUriReplacement, String path)
+   {
+      if (path.startsWith(localUriReplacement.getSource()))
+      {
+         return localUriReplacement.getReplacement() + path.substring(localUriReplacement.getSource().length());
+      }
+      // do a check for a possible replacement, when the case is ignored
+      if (path.length() >= localUriReplacement.getSource().length())
+      {
+         if (path.substring(0, localUriReplacement.getSource().length()).equalsIgnoreCase(localUriReplacement.getSource()))
+         {
+            logger.warn("possible case problem in path: " + path);
+         }
+      }
+      return path;
    }
 }
