@@ -75,6 +75,7 @@ public class ScenarioDiagramJSON extends AbstractController {
             xstream.setMode(XStream.NO_REFERENCES);
             xstream.alias("model", LinkedList.class);
             xstream.aliasField("name", LearningActivitySpaceImpl.class, "name");
+            xstream.alias("LearningActivitySpace", LearningActivitySpaceImpl.class);
             xstream.toXML(objectsToStream, httpServletResponse.getWriter());
 
         }
