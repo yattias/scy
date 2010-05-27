@@ -53,4 +53,12 @@ public class LASDAOHibernate extends ScyBaseDAOHibernate implements LASDAO {
                 .setEntity("scenario", scenario)
                 .list();
     }
+
+    @Override
+    public LearningActivitySpace getLearningActivitySpaceByName(String lasName) {
+        return (LearningActivitySpace) getSession().createQuery("from LearningActivitySpaceImpl where name like :name")
+                .setString("name", lasName)
+                .setMaxResults(1)
+                .uniqueResult();
+    }
 }

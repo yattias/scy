@@ -93,8 +93,11 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                  .setEntity("user", user)
                  .setMaxResults(1)
                  .uniqueResult();
-        return runtimeAction.getNewLASId();
+        if(runtimeAction != null) {
+            return runtimeAction.getNewLASId();
+        }
 
+        return null;
     }
 
 

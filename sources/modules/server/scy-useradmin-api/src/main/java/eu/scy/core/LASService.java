@@ -30,4 +30,6 @@ public interface LASService extends BaseService{
     public List <LearningActivitySpace> getAllLearningActivitySpacesForScenario(Scenario scenario);
 
     LearningActivitySpace getLearningActivitySpace(String id);
+
+    LearningActivitySpace getLearningActivitySpaceByName(String lasName);
 }
