@@ -48,6 +48,7 @@
                    /components/realtime/currentStudentActivity.html=currentStudentActivityController
                    /components/json/JSonView.html=jsonView
                    /components/json/ScenarioDiagramJSON.html=scenarioDiagramJSON
+                   /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
                </value>
            </property>
        </bean>
@@ -106,6 +107,13 @@
     <bean id="scenarioDiagramJSON" class="eu.scy.server.controllers.json.ScenarioDiagramJSON">
         <property name="scenarioService" ref="scenarioService"/>
         <property name="lasService" ref="lasService"/>
+    </bean>
+
+    <bean id="runtimeUserInfoJSON" class="eu.scy.server.controllers.json.RuntimeUserInfoJSON">
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="runtimeService" ref="runtimeService"/>
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>

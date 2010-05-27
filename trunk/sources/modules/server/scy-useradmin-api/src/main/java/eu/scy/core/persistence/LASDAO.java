@@ -23,4 +23,6 @@ public interface LASDAO extends SCYBaseDAO{
     List<AnchorELO> getAnchorELOsProducedByLAS(LearningActivitySpace learningActivitySpace);
 
     List<LearningActivitySpace> getAllLearningActivitySpacesForScenario(Scenario scenario);
+
+    LearningActivitySpace getLearningActivitySpaceByName(String lasName);
 }
