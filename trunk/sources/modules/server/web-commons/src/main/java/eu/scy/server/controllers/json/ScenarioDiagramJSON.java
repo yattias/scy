@@ -15,6 +15,7 @@ import eu.scy.core.model.pedagogicalplan.Scenario;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import eu.scy.server.controllers.json.util.LearningActivitySpaceAnchorEloConnectionUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedList;
@@ -70,6 +71,7 @@ public class ScenarioDiagramJSON extends AbstractController {
 
             List learningActivitySpaces = new LinkedList();
             List anchorElos = new LinkedList();
+            List connections = new LinkedList();
 
             for (int i = 0; i < list.size(); i++) {
                 LearningActivitySpace learningActivitySpace = (LearningActivitySpace) list.get(i);
@@ -77,6 +79,12 @@ public class ScenarioDiagramJSON extends AbstractController {
                 List producedELOS = getLasService().getAnchorELOsProducedByLAS(learningActivitySpace);
                 for (int j = 0; j < producedELOS.size(); j++) {
                     AnchorELO anchorELO = (AnchorELO) producedELOS.get(j);
+                    LearningActivitySpaceAnchorEloConnectionUtil learningActivitySpaceAnchorEloConnectionUtil = new LearningActivitySpaceAnchorEloConnectionUtil();
+                    learningActivitySpaceAnchorEloConnectionUtil.setFrom(learningActivitySpace.getId());
+                    learningActivitySpaceAnchorEloConnectionUtil.setTo(anchorELO.getId());
+                    learningActivitySpaceAnchorEloConnectionUtil.setDirection("FROM_LAS_TO_ELO");
+                    connections.add(learningActivitySpaceAnchorEloConnectionUtil);
+
                     AnchorELO copy = new AnchorELOImpl();
                     copy.setId(anchorELO.getId());
                     copy.setName(anchorELO.getName());
@@ -106,16 +114,13 @@ public class ScenarioDiagramJSON extends AbstractController {
                 copy.setXPos(anchorELO.getXPos());
                 copy.setYPos(anchorELO.getYPos());
                 copy.setObligatoryInPortfolio(anchorELO.getObligatoryInPortfolio());
-                
-
             }
 
             learningActivitySpaces.addAll(anchorElos);
+            learningActivitySpaces.addAll(connections);
 
 
             XStream xstream = new XStream(new JettisonMappedXmlDriver());
-            //XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
-
             httpServletResponse.setContentType("text/json");
 
             xstream.setMode(XStream.NO_REFERENCES);
@@ -123,6 +128,7 @@ public class ScenarioDiagramJSON extends AbstractController {
             //xstream.aliasField("name", LearningActivitySpaceImpl.class, "name");
             xstream.alias("LearningActivitySpace", LearningActivitySpaceImpl.class);
             xstream.alias("AnchorELO", AnchorELOImpl.class);
+            xstream.alias("Connection", LearningActivitySpaceAnchorEloConnectionUtil.class);
             xstream.toXML(learningActivitySpaces, httpServletResponse.getWriter());
 
 
