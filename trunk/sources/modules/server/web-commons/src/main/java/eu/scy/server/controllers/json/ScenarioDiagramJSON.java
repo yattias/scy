@@ -76,6 +76,8 @@ public class ScenarioDiagramJSON extends AbstractController {
             for (int i = 0; i < list.size(); i++) {
                 LearningActivitySpace learningActivitySpace = (LearningActivitySpace) list.get(i);
 
+
+
                 List producedELOS = getLasService().getAnchorELOsProducedByLAS(learningActivitySpace);
                 for (int j = 0; j < producedELOS.size(); j++) {
                     AnchorELO anchorELO = (AnchorELO) producedELOS.get(j);
@@ -94,6 +96,14 @@ public class ScenarioDiagramJSON extends AbstractController {
                     copy.setYPos(anchorELO.getYPos());
                     copy.setObligatoryInPortfolio(anchorELO.getObligatoryInPortfolio());
                     anchorElos.add(copy);
+
+                    if(anchorELO.getInputTo() != null) {
+                        LearningActivitySpaceAnchorEloConnectionUtil connection = new LearningActivitySpaceAnchorEloConnectionUtil();
+                        connection.setFrom(anchorELO.getId());
+                        connection.setTo(anchorELO.getInputTo().getId());
+                        connection.setDirection("FROM_ELO_TO_LAS");
+                        connections.add(connection);
+                    }
                 }
 
                 LearningActivitySpace copy = new LearningActivitySpaceImpl();
