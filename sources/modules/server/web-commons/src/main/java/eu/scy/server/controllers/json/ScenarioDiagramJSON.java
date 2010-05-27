@@ -3,10 +3,13 @@ package eu.scy.server.controllers.json;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
+import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
+import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +31,7 @@ public class ScenarioDiagramJSON extends AbstractController {
 
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private ScenarioService scenarioService;
+    private LASService lasService;
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
         return pedagogicalPlanPersistenceService;
@@ -45,6 +49,14 @@ public class ScenarioDiagramJSON extends AbstractController {
         this.scenarioService = scenarioService;
     }
 
+    public LASService getLasService() {
+        return lasService;
+    }
+
+    public void setLasService(LASService lasService) {
+        this.lasService = lasService;
+    }
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
@@ -56,16 +68,50 @@ public class ScenarioDiagramJSON extends AbstractController {
             scenario = getScenarioService().getScenario(scenarioId);
             list = getScenarioService().getLearningActivitySpaces(scenario);
 
-            List objectsToStream = new LinkedList();
+            List learningActivitySpaces = new LinkedList();
+            List anchorElos = new LinkedList();
+
             for (int i = 0; i < list.size(); i++) {
                 LearningActivitySpace learningActivitySpace = (LearningActivitySpace) list.get(i);
+
+                List producedELOS = getLasService().getAnchorELOsProducedByLAS(learningActivitySpace);
+                for (int j = 0; j < producedELOS.size(); j++) {
+                    AnchorELO anchorELO = (AnchorELO) producedELOS.get(j);
+                    AnchorELO copy = new AnchorELOImpl();
+                    copy.setId(anchorELO.getId());
+                    copy.setName(anchorELO.getName());
+                    copy.setDescription(anchorELO.getDescription());
+                    copy.setMissionMapId(anchorELO.getMissionMapId());
+                    copy.setXPos(anchorELO.getXPos());
+                    copy.setYPos(anchorELO.getYPos());
+                    copy.setObligatoryInPortfolio(anchorELO.getObligatoryInPortfolio());
+                    anchorElos.add(copy);
+                }
+
                 LearningActivitySpace copy = new LearningActivitySpaceImpl();
+                copy.setId(learningActivitySpace.getId());
                 copy.setName(learningActivitySpace.getName());
                 copy.setDescription(learningActivitySpace.getDescription());
                 copy.setXPos(learningActivitySpace.getXPos());
                 copy.setYPos(learningActivitySpace.getYPos());
-                objectsToStream.add(copy);
+                learningActivitySpaces.add(copy);
             }
+
+            for (int i = 0; i < anchorElos.size(); i++) {
+                AnchorELO anchorELO = (AnchorELO) anchorElos.get(i);
+                AnchorELO copy = new AnchorELOImpl();
+                copy.setName(anchorELO.getName());
+                copy.setDescription(anchorELO.getDescription());
+                copy.setMissionMapId(anchorELO.getMissionMapId());
+                copy.setXPos(anchorELO.getXPos());
+                copy.setYPos(anchorELO.getYPos());
+                copy.setObligatoryInPortfolio(anchorELO.getObligatoryInPortfolio());
+                
+
+            }
+
+            learningActivitySpaces.addAll(anchorElos);
+
 
             XStream xstream = new XStream(new JettisonMappedXmlDriver());
             //XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
@@ -74,9 +120,11 @@ public class ScenarioDiagramJSON extends AbstractController {
 
             xstream.setMode(XStream.NO_REFERENCES);
             xstream.alias("model", LinkedList.class);
-            xstream.aliasField("name", LearningActivitySpaceImpl.class, "name");
+            //xstream.aliasField("name", LearningActivitySpaceImpl.class, "name");
             xstream.alias("LearningActivitySpace", LearningActivitySpaceImpl.class);
-            xstream.toXML(objectsToStream, httpServletResponse.getWriter());
+            xstream.alias("AnchorELO", AnchorELOImpl.class);
+            xstream.toXML(learningActivitySpaces, httpServletResponse.getWriter());
+
 
         }
 
