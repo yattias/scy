@@ -1,15 +1,10 @@
 package eu.scy.server.taglibs.components.scenario;
 
-import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,8 +77,8 @@ public class ScenarioDiagram extends TagSupport {
                         "        load: function(responseObject, ioArgs) {\n" +
                         "          // Now you can just use the object\n" +
                         "          console.dir(responseObject);  // Dump it to the console\n" +
-                        "          alert(\"LOADED JSON\" + responseObject); " +
-                        "          alert(responseObject.length); " +
+                        "          alert(\"LOADED JSON\" + responseObject.model.toString()); " +
+                        //"          alert(responseObject.length); " +
                         "          return responseObject;\n" +
                         "        }\n" +
                         "        // More properties for xhrGet...\n" +
