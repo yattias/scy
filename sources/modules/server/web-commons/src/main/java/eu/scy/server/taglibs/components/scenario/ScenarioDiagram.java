@@ -82,9 +82,9 @@ public class ScenarioDiagram extends TagSupport {
                 pageContext.getOut().write(
                         "<div id=\"world\"></div>\n" +
                         "        <script type=\"text/javascript\">\n" +
-                       
+                         "var userLasController = new UserLasController();\n\n" +
                         "dojo.xhrGet( {\n" +
-                        "        url: \"/webapp/components/json/ScenarioDiagramJSON.html?model=" + getScenario().getId() + "\",\n" +
+                        "        url: \"/webapp/components/json/ScenarioDiagramJSON.html?model=" + getPedagogicalPlan().getScenario().getId() + "\",\n" +
                         "        handleAs: \"json\",\n" +
                         "        load: function(responseObject, ioArgs) {\n" +
                         "          // Now you can just use the object\n" +
@@ -94,6 +94,7 @@ public class ScenarioDiagram extends TagSupport {
                                 "for(var i = 0;i<responseObject.model.LearningActivitySpace.length;i++){              " +
                                 "lasMap[responseObject.model.LearningActivitySpace[i].id] = createLas(responseObject.model.LearningActivitySpace[i]);\n" +
                                 "createLasContentBox(lasMap[responseObject.model.LearningActivitySpace[i].id], responseObject.model.LearningActivitySpace[i].id, '" + getLasLink() + "?id=' + responseObject.model.LearningActivitySpace[i].id);" +
+                                "userLasController.addLas(lasMap[responseObject.model.LearningActivitySpace[i]]);" +
 
                                 "          }"  +
 
@@ -134,8 +135,15 @@ public class ScenarioDiagram extends TagSupport {
         if(getIncludeRuntimeInfo()) {
 
 
-        pageContext.getOut().write(
-                    "alert(\"will include runtime info\");\n");
+        pageContext.getOut().write("" +
+                
+
+
+                "userLasController.setRuntimeUserInfoUrl('/webapp/components/json/RuntimeUserInfoJSON.html?model=" + getPedagogicalPlan().getId() + "&scenario="+getPedagogicalPlan().getScenario().getId()+"');\n" +
+
+
+               
+                "userLasController.init();");                    
         }
         pageContext.getOut().write(
                     "        </script>");
