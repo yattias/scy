@@ -83,7 +83,7 @@ public class RuntimeUserInfoJSON extends AbstractController {
             xstream.alias("AnchorELO", AnchorELOImpl.class);
             xstream.alias("Connection", LearningActivitySpaceAnchorEloConnectionUtil.class);
             xstream.alias("UserLASConnection", UserLearningActivitySpaceConnectionUtil.class);
-            xstream.alias("StudentUserDetails", StudentUserDetails.class);
+            xstream.alias("StudentUserDetails", SCYStudentUserDetails .class);
             xstream.toXML(model, httpServletResponse.getWriter());
 
         }
