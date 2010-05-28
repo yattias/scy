@@ -26,7 +26,7 @@
             </tr>
         </table>
 
-        LASLINK: ${myLasLink}
+       
 
         <s:scenariodiagram scenario="${model}" pedagogicalPlan="${pedagogicalPlan}" lasLink="${myLasLink}" includeRuntimeInfo="${false}"/>
         
