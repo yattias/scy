@@ -24,5 +24,5 @@ public interface LASDAO extends SCYBaseDAO{
 
     List<LearningActivitySpace> getAllLearningActivitySpacesForScenario(Scenario scenario);
 
-    LearningActivitySpace getLearningActivitySpaceByName(String lasName);
+    LearningActivitySpace getLearningActivitySpaceByName(String lasName, Scenario participatesIn);
 }

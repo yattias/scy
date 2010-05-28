@@ -1,6 +1,7 @@
 package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.Agent;
+import eu.scy.core.model.pedagogicalplan.AgentProperty;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 
 import java.util.List;
@@ -21,4 +22,17 @@ public interface AgentService extends BaseService {
     public List getConnectedAgents(LearningActivitySpace las);
 
 
+    void registerAgent(String className);
+
+    public  List getAgents();
+
+    public void addAgentProperty(Agent agent);
+
+    public void addAgentPropertyValue(AgentProperty agentProperty);
+
+    Agent getAgent(String id);
+
+    public void addAgentPropertyValueLevel();
+
+    List getAgentPropertyValueLevels();
 }

@@ -36,6 +36,9 @@
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.PeerToPeerAssessmentStrategyImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentPropertyImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentPropertyValueImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentPropertyValueLevelImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssignedPedagogicalPlanImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.SetupImpl"/>

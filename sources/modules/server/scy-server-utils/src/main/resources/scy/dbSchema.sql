@@ -260,7 +260,30 @@ DROP TABLE IF EXISTS `agent`;
 CREATE TABLE `agent` (
 	`primKey` varchar(55) NOT NULL default '',
 	`name` varchar(250) default NULL,
+	`className` varchar(250) default NULL,
 	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `agentproperty`;
+CREATE TABLE `agentproperty` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`agent_fk` varchar(55) NOT NULL default '',
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`),
+    KEY `agentfk_key` (`agent_fk`),
+    CONSTRAINT `agentfk_const` FOREIGN KEY (`agent_fk`) REFERENCES `agent` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `agentpropertyvaluelevel`;
+CREATE TABLE `agentpropertyvaluelevel` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+	`levelIndex` bigint(20),
     `timeCreated` bigint(20) NOT NULL default '0',
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
