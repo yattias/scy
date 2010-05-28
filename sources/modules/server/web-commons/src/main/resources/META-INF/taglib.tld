@@ -290,10 +290,16 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <name>loadJSON</name>
-            <required>false</required>
+            <name>lasLink</name>
+            <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>includeRuntimeInfo</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
     </tag>
 
     <tag>
