@@ -22,6 +22,11 @@
 		<property name="scyBaseDAO" ref="userDAO"/>
 	</bean>
 
+    <bean id="groupService" class="eu.scy.core.GroupServiceImpl">
+		<property name="scyBaseDAO" ref="groupDAO"/>
+        <property name="groupDAO" ref="groupDAO"/>
+	</bean>
+
 	<bean id="toolService" class="eu.scy.core.ToolServiceImpl">
 		<property name="scyBaseDAO" ref="toolDAO"/>
 	</bean>

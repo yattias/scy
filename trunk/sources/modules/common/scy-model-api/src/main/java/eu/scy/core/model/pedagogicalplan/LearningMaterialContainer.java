@@ -9,7 +9,7 @@ import java.util.List;
  * Time: 09:58:38
  * To change this template use File | Settings | File Templates.
  */
-public interface LearningMaterialContainer {
+public interface LearningMaterialContainer extends BaseObject {
 
     public List getLearningMaterials();
 

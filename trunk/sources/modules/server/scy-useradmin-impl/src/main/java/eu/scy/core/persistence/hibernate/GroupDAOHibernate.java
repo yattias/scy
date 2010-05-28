@@ -1,13 +1,14 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.model.PedagogicalPlanGroup;
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.SCYProject;
-import eu.scy.core.model.impl.*;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.persistence.GroupDAO;
-
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
+import org.hibernate.hql.ast.QuerySyntaxException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,7 +49,7 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
     }
 
     public List<SCYGroup> getGroupsForProject(SCYProject project) {
-        if(project != null) {
+        if (project != null) {
             return getSession().createQuery("from SCYGroupImpl where project = :project order by name")
                     .setEntity("project", project)
                     .list();
@@ -56,8 +57,24 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
         return Collections.EMPTY_LIST;
     }
 
+    public List<PedagogicalPlanGroup> getPedagogicalPlanGroups(PedagogicalPlan plan) {
+        return getSession().createQuery("from PedagogicalPlanGroupImpl where plan = :plan order by name")
+                .setEntity("project", plan)
+                .list();
+    }
+
+    public Long getPedagogicalPlanGroupsCount(PedagogicalPlan plan) {
+        try {
+            return (Long) getSession().createQuery("select distinct count (group) from PedagogicalPlanGroupImpl as group where group.plan = :plan order by name")
+                .setEntity("project", plan)
+                .uniqueResult();
+        } catch (QuerySyntaxException e) {
+            return 0l;
+        }
+    }
+
     public List getUsers(SCYGroup group) {
-        List returnList =  getSession().createQuery("select connection.user from UserGroupConnectionImpl connection where connection.group = :group")
+        List returnList = getSession().createQuery("select connection.user from UserGroupConnectionImpl connection where connection.group = :group")
                 .setEntity("group", group)
                 .list();
         log.info("FOUND " + returnList.size() + " USERS FOR GROUP: " + group.getName());

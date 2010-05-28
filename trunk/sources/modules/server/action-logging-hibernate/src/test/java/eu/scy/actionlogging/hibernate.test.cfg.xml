@@ -8,7 +8,8 @@
     <session-factory>
 
         <mapping class="eu.scy.core.model.impl.SCYProjectImpl"/>
-        <mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
+        <mapping class="eu.scy.core.model.impl.GroupImpl"/>
+		<mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>        
         <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
         <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
         <mapping class="eu.scy.core.model.impl.PersistentAction"/>

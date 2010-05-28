@@ -93,10 +93,10 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
                 .list();
     }
 
-    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan) {
-        return getSession().createQuery("select distinct count (app) from AssignedPedagogicalPlanImpl as app where app.pedagogicalPlan = :pedagogicalPlan")
+    public Long getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan) {
+        return (Long) getSession().createQuery("select distinct count (app) from AssignedPedagogicalPlanImpl as app where app.pedagogicalPlan = :pedagogicalPlan")
                 .setEntity("pedagogicalPlan", pedagogicalPlan)
-                .list();
+                .uniqueResult();
     }
 
     @Override

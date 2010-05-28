@@ -101,7 +101,7 @@
         <br/>
         <table width="100%">
             <tr>
-                <th width="50%">Pedagogical plan user administration</th>
+                <th width="50%">Pedagogical plan users and groups</th>
                 <th width="50%">Object</th>
             </tr>
             <tr class="${oddEven.oddEven}">
@@ -110,7 +110,7 @@
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>Grouping</td>
-                <td></td>
+                <td><s:modellink model="${pedagogicalPlan}" href="viewGroupsForPedagogicalPlan.html">${pedagogicalPlanGroupsCount} groups</s:modellink></td>                
             </tr>
         </table>
     </tiles:putAttribute>

@@ -18,7 +18,7 @@ public interface AssignedPedagogicalPlanService extends BaseService{
 
     AssignedPedagogicalPlan assignPedagogicalPlanToUser(PedagogicalPlan plan, User user);
 
-    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
+    Long getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
 
     List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(User user);
 
