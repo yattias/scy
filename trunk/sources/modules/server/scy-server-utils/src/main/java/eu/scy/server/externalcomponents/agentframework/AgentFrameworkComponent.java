@@ -1,11 +1,17 @@
 package eu.scy.server.externalcomponents.agentframework;
 
+import eu.scy.core.AgentService;
 import info.collide.sqlspaces.commons.Configuration;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
 
@@ -15,7 +21,7 @@ import eu.scy.agents.impl.manager.AgentManager;
 import eu.scy.server.externalcomponents.ExternalComponentFailedException;
 import eu.scy.server.externalcomponents.IExternalComponent;
 
-public class AgentFrameworkComponent implements IExternalComponent {
+public class AgentFrameworkComponent implements IExternalComponent, ApplicationContextAware, InitializingBean {
 
 	private Logger log = Logger.getLogger("AgentFrameworkComponent.class");
 
@@ -26,6 +32,8 @@ public class AgentFrameworkComponent implements IExternalComponent {
 	private IRepository repository;
 
 	private IMetadataTypeManager metadataTypeManager;
+
+    private ApplicationContext applicationContext;
 
 	@Override
 	public void startComponent() throws ExternalComponentFailedException {
@@ -89,4 +97,21 @@ public class AgentFrameworkComponent implements IExternalComponent {
 	public IRepository getRepository() {
 		return repository;
 	}
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("INITIALIZING AGENT DATABASE. CHECKING FOR UNREGISTERED AGENTS!!");
+        AgentService agentService = (AgentService) applicationContext.getBean("agentService");
+        Iterator it = initialAgents.iterator();
+        while(it.hasNext()) {
+            AgentStartConfiguration component = (AgentStartConfiguration) it.next();
+            agentService.registerAgent(component.getClassName());
+        }
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+
+    }
 }

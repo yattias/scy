@@ -1,6 +1,7 @@
 package eu.scy.core.persistence;
 
 import eu.scy.core.model.pedagogicalplan.Agent;
+import eu.scy.core.model.pedagogicalplan.AgentProperty;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 
 import java.util.List;
@@ -19,4 +20,17 @@ public interface AgentDAO extends SCYBaseDAO {
     public void addAgentToLearningActivitySpace(LearningActivitySpace las, Agent a);
 
     public List getConnectedAgents(LearningActivitySpace las);
+
+    void registerAgent(String className);
+
+    public List getAgents();
+
+    void addAgentProperty(Agent agent);
+
+    void addAgentPropertyValueLevel();
+
+
+    List getAgentPropertyValueLevels();
+
+    void addAgentPropertyValue(AgentProperty agentProperty);
 }

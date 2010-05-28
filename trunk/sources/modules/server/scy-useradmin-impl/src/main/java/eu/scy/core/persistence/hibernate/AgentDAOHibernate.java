@@ -1,9 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl;
-import eu.scy.core.model.pedagogicalplan.Agent;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceAgentConfiguration;
+import eu.scy.core.model.impl.pedagogicalplan.*;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.AgentDAO;
 
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
  * Time: 14:03:34
  * To change this template use File | Settings | File Templates.
  */
-public class AgentDAOHibernate extends ScyBaseDAOHibernate implements AgentDAO {
+public class AgentDAOHibernate extends ScyBaseDAOHibernate implements AgentDAO{
     @Override
     public Agent getAgentByName(String name) {
         return (Agent) getSession().createQuery("From AgentImpl where name like :name")
@@ -38,4 +36,54 @@ public class AgentDAOHibernate extends ScyBaseDAOHibernate implements AgentDAO {
                 .setEntity("las" , las)
                 .list(); 
     }
+
+    @Override
+    public void registerAgent(String className) {
+        Agent agent = (Agent) getSession().createQuery("from AgentImpl where className like :className")
+                .setString("className", className)
+                .setMaxResults(1)
+                .uniqueResult();
+        if(agent == null) {
+
+            agent = new AgentImpl();
+            agent.setName(className);
+            agent.setClassName(className);
+            save(agent);
+        }
+    }
+
+    @Override
+    public List getAgents() {
+        return getSession().createQuery("from AgentImpl order by name")
+                .list();
+    }
+
+    @Override
+    public void addAgentProperty(Agent agent) {
+        AgentProperty agentProperty = new AgentPropertyImpl();
+        agent.addAgentProperty(agentProperty);
+        save(agent);
+
+    }
+
+    @Override
+    public void addAgentPropertyValueLevel() {
+        AgentPropertyValueLevel agentPropertyValueLevel = new AgentPropertyValueLevelImpl();
+        save(agentPropertyValueLevel);
+    }
+
+    @Override
+    public List getAgentPropertyValueLevels() {
+        return getSession().createQuery("from AgentPropertyValueLevelImpl order by levelIndex")
+                .list();
+    }
+
+    @Override
+    public void addAgentPropertyValue(AgentProperty agentProperty) {
+        AgentPropertyValue agentPropertyValue = new AgentPropertyValueImpl();
+        agentProperty.addAgentPropertyValue(agentPropertyValue);
+    }
+
 }
+
+    

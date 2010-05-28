@@ -9,11 +9,11 @@ package eu.scy.core.model.pedagogicalplan;
  */
 public interface PositionedObject {
 
-    public int getXPos();
-    public void setXPos(int xPos);
+    public Integer getXPos();
+    public void setXPos(Integer xPos);
     
-    public int getYPos();
-    public void setYPos(int yPos);
+    public Integer getYPos();
+    public void setYPos(Integer yPos);
 
 
 }

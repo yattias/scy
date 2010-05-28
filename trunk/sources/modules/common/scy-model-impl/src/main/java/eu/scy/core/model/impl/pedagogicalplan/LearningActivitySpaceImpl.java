@@ -3,7 +3,6 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.List;
@@ -25,8 +24,8 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
 
     private List activities;
 
-    private int xPos;
-    private int yPos;
+    private Integer xPos;
+    private Integer yPos;
 
     @OneToOne(targetEntity = AssessmentImpl.class, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn (name = "assessment_primKey")
@@ -76,19 +75,19 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
 
     }
 
-    public int getXPos() {
+    public Integer getXPos() {
         return xPos;
     }
 
-    public void setXPos(int xPos) {
+    public void setXPos(Integer xPos) {
         this.xPos = xPos;
     }
 
-    public int getYPos() {
+    public Integer getYPos() {
         return yPos;
     }
 
-    public void setYPos(int yPos) {
+    public void setYPos(Integer yPos) {
         this.yPos = yPos;
     }
 

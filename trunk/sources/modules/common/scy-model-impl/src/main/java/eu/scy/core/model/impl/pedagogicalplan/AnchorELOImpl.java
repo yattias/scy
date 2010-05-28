@@ -77,19 +77,19 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
         return this.obligatoryInPortfolio;
     }
 
-    public int getXPos() {
+    public Integer getXPos() {
         return xPos;
     }
 
-    public void setXPos(int xPos) {
+    public void setXPos(Integer xPos) {
         this.xPos = xPos;
     }
 
-    public int getYPos() {
+    public Integer getYPos() {
         return yPos;
     }
 
-    public void setYPos(int yPos) {
+    public void setYPos(Integer yPos) {
         this.yPos = yPos;
     }
 

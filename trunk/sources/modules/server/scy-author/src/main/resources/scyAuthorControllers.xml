@@ -58,6 +58,9 @@
                    /app/tools/Toolbank.html=toolbankController
                    /app/tools/viewTool.html=viewToolController
 
+                   /app/agents/agentBank.html=agentBankController
+                   /app/agents/viewAgent.html=viewAgentController
+
                    /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
                    /app/scyauthorruntime/ScyAuthorRuntimeGraphicalView.html=scyAuthorRuntimeGraphicalViewController
                    /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
@@ -209,6 +212,19 @@
         <property name="toolService" ref="toolService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
+
+    <bean id="agentBankController" class="eu.scy.server.controllers.agents.AgentBankController">
+        <property name="serverService" ref="serverService"/>
+        <property name="agentService" ref="agentService"/>
+    </bean>
+
+    <bean id="viewAgentController" class="eu.scy.server.controllers.agents.ViewAgentController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="agentService" ref="agentService"/>
+    </bean>
+
+
 
     <bean id="viewPortfolioController" class="eu.scy.server.controllers.ViewPortfolioController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>

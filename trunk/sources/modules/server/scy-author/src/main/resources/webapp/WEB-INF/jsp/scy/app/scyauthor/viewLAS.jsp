@@ -26,6 +26,22 @@
         </table>
         <br/>
 
+        <table width="100%">
+            <tr>
+                <th width="35%">Diagram properties</th>
+                <th>Values</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td><strong>XPos</strong></td>
+                <td><s:ajaxNumberField model="${model}" property="xPos"/></td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td><strong>YPos</strong></td>
+                <td><s:ajaxNumberField model="${model}" property="yPos"/></td>
+            </tr>
+
+        </table>
+
         <div>
             <c:choose>
                 <c:when test="${fn:length(model.activities) > 0}">
