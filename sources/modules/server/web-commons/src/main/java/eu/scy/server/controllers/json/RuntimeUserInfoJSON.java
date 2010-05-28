@@ -5,15 +5,15 @@ import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import eu.scy.core.AssignedPedagogicalPlanService;
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
+import eu.scy.core.ScenarioService;
 import eu.scy.core.model.StudentUserDetails;
-import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYStudentUserDetails;
-import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.runtime.RuntimeService;
 import eu.scy.server.controllers.json.util.LearningActivitySpaceAnchorEloConnectionUtil;
 import eu.scy.server.controllers.json.util.UserLearningActivitySpaceConnectionUtil;
@@ -38,11 +38,13 @@ public class RuntimeUserInfoJSON extends AbstractController {
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private RuntimeService runtimeService;
     private LASService lasService;
+    private ScenarioService scenarioService;
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         PedagogicalPlan pedagogicalPlan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(httpServletRequest.getParameter("model"));
+        Scenario scenario = getScenarioService().getScenario(httpServletRequest.getParameter("scenario"));
 
         if (pedagogicalPlan != null) {
             List model = new LinkedList();
@@ -63,7 +65,7 @@ public class RuntimeUserInfoJSON extends AbstractController {
                     UserLearningActivitySpaceConnectionUtil userLearningActivitySpaceConnectionUtil = new  UserLearningActivitySpaceConnectionUtil();
                     userLearningActivitySpaceConnectionUtil.setLasName(lasName);
                     userLearningActivitySpaceConnectionUtil.setUserName(assignedPedagogicalPlan.getUser().getUserDetails().getUsername());
-                    LearningActivitySpace learningActivitySpace = getLasService().getLearningActivitySpaceByName(lasName);
+                    LearningActivitySpace learningActivitySpace = getLasService().getLearningActivitySpaceByName(lasName, scenario);
                     userLearningActivitySpaceConnectionUtil.setLasId(learningActivitySpace.getId());
                     model.add(userLearningActivitySpaceConnectionUtil);
 
@@ -122,5 +124,13 @@ public class RuntimeUserInfoJSON extends AbstractController {
 
     public void setLasService(LASService lasService) {
         this.lasService = lasService;
+    }
+
+    public ScenarioService getScenarioService() {
+        return scenarioService;
+    }
+
+    public void setScenarioService(ScenarioService scenarioService) {
+        this.scenarioService = scenarioService;
     }
 }

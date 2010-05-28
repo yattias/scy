@@ -58,7 +58,7 @@ public class LASServiceImpl extends BaseServiceImpl implements LASService{
     }
 
     @Override
-    public LearningActivitySpace getLearningActivitySpaceByName(String lasName) {
-        return getLasDAO().getLearningActivitySpaceByName(lasName);
+    public LearningActivitySpace getLearningActivitySpaceByName(String lasName, Scenario participatesIn) {
+        return getLasDAO().getLearningActivitySpaceByName(lasName, participatesIn);
     }
 }
