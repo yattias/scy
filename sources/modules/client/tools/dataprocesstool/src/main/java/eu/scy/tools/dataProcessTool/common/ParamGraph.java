@@ -199,16 +199,16 @@ public class ParamGraph implements Cloneable{
         return element;
     }
 
-    public boolean removePlotWithNo(int no){
-        boolean remove = false;
+    public ArrayList<Long> removePlotWithNo(int no){
+        ArrayList<Long> idPlotToRemove = new ArrayList();
         int nb = plots.size();
         for (int i=nb-1; i>=0; i--){
             if(plots.get(i).isOnNo(no)){
+                idPlotToRemove.add(plots.get(i).getDbKey());
                 plots.remove(i);
-                remove = true;
             }
         }
-        return remove;
+        return idPlotToRemove;
     }
 
     public void updateNoCol(int no, int delta){

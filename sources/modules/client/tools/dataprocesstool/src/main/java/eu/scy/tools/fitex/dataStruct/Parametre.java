@@ -28,6 +28,7 @@ public class Parametre implements Expression {
         valeur = val ;
     }
     
+    @Override
     public double valeur(double x)
     {
         return valeur ;
@@ -38,6 +39,7 @@ public class Parametre implements Expression {
         return valeur ;
     } 
     
+    @Override
     public String toString()
     {
         return name ;

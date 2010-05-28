@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import org.jdom.Element;
 public class FunctionModel implements Cloneable{
     private final static String TAG_FUNCTION = "function";
     private final static String TAG_DESCRIPTION = "description";
+    private final static String TAG_TYPE = "type";
     private final static String TAG_COLOR = "color";
     private final static String TAG_COLOR_R = "color_red";
     private final static String TAG_COLOR_G = "color_green";
@@ -30,11 +32,15 @@ public class FunctionModel implements Cloneable{
     private Color color ;
     /* liste des parametres */
     private ArrayList<FunctionParam> listParam;
+    /* type */
+    private char type;
+    
 
     // CONSTRUCTOR
-     public FunctionModel(long dbKey, String description, Color color, ArrayList<FunctionParam> listParam) {
+     public FunctionModel(long dbKey, String description, char type, Color color, ArrayList<FunctionParam> listParam) {
         this.dbKey = dbKey ;
         this.description = description;
+        this.type = type;
         this.color = color;
         this.listParam = listParam;
     }
@@ -55,6 +61,14 @@ public class FunctionModel implements Cloneable{
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public char getType() {
+        return type;
+    }
+
+    public void setType(char type) {
+        this.type = type;
     }
 
     public String getDescription() {
@@ -82,6 +96,7 @@ public class FunctionModel implements Cloneable{
             Color colorC  = this.color ;
             fm.setDbKey(this.dbKey);
             fm.setDescription(descriptionC);
+            fm.setType(new Character(this.type));
             fm.setColor(colorC);
             ArrayList l = new ArrayList();
             int n = listParam.size();
@@ -98,6 +113,7 @@ public class FunctionModel implements Cloneable{
     public Element toXML(){
         Element element = new Element(TAG_FUNCTION);
         element.addContent(new Element(TAG_DESCRIPTION).setText(description));
+        element.addContent(new Element(TAG_TYPE)).setText(type== DataConstants.FUNCTION_TYPE_Y_FCT_X ? DataConstants.F_Y : DataConstants.F_X);
         Element c = new Element(TAG_COLOR);
         c.addContent(new Element(TAG_COLOR_R).setText(Integer.toString(color.getRed())));
         c.addContent(new Element(TAG_COLOR_G).setText(Integer.toString(color.getGreen())));

@@ -42,8 +42,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+//import java.util.MissingResourceException;
+//import java.util.ResourceBundle;
 import javax.swing.*;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -103,6 +103,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private TypeVisualization[] tabTypeVis;
     /* tableau des differentes operations possibles */
     private TypeOperation[] tabTypeOp;
+    /* liste des fonctions predef*/
+    private ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction;
 
 
     private ActionDataProcessTool action;
@@ -293,20 +295,34 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
-    public void initDataProcessingTool(TypeVisualization[] tabTypeVisual, TypeOperation[] tabTypeOp, ArrayList<Dataset> listDataset){
+    public void initDataProcessingTool(TypeVisualization[] tabTypeVisual, TypeOperation[] tabTypeOp, ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction, ArrayList<Dataset> listDataset){
         this.listDataset = listDataset;
         this.tabTypeOp = tabTypeOp;
         this.tabTypeVis = tabTypeVisual;
+        this.listPreDefinedFunction = listPreDefinedFunction;
         this.listFitexPanel = new ArrayList();
         if(scyMode)
             initDataset();
         else
             initTabbedPane();
     }
+    /* affichage d'un message concernant les dataset lockes */
+    public void displayDatasetLocked(ArrayList<String> listDatasetNameLocked){
+        if(listDatasetNameLocked == null)
+            return;
+        int nb = listDatasetNameLocked.size();
+        if (nb == 0)
+            return;
+        String msg = getBundleString("MSG_WARNING_DATASET_LOCKED");
+        for (int i=0; i<nb; i++){
+            msg += " \n"+listDatasetNameLocked.get(i);
+        }
+        displayError(new CopexReturn(msg, true), getBundleString("TITLE_DIALOG_WARNING"));
+    }
 
     private void initDataset(){
         if(listDataset.size() > 0){
-            FitexToolPanel fitex = new FitexToolPanel(this, listDataset.get(0), controller, tabTypeVis, tabTypeOp);
+            FitexToolPanel fitex = new FitexToolPanel(this, listDataset.get(0), controller, tabTypeVis, tabTypeOp, listPreDefinedFunction);
             fitex.initDataProcessingTool(listDataset.get(0));
             activFitex = fitex;
             listFitexPanel.add(fitex);
@@ -327,7 +343,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     private void addFitexPanel(Dataset ds){
-        FitexToolPanel fitex = new FitexToolPanel(this, ds, controller, tabTypeVis, tabTypeOp);
+        FitexToolPanel fitex = new FitexToolPanel(this, ds, controller, tabTypeVis, tabTypeOp, listPreDefinedFunction);
         fitex.initDataProcessingTool(ds);
         activFitex = fitex;
         listFitexPanel.add(fitex);
@@ -428,7 +444,20 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     /* appel par le noyau suppression du dataset */
     public void deleteDataset(Dataset dataset ){
-        fitexTabbedPane.removeDataset(dataset);
+        if(fitexTabbedPane != null){
+            fitexTabbedPane.removeDataset(dataset);
+        }
+        if(scyMode){
+            activFitex.deleteAll();
+            ArrayList v = new ArrayList();
+            CopexReturn cr = this.controller.createDefaultDataset(getBundleString("DEFAULT_DATASET_NAME"), v);
+            if(cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            Dataset ds = (Dataset)v.get(0) ;
+            this.setDataset(ds);
+        }
     }
 
 
@@ -508,8 +537,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
 
-    // load/open ELO SCY ou non
-    public void loadELO(String xmlContent){
+    private void loadELO(String xmlContent, String dsName){
         if(scyMode){
             CopexReturn cr = this.controller.deleteDataset(activFitex.getDataset());
             if(cr.isError()){
@@ -518,13 +546,18 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             }
             activFitex.deleteAll();
         }
-        CopexReturn cr = this.controller.loadELO(xmlContent);
+        CopexReturn cr = this.controller.loadELO(xmlContent, dsName);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         }else if(cr.isWarning()){
             displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
         }
         logOpenDataset(activFitex.getDataset());
+    }
+
+    // load/open ELO SCY ou non
+    public void loadELO(String xmlContent){
+        loadELO(xmlContent, null);
      }
 
     //load/openELO
@@ -538,23 +571,25 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             loadELO(new JDomStringConversion().xmlToString(doc.getRootElement()));
         }catch (Exception e){
             e.printStackTrace();
-            displayError(new CopexReturn("Erreur durant le chargement "+e, false), "Erreur");
+            displayError(new CopexReturn("Erreur durant le chargement "+e, false), getBundleString("TITLE_DIALOG_ERROR"));
         }
         finally{
             if (fileReader != null)
             try{
                 fileReader.close();
             }catch (IOException e){
-                displayError(new CopexReturn("Erreur durant le chargement, fermeture fichier "+e, false), "Erreur");
+                displayError(new CopexReturn("Erreur durant le chargement, fermeture fichier "+e, false), getBundleString("TITLE_DIALOG_ERROR"));
             }
        }
     }
 
     //load/openELO
-    // TODO
     @Override
     public void openDataset(Mission m, Dataset ds ){
-
+        CopexReturn cr = this.controller.openDataset(m, ds);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
 
@@ -569,7 +604,13 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }
         eu.scy.elo.contenttype.dataset.DataSet elo = (eu.scy.elo.contenttype.dataset.DataSet)v.get(0);
         if(elo != null ){
-            loadELO(new JDomStringConversion().xmlToString(elo.toXML()));
+            String fileName = file.getName();
+            if(fileName != null){
+                int id = fileName.indexOf(".csv");
+                if(id != -1)
+                    fileName = fileName.substring(0, id);
+            }
+            loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
         }
         logImportCsvFile(file.getPath(), activFitex.getDataset());
         return elo;
@@ -589,14 +630,14 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public void mergeELO(Element elo){
         Dataset ds = (Dataset)(activFitex.getDataset().clone());
         this.activFitex.mergeELO(elo);
-        logMergeDataset(ds,"", activFitex.getDataset());
+        //logMergeDataset(ds,"", activFitex.getDataset());
     }
 
     @Override
     public void mergeELO(File file){
         lastUsedFileMerge = file;
         InputStreamReader fileReader = null;
-		try{
+        try{
             Dataset ds = (Dataset)(activFitex.getDataset().clone());
             fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
@@ -617,10 +658,17 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     // merge avec un ds de la base
-    //TODO
     @Override
     public void mergeDataset(Mission mission, Dataset ds) {
-        
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.mergeDataset(activFitex.getDataset(), mission, ds, v);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        Dataset dataset = (Dataset)v.get(0);
+        setDataset(dataset);
+
     }
 
     //initialize the model with the header
@@ -668,6 +716,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     /* sortie de l'outil */
     public void endTool(){
+        CopexReturn cr = this.controller.stopFitex();
+        if (cr.isError())
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         logEndTool();
     }
     /* log: start tool */
@@ -852,4 +903,6 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public void logAction(String type, List<FitexProperty> attribute){
         
     }
+
+   
 }

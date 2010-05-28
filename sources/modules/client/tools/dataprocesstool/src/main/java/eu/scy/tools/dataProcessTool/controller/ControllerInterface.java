@@ -9,6 +9,7 @@ import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
+import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
@@ -27,20 +28,18 @@ public interface ControllerInterface {
     /* chargement des donnees  */
     public CopexReturn load();
     /* chargement d'un ELO */
-    public CopexReturn loadELO(String xmlContent);
+    public CopexReturn loadELO(String xmlContent, String dsName);
     /*sauvegarde de l'elo*/
     public Element getPDS(Dataset ds);
     
     /* merge d'un ELO avec l'elo courant */
     public CopexReturn mergeELO(Dataset ds, Element elo);
+    public CopexReturn mergeDataset(Dataset currentDs, Mission m, Dataset dsToMerge, ArrayList v);
     /*change le statut valeur ignoree - retourne en v[0] le nouveau dataset  */
     public CopexReturn setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData, ArrayList v);
 
     /* creation d'une nouvelle operation - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
     public CopexReturn createOperation(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo, ArrayList v);
-    /* creation d'une nouvelle operation parametree - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
-    public CopexReturn createOperationParam(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo,String[] tabValue,  ArrayList v);
-
     /* mise a jour d'une valeur : titre header */
     public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type, ArrayList v);
 
@@ -70,7 +69,7 @@ public interface ControllerInterface {
     public CopexReturn  deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol, ArrayList<DataOperation> listOperation,  ArrayList v);
 
     /* ajout ou modification d'une fonction modeme */
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
 
     /* insertion de lignes ou de colonnes */
     public CopexReturn  insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v) ;
@@ -107,4 +106,8 @@ public interface ControllerInterface {
     public CopexReturn updateDataset(Dataset ds, ArrayList v);
     /* maj d'une operation */
     public CopexReturn updateOperation(Dataset ds, DataOperation operation , ArrayList v);
+    /* open dataset*/
+    public CopexReturn openDataset(Mission mission, Dataset ds);
+    /* fermeture de l'editeur */
+    public CopexReturn stopFitex();
 }

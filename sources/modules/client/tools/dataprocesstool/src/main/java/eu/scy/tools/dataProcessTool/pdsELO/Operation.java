@@ -33,8 +33,6 @@ public class Operation {
     private final static String TAG_OPERATION_TYPE = "type";
     private final static String TAG_OPERATION_NAME = "name";
     private final static String TAG_OPERATION_REFERENCE = "reference";
-    private final static String TAG_OPERATION_PARAM="op_param";
-    private final static String TAG_OPERATION_PARAM_VALUE = "value";
     private final static String TAG_OPERATION_REF_ID = "id";
     private final static String TAG_OPERATION_RESULT = "result";
     private final static String TAG_OPERATION_RES_VALUE = "value";
@@ -47,9 +45,8 @@ public class Operation {
     private String name;
     private List<String> references;
     private List<String> results;
-    private List<String> allParam;
 
-    public Operation(boolean isOnCol, String symbol, String description, String type, String name, List<String> references, List<String> results, List<String> allParam) {
+    public Operation(boolean isOnCol, String symbol, String description, String type, String name, List<String> references, List<String> results) {
         this.isOnCol = isOnCol;
         this.symbol = symbol;
         this.description = description;
@@ -57,7 +54,6 @@ public class Operation {
         this.name = name;
         this.references = references;
         this.results = results;
-        this.allParam = allParam ;
     }
 
 
@@ -71,11 +67,6 @@ public class Operation {
             this.description = elOp.getChild(TAG_OPERATION_DESCRIPTION).getText();
             this.type = elOp.getChild(TAG_OPERATION_TYPE).getText() ;
             this.name = elOp.getChild(TAG_OPERATION_NAME).getText();
-            if (elOp.getChild(TAG_OPERATION_PARAM) != null){
-                for (Iterator<Element> variableElem = elOp.getChild(TAG_OPERATION_PARAM).getChildren(TAG_OPERATION_PARAM_VALUE).iterator(); variableElem.hasNext();) {
-                    this.allParam.add(variableElem.next().getText());
-                }
-            }
             this.references = new LinkedList<String>() ;
             for (Iterator<Element> variableElem = elOp.getChild(TAG_OPERATION_REFERENCE).getChildren(TAG_OPERATION_REF_ID).iterator(); variableElem.hasNext();) {
                 this.references.add(variableElem.next().getText());
@@ -114,10 +105,7 @@ public class Operation {
         return symbol;
     }
 
-    public List<String> getAllParam() {
-        return allParam;
-    }
-
+    
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_OPERATION);
@@ -127,15 +115,6 @@ public class Operation {
         elem.addContent(new Element(TAG_OPERATION_DESCRIPTION).setText(description));
         elem.addContent(new Element(TAG_OPERATION_TYPE).setText(type));
         elem.addContent(new Element(TAG_OPERATION_NAME).setText(name));
-        if(this.allParam != null && this.allParam.size() > 0){
-            Element elemP = new Element(TAG_OPERATION_PARAM);
-            for (Iterator<String> param = allParam.iterator(); param.hasNext();) {
-                Element valueElem = new Element(TAG_OPERATION_PARAM_VALUE);
-                valueElem.setText(param.next());
-                elemP.addContent(valueElem);
-            }
-            elem.addContent(elemP);
-        }
         Element valueElem;
         Element elemR = new Element(TAG_OPERATION_REFERENCE);
 		for (Iterator<String> ref = references.iterator(); ref.hasNext();) {

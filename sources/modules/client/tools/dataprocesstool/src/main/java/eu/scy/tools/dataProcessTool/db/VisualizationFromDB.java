@@ -133,11 +133,13 @@ public class VisualizationFromDB {
             cr = createGraphInDB(dbC, dbKey, (Graph)visualization, plotsColor, v3);
             if(cr.isError())
                 return cr;
+            visualization = (Graph)v3.get(0);
         }
         
         v2 = new ArrayList();
         cr = dbC.executeQuery(querys, v2);
         v.add(dbKey);
+        v.add(visualization);
         return cr;
     }
 
@@ -164,11 +166,13 @@ public class VisualizationFromDB {
             long dbKeyPlot = (Long)v2.get(0);
             String queryPlotLink = "INSERT INTO LINK_GRAPH_PLOT (ID_DATA_VISUALIZATION, ID_PLOT) VALUES ("+dbKeyVis+", "+dbKeyPlot+");";
             querys[i++] = queryPlotLink;
+            plot.setDbKey(dbKeyPlot);
         }
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.executeQuery(querys, v2);
         if(cr.isError())
             return cr;
+        v.add(graph);
         return new CopexReturn();
     }
 
@@ -229,9 +233,9 @@ public class VisualizationFromDB {
 
 
     /* ajout d'une fonction modele, en v[0] le nouvel id  */
-    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, int idFunctionColor, ArrayList<FunctionParam> listParam, ArrayList v){
+    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, char type, int idFunctionColor, ArrayList<FunctionParam> listParam, ArrayList v){
         String desc  = MyUtilities.replace("\'",description,"''") ;
-        String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, ID_FUNCTION_COLOR) VALUES (NULL, '"+desc+"',"+idFunctionColor+" );";
+        String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, F_TYPE, ID_FUNCTION_COLOR) VALUES (NULL, '"+desc+"',"+type+", "+idFunctionColor+" );";
         String queryID = "SELECT max(last_insert_id(`ID_FUNCTION_MODEL`))   FROM FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -312,7 +316,7 @@ public class VisualizationFromDB {
     }
 
      /* mise a jour d'une fonction modele */
-    public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description, ArrayList<FunctionParam> listParam, ArrayList v){
+    public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description, char type, ArrayList<FunctionParam> listParam, ArrayList v){
         // suppression et creation des param
         CopexReturn cr = deleteFunctionParamFromDB(dbC, dbKey);
         if(cr.isError())
@@ -326,7 +330,7 @@ public class VisualizationFromDB {
             listParam.set(k, (FunctionParam)v2.get(0));
         }
         String desc  = MyUtilities.replace("\'",description,"''") ;
-        String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
+        String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' , F_TYPE = "+type+" WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
         String[] querys = new String[1];
         querys[0] = query ;
         ArrayList v2 = new ArrayList();
@@ -356,6 +360,70 @@ public class VisualizationFromDB {
                 "WHERE ID_DATA_VISUALIZATION = "+dbKeyGraph+ " ; ";
         String[] querys = new String[1];
         querys[0] = query ;
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
+    }
+
+    /* suppression d'une liste de plost */
+    public static CopexReturn deletePlotsFromDB(DataBaseCommunication dbC, ArrayList<Long> listPlots){
+        int nbPlots = listPlots.size();
+        if (nbPlots == 0)
+            return new CopexReturn();
+        String listDbKey = ""+listPlots.get(0);
+        for (int i=1; i<nbPlots; i++){
+            long dbKey = listPlots.get(i) ;
+            listDbKey += ", "+dbKey;
+        }
+        String queryPlot = "DELETE FROM PLOT_XY_GRAPH WHERE ID_PLOT IN ( "+listDbKey+" ); ";
+        String queryLink = "DELETE FROM LINK_GRAPH_PLOT WHERE ID_PLOT IN ( "+listDbKey+" ); ";
+        String[] querys = new String[2];
+        querys[0] = queryPlot;
+        querys[1] = queryLink;
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
+    }
+
+    /* create plot */
+    public static CopexReturn createPlotInDB(DataBaseCommunication dbC, long dbKeyGraph, PlotXY plot, Color[] plotsColor, ArrayList v){
+            int idPlotColor = getIdPlotColor(plot.getPlotColor(), plotsColor);
+            String queryPlot = "INSERT INTO PLOT_XY_GRAPH (ID_PLOT, ID_HEADER_X, ID_HEADER_Y, ID_PLOT_COLOR) " +
+                    "VALUES (NULL,"+plot.getHeaderX().getDbKey()+", "+plot.getHeaderY().getDbKey()+", "+idPlotColor+") ;";
+            String queryID = "SELECT max(last_insert_id(`ID_PLOT`))   FROM PLOT_XY_GRAPH ;";
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = dbC.getNewIdInsertInDB(queryPlot, queryID, v2);
+            if (cr.isError())
+                return cr;
+            long dbKeyPlot = (Long)v2.get(0);
+            v.add(dbKeyPlot);
+            String queryPlotLink = "INSERT INTO LINK_GRAPH_PLOT (ID_DATA_VISUALIZATION, ID_PLOT) VALUES ("+dbKeyGraph+", "+dbKeyPlot+");";
+            String[] querys = new String[1];
+            querys[0] = queryPlotLink;
+            v2 = new ArrayList();
+            cr = dbC.executeQuery(querys, v2);
+            return cr;
+    }
+
+    /* remove plot */
+    public static CopexReturn removePlotFromDB(DataBaseCommunication dbC, long dbKeyPlot){
+        String query = "DELETE FROM PLOT_XY_GRAPH WHERE ID_PLOT = "+dbKeyPlot+" ;";
+        String queryDelLink = "DELETE FROM LINK_GRAPH_PLOT WHERE ID_PLOT = "+dbKeyPlot+" ;";
+        String[] querys = new String[2];
+        querys[0] = query;
+        querys[1] = queryDelLink;
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
+    }
+
+    /* update plot */
+    public static CopexReturn updatePlotInDB(DataBaseCommunication dbC, long dbKeyPlot, PlotXY plot, Color[] plotsColor){
+        int idPlotColor = getIdPlotColor(plot.getPlotColor(), plotsColor);
+        String query = "UPDATE PLOT_XY_GRAPH SET ID_HEADER_X = "+plot.getHeaderX().getDbKey()+", " +
+                "ID_HEADER_Y = "+plot.getHeaderX().getDbKey()+", ID_PLOT_COLOR = "+idPlotColor+" WHERE ID_PLOT = "+dbKeyPlot+" ;";
+        String[] querys = new String[1];
+        querys[0] = query;
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.executeQuery(querys, v2);
         return cr;

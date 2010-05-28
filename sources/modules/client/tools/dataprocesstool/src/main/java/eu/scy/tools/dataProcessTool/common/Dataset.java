@@ -51,10 +51,12 @@ public class Dataset implements Cloneable{
     protected ArrayList<Visualization> listVisualization;
     /* est ouvert */
     protected boolean isOpen;
+    /* mission */
+    private Mission mission;
 
     
     // CONSTRUCTOR
-    public Dataset(long dbKey, String name, int nbCol, int nbRows, DataHeader[] listDataHeader, Data[][] data, ArrayList<DataOperation> listOperation,ArrayList<Visualization> listVisualization) {
+    public Dataset(long dbKey, Mission mission, String name, int nbCol, int nbRows, DataHeader[] listDataHeader, Data[][] data, ArrayList<DataOperation> listOperation,ArrayList<Visualization> listVisualization) {
         this.dbKey = dbKey;
         this.name = name;
         this.nbCol = nbCol;
@@ -65,6 +67,7 @@ public class Dataset implements Cloneable{
         this.listOperationResult = new ArrayList();
         this.listVisualization = listVisualization ;
         this.isOpen = true;
+        this.mission = mission;
         calculateOperation();
     }
     
@@ -79,6 +82,7 @@ public class Dataset implements Cloneable{
         this.listOperationResult = new ArrayList();
         this.listVisualization = new ArrayList() ;
         this.isOpen = false;
+        this.mission = null;
     }
    
      // GETTER AND SETTER
@@ -162,6 +166,15 @@ public class Dataset implements Cloneable{
     public void setListOperationResult(ArrayList<ArrayList<Double>> listOperationResult) {
         this.listOperationResult = listOperationResult;
     }
+
+    public Mission getMission() {
+        return mission;
+    }
+
+    public void setMission(Mission mission) {
+        this.mission = mission;
+    }
+
     // CLONE
     @Override
     public Object clone()  {
@@ -223,7 +236,10 @@ public class Dataset implements Cloneable{
                     }
                 }
             }
-            
+            Mission mClone = null;
+            if(mission != null){
+                mClone = (Mission)mission.clone();
+            }
             dataset.setDbKey(dbKeyC);
             dataset.setName(nameC);
             dataset.setNbCol(nbColC);
@@ -234,6 +250,7 @@ public class Dataset implements Cloneable{
             dataset.setListVisualization(listVisualizationC);
             dataset.setData(dataC);
             dataset.setOpen(isOpenC);
+            dataset.setMission(mClone);
             
             return dataset;
         } catch (CloneNotSupportedException e) { 
@@ -331,14 +348,6 @@ public class Dataset implements Cloneable{
             DataOperation myOp = getListOperation().get(i);
             List<String> references = new LinkedList<String>();
             List<String> results = new LinkedList<String>();
-            List<String> allParam = null;
-            if (myOp instanceof DataOperationParam){
-                allParam= new LinkedList<String>();
-                ParamOperation[] allP  = ((DataOperationParam)myOp).getAllParam() ;
-                for (int k=0; k<allP.length; k++){
-                    allParam.add(allP[k] == null ? "" :""+allP[k].getValue());
-                }
-            }
             ArrayList<Double> listResop = new ArrayList();
             if (i< listResult.size()){
                 listResop = listResult.get(i);
@@ -349,7 +358,7 @@ public class Dataset implements Cloneable{
             for (int k=0; k<listResop.size();k++){
                 results.add(Double.toString(listResop.get(k)));
             }
-            eu.scy.tools.dataProcessTool.pdsELO.Operation operation  = new eu.scy.tools.dataProcessTool.pdsELO.Operation(myOp.isOnCol(), myOp.getName(), myOp.getName(), "double", myOp.getTypeOperation().getCodeName(), references, results, allParam);
+            eu.scy.tools.dataProcessTool.pdsELO.Operation operation  = new eu.scy.tools.dataProcessTool.pdsELO.Operation(myOp.isOnCol(), myOp.getName(), myOp.getName(), "double", myOp.getTypeOperation().getCodeName(), references, results);
             listOperations.add(operation);
         }
         List<eu.scy.tools.dataProcessTool.pdsELO.Visualization> listVisualizations = new LinkedList<eu.scy.tools.dataProcessTool.pdsELO.Visualization>();
@@ -402,7 +411,7 @@ public class Dataset implements Cloneable{
             for (int i=0; i<nb; i++){
                 FunctionModel fm = listFm.get(i);
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionParam> listParam = getListFunctionParam(listFm.get(i));
-                eu.scy.tools.dataProcessTool.pdsELO.FunctionModel f = new eu.scy.tools.dataProcessTool.pdsELO.FunctionModel(fm.getDescription(), fm.getColor().getRed(), fm.getColor().getGreen(), fm.getColor().getBlue(), listParam);
+                eu.scy.tools.dataProcessTool.pdsELO.FunctionModel f = new eu.scy.tools.dataProcessTool.pdsELO.FunctionModel(fm.getDescription(), fm.getType(), fm.getColor().getRed(), fm.getColor().getGreen(), fm.getColor().getBlue(), listParam);
                 list.add(f);
             }
         }
@@ -534,11 +543,12 @@ public class Dataset implements Cloneable{
 
     /* suppression de colonnes */
     public ArrayList[] removeCols(ArrayList<Integer> listCol){
-        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList[] tabDel = new ArrayList[5];
         ArrayList<DataOperation> listOpToDel = new ArrayList();
         ArrayList<Visualization> listVisToDel = new ArrayList();
         ArrayList<DataOperation> listOpToUpdate = new ArrayList();
         ArrayList<Visualization> listVisToUpdate = new ArrayList();
+        ArrayList<Long> listPlotsToRemove = new ArrayList();
         int nbColsSel = listCol.size();
         ArrayList<Integer> list = MyUtilities.getSortList(listCol);
         for (int i=0; i<nbColsSel; i++){
@@ -555,21 +565,26 @@ public class Dataset implements Cloneable{
             for(Iterator<Visualization> l = listV[3].iterator();l.hasNext();){
                 listVisToDel.add(l.next());
             }
+            for(Iterator<Long> l = listV[4].iterator();l.hasNext();){
+                listPlotsToRemove.add(l.next());
+            }
         }
         tabDel[0] = listOpToUpdate;
         tabDel[1] = listOpToDel;
         tabDel[2] = listVisToUpdate;
         tabDel[3] = listVisToDel;
+        tabDel[4] = listPlotsToRemove;
         return tabDel;
     }
 
     /* suppression d'une colonne  */
     private ArrayList[] deleteCol(int no){
-        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList[] tabDel = new ArrayList[5];
         ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
         ArrayList<DataOperation> listOperationToDel = new ArrayList();
         ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
         ArrayList<Visualization> listVisualizationToDel = new ArrayList();
+        ArrayList<Long> listPlotsToremove = new ArrayList();
         // maj list operation
         // clone les operations
         ArrayList<DataOperation> listOpC = new ArrayList();
@@ -620,13 +635,18 @@ public class Dataset implements Cloneable{
                     listVisualization.remove(i);
                     listVisualizationToDel.add(listVisC.get(i));
                 }else if(v instanceof Graph){
-                    boolean remove = ((Graph)v).removePlotWithNo(no);
+                    ArrayList<Long> list = ((Graph)v).removePlotWithNo(no);
+                    boolean remove = list.size()>0;
                     int nb = ((Graph)v).getNbPlots();
                     if(nb==0){
                         listVisualizationToDel.add(listVisC.get(i));
                         listVisualization.remove(i);
-                    }else if(remove)
+                    }else if(remove){
                         listVisualizationToUpdate.add(listVisC.get(i));
+                        for(Iterator<Long> l = list.iterator();l.hasNext();){
+                            listPlotsToremove.add(l.next());
+                        }
+                    }
                 }
             }
         }
@@ -667,6 +687,7 @@ public class Dataset implements Cloneable{
         tabDel[1] = listOperationToDel;
         tabDel[2] = listVisualizationToUpdate;
         tabDel[3] = listVisualizationToDel;
+        tabDel[4] = listPlotsToremove;
         this.nbCol = this.nbCol-1;
         return tabDel;
     }
@@ -893,11 +914,7 @@ public class Dataset implements Cloneable{
                 listValue  = getListValueCol(listNo.get(i));
             else
                 listValue = getListValueRow(listNo.get(i));
-            double r;
-            if (operation instanceof DataOperationParam)
-                r = ScyMath.calculateParam(type, listValue, ((DataOperationParam)operation).getAllParam());
-            else
-                r = ScyMath.calculate(type, listValue);
+            double r = ScyMath.calculate(type, listValue);
             listResult.add(r);
         }
         if (this.listOperationResult.size() > id)
@@ -1140,11 +1157,12 @@ public class Dataset implements Cloneable{
 
     /* supprime les operations sur cette colonne */
     public ArrayList[] removeOperationAndVisualizationOn(int colIndex){
-        ArrayList[] tabDel = new ArrayList[4];
+        ArrayList[] tabDel = new ArrayList[5];
         ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
         ArrayList<DataOperation> listOperationToDel = new ArrayList();
         ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
         ArrayList<Visualization> listVisualizationToDel = new ArrayList();
+        ArrayList<Long> listPlotsToRemove = new ArrayList();
         // maj list operation
         // clone les operations
         ArrayList<DataOperation> listOpC = new ArrayList();
@@ -1192,13 +1210,18 @@ public class Dataset implements Cloneable{
                     listVisualization.remove(i);
                     listVisualizationToDel.add(listVisC.get(i));
                 }else if(v instanceof Graph){
-                    boolean remove = ((Graph)v).removePlotWithNo(colIndex);
+                    ArrayList<Long> idPlotToRemove = ((Graph)v).removePlotWithNo(colIndex);
                     int nb = ((Graph)v).getNbPlots();
+                    boolean remove  = idPlotToRemove.size() > 0;
                     if(nb==0){
                         listVisualizationToDel.add(listVisC.get(i));
                         listVisualization.remove(i);
-                    }else if(remove)
+                    }else if(remove){
                         listVisualizationToUpdate.add(listVisC.get(i));
+                        for(Iterator<Long> l = idPlotToRemove.iterator();l.hasNext();){
+                            listPlotsToRemove.add(l.next());
+                        }
+                    }
                 }
             }
         }
@@ -1217,6 +1240,7 @@ public class Dataset implements Cloneable{
         tabDel[1] = listOperationToDel;
         tabDel[2] = listVisualizationToUpdate;
         tabDel[3] = listVisualizationToDel;
+        tabDel[4] = listPlotsToRemove;
         return tabDel;
     }
 

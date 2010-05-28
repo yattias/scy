@@ -16,7 +16,10 @@ import eu.scy.tools.fitex.analyseFn.Function;
 import eu.scy.tools.dataProcessTool.common.FunctionModel;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
+import eu.scy.tools.dataProcessTool.common.PreDefinedFunction;
 import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
+import eu.scy.tools.dataProcessTool.utilities.ActionCopexButton;
+import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.BorderLayout;
@@ -45,7 +48,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Marjolaine
  */
-public class FitexPanel extends javax.swing.JPanel {
+public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
 
     
     private FitexToolPanel owner;
@@ -64,6 +67,7 @@ public class FitexPanel extends javax.swing.JPanel {
     private int height ;
     // couleur de la courbe selectionnee (initialement bleue)
     private Color couleurSelect=DataConstants.FUNCTION_COLOR_1 ;
+    private char typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
 
     // stockage des fonctions
     private HashMap<Color,Function> mapDesFonctions = new HashMap<Color,Function>();
@@ -86,12 +90,17 @@ public class FitexPanel extends javax.swing.JPanel {
     private JPanel parametresFn;
     private JScrollPane scrollPaneParametresFn;
     private JSeparator sepDrawFct;
+    private CopexButtonPanel buttonPreDefinedFct = null;
 
     /* param precedant, on garde 1 niveau de zoom*/
     private ParamGraph previousParam = null;
     private ParamGraph nextParam = null;
 
-
+    /* Images */
+    private ImageIcon imgFct;
+    private ImageIcon imgFctClic;
+    private ImageIcon imgFctSurvol;
+    private ImageIcon imgFctGris;
 
     
     /** Creates new form FitexPanel */
@@ -107,7 +116,10 @@ public class FitexPanel extends javax.swing.JPanel {
 
     private void initGUI(ArrayList<FunctionModel> listFunctionModel){
         this.setLayout(new BorderLayout());
-        
+        imgFct = owner.getCopexImage("Bouton-AdT-28_graph_predefinedFunction.png");
+        imgFctClic = owner.getCopexImage("Bouton-AdT-28_graph_predefinedFunction_cli.png");
+        imgFctSurvol = owner.getCopexImage("Bouton-AdT-28_graph_predefinedFunction_sur.png");
+        imgFctGris = owner.getCopexImage("Bouton-AdT-28_graph_predefinedFunction_gri.png");
         initComponents();
         getPanelFct();
         isPanelFunction = false;
@@ -158,6 +170,7 @@ public class FitexPanel extends javax.swing.JPanel {
             panelFct.add(Box.createHorizontalStrut(5));
             panelFct.add(getLabelFct());
             panelFct.add(getTextFieldFct());
+            panelFct.add(getButtonPreDefinedFct());
         }
         return panelFct;
     }
@@ -264,6 +277,18 @@ public class FitexPanel extends javax.swing.JPanel {
         return textFieldFct;
     }
 
+    private CopexButtonPanel getButtonPreDefinedFct(){
+        if(buttonPreDefinedFct == null){
+            buttonPreDefinedFct = new CopexButtonPanel(imgFct.getImage(),imgFctSurvol.getImage(), imgFctClic.getImage(), imgFctGris.getImage() );
+            buttonPreDefinedFct.setBounds((panelFct.getHeight()-buttonPreDefinedFct.getHeight())/2,5, buttonPreDefinedFct.getWidth(), buttonPreDefinedFct.getHeight());
+            buttonPreDefinedFct.setPreferredSize(buttonPreDefinedFct.getSize());
+            buttonPreDefinedFct.setMaximumSize(buttonPreDefinedFct.getSize());
+            buttonPreDefinedFct.addActionCopexButton(this);
+            buttonPreDefinedFct.setToolTipText(owner.getBundleString("TOOLTIPTEXT_PREDEFINED_FUNCTION"));
+        }
+        return buttonPreDefinedFct;
+    }
+    
     private JLabel getLabelDist(){
         if(labelDist == null){
             labelDist = new JLabel();
@@ -375,7 +400,8 @@ public class FitexPanel extends javax.swing.JPanel {
         drawFct();
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
-            Function f = new Function(owner, fm.getDescription(), datas);
+            Function f = new Function(owner, fm.getDescription(),fm.getType(),  datas);
+            typeSelect = f.getType();
             int nbP = fm.getListParam().size();
             for (int k=0; k<nbP; k++){
                 f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
@@ -457,10 +483,13 @@ public class FitexPanel extends javax.swing.JPanel {
         // si il n'existe pas, creation de l'objet fonction
         if (!isRows())
             return ;
-        if (mapDesFonctions.get(couleurSelect) == null)
-            mapDesFonctions.put(couleurSelect, new Function(owner, textFieldFct.getText(), datas));
-        else
-            mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText()) ;
+        if (mapDesFonctions.get(couleurSelect) == null){
+            mapDesFonctions.put(couleurSelect, new Function(owner, textFieldFct.getText(), typeSelect, datas));
+        }else{
+            String oldT = mapDesFonctions.get(couleurSelect).getIntitule();
+            if(oldT != null  && !oldT.equals(textFieldFct.getText()) || typeSelect != mapDesFonctions.get(couleurSelect).getType())
+                mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText(), typeSelect) ;
+        }
         // affichage des parametres de la fonction
         affichageParametres(couleurSelect) ;
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
@@ -473,7 +502,7 @@ public class FitexPanel extends javax.swing.JPanel {
             listParam.add(p);
         }
         if(actionFitex != null)
-            actionFitex.setFunctionModel(textFieldFct.getText(), couleurSelect, listParam);
+            actionFitex.setFunctionModel(textFieldFct.getText(), typeSelect, couleurSelect, listParam);
     }
 
     /** MaJ de l'affichage des parametres de la fonction */
@@ -530,7 +559,7 @@ public class FitexPanel extends javax.swing.JPanel {
             listParam.add(fp);
         }
         if(actionFitex != null)
-            actionFitex.setFunctionModel(mapDesFonctions.get(couleurSelect).getIntitule(), couleurSelect,listParam );
+            actionFitex.setFunctionModel(mapDesFonctions.get(couleurSelect).getIntitule(), typeSelect, couleurSelect,listParam );
     }
 
     /** methode  appelee lors d'un changement de couleur de fonction */
@@ -538,10 +567,20 @@ public class FitexPanel extends javax.swing.JPanel {
         // MaJ de la fonction dans son label
         textFieldFct.setForeground(coul);
         if (mapDesFonctions.get(coul)!=null) {
+            if(mapDesFonctions.get(coul).getType() == DataConstants.FUNCTION_TYPE_Y_FCT_X){
+                labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );
+                typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
+            }else{
+                labelFct.setText(getBundleString("LABEL_FUNCTION_Y")+" = " );
+                typeSelect = DataConstants.FUNCTION_TYPE_X_FCT_Y ;
+            }
             textFieldFct.setText((mapDesFonctions.get(coul)).getIntitule());
         }
-        else
+        else{
             textFieldFct.setText("");
+            labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );
+            typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
+        }
         textFieldFct.requestFocusInWindow();
         
         // MaJ de la variable globale couleurSelect
@@ -667,6 +706,30 @@ public class FitexPanel extends javax.swing.JPanel {
    }
 
 
+   @Override
+    public void actionCopexButtonClic(CopexButtonPanel button) {
+        PreDefinedFunctionDialog fctDialog = new PreDefinedFunctionDialog(owner, this,owner.getListPreDefinedFunction());
+        fctDialog.setVisible(true);
+    }
+
+   public void setPredefinedFunction(PreDefinedFunction function){
+       if(textFieldFct != null){
+           textFieldFct.setText(function.getExpression());
+           if(function.getType() == DataConstants.FUNCTION_TYPE_Y_FCT_X){
+                labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );
+                typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
+            }else{
+                labelFct.setText(getBundleString("LABEL_FUNCTION_Y")+" = " );
+                typeSelect = DataConstants.FUNCTION_TYPE_X_FCT_Y ;
+            }
+           textFieldFct.postActionEvent();
+       }
+   }
+
+    public void updateSize(int width, int height){
+        setSize(width, height);
+        setPreferredSize(getSize());
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -686,9 +749,13 @@ public class FitexPanel extends javax.swing.JPanel {
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         int h = 0;
+        if(panelFctParam != null && scrollPaneParametresFn != null && scrollPaneParametresFn.getHorizontalScrollBar().isShowing()){
+            panelFctParam.setSize(panelFctParam.getWidth(), panelFctParam.getHeight()+20);
+        }
         if (panelFctModel != null){
             h = (int)panelFctModel.getPreferredSize().getHeight();
         }
+
         if(zoneDeTrace != null)
             this.zoneDeTrace.updateSize(this.getWidth(), this.getHeight()-h);
     }//GEN-LAST:event_formComponentResized
@@ -699,7 +766,6 @@ public class FitexPanel extends javax.swing.JPanel {
 
 
 
-   
 
 
     
