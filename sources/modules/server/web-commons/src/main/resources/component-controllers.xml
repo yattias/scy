@@ -114,6 +114,7 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="lasService" ref="lasService"/>
         <property name="runtimeService" ref="runtimeService"/>
+        <property name="scenarioService" ref="scenarioService"/>
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
