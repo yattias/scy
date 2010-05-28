@@ -1,5 +1,6 @@
 package eu.scy.scymapper.impl.configuration;
 
+import eu.scy.core.model.impl.pedagogicalplan.ToolImpl;
 import eu.scy.core.model.pedagogicalplan.Tool;
 
 /**
@@ -8,7 +9,7 @@ import eu.scy.core.model.pedagogicalplan.Tool;
  * Date: 30.okt.2009
  * Time: 11:31:06
  */
-public class SCYMapperTool implements Tool {
+public class SCYMapperTool extends ToolImpl implements Tool {
 	private String id = "scymapper";
 	private String name = "SCYMapper";
 	private String description = "SCYMapper is a concept mapping tool";
