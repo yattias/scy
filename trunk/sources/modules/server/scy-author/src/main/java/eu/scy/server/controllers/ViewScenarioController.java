@@ -22,17 +22,16 @@ public class ViewScenarioController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String pedPlanId = request.getParameter("pedagogicalPlanId");
-        logger.info("PED PLAN ID: " + pedPlanId);
         PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
         setModel(plan.getScenario());
-        logger.info("Setting plan: " + plan.getName());
         modelAndView.addObject("pedagogicalPlan", plan);
         modelAndView.addObject("learningGoals", ((Scenario) getModel()).getLearningGoals());
 
         modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
+        modelAndView.addObject("myLasLink", getMyLasLink());
     }
 
-    public String getLasLink() {
+    public String getMyLasLink() {
         return "viewLAS.html";
     }
 

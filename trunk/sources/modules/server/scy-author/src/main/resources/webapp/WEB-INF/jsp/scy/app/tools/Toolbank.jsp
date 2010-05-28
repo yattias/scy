@@ -6,14 +6,18 @@
         <h1>Tools</h1>
 
         <c:choose>
-           <c:when test="${fn:length(learningActivitySpaces) > 0}">
+           <c:when test="${fn:length(tools) > 0}">
                <table id="toolTable" width="100%">
                    <tr>
                        <th>Tool</th>
                    </tr>
                    <c:forEach var="tool" items="${tools}">
                        <tr class="${oddEven.oddEven}">
-                           <td>${tool.name}</td>
+                           <td>-</td>
+                           <td>
+                                <s:modellink href="viewTool.html" model="${tool}">${tool.name}</s:modellink>    
+                           </td>
+                           <td>${tool.toolId}</td>
                        </tr>
                    </c:forEach>
                </table>

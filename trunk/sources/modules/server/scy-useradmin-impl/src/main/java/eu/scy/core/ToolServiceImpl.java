@@ -26,6 +26,17 @@ public class ToolServiceImpl extends BaseServiceImpl implements ToolService{
     }
 
     @Override
+    public Tool getToolByToolId(String toolId) {
+        return getToolDAO().getToolByToolId(toolId);
+    }
+
+    @Override
+    @Transactional
+    public void registerTool(String toolId) {
+        getToolDAO().registerTool(toolId);
+    }
+
+    @Override
     public Tool findToolByName(String name) {
         return getToolDAO().findToolByName(name);
     }

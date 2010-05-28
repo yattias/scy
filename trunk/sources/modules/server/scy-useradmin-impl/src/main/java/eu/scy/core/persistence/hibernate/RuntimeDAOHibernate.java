@@ -1,9 +1,11 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.ToolService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.runtime.EloRuntimeActionImpl;
 import eu.scy.core.model.impl.runtime.LASRuntimeActionImpl;
 import eu.scy.core.model.impl.runtime.ToolRuntimeActionImpl;
+import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.core.model.runtime.AbstractRuntimeAction;
 import eu.scy.core.model.runtime.EloRuntimeAction;
 import eu.scy.core.model.runtime.LASRuntimeAction;
@@ -30,6 +32,7 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
     private UserDAO userDAO;
     private static final List CURRENT_TOOL_TRIGGERS = new LinkedList();
     private IRepository repository;
+    private ToolService toolService;
 
 
 
@@ -55,7 +58,17 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                  .setParameterList("actionTypes", getToolTriggers())
                  .setMaxResults(1)
                  .uniqueResult();
-        if(toolAction != null) return toolAction.getTool();
+        if(toolAction != null) {
+
+            Tool tool = getToolService().getToolByToolId(toolAction.getTool());
+            if(tool == null) {
+                getToolService().registerTool(toolAction.getTool());
+                tool = getToolService().getToolByToolId(toolAction.getTool());
+            }
+
+            if(tool != null) return tool.getName();
+            else return toolAction.getTool();
+        }
         return "";
     }
 
@@ -114,6 +127,8 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
             if (runtimeAction != null) {
                 if (runtimeAction instanceof ToolRuntimeAction) {
                     ((ToolRuntimeAction) runtimeAction).setTool(tool);
+                     Tool aTool = getToolService().getToolByToolId(tool);
+                     if(aTool == null) getToolService().registerTool(tool);
                 } else if(runtimeAction instanceof EloRuntimeAction) {
                     ((EloRuntimeAction) runtimeAction).setEloUri(eloUri);
                 } else if(runtimeAction instanceof LASRuntimeAction) {
@@ -170,5 +185,13 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
 
     public void setRepository(IRepository repository) {
         this.repository = repository;
+    }
+
+    public ToolService getToolService() {
+        return toolService;
+    }
+
+    public void setToolService(ToolService toolService) {
+        this.toolService = toolService;
     }
 }

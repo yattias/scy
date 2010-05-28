@@ -29,13 +29,31 @@ public class ToolDAOHibernate extends ScyBaseDAOHibernate implements ToolDAO {
 
     @Override
     public List getTools() {
+        logger.info("GETTING TOOLS!");
         return getSession().createQuery("from ToolImpl order by name")
                 .list();
     }
 
     @Override
     public void addTool() {
+        logger.info("CREATING TOOL!!!!");
         Tool tool = new ToolImpl();
         save(tool);
+    }
+
+    @Override
+    public void registerTool(String toolId) {
+        Tool tool = new ToolImpl();
+        tool.setName("Unregistered tool (" + toolId + ")");
+        tool.setToolId(toolId);
+        save(tool);
+    }
+
+    @Override
+    public Tool getToolByToolId(String toolId) {
+        return (Tool) getSession().createQuery("from ToolImpl where toolId like :toolId")
+                .setString("toolId", toolId)
+                .setMaxResults(1)
+                .uniqueResult();
     }
 }

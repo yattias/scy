@@ -15,4 +15,15 @@ import javax.persistence.*;
 @Table(name = "tool")
 public class ToolImpl extends BaseObjectImpl  implements Tool {
 
+    private String toolId;
+
+    @Override
+    public String getToolId() {
+        return toolId;
+    }
+
+    @Override
+    public void setToolId(String toolId) {
+        this.toolId = toolId;
+    }
 }

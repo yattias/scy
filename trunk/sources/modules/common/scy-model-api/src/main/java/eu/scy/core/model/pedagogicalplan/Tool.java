@@ -7,4 +7,7 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 12:42:57
  */
 public interface Tool extends BaseObject{
+    String getToolId();
+
+    void setToolId(String toolId);
 }

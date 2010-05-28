@@ -55,6 +55,7 @@
                    /app/scyauthor/addFileToMission.html=addFileToMissionController
 
                    /app/tools/Toolbank.html=toolbankController
+                   /app/tools/viewTool.html=viewToolController
 
                    /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
                    /app/scyauthorruntime/ScyAuthorRuntimeGraphicalView.html=scyAuthorRuntimeGraphicalViewController
@@ -189,6 +190,12 @@
     </bean>
 
     <bean id="toolbankController" class="eu.scy.server.controllers.tools.ToolbankController">
+        <property name="serverService" ref="serverService"/>
+        <property name="toolService" ref="toolService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewToolController" class="eu.scy.server.controllers.tools.ViewToolController">
         <property name="serverService" ref="serverService"/>
         <property name="toolService" ref="toolService"/>
         <property name="urlInspector" ref="urlInspector"/>
