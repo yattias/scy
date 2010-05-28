@@ -7,6 +7,7 @@ package eu.scy.client.common.scyi18n;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -139,6 +140,63 @@ public class UriLocalizer
       return url;
    }
 
+   /**
+    * Replaces the language specification by the default language. If the localized uri does not
+    * exists, the languages part will be replaced by the definition language en (English). If that
+    * localized uri also not exists, the original uri will be returned.
+    * 
+    * @param uri
+    * @return localized uri
+    */
+   public URI localizeUriWithChecking(URI uri)
+   {
+      if (uri == null)
+      {
+         return null;
+      }
+      try
+      {
+         URL url = uri.toURL();
+         URL localizedUrl = localizeUrlwithChecking(url);
+         return localizedUrl.toURI();
+      }
+      catch (MalformedURLException e)
+      {
+         logger.error("problems localizing uri: " + uri, e);
+      }
+      catch (URISyntaxException e)
+      {
+         logger.error("problems localizing uri: " + uri, e);
+      }
+      return uri;
+   }
+   
+   /**
+    * Replaces the language specification by the default language. If the localized uri does not
+    * exists, the languages part will be replaced by the definition language en (English). If that
+    * localized uri also not exists, the original uri will be returned.
+    * 
+    * @param uri
+    * @return localized uri
+    */
+   public String localizeUriWithChecking(String uri)
+   {
+      if (uri == null)
+      {
+         return null;
+      }
+      try
+      {
+         URI realUri = new URI(uri);
+         return localizeUriWithChecking(realUri).toString();
+      }
+      catch (URISyntaxException e)
+      {
+         logger.error("problems localizing uri: " + uri, e);
+      }
+      return uri;
+   }
+   
    /**
     * Replaces the first language specification in the uri by the default language. There are no
     * checks performed if the localized uri exists or not.
