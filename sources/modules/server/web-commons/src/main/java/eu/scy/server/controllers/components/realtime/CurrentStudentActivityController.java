@@ -41,17 +41,17 @@ public class CurrentStudentActivityController extends AbstractController {
             String las = getRuntimeService().getCurrentLAS(user);
             status = las + ", " ;
             String currentTool = getRuntimeService().getCurrentTool(user);
-            String currentELO = getRuntimeService().getCurrentELO(user);
+            //String currentELO = getRuntimeService().getCurrentELO(user);
             if(currentTool.length() > 0) currentTool += ", ";
 
-            status += currentTool;
+            status += "<strong>" + currentTool + "</strong>";
 
-            if(currentELO != null) status += currentELO + ", ";
+            //if(currentELO != null) status += currentELO + ", ";
 
             if(latestInterestingAction  instanceof ToolRuntimeAction) {
-                status += latestInterestingAction.getActionType();
+                //status += latestInterestingAction.getActionType();
             } else if (latestInterestingAction instanceof EloRuntimeAction) {
-                status += ((EloRuntimeAction)latestInterestingAction).getEloUri();
+                //status += ((EloRuntimeAction)latestInterestingAction).getEloUri();
             }
 
         }
