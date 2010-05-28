@@ -32,6 +32,10 @@ public class ViewScenarioController extends BaseController {
         modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
     }
 
+    public String getLasLink() {
+        return "viewLAS.html";
+    }
+
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
         return pedagogicalPlanPersistenceService;

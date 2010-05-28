@@ -19,8 +19,9 @@ import java.util.List;
 public class ScenarioDiagram extends TagSupport {
 
     private Scenario scenario;
-    private Boolean loadJSON;
     private PedagogicalPlan pedagogicalPlan;
+    private String lasLink; //the link that will be fired when clicking on a LAS
+    private Boolean includeRuntimeInfo;
 
     private List<LearningActivitySpace> learningActivitySpaces;
 
@@ -40,12 +41,20 @@ public class ScenarioDiagram extends TagSupport {
         this.pedagogicalPlan = pedagogicalPlan;
     }
 
-    public Boolean getLoadJSON() {
-        return loadJSON;
+    public String getLasLink() {
+        return lasLink;
     }
 
-    public void setLoadJSON(Boolean loadJSON) {
-        this.loadJSON = loadJSON;
+    public void setLasLink(String lasLink) {
+        this.lasLink = lasLink;
+    }
+
+    public Boolean getIncludeRuntimeInfo() {
+        return includeRuntimeInfo;
+    }
+
+    public void setIncludeRuntimeInfo(Boolean includeRuntimeInfo) {
+        this.includeRuntimeInfo = includeRuntimeInfo;
     }
 
     private List<LearningActivitySpace> getLearningActivitySpaces() {
@@ -65,7 +74,7 @@ public class ScenarioDiagram extends TagSupport {
 
 
             pageContext.getOut().write("<h1>" + getScenario().getName()+ " </h1>");
-            if(getLoadJSON()) {
+
                 
                 pageContext.getOut().write("<a href=\"/webapp/components/json/RuntimeUserInfoJSON.html?model=" + getPedagogicalPlan().getId() +"\">LOAD RUNTIME ACTIVITY</a>");
                 pageContext.getOut().write(
@@ -102,7 +111,7 @@ public class ScenarioDiagram extends TagSupport {
                         "        }\n" +
                         "        // More properties for xhrGet...\n" +
                         "});");
-            }
+            
             pageContext.getOut().write(
 
                     "            var uml = Joint.dia.uml;\n" +
@@ -119,9 +128,14 @@ public class ScenarioDiagram extends TagSupport {
 
 
 
+                    "");
+        if(getIncludeRuntimeInfo()) {
 
 
-                   
+        pageContext.getOut().write(
+                    "alert(\"will include runtime info\");\n");
+        }
+        pageContext.getOut().write(
                     "        </script>");
 
 
