@@ -21,13 +21,15 @@ public class PlotXY implements Cloneable{
     private final static String TAG_PLOT_COLOR_GREEN = "plot_color_green";
     private final static String TAG_PLOT_COLOR_BLUE = "plot_color_blue";
 
+    private long dbKey;
     private Color plotColor;
     /* axe x*/
     private DataHeader headerX;
     /* axe y */
     private DataHeader headerY;
 
-    public PlotXY(DataHeader headerX, DataHeader headerY, Color plotColor) {
+    public PlotXY(long dbKey,DataHeader headerX, DataHeader headerY, Color plotColor) {
+        this.dbKey = dbKey;
         this.headerX = headerX;
         this.headerY = headerY;
         this.plotColor = plotColor;
@@ -57,6 +59,14 @@ public class PlotXY implements Cloneable{
         this.plotColor = plotColor;
     }
 
+    public long getDbKey() {
+        return dbKey;
+    }
+
+    public void setDbKey(long dbKey) {
+        this.dbKey = dbKey;
+    }
+
 
     @Override
     public Object clone()  {
@@ -65,6 +75,7 @@ public class PlotXY implements Cloneable{
             DataHeader hX = (DataHeader)this.headerX.clone();
             DataHeader hY = (DataHeader)this.headerY.clone();
             Color c = new Color(plotColor.getRGB());
+            plot.setDbKey(new Long(dbKey));
             plot.setHeaderX(hX);
             plot.setHeaderY(hY);
             plot.setPlotColor(c);

@@ -138,7 +138,7 @@ public class Graph extends Visualization implements Cloneable {
         return paramGraph.getPlots().size();
     }
 
-    public boolean removePlotWithNo(int no){
+    public ArrayList<Long> removePlotWithNo(int no){
         return  paramGraph.removePlotWithNo(no);
     }
 

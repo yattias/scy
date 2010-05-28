@@ -80,7 +80,17 @@ public class DataConstants {
     public static final Color FUNCTION_COLOR_1 = Color.BLUE ;
     public static final Color FUNCTION_COLOR_2 = new Color(51, 153, 0);
     public static final Color FUNCTION_COLOR_3 = Color.BLACK;
-    
+
+    /*function type */
+    // y=f(x)
+    public static final char FUNCTION_TYPE_Y_FCT_X = 'Y';
+    // x=f(y)
+    public static final char FUNCTION_TYPE_X_FCT_Y = 'X';
+    public static final String F_Y = "y=f(x)";
+    public static final String F_X = "x=f(y)";
+
+    /* xml language */
+    public final static String XMLNAME_LANGUAGE="language";
     /* LOG TYPE */
     public static final String LOG_TYPE_START_TOOL = "start_tool";
     public static final String LOG_TYPE_END_TOOL = "end_tool";

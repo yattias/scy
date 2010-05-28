@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.pdsELO;
 
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,12 +22,14 @@ public class FunctionModel {
     /* TAG NAMES */
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL = "function_model";
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_DESCRIPTION="description";
+    public final static String TAG_VISUALIZATION_FUNCTION_MODEL_TYPE = "type";
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_R="color_r";
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_G="color_g";
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_B="color_b";
 
     /* description */
     private String description;
+    private char type;
     /* color */
     private int colorR;
     private int colorG;
@@ -34,8 +37,9 @@ public class FunctionModel {
     /* eventuellement param */
     private List<FunctionParam> listParam;
 
-    public FunctionModel(String description, int colorR, int colorG, int colorB, List<FunctionParam> listParam) {
+    public FunctionModel(String description, char type, int colorR, int colorG, int colorB, List<FunctionParam> listParam) {
         this.description = description;
+        this.type = type;
         this.colorR = colorR;
         this.colorG = colorG;
         this.colorB = colorB;
@@ -43,8 +47,13 @@ public class FunctionModel {
     }
 
     public FunctionModel(Element xmlElem) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_VISUALIZATION_FUNCTION_MODEL)) {
-			this.description =xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_DESCRIPTION).getText() ;
+        if (xmlElem.getName().equals(TAG_VISUALIZATION_FUNCTION_MODEL)) {
+            this.description =xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_DESCRIPTION).getText() ;
+            this.type = DataConstants.FUNCTION_TYPE_Y_FCT_X;
+            if(xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_TYPE) != null){
+                String s = xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_TYPE).getText();
+                type = s.equals(DataConstants.F_X) ? DataConstants.FUNCTION_TYPE_X_FCT_Y : DataConstants.FUNCTION_TYPE_Y_FCT_X;
+            }
             try{
                 this.colorR = Integer.parseInt(xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_R).getText());
                 this.colorG = Integer.parseInt(xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_G).getText());
@@ -56,10 +65,10 @@ public class FunctionModel {
             for (Iterator<Element> variableElem = xmlElem.getChildren(FunctionParam.TAG_VISUALIZATION_FUNCTION_PARAM).iterator(); variableElem.hasNext();) {
                 listParam.add(new FunctionParam(variableElem.next()));
             }
-		} else {
-			throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION_FUNCTION_MODEL+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
-	}
+        } else {
+            throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION_FUNCTION_MODEL+"> as root element, but found <"+xmlElem.getName()+">."));
+        }
+    }
 
 	public FunctionModel(String xmlString) throws JDOMException {
 		this(new JDomStringConversion().stringToXml(xmlString));
@@ -87,11 +96,20 @@ public class FunctionModel {
         return listParam;
     }
 
+    public char getType() {
+        return type;
+    }
+
+    public void setType(char type) {
+        this.type = type;
+    }
+
 
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_VISUALIZATION_FUNCTION_MODEL);
         element.addContent(new Element(TAG_VISUALIZATION_FUNCTION_MODEL_DESCRIPTION).setText(this.description));
+        element.addContent(new Element(TAG_VISUALIZATION_FUNCTION_MODEL_TYPE).setText(type == DataConstants.FUNCTION_TYPE_X_FCT_Y ? DataConstants.F_X : DataConstants.F_Y));
         element.addContent(new Element(TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_R).setText(Integer.toString(this.colorR)));
         element.addContent(new Element(TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_G).setText(Integer.toString(this.colorG)));
         element.addContent(new Element(TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_B).setText(Integer.toString(this.colorB)));

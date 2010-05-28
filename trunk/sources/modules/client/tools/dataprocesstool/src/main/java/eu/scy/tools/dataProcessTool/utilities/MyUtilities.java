@@ -5,12 +5,16 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
+import eu.scy.tools.dataProcessTool.common.LocalText;
 import java.awt.FontMetrics;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -150,5 +154,41 @@ public class MyUtilities {
             }
         }
         return list;
+    }
+
+    public static String getText(List<LocalText> list, Locale locale){
+        for (Iterator<LocalText> t= list.iterator(); t.hasNext();) {
+            LocalText locaText = t.next();
+            if(locaText.getLocale().getLanguage().equals(locale.getLanguage()))
+                return locaText.getText();
+        }
+        // try to load in en
+        for (Iterator<LocalText> t= list.iterator(); t.hasNext();) {
+            LocalText locaText = t.next();
+            if(locaText.getLocale().getLanguage().equals("en"))
+                return locaText.getText();
+        }
+        for (Iterator<LocalText> t= list.iterator(); t.hasNext();) {
+            return t.next().getText();
+        }
+        return null;
+
+    }
+
+    public static String getTextWithoutHTML(String s){
+        if(s == null)
+            return s;
+        int id1 = s.indexOf("<");
+        int id2 = s.indexOf(">");
+        while(id1 != -1 && id2 !=-1){
+            String end = "";
+            if(id2<s.length()-1){
+                end = s.substring(id2+1, s.length());
+            }
+            s = s.substring(0, id1)+end;
+            id1 = s.indexOf("<");
+            id2 = s.indexOf(">");
+        }
+        return s;
     }
 }

@@ -6,10 +6,7 @@
 package eu.scy.tools.dataProcessTool.db;
 
 import eu.scy.tools.dataProcessTool.common.DataOperation;
-import eu.scy.tools.dataProcessTool.common.DataOperationParam;
-import eu.scy.tools.dataProcessTool.common.ParamOperation;
 import eu.scy.tools.dataProcessTool.common.TypeOperation;
-import eu.scy.tools.dataProcessTool.common.TypeOperationParam;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
@@ -87,20 +84,7 @@ public class OperationFromDB {
             } catch(NumberFormatException e){
                 
             }
-            // eventuellement operation parametree
-            TypeOperation op = null;
-            ArrayList v3 = new ArrayList();
-            cr = getTypeOperationParamFromDB(dbC, locale,dbKey, v3);
-            if (cr.isError())
-                return cr;
-            if (v3.size() > 0){
-                int nbParam = (Integer)v3.get(0);
-                String libelle = (String)v3.get(1);
-                op =  new TypeOperationParam(dbKey, type, code, new Color(colorR, colorG, colorB), nbParam, libelle);
-            }else{
-                op = new TypeOperation(dbKey, type, code, new Color(colorR, colorG, colorB));
-            }
-            
+            TypeOperation op = new TypeOperation(dbKey, type, code, new Color(colorR, colorG, colorB));
             listOp.add(op);
             nbOp++;
         }
@@ -113,40 +97,7 @@ public class OperationFromDB {
         return new CopexReturn();
     }
 
-    /* retourne s'il s'agit d'une operation param en v[0] le nombre de param et en v[1] le libelle */
-    private static  CopexReturn getTypeOperationParamFromDB(DataBaseCommunication dbC, Locale locale, long dbKeyOp,  ArrayList v){
-        if( locale == null)
-            return new CopexReturn("ERROR Locale null", false);
-        String lib = "LIBELLE_"+locale.getLanguage() ;
-        String query = "SELECT NB_PARAM, "+lib+" FROM TYPE_OPERATION_PARAM WHERE ID_TYPE_OPERATION_PARAM  = "+dbKeyOp+" ;";
-        ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("NB_PARAM");
-        listFields.add(lib);
-
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
-        if (cr.isError())
-            return cr;
-        int nbR = v2.size();
-        if (nbR == 0)
-            return new CopexReturn();
-        for (int i=0; i<nbR; i++){
-            ResultSetXML rs = (ResultSetXML)v2.get(i);
-            String s = rs.getColumnData("NB_PARAM");
-            int nbParam = 0;
-            try{
-                nbParam = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-                return new CopexReturn("ERROR NB_PARAM TYPE OPERATION", false);
-            }
-            String libelle = rs.getColumnData(lib);
-            v.add(nbParam);
-            v.add(libelle);
-            return new CopexReturn();
-        }
-        return new CopexReturn();
-    }
-
+    
     /*creation d'une nouvelle operation - retourne en v[0] le nouvel id*/
     public static CopexReturn createOperationInDB(DataBaseCommunication dbC, long dbKeyDs, DataOperation operation, ArrayList v){
         String name = operation.getName() ;
@@ -180,45 +131,10 @@ public class OperationFromDB {
         if(cr.isError())
             return cr;
         v.add(dbKey);
-        if (operation instanceof DataOperationParam){
-            v2 = new ArrayList();
-            cr = createParamOperationInDB(dbC, dbKey, (DataOperationParam)operation, v2);
-            if (cr.isError())
-                return cr;
-            v.add(v2.get(0));
-        }
         return new CopexReturn();
     }
 
-    /* creation parametres d'une operation */
-    private static CopexReturn createParamOperationInDB(DataBaseCommunication dbC, long dbKeyOp, DataOperationParam operation, ArrayList v){
-        ParamOperation[] allParam = operation.getAllParam() ;
-        int nbParam = allParam.length ;
-        for (int i=0; i<nbParam; i++){
-            String value = allParam[i] == null ? "NULL" : ""+allParam[i].getValue() ;
-            int id = allParam[i].getIndex() ;
-            String query = "INSERT INTO PARAM_OPERATION (ID_OP_PARAM, VALUE, INDEX) VALUES (NULL, "+value+", "+id+") ;";
-            String queryID = "SELECT max(last_insert_id(`ID_OP_PARAM`))   FROM PARAM_OPERATION ;";
-            ArrayList v2 = new ArrayList();
-            CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
-            if (cr.isError())
-                return cr;
-            long dbKey = (Long)v2.get(0);
-            allParam[i].setDbKey(dbKey);
-        }
-        //liens
-        String[] querys = new String[nbParam];
-        for (int i=0; i<nbParam; i++){
-            querys[i] = "INSERT INTO LINK_OPERATION_PARAM (ID_DATA_OPERATION, ID_PARAM_OPERATION) VALUES ("+dbKeyOp+", "+allParam[i].getDbKey()+") ;";
-        }
-        ArrayList v2 = new ArrayList();
-        CopexReturn cr = dbC.executeQuery(querys, v2);
-        v.add(allParam);
-        return cr;
-
-    }
-
-
+   
     /* mise a jour titre operation */
     public static CopexReturn updateOperationTitleInDB(DataBaseCommunication dbC, long dbKeyOp, String title){
         title = MyUtilities.replace("\'",title,"''") ;

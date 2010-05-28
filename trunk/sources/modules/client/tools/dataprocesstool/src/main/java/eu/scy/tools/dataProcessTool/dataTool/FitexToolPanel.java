@@ -15,9 +15,10 @@ import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
+import eu.scy.tools.dataProcessTool.common.PreDefinedFunction;
+import eu.scy.tools.dataProcessTool.common.PreDefinedFunctionCategory;
 import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.TypeOperation;
-import eu.scy.tools.dataProcessTool.common.TypeOperationParam;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
@@ -87,6 +88,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private TypeVisualization[] tabTypeVis;
     /* tableau des differentes operations possibles */
     private TypeOperation[] tabTypeOp;
+    /* liste des fonctions predef*/
+    private ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction;
 
     private File lastUsedFile = null;
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
@@ -130,13 +133,14 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private JScrollPane scrollPaneDataOrganizer;
     private DataTable datasetTable;
 
-    public FitexToolPanel(DataProcessToolPanel dataProcessToolPanel, Dataset dataset, ControllerInterface controller, TypeVisualization[] tabTypeVis, TypeOperation[] tabTypeOp) {
+    public FitexToolPanel(DataProcessToolPanel dataProcessToolPanel, Dataset dataset, ControllerInterface controller, TypeVisualization[] tabTypeVis, TypeOperation[] tabTypeOp, ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction) {
         super();
         this.dataProcessToolPanel = dataProcessToolPanel;
         this.dataset = dataset;
         this.controller = controller;
         this.tabTypeVis = tabTypeVis;
         this.tabTypeOp = tabTypeOp;
+        this.listPreDefinedFunction = listPreDefinedFunction;
         this.datasetModif = false;
         initGUI();
     }
@@ -832,10 +836,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         TypeOperation type = getOperation(typeOp);
         if (type == null)
             return;
-        if (type instanceof TypeOperationParam){
-            openParamOperationDialog(ds, (TypeOperationParam)type, isOnCol, listNo);
-            return;
-        }
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.createOperation(ds, typeOp, isOnCol, listNo, v);
         if (cr.isError()){
@@ -1109,9 +1109,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* creation ou mise a jour d'une fonction modele */
-    public void setFunctionModel(Graph graph, String description, Color fColor, ArrayList<FunctionParam> listParam ){
+    public void setFunctionModel(Graph graph, String description,char type,  Color fColor, ArrayList<FunctionParam> listParam ){
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.setFunctionModel(dataset, graph, description, fColor, listParam, v);
+        CopexReturn cr = this.controller.setFunctionModel(dataset, graph, description, type, fColor, listParam, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -1149,27 +1149,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
 
 
-    /* ouvre fenetre dialog pour parametre d'une operation */
-    private void openParamOperationDialog(Dataset ds, TypeOperationParam typeOp, boolean isOnCol, ArrayList<Integer> listNo){
-        ParamOperationDialog dialog = new ParamOperationDialog(this, typeOp, ds, isOnCol, listNo);
-        dialog.setVisible(true);
-    }
-
-    /* parametres d'une operation */
-    public boolean setParamOperation(Dataset ds, TypeOperationParam typeOp, boolean isOnCol, ArrayList<Integer> listNo, String[] tabValue){
-        ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.createOperationParam(ds, typeOp.getType(), isOnCol, listNo, tabValue, v);
-        if (cr.isError()){
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-            return false;
-        }
-        Dataset nds = (Dataset)v.get(0);
-        dataset = nds;
-        DataOperation operation = (DataOperation)v.get(1);
-        datasetTable.createOperation(nds,  operation);
-        datasetModif = true;
-        return true;
-    }
+    
 
     /* execution du tri */
     public void executeSort(ElementToSort keySort1, ElementToSort keySort2, ElementToSort keySort3){
@@ -1582,5 +1562,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         if(gFrame != null){
             gFrame.setPreviousZoom();
         }
+    }
+
+    public ArrayList<PreDefinedFunctionCategory> getListPreDefinedFunction(){
+        return this.listPreDefinedFunction;
     }
 }

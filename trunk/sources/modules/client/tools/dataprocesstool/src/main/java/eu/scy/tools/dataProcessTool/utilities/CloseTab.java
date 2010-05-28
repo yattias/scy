@@ -1,7 +1,6 @@
 package eu.scy.tools.dataProcessTool.utilities;
 
 import eu.scy.tools.dataProcessTool.common.Dataset;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -9,7 +8,6 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 
 /*
@@ -56,7 +54,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         int l = MyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
         labelTitle.setBounds(0, 0, l+5, 19);
         add(labelTitle);
-        labelIcon = new CopexButtonPanel(20, this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
+        labelIcon = new CopexButtonPanel(this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
         labelIcon.addActionCopexButton(this);
         Dimension d;
         if (l > 0){

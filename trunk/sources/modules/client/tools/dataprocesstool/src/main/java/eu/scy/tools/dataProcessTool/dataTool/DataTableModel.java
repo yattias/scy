@@ -300,7 +300,6 @@ public class DataTableModel extends AbstractTableModel {
         return allIgnored ;
     }
 
-
     /* applique une operation sur les lignes */
     private void operateOnRow(DataOperation operation, int noC){
         String name = operation.getName();
@@ -308,6 +307,7 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbRowDs; i++){
             int id = listNo.indexOf(i);
             if (id != -1 && !isIgnoredRow(i)){
+                System.out.println("operateOnRow : "+i+", "+id+", "+noC);
                 this.tabData[1+i][noC] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[1+i][noC] = "-" ;
@@ -707,7 +707,7 @@ public class DataTableModel extends AbstractTableModel {
             }
         }
 
-        Dataset ds = new Dataset(-1, "subData", nbC, nbR, headers, data,getSelectedOperation(listSelected), new ArrayList() );
+        Dataset ds = new Dataset(-1,null, "subData", nbC, nbR, headers, data,getSelectedOperation(listSelected), new ArrayList() );
         return ds;
     }
 

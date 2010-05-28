@@ -222,7 +222,7 @@ public class DrawPanel extends javax.swing.JPanel {
         // parcours et trace pour toutes les courbes definies dans la HashMap
         for (Color coul:mapDesFonctions.keySet()) {
             if (mapDesFonctions.get(coul)!=null && mapDesFonctions.get(coul).getExpression()!=null) {
-                tracerUneCourbe(g, coul, (mapDesFonctions.get(coul)).getExpression()) ;
+                tracerUneCourbe(g, coul, (mapDesFonctions.get(coul)).getType(), (mapDesFonctions.get(coul)).getExpression()) ;
             }
         }
         // parcours et tracie de tous les points diefinis dans le tableau de donniees
@@ -439,29 +439,47 @@ public class DrawPanel extends javax.swing.JPanel {
 
     
      /** methode permettant de realiser le trace d'une courbe avec une certaine couleur*/
-    public void tracerUneCourbe(Graphics g, Color couleur, Expression fonction) {
+    public void tracerUneCourbe(Graphics g, Color couleur, char type, Expression fonction) {
         // les coordonees des segments (coordonnees du repere)
         double x1;
         double x2;
         double y1;
         double y2;
+        if(type == DataConstants.FUNCTION_TYPE_Y_FCT_X){
+            x1 = x_min ;
+            y1 = fonction.valeur(x1) ;
+            while (x1 < x_max) {
+                // on calcule 2 fois plus de points que la largeur en pixels de la zone de trace
+                x2 = x1 + (x_max-x_min)/(width*2) ;
+                y2 = fonction.valeur(x2) ;
 
-        x1 = x_min ;
-        y1 = fonction.valeur(x1) ;
+                if ( !( (Double.isNaN(y1)) || (Double.isNaN(y2)) // evite les valeurs qui ne sont pas definies
+                || (y1<y_min && y2>y_max)  || (y1>y_max && y2<y_min) // evite les raccord d'infinis
+                || (Double.isInfinite(y1)) || (Double.isInfinite(y2)) // evite de faire des tarces pour des valeurs infinies
+                ))
+                    tracerSegment(g, couleur,x1,y1,x2,y2);
 
-        while (x1 < x_max) {
-            // on calcule 2 fois plus de points que la largeur en pixels de la zone de trace
-            x2 = x1 + (x_max-x_min)/(width*2) ;
-            y2 = fonction.valeur(x2) ;
+                x1 = x2 ;
+                y1 = y2 ;
+            }
+        }else{ // x=f(y)
+            y1 = y_min ;
+            x1 = fonction.valeur(y1) ;
 
-            if ( !( (Double.isNaN(y1)) || (Double.isNaN(y2)) // evite les valeurs qui ne sont pas definies
-            || (y1<y_min && y2>y_max)  || (y1>y_max && y2<y_min) // evite les raccord d'infinis
-            || (Double.isInfinite(y1)) || (Double.isInfinite(y2)) // evite de faire des tarces pour des valeurs infinies
-            ))
-                tracerSegment(g, couleur,x1,y1,x2,y2);
+            while (y1 < y_max) {
+                // on calcule 2 fois plus de points que la largeur en pixels de la zone de trace
+                y2 = y1 + (y_max-y_min)/(width*2) ;
+                x2 = fonction.valeur(y2) ;
 
-            x1 = x2 ;
-            y1 = y2 ;
+                if ( !( (Double.isNaN(x1)) || (Double.isNaN(x2)) // evite les valeurs qui ne sont pas definies
+                || (x1<x_min && x2>x_max)  || (x1>x_max && x2<x_min) // evite les raccord d'infinis
+                || (Double.isInfinite(x1)) || (Double.isInfinite(x2)) // evite de faire des tarces pour des valeurs infinies
+                ))
+                    tracerSegment(g, couleur,x1,y1,x2,y2);
+
+                y1 = y2 ;
+                x1 = x2 ;
+            }
         }
     }
 

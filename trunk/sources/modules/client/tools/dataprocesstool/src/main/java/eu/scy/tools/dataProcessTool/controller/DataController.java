@@ -10,6 +10,7 @@ import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import roolo.elo.JDomStringConversion;
+import org.jdom.input.SAXBuilder;
 
 import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
@@ -41,12 +42,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import org.jdom.output.Format;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.XMLOutputter;
+import org.jdom.Document;
 
 
 /**
@@ -54,12 +57,15 @@ import org.jdom.output.XMLOutputter;
  * @author Marjolaine Bodin
  */
 public class DataController implements ControllerInterface{
+    private String fitexFunctionFileName = "fitexFunctions.xml";
     /* interface */
     private DataProcessToolPanel dataToolPanel;
     /* liste des types d'operations possibles */
     private TypeOperation[] tabTypeOperations;
     /* liste des visualisations possibles */
     private TypeVisualization[] tabTypeVisual;
+    /* liste des fonctions predef*/
+    private ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction;
     /* dataset */
     private ArrayList<Dataset> listDataset;
     private ArrayList<Integer> listNoDefaultCol;
@@ -71,6 +77,7 @@ public class DataController implements ControllerInterface{
     long idFunctionModel;
     long idFunctionParam;
     long idParamOp;
+    long idPlot;
 
     /* mission */
     private Mission mission ;
@@ -92,13 +99,12 @@ public class DataController implements ControllerInterface{
     @Override
     public CopexReturn load(){
         // chargement des types d'operation
-        tabTypeOperations = new TypeOperation[5];
+        tabTypeOperations = new TypeOperation[4];
         int id=0;
         tabTypeOperations[id++] = new TypeOperation(1, 0, "SUM", new Color(246,251,125));
         tabTypeOperations[id++] = new TypeOperation(2, 1, "AVG", new Color(212,251,125));
         tabTypeOperations[id++] = new TypeOperation(3, 2, "MIN", new Color(194,254,221));
         tabTypeOperations[id++] = new TypeOperation(4, 3, "MAX", new Color(206,209,230));
-        tabTypeOperations[id++] = new TypeOperationParam(5, 4, "SUM IF", new Color(255,153,153),2,getLibelleCountIf());
 
         // liste des visualisations possibles
         tabTypeVisual = new TypeVisualization[3];
@@ -106,7 +112,10 @@ public class DataController implements ControllerInterface{
         tabTypeVisual[id++] = new TypeVisualization(1, 0,dataToolPanel.getBundleString("LABEL_GRAPH"), 2 );
         tabTypeVisual[id++] = new TypeVisualization(2, 1,dataToolPanel.getBundleString("LABEL_PIECHART"), 1 );
         tabTypeVisual[id++] = new TypeVisualization(3, 2,dataToolPanel.getBundleString("LABEL_BARCHART"), 1 );
-
+        //
+        CopexReturn cr = loadPreDefinedFunction();
+        if(cr.isError())
+            return cr;
         idDataSet = 1;
         idOperation = 1;
         idDataHeader = 1;
@@ -115,12 +124,13 @@ public class DataController implements ControllerInterface{
         idFunctionModel = 1;
         idFunctionParam = 1;
         idParamOp = 1;
+        idPlot = 1;
         // mission
         mission = new Mission(1, "DATA", "Data Processing Tool", "");
         toolUser = new ToolUser("userName", "userFirstName");
         // creation dataset vierge
         ArrayList v = new ArrayList();
-        CopexReturn cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"),  v);
+        cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"),  v);
         if (cr.isError())
             return cr;
         // clone les objets
@@ -136,21 +146,38 @@ public class DataController implements ControllerInterface{
         for (int i=0; i<listDataset.size(); i++){
             listDsC.add((Dataset)listDataset.get(i).clone());
         }
-        this.dataToolPanel.initDataProcessingTool(tabTypeVisualC, tabTypeOpC, listDsC);
+        this.dataToolPanel.initDataProcessingTool(tabTypeVisualC, tabTypeOpC, listPreDefinedFunction, listDsC);
         return new CopexReturn();
     }
 
+    /* chargement des fonctions predefinies */
+    private CopexReturn loadPreDefinedFunction(){
+        listPreDefinedFunction = new ArrayList();
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        try{
+            InputStream s = this.getClass().getClassLoader().getResourceAsStream("languages/"+fitexFunctionFileName);
+            fileReader = new InputStreamReader(s, "utf-8");
+            Document doc = builder.build(fileReader);
+            Element fitexFunction = doc.getRootElement();
+            for (Iterator<Element> variableElem = fitexFunction.getChildren(PreDefinedFunctionCategory.TAG_PRE_DEFINED_CATEGORY).iterator(); variableElem.hasNext();) {
+                listPreDefinedFunction.add(new PreDefinedFunctionCategory(variableElem.next()));
+            }
+            
+        }catch(IOException e1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_FITEX_FUNCTION")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_FITEX_FUNCTION")+" "+e2, false);
+        }
+        return new CopexReturn();
+    }
 
     /* locale de l'applet */
     private Locale getLocale(){
         return this.dataToolPanel.getLocale() ;
     }
 
-    /* retourne le libelle pour l'operation sumif*/
-    private String getLibelleCountIf(){
-        return this.dataToolPanel.getBundleString("LIBELLE_SUM_IF");
-    }
-
+    
      /* creation d'une table retourne en v[0] l'objet DataSet cree */
     public CopexReturn createTable(String name, ArrayList v) {
         // par defaut on cree une table de 10 lignes par 2 colonnes
@@ -165,7 +192,7 @@ public class DataController implements ControllerInterface{
             tabHeader[i] = h;
         }
         // creation ds
-        Dataset dataset = new Dataset(idDataSet++, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        Dataset dataset = new Dataset(idDataSet++,mission, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
         listNoDefaultCol.add(nbCol);
         listDataset.add(dataset);
         v.add(dataset.clone());
@@ -176,13 +203,15 @@ public class DataController implements ControllerInterface{
 
     /* chargement d'un ELO */
     @Override
-    public CopexReturn loadELO(String xmlString){
+    public CopexReturn loadELO(String xmlString, String dsName){
         Dataset ds = null;
         ArrayList v = new ArrayList();
         CopexReturn cr = getElo(xmlString, v);
         if(v.size() > 0)
             ds = (Dataset)v.get(0);
         if(ds != null){
+            if(dsName != null)
+                ds.setName(dsName);
             this.listDataset.add(ds);
             this.listNoDefaultCol.add(1);
             this.dataToolPanel.setDataset((Dataset)ds.clone());
@@ -241,7 +270,7 @@ public class DataController implements ControllerInterface{
                 data = new Data[1][nbCols];
             }
             // creation du dataset
-            ds = new Dataset(idDataSet++, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+            ds = new Dataset(idDataSet++, mission, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
             v.add(ds);
         }
         
@@ -349,7 +378,7 @@ public class DataController implements ControllerInterface{
                 ArrayList<PlotXY> plots = new ArrayList();
                 for (Iterator<XYAxis> a = listAxis.iterator();a.hasNext();){
                     XYAxis axis = a.next();
-                    plots.add(new PlotXY(dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()], axis.getPlotColor()));
+                    plots.add(new PlotXY(idPlot++, dataHeader[axis.getX_axis()], dataHeader[axis.getY_axis()], axis.getPlotColor()));
                 }
                 ParamGraph paramGraph = new ParamGraph(plots, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(),  g.isDeltaFixedAutoscale());
                 ArrayList<FunctionModel> listFunctionModel  = null;
@@ -363,7 +392,7 @@ public class DataController implements ControllerInterface{
                         for (int k=0; k<np; k++){
                             listParam.add(new FunctionParam(idFunctionParam++, lfm.get(j).getListParam().get(k).getParam(), lfm.get(j).getListParam().get(k).getValue()));
                         }
-                        FunctionModel fm = new FunctionModel(idFunctionModel++, lfm.get(j).getDescription(), new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam);
+                        FunctionModel fm = new FunctionModel(idFunctionModel++, lfm.get(j).getDescription(),lfm.get(j).getType(),  new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam);
                         listFunctionModel.add(fm);
                     }
                 }
@@ -372,7 +401,7 @@ public class DataController implements ControllerInterface{
             listVisualization.add(myVis);
         }
         // creation du dataset
-        Dataset ds = new Dataset(idDataSet++, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+        Dataset ds = new Dataset(idDataSet++, mission, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
         return ds;
     }
 
@@ -461,43 +490,8 @@ public class DataController implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* creation d'une nouvelle operation parametree - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
-    @Override
-    public CopexReturn createOperationParam(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo,String[] tabValue,  ArrayList v){
-        int idDs = getIdDataset(ds.getDbKey());
-        if(idDs == -1){
-            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
-        }
-        Dataset dataset = listDataset.get(idDs);
-        TypeOperation typeOp = getTypeOperation(typeOperation);
-        if (typeOp == null)
-            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_CREATE_OPERATION"), false);
-        String name = typeOp.getCodeName() ;
-        ParamOperation[] allParam = getParamOperation((TypeOperationParam)typeOp, tabValue);
-        DataOperationParam operation = new DataOperationParam(idOperation++, name, typeOp, isOnCol, listNo, allParam) ;
-        // creation en memoire
-        dataset.addOperation(operation);
-        // en v[0] le nouveau dataset clone et en v[1] le dataOperation
-        listDataset.set(idDs, dataset);
-        v.add(dataset.clone());
-        v.add(operation.clone());
-        return new CopexReturn();
-    }
-
-
-    /* retourne les parametres de l'operation */
-    private ParamOperation[] getParamOperation(TypeOperationParam typeOp, String[] tabValue ){
-        ParamOperation[]  allParam = new ParamOperation[typeOp.getNbParam()];
-        for (int i=0; i<tabValue.length; i++){
-            Double value= null;
-            if (tabValue[i].length() > 0)
-                value = Double.parseDouble(tabValue[i]);
-            ParamOperation p = new ParamOperation(idParamOp++, value, i);
-            allParam[i] = p;
-        }
-        return allParam ;
-    }
-
+    
+    
     /* recherche du type d'operation - null sinon */
     private TypeOperation getTypeOperation(int t){
         for (int i=0; i<tabTypeOperations.length; i++){
@@ -569,6 +563,15 @@ public class DataController implements ControllerInterface{
                         plot.getHeaderY().setValue(title);
                         plot.getHeaderY().setUnit(unit);
                     }
+                }
+            }else if(visu instanceof SimpleVisualization){
+                if (((SimpleVisualization)visu).getHeader().getNoCol() == colIndex){
+                    ((SimpleVisualization)visu).getHeader().setValue(title);
+                    ((SimpleVisualization)visu).getHeader().setUnit(unit);
+                }
+                if(((SimpleVisualization)visu).getHeaderLabel() != null && ((SimpleVisualization)visu).getHeaderLabel().getNoCol() == colIndex){
+                    ((SimpleVisualization)visu).getHeaderLabel().setValue(title);
+                    ((SimpleVisualization)visu).getHeaderLabel().setUnit(unit);
                 }
             }
         }
@@ -1066,7 +1069,7 @@ public class DataController implements ControllerInterface{
 
     /* ajout ou modification d'une fonction modeme */
     @Override
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList<FunctionParam> listParam,ArrayList v){
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam,ArrayList v){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -1083,7 +1086,7 @@ public class DataController implements ControllerInterface{
         if (fm == null){
             // creation de la fonction
             // memoire
-            FunctionModel myFm = new FunctionModel(idFunctionModel++, description, fColor, listParam);
+            FunctionModel myFm = new FunctionModel(idFunctionModel++, description, type, fColor, listParam);
             ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
         }else{
             //mise a jour
@@ -1092,6 +1095,7 @@ public class DataController implements ControllerInterface{
                 ((Graph)dataset.getListVisualization().get(idVis)).deleteFunctionModel(fColor);
             }else{
                 // modification
+                fm.setType(type);
                 fm.setDescription(description);
                 fm.setListParam(listParam);
             }
@@ -1179,7 +1183,7 @@ public class DataController implements ControllerInterface{
             tabHeader[i] = new DataHeader(idDataHeader++, headers[i], units[i], i, types[i], descriptions[i]);
         }
         // creation ds
-        Dataset ds = new Dataset(idDataSet++, name, nbCol, nbRows, tabHeader,  data, listOp, listVis);
+        Dataset ds = new Dataset(idDataSet++,mission,  name, nbCol, nbRows, tabHeader,  data, listOp, listVis);
         listDataset.add(ds);
         listNoDefaultCol.add(1);
         v.add(ds.clone());
@@ -1354,6 +1358,11 @@ public class DataController implements ControllerInterface{
         return new CopexReturn();
     }
 
+    @Override
+    public CopexReturn mergeDataset(Dataset currentDs, Mission m, Dataset dsToMerge, ArrayList v){
+        return new CopexReturn();
+    }
+    
    /*merge un ELO avec l'ELO courant*/
     @Override
     public CopexReturn mergeELO(Dataset d, Element elo){
@@ -1421,7 +1430,7 @@ public class DataController implements ControllerInterface{
                     ArrayList<PlotXY> listPlots = new ArrayList();
                     for (Iterator<PlotXY> p = ((Graph)vis).getParamGraph().getPlots().iterator();p.hasNext();){
                         PlotXY plot = p.next();
-                        listPlots.add(new PlotXY(dataset.getDataHeader(plot.getHeaderX().getNoCol()+nbCols1), dataset.getDataHeader(plot.getHeaderY().getNoCol()+nbCols1), plot.getPlotColor()));
+                        listPlots.add(new PlotXY(idPlot++,dataset.getDataHeader(plot.getHeaderX().getNoCol()+nbCols1), dataset.getDataHeader(plot.getHeaderY().getNoCol()+nbCols1), plot.getPlotColor()));
                     }
                     ParamGraph pg = new ParamGraph(listPlots, ((Graph)vis).getParamGraph().getX_min(),((Graph)vis).getParamGraph().getX_max(), ((Graph)vis).getParamGraph().getX_min(), ((Graph)vis).getParamGraph().getY_max(), ((Graph)vis).getParamGraph().getDeltaX(), ((Graph)vis).getParamGraph().getDeltaY(),  ((Graph)vis).getParamGraph().isDeltaFixedAutoscale());
                     Graph g = new Graph(idVisualization++, vis.getName(), vis.getType(),pg,((Graph)vis).getListFunctionModel());
@@ -1736,4 +1745,17 @@ public class DataController implements ControllerInterface{
         v.add(listDatasetMission);
         return new CopexReturn();
     }
+
+    /* open dataset*/
+    @Override
+    public CopexReturn openDataset(Mission mission, Dataset ds){
+        return new CopexReturn();
+    }
+
+    /* arret de fitex */
+    @Override
+    public CopexReturn stopFitex(){
+        return new CopexReturn();
+    }
+    
 }

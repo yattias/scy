@@ -5,6 +5,8 @@
 
 package eu.scy.tools.fitex.dataStruct;
 
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+
 /**
  *
  * @author Cedric
@@ -13,20 +15,27 @@ public class Variable implements Expression
 {
     
     double variable ;
+    private char type;
     
     /** Creates a new instance of Variable */
-    public Variable()
+    public Variable(char type)
     {
         //System.out.println("var");
+        this.type = type;
     }
     
+    @Override
     public double valeur(double x)
     {
         return x ;
     }
     
+    @Override
     public String toString()
     {
-        return "x";
+        if(type == DataConstants.FUNCTION_TYPE_X_FCT_Y)
+            return "y";
+        else
+            return "x";
     }
 }

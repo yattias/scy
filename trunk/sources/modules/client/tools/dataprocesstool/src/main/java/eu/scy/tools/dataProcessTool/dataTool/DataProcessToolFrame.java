@@ -70,7 +70,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     private void initDataProcessTool(){
         // i18n
         Locale locale = Locale.getDefault();
-        locale = new Locale("en");
+        //locale = new Locale("en");
         //locale = new Locale("fr");
         //locale = new Locale("de");
         Locale.setDefault(locale);
@@ -90,8 +90,6 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
         setTitle("SCYDataViewer ");
         setLayout(new BorderLayout());
     }
-
-   
 
     
     @Override

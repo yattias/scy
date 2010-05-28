@@ -6,6 +6,7 @@
 package eu.scy.tools.fitex.analyseFn;
 
 import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.fitex.dataStruct.*;
 import java.io.IOException;
 import java.io.StreamTokenizer;
@@ -21,6 +22,8 @@ public class Analyseur
     private StreamTokenizer lexical;
     // cette fonction est passe en parametre 
     private Function fonction ;
+    private String variable1 ="x";
+    private String variable2= "X";
 
     private FitexToolPanel owner;
     
@@ -29,13 +32,14 @@ public class Analyseur
     public Analyseur(FitexToolPanel owner, String texte) throws IOException
     {
         this.owner = owner;
-
+        this.variable1 = "x";
+        this.variable2 = "X";
             lexical = new StreamTokenizer(new StringReader(texte));
             lexical.ordinaryChar('/');
             lexical.ordinaryChar('-');
             lexical.ordinaryChar('E');
             //lexical.ordinaryChar('x');
-            //System.out.println("f(x) = "+texte);
+            System.out.println("f(x) = "+texte);
     }
     
     /** autre constructeur qui passe la fonction dans laquelle va
@@ -46,6 +50,13 @@ public class Analyseur
     {
             this(owner,texte) ;
             this.fonction = fonction ;
+            if(fonction.getType() == DataConstants.FUNCTION_TYPE_X_FCT_Y){
+                this.variable1 = "y";
+                this.variable2 = "Y";
+            }else{
+                this.variable1 = "x";
+                this.variable2 = "X";
+            }
     }
     
     public class ErreurDeSyntaxe extends Exception
@@ -88,20 +99,23 @@ public class Analyseur
                 getBundleString("MSG_ERROR_LIST_FUNCTION_5")+"\n" +
                 getBundleString("MSG_ERROR_LIST_CST")+"\n" +
                 getBundleString("MSG_ERROR_LIST_CST_2")+"\n\n" ;
-        //System.out.println("fonction analyser");
+        if(Function.DEBUG_ANALYSEUR)
+            System.out.println("fonction analyser");
         lexical.nextToken();
         Expression resultat = analyserExpression();
-        // System.out.println(lexical.ttype) ;
+        if(Function.DEBUG_ANALYSEUR)
+            System.out.println(lexical.ttype) ;
         if (lexical.ttype != StreamTokenizer.TT_EOF) {
             throw new ErreurDeSyntaxe(err) ;
         }
-        //System.out.println("Expression analysiee ie parenthesage alieatoire : f(x) = " + resultat);
+        System.out.println("Expression analysee  parenthesage aleatoire : f(x) = " + resultat);
         return resultat;
     }
     
     private Expression analyserExpression() throws IOException, ErreurDeSyntaxe
     {
-        //System.out.println("Analyse d'une expression");
+        if(Function.DEBUG_ANALYSEUR)
+            System.out.println("Analyse d'une expression");
                     
         Expression resultat = analyserTerme();
 
@@ -124,7 +138,8 @@ public class Analyseur
 
     private Expression analyserTerme() throws IOException, ErreurDeSyntaxe
     {
-        //System.out.println("fonction analyserTerme");
+        if(Function.DEBUG_ANALYSEUR)
+            System.out.println("fonction analyserTerme");
         
         Expression resultat = analyserTermeDePow();
 
@@ -134,7 +149,8 @@ public class Analyseur
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_LEFT_FACT_ZERO"));
             boolean estUnProduit = (lexical.ttype == '*');
             lexical.nextToken();
-            System.out.println(lexical.sval) ;
+            if(Function.DEBUG_ANALYSEUR)
+                System.out.println(lexical.sval) ;
             Expression termeDePow = analyserTermeDePow();
             if (termeDePow == null)
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_RIGHT_FACT_ZERO"));
@@ -158,7 +174,8 @@ public class Analyseur
         Expression resultat = analyserFacteur();
         while (lexical.ttype == '^' || lexical.ttype == 'E')
         {
-            //System.out.println("detection d'une puissance");
+            if(Function.DEBUG_ANALYSEUR)
+                System.out.println("detection d'une puissance");
             if (resultat == null)
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_LEFT_FACT_PUISS"));
             boolean estUnePuissance10 = (lexical.ttype == 'E');
@@ -178,9 +195,11 @@ public class Analyseur
     {
         Expression resultat=null ;
         
-        //System.out.println("fonction analyserFacteur");
-        //System.out.println(lexical.ttype);
-        //System.out.println("**"+lexical.sval+"**");
+        if(Function.DEBUG_ANALYSEUR){
+            System.out.println("fonction analyserFacteur");
+            System.out.println(lexical.ttype);
+            System.out.println("**"+lexical.sval+"**");
+        }
         
         if (lexical.ttype == StreamTokenizer.TT_NUMBER)
         {
@@ -232,19 +251,24 @@ public class Analyseur
 		expType = 11;
             else if (lexical.sval.equals("atan"))
 		expType = 12;
-            else if (lexical.sval.equals("x") || lexical.sval.equals("X"))
+            else if (lexical.sval.equals(variable1) || lexical.sval.equals(variable2))
 		expType = 20;
             else if (lexical.sval.equals("pi"))
 		expType = 21;
 	    
 	    if (expType == -1)
 	    {
-                resultat = new Parametre(lexical.sval, fonction);
+                String s = lexical.sval;
+                if(fonction.getNewMapDesParametres().get(s) != null){
+                    resultat = fonction.getNewMapDesParametres().get(s);
+                }else{
+                    resultat = new Parametre(s, fonction);
+                }
                 lexical.nextToken();
 	    }
 	    else if (expType == 20)
 	    {
-		resultat = new Variable();
+		resultat = new Variable(fonction.getType());
 		lexical.nextToken();
 	    }
             else if (expType == 21)

@@ -94,7 +94,7 @@ public class OpenFitexDialog extends JDialog {
         setTitle(owner.getBundleString("TITLE_DIALOG_CREATE_DATASET"));
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         this.add(getRbCreate());
-        this.add(getLabeCreateName());
+        this.add(getLabelCreateName());
         this.add(getFieldCreateName());
 
         this.add(getRbOpen());
@@ -124,6 +124,10 @@ public class OpenFitexDialog extends JDialog {
         setSize(width, height);
         setPreferredSize(getSize());
         selectRb(1);
+        if(dbMode){
+            changeMissionOpen();
+            changeMissionMerge();
+        }
     }
 
     public void addOpenFitexAction(OpenDataAction action){
@@ -148,7 +152,7 @@ public class OpenFitexDialog extends JDialog {
         return rbCreate;
     }
 
-    private JLabel getLabeCreateName(){
+    private JLabel getLabelCreateName(){
         if(this.labelCreateName == null){
             labelCreateName = new JLabel();
             labelCreateName.setName("labelCreateName");
@@ -391,21 +395,56 @@ public class OpenFitexDialog extends JDialog {
         if(dbMode){
             cbMissionOpen.setEnabled(open);
             cbDsOpen.setEnabled(open);
+            if(listMission.size() > 0){
+                cbMissionOpen.setSelectedIndex(0);
+            }
         }
         this.rbImport.setSelected(importCsv);
         this.rbMerge.setSelected(merge);
         if(dbMode){
             cbMissionMerge.setEnabled(merge);
             cbDsMerge.setEnabled(merge);
+            if(listMission.size() > 0)
+                cbMissionMerge.setSelectedIndex(0);
         }
     }
 
     
     private void changeMissionOpen(){
-        
+        cbDsOpen.removeAllItems();
+        int id = cbMissionOpen.getSelectedIndex();
+        if (id != -1){
+            ArrayList<Dataset> list = this.listDatasetMission.get(id);
+            if (list != null){
+                // initialisation liste des missions
+                int nb = list.size();
+                for (int i=0; i<nb; i++){
+                    Dataset ds = list.get(i);
+                    cbDsOpen.addItem(ds.getName());
+                }
+                if (nb > 0)
+                    cbDsOpen.setSelectedIndex(0);
+            }
+        }
+        repaint();
     }
     private void changeMissionMerge(){
-
+        cbDsMerge.removeAllItems();
+        int id = cbMissionMerge.getSelectedIndex();
+        if (id != -1){
+            ArrayList<Dataset> list = this.listDatasetMission.get(id);
+            if (list != null){
+                // initialisation liste des missions
+                int nb = list.size();
+                for (int i=0; i<nb; i++){
+                    Dataset ds = list.get(i);
+                    cbDsMerge.addItem(ds.getName());
+                }
+                if (list.size() > 0)
+                    cbDsMerge.setSelectedIndex(0);
+            }
+        }
+        repaint();
     }
     private void buttonExplOpen(){
         JFileChooser aFileChooser = new JFileChooser();

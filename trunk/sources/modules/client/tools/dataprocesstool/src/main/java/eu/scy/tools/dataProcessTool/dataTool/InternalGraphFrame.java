@@ -19,6 +19,8 @@ import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
 import eu.scy.tools.fitex.GUI.FitexPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
@@ -39,7 +41,7 @@ import org.jfree.data.general.DefaultPieDataset;
  * internal frame which contains a graph
  * @author Marjolaine
  */
-public class InternalGraphFrame extends JInternalFrame implements ActionMenu, InternalFrameListener{
+public class InternalGraphFrame extends JInternalFrame implements ActionMenu, InternalFrameListener, ComponentListener{
     private FitexToolPanel fitex;
     private Dataset dataset;
     private Visualization visualization;
@@ -73,6 +75,7 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         this.setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addInternalFrameListener(this);
+        this.addComponentListener(this);
         setLayout(new BorderLayout());
         this.add(getMainPanel(), BorderLayout.CENTER);
         mainPanel.add(getGraphMenuBar(), BorderLayout.NORTH);
@@ -451,5 +454,28 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
 
     public void setPreviousZoom(){
         updateMenuGraph();
+    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        if(cGraph instanceof FitexGraph){
+            int min = 150;
+            ((FitexGraph)cGraph).getFitexPanel().updateSize(Math.max(min,panelGraph.getWidth()-25), Math.max(min,panelGraph.getHeight()-20));
+        }
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
     }
 }

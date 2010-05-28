@@ -5,7 +5,6 @@
 
 package eu.scy.tools.dataProcessTool.controller;
 
-import eu.scy.tools.dataProcessTool.common.ParamOperation;
 import eu.scy.tools.dataProcessTool.common.TypeOperation;
 import java.util.ArrayList;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
@@ -28,14 +27,7 @@ public class ScyMath {
         }
     }
 
-    /* calcul sur une liste de donnees, operation parametree*/
-    public static  double calculateParam(TypeOperation typeOperation, ArrayList<Double> listValue, ParamOperation[] allParam){
-        int  type  = typeOperation.getType();
-        switch (type){
-            case DataConstants.OP_SUM_IF :return sumIf(listValue, allParam);
-            default:return 0;
-        }
-    }
+    
      
     /* renvoit la somme d'une liste de valeurs */
     public static double sum(ArrayList<Double> listValue){
@@ -87,20 +79,5 @@ public class ScyMath {
         }
         return max;
     }
-
-     /* renvoit la somme d'une liste de valeurs si respecte les parametres */
-    public static double sumIf(ArrayList<Double> listValue, ParamOperation[] allParam){
-        if (listValue == null)
-            return 0;
-        int nb = listValue.size();
-        Double minValue = allParam[0].getValue();
-        Double maxValue = allParam[1].getValue();
-        double sum = 0;
-        for (int i=0; i<nb; i++){
-            double v = listValue.get(i);
-            if ( (minValue == null || (minValue != null && v >= minValue)) && (maxValue == null || (maxValue !=null && v <= maxValue) ) )
-                sum += v;
-        }
-        return sum;
-    }
+     
 }

@@ -93,7 +93,7 @@ public class XYPlotPanel extends JPanel implements ActionCopexButton{
    }
    private CopexButtonPanel getButtonRemove(){
         if(buttonRemove == null){
-            buttonRemove = new CopexButtonPanel(22, imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemoveGris.getImage() );
+            buttonRemove = new CopexButtonPanel(imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemoveGris.getImage() );
             buttonRemove.setBounds(0,5, buttonRemove.getWidth(), buttonRemove.getHeight());
             buttonRemove.addActionCopexButton(this);
             buttonRemove.setToolTipText(owner.getBundleString("TOOLTIPTEXT_REMOVE_PLOT"));
@@ -208,7 +208,7 @@ public class XYPlotPanel extends JPanel implements ActionCopexButton{
         if(id2 == -1 || id2 >=listCol2.length)
             return null;
         DataHeader dataHeader2 = listCol2[id2];
-        return new PlotXY(dataHeader1, dataHeader2, plotColor);
+        return new PlotXY(-1, dataHeader1, dataHeader2, plotColor);
     }
 
     public void setSelectedPlot(PlotXY plot){

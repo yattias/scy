@@ -48,8 +48,8 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
 //    }
 
     @Override
-    public void setFunctionModel(String function, Color color, ArrayList<FunctionParam> listParam) {
-        owner.setFunctionModel((Graph)vis, function, color, listParam);
+    public void setFunctionModel(String function, char type, Color color, ArrayList<FunctionParam> listParam) {
+        owner.setFunctionModel((Graph)vis, function, type, color, listParam);
     }
 
     @Override
