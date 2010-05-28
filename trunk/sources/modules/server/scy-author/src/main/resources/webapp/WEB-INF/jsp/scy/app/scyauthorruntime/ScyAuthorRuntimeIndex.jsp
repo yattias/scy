@@ -2,6 +2,8 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
+
+
         <h1>WELCOME TO SCYAuthor Runtime!</h1>
 
         <c:choose>
@@ -25,7 +27,7 @@
                 <br>
             </c:when>
         </c:choose>
-
+        
         <!--a href="ScyAuthorRuntimeGraphicalView.html">Graphical runtime view</a-->
     </tiles:putAttribute>
 </tiles:insertDefinition>
