@@ -56,4 +56,15 @@ public class ToolDAOHibernate extends ScyBaseDAOHibernate implements ToolDAO {
                 .setMaxResults(1)
                 .uniqueResult();
     }
+
+     @Override
+    public Integer getUsageOfTool(Tool tool) {
+         logger.info("Getting usages of tool: " + tool.getName() + " " + tool.getToolId());
+        Long count= (Long) getSession().createQuery("select count(tora) from ToolRuntimeActionImpl tora where tora.tool = :toolId")
+                .setString("toolId", tool.getToolId())
+                .uniqueResult();
+         logger.info("COUNT WAS: " + count.intValue());
+        return count.intValue();
+    }
+
 }

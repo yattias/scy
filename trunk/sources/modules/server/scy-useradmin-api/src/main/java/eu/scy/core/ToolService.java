@@ -22,4 +22,6 @@ public interface ToolService extends BaseService{
     List getTools();
 
     void addTool();
+
+    Integer getUsageOfTool(Tool tool);
 }

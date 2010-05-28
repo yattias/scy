@@ -30,6 +30,11 @@ public class ScyAuthorRuntimeGraphicalViewController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
         modelAndView.addObject("pedagogicalPlans", getPedagogicalPlanPersistenceService().getPedagogicalPlans());
+        modelAndView.addObject("myLasLink", getMyLasLink());
+    }
+
+    public String getMyLasLink() {
+        return "javascript(onclick:alert);";
     }
 
 

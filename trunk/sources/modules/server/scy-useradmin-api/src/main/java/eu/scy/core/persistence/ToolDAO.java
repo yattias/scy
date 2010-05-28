@@ -24,4 +24,6 @@ public interface ToolDAO {
     void registerTool(String toolId);
 
     Tool getToolByToolId(String toolId);
+
+    Integer getUsageOfTool(Tool tool);
 }

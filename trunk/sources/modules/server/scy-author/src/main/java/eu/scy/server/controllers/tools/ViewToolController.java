@@ -1,6 +1,7 @@
 package eu.scy.server.controllers.tools;
 
 import eu.scy.core.ToolService;
+import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,7 +21,7 @@ public class ViewToolController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        modelAndView.addObject("toolUsage", getToolService().getUsageOfTool((Tool) getModel()));
     }
 
     public ToolService getToolService() {
