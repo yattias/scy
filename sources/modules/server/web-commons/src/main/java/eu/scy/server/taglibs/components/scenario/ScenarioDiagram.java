@@ -75,6 +75,8 @@ public class ScenarioDiagram extends TagSupport {
 
             pageContext.getOut().write("<h1>" + getScenario().getName()+ " </h1>");
 
+            pageContext.getOut().write("<h1>" + getLasLink() + " </h1>");
+
                 
                 pageContext.getOut().write("<a href=\"/webapp/components/json/RuntimeUserInfoJSON.html?model=" + getPedagogicalPlan().getId() +"\">LOAD RUNTIME ACTIVITY</a>");
                 pageContext.getOut().write(

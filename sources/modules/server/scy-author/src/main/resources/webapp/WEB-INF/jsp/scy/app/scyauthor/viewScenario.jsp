@@ -25,8 +25,10 @@
                 </td>
             </tr>
         </table>
-        
-        <s:scenariodiagram scenario="${model}" pedagogicalPlan="${pedagogicalPlan}" lasLink="${lasLink}" includeRuntimeInfo="${false}"/>
+
+        LASLINK: ${myLasLink}
+
+        <s:scenariodiagram scenario="${model}" pedagogicalPlan="${pedagogicalPlan}" lasLink="${myLasLink}" includeRuntimeInfo="${false}"/>
         
 
     </tiles:putAttribute>

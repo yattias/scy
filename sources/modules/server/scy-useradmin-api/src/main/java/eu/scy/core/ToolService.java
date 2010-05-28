@@ -13,6 +13,10 @@ import java.util.List;
  */
 public interface ToolService extends BaseService{
 
+    public Tool getToolByToolId(String toolId);
+
+    public void registerTool(String toolId);
+
     public Tool findToolByName(String name);
 
     List getTools();
