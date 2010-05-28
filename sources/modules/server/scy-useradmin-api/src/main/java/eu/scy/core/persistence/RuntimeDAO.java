@@ -1,6 +1,7 @@
 package eu.scy.core.persistence;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.core.model.runtime.AbstractRuntimeAction;
 
 import java.util.List;
@@ -24,4 +25,5 @@ public interface RuntimeDAO extends SCYBaseDAO{
     String getCurrentELO(User user);
 
     String getCurrentLAS(User user);
+
 }

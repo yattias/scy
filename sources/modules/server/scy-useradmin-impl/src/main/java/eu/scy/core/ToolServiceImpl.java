@@ -52,4 +52,9 @@ public class ToolServiceImpl extends BaseServiceImpl implements ToolService{
         getToolDAO().addTool();
 
     }
+
+    @Override
+    public Integer getUsageOfTool(Tool tool) {
+        return getToolDAO().getUsageOfTool(tool);
+    }
 }
