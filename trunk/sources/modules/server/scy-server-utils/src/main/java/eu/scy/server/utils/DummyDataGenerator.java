@@ -82,6 +82,14 @@ public class DummyDataGenerator implements InitializingBean {
             lastMissionAnchor = anchor;
             if(anchor != null) {
                 AnchorELO outputFromLearningActivitySpace = createAnchorELO(anchor.getId(), "");
+                if(anchor.getxPos() != null) {
+                    outputFromLearningActivitySpace.setXPos(anchor.getxPos());
+                }
+                if(anchor.getyPos() != null) {
+                    outputFromLearningActivitySpace.setYPos(anchor.getyPos());    
+                }
+
+
                 currentAnchorELO = outputFromLearningActivitySpace;
                 Activity doTheStuff = addActivity(learninigActivitySpace, "Do the stuff - " + currentAnchorELO.getName(), outputFromLearningActivitySpace);
                 lastActivity = doTheStuff;

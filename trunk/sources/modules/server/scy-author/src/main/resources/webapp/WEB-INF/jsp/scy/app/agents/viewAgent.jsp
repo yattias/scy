@@ -24,6 +24,28 @@
                            <td>
                                 <s:ajaxTextField model="${property}" property="name"/>
                            </td>
+                           <td>
+
+                               <c:choose>
+                                   <c:when test="${fn:length(property.agentPropertyValues) > 0}">
+                                       <table>
+                                           <c:forEach var="propertyValue" items="${property.agentPropertyValues}">
+                                               <tr>
+                                                    <td with="15%">
+                                                       <strong>${propertyValue.agentPropertyLevel.name}</strong>
+                                                   </td>
+                                                   <td>
+                                                        <s:ajaxTextField model="${propertyValue}" property="name"/>
+                                                   </td>
+
+                                               </tr>
+
+                                           </c:forEach>
+                                       </table>
+                                   </c:when>
+                               </c:choose>
+                               <a href="viewAgent.html?id=${model.id}&property=${property.id}&action=addPropertyValue">+ Add Value</a>
+                           </td>
                        </tr>
                    </c:forEach>
                </table>

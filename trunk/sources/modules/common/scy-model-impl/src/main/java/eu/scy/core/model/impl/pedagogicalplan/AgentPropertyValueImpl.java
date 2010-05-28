@@ -2,6 +2,7 @@ package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.AgentProperty;
 import eu.scy.core.model.pedagogicalplan.AgentPropertyValue;
+import eu.scy.core.model.pedagogicalplan.AgentPropertyValueLevel;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ import java.util.List;
 public class AgentPropertyValueImpl extends BaseObjectImpl implements AgentPropertyValue {
 
     private AgentProperty agentProperty;
+    private AgentPropertyValueLevel agentPropertyLevel;
 
 
     @Override
@@ -33,4 +35,15 @@ public class AgentPropertyValueImpl extends BaseObjectImpl implements AgentPrope
         this.agentProperty = agentProperty;
     }
 
+    @Override
+    @ManyToOne(targetEntity = AgentPropertyValueLevelImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "agentpropertyvaluelevel_fk")
+    public AgentPropertyValueLevel getAgentPropertyLevel() {
+        return agentPropertyLevel;
+    }
+
+    @Override
+    public void setAgentPropertyLevel(AgentPropertyValueLevel agentPropertyLevel) {
+        this.agentPropertyLevel = agentPropertyLevel;
+    }
 }

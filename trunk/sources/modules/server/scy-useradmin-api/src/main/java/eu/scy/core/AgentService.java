@@ -35,4 +35,8 @@ public interface AgentService extends BaseService {
     public void addAgentPropertyValueLevel();
 
     List getAgentPropertyValueLevels();
+
+    AgentProperty getAgentProperty(String id);
+
+    void addPropertyValue(AgentProperty agentProperty);
 }

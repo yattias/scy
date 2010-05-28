@@ -33,4 +33,8 @@ public interface AgentDAO extends SCYBaseDAO {
     List getAgentPropertyValueLevels();
 
     void addAgentPropertyValue(AgentProperty agentProperty);
+
+    AgentProperty getAgentProperty(String id);
+
+    void addPropertyValue(AgentProperty agentProperty);
 }
