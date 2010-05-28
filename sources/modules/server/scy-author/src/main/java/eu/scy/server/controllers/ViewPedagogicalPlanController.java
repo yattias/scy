@@ -1,6 +1,7 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.AssignedPedagogicalPlanService;
+import eu.scy.core.GroupService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
@@ -21,6 +22,7 @@ public class ViewPedagogicalPlanController extends BaseController {
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private AssignedPedagogicalPlanService assignedPedagogicalPlanService;
     private UserService userService;
+    private GroupService groupService = null;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -49,6 +51,7 @@ public class ViewPedagogicalPlanController extends BaseController {
 
             modelAndView.addObject("pedagogicalPlan", plan);
             modelAndView.addObject("assignedPedagogicalPlansCount", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlansCount(plan));
+            modelAndView.addObject("pedagogicalPlanGroupsCount", getGroupService().getPedagogicalPlanGroupsCount(plan));
         }
     }
 
@@ -76,5 +79,11 @@ public class ViewPedagogicalPlanController extends BaseController {
         this.assignedPedagogicalPlanService = assignedPedagogicalPlanService;
     }
 
+    public GroupService getGroupService() {
+        return groupService;
+    }
 
+    public void setGroupService(GroupService groupService) {
+        this.groupService = groupService;
+    }
 }

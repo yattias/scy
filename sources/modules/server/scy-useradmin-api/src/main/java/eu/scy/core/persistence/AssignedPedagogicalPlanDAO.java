@@ -19,7 +19,7 @@ public interface AssignedPedagogicalPlanDAO extends BaseDAO{
 
     List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(PedagogicalPlan pedagogicalPlan);
 
-    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
+    public Long getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
 
     void removeAssignedAssessment(User user, PedagogicalPlan plan);
 }

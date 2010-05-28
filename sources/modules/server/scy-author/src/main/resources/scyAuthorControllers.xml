@@ -38,6 +38,7 @@
                    /app/scyauthor/ScyAuthorIndex.html=scyauthorIndexController
                    /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
                    /app/scyauthor/viewStudentsForPedagogicalPlan.html=viewStudentsForPedagogicalPlanController
+                   /app/scyauthor/viewGroupsForPedagogicalPlan.html=viewGroupsForPedagogicalPlanController
                    /app/scyauthor/viewLAS.html=viewLASController
                    /app/scyauthor/viewAllScenarioActivities.html=viewAllScenarioActivitiesController
                    /app/scyauthor/viewActivity.html=viewActivityController
@@ -78,6 +79,7 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="serverService" ref="serverService"/>
         <property name="userService" ref="userService"/>
+        <property name="groupService" ref="groupService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
@@ -87,6 +89,13 @@
         <property name="serverService" ref="serverService"/>
         <property name="userService" ref="userService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewGroupsForPedagogicalPlanController" class="eu.scy.server.controllers.ViewGroupsForPedagogicalPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="groupService" ref="groupService"/>
+        <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
 

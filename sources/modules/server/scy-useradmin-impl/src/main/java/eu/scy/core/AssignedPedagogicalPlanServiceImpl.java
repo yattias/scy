@@ -30,7 +30,7 @@ public class AssignedPedagogicalPlanServiceImpl extends BaseServiceImpl implemen
         return getAssignedPedagogicalPlanDAO().assignPedagogicalPlanToUser(plan, user);
     }
 
-    public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan) {
+    public Long getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan) {
         return getAssignedPedagogicalPlanDAO().getAssignedPedagogicalPlansCount(pedagogicalPlan);
     }
 

@@ -32,6 +32,10 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
+    <bean id="groupDAO" class="eu.scy.core.persistence.hibernate.GroupDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
 	<bean id="toolDAO" class="eu.scy.core.persistence.hibernate.ToolDAOHibernate">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>

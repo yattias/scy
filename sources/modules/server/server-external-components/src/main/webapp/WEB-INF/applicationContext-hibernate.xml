@@ -78,7 +78,7 @@
     </bean>
 
     <!-- GROUP DAO: Hibernate implementation -->
-    <bean id="gropuDAO" class="eu.scy.core.persistence.hibernate.GroupDAOHibernate">
+    <bean id="groupDAO" class="eu.scy.core.persistence.hibernate.GroupDAOHibernate">
         <property name="sessionFactory">
             <ref local="sessionFactory"/>
         </property>
