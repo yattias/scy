@@ -19,6 +19,8 @@ public class BasicMissionAnchor {
     private List<URI> loEloUris;
     private List<String> inputMissionAnchorIds;
     private List<String> relationNames;
+    private Integer xPos;
+    private Integer yPos;
 
     public String getId()
     {
@@ -79,6 +81,20 @@ public class BasicMissionAnchor {
     {
        return metadata;
     }
-    
 
+    public Integer getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(Integer xPos) {
+        this.xPos = xPos;
+    }
+
+    public Integer getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(Integer yPos) {
+        this.yPos = yPos;
+    }
 }

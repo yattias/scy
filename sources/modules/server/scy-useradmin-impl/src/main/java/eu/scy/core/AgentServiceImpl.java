@@ -79,4 +79,15 @@ public class AgentServiceImpl extends BaseServiceImpl implements AgentService {
         return getAgentDAO().getAgentPropertyValueLevels();
     }
 
+    @Override
+    public AgentProperty getAgentProperty(String id) {
+        return getAgentDAO().getAgentProperty(id);
+    }
+
+    @Override
+    @Transactional
+    public void addPropertyValue(AgentProperty agentProperty) {
+        getAgentDAO().addPropertyValue(agentProperty);
+    }
+
 }

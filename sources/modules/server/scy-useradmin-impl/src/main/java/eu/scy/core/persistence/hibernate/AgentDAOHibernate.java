@@ -62,7 +62,19 @@ public class AgentDAOHibernate extends ScyBaseDAOHibernate implements AgentDAO{
     public void addAgentProperty(Agent agent) {
         AgentProperty agentProperty = new AgentPropertyImpl();
         agent.addAgentProperty(agentProperty);
+
+
+        List agentPropertyValueLevels = getAgentPropertyValueLevels();
+        for (int i = 0; i < agentPropertyValueLevels.size(); i++) {
+            AgentPropertyValueLevel agentPropertyValueLevel = (AgentPropertyValueLevel) agentPropertyValueLevels.get(i);
+            AgentPropertyValue agentPropertyValue = new AgentPropertyValueImpl();
+            agentProperty.addAgentPropertyValue(agentPropertyValue);
+            agentPropertyValue.setAgentPropertyLevel(agentPropertyValueLevel);
+            //save(agentPropertyValue);
+        }
+
         save(agent);
+
 
     }
 
@@ -82,6 +94,21 @@ public class AgentDAOHibernate extends ScyBaseDAOHibernate implements AgentDAO{
     public void addAgentPropertyValue(AgentProperty agentProperty) {
         AgentPropertyValue agentPropertyValue = new AgentPropertyValueImpl();
         agentProperty.addAgentPropertyValue(agentPropertyValue);
+    }
+
+    @Override
+    public AgentProperty getAgentProperty(String id) {
+        return (AgentProperty) getSession().createQuery("from AgentPropertyImpl where id like :id")
+                .setString("id", id)
+                .uniqueResult();
+    }
+
+    @Override
+    public void addPropertyValue(AgentProperty agentProperty) {
+        AgentPropertyValue agentPropertyValue = new AgentPropertyValueImpl();
+        agentProperty.addAgentPropertyValue(agentPropertyValue);
+        save(agentPropertyValue);
+        save(agentProperty);
     }
 
 }

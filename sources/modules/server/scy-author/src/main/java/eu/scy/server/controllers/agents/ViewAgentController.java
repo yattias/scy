@@ -25,10 +25,22 @@ public class ViewAgentController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         Agent agent = null;
         if(request.getParameter("id") != null) agent= getAgentService().getAgent(request.getParameter("id"));
-        if(agent != null && request.getParameter("action") != null &&request.getParameter("action").equals("addProperty")){
-            addParameter(agent);
+        if(agent != null && request.getParameter("action") != null){
+             if(request.getParameter("action").equals("addProperty")) {
+                addParameter(agent);
+             } else if(request.getParameter("action").equals("addPropertyValue")) {
+                 AgentProperty agentProperty = getAgentService().getAgentProperty(request.getParameter("property"));
+                 addPropertyValue(agentProperty);
+             }
             setModel(agent);
         }
+
+
+
+    }
+
+    private void addPropertyValue(AgentProperty agentProperty) {
+        getAgentService().addPropertyValue(agentProperty);
     }
 
     private void addParameter(Agent agent) {

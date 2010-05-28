@@ -15,4 +15,7 @@ public interface AgentPropertyValue extends BaseObject {
 
     void setAgentProperty(AgentProperty agentProperty);
 
+    AgentPropertyValueLevel getAgentPropertyLevel();
+
+    void setAgentPropertyLevel(AgentPropertyValueLevel agentPropertyLevel);
 }

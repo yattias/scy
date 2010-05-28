@@ -20,7 +20,7 @@
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="startPage"/>
                              <property name="xPosition" value="0"/>
-                             <property name="yPosition" value="0"/>
+                             <property name="yPosition" value="40"/>
                              <property name="tooltip" value="Challenge"/>
                              <property name="loEloUris">
                                 <list>
@@ -40,8 +40,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="conceptualizationDesign"/>
-                             <property name="xPosition" value="40"/>
-                             <property name="yPosition" value="0"/>
+                             <property name="xPosition" value="160"/>
+                             <property name="yPosition" value="40"/>
                              <property name="tooltip" value="First ideas of my design group"/>
                              <property name="nextLasses">
                                 <list>
@@ -56,8 +56,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="conceptualizationExperts"/>
-                             <property name="xPosition" value="80"/>
-                             <property name="yPosition" value="0"/>
+                             <property name="xPosition" value="330"/>
+                             <property name="yPosition" value="40"/>
                              <property name="tooltip" value="Hypotheses of my expert group"/>
                              <property name="loEloUris">
                                 <list>
@@ -80,8 +80,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="experimentExperts"/>
-                             <property name="xPosition" value="120"/>
-                             <property name="yPosition" value="0"/>
+                             <property name="xPosition" value="500"/>
+                             <property name="yPosition" value="40"/>
                              <property name="tooltip" value="Conclusion of expert experiments"/>
                              <property name="loEloUris">
                                 <list>
@@ -108,7 +108,7 @@
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="conceptualizationIndividual"/>
                              <property name="xPosition" value="0"/>
-                             <property name="yPosition" value="40"/>
+                             <property name="yPosition" value="150"/>
                              <property name="tooltip" value="Concept Map on CO2 emission"/>
                              <property name="nextLasses">
                                 <list>
@@ -118,8 +118,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="construction"/>
-                             <property name="xPosition" value="40"/>
-                             <property name="yPosition" value="40"/>
+                             <property name="xPosition" value="160"/>
+                             <property name="yPosition" value="150"/>
                              <property name="tooltip" value="House drawings"/>
                              <property name="nextLasses">
                                 <list>
@@ -133,8 +133,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="design"/>
-                             <property name="xPosition" value="80"/>
-                             <property name="yPosition" value="40"/>
+                             <property name="xPosition" value="330"/>
+                             <property name="yPosition" value="150"/>
                              <property name="tooltip" value="House choices"/>
                              <property name="nextLasses">
                                 <list>
@@ -151,8 +151,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="reportingExperts"/>
-                             <property name="xPosition" value="120"/>
-                             <property name="yPosition" value="40"/>
+                             <property name="xPosition" value="500"/>
+                             <property name="yPosition" value="150"/>
                              <property name="tooltip" value="Expert presentation"/>
                              <property name="nextLasses">
                                 <list>
@@ -168,8 +168,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="experimentDesign"/>
-                             <property name="xPosition" value="40"/>
-                             <property name="yPosition" value="80"/>
+                             <property name="xPosition" value="160"/>
+                             <property name="yPosition" value="260"/>
                              <property name="tooltip" value="House data"/>
                              <property name="loEloUris">
                                 <list>
@@ -192,9 +192,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="reportingDesign"/>
-                             <property name="xPosition" value="80"/>
-                             <property name="yPosition" value="80"/>
-                             <property name="tooltip" value="Presentation of house design"/>
+                             <property name="xPosition" value="330"/>
+                             <property name="yPosition" value="260"/> <property name="tooltip" value="Presentation of house design"/>
                              <property name="nextLasses">
                                 <list>
                                    <value>reportingIndividual</value>
@@ -204,8 +203,8 @@
                           </bean>
                           <bean class="eu.scy.server.utils.BasicLas">
                              <property name="id" value="reportingIndividual"/>
-                             <property name="xPosition" value="120"/>
-                             <property name="yPosition" value="80"/>
+                             <property name="xPosition" value="500"/>
+                             <property name="yPosition" value="260"/>
                              <property name="tooltip" value="Individual report"/>
                              <property name="nextLasses">
                                 <list>
@@ -225,6 +224,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="start"/>
                        <property name="uri" value="roolo://memory/281/0/Challenge.url"/>
+                        <property name="xPos" value="110"/>
+                        <property name="yPos" value="50"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -239,6 +240,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="conceptMap"/>
                        <property name="uri" value="roolo://memory/282/0/Concept_map_on_CO2_emission.scymapping"/>
+                        <property name="xPos" value="110"/>
+                        <property name="yPos" value="160"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -255,6 +258,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="firstIdeas"/>
                        <property name="uri" value="roolo://memory/301/0/First_ideas_of_my_design_group.scymapping"/>
+                        <property name="xPos" value="270"/>
+                        <property name="yPos" value="50"/> 
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -284,6 +289,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="hypothesis"/>
                        <property name="uri" value="roolo://memory/305/0/Hypotheses_of_my_expert_group.rtf"/>
+                        <property name="xPos" value="450"/>
+                        <property name="yPos" value="50"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -362,6 +369,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="conclusion"/>
                        <property name="uri" value="roolo://memory/314/0/Conclusion_of_expert_experiments.rtf"/>
+                        <property name="xPos" value="270"/>
+                        <property name="yPos" value="100"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -389,6 +398,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="expertPresentation"/>
                        <property name="uri" value="roolo://memory/318/0/Expert_presentation.ppt"/>
+                        <property name="xPos" value="350"/>
+                        <property name="yPos" value="200"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -416,6 +427,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="firstChoices"/>
                        <property name="uri" value="roolo://memory/322/0/House_choices.scymapping"/>
+                        <property name="xPos" value="440"/>
+                        <property name="yPos" value="160"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -443,6 +456,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="simulatorDesignConverter"/>
                        <property name="uri" value="roolo://memory/402/0/House_data_from_the_Converter.scysimconfig"/>
+                        <property name="xPos" value="280"/>
+                        <property name="yPos" value="270"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>
@@ -468,6 +483,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="houseDrawing"/>
                        <property name="uri" value="roolo://memory/341/0/House_drawings.skp"/>
+                        <property name="xPos" value="280"/>
+                        <property name="yPos" value="160"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                              <value>firstChoices</value>
@@ -482,6 +499,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="presentationDesign"/>
                        <property name="uri" value="roolo://memory/343/0/Presentation_of_house_design.ppt"/>
+                        <property name="xPos" value="440"/>
+                        <property name="yPos" value="270"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                              <value>houseDrawing</value>
@@ -500,6 +519,8 @@
                     <bean class="eu.scy.server.utils.BasicMissionAnchor">
                        <property name="id" value="report"/>
                        <property name="uri" value="roolo://memory/345/0/Individual_report.doc"/>
+                        <property name="xPos" value="550"/>
+                        <property name="yPos" value="270"/>
                        <property name="inputMissionAnchorIds">
                           <list>
                           </list>

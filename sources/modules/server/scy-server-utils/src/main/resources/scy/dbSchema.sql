@@ -278,6 +278,21 @@ CREATE TABLE `agentproperty` (
     CONSTRAINT `agentfk_const` FOREIGN KEY (`agent_fk`) REFERENCES `agent` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `agentpropertyvalue`;
+CREATE TABLE `agentpropertyvalue` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`agentproperty_fk` varchar(55) NOT NULL default '',
+	`agentpropertyvaluelevel_fk` varchar(55) NOT NULL default '',
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`),
+    KEY `agentpropertyfk_key` (`agentproperty_fk`),
+    KEY `agentpropertyvaluelevel_fk_key` (`agentpropertyvaluelevel_fk`),
+    CONSTRAINT `agentpropertyvaluelevel_fk_const` FOREIGN KEY (`agentpropertyvaluelevel_fk`) REFERENCES `agentpropertyvaluelevel` (`primKey`),
+    CONSTRAINT `agentpropertyfk_const` FOREIGN KEY (`agentproperty_fk`) REFERENCES `agentproperty` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `agentpropertyvaluelevel`;
 CREATE TABLE `agentpropertyvaluelevel` (
 	`primKey` varchar(55) NOT NULL default '',
