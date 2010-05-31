@@ -29,5 +29,7 @@ public interface RuntimeService extends BaseService {
 
     public String getCurrentLAS(User user);
 
-    List getLastELOs(User user);
+    public List getLastELOs(User user);
+
+    public List getUsersCurrentlyInLAS(String lasId);
 }

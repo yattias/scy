@@ -56,7 +56,40 @@
 
         </c:if>
         <c:if test="${!showUserInfo}">
-            LAS INFO
+
+            <h1>Current activity in ${model.name}</h1>
+
+            <c:choose>
+            <c:when test="${fn:length(currentUsers) > 0}">
+                <table id="userTable" width="100%">
+                    <tr>
+                        <th>Username</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Current Activity</th>
+                    </tr>
+                    <c:forEach var="user" items="${currentUsers}">
+                        <tr  class="${oddEven.oddEven}">
+                            <td>
+                                <img src="/webapp/common/filestreamer.html?username=${user.userDetails.username}&showIcon"/>
+                                <a href="viewLASRuntimeInfo.html?username=${user.userDetails.username}">${user.userDetails.username}</a>
+                            </td>
+                            <td>
+                                ${user.userDetails.firstname}
+                            </td>
+                            <td>
+                                ${user.userDetails.lastname}
+                            </td>
+                            <td>
+                                <s:currentStudentActivity username="${user.userDetails.username}"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br>
+            </c:when>
+        </c:choose>
+
         </c:if>
 
 
