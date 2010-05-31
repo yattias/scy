@@ -61,7 +61,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //CONSTANTES
     
     /* width */
-    public static final int PANEL_WIDTH = 565;
+    public static final int PANEL_WIDTH = 585;
     /* height */
     public static final int PANEL_HEIGHT = 330;
 
@@ -80,7 +80,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private ResourceBundleWrapper bundle;
     //private ResourceBundle bundle;
     /* version */
-    private String version = "3.2";
+    private String version = "3.3";
     /* number format */
     private NumberFormat numberFormat;
 
@@ -115,6 +115,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private File lastUsedFileMerge = null;
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     private transient SAXBuilder builder = new SAXBuilder(false);
+    private  String sepField;
+    private  String sepText;
 
     public DataProcessToolPanel(boolean scyMode, Locale locale) {
         super();
@@ -596,8 +598,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     // IMPORT CSV SCY
     /* lecture de fichier cvs => elo ds */
     public eu.scy.elo.contenttype.dataset.DataSet importCSVFile(File file){
+        ImportCsvDialog aDialog = new ImportCsvDialog(activFitex);
+        aDialog.setVisible(true);
+        if(sepField == null && sepText == null)
+            return null;
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.importCSVFile(file, v);
+        CopexReturn cr = this.controller.importCSVFile(file, sepField, sepText, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return null;
@@ -614,6 +620,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }
         logImportCsvFile(file.getPath(), activFitex.getDataset());
         return elo;
+    }
+
+    public void importCsvData(String sepField, String sepText){
+        this.sepField = sepField;
+        this.sepText = sepText;
     }
 
     @Override
@@ -891,6 +902,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public void logSaveDataset(Dataset ds){
         List<FitexProperty> attribute = FitexLog.logSaveDataset(ds);
         action.logAction(DataConstants.LOG_TYPE_SAVE_DATASET, attribute);
+    }
+
+    /* log: csv export */
+    public void logExportCSV(Dataset ds, String fileName){
+        List<FitexProperty> attribute = FitexLog.logExportCsv(ds, fileName);
+        action.logAction(DataConstants.LOG_TYPE_EXPORT_CSV_FILE, attribute);
     }
 
     /* log: new elo */

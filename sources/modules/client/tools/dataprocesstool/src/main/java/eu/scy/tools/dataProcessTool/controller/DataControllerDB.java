@@ -1893,15 +1893,17 @@ public class DataControllerDB implements ControllerInterface{
 
     /* lecture de fichier cvs  => elo ds */
     @Override
-    public CopexReturn importCSVFile(File file, ArrayList v){
+    public CopexReturn importCSVFile(File file, String sepField, String sepText, ArrayList v){
+        String g="\"";
         if (file == null) {
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
         }
         if(!file.getName().substring(file.getName().length()-3).equals("csv")){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_CSV"), false);
         }
-        StringTokenizer lineParser;
+        //StringTokenizer lineParser;
         try{
+            boolean sepQuotMark = sepField.equals(DataConstants.CSV_SEPARATOR_COMMA) && sepText != null && sepText.equals(DataConstants.CSV_SEPARATOR_TEXT_QUOTATION_MARK);
             CopexReturn cr=  new CopexReturn();
             InputStreamReader fileReader = null;
             try {
@@ -1916,16 +1918,33 @@ public class DataControllerDB implements ControllerInterface{
             eu.scy.elo.contenttype.dataset.DataSet ds = new eu.scy.elo.contenttype.dataset.DataSet();
             String line = null;
             String value = null;
+            int nbC = 0;
             try{
                 int id = 0;
                 while ((line = reader.readLine()) != null) {
-                    lineParser = new StringTokenizer(line, ";");
+                    //lineParser = new StringTokenizer(line, sepField);
+                    String[] tabValues = line.split(sepField);
                     int j=0;
                     DataSetRow datasetRow;
                     List<String> values = new LinkedList<String>();
-                    while (lineParser.hasMoreElements()) {
-                        value = (String) lineParser.nextElement();
+                    String val = null;
+                    //while (lineParser.hasMoreElements()) {
+                    for(int k=0; k<tabValues.length; k++){
+                        //value = (String) lineParser.nextElement();
+                        value = tabValues[k];
+                        if(sepQuotMark){
+                            if (value.startsWith(g) && value.endsWith(g)){
+                                value = value.substring(1, value.length()-1);
+                            }else if(value.startsWith(g)){
+                                val = value.substring(1);
+                            }else if(value.endsWith(g) && val != null){
+                                value = val+"."+value.substring(0, value.length()-1);
+                                val = null;
+                            }
+                        }
                         //System.out.println(value);
+                        if(val != null)
+                            continue;
                         if (id == 0){
                             DataSetColumn c = new DataSetColumn(value, "", DataConstants.DEFAULT_TYPE_COLUMN);
                             listC.add(c);
@@ -1937,8 +1956,14 @@ public class DataControllerDB implements ControllerInterface{
                     if(id == 0){
                         header = new DataSetHeader(listC, dataToolPanel.getLocale());
                         headers.add(header);
+                        nbC = header.getColumnCount();
                         ds = new eu.scy.elo.contenttype.dataset.DataSet(headers);
                     } else {
+                        if(values.size() < nbC){
+                            for(int k=0; k<nbC; k++){
+                                values.add("");
+                            }
+                        }
                         datasetRow = new DataSetRow(values);
                         ds.addRow(datasetRow);
                     }

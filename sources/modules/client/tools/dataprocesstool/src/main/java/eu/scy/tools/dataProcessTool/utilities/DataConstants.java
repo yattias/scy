@@ -74,6 +74,12 @@ public class DataConstants {
     public final static String TYPE_DOUBLE = "double";
     public final static String TYPE_STRING = "String";
 
+    /* csv separator */
+    public final static String CSV_SEPARATOR_COMMA=",";
+    public final static String CSV_SEPARATOR_SEMICOLON=";";
+    public final static String CSV_SEPARATOR_TEXT="";
+    public final static String CSV_SEPARATOR_TEXT_QUOTATION_MARK="\" \"";
+
     /* nombre max de plotsfonctions */
     public final static int MAX_FUNCTION = 43;
     /* couleur points graphique */
@@ -99,6 +105,7 @@ public class DataConstants {
     public static final String LOG_TYPE_OPEN_DATASET = "open_dataset";
     public static final String LOG_TYPE_MERGE_DATASET = "merge_dataset";
     public static final String LOG_TYPE_IMPORT_CSV_FILE = "import_csv_file";
+    public static final String LOG_TYPE_EXPORT_CSV_FILE = "export_csv_file";
     public final static String LOG_TYPE_DELETE_DATASET = "delete_dataset";
     public static final String LOG_TYPE_EDIT_DATA = "edit_data";
     public static final String LOG_TYPE_EDIT_HEADER = "edit_header";
