@@ -94,7 +94,7 @@ public interface ControllerInterface {
     /* copie-colle */
     public CopexReturn paste(long dbKeyDs, Dataset subData, int[] selCell, ArrayList v);
     /* lecture de fichier cvs  */
-    public CopexReturn importCSVFile(File file, ArrayList v);
+    public CopexReturn importCSVFile(File file,String sepField, String sepText, ArrayList v);
     /*suppression du dataset */
     public CopexReturn deleteDataset(Dataset ds);
     /*creation dataset par default */

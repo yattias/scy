@@ -118,6 +118,14 @@ public class FitexLog {
         return list;
     }
 
+    /* log: export csv file */
+    public static List<FitexProperty> logExportCsv(Dataset ds, String fileName){
+        List<FitexProperty> list = new LinkedList();
+        list.add(new FitexProperty(TAG_FILE_NAME, fileName, null));
+        list.add(new FitexProperty(TAG_DATASET, ds.getName(), ds.toXMLLog()));
+        return list;
+    }
+
     /* log: delete dataset */
     public static List<FitexProperty> logDeleteDataset(Dataset ds){
         List<FitexProperty> list = new LinkedList();

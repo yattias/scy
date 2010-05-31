@@ -126,6 +126,9 @@ public class MyUtilities {
     public static File getXMLFile(File file){
         return new File(file.getParent(), file.getName()+".xml");
     }
+     public static File getCSVFile(File file){
+        return new File(file.getParent(), file.getName()+".csv");
+    }
 
     /**
      * Arrondi d'un double avec n éléments après la virgule.

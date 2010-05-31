@@ -15,7 +15,6 @@ import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
-import eu.scy.tools.dataProcessTool.common.PreDefinedFunction;
 import eu.scy.tools.dataProcessTool.common.PreDefinedFunctionCategory;
 import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.TypeOperation;
@@ -36,20 +35,25 @@ import eu.scy.tools.dataProcessTool.utilities.ActionMenu;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.IllegalComponentStateException;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -92,6 +96,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction;
 
     private File lastUsedFile = null;
+    private File lastUsedFileCSV = null;
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     
     // IHM
@@ -128,6 +133,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private MyMenuItem menuItemMax;
     private MyMenuItem menuItemAddGraph;
     private MyMenuItem menuItemPrint;
+    private MyMenuItem menuItemCsv;
     private MyMenuItem menuItemHelp;
     /* data organizer*/
     private JScrollPane scrollPaneDataOrganizer;
@@ -274,6 +280,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             if(dataProcessToolPanel.canPrint()){
                 menuBarData.add(getMenuItemPrint());
             }
+            menuBarData.add(getMenuItemCsv());
             menuBarData.add(getMenuItemHelp());
             panelMenuData.add(menuBarData);
         }
@@ -485,14 +492,22 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         return menuItemPrint;
     }
-     private MyMenuItem getMenuItemHelp(){
-        if (menuItemHelp == null){
-            menuItemHelp = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
+    private MyMenuItem getMenuItemCsv(){
+        if (menuItemCsv == null){
+            menuItemCsv = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_CSV"),menuBarData.getBackground(),getCopexImage("Bouton-xls.png"), getCopexImage("Bouton-xls-survol.png"), getCopexImage("Bouton-xls-clic.png"), getCopexImage("Bouton-xls.png"));
             int x = sep6.getX()+sep6.getWidth();
             if(menuItemPrint != null){
                 x = menuItemPrint.getX()+menuItemPrint.getWidth();
             }
-            menuItemHelp.setBounds(x, 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
+            menuItemCsv.setBounds(x, 0, menuItemCsv.getWidth(), menuItemCsv.getHeight());
+            menuItemCsv.addActionMenu(this);
+        }
+        return menuItemCsv;
+    }
+     private MyMenuItem getMenuItemHelp(){
+        if (menuItemHelp == null){
+            menuItemHelp = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
+            menuItemHelp.setBounds(menuItemCsv.getX()+menuItemCsv.getWidth(), 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
             menuItemHelp.addActionMenu(this);
         }
         return menuItemHelp;
@@ -635,6 +650,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return;
         }else if(item.equals(menuItemHelp)){
             openHelpDialog();
+            return;
+        }else if(item.equals(menuItemCsv)){
+            openCsvDialog();
             return;
         }
 
@@ -1487,7 +1505,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* retourne le point pour afficher la boite de dialogue */
     public Point getLocationDialog(){
-        return new Point( (int)this.getLocationOnScreen().getX() +(this.getWidth() /3), (int)this.getLocationOnScreen().getY()+this.menuBarData.getHeight());
+        try{
+            return new Point( (int)this.getLocationOnScreen().getX() +(this.getWidth() /3), (int)this.getLocationOnScreen().getY()+this.menuBarData.getHeight());
+        }catch(IllegalComponentStateException e){
+            return new Point(100,100);
+        }
     }
 
     /* sauvegarde*/
@@ -1566,5 +1588,83 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public ArrayList<PreDefinedFunctionCategory> getListPreDefinedFunction(){
         return this.listPreDefinedFunction;
+    }
+
+    /* ouverture fenetre choix fichier pour csv */
+    private void openCsvDialog(){
+        JFileChooser aFileChooser = new JFileChooser();
+        aFileChooser.setFileFilter(new MyFileFilterCSV());
+        if (lastUsedFileCSV != null){
+            aFileChooser.setCurrentDirectory(lastUsedFileCSV.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileCSV);
+        }else{
+            File file = new File(aFileChooser.getCurrentDirectory(), dataset.getName()+".csv");
+            aFileChooser.setSelectedFile(file);
+        }
+        int r = aFileChooser.showSaveDialog(this);
+        if (r == JFileChooser.APPROVE_OPTION){
+            File file = aFileChooser.getSelectedFile();
+            if(!MyUtilities.isCSVFile(file)){
+                file = MyUtilities.getCSVFile(file);
+            }
+            lastUsedFileCSV = file;
+            String sep = getCSVSeparator();
+            PrintWriter writer = null;
+            try{
+                writer = new PrintWriter(new BufferedWriter (new OutputStreamWriter(new FileOutputStream(file), "utf-8")));
+                // header
+                String s = "";
+                for(int j=0; j<dataset.getListDataHeader().length; j++){
+                    s += dataset.getListDataHeader()[j] == null? "" : dataset.getListDataHeader()[j].getValue();
+                    if(j <dataset.getListDataHeader().length -1)
+                        s+= sep;
+                }
+                writer.println(s);
+                // data
+                Data[][] data = dataset.getData();
+                int nbR = dataset.getNbRows();
+                int nbC = dataset.getNbCol();
+                for(int i=0; i<nbR; i++){
+                    s = "";
+                    for(int j=0; j<nbC; j++){
+                        if(data[i][j] != null){
+                            if(data[i][j].isDoubleValue()){
+                                s += NumberFormat.getNumberInstance(getLocale()).format(data[i][j].getDoubleValue());
+                            }else{
+                                s += data[i][j].getValue();
+                            }
+                        }
+                        if(j <nbC -1)
+                            s+= sep;
+                    }
+                    writer.println(s);
+                }
+                //log
+		dataProcessToolPanel.logExportCSV(dataset, file.getPath());
+            }catch (IOException e){
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
+            }
+            finally{
+                if (writer != null)
+                    try{
+                        writer.close();
+                    }catch (Exception e){
+                        displayError(new CopexReturn(getBundleString("MSG_ERROR_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
+                    }
+            }
+        }
+    }
+
+    // selon locale
+    private String getCSVSeparator(){
+        DecimalFormatSymbols s = new DecimalFormatSymbols(getLocale());
+        if(s.getDecimalSeparator() == ',')
+            return ";";
+        else
+            return ",";
+    }
+
+    public void importCsvData(String sepField, String sepText){
+        dataProcessToolPanel.importCsvData(sepField, sepText);
     }
 }
