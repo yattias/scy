@@ -91,6 +91,7 @@ public class ScenarioDiagram extends TagSupport {
                         "          console.dir(responseObject);  // Dump it to the console\n" +
 
                         
+                                "lasRuntimeInfoUrl = '" + getLasLink() + "';\n" + 
                                 "for(var i = 0;i<responseObject.model.LearningActivitySpace.length;i++){              " +
                                 "lasMap[responseObject.model.LearningActivitySpace[i].id] = createLas(responseObject.model.LearningActivitySpace[i]);\n" +
                                 "createLasContentBox(lasMap[responseObject.model.LearningActivitySpace[i].id], responseObject.model.LearningActivitySpace[i].id, '" + getLasLink() + "?id=' + responseObject.model.LearningActivitySpace[i].id);" +
