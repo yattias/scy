@@ -89,6 +89,8 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                     if(elo != null) {
                         logger.info("used  "+ (System.currentTimeMillis() - start) + " millis to load ELO from ROOLO");
                         return elo.getXml();
+                    } else {
+                        return eloUri.toString();
                     }
 
                 } catch (URISyntaxException e) {
@@ -96,6 +98,8 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                     throw new RuntimeException(e);
                 }
             }
+        } else {
+            logger.warn("REPOSITORY IS NULL!!");
         }
         return "";
     }
@@ -113,7 +117,13 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
         return null;
     }
 
-
+    @Override
+    public List getLastELOs(User user) {
+        return getSession().createQuery("from EloRuntimeActionImpl where user = :user order by timeCreated desc")
+                .setEntity("user", user)
+                .setMaxResults(5)
+                .list();
+    }
 
 
     @Override

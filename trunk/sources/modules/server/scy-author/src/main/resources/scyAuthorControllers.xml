@@ -191,6 +191,10 @@
     <bean id="viewLASRuntimeInfoController" class="eu.scy.server.controllers.scyauthorruntime.ViewLASRuntimeInfo">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="userService" ref="userService"/>
+        <property name="runtimeService" ref="runtimeService"/>
     </bean>
 
     <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">
