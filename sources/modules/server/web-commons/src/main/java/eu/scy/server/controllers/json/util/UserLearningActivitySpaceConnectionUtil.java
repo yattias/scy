@@ -12,6 +12,7 @@ public class UserLearningActivitySpaceConnectionUtil {
     private String userName;
     private String lasId;
     private String lasName;
+    private String pedagogicalPlanId;
 
     public String getUserName() {
         return userName;
@@ -35,5 +36,13 @@ public class UserLearningActivitySpaceConnectionUtil {
 
     public void setLasName(String lasName) {
         this.lasName = lasName;
+    }
+
+    public String getPedagogicalPlanId() {
+        return pedagogicalPlanId;
+    }
+
+    public void setPedagogicalPlanId(String pedagogicalPlanId) {
+        this.pedagogicalPlanId = pedagogicalPlanId;
     }
 }

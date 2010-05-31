@@ -67,6 +67,7 @@ public class RuntimeUserInfoJSON extends AbstractController {
                     userLearningActivitySpaceConnectionUtil.setUserName(assignedPedagogicalPlan.getUser().getUserDetails().getUsername());
                     LearningActivitySpace learningActivitySpace = getLasService().getLearningActivitySpaceByName(lasName, scenario);
                     userLearningActivitySpaceConnectionUtil.setLasId(learningActivitySpace.getId());
+                    userLearningActivitySpaceConnectionUtil.setPedagogicalPlanId(assignedPedagogicalPlan.getId());
                     model.add(userLearningActivitySpaceConnectionUtil);
 
 

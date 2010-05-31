@@ -12,6 +12,7 @@ public class LearningActivitySpaceAnchorEloConnectionUtil extends Object{
     private String from;
     private String to;
     private String direction;
+    private String pedagogicalPlanId;
 
     public String getFrom() {
         return from;
@@ -35,5 +36,13 @@ public class LearningActivitySpaceAnchorEloConnectionUtil extends Object{
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public String getPedagogicalPlanId() {
+        return pedagogicalPlanId;
+    }
+
+    public void setPedagogicalPlanId(String pedagogicalPlanId) {
+        this.pedagogicalPlanId = pedagogicalPlanId;
     }
 }
