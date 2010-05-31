@@ -17,6 +17,12 @@ public class HelpController extends AbstractController {
         ModelAndView modelAndView = new ModelAndView();
         String helpId = httpServletRequest.getParameter("id");
 
+
+
+        if(helpId.equals("HELP_PAGE_1_AUTO_MAKE_BUDDIES")) {
+            helpId = "When users are added to the mission, they will automatically become eachothers buddies.";
+        }
+
         modelAndView.addObject("id", helpId);
         return modelAndView;
     }
