@@ -65,6 +65,7 @@
                    /app/scyauthorruntime/ScyAuthorRuntimeGraphicalView.html=scyAuthorRuntimeGraphicalViewController
                    /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
                    /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
+                   /app/scyauthorruntime/viewLASRuntimeInfo.html=viewLASRuntimeInfoController
 
                    /app/scyauthor/scenarioJsonView.html=scenarioJsonView
                </value>
@@ -187,6 +188,11 @@
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
     
+    <bean id="viewLASRuntimeInfoController" class="eu.scy.server.controllers.scyauthorruntime.ViewLASRuntimeInfo">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
     <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
