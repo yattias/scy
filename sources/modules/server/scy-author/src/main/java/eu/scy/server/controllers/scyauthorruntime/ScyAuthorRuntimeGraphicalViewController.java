@@ -34,7 +34,7 @@ public class ScyAuthorRuntimeGraphicalViewController extends BaseController {
     }
 
     public String getMyLasLink() {
-        return "javascript(onclick:alert);";
+        return "viewLASRuntimeInfo.html";
     }
 
 
