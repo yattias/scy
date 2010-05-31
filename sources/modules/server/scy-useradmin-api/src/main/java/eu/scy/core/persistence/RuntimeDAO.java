@@ -26,4 +26,5 @@ public interface RuntimeDAO extends SCYBaseDAO{
 
     String getCurrentLAS(User user);
 
+    List getLastELOs(User user);
 }
