@@ -68,4 +68,9 @@ public class RuntimeServiceImpl extends BaseServiceImpl implements RuntimeServic
         return runtimeDAO.getLastELOs(user);
     }
 
+    @Override
+    public List getUsersCurrentlyInLAS(String lasId) {
+        return runtimeDAO.getUsersCurrentlyinLAS(lasId);
+    }
+
 }

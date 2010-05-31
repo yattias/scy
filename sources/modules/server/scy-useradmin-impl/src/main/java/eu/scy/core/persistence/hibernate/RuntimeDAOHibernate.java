@@ -125,6 +125,20 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                 .list();
     }
 
+    @Override
+    public List getUsersCurrentlyinLAS(String lasId) {
+
+        List users = getUserDAO().getUsers();
+        LinkedList returnList = new LinkedList();
+        for (int i = 0; i < users.size(); i++) {
+            User user = (User) users.get(i);
+            String las = getCurrentLAS(user);
+            if(las != null && las.equals(lasId)) returnList.add(user);
+        }
+
+        return returnList;
+    }
+
 
     @Override
     public void storeAction(String type, String id, long timeInMillis, String tool, String mission, String session, String eloUri, String userName, String newLASId, String oldLASId) {

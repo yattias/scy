@@ -38,6 +38,7 @@ public class ViewLASRuntimeInfo extends BaseController {
         modelAndView.addObject("MODE", "LASVIEW");
         modelAndView.addObject("showUserInfo", false);
         modelAndView.addObject("model", learningActivitySpace);
+        modelAndView.addObject("currentUsers", getRuntimeService().getUsersCurrentlyInLAS(learningActivitySpace.getName()));
 
     }
 

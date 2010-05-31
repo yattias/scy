@@ -20,7 +20,7 @@ public class CurrentStudentActivityController extends TagSupport {
 
             pageContext.getRequest().getParameter("username");
 
-               pageContext.getOut().write("<span id=\"activityStatus" + id + "\"><i>Offline</i></span>");
+               pageContext.getOut().write("<span id=\"activityStatus" + id + "\"><i>Initializing...</i></span>");
                pageContext.getOut().write("<script type=\"text/javascript\" language=\"javascript\">" +
                        "setInterval(\"updateActivityStatus('activityStatus" + id + "', '" + getUsername() + "');\", 5000);" +
                        "</script>");
