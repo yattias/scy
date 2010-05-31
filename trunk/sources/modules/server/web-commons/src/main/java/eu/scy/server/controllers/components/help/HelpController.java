@@ -1,9 +1,10 @@
 package eu.scy.server.controllers.components.help;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +21,7 @@ public class HelpController extends AbstractController {
 
 
         if(helpId.equals("HELP_PAGE_1_AUTO_MAKE_BUDDIES")) {
-            helpId = "When users are added to the mission, they will automatically become eachothers buddies.";
+            helpId = "When users are added to the mission, they will automatically become each others buddies if this checkbox is checked.";
         }
 
         modelAndView.addObject("id", helpId);
