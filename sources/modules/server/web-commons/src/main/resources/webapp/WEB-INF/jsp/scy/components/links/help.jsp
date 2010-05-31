@@ -1,2 +1,2 @@
 <h1>HELP</h1>
-<p>${id}</p>
+<p style="text-align:left;">${id}</p>
