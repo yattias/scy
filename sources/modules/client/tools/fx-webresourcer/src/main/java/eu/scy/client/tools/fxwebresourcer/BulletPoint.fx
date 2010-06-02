@@ -34,8 +34,8 @@ public class BulletPoint extends CustomNode {
                 fill: Color.BLACK
         }
         var nodes:Node[] = { bullet };
-
-        var contentText:Text = Text {
+        var contentIsSet:Boolean = false;
+        public var contentText:Text = Text {
                 content:bind text;
                 font: Font { size: 16; }
                 wrappingWidth: 525;
@@ -60,7 +60,10 @@ public class BulletPoint extends CustomNode {
             this.text = text;
             height = 5 + contentText.layoutBounds.height;
             width = 28 + contentText.layoutBounds.width;
-            insert contentText into nodes;
+            if(not contentIsSet) {
+                insert contentText into nodes;
+                contentIsSet = true;
+            }
         }
 
         public function setImage(url:String) {
@@ -80,6 +83,10 @@ public class BulletPoint extends CustomNode {
             width = 5 + contentImageView.layoutBounds.width;
             insert contentImageView into nodes;
 
+        }
+
+        public function getText():String {
+            return this.text;
         }
 
 

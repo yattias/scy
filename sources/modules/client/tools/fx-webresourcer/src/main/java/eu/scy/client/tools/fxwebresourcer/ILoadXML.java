@@ -11,7 +11,5 @@ package eu.scy.client.tools.fxwebresourcer;
  */
 public interface ILoadXML {
     public void loadXML(String xml);
-
     public String getXML();
-
 }

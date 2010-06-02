@@ -14,13 +14,20 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.util.StringLocalizer;
 
 /**
  * @author pg
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopWebResourceTestConfig.xml"
-           loginType: "remote"
+           //loginType: "local"
+           defaultUserName: "pg"
+           //defaultPassword: "pgtest"
+           defaultPassword: "pg"
+           autoLogin: true
+          // storeElosOnDisk:true;
+          // loginType:"local"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -54,7 +61,6 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 }
 var stage: Stage;
 var scene: Scene;
-
 stage = Stage {
    title: "webresourceR"
    width: 400
