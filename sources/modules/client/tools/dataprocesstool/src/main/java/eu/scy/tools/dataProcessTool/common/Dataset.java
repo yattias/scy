@@ -15,9 +15,11 @@ import java.util.ArrayList;
 
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
+import eu.scy.tools.dataProcessTool.pdsELO.ProcessedHeader;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+import eu.scy.tools.fitex.analyseFn.Function;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -324,10 +326,14 @@ public class Dataset implements Cloneable{
         headers.add(header);
         // rows
         List<eu.scy.tools.dataProcessTool.pdsELO.Data> listIgnoredData = new LinkedList<eu.scy.tools.dataProcessTool.pdsELO.Data>();
-
+        List<ProcessedHeader> listProcessedHeader = new LinkedList<ProcessedHeader>();
         // => dataset
         DataSet ds = new DataSet(headers);
-
+        for(int j=0; j<nbC; j++){
+            if(getDataHeader(j) != null && ( getDataHeader(j).isFormula())){
+                listProcessedHeader.add(new ProcessedHeader(""+j, getDataHeader(j).getFormulaValue()));
+            }
+        }
         for (int i=0; i<nbR; i++){
             List<String> values = new LinkedList<String>();
             for (int j=0; j<nbC; j++){
@@ -342,7 +348,7 @@ public class Dataset implements Cloneable{
         // PROCESSED DATASET
         eu.scy.tools.dataProcessTool.pdsELO.IgnoredData iData =new eu.scy.tools.dataProcessTool.pdsELO.IgnoredData(listIgnoredData);
         List<eu.scy.tools.dataProcessTool.pdsELO.Operation> listOperations = new LinkedList<eu.scy.tools.dataProcessTool.pdsELO.Operation>();
-        int nbop = getListOperation().size();
+       int nbop = getListOperation().size();
         ArrayList<ArrayList<Double>> listResult = getListOperationResult() ;
         for (int i=0; i<nbop; i++){
             DataOperation myOp = getListOperation().get(i);
@@ -388,7 +394,7 @@ public class Dataset implements Cloneable{
             if(vis != null)
                 listVisualizations.add(vis);
         }
-        ProcessedData pds = new ProcessedData(this.name, iData, listOperations, listVisualizations);
+        ProcessedData pds = new ProcessedData(this.name, iData, listProcessedHeader,listOperations, listVisualizations);
         ProcessedDatasetELO pdsELO = new ProcessedDatasetELO(ds, pds);
         return pdsELO ;
     }
@@ -1303,5 +1309,13 @@ public class Dataset implements Cloneable{
 
     public Data[] getRow(int i){
         return data[i];
+    }
+
+    public DataHeader getDataHeader(String name){
+        for(int j=0; j<listDataHeader.length; j++){
+            if(listDataHeader[j] != null && listDataHeader[j].getValue().equals(name))
+                return listDataHeader[j];
+        }
+        return null;
     }
 }

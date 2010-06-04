@@ -164,7 +164,7 @@ public class DataTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return  isValueData(rowIndex, columnIndex) ||isValueTitleOperation(rowIndex, columnIndex);
+        return  (isValueData(rowIndex, columnIndex) && !isValueDataCompute(rowIndex, columnIndex)) ||isValueTitleOperation(rowIndex, columnIndex);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class DataTableModel extends AbstractTableModel {
         this.tabData[rowIndex][columnIndex] = aValue;
         super.setValueAt(aValue, rowIndex, columnIndex);
         if (isValueHeader(rowIndex, columnIndex)){
-            owner.updateDataHeader(dataset, v1, v2,columnIndex-1, dataset.getDataHeader(columnIndex-1).getDescription(), dataset.getDataHeader(columnIndex-1).getType());
+            owner.updateDataHeader(dataset, v1, v2,columnIndex-1, dataset.getDataHeader(columnIndex-1).getDescription(), dataset.getDataHeader(columnIndex-1).getType(), dataset.getDataHeader(columnIndex-1).getFormulaValue());
         }else if (isValueTitleOperation(rowIndex, columnIndex)){
             DataOperation operation = null;
             if(rowIndex == 0){
@@ -367,6 +367,10 @@ public class DataTableModel extends AbstractTableModel {
     /* retourne vrai s'il s'agit d'une cellule de donnee */
     public boolean isValueData(int noRow, int noCol){
         return  noCol > 0 && noCol <= nbColDs && noRow > 0 && noRow <= nbRowDs;
+    }
+    /* retourne vrai s'il s'agit d'une cellule de donnee compute*/
+    public boolean isValueDataCompute(int noRow, int noCol){
+        return isValueData(noRow, noCol) && this.dataset.getDataHeader(noCol-1) != null && this.dataset.getDataHeader(noCol-1).isFormula();
     }
     /* retourne vrai s'il s'agit d'une cellule de donnee ignoree */
     public boolean isValueDataIgnored(int noRow, int noCol){

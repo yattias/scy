@@ -29,8 +29,12 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     private String oldType;
     private String newType;
     private int colIndex;
+    private String oldFormula;
+    private String newFormula;
 
-    public EditHeaderUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, String oldValue, String newValue, String oldUnit, String newUnit,  int colIndex, String oldDescription, String newDescription, String oldType, String newType) {
+    public EditHeaderUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller,
+            String oldValue, String newValue, String oldUnit, String newUnit,  int colIndex, String oldDescription, String newDescription,
+            String oldType, String newType, String oldFormula, String newFormula) {
         super(table, dataToolPanel, controller);
         this.oldValue = oldValue;
         this.newValue = newValue;
@@ -40,6 +44,8 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
         this.newDescription = newDescription;
         this.oldType = oldType;
         this.newType = newType;
+        this.oldFormula = oldFormula;
+        this.newFormula = newFormula;
         this.colIndex = colIndex;
     }
 
@@ -47,7 +53,7 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     public void redo() throws CannotRedoException {
         super.redo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true,colIndex, newValue, newUnit, newDescription, newType, v);
+        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true,colIndex, newValue, newUnit, newDescription, newType, newFormula, dataToolPanel.getFunction(newFormula), v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -61,7 +67,7 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     public void undo() throws CannotUndoException {
         super.undo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, colIndex, oldValue, oldUnit,oldDescription, oldType,  v);
+        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, colIndex, oldValue, oldUnit,oldDescription, oldType, oldFormula, dataToolPanel.getFunction(oldFormula), v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -79,6 +85,12 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
         element.addContent(new Element("new_value").setText(newValue));
         element.addContent(new Element("old_unit").setText(oldUnit));
         element.addContent(new Element("new_unit").setText(newUnit));
+        element.addContent(new Element("old_type").setText(oldType));
+        element.addContent(new Element("new_type").setText(newType));
+        element.addContent(new Element("old_description").setText(oldDescription));
+        element.addContent(new Element("new_description").setText(newDescription));
+        element.addContent(new Element("old_formula").setText(oldFormula == null ?"":oldFormula));
+        element.addContent(new Element("new_formula").setText(newFormula == null ?"":newFormula));
         return element;
     }
 }

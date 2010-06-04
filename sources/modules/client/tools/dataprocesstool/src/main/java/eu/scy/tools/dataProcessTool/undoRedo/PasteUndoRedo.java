@@ -69,7 +69,8 @@ public class PasteUndoRedo extends DataUndoRedo {
             String unit = oldH == null ? "" : (oldH.getUnit() == null ?"" : oldH.getUnit()) ;
             String description = oldH == null ? "" : oldH.getDescription();
             String type = oldH == null ?DataConstants.DEFAULT_TYPE_COLUMN : oldH.getType();
-            CopexReturn cr = this.controller.updateDataHeader(getDataset(),true, newH.getNoCol(), title,unit,description, type,  v );
+            String formula = oldH == null ? null : oldH.getFormulaValue() ;
+            CopexReturn cr = this.controller.updateDataHeader(getDataset(),true, newH.getNoCol(), title,unit,description, type,  formula,dataToolPanel.getFunction(formula), v );
             if(cr.isError()){
                 dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
                 return;

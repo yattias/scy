@@ -39,6 +39,7 @@ import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -494,7 +495,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
     private MyMenuItem getMenuItemCsv(){
         if (menuItemCsv == null){
-            menuItemCsv = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_CSV"),menuBarData.getBackground(),getCopexImage("Bouton-xls.png"), getCopexImage("Bouton-xls-survol.png"), getCopexImage("Bouton-xls-clic.png"), getCopexImage("Bouton-xls.png"));
+            menuItemCsv = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_CSV"),menuBarData.getBackground(),getCopexImage("csv.png"), getCopexImage("csv_survol.png"), getCopexImage("csv_clic.png"), getCopexImage("csv_grise.png"));
             int x = sep6.getX()+sep6.getWidth();
             if(menuItemPrint != null){
                 x = menuItemPrint.getX()+menuItemPrint.getWidth();
@@ -889,21 +890,23 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataProcessToolPanel.logEditData(ds, oldData, newData);
     }
     /* mise a jour d'une donnees header */
-    public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type){
+    public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type, String formulaValue){
         DataHeader oldHeader = ds.getDataHeader(colIndex);
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : (ds.getDataHeader(colIndex).getUnit() == null ? "" : ds.getDataHeader(colIndex).getUnit());
         String oldDescription = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getDescription();
         String oldType = ds.getDataHeader(colIndex) == null ? DataConstants.DEFAULT_TYPE_COLUMN : ds.getDataHeader(colIndex).getType();
+        String oldFormula = ds.getDataHeader(colIndex) == null ? null : ds.getDataHeader(colIndex).getFormulaValue();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, v);
+        Function function = getFunction(formulaValue);
+        CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, formulaValue, function, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }else if(cr.isWarning()){
             boolean isOk = displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
             if(isOk){
-                cr = this.controller.updateDataHeader(ds,true, colIndex, value, unit,description, type, v);
+                cr = this.controller.updateDataHeader(ds,true, colIndex, value, unit,description, type,formulaValue,function, v);
                 if(cr.isError()){
                     displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                     return false;
@@ -918,11 +921,17 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         //datasetTable.updateDataset(nds, true);
         updateDataset(nds);
         datasetModif = true;
-        datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type));
+        datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type, oldFormula, formulaValue));
         dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
         return true;
     }
 
+    public Function getFunction(String formulaValue){
+        if(formulaValue != null){
+            return new Function(this, formulaValue, DataConstants.FUNCTION_TYPE_Y_FCT_X, null);
+        }
+        return null;
+    }
     /* mise a jour d'une donnees title operation */
     public void updateDataOperation(Dataset ds, String value, DataOperation operation){
         ArrayList v = new ArrayList();

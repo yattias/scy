@@ -48,7 +48,8 @@ public class Function
         this.data = data ;
         this.type = type;
         this.owner = owner;
-        this.reliabilityFactor = new Double[data.length];
+        if(data != null)
+            this.reliabilityFactor = new Double[data.length];
         maJFonction(intitule, type) ;
     }
     
@@ -101,7 +102,8 @@ public class Function
         Double x;
         Double y;
         Boolean ignore;
-
+        if(data == null)
+            return;
         // parcours et mesure de la distance ie tous les points diefinis dans le tableau de donniees
         // la tableModel du tableau qui contient les donnees :
         for(int d=0; d<data.length; d++){
