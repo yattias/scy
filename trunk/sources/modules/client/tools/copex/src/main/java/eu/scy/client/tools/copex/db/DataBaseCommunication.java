@@ -70,11 +70,11 @@ public class DataBaseCommunication {
         return "../editeurProtocole/InterfaceServer/data/";
       }
 
-     private void setDirectoryPhp(String d){
+     public void setDirectoryPhp(String d){
         this.directoryPhP  =d;
       }
 
-     private void setDirectoryData(String d){
+     public void setDirectoryData(String d){
         this.directoryData = d;
       }
 
