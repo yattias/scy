@@ -26,6 +26,7 @@ import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 
+import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -919,6 +920,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* log an action in db*/
     public void logAction(String type, List<FitexProperty> attribute){
         
+    }
+
+    public Function getFunction(String formulaValue){
+        if(activFitex != null)
+            return activFitex.getFunction(formulaValue);
+        return null;
     }
 
    

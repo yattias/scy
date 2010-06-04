@@ -15,6 +15,7 @@ import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
 import java.util.ArrayList;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.Color;
 import java.io.File;
 import java.util.Vector;
@@ -41,7 +42,7 @@ public interface ControllerInterface {
     /* creation d'une nouvelle operation - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
     public CopexReturn createOperation(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo, ArrayList v);
     /* mise a jour d'une valeur : titre header */
-    public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type, ArrayList v);
+    public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type,String formulaValue,  Function function, ArrayList v);
 
     /* mise a jour d'une valeur : titre operation */
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v);

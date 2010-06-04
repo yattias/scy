@@ -108,7 +108,7 @@ public class DeleteUndoRedo extends DataUndoRedo {
         for (int i=0; i<nbH; i++){
             DataHeader h = listHeader.get(i);
             ArrayList v = new ArrayList();
-            CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, h.getNoCol(), h.getValue(), h.getUnit(),h.getDescription(), h.getType(), v);
+            CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, h.getNoCol(), h.getValue(), h.getUnit(),h.getDescription(), h.getType(), h.getFormulaValue(), dataToolPanel.getFunction(h.getFormulaValue()), v);
             if (cr.isError()){
                dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
                return;

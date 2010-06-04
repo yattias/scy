@@ -229,7 +229,7 @@ public class DatasetFromDB {
     /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION " +
+        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION, D.FORMULA_VALUE " +
                 "FROM DATA_HEADER D, LINK_DATASET_HEADER L " +
                 "WHERE D.ID_HEADER = L.ID_HEADER AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
@@ -240,6 +240,7 @@ public class DatasetFromDB {
         listFields.add("D.NO_COL");
         listFields.add("D.TYPE");
         listFields.add("D.DESCRIPTION");
+        listFields.add("D.FORMULA_VALUE");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -271,7 +272,8 @@ public class DatasetFromDB {
             String description = rs.getColumnData("D.DESCRIPTION");
             if (description == null)
                 continue;
-            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description);
+            String formulaValue = rs.getColumnData("D.FORMULA_VALUE");
+            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description, formulaValue);
             tabHeader[noCol] = dh;
         }
         v.add(tabHeader);
@@ -543,12 +545,17 @@ public class DatasetFromDB {
     }
 
     /* creation d'un header - retourne en v[0] le nouveau dbKey */
-    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, String type, String description, long dbKeyDs, ArrayList v){
+    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, String type, String description, String formulaValue, long dbKeyDs, ArrayList v){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
         type = MyUtilities.replace("\'",type,"''") ;
         description = MyUtilities.replace("\'",description,"''") ;
-        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"') ;";
+        if(formulaValue != null)
+            formulaValue = MyUtilities.replace("\'",formulaValue,"''") ;
+        String s = "NULL";
+        if(formulaValue != null)
+            s = "'"+formulaValue+"'";
+        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION, FORMULA_VALUE) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"', "+s+") ;";
         System.out.println("createDataHeaderInDB : "+query);
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
         System.out.println("createDataHeaderInDB : "+queryID);
@@ -570,14 +577,19 @@ public class DatasetFromDB {
     }
 
     /* mise a jour d'un header */
-    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit, String description, String type){
+    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit, String description, String type, String formulaValue){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
         description = MyUtilities.replace("\'",description,"''") ;
         type = MyUtilities.replace("\'",type,"''") ;
+        if(formulaValue != null)
+            formulaValue = MyUtilities.replace("\'",formulaValue,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', TYPE = '"+type+"' WHERE ID_HEADER = "+dbKey+" ;";
+        String s = "NULL";
+        if(formulaValue != null)
+            s = "'"+formulaValue+"'";
+        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', TYPE = '"+type+"', FORMULA_VALUE = "+s+" WHERE ID_HEADER = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -653,7 +665,7 @@ public class DatasetFromDB {
         DataHeader[] tabHeader = ds.getListDataHeader();
         for (int i=0; i<tabHeader.length; i++){
             v2 = new ArrayList();
-            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), tabHeader[i].getType(), tabHeader[i].getDescription(), dbKey, v2);
+            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), tabHeader[i].getType(), tabHeader[i].getDescription(), tabHeader[i].getFormulaValue(), dbKey, v2);
             if (cr.isError())
                 return cr;
             long dbKeyHeader = (Long)v2.get(0);

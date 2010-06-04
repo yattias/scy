@@ -18,6 +18,7 @@ public class DataHeader implements Cloneable {
     private final static String TAG_HEADER_NO =  "no";
     private final static String TAG_HEADER_TYPE = "type";
     private final static String TAG_HEADER_DESCRIPTION = "description";
+    private final static String TAG_HEADER_FORMULA="formula";
     
     /* identifiant */
     private long dbKey;
@@ -31,15 +32,18 @@ public class DataHeader implements Cloneable {
     private String type;
     /* description */
     private String description;
+    /* si formule, description de la formule */
+    private String formulaValue;
 
     // CONSTRUCTEURS
-    public DataHeader(long dbKey, String value, String unit, int noCol, String type, String description) {
+    public DataHeader(long dbKey, String value, String unit, int noCol, String type, String description, String formulaValue) {
         this.dbKey = dbKey;
         this.value = value;
         this.unit = unit;
         this.noCol = noCol;
         this.type = type;
         this.description = description;
+        this.formulaValue = formulaValue;
     }
 
     // GETTER AND SETTER
@@ -98,6 +102,19 @@ public class DataHeader implements Cloneable {
     public boolean isUnitNull(){
         return this.unit == null || this.unit.equals("");
     }
+
+    public String getFormulaValue() {
+        return formulaValue;
+    }
+
+    public void setFormulaValue(String formulaValue) {
+        this.formulaValue = formulaValue;
+    }
+
+    public boolean isFormula() {
+        return this.isDouble() && this.formulaValue != null;
+    }
+
     // CLONE
     @Override
     public Object clone()  {
@@ -109,7 +126,10 @@ public class DataHeader implements Cloneable {
             String unitC = null;
             if(unit != null)
                 unitC = new String(this.unit);
-
+            String formulaValueC = null;
+            if(this.formulaValue != null){
+                formulaValueC = new String(this.formulaValue);
+            }
             
             dataheader.setDbKey(dbKeyC);
             dataheader.setValue(valueC);
@@ -117,6 +137,7 @@ public class DataHeader implements Cloneable {
             dataheader.setNoCol(noColC);
             dataheader.setType(new String(this.type));
             dataheader.setDescription(new String(this.description));
+            dataheader.setFormulaValue(formulaValueC);
             
             return dataheader;
         } catch (CloneNotSupportedException e) { 
@@ -131,6 +152,8 @@ public class DataHeader implements Cloneable {
          e.addContent(new Element(TAG_HEADER_UNIT).setText(unit));
          e.addContent(new Element(TAG_HEADER_TYPE).setText(type));
          e.addContent(new Element(TAG_HEADER_DESCRIPTION).setText(description));
+         if(isFormula())
+            e.addContent(new Element(TAG_HEADER_FORMULA).setText(formulaValue));
          return e;
 
      }
