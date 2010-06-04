@@ -48,14 +48,48 @@ public class PhysicalQuantity implements Cloneable{
         this.listUnit = listUnit;
     }
 
-    public PhysicalQuantity(long dbKey,  List<LocalText> listName, List<CopexUnit> listUnit) {
+    public PhysicalQuantity(long dbKey,  List<LocalText> listName,List<LocalText> listSymbol, List<CopexUnit> listUnit) {
+        this.dbKey = dbKey;
+        this.id = "";
+        this.min_value = Double.NaN;
+        this.max_value = Double.NaN;
+        this.listSymbol = listSymbol;
+        this.listName = listName;
+        this.listUnit = listUnit;
+    }
+
+    /** constructor of the physical quantity
+     * @param name
+     * @param symbol
+     * @param local
+     */
+    public PhysicalQuantity(String name, String symbol, Locale locale ){
+        this.dbKey = -1;
+        this.id = "";
+        this.min_value = Double.NaN;
+        this.max_value = Double.NaN;
+        this.listSymbol = new LinkedList();
+        this.listName = new LinkedList();
+        this.listUnit = new LinkedList();
+        setName(name, locale);
+        setSymbol(symbol, locale);
+    }
+    /** constructor of the physical quantity
+     * @param dbKey
+     * @param name
+     * @param symbol
+     * @param local
+     */
+    public PhysicalQuantity(long dbKey, String name, String symbol, Locale locale ){
         this.dbKey = dbKey;
         this.id = "";
         this.min_value = Double.NaN;
         this.max_value = Double.NaN;
         this.listSymbol = new LinkedList();
-        this.listName = listName;
-        this.listUnit = listUnit;
+        this.listName = new LinkedList();
+        this.listUnit = new LinkedList();
+        setName(name, locale);
+        setSymbol(symbol, locale);
     }
    
     public PhysicalQuantity(Element xmlElem, long dbKey, long idUnit) throws JDOMException {
@@ -141,6 +175,36 @@ public class PhysicalQuantity implements Cloneable{
         return listName;
     }
 
+    public String getName(Locale locale){
+        return CopexUtilities.getText(listName, locale);
+    }
+    public String getSymbol(Locale locale){
+        return CopexUtilities.getText(listSymbol, locale);
+    }
+    public void setName(LocalText text){
+        int i = CopexUtilities.getIdText(text.getLocale(), listName);
+        if(i ==-1){
+            this.listName.add(text);
+        }else{
+            this.listName.set(i, text);
+        }
+    }
+    public void setName(String name, Locale locale){
+        LocalText l = new LocalText(name, locale);
+        setName(l);
+    }
+    public void setSymbol(LocalText text){
+        int i = CopexUtilities.getIdText(text.getLocale(), listSymbol);
+        if(i ==-1){
+            this.listSymbol.add(text);
+        }else{
+            this.listSymbol.set(i, text);
+        }
+    }
+    public void setSymbol(String symbol, Locale locale){
+        LocalText l = new LocalText(symbol, locale);
+        setSymbol(l);
+    }
     public void setListName(List<LocalText> listName) {
         this.listName = listName;
     }
@@ -179,7 +243,6 @@ public class PhysicalQuantity implements Cloneable{
 
     
 
-    // OVERRIDE
     @Override
     public Object clone()  {
        try {
@@ -211,7 +274,6 @@ public class PhysicalQuantity implements Cloneable{
         }
     }
 
-    // METHOD
     /* retourne l'unite qui correspond au dbKey, null sinon */
     public CopexUnit getUnit(long dbKeyU){
         int nbu = listUnit.size();
@@ -273,6 +335,36 @@ public class PhysicalQuantity implements Cloneable{
         return element;
     }
 
+    /** add a unit
+     * @param unit to add
+     */
+    public void addUnit(CopexUnit unit){
+        this.listUnit.add(unit);
+    }
+
+    /** remove the unit
+     * @param unit to add
+     * @return true if the physical quantity contains the specified unit
+     */
+    public boolean removeUnit(CopexUnit unit){
+        return this.listUnit.remove(unit);
+    }
+
+    /** update the unit
+     * @param index of the unit to replace
+     * @param unit to be store at the specified position
+     */
+    public void setUnit(int id, CopexUnit unit){
+        this.listUnit.set(id, unit);
+    }
+
+    /** get the index of a unit
+     * @param unit to search for
+     * @return the index of the first occurence, -1 if the physicla quantity does not contain this unit
+     */
+    public int indexOfUnit(CopexUnit unit){
+        return this.listUnit.indexOf(unit);
+    }
     
 
 }

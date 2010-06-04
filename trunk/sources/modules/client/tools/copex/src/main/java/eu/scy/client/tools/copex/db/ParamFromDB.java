@@ -29,7 +29,8 @@ public class ParamFromDB {
      */
     public static CopexReturn getAllPhysicalQuantitiesFromDB(DataBaseCommunication dbC,  Locale locale, ArrayList v) {
         ArrayList<PhysicalQuantity> listPhysicalQuantities = new ArrayList();
-        String query = "SELECT ID_PHYSICAL_QUANTITY, QUANTITY_NAME FROM PHYSICAL_QUANTITY ;";
+        String l = "_"+locale.getLanguage();
+        String query = "SELECT ID_PHYSICAL_QUANTITY, QUANTITY_NAME"+l+", QUANTITY_SYMBOL"+l+" FROM PHYSICAL_QUANTITY ORDER BY QUANTITY_NAME"+l+" ;";
         ArrayList v2 = new ArrayList();
 //        ArrayList<String> listFields = new ArrayList();
 //        listFields.add("ID_PHYSICAL_QUANTITY");
@@ -45,14 +46,15 @@ public class ParamFromDB {
             if (s==null)
                 continue;
             long dbKey = Long.parseLong(s);
-            String name = rs.getColumnData("QUANTITY_NAME");
+            String name = rs.getColumnData("QUANTITY_NAME"+l);
+            String symbol = rs.getColumnData("QUANTITY_SYMBOL"+l);
             // unites correspondantes :
             ArrayList v3 = new ArrayList();
             cr = getAllUnitFromDB(dbC, dbKey, locale, v3);
             if (cr.isError())
                 return cr;
             List<CopexUnit> listUnit = (List<CopexUnit>)v3.get(0);
-            PhysicalQuantity quantity = new PhysicalQuantity(dbKey, CopexUtilities.getLocalText(name, locale), listUnit);
+            PhysicalQuantity quantity = new PhysicalQuantity(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symbol, locale), listUnit);
             listPhysicalQuantities.add(quantity);
         }
         v.add(listPhysicalQuantities);
@@ -68,8 +70,10 @@ public class ParamFromDB {
      */
     public static CopexReturn getAllUnitFromDB(DataBaseCommunication dbC,  long dbKeyQ, Locale locale, ArrayList v) {
         List<CopexUnit> listUnit = new LinkedList();
-        String symbol = "SYMBOL_"+locale.getLanguage() ;
-        String query = "SELECT U.ID_UNIT, U.UNIT_NAME, U."+symbol+" FROM UNIT U, LINK_UNIT_QUANTITY L " +
+        String l = "_"+locale.getLanguage();
+        String symbol = "SYMBOL"+l;
+        String n = "UNIT_NAME"+l;
+        String query = "SELECT U.ID_UNIT, U."+n+", U."+symbol+" , U.FACTOR FROM UNIT U, LINK_UNIT_QUANTITY L " +
                 " WHERE L.ID_QUANTITY = "+dbKeyQ+" AND L.ID_UNIT = U.ID_UNIT ;"  ;
         ArrayList v2 = new ArrayList();
 //        ArrayList<String> listFields = new ArrayList();
@@ -87,9 +91,16 @@ public class ParamFromDB {
             if (s==null)
                 continue;
             long dbKey = Long.parseLong(s);
-            String name = rs.getColumnData("U.UNIT_NAME");
+            String name = rs.getColumnData("U."+n);
             String symb = rs.getColumnData("U."+symbol);
-            CopexUnit unit = new CopexUnit(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symb, locale)) ;
+            s = rs.getColumnData("U.FACTOR");
+            double factor = Double.NaN;
+            try{
+                factor = Double.parseDouble(s);
+            }catch(NumberFormatException e){
+                
+            }
+            CopexUnit unit = new CopexUnit(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symb, locale), factor) ;
             listUnit.add(unit);
         }
         v.add(listUnit);
