@@ -8,7 +8,6 @@ package eu.scy.client.tools.copex.db;
 
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
-import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,7 +22,7 @@ public class TraceFromDB {
     /* creation de la trace */
     public static CopexReturn logUserActionInDB(DataBaseCommunication dbC, long dbKeyMission, long dbKeyUser, long dbKeyTrace ,String type, List<CopexProperty> attribute){
         int oldDb = dbC.getDb();
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         // enregistrement des parametres
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
             CopexProperty prop = p.next();
@@ -101,10 +100,10 @@ public class TraceFromDB {
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ID_TRACE");
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         CopexReturn cr = dbC.sendQuery(queryTrace, listFields, v2);
         if (cr.isError()){
-            dbC.updateDb(MyConstants.DB_COPEX_EDP);
+            dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
             return cr;
         }
         int nbR = v2.size();
@@ -121,12 +120,12 @@ public class TraceFromDB {
                 v2 = new ArrayList();
                 cr = dbC.getNewIdInsertInDB(queryTrace, queryID, v2) ;
                 if (cr.isError()){
-                    dbC.updateDb(MyConstants.DB_COPEX_EDP);
+                    dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
                     return cr;
                 }
                 dbKeyTrace = (Long) v2.get(0);
         }
-        dbC.updateDb(MyConstants.DB_COPEX_EDP);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         v.add(dbKeyTrace);
         return new CopexReturn();
     }

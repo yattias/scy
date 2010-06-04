@@ -278,7 +278,7 @@ public class UserFromDB {
     }
     
     public static CopexReturn getUserFromDB_xml(DataBaseCommunication dbC, long dbKeyUser, ArrayList v) {
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         CopexUser user = null;
         String query = "SELECT USER_NAME, FIRSTNAME FROM COPEX_USER WHERE ID_USER =  "+dbKeyUser+" ;";
         ArrayList v2 = new ArrayList();
@@ -288,7 +288,7 @@ public class UserFromDB {
         
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
-            dbC.updateDb(MyConstants.DB_COPEX_EDP);
+            dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
             return cr;
         }
         int nbR = v2.size();
@@ -303,7 +303,7 @@ public class UserFromDB {
             
              user = new CopexUser(dbKeyUser, "", "", name, firstName);
         }
-        dbC.updateDb(MyConstants.DB_COPEX_EDP);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         v.add(user);
         return new CopexReturn();     
         
@@ -348,13 +348,13 @@ public class UserFromDB {
         String query = "INSERT INTO COPEX_USER " +
                 "(ID_USER, USER_NAME, FIRSTNAME, LOGIN, PASSWORD) " +
                 "VALUES (NULL,'"+name+"', '"+firstname+"', '"+login+"', '"+pwd+"' );";
-       dbC.updateDb(MyConstants.DB_COPEX);
+       dbC.updateDb(MyConstants.DB_LABBOOK);
        // recupere l'id :
        String queryID = "SELECT max(last_insert_id(`ID_USER`))   FROM  COPEX_USER ;";
        ArrayList v2 = new ArrayList();
        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
        if (cr.isError()){
-           dbC.updateDb(MyConstants.DB_COPEX_EDP);
+           dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
            return cr;
        }
        long dbKey = (Long)v2.get(0);

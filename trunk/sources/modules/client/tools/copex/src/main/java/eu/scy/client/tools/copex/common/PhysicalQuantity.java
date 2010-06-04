@@ -16,7 +16,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * grandeur physique qui permet de decrire les differentes unites
+ * physical quantity
  * @author Marjolaine
  */
 public class PhysicalQuantity implements Cloneable{

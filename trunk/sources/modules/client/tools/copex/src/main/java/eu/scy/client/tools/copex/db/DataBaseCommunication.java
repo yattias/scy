@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.copex.db;
 
-import eu.scy.client.tools.copex.edp.CopexApplet;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,11 +16,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * permet de transmettre les donnees aux serveurs
- * @author MBO
+ * allows you to communicate with the database, as we can not use jdbc (port 3306 unreachable)
+ * @author Marjolaine
  */
 public class DataBaseCommunication {
-    // CONSTANTES 
     /* requete de selection avec envoit du resultat */
     public final static int MODE_SELECT = 1;
     /* requete simple */
@@ -51,6 +49,7 @@ public class DataBaseCommunication {
     private String dataBD = "";
 
    
+    /** Creates a DataBaseCommunication with the specified url  */
     public DataBaseCommunication(URL copexURL,   int db, long idMission, String idUser) {
         this.codeBase = copexURL;
         this.directoryData = getDirectoryData();
@@ -71,12 +70,46 @@ public class DataBaseCommunication {
         return "../editeurProtocole/InterfaceServer/data/";
       }
 
+     private void setDirectoryPhp(String d){
+        this.directoryPhP  =d;
+      }
+
+     private void setDirectoryData(String d){
+        this.directoryData = d;
+      }
+
     public void setIdUser(String idUser) {
         this.idUser = idUser;
         this.fileName = "db"+idMission+"-"+idUser+".xml";
     }
     
-    // envoie une requete de selection 
+    /** send a select query
+     * @param query the specified query
+     * @param v result of the query in v[0]
+     * @return error code
+     */
+    public CopexReturn sendQuery(String query, ArrayList v){
+        ArrayList<String> listFields = new ArrayList();
+        int idS = query.indexOf("SELECT");
+        int idF = query.indexOf("FROM");
+        if(idS != -1 && idF != -1){
+            String s= query.substring(idS+7, idF);
+            int id = s.indexOf(",");
+            while(id != -1){
+                String f = s.substring(0, id);
+                f = f.trim();
+                s = s.substring(id+1);
+                id = s.indexOf(",");
+                listFields.add(f);
+            }
+            String f = s.trim();
+            listFields.add(f);
+        }
+        return sendQuery(query, listFields, v);
+    }
+
+
+    // envoie une requete de selection
     public CopexReturn sendQuery(String query, ArrayList listFields, ArrayList v){
         dataBD = fileName+"\n";
         dataBD += "<data>"+this.db;
@@ -95,7 +128,24 @@ public class DataBaseCommunication {
         cr = receiveResponse(v);
         return cr;
     }
-    //envoie d'une requete simple (par exemple delete)
+     /** send a  query (delete)
+     * @param query the specified query
+     * @return error code
+     */
+    public CopexReturn executeQuery(String query){
+        String[] querys = new String[1];
+        querys[0] = query;
+        return executeQuery(querys);
+    }
+
+    /** send a  list of querys (delete)
+     * @param query the specified query
+     * @return error code
+     */
+    public CopexReturn executeQuery(String[] querys){
+        ArrayList v = new ArrayList();
+        return executeQuery(querys, v);
+    }
     public CopexReturn executeQuery(String[] querys, ArrayList v){
          dataBD = fileName+"\n";
          dataBD += "<data>"+this.db;
@@ -111,7 +161,7 @@ public class DataBaseCommunication {
         return cr;
     }
     
-    // envoie d'une requete d'insertion puis lecture du champ insere
+    
     public CopexReturn insertQuery(String[] query, ArrayList v){
         dataBD = fileName+"\n";
         dataBD += "<data>"+this.db;
@@ -249,7 +299,12 @@ public class DataBaseCommunication {
         return s;
     }
     
-    /* requete qui permet l'insertion puis permet de recuperer l'id */
+    /** send an insert query and gives back the new id
+     * @param query the specified query to insert
+     * @param querId the query to get back the id
+     * @param v v[0] gets the result
+     * @return error code
+     */
     public CopexReturn getNewIdInsertInDB(String query, String queryID,ArrayList v){
             ArrayList v2 = new ArrayList();
             String querys[] = new String[2];
@@ -276,7 +331,10 @@ public class DataBaseCommunication {
             return new CopexReturn();
     }
 
-    /* change la connexion */
+     /** update the db
+     * @param qdb db number see MyConstants.DB_LABBOOK
+     * @return error code
+     */
     public CopexReturn updateDb(int db){
         this.db = db;
         return new CopexReturn();

@@ -21,15 +21,21 @@ import java.util.Locale;
  * @author Marjolaine
  */
 public class ParamFromDB {
-    /* charge les grandeurs gerees dans COPEX */
+     /** load all the physical quantities and the units
+     * @param dbC database
+     * @param locale
+     * @param v v.get(0) contains ArrayList(PhysicalQuantity)
+     * @return error code
+     */
     public static CopexReturn getAllPhysicalQuantitiesFromDB(DataBaseCommunication dbC,  Locale locale, ArrayList v) {
         ArrayList<PhysicalQuantity> listPhysicalQuantities = new ArrayList();
         String query = "SELECT ID_PHYSICAL_QUANTITY, QUANTITY_NAME FROM PHYSICAL_QUANTITY ;";
         ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("ID_PHYSICAL_QUANTITY");
-        listFields.add("QUANTITY_NAME");
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+//        ArrayList<String> listFields = new ArrayList();
+//        listFields.add("ID_PHYSICAL_QUANTITY");
+//        listFields.add("QUANTITY_NAME");
+        //CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        CopexReturn cr = dbC.sendQuery(query,  v2);
         if (cr.isError())
             return cr;
         int nbR = v2.size();
@@ -53,18 +59,25 @@ public class ParamFromDB {
         return new CopexReturn();
     }
 
-     /* charge les unites pour une grandeur gerees dans COPEX */
+     /** load all the unit for a physical quantity
+     * @param dbC database
+     * @param locale
+     * @param dbKeyQ :id of the physical quantity
+     * @param v v.get(0) contains List(CopexUnit)
+     * @return error code
+     */
     public static CopexReturn getAllUnitFromDB(DataBaseCommunication dbC,  long dbKeyQ, Locale locale, ArrayList v) {
         List<CopexUnit> listUnit = new LinkedList();
         String symbol = "SYMBOL_"+locale.getLanguage() ;
         String query = "SELECT U.ID_UNIT, U.UNIT_NAME, U."+symbol+" FROM UNIT U, LINK_UNIT_QUANTITY L " +
                 " WHERE L.ID_QUANTITY = "+dbKeyQ+" AND L.ID_UNIT = U.ID_UNIT ;"  ;
         ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("U.ID_UNIT");
-        listFields.add("U.UNIT_NAME");
-        listFields.add("U."+symbol);
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+//        ArrayList<String> listFields = new ArrayList();
+//        listFields.add("U.ID_UNIT");
+//        listFields.add("U.UNIT_NAME");
+//        listFields.add("U."+symbol);
+//        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        CopexReturn cr = dbC.sendQuery(query,  v2);
         if (cr.isError())
             return cr;
         int nbR = v2.size();
@@ -83,16 +96,22 @@ public class ParamFromDB {
         return new CopexReturn();
     }
 
-    /* charge le type de material par default*/
+    /** load the default type material
+     * @param dbC database
+     * @param locale
+     * @param v v.get(0) contains TypeMaterial
+     * @return error code
+     */
     public static CopexReturn getDefaultTypeMaterialFromDB(DataBaseCommunication dbC, Locale locale, ArrayList v){
         TypeMaterial  type = null;
         String query = "SELECT ID_TYPE, TYPE_NAME FROM MATERIAL_TYPE WHERE DEFAULT_TYPE = 1 ;";
         ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("ID_TYPE");
-        listFields.add("TYPE_NAME");
-
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+//        ArrayList<String> listFields = new ArrayList();
+//        listFields.add("ID_TYPE");
+//        listFields.add("TYPE_NAME");
+//
+//        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        CopexReturn cr = dbC.sendQuery(query,  v2);
         if (cr.isError())
             return cr;
         int nbR = v2.size();
@@ -109,20 +128,26 @@ public class ParamFromDB {
         return new CopexReturn();
     }
 
-    /* charge les strategies de materiel */
+    /** load all the material strategy
+     * @param dbC database
+     * @param locale
+     * @param v v.get(0) contains ArrayList<MaterialStrategy>
+     * @return error code
+     */
     public static CopexReturn getAllStrategyMaterialFromDB(DataBaseCommunication dbC, Locale locale, ArrayList v){
         ArrayList<MaterialStrategy> listStrategy = new ArrayList();
         String query = "SELECT ID_STRATEGY, CODE, ITEM, ITEM_LIBELLE_"+locale.getLanguage()+", ADD_MAT, CHOOSE_MAT, COMMENTS_MAT FROM MATERIAL_STRATEGY ;";
         ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("ID_STRATEGY");
-        listFields.add("CODE");
-        listFields.add("ITEM");
-        listFields.add("ITEM_LIBELLE_"+locale.getLanguage());
-        listFields.add("ADD_MAT");
-        listFields.add("CHOOSE_MAT");
-        listFields.add("COMMENTS_MAT");
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+//        ArrayList<String> listFields = new ArrayList();
+//        listFields.add("ID_STRATEGY");
+//        listFields.add("CODE");
+//        listFields.add("ITEM");
+//        listFields.add("ITEM_LIBELLE_"+locale.getLanguage());
+//        listFields.add("ADD_MAT");
+//        listFields.add("CHOOSE_MAT");
+//        listFields.add("COMMENTS_MAT");
+//        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        CopexReturn cr = dbC.sendQuery(query, v2);
         if (cr.isError())
             return cr;
         int nbR = v2.size();
