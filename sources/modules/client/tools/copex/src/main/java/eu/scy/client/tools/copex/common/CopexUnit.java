@@ -35,12 +35,11 @@ public class CopexUnit implements Cloneable{
     private List<LocalText> listName;
     private double factor;
 
-    // CONSTRUCTOR
-    public CopexUnit(long dbKey, List<LocalText> listName, List<LocalText> listSymbol) {
+    public CopexUnit(long dbKey, List<LocalText> listName, List<LocalText> listSymbol, double factor) {
         this.dbKey = dbKey;
         this.listName = listName;
         this.listSymbol = listSymbol;
-        this.factor = 1;
+        this.factor = factor;
     }
 
     public CopexUnit(Element xmlElem, long dbKey) throws JDOMException {
@@ -91,6 +90,39 @@ public class CopexUnit implements Cloneable{
     }
 
 
+    /** constructor of the unit
+     * @param name
+     * @param symbol
+     * @param factor
+     * @param local
+     */
+    public CopexUnit(String name, String symbol, double factor, Locale locale ){
+        this.dbKey = -1;
+        this.id = "";
+        this.factor = factor;
+        this.listSymbol = new LinkedList();
+        this.listName = new LinkedList();
+        setName(name, locale);
+        setSymbol(symbol, locale);
+    }
+
+    /** constructor of the unit
+     * @param dbKey
+     * @param name
+     * @param symbol
+     * @param factor
+     * @param local
+     */
+    public CopexUnit(long dbKey, String name, String symbol, double factor, Locale locale ){
+        this.dbKey = dbKey;
+        this.id = "";
+        this.factor = factor;
+        this.listSymbol = new LinkedList();
+        this.listName = new LinkedList();
+        setName(name, locale);
+        setSymbol(symbol, locale);
+    }
+
     public long getDbKey() {
         return dbKey;
     }
@@ -131,10 +163,36 @@ public class CopexUnit implements Cloneable{
         this.listSymbol = listSymbol;
     }
 
+    public String getName(Locale locale){
+        return CopexUtilities.getText(listName, locale);
+    }
     public String getSymbol(Locale locale){
         return CopexUtilities.getText(listSymbol, locale);
     }
-    
+    public void setName(LocalText text){
+        int i = CopexUtilities.getIdText(text.getLocale(), listName);
+        if(i ==-1){
+            this.listName.add(text);
+        }else{
+            this.listName.set(i, text);
+        }
+    }
+    public void setName(String name, Locale locale){
+        LocalText l = new LocalText(name, locale);
+        setName(l);
+    }
+    public void setSymbol(LocalText text){
+        int i = CopexUtilities.getIdText(text.getLocale(), listSymbol);
+        if(i ==-1){
+            this.listSymbol.add(text);
+        }else{
+            this.listSymbol.set(i, text);
+        }
+    }
+    public void setSymbol(String symbol, Locale locale){
+        LocalText l = new LocalText(symbol, locale);
+        setSymbol(l);
+    }
     @Override
     public Object clone()  {
        try {
