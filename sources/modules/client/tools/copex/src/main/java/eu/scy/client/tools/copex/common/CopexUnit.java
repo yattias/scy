@@ -16,7 +16,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * unite de mesure
+ * unit (of a physical quantity)
  * @author Marjolaine
  */
 public class CopexUnit implements Cloneable{

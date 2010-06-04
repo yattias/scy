@@ -64,11 +64,11 @@ public class MyConstants {
     public final static int COPEX_MODE = 1;
 
     /* base copex */
-    public final static int DB_COPEX = 0;
+    public final static int DB_LABBOOK = 0;
     /* base editeur de protocole */
-    public final static int DB_COPEX_EDP = 1;
+    public final static int DB_LABBOOK_COPEX = 1;
     /* base data tool */
-    public final static int DB_COPEX_DATA = 2 ;
+    public final static int DB_LABBOOK_FITEX = 2 ;
 
     /* xml language */
     public final static String XMLNAME_LANGUAGE="language";

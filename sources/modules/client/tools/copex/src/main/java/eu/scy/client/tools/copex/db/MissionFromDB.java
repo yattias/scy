@@ -19,7 +19,6 @@ public class MissionFromDB {
     
     
      public static CopexReturn getMissionFromDB_xml(DataBaseCommunication dbC, long dbKeyMission, long dbKeyLearner, ArrayList v) {
-        dbC.updateDb(MyConstants.DB_COPEX);
         CopexMission m = null;
         String query = "SELECT M.ID_MISSION, M.CODE, M.MISSION_NAME, M.SUM_UP, L.STATUT " +
                 "FROM COPEX_MISSION M , LINK_MISSION_LEARNER L " +
@@ -32,10 +31,10 @@ public class MissionFromDB {
         listFields.add("M.MISSION_NAME");
         listFields.add("M.SUM_UP");
         listFields.add("L.STATUT");
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
-            dbC.updateDb(MyConstants.DB_COPEX_EDP);
+            dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
             return cr;
         }
         int nbR = v2.size();
@@ -56,7 +55,7 @@ public class MissionFromDB {
             m = new CopexMission(dbKey,  mission_name,code,sumUp, statut, options);
         }
        v.add(m);
-       dbC.updateDb(MyConstants.DB_COPEX_EDP);
+       dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
        return new CopexReturn();     
         
     }
@@ -66,7 +65,7 @@ public class MissionFromDB {
    
     /* chargement de toutes les missions  de l'utilisateur sauf idMission*/
     public static CopexReturn getAllMissionsFromDB_xml(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission,  ArrayList v) {
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         ArrayList<CopexMission> listMission = new ArrayList();
         String query = "SELECT M.ID_MISSION, M.CODE, M.MISSION_NAME, M.SUM_UP, L.STATUT " +
                 "FROM COPEX_MISSION M, LINK_MISSION_LEARNER L " +
@@ -83,10 +82,10 @@ public class MissionFromDB {
         
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
-            dbC.updateDb(MyConstants.DB_COPEX_EDP);
+            dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
             return cr;
         }
-        dbC.updateDb(MyConstants.DB_COPEX_EDP);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         int nbR = v2.size();
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
@@ -126,7 +125,7 @@ public class MissionFromDB {
    
     /* mise a jour de la date de modif d'une mission */
     static public CopexReturn updateDateMissionInDB_xml(DataBaseCommunication dbC, long dbKeyMission, java.sql.Date date){
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         String dM = CopexUtilities.dateToSQL(date);
         String query = "UPDATE COPEX_MISSION SET DATE_LAST_MODIFICATION = '"+dM+"' "+
                     "WHERE ID_MISSION = "+dbKeyMission+" ;";
@@ -134,7 +133,7 @@ public class MissionFromDB {
         String[] querys = new String[1];
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
-        dbC.updateDb(MyConstants.DB_COPEX_EDP);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         return cr;
         
     }
@@ -142,12 +141,12 @@ public class MissionFromDB {
     public static CopexReturn createUserMissionInDB(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission){
         String query = "INSERT INTO LINK_MISSION_LEARNER (ID_MISSION, ID_LEARNER, STATUT) " +
                 "VALUES ("+dbKeyMission+", "+dbKeyUser+", 'T');";
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
-        dbC.updateDb(MyConstants.DB_COPEX_EDP);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         if(cr.isError())
             return cr;
         // proc initial
@@ -182,13 +181,13 @@ public class MissionFromDB {
     /* chargement des options de la mission */
     public static CopexReturn getMissionOptionFromDB(DataBaseCommunication dbC, long dbKey, ArrayList v){
         String query = "SELECT ADD_PROC,  TRACE FROM OPTION_MISSION WHERE ID_MISSION = "+dbKey+" ;";
-        dbC.updateDb(MyConstants.DB_COPEX);
+        dbC.updateDb(MyConstants.DB_LABBOOK);
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ADD_PROC");
         listFields.add("TRACE");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
-        dbC.updateDb(MyConstants.DB_COPEX_EDP);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         if(cr.isError())
             return cr;
         int nbR = v2.size();

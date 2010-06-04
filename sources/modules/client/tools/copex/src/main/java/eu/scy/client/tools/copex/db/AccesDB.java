@@ -48,7 +48,7 @@ public class AccesDB {
     public AccesDB(URL copexURL, long idMission, String idUser){
        this.idUser = idUser;
         //System.out.println("connection adresse IP applet signee v10");
-        dbC = new DataBaseCommunication(copexURL, MyConstants.DB_COPEX_EDP, idMission, idUser);
+        dbC = new DataBaseCommunication(copexURL, MyConstants.DB_LABBOOK_COPEX, idMission, idUser);
     }
 
 
