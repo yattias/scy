@@ -257,7 +257,7 @@ public class DataControllerDB implements ControllerInterface{
         Data[][] data = new Data[nbRows][nbCol];
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         for (int i=0; i<nbCol; i++){
-            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+" "+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null);
+            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null);
             tabHeader[i] = h;
         }
         // enregistrement base
@@ -1264,7 +1264,7 @@ public class DataControllerDB implements ControllerInterface{
             for(int j=0; j<nb; j++){
                 ArrayList v2 = new ArrayList();
                 int no = listNoDefaultCol.get(idDs);
-                cr= updateDataHeader(ds, true, idBefore+j, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+" "+(no+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"),DataConstants.DEFAULT_TYPE_COLUMN, null, null, v2);
+                cr= updateDataHeader(ds, true, idBefore+j, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(no+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"),DataConstants.DEFAULT_TYPE_COLUMN, null, null, v2);
                 if(cr.isError())
                     return cr;
                 listNoDefaultCol.set(idDs, no+1);

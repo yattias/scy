@@ -935,7 +935,7 @@ public class Dataset implements Cloneable{
         if(getDataHeader(idCol).isDouble()){
             for (int i=0; i<nbRows; i++){
                 Data d = this.data[i][idCol];
-                if (d != null && !d.isIgnoredData() ){
+                if (d != null && !d.isIgnoredData() && ! Double.isNaN(d.getDoubleValue()) ){
                     listValue.add(d.getDoubleValue());
                 }
             }
@@ -949,7 +949,7 @@ public class Dataset implements Cloneable{
         for (int j=0; j<nbCol ; j++){
             if(getDataHeader(j).isDouble()){
                 Data d = this.data[idRow][j];
-                if (d != null && !d.isIgnoredData()){
+                if (d != null && !d.isIgnoredData()&& !Double.isNaN(d.getDoubleValue()) ){
                     listValue.add(d.getDoubleValue());
                 }
             }

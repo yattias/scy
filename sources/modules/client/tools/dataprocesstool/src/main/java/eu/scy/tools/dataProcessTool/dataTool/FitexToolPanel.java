@@ -1638,7 +1638,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                     for(int j=0; j<nbC; j++){
                         if(data[i][j] != null){
                             if(data[i][j].isDoubleValue()){
-                                s += NumberFormat.getNumberInstance(getLocale()).format(data[i][j].getDoubleValue());
+                                if(!Double.isNaN(data[i][j].getDoubleValue()))
+                                    s += NumberFormat.getNumberInstance(getLocale()).format(data[i][j].getDoubleValue());
                             }else{
                                 s += data[i][j].getValue();
                             }
