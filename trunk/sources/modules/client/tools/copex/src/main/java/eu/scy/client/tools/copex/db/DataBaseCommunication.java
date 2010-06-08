@@ -63,11 +63,11 @@ public class DataBaseCommunication {
 
 
     private String getDirectoryPhp(){
-        return "../editeurProtocole/InterfaceServer/";
+        return "../tools_utilities/InterfaceServer/";
       }
 
      private String getDirectoryData(){
-        return "../editeurProtocole/InterfaceServer/data/";
+        return "../tools_utilities/InterfaceServer/data/";
       }
 
      public void setDirectoryPhp(String d){
