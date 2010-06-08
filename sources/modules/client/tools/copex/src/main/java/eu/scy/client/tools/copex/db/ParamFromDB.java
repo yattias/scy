@@ -12,6 +12,7 @@ import eu.scy.client.tools.copex.common.TypeMaterial;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +31,7 @@ public class ParamFromDB {
     public static CopexReturn getAllPhysicalQuantitiesFromDB(DataBaseCommunication dbC,  Locale locale, ArrayList v) {
         ArrayList<PhysicalQuantity> listPhysicalQuantities = new ArrayList();
         String l = "_"+locale.getLanguage();
-        String query = "SELECT ID_PHYSICAL_QUANTITY, QUANTITY_NAME"+l+", QUANTITY_SYMBOL"+l+" FROM PHYSICAL_QUANTITY ORDER BY QUANTITY_NAME"+l+" ;";
+        String query = "SELECT ID_PHYSICAL_QUANTITY, QUANTITY_NAME"+l+", QUANTITY_SYMBOL"+l+", ID_PHYSICAL_QUANTITY_REFERENCE, ID_UNIT_REFERENCE FROM PHYSICAL_QUANTITY ORDER BY QUANTITY_NAME"+l+" ;";
         ArrayList v2 = new ArrayList();
 //        ArrayList<String> listFields = new ArrayList();
 //        listFields.add("ID_PHYSICAL_QUANTITY");
@@ -48,19 +49,63 @@ public class ParamFromDB {
             long dbKey = Long.parseLong(s);
             String name = rs.getColumnData("QUANTITY_NAME"+l);
             String symbol = rs.getColumnData("QUANTITY_SYMBOL"+l);
+            long dbKeyQttRef = -1;
+            s= rs.getColumnData("ID_PHYSICAL_QUANTITY_REFERENCE");
+            try{
+                dbKeyQttRef = Long.parseLong(s);
+            }catch(NumberFormatException e){
+
+            }
+            long dbKeyUnitRef = -1;
+            s = rs.getColumnData("ID_UNIT_REFERENCE");
+            try{
+                dbKeyUnitRef = Long.parseLong(s);
+            }catch(NumberFormatException e){
+                
+            }
             // unites correspondantes :
             ArrayList v3 = new ArrayList();
             cr = getAllUnitFromDB(dbC, dbKey, locale, v3);
             if (cr.isError())
                 return cr;
             List<CopexUnit> listUnit = (List<CopexUnit>)v3.get(0);
-            PhysicalQuantity quantity = new PhysicalQuantity(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symbol, locale), listUnit);
+            // find the unit reference
+            CopexUnit unitRef = getUnitRef(listUnit, dbKeyUnitRef);
+            PhysicalQuantity p = null;
+            if(dbKeyQttRef != -1){
+                p = new PhysicalQuantity(dbKeyQttRef);
+            }
+            PhysicalQuantity quantity = new PhysicalQuantity(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symbol, locale), listUnit, p, unitRef);
             listPhysicalQuantities.add(quantity);
+        }
+        // maj des physical qtt de ref
+        for(Iterator<PhysicalQuantity> p = listPhysicalQuantities.iterator(); p.hasNext();){
+            PhysicalQuantity qtt = p.next();
+            PhysicalQuantity pref = qtt.getPhysicalQttRef();
+            if(pref != null){
+                qtt.setPhysicalQttRef(getPhysicalQuantityRef(listPhysicalQuantities, pref.getDbKey()));
+            }
         }
         v.add(listPhysicalQuantities);
         return new CopexReturn();
     }
 
+    private static CopexUnit getUnitRef(List<CopexUnit> listUnit, long dbKeyU){
+        for(Iterator<CopexUnit> u = listUnit.iterator(); u.hasNext();){
+            CopexUnit unit = u.next();
+            if(unit.getDbKey() == dbKeyU)
+                return unit;
+        }
+        return null;
+    }
+    private static PhysicalQuantity getPhysicalQuantityRef(List<PhysicalQuantity> list, long dbKey){
+        for(Iterator<PhysicalQuantity> p = list.iterator(); p.hasNext();){
+            PhysicalQuantity qtt = p.next();
+            if(qtt.getDbKey() == dbKey)
+                return qtt;
+        }
+        return null;
+    }
      /** load all the unit for a physical quantity
      * @param dbC database
      * @param locale

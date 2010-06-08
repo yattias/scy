@@ -27,6 +27,8 @@ public class PhysicalQuantity implements Cloneable{
     public final static String TAG_QUANTITY_MAX_VALUE = "max_value";
     public final static String TAG_QUANTITY_NAME = "name";
     public final static String TAG_QUANTITY_SYMBOL = "symbol";
+    public final static String TAG_QUANTITY_PHYSICAL_QTT_REFERENCE = "qtt_reference";
+    public final static String TAG_QUANTITY_UNIT_REFERENCE = "unit_reference";
     
     
     /* identifiant */
@@ -38,7 +40,12 @@ public class PhysicalQuantity implements Cloneable{
     private List<LocalText> listName;
     private List<CopexUnit> listUnit;
 
-    public PhysicalQuantity(long dbKey, String id, Double min_value, Double max_value, List<LocalText> listSymbol, List<LocalText> listName, List<CopexUnit> listUnit) {
+    /** reference physical quantity, can be null*/
+    private PhysicalQuantity physicalQttRef;
+    /** reference unit (unit of factor 1 by default) */
+    private CopexUnit unitReference;
+
+    public PhysicalQuantity(long dbKey, String id, Double min_value, Double max_value, List<LocalText> listSymbol, List<LocalText> listName, List<CopexUnit> listUnit, PhysicalQuantity physicalQttRef, CopexUnit unitReference ) {
         this.dbKey = dbKey;
         this.id = id;
         this.min_value = min_value;
@@ -46,9 +53,22 @@ public class PhysicalQuantity implements Cloneable{
         this.listSymbol = listSymbol;
         this.listName = listName;
         this.listUnit = listUnit;
+        this.physicalQttRef = physicalQttRef;
+        this.unitReference = unitReference;
+    }
+    public PhysicalQuantity(long dbKey) {
+        this.dbKey = dbKey;
+        this.id = "";
+        this.min_value = Double.NaN;
+        this.max_value = Double.NaN;
+        this.listSymbol = new LinkedList();
+        this.listName = new LinkedList();
+        this.listUnit = new LinkedList();
+        this.physicalQttRef = null;
+        this.unitReference = null;
     }
 
-    public PhysicalQuantity(long dbKey,  List<LocalText> listName,List<LocalText> listSymbol, List<CopexUnit> listUnit) {
+    public PhysicalQuantity(long dbKey,  List<LocalText> listName,List<LocalText> listSymbol, List<CopexUnit> listUnit, PhysicalQuantity physicalQttRef, CopexUnit unitReference) {
         this.dbKey = dbKey;
         this.id = "";
         this.min_value = Double.NaN;
@@ -56,14 +76,15 @@ public class PhysicalQuantity implements Cloneable{
         this.listSymbol = listSymbol;
         this.listName = listName;
         this.listUnit = listUnit;
+        this.physicalQttRef = physicalQttRef;
+        this.unitReference = unitReference;
     }
 
     /** constructor of the physical quantity
      * @param name
      * @param symbol
-     * @param local
      */
-    public PhysicalQuantity(String name, String symbol, Locale locale ){
+    public PhysicalQuantity(String name, String symbol){
         this.dbKey = -1;
         this.id = "";
         this.min_value = Double.NaN;
@@ -71,16 +92,39 @@ public class PhysicalQuantity implements Cloneable{
         this.listSymbol = new LinkedList();
         this.listName = new LinkedList();
         this.listUnit = new LinkedList();
-        setName(name, locale);
-        setSymbol(symbol, locale);
+        setName(name, Locale.getDefault());
+        setSymbol(symbol, Locale.getDefault());
+        this.physicalQttRef = null;
+        this.unitReference = null;
     }
+    /** constructor of the physical quantity
+     * @param name
+     * @param symbol
+     * @param physical quantity reference
+     * @param unit reference
+     */
+    public PhysicalQuantity(String name, String symbol, PhysicalQuantity physicalQttRef, CopexUnit unitReference ){
+        this.dbKey = -1;
+        this.id = "";
+        this.min_value = Double.NaN;
+        this.max_value = Double.NaN;
+        this.listSymbol = new LinkedList();
+        this.listName = new LinkedList();
+        this.listUnit = new LinkedList();
+        setName(name, Locale.getDefault());
+        setSymbol(symbol, Locale.getDefault());
+        this.physicalQttRef = physicalQttRef;
+        this.unitReference = unitReference;
+    }
+
     /** constructor of the physical quantity
      * @param dbKey
      * @param name
      * @param symbol
-     * @param local
+     * @param physical quantity reference
+     * @param unit reference
      */
-    public PhysicalQuantity(long dbKey, String name, String symbol, Locale locale ){
+    public PhysicalQuantity(long dbKey, String name, String symbol, PhysicalQuantity physicalQttRef, CopexUnit unitReference ){
         this.dbKey = dbKey;
         this.id = "";
         this.min_value = Double.NaN;
@@ -88,12 +132,14 @@ public class PhysicalQuantity implements Cloneable{
         this.listSymbol = new LinkedList();
         this.listName = new LinkedList();
         this.listUnit = new LinkedList();
-        setName(name, locale);
-        setSymbol(symbol, locale);
+        setName(name, Locale.getDefault());
+        setSymbol(symbol, Locale.getDefault());
+        this.physicalQttRef = physicalQttRef;
+        this.unitReference = unitReference;
     }
    
     public PhysicalQuantity(Element xmlElem, long dbKey, long idUnit) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_QUANTITY)) {
+	if (xmlElem.getName().equals(TAG_QUANTITY)) {
             this.dbKey = dbKey;
 			id = xmlElem.getChild(TAG_QUANTITY_ID).getText();
             listName = new LinkedList<LocalText>();
@@ -122,16 +168,17 @@ public class PhysicalQuantity implements Cloneable{
                 }catch(NumberFormatException e){
                 }
             }
+            physicalQttRef = null;
             if (xmlElem.getChild(CopexUnit.TAG_UNIT) != null){
                 listUnit = new LinkedList<CopexUnit>();
                 for (Iterator<Element> variablElem = xmlElem.getChildren(CopexUnit.TAG_UNIT).iterator(); variablElem.hasNext();) {
                     listUnit.add(new CopexUnit(variablElem.next(), idUnit++));
                 }
             }
-        }
-		else {
-			throw(new JDOMException("Physical Quantity expects <"+TAG_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            setDefaultUnitReference();
+        }else {
+            throw(new JDOMException("Physical Quantity expects <"+TAG_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public PhysicalQuantity(Element xmlElem, List<PhysicalQuantity> list)  throws JDOMException{
@@ -146,17 +193,34 @@ public class PhysicalQuantity implements Cloneable{
                     this.listSymbol = p.getListSymbol();
                     this.listName = p.getListName();
                     this.listUnit = p.getListUnit();
+                    this.physicalQttRef = p.getPhysicalQttRef();
+                    this.unitReference = p.getUnitReference();
                 }
             }
         }else {
-			throw(new JDOMException("Physical Quantity expects <"+TAG_QUANTITY_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Physical Quantity expects <"+TAG_QUANTITY_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
-    // GETTER AND SETTER
     public long getDbKey() {
         return dbKey;
+    }
+
+    public PhysicalQuantity getPhysicalQttRef() {
+        return physicalQttRef;
+    }
+
+    public void setPhysicalQttRef(PhysicalQuantity physicalQttRef) {
+        this.physicalQttRef = physicalQttRef;
+    }
+
+    public CopexUnit getUnitReference() {
+        return unitReference;
+    }
+
+    public void setUnitReference(CopexUnit unitReference) {
+        this.unitReference = unitReference;
     }
 
     public void setDbKey(long dbKey) {
@@ -178,8 +242,14 @@ public class PhysicalQuantity implements Cloneable{
     public String getName(Locale locale){
         return CopexUtilities.getText(listName, locale);
     }
+    public String getName(){
+        return CopexUtilities.getText(listName, Locale.getDefault());
+    }
     public String getSymbol(Locale locale){
         return CopexUtilities.getText(listSymbol, locale);
+    }
+    public String getSymbol(){
+        return CopexUtilities.getText(listSymbol, Locale.getDefault());
     }
     public void setName(LocalText text){
         int i = CopexUtilities.getIdText(text.getLocale(), listName);
@@ -193,6 +263,10 @@ public class PhysicalQuantity implements Cloneable{
         LocalText l = new LocalText(name, locale);
         setName(l);
     }
+    public void setName(String name){
+        LocalText l = new LocalText(name, Locale.getDefault());
+        setName(l);
+    }
     public void setSymbol(LocalText text){
         int i = CopexUtilities.getIdText(text.getLocale(), listSymbol);
         if(i ==-1){
@@ -203,6 +277,10 @@ public class PhysicalQuantity implements Cloneable{
     }
     public void setSymbol(String symbol, Locale locale){
         LocalText l = new LocalText(symbol, locale);
+        setSymbol(l);
+    }
+    public void setSymbol(String symbol){
+        LocalText l = new LocalText(symbol, Locale.getDefault());
         setSymbol(l);
     }
     public void setListName(List<LocalText> listName) {
@@ -267,6 +345,16 @@ public class PhysicalQuantity implements Cloneable{
                 listUnitC.add((CopexUnit)u.next().clone());
             }
             grandeur.setListUnit(listUnitC);
+            PhysicalQuantity p = null;
+            if(this.physicalQttRef != null){
+                p = (PhysicalQuantity)this.physicalQttRef.clone();
+            }
+            grandeur.setPhysicalQttRef(p);
+            CopexUnit u = null;
+            if(this.unitReference != null){
+                u = (CopexUnit)this.unitReference.clone();
+            }
+            grandeur.setUnitReference(u);
             return grandeur;
         } catch (CloneNotSupportedException e) {
 	    // this shouldn't happen, since we are Cloneable
@@ -291,6 +379,10 @@ public class PhysicalQuantity implements Cloneable{
             s += CopexUtilities.getText(this.listUnit.get(i).getListName(), locale)+" ("+CopexUtilities.getText(this.listUnit.get(i).getListSymbol(), locale)+")";
         }
         return s;
+    }
+    @Override
+    public String toString() {
+        return toString(Locale.getDefault());
     }
 
     // toXML
@@ -320,18 +412,28 @@ public class PhysicalQuantity implements Cloneable{
                 element.addContent(u.next().toXML());
             }
         }
+        if(physicalQttRef != null){
+            Element e = new Element(TAG_QUANTITY_PHYSICAL_QTT_REFERENCE);
+            e.addContent(physicalQttRef.toXMLRef());
+            element.addContent(e);
+        }
+        if(unitReference != null){
+            Element e = new Element(TAG_QUANTITY_UNIT_REFERENCE);
+            e.addContent(unitReference.toXMLRef());
+            element.addContent(e);
+        }
         if(!Double.isNaN(min_value)){
             element.addContent(new Element(TAG_QUANTITY_MIN_VALUE).setText(Double.toString(min_value)));
         }
         if(!Double.isNaN(max_value)){
             element.addContent(new Element(TAG_QUANTITY_MAX_VALUE).setText(Double.toString(max_value)));
         }
-		return element;
+	return element;
     }
 
     public Element toXMLRef(){
         Element element = new Element(TAG_QUANTITY_REF);
-		element.addContent(new Element(TAG_QUANTITY_ID).setText(id));
+        element.addContent(new Element(TAG_QUANTITY_ID).setText(id));
         return element;
     }
 
@@ -366,5 +468,16 @@ public class PhysicalQuantity implements Cloneable{
         return this.listUnit.indexOf(unit);
     }
     
+    /**find the first unit with factor 1 as the reference unit*/
+    public void setDefaultUnitReference(){
+        unitReference = null;
+        for(Iterator<CopexUnit> u = listUnit.iterator(); u.hasNext();){
+            CopexUnit unit = u.next();
+            if(unit.getFactor() == 1){
+                unitReference = unit;
+                break;
+            }
+        }
+    }
 
 }

@@ -118,16 +118,16 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             }
         }
         if(args == null || args.length  < 5){
-//            try {
-//                copexURL = new URL("http://copex.imag.fr/espaces/");
-//                idUser = "1";
-//                mission= "3";
-//                mo = "0";
-//                userName = "";
-//                firstName = "";
-//            } catch (MalformedURLException ex) {
-//
-//            }
+            try {
+                copexURL = new URL("http://localhost/LabBook/tool_copex");
+                idUser = "1";
+                mission= "1";
+                mo = "0";
+                userName = "";
+                firstName = "";
+            } catch (MalformedURLException ex) {
+
+            }
         }else{
             // recuperation des parametres de l'application :
             try{

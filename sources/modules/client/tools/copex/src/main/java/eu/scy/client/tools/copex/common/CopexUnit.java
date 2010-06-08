@@ -71,7 +71,7 @@ public class CopexUnit implements Cloneable{
 
     public CopexUnit(Element xmlElem, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
         if (xmlElem.getName().equals(TAG_UNIT_REF)) {
-			id = xmlElem.getChild(TAG_UNIT_ID).getText();
+            id = xmlElem.getChild(TAG_UNIT_ID).getText();
             for(Iterator<PhysicalQuantity> q = listPhysicalQuantity.iterator();q.hasNext();){
                 List<CopexUnit> listUnit = q.next().getListUnit();
                 for(Iterator<CopexUnit> unit = listUnit.iterator();unit.hasNext();){
@@ -85,8 +85,8 @@ public class CopexUnit implements Cloneable{
                 }
             }
         }else {
-			throw(new JDOMException("Unit expects <"+TAG_UNIT_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Unit expects <"+TAG_UNIT_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
@@ -94,16 +94,15 @@ public class CopexUnit implements Cloneable{
      * @param name
      * @param symbol
      * @param factor
-     * @param local
      */
-    public CopexUnit(String name, String symbol, double factor, Locale locale ){
+    public CopexUnit(String name, String symbol, double factor ){
         this.dbKey = -1;
         this.id = "";
         this.factor = factor;
         this.listSymbol = new LinkedList();
         this.listName = new LinkedList();
-        setName(name, locale);
-        setSymbol(symbol, locale);
+        setName(name, Locale.getDefault());
+        setSymbol(symbol, Locale.getDefault());
     }
 
     /** constructor of the unit
@@ -113,14 +112,14 @@ public class CopexUnit implements Cloneable{
      * @param factor
      * @param local
      */
-    public CopexUnit(long dbKey, String name, String symbol, double factor, Locale locale ){
+    public CopexUnit(long dbKey, String name, String symbol, double factor){
         this.dbKey = dbKey;
         this.id = "";
         this.factor = factor;
         this.listSymbol = new LinkedList();
         this.listName = new LinkedList();
-        setName(name, locale);
-        setSymbol(symbol, locale);
+        setName(name, Locale.getDefault());
+        setSymbol(symbol, Locale.getDefault());
     }
 
     public long getDbKey() {
@@ -169,6 +168,12 @@ public class CopexUnit implements Cloneable{
     public String getSymbol(Locale locale){
         return CopexUtilities.getText(listSymbol, locale);
     }
+    public String getName(){
+        return CopexUtilities.getText(listName, Locale.getDefault());
+    }
+    public String getSymbol(){
+        return CopexUtilities.getText(listSymbol, Locale.getDefault());
+    }
     public void setName(LocalText text){
         int i = CopexUtilities.getIdText(text.getLocale(), listName);
         if(i ==-1){
@@ -188,6 +193,12 @@ public class CopexUnit implements Cloneable{
         }else{
             this.listSymbol.set(i, text);
         }
+    }
+    public void setName(String name){
+        setName(name, Locale.getDefault());
+    }
+    public void setSymbol(String symbol){
+        setSymbol(symbol, Locale.getDefault());
     }
     public void setSymbol(String symbol, Locale locale){
         LocalText l = new LocalText(symbol, locale);
@@ -238,7 +249,7 @@ public class CopexUnit implements Cloneable{
             }
         }
         element.addContent(new Element(TAG_UNIT_FACTOR).setText(Double.toString(factor)));
-		return element;
+	return element;
     }
 
     public Element toXMLRef(){
