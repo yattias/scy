@@ -3,6 +3,7 @@ package eu.scy.client.tools.scysimulator;
 import java.util.Iterator;
 import java.util.Locale;
 import roolo.elo.JDomStringConversion;
+import eu.scy.client.common.datasync.DataSyncException;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
@@ -25,7 +26,12 @@ public class DatasetSandbox implements ISyncListener {
     public DatasetSandbox(DataCollector datacollector, String mucID, ToolBrokerAPI tbi) {
         this.datacollector = datacollector;
         this.tbi = tbi;
-        currentSession = tbi.getDataSyncService().joinSession(mucID, this);
+        try {
+			currentSession = tbi.getDataSyncService().joinSession(mucID, this, TOOL_NAME);
+		} catch (DataSyncException e) {
+			// TODO handle exception appropriately
+			e.printStackTrace();
+		}
         sendHeaderMessage();
         sendDataRows();
     }
