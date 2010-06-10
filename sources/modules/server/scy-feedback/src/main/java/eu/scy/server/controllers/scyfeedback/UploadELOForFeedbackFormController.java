@@ -31,6 +31,12 @@ public class UploadELOForFeedbackFormController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String username = request.getParameter("username");
+        String action = request.getParameter("action");
+
+        if(action != null) {
+            if(action.equals("addNewEloRef")) addNewEloRef(request);
+        }
+
         if(username != null) {
             User user = getUserService().getUser(username);
 
@@ -58,6 +64,10 @@ public class UploadELOForFeedbackFormController extends BaseController {
             modelAndView.addObject("currentUser", user);
 
         }
+    }
+
+    private void addNewEloRef(HttpServletRequest request) {
+        logger.info("ADDING NEW ELO REF!!");
     }
 
     public RuntimeService getRuntimeService() {
