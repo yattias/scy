@@ -19,6 +19,7 @@ import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.client.common.datasync.DataSyncException;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
@@ -108,7 +109,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         if(session != null){
             leaveSession(session.getId());
         }
-        session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
+        try {
+			session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
+		} catch (DataSyncException e) {
+			// TODO handle exception in an appropriate way
+			e.printStackTrace();
+		}
         debugLogger.log(Level.INFO, "joinSession: "+session.getId());
         if (session == null) {
             JOptionPane.showMessageDialog(null, "join session error, null");
@@ -134,7 +140,13 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     public void readAllSyncObjects(){
-        List<ISyncObject> syncObjects = session.getAllSyncObjects();
+        List<ISyncObject> syncObjects = null;
+		try {
+			syncObjects = session.getAllSyncObjects();
+		} catch (DataSyncException e) {
+			// TODO handle exception in an appropriate way
+			e.printStackTrace();
+		}
         if(syncObjects == null)
             return;
         debugLogger.log(Level.INFO, "readAllSyncObjects ("+syncObjects.size()+") "+session.getId());
