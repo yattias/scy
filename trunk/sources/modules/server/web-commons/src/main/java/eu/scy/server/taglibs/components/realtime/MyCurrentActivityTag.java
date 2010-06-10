@@ -26,7 +26,13 @@ public class MyCurrentActivityTag extends TagSupport {
         double id = Math.random();
         try {
             pageContext.getOut().write("<h1>Current activity " + getUsername() + "</h1>");
-            pageContext.getOut().write("<a href=\"/webapp/components/realtime/myCurrentActivity.html?username="+ getUsername() + "\">Current activity</a>");
+            pageContext.getOut().write("<div id=\"currentActivityContainer\"></div>");
+            pageContext.getOut().write("<script type=\"text/javascript\">" +
+                    "setInterval('loadPage(\"/webapp/components/realtime/myCurrentActivity.html?username="+ getUsername() + "\", \"currentActivityContainer\")', 2000);" +
+                   
+
+                    "</script>");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
