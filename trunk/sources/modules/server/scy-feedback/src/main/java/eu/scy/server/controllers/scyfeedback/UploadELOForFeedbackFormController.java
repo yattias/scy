@@ -1,8 +1,12 @@
 package eu.scy.server.controllers.scyfeedback;
 
 import eu.scy.core.AssignedPedagogicalPlanService;
+import eu.scy.core.ELORefService;
+import eu.scy.core.MissionService;
 import eu.scy.core.UserService;
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.ELORefImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.runtime.RuntimeService;
@@ -26,6 +30,8 @@ public class UploadELOForFeedbackFormController extends BaseController {
     private RuntimeService runtimeService;
     private UserService userService;
     private AssignedPedagogicalPlanService assignedPedagogicalPlanService;
+    private ELORefService eloRefService;
+    private MissionService missionService;
 
 
     @Override
@@ -68,6 +74,15 @@ public class UploadELOForFeedbackFormController extends BaseController {
 
     private void addNewEloRef(HttpServletRequest request) {
         logger.info("ADDING NEW ELO REF!!");
+
+        User user = getUserService().getUser(request.getParameter("username"));
+
+        ELORef eloRef = new ELORefImpl();
+        eloRef.setAuthor(user);
+        eloRef.setTool(request.getParameter("tool"));
+        eloRef.setELOURI(request.getParameter("productName"));
+        eloRef.setTitle(request.getParameter("productName"));
+        eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
     }
 
     public RuntimeService getRuntimeService() {
@@ -92,5 +107,21 @@ public class UploadELOForFeedbackFormController extends BaseController {
 
     public void setAssignedPedagogicalPlanService(AssignedPedagogicalPlanService assignedPedagogicalPlanService) {
         this.assignedPedagogicalPlanService = assignedPedagogicalPlanService;
+    }
+
+    public ELORefService getEloRefService() {
+        return eloRefService;
+    }
+
+    public void setEloRefService(ELORefService eloRefService) {
+        this.eloRefService = eloRefService;
+    }
+
+    public MissionService getMissionService() {
+        return missionService;
+    }
+
+    public void setMissionService(MissionService missionService) {
+        this.missionService = missionService;
     }
 }
