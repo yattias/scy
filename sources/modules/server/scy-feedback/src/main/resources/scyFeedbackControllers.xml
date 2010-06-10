@@ -44,6 +44,7 @@
     <bean id="scyFeedbackIndexController" class="eu.scy.server.controllers.scyfeedback.ScyFeedbackIndexController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="eloRefService" ref="eloRefService"/>
 	</bean>
 
     <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
