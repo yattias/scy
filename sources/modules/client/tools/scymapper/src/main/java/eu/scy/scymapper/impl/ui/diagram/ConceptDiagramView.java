@@ -223,12 +223,12 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			mode.getMouseMotionListener().mouseDragged(e);
+			((MouseAdapter) mode.getMouseListener()).mouseDragged(e);
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			mode.getMouseMotionListener().mouseMoved(e);
+			((MouseAdapter) mode.getMouseListener()).mouseMoved(e);
 		}
 	}
 

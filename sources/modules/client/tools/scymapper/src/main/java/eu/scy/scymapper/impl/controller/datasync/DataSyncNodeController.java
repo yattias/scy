@@ -47,7 +47,8 @@ public class DataSyncNodeController extends NodeController {
 //			@Override
 //			public void run() {
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", model.getId());
+		syncObject.setID(model.getId());
+		syncObject.setToolname("scymapper");
 		syncObject.setProperty("size", dimension.height + "," + dimension.width);
 		syncSession.changeSyncObject(syncObject);
 //			}
@@ -65,31 +66,18 @@ public class DataSyncNodeController extends NodeController {
 	public void setLocation(final Point p) {
 		if (p.getX() < 0) p.x = 0;
 		if (p.y < 0) p.y = 0;
-		// Only broadcast the change to datasync service if it is more than a certain amount of millisecs since last update
-//		if (locationChangeBroadcast != null && locationChangeBroadcast.scheduledExecutionTime() > System.currentTimeMillis())
-//			locationChangeBroadcast.cancel();
-//
-//		locationChangeBroadcast = new TimerTask() {
-//			@Override
-//			public void run() {
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", model.getId());
+		syncObject.setID(model.getId());
+		syncObject.setToolname("scymapper");
 		syncObject.setProperty("location", p.x + "," + p.y);
 		syncSession.changeSyncObject(syncObject);
-//			}
-//		};
-//
-//		Timer t = new Timer();
-//		t.schedule(locationChangeBroadcast, 10);
-//
-//		// Update the model locally
-//		model.setLocation(p);
 	}
 
 	@Override
 	public void setLabel(String text) {
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", model.getId());
+		syncObject.setID(model.getId());
+		syncObject.setToolname("scymapper");
 		syncObject.setProperty("label", text);
 		syncSession.changeSyncObject(syncObject);
 	}
@@ -107,8 +95,8 @@ public class DataSyncNodeController extends NodeController {
 	@Override
 	public void setStyle(INodeStyle style) {
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", model.getId());
-
+		syncObject.setID(model.getId());
+		syncObject.setToolname("scymapper");
 		XStream xstream = new XStream(new DomDriver());
 		String xml = xstream.toXML(style);
 

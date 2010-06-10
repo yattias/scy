@@ -1,5 +1,6 @@
 package eu.scy.scymapper.impl;
 
+import eu.scy.client.common.datasync.DataSyncException;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
@@ -292,7 +293,7 @@ public class SCYMapperPanel extends JPanel {
 			sessionPanel.add(showNotificationButton);
 		}
 		sessionPanel.add(testSuggestKeywordButton);
-		// topToolBarPanel.add(sessionPanel);
+		topToolBarPanel.add(sessionPanel);
 
 		cmapPanel = new ConceptMapPanel(conceptMap);
 		cmapPanel.setBackground(Color.WHITE);
@@ -377,8 +378,15 @@ public class SCYMapperPanel extends JPanel {
 	public void joinSession(String sessId) {
 
 		if (sessId != null) {
-			currentSession = toolBroker.getDataSyncService().joinSession(sessId, dummySyncListener);
-			joinSession(currentSession);
+			try {
+				DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
+				currentSession = toolBroker.getDataSyncService().joinSession(sessId, diagramController, "scymapper");
+				diagramController.setSession(currentSession);
+				conceptDiagramView.setController(diagramController);
+				conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(currentSession));
+			} catch (DataSyncException e) {
+				e.printStackTrace();
+			}
 			sessionId.setText(sessId);
 		}
 	}
@@ -388,7 +396,7 @@ public class SCYMapperPanel extends JPanel {
 			JOptionPane.showMessageDialog(this, "Error: ToolBroker is null", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		try {
-			currentSession = toolBroker.getDataSyncService().createSession(dummySyncListener);
+			currentSession = toolBroker.getDataSyncService().createSession(dummySyncListener, "scymapper");
 			joinSession(currentSession);
 			actionLogger.setSession(currentSession);
 			displaySessionId();

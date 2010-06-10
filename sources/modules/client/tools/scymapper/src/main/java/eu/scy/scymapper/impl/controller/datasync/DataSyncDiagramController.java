@@ -34,6 +34,10 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		// This is a hack - for some reason the first sync object is not sendt to all clients
 		this.syncSession.addSyncObject(new SyncObject());
 	}
+	
+	public DataSyncDiagramController(IDiagramModel model) {
+		super(model);
+	}
 
 	/**
 	 * Responds to remotely added objects
@@ -50,27 +54,18 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		if (element instanceof INodeModel) {
 			final INodeModel node = (INodeModel) element;
-
-			// Make sure we add the node to the diagram from EDT
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					model.addNode(node);
-				}
-			});
+			
+			sync(syncObject, node);
+			model.addNode(node);
+			
 		} else if (element instanceof INodeLinkModel) {
 			// Get the actual local objects for the from / to node of this link (it is deserialized)
 			final INodeLinkModel link = (INodeLinkModel) element;
 			link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
 			link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
-
-			// Make sure we add the node to the diagram from EDT
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					model.addLink(link);
-				}
-			});
+			
+			sync(syncObject, link);
+			model.addLink(link);
 		} else {
 			logger.debug("Could not recognize sync object. Skipping.");
 		}
@@ -133,7 +128,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	@Override
 	public void syncObjectChanged(final ISyncObject syncObject) {
 
-		String id = syncObject.getProperty("id");
+		String id = syncObject.getID();
 
 		if (id == null) {
 			logger.info("No id of sync object. SKIPPING.");
@@ -164,7 +159,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	@Override
 	public void syncObjectRemoved(ISyncObject syncObject) {
 
-		String id = syncObject.getProperty("id");
+		String id = syncObject.getID();
 
 		logger.debug("Sync object for element id " + id + " deleted remotely!!");
 
@@ -206,8 +201,8 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		logger.debug("User locally added node with ID " + n.getId());
 
 		ISyncObject syncObject = new SyncObject();
-
-		syncObject.setProperty("id", n.getId());
+		
+		syncObject.setID(n.getId());
 
 		syncObject.setToolname("scymapper");
 
@@ -229,6 +224,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		logger.debug("User locally added link with ID " + l.getId());
 
 		ISyncObject syncObject = new SyncObject();
+		syncObject.setID(l.getId());
 		syncObject.setToolname("scymapper");
 
 		XStream xstream = new XStream(new DomDriver());
@@ -236,7 +232,6 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		//System.out.println("xml = " + xml);
 		syncObject.setProperty("initial", xml);
-		syncObject.setProperty("id", l.getId());
 
 		syncSession.addSyncObject(syncObject);
 
@@ -257,7 +252,8 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		logger.debug("User is locally removing node with ID " + node.getId());
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", node.getId());
+		syncObject.setID(node.getId());
+		syncObject.setToolname("scymapper");
 		syncSession.removeSyncObject(syncObject);
 	}
 
@@ -265,7 +261,12 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	public void remove(ILinkModel l) {
 		logger.debug("User is locally removing link with ID " + l.getId());
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", l.getId());
+		syncObject.setID(l.getId());
+		syncObject.setToolname("scymapper");
 		syncSession.removeSyncObject(syncObject);
+	}
+
+	public void setSession(ISyncSession currentSession) {
+		this.syncSession = currentSession;
 	}
 }

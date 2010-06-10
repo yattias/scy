@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.SwingUtilities;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Bjorge Naess
@@ -120,37 +122,62 @@ public class DiagramModel implements IDiagramModel {
 
     @Override
     public void notifyUpdated() {
-        for (IDiagramListener listener : listeners) {
-            listener.updated(this);
-        }
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IDiagramListener listener : listeners) {
+					listener.updated(DiagramModel.this);
+				}
+			}
+		});
     }
 
     @Override
-    public void notifyNodeAdded(INodeModel node) {
-        for (IDiagramListener listener : listeners) {
-            listener.nodeAdded(node);
-        }
+    public void notifyNodeAdded(final INodeModel node) {
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IDiagramListener listener : listeners) {
+					listener.nodeAdded(node);
+				}
+			}
+		});
     }
 
     @Override
-    public void notifyNodeRemoved(INodeModel n) {
-        for (IDiagramListener listener : listeners) {
-            listener.nodeRemoved(n);
-        }
+    public void notifyNodeRemoved(final INodeModel n) {
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IDiagramListener listener : listeners) {
+					listener.nodeRemoved(n);
+				}
+			}
+		});
     }
 
     @Override
-    public void notifyLinkAdded(ILinkModel link) {
-        for (IDiagramListener listener : listeners) {
-            listener.linkAdded(link);
-        }
+    public void notifyLinkAdded(final ILinkModel link) {
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IDiagramListener listener : listeners) {
+					listener.linkAdded(link);
+				}
+			}
+		});
     }
 
     @Override
-    public void notifyLinkRemoved(ILinkModel link) {
-        for (IDiagramListener listener : listeners) {
-            listener.linkRemoved(link);
-        }
+    public void notifyLinkRemoved(final ILinkModel link) {
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				for (IDiagramListener listener : listeners) {
+					listener.linkRemoved(link);
+				}
+			}
+		});
     }
 
     @Override

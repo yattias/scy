@@ -3,6 +3,8 @@ package eu.scy.scymapper;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import eu.scy.client.common.datasync.DataSyncException;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
@@ -213,8 +215,10 @@ public class SCYMapperStandalone extends JFrame {
 
 		String ofHost = Configuration.getInstance().getOpenFireHost();
 		if (ofHost.equals("scy.collide.info")) {
+			debugMenu.add(new ShortcutAction("Pa1", "maupa"));
+			debugMenu.add(new ShortcutAction("Pa2", "maupa"));
 			debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
-			debugMenu.add(new ShortcutAction("adam", "henrik"));
+			debugMenu.add(new ShortcutAction("adam", "adam"));
 			debugMenu.add(new ShortcutAction("henrik", "henrik"));
 			debugMenu.add(new ShortcutAction("wouter", "wouter"));
 			debugMenu.add(new ShortcutAction("jakob", "jakob"));
@@ -623,18 +627,24 @@ public class SCYMapperStandalone extends JFrame {
 
 	private void joinSession() {
 		String sessId = JOptionPane.showInputDialog("Enter session ID");
-
 		if (sessId != null) {
-			currentSession = dataSyncService.joinSession(sessId, SCYMapperStandalone.this.dummySyncListener);
-			scyMapperPanel.joinSession(currentSession);
+//			try {
+				scyMapperPanel.joinSession(sessId);
+//				currentSession = dataSyncService.joinSession(sessId, SCYMapperStandalone.this.dummySyncListener, "scymapper");
+//			} catch (DataSyncException e) {
+//				JOptionPane.showMessageDialog(this, "Could not join session!", "Exception", JOptionPane.ERROR_MESSAGE);
+//				e.printStackTrace();
+//			}
+//			scyMapperPanel.joinSession(currentSession);
 		}
 	}
 
 	private void createSession() {
 		try {
-			currentSession = dataSyncService.createSession(SCYMapperStandalone.this.dummySyncListener);
+			currentSession = dataSyncService.createSession(SCYMapperStandalone.this.dummySyncListener, "scymapper");
 			scyMapperPanel.joinSession(currentSession);
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Could not create session!", "Exception", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 	}

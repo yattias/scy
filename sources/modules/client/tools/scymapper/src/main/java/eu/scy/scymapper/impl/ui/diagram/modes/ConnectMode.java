@@ -59,7 +59,7 @@ public class ConnectMode implements IDiagramMode {
 	}
 
 
-	private final MouseListener mouseListener = new MouseAdapter() {
+	private final MouseAdapter mouseListener = new MouseAdapter() {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
@@ -109,8 +109,7 @@ public class ConnectMode implements IDiagramMode {
 				}
 			}
 		}
-	};
-	private final MouseMotionListener mouseMotionListener = new MouseMotionAdapter() {
+
 		@Override
 		public void mouseDragged(MouseEvent e) {
 
@@ -162,7 +161,7 @@ public class ConnectMode implements IDiagramMode {
 
 	@Override
 	public MouseMotionListener getMouseMotionListener() {
-		return mouseMotionListener;
+		return mouseListener;
 	}
 
 	@Override
