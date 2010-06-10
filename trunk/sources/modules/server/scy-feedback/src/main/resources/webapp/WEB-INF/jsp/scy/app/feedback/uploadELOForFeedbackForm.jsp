@@ -1,5 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
-<form action="uploadELOForFeedbackForm.html">
+<form action="/webapp/app/feedback/uploadELOForFeedbackForm.html">
     <table>
         <tr>
             <td><strong>Mission</strong></td>
@@ -13,9 +13,6 @@
                         </select>
                     </c:when>
                 </c:choose>
-
-
-                <input type="text" name="mission" value="${currentLas}">
             </td>
         </tr>
         <tr>
@@ -70,7 +67,8 @@
 
             </td>
         </tr>
-
+        <input type="hidden" name="action" value="addNewEloRef">
+        <input type="hidden" name="username" value="${currentUser.userDetails.username}">
 
     </table>
 </form>
