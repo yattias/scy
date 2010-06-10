@@ -46,6 +46,7 @@
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
                    /components/realtime/currentStudentActivity.html=currentStudentActivityController
+                   /components/realtime/myCurrentActivity.html=myCurrentActivity
                    /components/json/JSonView.html=jsonView
                    /components/json/ScenarioDiagramJSON.html=scenarioDiagramJSON
                    /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
@@ -100,6 +101,11 @@
     </bean>
 
     <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="myCurrentActivity" class="eu.scy.server.controllers.components.realtime.MyCurrentActivity">
         <property name="runtimeService" ref="runtimeService"/>
         <property name="userService" ref="userService"/>
     </bean>
