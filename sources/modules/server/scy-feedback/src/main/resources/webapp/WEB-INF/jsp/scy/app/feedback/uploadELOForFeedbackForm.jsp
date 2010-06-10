@@ -6,7 +6,7 @@
             <td>
                 <c:choose>
                     <c:when test="${fn:length(missions) > 0}">
-                        <select>
+                        <select name="mission">
                             <c:forEach var="mission" items="${missions}">
                                 <option value="${mission.id}">${mission.name}</option>
                             </c:forEach>
@@ -70,10 +70,11 @@
         <input type="hidden" name="action" value="addNewEloRef">
         <input type="hidden" name="username" value="${currentUser.userDetails.username}">
         <tr>
-            <td colspan="2">
+            <td colspan="2" align="right">
                 <input type="submit">
             </td>
         </tr>
 
     </table>
 </form>
+

@@ -52,7 +52,8 @@
         <property name="runtimeService" ref="runtimeService"/>
         <property name="userService" ref="userService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
-
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="missionService" ref="missionService"/> 
 	</bean>
 
 
