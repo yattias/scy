@@ -83,6 +83,8 @@ public class UploadELOForFeedbackFormController extends BaseController {
         eloRef.setELOURI(request.getParameter("productName"));
         eloRef.setTitle(request.getParameter("productName"));
         eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
+        
+        getEloRefService().save(eloRef);
     }
 
     public RuntimeService getRuntimeService() {
