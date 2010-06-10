@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="http://scy.collide.info/taglibs" %>
 <table>
     <tr>
         <td>ELO</td>
@@ -12,3 +13,5 @@
         </td>
     </tr>
 </table>
+
+<s:dialog url="/webapp/app/feedback/uploadELOForFeedbackForm.html?username=${user.userDetails.username}" title="Upload ELO"/> 
