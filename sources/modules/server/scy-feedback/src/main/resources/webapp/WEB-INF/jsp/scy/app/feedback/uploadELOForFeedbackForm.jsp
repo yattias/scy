@@ -69,6 +69,11 @@
         </tr>
         <input type="hidden" name="action" value="addNewEloRef">
         <input type="hidden" name="username" value="${currentUser.userDetails.username}">
+        <tr>
+            <td colspan="2">
+                <input type="submit">
+            </td>
+        </tr>
 
     </table>
 </form>
