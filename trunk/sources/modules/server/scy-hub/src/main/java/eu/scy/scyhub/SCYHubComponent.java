@@ -24,7 +24,7 @@ import eu.scy.server.notification.Notificator;
  * @author giemza
  * @author anthonjp
  */
-public class SCYHubComponent implements Component , ApplicationContextAware {
+public class SCYHubComponent implements Component, ApplicationContextAware {
     
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class);
 
@@ -85,10 +85,11 @@ public class SCYHubComponent implements Component , ApplicationContextAware {
      * Init the modules
      */
     private void initModules() {
-        modules.add((SCYHubModule) getBean("dataSyncModule"));
-        modules.add((SCYHubModule) getBean("actionProcessModule"));
-        modules.add((SCYHubModule) getBean("notificator"));
-        modules.add((SCYHubModule) getBean("scyAuthorRuntimeModule"));
+//        modules.add((SCYHubModule) getBean("dataSyncModule"));
+//        modules.add((SCYHubModule) getBean("actionProcessModule"));
+//        modules.add((SCYHubModule) getBean("notificator"));
+//        modules.add((SCYHubModule) getBean("scyAuthorRuntimeModule"));
+    	modules.add(new DataSyncModule(this));
     }
     
     

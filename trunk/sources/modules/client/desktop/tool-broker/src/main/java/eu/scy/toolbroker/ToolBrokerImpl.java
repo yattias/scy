@@ -13,6 +13,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
@@ -288,6 +289,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
             config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
             config.setCompressionEnabled(true);
             config.setReconnectionAllowed(true);
+            config.setSecurityMode(SecurityMode.disabled);
             this.xmppConnection = new XMPPConnection(config);
             XMPPConnection.DEBUG_ENABLED = false;
 

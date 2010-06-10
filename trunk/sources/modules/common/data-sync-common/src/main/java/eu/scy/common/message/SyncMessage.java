@@ -39,6 +39,8 @@ public class SyncMessage {
     private String toolId;
     private String userId;
     
+    private String sessionId;
+    
     private String message;
     
     private List<ISyncObject> syncobjects;
@@ -100,6 +102,20 @@ public class SyncMessage {
 		return response;
 	}
 	
+	/**
+	 * @return the sessionId
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	/**
+	 * @param sessionId the sessionId to set
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
 	/**
 	 * @param type the type to set
 	 */

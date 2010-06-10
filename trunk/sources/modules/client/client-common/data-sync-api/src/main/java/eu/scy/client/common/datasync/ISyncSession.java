@@ -44,8 +44,9 @@ public interface ISyncSession {
 	 * {@link ISyncSession#getAllSyncObjects(int, TimeUnit)} method.
 	 * 
 	 * @return a List of all ISyncObjects that are currently in this session
+	 * @throws DataSyncException 
 	 */
-	public List<ISyncObject> getAllSyncObjects();
+	public List<ISyncObject> getAllSyncObjects() throws DataSyncException;
 	
 	/**
 	 * Returns all ISyncObjects in this session with a specified timeout. Only
@@ -54,8 +55,9 @@ public interface ISyncSession {
 	 * uses a timeout of 10 seconds.
 	 * 
 	 * @return a List of all ISyncObjects that are currently in this session
+	 * @throws DataSyncException 
 	 */
-	public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit);
+	public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) throws DataSyncException;
 	
 	/**
 	 * returns a single SyncObjects in this session. if no ISyncObject
