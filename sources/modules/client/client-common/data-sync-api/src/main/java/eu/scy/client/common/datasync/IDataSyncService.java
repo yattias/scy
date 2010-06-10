@@ -7,19 +7,19 @@ public interface IDataSyncService {
 	 * 
 	 * @return the newly created ISyncSession
 	 * @deprecated
-	 * @throws Exception
+	 * @throws DataSyncException
 	 */
-	public ISyncSession createSession(ISyncListener listener) throws Exception;
+	public ISyncSession createSession(ISyncListener listener) throws DataSyncException;
 
 	/**
 	 * creates a new session for the specific tool
 	 * 
 	 * @return the newly created ISyncSession
 	 * 
-	 * @throws Exception
+	 * @throws DataSyncException
 	 */
 	public ISyncSession createSession(ISyncListener listener, String toolid)
-			throws Exception;
+			throws DataSyncException;
 
 	/**
 	 * joins a session and registers an IDataSyncListener
@@ -31,11 +31,12 @@ public interface IDataSyncService {
 	 *            the ISyncListener that will be registered to this session
 	 * 
 	 * @return the joined ISyncSession
+	 * @throws DataSyncException 
 	 * @deprecated use
 	 *             {@link IDataSyncService#joinSession(String, ISyncListener, String)}
 	 *             instead to provide a toolid
 	 */
-	public ISyncSession joinSession(String mucID, ISyncListener iSyncListener);
+	public ISyncSession joinSession(String mucID, ISyncListener iSyncListener) throws DataSyncException;
 
 	/**
 	 * joins a session for a specific tool and registers an IDataSyncListener
@@ -49,9 +50,10 @@ public interface IDataSyncService {
 	 *            the toolid of the session
 	 * 
 	 * @return the joined ISyncSession
+	 * @throws DataSyncException 
 	 */
 	public ISyncSession joinSession(String mucID, ISyncListener iSyncListener,
-			String toolid);
+			String toolid) throws DataSyncException;
 
 	/**
 	 * Joins a session {@link IDataSyncService#joinSession(String, ISyncListener, String)}
@@ -67,22 +69,9 @@ public interface IDataSyncService {
 	 * @param fetchState
 	 *            whether to fetch the sessions content on startup or not
 	 * @return
-	 * @throws Exception
+	 * @throws DataSyncException 
+	 * @throws DataSyncException
 	 */
 	public ISyncSession joinSession(String mucID, ISyncListener iSyncListener,
-			String toolid, boolean fetchState);
-
-	/**
-	 * leaves a session and de-registers an IDataSyncListener
-	 * 
-	 * @param iSyncSession
-	 *            the ISyncSession that should be left
-	 * @param iSyncListener
-	 *            the ISyncListener that will be de-registered from the given
-	 *            session
-	 * @deprecated use
-	 */
-	public void leaveSession(ISyncSession iSyncSession,
-			ISyncListener iSyncListener);
-
+			String toolid, boolean fetchState) throws DataSyncException;
 }

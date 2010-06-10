@@ -21,6 +21,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
@@ -69,21 +70,22 @@ public class DataSyncModule extends SCYHubModule {
 
         try {
             ConnectionConfiguration cc = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
+            cc.setSecurityMode(SecurityMode.disabled);
             connection = new XMPPConnection(cc);
             connection.connect();
             connection.login("datasynclistener", "datasync");
             connection.addConnectionListener(new DataSyncConnectionListener(connection));
-
+            
             final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
+            final DataSyncMessagePacketTransformer dsmpt = new DataSyncMessagePacketTransformer();
 
             // add extenison provider
             SmacketExtensionProvider.registerExtension(sapt);
+            SmacketExtensionProvider.registerExtension(dsmpt);
 
             ProviderManager providerManager = ProviderManager.getInstance();
             providerManager.addExtensionProvider(sapt.getElementname(), sapt.getNamespace(), new SmacketExtensionProvider());
-
-            DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(bridges, new SyncActionPacketTransformer());
-            connection.addPacketListener(packetFilterListener, packetFilterListener);
+            providerManager.addExtensionProvider(dsmpt.getElementname(), dsmpt.getNamespace(), new SmacketExtensionProvider());
 
             String host = Configuration.getInstance().getSQLSpacesServerHost();
             int port = Configuration.getInstance().getSQLSpacesServerPort();
@@ -114,7 +116,7 @@ public class DataSyncModule extends SCYHubModule {
                 e.printStackTrace();
             }
 
-            logger.debug("Notificator initialised on " + host + ":" + port);
+            logger.debug("DataSyncModule initialised on " + host + ":" + port);
 
         } catch (XMPPException e) {
             e.printStackTrace();
@@ -133,20 +135,27 @@ public class DataSyncModule extends SCYHubModule {
 
         if (pojo instanceof SyncMessage) {
             SyncMessage command = (SyncMessage) pojo;
-            logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
-
-            SyncMessage response = createSession();
-
-            // we create the response message, add the extension and send it
-            // with the same id to the client
-            Message responseMessage = new Message();
-
-            responseMessage.addExtension(new WhacketExtension(transformer.getElementname(), transformer.getNamespace(), response));
-            responseMessage.setTo(packet.getFrom());
-            responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
-            responseMessage.setID(packet.getID());
-
-            send(responseMessage);
+            if (command.getEvent() == Event.create) {
+            	logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
+            	SyncMessage response = createSession();
+        		
+        		// we create the response message, add the extension and send it
+        		// with the same id to the client
+        		Message responseMessage = new Message();
+        		
+        		responseMessage.addExtension(new WhacketExtension(transformer.getElementname(), transformer.getNamespace(), response));
+        		responseMessage.setTo(packet.getFrom());
+        		responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+        		responseMessage.setID(packet.getID());
+        		
+        		send(responseMessage);
+            } else if (command.getEvent() == Event.kill) {
+            	logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
+            	DataSyncSessionBridge dataSyncSessionBridge = bridges.get(command.getSessionId());
+        		if (dataSyncSessionBridge != null) {
+        			dataSyncSessionBridge.shutdown();
+        		}
+            }
         }
     }
 
@@ -170,7 +179,7 @@ public class DataSyncModule extends SCYHubModule {
             // if everything is okay we return success
             response.setEvent(Event.create);
             response.setResponse(Response.success);
-            response.setMessage(sessionId);
+            response.setSessionId(sessionId);
         } catch (Exception e) {
             logger.error("Error while creating DataSyncSessionLogger for session " + sessionId, e);
             // if not we send a failure
@@ -180,38 +189,6 @@ public class DataSyncModule extends SCYHubModule {
         return response;
     }
 
-    private class DataSyncPacketFilterListener implements PacketFilter, PacketListener {
-
-        private Map<String, DataSyncSessionBridge> bridges;
-
-        private SCYPacketTransformer transformer;
-
-        public DataSyncPacketFilterListener(Map<String, DataSyncSessionBridge> bridges, SCYPacketTransformer transformer) {
-            this.bridges = bridges;
-            this.transformer = transformer;
-        }
-
-        @Override
-        public boolean accept(org.jivesoftware.smack.packet.Packet packet) {
-            return packet.getExtension(transformer.getElementname(), transformer.getNamespace()) != null;
-        }
-
-        @Override
-        public void processPacket(org.jivesoftware.smack.packet.Packet packet) {
-            PacketExtension packetExtension = packet.getExtension(transformer.getElementname(), transformer.getNamespace());
-            if (packetExtension != null && packetExtension instanceof SmacketExtension) {
-                SmacketExtension extension = (SmacketExtension) packetExtension;
-
-                SyncAction action = (SyncAction) extension.getTransformer().getObject();
-                DataSyncSessionBridge bridge = bridges.get(action.getSessionId());
-
-                if (bridge != null) {
-                    bridge.process(action);
-                }
-            }
-        }
-
-    }
 
     @Override
     public void shutdown() {

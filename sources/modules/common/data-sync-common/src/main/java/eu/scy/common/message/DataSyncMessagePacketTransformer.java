@@ -24,6 +24,8 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 
 	private static final String syncObjectPath = syncObjectsPath + "/" + SyncObject.PATH;
 	
+	private static final String properiesSubPath = "/properties/";
+	
 	private SyncMessage pojo;
 	
 	private ISyncObject currentObject;
@@ -60,6 +62,8 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 			return (pojo.getType() != null ? pojo.getType().toString() : null);
 		} else if(path.equals(syncCommandPath + "/" + "response")) {
 			return (pojo.getResponse() != null ? pojo.getResponse().toString() : null);
+		} else if(path.equals(syncCommandPath + "/" + "sessionId")) {
+			return (pojo.getSessionId());
 		} else if(path.equals(syncCommandPath + "/" + "message")) {
 			return pojo.getMessage();
 		} else if(path.startsWith(syncObjectPath)) {
@@ -78,8 +82,8 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 					return Long.toString(pojo.getSyncObjects().get(index).getCreationTime());
 				} else if ("@lastmodificationtime".equals(key)) {
 					return Long.toString(pojo.getSyncObjects().get(index).getLastModificationTime());
-				} else if (key.startsWith("/properties")) {
-					key = key.substring(key.lastIndexOf("/") + 1);
+				} else if (key.startsWith(properiesSubPath)) {
+					key = key.substring(key.indexOf(properiesSubPath) + properiesSubPath.length());
 					if(key != null) {
 						return pojo.getSyncObjects().get(index).getProperty(key);
 					}
@@ -103,6 +107,7 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 		paths.add(syncCommandPath + "/" + "toolId");
 		paths.add(syncCommandPath + "/" + "type");
 		paths.add(syncCommandPath + "/" + "response");
+		paths.add(syncCommandPath + "/" + "sessionId");
 		paths.add(syncCommandPath + "/" + "message");
 		for (int i = 0; i < pojo.getSyncObjects().size(); i++) {
 			paths.add(syncObjectPath + "[" + i + "]" + "@id");
@@ -133,8 +138,29 @@ public class DataSyncMessagePacketTransformer extends SCYPacketTransformer {
 			pojo.setType(Type.valueOf(value));
 		} else if(path.equals(syncCommandPath + "/" + "response")) {
 			pojo.setResponse(Response.valueOf(value));
+		} else if(path.equals(syncCommandPath + "/" + "sessionId")) {
+			pojo.setSessionId(value);
 		} else if(path.equals(syncCommandPath + "/" + "message")) {
 			pojo.setMessage(value);
+		} else if(path.startsWith(syncObjectPath)) {
+			//TODO
+			if(path.startsWith(syncObjectPath + "@id")) {
+				currentObject.setID(value);
+			} else if(path.startsWith(syncObjectPath + "@toolname")) {
+				currentObject.setToolname(value);
+			} else if(path.startsWith(syncObjectPath + "@creator")) {
+				currentObject.setCreator(value);
+			} else if(path.startsWith(syncObjectPath + "@lastmodificator")) {
+				currentObject.setLastModificator(value);
+			} else if(path.startsWith(syncObjectPath + "@creationtime")) {
+				currentObject.setCreationTime(Long.parseLong(value));
+			} else if(path.startsWith(syncObjectPath + "@lastmodificationtime")) {
+				currentObject.setLastModificationTime(Long.parseLong(value));
+			} else if(path.startsWith(syncObjectPath + "/properties/")) {
+				String key = path.substring(path.indexOf(properiesSubPath)  + properiesSubPath.length());
+//				String[] keyValue = value.substring(value.indexOf(properiesSubPath) + properiesSubPath.length()).split("=");
+				currentObject.setProperty(key, value);
+			}
 		}
 	}
 

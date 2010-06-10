@@ -48,7 +48,7 @@ public class SmacketExtensionProvider implements PacketExtensionProvider {
 					transformer.mapXMLNodeToObject(path, parser.getText());
 				} else if (eventType == XmlPullParser.END_TAG) {
 					transformer.endNode(path);
-					path = path.substring(0, path.indexOf(lastElementName.getLast()));
+					path = path.substring(0, path.lastIndexOf(lastElementName.getLast()));
 					lastElementName.removeLast();
 					if (parser.getName().equals(transformer.getName())) {
 						done = true;
