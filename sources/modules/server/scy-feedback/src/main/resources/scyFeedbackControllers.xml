@@ -36,6 +36,7 @@
            <property name="mappings">
                <value>
                    /app/feedback/ScyFeedbackIndex.html=scyFeedbackIndexController
+                   /app/feedback/uploadELOForFeedbackForm.html=uploadELOForFeedbackFormController
                </value>
            </property>
        </bean>
@@ -43,6 +44,15 @@
     <bean id="scyFeedbackIndexController" class="eu.scy.server.controllers.scyfeedback.ScyFeedbackIndexController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+
 	</bean>
 
 
