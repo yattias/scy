@@ -16,7 +16,10 @@ import java.awt.event.*;
 public class DragMode implements IDiagramMode {
 	private ConceptDiagramView view;
 
-	private final MouseListener mouseListener = new MouseAdapter() {
+	private final MouseAdapter mouseAdapter = new MouseAdapter() {
+
+		public Point relativePos;
+		
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			if (e.getComponent() instanceof NodeViewComponent) {
@@ -30,25 +33,15 @@ public class DragMode implements IDiagramMode {
 			com.getParent().setComponentZOrder(com, 0);
 			if (!e.isControlDown()) view.getSelectionModel().clearSelection();
 			view.getSelectionModel().select(((RichNodeView) com).getModel());
+			relativePos = e.getPoint();
 		}
-	};
-	private final MouseMotionListener mouseMotionListener = new MouseMotionAdapter() {
-		public Point relativePos;
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-
-			if (relativePos == null) {
+			if(relativePos == null) {
 				relativePos = e.getPoint();
-				e.getComponent().addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						relativePos = null;
-						e.getComponent().removeMouseListener(this);
-					}
-				});
 			}
-
+			
 			// The relative mouse position from the component x,y
 			Point relPoint = e.getPoint();
 
@@ -59,10 +52,29 @@ public class DragMode implements IDiagramMode {
 			// Translate the newLocation with the relative point
 			newLocation.translate(relPoint.x, relPoint.y);
 			newLocation.translate(-relativePos.x, -relativePos.y);
+			
+			//TODO: Use controller instead
+//			if (view.getModel().getConstraints().getCanMove()) view.getController().setLocation(newLocation);
+			if (view.getModel().getConstraints().getCanMove()) view.getModel().setLocation(newLocation);
+		}
+		
+		public void mouseReleased(MouseEvent e) {
+			// The relative mouse position from the component x,y
+			Point relPoint = e.getPoint();
 
+			RichNodeView view = (RichNodeView) e.getSource();
+
+			// Create the new location
+			Point newLocation = view.getLocation();
+			// Translate the newLocation with the relative point
+			newLocation.translate(relPoint.x, relPoint.y);
+			newLocation.translate(-relativePos.x, -relativePos.y);
+			
 			//TODO: Use controller instead
 			if (view.getModel().getConstraints().getCanMove()) view.getController().setLocation(newLocation);
-		}
+			relativePos = null;
+		};
+		
 	};
 
 	private FocusListener focusHandler = new FocusAdapter() {
@@ -75,12 +87,12 @@ public class DragMode implements IDiagramMode {
 
 	@Override
 	public MouseListener getMouseListener() {
-		return mouseListener;  //To change body of implemented methods use File | Settings | File Templates.
+		return mouseAdapter;
 	}
 
 	@Override
 	public MouseMotionListener getMouseMotionListener() {
-		return mouseMotionListener;
+		return mouseAdapter;
 	}
 
 	@Override

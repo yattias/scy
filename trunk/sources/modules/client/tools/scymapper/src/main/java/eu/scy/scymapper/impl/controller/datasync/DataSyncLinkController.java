@@ -28,7 +28,8 @@ public class DataSyncLinkController extends LinkController {
 	@Override
 	public void setLabel(String text) {
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", model.getId());
+		syncObject.setID(model.getId());
+		syncObject.setToolname("scymapper");
 		syncObject.setProperty("label", text);
 		syncSession.changeSyncObject(syncObject);
 	}
@@ -36,8 +37,8 @@ public class DataSyncLinkController extends LinkController {
 	@Override
 	public void setStyle(ILinkStyle style) {
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("id", model.getId());
-
+		syncObject.setID(model.getId());
+		syncObject.setToolname("scymapper");
 		XStream xstream = new XStream(new DomDriver());
 		String xml = xstream.toXML(style);
 
