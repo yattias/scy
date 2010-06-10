@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <td>ELO</td>
+        <td>${currentELO}</td>
+    </tr>
+    <tr>
+        <td>
+            TOOL
+        </td>
+        <td>
+            ${currentTool}
+        </td>
+    </tr>
+</table>

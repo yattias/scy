@@ -255,6 +255,18 @@
     </tag>
 
     <tag>
+        <name>myCurrentActivity</name>
+        <tagclass>eu.scy.server.taglibs.components.realtime.MyCurrentActivityTag</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Students current activity</info>
+        <attribute>
+            <name>username</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
         <name>helpLink</name>
         <tagclass>eu.scy.server.taglibs.components.links.HelpLink</tagclass>
         <bodycontent>empty</bodycontent>
