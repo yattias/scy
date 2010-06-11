@@ -63,7 +63,9 @@ public class PersistentStorage implements IPersistentStorage {
 			byte[] byteArray = (byte[]) t.getField(2).getValue();
 			ByteArrayInputStream byteIn = new ByteArrayInputStream(byteArray);
 			ObjectInputStream objectIn = new ObjectInputStream(byteIn);
-			return (T) objectIn.readObject();
+			T object = (T) objectIn.readObject();
+			objectIn.close();
+			return object;
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
