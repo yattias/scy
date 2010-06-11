@@ -1021,9 +1021,9 @@ var highlighter = {
             }
             var bullets = "";
             for(i = 0; i < summaryBox.itemCount; i++){
-                bullets = bullets + "<bullet>"+summaryBox.getItemAtIndex(i).label+"</bullet>";
+                bullets = bullets + "<quote>"+summaryBox.getItemAtIndex(i).label+"</quote>";
             }
-            summaryXML = summaryXML + "<summary>" + bullets + "</summary>";
+            summaryXML = summaryXML + "<quotes>" + bullets + "</quotes>";
 
             //append comments
             //Maybe it is a good idea to split multiple comments by /n and branch the comments-tag
