@@ -673,110 +673,31 @@ var highlighter = {
         var theSelection = top.window.content.document.getSelection();
         //var theSelection = window.content.getSelection();
 
-        var itemText = theSelection;
-        var newNodeId = "selection_" + count;
+        if (theSelection!=""){
 
-        //save it too the highlights.jsm module
-        //Initialize the global storage for highlights
-        //Components.utils.import("resource://highlighter/highlights.jsm");
-        //Store information for restoring them on-load
-        //window.alert("summaryBox.getRowCount():" +summaryBox.getRowCount());
-        //bullets.itemTexts[summaryBox.getRowCount()]=itemText;
-        //bullets.NodeIDs[summaryBox.getRowCount()]=NodeId;
+            var itemText = theSelection;
+            var newNodeId = "selection_" + count;
 
-        var item = summaryBox.appendItem(itemText,newNodeId);
-        item.setAttribute("tooltiptext",itemText);
-        item.setAttribute("crop","center");
-        var sourceURLValue = top.window.content.document.location;
-        item.setAttribute("sourceURL",sourceURLValue);
-        var listId = "list_"+newNodeId;
-        item.setAttribute("id",listId);
+            //save it too the highlights.jsm module
+            //Initialize the global storage for highlights
+            //Components.utils.import("resource://highlighter/highlights.jsm");
+            //Store information for restoring them on-load
+            //window.alert("summaryBox.getRowCount():" +summaryBox.getRowCount());
+            //bullets.itemTexts[summaryBox.getRowCount()]=itemText;
+            //bullets.NodeIDs[summaryBox.getRowCount()]=NodeId;
 
-        //window.alert("sourceURL:"+item.getAttribute("sourceURL"));
-        //item.tooltiptext="Test";
+            var item = summaryBox.appendItem(itemText,newNodeId);
+            item.setAttribute("tooltiptext",itemText);
+            item.setAttribute("crop","center");
+            var sourceURLValue = top.window.content.document.location;
+            item.setAttribute("sourceURL",sourceURLValue);
+            var listId = "list_"+newNodeId;
+            item.setAttribute("id",listId);
 
+            this.highlightDoc();
 
-        //Another Highlighting engine:
-
-        this.highlightDoc();
-
-        //Outcommented for Testing
-        //var range = window.content.getSelection().getRangeAt(0);
-
-        //THE RIGHT WAY: extract HTML fragment and check if it includes closing non-inline Tags
-        //Watch for lists: they also break the rules!
-        // But.... it doesnt work at the moment
-
-        //var fragment = range.extractContents().value;
-        //window.alert("fragment: " + fragment);
-        //window.alert(range.selectNodeContents());
-
-        /*var clonedSelection = range.cloneContents ();
-    var div = document.createElement ('div');
-    div.appendChild (clonedSelection);
-    window.alert("div.innerHTML: "+div.innerHTML);*/
-
-        //Outcommented for Testing
-        //var newNode = document.createElement("div");
-        //var newNode = document.createElement("span");
-
-        //get the Style of the parent node
-        //not sure about the style... maybe just the class attribute is needed
-        //Seems that it isnt working right
-        /*
-    var classString = "theSelection.anchorNode.parentNode";
-    var command = classString+".className";
-    while (eval(command)==""){
-        if (eval(classString).parentNode != null){
-            classString = classString+".parentNode";
-            command = classString+".className";
-            continue;
-        } else {
-            window.alert("else reached");
-            break;
+            this.correctSources();
         }
-    }
-    var classAttribute = eval(command);
-    newNode.setAttribute("class",classAttribute);
-         */
-
-        //Outcommented for Testing
-        /*
-    newNode.setAttribute("style","display:inline;");
-
-    newNode.setAttribute("id",newNodeId);
-    newNode.style.backgroundColor = "yellow";
-
-    //alternative idea: surround node by span
-    range.surroundContents(newNode);/*
-
-    /*
-    //newNode.setAttribute("style", "background-color: yellow;");
-    newNode.appendChild(document.createTextNode(theSelection));
-
-    range.deleteContents();
-    range.insertNode(newNode);
-         */
-
-        /*if (urlBox.value==""){
-		//XX1
-        //urlBox.value=window.content.document.location;
-		urlBox.value=top.window.content.document.location;
-    } else {
-
-		if (urlBox.value.search(top.window.content.document.location)!=-1){
-		//the url exists
-		//XX1
-        //urlBox.value = urlBox.value +"\n"+ window.content.document.location;
-		urlBox.value = urlBox.value;
-        }
-		else {
-		//the url doesnt exist
-		urlBox.value = urlBox.value +"\n"+ top.window.content.document.location;
-     }
-
-	}*/
-        this.correctSources();
 
 
     },
@@ -1012,9 +933,8 @@ var highlighter = {
         var defaultaddress = prefs.getCharPref("defaultaddress");
         var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
         var address = prefs.getCharPref("address");
-        if (username=="username" && password=="password"){
+        if ((username=="username" && password=="password")||(username=="")||(password=="")){
             window.alert(top.window.document.getElementById("highlighter-strings").getString("setUpLoginData"));
-
             this.openPreferences();
         } else {
 
@@ -1111,15 +1031,27 @@ var highlighter = {
             if (commentBox == null){
                 commentBox = sidebar.contentDocument.getElementById('commentBox');
             }
-            summaryXML = summaryXML + "<comments>" + commentBox.value + "</comments>";
+            var comments = commentBox.value.split("\n");
+            var commentsContent = "";
+            for (i=0; i<comments.length;i++) {
+                commentsContent = commentsContent + "<comment>" + comments[i] + "</comment>";
+            }
+            summaryXML = summaryXML + "<comments>" + commentsContent + "</comments>";
 
             //append sources
             //Maybe it is a good idea to split multiple sources by /n and branch the sources-tag
+
             var urlBox = document.getElementById('urlBox');
             if (urlBox == null){
                 urlBox = sidebar.contentDocument.getElementById('urlBox');
             }
-            summaryXML = summaryXML + "<sources>" + urlBox.value + "</sources>";
+            var sources = urlBox.value.split("\n");
+            var sourcesContent = "";
+            for (i=0; i<sources.length;i++) {
+                sourcesContent = sourcesContent + "<source>" + sources[i] + "</source>";
+            }
+
+            summaryXML = summaryXML + "<sources>" + sourcesContent + "</sources>";
 
             //close the document tag
             summaryXML = summaryXML + "</document>";
@@ -1441,7 +1373,7 @@ var highlighter = {
             //needs other relative address
             helpFileDirectory=this.strings.getString("helpFileDirectoryAlternative");
         }
-        var windowObjectReference = window.open(helpFileDirectory, "Help", "chrome,resizable=yes");
+        var windowObjectReference = window.open(helpFileDirectory, "Help", "chrome,resizable=yes,width=600,height=400");
         windowObjectReference.focus();
     
     },

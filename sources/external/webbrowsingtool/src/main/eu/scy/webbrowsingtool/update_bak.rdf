@@ -9,12 +9,12 @@
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
                    em:maxVersion="3.8"
-                   em:updateLink="https://scy.collide.info/extcomp/scylighter134.xpi"/>
+                   em:updateLink="https://scy.collide.info/extcomp/scylighter141.xpi"/>
   <RDF:Seq RDF:about="rdf:#$AwmZp">
     <RDF:li RDF:resource="rdf:#$BwmZp"/>
   </RDF:Seq>
   <RDF:Description RDF:about="rdf:#$BwmZp"
-                   em:version="1.3.4">
+                   em:version="1.4.1">
     <em:targetApplication RDF:resource="rdf:#$EwmZp"/>
   </RDF:Description>
 </RDF:RDF>
