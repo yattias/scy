@@ -7,25 +7,25 @@ package eu.scy.client.tools.copex.common;
 
 /**
  *
- * @author MBO
- * represente un eleve
- * un eleve est un utilisateur de copex
+ * @author marjolaine
+ * a learner: a learner is a user of labbook
  */
 public class CopexLearner extends CopexUser {
 
-    public CopexLearner(String copexLogin, String copexPassWord, String userName, String userFirstName) {
-        super(copexLogin, copexPassWord, userName, userFirstName);
+    public CopexLearner(long dbKey, String userName, String userFirstName) {
+        super(dbKey,userName, userFirstName);
+    }
+    public CopexLearner(String userName, String userFirstName) {
+        super(userName, userFirstName);
     }
 
-    public CopexLearner(String copexLogin, String copexPassWord, String userName) {
-        super(copexLogin, copexPassWord, userName);
+    public CopexLearner(String userName) {
+        super(userName);
     }
 
     @Override
     public String toString() {
         String s = "Learner : \n";
-        s += "login : "+this.copexLogin+"\n";
-        s += "password : "+this.copexPassWord+"\n";
         s += "name : "+this.userName+"\n";
         s += "firstName : "+this.userFirstName==null?"":this.userFirstName;
         return s;

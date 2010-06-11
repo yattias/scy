@@ -26,93 +26,98 @@ import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
 /**
- * interface du controller
- * @author MBO
+ * controller interface
+ * @author marjolaine
  */
 public interface ControllerInterface {
-    /* initialisation de l'edp */
-    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, int mode, String userName, String firstname, String logFileName);
-    /* ajout d'une tache */
+    /** initialization of the copex editor */
+    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String fileMission);
+    /** add a task */
     public CopexReturn addTask(CopexTask task, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v, char undoRedo, boolean cut) ;
-    /* ajout d'une action */
+    /** add an action */
     public CopexReturn addAction(CopexAction action, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
-    /* modification d'une action */
+    /** modify an action */
     public CopexReturn updateAction(CopexAction newAction, LearnerProcedure proc, CopexAction oldAction, ArrayList v);
-    /* ajout d'une etape */
+    /** add a step */
     public CopexReturn addStep(Step step, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
-    /* modification d'une etape */
+    /** update a step */
     public CopexReturn updateStep(Step newStep, LearnerProcedure proc, Step oldStep, ArrayList v);
-    /* modification d'une question */
+    /** modify a question */
     public CopexReturn updateQuestion(Question newQuestion, LearnerProcedure proc, Question oldQuestion, ArrayList v);
-     /* modification d'une tache */
+     /** modify a task */
     public CopexReturn updateTask(CopexTask newTask, LearnerProcedure proc, CopexTask oldTask, char undoRedo, ArrayList v);
-   
+    /**paste some tasks*/
     public CopexReturn paste(LearnerProcedure proc, SubTree subTree, TaskSelected ts, char undoRedo, ArrayList v);
-    
-    /* supprimer */
+    /** delete some tasks*/
     public CopexReturn suppr(ArrayList<TaskSelected> listTs, ArrayList v, boolean suppr, char undoRedo);
+    /**cut some tasks*/
     public CopexReturn cut(LearnerProcedure proc,SubTree subTree, TaskSelected ts);
+    /** copy some tasks*/
     public CopexReturn copy(LearnerProcedure proc , TaskSelected ts,SubTree subTree);
+    /** paste */
     public CopexReturn paste(LearnerProcedure proc , TaskSelected ts,SubTree subTree);
-     /* couper depuis undo redo */
+     /** cut- undo redo */
     public CopexReturn cut(ArrayList<TaskSelected> listTs, SubTree subTree, ArrayList v,char undoRedo);
-    /* creation d'un nouveau protocole "vierge" */
+    /** create a new procedure */
     public CopexReturn createProc(String procName, InitialProcedure initProc);
-    /* copie d'un protocole de la mission */
+    /** copy of a proc  */
     public CopexReturn copyProc(String name, LearnerProcedure procToCopy);
-    /* ouverture d'un protocole existant */
+    /**open an existing proc */
     public CopexReturn openProc(CopexMission missionToOpen, LearnerProcedure procToOpen);
-    /* fermeture d'un protocole */
+    /**close a proc */
     public CopexReturn closeProc(LearnerProcedure proc);
-    /* suppression d'un protocole */
+    /** delete a proc */
     public CopexReturn deleteProc(LearnerProcedure proc);
-    /* retourne en v[0] la liste des protocoles qui peuvent etre copies : 
-     * liste des protocoles de la mission en cours
-     * retourne en v[1] la liste des missions de l'utilisateur et en v[2]) la 
-     * liste des protocoles pour chacune de ces missions
+    /** returns the list of the proc to be copied or opened
+     * v[0] list of proc that can be copied: list of the proc of the current mission
+     * v[1] list of the missions of the user
+     * v[2] list of the proc of each mission
      */
     public CopexReturn getListProcToCopyOrOpen(ArrayList v);
-    /* mise a jour du nom du protocole */
+    /**update the proc name*/
     public CopexReturn updateProcName(LearnerProcedure proc, String name, char undoRedo);
-    /* mise a jour du protocole actif */
+    /**update the current proc */
     public CopexReturn setProcActiv(LearnerProcedure proc);
-    /* impression */
+    /**export pdf  */
     public CopexReturn printCopex(LearnerProcedure procToPrint);
-    /* drag and drop */
+    /**drag and drop */
     public CopexReturn move(TaskSelected task, SubTree tree, char undoRedo);
+    /**drag and drop, finalize */
     public CopexReturn finalizeDragAndDrop(LearnerProcedure proc);
-    /* arret de l'edp */
+    /** quit the procedure editor */
     public CopexReturn stopEdP();
-    /* mise a jour de la visiblite des taches*/
+    /** update the visible tasks */
     public CopexReturn updateTaskVisible(LearnerProcedure p, ArrayList<CopexTask> listTask);
-    /* retourne les donnees pour le proc aide */
+    /**gets the help procedure */
     public CopexReturn getHelpProc(ArrayList v);
-    /* ouverture fenetre aide*/
+    /** open the help dialog*/
     public CopexReturn openHelpDialog();
-    /* fermeture fenetre aide */
+    /** close the help dialog */
     public CopexReturn closeHelpDialog();
-    /*ouverture proc d'aide */
+    /** open the help procedure */
     public CopexReturn openHelpProc();
-    /* retourne l'elo exp proc */
+    /** gets the ELO xproc experimentalProcedure */
     public Element getExperimentalProcedure(LearnerProcedure proc);
-    /* chargement d'un ELO*/
+    /** load an ELO*/
     public CopexReturn loadELO(Element xmlContent);
-    /*  creation d'un nouvel ELO*/
+    /** create a new ELO */
     public CopexReturn newELO();
-    /* retourne la liste des parametres des actions de l'etape */
+    /** returns the parameters list of the actions of a step */
     public CopexReturn  getTaskInitialParam(LearnerProcedure proc, CopexTask task, ArrayList v);
-    /* retourne la liste des output des actions de l'etape */
+    /** returns the output of the actions of a step */
     public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v);
-    /* retourne le type de material par defaut */
+    /** returns the default material type */
     public TypeMaterial getDefaultMaterialType();
-    /* hypotheses du proc*/
+    /** update the hypothesis of a proc*/
     public CopexReturn setHypothesis(LearnerProcedure proc, Hypothesis hypothesis, ArrayList v);
-    /* general principe du proc*/
+    /** update the general principle of the proc*/
     public CopexReturn setGeneralPrinciple(LearnerProcedure proc, GeneralPrinciple principle, ArrayList v);
-    /* evaluation */
+    /** update the evaluation of the proc */
     public CopexReturn setEvaluation(LearnerProcedure proc, Evaluation evaluation, ArrayList v);
-    /* mise a jour du material used */
+    /** update the material used*/
     public CopexReturn setMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialToCreate, ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate, ArrayList v);
-    /* log user action in db*/
+    /** log a user action in the db*/
     public CopexReturn logUserActionInDB(String type, List<CopexProperty> attribute);
+    /** returns if a proc is the proc of the labdoc  */
+    public CopexReturn isLabDocProc(LearnerProcedure p, ArrayList v);
 }

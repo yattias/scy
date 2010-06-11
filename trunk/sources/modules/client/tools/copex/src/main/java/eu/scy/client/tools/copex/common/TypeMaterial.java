@@ -17,8 +17,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * represente un type de materiel
- * @author MBO
+ * type of a material
+ * @author marjolaine
  */
 public class TypeMaterial implements Cloneable {
     /* tag names */
@@ -31,7 +31,6 @@ public class TypeMaterial implements Cloneable {
     private List<LocalText> listType;
     private String code;
 
-    // CONSTRUCTEURS
     public TypeMaterial(long dbKey, List<LocalText> listType) {
         this.dbKey = dbKey;
         this.listType = listType;
@@ -70,8 +69,8 @@ public class TypeMaterial implements Cloneable {
                 }
             }
         }else {
-			throw(new JDOMException("Type Material expects <"+TAG_TYPE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Type Material expects <"+TAG_TYPE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
      public long getDbKey() {
@@ -85,8 +84,22 @@ public class TypeMaterial implements Cloneable {
     public void setListType(List<LocalText> listType) {
         this.listType = listType;
     }
-    
+   public String getType(){
+        return CopexUtilities.getText(listType, Locale.getDefault());
+    }
+   public void setType(String name){
+        LocalText l = new LocalText(name, Locale.getDefault());
+        setType(l);
+    }
 
+   public void setType(LocalText text){
+        int i = CopexUtilities.getIdText(text.getLocale(), listType);
+        if(i ==-1){
+            this.listType.add(text);
+        }else{
+            this.listType.set(i, text);
+        }
+    }
     public void setDbKey(long dbKey) {
         this.dbKey = dbKey;
     }

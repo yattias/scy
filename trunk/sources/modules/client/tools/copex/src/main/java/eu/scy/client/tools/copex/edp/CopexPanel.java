@@ -42,8 +42,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+//import java.util.MissingResourceException;
+//import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -84,13 +84,8 @@ public class CopexPanel extends JPanel {
     private String idUser;
     /* identifiant mission */
     private long dbKeyMission;
-    /* mode de l'applet */
-    private int mode;
-    /* nom de l'utilisateur */
-    private String userName;
-    /* prenom de l'utilisateur */
-    private String firstName;
-
+    private long dbKeyGroup;
+    private long dbKeyLabDoc;
     private CopexMission mission;
     // liste des protocoles ouverts
     private ArrayList<LearnerProcedure> listProc = null;
@@ -113,9 +108,8 @@ public class CopexPanel extends JPanel {
         this.locale = locale;
         this.idUser = "1";
         this.dbKeyMission = 1;
-        this.mode = MyConstants.COPEX_MODE;
-        this.userName = "";
-        this.firstName = "";
+        this.dbKeyGroup = 1;
+        this.dbKeyLabDoc = 1;
         this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
@@ -127,9 +121,8 @@ public class CopexPanel extends JPanel {
         this.locale = locale;
         this.idUser = "1";
         this.dbKeyMission = 1;
-        this.mode = MyConstants.COPEX_MODE;
-        this.userName = "";
-        this.firstName = "";
+        this.dbKeyGroup = 1;
+        this.dbKeyLabDoc = 1;
         this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
@@ -137,14 +130,13 @@ public class CopexPanel extends JPanel {
     }
 
 
-    public CopexPanel(JFrame ownerFrame,Locale locale, URL copexURL, String idUser, long dbKeyMission, int mode, String userName, String firstName) {
+    public CopexPanel(JFrame ownerFrame,Locale locale, URL copexURL, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc) {
         this.ownerFrame = ownerFrame;
         this.locale = locale;
         this.idUser = idUser;
         this.dbKeyMission = dbKeyMission;
-        this.mode = mode;
-        this.userName = userName;
-        this.firstName = firstName;
+        this.dbKeyGroup = dbKeyGroup;
+        this.dbKeyLabDoc = dbKeyLabDoc;
         this.listTaskImage = new ArrayList();
         this.scyMode = false;
         this.dbMode = true;
@@ -212,7 +204,7 @@ public class CopexPanel extends JPanel {
       //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
       String fileMission = "copexMission_SCY1_CO2.xml";
-      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission, mode, userName, firstName, fileMission);
+      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission,dbKeyGroup, dbKeyLabDoc, fileMission);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
           System.out.println("erreur chargement des donnees ....");
@@ -373,7 +365,7 @@ public class CopexPanel extends JPanel {
     public boolean canAddProc(){
         if(mission == null)
             return true;
-        return this.mission.getOptions().isCanAddProc();
+        return true;
     }
     /* retourne le tooltiptext sur le bouton d'ouverture */
     public String getToolTipTextOpen(){
@@ -526,8 +518,13 @@ public class CopexPanel extends JPanel {
     }
     public void openDialogCloseProc(LearnerProcedure proc) {
         if(dbMode){
-            CloseProcDialog closeD = new CloseProcDialog(this, controller, proc);
-            closeD.setVisible(true);
+//            CloseProcDialog closeD = new CloseProcDialog(this, controller, proc);
+//            closeD.setVisible(true);
+            // fermeture du proc
+            CopexReturn cr = controller.closeProc(proc);
+            if(cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            }
         }else{
             if(hasModification()){
                 int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MSG_CLOSE_PROC"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
@@ -916,6 +913,17 @@ public class CopexPanel extends JPanel {
         if(cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         }
+    }
+
+    /* return true if the proc can be close (if it is not the proc of the labdoc) */
+    public boolean canCloseProc(LearnerProcedure p){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.isLabDocProc(p, v);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return false;
+        }
+        return !(Boolean)v.get(0);
     }
 
 }

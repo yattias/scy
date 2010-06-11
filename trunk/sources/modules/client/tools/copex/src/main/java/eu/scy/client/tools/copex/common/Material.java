@@ -17,13 +17,13 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * represente le materiel
- * le materiel peut etre 
- * - lie a une proc initial : materiel disponible
- * - lie a un protocole eleve : materiel utilise
- * - lie a une action
- * les materiels sont regroupes par type de materiel
- * @author MBO
+ * material
+ * it can be
+ * - linked to an initial procedure : available material
+ * - linked to a learner procedure : material used
+ * - linked to an action
+ * materials are grouped by type
+ * @author marjolaine
  */
 public class Material implements Cloneable {
     /*tag names */
@@ -33,21 +33,20 @@ public class Material implements Cloneable {
     private final static String TAG_MATERIAL_NAME = "name";
     private final static String TAG_MATERIAL_DESCRIPTION = "info";
 
-    /* cle BD */
+    /* db id */
     private long dbKey;
     private String code;
-    /* nom du materiel */
+    /* name of the material */
     private List<LocalText> listName;
     /* description */
     private List<LocalText> listDescription;
-    /* type de materiel */
+    /* types of the material */
     private List<TypeMaterial> listType;
-    /* parametres */
+    /* parameters */
     private List<Parameter> listParameters;
 
     
 
-    // CONSTRUCTEURS
     public Material(long dbKey, List<LocalText> listName, List<LocalText> listDescription) {
         this.dbKey = dbKey;
         this.code = "";
@@ -120,11 +119,9 @@ public class Material implements Cloneable {
                 }
             }
         }else {
-			throw(new JDOMException("Material expects <"+TAG_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Material expects <"+TAG_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
-
-    // GETTER AND SETTER
     
     public long getDbKey() {
         return dbKey;
@@ -197,22 +194,34 @@ public class Material implements Cloneable {
         return CopexUtilities.getText(listDescription, locale);
     }
     
-    // METHODES
-    /* rend la chaine a afficher sur l'ihm */
-//    public String toDisplay(){
-//        String s = getName()+" (";
-//        s += getTypeToDisplay();
-//        s += ")";
-//        return s;
-//
-//    }
+    public String getName(){
+        return CopexUtilities.getText(listName, Locale.getDefault());
+    }
+
+    public String getDescription(){
+        return CopexUtilities.getText(listDescription, Locale.getDefault());
+    }
+
+    public void setName(String name){
+        LocalText l = new LocalText(name, Locale.getDefault());
+        setName(l);
+    }
+
+    public void setName(LocalText text){
+        int i = CopexUtilities.getIdText(text.getLocale(), listName);
+        if(i ==-1){
+            this.listName.add(text);
+        }else{
+            this.listName.set(i, text);
+        }
+    }
 
     public String toDisplay(Locale locale){
         String s = CopexUtilities.getText(listName, locale);
         return s;
 
     }
-    /* rend la chaine a afficher sur l'ihm : liste des types */
+    /* list of types to display */
     public String getTypeToDisplay(Locale locale){
         String s = "";
         int nb = listType.size();
@@ -224,7 +233,7 @@ public class Material implements Cloneable {
         return s;
         
     }
-    /* affichage des parametres */
+    /* parameters to display */
     public String getParametersToDisplay(Locale locale){
         String s = "";
         int nb = listParameters.size();
@@ -238,18 +247,18 @@ public class Material implements Cloneable {
     }
 
 
-    /* ajout d'un type */
+    /* add a type */
     public void addType(TypeMaterial type){
         this.listType.add(type);
     }
     
     
-    /* ajout d'un parametre */
+    /* add a parameter */
     public void addParam(Parameter p){
         this.listParameters.add(p);
     }
     
-    /* retourn vrai si le materiel est de ce type*/
+    /* returns true if this material is typed with the specified type*/
     public boolean isType(TypeMaterial t){
         int n = this.listType.size();
         for (int i=0; i<n; i++){
@@ -305,7 +314,7 @@ public class Material implements Cloneable {
 	}
     }
     
-    /* renvoit true si le material a ce type */
+    /* returns true if this material is typed with the specified type */
     public boolean isType(long dbKeyType){
         int nbType = this.listType.size();
         for (int i=0; i<nbType; i++){

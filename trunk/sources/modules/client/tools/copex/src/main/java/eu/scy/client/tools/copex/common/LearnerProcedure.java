@@ -17,23 +17,25 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * protocole de l'eleve
- * @author MBO
+ * experimental procedure of a learner
+ * @author marjolaine
  */
 public class LearnerProcedure extends ExperimentalProcedure{
-    /* tag names */
+    /** tag names */
     public final static String TAG_LEARNER_PROC = "learner_proc";
 
-    /*protocole initial */
+    /** initial procedure associate */
     private InitialProcedure initialProc;
-    /* mission */
+    /** mission*/
     protected CopexMission mission;
+    /** labDoc */
+    protected long dbKeyLabDoc;
 
-    // CONSTRUCTEURS
-    public LearnerProcedure(List<LocalText> listName, CopexMission mission, Date dateLastModification, InitialProcedure initialProc, ArrayList<MaterialUsed> listMaterialUsed) {
+    public LearnerProcedure(List<LocalText> listName, CopexMission mission,  Date dateLastModification, InitialProcedure initialProc, ArrayList<MaterialUsed> listMaterialUsed) {
         super(listName, dateLastModification);
         this.initialProc = initialProc ;
         this.mission = mission;
+        this.dbKeyLabDoc = -1;
         this.materials.setListMaterialUsed(listMaterialUsed);
         lockMaterialUsed();
     }
@@ -42,6 +44,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
         super(dbKey, listName, dateLastModification, isActiv, right);
         this.initialProc = initialProc ;
         this.materials.setListMaterialUsed(listMaterialUsed);
+        this.dbKeyLabDoc = -1;
         lockMaterialUsed();
     }
 
@@ -49,6 +52,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
         super(proc);
         this.initialProc = initialProc;
         this.materials.setListMaterialUsed(new LinkedList());
+        this.dbKeyLabDoc = -1;
         lockMaterialUsed();
     }
 
@@ -75,6 +79,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
                 evaluation = new Evaluation(xmlElem.getChild(Evaluation.TAG_PROC_EVALUTATION), idEvaluation);
             this.materials = null;
             mission = m;
+            dbKeyLabDoc = -1;
             if(xmlElem.getChild(TAG_EXP_MATERIAL_PROD) != null){
                 for (Iterator<Element> variablElem = xmlElem.getChild(TAG_EXP_MATERIAL_PROD).getChildren(Material.TAG_MATERIAL).iterator(); variablElem.hasNext();) {
                     listMaterial.add(new Material(variablElem.next(), idMaterial++, listTypeMaterial, listPhysicalQuantity, idQuantity++));
@@ -95,9 +100,9 @@ public class LearnerProcedure extends ExperimentalProcedure{
                     initialProc,  listPhysicalQuantity, listTypeMaterial, listMaterial);
             manipulation.add(question);
             lockMaterialUsed();
-		} else {
-			throw(new JDOMException("Learner Proc expects <"+TAG_LEARNER_PROC+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Learner Proc expects <"+TAG_LEARNER_PROC+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
         
     }
 
@@ -116,7 +121,15 @@ public class LearnerProcedure extends ExperimentalProcedure{
         this.mission = mission;
     }
 
-    /* retourne true si le protocole est actif pour sa mission */
+    public long getDbKeyLabDoc() {
+        return dbKeyLabDoc;
+    }
+
+    public void setDbKeyLabDoc(long dbKeyLabDoc) {
+        this.dbKeyLabDoc = dbKeyLabDoc;
+    }
+
+    /** returns true if the proc is active for the mission */
     public boolean isActiv(CopexMission m){
         return (m.getDbKey() == this.mission.getDbKey() && activ);
     }
@@ -129,7 +142,6 @@ public class LearnerProcedure extends ExperimentalProcedure{
         this.materials.setListMaterialUsed(listMaterialUsed);
     }
     
-    // OVERRIDE
     @Override
     public Object clone() {
         LearnerProcedure p = (LearnerProcedure) super.clone() ;
@@ -141,7 +153,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
         else
             p.setInitialProc((InitialProcedure)initialProc.clone());
         p.setMission(missionC);
-        
+        p.setDbKeyLabDoc(dbKeyLabDoc);
         return p;
     }
 
@@ -204,7 +216,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
         return question != null && question.getDescription(locale).length() > 0;
     }
 
-    // maj de la liste du materiel utilise dans le proc
+    // update the material used in the proc
     public void lockMaterialUsed(){
         if(getListMaterialUsed() == null)
             return;
@@ -261,7 +273,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
             return getParentTask(t);
     }
 
-    /* retourne la tache grand frere */
+    /** returns the old brother task*/
     private CopexTask getOldBrotherTask(CopexTask task){
         long id = task.getDbKey();
         int nbT = getListTask().size();
@@ -273,7 +285,7 @@ public class LearnerProcedure extends ExperimentalProcedure{
         return null;
     }
 
-    /* retourne la liste des enfants d'une tache, 1 seul niveau */
+    /** returns the list of the children of a task, only 1 level*/
     private List<CopexTask> getListChild(CopexTask task){
         if(task == null)
             return new LinkedList();

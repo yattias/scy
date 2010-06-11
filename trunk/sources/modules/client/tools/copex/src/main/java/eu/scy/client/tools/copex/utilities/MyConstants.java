@@ -6,20 +6,20 @@
 package eu.scy.client.tools.copex.utilities;
 
 /**
- * constantes communes aux applications
+ * COPEX constants
  * @author Marjolaine
  */
 public class MyConstants {
-    /* droits */
+    /* rights */
     public static final char NONE_RIGHT = 'N';
     public static final char EXECUTE_RIGHT  = 'X';
     
-    /* mode affichage commentaire */
+    /* comments viewing modee */
     public static final char COMMENTS = 'C';
     public static final char NO_COMMENTS  = 'N';
     public static final char COMMENTS_TEACHER = 'T';
     
-    /* LONGUEUR MAX DESC CHAMPS */
+    /* max lenght of fields */
     public static final int MAX_LENGHT_TASK_DESCRIPTION = 1024;
     public static final int MAX_LENGHT_TASK_COMMENTS = 1024;
     public static final int MAX_LENGHT_HYPOTHESIS = 1024;
@@ -35,10 +35,6 @@ public class MyConstants {
     public static final int MAX_LENGHT_QUANTITY_NAME=32;
     
     
-    /* FORMAT IMPRESSION */
-    public static final char FORMAT_TEXTE = 'T';
-    public static final char FORMAT_PDF = 'P';
-    
     /* TRACE */
     public static final char TRACE_ACTIV = 'T';
     public static final char TRACE_INACTIV = 'N';
@@ -48,32 +44,16 @@ public class MyConstants {
     public static final char REDO = 'R';
     public static final char NOT_UNDOREDO = 'N';
 
-    /* MODE APPEL APPLET */
-    public static final int MODE_APPLET_COPEX=0;
-    public static final int MODE_APPLET_SCY = 1;
-    public static final int MODE_APPLET_LOE = 2;
-
-    /* champ de la base correspondants */
-    public static final String BD_CHAMP_LOE = "LOE_USER";
     
-    
-    
-    /* applet de l'applet venant de SCY*/
-    public final static int SCY_MODE = 0;
-    /* appel de l'applet venant su site COPEX */
-    public final static int COPEX_MODE = 1;
-
-    /* base copex */
+    /* db labbook*/
     public final static int DB_LABBOOK = 0;
-    /* base editeur de protocole */
+    /* db labbook_copex */
     public final static int DB_LABBOOK_COPEX = 1;
-    /* base data tool */
-    public final static int DB_LABBOOK_FITEX = 2 ;
 
     /* xml language */
     public final static String XMLNAME_LANGUAGE="language";
 
-    /* mode menu */
+    /* menu mode */
     public final static char MODE_MENU_NO='N';
     public final static char MODE_MENU='M';
     public final static char MODE_MENU_TREE='T';
@@ -81,7 +61,7 @@ public class MyConstants {
     public final static String XML_BOOLEAN_TRUE = "true";
     public final static String XML_BOOLEAN_FALSE = "false";
 
-    /* menu pop up */
+    /* pop up menu */
     public final static char POPUPMENU_STEP = 'S';
     public final static char POPUPMENU_ACTION = 'A';
     public final static char POPUPMENU_TASK = 'T';

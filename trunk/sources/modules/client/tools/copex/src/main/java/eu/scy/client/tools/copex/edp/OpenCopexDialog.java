@@ -54,6 +54,7 @@ public class OpenCopexDialog  extends JDialog  {
 
    
     private JRadioButton rbOpen;
+    private JLabel labelOpen;
     private JLabel labelMissionOpen;
     private JComboBox cbMissionOpen;
     private JLabel labelProcOpen;
@@ -63,11 +64,14 @@ public class OpenCopexDialog  extends JDialog  {
     private JButton buttonOk;
     private JButton buttonCancel;
 
+    private boolean canNew;
+
     public OpenCopexDialog(CopexPanel owner, ControllerInterface controller,  File openFile, List<InitialProcedure> listInitialProc) {
         super(owner.getOwnerFrame());
         this.owner = owner;
         this.controller = controller;
         this.dbMode = false;
+        this.canNew = true;
         this.lastUsedFileOpen = openFile;
         int nb = listInitialProc.size();
         onlyOneInitProc = (nb == 1);
@@ -84,6 +88,7 @@ public class OpenCopexDialog  extends JDialog  {
         this.owner = owner;
         this.controller = controller;
         this.dbMode = true;
+        this.canNew = false;
         this.lastUsedFileOpen = null;
         int nb = listInitialProc.size();
         onlyOneInitProc = (nb == 1);
@@ -98,16 +103,24 @@ public class OpenCopexDialog  extends JDialog  {
 
      private void initGUI(){
         setLayout(null);
-        setTitle(owner.getBundleString("TITLE_DIALOG_ADD_PROC"));
+        if(canNew)
+            setTitle(owner.getBundleString("TITLE_DIALOG_ADD_PROC"));
+        else
+            setTitle(owner.getBundleString("TITLE_DIALOG_OPEN_PROC"));
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        this.add(getRbCreate());
-        if(!onlyOneInitProc){
-            this.add(getCbCreateProcInit());
+        if(canNew){
+            this.add(getRbCreate());
+            if(!onlyOneInitProc){
+                this.add(getCbCreateProcInit());
+            }
+            this.add(getLabelCreateName());
+            this.add(getFieldCreateName());
         }
-        this.add(getLabelCreateName());
-        this.add(getFieldCreateName());
-        
-        this.add(getRbOpen());
+        if(canNew)
+            this.add(getRbOpen());
+        else{
+            this.add(getLabelOpen());
+        }
         if(dbMode){
             this.add(getLabelMissionOpen());
             this.add(getCbMissionOpen());
@@ -119,7 +132,9 @@ public class OpenCopexDialog  extends JDialog  {
         }
 
         // largeur
-        int width = fieldName.getX()+fieldName.getWidth()+10;
+        int width = 350;
+        if(canNew)
+            width = fieldName.getX()+fieldName.getWidth()+10;
         int height = 200;
         setSize(width, height);
         this.add(getButtonOk());
@@ -127,7 +142,14 @@ public class OpenCopexDialog  extends JDialog  {
         height = this.buttonCancel.getY()+this.buttonCancel.getHeight()+40;
         setSize(width, height);
         setPreferredSize(getSize());
-        selectRb(1);
+        if(canNew)
+            selectRb(1);
+        else{
+            if(dbMode){
+                cbMissionOpen.setEnabled(true);
+                cbProcOpen.setEnabled(true);
+            }
+        }
     }
 
      private JRadioButton getRbCreate(){
@@ -198,7 +220,19 @@ public class OpenCopexDialog  extends JDialog  {
         return fieldName;
     }
 
-    
+
+     private JLabel getLabelOpen(){
+        if(this.labelOpen == null){
+            labelOpen = new JLabel();
+            labelOpen.setName("labelOpen");
+            labelOpen.setText(owner.getBundleString("LABEL_OPEN_PROC"));
+            labelOpen.setFont(new java.awt.Font("Tahoma", 1, 11));
+            labelOpen.setSize(CopexUtilities.lenghtOfString(this.labelOpen.getText(), getFontMetrics(this.labelOpen.getFont())), 14);
+            labelOpen.setBounds(10, 10, labelOpen.getWidth(), labelOpen.getHeight());
+        }
+        return labelOpen;
+    }
+
      private JRadioButton getRbOpen(){
         if(rbOpen == null){
             rbOpen = new JRadioButton();
@@ -213,7 +247,10 @@ public class OpenCopexDialog  extends JDialog  {
                     selectRb(2);
                 }
             });
-            rbOpen.setBounds(10,fieldName.getY()+fieldName.getHeight()+10,rbOpen.getWidth(), rbOpen.getHeight());
+            int y= 10;
+            if(canNew)
+                y = fieldName.getY()+fieldName.getHeight()+10 ;
+            rbOpen.setBounds(10,y,rbOpen.getWidth(), rbOpen.getHeight());
         }
         return rbOpen;
     }
@@ -226,7 +263,13 @@ public class OpenCopexDialog  extends JDialog  {
             labelMissionOpen.setText(owner.getBundleString("LABEL_MISSION"));
             labelMissionOpen.setFont(new java.awt.Font("Tahoma", 1, 11));
             labelMissionOpen.setSize(CopexUtilities.lenghtOfString(this.labelMissionOpen.getText(), getFontMetrics(this.labelMissionOpen.getFont())), 14);
-            labelMissionOpen.setBounds(10, rbOpen.getY()+rbOpen.getHeight()+5, labelMissionOpen.getWidth(), labelMissionOpen.getHeight());
+            int y =10;
+            if(rbOpen != null){
+                y = rbOpen.getY()+rbOpen.getHeight()+5;
+            }else if (labelOpen != null){
+                y = labelOpen.getY()+labelOpen.getHeight()+5;
+            }
+            labelMissionOpen.setBounds(10, y, labelMissionOpen.getWidth(), labelMissionOpen.getHeight());
         }
         return labelMissionOpen;
      }
@@ -245,7 +288,7 @@ public class OpenCopexDialog  extends JDialog  {
              });
              if (listMission.size() > 0)
                 cbMissionOpen.setSelectedIndex(0);
-             else
+             else if(rbOpen != null)
                 rbOpen.setEnabled(false);
              cbMissionOpen.setBounds(labelMissionOpen.getX()+labelMissionOpen.getWidth()+5, labelMissionOpen.getY()-3, 100,20);
         }
@@ -321,8 +364,10 @@ public class OpenCopexDialog  extends JDialog  {
             return;
         boolean create = rb==1;
         boolean open = rb==2;
-        this.rbCreate.setSelected(create);
-        fieldName.setEditable(create);
+        if(canNew){
+            this.rbCreate.setSelected(create);
+            fieldName.setEditable(create);
+        }
         this.rbOpen.setSelected(open);
         if(dbMode){
             cbMissionOpen.setEnabled(open);
@@ -332,17 +377,14 @@ public class OpenCopexDialog  extends JDialog  {
 
 
     private void changeMissionOpen(){
-        System.out.println("changeMissionOpen");
         // mise a jour de la liste des protocoles en fonction de la mission choisie
         cbProcOpen.removeAllItems();
         int id = cbMissionOpen.getSelectedIndex();
-        System.out.println("id : "+id);
         if (id != -1){
             ArrayList<LearnerProcedure> list = this.listAllProc.get(id);
             if (list != null){
                 // initialisation liste des missions
                 int nb = list.size();
-                System.out.println("nbList : "+nb);
                 for (int i=0; i<nb; i++){
                     LearnerProcedure p = list.get(i);
                     cbProcOpen.addItem(p.getName(owner.getLocale()));
@@ -397,7 +439,7 @@ public class OpenCopexDialog  extends JDialog  {
     private void buttonOk(){
         // recupere les donnees
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        if (this.rbCreate.isSelected()){
+        if (rbCreate != null && this.rbCreate.isSelected()){
             // creation d'un nouveau protocole
             String name = fieldName.getText();
             if (name.length() == 0){
@@ -436,7 +478,7 @@ public class OpenCopexDialog  extends JDialog  {
             this.dispose();
             owner.setQuestionDialog();
             return;
-        }else if (this.rbOpen.isSelected()){
+        }else if (rbOpen != null && this.rbOpen.isSelected() || !canNew){
             if(dbMode){
                 // on recupere la mission et le protocole selectionne
                 int idM = this.cbMissionOpen.getSelectedIndex();
