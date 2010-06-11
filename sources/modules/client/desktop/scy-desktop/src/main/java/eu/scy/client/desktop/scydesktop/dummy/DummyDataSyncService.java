@@ -70,7 +70,7 @@ public class DummyDataSyncService implements IDataSyncService {
 	}
 
 	@Override
-	public ISyncSession createSession(ISyncListener il) throws Exception {
+	public ISyncSession createSession(ISyncListener il) {
 		return new DummySyncSession();
 	}
 
@@ -80,11 +80,7 @@ public class DummyDataSyncService implements IDataSyncService {
 	}
 
 	@Override
-	public void leaveSession(ISyncSession iss, ISyncListener il) {
-	}
-
-	@Override
-	public ISyncSession createSession(ISyncListener listener, String toolid) throws Exception {
+	public ISyncSession createSession(ISyncListener listener, String toolid) {
 		return new DummySyncSession();
 	}
 
