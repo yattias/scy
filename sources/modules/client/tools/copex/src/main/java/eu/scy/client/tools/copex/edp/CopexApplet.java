@@ -19,9 +19,9 @@ import java.util.Locale;
 import javax.swing.JApplet;
 
 /**
- * represente l'applet Editeur de Protocole COPEX
+ * applet for the copex editor
  * 
- * @author  MBO
+ * @author  marjolaine
  */
 public class CopexApplet extends JApplet implements ActionCopex {
     /* edp panel*/
@@ -50,30 +50,23 @@ public class CopexApplet extends JApplet implements ActionCopex {
     }
 
     
-   
-    
-    
-    
-    
     /**
-     * initialisation de l'applet
+     * applet initialization
      */
     public void initEdP(){
-        // recuperation des parametres de l'applet :
+        // gets the paremters of the applet
         String idUser = getParameter("USER");
         String m = getParameter("MISSION");
-        String mo = getParameter("MODE");
-        String userName = getParameter("USERNAME");
-        String firstName = "";
-        try{
-            firstName = getParameter("USERFIRSTNAME");
-        }catch(Throwable t){
-        }
+        String group = getParameter("GROUP");
+        String labDoc = getParameter("LABDOC");
+        
         long dbKeyMission = -1;
-        int mode = -1;
+        long dbKeyGroup = -1;
+        long dbKeyLabDoc = -1;
         try{
             dbKeyMission = Long.valueOf(m);
-            mode = Integer.valueOf(mo);
+            dbKeyGroup = Long.parseLong(group);
+            dbKeyLabDoc = Long.parseLong(labDoc);
         }catch(Throwable t){
             System.out.println(t);
             this.stop();
@@ -81,9 +74,9 @@ public class CopexApplet extends JApplet implements ActionCopex {
         }
         // i18n
         Locale locale = Locale.getDefault();
-        locale = new Locale("en", "GB");
+        //locale = new Locale("en", "GB");
         //locale = new Locale("fr", "FR");
-        copex = new CopexPanel(null,locale, null, idUser, dbKeyMission, mode, userName, firstName);
+        copex = new CopexPanel(null,locale, null, idUser, dbKeyMission, dbKeyGroup, dbKeyLabDoc);
         copex.addActionCopex(this);
         getContentPane().remove(labelWait);
         add(copex, BorderLayout.CENTER);
@@ -91,12 +84,12 @@ public class CopexApplet extends JApplet implements ActionCopex {
     }
     
     
-    /* retourne l'applet */
+    /* gets the applet */
     public CopexApplet getCopexApplet(){
         return this;
     }
     
-     /* impression au format html */
+     /* html print*/
     public void printCopexHTML(String nameFile) {
         try{
             URL urlPrint ;

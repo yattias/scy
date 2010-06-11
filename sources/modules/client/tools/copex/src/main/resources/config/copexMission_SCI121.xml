@@ -11,10 +11,6 @@
 -->
 
 <mission>
-    <options>
-        <add_proc>true</add_proc>
-        <trace>false</trace>
-    </options>
     <initial_proc>
         <code>SCI131</code>
         <name language="fr">Dosage du fer total</name>

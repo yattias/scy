@@ -14,42 +14,26 @@ import org.jdom.JDOMException;
 
 
 /**
- * represente une mission COPEX
- * @author MBO
+ * labbook mission
+ * @author marjolaine
  */
 public class CopexMission implements Cloneable{
-    // CONSTANTES
-    /* statut de la mission : a traiter*/
-    public static char STATUT_MISSION_TREAT = 'T';
-    /* statut de la mission : en cours */
-    public static char STATUT_MISSION_ON = 'C';
-    /* statut de la mission : archive*/
-    public static char STATUT_MISSION_ARCHIVE = 'A';
-
-    /* tag names */
+    
+    /** tag names */
     public final static String TAG_MISSION = "mission";
     
     
-    // ATTRIBUTS
-    /* cle primaire */ 
+    /** db id */
     private long dbKey;
-    /* nom de la mission */
+    /** mission name */
     private String name;
-    /* code de la mission */
+    /** code of the mission */
     private String code;
-    /* resume */
+    /** sum up of the mission*/
     private String sumUp;
-    /* description  : fichier attache */
-    private String description;
-    /* date de creation */
-    /* date de derniere modification */
-    /* statut cf constantes STATUT_MISSION_XXX */
-    private char statut;
-    /* active */
+    /** current mission */
     private boolean activ;
    
-    /* options */
-    private OptionMission options;
 
     private List<InitialProcedure> listInitialProc;
 
@@ -57,26 +41,19 @@ public class CopexMission implements Cloneable{
     private List<Material> listMaterial;
     private List<InitialNamedAction> listNamedAction;
 
-    // CONSTRUCTEURS
-    public CopexMission(long dbKey, String name, String code, String sumUp, char statut, OptionMission options){
+    public CopexMission(long dbKey, String name, String code, String sumUp){
         this.dbKey = dbKey;
         this.name = name;
         this.code = code;
         this.sumUp = sumUp;
-        this.description = null;
-        this.statut = statut;
         this.activ = true;
-        this.options = options;
     }
-   public CopexMission(String code, String name, String sumUp, String description, OptionMission options){
+   public CopexMission(String code, String name, String sumUp){
        this.name = name;
        this.code = code;
        this.sumUp = sumUp;
-       this.description = description;
        this.dbKey = -1;
-       this.statut = STATUT_MISSION_ON ;
        this.activ = true;
-       this.options = options;
        this.listInitialProc = null;
    }
 
@@ -96,13 +73,13 @@ public class CopexMission implements Cloneable{
                 listMat.add(material);
             }
             listMaterial = listMat;
-            // action nommees
+            // named actions
             for (Iterator<Element> variableElem = xmlElem.getChildren(InitialNamedAction.TAG_INITIAL_NAMED_ACTION).iterator(); variableElem.hasNext();) {
                 InitialNamedAction initialNamedAction = new InitialNamedAction(variableElem.next(),idInitialAction++, locale, idActionParam++, listPhysicalQuantity, listTypeMaterial );
                 listIAction.add(initialNamedAction);
             }
             listNamedAction = listIAction;
-            // proc  initiaux
+            // initial proc
             listInitialProc = new LinkedList<InitialProcedure>();
             
             for (Iterator<Element> variableElem = xmlElem.getChildren(InitialProcedure.TAG_INITIAL_PROC).iterator(); variableElem.hasNext();) {
@@ -112,17 +89,14 @@ public class CopexMission implements Cloneable{
                 listInitialProc.add(initProc);
             }
 
-            options = new OptionMission(xmlElem.getChild(OptionMission.TAG_OPTION));
             this.name = "";
             this.code = "";
             this.sumUp = "";
-            this.description = "";
             this.dbKey = dbKeyMission;
-            this.statut = STATUT_MISSION_ON ;
             this.activ = true;
-		} else {
-			throw(new JDOMException("Mission expects <"+TAG_MISSION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            } else {
+                throw(new JDOMException("Mission expects <"+TAG_MISSION+"> as root element, but found <"+xmlElem.getName()+">."));
+            }
 	}
 
     public List<InitialProcedure> getListInitialProc() {
@@ -176,10 +150,6 @@ public class CopexMission implements Cloneable{
             String sumUpC = "";
             if (this.sumUp != null)
                 sumUpC = new String(sumUp);
-            String descriptionC = "";
-            if (this.description != null)
-                descriptionC = new String(description);
-            char statutC = new Character(this.statut);
             boolean activC = this.activ;
             List<InitialProcedure> listIP = null;
             if(listInitialProc != null){
@@ -206,14 +176,10 @@ public class CopexMission implements Cloneable{
             }
             mission.setListMaterial(listMaterialC);
 
-            if(this.options != null)
-                mission.setOptions((OptionMission)options.clone());
             mission.setDbKey(dbKeyC);
             mission.setName(nameC);
             mission.setCode(codeC);
             mission.setSumUp(sumUpC);
-            mission.setDescription(descriptionC);
-            mission.setStatut(statutC);
             mission.setActiv(activC);
             mission.setListInitialProc(listIP);
             return mission;
@@ -222,7 +188,8 @@ public class CopexMission implements Cloneable{
 	    throw new InternalError();
 	}
     }
-    // GETTER AND SETTER
+
+     
      public String getName() {
         return name;
     }
@@ -232,14 +199,6 @@ public class CopexMission implements Cloneable{
     }
 
    
-    public OptionMission getOptions() {
-        return options;
-    }
-
-    public void setOptions(OptionMission options) {
-        this.options = options;
-    }
-
     public String getCode() {
         return code;
     }
@@ -248,14 +207,7 @@ public class CopexMission implements Cloneable{
         return sumUp;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    
     public void setActiv(boolean activ) {
         this.activ = activ;
     }
@@ -276,22 +228,16 @@ public class CopexMission implements Cloneable{
         this.name = name;
     }
 
-    public void setStatut(char statut) {
-        this.statut = statut;
-    }
-
-
+    
      // toXML
     public Element toXML(){
         Element element = new Element(TAG_MISSION);
-        element.addContent(options.toXML());
         if(listInitialProc != null){
             for (Iterator<InitialProcedure> p = listInitialProc.iterator(); p.hasNext();) {
                 element.addContent(p.next().toXML());
             }
         }
-
-		return element;
+	return element;
     }
 
 

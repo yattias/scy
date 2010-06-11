@@ -30,30 +30,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 /**
- * impression PDF
+ * PDF export
  * @author Marjolaine
  */
 public class PrintPDF {
     
     private CopexPanel copex;
     private String fileName;
-    private CopexUser user;
+    private CopexGroup group;
     private CopexMission mission;
     private LearnerProcedure proc;
 
     private Document document ;
 
-    public PrintPDF(CopexPanel copex, String fileName, CopexUser user,CopexMission mission,  LearnerProcedure proc) {
+    public PrintPDF(CopexPanel copex, String fileName, CopexGroup group,CopexMission mission,  LearnerProcedure proc) {
         this.copex = copex;
         this.fileName = fileName;
         this.mission = mission;
-        this.user = user;
+        this.group = group;
         this.proc = proc;
     }
 
@@ -70,7 +71,7 @@ public class PrintPDF {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(temp));
             writer.setPageEvent(new MyPDFEvent(writer, printDate ));
             
-            //Ajout du pied de page
+            // add the footer
             /*Chunk cDate = new Chunk(printDate, getFontHeaderItalic());
 			Paragraph para = new Paragraph(cDate);
 			HeaderFooter footer = new HeaderFooter(para, false);
@@ -178,7 +179,14 @@ public class PrintPDF {
 
     /* logo copex*/
     private CopexReturn setHeader(){
-        String name = (user.getUserFirstName() == null ?"" : user.getUserFirstName()+" ")+user.getUserName() ;
+        String name = "";
+        for(Iterator<CopexLearner> l = group.getLearners().iterator();l.hasNext();){
+            CopexLearner learner = l.next();
+            name += (learner.getUserFirstName() == null ?"":learner.getUserFirstName()+" ")+learner.getUserName()+";";
+        }
+        if(name.length() > 0){
+            name = name.substring(0, name.length()-1);
+        }
         String missionName = copex.getBundleString("LABEL_MISSION")+" "+mission.getName() ;
         String procName = copex.getBundleString("LABEL_PROC")+" "+proc.getName(copex.getLocale()) ;
         try {
@@ -218,7 +226,7 @@ public class PrintPDF {
     }
 
     
-    /* impression d'un protocole */
+    /* pdf a procedure */
     private CopexReturn printProc(ExperimentalProcedure proc){
         try {
             Paragraph p0 = new Paragraph("\n");
@@ -590,7 +598,7 @@ public class PrintPDF {
     }
 
 
-    /* retourne le texte de la description de la tache */
+    /* returns the text of the description of a task */
     private String getTaskDescription(CopexTask task){
         if (task instanceof CopexAction ){
             return ((CopexAction)task).toDescription(copex);
@@ -605,7 +613,7 @@ public class PrintPDF {
         return comm;
     }
 
-    /* retourne l'image associee a la tache */
+    /* returns the task image */
     private String getTaskImg(CopexTask task){
         String img = "";
         if (task == null){
@@ -637,7 +645,7 @@ public class PrintPDF {
     }
 
 
-    /* impression des enfants d'une tache */
+    /* print the children of a task */
     private CopexReturn setChilds(ExperimentalProcedure proc, CopexTask task, int level){
         ArrayList<CopexTask> listTask = getTaskListChild(proc, task);
         int nbT = listTask.size();
@@ -656,7 +664,7 @@ public class PrintPDF {
     }
 
 
-    /* retourne la liste des taches enfants de la tache */
+    /* returns the list of the children of a task  */
     private ArrayList<CopexTask> getTaskListChild(ExperimentalProcedure proc, CopexTask task){
         ArrayList<CopexTask> childs = new ArrayList();
         // premier enfant
@@ -676,7 +684,7 @@ public class PrintPDF {
         return childs;
     }
 
-    /* retourne la liste des freres de la tache */
+    /* returns the brothers of a task */
     private ArrayList<CopexTask> getTaskBrother(ExperimentalProcedure proc, CopexTask task){
         ArrayList<CopexTask> brothers = new ArrayList();
         long idb = task.getDbKeyBrother();
@@ -694,7 +702,7 @@ public class PrintPDF {
         return brothers;
     }
 
-    /* retourne la tache avec le bon id - null sinon */
+    /* returns the task with the specified id, null otherwise */
     private CopexTask getTask(List<CopexTask> listTask, long dbKey){
         int nbT = listTask.size();
         for(int i=0; i<nbT; i++){
@@ -710,7 +718,7 @@ public class PrintPDF {
         String command = "";
         String fileNamePDF = file.getPath() ;
         //System.out.println("displayPDF : "+fileNamePDF);
-        //Ouverture par Acrobat Reader
+        //open with  Acrobat Reader
        /* try {
             command = "AcroRd32 "+fileNamePDF;
             p = Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start",command});
@@ -732,7 +740,7 @@ public class PrintPDF {
             return new CopexReturn ("AcroRd32 n'est pas accessible  : "+command+
 								"!\nVeuillez verifier que le logiciel a ete installe sur la machine !",false) ;
         }
-        // Il faut attendre...mais on n'est pas oblige
+        // we can wait ... but we are not obliged
         try {
             p.waitFor() ;
         }

@@ -14,23 +14,21 @@ import java.util.*;
 import javax.swing.*;
 
 /**
- * onglets representants les differents protocoles
+ * tabs which represents the differents procedures
  * @author MBO
  */
 public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
-    //PROPERTY
     protected CopexPanel copex;
-    /* liste des CloseTAb */
+    /* list of the CloseTab */
     protected ArrayList<CloseTab> listCloseTab;
-    /* close TAb du +*/
+    /* CloseTab + (open/new)*/
     protected CloseTab closeTabAdd;
     private ArrayList<EdPPanel> listCopexPanel;
     private EdPPanel copexActivPanel;
     
-    /* enregistrement */
+    /* save */
     private boolean register;
     
-    // CONSRTUCTEURS
   
     public CopexTabbedPane(CopexPanel copex) {
         super();
@@ -64,7 +62,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
        ImageIcon  iconRollOver = copex.getCopexImage("Bouton-onglet_ouverture_sur.png");
        ImageIcon  iconClic = copex.getCopexImage("Bouton-onglet_ouverture_cli.png");
        ImageIcon  iconDisabled = copex.getCopexImage("Bouton-onglet_ouverture_grise.png");
-        closeTabAdd = new CloseTab(null, getBgColor(), getBgSelColor(),"", iconClose, iconRollOver, iconClic, iconDisabled, copex.getToolTipTextOpen());
+        closeTabAdd = new CloseTab(null, getBgColor(), getBgSelColor(),"", iconClose, iconRollOver, iconClic, iconDisabled, copex.getToolTipTextOpen(), true);
         closeTabAdd.addActionCloseTab(this);
         setTabComponentAt(0, closeTabAdd);
    }
@@ -72,7 +70,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     public void setAddProcDisabled(){
         closeTabAdd.setDisabled();
     }
-    // methodes surgargees
+
     @Override
     public void addTab(String title, Component component) {
         int index = 0;
@@ -87,7 +85,8 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         if (component instanceof EdPPanel){
             p =((EdPPanel)component).getLearnerProc();
         }
-        CloseTab closeTab = new CloseTab(p, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, copex.getBundleString("TOOLTIPTEXT_CLOSE_PROC"));
+        boolean canClose = copex.canCloseProc(p);
+        CloseTab closeTab = new CloseTab(p, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, copex.getBundleString("TOOLTIPTEXT_CLOSE_PROC"), canClose);
         closeTab.addActionCloseTab(this);
         if (component instanceof EdPPanel){
             listCopexPanel.add((EdPPanel)component);
@@ -100,13 +99,13 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
 
   
     
-    /* mise a jour de l'arbre */
+    /* update the procedure */
     public void updateProc(LearnerProcedure newProc){
         copexActivPanel.updateProc(newProc);
     }
     
     
-    /*retourne l'indice d'un arbre, -1 si non trouve */
+    /*gets the id of a proc, -1 otherwise */
     private int getIdPanel(ExperimentalProcedure proc){
         int id = -1;
         int nbT = listCopexPanel.size();
@@ -118,7 +117,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     }
     
     
-    /* suppression d'un protocole */
+    /* remove a procedure*/
     public void removeProc(ExperimentalProcedure proc){
         int id = getIdPanel(proc);
         if (id == -1)
@@ -132,7 +131,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     }
     
 
-    /* retourne le protocole actif */
+    /* returns the activ procedure */
     public LearnerProcedure getProcActiv(){
         LearnerProcedure proc = null;
         if (copexActivPanel != null)
@@ -168,7 +167,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         copexActivPanel.updateMenu();
     }
     
-    /* renommer un protocole */
+    /* rename a procedure*/
     public void updateProcName(ExperimentalProcedure proc, String name){
         int id = getIdPanel(proc);
         if (id == -1)
@@ -181,7 +180,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     
      
      
-      /* active l'enregistrement des proc actifs */
+      /* begin the register of the proc. */
       public void beginRegister(){
           this.register = true;
           int nbT = listCopexPanel.size();
@@ -190,14 +189,14 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
           }
       }
       
-      /* rend actif un proc*/
+      /*  set a proc active*/
       public void setSelected(ExperimentalProcedure proc){
           int id = getIdPanel(proc);
           if (id != -1)
               setSelectedIndex(id);
       }
 
-      /* resize arbre */
+      /* resize the width */
       public void resizeWidth(int width){
           if (copexActivPanel != null)
               copexActivPanel.resizeWidth(width);

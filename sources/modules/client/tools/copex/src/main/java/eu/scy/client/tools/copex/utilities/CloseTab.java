@@ -6,7 +6,6 @@
 package eu.scy.client.tools.copex.utilities;
 
 import eu.scy.client.tools.copex.common.LearnerProcedure;
-import eu.scy.client.tools.copex.edp.CopexPanel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,12 +13,11 @@ import javax.swing.*;
 
 
 /**
- * onglet contenant la croix pour fermeture
+ * tab with a cross to open or close
  * @author MBO
  */
 public class CloseTab extends JPanel implements MouseListener, ActionCopexButton {
 
-    // ATTRIBUTS
     private ActionCloseTab action;
     private LearnerProcedure proc;
     private JLabel labelTitle;
@@ -33,10 +31,10 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     private String toolTipText;
     private Color bgColor;
     private Color bgSelColor;
+    private boolean canClose;
     
     
-    // CONSTRUCTEURS
-    public CloseTab(LearnerProcedure proc, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
+    public CloseTab(LearnerProcedure proc, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText, boolean canClose){
         this.proc = proc;
         this.bgColor = bgColor;
         this.bgSelColor = bgSelColor;
@@ -46,6 +44,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         this.iconRollOver = iconSurvol;
         this.iconDisabled = iconDisabled ;
         this.toolTipText = toolTipText;
+        this.canClose = canClose;
         init();
     }
 
@@ -54,7 +53,6 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     }
 
     
-    // METHODES
     private void init(){
         //setBackground(Color.WHITE);
         //setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
@@ -78,7 +76,8 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         }
         setOpaque(false);
         labelIcon.setToolTipText(toolTipText);
-        add(labelIcon);
+        if(canClose)
+            add(labelIcon);
         setSize(d);
         setPreferredSize(d);
         setSelected(false);
@@ -86,7 +85,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     }
 
     /**
-    * Instancie l'objet ActionCloseTab.
+    * instanciates the object ActionCloseTab.
     * @param action ActionCloseTab
     */
     public void addActionCloseTab(ActionCloseTab action){
@@ -94,7 +93,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     }
 
     
-    /* met le label selectionne */
+    /* set the label selectionned */
     public void setSelected(boolean selected){
         this.isSelected = selected;
         Color color;
@@ -110,7 +109,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         repaint();
     }
     
-    /* mise a jour du nom du protocole */
+    /* update the proc name */
     public void updateProcName(String name){
         labelTitle.setText(name);
         this.title = name;
@@ -124,7 +123,6 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         repaint();
     }
 
-    // rend disabled
     public void setDisabled(){
         this.labelIcon.setEnabled(false);
         repaint();
@@ -135,25 +133,29 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
       if (this.title != null)
             this.action.setSelectedTab(this);
         if (e.getClickCount() == 2){
-            // double-clic : 
+            // double-clik:
             if (this.title == null || !this.isSelected)
                 return;
             this.action.doubleClickTab(this);
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
         
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
         
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
         
     }
@@ -166,7 +168,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         return title;
     }
 
-    /* mise a jour du nom du protocole */
+    /* update the titel of the tab */
     public void updateTitle(String name){
         labelTitle.setText(name);
         this.title = name;

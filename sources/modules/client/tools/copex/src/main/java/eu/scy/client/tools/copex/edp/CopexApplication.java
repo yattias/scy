@@ -22,7 +22,7 @@ import java.util.Locale;
 import javax.swing.UIManager;
 
 /**
- *
+ * Copex Application for LabBook
  * @author Marjolaine
  */
 public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
@@ -32,9 +32,8 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     private static URL copexURL;
     private static String idUser ;
     private static String mission;
-    private static String mo;
-    private static String userName;
-    private static String firstName;
+    private static String group;
+    private static String labDoc;
 
     
     /** Creates new form CopexApplication */
@@ -45,14 +44,16 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
 
     
     /**
-     * initialisation de l'applet
+     * initialization of the application
      */
     public void initEdP(){
         long dbKeyMission = -1;
-        int mode = -1;
+        long dbKeyGroup = -1;
+        long dbKeyLabDoc = -1;
         try{
             dbKeyMission = Long.valueOf(mission);
-            mode = Integer.valueOf(mo);
+            dbKeyGroup = Long.parseLong(group);
+            dbKeyLabDoc = Long.parseLong(labDoc);
         }catch(Throwable t){
             System.out.println(t);
             this.stop();
@@ -61,7 +62,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
         Locale locale = Locale.getDefault();
         //locale = new Locale("en", "GB");
         locale = new Locale("fr", "FR");
-        copex = new CopexPanel(this,locale, copexURL, idUser, dbKeyMission, mode, userName, firstName);
+        copex = new CopexPanel(this,locale, copexURL, idUser, dbKeyMission, dbKeyGroup, dbKeyLabDoc);
         copex.addActionCopex(this);
         add(copex, BorderLayout.CENTER);
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
@@ -119,17 +120,16 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
         }
         if(args == null || args.length  < 5){
             try {
-                copexURL = new URL("http://localhost/LabBook/tool_copex");
-                idUser = "1";
+                copexURL = new URL("http://localhost/LabBook/tool_copex/");
+                idUser = "2";
                 mission= "1";
-                mo = "0";
-                userName = "";
-                firstName = "";
+                group = "1";
+                labDoc = "1";
             } catch (MalformedURLException ex) {
 
             }
         }else{
-            // recuperation des parametres de l'application :
+            // gets the parameters of the application
             try{
                 System.out.println("copex url : "+args[0]);
                 copexURL = new URL(args[0]);
@@ -140,11 +140,8 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             }
             idUser = args[1];
             mission= args[2];
-            mo = args[3];
-            userName = args[4];
-            firstName = "";
-            if(args.length > 5)
-                firstName = args[5];
+            group = args[3];
+            labDoc = args[4];
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

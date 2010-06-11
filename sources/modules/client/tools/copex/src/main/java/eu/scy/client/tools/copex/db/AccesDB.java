@@ -6,13 +6,11 @@
 package eu.scy.client.tools.copex.db;
 
 import eu.scy.client.tools.copex.common.*;
-import eu.scy.client.tools.copex.edp.CopexApplet;
 import eu.scy.client.tools.copex.synchro.Locker;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.net.URL;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -21,29 +19,13 @@ import java.util.Locale;
  * @author MBO
  */
 public class AccesDB {
-    // CONSTANTES
-    // MODE D'ACCES A LA BASE
-    public static boolean BD_XML = true;
-    // ATTRIBUTS
-    /* edP */
-    private CopexApplet edP;
     private String idUser;
-    /* utilisateur */
-    private String user;
-    private String password;
-    private String url;
-    /* connexion */
-    private  Connection con = null;
-    /* boolean indiquant si on est connecte */
-    private  boolean isConnected = false;
     private DataBaseCommunication dbC ;
 
     public AccesDB() {
         
     }
      
-    
-    // CONSTRUCTEUR
     
     public AccesDB(URL copexURL, long idMission, String idUser){
        this.idUser = idUser;
@@ -59,11 +41,7 @@ public class AccesDB {
     }
     
     
-    // METHODES
-    /* renvoit la connection */
-    public Connection getConnection(){
-        return this.con;
-    }
+    
     public DataBaseCommunication getDbC(){
         return this.dbC;
     }
@@ -103,28 +81,28 @@ public class AccesDB {
    
     
 
-    public CopexReturn getMissionFromDB(long dbKeyMission, long dbKeyUser ,ArrayList v) {
-        return MissionFromDB.getMissionFromDB_xml(this.dbC, dbKeyMission, dbKeyUser, v);
+    public CopexReturn getMissionFromDB(long dbKeyMission, ArrayList v) {
+        return MissionFromDB.getMissionFromDB(this.dbC, dbKeyMission,  v);
     }
 
-    public CopexReturn getUserFromDB(long dbKeyUser ,ArrayList v) {
-        return UserFromDB.getUserFromDB_xml(this.dbC, dbKeyUser, v);
+    public CopexReturn getGroupFromDB(long dbKeyGroup ,ArrayList v) {
+        return UserFromDB.getGroupFromDB(this.dbC, dbKeyGroup, v);
     }
     
    
     public CopexReturn getProcMissionFromDB(Locker locker, boolean controlLock, long dbKeyMission, long dbKeyUser,long dbKeyProc, Locale locale, long dbKeyInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList<MaterialStrategy> listMaterialStrategy,  ArrayList v) {
-        return ExperimentalProcedureFromDB.getProcMissionFromDB_xml(this.dbC, locker, controlLock, locale, dbKeyMission , dbKeyUser, dbKeyProc,  dbKeyInitProc, listPhysicalQuantity, listMaterialStrategy,  v);
+        return ExperimentalProcedureFromDB.getProcMissionFromDB(this.dbC, locker, controlLock, locale, dbKeyMission , dbKeyUser, dbKeyProc,  dbKeyInitProc, listPhysicalQuantity, listMaterialStrategy,  v);
     }
     
     /* ajout d'une tache, retourne en v2[0] le nouvel id */
     public CopexReturn addTaskBrotherInDB(Locale locale,CopexTask task, long idProc, CopexTask brotherTask, ArrayList v){
      
-        CopexReturn cr = TaskFromDB.addTaskBrotherInDB_xml(this.dbC,locale, task, idProc, brotherTask, v);
+        CopexReturn cr = TaskFromDB.addTaskBrotherInDB(this.dbC,locale, task, idProc, brotherTask, v);
         return cr;
     }
     /* ajout d'une tache, retourne en v2[0] le nouvel id */
     public CopexReturn addTaskParentInDB(Locale locale,CopexTask task, long idProc, CopexTask parentTask, ArrayList v){
-        return TaskFromDB.addTaskParentInDB_xml(this.dbC,locale, task, idProc, parentTask, v);
+        return TaskFromDB.addTaskParentInDB(this.dbC,locale, task, idProc, parentTask, v);
        
     }
     
@@ -132,30 +110,29 @@ public class AccesDB {
     
     /* modification d'une tache*/
     public CopexReturn updateTaskInDB(Locale locale,CopexTask newTask, long idProc, CopexTask oldTask, ArrayList v){
-        return TaskFromDB.updateTaskInDB_xml(this.dbC,locale, newTask, idProc, oldTask, v);
+        return TaskFromDB.updateTaskInDB(this.dbC,locale, newTask, idProc, oldTask, v);
        
     }
     
     /* suppression de taches */
     public CopexReturn deleteTasksFromDB(long dbKeyProc, ArrayList<CopexTask> listTask){
-        return TaskFromDB.deleteTasksFromDB_xml(this.dbC, true, dbKeyProc, listTask);
+        return TaskFromDB.deleteTasksFromDB(this.dbC, true, dbKeyProc, listTask);
         
     }
     
      /* mise a jour des liens */
     public CopexReturn updateLinksInDB(long dbKeyProc, ArrayList<CopexTask> listTaskUpdateBrother, ArrayList<CopexTask> listTaskUpdateChild){
-       return TaskFromDB.updateLinksInDB_xml(this.dbC, dbKeyProc, listTaskUpdateBrother, listTaskUpdateChild);
+       return TaskFromDB.updateLinksInDB(this.dbC, dbKeyProc, listTaskUpdateBrother, listTaskUpdateChild);
         
     }
     
       /* suppression d'un protocole */
-    public CopexReturn removeProcInDB(LearnerProcedure proc, long dbKeyUser){
+    public CopexReturn removeProcInDB(LearnerProcedure proc){
         
             CopexReturn cr;
-            String msg = "";
             
             // supprime les taches liees au protocole 
-            cr = TaskFromDB.deleteTasksFromDB_xml(this.dbC, false,  proc.getDbKey(), proc.getListTask());
+            cr = TaskFromDB.deleteTasksFromDB(this.dbC, false,  proc.getDbKey(), proc.getListTask());
             
             if (cr.isError()){
                 return cr;
@@ -179,7 +156,7 @@ public class AccesDB {
                 return cr;
             }
             // suppression du protocole 
-            cr = ExperimentalProcedureFromDB.deleteProcedureFromDB_xml(this.dbC, proc.getDbKey(), dbKeyUser);
+            cr = ExperimentalProcedureFromDB.deleteProcedureFromDB(this.dbC, proc.getDbKey());
             if (cr.isError()){
                 return cr;
             }
@@ -190,7 +167,7 @@ public class AccesDB {
     /* retourne les missions de l'utilisateur sauf celle avec cet id ainsi que les protocoles associes */
     public CopexReturn getAllMissionsFromDB(Locale locale,long dbKeyUser, long dbKeyMission, ArrayList v){
             ArrayList v2 = new ArrayList();
-           CopexReturn cr = MissionFromDB.getAllMissionsFromDB_xml(this.dbC, dbKeyUser, dbKeyMission, v2);
+           CopexReturn cr = MissionFromDB.getAllMissionsFromDB(this.dbC, dbKeyUser, dbKeyMission, v2);
            if (cr.isError()){
                return cr;
            }
@@ -200,7 +177,7 @@ public class AccesDB {
            int nbM = listMission.size();
            for (int m=0; m<nbM; m++){
                v2 = new ArrayList();
-              cr = ExperimentalProcedureFromDB.getShortProcMissionFromDB_xml(dbC, locale,listMission.get(m).getDbKey(), dbKeyUser,   v2);
+              cr = ExperimentalProcedureFromDB.getShortProcMissionFromDB(dbC, locale,listMission.get(m).getDbKey(), dbKeyUser,   v2);
                if (cr.isError()){
                     return cr;
                }
@@ -214,7 +191,7 @@ public class AccesDB {
     
     /* mise a jour du nom du protocole */
     public CopexReturn updateProcName(long dbKeyProc, String name){
-        return  ExperimentalProcedureFromDB.updateProcNameInDB_xml(dbC, dbKeyProc, name);
+        return  ExperimentalProcedureFromDB.updateProcNameInDB(dbC, dbKeyProc, name);
        
     }
     
@@ -222,23 +199,13 @@ public class AccesDB {
     public CopexReturn updateDateProc(LearnerProcedure proc){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         
-        CopexReturn cr = MissionFromDB.updateDateMissionInDB_xml(dbC, proc.getMission().getDbKey(), date);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = ExperimentalProcedureFromDB.updateDateProcInDB_xml(dbC, proc.getDbKey(), date);
+        CopexReturn cr = ExperimentalProcedureFromDB.updateDateProcInDB(dbC, proc.getDbKey(), date);
         if (cr.isError()){
             return cr;
         }
         return new CopexReturn();
     }
     
-    /* mise a jour de la date de modif d'une mission */
-    public CopexReturn updateDateMission(long dbKeyMission){
-        java.sql.Date date = CopexUtilities.getCurrentDate();
-        CopexReturn cr = MissionFromDB.updateDateMissionInDB_xml(dbC, dbKeyMission, date);
-        return cr;
-    }
     
     
     /* mise a jour du protocole actif d'une mission */
@@ -246,16 +213,11 @@ public class AccesDB {
        CopexReturn cr ;
         int nbP = listProc.size();
         for (int i=0; i<nbP; i++){
-            cr = ExperimentalProcedureFromDB.updateActivProcInDB_xml(dbC, listProc.get(i).getDbKey(), listProc.get(i).isActiv());
+            cr = ExperimentalProcedureFromDB.updateActivProcInDB(dbC, listProc.get(i).getDbKey(), listProc.get(i).isActiv());
             if (cr.isError()){
                 return cr;
             }
         }
         return new CopexReturn();
-    }
-
-    /* retourne la date et l'heure*/
-    public CopexReturn getDateAndTime(ArrayList v){
-        return TraceFromDB.getDateAndTime(this.dbC, v);
     }
 }

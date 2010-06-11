@@ -9,10 +9,6 @@
 -->
 
 <mission>
-    <options>
-        <add_proc>true</add_proc>
-        <trace>true</trace>
-    </options>
     <initial_proc>
         <code>TEST</code>
         <name language="fr">Procedure</name>

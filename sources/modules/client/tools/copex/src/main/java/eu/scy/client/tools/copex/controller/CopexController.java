@@ -43,9 +43,11 @@ public class CopexController implements ControllerInterface {
     /* copex */
     private CopexPanel copex;
     /* utilisateur */
-    private long dbKeyUser;
+    private long dbKeyGroup;
     /* utilisateur */
-    private CopexUser copexUser;
+    private CopexGroup group;
+    private long dbKeyUser;
+    private long dbKeyLabDoc;
     /* liste des grandeurs physiques gerees dans COPEX */
     private List<PhysicalQuantity> listPhysicalQuantity ;
     /* liste des strategy de material dans copex */
@@ -106,8 +108,7 @@ public class CopexController implements ControllerInterface {
     private boolean setTrace(){
         if(this.mission == null)
                 return false;
-
-        return mission.getOptions().isTrace();
+        return true;
     }
 
     private Locale getLocale(){
@@ -116,19 +117,14 @@ public class CopexController implements ControllerInterface {
 
     /* initialisation de l'application - chargement des donnees*/
     @Override
-    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, int mode, String userName, String firstName, String fileMission) {
+    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String fileMission) {
         String msgError = "";
         this.locale = locale;
         this.fileMission = fileMission;
-        // recuperation utilisateur externe
-        ArrayList v = new ArrayList();
-        CopexReturn cr = loadUser(idUser, mode,userName, firstName,dbKeyMission, v);
-        if(cr.isError())
-            return cr;
-        this.dbKeyUser = (Long)v.get(0);
+        this.dbKeyUser = 1;
         // chargement des parametres :
         // lecture du fichier de config copex
-        cr = loadCopexConfig();
+        CopexReturn cr = loadCopexConfig();
         if(cr.isError())
             return cr;
         // chargement du type de material par defaut
@@ -141,8 +137,7 @@ public class CopexController implements ControllerInterface {
             }
         }
         // chargement user : nom et prenom
-        copexUser = new CopexUser("", "", userName, firstName);
-        copexUser.setLearner(true);
+        group = new CopexGroup(1, new LinkedList());
 
 //        // chargement de la mission
 //        OptionMission options = new OptionMission(true,  false);
@@ -222,7 +217,7 @@ public class CopexController implements ControllerInterface {
     private boolean canAddProc(){
         if(mission == null)
             return true;
-        return mission.getOptions().isCanAddProc();
+        return true;
     }
    
 
@@ -1434,7 +1429,7 @@ public class CopexController implements ControllerInterface {
         //String fileName = "copexPrint"+dbKeyUser+"-"+mission.getDbKey() ;
         String fileName = "copex-"+mission.getCode();
         
-        PrintPDF pdfPrint = new PrintPDF(copex, fileName, copexUser, missionToPrint,proc);
+        PrintPDF pdfPrint = new PrintPDF(copex, fileName, group, missionToPrint,proc);
         CopexReturn cr = pdfPrint.printDocument();
         return cr;
     }
@@ -1660,8 +1655,7 @@ public class CopexController implements ControllerInterface {
    /* protocole aide */
     private CopexReturn loadHelpProc(){
         // mission
-        OptionMission options = new OptionMission(false, false);
-        helpMission = new CopexMission(copex.getBundleString("HELP_MISSION_CODE"), copex.getBundleString("HELP_MISSION_NAME"), "", "", options);
+        helpMission = new CopexMission(copex.getBundleString("HELP_MISSION_CODE"), copex.getBundleString("HELP_MISSION_NAME"), "");
         helpMission.setDbKey(-2);
         //protocole
         MaterialStrategy helpMaterialStrategy = listMaterialStrategy.get(0);
@@ -1753,12 +1747,7 @@ public class CopexController implements ControllerInterface {
        return new CopexReturn(); 
     }
 
-    /* chargement de l'utilisateur selon le mode - retourne en v[0] le dbKeyUser de COPEX */
-    private CopexReturn loadUser(String idUser, int mode, String userName, String firstName, long dbKeyMission, ArrayList v){
-        v.add(new Long(1));
-        return new CopexReturn();
-    }
-
+    
     /* ouverture fenetre dialogue*/
     @Override
     public CopexReturn openHelpDialog() {
@@ -2263,10 +2252,17 @@ public class CopexController implements ControllerInterface {
         return new CopexReturn();
     }
 
+    /** log a user action in the db*/
     @Override
     public CopexReturn logUserActionInDB(String type, List<CopexProperty> attribute) {
         return new CopexReturn();
     }
 
+    /** returns if a proc is the proc of the labdoc  */
+    @Override
+    public CopexReturn isLabDocProc(LearnerProcedure p, ArrayList v){
+        v.add(false);
+        return new CopexReturn();
+    }
     
 }
