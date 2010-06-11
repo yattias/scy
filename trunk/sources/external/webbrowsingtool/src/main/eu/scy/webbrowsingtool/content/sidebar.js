@@ -1084,7 +1084,7 @@ var highlighter = {
 
             //Parameters for the webservice as JSON, stringified for transmission
             var params = {};
-            params.content = "<preview><![CDATA["+this.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html> \n <![CDATA["+htmlDoc+"]]> \n </html>";
+            params.content = "<webresource><preview><![CDATA["+this.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html> \n <![CDATA["+htmlDoc+"]]> \n </html></webresource>";
             params.username = username;
             params.password = password;
             params.type = "scy/webresourcer";
