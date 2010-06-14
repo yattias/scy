@@ -102,7 +102,7 @@ public class DataSyncModule extends SCYHubModule {
                         if (service.equals("create_session")) {
                             logger.debug("Got a create mucsession request with id " + id);
                             final SyncMessage msg = createSession();
-                            final String mucId = msg.getMessage();
+                            final String mucId = msg.getSessionId();
                             logger.debug("Answering id " + id + " with mucid " + mucId);
                             try {
                                 commandSpace.write(new Tuple(id, mucId));
