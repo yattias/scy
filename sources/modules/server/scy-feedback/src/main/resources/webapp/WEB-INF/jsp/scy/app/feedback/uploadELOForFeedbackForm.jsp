@@ -1,5 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
-<form action="/webapp/app/feedback/uploadELOForFeedbackForm.html">
+<form action="/webapp/app/feedback/uploadELOForFeedbackForm.html" onsubmit="postForm(this, this.parentNode);return false;">
     <table>
         <tr>
             <td><strong>Mission</strong></td>
