@@ -58,7 +58,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         }
 
         save(newUser);
-        log.info("CREATED USER : " + userDetails.getUsername());
+        log.fine("CREATED USER : " + userDetails.getUsername());
         return newUser;
     }
 
@@ -130,7 +130,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         User user = (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
                 .setString("username", username)
                 .uniqueResult();
-        log.info("FOUND USER: " + user + " from username: " + username);
+        log.finest("FOUND USER: " + user + " from username: " + username);
         return user;
     }
 
@@ -202,7 +202,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public SCYProject getDefaultProject() {
-        log.info("Getting default project!! REALLY HACKY METHOD, but works for now. Need to know more about the future structure to create a good default....");
+        log.fine("Getting default project!! REALLY HACKY METHOD, but works for now. Need to know more about the future structure to create a good default....");
         return (SCYProject) getSession().createQuery("from SCYProjectImpl")
                 .setMaxResults(1)
                 .uniqueResult();

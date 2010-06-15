@@ -1,9 +1,12 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.FileData;
 import eu.scy.core.model.FileRef;
+import eu.scy.core.model.ImageRef;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,5 +21,10 @@ public interface FileService extends BaseService{
 
     public void saveFile(FileData fileData);
 
+    public void addFileToELORef(FileRef fileRef, ELORef eloRef);
 
+    public List getFilesForELORef(ELORef eloRef);
+
+
+    FileRef getFileRef(String fileId);
 }

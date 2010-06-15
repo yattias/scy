@@ -2,12 +2,15 @@ package eu.scy.core;
 
 import eu.scy.core.BaseServiceImpl;
 import eu.scy.core.FileService;
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.FileData;
 import eu.scy.core.model.FileRef;
+import eu.scy.core.model.ImageRef;
 import eu.scy.core.persistence.FileDAO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,5 +42,22 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService {
     @Transactional
     public void saveFile(FileData fileData) {
         getFileDAO().save(fileData);
+    }
+
+    @Override
+    @Transactional
+    public void addFileToELORef(FileRef fileRef, ELORef eloRef) {
+        getFileDAO().addFileToELORef(fileRef, eloRef);
+    }
+
+    @Override
+    public List getFilesForELORef(ELORef eloRef) {
+        return getFileDAO().getFilesForELORef(eloRef);
+
+    }
+
+    @Override
+    public FileRef getFileRef(String fileId) {
+        return getFileDAO().getFileRef(fileId);
     }
 }

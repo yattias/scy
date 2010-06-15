@@ -1,5 +1,6 @@
 <%@ include file="common-taglibs.jsp" %>
-<form action="/webapp/app/feedback/uploadELOForFeedbackForm.html" onsubmit="postForm(this, this.parentNode);return false;">
+<!--form enctype="multipart/form-data" accept-charset="UTF-8" action="/webapp/app/feedback/uploadELOForFeedbackForm.html" onsubmit="postForm(this, this.parentNode);return false;"-->
+<form method="POST" enctype="multipart/form-data" accept-charset="UTF-8" action="/webapp/app/feedback/uploadELOForFeedbackForm.html">
     <table>
         <tr>
             <td><strong>Mission</strong></td>
@@ -25,6 +26,14 @@
             <td><strong>Product status</strong></td>
             <td>
 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>File</strong>
+            </td>
+            <td>
+                <input type="file" name="file"/>
             </td>
         </tr>
         <tr>
@@ -67,11 +76,11 @@
 
             </td>
         </tr>
-        <input type="hidden" name="action" value="addNewEloRef">
-        <input type="hidden" name="username" value="${currentUser.userDetails.username}">
+        <input type="hidden" name="action" value="addNewEloRef"/>
+        <input type="hidden" name="username" value="${currentUser.userDetails.username}"/>
         <tr>
             <td colspan="2" align="right">
-                <input type="submit">
+                <input type="submit"/>
             </td>
         </tr>
 

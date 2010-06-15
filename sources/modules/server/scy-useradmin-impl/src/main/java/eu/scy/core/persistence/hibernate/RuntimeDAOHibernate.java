@@ -83,11 +83,11 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                 try {
                     long start = System.currentTimeMillis();
                     URI eloUri = new URI(eloRuntimeAction.getEloUri());
-                    logger.info("Trying to load elo: '" + eloUri.toString() +  "'");
+                    logger.debug("Trying to load elo: '" + eloUri.toString() +  "'");
                     IELO elo = getRepository().retrieveELOLastVersion(eloUri);
-                    logger.info("ELO: " + elo);
+                    logger.debug("ELO: " + elo);
                     if(elo != null) {
-                        logger.info("used  "+ (System.currentTimeMillis() - start) + " millis to load ELO from ROOLO");
+                        logger.debug("used  "+ (System.currentTimeMillis() - start) + " millis to load ELO from ROOLO");
                         return elo.getXml();
                     } else {
                         return eloUri.toString();

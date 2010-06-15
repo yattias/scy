@@ -5,13 +5,25 @@
         <h1>SCYFeedback</h1>
 
         <c:choose>
-            <c:when test="${fn:length(eloRefs) > 0}">
-                <c:forEach var="eloRef" items="${eloRefs}">
+            <c:when test="${fn:length(eloRefTransporters) > 0}">
+                <c:forEach var="transporter" items="${eloRefTransporters}">
                     <div>
                         <table>
                             <tr>
+                                <td align="center">
+                                    <c:choose>
+                                         <c:when test="${fn:length(transporter.files) > 0}">
+                                            <c:forEach var="refFile" items="${transporter.files}">
+                                                file here!! ${refFile.fileData.name} ${refFile.fileData.contentType}
+                                                <img src="/webapp/components/resourceservice.html?id=${refFile.id}"/>
+                                            </c:forEach>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td colspan="2">
-                                    <strong>${eloRef.name}</strong>
+                                    <strong>${transporter.eloRef.name}</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -19,7 +31,8 @@
                                     <strong>By</strong>
                                 </td>
                                 <td>
-                                    ${eloRef.author.userDetails.firstname}&nbsp;${eloRef.author.userDetails.lastname}
+                                    ${transporter.eloRef.author.userDetails.firstname}&nbsp;${transporter.eloRef.author.userDetails.lastname}
+
                                 </td>
                             </tr>
                             <tr>

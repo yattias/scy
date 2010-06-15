@@ -38,6 +38,17 @@ public class FileUploadController extends SimpleFormController implements Applic
         return dataMap;
     }
 
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView = super.handleRequest(request, response);
+        String listener = (String) request.getParameter("listener");
+        modelAndView.addObject("listener", listener);
+
+        return modelAndView;
+
+
+
+    }
 
     protected ModelAndView onSubmit(
             HttpServletRequest request,

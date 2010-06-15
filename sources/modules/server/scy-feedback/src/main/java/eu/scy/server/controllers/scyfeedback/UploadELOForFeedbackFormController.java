@@ -1,20 +1,24 @@
 package eu.scy.server.controllers.scyfeedback;
 
-import eu.scy.core.AssignedPedagogicalPlanService;
-import eu.scy.core.ELORefService;
-import eu.scy.core.MissionService;
-import eu.scy.core.UserService;
+import eu.scy.core.*;
 import eu.scy.core.model.ELORef;
+import eu.scy.core.model.FileRef;
+import eu.scy.core.model.ImageRef;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ELORefImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.runtime.RuntimeService;
 import eu.scy.server.controllers.BaseController;
+import org.springframework.validation.BindException;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,26 +29,45 @@ import java.util.List;
  * Time: 12:05:14
  * To change this template use File | Settings | File Templates.
  */
-public class UploadELOForFeedbackFormController extends BaseController {
+public class UploadELOForFeedbackFormController extends SimpleFormController {
 
     private RuntimeService runtimeService;
     private UserService userService;
     private AssignedPedagogicalPlanService assignedPedagogicalPlanService;
     private ELORefService eloRefService;
     private MissionService missionService;
+    private FileService fileService;
+
+    protected ModelAndView onSubmit(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Object command,
+            BindException errors) throws Exception {
+
+        UploadELOBean eloBean = (UploadELOBean) command;
+
+        logger.info("command object: " + command);
+        logger.info("Uploaded file: " + eloBean.getFile());
+        if (eloBean.getFile() != null) {
+            logger.info("Uploaded file: " + eloBean.getFile().getOriginalFilename());
 
 
-    @Override
-    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        String username = request.getParameter("username");
-        String action = request.getParameter("action");
-
-        if(action != null) {
-            if(action.equals("addNewEloRef")) addNewEloRef(request);
         }
 
-        if(username != null) {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        String username = eloBean.getUsername();
+        String action = eloBean.getAction();
+
+        if (action != null) {
+            if (action.equals("addNewEloRef")) addNewEloRef(request, eloBean);
+        }
+
+        if (username != null) {
             User user = getUserService().getUser(username);
+
+            logger.info("User is : " + user);
 
             String currentElo = getRuntimeService().getCurrentELO(user);
             String tool = getRuntimeService().getCurrentTool(user);
@@ -60,6 +83,7 @@ public class UploadELOForFeedbackFormController extends BaseController {
 
             modelAndView.addObject("missions", missions);
 
+            if (missions != null && missions.size() > 0) modelAndView.addObject("firstMission", missions.get(0));
 
 
             modelAndView.addObject("currentELO", currentElo);
@@ -70,9 +94,59 @@ public class UploadELOForFeedbackFormController extends BaseController {
             modelAndView.addObject("currentUser", user);
 
         }
+
+        return modelAndView;
+
     }
 
-    private void addNewEloRef(HttpServletRequest request) {
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView = super.handleRequest(request, response);
+        logger.warn("NEW REQUEST!!");
+        System.out.println("yyyyyytea!");
+        String username = request.getParameter("username");
+
+        if (username != null) {
+            User user = getUserService().getUser(username);
+
+            logger.info("User is : " + user);
+
+            String currentElo = getRuntimeService().getCurrentELO(user);
+            String tool = getRuntimeService().getCurrentTool(user);
+            String las = getRuntimeService().getCurrentLAS(user);
+
+            List assignedPedagogicalPlans = getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(user);
+
+            List missions = new LinkedList();
+            for (int i = 0; i < assignedPedagogicalPlans.size(); i++) {
+                AssignedPedagogicalPlan assignedPedagogicalPlan = (AssignedPedagogicalPlan) assignedPedagogicalPlans.get(i);
+                missions.add(assignedPedagogicalPlan.getPedagogicalPlan().getMission());
+            }
+
+            modelAndView.addObject("missions", missions);
+
+            if (missions != null && missions.size() > 0) modelAndView.addObject("firstMission", missions.get(0));
+
+
+            modelAndView.addObject("currentELO", currentElo);
+            modelAndView.addObject("currentTool", tool);
+            modelAndView.addObject("currentLas", las);
+
+
+            modelAndView.addObject("currentUser", user);
+
+        }
+
+        return modelAndView;
+    }
+
+    @Override
+    protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors) throws Exception {
+        super.onBindOnNewForm(request, command, errors);    //To change body of overridden methods use File | Settings | File Templates.
+        logger.info("BINDING NEW FORM!!!!");
+    }
+
+    private void addNewEloRef(HttpServletRequest request, UploadELOBean eloBean) {
         logger.info("ADDING NEW ELO REF!!");
 
         User user = getUserService().getUser(request.getParameter("username"));
@@ -83,8 +157,28 @@ public class UploadELOForFeedbackFormController extends BaseController {
         eloRef.setELOURI(request.getParameter("productName"));
         eloRef.setTitle(request.getParameter("productName"));
         eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
-        
+
         getEloRefService().save(eloRef);
+
+
+        MultipartFile file = eloBean.getFile();
+        File tmpFile = null;
+        try {
+            tmpFile = new File(file.getOriginalFilename());
+            tmpFile.deleteOnExit();
+            file.transferTo(tmpFile);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+
+        if (file.getContentType().contains("image")) {
+            ImageRef fileRef = (ImageRef) getFileService().saveFile(tmpFile);
+            getFileService().addFileToELORef(fileRef, eloRef);
+        } else {
+            FileRef fileRef = getFileService().saveFile(tmpFile);
+            getFileService().addFileToELORef(fileRef, eloRef);
+        }
     }
 
     public RuntimeService getRuntimeService() {
@@ -125,5 +219,13 @@ public class UploadELOForFeedbackFormController extends BaseController {
 
     public void setMissionService(MissionService missionService) {
         this.missionService = missionService;
+    }
+
+    public FileService getFileService() {
+        return fileService;
+    }
+
+    public void setFileService(FileService fileService) {
+        this.fileService = fileService;
     }
 }

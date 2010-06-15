@@ -61,8 +61,6 @@ public class BreadCrumbs extends TagSupport {
         breadCrumbs = new LinkedList();
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         instpectRequest(req, (HttpServletResponse) pageContext.getResponse());
-        System.out.println("BREAD CRUMBS: QureryStrign: " + req.getQueryString());
-        System.out.println("BREAD CRUMBS : URI: " + req.getRequestURI());
         Enumeration enumeration = pageContext.getRequest().getParameterNames();
         while (enumeration.hasMoreElements()) {
             String param = (String) enumeration.nextElement();
