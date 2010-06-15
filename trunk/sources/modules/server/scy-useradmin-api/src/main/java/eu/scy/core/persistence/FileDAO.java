@@ -1,8 +1,11 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.ELORef;
 import eu.scy.core.model.FileRef;
+import eu.scy.core.model.ImageRef;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,4 +16,10 @@ import java.io.File;
  */
 public interface FileDAO extends BaseDAO{
     FileRef saveFile(File file);
+
+    void addFileToELORef(FileRef fileRef, ELORef eloRef);
+
+    List getFilesForELORef(ELORef eloRef);
+
+    FileRef getFileRef(String fileId);
 }

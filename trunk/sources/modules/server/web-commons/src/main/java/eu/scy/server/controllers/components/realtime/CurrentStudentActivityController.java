@@ -58,7 +58,7 @@ public class CurrentStudentActivityController extends AbstractController {
 
         modelAndView.addObject("status", status);
 
-        logger.info("used " + (System.currentTimeMillis() - start) + " millis to prepare runtime activity for user " + username);
+        logger.debug("used " + (System.currentTimeMillis() - start) + " millis to prepare runtime activity for user " + username);
         return modelAndView;
     }
 

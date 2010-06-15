@@ -210,7 +210,7 @@
         <attribute>
             <name>listener</name>
             <required>true</required>
-            <rtexprvalue>false</rtexprvalue>
+            <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
             <name>model</name>
@@ -329,6 +329,24 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+
+    </tag>
+
+    <tag>
+        <name>ajaxFileUpload</name>
+        <tagclass>eu.scy.server.taglibs.components.fileupload.AjaxFileUpload</tagclass>
+        <info>Ajax like upload form</info>
+
+        <attribute>
+            <name>listenerClass</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute-->
 
     </tag>
 

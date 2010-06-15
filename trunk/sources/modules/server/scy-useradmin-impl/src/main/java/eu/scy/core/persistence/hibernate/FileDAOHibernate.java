@@ -1,10 +1,9 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.media.ImageConverter;
-import eu.scy.core.model.FileData;
-import eu.scy.core.model.FileRef;
-import eu.scy.core.model.ImageRef;
+import eu.scy.core.model.*;
 import eu.scy.core.model.impl.FileDataImpl;
+import eu.scy.core.model.impl.FileRefEloRefConnectionImpl;
 import eu.scy.core.model.impl.FileRefImpl;
 import eu.scy.core.model.impl.ImageRefImpl;
 import eu.scy.core.persistence.FileDAO;
@@ -14,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,6 +32,7 @@ public class FileDAOHibernate extends ScyBaseDAOHibernate implements FileDAO {
         fileData.setBytes(getBytes(file));
         fileData.setContentType(new MimetypesFileTypeMap().getContentType(file));
         fileData.setName(file.getName());
+        fileData.setOriginalName(file.getName());
         save(fileData);
 
         FileRef fileRef = null;
@@ -59,6 +60,28 @@ public class FileDAOHibernate extends ScyBaseDAOHibernate implements FileDAO {
         fileRef.setFileData(fileData);
         save(fileRef);
         return fileRef;
+    }
+
+    @Override
+    public void addFileToELORef(FileRef fileRef, ELORef eloRef) {
+        FileRefEloRefConnection fileRefEloRefConnection = new FileRefEloRefConnectionImpl();
+        fileRefEloRefConnection.setFileRef(fileRef);
+        fileRefEloRefConnection.setConnectedElement(eloRef);
+        save(fileRefEloRefConnection);
+    }
+
+    @Override
+    public List getFilesForELORef(ELORef eloRef) {
+        return getSession().createQuery("select connection.fileRef from FileRefEloRefConnectionImpl connection where connection.connectedElement = :eloRef")
+                .setEntity("eloRef", eloRef)
+                .list();
+    }
+
+    @Override
+    public FileRef getFileRef(String fileId) {
+        return (FileRef) getSession().createQuery("from FileRefImpl where id like :id")
+                .setString("id", fileId)
+                .uniqueResult();
     }
 
     private byte [] getBytes(File file) {

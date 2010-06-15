@@ -7,6 +7,7 @@ import eu.scy.core.model.impl.pedagogicalplan.MissionImpl;
 import eu.scy.core.model.pedagogicalplan.Mission;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author bjoerge
@@ -25,6 +26,8 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
 	private String type;
 	private String topic;
 	private User author;
+
+    private List fileRefs ;
 
 	@Override
 	@Column(name = "elo_uri")

@@ -1,11 +1,16 @@
 package eu.scy.server.controllers.scyfeedback;
 
 import eu.scy.core.ELORefService;
+import eu.scy.core.FileService;
+import eu.scy.core.model.ELORef;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,10 +22,27 @@ import javax.servlet.http.HttpServletResponse;
 public class ScyFeedbackIndexController extends BaseController {
 
     private ELORefService eloRefService;
+    private FileService fileService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        modelAndView.addObject("eloRefs", getEloRefService().getELORefs());
+        //modelAndView.addObject("eloRefs", getEloRefService().getELORefs());
+
+        List transporters = new LinkedList();
+        List eloRefs = getEloRefService().getELORefs();
+        for (int i = 0; i < eloRefs.size(); i++) {
+            ELORef eloRef = (ELORef) eloRefs.get(i);
+            List files = getFileService().getFilesForELORef(eloRef);
+            ELORefDataTransporter transporter = new ELORefDataTransporter();
+            transporter.setEloRef(eloRef);
+            transporter.setFiles(files);
+            if(transporter.getFiles() == null) transporter.setFiles(Collections.EMPTY_LIST);
+            logger.info("ADDING " + files.size() + " FILES!!!");
+            transporters.add(transporter);
+        }
+
+        modelAndView.addObject("eloRefTransporters", transporters);
+
 
     }
 
@@ -31,5 +53,13 @@ public class ScyFeedbackIndexController extends BaseController {
 
     public void setEloRefService(ELORefService eloRefService) {
         this.eloRefService = eloRefService;
+    }
+
+    public FileService getFileService() {
+        return fileService;
+    }
+
+    public void setFileService(FileService fileService) {
+        this.fileService = fileService;
     }
 }

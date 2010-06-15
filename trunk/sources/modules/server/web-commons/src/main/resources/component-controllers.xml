@@ -50,6 +50,7 @@
                    /components/json/JSonView.html=jsonView
                    /components/json/ScenarioDiagramJSON.html=scenarioDiagramJSON
                    /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
+                   /components/resourceservice.html=resourceService
                </value>
            </property>
        </bean>
@@ -85,7 +86,7 @@
     <bean id="fileUploadController" class="eu.scy.server.controllers.components.fileupload.FileUploadController">
         <property name="fileService" ref="fileService"/>
         <property name="commandClass" value="eu.scy.server.controllers.components.fileupload.FileUploadBean"/>
-        <property name="formView" value="fileuploadform"/>
+        <!--property name="formView" value="fileuploadform"/-->
 	</bean>
 
 
@@ -121,6 +122,10 @@
         <property name="lasService" ref="lasService"/>
         <property name="runtimeService" ref="runtimeService"/>
         <property name="scenarioService" ref="scenarioService"/>
+    </bean>
+
+    <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
+        <property name="fileService" ref="fileService"/>
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>

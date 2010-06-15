@@ -28,7 +28,7 @@ public class MyCurrentActivity extends AbstractController {
 
         String username = httpServletRequest.getParameter("username");
         if(username != null) {
-            logger.info("LOADING FOR USER " + username);
+            logger.debug("LOADING FOR USER " + username);
             User user = userService.getUser(username);
             String currentElo = getRuntimeService().getCurrentELO(user);
             String tool = getRuntimeService().getCurrentTool(user);

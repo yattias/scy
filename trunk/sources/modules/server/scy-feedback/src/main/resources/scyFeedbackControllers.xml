@@ -45,17 +45,22 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="eloRefService" ref="eloRefService"/>
+        <property name="fileService" ref="fileService"/>
 	</bean>
 
     <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
-        <property name="serverService" ref="serverService"/>
-        <property name="urlInspector" ref="urlInspector"/>
+        <!--property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/-->
         <property name="runtimeService" ref="runtimeService"/>
         <property name="userService" ref="userService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
         <property name="eloRefService" ref="eloRefService"/>
-        <property name="missionService" ref="missionService"/> 
+        <property name="missionService" ref="missionService"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.UploadELOBean"/>
 	</bean>
+
+    <bean id="fileUploadedForFeedbackListener" class="eu.scy.server.controllers.scyfeedback.FileUploadedForFeedbackListener"/>
 
 
 

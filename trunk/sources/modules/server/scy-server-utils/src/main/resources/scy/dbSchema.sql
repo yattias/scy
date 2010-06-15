@@ -461,6 +461,23 @@ CREATE TABLE `learningmaterial` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `filerefconnection`;
+CREATE TABLE `filerefconnection` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`connectiontype` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `fileref_primKey` varchar(55) default NULL ,
+    `eloref_primKey` varchar(55) default NULL ,
+	PRIMARY KEY  (`primKey`),
+    KEY `filerefref` (`fileref_primKey`),
+	KEY `elorefref` (`eloref_primKey`),
+    CONSTRAINT `filerefconst` FOREIGN KEY (`fileref_primKey`) REFERENCES `fileref` (`primKey`),
+	CONSTRAINT `elorefconst` FOREIGN KEY (`eloref_primKey`) REFERENCES `eloref` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 set FOREIGN_KEY_CHECKS=1;
 
 
