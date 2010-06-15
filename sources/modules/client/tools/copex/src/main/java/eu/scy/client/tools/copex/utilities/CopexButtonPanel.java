@@ -10,13 +10,11 @@ import java.awt.Image;
 import javax.swing.*;
 
 /**
- * represente les bouttons du menu
- * @author  MBO
+ * menu button
+ * @author  marjolaine
  */
 public class CopexButtonPanel extends JPanel {
 
-    // ATTRIBUTS
-    private int l;
     /* action de clic */
     private ActionCopexButton actionCopexButton;
     /*
@@ -41,7 +39,7 @@ public class CopexButtonPanel extends JPanel {
     private Image bgDisabled;
     private boolean modeEnabled = true;
 
-    public CopexButtonPanel(int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
+    public CopexButtonPanel(Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
         super();
         this.bgSimple = bgSimple;
         this.bg = bgSimple;
@@ -50,7 +48,7 @@ public class CopexButtonPanel extends JPanel {
         this.bgDisabled = bgDisabled;
         this.modeEnabled = true;
         initComponents();
-        setSize(l, 20);
+        setSize(bgSimple.getWidth(this), bgSimple.getHeight(this));
         setOpaque(false);
         repaint();
     }

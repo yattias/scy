@@ -462,7 +462,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             ImageIcon buttonAddSurvol = edP.getCopexImage("Bouton-onglet_ouverture_sur.png");
             ImageIcon buttonAddClic = edP.getCopexImage("Bouton-onglet_ouverture_cli.png");
             ImageIcon buttonAddDisabled = edP.getCopexImage("Bouton-onglet_ouverture_grise.png");
-            buttonAddParam = new CopexButtonPanel(28, buttonAdd.getImage(), buttonAddSurvol.getImage(), buttonAddClic.getImage(), buttonAddDisabled.getImage());
+            buttonAddParam = new CopexButtonPanel(buttonAdd.getImage(), buttonAddSurvol.getImage(), buttonAddClic.getImage(), buttonAddDisabled.getImage());
             buttonAddParam.addActionCopexButton(this);
             buttonAddParam.setToolTipText(edP.getBundleString("TOOLTIPTEXT_ADD_TASK_REPEAT_PARAM"));
             int nb = listPanels.size()-1;
@@ -478,7 +478,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             ImageIcon buttonRemoveSurvol = edP.getCopexImage("Bouton-onglet_moins_sur.png");
             ImageIcon buttonRemoveClic = edP.getCopexImage("Bouton-onglet_moins_cli.png");
             ImageIcon buttonRemoveDisabled = edP.getCopexImage("Bouton-onglet_moins_grise.png");
-            buttonRemoveParam = new CopexButtonPanel(28, buttonRemove.getImage(), buttonRemoveSurvol.getImage(), buttonRemoveClic.getImage(), buttonRemoveDisabled.getImage());
+            buttonRemoveParam = new CopexButtonPanel(buttonRemove.getImage(), buttonRemoveSurvol.getImage(), buttonRemoveClic.getImage(), buttonRemoveDisabled.getImage());
             buttonRemoveParam.addActionCopexButton(this);
             buttonRemoveParam.setToolTipText(edP.getBundleString("TOOLTIPTEXT_REMOVE_TASK_REPEAT_PARAM"));
             buttonRemoveParam.setBounds(buttonAddParam.getX()+buttonAddParam.getWidth()+5, buttonAddParam.getY(), 28,20);
