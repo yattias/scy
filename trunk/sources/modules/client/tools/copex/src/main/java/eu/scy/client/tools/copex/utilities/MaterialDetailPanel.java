@@ -103,7 +103,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
 
     private CopexButtonPanel getButtonRemove(){
         if(buttonRemove == null){
-            buttonRemove = new CopexButtonPanel(22, imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemoveGris.getImage() );
+            buttonRemove = new CopexButtonPanel(imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemoveGris.getImage() );
             buttonRemove.setBounds(cbUsed.getX()+cbUsed.getWidth()+5,cbUsed.getY()+5, buttonRemove.getWidth(), buttonRemove.getHeight());
             buttonRemove.addActionCopexButton(this);
             buttonRemove.setToolTipText(edP.getBundleString("TOOLTIPTEXT_REMOVE_MATERIAL"));

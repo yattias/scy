@@ -63,7 +63,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         labelTitle.setBounds(0, 0, l+5, 19);
         add(labelTitle);
         //add(Box.createHorizontalStrut(5));
-        labelIcon = new CopexButtonPanel(20, this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
+        labelIcon = new CopexButtonPanel(this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
         labelIcon.addActionCopexButton(this);
         //labelIcon.setBackground(Color.WHITE);
         Dimension d;
