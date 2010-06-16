@@ -33,7 +33,11 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-
+import javafx.scene.layout.Container;
+import javax.swing.JComponent;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import java.lang.Float;
 
 
 /**
@@ -57,6 +61,10 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    var wrappedCopexPanel:SwingComponent;
    var technicalFormatKey: IMetadataKey;
+   def swingContentGroup = Group{
+      autoSizeChildren:false
+   }
+   var swingContent:JComponent;
 
    var elo:IELO;
 
@@ -70,6 +78,23 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       scyCopexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       scyCopexPanel.initActionLogger();
       scyCopexPanel.initCopex();
+//      FX.deferAction(function():Void{
+//            switchSwingDisplayComponent(scyCopexPanel);
+//         });
+//      Timeline {
+//         repeatCount: 1
+//         keyFrames: [
+//            KeyFrame{
+//               time:5s
+//               action:function():Void{
+//                  switchSwingDisplayComponent(scyCopexPanel);
+//               }
+//
+//            }
+//
+//         ];
+//      }.play();
+//
    }
 
    public override function loadElo(uri:URI){
@@ -104,14 +129,27 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                         }
                      ]
                   }
+//                  Group{
+//                     autoSizeChildren:false
+//                     content:wrappedCopexPanel
+//                  }
+
                   wrappedCopexPanel
+//                  swingContentGroup
                ]
             }
          ]
       };
    }
 
-   function doLoadElo(eloUri:URI)
+   function switchSwingDisplayComponent(newComponent : JComponent):Void{
+      swingContent = newComponent;
+      wrappedCopexPanel = SwingComponent.wrap(swingContent);
+      swingContentGroup.content = wrappedCopexPanel;
+      resizeContent();
+   }
+
+function doLoadElo(eloUri:URI)
    {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
@@ -152,16 +190,13 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    function resizeContent(){
       var size = new Dimension(width,height-wrappedCopexPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
+      Container.resizeNode(wrappedCopexPanel,size.width,size.height);
       scyCopexPanel.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
       scyCopexPanel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return scyCopexPanel.getPreferredSize().getHeight();
+      return scyCopexPanel.getPreferredSize().getHeight()+wrappedCopexPanel.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
