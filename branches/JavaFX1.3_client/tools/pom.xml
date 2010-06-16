@@ -15,6 +15,7 @@
 	<url>http://www.scy-net.eu</url>
 
 	<modules>
+	<!--
 		<module>scydynamics</module>
 		<module>scymapper</module>
 		<module>scysimulator</module>
@@ -26,19 +27,26 @@
 		<module>dataprocesstool</module>
 		<module>drawingtool</module>
 		<module>fx-chattool</module>
+		-->
 		<module>fx-copex</module>
 		<module>fx-drawingtool</module>
 		<module>fx-fitex</module>
 		<module>fx-flying-saucer</module>
 		<module>fx-interviewtool</module>
+		<!--
 		<module>fx-pictureviewer</module>
+		-->
 		<module>fx-richtexteditor</module>
+		<!--
 		<module>fx-scydynamics</module>
+		-->
 		<module>fx-scymapper</module>
 		<module>fx-simulator</module>
+		<!--
 		<module>fx-student-planning-tool</module>
 		<module>fx-video</module>
 		<module>fx-webresourcer</module>
+		-->
    </modules>
 	
 </project>
