@@ -79,6 +79,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var eloSimconfig: IELO;
     var eloDataset: IELO;
     var dataCollector: DataCollector;
+    var syncAttrib: DatasyncAttribute;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
     def simulatorContent = Group{
@@ -124,23 +125,38 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         }
     }
 
-    public function initializeDatasync(fitex: ISynchronizable) {
-        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
-        fitex.join(datasyncsession.getId());
-        this.join(datasyncsession.getId());
+    public function initializeDatasync(fitex: ISynchronizable):Void {
+//        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
+//        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
+//        fitex.join(datasyncsession.getId(), datasyncEdge as Object);
+//        this.join(datasyncsession.getId());
+//        datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
+//        acceptDialog.modalDialogBox.close();
     }
 
     public function removeDatasync(fitex: ISynchronizable) {
+//        scyWindow.windowManager.scyDesktop.edgesManager.removeDatasyncLink(datasyncEdge);
+//        datasyncEdge = null;
         this.leave(dataCollector.getSessionID());
         fitex.leave(fitex.getSessionID());
+    }
+
+   public override function getDatasyncAttribute(): DatasyncAttribute {
+        return syncAttrib;
     }
 
     public override function join(mucID: String) {
         dataCollector.join(mucID);
     }
 
+    public override function join(mucID: String, edge: Object) {
+        dataCollector.join(mucID);
+//        this.datasyncEdge = edge as DatasyncEdge;
+    }
+
     public override function leave(mucID: String) {
         dataCollector.leave();
+//        this.datasyncEdge = null;
     }
 
     public override function getSessionID(): String {
