@@ -58,6 +58,9 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    public override var height on replace {resizeContent()};
    var wrappedFitexPanel:SwingComponent;
    var technicalFormatKey: IMetadataKey;
+   var syncAttrib: DatasyncAttribute;
+//   var datasyncEdge: DatasyncEdge;
+//   var acceptDialog: AcceptSyncModalDialog;
    var elo:IELO;
    def spacing = 5.0;
 
@@ -126,7 +129,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
        }else{
             return false;
        }
-
    }
 
    /* return true is fitex is synchronizing: sessionID not null*/
@@ -134,18 +136,32 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
        return getSessionID() != null;
    }
 
-
    public function initializeDatasync(simulator: ISynchronizable) {
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
+//        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(syncAttrib, simulator.getDatasyncAttribute() as DatasyncAttribute);
         this.join(datasyncsession.getId());
-        simulator.join(datasyncsession.getId());
+//        simulator.join(datasyncsession.getId(), datasyncEdge as Object);
+//        datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
+//        acceptDialog.modalDialogBox.close();
     }
+
     public function removeDatasync(simulator: ISynchronizable) {
+//        scyWindow.windowManager.scyDesktop.edgesManager.removeDatasyncLink(datasyncEdge);
+//        datasyncEdge = null;
         this.leave(simulator.getSessionID());
         simulator.leave(simulator.getSessionID());
     }
 
+    public override function getDatasyncAttribute(): DatasyncAttribute {
+        return syncAttrib;
+    }
+
    public override function join(mucID: String) {
+        fitexPanel.joinSession(mucID);
+    }
+
+    public override function join(mucID: String, edge: Object) {
+//        this.datasyncEdge = edge as DatasyncEdge;
         fitexPanel.joinSession(mucID);
     }
 
@@ -156,7 +172,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
     public override function getSessionID() {
         return fitexPanel.getSessionID();
     }
-
     public override function getToolName() {
         return "fitex";
     }
