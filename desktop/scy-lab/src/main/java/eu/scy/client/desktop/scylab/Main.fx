@@ -14,8 +14,8 @@ import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
 import eu.scy.client.tools.fxcopex.registration.CopexToolCreatorFX;
-import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
-import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
+//import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
+//import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 
 
 import eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator;
@@ -24,13 +24,13 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
 
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
+//import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
+//import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.tools.interviewtool.InterviewToolContentCreator;
-import eu.scy.client.tools.fxvideo.VideoContentCreator;
-import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
+//import eu.scy.client.tools.fxvideo.VideoContentCreator;
+//import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -86,7 +86,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
            }
 
 //   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
+//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(DrawingToolCreatorFX{}, scyDrawingId);
 
@@ -98,7 +98,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SimulatorContentCreator {}, scySimulatorId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
+//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
 
@@ -106,9 +106,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(InterviewToolContentCreator{},scyInterviewId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
+//   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
+//   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
    var presentationExternalDocCreator = ExternalDocCreator{
       extensions: ["ppt","pptx"]
@@ -137,19 +137,19 @@ scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlView
 
    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
    var chatControllerMap = new HashMap();
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-            ChattoolDrawerContentCreatorFX {
-                awarenessService: awarenessService;
-                chatControllerMap: chatControllerMap;
-                },
-            scychatId);
-
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-            ChattoolPresenceDrawerContentCreatorFX {
-                awarenessService: awarenessService;
-                chatControllerMap: chatControllerMap;
-            },
-            scychatpresenceId);
+//   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+//            ChattoolDrawerContentCreatorFX {
+//                awarenessService: awarenessService;
+//                chatControllerMap: chatControllerMap;
+//                },
+//            scychatId);
+//
+//   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+//            ChattoolPresenceDrawerContentCreatorFX {
+//                awarenessService: awarenessService;
+//                chatControllerMap: chatControllerMap;
+//            },
+//            scychatpresenceId);
 
 //scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {}, scychatId);
 //   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {}, scychatpresenceId);
