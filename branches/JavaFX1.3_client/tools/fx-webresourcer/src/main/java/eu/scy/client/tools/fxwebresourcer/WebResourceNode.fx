@@ -25,7 +25,7 @@ import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
-
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
@@ -43,6 +43,7 @@ import eu.scy.client.tools.fxwebresourcer.highlighter.XMLData;
  */
 
 public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable {
+    def logger = Logger.getLogger(this.getClass());
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -51,7 +52,6 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
     public var metadataTypeManager:IMetadataTypeManager;
     def spacing = 5.0;
     public var eloWebResourceActionWrapper:EloWebResourceActionWrapper;
-    //var dataFromXML:HighlighterXMLData;
     var myContent:ContentNode = ContentNode {
             webNode: this
     };
@@ -67,11 +67,11 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
     }
     var scrollClipView:ClipView = ClipView {
         clipY: bind vScroll.value;
-        node: myContent;
+        node: bind myContent;
         pannable: false;
         layoutInfo:LayoutInfo {
             height: bind scyWindow.height-100;
-            width: bind scyWindow.width - 20;
+            width: bind scyWindow.width - 30;
         }
     }
     var hBox:HBox = HBox {
@@ -94,66 +94,38 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
 
     public function updateScrollbars():Void {
        //disables the scrollbars if the content is smaller than the scywindow to prevent some errors
-       if((myContent.height) <= scrollClipView.height) {
-           vScroll.value = 0;
+       // finally working!!!11 :)
+       //if((myContent.height) <= scrollClipView.height) {
+       def offset = vScroll.value;
+       if((myContent.layoutBounds.height-400) <= scrollClipView.height) {
+           //vScroll.value = 0;
            vScroll.max = 1;
            vScroll.disable = true;
        } else {
-           vScroll.value = 0;
-           vScroll.max = javafx.util.Math.abs(myContent.height - scrollClipView.height);
+           //vScroll.value = 0;
+           //vScroll.max = javafx.util.Math.abs(myContent.height - scrollClipView.height);
+           vScroll.max = javafx.util.Math.abs(myContent.layoutBounds.height-400 - scrollClipView.height);
            vScroll.disable = false;
        }
     }
 
     public override function loadXML(input:String):Void {
-        //lets do some bugfixing the chucknorris style.
-        /*
-        myContent = null;
         myContent = ContentNode {
-            webNode: this;
-        }
-        */
-        //remove linebreaks -> JAXB seems to have some trouble with them.
-        /*var xml = input.replaceAll("[\r\n]+", "");
-        //use JAXB to create an object from xml inupt
-        var context:JAXBContext = JAXBContext.newInstance(HighlighterXMLData.class);
-        var um:Unmarshaller = context.createUnmarshaller();
-        dataFromXML = (um.unmarshal( new StringReader(xml)) as HighlighterXMLData);
-        */
-        //clear and add new content
+            webNode: this
+        };
         var xmlData:XMLData = new XMLData(input);
-        myContent.clearQuotations();
-        myContent.setTitle(xmlData.getTitle());
-        
-        for(bullet in xmlData.getBullets()) {
-             myContent.addQuotation(bullet);
-        }
-        //myContent.setComment(xmlData.getComments().replaceAll("LINEBREAKISAFORBIDDENWORD", "\r\n"));
-        myContent.setComment(xmlData.getComments());
-        myContent.setSource(xmlData.getSources());
+        myContent.loadXML(xmlData);
         setScyWindowTitle();
+        updateLine();
         updateScrollbars();
     }
 
     public override function getXML():String {
-        //dataFromXML.setComments(myContent.comment);
-        //return dataFromXML.toString();
         return "";
     }
 
     function setScyWindowTitle() {
-       /* if(scyWindow == null)
-            return scyWindow.title = "WebResourceR";
-        scyWindow.title = eloWebResourceActionWrapper.getDocName();
-        var eloUri = eloWebResourceActionWrapper.getEloUri();
-        scyWindow.eloUri = eloUri;*/
         scyWindow.title = "WebResouceR: {myContent.title}";
-        /*
-        if(eloUri != null)
-            scyWindow.id = eloUri.toString()
-        else
-            scyWindow.id = "";
-        */
     }
 
  /**
@@ -163,10 +135,6 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
 
     }
 
-    /**
-    * step 6 in sequence of calls -> wiki ScyTool
-    * ScyWindow + repository should be fine now -> create eloactionwrapper and be happy!
-    */
     override function postInitialize():Void {
 
             this.eloWebResourceActionWrapper = new EloWebResourceActionWrapper(this);
@@ -241,52 +209,17 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
                      translateX:spacing;
                      spacing:spacing;
                      content:[
-                             /*
-                        Button {
-                            text: "reload";
-                            translateX: 500;
-                            onMouseReleased:function(e:MouseEvent):Void {
-                            }
-                        }
-*/
-                             /*
-                        Button {
-                           text: "New"
-                           action: function() {
-                              eloWebResourceActionWrapper.newWebAction();
-                            setScyWindowTitle();
-                           }
-                        }*/
                         Button {
                            text: "Open"
                            action: function() {
                                 eloWebResourceActionWrapper.loadWebAction();
-                                //setScyWindowTitle();
                            }
                         }
-                        /*
-                        Button {
-                           text: "Save"
-                           action: function() {
-                              eloWebResourceActionWrapper.saveWebAction();
-										setScyWindowTitle();
-                           }
-                        }*/
-                        /*
-                        Button {
-                           text: "Save copy"
-                           action: function() {
-                                eloWebResourceActionWrapper.saveAsWebAction();
-                                setScyWindowTitle();
-                           }
-                        }
-                        */
                      ]
                   }
                   hBox
                ]
             }
-            //bind hBox;
         };
         return g;
     }

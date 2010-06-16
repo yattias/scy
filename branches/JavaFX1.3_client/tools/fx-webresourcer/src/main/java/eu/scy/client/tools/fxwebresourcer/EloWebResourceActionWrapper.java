@@ -185,24 +185,25 @@ public class EloWebResourceActionWrapper {
             }
             IContent content = newElo.getContent();
             if(content != null) {
-                System.out.println("content loaded");
+                //System.out.println("content loaded");
                 String xml = content.getXmlString();
                 if(xml != null) {
-                    System.out.println("xml loaded.");
+                   //t System.out.println("xml loaded.");
                    this.target.loadXML(xml);
                 }
                 else {
-                    System.out.println("ERROR: could not load xml, xml == null");
+                    logger.warning("ERROR: could not load xml, xml == null");
                 }
             }
             else {
-                System.out.println("ERROR: could not load content, content == null");
+                logger.warning("ERROR: could not load content, content == null");
             }
-            this.target.loadXML(newElo.getContent().getXmlString());
+            //why is this line here!?
+            //this.target.loadXML(newElo.getContent().getXmlString());
             elo = newElo;
         }
         else {
-            System.out.println("ERROR: could not retrieve elo.");
+            logger.warning("ERROR: could not retrieve elo.");
         }
     }
 
