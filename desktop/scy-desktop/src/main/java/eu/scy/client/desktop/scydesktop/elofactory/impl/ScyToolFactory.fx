@@ -111,11 +111,19 @@ public class ScyToolFactory extends ContentFactory {
    }
 
    function createErrorNode(errorMessage: String): Node {
-      var textEditor = new TextEditor();
-      textEditor.setEditable(false);
-      textEditor.setText(errorMessage);
-      textEditor.resetScrollbars();
-      return SwingComponent.wrap(textEditor);
+//      var textEditor = new TextEditor();
+//      textEditor.setEditable(false);
+//      textEditor.setText(errorMessage);
+//      textEditor.resetScrollbars();
+//      return SwingComponent.wrap(textEditor);
+
+      createErrorNode2(errorMessage);
+   }
+
+   function createErrorNode2(errorMessage: String): Node {
+      ErrorTextDisplay{
+         text:errorMessage
+      }
    }
 
    function getErrorMessage(e: Exception, eloUri: URI, id: String, type: String, drawer: Boolean, creator: Object): String {
