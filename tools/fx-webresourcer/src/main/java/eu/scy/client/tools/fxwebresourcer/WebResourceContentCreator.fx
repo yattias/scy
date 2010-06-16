@@ -11,6 +11,7 @@ import javafx.scene.Node;
 
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
+import javafx.util.StringLocalizer;
  
 /**
  * @author pg
@@ -19,6 +20,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX
 //public class WebResourceContentCreator extends WindowContentCreatorFX {
 public class WebResourceContentCreator extends ScyToolWindowContentCreatorFX {
     override function createScyToolWindowContent():Node {
+        StringLocalizer.associate("eu.scy.client.tools.fxwebresourcer.resources.WebResourcer", "eu.scy.client.tools.fxwebresourcer");
         return WebResourceNode{};
     }
  /*
