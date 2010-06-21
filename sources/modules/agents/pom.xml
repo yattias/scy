@@ -19,7 +19,6 @@
 		<module>agents-base</module>
 	</modules>
 
-
 	<build>
 		<plugins>
 			<plugin>
