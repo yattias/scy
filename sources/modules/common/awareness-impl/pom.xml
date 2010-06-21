@@ -13,12 +13,24 @@
     <name>awareness-impl</name>
 
     <dependencies>
-
+	
+		<dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+	
         <dependency>
             <groupId>jivesoftware</groupId>
             <artifactId>smack</artifactId>
             <version>3.1.0</version>
         </dependency>
+						
+		<dependency>
+			<groupId>jivesoftware</groupId>
+			<artifactId>smackx</artifactId>
+			<version>3.1.0</version>
+		</dependency>
         
         <dependency>
             <groupId>eu.scy.common</groupId>
@@ -26,22 +38,19 @@
             <version>${pom.version}</version>
         </dependency>
    
+		<!-- unused
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-commons</artifactId>
 			<version>${pom.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		-->
 		
 		<dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
-		<dependency>
-			<groupId>jivesoftware</groupId>
-			<artifactId>smackx</artifactId>
-			<version>3.1.0</version>
-		</dependency>
 		
     </dependencies>
     
