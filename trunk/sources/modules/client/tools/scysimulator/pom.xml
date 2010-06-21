@@ -39,24 +39,78 @@
             <groupId>eu.scy.client.client-common</groupId>
             <artifactId>scy-i18n</artifactId>
             <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jmxtools</artifactId>
+                    <groupId>com.sun.jdmk</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>drawingtool</artifactId>
             <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jcrom</artifactId>
+                    <groupId>org.jcrom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>appframework</artifactId>
+                    <groupId>org.jdesktop</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-commons</artifactId>
             <version>${pom.version}</version>
+            <exclusions>
+                <!--
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                -->
+                <exclusion>
+                    <artifactId>jcrom</artifactId>
+                    <groupId>org.jcrom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-tx</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>eu.scy.client.desktop</groupId>
             <artifactId>tool-broker</artifactId>
             <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- OTHERS -->
@@ -81,6 +135,11 @@
         <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
+        </dependency>
+		
+		<dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
         </dependency>
 
         <dependency>

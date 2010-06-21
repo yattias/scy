@@ -39,6 +39,18 @@
             <artifactId>scy-model-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        
+		<dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.swinglabs</groupId>
@@ -61,13 +73,13 @@
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>pedagogical-plan-service-api</artifactId>
-            <version>9.8.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>tool-broker-api</artifactId>
-            <version>9.8.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
@@ -80,16 +92,24 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
         </dependency>
+        
         <dependency>
         	<groupId>eu.scy.client.desktop</groupId>
         	<artifactId>tool-broker</artifactId>
-        	<version>9.8.0-SNAPSHOT</version>
+        	<version>${pom.version}</version>
         </dependency>
+        
         <dependency>
     		<groupId>eu.scy.client.client-common</groupId>
     		<artifactId>scy-i18n</artifactId>
     		<version>${pom.version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>0.6.1-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

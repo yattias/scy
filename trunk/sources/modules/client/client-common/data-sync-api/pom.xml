@@ -9,7 +9,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>data-sync-api</artifactId>
-    <name>Client Datasync Commons</name>
+    <name>Client Datasync APIs</name>
     <version>9.8.0-SNAPSHOT</version>
 
     <dependencies>
@@ -18,6 +18,17 @@
             <groupId>jivesoftware</groupId>
             <artifactId>smackx</artifactId>
             <version>3.1.0</version>
+        </dependency>
+			
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>smack</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+		
+		<dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
         </dependency>
 
         <dependency>

@@ -1,4 +1,3 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
@@ -45,35 +44,40 @@
             <version>0.1</version>
         </dependency>
 
-      <dependency>
+		<dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>awareness-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
         <dependency>
-                <groupId>eu.scy.common</groupId>
-                <artifactId>awareness-api</artifactId>
-                <version>${pom.version}</version>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>awareness-api</artifactId>
+			<version>${pom.version}</version>
         </dependency>
+		
         <dependency>
-                <groupId>eu.scy.common</groupId>
-                <artifactId>scy-commons</artifactId>
-                <version>${pom.version}</version>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-commons</artifactId>
+			<version>${pom.version}</version>
         </dependency>
+		
         <dependency>
-                <groupId>eu.scy.common</groupId>
-                <artifactId>scy-model-impl</artifactId>
-                <version>${pom.version}</version>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-model-impl</artifactId>
+			<version>${pom.version}</version>
         </dependency>
+		
         <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>student-planning-tool</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
         <dependency>
-                <groupId>eu.scy.client.desktop</groupId>
-                <artifactId>tool-broker</artifactId>
-                <version>${pom.version}</version>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>tool-broker</artifactId>
+			<version>${pom.version}</version>
         </dependency>
        
         <dependency>
@@ -81,7 +85,6 @@
             <artifactId>fx-chattool</artifactId>
             <version>${pom.version}</version>
         </dependency>
-
 
    </dependencies>
 

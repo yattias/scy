@@ -5,34 +5,59 @@
 		<groupId>eu.scy.client.desktop</groupId>
 		<version>9.8.0-SNAPSHOT</version>
 	</parent>
+	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.client.desktop</groupId>
 	<artifactId>action-logging-client</artifactId>
-	<name>Action Logging Client Classes</name>
-	<version>9.8.0-SNAPSHOT</version>
+	<name>action logging client</name>
+	
 	<dependencies>
+	
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-commons</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>packet-transformer</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>smacket-extension</artifactId>
 			<version>${pom.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>jivesoftware</groupId>
-			<artifactId>smackx</artifactId>
-			<version>3.1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>configuration</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>jivesoftware</groupId>
+			<artifactId>smack</artifactId>
+			<version>3.1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+			
 	</dependencies>
 </project>
