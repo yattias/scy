@@ -8,24 +8,43 @@
   
   <groupId>eu.scy.client.desktop</groupId>
   <artifactId>notification-receiver</artifactId>
-  <version>9.8.0-SNAPSHOT</version>
-  <name>Notification Receiver</name>
-  <description>Receives notifications on client side</description>
+  <name>notification receiver</name>
+  <description>receives notifications on client side</description>
   
   <dependencies>
   
     <dependency>
       <groupId>eu.scy.common</groupId>
       <artifactId>notification-impl</artifactId>
-      <version>9.8.0-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
 	
     <dependency>
     	<groupId>eu.scy.common</groupId>
     	<artifactId>smacket-extension</artifactId>
-    	<version>9.8.0-SNAPSHOT</version>
+    	<version>${project.version}</version>
     </dependency>
+
+    <dependency>
+    	<groupId>eu.scy.common</groupId>
+    	<artifactId>notification-api</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+	
+	<dependency>
+		<groupId>eu.scy.common</groupId>
+		<artifactId>packet-transformer</artifactId>
+		<version>${pom.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>jivesoftware</groupId>
+		<artifactId>smack</artifactId>
+		<version>3.1.0</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
 	
   </dependencies>
   
