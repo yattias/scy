@@ -175,7 +175,6 @@ public class SaveELO {
                     elo = beans.getEloFactory().createELO();
                     elo.setMetadata(createELOMetadata(username, title, type, dateCreated, description));
                     elo.setContent(createELOContent(language, country, content));
-                    log.info("Elo created. Metadata and content set");
                     IMetadata metadata = beans.getRepository().addNewELO(elo);
                     uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
                     log.info("Saved ELO with uri: " + uri);
@@ -191,10 +190,8 @@ public class SaveELO {
         } catch (ELONotAddedException ex) {
             log.error(ex.getMessage());
         } catch (Exception ex) {
-            log.error("**********CATCH ALL**************");
+            //uncaught Exceptions, for example from Spring
             log.error(ex);
-            ex.printStackTrace();
-            log.error("*********************************");
         } finally {
             //uri is null if the whole thing isnt working
             return uri;
