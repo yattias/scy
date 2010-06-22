@@ -35,42 +35,65 @@
          <artifactId>dataprocesstool</artifactId>
          <version>${pom.version}</version>
       </dependency>
-
-      <dependency>
-         <groupId>eu.scy.client.tools</groupId>
-         <artifactId>drawingtool</artifactId>
-         <version>${pom.version}</version>
-      </dependency>
-
      <dependency>
          <groupId>eu.scy.client.desktop</groupId>
          <artifactId>scy-desktop</artifactId>
          <version>${pom.version}</version>
       </dependency> 
-
      <dependency>
-
-      <groupId>eu.scy.common</groupId>
+        <groupId>eu.scy.common</groupId>
 	<artifactId>tool-broker-api</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-
-     <dependency>
-        <groupId>eu.scy.client.desktop</groupId>
-        <artifactId>tool-broker</artifactId>
         <version>${pom.version}</version>
-    </dependency> 
-
+    </dependency>
     <dependency>
         <groupId>eu.scy.common</groupId>
         <artifactId>action-logging-api</artifactId>
         <version>${pom.version}</version>
     </dependency>
-
     <dependency>
         <groupId>eu.scy.common</groupId>
         <artifactId>action-logging-commons</artifactId>
         <version>${pom.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>scy-commons</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>data-sync-common</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>eu.scy.client.client-common</groupId>
+        <artifactId>data-sync-api</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+     <dependency>
+          <groupId>eu.scy.client.client-common</groupId>
+          <artifactId>scy-i18n</artifactId>
+          <version>${pom.version}</version>
+     </dependency>
+     <dependency>
+	<groupId>org.roolo</groupId>
+	<artifactId>elo-api</artifactId>
+	<version>0.6.0-SNAPSHOT</version>
+     </dependency>
+     <dependency>
+	<groupId>org.roolo</groupId>
+	<artifactId>elo-impl</artifactId>
+	<version>0.6.1-SNAPSHOT</version>
+     </dependency>
+    <dependency>
+	<groupId>org.roolo</groupId>
+	<artifactId>roolo-api</artifactId>
+        <version>0.6.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+          <groupId>org.jdom</groupId>
+          <artifactId>jdom</artifactId>
     </dependency>
            
    </dependencies>
