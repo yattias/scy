@@ -40,7 +40,6 @@
  */
 package eu.scy.roolows;
 
-import com.sun.jersey.spi.resource.Singleton;
 import java.util.List;
 import java.util.Vector;
 

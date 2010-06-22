@@ -40,7 +40,6 @@
  */
 package eu.scy.roolows;
 
-import com.sun.jersey.spi.resource.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.ws.rs.Consumes;
