@@ -18,6 +18,11 @@
             <artifactId>scy-model-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
+		<dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-commons</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>eu.scy.common</groupId>
