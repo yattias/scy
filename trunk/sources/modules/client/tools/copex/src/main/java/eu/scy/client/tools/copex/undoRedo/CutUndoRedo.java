@@ -6,7 +6,7 @@
 package eu.scy.client.tools.copex.undoRedo;
 
 import eu.scy.client.tools.copex.common.CopexTask;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.dnd.SubTree;
 import eu.scy.client.tools.copex.edp.CopexTree;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * @author MBO
  */
 public class CutUndoRedo extends CopexUndoRedo {
-    // ATTRIBUTS
     /* liste des taches supprimees */
     private ArrayList<TaskSelected> listTask;
     /*pour chaque tache, correspondance avec l'endroit ou il faut la remettre dans l'arbre */
@@ -60,7 +59,7 @@ public class CutUndoRedo extends CopexUndoRedo {
                 edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+            ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
             tree.addTask(task.getSelectedTask(),tree.getTaskSelected(ts.getSelectedTask()), task.attachLikeBrother());
             task.setSelectedNode(tree.getNode(task.getSelectedTask()));
             edP.setSubTree(null);
@@ -79,7 +78,7 @@ public class CutUndoRedo extends CopexUndoRedo {
         if (cr.isError()){
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         tree.suppr(listTask);
         edP.setSubTree(subTree);
         edP.updateProc(newProc);

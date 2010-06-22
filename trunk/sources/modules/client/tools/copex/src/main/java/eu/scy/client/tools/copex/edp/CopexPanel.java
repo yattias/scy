@@ -54,6 +54,13 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.copex.common.CopexTeacher;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
+import eu.scy.client.tools.copex.common.InitialProcedure;
+import eu.scy.client.tools.copex.common.MaterialStrategy;
+import eu.scy.client.tools.copex.common.TypeMaterial;
+import eu.scy.client.tools.copex.controller.CopexControllerAuth;
+import eu.scy.client.tools.copex.db.DataBaseCommunication;
 
 /**
  * main panel COPEX
@@ -88,7 +95,7 @@ public class CopexPanel extends JPanel {
     private long dbKeyLabDoc;
     private CopexMission mission;
     // liste des protocoles ouverts
-    private ArrayList<LearnerProcedure> listProc = null;
+    private ArrayList<ExperimentalProcedure> listProc = null;
     private ArrayList<EdPPanel> listCopexPanel;
     private EdPPanel activCopex;
     /* liste des images des taches */
@@ -113,7 +120,7 @@ public class CopexPanel extends JPanel {
         this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
-        initEdP(null, null);
+        initEdP(null);
     }
 
     public CopexPanel(boolean scyMode, Locale locale){
@@ -126,7 +133,7 @@ public class CopexPanel extends JPanel {
         this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
-        initEdP(null, null);
+        initEdP(null);
     }
 
 
@@ -140,10 +147,40 @@ public class CopexPanel extends JPanel {
         this.listTaskImage = new ArrayList();
         this.scyMode = false;
         this.dbMode = true;
-        initEdP(null, copexURL);
+        initEdP(copexURL);
     }
 
-    public void initEdP(CopexApplet applet, URL url){
+    public CopexPanel(Locale locale, CopexTeacher teacher, CopexMission mission, InitialProcedure initProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList<MaterialStrategy> listMaterialStrategy, TypeMaterial defaultTypeMaterial){
+        this.ownerFrame = null;
+        this.locale = locale;
+        this.idUser = Long.toString(teacher.getDbKey());
+        this.dbKeyMission = mission.getDbKey();
+        this.dbKeyGroup = 0;
+        this.dbKeyLabDoc = 0;
+        this.listTaskImage = new ArrayList();
+        this.scyMode = true;
+        this.dbMode = false;
+        initEdP(teacher, mission, initProc, listPhysicalQuantity, listMaterialStrategy, defaultTypeMaterial, null);
+    }
+
+    // initEdp for copexAuthoring
+    private void initEdP(CopexTeacher teacher, CopexMission mission, InitialProcedure initProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList<MaterialStrategy> listMaterialStrategy, TypeMaterial defaultTypeMaterial, DataBaseCommunication dbC){
+        bundle = new ResourceBundleWrapper(this);
+        setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        if(dbC == null){
+            this.controller = new CopexControllerAuth(this, listPhysicalQuantity, listMaterialStrategy, defaultTypeMaterial, initProc, teacher, mission);
+        }else{
+            this.controller = new CopexControllerAuth(this, listPhysicalQuantity, listMaterialStrategy, defaultTypeMaterial, initProc, teacher, mission, dbC);
+        }
+        setMinimumSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        setLayout(new BorderLayout());
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+
+    public void initEdP(URL url){
 //        // i18n
 //        locale = Locale.getDefault();
 //        locale = new Locale("en", "GB");
@@ -174,14 +211,11 @@ public class CopexPanel extends JPanel {
 //        }
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
-      if(applet == null)
-        if(url != null){
-            this.controller = new CopexControllerDB(this, url);
-        }else
-            this.controller = new CopexController(this) ;
-      else{
-          this.controller = new CopexControllerDB(this, applet.getCodeBase());
-      }
+      if(url != null){
+          this.controller = new CopexControllerDB(this, url);
+      }else
+          this.controller = new CopexController(this) ;
+      
       setMinimumSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
       setLayout(new BorderLayout());
@@ -305,7 +339,7 @@ public class CopexPanel extends JPanel {
 
     
       /* initialisation de l'application avec les donnees */
-    public void initEdp(CopexMission mission, ArrayList<LearnerProcedure> listProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity) {
+    public void initEdp(CopexMission mission, ArrayList<ExperimentalProcedure> listProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity) {
        setCursor(new Cursor(Cursor.WAIT_CURSOR));
        // mise a jour des donnees :
        this.mission = mission;
@@ -323,7 +357,7 @@ public class CopexPanel extends JPanel {
     }
     private void initProcedure(){
         if(listProc.size() > 0){
-            EdPPanel copex = new EdPPanel(this, listProc.get(0), controller, mission, mission.getListInitialProc(), listPhysicalQuantity);
+            EdPPanel copex = new EdPPanel(this, listProc.get(0), controller, listPhysicalQuantity);
             activCopex = copex;
             listCopexPanel.add(copex);
             this.add(copex, BorderLayout.CENTER);
@@ -347,8 +381,8 @@ public class CopexPanel extends JPanel {
         return copexTabbedPane;
     }
 
-    private void addCopexPanel(LearnerProcedure proc, boolean addProc){
-        EdPPanel copex = new EdPPanel(this, proc, controller, proc.getMission(), proc.getMission().getListInitialProc(), listPhysicalQuantity);
+    private void addCopexPanel(ExperimentalProcedure proc, boolean addProc){
+        EdPPanel copex = new EdPPanel(this, proc, controller,  listPhysicalQuantity);
         activCopex = copex;
         listCopexPanel.add(copex);
         if(addProc)
@@ -389,7 +423,7 @@ public class CopexPanel extends JPanel {
         return id;
     }
     /* fermeture d'un protocole */
-    public void closeProc(LearnerProcedure proc) {
+    public void closeProc(ExperimentalProcedure proc) {
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1){
             displayError(new CopexReturn(getBundleString("MSG_ERROR_CLOSE_PROC"), false), getBundleString("TITLE_DIALOG_ERROR"));
@@ -405,7 +439,7 @@ public class CopexPanel extends JPanel {
     }
 
     /* retourne le protocole actif */
-    public LearnerProcedure getProcActiv() {
+    public ExperimentalProcedure getProcActiv() {
         return this.getCopexTabbedPane().getProcActiv();
     }
     
@@ -421,7 +455,7 @@ public class CopexPanel extends JPanel {
 //            // a terme il faut ouvrir un nouvel elo ?
 //            if(actionCopex != null)
 //                actionCopex.loadHelpProc(helpProc);
-            EdPPanel helpPanel = new EdPPanel(this, helpProc, controller, helpProc.getMission(), helpProc.getMission().getListInitialProc(), listPhysicalQuantity);
+            EdPPanel helpPanel = new EdPPanel(this, helpProc, controller,  listPhysicalQuantity);
             HelpDialog help = new HelpDialog(activCopex, helpPanel);
             help.setVisible(true);
         }else{
@@ -462,10 +496,22 @@ public class CopexPanel extends JPanel {
 
     
 
-    public void createProc(LearnerProcedure proc){
+    public void createProc(ExperimentalProcedure proc){
         addCopexPanel(proc, true);
     }
-    public void updateProc(LearnerProcedure proc){
+    
+    public void reloadProc(ExperimentalProcedure proc){
+        if(activCopex != null)
+            this.remove(activCopex);
+        listCopexPanel = new ArrayList();
+        activCopex = null;
+        listProc = new ArrayList();
+        if(proc != null){
+            createProc(proc);
+        }
+    }
+
+    public void updateProc(ExperimentalProcedure proc){
         int id = getIdProc(proc.getDbKey());
         if(id != -1){
             listProc.set(id, proc);
@@ -516,7 +562,7 @@ public class CopexPanel extends JPanel {
     public boolean canPrint(){
         return !scyMode;
     }
-    public void openDialogCloseProc(LearnerProcedure proc) {
+    public void openDialogCloseProc(ExperimentalProcedure proc) {
         if(dbMode){
 //            CloseProcDialog closeD = new CloseProcDialog(this, controller, proc);
 //            closeD.setVisible(true);
@@ -590,7 +636,7 @@ public class CopexPanel extends JPanel {
     // load/open ELO SCY ou non
     public void loadELO(Element elo){
         if(scyMode){
-            CopexReturn cr = this.controller.deleteProc(activCopex.getLearnerProc());
+            CopexReturn cr = this.controller.deleteProc(activCopex.getExperimentalProc());
             if(cr.isError()){
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                 return;
@@ -606,7 +652,7 @@ public class CopexPanel extends JPanel {
     // new ELO SCY
     public void newELO(){
         // scyMode est vrai
-        CopexReturn cr = this.controller.deleteProc(activCopex.getLearnerProc());
+        CopexReturn cr = this.controller.deleteProc(activCopex.getExperimentalProc());
         if(cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -621,7 +667,7 @@ public class CopexPanel extends JPanel {
 
     // SCY : retourne l'elo courant
     public Element getXProc(){
-        logSaveProc(activCopex.getLearnerProc());
+        logSaveProc(activCopex.getExperimentalProc());
         return activCopex.getExperimentalProcedure();
     }
 
@@ -663,30 +709,30 @@ public class CopexPanel extends JPanel {
     }
 
     /* log : save proc */
-    public void logSaveProc(LearnerProcedure proc){
+    public void logSaveProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
         actionCopex.logAction(MyConstants.LOG_TYPE_SAVE_PROC, attribute);
     }
     /* log: delete proc */
-    public void logDeleteProc(LearnerProcedure proc){
+    public void logDeleteProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
         actionCopex.logAction(MyConstants.LOG_TYPE_DELETE_PROC, attribute);
     }
 
     /* log: rename proc */
-    public void logRenameProc(LearnerProcedure proc, String oldName, String newName){
+    public void logRenameProc(ExperimentalProcedure proc, String oldName, String newName){
         List<CopexProperty> attribute = CopexLog.logRenameProc(proc, oldName, newName);
         actionCopex.logAction(MyConstants.LOG_TYPE_RENAME_PROC, attribute);
     }
 
     /* log : print proc */
-    public void logPrintProc(LearnerProcedure proc){
+    public void logPrintProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
         actionCopex.logAction(MyConstants.LOG_TYPE_PRINT_PROC, attribute);
     }
 
     /* log: create proc */
-    public void logCreateProc(LearnerProcedure proc){
+    public void logCreateProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
         actionCopex.logAction(MyConstants.LOG_TYPE_CREATE_PROC, attribute);
     }
@@ -697,151 +743,151 @@ public class CopexPanel extends JPanel {
     }
 
     /* log: update task */
-    public void logUpdateQuestion(LearnerProcedure proc, Question oldQuestion, Question newQuestion){
+    public void logUpdateQuestion(ExperimentalProcedure proc, Question oldQuestion, Question newQuestion){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldQuestion, newQuestion);
         actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_QUESTION, attribute);
     }
 
     /* log: update step */
-    public void logUpdateStep(LearnerProcedure proc, Step oldStep, Step newStep){
+    public void logUpdateStep(ExperimentalProcedure proc, Step oldStep, Step newStep){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldStep, newStep);
         actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_STEP, attribute);
     }
 
     /* log: update action */
-    public void logUpdateAction(LearnerProcedure proc, CopexAction oldAction, CopexAction newAction){
+    public void logUpdateAction(ExperimentalProcedure proc, CopexAction oldAction, CopexAction newAction){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldAction, newAction);
         actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_ACTION, attribute);
     }
 
     /* log: add step*/
-    public void logAddStep(LearnerProcedure proc, Step step,TaskTreePosition position){
+    public void logAddStep(ExperimentalProcedure proc, Step step,TaskTreePosition position){
         List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, step, position);
         actionCopex.logAction(MyConstants.LOG_TYPE_ADD_STEP, attribute);
     }
 
     /* log: add action*/
-    public void logAddAction(LearnerProcedure proc, CopexAction action,TaskTreePosition position){
+    public void logAddAction(ExperimentalProcedure proc, CopexAction action,TaskTreePosition position){
         List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, action, position);
         actionCopex.logAction(MyConstants.LOG_TYPE_ADD_STEP, attribute);
     }
 
     /* log : paste */
-    public void logPaste(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logPaste(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_PASTE, attribute);
     }
 
     /* log : copy */
-    public void logCopy(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logCopy(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_COPY, attribute);
     }
 
     /* log : suppr */
-    public void logDelete(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logDelete(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_DELETE, attribute);
     }
 
     /* log : cut */
-    public void logCut(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logCut(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_CUT, attribute);
     }
 
     /* log : drag&drop */
-    public void logDragDrop(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+    public void logDragDrop(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
         List<CopexProperty> attribute = CopexLog.logDragDrop(locale,proc, listTask, listPositionTask, insertPosition);
         actionCopex.logAction(MyConstants.LOG_TYPE_DRAG_DROP, attribute);
     }
 
     /* log : hypothesis */
-    public void logHypothesis(LearnerProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis){
+    public void logHypothesis(ExperimentalProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis){
         List<CopexProperty> attribute = CopexLog.logHypothesis(locale,proc, oldHypothesis, newHypothesis);
         actionCopex.logAction(MyConstants.LOG_TYPE_HYPOTHESIS, attribute);
     }
     /* log : general principle */
-    public void logGeneralPrinciple(LearnerProcedure proc, GeneralPrinciple oldPrinciple, GeneralPrinciple newGeneralPrinciple){
+    public void logGeneralPrinciple(ExperimentalProcedure proc, GeneralPrinciple oldPrinciple, GeneralPrinciple newGeneralPrinciple){
         List<CopexProperty> attribute = CopexLog.logGeneralPrinciple(locale,proc, oldPrinciple, newGeneralPrinciple);
         actionCopex.logAction(MyConstants.LOG_TYPE_GENERAL_PRINCIPLE, attribute);
     }
     /* log : evaluatione */
-    public void logEvaluation(LearnerProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation){
+    public void logEvaluation(ExperimentalProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation){
         List<CopexProperty> attribute = CopexLog.logEvaluation(locale,proc, oldEvaluation, newEvaluation);
         actionCopex.logAction(MyConstants.LOG_TYPE_EVALUATION, attribute);
     }
 
     /* log: create material used */
-    public void logCreateMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
+    public void logCreateMaterialUsed(ExperimentalProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
         List<CopexProperty> attribute = CopexLog.logMaterialUsed(locale,proc, listMaterialUsed);
         actionCopex.logAction(MyConstants.LOG_TYPE_CREATE_MATERIAL_USED, attribute);
     }
 
     /* log: delete material used */
-    public void logDeleteMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
+    public void logDeleteMaterialUsed(ExperimentalProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
         List<CopexProperty> attribute = CopexLog.logMaterialUsed(locale,proc, listMaterialUsed);
         actionCopex.logAction(MyConstants.LOG_TYPE_DELETE_MATERIAL_USED, attribute);
     }
     /* log: update material used */
-    public void logUpdateMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> oldListMaterialUsed, ArrayList<MaterialUsed> newListMaterialUsed){
+    public void logUpdateMaterialUsed(ExperimentalProcedure proc, ArrayList<MaterialUsed> oldListMaterialUsed, ArrayList<MaterialUsed> newListMaterialUsed){
         List<CopexProperty> attribute = CopexLog.logUpdateMaterialUsed(locale,proc, oldListMaterialUsed, newListMaterialUsed);
         actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_MATERIAL_USED, attribute);
     }
 
     /* log: redo rename proc */
-    public void logRedoRenameProc(LearnerProcedure proc, String oldName, String newName){
+    public void logRedoRenameProc(ExperimentalProcedure proc, String oldName, String newName){
         List<CopexProperty> attribute = CopexLog.logRenameProc(proc, oldName, newName);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_RENAME_PROC, attribute);
     }
 
     /* log : redo cut */
-    public void logRedoCut(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logRedoCut(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_CUT, attribute);
     }
 
     /* log : redo paste */
-    public void logRedoPaste(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logRedoPaste(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_PASTE, attribute);
     }
 
     /* log : redo drag&drop */
-    public void logRedoDragDrop(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+    public void logRedoDragDrop(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
         List<CopexProperty> attribute = CopexLog.logDragDrop(locale,proc, listTask, listPositionTask, insertPosition);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_DRAG_DROP, attribute);
     }
 
     /* log : redo delete task */
-    public void logRedoDeleteTask(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logRedoDeleteTask(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_DELETE_TASK, attribute);
     }
 
     /* log : redo edit step */
-    public void logRedoEditStep(LearnerProcedure proc, Step oldStep, Step newStep){
+    public void logRedoEditStep(ExperimentalProcedure proc, Step oldStep, Step newStep){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldStep, newStep);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_EDIT_STEP, attribute);
     }
     /* log : redo edit action */
-    public void logRedoEditAction(LearnerProcedure proc, CopexAction oldAction, CopexAction newAction){
+    public void logRedoEditAction(ExperimentalProcedure proc, CopexAction oldAction, CopexAction newAction){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldAction, newAction);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_EDIT_ACTION, attribute);
     }
     /* log : redo edit question */
-    public void logRedoEditQuestion(LearnerProcedure proc, Question oldQuestion, Question newQuestion){
+    public void logRedoEditQuestion(ExperimentalProcedure proc, Question oldQuestion, Question newQuestion){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldQuestion, newQuestion);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_EDIT_QUESTION, attribute);
     }
 
     /* log : redo add step */
-    public void logRedoAddStep(LearnerProcedure proc, Step step, TaskTreePosition position){
+    public void logRedoAddStep(ExperimentalProcedure proc, Step step, TaskTreePosition position){
         List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, step, position);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_ADD_STEP, attribute);
     }
     /* log : redo add action */
-    public void logRedoAddAction(LearnerProcedure proc, CopexAction action, TaskTreePosition position){
+    public void logRedoAddAction(ExperimentalProcedure proc, CopexAction action, TaskTreePosition position){
         List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, action, position);
         actionCopex.logAction(MyConstants.LOG_TYPE_REDO_ADD_ACTION, attribute);
     }
@@ -852,53 +898,53 @@ public class CopexPanel extends JPanel {
     }
 
     /* log : undo drag&drop */
-    public void logUndoDragDrop(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+    public void logUndoDragDrop(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
         List<CopexProperty> attribute = CopexLog.logDragDrop(locale,proc, listTask, listPositionTask, insertPosition);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_DRAG_DROP, attribute);
     }
 
     /* log: undo rename proc */
-    public void logUndoRenameProc(LearnerProcedure proc, String oldName, String newName){
+    public void logUndoRenameProc(ExperimentalProcedure proc, String oldName, String newName){
         List<CopexProperty> attribute = CopexLog.logRenameProc(proc, oldName, newName);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_RENAME_PROC, attribute);
     }
 
     /* log : undo add task */
-    public void logUndoAddTask(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public void logUndoAddTask(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_ADD_TASK, attribute);
     }
 
     /* log : undo edit step */
-    public void logUndoEditStep(LearnerProcedure proc, Step oldStep, Step newStep){
+    public void logUndoEditStep(ExperimentalProcedure proc, Step oldStep, Step newStep){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldStep, newStep);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_EDIT_STEP, attribute);
     }
     /* log : undo edit action */
-    public void logUndoEditAction(LearnerProcedure proc, CopexAction oldAction, CopexAction newAction){
+    public void logUndoEditAction(ExperimentalProcedure proc, CopexAction oldAction, CopexAction newAction){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldAction, newAction);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_EDIT_ACTION, attribute);
     }
     /* log : undo edit question */
-    public void logUndoEditQuestion(LearnerProcedure proc, Question oldQuestion, Question newQuestion){
+    public void logUndoEditQuestion(ExperimentalProcedure proc, Question oldQuestion, Question newQuestion){
         List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldQuestion, newQuestion);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_EDIT_QUESTION, attribute);
     }
 
     /* log : undo cut */
-    public void logUndoCut(LearnerProcedure proc, CopexTask task, TaskTreePosition position){
+    public void logUndoCut(ExperimentalProcedure proc, CopexTask task, TaskTreePosition position){
         List<CopexProperty> attribute = CopexLog.logTask(locale,proc, task, position);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_CUT, attribute);
     }
 
     /* log : undo delete task */
-    public void logUndoDeleteTask(LearnerProcedure proc, CopexTask task, TaskTreePosition position){
+    public void logUndoDeleteTask(ExperimentalProcedure proc, CopexTask task, TaskTreePosition position){
         List<CopexProperty> attribute = CopexLog.logTask(locale,proc, task, position);
         actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_DELETE_TASK, attribute);
     }
 
     /* log : load new elo */
-    public void logLoadELO(LearnerProcedure proc){
+    public void logLoadELO(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale, proc);
         actionCopex.logAction(MyConstants.LOG_TYPE_LOAD_ELO, attribute);
     }
@@ -916,7 +962,7 @@ public class CopexPanel extends JPanel {
     }
 
     /* return true if the proc can be close (if it is not the proc of the labdoc) */
-    public boolean canCloseProc(LearnerProcedure p){
+    public boolean canCloseProc(ExperimentalProcedure p){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.isLabDocProc(p, v);
         if(cr.isError()){

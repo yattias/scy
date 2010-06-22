@@ -10,13 +10,12 @@ import java.util.ArrayList;
 
 /**
  * represente une selection simple
- * @author MBO
+ * @author Marjolaine
  */
 public class TaskSelected {
 
-    // ATTRIBUTS
     /* protocole */
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     /* tache selectionnee */
     private CopexTask taskSelected;
     /* tache frere */
@@ -44,7 +43,7 @@ public class TaskSelected {
     private CopexTask oldBrother ;
 
     // CONSTRUCTEURS 
-    public TaskSelected(LearnerProcedure proc, CopexTask selectedTask, CopexTask taskBrother, CopexTask taskParent, CopexTask taskOldBrother, CopexNode selectedNode, CopexNode brotherNode, CopexNode parentNode, CopexNode oldBrotherNode, ArrayList<CopexTask> listAllChildren, CopexTask parentTask, CopexNode lastBrotherNode, CopexTask oldBrother) {
+    public TaskSelected(ExperimentalProcedure proc, CopexTask selectedTask, CopexTask taskBrother, CopexTask taskParent, CopexTask taskOldBrother, CopexNode selectedNode, CopexNode brotherNode, CopexNode parentNode, CopexNode oldBrotherNode, ArrayList<CopexTask> listAllChildren, CopexTask parentTask, CopexNode lastBrotherNode, CopexTask oldBrother) {
         this.proc = proc;
         this.taskSelected = selectedTask;
         this.taskBrother = taskBrother;
@@ -64,7 +63,6 @@ public class TaskSelected {
         this.selectedNode = selectedNode;
     }
     
-    // METHODES
     
     /* retourne la  tache selectionnee si selection simple, null sinon*/
      public CopexTask getSelectedTask(){
@@ -81,8 +79,7 @@ public class TaskSelected {
      }
 
     
-     // GETTER AND SETTER
-    public LearnerProcedure getProc() {
+    public ExperimentalProcedure getProc() {
         return proc;
     }
     /* retourne la tache frere */ 

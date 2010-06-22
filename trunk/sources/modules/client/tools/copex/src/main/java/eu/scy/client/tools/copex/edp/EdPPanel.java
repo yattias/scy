@@ -35,12 +35,8 @@ import org.jdom.output.XMLOutputter;
 public class EdPPanel extends JPanel {
     private CopexPanel copexPanel;
     private ControllerInterface controller;
-    // mission
-    private CopexMission mission = null;
     // proc
-    private LearnerProcedure proc = null;
-    /* liste protocole initial */
-    private List<InitialProcedure> listInitProc = null;
+    private ExperimentalProcedure proc = null;
    
     /* liste des grandeurs physiques */
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
@@ -101,13 +97,11 @@ public class EdPPanel extends JPanel {
 
     
 
-    public EdPPanel(CopexPanel copexPanel, LearnerProcedure proc, ControllerInterface controller, CopexMission mission , List<InitialProcedure> listInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity) {
+    public EdPPanel(CopexPanel copexPanel, ExperimentalProcedure proc, ControllerInterface controller,  ArrayList<PhysicalQuantity> listPhysicalQuantity) {
         super();
         this.copexPanel = copexPanel;
         this.proc = proc;
         this.controller = controller;
-        this.mission = mission;
-        this.listInitProc = listInitProc;
         this.listPhysicalQuantity = listPhysicalQuantity;
         this.procModif = false;
         initGUI();
@@ -780,7 +774,12 @@ public class EdPPanel extends JPanel {
     public void openDialogAddE(char insertIn) {
         if (proc == null)
             return;
-        InitialProcedure initProc = proc.getInitialProc() ;
+        InitialProcedure initProc = null;
+        if(proc instanceof LearnerProcedure){
+            initProc = ((LearnerProcedure)proc).getInitialProc() ;
+        }else if(proc instanceof InitialProcedure){
+            initProc = (InitialProcedure)proc;
+        }
         StepDialog addE = new StepDialog(this, initProc.isTaskRepeat(),!proc.isTaskProc(), insertIn);
         addE.setVisible(true);
     }
@@ -788,7 +787,12 @@ public class EdPPanel extends JPanel {
     public void openDialogAddA(char insertIn) {
         if (proc == null)
             return;
-        InitialProcedure initProc = proc.getInitialProc() ;
+        InitialProcedure initProc = null;
+        if(proc instanceof LearnerProcedure){
+            initProc = ((LearnerProcedure)proc).getInitialProc() ;
+        }else if(proc instanceof InitialProcedure){
+            initProc = (InitialProcedure)proc;
+        }
         ActionDialog addA = new ActionDialog(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity, initProc.isTaskRepeat(), insertIn);
         addA.setVisible(true);
     }
@@ -849,7 +853,7 @@ public class EdPPanel extends JPanel {
         CopexReturn cr = this.controller.addAction(newAction, ts.getProc(), ts.getTaskBrother(),ts.getTaskParent(), v);
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         updateProc(newProc);
         copexTree.addTask(newAction,ts);
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newAction), ts);
@@ -871,7 +875,7 @@ public class EdPPanel extends JPanel {
         CopexReturn cr = this.controller.updateAction(newAction, ts.getProc(), (CopexAction)t, v);
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_ACTION"), false);
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         updateProc(newProc);
         copexTree.updateTask(newAction, ts);
         updateMenu();
@@ -890,7 +894,7 @@ public class EdPPanel extends JPanel {
        CopexReturn cr = this.controller.addStep(newStep, ts.getProc(), ts.getTaskBrother(),ts.getTaskParent(), v);
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         updateProc(newProc);
         copexTree.addTask(newStep, ts);
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newStep), ts);
@@ -912,7 +916,7 @@ public class EdPPanel extends JPanel {
         CopexReturn cr = this.controller.updateStep(newStep, ts.getProc(), (Step)t, v);
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_STEP"), false);
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         updateProc(newProc);
         copexTree.updateTask(newStep,ts);
         updateMenu();
@@ -927,7 +931,7 @@ public class EdPPanel extends JPanel {
         CopexReturn cr = this.controller.updateQuestion(newQuestion, proc, proc.getQuestion(), v);
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_QUESTION"), false);
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         updateProc(newProc);
         copexTree.updateQuestion(newProc.getQuestion());
         copexTree.addEdit_updateQuestion(oldQuestion, newProc.getQuestion());
@@ -1002,7 +1006,7 @@ public class EdPPanel extends JPanel {
             CopexReturn cr = this.controller.suppr(listTs, v, confirm, MyConstants.NOT_UNDOREDO);
             if (cr.isError())
                 return new CopexReturn(getBundleString("MSG_ERROR_DELETE_TASK"), false);
-            LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+            ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
             copexTree.suppr(listTs);
             updateProc(newProc);
 
@@ -1073,13 +1077,13 @@ public class EdPPanel extends JPanel {
     
     // ouverture de la fenetre de dialoguer permettant de renommer un protocole
     public void openDialogEditProc() {
-        if (proc != null){
-            EditProcDialog editProcD = new EditProcDialog(this, copexPanel.isMission(),controller,  proc);
+        if (proc != null && proc instanceof LearnerProcedure){
+            EditProcDialog editProcD = new EditProcDialog(this, copexPanel.isMission(),controller,  (LearnerProcedure)proc);
             editProcD.setVisible(true);
         }
     }
 
-    public LearnerProcedure getLearnerProc(){
+    public ExperimentalProcedure getExperimentalProc(){
         return this.proc;
     }
 
@@ -1116,14 +1120,14 @@ public class EdPPanel extends JPanel {
     }
 
     /* mise a jour proc*/
-     public void updateProc(LearnerProcedure p) {
+     public void updateProc(ExperimentalProcedure p) {
         this.proc = p;
         copexTree.setDatasheet(proc.getDataSheet());
         copexTree.updateProc(proc);
     }
 
      /* mise a jour proc*/
-     public void updateProc(LearnerProcedure p, boolean update) {
+     public void updateProc(ExperimentalProcedure p, boolean update) {
         this.proc = p;
         copexTree.updateProc(proc, update);
     }
@@ -1138,7 +1142,7 @@ public class EdPPanel extends JPanel {
     }
 
     /* ajout d'un evenement de undo redo pour renommer un protocole */
-    public void  addEdit_renameProc(LearnerProcedure proc, String name){
+    public void  addEdit_renameProc(ExperimentalProcedure proc, String name){
         copexTree.addEdit_renameProc(proc, name);
         updateMenu();
     }
@@ -1169,13 +1173,22 @@ public class EdPPanel extends JPanel {
             return listMaterial ;
         if(type == null){
             //tout
-            return proc.getInitialProc().getListMaterial();
+            if(proc instanceof LearnerProcedure)
+                return ((LearnerProcedure)proc).getInitialProc().getListMaterial();
+            else if(proc instanceof InitialProcedure){
+                return ((InitialProcedure)proc).getListMaterial();
+            }
         }
         boolean controlType2 = type2 != null;
         long dbKeyType2 = -1;
         if (controlType2)
             dbKeyType2 = type2.getDbKey();
-        ArrayList<Material> matMision = proc.getInitialProc().getListMaterial() ;
+        ArrayList<Material> matMision = new ArrayList();
+        if(proc instanceof LearnerProcedure)
+            matMision = ((LearnerProcedure)proc).getInitialProc().getListMaterial() ;
+        else if(proc instanceof InitialProcedure){
+            matMision = ((InitialProcedure)proc).getListMaterial() ;
+        }
         int nbM = matMision.size();
         for (int i=0; i<nbM; i++){
             if (matMision.get(i).isType(type.getDbKey())){
@@ -1326,7 +1339,12 @@ public class EdPPanel extends JPanel {
     public boolean isMaterialFromMission(long dbKeyMaterial){
         if (proc == null)
             return false;
-        ArrayList<Material> listMaterial = proc.getInitialProc().getListMaterial();
+        ArrayList<Material> listMaterial = new ArrayList();
+        if(proc instanceof LearnerProcedure){
+            listMaterial = ((LearnerProcedure)proc).getInitialProc().getListMaterial();
+        }else if (proc instanceof InitialProcedure){
+            listMaterial = ((InitialProcedure)proc).getListMaterial();
+        }
         int nbMat = listMaterial.size();
         for (int i=0; i<nbMat; i++){
             if (listMaterial.get(i).getDbKey() == dbKeyMaterial)
@@ -1364,7 +1382,12 @@ public class EdPPanel extends JPanel {
     public boolean isMaterialAvailable(){
         if(proc == null)
             return false;
-        return proc.getInitialProc().getListMaterial().size() > 0 ;
+        if(proc instanceof LearnerProcedure)
+            return ((LearnerProcedure)proc).getInitialProc().getListMaterial().size() > 0 ;
+        else if(proc instanceof InitialProcedure){
+            return ((InitialProcedure)proc).getListMaterial().size() > 0 ;
+        }
+        return false;
     }
 
     public void setQuestionDialog(){
@@ -1500,7 +1523,7 @@ public class EdPPanel extends JPanel {
      public void cut() {
         copy();
         TaskSelected ts = getSelectedTask();
-        LearnerProcedure p = ts.getProc();
+        ExperimentalProcedure p = ts.getProc();
         SubTree subTree = getSubTreeCopy();
         suppr(false);
         CopexReturn cr = this.controller.cut(p, subTree, ts);
@@ -1515,7 +1538,7 @@ public class EdPPanel extends JPanel {
         subTreeCopy = copexTree.getSubTreeCopy(false);
         updateMenu();
         TaskSelected ts = getSelectedTask();
-        LearnerProcedure p = ts.getProc();
+        ExperimentalProcedure p = ts.getProc();
         SubTree subTree = getSubTreeCopy();
         CopexReturn cr = this.controller.copy(p, ts, subTree);
         if(cr.isError()){
@@ -1528,7 +1551,7 @@ public class EdPPanel extends JPanel {
     public void paste(){
        // tache selectionnee et protocole ou il faut copier
         TaskSelected ts = getSelectedTask();
-        LearnerProcedure p = ts.getProc();
+        ExperimentalProcedure p = ts.getProc();
         // liste des taches a copier
         SubTree subTree = getSubTreeCopy();
         CopexReturn cr = this.controller.paste(p, ts, subTree);
@@ -1592,7 +1615,11 @@ public class EdPPanel extends JPanel {
     }
 
     private InitialProcedure getInitProc(){
-        return proc.getInitialProc();
+        if(proc instanceof LearnerProcedure)
+            return ((LearnerProcedure)proc).getInitialProc();
+        else if(proc instanceof InitialProcedure)
+            return ((InitialProcedure)proc);
+        return null;
     }
     private boolean isMenuHypothesis(){
         return getInitProc().getHypothesisMode()== MyConstants.MODE_MENU;
@@ -1866,7 +1893,7 @@ public class EdPPanel extends JPanel {
             return oldQ;
         }
         openQuestion = false;
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         updateProc(newProc);
         copexTree.updateQuestion(newProc.getQuestion());
         copexTree.addEdit_updateQuestion(oldQuestion, newProc.getQuestion());
@@ -1887,7 +1914,12 @@ public class EdPPanel extends JPanel {
       }
 
       public void openMaterialDialog(){
-          MaterialDialog matDialog = new MaterialDialog(this,proc.getRight(), proc.getListMaterialUsed(), proc.getInitialProc().getMaterialStrategy());
+          MaterialStrategy s = null;
+          if(proc instanceof LearnerProcedure)
+              s = ((LearnerProcedure)proc).getInitialProc().getMaterialStrategy();
+          else if(proc instanceof InitialProcedure)
+              s = ((InitialProcedure)proc).getMaterialStrategy();
+          MaterialDialog matDialog = new MaterialDialog(this,proc.getRight(), proc.getListMaterialUsed(), s);
           matDialog.setVisible(true);
       }
 

@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,9 +94,23 @@ public class CopexConfig {
     public List<MaterialStrategy> getListMaterialStrategy() {
         return listMaterialStrategy;
     }
+    public ArrayList<MaterialStrategy> getArrayListMaterialStrategy() {
+        ArrayList<MaterialStrategy> l = new ArrayList();
+        for(Iterator<MaterialStrategy> s = listMaterialStrategy.iterator();s.hasNext();){
+            l.add(s.next());
+        }
+        return l;
+    }
 
     public List<PhysicalQuantity> getListQuantities() {
         return listQuantities;
+    }
+    public ArrayList<PhysicalQuantity> getArrayListQuantities() {
+        ArrayList<PhysicalQuantity> l = new ArrayList();
+        for(Iterator<PhysicalQuantity> q = listQuantities.iterator();q.hasNext();){
+            l.add(q.next());
+        }
+        return l;
     }
 
     public List<TypeMaterial> getListTypeMaterial() {

@@ -46,16 +46,29 @@ public class PrintPDF {
     private String fileName;
     private CopexGroup group;
     private CopexMission mission;
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
+    private CopexTeacher teacher;
 
     private Document document ;
 
-    public PrintPDF(CopexPanel copex, String fileName, CopexGroup group,CopexMission mission,  LearnerProcedure proc) {
+    public PrintPDF(CopexPanel copex, String fileName, CopexGroup group,CopexMission mission,  ExperimentalProcedure proc) {
         this.copex = copex;
         this.fileName = fileName;
         this.mission = mission;
         this.group = group;
         this.proc = proc;
+        this.teacher = null;
+    }
+
+
+    public PrintPDF(CopexPanel copex, String fileName, CopexTeacher teacher,CopexMission mission,  ExperimentalProcedure proc) {
+        this.copex = copex;
+        this.fileName = fileName;
+        this.mission = mission;
+        this.group = null;
+        this.teacher = teacher;
+        this.proc = proc;
+        this.teacher = null;
     }
 
 
@@ -180,12 +193,16 @@ public class PrintPDF {
     /* logo copex*/
     private CopexReturn setHeader(){
         String name = "";
-        for(Iterator<CopexLearner> l = group.getLearners().iterator();l.hasNext();){
-            CopexLearner learner = l.next();
-            name += (learner.getUserFirstName() == null ?"":learner.getUserFirstName()+" ")+learner.getUserName()+";";
-        }
-        if(name.length() > 0){
-            name = name.substring(0, name.length()-1);
+        if(group != null){
+            for(Iterator<CopexLearner> l = group.getLearners().iterator();l.hasNext();){
+                CopexLearner learner = l.next();
+                name += (learner.getUserFirstName() == null ?"":learner.getUserFirstName()+" ")+learner.getUserName()+";";
+            }
+            if(name.length() > 0){
+                name = name.substring(0, name.length()-1);
+            }
+        }else if (teacher != null){
+            name = (teacher.getUserFirstName() == null ?"":teacher.getUserFirstName()+" ")+teacher.getUserName() ;
         }
         String missionName = copex.getBundleString("LABEL_MISSION")+" "+mission.getName() ;
         String procName = copex.getBundleString("LABEL_PROC")+" "+proc.getName(copex.getLocale()) ;

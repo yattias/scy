@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
+import eu.scy.client.tools.copex.logger.TaskTreePosition;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * represente un protocole
- * @author MBO
+ * experimental procedure: can be an initial procedure or a learner procedure
+ * @author Marjolaine
  */
 public class ExperimentalProcedure implements Cloneable {
     /*tag name  */
@@ -85,7 +86,6 @@ public class ExperimentalProcedure implements Cloneable {
     public void setHypothesis(Hypothesis hypothesis) {
         this.hypothesis = hypothesis;
     }
-
     
     
     // CONSTRUCTEURS
@@ -476,4 +476,182 @@ public class ExperimentalProcedure implements Cloneable {
 //        System.out.println("********************************************************");
 
     }
+
+    public boolean isTaskProc(){
+        return false;
+    }
+
+    public boolean isValidQuestion(Locale locale){
+        return question != null && question.getDescription(locale).length() > 0;
+    }
+
+    // update the material used in the proc
+    public void lockMaterialUsed(){
+        if(getListMaterialUsed() == null)
+            return;
+        for(Iterator<MaterialUsed> m = getListMaterialUsed().iterator();m.hasNext();){
+            m.next().setMaterialUsed(false);
+        }
+        for(Iterator<CopexTask> t = getListTask().iterator();t.hasNext();){
+            List<Material> listM = t.next().getMaterialUsed();
+            for(Iterator<Material> m = listM.iterator();m.hasNext();){
+                Material material = m.next();
+                setMaterialUsed(material);
+            }
+        }
+    }
+
+    private void setMaterialUsed(Material material){
+        for(Iterator<MaterialUsed> m = getListMaterialUsed().iterator();m.hasNext();){
+            MaterialUsed mUsed = m.next();
+            if(mUsed.getMaterial().getDbKey() == material.getDbKey()){
+                mUsed.setMaterialUsed(true);
+            }
+        }
+    }
+
+
+    public TaskTreePosition getTaskTreePosition(CopexTask task){
+        if(task==null)
+            return new TaskTreePosition(-1, -1);
+        CopexTask parentTask = getParentTask(task);
+        if(parentTask == null)
+            return new TaskTreePosition(-1, -1);
+        List<CopexTask> listChild = getListChild(parentTask);
+        int idChild = getIdChild(listChild, task);
+        return new TaskTreePosition(parentTask.getDbKey(), idChild);
+    }
+
+
+    public void addListMaterialUsed(ArrayList<MaterialUsed> list){
+        if(getListMaterialUsed() == null)
+            materials.setListMaterialUsed(new ArrayList());
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            materials.getListMaterialUsed().add(list.get(i));
+        }
+    }
+
+    private int getIdMaterialUsed(MaterialUsed m){
+        int nb = getListMaterialUsed().size();
+        for (int i=0; i<nb; i++){
+            if (getListMaterialUsed().get(i).getMaterial().getDbKey() == m.getMaterial().getDbKey())
+                return i;
+        }
+        return -1;
+    }
+    public void deleteMaterialUsed(ArrayList<MaterialUsed> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            int id = getIdMaterialUsed(list.get(i));
+            if(id != -1){
+                getListMaterialUsed().remove(id);
+            }
+        }
+    }
+    public void updateMaterialUsed(ArrayList<MaterialUsed> list){
+        int nb = list.size();
+        for(int i=0; i<nb; i++){
+            int id = getIdMaterialUsed(list.get(i));
+            if(id != -1){
+                getListMaterialUsed().set(id, list.get(i));
+            }
+        }
+    }
+    
+    public List<MaterialUsed> getListMaterialUsed() {
+        return materials.getListMaterialUsed();
+    }
+
+    public void setListMaterialUsed(List<MaterialUsed> listMaterialUsed) {
+        this.materials.setListMaterialUsed(listMaterialUsed);
+    }
+
+
+    private CopexTask getParentTask(CopexTask task){
+        if (task == null)
+            return null;
+        if (task.isQuestionRoot())
+            return null;
+        long id = task.getDbKey();
+        int nbT = getListTask().size();
+        for (int i=0; i<nbT; i++){
+            if (getListTask().get(i).getDbKeyChild() == id){
+                return getListTask().get(i);
+            }
+        }
+        // on n'a pas trouve on cherche dans les grands freres
+        CopexTask t = getOldBrotherTask(task);
+        if(t==null)
+            return null;
+        else
+            return getParentTask(t);
+    }
+
+    /** returns the old brother task*/
+    private CopexTask getOldBrotherTask(CopexTask task){
+        long id = task.getDbKey();
+        int nbT = getListTask().size();
+        for (int i=0; i<nbT; i++){
+            if (getListTask().get(i).getDbKeyBrother() == id){
+                return getListTask().get(i);
+            }
+        }
+        return null;
+    }
+
+    /** returns the list of the children of a task, only 1 level*/
+    private List<CopexTask> getListChild(CopexTask task){
+        if(task == null)
+            return new LinkedList();
+        long dbKeyChild = task.getDbKeyChild();
+        long dbKeyBrother = -2;
+        List<CopexTask> listChild = new LinkedList();
+        for(Iterator<CopexTask> t = getListTask().iterator();t.hasNext();){
+            CopexTask aTask = t.next();
+            // first child
+            if(aTask.getDbKey() == dbKeyChild){
+                listChild.add(aTask);
+                dbKeyBrother = aTask.getDbKeyBrother();
+            }
+            // brohers
+            if(aTask.getDbKey() == dbKeyBrother){
+                listChild.add(aTask);
+                dbKeyBrother = aTask.getDbKeyBrother();
+            }
+        }
+        return listChild;
+    }
+
+    private int getIdChild(List<CopexTask> list, CopexTask task){
+        int nb = list.size();
+        for(int i=0; i<nb; i++){
+            if(list.get(i).getDbKey() == task.getDbKey())
+                return i;
+        }
+        return -1;
+    }
+
+    public MaterialUsed getMaterialUsedWithId(MaterialUsed m){
+        int id = getIdMaterialUsed(m);
+        if(id != -1)
+            return getListMaterialUsed().get(id);
+        return null;
+    }
+
+    /* return true if material strategy  != S0 */
+    public boolean hasMaterial(){
+        return true;
+    }
+
+    public char getHypothesisMode(){
+        return MyConstants.MODE_MENU_NO;
+    }
+    public char getPrincipleMode(){
+        return MyConstants.MODE_MENU_NO;
+    }
+    public char getEvaluationMode(){
+        return MyConstants.MODE_MENU_NO;
+    }
+
 }

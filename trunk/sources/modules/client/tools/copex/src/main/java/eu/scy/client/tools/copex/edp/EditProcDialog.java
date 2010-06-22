@@ -20,11 +20,10 @@ import java.awt.event.KeyEvent;
 /**
  * fenetre de dialogue permettant de modifier le nom d'un protocole
  * on affiche pour info la mission du protocole
- * @author  MBO
+ * @author  Marjolaine
  */
 public class EditProcDialog extends javax.swing.JDialog {
 
-    // ATTRIBUTS
     /* edP */
     private EdPPanel edP;
     /* controlleur */

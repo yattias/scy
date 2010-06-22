@@ -16,8 +16,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * protocole initial de la mission
- * @author MBO
+ * initial procedure
+ * @author Marjolaine
  */
 public class InitialProcedure extends ExperimentalProcedure {
     /* tag names */
@@ -85,6 +85,7 @@ public class InitialProcedure extends ExperimentalProcedure {
                 listName.add(new LocalText(e.getText(), l));
             }
             //right = xmlElem.getChild(TAG_EXP_PROC_RIGHT).getText().charAt(0);
+            right = MyConstants.EXECUTE_RIGHT;
             code = xmlElem.getChild(TAG_INITIAL_PROC_CODE).getText();
             question = new Question(xmlElem.getChild(Question.TAG_QUESTION), idTask++);
             if(xmlElem.getChild(Hypothesis.TAG_PROC_HYPOTHESIS) != null)
@@ -179,7 +180,7 @@ public class InitialProcedure extends ExperimentalProcedure {
                 }
             }
             isFreeAction = xmlElem.getChild(TAG_INITIAL_PROC_FREE_ACTION).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-            taskMode = isTaskProc();
+            taskMode = isFreeAction && (listNamedAction == null || listNamedAction.size() == 0);
             if(xmlElem.getChild(TAG_INITIAL_PROC_TASK) != null){
                 taskMode = xmlElem.getChild(TAG_INITIAL_PROC_TASK).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             }
@@ -188,7 +189,7 @@ public class InitialProcedure extends ExperimentalProcedure {
                     this,  listPhysicalQuantity, listTypeMaterial, listMatC);
             manipulation.add(question);
 
-            materials = null;
+            //materials = null;
             dataSheet = null;
             this.materialStrategy = new MaterialStrategy(xmlElem.getChild(MaterialStrategy.TAG_MATERIAL_STRATEGY_REF), listMaterialStrategy);
 		} else {
@@ -286,6 +287,7 @@ public class InitialProcedure extends ExperimentalProcedure {
         this.drawPrinciple = drawPrinciple;
     }
 
+    @Override
     public char getEvaluationMode() {
         return evaluationMode;
     }
@@ -294,6 +296,7 @@ public class InitialProcedure extends ExperimentalProcedure {
         this.evaluationMode = evaluationMode;
     }
 
+    @Override
     public char getHypothesisMode() {
         return hypothesisMode;
     }
@@ -318,6 +321,7 @@ public class InitialProcedure extends ExperimentalProcedure {
         this.isTaskRepeat = isTaskRepeat;
     }
 
+    @Override
     public char getPrincipleMode() {
         return principleMode;
     }
@@ -507,9 +511,16 @@ public class InitialProcedure extends ExperimentalProcedure {
         return element;
     }
 
-    // retourne vrai si seulement que des actions libres
-    private boolean isTaskProc(){
-        return isFreeAction && (listNamedAction == null || listNamedAction.size() == 0);
+    
+    @Override
+    public boolean isTaskProc(){
+        return taskMode;
+    }
+
+    /* return true if material strategy  != S0 */
+    @Override
+    public boolean hasMaterial(){
+        return getMaterialStrategy().hasMaterial();
     }
 
 }

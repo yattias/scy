@@ -18,9 +18,11 @@ import eu.scy.client.tools.copex.common.CopexActionTreatment;
 import eu.scy.client.tools.copex.common.CopexTask;
 import eu.scy.client.tools.copex.common.DataSheet;
 import eu.scy.client.tools.copex.common.Evaluation;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.common.GeneralPrinciple;
 import eu.scy.client.tools.copex.common.Hypothesis;
 import eu.scy.client.tools.copex.common.InitialNamedAction;
+import eu.scy.client.tools.copex.common.InitialProcedure;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.common.Material;
 import eu.scy.client.tools.copex.common.MaterialProc;
@@ -72,7 +74,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     private CopexTreeModel copexTreeModel;
     private CopexTreeCellRenderer copexTreeCellRenderer;
     private CopexCellEditor copexCellEditor;
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     private EdPPanel owner;
     private CopexTreeSelectionListener selectionListener;
 
@@ -93,7 +95,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     /*register the tasks status*/
     private boolean register;
 
-    public CopexTree(EdPPanel owner, LearnerProcedure proc) {
+    public CopexTree(EdPPanel owner, ExperimentalProcedure proc) {
         this.proc = proc;
         this.owner = owner;
         // model creation
@@ -134,7 +136,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
 
-    public LearnerProcedure getProc(){
+    public ExperimentalProcedure getProc(){
         return this.proc;
     }
    
@@ -349,7 +351,11 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             }else if(node.isHypothesis()){
                 return true;
             }else if(node.isGeneralPrinciple()){
-                return proc.getInitialProc().isDrawPrinciple()?false:true;
+                if(proc instanceof LearnerProcedure)
+                    return ((LearnerProcedure)proc).getInitialProc().isDrawPrinciple()?false:true;
+                else if(proc instanceof InitialProcedure){
+                    return ((InitialProcedure)proc).isDrawPrinciple()?false:true;
+                }
             }else if(node.isMaterial()){
                 return false;
             }else if(node.isManipulation()){
@@ -652,12 +658,12 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
 
     
 
-     public void updateProc(LearnerProcedure p){
+     public void updateProc(ExperimentalProcedure p){
          this.proc = p;
          this.copexTreeModel.updateProc(p);
          resizeWidth();
      }
-     public void updateProc(LearnerProcedure p, boolean update){
+     public void updateProc(ExperimentalProcedure p, boolean update){
          this.proc = p;
          this.copexTreeModel.updateProc(p);
      }
@@ -942,7 +948,13 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
        if (owner.getTaskImage(currentNode.getTask().getTaskImage()) != null)
            img = new ImageIcon(owner.getTaskImage(currentNode.getTask().getTaskImage()));
 
-       StepDialog stepD = new StepDialog(owner, false, !proc.isTaskProc(),(Step)currentNode.getTask(), img, proc.getInitialProc().isTaskRepeat(),  currentNode.getTask().getEditRight(), this.proc.getRight());
+       boolean isTaskRepeat = false;
+       if(proc instanceof LearnerProcedure){
+           isTaskRepeat=  ((LearnerProcedure)this.proc).getInitialProc().isTaskRepeat();
+       }else if(proc instanceof InitialProcedure){
+           isTaskRepeat = ((InitialProcedure)this.proc).isTaskRepeat();
+       }
+       StepDialog stepD = new StepDialog(owner, false, !proc.isTaskProc(),(Step)currentNode.getTask(), img, isTaskRepeat,  currentNode.getTask().getEditRight(), this.proc.getRight());
        stepD.setVisible(true);
    }
 
@@ -967,12 +979,24 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
            else if (currentNode.getTask() instanceof CopexActionManipulation )
                materialProd = ((CopexActionManipulation)currentNode.getTask()).getListMaterialProd() ;
        }
+       boolean isFreeAction = true;
+       boolean isTaskRepeat = false;
+       ArrayList<InitialNamedAction> listNamedAction = new ArrayList();
+       if(proc instanceof LearnerProcedure){
+           isFreeAction = ((LearnerProcedure)this.proc).getInitialProc().isFreeAction();
+           isTaskRepeat=  ((LearnerProcedure)this.proc).getInitialProc().isTaskRepeat();
+           listNamedAction = ((LearnerProcedure)this.proc).getInitialProc().getListNamedAction();
+       }else if(proc instanceof InitialProcedure){
+           isFreeAction = ((InitialProcedure)this.proc).isFreeAction();
+           isTaskRepeat = ((InitialProcedure)this.proc).isTaskRepeat();
+           listNamedAction = ((InitialProcedure)this.proc).getListNamedAction();
+       }
        ActionDialog actionD = new ActionDialog(owner, false, currentNode.getTask().getDescription(owner.getLocale()),
                currentNode.getTask().getComments(owner.getLocale()), img ,currentNode.getTask().getDraw(), actionNamed,
                currentNode.getTask().getEditRight(),  this.proc.getRight(),
-               this.proc.getInitialProc().isFreeAction(), this.proc.getInitialProc().getListNamedAction(),
+               isFreeAction, listNamedAction,
                owner.getListPhysicalQuantity(), tabParam, materialProd, dataProd,
-               this.proc.getInitialProc().isTaskRepeat(), currentNode.getTask().getTaskRepeat());
+               isTaskRepeat, currentNode.getTask().getTaskRepeat());
        actionD.setVisible(true);
    }
 
@@ -1940,7 +1964,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
     /*ajout d'un evenement : renommer proc*/
-    public void addEdit_renameProc(LearnerProcedure proc, String name){
+    public void addEdit_renameProc(ExperimentalProcedure proc, String name){
         this.undoManager.addEdit(new UpdateProcNameUndoRedo(owner, owner.getController(), this, proc, proc.getName(owner.getLocale()), name));
     }
 

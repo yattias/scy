@@ -81,9 +81,9 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         ImageIcon  iconRollOver = copex.getCopexImage("Bouton-onglet_fermeture_sur.png");
         ImageIcon  iconClic = copex.getCopexImage("Bouton-onglet_fermeture_cli.png");
         
-        LearnerProcedure p = null;
+        ExperimentalProcedure p = null;
         if (component instanceof EdPPanel){
-            p =((EdPPanel)component).getLearnerProc();
+            p =((EdPPanel)component).getExperimentalProc();
         }
         boolean canClose = copex.canCloseProc(p);
         CloseTab closeTab = new CloseTab(p, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, copex.getBundleString("TOOLTIPTEXT_CLOSE_PROC"), canClose);
@@ -110,7 +110,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         int id = -1;
         int nbT = listCopexPanel.size();
         for (int i=0; i<nbT; i++){
-            if (listCopexPanel.get(i).getLearnerProc().getDbKey() == proc.getDbKey())
+            if (listCopexPanel.get(i).getExperimentalProc().getDbKey() == proc.getDbKey())
                 return i;
         }
         return id;
@@ -132,10 +132,10 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     
 
     /* returns the activ procedure */
-    public LearnerProcedure getProcActiv(){
-        LearnerProcedure proc = null;
+    public ExperimentalProcedure getProcActiv(){
+        ExperimentalProcedure proc = null;
         if (copexActivPanel != null)
-            proc = copexActivPanel.getLearnerProc();
+            proc = copexActivPanel.getExperimentalProc();
         return proc;
     }
 
@@ -233,7 +233,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     }
 
     @Override
-    public void openDialogCloseProc(LearnerProcedure proc) {
+    public void openDialogCloseProc(ExperimentalProcedure proc) {
         copex.openDialogCloseProc(proc);
     }
 

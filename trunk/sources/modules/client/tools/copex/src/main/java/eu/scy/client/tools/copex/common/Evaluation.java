@@ -46,6 +46,15 @@ public class Evaluation implements Cloneable{
         this.hide = hide;
     }
 
+    public Evaluation(long dbKey, String evaluation, String comment, boolean hide) {
+        this.dbKey = dbKey;
+        this.listEvaluation = new LinkedList();
+        this.listComments = new LinkedList();
+        setEvaluation(evaluation);
+        setComment(comment);
+        this.hide = hide;
+    }
+
     public Evaluation(Element xmlElem, long dbKey) throws JDOMException {
 		if (xmlElem.getName().equals(TAG_PROC_EVALUTATION)) {
 			this.dbKey = dbKey;

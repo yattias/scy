@@ -5,8 +5,8 @@
 
 package eu.scy.client.tools.copex.undoRedo;
 
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.common.Hypothesis;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.edp.CopexTree;
 import eu.scy.client.tools.copex.edp.EdPPanel;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
  * @author Marjolaine
  */
 public class HypothesisUndoRedo  extends CopexUndoRedo{
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     private Hypothesis oldHypothesis;
     private Hypothesis newHypothesis;
 
-    public HypothesisUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, LearnerProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis) {
+    public HypothesisUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ExperimentalProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis) {
         super(edP, controller, tree);
         this.proc = proc;
         this.oldHypothesis = oldHypothesis;

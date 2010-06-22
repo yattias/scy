@@ -6,7 +6,7 @@
 package eu.scy.client.tools.copex.undoRedo;
 
 
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.edp.CopexTree;
 import eu.scy.client.tools.copex.edp.EdPPanel;
@@ -17,16 +17,14 @@ import java.util.ArrayList;
 
 /**
  * undo redo : ajout d'une tache
- * @author MBO
+ * @author Marjolaine
  */
 public class AddTaskUndoRedo extends CopexUndoRedo {
-    //ATTRIBUTS
     /* tache */
     private TaskSelected task;
     /* positionnement dans l'arbre : tache sel lors de l'ajout */
     private TaskSelected ts ;
 
-    // CONSTRUCTEURS
     public AddTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, TaskSelected task, TaskSelected ts) {
         super(edP, controller, tree);
         this.task = task;
@@ -34,7 +32,6 @@ public class AddTaskUndoRedo extends CopexUndoRedo {
     }
     
     
-    //METHODES
     /* undo */
     @Override
     public void undo(){
@@ -46,7 +43,7 @@ public class AddTaskUndoRedo extends CopexUndoRedo {
         if (cr.isError()){
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         tree.suppr(listTs);
         edP.updateProc(newProc);
     }
@@ -62,7 +59,7 @@ public class AddTaskUndoRedo extends CopexUndoRedo {
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         tree.addTask(task.getSelectedTask(),ts);
         task.setSelectedNode(tree.getNode(task.getSelectedTask()));
         edP.updateProc(newProc);

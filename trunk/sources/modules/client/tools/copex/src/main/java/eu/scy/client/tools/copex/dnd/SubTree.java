@@ -23,13 +23,12 @@ import javax.swing.JTree;
  * @author MBO
  */
 public class SubTree extends JTree implements Serializable {
-    // ATTRIBUTS
     /* fenetre mere */
     private EdPPanel edP;
     /* controller */
     private ControllerInterface controller;
     /* protocole initial */
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     /* arbre auquel il appartient a l'origine */
     private CopexTree owner;
     /* modele de donnees */
@@ -46,10 +45,8 @@ public class SubTree extends JTree implements Serializable {
     private boolean dragNdrop;
     private Question fictivTask;
 
-    // CONSTRUCTEURS 
     
-    
-    public SubTree(EdPPanel edP, ControllerInterface controller, LearnerProcedure proc, CopexTree owner, ArrayList<CopexTask> listTask, ArrayList<CopexNode> listNode, boolean dragNdrop) {
+    public SubTree(EdPPanel edP, ControllerInterface controller, ExperimentalProcedure proc, CopexTree owner, ArrayList<CopexTask> listTask, ArrayList<CopexNode> listNode, boolean dragNdrop) {
         super();
         this.edP = edP;
         this.controller = controller;

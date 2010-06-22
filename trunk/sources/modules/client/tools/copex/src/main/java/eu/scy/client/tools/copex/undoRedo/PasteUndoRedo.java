@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.undoRedo;
 
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.dnd.SubTree;
 import eu.scy.client.tools.copex.edp.CopexTree;
@@ -17,10 +17,9 @@ import java.util.ArrayList;
 
 /**
  * undo redo : coller
- * @author MBO
+ * @author Marjolaine
  */
 public class PasteUndoRedo extends CopexUndoRedo{
-    // ATTRIBUTS
     /* sous arbre */
     private SubTree subTree;
     /* tache selectionne pour coller */
@@ -29,7 +28,6 @@ public class PasteUndoRedo extends CopexUndoRedo{
     private ArrayList<TaskSelected> listTask;
 
     
-    // CONSTRUCTEURS
     public PasteUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, SubTree subTree, TaskSelected ts, ArrayList<TaskSelected> listTask) {
         super(edP, controller, tree);
         this.subTree = subTree;
@@ -38,7 +36,6 @@ public class PasteUndoRedo extends CopexUndoRedo{
     }
     
     
-    //METHODES
     /* undo */
     @Override
     public void undo(){
@@ -48,7 +45,7 @@ public class PasteUndoRedo extends CopexUndoRedo{
         if (cr.isError()){
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
         tree.suppr(listTask);
         edP.updateProc(newProc);
         edP.updateMenu();
