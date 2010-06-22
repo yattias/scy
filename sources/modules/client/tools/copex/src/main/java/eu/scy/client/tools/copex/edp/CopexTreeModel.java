@@ -8,10 +8,11 @@ package eu.scy.client.tools.copex.edp;
 import eu.scy.client.tools.copex.common.CopexTask;
 import eu.scy.client.tools.copex.common.DataSheet;
 import eu.scy.client.tools.copex.common.Evaluation;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.common.GeneralPrinciple;
 import eu.scy.client.tools.copex.common.Hypothesis;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.common.MaterialProc;
+import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.DefaultTreeModel;
@@ -21,13 +22,13 @@ import javax.swing.tree.DefaultTreeModel;
  * @author Marjolaine
  */
 public class CopexTreeModel extends DefaultTreeModel{
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     /* liste des taches */
     private List<CopexTask> listTask;
     private CopexNode manipChild;
     private CopexTask fictivTask;
 
-    public CopexTreeModel(LearnerProcedure proc) {
+    public CopexTreeModel(ExperimentalProcedure proc) {
         super(new CopexNode(proc.getQuestion()));
         this.proc = proc;
         this.listTask = proc.getListTask();
@@ -36,7 +37,7 @@ public class CopexTreeModel extends DefaultTreeModel{
     }
 
     // constructeur d'un sous arbre
-    public CopexTreeModel(LearnerProcedure proc, ArrayList<CopexTask> listTask, CopexTask fictivTask){
+    public CopexTreeModel(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, CopexTask fictivTask){
         super(new CopexNode(proc.getQuestion()));
         this.proc = proc;
         this.listTask = listTask;
@@ -51,13 +52,13 @@ public class CopexTreeModel extends DefaultTreeModel{
         insertNodeInto(new CopexNode(proc.getQuestion()), rootNode, rootNode.getChildCount());
         // hypothesis
         Hypothesis hyp = proc.getHypothesis();
-        if(hyp != null && !hyp.isHide()){
+        if(hyp != null && !hyp.isHide() || proc.getHypothesisMode() == MyConstants.MODE_MENU_TREE){
             CopexNode hypChild = new CopexNode(hyp);
             insertNodeInto(hypChild, rootNode, rootNode.getChildCount());
         }
         // general principle
         GeneralPrinciple p = proc.getGeneralPrinciple();
-        if(p != null && !p.isHide()){
+        if(p != null && !p.isHide() || proc.getPrincipleMode() == MyConstants.MODE_MENU_TREE){
             CopexNode princChild = new CopexNode(p);
             insertNodeInto(princChild, rootNode, rootNode.getChildCount());
         }
@@ -79,7 +80,7 @@ public class CopexTreeModel extends DefaultTreeModel{
         }
         // evaluation
         Evaluation eval = proc.getEvaluation();
-        if(eval != null && !eval.isHide()){
+        if(eval != null && !eval.isHide() || proc.getEvaluationMode() == MyConstants.MODE_MENU_TREE){
             CopexNode evalChild = new CopexNode(eval);
             insertNodeInto(evalChild, rootNode, rootNode.getChildCount());
         }
@@ -131,11 +132,11 @@ public class CopexTreeModel extends DefaultTreeModel{
         return tabTask;
     }
 
-    public void updateProc(LearnerProcedure newProc){
+    public void updateProc(ExperimentalProcedure newProc){
         this.proc = newProc;
         updateNode((CopexNode)root);
     }
-
+    
     private void updateNode(CopexNode node){
         int nbC = node.getChildCount();
         // recherche de la tache

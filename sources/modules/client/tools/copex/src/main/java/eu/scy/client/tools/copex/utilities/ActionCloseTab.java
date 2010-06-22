@@ -4,7 +4,7 @@
  */
 package eu.scy.client.tools.copex.utilities;
 
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 
 /**
  *
@@ -14,5 +14,5 @@ public interface ActionCloseTab {
     public void setSelectedTab(CloseTab closeTab);
     public void doubleClickTab(CloseTab closeTab);
     public void openDialogAddProc();
-    public void openDialogCloseProc(LearnerProcedure proc);
+    public void openDialogCloseProc(ExperimentalProcedure proc);
 }

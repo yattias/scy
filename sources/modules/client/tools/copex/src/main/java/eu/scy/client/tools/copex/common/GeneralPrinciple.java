@@ -53,6 +53,16 @@ public class GeneralPrinciple implements Cloneable{
         this.hide = hide;
     }
 
+    public GeneralPrinciple(long dbKey, String principle, String comment, boolean hide) {
+        this.dbKey = dbKey;
+        this.listPrinciple = new LinkedList();
+        this.listComments = new LinkedList();
+        setPrinciple(principle);
+        setComment(comment);
+        this.hide = hide;
+        this.drawing = null;
+    }
+    
     public GeneralPrinciple(Element xmlElem, long dbKey) throws JDOMException {
 		if (xmlElem.getName().equals(TAG_PROC_GENERAL_PRINCIPLE)) {
             this.dbKey = dbKey;

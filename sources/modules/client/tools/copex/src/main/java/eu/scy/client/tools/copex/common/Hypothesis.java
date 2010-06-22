@@ -46,6 +46,14 @@ public class Hypothesis implements Cloneable{
         this.listComments = listComments;
         this.hide = hide;
     }
+    public Hypothesis(long dbKey, String hypothesis, String comment, boolean hide) {
+        this.dbKey = dbKey;
+        this.listHypothesis = new LinkedList();
+        this.listComments = new LinkedList();
+        setHypothesis(hypothesis);
+        setComment(comment);
+        this.hide = hide;
+    }
 
     public Hypothesis(Element xmlElem, long dbKey) throws JDOMException {
 		if (xmlElem.getName().equals(TAG_PROC_HYPOTHESIS)) {

@@ -6,7 +6,7 @@
 package eu.scy.client.tools.copex.undoRedo;
 
 import eu.scy.client.tools.copex.common.GeneralPrinciple;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.edp.CopexTree;
 import eu.scy.client.tools.copex.edp.EdPPanel;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
  * @author Marjolaine
  */
 public class GeneralPrincipleUndoRedo extends CopexUndoRedo {
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     private GeneralPrinciple oldPrinciple;
     private GeneralPrinciple newPrinciple;
 
-    public GeneralPrincipleUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, LearnerProcedure proc, GeneralPrinciple oldPrinciple, GeneralPrinciple newPrinciple) {
+    public GeneralPrincipleUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ExperimentalProcedure proc, GeneralPrinciple oldPrinciple, GeneralPrinciple newPrinciple) {
         super(edP, controller, tree);
         this.proc = proc;
         this.oldPrinciple = oldPrinciple;

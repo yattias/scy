@@ -9,7 +9,7 @@ import eu.scy.client.tools.copex.common.CopexTask;
 import eu.scy.client.tools.copex.common.Evaluation;
 import eu.scy.client.tools.copex.common.GeneralPrinciple;
 import eu.scy.client.tools.copex.common.Hypothesis;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.common.MaterialUsed;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +38,7 @@ public class CopexLog {
     public final static String TAG_MATERIAL_USED = "material_used";
 
     /* log: open proc*/
-    public static List<CopexProperty> logOpenProc(Locale locale, LearnerProcedure proc, long dbKeyMission, String missionCode){
+    public static List<CopexProperty> logOpenProc(Locale locale, ExperimentalProcedure proc, long dbKeyMission, String missionCode){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_MISSION_ID, Long.toString(dbKeyMission), null));
         list.add(new CopexProperty(TAG_MISSION_CODE, missionCode, null));
@@ -48,7 +48,7 @@ public class CopexLog {
     }
 
     /* log:  proc*/
-    public static List<CopexProperty> logProc(Locale locale, LearnerProcedure proc){
+    public static List<CopexProperty> logProc(Locale locale, ExperimentalProcedure proc){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -56,7 +56,7 @@ public class CopexLog {
     }
 
      /* log: rename proc*/
-    public static List<CopexProperty> logRenameProc(LearnerProcedure proc, String oldName, String newName){
+    public static List<CopexProperty> logRenameProc(ExperimentalProcedure proc, String oldName, String newName){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_OLD, oldName, null));
@@ -65,7 +65,7 @@ public class CopexLog {
     }
 
     /* log:  copy proc*/
-    public static List<CopexProperty> logCopyProc(Locale locale, LearnerProcedure proc, LearnerProcedure copyToProc){
+    public static List<CopexProperty> logCopyProc(Locale locale, ExperimentalProcedure proc, ExperimentalProcedure copyToProc){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -74,7 +74,7 @@ public class CopexLog {
         return list;
     }
     /* log : update task */
-    public static List<CopexProperty> logUpdateTask(Locale locale, LearnerProcedure proc, CopexTask oldTask, CopexTask newTask){
+    public static List<CopexProperty> logUpdateTask(Locale locale, ExperimentalProcedure proc, CopexTask oldTask, CopexTask newTask){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -85,7 +85,7 @@ public class CopexLog {
     }
 
     /* log: add task*/
-    public static List<CopexProperty> logAddTask(Locale locale, LearnerProcedure proc, CopexTask task, TaskTreePosition position){
+    public static List<CopexProperty> logAddTask(Locale locale, ExperimentalProcedure proc, CopexTask task, TaskTreePosition position){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -96,7 +96,7 @@ public class CopexLog {
 
 
     /* log : task */
-    public static List<CopexProperty> logTask(Locale locale,LearnerProcedure proc, CopexTask task, TaskTreePosition position){
+    public static List<CopexProperty> logTask(Locale locale,ExperimentalProcedure proc, CopexTask task, TaskTreePosition position){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -106,7 +106,7 @@ public class CopexLog {
     }
 
     /* log : tasks list */
-    public static List<CopexProperty> logListTask(Locale locale,LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+    public static List<CopexProperty> logListTask(Locale locale,ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -119,7 +119,7 @@ public class CopexLog {
     }
 
     /* log : tasks list */
-    public static List<CopexProperty> logDragDrop(Locale locale,LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+    public static List<CopexProperty> logDragDrop(Locale locale,ExperimentalProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -133,7 +133,7 @@ public class CopexLog {
     }
 
     /* log : hypothesis */
-    public static List<CopexProperty> logHypothesis(Locale locale, LearnerProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis){
+    public static List<CopexProperty> logHypothesis(Locale locale, ExperimentalProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -146,7 +146,7 @@ public class CopexLog {
         return list;
     }
     /* log : genral principle */
-    public static List<CopexProperty> logGeneralPrinciple(Locale locale, LearnerProcedure proc, GeneralPrinciple oldGeneralPrinciple, GeneralPrinciple newGeneralPrinciple){
+    public static List<CopexProperty> logGeneralPrinciple(Locale locale, ExperimentalProcedure proc, GeneralPrinciple oldGeneralPrinciple, GeneralPrinciple newGeneralPrinciple){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -159,7 +159,7 @@ public class CopexLog {
         return list;
     }
     /* log : evaluation */
-    public static List<CopexProperty> logEvaluation(Locale locale, LearnerProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation){
+    public static List<CopexProperty> logEvaluation(Locale locale, ExperimentalProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -173,7 +173,7 @@ public class CopexLog {
     }
 
     /* log : material used */
-    public static List<CopexProperty> logMaterialUsed(Locale locale, LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
+    public static List<CopexProperty> logMaterialUsed(Locale locale, ExperimentalProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
@@ -184,7 +184,7 @@ public class CopexLog {
     }
 
      /* log : update material used */
-    public static List<CopexProperty> logUpdateMaterialUsed(Locale locale, LearnerProcedure proc, ArrayList<MaterialUsed> oldListMaterialUsed, ArrayList<MaterialUsed> newListMaterialUsed){
+    public static List<CopexProperty> logUpdateMaterialUsed(Locale locale, ExperimentalProcedure proc, ArrayList<MaterialUsed> oldListMaterialUsed, ArrayList<MaterialUsed> newListMaterialUsed){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));

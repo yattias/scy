@@ -6,7 +6,7 @@
 package eu.scy.client.tools.copex.undoRedo;
 
 import eu.scy.client.tools.copex.common.Evaluation;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.edp.CopexTree;
 import eu.scy.client.tools.copex.edp.EdPPanel;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
  * @author Marjolaine
  */
 public class EvaluationUndoRedo  extends CopexUndoRedo  {
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     private Evaluation oldEvaluation;
     private Evaluation newEvaluation;
 
-    public EvaluationUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, LearnerProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation) {
+    public EvaluationUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ExperimentalProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation) {
         super(edP, controller, tree);
         this.proc = proc;
         this.oldEvaluation = oldEvaluation;

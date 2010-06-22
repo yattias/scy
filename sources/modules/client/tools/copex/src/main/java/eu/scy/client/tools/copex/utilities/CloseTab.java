@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.utilities;
 
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,12 +14,12 @@ import javax.swing.*;
 
 /**
  * tab with a cross to open or close
- * @author MBO
+ * @author Marjolaine
  */
 public class CloseTab extends JPanel implements MouseListener, ActionCopexButton {
 
     private ActionCloseTab action;
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     private JLabel labelTitle;
     private String title;
     private CopexButtonPanel labelIcon;
@@ -34,7 +34,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     private boolean canClose;
     
     
-    public CloseTab(LearnerProcedure proc, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText, boolean canClose){
+    public CloseTab(ExperimentalProcedure proc, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText, boolean canClose){
         this.proc = proc;
         this.bgColor = bgColor;
         this.bgSelColor = bgSelColor;
@@ -48,7 +48,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         init();
     }
 
-    public LearnerProcedure getProc() {
+    public ExperimentalProcedure getProc() {
         return proc;
     }
 

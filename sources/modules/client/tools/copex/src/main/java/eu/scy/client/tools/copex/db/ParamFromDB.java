@@ -192,7 +192,7 @@ public class ParamFromDB {
      */
     public static CopexReturn getAllStrategyMaterialFromDB(DataBaseCommunication dbC, Locale locale, ArrayList v){
         ArrayList<MaterialStrategy> listStrategy = new ArrayList();
-        String query = "SELECT ID_STRATEGY, CODE, ITEM, ITEM_LIBELLE_"+locale.getLanguage()+", ADD_MAT, CHOOSE_MAT, COMMENTS_MAT FROM MATERIAL_STRATEGY ;";
+        String query = "SELECT ID_STRATEGY, CODE, ITEM, ITEM_LIBELLE_"+locale.getLanguage()+", ADD_MAT, CHOOSE_MAT, COMMENTS_MAT FROM MATERIAL_STRATEGY ORDER BY CODE;";
         ArrayList v2 = new ArrayList();
 //        ArrayList<String> listFields = new ArrayList();
 //        listFields.add("ID_STRATEGY");

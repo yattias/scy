@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.undoRedo;
 
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.edp.CopexTree;
 import eu.scy.client.tools.copex.edp.EdPPanel;
@@ -15,12 +15,11 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 
 /**
  * renommer un protocole : gestion du undo redo
- * @author MBO
+ * @author Marjolaine
  */
 public class UpdateProcNameUndoRedo extends CopexUndoRedo {
-    // ATTRIBUTS
     /* protocole */
-    private LearnerProcedure proc;
+    private ExperimentalProcedure proc;
     /* ancien nom */
     private String oldName;
     /* nouveau nom */
@@ -28,7 +27,7 @@ public class UpdateProcNameUndoRedo extends CopexUndoRedo {
 
   
     // CONSTRUCTEURS
-     public UpdateProcNameUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, LearnerProcedure proc, String oldName, String newName) {
+     public UpdateProcNameUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ExperimentalProcedure proc, String oldName, String newName) {
         super(edP, controller, tree);
         this.proc = proc;
         this.oldName = oldName;

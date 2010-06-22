@@ -12,17 +12,13 @@ import eu.scy.client.tools.copex.edp.EdPPanel;
 import eu.scy.client.tools.copex.edp.TaskSelected;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.MyConstants;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
  * undo redo : drag and drop 
- * @author MBO
+ * @author Marjolaine
  */
 public class DragAndDropUndoRedo extends CopexUndoRedo {
-    //ATTRIBUTS
     /*sous arbre */
     private SubTree subTree;
     /*tache insertion */
@@ -30,7 +26,6 @@ public class DragAndDropUndoRedo extends CopexUndoRedo {
     /*ancinene tache insertion */
     private TaskSelected oldTs;
 
-     // CONSTRUCTEURS
     public DragAndDropUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, SubTree subTree, TaskSelected ts, TaskSelected oldTs) {
         super(edP, controller, tree);
         this.subTree = subTree;
@@ -40,7 +35,6 @@ public class DragAndDropUndoRedo extends CopexUndoRedo {
     
    
     
-    //METHODES
     /* undo */
     @Override
     public void undo(){

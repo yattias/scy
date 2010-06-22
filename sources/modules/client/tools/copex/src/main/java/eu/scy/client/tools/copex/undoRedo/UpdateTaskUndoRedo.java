@@ -7,7 +7,7 @@ package eu.scy.client.tools.copex.undoRedo;
 
 
 import eu.scy.client.tools.copex.common.CopexTask;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
+import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.edp.CopexTree;
 import eu.scy.client.tools.copex.edp.CopexNode;
@@ -18,10 +18,9 @@ import java.util.ArrayList;
 
 /**
  * undo redo de la modification d'une tache
- * @author Admin2
+ * @author Marjolaine
  */
 public class UpdateTaskUndoRedo extends CopexUndoRedo{
-    // ATTRIBUTS
     /* ancienne tache */
     private CopexTask oldTask;
     /*noeud */
@@ -29,7 +28,6 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
     /* nouvelle tache */
     private CopexTask newTask;
 
-    // CONSTRUCTEURS
     public UpdateTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, CopexTask oldTask, CopexNode node, CopexTask newTask) {
         super(edP, controller, tree);
         this.oldTask = (CopexTask)oldTask.clone();
@@ -37,7 +35,6 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
         this.newTask = (CopexTask)newTask.clone();
     }
     
-    // METHODES
     /* undo */
     @Override
     public void undo(){
@@ -48,7 +45,7 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        LearnerProcedure newproc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newproc = (ExperimentalProcedure)v.get(0);
         edP.updateProc(newproc);
         tree.updateTask(oldTask, node);
     }
@@ -64,7 +61,7 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        LearnerProcedure newproc = (LearnerProcedure)v.get(0);
+        ExperimentalProcedure newproc = (ExperimentalProcedure)v.get(0);
         edP.updateProc(newproc);
         tree.updateTask(newTask, node);
     }
