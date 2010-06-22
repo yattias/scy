@@ -107,6 +107,11 @@
             <artifactId>scy-i18n</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>0.6.1-SNAPSHOT</version>
+	</dependency>
     </dependencies>
 
 </project>
