@@ -22,6 +22,7 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.Graph;
+import eu.scy.tools.dataProcessTool.common.Group;
 import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.common.ToolUser;
 import eu.scy.tools.dataProcessTool.common.Visualization;
@@ -38,6 +39,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -50,7 +52,7 @@ import org.jfree.chart.JFreeChart;
  */
 public class DataPrint {
     private DataProcessToolPanel owner;
-    private ToolUser user;
+    private Group group;
     private Mission mission;
     private Dataset dataset;
     private DataTableModel tableModel;
@@ -61,11 +63,11 @@ public class DataPrint {
     private ArrayList<Visualization> listVis;
     private ArrayList<Object> listGraph;
 
-    public DataPrint(DataProcessToolPanel owner,Mission mission, ToolUser user, Dataset dataset,DataTableModel tableModel,boolean printDataset, ArrayList<Visualization> listVis,  ArrayList<Object> listGraph, String fileName) {
+    public DataPrint(DataProcessToolPanel owner,Mission mission, Group group, Dataset dataset,DataTableModel tableModel,boolean printDataset, ArrayList<Visualization> listVis,  ArrayList<Object> listGraph, String fileName) {
         this.owner = owner;
         this.mission = mission;
         this.tableModel = tableModel;
-        this.user = user;
+        this.group = group;
         this.dataset = dataset;
         this.fileName = fileName;
         this.printDataset = printDataset;
@@ -145,7 +147,14 @@ public class DataPrint {
 
 
     private CopexReturn setHeader(){
-        String name = (user.getUserFirstName() == null ?"" : user.getUserFirstName()+" ")+user.getUserName() ;
+        String name = "";
+        for(Iterator<ToolUser> l = group.getLearners().iterator();l.hasNext();){
+            ToolUser learner = l.next();
+            name += (learner.getUserFirstName() == null ?"":learner.getUserFirstName()+" ")+learner.getUserName()+";";
+        }
+        if(name.length() > 0){
+            name = name.substring(0, name.length()-1);
+        }
         String missionName = owner.getBundleString("LABEL_MISSION")+" "+mission.getName() ;
         try {
             Table headerTable = new Table(1);

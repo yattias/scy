@@ -26,89 +26,74 @@ import org.jdom.Element;
  * @author Marjolaine Bodin
  */
 public interface ControllerInterface {
-    /* chargement des donnees  */
+    /** load data */
     public CopexReturn load();
-    /* chargement d'un ELO */
+    /** load an elo */
     public CopexReturn loadELO(String xmlContent, String dsName);
-    /*sauvegarde de l'elo*/
+    /*save an elo*/
     public Element getPDS(Dataset ds);
-    
-    /* merge d'un ELO avec l'elo courant */
+    /** merge an elo with the current elo */
     public CopexReturn mergeELO(Dataset ds, Element elo);
+    /** merge a dataset with the current dataset*/
     public CopexReturn mergeDataset(Dataset currentDs, Mission m, Dataset dsToMerge, ArrayList v);
-    /*change le statut valeur ignoree - retourne en v[0] le nouveau dataset  */
+    /** update the statut of a data: ignored or not */
     public CopexReturn setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData, ArrayList v);
-
-    /* creation d'une nouvelle operation - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
+    /** creation of a new operation - v[0]= new Dataset and v[1]= new DataOperation */
     public CopexReturn createOperation(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo, ArrayList v);
-    /* mise a jour d'une valeur : titre header */
+    /** update a header */
     public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type,String formulaValue,  Function function, ArrayList v);
-
-    /* mise a jour d'une valeur : titre operation */
+    /** update the title of an operation */
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v);
-
-    /* mise a jour d'une valeur : donnee dataset */
+    /** update a data */
     public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, String value, ArrayList v);
-
-    /* fermeture de la visualization d'une ds */
+    /** close a visualization*/
     public CopexReturn closeVisualization(Dataset ds, Visualization vis);
-
-    /* suppression de la visualization d'une la feuille de donnees */
+    /** delete a visualization*/
     public CopexReturn deleteVisualization(Dataset ds, Visualization vis);
-
-    /* creation d'une visualization - renvoit en v[0] le nouveua dataset et en v[1] l'objet visualization */
+    /* create a visualization - v[0]=new Dataset and  v[1] = new Visualization */
     public CopexReturn createVisualization(Dataset ds, Visualization vis, boolean findAxisParam, ArrayList v) ;
-
-    /* update nom graphe */
+    /* update the graph name */
     public CopexReturn updateVisualizationName(Dataset ds, Visualization vis, String newName);
-
-   /* mise a jour du nom du dataset */
+   /** update the dataset name */
     public CopexReturn renameDataset(Dataset ds, String name);
-
-    /* suppression de donnees et ou d'operations dans un dataset */
-    //public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v);
+    /** delete data or operations in a dataset*/
     public CopexReturn  deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol, ArrayList<DataOperation> listOperation,  ArrayList v);
-
-    /* ajout ou modification d'une fonction modeme */
+    /** add or update a function model */
     public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
-
-    /* insertion de lignes ou de colonnes */
+    /** insert row or columns*/
     public CopexReturn  insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v) ;
-
-    /* impression */
+    /** PDF export*/
     public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph);
-
-    /* retourne la liste des missions et la liste des dataset / mission */
+    /** get the list of missions and list of dataset per mission that can be opened */
     public CopexReturn getListDatasetToOpenOrMerge(ArrayList v);
-   /* mise a jour dataset apres sort */
+    /** update a dataset after a sort*/
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v);
-
-    /* creation d'un dataset avec l'en tete - 1 ligne de donnees */
+    /** create a new dataset */
     public CopexReturn createDataset(String name, String[] headers, String[] units, String[] types, String[] descriptions, ArrayList v);
-
-    /* ajout d'une ligne de donnees */
+    /** add a data row */
     public CopexReturn addData(long dbKeyDs, String[] values, ArrayList v);
-    /*mise a jour des param */
+    /** update parameters of the graph */
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, ParamGraph pg, ArrayList v);
-    /* maj autoscale*/
+    /** update the autoscale */
     public CopexReturn setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale, ArrayList v);
-    /* copie-colle */
+    /** copy/paste*/
     public CopexReturn paste(long dbKeyDs, Dataset subData, int[] selCell, ArrayList v);
-    /* lecture de fichier cvs  */
+    /** import a CSV file */
     public CopexReturn importCSVFile(File file,String sepField, String sepText, ArrayList v);
-    /*suppression du dataset */
+    /** delete a dataset*/
     public CopexReturn deleteDataset(Dataset ds);
-    /*creation dataset par default */
+    /** create a dataset by default*/
     public CopexReturn createDefaultDataset(String name, ArrayList v);
-    /* fermeture d'un dataset */
+    /** close a dataste*/
     public CopexReturn closeDataset(Dataset ds);
-
-    /* maj dataset */
+    /** update the dataset*/
     public CopexReturn updateDataset(Dataset ds, ArrayList v);
-    /* maj d'une operation */
+    /** update an operation*/
     public CopexReturn updateOperation(Dataset ds, DataOperation operation , ArrayList v);
-    /* open dataset*/
+    /** open a dataset*/
     public CopexReturn openDataset(Mission mission, Dataset ds);
-    /* fermeture de l'editeur */
+    /** close the editor */
     public CopexReturn stopFitex();
+    /** return true in v[0] if the specified dataset is the dataset from the labdoc */
+    public CopexReturn isLabDocDataset(Dataset ds, ArrayList v);
 }

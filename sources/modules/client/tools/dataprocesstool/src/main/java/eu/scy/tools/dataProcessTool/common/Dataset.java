@@ -19,7 +19,6 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedHeader;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
-import eu.scy.tools.fitex.analyseFn.Function;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,10 +54,12 @@ public class Dataset implements Cloneable{
     protected boolean isOpen;
     /* mission */
     private Mission mission;
+    private long dbKeyLabDoc;
+
+    private char right;
 
     
-    // CONSTRUCTOR
-    public Dataset(long dbKey, Mission mission, String name, int nbCol, int nbRows, DataHeader[] listDataHeader, Data[][] data, ArrayList<DataOperation> listOperation,ArrayList<Visualization> listVisualization) {
+    public Dataset(long dbKey, Mission mission, long dbKeyLabDoc, String name, int nbCol, int nbRows, DataHeader[] listDataHeader, Data[][] data, ArrayList<DataOperation> listOperation,ArrayList<Visualization> listVisualization, char right) {
         this.dbKey = dbKey;
         this.name = name;
         this.nbCol = nbCol;
@@ -70,10 +71,12 @@ public class Dataset implements Cloneable{
         this.listVisualization = listVisualization ;
         this.isOpen = true;
         this.mission = mission;
+        this.dbKeyLabDoc = dbKeyLabDoc;
+        this.right = right;
         calculateOperation();
     }
     
-    public Dataset(long dbKey, String name) {
+    public Dataset(long dbKey, String name, char right ) {
         this.dbKey = dbKey;
         this.name = name;
         this.nbCol = 0;
@@ -85,9 +88,9 @@ public class Dataset implements Cloneable{
         this.listVisualization = new ArrayList() ;
         this.isOpen = false;
         this.mission = null;
+        this.right = right;
     }
    
-     // GETTER AND SETTER
     public String getName() {
         return name;
     }
@@ -112,7 +115,15 @@ public class Dataset implements Cloneable{
         this.data = data;
     }
 
-    
+    public char getRight() {
+        return right;
+    }
+
+    public void setRight(char right) {
+        this.right = right;
+    }
+
+
 
     public DataHeader[] getListDataHeader() {
         return listDataHeader;
@@ -177,7 +188,14 @@ public class Dataset implements Cloneable{
         this.mission = mission;
     }
 
-    // CLONE
+    public long getDbKeyLabDoc() {
+        return dbKeyLabDoc;
+    }
+
+    public void setDbKeyLabDoc(long dbKeyLabDoc) {
+        this.dbKeyLabDoc = dbKeyLabDoc;
+    }
+
     @Override
     public Object clone()  {
         try {
@@ -242,6 +260,7 @@ public class Dataset implements Cloneable{
             if(mission != null){
                 mClone = (Mission)mission.clone();
             }
+            dataset.setDbKeyLabDoc(dbKeyLabDoc);
             dataset.setDbKey(dbKeyC);
             dataset.setName(nameC);
             dataset.setNbCol(nbColC);
@@ -253,6 +272,7 @@ public class Dataset implements Cloneable{
             dataset.setData(dataC);
             dataset.setOpen(isOpenC);
             dataset.setMission(mClone);
+            dataset.setRight(new Character(right));
             
             return dataset;
         } catch (CloneNotSupportedException e) { 
@@ -261,7 +281,6 @@ public class Dataset implements Cloneable{
 	}
     }
 
-    // METHODE
     /* ajout d'une operation */
     public void addOperation(DataOperation operation){
         this.listOperation.add(operation);

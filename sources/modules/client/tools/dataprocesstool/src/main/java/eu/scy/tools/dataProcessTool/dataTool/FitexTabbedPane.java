@@ -54,7 +54,7 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
        ImageIcon  iconRollOver = owner.getCopexImage("Bouton-onglet_ouverture_sur.png");
        ImageIcon  iconClic = owner.getCopexImage("Bouton-onglet_ouverture_cli.png");
        ImageIcon  iconDisabled = owner.getCopexImage("Bouton-onglet_ouverture_grise.png");
-       closeTabAdd = new CloseTab(null,  getBgColor(), getBgSelColor(),"", iconClose, iconRollOver, iconClic, iconDisabled, owner.getToolTipTextOpen());
+       closeTabAdd = new CloseTab(null,  getBgColor(), getBgSelColor(),"", iconClose, iconRollOver, iconClic, iconDisabled, owner.getToolTipTextOpen(), true);
        closeTabAdd.addActionCloseTab(this);
        setTabComponentAt(0, closeTabAdd);
      }
@@ -104,7 +104,8 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
         if (component instanceof FitexToolPanel){
             ds =((FitexToolPanel)component).getDataset();
         }
-        CloseTab closeTab = new CloseTab(ds, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, owner.getBundleString("TOOLTIPTEXT_CLOSE_DATASET"));
+        boolean canClose = owner.canCloseDataset(ds);
+        CloseTab closeTab = new CloseTab(ds, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, owner.getBundleString("TOOLTIPTEXT_CLOSE_DATASET"), canClose);
         closeTab.addActionCloseTab(this);
         if (component instanceof FitexToolPanel){
             listPanelFitex.add((FitexToolPanel)component);

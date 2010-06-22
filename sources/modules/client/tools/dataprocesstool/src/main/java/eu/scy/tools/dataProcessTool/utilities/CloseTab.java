@@ -33,8 +33,9 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     private String toolTipText;
     private Color bgColor;
     private Color bgSelColor;
+    private boolean canClose;
 
-    public CloseTab(Dataset ds, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
+    public CloseTab(Dataset ds, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText, boolean canClose){
         this.ds = ds;
         this.bgColor = bgColor;
         this.bgSelColor = bgSelColor;
@@ -44,6 +45,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         this.iconRollOver = iconSurvol;
         this.iconDisabled = iconDisabled ;
         this.toolTipText = toolTipText;
+        this.canClose = canClose;
         init();
     }
 
@@ -65,7 +67,8 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
             d = new Dimension(15, 16);
         }
         labelIcon.setToolTipText(toolTipText);
-        add(labelIcon);
+        if(canClose)
+            add(labelIcon);
         setOpaque(false);
         setSize(d);
         setPreferredSize(d);

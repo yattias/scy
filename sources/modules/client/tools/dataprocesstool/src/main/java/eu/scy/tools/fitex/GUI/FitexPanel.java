@@ -54,6 +54,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
     private FitexToolPanel owner;
     /* donnees */
     private DefaultTableModel[] datas = null;
+    private char right;
     private Color[] plotsColor = null;
     /* action fitexPanel */
     private ActionFitex actionFitex;
@@ -104,13 +105,14 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
 
     
     /** Creates new form FitexPanel */
-    public FitexPanel(FitexToolPanel owner, DefaultTableModel[] datas, Color[] plotsColor, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg) {
+    public FitexPanel(FitexToolPanel owner, DefaultTableModel[] datas, Color[] plotsColor, ArrayList<FunctionModel> listFunctionModel, ParamGraph pg, char right) {
         super();
         this.owner = owner;
         this.datas = datas ;
         this.plotsColor = plotsColor;
         this.paramGraph = pg;
         tabPanelDist = new DistancePanel[datas.length];
+        this.right = right;
         initGUI(listFunctionModel);
     }
 
@@ -127,7 +129,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
         // functionSelector.setVisible(false);
         width = 400;
         height = 400;
-        zoneDeTrace = new DrawPanel(this, datas, plotsColor, paramGraph, width, height) ;
+        zoneDeTrace = new DrawPanel(this, datas, plotsColor, paramGraph, width, height, right) ;
         this.add(zoneDeTrace, BorderLayout.CENTER);
         //this.add(getPanelFctModel(), BorderLayout.NORTH);
         setInitialListFunction(listFunctionModel);
@@ -254,6 +256,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             textFieldFct = new JTextField();
             textFieldFct.setName("textFieldFct");
             textFieldFct.setForeground(DataConstants.FUNCTION_COLOR_1);
+            textFieldFct.setEnabled(right == DataConstants.EXECUTIVE_RIGHT);
             textFieldFct.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,6 +288,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             buttonPreDefinedFct.setMaximumSize(buttonPreDefinedFct.getSize());
             buttonPreDefinedFct.addActionCopexButton(this);
             buttonPreDefinedFct.setToolTipText(owner.getBundleString("TOOLTIPTEXT_PREDEFINED_FUNCTION"));
+            buttonPreDefinedFct.setEnabled(right == DataConstants.EXECUTIVE_RIGHT);
         }
         return buttonPreDefinedFct;
     }
@@ -521,7 +525,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             // parcours de tous les parametres pour creer les differents BoxSpinners
             for (String param:mapDesFonctions.get(coul).getMapParametre().keySet()) {
                 // creation d'un objet BoxSpinner
-                mapDesSpinners.put(param , new BoxSpinner(this)) ;
+                mapDesSpinners.put(param , new BoxSpinner(this, right)) ;
                 // on ajoute le box et on l'initialise
                 parametresFn.add(mapDesSpinners.get(param));
                 mapDesSpinners.get(param).setTextLabel(param);

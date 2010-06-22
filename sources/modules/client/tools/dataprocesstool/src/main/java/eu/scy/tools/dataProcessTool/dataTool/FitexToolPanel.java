@@ -539,13 +539,16 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public void updateMenuData(){
         if(datasetTable == null)
             return;
-        this.menuItemInsert.setEnabled(datasetTable.canInsert());
-        getMenuItemSuppr().setEnabled(datasetTable.canSuppr());
-        getMenuItemCopy().setEnabled(datasetTable.canCopy());
-        getMenuItemPaste().setEnabled(datasetTable.canPaste());
-        getMenuItemCut().setEnabled(datasetTable.canCut());
+        boolean canEdit = dataset.getRight() == DataConstants.EXECUTIVE_RIGHT;
+        if(menuItemSave != null)
+            menuItemSave.setEnabled(canEdit);
+        this.menuItemInsert.setEnabled(canEdit && datasetTable.canInsert());
+        getMenuItemSuppr().setEnabled(canEdit &&datasetTable.canSuppr());
+        getMenuItemCopy().setEnabled(canEdit &&datasetTable.canCopy());
+        getMenuItemPaste().setEnabled(canEdit &&datasetTable.canPaste());
+        getMenuItemCut().setEnabled(canEdit &&datasetTable.canCut());
         getMenuItemSort().setEnabled(datasetTable.canSort());
-        this.menuItemIgnore.setEnabled(datasetTable.canIgnore());
+        this.menuItemIgnore.setEnabled(canEdit &&datasetTable.canIgnore());
         if(isAllSelectionIgnore()){
             this.menuItemIgnore.setItemIcon(getCopexImage("Bouton-AdT-28_ignore_push.png"));
             this.menuItemIgnore.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_ignore_surcli.png"));
@@ -553,15 +556,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             this.menuItemIgnore.setItemIcon(getCopexImage("Bouton-AdT-28_ignore.png"));
             this.menuItemIgnore.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_ignore_sur.png"));
         }
-        getMenuItemUndo().setEnabled(datasetTable.canUndo());
-        getMenuItemRedo().setEnabled(datasetTable.canRedo());
+        getMenuItemUndo().setEnabled(canEdit &&datasetTable.canUndo());
+        getMenuItemRedo().setEnabled(canEdit &&datasetTable.canRedo());
         boolean canOp = datasetTable.canOperations();
-        this.menuItemSum.setEnabled(canOp);
-        this.menuItemAvg.setEnabled(canOp);
-        this.menuItemMin.setEnabled(canOp);
-        this.menuItemMax.setEnabled(canOp);
+        this.menuItemSum.setEnabled(canEdit &&canOp);
+        this.menuItemAvg.setEnabled(canEdit &&canOp);
+        this.menuItemMin.setEnabled(canEdit &&canOp);
+        this.menuItemMax.setEnabled(canEdit &&canOp);
         boolean isData = isData() && dataset.getListDataHeaderDouble(true).length > 0;
-        this.menuItemAddGraph.setEnabled(isData);
+        this.menuItemAddGraph.setEnabled(canEdit &&isData);
         if(menuItemPrint != null)
             this.menuItemPrint.setEnabled(dataset != null);
         repaint();
@@ -1403,7 +1406,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* ouverture fenetre edition header */
     public void editDataHeader(DataHeader header, int noCol){
-        EditDataHeaderDialog editDialog = new EditDataHeaderDialog(this, dataset,header,noCol,  DataConstants.EXECUTIVE_RIGHT);
+        EditDataHeaderDialog editDialog = new EditDataHeaderDialog(this, dataset,header,noCol,  dataset.getRight());
         editDialog.setVisible(true);
     }
 
@@ -1433,8 +1436,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* renomme le nom du dataset, retourne le nom */
     public String renameDataset(){
-        RenameDatasetDialog dialog = new RenameDatasetDialog(this, dataset.getName());
-        dialog.setVisible(true);
+        if(dataset.getRight() == DataConstants.EXECUTIVE_RIGHT){
+            RenameDatasetDialog dialog = new RenameDatasetDialog(this, dataset.getName());
+            dialog.setVisible(true);
+        }
         return this.dataset.getName();
     }
 

@@ -11,71 +11,65 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.util.ArrayList;
 
 /**
- * Gestion des  des missions
+ * manage mission in DB
  * @author Marjolaine
  */
 public class CopexMissionFromDB {
     /*chargement de la mission : en v[0] : la mission */
     public static CopexReturn loadMissionFromDB(DataBaseCommunication dbC, long dbKeyMission, ArrayList v){
+        dbC.updateDb(DataConstants.DB_LABBOOK);
         Mission mission = null;
-        String query = "SELECT CODE, MISSION_NAME, SUM_UP " +
-                "FROM `COPEX_MISSION`  " +
-                "WHERE ID_MISSION = "+dbKeyMission +"   ;";
-
-        //System.out.println("query"+query);
+        String query = "SELECT ID_MISSION, CODE, NAME, SUM_UP " +
+                "FROM MISSION   " +
+                "WHERE ID_MISSION = "+dbKeyMission +" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_MISSION");
         listFields.add("CODE");
-        listFields.add("MISSION_NAME");
+        listFields.add("NAME");
         listFields.add("SUM_UP");
-
-        //.out.println("envoi requete ");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
-        if (cr.isError())
+        if (cr.isError()){
+            dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
             return cr;
+        }
         int nbR = v2.size();
         
-        //System.out.println("nb : "+nbR);
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_MISSION");
+            long dbKey = Long.parseLong(s);
             String code = rs.getColumnData("CODE");
-            if (code == null)
-                continue;
-            String mission_name = rs.getColumnData("MISSION_NAME");
-            if (mission_name == null)
-                continue;
-            String sum_up = rs.getColumnData("SUM_UP");
-            if (sum_up == null)
-                continue;
-
-            mission = new Mission(dbKeyMission, code, mission_name, sum_up);
+            String mission_name = rs.getColumnData("NAME");
+            String sumUp = rs.getColumnData("SUM_UP");
+            mission = new Mission(dbKey,  mission_name,code,sumUp);
         }
-
+        dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
         v.add(mission);
         return new CopexReturn();
     }
 
     public static CopexReturn getAllMissionFromDB(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission, ArrayList v){
-        dbC.updateDb(DataConstants.DB_COPEX);
+        dbC.updateDb(DataConstants.DB_LABBOOK);
         ArrayList<Mission> listMission = new ArrayList();
-        String query = "SELECT M.ID_MISSION, M.CODE, M.MISSION_NAME, M.SUM_UP " +
-                "FROM COPEX_MISSION M, LINK_MISSION_LEARNER L " +
-                "WHERE M.ID_MISSION != "+dbKeyMission +" AND  M.ID_MISSION = L.ID_MISSION " +
-                "AND L.ID_LEARNER = "+dbKeyUser+" ;";
+        String query = "SELECT M.ID_MISSION, M.CODE, M.NAME, M.SUM_UP " +
+                "FROM MISSION M, MISSION_CONF C " +
+                "WHERE M.ID_MISSION != "+dbKeyMission +" AND  M.ID_MISSION = C.ID_MISSION " +
+                "AND C.ID_LEARNER_GROUP IN (SELECT ID_LEARNER_GROUP FROM LINK_GROUP_LEARNER WHERE ID_LEARNER =  "+dbKeyUser+" );";
 
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("M.ID_MISSION");
         listFields.add("M.CODE");
-        listFields.add("M.MISSION_NAME");
+        listFields.add("M.NAME");
         listFields.add("M.SUM_UP");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
-            dbC.updateDb(DataConstants.DB_COPEX_DATA);
+            dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
             return cr;
         }
-        dbC.updateDb(DataConstants.DB_COPEX_DATA);
+        dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
         int nbR = v2.size();
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
@@ -86,13 +80,14 @@ public class CopexMissionFromDB {
             String code = rs.getColumnData("M.CODE");
             if (code == null)
                 continue;
-            String mission_name = rs.getColumnData("M.MISSION_NAME");
+            String mission_name = rs.getColumnData("M.NAME");
             if (mission_name == null)
                 continue;
             String description = rs.getColumnData("M.SUM_UP");
             if (description == null)
                 continue;
-            Mission m = new Mission(dbKey, code, mission_name, description);
+            Mission m = new Mission(dbKey, mission_name,code,  description);
+
             listMission.add(m);
         }
 

@@ -25,6 +25,8 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
     private static URL fitexURL;
     private static String idUser ;
     private static String mission;
+    private static String idGroup;
+    private static String idLabDoc;
 
     
 
@@ -37,9 +39,13 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
         this.setLayout(new BorderLayout());
         long dbKeyMission = -1;
         long dbKeyUser = -1;
+        long dbKeyGroup = -1;
+        long dbKeyLabDoc = -1;
         try{
             dbKeyMission = Long.valueOf(mission);
             dbKeyUser = Long.valueOf(idUser);
+            dbKeyGroup = Long.parseLong(idGroup);
+            dbKeyLabDoc = Long.parseLong(idLabDoc);
         }catch(Throwable t){
             System.out.println(t);
             this.stop();
@@ -52,7 +58,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             }
         });
         
-        fitexPanel = new DataProcessToolPanel(fitexURL, Locale.getDefault(), dbKeyMission,dbKeyUser);
+        fitexPanel = new DataProcessToolPanel(fitexURL, Locale.getDefault(), dbKeyMission,dbKeyUser, dbKeyGroup, dbKeyLabDoc);
         fitexPanel.addFitexAction(this);
         add(fitexPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
@@ -89,11 +95,13 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                 }
             }
         }
-        if(args == null || args.length  < 2){
+        if(args == null || args.length  < 5){
             try {
-                fitexURL = new URL("http://localhost/copex/espaces/");
-                idUser = "1";
+                fitexURL = new URL("http://localhost/LabBook/tool_fitex/");
+                idUser = "2";
                 mission= "1";
+                idGroup = "1";
+                idLabDoc = "1";
             } catch (MalformedURLException ex) {
 
             }
@@ -109,6 +117,8 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             }
             idUser = args[1];
             mission= args[2];
+            idGroup = args[3];
+            idLabDoc = args[4];
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
