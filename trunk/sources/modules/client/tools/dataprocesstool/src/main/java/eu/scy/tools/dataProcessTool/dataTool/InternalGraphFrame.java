@@ -180,8 +180,12 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         TypeVisualization type = visualization.getType() ;
         if (type.getCode() == DataConstants.VIS_PIE){
             cGraph = constructPieGraph();
+            boolean canEdit = dataset.getRight() == DataConstants.EXECUTIVE_RIGHT;
+            this.menuItemParam.setEnabled(canEdit);
         }else if (type.getCode() == DataConstants.VIS_BAR){
             cGraph = constructBarGraph();
+            boolean canEdit = dataset.getRight() == DataConstants.EXECUTIVE_RIGHT;
+            this.menuItemParam.setEnabled(canEdit);
         }else if (type.getCode() == DataConstants.VIS_GRAPH){
             cGraph = constructXYGraph();
             updateMenuGraph();
@@ -265,7 +269,7 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
         }
         ArrayList<FunctionModel> listFunctionModel = ((Graph)visualization).getListFunctionModel() ;
         ParamGraph pg = ((Graph)visualization).getParamGraph() ;
-        FitexPanel gPanel = new FitexPanel(fitex, datamodel, plotsColor, listFunctionModel,pg) ;
+        FitexPanel gPanel = new FitexPanel(fitex, datamodel, plotsColor, listFunctionModel,pg, dataset.getRight()) ;
         return new FitexGraph(fitex, dataset.getDbKey(), visualization, gPanel) ;
     }
 
@@ -352,11 +356,12 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
     /* mise a jour du menu */
     public void updateMenuGraph(){
         boolean enabled = visualization instanceof Graph;
+        boolean canEdit = dataset.getRight() == DataConstants.EXECUTIVE_RIGHT;
         char graphMode = getGraphMode();
-        //this.menuItemParam.setEnabled(enabled);
-        this.menuItemAutoScale.setEnabled(enabled);
-        this.menuItemMove.setEnabled(enabled );
-        this.menuItemUnZoom.setEnabled(enabled );
+        this.menuItemParam.setEnabled(canEdit);
+        this.menuItemAutoScale.setEnabled(canEdit && enabled);
+        this.menuItemMove.setEnabled(canEdit && enabled );
+        this.menuItemUnZoom.setEnabled(canEdit && enabled );
         if(cGraph.getGraphComponent() instanceof FitexPanel){
             boolean isPreviousParam = ((FitexPanel)(cGraph.getGraphComponent())).isPreviousParam();
             boolean isNextParam = ((FitexPanel)(cGraph.getGraphComponent())).isNextParam();
@@ -369,6 +374,7 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
                 this.menuItemUnZoom.setItemRolloverIcon(fitex.getCopexImage("zoomNext_survol.png"));
             }
         }
+        this.menuItemFunction.setEnabled(canEdit);
         if(isDisplayFunctionModel()){
             this.menuItemFunction.setItemIcon(fitex.getCopexImage("Bouton-AdT-28_graph_push.png"));
             this.menuItemFunction.setItemRolloverIcon(fitex.getCopexImage("Bouton-AdT-28_graph_surcli.png"));

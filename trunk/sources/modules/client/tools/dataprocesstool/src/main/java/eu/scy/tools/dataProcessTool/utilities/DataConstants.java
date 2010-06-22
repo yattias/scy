@@ -55,12 +55,10 @@ public class DataConstants {
     /* appel de l'applet venant su site COPEX */
     public final static int COPEX_MODE = 1;
 
-    /* base copex */
-    public final static int DB_COPEX = 0;
-    /* base editeur de protocole */
-    public final static int DB_COPEX_EDP = 1;
-    /* base data tool */
-    public final static int DB_COPEX_DATA = 2 ;
+    /* db labbook*/
+    public final static int DB_LABBOOK = 0;
+    /* db labbook_fitex */
+    public final static int DB_LABBOOK_FITEX = 2;
 
     /* nombre max de plots */
     public final static int MAX_PLOT = 4;

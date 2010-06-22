@@ -164,6 +164,8 @@ public class DataTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if(dataset.getRight() ==  DataConstants.NONE_RIGHT)
+            return false;
         return  (isValueData(rowIndex, columnIndex) && !isValueDataCompute(rowIndex, columnIndex)) ||isValueTitleOperation(rowIndex, columnIndex);
     }
 
@@ -711,7 +713,7 @@ public class DataTableModel extends AbstractTableModel {
             }
         }
 
-        Dataset ds = new Dataset(-1,null, "subData", nbC, nbR, headers, data,getSelectedOperation(listSelected), new ArrayList() );
+        Dataset ds = new Dataset(-1,null, -1,"subData", nbC, nbR, headers, data,getSelectedOperation(listSelected), new ArrayList(), DataConstants.EXECUTIVE_RIGHT );
         return ds;
     }
 

@@ -173,6 +173,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     @Override
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)){
+            boolean canEdit = dataset.getRight()==DataConstants.EXECUTIVE_RIGHT;
             popUpMenu = null;
             int x = e.getPoint().x;
             int y = e.getPoint().y;
@@ -181,14 +182,14 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             getPopUpMenu();
 
 
-            this.popUpMenu.setEnabledItemIgnored(canIgnore());
-            this.popUpMenu.setEnabledItemNotIgnored(canIgnore());
-            this.popUpMenu.setEnabledItemOperation(canOperations());
-            this.popUpMenu.setEnabledItemInsert(canInsert());
-            this.popUpMenu.setEnabledItemDelete(canSuppr());
-            this.popUpMenu.setEnabledItemCopy(canCopy());
-            this.popUpMenu.setEnabledItemPaste(canPaste());
-            this.popUpMenu.setEnabledItemCut(canCut());
+            this.popUpMenu.setEnabledItemIgnored(canEdit&& canIgnore());
+            this.popUpMenu.setEnabledItemNotIgnored(canEdit&& canIgnore());
+            this.popUpMenu.setEnabledItemOperation(canEdit&& canOperations());
+            this.popUpMenu.setEnabledItemInsert(canEdit&& canInsert());
+            this.popUpMenu.setEnabledItemDelete(canEdit&& canSuppr());
+            this.popUpMenu.setEnabledItemCopy(canEdit&& canCopy());
+            this.popUpMenu.setEnabledItemPaste(canEdit&& canPaste());
+            this.popUpMenu.setEnabledItemCut(canEdit&& canCut());
             this.popUpMenu.setEnabledItemSort(canSort());
 
             this.popUpMenu.show(this, x, y);

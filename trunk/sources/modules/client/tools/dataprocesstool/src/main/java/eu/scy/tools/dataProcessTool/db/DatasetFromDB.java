@@ -20,15 +20,14 @@ import java.util.Iterator;
  */
 public class DatasetFromDB {
 
-    /* chargement de tous les ds lie a un utilisateur et a une mission donnee */
-    public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, Locker locker, long dbKeyUser, Mission mission, TypeOperation[] tabTypeOp,TypeVisualization[] tabTypeVis,Color[] plotsColor, Color[] functionsColor, ArrayList v){
-        long dbKeyMission = mission.getDbKey();
+    /* load the dataset for a specified labDoc */
+    public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, Locker locker, Mission mission, long dbKeyLabDoc, TypeOperation[] tabTypeOp,TypeVisualization[] tabTypeVis,Color[] plotsColor, Color[] functionsColor, ArrayList v){
         ArrayList<Dataset> listDataset = new ArrayList();
         ArrayList<String> listDatasetLocked = new ArrayList();
         boolean allDatasetLocked = true;
         String query = "SELECT D.ID_DATASET, D.DATASET_NAME, D.NB_COL, D.NB_ROW " +
-                " FROM DATASET D, LINK_DATASET_MISSION_USER  L WHERE " +
-                "L.ID_DATASET = D.ID_DATASET AND L.ID_MISSION = "+dbKeyMission+" AND L.ID_USER = "+dbKeyUser+" ;";
+                " FROM DATASET D, LINK_LABDOC_DATASET  L WHERE " +
+                "L.ID_DATASET = D.ID_DATASET AND L.ID_LABDOC = "+dbKeyLabDoc+"  ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("D.ID_DATASET");
@@ -100,7 +99,7 @@ public class DatasetFromDB {
                 ArrayList<Visualization> listVis = (ArrayList<Visualization>)v3.get(0);
                 System.out.println("chargement dataset, nbVis : "+listVis.size());
                 //creation du dataset
-                Dataset ds= new Dataset(dbKey, mission,name, nbCol, nbRow, tabDataHeader, data, listOp, listVis);
+                Dataset ds= new Dataset(dbKey, mission,dbKeyLabDoc, name, nbCol, nbRow, tabDataHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
                 listDataset.add(ds);
             }
         }
@@ -175,7 +174,7 @@ public class DatasetFromDB {
             ArrayList<Visualization> listVis = (ArrayList<Visualization>)v3.get(0);
             System.out.println("chargement dataset, nbVis : "+listVis.size());
             //creation du dataset
-            ds= new Dataset(dbKey, mission,name, nbCol, nbRow, tabDataHeader, data, listOp, listVis);
+            ds= new Dataset(dbKey, mission,-1, name, nbCol, nbRow, tabDataHeader, data, listOp, listVis, DataConstants.NONE_RIGHT);
         }
         v.add(ds);
         return new CopexReturn();
@@ -195,19 +194,58 @@ public class DatasetFromDB {
     }
 
     private static CopexReturn getMissionDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission , ArrayList v){
-        ArrayList<Dataset> listDataset = new ArrayList();
-        String query = "SELECT D.ID_DATASET, D.DATASET_NAME  " +
-                " FROM DATASET D, LINK_DATASET_MISSION_USER  L WHERE " +
-                "L.ID_DATASET = D.ID_DATASET AND L.ID_MISSION = "+dbKeyMission+" AND L.ID_USER = "+dbKeyUser+" ;";
+        // recup dans labbook des labdocs
+        dbC.updateDb(DataConstants.DB_LABBOOK);
+        ArrayList<Long> listLabDoc = new ArrayList();
+        String query = "SELECT D.ID_LABDOC FROM LABDOC D, MISSION_CONF C " +
+                "WHERE C.ID_MISSION_CONF = D.ID_MISSION_CONF " +
+                "AND C.ID_LEARNER_GROUP IN (SELECT ID_LEARNER_GROUP FROM LINK_GROUP_LEARNER WHERE ID_LEARNER = "+dbKeyUser+" ) ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
+        listFields.add("D.ID_LABDOC");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError()){
+            dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
+            return cr;
+        }
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("D.ID_LABDOC");
+            try{
+                Long ld = Long.parseLong(s);
+                listLabDoc.add(ld);
+            }catch(NumberFormatException e){
+
+            }
+        }
+        dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
+        //recup des dataset
+        ArrayList<Dataset> listDataset = new ArrayList();
+        int nbLD = listLabDoc.size();
+        if(nbLD == 0){
+            v.add(listDataset);
+            return new CopexReturn();
+        }
+        String listLD = "";
+        for(int i=0; i<nbLD; i++){
+            listLD += listLabDoc.get(i);
+            if(i < nbLD-1)
+                listLD += ", ";
+        }
+        query = "SELECT D.ID_DATASET, D.DATASET_NAME  " +
+                " FROM DATASET D, LINK_LABDOC_PROC L   " +
+                "WHERE D.ID_LABDOC IN ("+listLD+") AND "+
+                "L.ID_DATASET = D.ID_DATASET  ;";
+        v2 = new ArrayList();
+        listFields = new ArrayList();
         listFields.add("D.ID_DATASET");
         listFields.add("D.DATASET_NAME");
 
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+         cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
-        int nbR = v2.size();
+        nbR = v2.size();
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
             String s = rs.getColumnData("D.ID_DATASET");
@@ -219,7 +257,7 @@ public class DatasetFromDB {
                 continue;
 
             //creation du dataset
-            Dataset ds= new Dataset(dbKey, name);
+            Dataset ds= new Dataset(dbKey, name, DataConstants.NONE_RIGHT);
             listDataset.add(ds);
         }
         v.add(listDataset);
@@ -273,6 +311,8 @@ public class DatasetFromDB {
             if (description == null)
                 continue;
             String formulaValue = rs.getColumnData("D.FORMULA_VALUE");
+            if(formulaValue != null && formulaValue.equals(""))
+                formulaValue = null;
             DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description, formulaValue);
             tabHeader[noCol] = dh;
         }
@@ -436,7 +476,7 @@ public class DatasetFromDB {
     }
 
     /* creation d'un dataset vierge - en v[0] le nouveau dbKey */
-    public static CopexReturn createDatasetInDB(DataBaseCommunication dbC, String name, int nbRow, int nbCol, long dbKeyUser, long dbKeyMission, ArrayList v){
+    public static CopexReturn createDatasetInDB(DataBaseCommunication dbC, String name, int nbRow, int nbCol, long dbKeyLabDoc, ArrayList v){
         name = MyUtilities.replace("\'",name,"''") ;
         String query = "INSERT INTO DATASET (ID_DATASET, DATASET_NAME, NB_COL, NB_ROW) VALUES (NULL, '"+name+"', "+nbCol+", "+nbRow+") ;";
         String queryID = "SELECT max(last_insert_id(`ID_DATASET`))   FROM DATASET ;";
@@ -446,7 +486,7 @@ public class DatasetFromDB {
             return cr;
         long dbKey = (Long)v2.get(0);
         // lien mission /user
-        query = "INSERT INTO LINK_DATASET_MISSION_USER (ID_DATASET, ID_MISSION, ID_USER) VALUES ("+dbKey+", "+dbKeyMission+", "+dbKeyUser+") ;";
+        query = "INSERT INTO LINK_LABDOC_DATASET (ID_DATASET, ID_LABDOC) VALUES ("+dbKey+", "+dbKeyLabDoc+") ;";
         String[] querys = new String[1];
         querys[0] = query;
         v2 = new ArrayList();
@@ -484,8 +524,8 @@ public class DatasetFromDB {
         String queryDelLinkHeader = "DELETE FROM LINK_DATASET_HEADER WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression du dataset 
         String queryDs = "DELETE FROM DATASET WHERE ID_DATASET = "+dbKeyDataset+" ;";
-        // suppression du lien entre user/ mission
-        String queryDelUserMission = "DELETE FROM LINK_DATASET_MISSION_USER WHERE ID_DATASET = "+dbKeyDataset+" ;";
+        // suppression du lien entre user/ labdoc
+        String queryDelUserMission = "DELETE FROM LINK_LABDOC_DATASET WHERE ID_DATASET = "+dbKeyDataset+" ;";
         // bloc de requete
         int i=0;
         querys[i++] = queryDelVisType;
@@ -626,37 +666,13 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* suppression de tous les dataset d'un etudiant et d'une mission donnees */
-    public static CopexReturn removeAllDatasetFromDB(DataBaseCommunication  dbC, long dbKeyMission, long dbKeyUser){
-        String query = "SELECT D.ID_DATASET " +
-                " FROM DATASET D, LINK_DATASET_MISSION_USER  L WHERE " +
-                "L.ID_DATASET = D.ID_DATASET AND L.ID_MISSION = "+dbKeyMission+" AND L.ID_USER = "+dbKeyUser+" ;";
-        ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("D.ID_DATASET");
-
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
-        if (cr.isError())
-            return cr;
-        int nbR = v2.size();
-        for (int i=0; i<nbR; i++){
-            ResultSetXML rs = (ResultSetXML)v2.get(i);
-            String s = rs.getColumnData("D.ID_DATASET");
-            if (s == null)
-                continue;
-            long dbKey = Long.parseLong(s);
-            cr = deleteDatasetFromDB(dbC, dbKey);
-            if (cr.isError())
-                return cr;
-        }
-        return new CopexReturn();
-    }
+    
 
     /* creation d'un dataset - retourne en v[0] le dataset avec les dbKey*/
-    public static CopexReturn createDatasetInDB(DataBaseCommunication dbC, Dataset ds, long dbKeyMission, long dbKeyuser, ArrayList v){
+    public static CopexReturn createDatasetInDB(DataBaseCommunication dbC, Dataset ds, long dbKeylabDoc, ArrayList v){
         // creation dataset
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = createDatasetInDB(dbC, ds.getName(), ds.getNbRows(), ds.getNbCol(), dbKeyuser, dbKeyMission, v2);
+        CopexReturn cr = createDatasetInDB(dbC, ds.getName(), ds.getNbRows(), ds.getNbCol(), dbKeylabDoc, v2);
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);

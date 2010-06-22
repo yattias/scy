@@ -92,8 +92,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private ControllerInterface controller;
     private long dbKeyUser;
     private long dbKeyMission;
-    private String userName;
-    private String firstName;
+    private long dbKeyGroup;
+    private long dbKeyLabDoc;
 
     // Donnees
     /* liste des donnees */
@@ -128,17 +128,19 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         initData(null);
         this.dbKeyMission = 1;
         this.dbKeyUser = 1;
-        this.firstName = "";
-        this.userName = "";
+        this.dbKeyGroup =0;
+        this.dbKeyLabDoc = 0;
     }
 
-    public DataProcessToolPanel(URL url, Locale locale, long dbKeyMission, long dbKeyUser) {
+    public DataProcessToolPanel(URL url, Locale locale, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc) {
         super();
         this.scyMode = false;
         this.locale = locale;
         this.dbMode = true;
         this.dbKeyMission = dbKeyMission;
         this.dbKeyUser = dbKeyUser;
+        this.dbKeyGroup = dbKeyGroup;
+        this.dbKeyLabDoc = dbKeyLabDoc;
         initComponents();
         initData(url);
     }
@@ -170,7 +172,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if(url == null){
             this.controller = new DataController(this);
         }else{
-            this.controller = new DataControllerDB(this, url, dbKeyMission, dbKeyUser);
+            this.controller = new DataControllerDB(this, url, dbKeyMission, dbKeyUser, dbKeyGroup, dbKeyLabDoc);
         }
 
         initGUI();
@@ -406,8 +408,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     public void openDialogCloseDataset(Dataset ds) {
         if(dbMode){
-            CloseDatasetDialog closeFitexDialog = new CloseDatasetDialog(this, ds);
-            closeFitexDialog.setVisible(true);
+//            CloseDatasetDialog closeFitexDialog = new CloseDatasetDialog(this, ds);
+//            closeFitexDialog.setVisible(true);
+            closeDataset(ds);
         }else{
             if(activFitex.hasModification()){
                 int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MESSAGE_DATASET_CLOSE"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
@@ -710,7 +713,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 j++;
             }
             ArrayList v = new ArrayList();
-            CopexReturn cr = this.controller.createDataset(userName, headers, units,types, descriptions, v);
+            CopexReturn cr = this.controller.createDataset(getBundleString("DEFAULT_DATASET_NAME"), headers, units,types, descriptions, v);
             if (cr.isError()){
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             }
@@ -928,5 +931,15 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         return null;
     }
 
+    /* return true if the dataset can be close (if it is not the dataset of the labdoc) */
+    public boolean canCloseDataset(Dataset ds){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.isLabDocDataset(ds, v);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return false;
+        }
+        return !(Boolean)v.get(0);
+    }
    
 }

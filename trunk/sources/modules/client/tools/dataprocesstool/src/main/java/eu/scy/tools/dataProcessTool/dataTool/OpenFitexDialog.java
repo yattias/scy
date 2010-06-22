@@ -89,13 +89,23 @@ public class OpenFitexDialog extends JDialog {
         setLocationRelativeTo(owner);
     }
 
+    private boolean canCreate(){
+        return !this.dbMode;
+    }
+
+
     private void initGUI(){
         setLayout(null);
-        setTitle(owner.getBundleString("TITLE_DIALOG_CREATE_DATASET"));
+        if(canCreate())
+            setTitle(owner.getBundleString("TITLE_DIALOG_CREATE_DATASET"));
+        else
+            setTitle(owner.getBundleString("TITLE_DIALOG_OPEN_DATASET"));
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        this.add(getRbCreate());
-        this.add(getLabelCreateName());
-        this.add(getFieldCreateName());
+        if(canCreate()){
+            this.add(getRbCreate());
+            this.add(getLabelCreateName());
+            this.add(getFieldCreateName());
+        }
 
         this.add(getRbOpen());
         if(dbMode){
@@ -115,7 +125,9 @@ public class OpenFitexDialog extends JDialog {
             this.add(getCbDsMerge());
         }
         // largeur
-        int width = fieldName.getX()+fieldName.getWidth()+10;
+        int width = 400;
+        if(canCreate())
+            width = fieldName.getX()+fieldName.getWidth()+10;
         int height = 200;
         setSize(width, height);
         this.add(getButtonOk());
@@ -187,7 +199,11 @@ public class OpenFitexDialog extends JDialog {
                     selectRb(2);
                 }
             });
-            rbOpen.setBounds(10,fieldName.getY()+fieldName.getHeight()+10,rbOpen.getWidth(), rbOpen.getHeight());
+            int y = 10;
+            if(canCreate()){
+                y = fieldName.getY()+fieldName.getHeight()+10;
+            }
+            rbOpen.setBounds(10,y,rbOpen.getWidth(), rbOpen.getHeight());
         }
         return rbOpen;
     }
@@ -380,17 +396,23 @@ public class OpenFitexDialog extends JDialog {
      }
 
     private boolean rbNull(){
-        return rbCreate == null || rbImport == null || rbMerge == null || rbOpen == null;
+        return ((canCreate() && rbCreate == null)) || rbImport == null || rbMerge == null || rbOpen == null;
     }
     private void selectRb(int rb){
         if(rbNull())
             return;
+        if(!canCreate() && rb ==1)
+            rb =2;
         boolean create = rb==1;
         boolean open = rb==2;
         boolean importCsv = rb==3;
         boolean merge = rb==4;
-        this.rbCreate.setSelected(create);
-        fieldName.setEditable(create);
+        if(canCreate()){
+            this.rbCreate.setSelected(create);
+            fieldName.setEditable(create);
+        }else if(rb == 1){
+            open = true;
+        }
         this.rbOpen.setSelected(open);
         if(dbMode){
             cbMissionOpen.setEnabled(open);
@@ -520,7 +542,9 @@ public class OpenFitexDialog extends JDialog {
     }
 
     private void buttonOk(){
-        boolean create = this.rbCreate.isSelected();
+        boolean create = false;
+        if(canCreate())
+                create = this.rbCreate.isSelected();
         if(create){
             String dsName = this.fieldName.getText();
             if (dsName.length() > DataConstants.MAX_LENGHT_DATASET_NAME){

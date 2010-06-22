@@ -6,11 +6,10 @@
 package eu.scy.tools.dataProcessTool.common;
 
 /**
- * utilisateur des outils
+ * tool user
  * @author Marjolaine Bodin
  */
 public class ToolUser implements Cloneable{
-    // PROPERTY
     /* identifiant bd */
     protected long dbKey;
     
@@ -22,22 +21,12 @@ public class ToolUser implements Cloneable{
      * prenom
      */
     protected String userFirstName;
-
-   /* isteacher */
-    private boolean teacher;
-    /* islearner */
-    private boolean learner;
-    
-     // Constructeurs
-    /**
-     * constructeur CopexUser 
-     */
      public ToolUser() {
     }
     /**
-     * constructeur ToolUser : 
-     * @param userName : nom de l'utilisateur
-     * @param userFirstName : prenom de l'utilisateur
+     *  ToolUser : 
+     * @param userName 
+     * @param userFirstName 
      */
     public ToolUser(String userName, String userFirstName) {
         this.userName = userName;
@@ -51,18 +40,10 @@ public class ToolUser implements Cloneable{
         this.userFirstName = userFirstName;
     }
 
-    public ToolUser(long dbKey,  String userName, String userFirstName, boolean teacher, boolean learner) {
-        this.dbKey = dbKey;
-        this.userName = userName;
-        this.userFirstName = userFirstName;
-        this.teacher = teacher;
-        this.learner = learner;
-    }
-
-    // constructeur sans le prenom qui n'est pas obligatoire
+   
     /**
-     * constructeur ToolUser : 
-     * @param userName : nom de l'utilisateur
+     *  ToolUser: 
+     * @param userName 
      */
     public ToolUser(String userName) {
         this.userName = userName;
@@ -70,7 +51,6 @@ public class ToolUser implements Cloneable{
         this.dbKey = -1;
     }
     
-    // Getter and Setter
    
     public long getDbKey() {
         return dbKey;
@@ -85,14 +65,14 @@ public class ToolUser implements Cloneable{
    
 
     /*
-     * retourne le prenom de l'utilisateur
+     * gets the fristName of the user
      */
     public String getUserFirstName() {
         return userFirstName;
     }
 
     /*
-     * met a jour le prenom utilisateur
+     * set the firstName
      * @param  userFirstName : prenom utilisateur
      */
     public void setUserFirstName(String userFirstName) {
@@ -100,36 +80,21 @@ public class ToolUser implements Cloneable{
     }
 
     /*
-     * retourne le nom de l'utilisateur
+     * gets the user name
      */
     public String getUserName() {
         return userName;
     }
 
     /*
-     * met a jour le nom utilisateur
-     * @param  userName : nom utilisateur
+     * set the user name
+     * @param  userName 
      */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public boolean isLearner() {
-        return learner;
-    }
-
-    public void setLearner(boolean learner) {
-        this.learner = learner;
-    }
-
-    public boolean isTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(boolean teacher) {
-        this.teacher = teacher;
-    }
-
+    
     
 
     @Override
@@ -142,8 +107,6 @@ public class ToolUser implements Cloneable{
             user.setDbKey(dbKeyC);
             user.setUserName(nameC);
             user.setUserFirstName(firstNameC);
-            user.setLearner(this.isLearner());
-            user.setTeacher(this.isTeacher());
             return user;
         } catch (CloneNotSupportedException e) { 
 	    // this shouldn't happen, since we are Cloneable

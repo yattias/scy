@@ -55,12 +55,12 @@ import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
 
 /**
- * controller de l'applet
+ * controller db
  * @author Marjolaine Bodin
  */
 public class DataControllerDB implements ControllerInterface{
     private String fitexFunctionFileName = "fitexFunctions.xml";
-    /* bd */
+    /* db*/
     private DataBaseCommunication dbC;
     /* url */
     private URL dataURL;
@@ -82,9 +82,11 @@ public class DataControllerDB implements ControllerInterface{
     /* mission */
     private Mission mission ;
     /* utilisateur */
-    private ToolUser toolUser;
     private long dbKeyMission;
     private long dbKeyUser;
+    private long dbKeyGroup;
+    private Group group;
+    private long dbKeyLabDoc;
 
     private ArrayList<Mission> listUserMission;
     private ArrayList<ArrayList<Dataset>> listUserDatasetMission;
@@ -93,13 +95,14 @@ public class DataControllerDB implements ControllerInterface{
     /* locker */
     private Locker locker;
    
-    // CONSTRUCTOR
-    public DataControllerDB(DataProcessToolPanel dataToolPanel, URL url, long dbKeyMission, long dbKeyUser) {
+    public DataControllerDB(DataProcessToolPanel dataToolPanel, URL url, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc) {
         this.dataToolPanel = dataToolPanel ;
         this.dbKeyMission = dbKeyMission ;
         this.dbKeyUser = dbKeyUser ;
+        this.dbKeyLabDoc = dbKeyLabDoc;
+        this.dbKeyGroup = dbKeyGroup;
         this.dataURL = url;
-        dbC = new DataBaseCommunication(dataURL, DataConstants.DB_COPEX, dbKeyMission, ""+dbKeyUser);
+        dbC = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK_FITEX, dbKeyMission, ""+dbKeyUser);
         this.listDataset = new ArrayList();
         this.listNoDefaultCol = new ArrayList();
     }
@@ -110,7 +113,6 @@ public class DataControllerDB implements ControllerInterface{
     public CopexReturn load(){
         // mission
         ArrayList v = new ArrayList();
-        dbC.updateDb(DataConstants.DB_COPEX);
         CopexReturn cr = CopexMissionFromDB.loadMissionFromDB(dbC, dbKeyMission, v);
         if (cr.isError()){
             return cr;
@@ -118,15 +120,14 @@ public class DataControllerDB implements ControllerInterface{
         mission = (Mission)v.get(0);
         //user 
         v = new ArrayList();
-        cr = ToolUserFromDB.loadDataUserFromDB(dbC, dbKeyUser, v);
+        cr = ToolUserFromDB.loadGroupFromDB(dbC, dbKeyGroup, v);
         if (cr.isError()){
             return cr;
         }
-        toolUser = (ToolUser)v.get(0);
-        if(toolUser == null || mission == null){
+        group = (Group)v.get(0);
+        if(group == null || mission == null){
             return  new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false);
         }
-        dbC.updateDb(DataConstants.DB_COPEX_DATA);
         // LOCKER
         this.locker = new Locker(dataToolPanel, dbC, dbKeyUser);
         // chargement des donnees
@@ -160,7 +161,7 @@ public class DataControllerDB implements ControllerInterface{
         boolean allDatasetLocked =false;
         ArrayList<String> listDatasetLocked = new ArrayList();
         v = new ArrayList();
-        cr = DatasetFromDB.getAllDatasetFromDB(dbC, locker,toolUser.getDbKey(), mission, tabTypeOperations,tabTypeVisual, plotsColor, functionsColor,v);
+        cr = DatasetFromDB.getAllDatasetFromDB(dbC, locker,mission, dbKeyLabDoc, tabTypeOperations,tabTypeVisual, plotsColor, functionsColor,v);
         if (cr.isError()){
             return cr;
         }
@@ -173,13 +174,13 @@ public class DataControllerDB implements ControllerInterface{
          setLockers(listDataset);
         // charge les missions et noms des dataset de l'utilisateur
         v = new ArrayList();
-        cr = CopexMissionFromDB.getAllMissionFromDB(this.dbC, toolUser.getDbKey(), mission.getDbKey(), v);
+        cr = CopexMissionFromDB.getAllMissionFromDB(this.dbC, dbKeyUser, mission.getDbKey(), v);
         if (cr.isError()){
             return cr;
         }
         listUserMission = (ArrayList<Mission>)v.get(0);
         v = new ArrayList();
-        cr = DatasetFromDB.getAllDatasetFromDB(this.dbC, toolUser.getDbKey(), listUserMission, v);
+        cr = DatasetFromDB.getAllDatasetFromDB(this.dbC, dbKeyUser, listUserMission, v);
         if (cr.isError()){
             return cr;
         }
@@ -262,7 +263,7 @@ public class DataControllerDB implements ControllerInterface{
         }
         // enregistrement base
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = DatasetFromDB.createDatasetInDB(dbC, dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"), nbRows,  nbCol, toolUser.getDbKey(), mission.getDbKey(), v2);
+        CopexReturn cr = DatasetFromDB.createDatasetInDB(dbC, dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"), nbRows,  nbCol, dbKeyLabDoc,  v2);
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);
@@ -275,7 +276,7 @@ public class DataControllerDB implements ControllerInterface{
             tabHeader[i].setDbKey(dbKeyH);
         }
         // creation ds
-        Dataset dataset = new Dataset(dbKey, mission, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        Dataset dataset = new Dataset(dbKey, mission, dbKeyLabDoc, name, nbCol, nbRows, tabHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
         setLocker(dbKey);
         listDataset.add(dataset);
         listNoDefaultCol.add(nbCol);
@@ -359,7 +360,7 @@ public class DataControllerDB implements ControllerInterface{
             long dbKey = 1;
             // enregistrement base
            ArrayList v2 = new ArrayList();
-           cr = DatasetFromDB.createDatasetInDB(dbC, name, nbRows,  nbCols, toolUser.getDbKey(), mission.getDbKey(), v2);
+           cr = DatasetFromDB.createDatasetInDB(dbC, name, nbRows,  nbCols, dbKeyLabDoc, v2);
            if (cr.isError())
                return cr;
            dbKey = (Long)v2.get(0);
@@ -383,7 +384,7 @@ public class DataControllerDB implements ControllerInterface{
                    }
                }
             }
-            ds = new Dataset(dbKey, mission, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+            ds = new Dataset(dbKey, mission, dbKeyLabDoc, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization, DataConstants.EXECUTIVE_RIGHT  );
             v.add(ds);
         }
 
@@ -514,7 +515,7 @@ public class DataControllerDB implements ControllerInterface{
             listVisualization.add(myVis);
         }
         // creation du dataset
-        Dataset ds = new Dataset(-1,mission, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+        Dataset ds = new Dataset(-1,mission, dbKeyLabDoc, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization , DataConstants.EXECUTIVE_RIGHT );
         return ds;
     }
     
@@ -1283,7 +1284,7 @@ public class DataControllerDB implements ControllerInterface{
     @Override
     public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph){
         String fileName = "copex-"+mission.getCode();
-        DataPrint pdfPrint = new DataPrint(dataToolPanel, mission, toolUser,dataset, model, printDataset, listVis, listGraph,fileName );
+        DataPrint pdfPrint = new DataPrint(dataToolPanel, mission, group,dataset, model, printDataset, listVis, listGraph,fileName );
         CopexReturn cr = pdfPrint.printDocument();
         return cr;
     }
@@ -1327,7 +1328,7 @@ public class DataControllerDB implements ControllerInterface{
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         // enregistrement base
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = DatasetFromDB.createDatasetInDB(dbC, name, nbRows,  nbCol, toolUser.getDbKey(), mission.getDbKey(), v2);
+        CopexReturn cr = DatasetFromDB.createDatasetInDB(dbC, name, nbRows,  nbCol, dbKeyLabDoc,  v2);
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);
@@ -1341,7 +1342,7 @@ public class DataControllerDB implements ControllerInterface{
             tabHeader[i] = new DataHeader(dbKeyH, headers[i], units[i], i, types[i], descriptions[i], null);
         }
         // creation ds
-        Dataset ds = new Dataset(dbKey, mission, name, nbCol, nbRows, tabHeader,  data, listOp, listVis);
+        Dataset ds = new Dataset(dbKey, mission, dbKeyLabDoc, name, nbCol, nbRows, tabHeader,  data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
         listDataset.add(ds);
         listNoDefaultCol.add(1);
         v.add(ds.clone());
@@ -2298,6 +2299,13 @@ public class DataControllerDB implements ControllerInterface{
                     return cr;
             }
         }
+        return new CopexReturn();
+    }
+
+    /** return true in v[0] if the specified dataset is the dataset from the labdoc */
+    @Override
+    public CopexReturn isLabDocDataset(Dataset ds, ArrayList v){
+        v.add(ds == null? false : ds.getDbKeyLabDoc() == dbKeyLabDoc);
         return new CopexReturn();
     }
 }

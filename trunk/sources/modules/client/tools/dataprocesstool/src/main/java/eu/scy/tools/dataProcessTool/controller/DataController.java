@@ -83,7 +83,7 @@ public class DataController implements ControllerInterface{
     /* mission */
     private Mission mission ;
     /* utilisateur */
-    private ToolUser toolUser;
+    private Group group;
 
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
 
@@ -128,7 +128,7 @@ public class DataController implements ControllerInterface{
         idPlot = 1;
         // mission
         mission = new Mission(1, "DATA", "Data Processing Tool", "");
-        toolUser = new ToolUser("userName", "userFirstName");
+        group = new Group(1, new LinkedList());
         // creation dataset vierge
         ArrayList v = new ArrayList();
         cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"),  v);
@@ -193,7 +193,7 @@ public class DataController implements ControllerInterface{
             tabHeader[i] = h;
         }
         // creation ds
-        Dataset dataset = new Dataset(idDataSet++,mission, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        Dataset dataset = new Dataset(idDataSet++,mission, -1, name, nbCol, nbRows, tabHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
         listNoDefaultCol.add(nbCol);
         listDataset.add(dataset);
         v.add(dataset.clone());
@@ -271,7 +271,7 @@ public class DataController implements ControllerInterface{
                 data = new Data[1][nbCols];
             }
             // creation du dataset
-            ds = new Dataset(idDataSet++, mission, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+            ds = new Dataset(idDataSet++, mission,-1,  name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization, DataConstants.EXECUTIVE_RIGHT  );
             v.add(ds);
         }
         
@@ -418,7 +418,7 @@ public class DataController implements ControllerInterface{
             listVisualization.add(myVis);
         }
         // creation du dataset
-        Dataset ds = new Dataset(idDataSet++, mission, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+        Dataset ds = new Dataset(idDataSet++, mission, -1, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization , DataConstants.EXECUTIVE_RIGHT );
         return ds;
     }
 
@@ -1185,7 +1185,7 @@ public class DataController implements ControllerInterface{
     @Override
     public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph){
         String fileName = "copex-"+mission.getCode();
-        DataPrint pdfPrint = new DataPrint(dataToolPanel, mission, toolUser,dataset, model, printDataset, listVis, listGraph,fileName );
+        DataPrint pdfPrint = new DataPrint(dataToolPanel, mission, group,dataset, model, printDataset, listVis, listGraph,fileName );
         CopexReturn cr = pdfPrint.printDocument();
         return cr;
     }
@@ -1231,7 +1231,7 @@ public class DataController implements ControllerInterface{
             tabHeader[i] = new DataHeader(idDataHeader++, headers[i], units[i], i, types[i], descriptions[i], null);
         }
         // creation ds
-        Dataset ds = new Dataset(idDataSet++,mission,  name, nbCol, nbRows, tabHeader,  data, listOp, listVis);
+        Dataset ds = new Dataset(idDataSet++,mission, -1,  name, nbCol, nbRows, tabHeader,  data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
         listDataset.add(ds);
         listNoDefaultCol.add(1);
         v.add(ds.clone());
@@ -1897,6 +1897,13 @@ public class DataController implements ControllerInterface{
                     return cr;
             }
         }
+        return new CopexReturn();
+    }
+
+    /** return true in v[0] if the specified dataset is the dataset from the labdoc */
+    @Override
+    public CopexReturn isLabDocDataset(Dataset ds, ArrayList v){
+        v.add(false);
         return new CopexReturn();
     }
     

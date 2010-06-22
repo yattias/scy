@@ -7,6 +7,7 @@
 package eu.scy.tools.fitex.GUI;
 
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.swing.ImageIcon;
@@ -18,13 +19,20 @@ import javax.swing.ImageIcon;
 public class BoxSpinner extends javax.swing.JPanel {
     
     FitexPanel owner ;
+    private char right;
     private Double value ;
     private double step = 0.1 ;
     
     /** Creates new form BoxSpinner */
-    public BoxSpinner(FitexPanel owner) {
+    public BoxSpinner(FitexPanel owner, char right) {
         this.owner = owner ;
+        this.right = right;
         initComponents();
+        if(right == DataConstants.NONE_RIGHT){
+            champValeur.setEnabled(false);
+            previous.setEnabled(false);
+            next.setEnabled(false);
+        }
     }
 
     public  ImageIcon getFitexImage(String img){

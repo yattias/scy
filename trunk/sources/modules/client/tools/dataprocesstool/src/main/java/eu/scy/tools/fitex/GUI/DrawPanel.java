@@ -48,6 +48,7 @@ public class DrawPanel extends javax.swing.JPanel {
     private DefaultTableModel[] datas = null;
     /* couleur des plots */
     private Color[] plotsColor = null;
+    private char right;
 
     //zoom mode ou move   mode
     private char graphMode;
@@ -100,12 +101,13 @@ public class DrawPanel extends javax.swing.JPanel {
     private DecimalFormat decimalFormat;
 
 
-    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel[] datas, Color[] plotsColor, ParamGraph pg, int width, int height) {
+    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel[] datas, Color[] plotsColor, ParamGraph pg, int width, int height, char right) {
         super();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(fitexPanel.getLocale());
         this.decimalFormat = (DecimalFormat)numberFormat;
         this.fitexPanel = fitexPanel;
         this.datas = datas;
+        this.right = right;
         this.plotsColor = plotsColor;
         setParamWithoutRepaint(pg);
         this.width = width;
@@ -596,6 +598,8 @@ public class DrawPanel extends javax.swing.JPanel {
     private void zoneDeTraceMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseDragged
         // met ie jour l'affichage des coordonniees
         zoneDeTraceMouseMoved(evt);
+        if(right == DataConstants.NONE_RIGHT)
+            return;
         if(evt == null)
             return;
         int evtX = evt.getX();
@@ -654,6 +658,8 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMouseDragged
 
     private void zoneDeTraceMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseMoved
+        if(right == DataConstants.NONE_RIGHT)
+            return;
         if (evt == null){
             coordX = "";
             coordY = "";
@@ -704,6 +710,8 @@ public class DrawPanel extends javax.swing.JPanel {
     private void zoneDeTraceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseClicked
         // le 12/03/10: un-zoom, quelque soit  le mode
         //if (evt.getClickCount()==2 && graphMode == DataConstants.MODE_ZOOM){
+        if(right == DataConstants.NONE_RIGHT)
+            return;
         if (evt.getClickCount()==2){
             float facteurZoom = 0.5f ;
             fitexPanel.setPreviousParam();
@@ -729,6 +737,8 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMouseExited
 
     private void zoneDeTraceMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMousePressed
+        if(right == DataConstants.NONE_RIGHT)
+            return;
         if (evt == null)
             return;
         int evtX = evt.getX();
@@ -748,6 +758,8 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMousePressed
 
     private void zoneDeTraceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseReleased
+        if(right == DataConstants.NONE_RIGHT)
+            return;
         // reaffiche en noir les coordoniees
         coordColor = Color.GRAY;
         // recupere x2 et y2
