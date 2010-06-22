@@ -91,12 +91,32 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         if (isSync) {
             removeDatasync(object as ISynchronizable);
         } else {
-            acceptDialog = AcceptSyncModalDialog {
+             if(isDnDSimulator(object as ISynchronizable)){
+                acceptDialog = AcceptSyncModalDialog {
                         object: object as ISynchronizable
                         okayAction: initializeDatasync
                         cancelAction: cancelDialog
                     }
-            createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
+                createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
+            }else if(isDnDFitex(object as ISynchronizable)){
+                    var yesNoOptions = [getBundleString("YES"), getBundleString("NO")];
+                    var n = -1;
+                    var question = getBundleString("MSG_MERGE_DATASET");
+                    if(isSynchronizing()){
+                        question = getBundleString("MSG_STOP_SYNC_BEFORE_MERGE");
+                    }
+
+                     n = JOptionPane.showOptionDialog( null,
+                        question,               // question
+                        getBundleString("TITLE_DIALOG_MERGE"),           // title
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,  // icon
+                        null, yesNoOptions,yesNoOptions[0] );
+                    if (n == 0) {
+                        leave(null);
+                        mergeDataset(object as ISynchronizable);
+                    }
+           }
         }
     }
 
@@ -119,44 +139,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
             }
         }
     }
-
-    public  function acceptDrop_deprecated(object: Object) {
-        logger.debug("drop accepted.");
-        var isSync = isSynchronizingWith(object as ISynchronizable);
-        if(isSync){
-            removeDatasync(object as ISynchronizable);
-        }else{
-            var yesNoOptions = [getBundleString("YES"), getBundleString("NO")];
-            var n = -1;
-            if(isDnDSimulator(object as ISynchronizable)){
-                n = JOptionPane.showOptionDialog( null,
-                    getBundleString("MSG_SYNCHRONIZE_SIMULATOR"),               // question
-                    getBundleString("TITLE_DIALOG_SYNCHRONIZE"),           // title
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,  // icon
-                    null, yesNoOptions,yesNoOptions[0] );
-                if (n == 0) {
-                    initializeDatasync(object as ISynchronizable);
-                }
-            }else if(isDnDFitex(object as ISynchronizable)){
-                    var question = getBundleString("MSG_MERGE_DATASET");
-                    if(isSynchronizing()){
-                        question = getBundleString("MSG_STOP_SYNC_BEFORE_MERGE");
-                    }
-
-                 n = JOptionPane.showOptionDialog( null,
-                    question,               // question
-                    getBundleString("TITLE_DIALOG_MERGE"),           // title
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,  // icon
-                    null, yesNoOptions,yesNoOptions[0] );
-                if (n == 0) {
-                    leave(null);
-                    mergeDataset(object as ISynchronizable);
-                }
-            }
-        }
-   }
 
    /* return true is fitex is synchronizing with scysimulator with this sessionID*/
    function isSynchronizingWith(simulator : ISynchronizable) : Boolean {
@@ -215,7 +197,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
     public function mergeDataset(fitex: ISynchronizable){
         if(fitex instanceof FitexNode)
-        fitexPanel.mergeELO((fitex as FitexNode).getDataset());
+            fitexPanel.mergeELO((fitex as FitexNode).getDataset());
     }
 
     public function getDataset():Element{
@@ -259,12 +241,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                               doImportCSVFile();
                            }
                         }
-//                        Button {
-//                           text: "Merge dataset"
-//                           action: function() {
-//                              doMergeDataset();
-//                           }
-//                        }
                         Button {
                            text: getBundleString("MENU_SAVE");
                            action: function() {
@@ -277,19 +253,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                                 doSaveAsElo();
                            }
                         }
-//                        Button {
-//                           text: "flash";
-//                           action: function() {
-//                                if( datasyncEdge != null)
-//                                    datasyncEdge.flash();
-//                           }
-//                        }
-                        /*Button {
-                           text: "Synchronize"
-                           action: function() {
-                              doSynchronizeTool();
-                           }
-                        }*/
                      ]
                   }
                   wrappedFitexPanel
@@ -338,16 +301,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         fitexPanel.setEloUri(elo.getUri().toString());
     }
 
-   /*function doSynchronizeTool(){
-       // get the mucID to join simulator session
-       logger.info("Sync. Data Fitex");
-       fitexPanel.synchronizeTool();
-   }*/
-
-   function doMergeDataset(){
-       logger.info("Merge Fitex dataset");
-       //fitexPanel.mergeELO(newElo.getContent().getXmlString());
-   }
 
    function doImportCSVFile(){
        fitexPanel.importCsvFile();
