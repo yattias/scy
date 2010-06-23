@@ -7,15 +7,14 @@
         <c:choose>
             <c:when test="${fn:length(eloRefTransporters) > 0}">
                 <c:forEach var="transporter" items="${eloRefTransporters}">
-                    <div>
-                        <table>
+                    <div style="width:28%;float:left;height:220px;margin:7px 15px;border:1px solid #222222;">
+                        <table style="border:0 !important;width:100%;">
                             <tr>
-                                <td align="center">
+                                <td  colspan="2" align="center" style="width:100%;">
                                     <c:choose>
                                          <c:when test="${fn:length(transporter.files) > 0}">
                                             <c:forEach var="refFile" items="${transporter.files}">
-                                                file here!! ${refFile.fileData.name} ${refFile.fileData.contentType}
-                                                <img src="/webapp/components/resourceservice.html?id=${refFile.id}"/>
+                                                <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${refFile.id}&showIcon=true" }/>
                                             </c:forEach>
                                         </c:when>
                                     </c:choose>
@@ -23,7 +22,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <strong>${transporter.eloRef.name}</strong>
+                                    <strong>NAME HERE!!${transporter.eloRef.name}</strong>
                                 </td>
                             </tr>
                             <tr>
