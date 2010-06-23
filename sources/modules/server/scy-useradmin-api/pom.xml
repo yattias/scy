@@ -23,7 +23,7 @@
             <groupId>info.collide</groupId>
             <artifactId>sqlspaces-commons</artifactId>
         </dependency>
-
+		
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-commons</artifactId>

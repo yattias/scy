@@ -12,6 +12,63 @@
     <name>scy-useradmin-impl</name>
 
     <dependencies>
+	
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.3.0.SP1</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>packet-transformer</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>whacket-extension</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-commons</artifactId>
+		</dependency>	
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+	
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>whack</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>smack</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>eu.scy.common</groupId>
@@ -37,7 +94,6 @@
             <groupId>eu.scy.server</groupId>
             <artifactId>scy-hub-commons</artifactId>
             <version>9.11.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -45,14 +101,6 @@
             <artifactId>action-logging-commons</artifactId>
             <version>9.8.0-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-        
-        
-
-        <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.9.0.GA</version>
         </dependency>
 
         <dependency>
@@ -74,7 +122,6 @@
             <type>jar</type>
             <scope>test</scope>
         </dependency>
-
 
         <dependency>
             <groupId>${pom.groupId}</groupId>
@@ -119,61 +166,9 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
-        <dependency>
-            <groupId>org.acegisecurity</groupId>
-            <artifactId>acegi-security</artifactId>
-            <version>1.0.4</version>
-            <scope>compile</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-support</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <dependency>
             <groupId>org.roolo</groupId>
@@ -214,30 +209,6 @@
         </dependency-->
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>1.5.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>asm</groupId>
-            <artifactId>asm-all</artifactId>
-            <version>2.2.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <version>2.1_3</version>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
@@ -262,6 +233,95 @@
             <scope>test</scope>
         </dependency>
 
+		<!-- unused
+		
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.1_3</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.acegisecurity</groupId>
+            <artifactId>acegi-security</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+		
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+				
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.9.0.GA</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.4.0.GA</version>
+        </dependency>
+		
+		 <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm-all</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+				
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-support</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		-->
+		
     </dependencies>
 
     <build>

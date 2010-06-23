@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scy.server</groupId>
   <artifactId>notification-module</artifactId>
-  <name>The module to process Notifications</name>
+  <name>notification module</name>
   <dependencies>
   
   	<dependency>
@@ -27,19 +27,45 @@
   		<artifactId>scy-hub-commons</artifactId>
   		<version>9.11.0-SNAPSHOT</version>
   	</dependency>
+	
+  	<dependency>
+  		<groupId>jivesoftware</groupId>
+  		<artifactId>whack</artifactId>
+  		<version>1.0</version>
+  	</dependency>
 
   	<dependency>
   		<groupId>log4j</groupId>
   		<artifactId>log4j</artifactId>
-  		<type>jar</type>
-  		<scope>compile</scope>
   	</dependency>
 	
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>configuration</artifactId>
   		<version>${pom.version}</version>
-  		<scope>compile</scope>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>packet-transformer</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>notification-api</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+			
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>whacket-extension</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-commons</artifactId>
   	</dependency>
 	
   </dependencies>
