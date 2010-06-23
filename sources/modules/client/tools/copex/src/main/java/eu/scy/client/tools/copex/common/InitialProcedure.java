@@ -188,13 +188,20 @@ public class InitialProcedure extends ExperimentalProcedure {
             manipulation = new Manipulation(xmlElem.getChild(Manipulation.TAG_MANIPULATION), question,idTask++, idRepeat++, idParam++, idValue++, idActionParam++, idQuantity++, idMaterial++,
                     this,  listPhysicalQuantity, listTypeMaterial, listMatC);
             manipulation.add(question);
-
-            //materials = null;
             dataSheet = null;
             this.materialStrategy = new MaterialStrategy(xmlElem.getChild(MaterialStrategy.TAG_MATERIAL_STRATEGY_REF), listMaterialStrategy);
-		} else {
-			throw(new JDOMException("Initial proc expects <"+TAG_INITIAL_PROC+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            ArrayList<MaterialUsed> listMaterialUsed = new ArrayList();
+            if(materialStrategy.hasMaterial()){
+                for(Iterator<Material> m = listMaterial.iterator(); m.hasNext();){
+                    Material mat = m.next();
+                    boolean used = materialStrategy.canChooseMaterial()?false:true;
+                    listMaterialUsed.add(new MaterialUsed(mat, new LinkedList(), used, false));
+                }
+            }
+            materials = new MaterialProc(listMaterialUsed);
+	} else {
+            throw(new JDOMException("Initial proc expects <"+TAG_INITIAL_PROC+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialProcedure(Element xmlElem, List<InitialProcedure> listInitProc)throws JDOMException {
