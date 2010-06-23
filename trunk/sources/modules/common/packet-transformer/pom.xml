@@ -4,11 +4,13 @@
     <groupId>eu.scy.common</groupId>
     <version>9.8.0-SNAPSHOT</version>
   </parent>
+  
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scy.common</groupId>
   <artifactId>packet-transformer</artifactId>
   <name>Packet Transformer</name>
-  <version>9.8.0-SNAPSHOT</version>
+  
   <dependencies>
   </dependencies>
+  
 </project>
