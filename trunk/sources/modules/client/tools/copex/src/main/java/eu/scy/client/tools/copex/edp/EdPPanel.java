@@ -1879,8 +1879,8 @@ public class EdPPanel extends JPanel {
         String oldQComment = proc.getQuestion().getComments(getLocale());
         //proc.getQuestion().setDescription(CopexUtilities.getTextLocal(newText, getLocale()));
         proc.getQuestion().setDescription(newText);
-        //proc.getQuestion().setComments(CopexUtilities.getTextLocal(newComment, getLocale()));
-        proc.getQuestion().setComments(newComment);
+        proc.getQuestion().setComments(CopexUtilities.getTextLocal(newComment, getLocale()));
+        //proc.getQuestion().setComments(newComment);
         ArrayList v= new ArrayList();
         CopexReturn cr = this.controller.updateQuestion(proc.getQuestion(), proc, oldQuestion, v);
         if(cr.isError()){
@@ -1888,8 +1888,8 @@ public class EdPPanel extends JPanel {
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             //proc.getQuestion().setDescription(CopexUtilities.getTextLocal(oldQ, getLocale()));
             proc.getQuestion().setDescription(oldQ);
-            //proc.getQuestion().setComments(CopexUtilities.getTextLocal(oldQComment, getLocale()));
-            proc.getQuestion().setComments(oldQComment);
+            proc.getQuestion().setComments(CopexUtilities.getTextLocal(oldQComment, getLocale()));
+            //proc.getQuestion().setComments(oldQComment);
             return oldQ;
         }
         openQuestion = false;

@@ -2377,7 +2377,7 @@ public class ExperimentalProcedureFromDB {
 
    // suppression d'un materiel
     private static CopexReturn deleteMaterialFromDB(DataBaseCommunication dbC, Material material){
-        int nb = 5;
+        int nb = 6;
         int i=0;
         ArrayList v = new ArrayList();
         String[] querys = new String[nb];
@@ -2391,6 +2391,8 @@ public class ExperimentalProcedureFromDB {
         querys[i++] = queryDelLinkParamMat;
         String queryDelMaterial = "DELETE FROM MATERIAL WHERE ID_MATERIAL = "+material.getDbKey()+" ;";
         querys[i++] = queryDelMaterial;
+        String queryDelLinkGroup = "DELETE FROM LINK_GROUP_MATERIAL WHERE ID_MATERIAL = "+material.getDbKey()+" ;";
+        querys[i++] = queryDelLinkGroup;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
     }
