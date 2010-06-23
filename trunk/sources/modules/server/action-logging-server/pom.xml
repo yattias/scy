@@ -1,50 +1,75 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
   <parent>
     <artifactId>parent</artifactId>
     <groupId>eu.scy.server</groupId>
     <version>9.8.0-SNAPSHOT</version>
   </parent>
+  
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scy</groupId>
   <artifactId>action-logging-server</artifactId>
-  <name>Action Logging Server Classes</name>
-  <version>9.8.0-SNAPSHOT</version>
+  <name>action logging server</name>
+
   <dependencies>
+  
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>action-logging-api</artifactId>
-  		<version>9.8.0-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
+  		<version>${pom.version}</version>
   	</dependency>
+	
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>action-logging-commons</artifactId>
-  		<version>9.8.0-SNAPSHOT</version>
-  		<scope>compile</scope>
+  		<version>${pom.version}</version>
   	</dependency>
+	
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>whacket-extension</artifactId>
-  		<version>9.8.0-SNAPSHOT</version>
-  		<scope>compile</scope>
+  		<version>${pom.version}</version>
   	</dependency>
+	
   	<dependency>
   		<groupId>eu.scy.server</groupId>
   		<artifactId>scy-hub-commons</artifactId>
   		<version>9.11.0-SNAPSHOT</version>
-  		<scope>compile</scope>
   	</dependency>
-  	<dependency>
-  		<groupId>log4j</groupId>
-  		<artifactId>log4j</artifactId>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
+	
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>configuration</artifactId>
-  		<version>9.8.0-SNAPSHOT</version>
+  		<version>${pom.version}</version>
   	</dependency>
+			
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>packet-transformer</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+			
+  	<dependency>
+  		<groupId>log4j</groupId>
+  		<artifactId>log4j</artifactId>
+  	</dependency>
+
+  	<dependency>
+  		<groupId>jivesoftware</groupId>
+  		<artifactId>whack</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-client</artifactId>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-commons</artifactId>
+  	</dependency>
+	
   </dependencies>
+  
 </project>

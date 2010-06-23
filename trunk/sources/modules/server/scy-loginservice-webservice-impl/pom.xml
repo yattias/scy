@@ -12,15 +12,9 @@
     <name>scy-loginservice-webservice-impl</name>
 
     <dependencies>
-
-        <!-- SCY -->
-
-        <dependency>
-            <groupId>${pom.groupId}</groupId>
-            <artifactId>scy-useradmin-impl</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-
+	
+	<!-- unused
+	
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>scy-useradmin-api</artifactId>
@@ -32,6 +26,18 @@
             <artifactId>scy-model-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
+
+ 		
+	-->
+       <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-useradmin-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+
+
+
 
        
 

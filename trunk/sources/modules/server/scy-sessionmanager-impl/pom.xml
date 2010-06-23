@@ -8,16 +8,17 @@
 	</parent> 	
  
     <modelVersion>4.0.0</modelVersion>
-     <artifactId>scy-sessionmanager-impl</artifactId>
+    <artifactId>scy-sessionmanager-impl</artifactId>
     <name>scy-sessionmanager-impl</name>
 
     <dependencies>
 
         <!-- SCY DEPENDENCIES -->
-
+		<!--
+		
         <dependency>
             <groupId>eu.scy.common</groupId>
-            <artifactId>scy-sessionmanager-api</artifactId>
+            <artifactId>scy-model-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
 
@@ -27,21 +28,17 @@
             <version>${pom.version}</version>
         </dependency>
 
+		-->
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-sessionmanager-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>scy-useradmin-impl</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>scy-model-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>scy-model-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
 

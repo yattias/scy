@@ -10,7 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
     <artifactId>roolo-ws</artifactId>
-    <name>RoOLO-SCY-Webservice</name>
+	<name>webbrowsingtoolELOSaver</name>
+    <description>RoOLO SCY Webservice</description>
     <url>http://www.intermedia.uio.no/display/SCY/Webbrowsing+Tool</url>
 
     <developers>
@@ -84,27 +85,38 @@
 
         <!-- WEBSERVICE-RELATED DEPENDENCIES -->
         <dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+            <version>1.1</version>
+        </dependency>
+		
+		<dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
             <version>1.1.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
+		
+		<!-- unused
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+		
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+		-->
+		
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
             <version>${jersey-version}</version>
             <scope>test</scope>
         </dependency>
+		
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-test-framework</artifactId>
@@ -118,21 +130,25 @@
             <artifactId>roolo-api</artifactId>
             <version>0.6.0-SNAPSHOT</version>
         </dependency>
+		
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>roolo-impl</artifactId>
             <version>0.6.1-SNAPSHOT</version>
         </dependency>
+		
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>elo-api</artifactId>
             <version>0.6.0-SNAPSHOT</version>
         </dependency>
+		
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>elo-impl</artifactId>
             <version>0.6.1-SNAPSHOT</version>
         </dependency>
+		
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>roolo-mock</artifactId>
@@ -146,11 +162,13 @@
             <artifactId>configuration</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>action-logging-commons</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>action-logging-api</artifactId>
@@ -162,10 +180,12 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
+		
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring</artifactId>
         </dependency>
+		
     </dependencies>
 
     <properties>

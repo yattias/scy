@@ -12,27 +12,41 @@
     <name>action-logging-hibernate</name>
 
     <dependencies>
+	
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>action-logging-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
+			
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-commons</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+		<!-- unused
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>scy-useradmin-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		
+		-->
+
          <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.0.5</version>
             <scope>test</scope>
         </dependency>
+		
          <dependency>
          	<groupId>org.springframework</groupId>
          	<artifactId>spring-mock</artifactId>
@@ -40,6 +54,7 @@
          	<type>jar</type>
          	<scope>test</scope>
          </dependency>
+		 
     </dependencies>
     
     <build>
