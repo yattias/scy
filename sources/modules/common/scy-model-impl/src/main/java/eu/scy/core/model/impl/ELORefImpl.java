@@ -7,6 +7,8 @@ import eu.scy.core.model.impl.pedagogicalplan.MissionImpl;
 import eu.scy.core.model.pedagogicalplan.Mission;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +28,9 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
 	private String type;
 	private String topic;
 	private User author;
+    private Date date;
+    private String comment;
+    private Integer viewings = 0;
 
     private List fileRefs ;
 
@@ -115,4 +120,47 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
 	public void setAuthor(User author) {
 		this.author = author;
 	}
+
+    @Override
+    @Temporal(value = TemporalType.DATE)
+    public Date getDate() {
+        return date;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
+    @Transient
+    public String getFormattedDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        if(getDate() != null) {
+            return format.format(getDate());
+        }
+
+        return "";
+
+    }
+
+    @Override
+    public String getComment() {
+        return comment;
+    }
+
+    @Override
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public Integer getViewings() {
+        return viewings;
+    }
+
+    @Override
+    public void setViewings(Integer viewings) {
+        this.viewings = viewings;
+    }
 }

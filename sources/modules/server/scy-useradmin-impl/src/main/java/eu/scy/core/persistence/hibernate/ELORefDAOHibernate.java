@@ -13,7 +13,7 @@ public class ELORefDAOHibernate extends ScyBaseDAOHibernate implements ELORefDAO
 
 	@Override
 	public List<ELORef> getELORefs() {
-		return getSession().createQuery("from ELORefImpl").list();
+		return getSession().createQuery("from ELORefImpl order by viewings desc").list();
 	}
 
 	@Override

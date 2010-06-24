@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,7 +86,12 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
 
             if (missions != null && missions.size() > 0) modelAndView.addObject("firstMission", missions.get(0));
 
+            List statuses = new LinkedList();
+            statuses.add("Under construction");
+            statuses.add("Finished");
 
+
+            modelAndView.addObject("statuses", statuses);
             modelAndView.addObject("currentELO", currentElo);
             modelAndView.addObject("currentTool", tool);
             modelAndView.addObject("currentLas", las);
@@ -127,7 +133,13 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
 
             if (missions != null && missions.size() > 0) modelAndView.addObject("firstMission", missions.get(0));
 
+            List statuses = new LinkedList();
+            statuses.add("Under construction");
+            statuses.add("Finished");
 
+
+            modelAndView.addObject("statuses", statuses);
+            
             modelAndView.addObject("currentELO", currentElo);
             modelAndView.addObject("currentTool", tool);
             modelAndView.addObject("currentLas", las);
@@ -157,6 +169,8 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
         eloRef.setELOURI(request.getParameter("productName"));
         eloRef.setTitle(request.getParameter("productName"));
         eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
+        eloRef.setDate(new Date());
+        eloRef.setComment(request.getParameter("comment"));
 
         getEloRefService().save(eloRef);
 
