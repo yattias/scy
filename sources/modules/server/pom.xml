@@ -123,7 +123,7 @@
     </build>
 
     <modules>
-    	<module>action-logging-hibernate</module>
+    	<!--module>action-logging-hibernate</module-->
     	<module>action-logging-server</module>
     	<module>data-sync-module</module>
     	<module>notification-module</module>
@@ -140,9 +140,9 @@
         <module>webbrowsingtoolELOSaver</module>
         <module>server-external-components</module>
         <module>scy-author</module>
-        <module>scy-playful</module>
+        <!--module>scy-playful</module-->
         <module>web-commons</module>
-    <module>scy-feedback</module>
+        <module>scy-feedback</module>
   </modules>
 
     <!--properties>
