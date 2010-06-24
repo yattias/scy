@@ -14,4 +14,4 @@
     </tr>
 </table>
 
-<s:dialog url="/webapp/app/feedback/uploadELOForFeedbackForm.html?username=${user.userDetails.username}" title="Upload ELO"/> 
+<s:dialog url="/webapp/app/feedback/uploadELOForFeedbackForm.html?username=${user.userDetails.username}" title="Upload ELO" height="600" dialogHeader="Upload ELO"/> 

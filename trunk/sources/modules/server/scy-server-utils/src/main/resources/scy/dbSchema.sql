@@ -339,6 +339,7 @@ CREATE TABLE `eloref` (
 	`primKey` varchar(55) NOT NULL default '',
 	`name` varchar(250) default NULL,
 	`description` text,
+	`comment` text,
     `timeCreated` bigint(20) NOT NULL default '0',
 
 	`elo_uri` varchar(200) DEFAULT NULL,
@@ -350,6 +351,7 @@ CREATE TABLE `eloref` (
 	`user_primKey` bigint(20) DEFAULT NULL,
 	`date` datetime DEFAULT NULL,
 	`version` int(11) DEFAULT NULL,
+	`viewings` int(11) DEFAULT NULL,
 	`mission_primKey` varchar(55) default NULL,
 
   	KEY `eloRefUser` (`user_primKey`),

@@ -3,6 +3,8 @@ package eu.scy.core.model;
 import eu.scy.core.model.pedagogicalplan.BaseObject;
 import eu.scy.core.model.pedagogicalplan.Mission;
 
+import java.util.Date;
+
 /**
  * @author bjoerge
  * @created 23.feb.2010 18:05:52
@@ -44,4 +46,18 @@ public interface ELORef extends BaseObject {
 	Mission getMission();
 
 	void setMission(Mission mission);
+
+    Date getDate();
+
+    void setDate(Date date);
+
+    String getFormattedDate();
+
+    String getComment();
+
+    void setComment(String comment);
+
+    Integer getViewings();
+
+    void setViewings(Integer viewings);
 }
