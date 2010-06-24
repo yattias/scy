@@ -22,7 +22,7 @@ public class Dialog extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             double id = Math.random();
-            pageContext.getOut().write("<a href=\"javascript:loadDialog('"+getUrl()+"', '" + getDialogHeader() + "');\">" + getTitle() + "</a>");
+            pageContext.getOut().write("<a href=\"javascript:loadDialog('"+getUrl()+"', '" + getDialogHeader() + "', " + getWidth() + ", " + getHeight() + ");\">" + getTitle() + "</a>");
         } catch (Exception e) {
             e.printStackTrace();
         }
