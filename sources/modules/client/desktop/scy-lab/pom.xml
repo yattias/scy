@@ -12,12 +12,15 @@
 	<artifactId>scy-lab</artifactId>
 	<name>scy-lab</name>
 	<packaging>jar</packaging>
+	
 	<licenses>
 		<license>
 			<name>lgpl</name>
 		</license>
 	</licenses>
+	
 	<dependencies>
+	
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>javafx-deps</artifactId>
@@ -25,72 +28,117 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-api</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+						
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>roolo-api</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+				
 		<dependency>
 			<groupId>eu.scy.client.desktop</groupId>
 			<artifactId>scy-desktop</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+						
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>awareness-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+						
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>tool-broker-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+						
+		<dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>fx-chattool</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-drawingtool</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-scymapper</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-simulator</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-studentplanningtool</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-scydynamics</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-fitex</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-copex</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-flying-saucer</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-interviewtool</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-video</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-webresourcer</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-richtexteditor</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>

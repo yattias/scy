@@ -17,7 +17,6 @@
       <groupId>eu.scy.common</groupId>
       <artifactId>notification-impl</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
 	
     <dependency>
@@ -42,8 +41,6 @@
 		<groupId>jivesoftware</groupId>
 		<artifactId>smack</artifactId>
 		<version>3.1.0</version>
-		<type>jar</type>
-		<scope>compile</scope>
 	</dependency>
 	
   </dependencies>
