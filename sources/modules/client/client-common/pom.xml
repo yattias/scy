@@ -11,7 +11,7 @@
 	<groupId>eu.scy.client.client-common</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<name>SCY client</name>
+	<name>SCY client common</name>
 	<url>http://www.scy-lab.eu</url>
 		 
 	<licenses>
