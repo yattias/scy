@@ -2,6 +2,7 @@ package eu.scy.server.controllers.scyfeedback;
 
 import eu.scy.core.ELORefService;
 import eu.scy.core.FileService;
+import eu.scy.core.PlayfulAssessmentService;
 import eu.scy.core.model.ELORef;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +23,7 @@ public class StudentEloRefViewerController  extends BaseController {
 
     private FileService fileService;
     private ELORefService eloRefService;
+    private PlayfulAssessmentService playfulAssessmentService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -34,6 +36,10 @@ public class StudentEloRefViewerController  extends BaseController {
         eloRef.setViewings(eloRef.getViewings() + 1);
         getEloRefService().save(eloRef);
         transporter.setFiles(getFileService().getFilesForELORef(eloRef));
+        transporter.setTotalScore(getPlayfulAssessmentService().getScoreForELORef(eloRef));
+
+        transporter.setAssessments(getPlayfulAssessmentService().getAssesmentsForELORef(eloRef));
+        logger.info("I found " + getPlayfulAssessmentService().getAssesmentsForELORef(eloRef).size() + " ASSESSMENTS!!");
 
         modelAndView.addObject("transporter", transporter);
     }
@@ -52,5 +58,13 @@ public class StudentEloRefViewerController  extends BaseController {
 
     public void setEloRefService(ELORefService eloRefService) {
         this.eloRefService = eloRefService;
+    }
+
+    public PlayfulAssessmentService getPlayfulAssessmentService() {
+        return playfulAssessmentService;
+    }
+
+    public void setPlayfulAssessmentService(PlayfulAssessmentService playfulAssessmentService) {
+        this.playfulAssessmentService = playfulAssessmentService;
     }
 }

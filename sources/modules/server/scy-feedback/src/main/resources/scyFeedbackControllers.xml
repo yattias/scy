@@ -38,6 +38,7 @@
                    /app/feedback/ScyFeedbackIndex.html=scyFeedbackIndexController
                    /app/feedback/uploadELOForFeedbackForm.html=uploadELOForFeedbackFormController
                    /app/feedback/studentEloRefViewer.html=studentEloRefViewerController
+                   /app/feedback/studentFeedbackForm.html=studentFeedbackFormController
                </value>
            </property>
        </bean>
@@ -47,6 +48,7 @@
         <property name="urlInspector" ref="urlInspector"/>
         <property name="eloRefService" ref="eloRefService"/>
         <property name="fileService" ref="fileService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
 	</bean>
 
     <bean id="studentEloRefViewerController" class="eu.scy.server.controllers.scyfeedback.StudentEloRefViewerController">
@@ -54,6 +56,7 @@
         <property name="urlInspector" ref="urlInspector"/>
         <property name="fileService" ref="fileService"/>
         <property name="eloRefService" ref="eloRefService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
 	</bean>
 
     <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
@@ -66,6 +69,13 @@
         <property name="missionService" ref="missionService"/>
         <property name="fileService" ref="fileService"/>
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.UploadELOBean"/>
+	</bean>
+
+    <bean id="studentFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.StudentFeedbackFormController">
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
+        <property name="userService" ref="userService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
 	</bean>
 
     <bean id="fileUploadedForFeedbackListener" class="eu.scy.server.controllers.scyfeedback.FileUploadedForFeedbackListener"/>

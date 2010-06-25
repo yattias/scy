@@ -42,10 +42,15 @@ public class PlayfulAssesmentServiceImpl extends BaseServiceImpl implements Play
 		return getPlayfulAssessmentDAO().getAssessmentsForELORef(eloRef);
 	}
 
-	@Override
+    @Override
+    public Integer getScoreForELORef(ELORef eloRef) {
+        return getPlayfulAssessmentDAO().getScoreForELORef(eloRef);
+    }
+
+    @Override
 	@Transactional
-	public void save(PlayfulAssessment scenario) {
-		getPlayfulAssessmentDAO().save(scenario);
+	public void save(PlayfulAssessment playfulAssessment) {
+		getPlayfulAssessmentDAO().save(playfulAssessment);
 	}
 
 	public PlayfulAssessmentDAO getPlayfulAssessmentDAO() {
