@@ -16,5 +16,7 @@ public interface PlayfulAssessmentService extends BaseService {
 
 	List<PlayfulAssessment> getAssesmentsForELORef(ELORef eloRef);
 
-	void save(PlayfulAssessment scenario);
+    public Integer getScoreForELORef(ELORef eloRef);
+
+	void save(PlayfulAssessment playfulAssessment);
 }

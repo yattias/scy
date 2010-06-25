@@ -2,6 +2,7 @@ package eu.scy.server.controllers.scyfeedback;
 
 import eu.scy.core.ELORefService;
 import eu.scy.core.FileService;
+import eu.scy.core.PlayfulAssessmentService;
 import eu.scy.core.model.ELORef;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +24,7 @@ public class ScyFeedbackIndexController extends BaseController {
 
     private ELORefService eloRefService;
     private FileService fileService;
+    private PlayfulAssessmentService playfulAssessmentService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -36,8 +38,9 @@ public class ScyFeedbackIndexController extends BaseController {
             ELORefDataTransporter transporter = new ELORefDataTransporter();
             transporter.setEloRef(eloRef);
             transporter.setFiles(files);
+            transporter.setTotalScore(getPlayfulAssessmentService().getScoreForELORef(eloRef));
+            transporter.setTotalAssessments(getPlayfulAssessmentService().getAssesmentsForELORef(eloRef).size());
             if(transporter.getFiles() == null) transporter.setFiles(Collections.EMPTY_LIST);
-            logger.info("ADDING " + files.size() + " FILES!!!");
             transporters.add(transporter);
         }
 
@@ -61,5 +64,13 @@ public class ScyFeedbackIndexController extends BaseController {
 
     public void setFileService(FileService fileService) {
         this.fileService = fileService;
+    }
+
+    public PlayfulAssessmentService getPlayfulAssessmentService() {
+        return playfulAssessmentService;
+    }
+
+    public void setPlayfulAssessmentService(PlayfulAssessmentService playfulAssessmentService) {
+        this.playfulAssessmentService = playfulAssessmentService;
     }
 }

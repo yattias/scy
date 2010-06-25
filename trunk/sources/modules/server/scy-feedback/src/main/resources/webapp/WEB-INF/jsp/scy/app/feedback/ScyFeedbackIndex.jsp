@@ -44,11 +44,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <strong>Shown</strong>
-                                    </td>
-                                    <td>
-                                        ${transporter.eloRef.viewings}
+                                    <td colspan="2" >
+                                        <strong>Shown</strong>${transporter.eloRef.viewings} <strong>Evaluated by</strong>${transporter.totalAssessments} <strong>Score</strong> ${transporter.totalScore}
                                     </td>
                                 </tr>
                             </table>

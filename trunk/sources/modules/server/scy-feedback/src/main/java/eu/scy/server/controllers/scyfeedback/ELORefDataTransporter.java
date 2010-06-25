@@ -15,6 +15,9 @@ public class ELORefDataTransporter {
 
     private ELORef eloRef;
     private List files;
+    private List assessments;
+    private Integer totalScore;
+    private Integer totalAssessments;
 
 
     public ELORef getEloRef() {
@@ -31,5 +34,29 @@ public class ELORefDataTransporter {
 
     public void setFiles(List files) {
         this.files = files;
+    }
+
+    public List getAssessments() {
+        return assessments;
+    }
+
+    public void setAssessments(List assessments) {
+        this.assessments = assessments;
+    }
+
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public Integer getTotalAssessments() {
+        return totalAssessments;
+    }
+
+    public void setTotalAssessments(Integer totalAssessments) {
+        this.totalAssessments = totalAssessments;
     }
 }

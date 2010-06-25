@@ -17,4 +17,6 @@ public interface PlayfulAssessmentDAO extends SCYBaseDAO {
 	PlayfulAssessment getAssessmentById(String assessmentId);
 
 	List<PlayfulAssessment> getAssessmentsForELORef(ELORef eloRef);
+
+    Integer getScoreForELORef(ELORef eloRef);
 }
