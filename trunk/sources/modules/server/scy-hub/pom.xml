@@ -18,144 +18,165 @@
         <name>InterMedia, University of Oslo</name>
     </organization>
     <packaging>jar</packaging>
-<!--
-    <distributionManagement>
-        <repository>
-            <id>mvn_collide_releases</id>
-            <name>Collide Internal Releases</name>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>
-            <name>Collide Internal Snapshots</name>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!--
+        <distributionManagement>
+            <repository>
+                <id>mvn_collide_releases</id>
+                <name>Collide Internal Releases</name>
+                <url>http://mvn.collide.info/content/repositories/releases</url>
+            </repository>
+            <snapshotRepository>
+                <uniqueVersion>false</uniqueVersion>
+                <id>mvn_collide_snapshots</id>
+                <name>Collide Internal Snapshots</name>
+                <url>http://mvn.collide.info/content/repositories/snapshots</url>
+            </snapshotRepository>
+        </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>reucon</id>
-            <url>http://maven.reucon.com/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>ibiblio</id>
-            <url>http://www.ibiblio.org/maven/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
--->
+        <repositories>
+            <repository>
+                <id>collide-releases</id>
+                <url>http://mvn.collide.info/content/repositories/releases</url>
+                <snapshots>
+                    <enabled>false</enabled>
+                </snapshots>
+            </repository>
+            <repository>
+                <id>collide-snapshots</id>
+                <url>http://mvn.collide.info/content/repositories/snapshots</url>
+                <snapshots>
+                    <enabled>true</enabled>
+                </snapshots>
+            </repository>
+            <repository>
+                <id>reucon</id>
+                <url>http://maven.reucon.com/public</url>
+                <snapshots>
+                    <enabled>false</enabled>
+                </snapshots>
+            </repository>
+            <repository>
+                <id>ibiblio</id>
+                <url>http://www.ibiblio.org/maven/public</url>
+                <snapshots>
+                    <enabled>false</enabled>
+                </snapshots>
+            </repository>
+        </repositories>
+    -->
     <dependencies>
-        <!-- unused		
+
         <dependency>
             <groupId>xpp3</groupId>
             <artifactId>xpp3</artifactId>
             <version>1.1.4c</version>
         </dependency>
-				
+
         <dependency>
             <groupId>jivesoftware</groupId>
             <artifactId>stringprep</artifactId>
             <version>1.0</version>
         </dependency>
-		
-		<dependency>
+
+
+        <dependency>
             <groupId>eu.scy.common</groupId>
-            <artifactId>action-logging-api</artifactId>
+            <artifactId>whacket-extension</artifactId>
             <version>${pom.version}</version>
         </dependency>
-		
+
+
+        <!-- unused		
+          <dependency>
+              <groupId>xpp3</groupId>
+              <artifactId>xpp3</artifactId>
+              <version>1.1.4c</version>
+          </dependency>
+
+          <dependency>
+              <groupId>jivesoftware</groupId>
+              <artifactId>stringprep</artifactId>
+              <version>1.0</version>
+          </dependency>
+
+          <dependency>
+              <groupId>eu.scy.common</groupId>
+              <artifactId>action-logging-api</artifactId>
+              <version>${pom.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>eu.scy.common</groupId>
+              <artifactId>action-logging-commons</artifactId>
+              <version>${pom.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>dom4j</groupId>
+              <artifactId>dom4j</artifactId>
+              <version>1.6.1</version>
+          </dependency>
+
+          <dependency>
+              <groupId>eu.scy.common</groupId>
+              <artifactId>whacket-extension</artifactId>
+              <version>${pom.version}</version>
+          </dependency>
+
+          -->
+
         <dependency>
-        	<groupId>eu.scy.common</groupId>
-        	<artifactId>action-logging-commons</artifactId>
-        	<version>${pom.version}</version>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-useradmin-impl</artifactId>
+            <version>${pom.version}</version>
         </dependency>
- 	
+
         <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>notification-module</artifactId>
+            <version>${pom.version}</version>
         </dependency>
-				       
+
         <dependency>
-        	<groupId>eu.scy.common</groupId>
-        	<artifactId>whacket-extension</artifactId>
-        	<version>${pom.version}</version>
-        </dependency>
-		
-		-->
-				
-        <dependency>
-        	<groupId>eu.scy.server</groupId>
-        	<artifactId>scy-useradmin-impl</artifactId>
-        	<version>${pom.version}</version>
-        </dependency>
-		
-        <dependency>
-        	<groupId>eu.scy.server</groupId>
-        	<artifactId>notification-module</artifactId>
-        	<version>${pom.version}</version>
-        </dependency>
-		
-		<dependency>
             <groupId>jivesoftware</groupId>
             <artifactId>whack</artifactId>
             <version>1.0</version>
         </dependency>
-		
+
         <dependency>
-        	<groupId>eu.scy.server</groupId>
-        	<artifactId>data-sync-module</artifactId>
-        	<version>${pom.version}</version>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>data-sync-module</artifactId>
+            <version>${pom.version}</version>
         </dependency>
-		
+
         <dependency>
-        	<groupId>eu.scy</groupId>
-        	<artifactId>action-logging-server</artifactId>
-        	<version>${pom.version}</version>
+            <groupId>eu.scy</groupId>
+            <artifactId>action-logging-server</artifactId>
+            <version>${pom.version}</version>
         </dependency>
-		
+
         <dependency>
-        	<groupId>eu.scy.server</groupId>
-        	<artifactId>scy-hub-commons</artifactId>
-        	<version>9.11.0-SNAPSHOT</version>
-        </dependency>	
-		
-        <dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring</artifactId>
-        </dependency>	
-		
-        <dependency>
-        	<groupId>log4j</groupId>
-        	<artifactId>log4j</artifactId>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-hub-commons</artifactId>
+            <version>9.11.0-SNAPSHOT</version>
         </dependency>
-			
+
         <dependency>
-        	<groupId>eu.scy.common</groupId>
-        	<artifactId>configuration</artifactId>
-        	<version>${pom.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
         </dependency>
-		
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>configuration</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
         <dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>configuration</artifactId>
@@ -176,7 +197,7 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-			<plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>

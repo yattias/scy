@@ -17,10 +17,176 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
-        </dependency>	
-		
-		<!--
+            <scope>compile</scope>
+        </dependency>
         <dependency>
+            <artifactId>commons-dbcp</artifactId>
+            <groupId>commons-dbcp</groupId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-hub</artifactId>
+            <version>${pom.version}</version>
+            <!--exclusions>
+                <exclusion>
+                    <groupId>eu.scy.server</groupId>
+                    <artifactId>scy-useradmin-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>eu.scy</groupId>
+                    <artifactId>action-logging-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>eu.scy.server</groupId>
+                    <artifactId>data-sync-module</artifactId>
+                </exclusion>
+            </exclusions-->
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.agents</groupId>
+            <artifactId>agents-base</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        
+
+        <dependency>
+            <groupId>eu.scy.agents</groupId>
+            <artifactId>agents-impl</artifactId>
+            <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.roolo</groupId>
+                    <artifactId>roolo-mock</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.roolo</groupId>
+                    <artifactId>elo-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>de.fhg.iais.kd.tm</groupId>
+                    <artifactId>obwious-featurecarrier</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-useradmin-impl</artifactId>
+            <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>eu.scy.common</groupId>
+                    <artifactId>scy-model-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>eu.scy.common</groupId>
+                    <artifactId>scy-model-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+                
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>pedagogical-plan-service-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-server-utils</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.4.0.GA</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.3.2.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jnlp.sample</groupId>
+            <artifactId>servlet</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+        
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+
+       
+
+
+      
+
+
+
+
+        
+        
+		
+
+        <!--dependency>
             <groupId>eu.scy.server</groupId>
             <artifactId>scy-server-utils</artifactId>
             <version>${pom.version}</version>
