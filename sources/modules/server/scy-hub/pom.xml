@@ -156,6 +156,13 @@
         	<version>${pom.version}</version>
         </dependency>
 		
+        <dependency>
+        	<groupId>eu.scy.common</groupId>
+        	<artifactId>configuration</artifactId>
+        	<version>${pom.version}</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
