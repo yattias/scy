@@ -33,6 +33,7 @@ public class AjaxCheckBox extends AjaxBaseComponent{
     }
 
     private Boolean executeGetter(Object object, String property) {
+        
         if(property == null) return false;
         try {
             String firstLetter = property.substring(0,1);
