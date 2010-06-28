@@ -6,7 +6,7 @@
     <groupId>eu.scy</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>9.8.0-SNAPSHOT</version>
+    <version>9.8.0.CYPRUS</version>
     <name>scy</name>
     <url>http://www.scy-lab.eu</url>
 
