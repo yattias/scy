@@ -32,7 +32,7 @@ import eu.scy.communications.message.ISyncMessage;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbroker.ToolBrokerImpl;
-
+import eu.scy.client.common.datasync.DataSyncException;
 
 
 /**
@@ -262,16 +262,21 @@ public class NutpadDataSyncTestClient extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			syncSession = dataSyncService.joinSession("datasync@syncsessions.scy.collide.info", listener);
-			editArea.append("Session \"" + syncSession.getId() + "\" joined!\n");
-			
-			eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
-            action.setUser(HARD_CODED_USER_NAME);
-            action.setType("join_nutpad_session");
-            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
-            action.addAttribute("sessionname", syncSession.getId());
-            
-            actionLogger.log(action);
+			try {
+				syncSession = dataSyncService.joinSession("datasync@syncsessions.scy.collide.info", listener);				
+				editArea.append("Session \"" + syncSession.getId() + "\" joined!\n");
+				
+				eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+				action.setUser(HARD_CODED_USER_NAME);
+				action.setType("join_nutpad_session");
+				action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+				action.addAttribute("sessionname", syncSession.getId());
+				
+				actionLogger.log(action);
+			}
+			catch(DataSyncException dse) {
+				System.out.println("DataSyncException: "+dse);
+			}
 		}
     	
     }
