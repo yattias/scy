@@ -19,6 +19,7 @@
 			<artifactId>log4j</artifactId>
 		</dependency>
 		
+		<!-- unused
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -32,6 +33,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>net.java.dev.swing-layout</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		 -->
+
+		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
 			<version>1.0</version>
@@ -40,6 +48,12 @@
 		<dependency>
 				<groupId>eu.scy.common</groupId>
 				<artifactId>awareness-impl</artifactId>
+				<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+				<groupId>eu.scy.common</groupId>
+				<artifactId>awareness-api</artifactId>
 				<version>${pom.version}</version>
 		</dependency>
 
@@ -55,11 +69,6 @@
 			<version>${pom.version}</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>net.java.dev.swing-layout</groupId>
-			<artifactId>swing-layout</artifactId>
-			<version>1.0.2</version>
-		</dependency>
 		
 	</dependencies>
 
