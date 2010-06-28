@@ -59,6 +59,10 @@ public class DragMode implements IDiagramMode {
 		}
 		
 		public void mouseReleased(MouseEvent e) {
+         if (relativePos==null){
+            // mouse released without dragging, so no need to do anything
+            return;
+         }
 			// The relative mouse position from the component x,y
 			Point relPoint = e.getPoint();
 
