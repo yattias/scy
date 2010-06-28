@@ -1,0 +1,16 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+
+<h1>You have been RickRolled!</h1>
+
+    <t:any element="object" width="425" height="344">
+        <t:any element="param" name="movie" value="http://www.youtube.com/v/oHg5SJYRHA0&amp;hl=en&amp;fs=1"></t:any>
+        <t:any element="param" name="allowFullScreen" value="true"></t:any>
+        <t:any element="param" name="allowscriptaccess" value="always"></t:any>
+            <t:any element="embed" src="http://www.youtube.com/v/oHg5SJYRHA0&amp;hl=en&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></t:any>
+    </t:any>
+
+
+
+    
+</t:container>
