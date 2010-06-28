@@ -54,7 +54,7 @@ var scene: Scene;
 var title = ##"Formatted text editor";
 
 stage = Stage {
-   title: title
+   title: "SCY-Lab with rich-text-editor (jfx 1.3)"
    width: 800
    height: 600
 	scene: initializer.getScene(createScyDesktop);

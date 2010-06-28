@@ -166,6 +166,8 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
 
    public override function create(): Node {
       wrappedRichTextEditor = SwingComponent.wrap(richTextEditor);
+      resizeContent();
+      FX.deferAction(resizeContent);
       return Group {
          blocksMouse:true;
          content: [
@@ -229,7 +231,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    public override var height on replace {resizeContent()};
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
+      def size = new Dimension(width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
       Container.resizeNode(wrappedRichTextEditor,size.width,size.height);
       richTextEditor.setPreferredSize(size);
       richTextEditor.setSize(size);
