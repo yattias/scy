@@ -313,11 +313,20 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
                 e.printStackTrace();
                 throw new LoginFailedException(userName);
             }
-
+            
+            /*
+             * The reconnection mechanism will try to reconnect periodically: (from JavaDoc)
+             *  - For the first minute it will attempt to connect once every ten seconds.
+             *  - For the next five minutes it will attempt to connect once a minute.
+             *  - If that fails it will indefinitely try to connect once every five minutes.
+             */
+            
             this.xmppConnection.addConnectionListener(new ConnectionListener() {
 
                 @Override
                 public void connectionClosed() {
+                	
+                	// TODO bullshit, remove...
                     logger.debug("TBI closed connection");
                     try {
                         xmppConnection.connect();
@@ -330,21 +339,25 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
                 @Override
                 public void connectionClosedOnError(Exception arg0) {
+                	// TODO notify SCY-Lab of disconnection and cache communication
                     logger.debug("TBI server error closed;");
                 }
 
                 @Override
                 public void reconnectingIn(int arg0) {
+                	// TODO notify UI of reconnection process
                     logger.debug("TBI server reconnecting;");
                 }
 
                 @Override
                 public void reconnectionFailed(Exception arg0) {
+                	// TODO notify UI of reconnection failed
                     logger.debug("TBI server reconnecting failed");
                 }
 
                 @Override
                 public void reconnectionSuccessful() {
+                	// TODO notify UI of successful connection and process all cached data
                     logger.debug("TBI server reconnecting success");
                 }
             });
