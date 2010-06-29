@@ -65,7 +65,9 @@
 
 	<modules>
 		<module>rich-text-editor</module>
+		<!-- moved to client/common
 		<module>data-sync-api</module>
+		-->
 		<module>scy-i18n</module>
   </modules>
 </project>

@@ -3,13 +3,13 @@
 
     <parent>
         <artifactId>parent</artifactId>
-        <groupId>eu.scy.client.client-common</groupId>
+        <groupId>eu.scy.common</groupId>
         <version>9.8.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>data-sync-api</artifactId>
-    <name>Client Datasync APIs</name>
+    <name>data-sync api</name>
 
     <dependencies>
 

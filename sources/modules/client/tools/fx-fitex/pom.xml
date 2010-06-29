@@ -67,7 +67,7 @@
         <version>${pom.version}</version>
     </dependency>
     <dependency>
-        <groupId>eu.scy.client.client-common</groupId>
+        <groupId>eu.scy.common</groupId>
         <artifactId>data-sync-api</artifactId>
         <version>${pom.version}</version>
     </dependency>
