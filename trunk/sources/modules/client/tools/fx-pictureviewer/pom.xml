@@ -9,8 +9,8 @@
    </parent>
 
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>fx-webresource</artifactId>
-   <name>FX webresource</name>
+   <artifactId>fx-pictureviewer</artifactId>
+   <name>FX picture viewer</name>
    <packaging>jar</packaging>
 
    <licenses>
