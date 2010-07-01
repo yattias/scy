@@ -34,7 +34,7 @@
         <hr/>
 
         <p>
-            <strong>${model.comment}</strong>
+            <h2>${model.comment}</h2>
         </p>
 
         <fieldset>

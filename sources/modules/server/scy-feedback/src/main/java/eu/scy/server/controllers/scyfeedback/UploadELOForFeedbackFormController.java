@@ -166,7 +166,7 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
         ELORef eloRef = new ELORefImpl();
         eloRef.setAuthor(user);
         eloRef.setTool(request.getParameter("tool"));
-        eloRef.setELOURI(request.getParameter("productName"));
+        eloRef.setName(request.getParameter("productName"));
         eloRef.setTitle(request.getParameter("productName"));
         eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
         eloRef.setDate(new Date());
