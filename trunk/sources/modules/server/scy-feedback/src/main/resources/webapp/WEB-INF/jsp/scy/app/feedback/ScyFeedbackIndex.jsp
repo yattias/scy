@@ -22,7 +22,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td>
+                                        <strong>Title</strong>
+                                    </td>
+                                    <td>
                                         <strong>${transporter.eloRef.name}</strong>
                                     </td>
                                 </tr>
