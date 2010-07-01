@@ -31,7 +31,6 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 import javafx.scene.text.Font;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
@@ -42,9 +41,9 @@ import java.awt.Component;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.ExternalDocAnnotation;
-import javafx.util.Math;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 
 /**
@@ -85,12 +84,8 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
     def valueOffset = 130.0;
     def labelOffset = 4.0;
    def spacing = 5.0;
-   var assignmentGroup:Group;
-   var assignmentEditable = elo==null;
    var fileNameTextBox:TextBox;
    
-   def assignmentEditor = new TextEditor();
-
    def font = Font {
 		size: 12
 	};
@@ -115,25 +110,16 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
                            layoutY:labelOffset
                            text: ##"Assignment"
                         }
-                        assignmentGroup = Group{
+                        Group{
                            layoutX:valueOffset
                            content:[
-//                              if (assignmentEditable){
-//                                 SwingTextField {
-//                                    columns: 30
-//                                    rotate:
-//                                    text: bind assignment with inverse
-//                                    editable: true
-//                                 }
-//                              }
-//                              else{
-//                                 TextBox {
-//                                    text: bind assignment with inverse
-//                                    columns: nrOfColumns
-//                                    selectOnFocus: true
-//                                    editable:true
-//                                 }
-//                              }
+                              TextBox {
+                                 text: bind assignment with inverse
+                                 columns: nrOfColumns
+                                 multiline:true
+                                 selectOnFocus: true
+                                 editable:bind elo==null
+                              }
                            ]
                         }
                      ]
@@ -297,16 +283,9 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
    public override function loadElo(uri:URI){
       doLoadElo(uri);
-      assignmentGroup.content = Text {
-         content: assignment
-         wrappingWidth: fileNameTextBox.width
-         textOrigin: TextOrigin.TOP;
-      }
    }
    
    public override function newElo(){
-      var swingAssignmentEditorWrapper = SwingComponent.wrap(assignmentEditor);
-      assignmentGroup.content = swingAssignmentEditorWrapper;
    }
    
 
@@ -408,7 +387,6 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
 
    function getElo():IELO{
       if (elo==null){
-         assignment = assignmentEditor.getText();
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType);
       }

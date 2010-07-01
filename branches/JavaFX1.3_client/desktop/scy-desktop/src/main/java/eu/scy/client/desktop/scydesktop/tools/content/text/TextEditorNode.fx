@@ -6,7 +6,6 @@
 
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -20,6 +19,8 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikken
@@ -37,7 +38,7 @@ public class TextEditorNode extends CustomNode, Resizable {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   var wrappedTextEditor:SwingComponent;
+   var wrappedTextEditor:Node;
 
    public function loadElo(uri:URI){
       eloTextEditorActionWrapper.loadElo(uri);
@@ -58,7 +59,7 @@ public class TextEditorNode extends CustomNode, Resizable {
    def spacing = 5.0;
 
    public override function create(): Node {
-      wrappedTextEditor = SwingComponent.wrap(textEditor);
+      wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
       return Group {
          blocksMouse:true;
          content: [
@@ -108,24 +109,15 @@ public class TextEditorNode extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
-//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
-//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
-      var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      textEditor.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      textEditor.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+      Container.resizeNode(wrappedTextEditor,width,height-wrappedTextEditor.boundsInParent.minY-spacing);
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return textEditor.getPreferredSize().getHeight();
+      return Container.getNodePrefHeight(wrappedTextEditor, width)+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return textEditor.getPreferredSize().getWidth();
-   }
+      return Container.getNodePrefWidth(wrappedTextEditor, width);
+  }
 
 }

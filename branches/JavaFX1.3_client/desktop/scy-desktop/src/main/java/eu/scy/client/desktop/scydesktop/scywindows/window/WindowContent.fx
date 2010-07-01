@@ -45,7 +45,7 @@ public class WindowContent extends CustomNode {
       x: 0, y: 0
       width: 140, height: 90
       fill: Color.TRANSPARENT
-//      fill: bind if (activated) Color.rgb(92,255,92,0.25) else Color.rgb(255,92,92,0.25)
+//      fill: bind if (activated) Color.rgb(92,255,92,0.15) else Color.rgb(255,92,92,0.15)
       onMousePressed: function( e: MouseEvent ):Void {
          if (not activated){
             activate();
@@ -78,7 +78,6 @@ public class WindowContent extends CustomNode {
                strokeWidth:borderWidth
                stroke:windowColorScheme.mainColor
             }
-
             Group{
                blocksMouse: true;
                cursor: Cursor.DEFAULT;

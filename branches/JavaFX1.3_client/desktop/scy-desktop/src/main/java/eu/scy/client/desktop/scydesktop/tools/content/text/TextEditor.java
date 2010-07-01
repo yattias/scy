@@ -10,7 +10,10 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import javax.swing.JScrollBar;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -18,6 +21,7 @@ import javax.swing.JScrollBar;
  */
 public class TextEditor extends javax.swing.JPanel
 {
+   private static final Logger logger = Logger.getLogger(TextEditor.class.getName());
 
    /** Creates new form TextEditor */
    public TextEditor()
@@ -90,4 +94,70 @@ public class TextEditor extends javax.swing.JPanel
          scrollbar.setValue(scrollbar.getMinimum());
       }
    }
+
+/*
+   @Override
+   public void resize(int width, int height)
+   {
+      logger.info(getName() + ".resize(" + width + "," + height + ")");
+      super.resize(width, height);
+   }
+
+   @Override
+   public void resize(Dimension d)
+   {
+      logger.info(getName() + ".resize(" + d + ")");
+      super.resize(d);
+   }
+
+   @Override
+   public void setBounds(int x, int y, int width, int height)
+   {
+      logger.info(getName() + ".setBounds(" + x + "," + y +"," + width + "," + height + ")");
+      super.setBounds(x, y, width, height);
+   }
+
+   @Override
+   public void setBounds(Rectangle r)
+   {
+      logger.info(getName() + ".setBounds(" + r + ")");
+      super.setBounds(r);
+   }
+
+   @Override
+   public void setSize(int width, int height)
+   {
+      logger.info(getName() + ".setSize(" + width + "," + height + ")");
+      super.setSize(width, height);
+   }
+
+   @Override
+   public void setSize(Dimension d)
+   {
+      logger.info(getName() + ".setSize(" + d + ")");
+      super.setSize(d);
+   }
+
+   @Override
+   public Dimension preferredSize()
+   {
+      logger.info(getName() + ".preferredSize(): " + super.preferredSize());
+      return super.preferredSize();
+   }
+
+   @Override
+   public Dimension getPreferredSize()
+   {
+      logger.info(getName() + ".getPreferredSize(): " + super.getPreferredSize());
+      return super.getPreferredSize();
+   }
+
+   @Override
+   public void setPreferredSize(Dimension preferredSize)
+   {
+      logger.info(getName() + ".setPreferredSize(): " + preferredSize);
+      super.setPreferredSize(preferredSize);
+   }
+
+*/
 }
