@@ -36,7 +36,6 @@
            <property name="mappings">
                <value>
                    /app/feedback/ScyFeedbackIndex.html=scyFeedbackIndexController
-                   /app/feedback/uploadELOForFeedbackForm.html=uploadELOForFeedbackFormController
                    /app/feedback/studentEloRefViewer.html=studentEloRefViewerController
                    /app/feedback/studentFeedbackForm.html=studentFeedbackFormController
                </value>
@@ -57,11 +56,11 @@
         <property name="fileService" ref="fileService"/>
         <property name="eloRefService" ref="eloRefService"/>
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+        <property name="userService" ref="userService"/>
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
 	</bean>
 
-    <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
-        <!--property name="serverService" ref="serverService"/>
-        <property name="urlInspector" ref="urlInspector"/-->
+    <!--bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
         <property name="runtimeService" ref="runtimeService"/>
         <property name="userService" ref="userService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
@@ -69,7 +68,7 @@
         <property name="missionService" ref="missionService"/>
         <property name="fileService" ref="fileService"/>
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.UploadELOBean"/>
-	</bean>
+	</bean-->
 
     <bean id="studentFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.StudentFeedbackFormController">
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
