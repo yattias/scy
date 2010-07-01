@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
-import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
@@ -66,7 +65,6 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import java.lang.IllegalStateException;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -90,12 +88,17 @@ import java.lang.System;
 /**
  * @author sikkenj
  */
-public class ScyDesktop extends CustomNode, INotifiable {
+
+public def scyDektopGroup = Group{
+   visible: true
+}
+
+public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     public var initializer: Initializer;
     public var config: Config;
-    def desktopScene = bind scene;
+    public def scene = scyDektopGroup.scene;
     public var missionModelFX: MissionModelFX = MissionModelFX { };
     public var eloInfoControl: EloInfoControl;
     public var eloDisplayTypeControl: EloDisplayTypeControl;
@@ -181,6 +184,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
             logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
         }
         FX.addShutdownAction(scyDesktopShutdownAction);
+        create();
     }
 
    function initMouseBlocker():Void{
@@ -439,12 +443,45 @@ public class ScyDesktop extends CustomNode, INotifiable {
       return jdomStringConversion.xmlToString(textElement);
    }
 
-    public override function create(): Node {
+//    public override function create(): Node {
+//        logger.info("create");
+//        checkProperties();
+//        createElements();
+//        Group {
+//            content: [
+//                ///Testing only
+//                //            Rectangle{width:bind boundsInLocal.width,
+//                //                height:bind boundsInLocal.height,
+//                //                fill:Color.BLACK
+//                //            },
+//                //backgroundImageView,
+//                lowDebugGroup,
+//                edgesManager,
+//                windows.scyWindows,
+//                topLeftCorner,
+//                topRightCorner,
+//                bottomRightCorner,
+//                bottomLeftCorner,
+//                highDebugGroup,
+//                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
+//            /*
+//            Button {
+//            text: "add an edge ";
+//            translateX: 210;
+//            action: function() {
+//            edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
+//            }
+//            }
+//             */
+//            ]
+//        }
+//    }
+
+    function create(): Void {
         logger.info("create");
         checkProperties();
         createElements();
-        Group {
-            content: [
+        scyDektopGroup.content = [
                 ///Testing only
                 //            Rectangle{width:bind boundsInLocal.width,
                 //                height:bind boundsInLocal.height,
@@ -459,7 +496,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 bottomRightCorner,
                 bottomLeftCorner,
                 highDebugGroup,
-                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
+//                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
             /*
             Button {
             text: "add an edge ";
@@ -470,7 +507,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
             }
              */
             ]
-        }
     }
 
     function fillNewScyWindow2(window: ScyWindow): Void {
@@ -844,7 +880,7 @@ function run()    {
             width: 800
             height: 600
             content: [
-                scyDesktop
+//                scyDesktop
             ]
         }
     }

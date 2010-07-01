@@ -53,9 +53,6 @@ public class LoginDialog extends CustomNode {
    postinit {
       
       FX.deferAction(initMouseBlocker);
-//      FX.deferAction(function () {
-//         MouseBlocker.initMouseBlocker(scene.stage);
-//      });
    }
    
    function initMouseBlocker():Void{
@@ -203,16 +200,12 @@ public class LoginDialog extends CustomNode {
 
 
    function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String):ScyDesktop {
-      // using the sceneContent, with a copy of scene.content, does work
-      // directly adding scyDesktop to scene.content does not seem to work
       var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
-      var sceneContent = scene.content;
-      delete this from sceneContent;
-      insert scyDesktop into sceneContent;
-      insert ModalDialogBox.modalDialogGroup into sceneContent;
-      insert SimpleTooltipManager.tooltipGroup into sceneContent;
-      insert MouseBlocker.mouseBlockNode into sceneContent;
-      scene.content = sceneContent;
+
+      // all components are already placed in the scene
+      // so we only need to remove this login from the scene
+      delete this from scene.content;
+
       return scyDesktop;
    }
 }

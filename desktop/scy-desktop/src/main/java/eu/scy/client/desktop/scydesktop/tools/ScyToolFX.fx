@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.tools;
 
 import java.net.URI;
 import java.lang.IllegalStateException;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author sikken

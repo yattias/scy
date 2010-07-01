@@ -11,7 +11,6 @@ import javafx.scene.Node;
 
 import javax.swing.JComponent;
 
-import javafx.ext.swing.SwingComponent;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
@@ -19,9 +18,10 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 
 import javafx.scene.layout.Resizable;
 
-import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikken
@@ -37,11 +37,11 @@ public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   var swingComponent:SwingComponent;
+   var swingComponent:Node;
 
    public override function create(): Node {
       injectServices();
-      swingComponent = SwingComponent.wrap(swingContent);
+      swingComponent = ScySwingWrapper.wrap(swingContent);
 //      resizeContent();
       return swingComponent;
    }
@@ -54,14 +54,7 @@ public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter {
    }
 
    function resizeContent(){
-      swingComponent.width = width;
-      swingComponent.height = height;
-      // changing the size of wrapped component, does not result in a size change of the swing component
-      // although it is visual not needed
-      // set the size of the swing component, so it can adjust its content
-      var newSize = new Dimension(width,height);
-      swingContent.setSize(newSize);
-      swingContent.setPreferredSize(newSize);
+      Container.resizeNode(swingComponent, width, height);
    }
 
    public override function getMaxHeight() : Number{

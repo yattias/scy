@@ -9,8 +9,6 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Node;
-import javafx.ext.swing.SwingComponent;
-import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.net.URI;
@@ -21,6 +19,10 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.Exception;
 import java.lang.System;
+import javax.swing.JTree;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
+import javafx.scene.Group;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 /**
  * @author sikken
@@ -49,7 +51,7 @@ public class ScyToolFactory extends ContentFactory {
             toolNode = scyToolCreator.createScyToolNode(type,id,scyWindow, not drawer);
             toolTypeCreated = "ScyTool";
          } catch (e: Exception) {
-            toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator));
+            toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator),scyWindow);
             toolTypeCreated = "ErrorScyTool";
          }
       }
@@ -62,7 +64,7 @@ public class ScyToolFactory extends ContentFactory {
                   toolNode = drawerContentCreator.getDrawerContent(eloUri, scyWindow);
                   toolTypeCreated = "DrawerTool";
                } catch (e: Exception) {
-                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, true, drawerContentCreator));
+                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, true, drawerContentCreator),scyWindow);
                   toolTypeCreated = "ErrorDrawerTool";
                }
             }
@@ -84,7 +86,7 @@ public class ScyToolFactory extends ContentFactory {
                      }
                   }
                } catch (e: Exception) {
-                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator));
+                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator),scyWindow);
                   toolTypeCreated = "ErrorWindowTool";
                }
             }
@@ -92,7 +94,7 @@ public class ScyToolFactory extends ContentFactory {
       }
 
       if (toolNode == null) {
-         toolNode = createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}");
+         toolNode = createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}",scyWindow);
          toolTypeCreated = "NotFoundTool";
       }
 
@@ -110,20 +112,13 @@ public class ScyToolFactory extends ContentFactory {
       return toolNode;
    }
 
-   function createErrorNode(errorMessage: String): Node {
-//      var textEditor = new TextEditor();
-//      textEditor.setEditable(false);
-//      textEditor.setText(errorMessage);
-//      textEditor.resetScrollbars();
-//      return SwingComponent.wrap(textEditor);
+   function createErrorNode(errorMessage: String, window:ScyWindow): Node {
+      var textEditor = new TextEditor();
+      textEditor.setEditable(false);
+      textEditor.setText(errorMessage);
+      textEditor.resetScrollbars();
 
-      createErrorNode2(errorMessage);
-   }
-
-   function createErrorNode2(errorMessage: String): Node {
-      ErrorTextDisplay{
-         text:errorMessage
-      }
+      return ScySwingWrapper.wrap(textEditor);
    }
 
    function getErrorMessage(e: Exception, eloUri: URI, id: String, type: String, drawer: Boolean, creator: Object): String {

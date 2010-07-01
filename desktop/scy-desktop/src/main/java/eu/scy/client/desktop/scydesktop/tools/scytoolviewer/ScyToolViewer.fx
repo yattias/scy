@@ -18,14 +18,11 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import java.net.URI;
 
-import javafx.ext.swing.SwingComponent;
-
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
-import java.awt.Dimension;
 
 import java.text.SimpleDateFormat;
 
@@ -40,6 +37,8 @@ import roolo.api.IExtensionManager;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELOFactory;
 import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikken
@@ -65,7 +64,7 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    var uri = "?????";
    var location = "?";
    def textEditor = new TextEditor();
-   def wrappedTextEditor = SwingComponent.wrap(textEditor);
+   def wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
    def spacing = 5.0;
    def dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -187,21 +186,14 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    }
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
-      Container.resizeNode(wrappedTextEditor,size.width,size.height);
-      // setPreferredSize is needed
-      textEditor.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      textEditor.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+      Container.resizeNode(wrappedTextEditor,width,height-wrappedTextEditor.boundsInParent.minY-spacing);
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return textEditor.getPreferredSize().getHeight()+wrappedTextEditor.boundsInParent.minY+spacing;
+      return Container.getNodePrefHeight(wrappedTextEditor, width)+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return textEditor.getPreferredSize().getWidth();
+     return Container.getNodePrefWidth(wrappedTextEditor, width);
    }
 }
