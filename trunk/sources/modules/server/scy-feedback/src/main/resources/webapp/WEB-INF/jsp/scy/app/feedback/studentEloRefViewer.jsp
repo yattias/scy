@@ -40,7 +40,36 @@
         <fieldset>
             <label>Peer Evaluation</label>
 
+            <div id="commentBlock">
+                <form method="POST" accept-charset="UTF-8" action="studentEloRefViewer.html">'
 
+                    <table>
+                        <input type="hidden" name="action" value="addNewComment"/>
+                        <input type="hidden" name="modelId" value="${modelId}"/>
+                        <input type="hidden" name="username" value="${username}"/>
+
+                        <input type="hidden" name="model" value="${encodedModel}"/>
+                        <tr>
+                            <td>
+                                <strong>Comment</strong><br/>
+                                <textarea name="comment" cols="40" rows="4"></textarea>
+                            </td>
+                            <td>
+                                <strong>Evaluation score</strong>
+                                <input type="range" min="1" max="5" value="1" name="score" />
+                                <strong>5</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="right">
+                                <input type="submit"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+                                
+            </div>
 
             <c:choose>
                 <c:when test="${fn:length(transporter.assessments) > 0}">
@@ -70,7 +99,6 @@
                 </c:when>
             </c:choose>
 
-            <s:dialog url="studentFeedbackForm.html?modelId=${model.id}" title="Add comment"/>
         </fieldset>
 
 
