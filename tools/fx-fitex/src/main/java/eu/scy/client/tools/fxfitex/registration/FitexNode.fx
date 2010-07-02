@@ -6,7 +6,6 @@
 package eu.scy.client.tools.fxfitex.registration;
 
 import java.net.URI;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -38,6 +37,7 @@ import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.common.datasync.DummySyncListener;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 /**
  * @author Marjolaine
@@ -56,7 +56,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    public var toolBrokerAPI: ToolBrokerAPI;
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
-   var wrappedFitexPanel:SwingComponent;
+   var wrappedFitexPanel:Node;
    var technicalFormatKey: IMetadataKey;
    var syncAttrib: DatasyncAttribute;
 //   var datasyncEdge: DatasyncEdge;
@@ -204,7 +204,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
    public override function create(): Node {
       bundle = new ResourceBundleWrapper(this);
-      wrappedFitexPanel = SwingComponent.wrap(fitexPanel);
+      wrappedFitexPanel = ScySwingWrapper.wrap(fitexPanel);
       return Group {
          blocksMouse:true;
          content: [
@@ -310,22 +310,15 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
-      Container.resizeNode(wrappedFitexPanel,size.width,size.height);
-      // setPreferredSize is needed
-      fitexPanel.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      fitexPanel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+      Container.resizeNode(wrappedFitexPanel,width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return fitexPanel.getPreferredSize().getHeight()+wrappedFitexPanel.boundsInParent.minY+spacing;
+   public override function getPrefHeight(height: Number) : Number{
+      return Container.getNodePrefHeight(wrappedFitexPanel, height)+wrappedFitexPanel.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return fitexPanel.getPreferredSize().getWidth();
+      return Container.getNodePrefWidth(wrappedFitexPanel, width);
    }
 
 
