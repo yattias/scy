@@ -58,23 +58,23 @@ import javafx.scene.layout.Container;
  */
 
 public class StandardScyWindow extends ScyWindow, TooltipCreator {
-   def logger = Logger.getLogger(this.getClass()); 
+   def logger = Logger.getLogger(this.getClass());
 	def scyWindowAttributeDevider = 3.0;
 
 	public override var title = "???";
 	public override var eloType = "?123";
    public override var eloUri on replace oldEloUri {missionModelFX.eloUriChanged(oldEloUri, eloUri);};
-//   public override var iconCharacter = "?";
-//	public override var color = Color.GREEN;
-//	public override var drawerColor = Color.LIGHTGREEN;
-//	public override var backgroundColor = color.WHITE;
-	public override var width = 150 on replace{
+	public override var width = 150 on replace oldWidth {
+//      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
 		if (not isAnimating){
          width = limitSize(width,height).x;
 		}
+      realWidth = width;
+//      println("after width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
    };
 
-	public override var height = 100 on replace{
+	public override var height = 100 on replace oldHeight{
+//      println("before height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
 		if (not isAnimating){
 			if (isClosed or isMinimized){
 				height = closedHeight;
@@ -83,6 +83,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             height = limitSize(width,height).y;
 			}
 		}
+      realHeight = height;
+//      println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
    };
    public override var widthHeightProportion = -1.0;
 	public override var scyContent on replace {
@@ -144,8 +146,10 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    def contentTopOffset = titleBarLeftOffset+iconSize+contentSideBorder;
    def deltaContentWidth = borderWidth + 2 * contentSideBorder + 1;
    def deltaContentHeight = contentTopOffset + borderWidth / 2 + controlSize;
-   def contentWidth = bind width - deltaContentWidth;
-   def contentHeight = bind height - deltaContentHeight;
+   def contentWidth = bind realWidth - deltaContentWidth;
+   def contentHeight = bind  realHeight - deltaContentHeight;
+   var realWidth:Number;
+   var realHeight:Number;
 
    def activeWindowEffect: Effect = DropShadow {
       offsetX: 6,
@@ -211,7 +215,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
- 
+
    postinit {
 		if (isClosed){
 			height = closedHeight;
@@ -291,7 +295,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
 
    function activeStateChanged(){
-      
+
       if (activated){
          scyToolsList.onGotFocus();
          //this.effect = activeWindowEffect;
@@ -704,7 +708,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activate: activate;
             layoutX:drawerCornerOffset;
             layoutY:0;
-            width:bind width-2*drawerCornerOffset
+            width:bind realWidth-2*drawerCornerOffset
          }
          insert topDrawer into drawerGroup.content;
       }
@@ -730,9 +734,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             content:rightDrawerTool;
             activated:bind activated;
             activate: activate;
-            layoutX:bind width;
+            layoutX:bind realWidth;
             layoutY:drawerCornerOffset;
-            height:bind height-2*drawerCornerOffset
+            height:bind realHeight-2*drawerCornerOffset
          }
          insert rightDrawer into drawerGroup.content;
       }
@@ -760,8 +764,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activated:bind activated;
             activate: activate;
             layoutX:drawerCornerOffset;
-            layoutY:bind height;
-            width:bind width-2*drawerCornerOffset
+            layoutY:bind realHeight;
+            width:bind realWidth-2*drawerCornerOffset
          }
          insert bottomDrawer into drawerGroup.content;
       }
@@ -789,7 +793,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             activate: activate;
             layoutX:0;
             layoutY:drawerCornerOffset;
-            height:bind height-2*drawerCornerOffset
+            height:bind realHeight-2*drawerCornerOffset
          }
          insert leftDrawer into drawerGroup.content;
       }
@@ -822,8 +826,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 		blocksMouse = true;
 
       emptyWindow = EmptyWindow{
-         width: bind width;
-         height:bind height;
+         width: bind realWidth;
+         height:bind realHeight;
          controlSize:cornerRadius;
          borderWidth:borderWidth;
          windowColorScheme:windowColorScheme
@@ -851,7 +855,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //      }
 //
       windowTitleBar = WindowTitleBar{
-         width:bind width - titleBarLeftOffset-titleBarRightOffset
+         width:bind realWidth - titleBarLeftOffset-titleBarRightOffset
 //         iconSize:iconSize;
 //         iconGap:iconGap;
          closeBoxWidth:bind if (closeElement.visible) closeBoxSize+2*borderWidth+2 else 0.0;
@@ -874,8 +878,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          startResize:startResize;
          doResize:doResize;
          stopResize:stopResize;
-         layoutX: bind width
-         layoutY: bind height
+         layoutX: bind realWidth
+         layoutY: bind realHeight
       }
 
       rotateElement = WindowRotate{
@@ -887,7 +891,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          activate: activate;
          rotateWindow:this;
          layoutX: 0;
-         layoutY: bind height;
+         layoutY: bind realHeight;
       }
 
       closeElement = WindowClose{
@@ -897,7 +901,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          activate: activate;
          activated:bind activated
          closeAction:doClose;
-         layoutX: bind width - titleBarRightOffset -1.0*borderWidth - closeBoxSize - 1;
+         layoutX: bind realWidth - titleBarRightOffset -1.0*borderWidth - closeBoxSize - 1;
          layoutY: borderWidth+closeBoxSize/2;
       }
 
@@ -910,7 +914,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          minimizeAction:doMinimize;
          unminimizeAction:doUnminimize;
          minimized: bind isMinimized;
-         layoutX: bind width / 2;
+         layoutX: bind realWidth / 2;
          layoutY: bind height;
       }
 
@@ -1252,7 +1256,7 @@ function run() {
 
    var stage:Stage;
    FX.deferAction(function(){MouseBlocker.initMouseBlocker(stage);});
-   
+
    stage = Stage {
       title: "Scy window test"
       width: 400
