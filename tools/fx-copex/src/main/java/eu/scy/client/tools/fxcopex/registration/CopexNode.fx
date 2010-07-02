@@ -158,7 +158,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       Container.resizeNode(wrappedCopexPanel,width,height-wrappedCopexPanel.boundsInParent.minY-spacing);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
+   public override function getPrefHeight(height: Number) : Number{
       return Container.getNodePrefHeight(wrappedCopexPanel, height)+wrappedCopexPanel.boundsInParent.minY+spacing;
    }
 
