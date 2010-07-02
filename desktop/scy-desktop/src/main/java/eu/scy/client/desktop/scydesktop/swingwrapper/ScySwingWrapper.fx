@@ -66,6 +66,7 @@ public class ScySwingWrapper extends CustomNode, Resizable {
    }
 
    public override function getPrefHeight(number: Number): Number {
+//      printSizes();
       Container.getNodePrefHeight(swingComponent,number);
    }
 
@@ -73,11 +74,25 @@ public class ScySwingWrapper extends CustomNode, Resizable {
       Container.getNodePrefWidth(swingComponent,number);
    }
 
+   function printSizes(){
+      println("ScySwingWrapper sizes with JComponent class: {component.getClass()}");
+      println("width: {width}, limits: {Container.getNodeMinWidth(swingComponent)} <= {Container.getNodePrefWidth(swingComponent)} <= {Container.getNodeMaxWidth(swingComponent)}");
+      println("height: {height}, limits: {Container.getNodeMinHeight(swingComponent)} <= {Container.getNodePrefHeight(swingComponent)} <= {Container.getNodeMaxHeight(swingComponent)}");
+      var swingMinimumSize = component.getMinimumSize();
+      var swingPreferredSize = component.getPreferredSize();
+      var swingMaximumSize = component.getMaximumSize();
+      println("width: {component.getWidth()}, limits: {swingMinimumSize.width} <= {swingPreferredSize.width} <= {swingMaximumSize.width}");
+      println("height: {component.getHeight()}, limits: {swingMinimumSize.height} <= {swingPreferredSize.height} <= {swingMaximumSize.height}");
+   }
+
 }
 
 public function wrap(component: JComponent, useJfx12Mode:Boolean): CustomNode {
+   var preferredSize = component.getPreferredSize();
    var scySwingNode = ScySwingWrapper {
          component: component
+         width:preferredSize.width
+         height:preferredSize.height
          useJfx12Mode:useJfx12Mode
       };
 

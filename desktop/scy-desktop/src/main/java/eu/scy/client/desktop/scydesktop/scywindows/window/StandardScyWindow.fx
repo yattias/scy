@@ -242,6 +242,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             newContentWidth = desiredWidth - deltaContentWidth;
             newContentHeight = desiredHeight - deltaContentHeight;
          }
+         else if (desiredContentWidth>0 and desiredContentHeight>0){
+            newContentWidth = desiredContentWidth;
+            newContentHeight = desiredContentHeight;
+         }
+
          allowResize = true;
       }
       else{
@@ -393,14 +398,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
         checkScyContent();
         var openWidth = Container.getNodePrefWidth(scyContent);
         var openHeight = Container.getNodePrefHeight(scyContent);
-//        var openWidth = minimumWidth;
-//        var openHeight = minimumHeight;
-//        if (scyContent instanceof Resizable) {
-//            var resizableContent = scyContent as Resizable;
-//            openWidth = resizableContent.getPrefWidth(openWidth) + deltaContentWidth;
-//            openHeight = resizableContent.getPrefHeight(openHeight) + deltaContentHeight;
-//        }
-        openWindow(openWidth, openHeight);
+        openWindow(openWidth + deltaContentWidth, openHeight+deltaContentHeight);
     }
 
     public override function openWindow(openWidth: Number, openHeight: Number): Void {

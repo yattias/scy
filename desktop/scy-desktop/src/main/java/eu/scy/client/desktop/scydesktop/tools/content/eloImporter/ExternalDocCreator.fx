@@ -23,7 +23,6 @@ public class ExternalDocCreator extends ScyToolCreatorFX {
            extensions: extensions;
            fileFilterDescription:fileFilterDescription
         }
-
     }
 
 
