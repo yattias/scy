@@ -19,10 +19,9 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.Exception;
 import java.lang.System;
-import javax.swing.JTree;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
-import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikken
@@ -49,6 +48,11 @@ public class ScyToolFactory extends ContentFactory {
          try {
             checkIfServicesInjected(scyToolCreator);
             toolNode = scyToolCreator.createScyToolNode(type,id,scyWindow, not drawer);
+            if (not drawer){
+               scyWindow.desiredContentWidth = Container.getNodePrefWidth(toolNode);
+               scyWindow.desiredContentHeight = Container.getNodePrefHeight(toolNode);
+//               println("desired content size set to {scyWindow.desiredContentWidth}*{scyWindow.desiredContentHeight}");
+            }
             toolTypeCreated = "ScyTool";
          } catch (e: Exception) {
             toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator),scyWindow);

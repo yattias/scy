@@ -35,8 +35,12 @@ public class ScyToolCreatorWrapper extends ScyToolCreatorFX {
 
     override public function createScyToolNode (eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent:Boolean) : Node {
       var component = scyToolCreator.createScyToolComponent(eloType,creatorId,windowContent);
+      var preferredSize = component.getPreferredSize();
+//      println("pref size component: {preferredSize}");
       SwingContentWrapper{
          swingContent:component;
+         width: preferredSize.width
+         height: preferredSize.height
       }
     }
 }
