@@ -3,8 +3,8 @@
  *
  * Created on 2-feb-2010, 20:07:55
  */
-
 package eu.scy.client.desktop.scydesktop.tools.imageviewer;
+
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
@@ -33,56 +33,49 @@ import java.io.File;
 /**
  * @author sikken
  */
+var lastUsedDirectory: File;
 
-var lastUsedDirectory:File;
-
-public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBack {
-
+public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
    def logger = Logger.getLogger(this.getClass());
-
-   public var eloFactory:IELOFactory;
+   public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
-   public var technicalType:String;
-   public var scyWindow : ScyWindow;
+   public var repository: IRepository;
+   public var technicalType: String;
+   public var scyWindow: ScyWindow;
    public var preserveRatio = true;
-   public-init var extensions:String[];
-
+   public-init var extensions: String[];
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
-
-   var elo:IELO;
+   var elo: IELO;
    var technicalFormatKey: IMetadataKey;
    var titleKey: IMetadataKey;
    var image: ImageView;
    def jdomStringConversion = new JDomStringConversion();
    def imageUrlTagName = "imageUrl";
    def scyImageype = "scy/image";
-   def contentGroup = Group{
+   def contentGroup = Group {
+      }
 
-   }
-
-
-    override protected function create () : Node {
-       contentGroup.content =
-        Button {
+   override protected function create(): Node {
+      contentGroup.content =
+         Button {
             text: "Load"
             action: askUserForFile
          };
-       contentGroup
-    }
+      contentGroup
+   }
 
-   public override function initialize(windowContent: Boolean):Void{
+   public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
    }
 
-   function getParentComponent():Component{
+   function getParentComponent(): Component {
       return null;
    }
 
-   function askUserForFile():Void{
+   function askUserForFile(): Void {
       var fileChooser = new JFileChooser();
       fileChooser.setCurrentDirectory(lastUsedDirectory);
       if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getParentComponent())) {
@@ -93,85 +86,90 @@ public class ImageViewer extends CustomNode,Resizable, ScyToolFX,EloSaverCallBac
          showImage(imageUrl);
          var eloTitle = fileChooser.getSelectedFile().getName();
          var lastPointPos = eloTitle.lastIndexOf(".");
-         if (lastPointPos>=0){
+         if (lastPointPos >= 0) {
             eloTitle = eloTitle.substring(0, lastPointPos);
          }
          getElo().getMetadata().getMetadataValueContainer(titleKey).setValue(eloTitle);
-         eloSaver.eloUpdate(elo,this);
+         eloSaver.eloUpdate(elo, this);
       }
    }
 
-   function showImage(imageUrl:String){
-      println("showImage({imageUrl})");
+   function showImage(imageUrl: String) {
+      //      println("showImage({imageUrl})");
       image = ImageView {
-         image: Image {
-            url: imageUrl
+            image: Image {
+               url: imageUrl
+            }
+            preserveRatio: preserveRatio
          }
-         preserveRatio:preserveRatio
-      }
       contentGroup.content = image;
       scyWindow.open();
    }
 
-   function getElo():IELO{
-      if (elo==null){
+   function getElo(): IELO {
+      if (elo == null) {
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyImageype);
       }
-      setUrlInContent(elo.getContent(),image.image.url);
+      setUrlInContent(elo.getContent(), image.image.url);
       return elo;
    }
 
-   public override function loadElo(uri:URI){
+   public override function loadElo(uri: URI) {
       elo = repository.retrieveELO(uri);
-      if (elo == null)
-      {
+      if (elo == null) {
          logger.error("the elo does not exists: {uri}");
          return;
       }
       showImage(getUrlFromContent(elo.getContent()));
    }
 
-   function  getUrlFromContent(content: IContent): String
-   {
+   function getUrlFromContent(content: IContent): String {
       var contentXml = jdomStringConversion.stringToXml(content.getXmlString());
       return contentXml.getTextTrim();
    }
 
-   function setUrlInContent(content: IContent ,  url:String)
-   {
+   function setUrlInContent(content: IContent, url: String) {
       var contentXml = new Element(imageUrlTagName);
       contentXml.setText(url);
       content.setXmlString(jdomStringConversion.xmlToString(contentXml));
    }
 
-    override public function getPrefWidth (arg0 : Number) : Number {
-        if (image==null){
-           return arg0;
-        }
-        return image.image.width
-    }
+   override public function getPrefWidth(arg0: Number): Number {
+      if (image == null) {
+         return arg0;
+      }
+      return image.image.width
+   }
 
-    override public function getPrefHeight (arg0 : Number) : Number {
-        if (image==null){
-           return arg0;
-        }
-        return image.image.height
-    }
+   override public function getPrefHeight(arg0: Number): Number {
+      if (image == null) {
+         return arg0;
+      }
+      return image.image.height
+   }
 
-   function resizeContent(){
-      if (image!=null){
+   public override function getMinHeight(): Number {
+      return 30;
+   }
+
+   public override function getMinWidth(): Number {
+      return 50;
+   }
+
+   function resizeContent() {
+      if (image != null) {
          image.fitWidth = width;
          image.fitHeight = height;
       }
    }
-   
-    override public function eloSaveCancelled (arg0 : IELO) : Void {
 
-    }
+   override public function eloSaveCancelled(arg0: IELO): Void {
 
-    override public function eloSaved (arg0 : IELO) : Void {
-       elo = arg0;
-    }
+   }
+
+   override public function eloSaved(arg0: IELO): Void {
+      elo = arg0;
+   }
 
 }

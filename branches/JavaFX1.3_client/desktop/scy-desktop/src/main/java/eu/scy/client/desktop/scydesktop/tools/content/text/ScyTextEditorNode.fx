@@ -69,7 +69,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def spacing = 5.0;
 
    public override function create(): Node {
-      wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
+       wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
       resizeContent();
       FX.deferAction(resizeContent);
       return Group {
