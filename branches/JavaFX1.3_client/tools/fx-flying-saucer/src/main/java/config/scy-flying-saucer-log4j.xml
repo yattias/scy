@@ -18,7 +18,7 @@
 		<level value="debug" />
 	</logger>
 
-	<logger name="eu.scy.client.desktop.scydesktop.elofactory.ServicesInjector">
+	<logger name="eu.scy.client.desktop.scydesktop.elofactory.impl.ServicesInjector">
 		<level value="error" />
 	</logger>
 

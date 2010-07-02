@@ -7,6 +7,7 @@ package eu.scy.client.tools.fxflyingsaucer.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreator;
 import eu.scy.client.tools.fxflyingsaucer.EloFlyingSaucerPanel;
+import java.awt.Dimension;
 import javax.swing.JComponent;
 
 /**
@@ -18,7 +19,8 @@ public class FlyingSaucerCreator implements ScyToolCreator {
    @Override
    public JComponent createScyToolComponent(String eloType, String creatorId, boolean windowContent)
    {
-      return new EloFlyingSaucerPanel();
+      JComponent flyingSaucer = new EloFlyingSaucerPanel();
+      return flyingSaucer;
    }
 
    @Override
