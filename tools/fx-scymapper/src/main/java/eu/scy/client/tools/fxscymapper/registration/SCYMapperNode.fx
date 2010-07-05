@@ -6,7 +6,6 @@
 
 package eu.scy.client.tools.fxscymapper.registration;
 
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,7 +15,6 @@ import javafx.scene.control.Button;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
-import java.awt.Dimension;
 
 import eu.scy.scymapper.impl.SCYMapperPanel;
 
@@ -33,6 +31,7 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 
 public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
@@ -52,7 +51,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
     var logger = Logger.getLogger(ScyMapperRepositoryWrapper.class.getName());
 
-    var wrappedScyMapperPanel:SwingComponent;
+    var wrappedScyMapperPanel:Node;
 
     def spacing = 5.0;
 
@@ -62,7 +61,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     };
 
     public override function create(): Node {
-      wrappedScyMapperPanel = SwingComponent.wrap(scyMapperPanel);
+      wrappedScyMapperPanel = ScySwingWrapper.wrap(scyMapperPanel);
       return Group {
          blocksMouse:true;
          content: [
@@ -158,22 +157,15 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     function resizeContent(){
-        var size = new Dimension(width,height-wrappedScyMapperPanel.boundsInParent.minY-spacing);
-        Container.resizeNode(wrappedScyMapperPanel,size.width,size.height);
-        // setPreferredSize is needed
-        scyMapperPanel.setPreferredSize(size);
-        // setSize is not visual needed
-        // but set it, so the component react to it
-        scyMapperPanel.setSize(size);
-        //println("resized whiteboardPanel to ({width},{height})");
+        Container.resizeNode(wrappedScyMapperPanel,width,height-wrappedScyMapperPanel.boundsInParent.minY-spacing);
     }
 
     public override function getPrefHeight(width: Number) : Number{
-        return scyMapperPanel.getPreferredSize().getHeight()+wrappedScyMapperPanel.boundsInParent.minY+spacing;
+      return Container.getNodePrefHeight(wrappedScyMapperPanel, height)+wrappedScyMapperPanel.boundsInParent.minY+spacing;
     }
 
     public override function getPrefWidth(width: Number) : Number{
-        return scyMapperPanel.getPreferredSize().getWidth();
+      return Container.getNodePrefWidth(wrappedScyMapperPanel, width);
     }
 
     public override function loadElo(uri:URI){
