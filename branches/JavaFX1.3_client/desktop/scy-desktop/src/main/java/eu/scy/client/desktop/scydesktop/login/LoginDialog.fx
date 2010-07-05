@@ -200,6 +200,13 @@ public class LoginDialog extends CustomNode {
 
 
    function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String):ScyDesktop {
+     // either place the components "static" in the scene in initializer.getScene
+     // or do it here "dynamic" (meaning after a succesfull login)
+//     insert ScyDesktop.scyDektopGroup into scene.content;
+//     insert ModalDialogBox.modalDialogGroup into scene.content;
+//     insert SimpleTooltipManager.tooltipGroup into scene.content;
+//     insert MouseBlocker.mouseBlockNode into scene.content;
+
       var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
 
       // all components are already placed in the scene
