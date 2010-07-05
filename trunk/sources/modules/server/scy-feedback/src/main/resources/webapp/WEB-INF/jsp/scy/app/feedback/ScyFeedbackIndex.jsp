@@ -23,10 +23,19 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <strong>Title</strong>
+                                        <strong>ELO Title</strong>
                                     </td>
                                     <td>
                                         <strong>${transporter.eloRef.name}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>ELO Type</strong>
+                                    </td>
+                                    <td>
+                                        ${transporter.eloRef.type}
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -46,11 +55,11 @@
                                         ${transporter.eloRef.formattedDate}
                                     </td>
                                 </tr>
-                                <tr>
+                                <!--tr>
                                     <td colspan="2" >
                                         <strong>Shown</strong>${transporter.eloRef.viewings} <strong>Evaluated by</strong>${transporter.totalAssessments} <strong>Score</strong> ${transporter.totalScore}
                                     </td>
-                                </tr>
+                                </tr-->
                             </table>
                         </div>
                     </s:modellink>
