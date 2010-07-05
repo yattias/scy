@@ -42,7 +42,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import java.awt.Dimension;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
