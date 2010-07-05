@@ -13,6 +13,7 @@ import eu.scy.server.controllers.BaseController;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +58,8 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
 
 
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:ScyFeedbackIndex.html");
+        
 
         String username = eloBean.getUsername();
         String action = eloBean.getAction();
@@ -166,8 +169,9 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
         ELORef eloRef = new ELORefImpl();
         eloRef.setAuthor(user);
         eloRef.setTool(request.getParameter("tool"));
-        eloRef.setELOURI(request.getParameter("productName"));
+        eloRef.setName(request.getParameter("productName"));
         eloRef.setTitle(request.getParameter("productName"));
+        eloRef.setType(request.getParameter("productType"));
         eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
         eloRef.setDate(new Date());
         eloRef.setComment(request.getParameter("comment"));

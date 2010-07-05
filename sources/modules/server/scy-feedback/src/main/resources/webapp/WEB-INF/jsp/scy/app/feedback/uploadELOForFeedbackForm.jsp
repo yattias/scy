@@ -2,7 +2,7 @@
 <!--form enctype="multipart/form-data" accept-charset="UTF-8" action="/webapp/app/feedback/uploadELOForFeedbackForm.html" onsubmit="postForm(this, this.parentNode);return false;"-->
 <form method="POST" enctype="multipart/form-data" accept-charset="UTF-8" action="/webapp/app/feedback/uploadELOForFeedbackForm.html">
     <table>
-        <tr width="100%">
+        <!--tr width="100%">
             <td align="left" width="20%"><strong>Mission</strong></td>
             <td align="left">
                 <c:choose>
@@ -15,14 +15,23 @@
                     </c:when>
                 </c:choose>
             </td>
-        </tr>
-        <tr>
-            <td align="left"><strong>Product name</strong></td>
+        </tr-->
+        <tr width="100%">
             <td align="left">
-                <input type="name" name="productName" value="${currentELO}">
+                <strong>File</strong>
+            </td>
+            <td align="left">
+                <input type="file" name="file"/>
             </td>
         </tr>
+
         <tr>
+            <td align="left"><strong>ELO Title</strong></td>
+            <td align="left">
+                <input type="name" name="productName">
+            </td>
+        </tr>
+        <!--tr>
             <td align="left"><strong>Product statusssss</strong></td>
             <td align="left">
                 <c:choose>
@@ -36,15 +45,7 @@
                 </c:choose>
 
             </td>
-        </tr>
-        <tr>
-            <td align="left">
-                <strong>File</strong>
-            </td>
-            <td align="left">
-                <input type="file" name="file"/>
-            </td>
-        </tr>
+        </tr-->
         <tr>
             <td align="left">
                 <strong>
@@ -58,23 +59,23 @@
         <tr>
             <td align="left">
                 <strong>
-                    Product type
+                    ELO Type
                 </strong>
             </td>
             <td align="left">
                 <input type="text" name="productType">
             </td>
         </tr>
-        <tr>
+        <!--tr>
             <td align="left"><strong>Product</strong></td>
             <td align="left"></td>
-        </tr>
-        <tr>
+        </tr-->
+        <!--tr>
             <td align="left"><strong>Tool used</strong></td>
             <td align="left">
-                <input type="text" name="tool" value="${currentTool}">
+                <input type="text" name="tool" value="{currentTool}">
             </td>
-        </tr>
+        </tr-->
         <tr>
             <td align="left">
                 <strong>
@@ -90,7 +91,7 @@
         <input type="hidden" name="username" value="${currentUser.userDetails.username}"/>
         <tr>
             <td colspan="2" align="left">
-                <input type="submit"/>
+                <input type="submit" title="Submit ELO"/>
             </td>
         </tr>
 

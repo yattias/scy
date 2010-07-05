@@ -2,7 +2,7 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <h1>SCYFeedback</h1>
+        <h1>ELO Gallery</h1>
 
         <c:choose>
             <c:when test="${fn:length(eloRefTransporters) > 0}">
@@ -22,8 +22,20 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td>
+                                        <strong>ELO Title</strong>
+                                    </td>
+                                    <td>
                                         <strong>${transporter.eloRef.name}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>ELO Type</strong>
+                                    </td>
+                                    <td>
+                                        ${transporter.eloRef.type}
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -43,11 +55,11 @@
                                         ${transporter.eloRef.formattedDate}
                                     </td>
                                 </tr>
-                                <tr>
+                                <!--tr>
                                     <td colspan="2" >
                                         <strong>Shown</strong>${transporter.eloRef.viewings} <strong>Evaluated by</strong>${transporter.totalAssessments} <strong>Score</strong> ${transporter.totalScore}
                                     </td>
-                                </tr>
+                                </tr-->
                             </table>
                         </div>
                     </s:modellink>
