@@ -15,17 +15,17 @@
                 <td><strong>Tool used</strong></td>
                 <td></td>
                 <td><strong>Date</strong></td>
-                <td>${model.formattedDate}</td>
+                <td>${transporter.eloRef.formattedDate}</td>
             </tr>
             <tr>
                 <td><strong>Mission</strong></td>
-                <td>${model.mission}</td>
+                <td>${transporter.eloRef.mission}</td>
                 <td><strong>Time</strong></td>
                 <td></td>
             </tr>
             <tr>
                 <td><strong>Viewings</strong></td>
-                <td>${model.viewings}</td>
+                <td>${transporter.eloRef.viewings}</td>
                 <td><strong>Evaluation</strong></td>
                 <td>${transporter.totalScore}</td>
             </tr>
@@ -34,7 +34,7 @@
         <hr/>
 
         <p>
-            <h2>${model.comment}</h2>
+            <h2>${transporter.eloRef.comment}</h2>
         </p>
 
         <fieldset>

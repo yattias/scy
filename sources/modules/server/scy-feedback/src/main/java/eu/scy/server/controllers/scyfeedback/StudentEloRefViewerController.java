@@ -8,6 +8,7 @@ import eu.scy.core.model.ELORef;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
 import eu.scy.core.model.playful.PlayfulAssessment;
+import eu.scy.server.common.OddEven;
 import eu.scy.server.controllers.BaseController;
 import eu.scy.server.controllers.BaseFormController;
 import eu.scy.server.url.UrlInspector;
@@ -73,7 +74,7 @@ public class StudentEloRefViewerController  extends BaseFormController {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = super.handleRequest(request, response);
         modelAndView.addObject("username", getCurrentUserName(request));
-
+        modelAndView.addObject("oddEven", new OddEven());
 
 
         prepareNextPage(request, response, modelAndView);

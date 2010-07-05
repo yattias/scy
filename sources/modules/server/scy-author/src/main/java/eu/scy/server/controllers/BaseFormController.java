@@ -53,7 +53,7 @@ public abstract class BaseFormController extends SimpleFormController {
 
     }
 
-    private void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
+    protected void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
         modelAndView.addObject("model", getModel());
         modelAndView.addObject("oddEven", new OddEven());
         modelAndView.addObject("baseUrl", request.getScheme() + "://" + request.getServerName()+ ":" + request.getServerPort() +  request.getContextPath());
