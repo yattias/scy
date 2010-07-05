@@ -37,6 +37,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import javafx.scene.Group;
+import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
 
 /**
  * @author sikken
@@ -121,6 +122,12 @@ public class EloManagement extends CustomNode {
    }
 
    public override function create(): Node {
+      var fpdDisplay:Node;
+      if (showCreateBlankElo){
+         fpdDisplay = FpsDisplay{
+         }
+      }
+
       VBox{
          spacing:5;
          content:[
@@ -132,7 +139,7 @@ public class EloManagement extends CustomNode {
             else{
                null
             }
-
+            fpdDisplay
          ]
       }
    }
