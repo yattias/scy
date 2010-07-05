@@ -7,7 +7,6 @@ package eu.scy.client.tools.fxflyingsaucer.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreator;
 import eu.scy.client.tools.fxflyingsaucer.EloFlyingSaucerPanel;
-import java.awt.Dimension;
 import javax.swing.JComponent;
 
 /**
