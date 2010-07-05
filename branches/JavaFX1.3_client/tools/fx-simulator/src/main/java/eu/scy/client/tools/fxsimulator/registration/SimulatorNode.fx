@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
-import java.lang.System;
 import java.awt.BorderLayout;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -32,20 +31,15 @@ import eu.scy.client.tools.scysimulator.SimConfig;
 import sqv.SimQuestViewer;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.awt.event.ActionEvent;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import javax.swing.JLabel;
 import eu.scy.notification.api.INotifiable;
-import java.lang.UnsupportedOperationException;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
-import eu.scy.client.common.datasync.ISyncSession;
-import eu.scy.client.common.datasync.DummySyncListener;
-import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import javafx.scene.layout.Container;
-import javafx.util.Math;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -72,7 +66,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             };
     var fixedDimension = new Dimension(575, 275);
     var displayComponent: JComponent;
-    var wrappedSimquestPanel: SwingComponent;
+    var wrappedSimquestPanel: Node;
     var technicalFormatKey: IMetadataKey;
     var keywordsKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
@@ -252,7 +246,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     function switchSwingDisplayComponent(newComponent : JComponent):Void{
       displayComponent = newComponent;
-      wrappedSimquestPanel = SwingComponent.wrap(displayComponent);
+      wrappedSimquestPanel = ScySwingWrapper.wrap(displayComponent);
       simulatorContent.content = wrappedSimquestPanel;
       resizeContent();
     }
@@ -372,34 +366,14 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     function resizeContent() {
         Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing);
-//        println("resized to {width}*{height-wrappedSimquestPanel.boundsInParent.minY-spacing}");
     }
 
-    public override function getPrefHeight(width: Number): Number {
-//        return fixedDimension.height+wrappedSimquestPanel.boundsInParent.minY+spacing;
-//        println("preferred size: {displayComponent.getPreferredSize()}");
-        return displayComponent.getPreferredSize().height+wrappedSimquestPanel.boundsInParent.minY+spacing;
+    public override function getPrefHeight(height: Number): Number {
+       Container.getNodePrefHeight(wrappedSimquestPanel, height);
     }
 
     public override function getPrefWidth(width: Number): Number {
-//        return fixedDimension.width;
-        return displayComponent.getPreferredSize().width;
+       Container.getNodePrefWidth(wrappedSimquestPanel, width);
     }
-
-//    public override function getMinHeight(): Number {
-//        return fixedDimension.height;
-//    }
-//
-//    public override function getMinWidth(): Number {
-//        return fixedDimension.width;
-//    }
-
-//    public override function getMaxHeight(): Number {
-//        return Math.max(getPrefHeight(-1),0);
-//    }
-//
-//    public override function getMaxWidth(): Number {
-//        return Math.max(getPrefWidth(-1),100);
-//    }
 
 }
