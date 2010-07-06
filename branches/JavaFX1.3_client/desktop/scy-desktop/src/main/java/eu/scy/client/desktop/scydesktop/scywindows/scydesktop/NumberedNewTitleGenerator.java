@@ -5,6 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 public class NumberedNewTitleGenerator implements NewTitleGenerator{
    
-   private final String untitledName = "new";
+   private String untitledName = "new";
 
    private Map<String,Integer> typeCounters = new HashMap<String,Integer>();
    private NewEloCreationRegistry newEloCreationRegistry;
@@ -24,6 +25,8 @@ public class NumberedNewTitleGenerator implements NewTitleGenerator{
    public NumberedNewTitleGenerator(NewEloCreationRegistry newEloCreationRegistry)
    {
       this.newEloCreationRegistry = newEloCreationRegistry;
+      ResourceBundleWrapper resourceBundleWrapper = new ResourceBundleWrapper(this);
+      untitledName = resourceBundleWrapper.getString("NewTitleGenerator.new");
    }
 
    public void setNewEloCreationRegistry(NewEloCreationRegistry newEloCreationRegistry)

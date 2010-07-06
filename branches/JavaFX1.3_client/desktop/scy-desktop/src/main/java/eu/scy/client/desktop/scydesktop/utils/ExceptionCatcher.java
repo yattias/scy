@@ -4,6 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.utils;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -12,7 +13,6 @@ import org.apache.log4j.Logger;
 
 public class ExceptionCatcher implements Thread.UncaughtExceptionHandler
 {
-
    private final static Logger logger = Logger.getLogger(ExceptionCatcher.class);
    private String appName = "unknown";
    private boolean quit = false;
@@ -46,8 +46,16 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler
       logger.error("An uncatched exception occurred in thread " + t.getName(), e);
       System.err.println("An uncatched exception occurred at " + new Date() + " in thread " + t.getName());
       e.printStackTrace(System.err);
-      JOptionPane.showMessageDialog(null, "An uncatched exception occurred:\nApplication: " + appName + "\nThread: " + t.getName() + "\nMessage: " + e.getMessage() + "\nThe exception has been logged.", "An uncatched exception occurred",
+      final ResourceBundleWrapper resourceBundleWrapper = new ResourceBundleWrapper(this);
+      JOptionPane.showMessageDialog(null,resourceBundleWrapper.getString("ExceptionCatcher.message")+ "\n" +
+         resourceBundleWrapper.getString("ExceptionCatcher.application") + " " + appName + "\n" +
+         resourceBundleWrapper.getString("ExceptionCatcher.thread") + " " + t.getName() + "\n" +
+         resourceBundleWrapper.getString("ExceptionCatcher.exceptionMessage") + " " + e.getMessage() + "\n" +
+         resourceBundleWrapper.getString("ExceptionCatcher.loggedAction"),
+         resourceBundleWrapper.getString("ExceptionCatcher.title"),
          JOptionPane.ERROR_MESSAGE);
+//      JOptionPane.showMessageDialog(null, "An uncatched exception occurred:\nApplication: " + appName + "\nThread: " + t.getName() + "\nMessage: " + e.getMessage() + "\nThe exception has been logged.", "An uncatched exception occurred",
+//         JOptionPane.ERROR_MESSAGE);
       if (quit)
       {
          System.exit(1);

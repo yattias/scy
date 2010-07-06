@@ -22,11 +22,15 @@ public class MissionModelFX {
    def logger = Logger.getLogger(this.getClass());
 
    public var id:String;
+
+   public var lasHistory:String[];
+
    public var name:String;
    public var loEloUris:URI[];
    public var lasses:Las[];
    public-read var activeLas:Las on replace{
          logger.debug("new activeLas {activeLas}");
+         insert activeLas.id into lasHistory;
          updateElo();
    }
 

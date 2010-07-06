@@ -30,11 +30,13 @@
       <!--
       <property name="missionModelCreator" ref="missionModelCreator"/>
       -->
+      <!--
       <property name="registerContentCreators">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.test.TestRegisterContentCreators"/>
          </list>
       </property>
+      -->
 
       <property name="logicalTypeDisplayNames" ref="logicalTypeDisplayNames"/>
 
