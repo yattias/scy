@@ -11,6 +11,9 @@ import javafx.scene.layout.Container;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
 import javax.swing.JComponent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author SikkenJ
@@ -23,19 +26,71 @@ public class ScySwingWrapper extends CustomNode, Resizable {
    public override var height on replace {resizeContent()};
    public-init var useJfx12Mode = false;
 
+   var initialClickCatched = false;
+   var contentGroup:Group;
+
+   /**
+   * workaround for the npe problems with swing content
+   * first mouse click on swing content is used to "fix" problem
+   * this means that the first click on the swing content is lossed
+   * there is also compatible fix in WindowContent, but that is currently not used
+   */
+   var contentGlassPane:Rectangle = Rectangle {
+      blocksMouse:true;
+      x: 0, y: 0
+      width: 140, height: 90
+      fill: Color.TRANSPARENT
+//      fill: Color.rgb(92,92,255,0.15)
+      onMousePressed: function( e: MouseEvent ):Void {
+         // deleting contentGlassPane from the scene graph fixes the problem with swing content in the scene graph
+         delete contentGlassPane from contentGroup.content;
+         contentGlassPane = null;
+         println("ScySwingWrapper contentGlassPane removed by click");
+//         contentGroup.onMousePressed(MouseEvent{
+//               node:contentGroup
+//            });
+      }
+
+   }
+
+
+
    public override function create(): Node {
       swingComponent = javafx.ext.swing.SwingComponent.wrap(component);
       resizeContent();
       FX.deferAction(resizeContent);
-      if (useJfx12Mode){
-         Group{
-            autoSizeChildren:false
-            content:swingComponent
-         }
-       }
-      else{
-         swingComponent
+//      Timeline {
+//         repeatCount: 1
+//         keyFrames: [
+//            KeyFrame{
+//               time:1000ms
+//               action:function():Void{
+//                  delete contentGlassPane from contentGroup.content;
+//                  contentGlassPane = null;
+//                  println("ScySwingWrapper contentGlassPane removed automaticly");
+//               }
+//
+//            }
+//
+//         ];
+//      }.play();
+
+      contentGroup = Group{
+         autoSizeChildren:not useJfx12Mode
+         content:[
+            swingComponent,
+            contentGlassPane
+         ]
       }
+//      if (useJfx12Mode){
+//         Group{
+//            autoSizeChildren:false
+//            content:swingComponent
+//         }
+//       }
+//      else{
+//         swingComponent
+//      }
    }
 
    function resizeContent(): Void {
@@ -47,6 +102,8 @@ public class ScySwingWrapper extends CustomNode, Resizable {
       Container.resizeNode(swingComponent, size.width, size.height);
       component.setPreferredSize(size);
       component.setSize(size);
+      contentGlassPane.width = size.width;
+      contentGlassPane.height = size.height;
    }
 
    public override function getMinHeight(): Number {
