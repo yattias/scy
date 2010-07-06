@@ -8,19 +8,16 @@ package eu.scy.client.tools.fxchattool.registration;
 
 
 import java.net.URI;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
-import javafx.ext.swing.SwingComponent;
-import java.util.*;
-import java.lang.*;
 
 
 import eu.scy.client.tools.chattool.ChatPanel;
 import javafx.scene.layout.Resizable;
-import java.awt.Dimension;
 import javafx.scene.layout.VBox;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 /**
  * @author jeremyt
  */
@@ -35,38 +32,17 @@ public class ChatToolNode extends CustomNode, Resizable {
     def spacing = 5.0;
 
 
-    public var wrappedSPTPanel:SwingComponent;
+    public var wrappedSPTPanel:Node;
     public var chatTool:ChatPanel;
     public var scyWindow:ScyWindow on replace {
-        //setScyWindowTitle();
     };
 
     public function loadElo(uri:URI){
         eloChatActionWrapper.loadElo(uri);
-        //setScyWindowTitle();
     }
 
-    function setScyWindowTitle(){
-        if (scyWindow == null) {
-            return;
-        }
-
-        scyWindow.title = "ChatTool: {eloChatActionWrapper.getDocName()}";
-        var eloUri = eloChatActionWrapper.getEloUri();
-        if (eloUri != null) {
-            scyWindow.id = eloUri.toString();
-        }
-        else {
-            var r = new Random(System.currentTimeMillis());
-            var v = Long.toString(Math.abs(r.nextLong()), Math.random());
-
-
-            scyWindow.id = v;
-        }
-    };
-
    public override function create(): Node {
-   wrappedSPTPanel = SwingComponent.wrap(chatTool);
+   wrappedSPTPanel = ScySwingWrapper.wrap(chatTool);
    return VBox {
          blocksMouse:false;
          content:
@@ -76,24 +52,14 @@ public class ChatToolNode extends CustomNode, Resizable {
 
 
    function resizeContent(){
-//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
-//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
-//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
-      var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      chatTool.setPreferredSize(size);
-      chatTool.resizeChat(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      chatTool.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+       Container.resizeNode(wrappedSPTPanel,width,height);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return chatTool.getPreferredSize().getHeight();
-   }
+   public override function getPrefHeight(height: Number) : Number{
+      Container.getNodePrefHeight(wrappedSPTPanel, height);
+    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return chatTool.getPreferredSize().getWidth();
+      Container.getNodePrefWidth(wrappedSPTPanel, width);
    }
 }

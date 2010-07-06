@@ -12,7 +12,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
-import javafx.ext.swing.SwingComponent;
 
 import eu.scy.client.tools.chattool.ChatPresencePanel;
 import javafx.scene.paint.Color;
@@ -21,16 +20,15 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.Font;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
-import java.awt.Dimension;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.*;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
-import eu.scy.awareness.IAwarenessUser;
 import java.util.Vector;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author jeremyt
@@ -46,34 +44,17 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
 
     def spacing = 5.0;
 
-    public var wrappedSPTPanel:SwingComponent;
+    public var wrappedSPTPanel:Node;
     public var chatPresenceTool:ChatPresencePanel;
     public var toolBrokerAPI:ToolBrokerAPI;
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle();
     };
 
     public override function loadElo(uri:URI){
         eloChatActionWrapper.loadElo(uri);
-        setScyWindowTitle();
     }
 
-    function setScyWindowTitle(){
-        if (scyWindow == null) {
-            return;
-        }
-
-        //scyWindow.title = "Chat: {eloChatActionWrapper.getDocName()}";
-        var eloUri = eloChatActionWrapper.getEloUri();
-        if (eloUri != null) {
-            scyWindow.id = eloUri.toString();
-        }
-        else {
-            scyWindow.id = "";
-        }
-    };
-
-   public override function create(): Node {
+    public override function create(): Node {
       if(chatPresenceTool == null) {
         return Group {
             content: [
@@ -86,8 +67,8 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
             }]
         };
      } else {
-        wrappedSPTPanel = SwingComponent.wrap(chatPresenceTool);
-        wrappedSPTPanel.foreground = Color.WHITE;
+        wrappedSPTPanel = ScySwingWrapper.wrap(chatPresenceTool);
+//        wrappedSPTPanel.foreground = Color.WHITE;
         return HBox {
          blocksMouse:false;
          content:
@@ -98,25 +79,15 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
    }
 
    function resizeContent(){
-//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
-//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
-//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
-      var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      chatPresenceTool.setPreferredSize(size);
-      chatPresenceTool.resizeChat(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      chatPresenceTool.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+       Container.resizeNode(wrappedSPTPanel,width,height);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return chatPresenceTool.getPreferredSize().getHeight();
-   }
+   public override function getPrefHeight(height: Number) : Number{
+      Container.getNodePrefHeight(wrappedSPTPanel, height);
+    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return chatPresenceTool.getPreferredSize().getWidth();
+      Container.getNodePrefWidth(wrappedSPTPanel, width);
    }
 
    public override function canAcceptDrop(object:Object):Boolean{
