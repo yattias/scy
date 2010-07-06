@@ -46,19 +46,17 @@
 			<artifactId>fx-simulator</artifactId>
 			<version>9.8.0-JFX1.3-SNAPSHOT</version>
 		</dependency>
-      <!--
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-studentplanningtool</artifactId>
-			<version>${pom.version}</version>
+			<version>9.8.0-JFX1.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-scydynamics</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-      -->
-		<dependency>
+ 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-fitex</artifactId>
 			<version>9.8.0-JFX1.3-SNAPSHOT</version>
@@ -84,15 +82,20 @@
 			<artifactId>fx-video</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>eu.scy.client.tools</groupId>
-			<artifactId>fx-webresourcer</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
       -->
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>fx-webresourcer</artifactId>
+			<version>9.8.0-JFX1.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-richtexteditor</artifactId>
+			<version>9.8.0-JFX1.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>fx-chattool</artifactId>
 			<version>9.8.0-JFX1.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
