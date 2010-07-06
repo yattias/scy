@@ -235,13 +235,21 @@ function fillInMissingLinks(missionModel:MissionModelFX, lassesMap: HashMap, anc
       for (nextLasId in nextLassesIds){
          insert lassesMap.get(nextLasId) as Las into las.nextLasses;
       }
-      // TODO scan input links of anchors
+      fillInMissingAnchorLinks(lasChild.getChild(mainAnchorName),anchorsMap);
+      var intermediateAnchorsRoot = lasChild.getChild(intermediateAnchorsName);
+      var intermediateAnchorslist = intermediateAnchorsRoot.getChildren(intermediateAnchorName);
+      if (intermediateAnchorslist!=null){
+         for (intermediateAnchorObject in intermediateAnchorslist){
+            var intermediateAnchorRoot = intermediateAnchorObject as Element;
+            fillInMissingAnchorLinks(intermediateAnchorRoot,anchorsMap);
+         }
+      }
    }
 }
 
 function fillInMissingAnchorLinks(anchorRoot:Element, anchorsMap: HashMap){
    var anchor = anchorsMap.get(new URI(anchorRoot.getChildTextTrim(eloUriName))) as MissionAnchorFX;
-   var inputAnchorsUriStrings = createStringList(anchorRoot.getChild(inputAnchorsName),anchorsName);
+   var inputAnchorsUriStrings = createStringList(anchorRoot.getChild(inputAnchorsName),anchorName);
    for (inputAnchorUriString in inputAnchorsUriStrings){
       var inputAnchor = anchorsMap.get(new URI(inputAnchorUriString)) as MissionAnchorFX;
       insert inputAnchor into anchor.inputAnchors;

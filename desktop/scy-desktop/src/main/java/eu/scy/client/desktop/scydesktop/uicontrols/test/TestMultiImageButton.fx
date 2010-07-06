@@ -49,7 +49,6 @@ public class TestMultiImageButton extends CustomNode {
       ]
    }
 
-
    public override function create(): Node {
       testMultiImageButtonDesign.reloadButton.action = loadButtonImages;
       testMultiImageButtonDesign.imageNameTextBox.text = "new";

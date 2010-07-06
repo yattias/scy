@@ -44,6 +44,11 @@ public class WindowTitleBar extends WindowElement {
    public var closeBoxWidth = 0.0;
    public var textInset = 1.0;
    public var rectangleAntialiasOffset = 0.0;
+   public var beingDragged = false on replace{
+         if (beingDragged){
+            mouseOverTitleDisplay.abort();
+         }
+      };
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
@@ -69,7 +74,6 @@ public class WindowTitleBar extends WindowElement {
       activatedChanged()
    }
    def mouseOverBorderSize = 2.0;
-
 
    var nodeGroup:Group;
    var textBackgroundFillRect:Rectangle;
@@ -140,7 +144,9 @@ public class WindowTitleBar extends WindowElement {
          onMouseEntered: function (e: MouseEvent): Void {
             mouseOverTitleDisplay = MouseOverDisplay{
                createMouseOverDisplay:createMouseOverNode
-               myScene:scene
+               mySourceNode:this
+               offsetX:-mouseOverBorderSize
+               offsetY:-mouseOverBorderSize
             }
          }
          onMouseExited: function (e: MouseEvent): Void {
@@ -150,6 +156,16 @@ public class WindowTitleBar extends WindowElement {
             }
          }
       };
+//      FX.deferAction(function():Void{
+//            MouseOverDisplay{
+//                     createMouseOverDisplay:createMouseOverNode
+//                     mySourceNode:this
+//                     offsetX:-mouseOverBorderSize
+//                     offsetY:-mouseOverBorderSize
+//                     showImmediate:true
+//                  }
+//         });
+      nodeGroup
    }
 
    function createMouseOverNode():Node{
@@ -189,12 +205,8 @@ public class WindowTitleBar extends WindowElement {
             }
          ]
       }
-      var sceneLocation = localToScene(layoutBounds.minX, layoutBounds.minY);
-      fullTitleGroup.layoutX = sceneLocation.x;
-      fullTitleGroup.layoutY = sceneLocation.y;
       fullTitleGroup
    }
-
 }
 
 var imageLoader = ImageLoader.getImageLoader();
@@ -206,7 +218,6 @@ function loadEloIcon(type: String):EloIcon{
       inactiveImage:imageLoader.getImage("{name}_inact.png")
    }
 }
-
 
 function run(){
    var windowColorScheme = WindowColorScheme{
@@ -250,6 +261,7 @@ function run(){
                windowTitleBar1 = WindowTitleBar {
                   eloIcon: eloIcon1
                   windowColorScheme: windowColorScheme
+                  title:"1: no rotation"
                   translateX: 10;
                   translateY: 10;
                   activated: true;
@@ -257,9 +269,28 @@ function run(){
                windowTitleBar2 =WindowTitleBar {
                   eloIcon: eloIcon2
                   windowColorScheme: windowColorScheme
+                  title:"2: no rotation"
                   activated: false
                   translateX: 10;
                   translateY: 50;
+               }
+               WindowTitleBar {
+                  eloIcon: loadEloIcon("scy/drawing")
+                  windowColorScheme: windowColorScheme
+                  title:"3: rorated by 15"
+                  activated: false
+                  translateX: 10;
+                  translateY: 100;
+                  rotate:15
+               }
+               WindowTitleBar {
+                  eloIcon: loadEloIcon("scy/drawing")
+                  windowColorScheme: windowColorScheme
+                  activated: false
+                  title:"4: rotated by -15"
+                  translateX: 10;
+                  translateY: 150;
+                  rotate:-15
                }
 //               Button {
 //                  translateX: 10;

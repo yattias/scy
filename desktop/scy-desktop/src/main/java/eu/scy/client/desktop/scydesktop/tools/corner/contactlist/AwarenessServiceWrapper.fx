@@ -56,15 +56,12 @@ public class AwarenessServiceWrapper {
                     name: awarenessUser.getNickName();
                     onlineState: if (presence.equals("unavailable")) OnlineState.OFFLINE else
                         (if(presence.equals("idle")) OnlineState.AWAY else OnlineState.ONLINE );
-                    //imageURL: if (presence.equals("unavailable")) "{IMAGE_BASE_DIR}buddyicon_offline.png" else
-                    //    (if(presence.equals("idle")) "{IMAGE_BASE_DIR}buddyicon_idle.png" else "{IMAGE_BASE_DIR}buddyicon_online.png" );
                     imageURL: "{IMAGE_BASE_DIR}?username={awarenessUser.getNickName()}";
                     }
                     println("imageURL: {contact.imageURL}");
                 //filter names "" and " "
                 if (not(contact.name.equals("")) and not(contact.name.equals(" ")))
                 {
-                    //XXX only insert online/idle contacts
                     if (presence.equals("unavailable")){
                         insert contact into offlineContacts;
                     } else {

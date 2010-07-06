@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Math;
 
 /**
  * @author SikkenJ
@@ -124,11 +125,13 @@ public class ScySwingWrapper extends CustomNode, Resizable {
 
    public override function getPrefHeight(number: Number): Number {
 //      printSizes();
-      Container.getNodePrefHeight(swingComponent,number);
+      var preferredHeight = Container.getNodePrefHeight(swingComponent,number);
+      Math.max(0,preferredHeight);
    }
 
    public override function getPrefWidth(number: Number): Number {
-      Container.getNodePrefWidth(swingComponent,number);
+      var preferredWidth = Container.getNodePrefWidth(swingComponent,number);
+      Math.max(0, preferredWidth);
    }
 
    function printSizes(){
