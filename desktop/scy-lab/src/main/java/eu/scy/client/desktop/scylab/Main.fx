@@ -52,7 +52,7 @@ var initializer = Initializer {
            createPersonalMissionMap:true
            redirectSystemStream:false
 //           enableLocalLogging:false
-//           authorMode:true
+           authorMode:true
 //           redirectSystemStream:true
 //           enableLocalLogging:true
         }
@@ -168,7 +168,7 @@ scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlView
 }
 var scene: Scene;
 var stage = Stage {
-           title: "SCY-Lab"
+           title: "SCY-Lab (jfx1.3)"
            width: 1024
            height: 700
            scene: initializer.getScene(createScyDesktop);
