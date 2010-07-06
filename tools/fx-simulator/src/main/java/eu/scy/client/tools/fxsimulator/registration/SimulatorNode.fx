@@ -369,7 +369,9 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function getPrefHeight(height: Number): Number {
-       Container.getNodePrefHeight(wrappedSimquestPanel, height);
+       // TODO, calculate the correct preferred height
+       // the +5 is just a temporary fix
+       Container.getNodePrefHeight(wrappedSimquestPanel, height)+5;
     }
 
     public override function getPrefWidth(width: Number): Number {
