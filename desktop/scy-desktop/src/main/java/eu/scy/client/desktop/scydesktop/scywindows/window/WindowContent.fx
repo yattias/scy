@@ -35,20 +35,34 @@ public class WindowContent extends CustomNode {
    public var activated:Boolean;
    public var activate: function():Void;
 
+   /**
+   * workaround for the npe problems with swing content
+   * first mouse click on content is used to "fix" problem
+   * this means that the first click on the window content is lossed
+   * is currently not used, a compatible fix in ScySwingWrapper is used
+   */
+   public var swingInitMode = false;
+
    public var glassPaneBlocksMouse = false on replace{
       contentGlassPane.blocksMouse = glassPaneBlocksMouse;
    }
 
 
    def contentGlassPane = Rectangle {
-      blocksMouse:bind not activated;
+      blocksMouse:bind not activated or swingInitMode;
       x: 0, y: 0
       width: 140, height: 90
       fill: Color.TRANSPARENT
 //      fill: bind if (activated) Color.rgb(92,255,92,0.15) else Color.rgb(255,92,92,0.15)
       onMousePressed: function( e: MouseEvent ):Void {
-         if (not activated){
+         if (not activated or swingInitMode){
             activate();
+            if (swingInitMode){
+               swingInitMode = false;
+               // moving this to the front, fixes the problem with swing content in the scene graph
+               toFront();
+               println("turned swingInitMode off!");
+            }
          }
       }
    }
@@ -61,6 +75,8 @@ public class WindowContent extends CustomNode {
       Container.resizeNode(content, width, height);
 //      println("content resized to {width}*{height}");
 	}
+
+   var firstMouseEnter = false;
 
    public override function create(): Node {
       if (content instanceof Parent){
