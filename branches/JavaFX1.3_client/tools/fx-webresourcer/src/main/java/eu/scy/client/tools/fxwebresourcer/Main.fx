@@ -56,7 +56,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 var stage: Stage;
 var scene: Scene;
 stage = Stage {
-   title: "SCY-Lab (jfx 1.3) with webresourceR"
+   title: "SCY-Lab with webresourceR (jfx 1.3)"
    width: 400
    height: 300
    scene: initializer.getScene(createScyDesktop);

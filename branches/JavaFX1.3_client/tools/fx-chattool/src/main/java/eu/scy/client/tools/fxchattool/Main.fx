@@ -82,7 +82,7 @@ var stage: Stage;
 var scene: Scene;
 
 stage = Stage {
-   title: "SCY desktop with chat"
+   title: "SCY desktop with chat (jfx 1.3)"
    width: 400
    height: 300
 	scene: initializer.getScene(createScyDesktop);

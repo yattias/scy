@@ -26,8 +26,8 @@
 		<module>copex</module>
 		<module>dataprocesstool</module>
 		<module>drawingtool</module>
-		<module>fx-chattool</module>
 		-->
+		<module>fx-chattool</module>
 		<module>fx-copex</module>
 		<module>fx-drawingtool</module>
 		<module>fx-fitex</module>
@@ -37,16 +37,14 @@
 		<module>fx-pictureviewer</module>
 		-->
 		<module>fx-richtexteditor</module>
-		<!--
 		<module>fx-scydynamics</module>
-		-->
 		<module>fx-scymapper</module>
 		<module>fx-simulator</module>
-		<!--
 		<module>fx-student-planning-tool</module>
+		<!--
 		<module>fx-video</module>
-		<module>fx-webresourcer</module>
 		-->
+		<module>fx-webresourcer</module>
    </modules>
 	
 </project>
