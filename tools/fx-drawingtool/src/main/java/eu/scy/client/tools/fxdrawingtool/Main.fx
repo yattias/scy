@@ -65,7 +65,7 @@ var stage: Stage;
 var scene: Scene;
 
 stage = Stage {
-   title: "SCY desktop with drawing tool"
+   title: "SCY desktop with drawing tool (jfx 1.3)"
    width: 400
    height: 300
 	scene: initializer.getScene(createScyDesktop);

@@ -57,7 +57,7 @@ var stage: Stage;
 var scene: Scene;
 
 stage = Stage {
-   title: "SCY desktop with scymapper tool"
+   title: "SCY desktop with scymapper tool (jfx 1.3)"
    width: 900
    height: 700
 	scene: initializer.getScene(createScyDesktop);

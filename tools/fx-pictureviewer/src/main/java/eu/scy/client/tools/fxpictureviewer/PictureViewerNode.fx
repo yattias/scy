@@ -53,7 +53,6 @@ import roolo.elo.api.IMetadataTypeManager;
 public class PictureViewerNode extends CustomNode, ILoadPicture, ScyToolFX {
   //default toolwindow stuff
     public var scyWindow: ScyWindow on replace {
-        setScyWindowTitle();
     };
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
@@ -206,20 +205,8 @@ public class PictureViewerNode extends CustomNode, ILoadPicture, ScyToolFX {
 
 
 
-    function setScyWindowTitle() {
-        if(scyWindow == null)
-        return
-        scyWindow.title = "PictureViewer";
-        var eloUri = eloPictureActionWrapper.getEloUri();
-        if(eloUri != null)
-        scyWindow.id = eloUri.toString()
-        else
-        scyWindow.id = "";
-    }
-
     public function setTitle(title:String):Void {
         this.title = title;
-        scyWindow.title = "PictureViewer - {title}";
     }
 
     public function setDescription(description:String):Void {
@@ -335,7 +322,6 @@ public class PictureViewerNode extends CustomNode, ILoadPicture, ScyToolFX {
 
     override function loadElo(uri:URI):Void {
         eloPictureActionWrapper.loadElo(uri);
-        setScyWindowTitle();
     }
 
     override function onGotFocus():Void {
