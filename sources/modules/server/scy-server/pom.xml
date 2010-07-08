@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.server</groupId>
-		<version>20-SNAPSHOT</version>
+		<version>21-SNAPSHOT</version>
 	</parent>
 	<groupId>eu.scy.server</groupId>
 	<artifactId>scy-server</artifactId>
