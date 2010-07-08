@@ -526,13 +526,18 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         FX.deferAction(function () {
             // one defer does not seem to be enough to show the please wait content
             FX.deferAction(function () {
-                realFillNewScyWindow2(window, false);
-                if (window.mucId.length()>0 and not initializer.offlineMode){
-                   installCollaborationTools(window);
-                }
+               fillScyWindowNow(window);
             });
         });
     }
+
+    function fillScyWindowNow(window:ScyWindow):Void{
+       realFillNewScyWindow2(window, false);
+       if (window.mucId.length()>0 and not initializer.offlineMode){
+          installCollaborationTools(window);
+       }
+    }
+
 
     public function installCollaborationTools(window:ScyWindow):Void{
        realFillNewScyWindow2(window, true);
