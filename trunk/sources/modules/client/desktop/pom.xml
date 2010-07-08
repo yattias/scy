@@ -14,10 +14,6 @@
 	<name>SCY client desktop</name>
 	<url>http://www.scy-lab.eu</url>
 
-	<dependencies>
-
-	</dependencies>
-
 	<modules>
 		<module>action-logging-client</module>
 		<module>notification-receiver</module>

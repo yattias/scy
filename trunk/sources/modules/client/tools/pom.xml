@@ -25,9 +25,9 @@
 		<module>copex</module>
 		<module>dataprocesstool</module>
 		<module>drawingtool</module>
-		<module>fx-chattool</module>
-		<module>fx-copex</module>
+		<module>fx-chattool</module>		
 		<module>fx-drawingtool</module>
+		<module>fx-copex</module>
 		<module>fx-fitex</module>
 		<module>fx-flying-saucer</module>
 		<module>fx-interviewtool</module>

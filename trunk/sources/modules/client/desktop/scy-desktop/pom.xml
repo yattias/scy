@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>javafx-deps</artifactId>
-			<version>1.2.3</version>
+			<version>${javafx-version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
@@ -238,7 +238,7 @@
                   <phase>compile</phase>
                   <configuration>
                      <tasks>
-                        <echo>Compiling JavaFX test sources</echo>
+                        <echo>Compiling JavaFX sources</echo>
                         <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
                         <mkdir dir="target/classes"/>
                         <javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
