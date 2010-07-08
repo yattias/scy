@@ -4,13 +4,13 @@
 	<groupId>eu.scy.common</groupId>
 	<artifactId>collaboration-service-api</artifactId>
 	<packaging>jar</packaging>
-	<version>20-SNAPSHOT</version>
+	<version>21-SNAPSHOT</version>
 	<name>collaboration-service-api</name>
 
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>20-SNAPSHOT</version>
+		<version>21-SNAPSHOT</version>
 	</parent> 	
 
 	<dependencies>

@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy.common</groupId>
     <artifactId>configuration</artifactId>
-    <version>20-SNAPSHOT</version>
+    <version>21-SNAPSHOT</version>
     <name>Configuration</name>
     <packaging>jar</packaging>
 
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.common</groupId>
-        <version>20-SNAPSHOT</version>
+        <version>21-SNAPSHOT</version>
     </parent>
 
     <build>

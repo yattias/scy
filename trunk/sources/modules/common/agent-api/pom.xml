@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.common</groupId>
 	<artifactId>agent-api</artifactId>
-	<version>20-SNAPSHOT</version>
+	<version>21-SNAPSHOT</version>
 	<name>agent-api</name>
 	<packaging>jar</packaging>
 	
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>20-SNAPSHOT</version>
+		<version>21-SNAPSHOT</version>
 	</parent> 	
 
 	<dependencies>
@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
-			<version>20-SNAPSHOT</version>
+			<version>21-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>notification-api</artifactId>
-			<version>20-SNAPSHOT</version>
+			<version>21-SNAPSHOT</version>
 		</dependency>
 		-->
 
