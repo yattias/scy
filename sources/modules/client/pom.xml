@@ -26,6 +26,10 @@
 		<url>https://base.enovate.no</url>
 	</issueManagement>
 	
+	<properties>
+		<javafx-version>1.2.3</javafx-version>
+    </properties>
+	
 	<build>
 		<directory>target</directory>
 		<outputDirectory>target/classes</outputDirectory>

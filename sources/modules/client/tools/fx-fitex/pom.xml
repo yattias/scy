@@ -27,36 +27,41 @@
             <name>lgpl</name>
         </license>
     </licenses>
-
-    <dependencies>
+	
+   <dependencies>
+   
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>javafx-deps</artifactId>
-			<version>1.2.3</version>
+			<version>${javafx-version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> 
 
       <dependency>
          <groupId>eu.scy.client.tools</groupId>
          <artifactId>dataprocesstool</artifactId>
          <version>${pom.version}</version>
       </dependency>
+	  
      <dependency>
          <groupId>eu.scy.client.desktop</groupId>
          <artifactId>scy-desktop</artifactId>
          <version>${pom.version}</version>
       </dependency> 
+	  
      <dependency>
         <groupId>eu.scy.common</groupId>
-	<artifactId>tool-broker-api</artifactId>
+		<artifactId>tool-broker-api</artifactId>
         <version>${pom.version}</version>
     </dependency>
+	
     <dependency>
         <groupId>eu.scy.common</groupId>
         <artifactId>action-logging-api</artifactId>
         <version>${pom.version}</version>
     </dependency>
+	
     <dependency>
         <groupId>eu.scy.common</groupId>
         <artifactId>action-logging-commons</artifactId>
@@ -68,36 +73,43 @@
         <artifactId>scy-commons</artifactId>
         <version>${pom.version}</version>
     </dependency>
+	
     <dependency>
         <groupId>eu.scy.common</groupId>
         <artifactId>data-sync-common</artifactId>
         <version>${pom.version}</version>
     </dependency>
+	
     <dependency>
         <groupId>eu.scy.common</groupId>
         <artifactId>data-sync-api</artifactId>
         <version>${pom.version}</version>
     </dependency>
+	
      <dependency>
           <groupId>eu.scy.client.client-common</groupId>
           <artifactId>scy-i18n</artifactId>
           <version>${pom.version}</version>
      </dependency>
+	 
      <dependency>
-	<groupId>org.roolo</groupId>
-	<artifactId>elo-api</artifactId>
-	<version>0.6.0-SNAPSHOT</version>
+		<groupId>org.roolo</groupId>
+		<artifactId>elo-api</artifactId>
+		<version>0.6.0-SNAPSHOT</version>
      </dependency>
+	 
      <dependency>
-	<groupId>org.roolo</groupId>
-	<artifactId>elo-impl</artifactId>
-	<version>0.6.1-SNAPSHOT</version>
+		<groupId>org.roolo</groupId>
+		<artifactId>elo-impl</artifactId>
+		<version>0.6.1-SNAPSHOT</version>
      </dependency>
+	 
     <dependency>
-	<groupId>org.roolo</groupId>
-	<artifactId>roolo-api</artifactId>
-        <version>0.6.0-SNAPSHOT</version>
+		<groupId>org.roolo</groupId>
+		<artifactId>roolo-api</artifactId>
+		<version>0.6.0-SNAPSHOT</version>
     </dependency>
+	
     <dependency>
           <groupId>org.jdom</groupId>
           <artifactId>jdom</artifactId>
@@ -106,49 +118,59 @@
    </dependencies>
 
  	<!-- the default build -->
-	<build>
-		<resources>
-			 <resource>
-				<directory>src/main/java/</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-			</resource>
-        </resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<optimize>true</optimize>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<echo>Compiling JavaFX sources</echo>
-								<taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc" />
-								<mkdir dir="target/classes" />
-								<javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
-									<src path="src/main/java" />
-									<classpath refid="maven.compile.classpath" />
-								</javafxc>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+<build>
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+         </resource>
+         <!--
+         <resource>
+            <targetPath>config</targetPath>
+            <directory>src/main/java/config</directory>
+         </resource>
+          -->
+         <resource>
+            <directory>src/main/java</directory>
+            <includes>
+               <include>**/*</include>
+            </includes>
+         </resource>
+      </resources>
+
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+               <optimize>true</optimize>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+               <execution>
+                  <phase>compile</phase>
+                  <configuration>
+                     <tasks>
+                        <echo>Compiling JavaFX sources</echo>
+                        <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
+                        <mkdir dir="target/classes"/>
+                        <javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                           <src path="src/main/java"/>
+                           <classpath refid="maven.compile.classpath"/>
+                        </javafxc>
+                     </tasks>
+                  </configuration>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 			
     <!-- the webstart build -->
 	<profiles>		
