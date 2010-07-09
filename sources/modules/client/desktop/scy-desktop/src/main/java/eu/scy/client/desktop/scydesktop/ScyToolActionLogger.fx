@@ -110,11 +110,15 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
 
     public override function eloSaveCancelled(elo: IELO): Void {    }
 
+    public function logAddToPortfolio(): Void {
+        var action = createBasicAction("elo_addtoportfolio");
+        actionLogger.log(action);
+    }
+
     public function logToolOpened(): Void {
         var action = createBasicAction("tool_opened");
         actionLogger.log(action);
     }
-
 
     public function createBasicAction(type: String): IAction {
         var action = new Action();
