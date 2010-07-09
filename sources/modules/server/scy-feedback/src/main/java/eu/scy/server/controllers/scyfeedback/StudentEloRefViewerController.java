@@ -3,19 +3,19 @@ package eu.scy.server.controllers.scyfeedback;
 import eu.scy.core.ELORefService;
 import eu.scy.core.FileService;
 import eu.scy.core.PlayfulAssessmentService;
+import eu.scy.core.UserService;
 import eu.scy.core.model.ELORef;
-import eu.scy.server.controllers.BaseController;
+import eu.scy.core.model.User;
+import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
+import eu.scy.core.model.playful.PlayfulAssessment;
+import eu.scy.server.common.OddEven;
 import eu.scy.server.controllers.BaseFormController;
-import eu.scy.server.url.UrlInspector;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
