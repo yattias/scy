@@ -50,6 +50,8 @@ import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import javax.swing.JSplitPane;
+import javax.swing.JScrollPane;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -316,10 +318,25 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
             simquestViewer.run();
             simquestPanel.setLayout(new BorderLayout());
             simquestPanel.removeAll();
-            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+            //--- creating a splitpane
+            var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+            // creating the datacollector
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+            // adding simulation and datacollector to splitpane
+            var scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroller.setViewportView(simquestViewer.getInterfacePanel());
+            split.setTopComponent(scroller);
+            //dataCollector.setPreferredSize(new Dimension(100, 300));
+            split.setBottomComponent(dataCollector);
+            split.setDividerLocation(500);
+            // adding the splitcomponent to the simquestpanel
+            split.setEnabled(true);
+            simquestPanel.add(split, BorderLayout.CENTER);
+
+            //simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+
             toolBrokerAPI.registerForNotifications(this as INotifiable);
-            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+            //simquestPanel.add(dataCollector, BorderLayout.SOUTH);
             fixedDimension = simquestViewer.getRealSize();
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
@@ -406,11 +423,13 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     }
 
     public override function getMinHeight(): Number {
-        return fixedDimension.height;
+        //return fixedDimension.height;
+        return 300;
     }
 
     public override function getMinWidth(): Number {
-        return fixedDimension.width;
+        //return fixedDimension.width;
+        return 300;
     }
 
 }
