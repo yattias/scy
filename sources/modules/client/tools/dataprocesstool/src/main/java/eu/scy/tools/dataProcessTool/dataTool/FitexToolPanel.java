@@ -1443,6 +1443,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         return this.dataset.getName();
     }
 
+    public boolean canRenameDataset(){
+        return dataProcessToolPanel.canRenameDataset();
+    }
+
     public boolean renameDataset(String name){
         String oldName = new String(dataset.getName());
         CopexReturn cr = this.controller.renameDataset(dataset, name);
@@ -1681,5 +1685,19 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public void importCsvData(String sepField, String sepText){
         dataProcessToolPanel.importCsvData(sepField, sepText);
+    }
+
+    public ArrayList<Object> getListGraph(){
+        ArrayList<Object> list = new ArrayList();
+        int nbVis = dataset.getListVisualization().size();
+        for (int i=0; i<nbVis; i++){
+            InternalGraphFrame gFrame = getInternalFrame(dataset.getListVisualization().get(i).getDbKey());
+            if(gFrame != null){
+               Object o = gFrame.getGraphPDF();
+                if(o!=null)
+                   list.add(o);
+            }
+        }
+        return list;
     }
 }

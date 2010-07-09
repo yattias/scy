@@ -27,6 +27,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
     private static String mission;
     private static String idGroup;
     private static String idLabDoc;
+    private static String labDocName;
 
     
 
@@ -58,7 +59,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             }
         });
         
-        fitexPanel = new DataProcessToolPanel(fitexURL, Locale.getDefault(), dbKeyMission,dbKeyUser, dbKeyGroup, dbKeyLabDoc);
+        fitexPanel = new DataProcessToolPanel(fitexURL, Locale.getDefault(), dbKeyMission,dbKeyUser, dbKeyGroup, dbKeyLabDoc, labDocName);
         fitexPanel.addFitexAction(this);
         add(fitexPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
@@ -95,13 +96,14 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                 }
             }
         }
-        if(args == null || args.length  < 5){
+        if(args == null || args.length != 6){
             try {
                 fitexURL = new URL("http://localhost/LabBook/tool_fitex/");
                 idUser = "2";
                 mission= "1";
                 idGroup = "1";
-                idLabDoc = "1";
+                idLabDoc = "69";
+                labDocName = "Jeu de données";
             } catch (MalformedURLException ex) {
 
             }
@@ -119,6 +121,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             mission= args[2];
             idGroup = args[3];
             idLabDoc = args[4];
+            labDocName = args[5];
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

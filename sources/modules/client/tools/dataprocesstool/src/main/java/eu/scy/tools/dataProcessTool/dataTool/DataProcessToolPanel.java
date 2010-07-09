@@ -94,6 +94,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private long dbKeyMission;
     private long dbKeyGroup;
     private long dbKeyLabDoc;
+    private String labDocName;
 
     // Donnees
     /* liste des donnees */
@@ -130,9 +131,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         this.dbKeyUser = 1;
         this.dbKeyGroup =0;
         this.dbKeyLabDoc = 0;
+        this.labDocName = "";
     }
 
-    public DataProcessToolPanel(URL url, Locale locale, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc) {
+    public DataProcessToolPanel(URL url, Locale locale, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc, String labDocName) {
         super();
         this.scyMode = false;
         this.locale = locale;
@@ -141,6 +143,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         this.dbKeyUser = dbKeyUser;
         this.dbKeyGroup = dbKeyGroup;
         this.dbKeyLabDoc = dbKeyLabDoc;
+        this.labDocName = labDocName;
         initComponents();
         initData(url);
     }
@@ -172,7 +175,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if(url == null){
             this.controller = new DataController(this);
         }else{
-            this.controller = new DataControllerDB(this, url, dbKeyMission, dbKeyUser, dbKeyGroup, dbKeyLabDoc);
+            this.controller = new DataControllerDB(this, url, dbKeyMission, dbKeyUser, dbKeyGroup, dbKeyLabDoc, labDocName);
         }
 
         initGUI();
@@ -940,6 +943,17 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return false;
         }
         return !(Boolean)v.get(0);
+    }
+
+    public boolean canRenameDataset(){
+        return !dbMode;
+    }
+
+    public ArrayList<Object> getListGraph(){
+        if(activFitex != null)
+            return activFitex.getListGraph();
+        else
+            return new ArrayList();
     }
    
 }
