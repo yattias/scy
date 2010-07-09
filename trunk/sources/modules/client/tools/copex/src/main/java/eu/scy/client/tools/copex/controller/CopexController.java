@@ -117,7 +117,7 @@ public class CopexController implements ControllerInterface {
 
     /* initialisation de l'application - chargement des donnees*/
     @Override
-    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String fileMission) {
+    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String labDocName, String fileMission) {
         String msgError = "";
         this.locale = locale;
         this.fileMission = fileMission;

@@ -221,9 +221,11 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
 
     @Override
     public void doubleClickTab(CloseTab closeTab) {
-        int id = getIdPanel(closeTab.getProc());
-        if(id != -1){
-            listCopexPanel.get(id).openDialogEditProc();
+        if(copex.canUpdateTitle()){
+            int id = getIdPanel(closeTab.getProc());
+            if(id != -1){
+                listCopexPanel.get(id).openDialogEditProc();
+            }
         }
     }
 

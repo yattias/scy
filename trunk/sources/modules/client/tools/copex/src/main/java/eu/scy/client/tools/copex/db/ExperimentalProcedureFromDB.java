@@ -2396,4 +2396,17 @@ public class ExperimentalProcedureFromDB {
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
     }
+
+    public static CopexReturn setPreviewLabdocInDB(DataBaseCommunication dbC, long dbKeyLabdoc, String preview){
+        preview =  AccesDB.replace("\'",preview,"''") ;
+        String query = "UPDATE LABDOC SET PREVIEW =  '"+preview+"' WHERE ID_LABDOC = "+dbKeyLabdoc+" ; ";
+        dbC.updateDb(MyConstants.DB_LABBOOK);
+        CopexReturn cr = dbC.executeQuery(query);
+        if(cr.isError()){
+            dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+            return cr;
+        }
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+        return new CopexReturn();
+    }
 }

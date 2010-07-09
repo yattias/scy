@@ -92,7 +92,7 @@ public class CopexControllerAuth implements ControllerInterface{
     
     /** initialization of the copex editor */
     @Override
-    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String fileMission) {
+    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String labDocName, String fileMission) {
         this.locale = locale;
         // load the help proc
         CopexReturn cr = loadHelpProc();

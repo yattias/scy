@@ -34,6 +34,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     private static String mission;
     private static String group;
     private static String labDoc;
+    private static String labDocName;
 
     
     /** Creates new form CopexApplication */
@@ -62,7 +63,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
         Locale locale = Locale.getDefault();
         //locale = new Locale("en", "GB");
         locale = new Locale("fr", "FR");
-        copex = new CopexPanel(this,locale, copexURL, idUser, dbKeyMission, dbKeyGroup, dbKeyLabDoc);
+        copex = new CopexPanel(this,locale, copexURL, idUser, dbKeyMission, dbKeyGroup, dbKeyLabDoc, labDocName);
         copex.addActionCopex(this);
         add(copex, BorderLayout.CENTER);
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
@@ -118,13 +119,14 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
                 }
             }
         }
-        if(args == null || args.length  < 5){
+        if(args == null || args.length  < 6){
             try {
-                copexURL = new URL("http://localhost/LabBook/tool_copex/");
+                copexURL = new URL("http://localhost/LabBook/pages/");
                 idUser = "2";
                 mission= "1";
                 group = "1";
-                labDoc = "1";
+                labDoc = "68";
+                labDocName = "Thermostat setting";
             } catch (MalformedURLException ex) {
 
             }
@@ -142,6 +144,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             mission= args[2];
             group = args[3];
             labDoc = args[4];
+            labDocName = args[5];
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -93,6 +93,7 @@ public class CopexPanel extends JPanel {
     private long dbKeyMission;
     private long dbKeyGroup;
     private long dbKeyLabDoc;
+    private String labDocName;
     private CopexMission mission;
     // liste des protocoles ouverts
     private ArrayList<ExperimentalProcedure> listProc = null;
@@ -117,6 +118,7 @@ public class CopexPanel extends JPanel {
         this.dbKeyMission = 1;
         this.dbKeyGroup = 1;
         this.dbKeyLabDoc = 1;
+        this.labDocName = "";
         this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
@@ -130,6 +132,7 @@ public class CopexPanel extends JPanel {
         this.dbKeyMission = 1;
         this.dbKeyGroup = 1;
         this.dbKeyLabDoc = 1;
+        this.labDocName = "";
         this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
@@ -137,7 +140,7 @@ public class CopexPanel extends JPanel {
     }
 
 
-    public CopexPanel(JFrame ownerFrame,Locale locale, URL copexURL, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc) {
+    public CopexPanel(JFrame ownerFrame,Locale locale, URL copexURL, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String labDocName) {
         this.ownerFrame = ownerFrame;
         this.locale = locale;
         this.idUser = idUser;
@@ -147,6 +150,7 @@ public class CopexPanel extends JPanel {
         this.listTaskImage = new ArrayList();
         this.scyMode = false;
         this.dbMode = true;
+        this.labDocName = labDocName;
         initEdP(copexURL);
     }
 
@@ -157,6 +161,7 @@ public class CopexPanel extends JPanel {
         this.dbKeyMission = mission.getDbKey();
         this.dbKeyGroup = 0;
         this.dbKeyLabDoc = 0;
+        this.labDocName = "";
         this.listTaskImage = new ArrayList();
         this.scyMode = true;
         this.dbMode = false;
@@ -238,7 +243,7 @@ public class CopexPanel extends JPanel {
       //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
       String fileMission = "copexMission_SCY1_CO2.xml";
-      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission,dbKeyGroup, dbKeyLabDoc, fileMission);
+      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission,dbKeyGroup, dbKeyLabDoc, labDocName, fileMission);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
           System.out.println("erreur chargement des donnees ....");
@@ -970,6 +975,11 @@ public class CopexPanel extends JPanel {
             return false;
         }
         return !(Boolean)v.get(0);
+    }
+
+    /* return true if can modify the title of the proc (not dbmode) */
+    public boolean canUpdateTitle(){
+        return !dbMode;
     }
 
 }
