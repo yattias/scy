@@ -197,11 +197,12 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         table = new JTable(tableModel);
         table.setFillsViewportHeight(true);
         pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        pane.setSize(550, 140);
-        pane.setPreferredSize(new Dimension(550, 140));
-        pane.setMaximumSize(new Dimension(550, 140));
+        //pane.setSize(550, 140);
+        pane.setPreferredSize(new Dimension(640, 160));
+        pane.setSize(new Dimension(640, 160));
+        //pane.setMaximumSize(new Dimension(550, 140));
         pane.setViewportView(table);
-        this.add(pane, BorderLayout.SOUTH);
+        this.add(pane, BorderLayout.CENTER);
     }
 
     public void setRotation(double angle) {
