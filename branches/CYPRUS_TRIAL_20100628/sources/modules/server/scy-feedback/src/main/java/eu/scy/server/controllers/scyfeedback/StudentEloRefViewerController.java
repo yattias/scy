@@ -9,7 +9,7 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
 import eu.scy.core.model.playful.PlayfulAssessment;
 import eu.scy.server.common.OddEven;
-import eu.scy.server.controllers.BaseFormController;
+import eu.scy.server.controllers.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
