@@ -59,6 +59,7 @@ public class CopexApplet extends JApplet implements ActionCopex {
         String m = getParameter("MISSION");
         String group = getParameter("GROUP");
         String labDoc = getParameter("LABDOC");
+        String labDocName = getParameter("LABDOCNAME");
         
         long dbKeyMission = -1;
         long dbKeyGroup = -1;
@@ -76,7 +77,7 @@ public class CopexApplet extends JApplet implements ActionCopex {
         Locale locale = Locale.getDefault();
         //locale = new Locale("en", "GB");
         //locale = new Locale("fr", "FR");
-        copex = new CopexPanel(null,locale, null, idUser, dbKeyMission, dbKeyGroup, dbKeyLabDoc);
+        copex = new CopexPanel(null,locale, null, idUser, dbKeyMission, dbKeyGroup, dbKeyLabDoc, labDocName);
         copex.addActionCopex(this);
         getContentPane().remove(labelWait);
         add(copex, BorderLayout.CENTER);
