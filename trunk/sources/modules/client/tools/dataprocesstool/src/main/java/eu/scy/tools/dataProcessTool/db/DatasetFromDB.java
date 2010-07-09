@@ -1142,4 +1142,17 @@ public class DatasetFromDB {
         return cr;
     }
 
+    public static CopexReturn setPreviewLabdocInDB(DataBaseCommunication dbC, long dbKeyLabdoc, String preview){
+        preview =  MyUtilities.replace("\'",preview,"''") ;
+        String query = "UPDATE LABDOC SET PREVIEW =  '"+preview+"' WHERE ID_LABDOC = "+dbKeyLabdoc+" ; ";
+        dbC.updateDb(DataConstants.DB_LABBOOK);
+        CopexReturn cr = dbC.executeQuery(query);
+        if(cr.isError()){
+            dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
+            return cr;
+        }
+        dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
+        return new CopexReturn();
+    }
+
 }

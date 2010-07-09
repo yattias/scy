@@ -82,7 +82,7 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
 
     @Override
     public void doubleClickTab(CloseTab closeTab) {
-        if(fitexActiv != null){
+        if(fitexActiv != null && fitexActiv.canRenameDataset()){
             String name = fitexActiv.renameDataset();
             closeTab.updateTitle(name);
         }

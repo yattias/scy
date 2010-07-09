@@ -29,6 +29,7 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.print.DataPrint;
 
+import eu.scy.tools.dataProcessTool.print.FitexHTML;
 import eu.scy.tools.dataProcessTool.synchro.Locker;
 import eu.scy.tools.fitex.analyseFn.Function;
 import java.util.List;
@@ -87,24 +88,29 @@ public class DataControllerDB implements ControllerInterface{
     private long dbKeyGroup;
     private Group group;
     private long dbKeyLabDoc;
+    private String labDocName;
 
     private ArrayList<Mission> listUserMission;
     private ArrayList<ArrayList<Dataset>> listUserDatasetMission;
+
+    private FitexHTML fitexHtml;
 
 
     /* locker */
     private Locker locker;
    
-    public DataControllerDB(DataProcessToolPanel dataToolPanel, URL url, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc) {
+    public DataControllerDB(DataProcessToolPanel dataToolPanel, URL url, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc, String labDocName) {
         this.dataToolPanel = dataToolPanel ;
         this.dbKeyMission = dbKeyMission ;
         this.dbKeyUser = dbKeyUser ;
         this.dbKeyLabDoc = dbKeyLabDoc;
+        this.labDocName = labDocName;
         this.dbKeyGroup = dbKeyGroup;
         this.dataURL = url;
         dbC = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK_FITEX, dbKeyMission, ""+dbKeyUser);
         this.listDataset = new ArrayList();
         this.listNoDefaultCol = new ArrayList();
+        this.fitexHtml = new FitexHTML(dataToolPanel);
     }
 
 
@@ -192,6 +198,13 @@ public class DataControllerDB implements ControllerInterface{
             if(cr.isError())
                 return cr;
         }
+        for(Iterator<Dataset> ds = listDataset.iterator();ds.hasNext();){
+            Dataset myds = ds.next();
+            cr = DatasetFromDB.updateDatasetNameInDB(dbC, myds.getDbKey(), labDocName);
+            if(cr.isError())
+                return cr;
+            myds.setName(labDocName);
+        }
         // clone les objets
        TypeVisualization[] tabTypeVisualC = new TypeVisualization[tabTypeVisual.length];
         for (int i=0; i<tabTypeVisual.length; i++){
@@ -278,6 +291,9 @@ public class DataControllerDB implements ControllerInterface{
         // creation ds
         Dataset dataset = new Dataset(dbKey, mission, dbKeyLabDoc, name, nbCol, nbRows, tabHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
         setLocker(dbKey);
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.add(dataset);
         listNoDefaultCol.add(nbCol);
         v.add(dataset.clone());
@@ -581,6 +597,9 @@ public class DataControllerDB implements ControllerInterface{
             return cr;
         // recalcule des operations
         dataset.calculateOperation();
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         // en v[0] le nouveau dataset clone
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -612,6 +631,9 @@ public class DataControllerDB implements ControllerInterface{
         // creation en memoire
         dataset.addOperation(operation);
         // en v[0] le nouveau dataset clone et en v[1] le dataOperation
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         v.add(operation.clone());
@@ -744,6 +766,9 @@ public class DataControllerDB implements ControllerInterface{
                 }
             }
         }
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         // en v[0] : le nouveau dataset
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -842,6 +867,9 @@ public class DataControllerDB implements ControllerInterface{
             return cr;
         // maj en memoire
         dataset.getListOperation().get(idOp).setName(title);
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         // en v[0] : le nouveau dataset
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -893,6 +921,9 @@ public class DataControllerDB implements ControllerInterface{
         
         // en v[0] : le nouveau dataset
         //System.out.println("dataset apres updateData : "+dataset.toString());
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn();
@@ -1045,6 +1076,9 @@ public class DataControllerDB implements ControllerInterface{
             return cr;
         // memoire
         dataset.getListVisualization().get(idVis).setName(newName);
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         return new CopexReturn();
     }
@@ -1170,6 +1204,9 @@ public class DataControllerDB implements ControllerInterface{
             v.add((Dataset)dataset.clone());
             v.add(tabDel);
         }
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
 
     }
@@ -1231,6 +1268,9 @@ public class DataControllerDB implements ControllerInterface{
                 fm.setListParam(listParam);
             }
         }
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn();
@@ -1274,6 +1314,9 @@ public class DataControllerDB implements ControllerInterface{
         else
             dataset.insertRow(nb, idBefore);
 
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         v.add(dataset.clone());
         listDataset.set(idDs, dataset);
         //System.out.println("dataset apres insertData : "+dataset.toString());
@@ -1300,6 +1343,9 @@ public class DataControllerDB implements ControllerInterface{
         Dataset dataset = listDataset.get(idDs);
         dataset.exchange(exchange);
         v.add(dataset.clone());
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         return new CopexReturn();
     }
@@ -1313,6 +1359,9 @@ public class DataControllerDB implements ControllerInterface{
         Dataset dataset = listDataset.get(idDs);
         dataset = (Dataset)ds.clone();
         v.add(dataset.clone());
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         return new CopexReturn();
     }
@@ -1457,6 +1506,9 @@ public class DataControllerDB implements ControllerInterface{
             //maj memoire
             ((Graph)vis).setParamGraph(paramGraph);
         }
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(vis.clone());
         return new CopexReturn();
@@ -1564,6 +1616,9 @@ public class DataControllerDB implements ControllerInterface{
                 dataset.getListVisualization().set(idVis, ((Graph)vis));
             }
         }
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(vis);
         return new CopexReturn();
@@ -1688,6 +1743,9 @@ public class DataControllerDB implements ControllerInterface{
                 dataset.addVisualization(g);
             }
         }
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         v.add(dataset.clone());
         return new CopexReturn();
     }
@@ -1925,6 +1983,9 @@ public class DataControllerDB implements ControllerInterface{
         listRowAndCol[0] = listNoRow ;
         listRowAndCol[1] = listNoCol;
         v.add(listRowAndCol);
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
     }
 
@@ -2065,6 +2126,9 @@ public class DataControllerDB implements ControllerInterface{
         if(cr.isError())
             return cr;
         dataset.setName(name);
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
     }
 
@@ -2097,6 +2161,9 @@ public class DataControllerDB implements ControllerInterface{
         DataOperation myOp = dataset.getListOperation().get(idOp);
         myOp.setListNo(operation.getListNo());
         dataset.calculateOperation();
+        CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
         v.add(dataset.clone());
         return new CopexReturn();
     }
@@ -2307,5 +2374,17 @@ public class DataControllerDB implements ControllerInterface{
     public CopexReturn isLabDocDataset(Dataset ds, ArrayList v){
         v.add(ds == null? false : ds.getDbKeyLabDoc() == dbKeyLabDoc);
         return new CopexReturn();
+    }
+
+    /** export in html format */
+    private CopexReturn exportHTML(Dataset ds ){
+        ArrayList v = new ArrayList();
+        ArrayList<Object> listGraph = dataToolPanel.getListGraph();
+        CopexReturn cr = fitexHtml.exportDatasetHTML(dataURL, ds, listGraph, dbKeyLabDoc, v);
+        if(cr.isError())
+            return cr;
+        String s = (String)v.get(0);
+        cr = DatasetFromDB.setPreviewLabdocInDB(dbC, dbKeyLabDoc, s);
+        return cr;
     }
 }

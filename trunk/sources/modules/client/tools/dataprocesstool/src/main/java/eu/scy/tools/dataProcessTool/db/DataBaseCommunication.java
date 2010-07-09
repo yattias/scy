@@ -94,8 +94,23 @@ public class DataBaseCommunication {
         cr = receiveResponse(v);
         return cr;
     }
+
+     /** send a  query (delete)
+     * @param query the specified query
+     * @return error code
+     */
+    public CopexReturn executeQuery(String query){
+        String[] querys = new String[1];
+        querys[0] = query;
+        return executeQuery(querys);
+    }
+
     //envoie d'une requete simple (par exemple delete)
     public CopexReturn executeQuery(String[] querys, ArrayList v){
+        return executeQuery(querys);
+    }
+    //envoie d'une requete simple (par exemple delete)
+    public CopexReturn executeQuery(String[] querys){
          dataBD = fileName+"\n";
          dataBD += "<data>"+this.db;
         for (int i=0; i<querys.length; i++){
