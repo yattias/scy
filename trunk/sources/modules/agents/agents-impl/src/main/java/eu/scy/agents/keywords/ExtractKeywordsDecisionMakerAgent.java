@@ -31,12 +31,6 @@ import eu.scy.agents.impl.AgentProtocol;
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		implements IRepositoryAgent {
 
-	private static final int SECOND = 1000;
-
-	private static final int MINUTE = 60 * SECOND;
-
-	private static final String UNSAVED_ELO = "unsavedELO";
-
 	class ContextInformation {
 
 		public String mission;
@@ -63,24 +57,26 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		}
 	}
 
+	private static final String UNSAVED_ELO = "unsavedELO";
+
 	private static final Logger logger = Logger
 			.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
 
 	static final String NAME = ExtractKeywordsDecisionMakerAgent.class
 			.getName();
-	static final Object SCYMAPPER = "scymapper";
-	static final Object CONCEPTMAP = "conceptmap";
-	static final Object WEBRESOURCER = "webresource";
+	static final String SCYMAPPER = "scymapper";
+	static final String CONCEPTMAP = "conceptmap";
+	static final String WEBRESOURCER = "webresource";
 	private static final String ANNOTATIONS_START = "<annotations>";
 	private static final String ANNOTATIONS_END = "</annotations>";
 
 	public static final String IDLE_TIME_INMS = "idleTime";
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
-	private static final String TIME_AFTER_USERS_ARE_REMOVED = "timeAfterUserIsRemoved";
+	public static final String TIME_AFTER_USERS_ARE_REMOVED = "timeAfterUserIsRemoved";
 
-	private long idleTimeInMS = 5 * MINUTE;
-	private int minimumNumberOfConcepts = 5;
-	private long timeAfterThatItIsSaveToRemoveUser = 120 * MINUTE;
+	// private long idleTimeInMS = 5 * MINUTE;
+	// private int minimumNumberOfConcepts = 5;
+	// private long timeAfterThatItIsSaveToRemoveUser = 120 * MINUTE;
 	private int listenerId = -1;
 	private Map<String, ContextInformation> user2Context;
 
@@ -104,16 +100,17 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
-		if (params.containsKey(IDLE_TIME_INMS)) {
-			this.idleTimeInMS = (Long) params.get(IDLE_TIME_INMS);
+
+		parameter.addAllParameter(params);
+		if (!parameter.containsParameter(IDLE_TIME_INMS)) {
+			parameter.setParameter(IDLE_TIME_INMS, 5 * AgentProtocol.MINUTE);
 		}
-		if (params.containsKey(TIME_AFTER_USERS_ARE_REMOVED)) {
-			timeAfterThatItIsSaveToRemoveUser = (Long) params
-					.get(TIME_AFTER_USERS_ARE_REMOVED);
+		if (!parameter.containsParameter(TIME_AFTER_USERS_ARE_REMOVED)) {
+			parameter.setParameter(TIME_AFTER_USERS_ARE_REMOVED,
+					120 * AgentProtocol.MINUTE);
 		}
-		if (params.containsKey(MINIMUM_NUMBER_OF_CONCEPTS)) {
-			this.minimumNumberOfConcepts = (Integer) params
-					.get(MINIMUM_NUMBER_OF_CONCEPTS);
+		if (!parameter.containsParameter(MINIMUM_NUMBER_OF_CONCEPTS)) {
+			parameter.setParameter(MINIMUM_NUMBER_OF_CONCEPTS, 5);
 		}
 	}
 
@@ -311,7 +308,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	private boolean userIsIdleForTooLongTime(long currentTime,
 			ContextInformation contextInformation) {
 		long timeSinceLastAction = currentTime - contextInformation.lastAction;
-		return timeSinceLastAction > this.timeAfterThatItIsSaveToRemoveUser;
+
+		Long timeAfterThatItIsSaveToRemoveUser = parameter.getParameter(
+				contextInformation.mission, contextInformation.user,
+				TIME_AFTER_USERS_ARE_REMOVED);
+		return timeSinceLastAction > timeAfterThatItIsSaveToRemoveUser;
 	}
 
 	private void notifyUser(final long currentTime, final String user,
@@ -343,9 +344,15 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		userNeedsToBeNotified &= contextInformation.scyMapperStarted;
 		long timeSinceLastAction = currentTime
 				- contextInformation.lastNotification;
-		logger.debug(timeSinceLastAction + " : " + this.idleTimeInMS);
-		userNeedsToBeNotified &= timeSinceLastAction > this.idleTimeInMS;
-		userNeedsToBeNotified &= contextInformation.numberOfConcepts < this.minimumNumberOfConcepts;
+
+		Long idleTimeInMS = parameter.getParameter(contextInformation.mission,
+				contextInformation.user, IDLE_TIME_INMS);
+		Integer minimumNumberOfConcepts = parameter.getParameter(
+				contextInformation.user, contextInformation.mission,
+				MINIMUM_NUMBER_OF_CONCEPTS);
+		logger.debug(timeSinceLastAction + " : " + idleTimeInMS);
+		userNeedsToBeNotified &= timeSinceLastAction > idleTimeInMS;
+		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
 		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
 		return userNeedsToBeNotified;
 	}
