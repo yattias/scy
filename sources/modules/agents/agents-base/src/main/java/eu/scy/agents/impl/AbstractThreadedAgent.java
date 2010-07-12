@@ -14,11 +14,13 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
 
 /**
- * A basic implementation of a threaded agent. It provides basic starting and stopping functionality.
+ * A basic implementation of a threaded agent. It provides basic starting and
+ * stopping functionality.
  * 
  * @author Florian Schulz, Jan Engler, Stefan Weinbrenner
  */
-public abstract class AbstractThreadedAgent extends AbstractAgent implements IThreadedAgent, Callback {
+public abstract class AbstractThreadedAgent extends AbstractAgent implements
+		IThreadedAgent, Callback {
 
 	/**
 	 * Statuses of a threaded agent.
@@ -58,18 +60,24 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 
 	private boolean killed = false;
 
+	private int parameterId;
+
 	/**
-	 * Create a new {@link AbstractThreadedAgent}. Only allowed to call by subclasses.
+	 * Create a new {@link AbstractThreadedAgent}. Only allowed to call by
+	 * subclasses.
 	 * 
-	 * @param name The name of the agent.
-	 * @param id The id of the agent.
+	 * @param name
+	 *            The name of the agent.
+	 * @param id
+	 *            The id of the agent.
 	 */
 	protected AbstractThreadedAgent(String name, String id) {
 		super(name, id);
 		status = Status.Initializing;
 	}
 
-	protected AbstractThreadedAgent(String name, String id, String host, int port) {
+	protected AbstractThreadedAgent(String name, String id, String host,
+			int port) {
 		this(name, id);
 		this.host = host;
 		this.port = port;
@@ -77,15 +85,18 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	}
 
 	@Override
-	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+	public void call(Command command, int seq, Tuple afterTuple,
+			Tuple beforeTuple) {
 		if (!Command.WRITE.equals(command)) {
 			return;
 		}
-		if (AgentProtocol.COMMAND_LINE.equals(afterTuple.getField(0).getValue().toString())) {
+		String agentCommand = afterTuple.getField(0).getValue().toString();
+		if (AgentProtocol.COMMAND_LINE.equals(agentCommand)) {
 			if (afterTuple.getField(2).getValue().equals(getId().trim())) {
 				String message = (String) afterTuple.getField(4).getValue();
 				if (AgentProtocol.MESSAGE_STOP.equals(message)
-						&& afterTuple.getField(2).getValue().equals(getId().trim())) {
+						&& afterTuple.getField(2).getValue().equals(
+								getId().trim())) {
 					try {
 						// if the message was to stop....
 						getCommandSpace().take(afterTuple);
@@ -98,7 +109,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 				}
 			}
 
-		} else if (AgentProtocol.QUERY.equals(afterTuple.getField(0).getValue().toString())) {
+		} else if (AgentProtocol.QUERY.equals(agentCommand)) {
 			// Field 1 is (due to conventions) queryId
 			final String queryId = afterTuple.getField(1).getValue().toString();
 			// Reply on ident-query
@@ -113,18 +124,84 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 					}
 				}
 			}).start();
+			// String.class, String.class, String.class,
+			// Field.createWildCardField());
+		} else if (AgentProtocol.AGENT_PARAMETER_SET.equals(agentCommand)) {
+			handleParameterSetCommand(afterTuple);
+		} else if (AgentProtocol.AGENT_PARAMETER_GET.equals(agentCommand)) {
+			handleParameterGetCommand(afterTuple);
+		}
+	}
+
+	private void handleParameterSetCommand(Tuple afterTuple) {
+		String agentName = (String) afterTuple.getField(1).getValue();
+		if (getName().equals(agentName)) {
+			String mission = (String) afterTuple.getField(2).getValue();
+			String user = (String) afterTuple.getField(3).getValue();
+			String parameterName = (String) afterTuple.getField(4).getValue();
+			Object parameterValue = afterTuple.getField(4).getValue();
+
+			if (mission != null) {
+				if (user != null) {
+					parameter.setParameter(mission, user, parameterName,
+							parameterValue);
+				} else {
+					parameter.setParameter(mission, parameterName,
+							parameterValue);
+				}
+			} else {
+				parameter.setParameter(parameterName, parameterValue);
+			}
+		}
+	}
+
+	private void handleParameterGetCommand(Tuple afterTuple) {
+		String agentName = (String) afterTuple.getField(2).getValue();
+		if (getName().equals(agentName)) {
+			String mission = (String) afterTuple.getField(3).getValue();
+			String user = (String) afterTuple.getField(4).getValue();
+			String parameterName = (String) afterTuple.getField(5).getValue();
+
+			Object value = null;
+			if (mission != null) {
+				if (user != null) {
+					value = parameter
+							.getParameter(mission, user, parameterName);
+				} else {
+					value = parameter.getParameter(mission, parameterName);
+				}
+			} else {
+				value = parameter.getParameter(parameterName);
+			}
+			Tuple getParameterResponseTuple = AgentProtocol
+					.getParameterGetResponseTupleTemplate(getName());
+			getParameterResponseTuple.getField(3).setValue(mission);
+			getParameterResponseTuple.getField(4).setValue(user);
+			getParameterResponseTuple.getField(5).setValue(parameterName);
+			getParameterResponseTuple.getField(6).setValue(value);
+
+			try {
+				getCommandSpace().write(getParameterResponseTuple);
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	/**
-	 * Really runs the agent. This method is present so programmers can implement their own behavior of agents whenever
-	 * they should run. It is necessary to provide means that the agent is triggered in doRun.
+	 * Really runs the agent. This method is present so programmers can
+	 * implement their own behavior of agents whenever they should run. It is
+	 * necessary to provide means that the agent is triggered in doRun.
 	 * 
-	 * @throws TupleSpaceException TupleSpace couldn't be accessed.
-	 * @throws AgentLifecycleException Something went wrong with the life-cycle of the agent.
-	 * @throws InterruptedException Agent was asked to stop from external call.
+	 * @throws TupleSpaceException
+	 *             TupleSpace couldn't be accessed.
+	 * @throws AgentLifecycleException
+	 *             Something went wrong with the life-cycle of the agent.
+	 * @throws InterruptedException
+	 *             Agent was asked to stop from external call.
 	 */
-	protected abstract void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException;
+	protected abstract void doRun() throws TupleSpaceException,
+			AgentLifecycleException, InterruptedException;
 
 	/**
 	 * Clean up the agent.
@@ -132,11 +209,15 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	protected abstract void doStop() throws AgentLifecycleException;
 
 	/**
-	 * This method returns a Tuple which identifies the agent with TupleDoc Entries.<br />
-	 * This Tuple has the form:<br /> {@code AgentProtocol.RESPONSE, QueryID : String, agentID :String, agentName :String,
-	 * AgentProtocol.MESSAGE_IDENTIFY, TupleDocEntries : String ...}
+	 * This method returns a Tuple which identifies the agent with TupleDoc
+	 * Entries.<br />
+	 * This Tuple has the form:<br /> {@code AgentProtocol.RESPONSE, QueryID : String,
+	 * agentID :String, agentName :String, AgentProtocol.MESSAGE_IDENTIFY,
+	 * TupleDocEntries : String ...}
 	 * 
-	 * @param queryId The queryId which is inside the Response. Usually taken from the identify query.
+	 * @param queryId
+	 *            The queryId which is inside the Response. Usually taken from
+	 *            the identify query.
 	 * @return A {@link Tuple} which contains the answer to the identify-query.
 	 */
 	protected abstract Tuple getIdentifyTuple(String queryId);
@@ -186,12 +267,14 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 				myThread.stop();
 			}
 		} else {
-			throw new AgentLifecycleException(name + " cannot be killed, is null");
+			throw new AgentLifecycleException(name
+					+ " cannot be killed, is null");
 		}
 	}
 
 	/**
-	 * This method is called when the implemented {@link ThreadedAgent} is started.
+	 * This method is called when the implemented {@link ThreadedAgent} is
+	 * started.
 	 */
 	public final void run() {
 		try {
@@ -202,10 +285,12 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 			lock.unlock();
 		} catch (Exception e) {
 			if (e instanceof TupleSpaceException
-					&& ((TupleSpaceException) e).getError().equals(TupleSpaceError.THREAD_KILLED) && killed) {
+					&& ((TupleSpaceException) e).getError().equals(
+							TupleSpaceError.THREAD_KILLED) && killed) {
 				// Everything OK
 				// TODO some kind of output?
-			} else if ((e instanceof InterruptedException || e.getCause() instanceof InterruptedException) && killed) {
+			} else if ((e instanceof InterruptedException || e.getCause() instanceof InterruptedException)
+					&& killed) {
 				// also ok
 			} else {
 				e.printStackTrace();
@@ -225,32 +310,47 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	}
 
 	/**
-	 * This method writes an alive {@link Tuple} in the {@link TupleSpace}. If such a {@link Tuple} has already been
-	 * written, it is updated,
+	 * This method writes an alive {@link Tuple} in the {@link TupleSpace}. If
+	 * such a {@link Tuple} has already been written, it is updated,
 	 * 
-	 * @throws TupleSpaceException If something went wrong with the {@link TupleSpace}.
+	 * @throws TupleSpaceException
+	 *             If something went wrong with the {@link TupleSpace}.
 	 */
 	protected void sendAliveUpdate() throws TupleSpaceException {
 		if (aliveTupleID == null) {
-			// write new alive tuple
-			if (getCommandSpace().isConnected()) {
-				// System.err.println("********** Writing new alive tuple " + getName());
-				aliveTupleID = getCommandSpace().write(AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
-			}
+			writeNewAliveTuple();
 		} else {
-			// update already present alive tuple
-			if (getCommandSpace().isConnected()) {
-				// System.err.println("********** Updating alive tuple" + getName());
-				getCommandSpace().update(aliveTupleID, AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
-			}
+			updateAliveTuple();
 		}
+	}
+
+	private void writeNewAliveTuple() throws TupleSpaceException {
+		if (getCommandSpace().isConnected()) {
+			aliveTupleID = getCommandSpace()
+					.write(
+							AgentProtocol.getAliveTuple(getId(), getName(),
+									new VMID()));
+		}
+	}
+
+	private void updateAliveTuple() throws TupleSpaceException {
+		lock.lock();
+		if (getCommandSpace().isConnected()) {
+			getCommandSpace()
+					.update(
+							aliveTupleID,
+							AgentProtocol.getAliveTuple(getId(), getName(),
+									new VMID()));
+		}
+		lock.unlock();
 	}
 
 	@Override
 	public final void start() throws AgentLifecycleException {
 		// If the agent is in a stopping-phase. It can't be started then.
 		if (Status.Stopping == status) {
-			throw new AgentLifecycleException(name + " is in Status.Stopping. Can't be startet here..");
+			throw new AgentLifecycleException(name
+					+ " is in Status.Stopping. Can't be startet here..");
 		}
 		// if the agent is already started
 		if (Status.Running == status) {
@@ -260,10 +360,13 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 			beforeStart();
 			// register commandEvents & identifyEvents
 			// TODO Reverse-structured names
-			commandId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getCommandTuple(id, name), this,
-					true);
-			identifyId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getIdentifyTuple(id, name), this,
-					true);
+			commandId = getCommandSpace().eventRegister(Command.WRITE,
+					AgentProtocol.getCommandTuple(id, name), this, true);
+			identifyId = getCommandSpace().eventRegister(Command.WRITE,
+					AgentProtocol.getIdentifyTuple(id, name), this, true);
+			parameterId = getCommandSpace().eventRegister(Command.WRITE,
+					AgentProtocol.getParameterGetQueryTupleTemplate(name),
+					this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -277,9 +380,12 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	}
 
 	/**
-	 * This methods stops the agents, deregisters all callbacks and disconnects from the {@link TupleSpace}.
+	 * This methods stops the agents, deregisters all callbacks and disconnects
+	 * from the {@link TupleSpace}.
 	 * 
-	 * @throws AgentLifecycleException Is thrown if something went wrong during the stopping of the agent.
+	 * @throws AgentLifecycleException
+	 *             Is thrown if something went wrong during the stopping of the
+	 *             agent.
 	 */
 	public final void stop() throws AgentLifecycleException {
 		if (Status.Stopping != status) {
@@ -304,6 +410,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 	 */
 	public final void tidy() {
 		try {
+			lock.lock();
 			if (getCommandSpace() != null && getCommandSpace().isConnected()) {
 				// getCommandSpace().eventDeRegister(commandId);
 				// getCommandSpace().eventDeRegister(identifyId);
@@ -312,6 +419,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 			// if (getActionSpace() != null && getActionSpace().isConnected()) {
 			// getActionSpace().disconnect();
 			// }
+			lock.unlock();
 		} catch (TupleSpaceException e) {
 			// we do not care about exceptions here
 			e.printStackTrace();

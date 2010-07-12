@@ -10,6 +10,11 @@ import java.util.Map;
 
 public class ThreadedAgentMock extends AbstractThreadedAgent {
 
+	public static final String TEST_PARAMETER = "TestParameter";
+	public static final String TEST_VALUE = "TestValue";
+	public static final String MISSION = "SomeMission";
+	public static final String USER = "SomeUser";
+
 	/**
 	 * Name of the agent.
 	 */
@@ -23,6 +28,7 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 
 	public ThreadedAgentMock(Map<String, Object> map) {
 		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID));
+		parameter.setParameter(TEST_PARAMETER, TEST_VALUE);
 		runCount = 0;
 	}
 
@@ -41,7 +47,8 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 
 	@Override
 	protected Tuple getIdentifyTuple(String queryId) {
-		Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId, getId(), getName(), AgentProtocol.MESSAGE_IDENTIFY,
+		Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId, getId(),
+				getName(), AgentProtocol.MESSAGE_IDENTIFY,
 				"This is just a test");
 		return t;
 	}
