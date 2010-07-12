@@ -71,25 +71,28 @@ public class AbstractTestFixture {
 
 	@Before
 	public void setUp() throws Exception {
-		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-				AgentProtocol.COMMAND_SPACE_NAME);
-		actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-				AgentProtocol.ACTION_SPACE_NAME);
+		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false,
+				false, AgentProtocol.COMMAND_SPACE_NAME);
+		actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false,
+				false, AgentProtocol.ACTION_SPACE_NAME);
 
 		agentMap.clear();
 
 		agentList = new ArrayList<String>();
 
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("test-config.xml");
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+				"test-config.xml");
 
-		typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
-		extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
-		repository = (IRepository) applicationContext.getBean("localRepository");
+		typeManager = (IMetadataTypeManager) applicationContext
+				.getBean("metadataTypeManager");
+		extensionManager = (IExtensionManager) applicationContext
+				.getBean("extensionManager");
+		repository = (IRepository) applicationContext
+				.getBean("localRepository");
 
 		storage = new PersistentStorage(TSHOST, TSPORT);
 	}
 
-	@SuppressWarnings("unused")
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		System.err.println("super.tearDown");
@@ -99,7 +102,8 @@ public class AbstractTestFixture {
 				actionSpace.takeAll(new Tuple());
 				tupleSpace.disconnect();
 				actionSpace.disconnect();
-				System.err.println("********** Disconnected from TS ******************");
+				System.err
+						.println("********** Disconnected from TS ******************");
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
@@ -113,18 +117,27 @@ public class AbstractTestFixture {
 
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		elo.setIdentifierKey(typeManager
+				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		return elo;
 	}
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
-		IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(
-				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
+		elo.setIdentifierKey(typeManager
+				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		IMetadataValueContainer titleContainer = elo.getMetadata()
+				.getMetadataValueContainer(
+						typeManager
+								.getMetadataKey(CoreRooloMetadataKeyIds.TITLE
+										.getId()));
 		titleContainer.setValue(title);
-		IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(
-				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
+		IMetadataValueContainer typeContainer = elo
+				.getMetadata()
+				.getMetadataValueContainer(
+						typeManager
+								.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
+										.getId()));
 		typeContainer.setValue(type);
 		return elo;
 	}
@@ -154,7 +167,8 @@ public class AbstractTestFixture {
 		for (String agentName : agents.keySet()) {
 			Map<String, Object> params = agents.get(agentName);
 			try {
-				agentList.add(agentFramework.startAgent(agentName, params).getId());
+				agentList.add(agentFramework.startAgent(agentName, params)
+						.getId());
 			} catch (AgentLifecycleException e) {
 				// TODO what to do with these exception.
 				e.printStackTrace();
@@ -183,7 +197,8 @@ public class AbstractTestFixture {
 	protected void initTopicModel() {
 		ObjectInputStream in = null;
 		try {
-			InputStream inStream = this.getClass().getResourceAsStream("/model.dat");
+			InputStream inStream = this.getClass().getResourceAsStream(
+					"/model.dat");
 			in = new ObjectInputStream(inStream);
 			TopicModelParameter model = (TopicModelParameter) in.readObject();
 			in.close();
@@ -195,8 +210,10 @@ public class AbstractTestFixture {
 		}
 	}
 
-	protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis, String uuid) {
-		return new Tuple("action", uuid, currentTimeInMillis, AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
+	protected Tuple getTestActionTuple(String eloUri, String type,
+			long currentTimeInMillis, String uuid) {
+		return new Tuple("action", uuid, currentTimeInMillis,
+				AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
 				"SomeMission", "TestSession", eloUri, "type=" + type);
 	}
 }
