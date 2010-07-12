@@ -25,8 +25,8 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ThreadedAgentMock;
 
 /**
- * This class provides some tests to check if the {@link AgentManager} is working correctly. It uses the conventions of
- * the JUnit Framework.
+ * This class provides some tests to check if the {@link AgentManager} is
+ * working correctly. It uses the conventions of the JUnit Framework.
  * 
  * @author Florian Schulz
  * @author Jan Engler
@@ -44,8 +44,8 @@ public class AgentManagerTest {
 	private static final boolean STANDALONE = true;
 
 	/**
-	 * This method is called before the tests start. It starts a TupleSpace- {@link Server} if the tests running in
-	 * standalone-mode.
+	 * This method is called before the tests start. It starts a TupleSpace-
+	 * {@link Server} if the tests running in standalone-mode.
 	 */
 	@BeforeClass
 	public static void startTSServer() {
@@ -55,7 +55,7 @@ public class AgentManagerTest {
 			conf.setSSLEnabled(false);
 			conf.setDbType(Database.HSQL);
 			conf.setWebEnabled(false);
-			conf.setWebServicesEnabled(false);
+			// conf.setWebServicesEnabled(false);
 			conf.setRemoteAdminEnabled(false);
 			conf.setLocal(false);
 			Server.startServer();
@@ -68,8 +68,8 @@ public class AgentManagerTest {
 	}
 
 	/**
-	 * This method is called after the tests are finished. It stops the TupleSpace-{@link Server} if running in
-	 * standalone-mode.
+	 * This method is called after the tests are finished. It stops the
+	 * TupleSpace-{@link Server} if running in standalone-mode.
 	 */
 	@AfterClass
 	public static void tearDown() {
@@ -90,18 +90,26 @@ public class AgentManagerTest {
 	}
 
 	/**
-	 * This test tries to start an Agent ({@link ThreadedAgentMock}) using the {@link AgentManager}.<br />
-	 * After waiting five seconds it tries to stop this agent using the {@link AgentManager} again.
+	 * This test tries to start an Agent ({@link ThreadedAgentMock}) using the
+	 * {@link AgentManager}.<br />
+	 * After waiting five seconds it tries to stop this agent using the
+	 * {@link AgentManager} again.
 	 * 
-	 * @throws InterruptedException Is thrown if something went wrong during {@code Thread.sleep()}.
-	 * @throws AgentLifecycleException Is thrown if something went wrong during {@code AgentManager.startAgent()} or
-	 *             {@code AgentManager.stopAgent()}.
+	 * @throws InterruptedException
+	 *             Is thrown if something went wrong during {@code
+	 *             Thread.sleep()}.
+	 * @throws AgentLifecycleException
+	 *             Is thrown if something went wrong during {@code
+	 *             AgentManager.startAgent()} or {@code
+	 *             AgentManager.stopAgent()}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test(timeout = 5000)
-	public void testStartStopAgent() throws InterruptedException, AgentLifecycleException {
+	public void testStartStopAgent() throws InterruptedException,
+			AgentLifecycleException {
 
-		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		Thread.sleep(1000);
 		assertTrue("Agent not started", agent.isRunning());
 		agentManager.stopAgent(agent);
@@ -112,30 +120,43 @@ public class AgentManagerTest {
 	}
 
 	/**
-	 * This test tries to identify an agent using the {@link AgentManager} to start the agent. <br />
-	 * After started the agent an {@link Tuple} with an identify request is sent to the agent.
+	 * This test tries to identify an agent using the {@link AgentManager} to
+	 * start the agent. <br />
+	 * After started the agent an {@link Tuple} with an identify request is sent
+	 * to the agent.
 	 * 
-	 * @throws AgentLifecycleException Is thrown if something went wrong during {@code AgentManager.startAgent()} or
-	 *             {@code AgentManager.stopAgent()}.
-	 * @throws InterruptedException Is thrown if something went wrong during {@code Thread.sleep()}.
-	 * @throws TupleSpaceException Is thrown if something went wrong inside the {@link TupleSpace}.
+	 * @throws AgentLifecycleException
+	 *             Is thrown if something went wrong during {@code
+	 *             AgentManager.startAgent()} or {@code
+	 *             AgentManager.stopAgent()}.
+	 * @throws InterruptedException
+	 *             Is thrown if something went wrong during {@code
+	 *             Thread.sleep()}.
+	 * @throws TupleSpaceException
+	 *             Is thrown if something went wrong inside the
+	 *             {@link TupleSpace}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testIdentify() throws AgentLifecycleException, InterruptedException, TupleSpaceException {
+	public void testIdentify() throws AgentLifecycleException,
+			InterruptedException, TupleSpaceException {
 
-		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		Thread.sleep(1000);
 		assertTrue("Agent not started", agent.isRunning());
-		TupleSpace ts = new TupleSpace(new User("IdentifyTester"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
+		TupleSpace ts = new TupleSpace(new User("IdentifyTester"), TS_HOST,
+				TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
 		VMID vmid = new VMID();
 		String queryId = vmid.toString();
-		Tuple requestIdent = (AgentProtocol.getIdentifyTuple(agent.getId(), agent.getName(), vmid));
+		Tuple requestIdent = (AgentProtocol.getIdentifyTuple(agent.getId(),
+				agent.getName(), vmid));
 		requestIdent.setExpiration(3 * 1000);
 		ts.write(requestIdent);
 		// After a short while there should be a response of the agent
-		Tuple tuple = ts.waitToTake(new Tuple(AgentProtocol.RESPONSE, queryId, agent.getId(), agent.getName(),
-				AgentProtocol.MESSAGE_IDENTIFY, Field.createWildCardField()));
+		Tuple tuple = ts.waitToTake(new Tuple(AgentProtocol.RESPONSE, queryId,
+				agent.getId(), agent.getName(), AgentProtocol.MESSAGE_IDENTIFY,
+				Field.createWildCardField()));
 		assertTrue("No ident-tuple taken...", tuple != null);
 		agentManager.stopAgent(agent);
 		Thread.sleep(1000);
@@ -144,24 +165,34 @@ public class AgentManagerTest {
 	}
 
 	/**
-	 * This test tries to test the {@code ALIVE} functionality of an agent using the {@link AgentManager} to start the
-	 * agent. <br />
-	 * After started the agent this test awaits an {@link Tuple} with an {@code ALIVE} response of the agent.
+	 * This test tries to test the {@code ALIVE} functionality of an agent using
+	 * the {@link AgentManager} to start the agent. <br />
+	 * After started the agent this test awaits an {@link Tuple} with an {@code
+	 * ALIVE} response of the agent.
 	 * 
-	 * @throws AgentLifecycleException Is thrown if something went wrong during {@code AgentManager.startAgent()} or
-	 *             {@code AgentManager.stopAgent()}.
-	 * @throws InterruptedException Is thrown if something went wrong during {@code Thread.sleep()}.
-	 * @throws TupleSpaceException Is thrown if something went wrong inside the {@link TupleSpace}.
+	 * @throws AgentLifecycleException
+	 *             Is thrown if something went wrong during {@code
+	 *             AgentManager.startAgent()} or {@code
+	 *             AgentManager.stopAgent()}.
+	 * @throws InterruptedException
+	 *             Is thrown if something went wrong during {@code
+	 *             Thread.sleep()}.
+	 * @throws TupleSpaceException
+	 *             Is thrown if something went wrong inside the
+	 *             {@link TupleSpace}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test(timeout = 50000)
-	public void testAlive() throws AgentLifecycleException, InterruptedException, TupleSpaceException {
-		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+	public void testAlive() throws AgentLifecycleException,
+			InterruptedException, TupleSpaceException {
+		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		Thread.sleep(1000);
 		assertTrue("Agent not started", agent.isRunning());
-		TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
-		Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(),
-				AgentProtocol.ALIVE);
+		TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST,
+				TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
+		Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent
+				.getId(), agent.getName(), AgentProtocol.ALIVE);
 		Tuple aliveTuple = ts.read(t);
 		// There should be an alive-tuple
 		assertTrue("No alive-tuple taken...", aliveTuple != null);
@@ -172,25 +203,36 @@ public class AgentManagerTest {
 	}
 
 	/**
-	 * This test tries to kill an agent using the {@link AgentManager} to start and kill the agent. <br />
-	 * After started and killed the agent this test awaits an {@link Tuple} with an {@code ALIVE} response of the agent
-	 * and assert that this tuple does not exist.
+	 * This test tries to kill an agent using the {@link AgentManager} to start
+	 * and kill the agent. <br />
+	 * After started and killed the agent this test awaits an {@link Tuple} with
+	 * an {@code ALIVE} response of the agent and assert that this tuple does
+	 * not exist.
 	 * 
-	 * @throws AgentLifecycleException Is thrown if something went wrong during {@code AgentManager.startAgent()} or
-	 *             {@code AgentManager.killAgent()}.
-	 * @throws InterruptedException Is thrown if something went wrong during {@code Thread.sleep()}.
-	 * @throws TupleSpaceException Is thrown if something went wrong inside the {@link TupleSpace}.
+	 * @throws AgentLifecycleException
+	 *             Is thrown if something went wrong during {@code
+	 *             AgentManager.startAgent()} or {@code
+	 *             AgentManager.killAgent()}.
+	 * @throws InterruptedException
+	 *             Is thrown if something went wrong during {@code
+	 *             Thread.sleep()}.
+	 * @throws TupleSpaceException
+	 *             Is thrown if something went wrong inside the
+	 *             {@link TupleSpace}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testKill() throws AgentLifecycleException, InterruptedException, TupleSpaceException {
-		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+	public void testKill() throws AgentLifecycleException,
+			InterruptedException, TupleSpaceException {
+		IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		Thread.sleep(1000);
 		assertTrue("Agent not started", agent.isRunning());
 		agentManager.killAgent(agent.getId());
-		TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
-		Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(),
-				AgentProtocol.ALIVE);
+		TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST,
+				TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
+		Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent
+				.getId(), agent.getName(), AgentProtocol.ALIVE);
 		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
 		Tuple aliveTuple = ts.read(t);
 		// The alive-tuple should not be there...
@@ -199,30 +241,43 @@ public class AgentManagerTest {
 	}
 
 	/**
-	 * This test looks if the maps of the currently working agents contain right values.
+	 * This test looks if the maps of the currently working agents contain right
+	 * values.
 	 * 
-	 * @throws AgentLifecycleException Is thrown if something went wrong during {@code AgentManager.startAgent()} or
-	 *             {@code AgentManager.stopAgent()}.
-	 * @throws InterruptedException Is thrown if something went wrong during {@code Thread.sleep()}.
+	 * @throws AgentLifecycleException
+	 *             Is thrown if something went wrong during {@code
+	 *             AgentManager.startAgent()} or {@code
+	 *             AgentManager.stopAgent()}.
+	 * @throws InterruptedException
+	 *             Is thrown if something went wrong during {@code
+	 *             Thread.sleep()}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
-	public void testAgentMaps() throws AgentLifecycleException, InterruptedException {
+	public void testAgentMaps() throws AgentLifecycleException,
+			InterruptedException {
 
 		// TODO Array
-		IThreadedAgent agent1 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent1 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent1 not started", agent1.isRunning());
-		IThreadedAgent agent2 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent2 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent2 not started", agent2.isRunning());
-		IThreadedAgent agent3 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent3 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent3 not started", agent3.isRunning());
-		IThreadedAgent agent4 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent4 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent4 not started", agent4.isRunning());
-		IThreadedAgent agent5 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent5 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent5 not started", agent5.isRunning());
-		IThreadedAgent agent6 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent6 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent6 not started", agent6.isRunning());
-		IThreadedAgent agent7 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		IThreadedAgent agent7 = agentManager.startAgent(ThreadedAgentMock.NAME,
+				null);
 		assertTrue("Agent7 not started", agent7.isRunning());
 		// Assume that 7 agents are registered inside the agentManager
 		assertEquals(7, agentManager.getAgentsIdMap().size());
