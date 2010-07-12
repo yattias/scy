@@ -33,7 +33,7 @@ import eu.scy.agents.keywords.workflow.KeywordConstants;
 
 public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
-	private static final long IDLE_TIME = 2000L;
+	private static final int IDLE_TIME = 2000;
 	private IELO elo;
 
 	// private static final String ELO_CONTENT =
