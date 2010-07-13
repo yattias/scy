@@ -2,6 +2,9 @@ package eu.scy.core;
 
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.Scenario;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,4 +15,7 @@ import eu.scy.core.model.pedagogicalplan.AnchorELO;
  */
 public interface AnchorELOService extends BaseService{
     AnchorELO getAnchorELO(String parameter);
+
+    public List<AnchorELO> getAllAnchorELOsForScenario(Scenario scenario);
+
 }

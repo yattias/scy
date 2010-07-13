@@ -101,6 +101,39 @@
         <br/>
         <table width="100%">
             <tr>
+                <th colspan="2">Assessment</th>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    <strong>Limit number of ELOs to be peer assessed</strong>
+                </td>
+                <td>
+                    <s:ajaxCheckBox model="${pedagogicalPlan}" property="limitNumberOfELOsAvailableForPeerAssessment"/>
+                </td>
+            </tr>
+            <c:choose>
+                <c:when test="${fn:length(anchorElos) > 0}">
+                    <c:forEach var="anchorElo" items="${anchorElos}">
+                        <tr class="${oddEven.oddEven}">
+                            <td colspan="2">
+                                <a href="viewAnchorELO.html?anchorELOId=${anchorElo.id}">${anchorElo.humanReadableName}</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
+            </c:choose>
+
+            <tr>
+                <td colspan="2">
+                    <s:dialog url="selectAnchorELOsToBePeerAssessed.html" title="Select Anchor ELO" extraParameters="id=${pedagogicalPlan.id}"/>    
+                </td>
+            </tr>
+        </table>
+
+        <br/>
+        <br/>
+        <table width="100%">
+            <tr>
                 <th width="50%">Pedagogical plan users and groups</th>
                 <th width="50%">Object</th>
             </tr>

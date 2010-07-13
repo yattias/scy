@@ -1,16 +1,13 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.AssessmentCriteria;
 import eu.scy.core.model.pedagogicalplan.Assessment;
+import eu.scy.core.model.pedagogicalplan.AssessmentScoreDefinition;
 import eu.scy.core.model.pedagogicalplan.AssessmentStrategy;
 import eu.scy.core.model.pedagogicalplan.AssessmentStrategyType;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +21,9 @@ import javax.persistence.Table;
 public class AssessmentImpl extends BaseObjectImpl implements Assessment {
     private AssessmentStrategy assessmentStrategy = null;
     private AssessmentStrategyType assessmentStrategyType = AssessmentStrategyType.SINGLE;
+    private List<AssessmentCriteria> assessmentCriterias;
+    private List<AssessmentScoreDefinition> assessmentScoreDefinitions;
+
 
     @OneToOne(targetEntity = AssessmentStrategyImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="assessmentStrategy_primKey")
@@ -42,5 +42,37 @@ public class AssessmentImpl extends BaseObjectImpl implements Assessment {
 
     public void setAssessmentStrategyType(AssessmentStrategyType assessmentStrategyType) {
         this.assessmentStrategyType = assessmentStrategyType;
+    }
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "assessment", targetEntity = AssessmentCriteriaImpl.class, fetch = FetchType.LAZY)
+    public List<AssessmentCriteria> getAssessmentCriterias() {
+        return assessmentCriterias;
+    }
+
+    public void setAssessmentCriterias(List<AssessmentCriteria> assessmentCriterias) {
+        this.assessmentCriterias = assessmentCriterias;
+    }
+
+    @Override
+    public void addCriteria(AssessmentCriteria assessmentCriteria) {
+        assessmentCriterias.add(assessmentCriteria);
+        assessmentCriteria.setAssessment(this);
+    }
+
+    @Override
+    @OneToMany(mappedBy = "assessment", targetEntity = AssessmentScoreDefinitionImpl.class)
+    public List<AssessmentScoreDefinition> getAssessmentScoreDefinitions() {
+        return assessmentScoreDefinitions;
+    }
+
+    @Override
+    public void setAssessmentScoreDefinitions(List<AssessmentScoreDefinition> assessmentScoreDefinitions) {
+        this.assessmentScoreDefinitions = assessmentScoreDefinitions;
+    }
+
+    @Override
+    public void addAssessmentScoreDefinition(AssessmentScoreDefinition assessmentScoreDefinition) {
+        assessmentScoreDefinition.setAssessment(this);
+        assessmentScoreDefinitions.add(assessmentScoreDefinition);
     }
 }

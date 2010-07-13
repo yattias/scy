@@ -17,4 +17,8 @@ public interface AssignedPedagogicalPlan extends BaseObject {
     User getUser();
 
     void setUser(User user);
+
+    Boolean getUseCriteriaBasedAssessment();
+
+    void setUseCriteriaBasedAssessment(Boolean useCriteriaBasedAssessment);
 }

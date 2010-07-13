@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS `anchorelo`;
 CREATE TABLE `anchorelo` (
 	`primKey` varchar(55) NOT NULL default '',
 	`name` varchar(250) default NULL,
+	`humanReadableName` varchar(250) default NULL,
 	`missionMapId` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
@@ -145,6 +146,7 @@ CREATE TABLE `pedagogicalplan` (
 	`maximumNumberOfAnchorELOsInPortfolio` tinyint(2) default 0,
 	`minimumNumberOfAnchorELOsInPortfolio` tinyint(2) default 0,
 	`makeAllAssignedStudentsBuddies` tinyint(1) default 0,
+	`limitNumberOfELOsAvailableForPeerAssessment` tinyint(1) default 0,
     `timeCreated` bigint(20) NOT NULL default '0',
     `pedagogicalPlanTemplate_primKey` varchar(55) default NULL,
     `scenario_primKey` varchar(55) default NULL,
@@ -164,6 +166,7 @@ CREATE TABLE `assignedpedagogicalplan` (
 	`name` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
+    `useCriteriaBasedAssessment` tinyint(1) default 0,
     `pedagogicalPlan_primKey` varchar(55) default NULL,
     `user_primKey` bigint(20) NULL,
 	PRIMARY KEY  (`primKey`),
@@ -353,10 +356,13 @@ CREATE TABLE `eloref` (
 	`version` int(11) DEFAULT NULL,
 	`viewings` int(11) DEFAULT NULL,
 	`mission_primKey` varchar(55) default NULL,
+	`anchorELO_primKey` varchar(55) default NULL,
 
   	KEY `eloRefUser` (`user_primKey`),
   	KEY `eloRefMission` (`mission_primKey`),
+  	KEY `eloRefAnchorElo` (`anchorELO_primKey`),
     CONSTRAINT `eloRefMission` FOREIGN KEY (`mission_primKey`) REFERENCES `mission` (`primKey`),
+    CONSTRAINT `elorefAnchorEloConst` FOREIGN KEY (`anchorELO_primKey`) REFERENCES `anchorelo` (`primKey`),
   	CONSTRAINT `eloRefUser` FOREIGN KEY (`user_primKey`) REFERENCES `users` (`id`),
 	PRIMARY KEY  (`primKey`)
 
@@ -479,6 +485,50 @@ CREATE TABLE `filerefconnection` (
 	CONSTRAINT `elorefconst` FOREIGN KEY (`eloref_primKey`) REFERENCES `eloref` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `assessmentcriteria`;
+CREATE TABLE `assessmentcriteria` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`criteria` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `assessment_primKey` varchar(55) default NULL ,
+	PRIMARY KEY  (`primKey`),
+    KEY `assessmentref` (`assessment_primKey`),
+    CONSTRAINT `assessmentcritconst` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS `pedagogicalplananchoreloconnection`;
+CREATE TABLE `pedagogicalplananchoreloconnection` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `pedagogicalPlan_primKey` varchar(55) default NULL ,
+    `anchorelo_primKey` varchar(55) default NULL ,
+	PRIMARY KEY  (`primKey`),
+    KEY `pedplanref` (`pedagogicalPlan_primKey`),
+	KEY `anchoreloref` (`anchorelo_primKey`),
+    CONSTRAINT `pedplanrefconst` FOREIGN KEY (`pedagogicalPlan_primKey`) REFERENCES `pedagogicalplan` (`primKey`),
+	CONSTRAINT `anchorelorefconst` FOREIGN KEY (`anchorelo_primKey`) REFERENCES `anchorelo` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `assessmentscoredefinition`;
+CREATE TABLE `assessmentscoredefinition` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`heading` varchar(250) default NULL,
+	`score` int(8) default 0,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `assessment_primKey` varchar(55) default NULL ,
+	PRIMARY KEY  (`primKey`),
+    KEY `assessmentasdref` (`assessment_primKey`),
+    CONSTRAINT `assessmentasdcritconst` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 set FOREIGN_KEY_CHECKS=1;
 

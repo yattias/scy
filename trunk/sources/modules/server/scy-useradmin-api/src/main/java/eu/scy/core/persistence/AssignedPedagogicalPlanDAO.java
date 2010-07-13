@@ -22,4 +22,6 @@ public interface AssignedPedagogicalPlanDAO extends BaseDAO{
     public Long getAssignedPedagogicalPlansCount(PedagogicalPlan pedagogicalPlan);
 
     void removeAssignedAssessment(User user, PedagogicalPlan plan);
+
+    AssignedPedagogicalPlan getCurrentAssignedPedagogicalPlan(User currentUser);
 }

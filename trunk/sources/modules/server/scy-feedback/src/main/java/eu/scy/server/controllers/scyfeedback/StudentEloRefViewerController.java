@@ -1,12 +1,11 @@
 package eu.scy.server.controllers.scyfeedback;
 
-import eu.scy.core.ELORefService;
-import eu.scy.core.FileService;
-import eu.scy.core.PlayfulAssessmentService;
-import eu.scy.core.UserService;
+import eu.scy.core.*;
 import eu.scy.core.model.ELORef;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.playful.PlayfulAssessment;
 import eu.scy.server.common.OddEven;
 import eu.scy.server.controllers.BaseController;
@@ -27,7 +26,6 @@ import java.util.List;
  * User: Henrik
  * Date: 24.jun.2010
  * Time: 06:31:39
- * To change this template use File | Settings | File Templates.
  */
 public class StudentEloRefViewerController  extends BaseFormController {
 
@@ -35,14 +33,10 @@ public class StudentEloRefViewerController  extends BaseFormController {
     private ELORefService eloRefService;
     private PlayfulAssessmentService playfulAssessmentService;
     private UserService userService;
+    private AssignedPedagogicalPlanService assignedPedagogicalPlanService;
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-
-        logger.info("ON SUBMIT!!");
-        logger.info("ON SUBMIT!!");
-        logger.info("ON SUBMIT!!");
-        logger.info("ON SUBMIT!!");
 
         StudentFeedbackBean studentFeedbackBean = (StudentFeedbackBean) command;
         logger.info("SCORE: " + studentFeedbackBean.getScore() + " comment: " + studentFeedbackBean.getComment() + " user " + studentFeedbackBean.getUsername() + " action: " + studentFeedbackBean.getAction() + " modelId " + studentFeedbackBean.getModelId());
@@ -64,6 +58,7 @@ public class StudentEloRefViewerController  extends BaseFormController {
         modelAndView.addObject("username", getCurrentUserName(request));
         modelAndView.addObject("username", getCurrentUserName(request));
         modelAndView.addObject("modelId", request.getParameter("modelId"));
+        modelAndView.addObject("oddEven", new OddEven());
 
         prepareNextPage(request, response, modelAndView);
 
@@ -87,6 +82,10 @@ public class StudentEloRefViewerController  extends BaseFormController {
 
         logger.info("MODEL  IS: " + getModel());
 
+        if(request.getParameter("action") != null) {
+            if(request.getParameter("action").equals("addAssessment")) addAssessment(request, modelAndView);
+        }
+
         ELORefDataTransporter transporter = new ELORefDataTransporter();
         transporter.setEloRef((ELORef) getModel());
         ELORef eloRef = (ELORef) getModel();
@@ -98,10 +97,27 @@ public class StudentEloRefViewerController  extends BaseFormController {
         transporter.setAssessments(getPlayfulAssessmentService().getAssesmentsForELORef(eloRef));
         logger.info("I found " + getPlayfulAssessmentService().getAssesmentsForELORef(eloRef).size() + " ASSESSMENTS!!");
 
+        AssignedPedagogicalPlan assignedPedagogicalPlan = getAssignedPedagogicalPlanService().getCurrentAssignedPedagogicalPlan(getCurrentUser(request));
+        if(assignedPedagogicalPlan != null) transporter.setUseCriteriaBasedAssessment(assignedPedagogicalPlan.getUseCriteriaBasedAssessment());
+
+        AnchorELO elo = eloRef.getAnchorELO();
+        if(elo != null) {
+            if(elo.getAssessment() != null) {
+                transporter.setEvaluationCriteria(elo.getAssessment().getAssessmentCriterias());
+                transporter.setAssessmentScoreDefinitions(elo.getAssessment().getAssessmentScoreDefinitions());
+            }
+        }
+
+
         modelAndView.addObject("transporter", transporter);
         String encodedModel = eloRef.getClass().getName() + "_" + eloRef.getId();
         modelAndView.addObject("encodedModel", encodedModel);
         modelAndView.addObject("modelId", eloRef.getId());
+        
+    }
+
+    private void addAssessment(HttpServletRequest request, ModelAndView modelAndView) {
+        logger.info("Adding asssessment!");
         
     }
 
@@ -149,5 +165,11 @@ public class StudentEloRefViewerController  extends BaseFormController {
         this.userService = userService;
     }
 
+    public AssignedPedagogicalPlanService getAssignedPedagogicalPlanService() {
+        return assignedPedagogicalPlanService;
+    }
 
+    public void setAssignedPedagogicalPlanService(AssignedPedagogicalPlanService assignedPedagogicalPlanService) {
+        this.assignedPedagogicalPlanService = assignedPedagogicalPlanService;
+    }
 }
