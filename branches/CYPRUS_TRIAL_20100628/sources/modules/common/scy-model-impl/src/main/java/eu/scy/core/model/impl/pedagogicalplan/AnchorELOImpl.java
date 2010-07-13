@@ -14,6 +14,8 @@ import javax.persistence.*;
 @Table(name="anchorelo")
 public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
 
+    private String humanReadableName;
+
     private Assessment assessment = null;
 
     private Activity producedBy = null;
@@ -101,5 +103,15 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
     @Override
     public void setMissionMapId(String missionMapId) {
         this.missionMapId = missionMapId;
+    }
+
+    @Override
+    public String getHumanReadableName() {
+        return humanReadableName;
+    }
+
+    @Override
+    public void setHumanReadableName(String humanReadableName) {
+        this.humanReadableName = humanReadableName;
     }
 }

@@ -2,8 +2,10 @@ package eu.scy.core.model.impl;
 
 import eu.scy.core.model.ELORef;
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
 import eu.scy.core.model.impl.pedagogicalplan.BaseObjectImpl;
 import eu.scy.core.model.impl.pedagogicalplan.MissionImpl;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Mission;
 
 import javax.persistence.*;
@@ -31,6 +33,7 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
     private Date date;
     private String comment;
     private Integer viewings = 0;
+    private AnchorELO anchorELO;
 
     private List fileRefs ;
 
@@ -162,5 +165,17 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
     @Override
     public void setViewings(Integer viewings) {
         this.viewings = viewings;
+    }
+
+    @Override
+    @ManyToOne (targetEntity = AnchorELOImpl.class)
+    @JoinColumn(name="anchorELO_primKey")
+    public AnchorELO getAnchorELO() {
+        return anchorELO;
+    }
+
+    @Override
+    public void setAnchorELO(AnchorELO anchorELO) {
+        this.anchorELO = anchorELO;
     }
 }

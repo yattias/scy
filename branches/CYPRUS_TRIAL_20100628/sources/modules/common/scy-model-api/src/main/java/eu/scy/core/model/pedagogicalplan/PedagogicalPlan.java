@@ -33,4 +33,9 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
 
     public String getOverallMissionContentScaffoldingLevel();
     public void setOverallMissionContentScaffoldingLevel(String overallMissionContentScaffoldingLevel);
+
+    Boolean getLimitNumberOfELOsAvailableForPeerAssessment();
+    void setLimitNumberOfELOsAvailableForPeerAssessment(Boolean limitNumberOfELOsAvailableForPeerAssessment);
+
+    
 }

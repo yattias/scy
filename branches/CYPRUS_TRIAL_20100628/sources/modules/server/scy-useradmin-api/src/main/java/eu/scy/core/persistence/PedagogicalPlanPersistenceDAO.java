@@ -28,5 +28,9 @@ public interface PedagogicalPlanPersistenceDAO extends SCYBaseDAO {
 
     public PedagogicalPlan getPedagogicalPlan(String id);
 
-    List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan);
+    public List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan);
+
+    public void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO);
+
+    public List getAnchorELOs(PedagogicalPlan pedagogicalPlan);
 }

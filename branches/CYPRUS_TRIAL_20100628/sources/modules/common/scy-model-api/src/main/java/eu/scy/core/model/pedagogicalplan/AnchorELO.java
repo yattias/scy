@@ -10,6 +10,8 @@ package eu.scy.core.model.pedagogicalplan;
  */
 public interface AnchorELO extends PlannedELO, Assessable, PositionedObject {
 
+
+
     /**
      * Returns the Activity that the AnchorELo should be produced by
      *
@@ -35,4 +37,8 @@ public interface AnchorELO extends PlannedELO, Assessable, PositionedObject {
 
     String getMissionMapId();
     void setMissionMapId(String missionMapId);
+
+    String getHumanReadableName();
+
+    void setHumanReadableName(String humanReadableName);
 }

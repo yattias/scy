@@ -59,6 +59,7 @@
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
         <property name="userService" ref="userService"/>
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
 	</bean>
 
     <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
@@ -69,6 +70,8 @@
         <property name="missionService" ref="missionService"/>
         <property name="fileService" ref="fileService"/>
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.UploadELOBean"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
 	</bean>
 
     <bean id="studentFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.StudentFeedbackFormController">
@@ -77,6 +80,7 @@
         <property name="eloRefService" ref="eloRefService"/>
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
 	</bean>
+
 
     <bean id="fileUploadedForFeedbackListener" class="eu.scy.server.controllers.scyfeedback.FileUploadedForFeedbackListener"/>
 

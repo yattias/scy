@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
 
 /**
@@ -13,4 +14,9 @@ public interface AssessmentService extends BaseService{
 
     public Assessment findAssessmentByName(String name);
 
+    void addCriteria(Assessment assessment);
+
+    void addAssessment(AnchorELO anchorELO);
+
+    void addScoreDefinition(Assessment assessment);
 }

@@ -1,5 +1,6 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
 
 /**
@@ -11,4 +12,10 @@ import eu.scy.core.model.pedagogicalplan.Assessment;
  */
 public interface AssessmentDAO extends SCYBaseDAO{
     Assessment findAssessmentByName(String s);
+
+    void addCriteria(Assessment assessment);
+
+    void addAssessment(AnchorELO anchorELO);
+
+    void addScoreDefinition(Assessment assessment);
 }

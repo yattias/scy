@@ -1,12 +1,11 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,9 +23,11 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     private Boolean makeAllAssignedStudentsBuddies = false;
     private Integer minimumNumberOfAnchorELOsInPortfolio = 0;
     private Integer maximumNumberOfAnchorELOsInPortfolio = 0;
+    private Boolean limitNumberOfELOsAvailableForPeerAssessment = false;
 
     private String overallSCYLabScaffoldingLevel= null;
     private String overallMissionContentScaffoldingLevel = null;
+    private List anchorELOsToBePeerAssessed;
 
 
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
@@ -91,4 +92,15 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     public void setOverallMissionContentScaffoldingLevel(String overallMissionContentScaffoldingLevel) {
         this.overallMissionContentScaffoldingLevel = overallMissionContentScaffoldingLevel;
     }
+
+    @Override
+    public Boolean getLimitNumberOfELOsAvailableForPeerAssessment() {
+        return limitNumberOfELOsAvailableForPeerAssessment;
+    }
+
+    @Override
+    public void setLimitNumberOfELOsAvailableForPeerAssessment(Boolean limitNumberOfELOsAvailableForPeerAssessment) {
+        this.limitNumberOfELOsAvailableForPeerAssessment = limitNumberOfELOsAvailableForPeerAssessment;
+    }
+
 }

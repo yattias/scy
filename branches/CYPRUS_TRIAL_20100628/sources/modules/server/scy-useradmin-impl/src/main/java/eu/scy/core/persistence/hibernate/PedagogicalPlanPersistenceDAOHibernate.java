@@ -1,5 +1,6 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanAnchorEloConnectionImpl;
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
@@ -101,6 +102,22 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .setEntity("scenario", scenario)
                 .list();
 
+    }
+
+    @Override
+    public void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO) {
+        if(pedagogicalPlan == null || anchorELO == null) throw new RuntimeException("Illegal null value: pedagogical plan: " + pedagogicalPlan + " anchor ELO: " + anchorELO);
+        PedagogicalPlanAnchorEloConnection connection = new PedagogicalPlanAnchorEloConnectionImpl();
+        connection.setPedagogicalPlan(pedagogicalPlan);
+        connection.setAnchorELO(anchorELO);
+        save(connection);
+    }
+
+    @Override
+    public List getAnchorELOs(PedagogicalPlan pedagogicalPlan) {
+        return getSession().createQuery("select connection.anchorELO from PedagogicalPlanAnchorEloConnectionImpl as connection where connection.pedagogicalPlan = :pedagogicalPlan")
+                .setEntity("pedagogicalPlan", pedagogicalPlan)
+                .list();
     }
 
 }
