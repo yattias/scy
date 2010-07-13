@@ -3,9 +3,13 @@
     <tiles:putAttribute name="main">
         <c:choose>
             <c:when test="${fn:length(transporter.files) > 0}">
-                <c:forEach var="refFile" items="${transporter.files}">
-                    <img style="background-color:#cccccc;padding:15px;" src="/webapp/components/resourceservice.html?id=${refFile.id}"/>
-                </c:forEach>
+                <center>
+                    <c:forEach var="refFile" items="${transporter.files}">
+                        <a href="/webapp/components/resourceservice.html?id=${refFile.id}" target="_blank">
+                            <img style="background-color:#cccccc;padding:15px;" src="/webapp/components/resourceservice.html?id=${refFile.id}&showIcon=true"/>
+                        </a>
+                    </c:forEach>
+                </center>
             </c:when>
         </c:choose>
 
@@ -40,36 +44,76 @@
         <fieldset>
             <label>Peer Evaluation</label>
 
-            <div id="commentBlock">
-                <form method="POST" accept-charset="UTF-8" action="studentEloRefViewer.html">'
+            <table>
+                <c:if test="${transporter.useCriteriaBasedAssessment}">
+                    <tr>
+                        <th>
+                            Criteria
+                        </th>
+                        <c:choose>
+                            <c:when test="${fn:length(transporter.assessmentScoreDefinitions) > 0}">
+                                <c:forEach var="scoreDefinition" items="${transporter.assessmentScoreDefinitions}">
+                                    <th>
+                                        ${scoreDefinition.heading}
+                                    </th>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+                    </tr>
+                    <c:choose>
+                        <c:when test="${fn:length(transporter.evaluationCriteria) > 0}">
 
-                    <table>
-                        <input type="hidden" name="action" value="addNewComment"/>
-                        <input type="hidden" name="modelId" value="${modelId}"/>
-                        <input type="hidden" name="username" value="${username}"/>
+                                <c:forEach var="criteria" items="${transporter.evaluationCriteria}">
+                                    <tr class="${oddEven.oddEven}">
+                                        <td>
+                                            ${criteria.criteria}
+                                        </td>
+                                        <c:choose>
+                                            <c:when test="${fn:length(transporter.assessmentScoreDefinitions) > 0}">
+                                                <c:forEach var="scoreDefinition" items="${transporter.assessmentScoreDefinitions}">
+                                                    <td>
+                                                        <a href="studentEloRefViewer.html?criteriaId=${criteria.id}&scoreDefinitionId=${scoreDefinition.id}&model=${encodedModel}&action=addAssessment">5</a>
+                                                    </td>
+                                                </c:forEach>
+                                            </c:when>
+                                        </c:choose>
+                                    </tr>
+                                </c:forEach>
+                        </c:when>
+                    </c:choose>
+                </c:if>
+                <tr class="${oddEven.oddEven}">
+                    <td colspan="${transporter.colSpan}">
+                        <form method="POST" accept-charset="UTF-8" action="studentEloRefViewer.html">'
 
-                        <input type="hidden" name="model" value="${encodedModel}"/>
-                        <tr>
-                            <td>
-                                <strong>Comment</strong><br/>
-                                <textarea name="comment" cols="40" rows="4"></textarea>
-                            </td>
-                            <td>
-                                <strong>Evaluation score</strong>
-                                <input type="range" min="1" max="5" value="1" name="score" />
-                                <strong>5</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="right">
-                                <input type="submit"/>
-                            </td>
-                        </tr>
-                    </table>
+                            <table>
+                                <input type="hidden" name="action" value="addNewComment"/>
+                                <input type="hidden" name="modelId" value="${modelId}"/>
+                                <input type="hidden" name="username" value="${username}"/>
 
-                </form>
-                                
-            </div>
+                                <input type="hidden" name="model" value="${encodedModel}"/>
+                                <tr>
+                                    <td>
+                                        <strong>Comment</strong><br/>
+                                        <textarea name="comment" cols="40" rows="4"></textarea>
+                                    </td>
+                                    <td>
+                                        <strong>Evaluation score</strong>
+                                        <input type="range" min="1" max="5" value="1" name="score" />
+                                        <strong>5</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="right">
+                                        <input type="submit"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </form>
+                    </td>
+                </tr>
+            </table>
 
             <c:choose>
                 <c:when test="${fn:length(transporter.assessments) > 0}">

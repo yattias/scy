@@ -92,7 +92,6 @@ public class ScyFeedbackIndexController extends BaseFormController {
     public void setFileService(FileService fileService) {
         this.fileService = fileService;
     }
-
     public PlayfulAssessmentService getPlayfulAssessmentService() {
         return playfulAssessmentService;
     }

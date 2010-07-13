@@ -6,6 +6,7 @@ import eu.scy.core.model.FileRef;
 import eu.scy.core.model.ImageRef;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ELORefImpl;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.runtime.RuntimeService;
@@ -39,6 +40,8 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
     private ELORefService eloRefService;
     private MissionService missionService;
     private FileService fileService;
+    private AnchorELOService anchorELOService;
+    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
 
     protected ModelAndView onSubmit(
             HttpServletRequest request,
@@ -125,14 +128,23 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
             String las = getRuntimeService().getCurrentLAS(user);
 
             List assignedPedagogicalPlans = getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(user);
+            List elosToBeAssessed = new LinkedList();
 
             List missions = new LinkedList();
             for (int i = 0; i < assignedPedagogicalPlans.size(); i++) {
                 AssignedPedagogicalPlan assignedPedagogicalPlan = (AssignedPedagogicalPlan) assignedPedagogicalPlans.get(i);
                 missions.add(assignedPedagogicalPlan.getPedagogicalPlan().getMission());
+                if(assignedPedagogicalPlan.getPedagogicalPlan().getLimitNumberOfELOsAvailableForPeerAssessment()) {
+                    List anchorElos = getPedagogicalPlanPersistenceService().getAnchorELOs(assignedPedagogicalPlan.getPedagogicalPlan());
+                    for (int j = 0; j < anchorElos.size(); j++) {
+                        AnchorELO anchorELO = (AnchorELO) anchorElos.get(j);
+                        elosToBeAssessed.add(anchorELO);
+                    }
+                }
             }
 
             modelAndView.addObject("missions", missions);
+            modelAndView.addObject("elosToBeAssessed", elosToBeAssessed);
 
             if (missions != null && missions.size() > 0) modelAndView.addObject("firstMission", missions.get(0));
 
@@ -166,15 +178,18 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
 
         User user = getUserService().getUser(request.getParameter("username"));
 
+        AnchorELO elo = getAnchorELOService().getAnchorELO(request.getParameter("anchorEloId"));
+
         ELORef eloRef = new ELORefImpl();
         eloRef.setAuthor(user);
         eloRef.setTool(request.getParameter("tool"));
-        eloRef.setName(request.getParameter("productName"));
-        eloRef.setTitle(request.getParameter("productName"));
+        eloRef.setName(elo.getHumanReadableName());
+        eloRef.setTitle(elo.getHumanReadableName());
         eloRef.setType(request.getParameter("productType"));
         eloRef.setMission(getMissionService().getMission(request.getParameter("mission")));
         eloRef.setDate(new Date());
         eloRef.setComment(request.getParameter("comment"));
+        eloRef.setAnchorELO(elo);
 
         getEloRefService().save(eloRef);
 
@@ -245,5 +260,21 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
 
     public void setFileService(FileService fileService) {
         this.fileService = fileService;
+    }
+
+    public AnchorELOService getAnchorELOService() {
+        return anchorELOService;
+    }
+
+    public void setAnchorELOService(AnchorELOService anchorELOService) {
+        this.anchorELOService = anchorELOService;
+    }
+
+    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
+        return pedagogicalPlanPersistenceService;
+    }
+
+    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
+        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
     }
 }

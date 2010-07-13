@@ -74,4 +74,15 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
     public List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
         return getPedagogicalPlanPersistenceDAO().getLearningActivitySpaces(pedagogicalPlan);
     }
+
+    @Override
+    @Transactional
+    public void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO) {
+        getPedagogicalPlanPersistenceDAO().addAnchorEloToPedagogicalPlan(pedagogicalPlan, anchorELO);
+    }
+
+    @Override
+    public <AnchorELO> List getAnchorELOs(PedagogicalPlan pedagogicalPlan) {
+        return getPedagogicalPlanPersistenceDAO().getAnchorELOs(pedagogicalPlan);
+    }
 }

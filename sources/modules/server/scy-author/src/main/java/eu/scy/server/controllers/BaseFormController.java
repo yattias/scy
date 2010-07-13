@@ -72,10 +72,12 @@ public abstract class BaseFormController extends SimpleFormController {
     } */
 
     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+        logger.info("-----------------------------------------------------");
         if(getUrlInspector() != null) {
             ScyBase model = getUrlInspector().instpectRequest(request, httpServletResponse);
             setModel(model);
         }
+        logger.info("*******************************************************");
     }
 
     //protected abstract void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView);
