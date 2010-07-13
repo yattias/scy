@@ -1,6 +1,9 @@
 package eu.scy.core.persistence;
 
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.Scenario;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,4 +13,6 @@ import eu.scy.core.model.pedagogicalplan.AnchorELO;
  */
 public interface AnchorELODAO extends SCYBaseDAO {
     AnchorELO getAnchorELO(String anchorEloId);
+
+    List<AnchorELO> getAllAnchorELOsForScenario(Scenario scenario);
 }

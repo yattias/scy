@@ -41,4 +41,8 @@ public interface PedagogicalPlanPersistenceService extends BaseService{
     public List<PedagogicalPlan> getPedagogicalPlans();
 
     List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan);
+
+    void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO);
+
+    public <AnchorELO> List getAnchorELOs(PedagogicalPlan pedagogicalPlan);
 }

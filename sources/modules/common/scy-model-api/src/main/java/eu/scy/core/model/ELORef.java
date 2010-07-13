@@ -1,5 +1,6 @@
 package eu.scy.core.model;
 
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.BaseObject;
 import eu.scy.core.model.pedagogicalplan.Mission;
 
@@ -60,4 +61,8 @@ public interface ELORef extends BaseObject {
     Integer getViewings();
 
     void setViewings(Integer viewings);
+
+    AnchorELO getAnchorELO();
+
+    void setAnchorELO(AnchorELO anchorELO);
 }

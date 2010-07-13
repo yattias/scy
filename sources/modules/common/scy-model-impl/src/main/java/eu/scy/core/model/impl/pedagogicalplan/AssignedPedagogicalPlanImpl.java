@@ -20,6 +20,7 @@ public class AssignedPedagogicalPlanImpl extends BaseObjectImpl implements Assig
 
     private PedagogicalPlan pedagogicalPlan;
     private User user;
+    private Boolean useCriteriaBasedAssessment;
 
     @Override
     @ManyToOne(targetEntity = PedagogicalPlanImpl.class,  fetch = FetchType.LAZY)
@@ -43,5 +44,15 @@ public class AssignedPedagogicalPlanImpl extends BaseObjectImpl implements Assig
     @Override
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public Boolean getUseCriteriaBasedAssessment() {
+        return useCriteriaBasedAssessment;
+    }
+
+    @Override
+    public void setUseCriteriaBasedAssessment(Boolean useCriteriaBasedAssessment) {
+        this.useCriteriaBasedAssessment = useCriteriaBasedAssessment;
     }
 }

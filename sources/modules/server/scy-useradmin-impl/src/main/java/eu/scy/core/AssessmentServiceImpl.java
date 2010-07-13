@@ -1,7 +1,9 @@
 package eu.scy.core;
 
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
 import eu.scy.core.persistence.AssessmentDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,5 +27,23 @@ public class AssessmentServiceImpl extends BaseServiceImpl implements Assessment
     @Override
     public Assessment findAssessmentByName(String name) {
         return getAssessmentDAO().findAssessmentByName(name);
+    }
+
+    @Override
+    @Transactional
+    public void addCriteria(Assessment assessment) {
+        getAssessmentDAO().addCriteria(assessment);
+    }
+
+    @Override
+    @Transactional
+    public void addAssessment(AnchorELO anchorELO) {
+        getAssessmentDAO().addAssessment(anchorELO);
+    }
+
+    @Override
+    @Transactional
+    public void addScoreDefinition(Assessment assessment) {
+        getAssessmentDAO().addScoreDefinition(assessment);
     }
 }

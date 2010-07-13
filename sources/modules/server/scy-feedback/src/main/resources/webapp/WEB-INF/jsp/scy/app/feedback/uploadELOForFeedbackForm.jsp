@@ -2,20 +2,6 @@
 <!--form enctype="multipart/form-data" accept-charset="UTF-8" action="/webapp/app/feedback/uploadELOForFeedbackForm.html" onsubmit="postForm(this, this.parentNode);return false;"-->
 <form method="POST" enctype="multipart/form-data" accept-charset="UTF-8" action="/webapp/app/feedback/uploadELOForFeedbackForm.html">
     <table>
-        <!--tr width="100%">
-            <td align="left" width="20%"><strong>Mission</strong></td>
-            <td align="left">
-                <c:choose>
-                    <c:when test="${fn:length(missions) > 0}">
-                        <select name="mission">
-                            <c:forEach var="mission" items="${missions}">
-                                <option value="${mission.id}">${mission.name}</option>
-                            </c:forEach>
-                        </select>
-                    </c:when>
-                </c:choose>
-            </td>
-        </tr-->
         <tr width="100%">
             <td align="left">
                 <strong>File</strong>
@@ -28,24 +14,18 @@
         <tr>
             <td align="left"><strong>ELO Title</strong></td>
             <td align="left">
-                <input type="name" name="productName">
-            </td>
-        </tr>
-        <!--tr>
-            <td align="left"><strong>Product statusssss</strong></td>
-            <td align="left">
-                <c:choose>
-                    <c:when test="${fn:length(statuses) > 0}">
-                        <select name="status">
-                            <c:forEach var="status" items="${statuses}">
-                                <option value="${status}">${status}</option>
+                 <c:choose>
+                    <c:when test="${fn:length(elosToBeAssessed) > 0}">
+                        <select name="anchorEloId">
+                            <c:forEach var="eloToBeAssessed" items="${elosToBeAssessed}">
+                                <option value="${eloToBeAssessed.id}">${eloToBeAssessed.humanReadableName}</option>
                             </c:forEach>
                         </select>
                     </c:when>
                 </c:choose>
-
             </td>
-        </tr-->
+        </tr>
+
         <tr>
             <td align="left">
                 <strong>
@@ -66,16 +46,6 @@
                 <input type="text" name="productType">
             </td>
         </tr>
-        <!--tr>
-            <td align="left"><strong>Product</strong></td>
-            <td align="left"></td>
-        </tr-->
-        <!--tr>
-            <td align="left"><strong>Tool used</strong></td>
-            <td align="left">
-                <input type="text" name="tool" value="{currentTool}">
-            </td>
-        </tr-->
         <tr>
             <td align="left">
                 <strong>

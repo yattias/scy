@@ -31,6 +31,8 @@ public class ViewPedagogicalPlanController extends BaseController {
         if(pedPlanId != null) {
             logger.info("PED PLAN ID: " + pedPlanId);
             plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
+        } else {
+            logger.info("PEDAGOGICAL PLAN IS NULL!!");
         }
         if(getModel() != null) {
             plan = (PedagogicalPlan) getModel();
@@ -52,6 +54,7 @@ public class ViewPedagogicalPlanController extends BaseController {
             modelAndView.addObject("pedagogicalPlan", plan);
             modelAndView.addObject("assignedPedagogicalPlansCount", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlansCount(plan));
             modelAndView.addObject("pedagogicalPlanGroupsCount", getGroupService().getPedagogicalPlanGroupsCount(plan));
+            modelAndView.addObject("anchorElos", getPedagogicalPlanPersistenceService().getAnchorELOs(plan));
         }
     }
 

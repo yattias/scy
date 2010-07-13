@@ -111,4 +111,12 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
         }
 
     }
+
+    @Override
+    public AssignedPedagogicalPlan getCurrentAssignedPedagogicalPlan(User currentUser) {
+        List <AssignedPedagogicalPlan> assignedPedagogicalPlans = getAssignedPedagogicalPlans(currentUser);
+        logger.warn("HACJK HACK");
+        if(assignedPedagogicalPlans.size() > 0) return assignedPedagogicalPlans.get(0);
+        return null;
+    }
 }
