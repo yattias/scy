@@ -1,6 +1,7 @@
 package eu.scy.client.common.datasync;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import eu.scy.common.datasync.ISyncObject;
 
@@ -37,11 +38,26 @@ public interface ISyncSession {
 	public void removeSyncObject(ISyncObject syncObject);
 
 	/**
-	 * returns all ISyncObjects in this session.
+	 * Returns all ISyncObjects in this session. The query will timeout after
+	 * 10 seconds. If this is not enough for you (maybe because of very very large
+	 * data or super slow connection) specify the timeout using the 
+	 * {@link ISyncSession#getAllSyncObjects(int, TimeUnit)} method.
 	 * 
 	 * @return a List of all ISyncObjects that are currently in this session
+	 * @throws DataSyncException 
 	 */
-	public List<ISyncObject> getAllSyncObjects();
+	public List<ISyncObject> getAllSyncObjects() throws DataSyncException;
+	
+	/**
+	 * Returns all ISyncObjects in this session with a specified timeout. Only
+	 * use this method if you really want to specify the timeout. The preferred
+	 * option is to use the {@link ISyncSession#getAllSyncObjects()} method that
+	 * uses a timeout of 10 seconds.
+	 * 
+	 * @return a List of all ISyncObjects that are currently in this session
+	 * @throws DataSyncException 
+	 */
+	public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) throws DataSyncException;
 	
 	/**
 	 * returns a single SyncObjects in this session. if no ISyncObject
@@ -74,5 +90,10 @@ public interface ISyncSession {
 	 * @return a string that identifies this session
 	 */
 	public String getId();
+	
+	/**
+	 * leaves a session and de-registers all IDataSyncListener
+	 */
+	public void leaveSession();
 
 }
