@@ -1,5 +1,7 @@
 package eu.scy.actionlogging.logger;
 
+import javax.swing.SwingUtilities;
+
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
 
@@ -35,22 +37,35 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 	 * @param action
 	 *            IAction thrown
 	 */
-	public void log(IAction action) {
+	public void log(final IAction action) {
 
-                debugLogger.debug("logging "+action.getType()+"-action for tool "+action.getContext(ContextConstants.tool));
+	    Runnable r = new Runnable() {
+                
+                @Override
+                public void run() {
+                    debugLogger.debug("logging "+action.getType()+"-action for tool "+action.getContext(ContextConstants.tool));
 
-		Message packet = new Message();
+                    Message packet = new Message();
 
-		packet.setFrom(connection.getUser());
-		packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+                    packet.setFrom(connection.getUser());
+                    packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 
-		action.setUser(connection.getUser());
-		// creating new instances of transformer instead of reusing because of racing conditions
-		ActionPacketTransformer transformer = new ActionPacketTransformer();
-		transformer.setObject(action);
+                    action.setUser(connection.getUser());
+                    // creating new instances of transformer instead of reusing because of racing conditions
+                    ActionPacketTransformer transformer = new ActionPacketTransformer();
+                    transformer.setObject(action);
 
-		packet.addExtension(new SmacketExtension(transformer));
-		connection.sendPacket(packet);
+                    packet.addExtension(new SmacketExtension(transformer));
+                    connection.sendPacket(packet);
+                }
+            };
+            if (SwingUtilities.isEventDispatchThread()) {
+                Thread t = new Thread(r);
+                t.setDaemon(true);
+                t.start();
+	    } else {
+	        r.run();
+	    }
 	}
 
 	public void init(XMPPConnection connection) {
