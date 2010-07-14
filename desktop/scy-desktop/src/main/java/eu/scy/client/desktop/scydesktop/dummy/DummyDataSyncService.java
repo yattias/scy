@@ -20,6 +20,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class DummyDataSyncService implements IDataSyncService {
 
+    public void leaveSession(ISyncSession iSyncSession, ISyncListener iSyncListener) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 	private class DummySyncSession implements ISyncSession {
 		private final String id = "" + System.currentTimeMillis();
 
@@ -58,12 +62,10 @@ public class DummyDataSyncService implements IDataSyncService {
 		public void removeSyncObject(ISyncObject iso) {
 		}
 
-		@Override
 		public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) {
 			return new LinkedList<ISyncObject>();
 		}
 
-		@Override
 		public void leaveSession() {
 		}
 
@@ -79,17 +81,14 @@ public class DummyDataSyncService implements IDataSyncService {
 		return new DummySyncSession();
 	}
 
-	@Override
 	public ISyncSession createSession(ISyncListener listener, String toolid) {
 		return new DummySyncSession();
 	}
 
-	@Override
 	public ISyncSession joinSession(String mucID, ISyncListener iSyncListener, String toolid) {
 		return new DummySyncSession();
 	}
 
-	@Override
 	public ISyncSession joinSession(String mucID, ISyncListener iSyncListener, String toolid, boolean fetchState) {
 		return new DummySyncSession();
 	}
