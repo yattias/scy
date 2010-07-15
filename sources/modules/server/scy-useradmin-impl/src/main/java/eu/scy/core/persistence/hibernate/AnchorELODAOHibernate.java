@@ -17,14 +17,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class AnchorELODAOHibernate extends ScyBaseDAOHibernate implements AnchorELODAO {
-    @Override
+
     public AnchorELO getAnchorELO(String anchorEloId) {
         return (AnchorELO) getSession().createQuery("from AnchorELOImpl where id like :id")
                 .setString("id", anchorEloId)
                 .uniqueResult();
     }
 
-    @Override
+
     public List<AnchorELO> getAllAnchorELOsForScenario(Scenario scenario) {
         List anchorElos = new LinkedList();
         List lasses =  getSession().createQuery("from LearningActivitySpaceImpl as las where las.participatesIn = :scenario")

@@ -25,12 +25,12 @@ public class AnchorELOServiceImpl extends BaseServiceImpl implements AnchorELOSe
         this.anchorELODAO = anchorELODAO;
     }
 
-    @Override
+
     public AnchorELO getAnchorELO(String anchorEloId) {
         return getAnchorELODAO().getAnchorELO(anchorEloId);
     }
 
-    @Override
+
     public List<AnchorELO> getAllAnchorELOsForScenario(Scenario scenario) {
         return getAnchorELODAO().getAllAnchorELOsForScenario(scenario);
     }

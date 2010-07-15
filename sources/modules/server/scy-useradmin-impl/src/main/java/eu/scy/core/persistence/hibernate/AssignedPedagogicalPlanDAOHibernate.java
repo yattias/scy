@@ -37,7 +37,6 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
         this.studentPedagogicalPlanPersistenceService = studentPedagogicalPlanPersistenceService;
     }
 
-    @Override
     public AssignedPedagogicalPlan assignPedagogicalPlanToUser(PedagogicalPlan plan, User user) {
         AssignedPedagogicalPlan assignedPedagogicalPlan= new AssignedPedagogicalPlanImpl();
         assignedPedagogicalPlan.setPedagogicalPlan(plan);
@@ -77,7 +76,7 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
                 .list();
     }
 
-    @Override
+
     public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(User user) {
         return getSession().createQuery("From AssignedPedagogicalPlanImpl where user = :user")
                 .setEntity("user", user)
@@ -86,7 +85,7 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
 
     }
 
-    @Override
+
     public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(PedagogicalPlan pedagogicalPlan) {
         return getSession().createQuery("from AssignedPedagogicalPlanImpl where pedagogicalPlan = :pedagogicalPlan")
                 .setEntity("pedagogicalPlan", pedagogicalPlan)
@@ -99,7 +98,7 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
                 .uniqueResult();
     }
 
-    @Override
+
     public void removeAssignedAssessment(User user, PedagogicalPlan plan) {
         AssignedPedagogicalPlan assignedPedagogicalPlan = (AssignedPedagogicalPlan) getSession().createQuery("from AssignedPedagogicalPlanImpl where user = :user and pedagogicalPlan = :pedagogicalPlan")
                 .setEntity("user", user)
@@ -112,7 +111,7 @@ public class AssignedPedagogicalPlanDAOHibernate extends ScyBaseDAOHibernate imp
 
     }
 
-    @Override
+
     public AssignedPedagogicalPlan getCurrentAssignedPedagogicalPlan(User currentUser) {
         List <AssignedPedagogicalPlan> assignedPedagogicalPlans = getAssignedPedagogicalPlans(currentUser);
         logger.warn("HACJK HACK");
