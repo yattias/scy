@@ -64,7 +64,7 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
     }
 
     @Override
-    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score) {
+    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment) {
         logger.info("CHECKING WHETHER EXPERIENCE ALREADY HAS BEEN STORED FOR " + user.getUserDetails().getUsername() + " " + criteria.getId());
         AssessmentCriteriaExperience assessmentCriteriaExperience = getAssessmentCriteriaExperience(user, criteria);
         if(assessmentCriteriaExperience == null) {
@@ -79,7 +79,8 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
         }
 
         assessmentCriteriaExperience.setScore(score);
-        assessmentCriteriaExperience.setCriteriaText(criteriaText);
+        if(criteriaText != "") assessmentCriteriaExperience.setCriteriaText(criteriaText);
+        if(comment != null) assessmentCriteriaExperience.setComment(comment);
 
         getHibernateTemplate().saveOrUpdate(assessmentCriteriaExperience);
     }

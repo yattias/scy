@@ -15,6 +15,7 @@ public class CriteriaBasedEvaluationBean {
     private String evaluationCriteriaId;
     private String assessmentId;
     private String score;
+    private String comment;
 
     public String getCriteriaText() {
         return criteriaText;
@@ -62,5 +63,13 @@ public class CriteriaBasedEvaluationBean {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

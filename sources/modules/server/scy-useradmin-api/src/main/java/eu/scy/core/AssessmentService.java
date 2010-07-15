@@ -27,5 +27,5 @@ public interface AssessmentService extends BaseService{
 
     AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria);
 
-    void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score);
+    void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment);
 }

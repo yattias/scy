@@ -102,6 +102,10 @@
 
 
     <bean id="fileUploadedForFeedbackListener" class="eu.scy.server.controllers.scyfeedback.FileUploadedForFeedbackListener"/>
+    <bean id="fileUploadedForAssessmentScoreDefinition" class="eu.scy.server.controllers.scyfeedback.FileAddedToAssessmentScoreDefinitionListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
 
 
 

@@ -35,7 +35,18 @@ public class StoreNewCriteriaBasedEvaluationController extends BaseFormControlle
         AssessmentCriteria criteria = getAssessmentService().getAssessmentCriteria(request.getParameter("evaluationCriteriaId"));
         User user = getCurrentUser(request);
 
-        getAssessmentService().createOrUpdateAssessmentCriteriaExperience(user, criteria, bean.getCriteriaText(), Integer.getInteger(bean.getScore()));
+        logger.info("SCORE: " + bean.getScore());
+        Integer score = 0;
+        if(bean.getScore() != null) {
+            score = Integer.parseInt(bean.getScore());
+        }
+        String criteriaText = bean.getCriteriaText();
+
+        if(score == null) score = 0;
+        if(criteriaText == null) criteriaText ="";
+
+        logger.info("AssessmentService: "+ getAssessmentService() + " " + criteriaText + " " + criteria + " " + score);
+        getAssessmentService().createOrUpdateAssessmentCriteriaExperience(user, criteria, criteriaText, score, bean.getComment());
 
 
 

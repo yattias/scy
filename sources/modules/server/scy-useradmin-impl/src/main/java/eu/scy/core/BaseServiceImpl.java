@@ -27,4 +27,9 @@ public class BaseServiceImpl implements BaseService{
     public void save(ScyBase scyBaseObject) {
         getScyBaseDAO().save(scyBaseObject);
     }
+
+    @Override
+    public ScyBase get(String id, Class type) {
+        return (ScyBase) getScyBaseDAO().getObject(type, id);
+    }
 }

@@ -22,6 +22,7 @@ public class AssessmentCriteriaExperienceImpl extends BaseObjectImpl implements 
     private AssessmentCriteria assessmentCriteria;
     private User user;
     private String criteriaText;
+    private String comment;
 
     @Override
     public Integer getScore() {
@@ -65,5 +66,15 @@ public class AssessmentCriteriaExperienceImpl extends BaseObjectImpl implements 
     @Override
     public void setCriteriaText(String criteriaText) {
         this.criteriaText = criteriaText;
+    }
+
+    @Override
+    public String getComment() {
+        return comment;
+    }
+
+    @Override
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
