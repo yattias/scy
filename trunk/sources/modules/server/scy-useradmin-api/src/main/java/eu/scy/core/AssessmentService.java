@@ -1,7 +1,10 @@
 package eu.scy.core;
 
+import eu.scy.core.model.AssessmentCriteria;
+import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
+import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,4 +22,10 @@ public interface AssessmentService extends BaseService{
     void addAssessment(AnchorELO anchorELO);
 
     void addScoreDefinition(Assessment assessment);
+
+    AssessmentCriteria getAssessmentCriteria(String parameter);
+
+    AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria);
+
+    void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score);
 }

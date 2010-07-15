@@ -1,10 +1,12 @@
 package eu.scy.server.controllers.scyfeedback;
 
 import eu.scy.core.*;
+import eu.scy.core.model.AssessmentCriteria;
 import eu.scy.core.model.ELORef;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.playful.PlayfulAssessment;
 import eu.scy.server.common.OddEven;
@@ -34,6 +36,7 @@ public class StudentEloRefViewerController  extends BaseFormController {
     private PlayfulAssessmentService playfulAssessmentService;
     private UserService userService;
     private AssignedPedagogicalPlanService assignedPedagogicalPlanService;
+    private AssessmentService assessmentService;
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
@@ -87,9 +90,19 @@ public class StudentEloRefViewerController  extends BaseFormController {
         }
 
         ELORefDataTransporter transporter = new ELORefDataTransporter();
-        transporter.setEloRef((ELORef) getModel());
         ELORef eloRef = (ELORef) getModel();
-        eloRef.setViewings(eloRef.getViewings() + 1);
+
+        if(eloRef == null) {
+            if(request.getParameter("eloRefId") != null) {
+                eloRef = getEloRefService().getELORefById(request.getParameter("eloRefId"));
+                setModel(eloRef);
+            }
+
+        } else {
+            eloRef.setViewings(eloRef.getViewings() + 1);
+        }
+        transporter.setEloRef((ELORef) getModel());
+
         getEloRefService().save(eloRef);
         transporter.setFiles(getFileService().getFilesForELORef(eloRef));
         transporter.setTotalScore(getPlayfulAssessmentService().getScoreForELORef(eloRef));
@@ -104,7 +117,20 @@ public class StudentEloRefViewerController  extends BaseFormController {
         if(elo != null) {
             if(elo.getAssessment() != null) {
                 transporter.setEvaluationCriteria(elo.getAssessment().getAssessmentCriterias());
+                List criteriaExperienceHolders = new LinkedList();
+                List criterias = elo.getAssessment().getAssessmentCriterias();
+                for (int i = 0; i < criterias.size(); i++) {
+                    AssessmentCriteria assessmentCriteria = (AssessmentCriteria) criterias.get(i);
+                    CriteriaAndExperienceHolder criteriaAndExperienceHolder = new CriteriaAndExperienceHolder();
+                    criteriaAndExperienceHolder.setCriteria(assessmentCriteria);
+                    AssessmentCriteriaExperience experience = getAssessmentService().getAssessmentCriteriaExperience(getCurrentUser(request), assessmentCriteria);
+                    criteriaAndExperienceHolder.setAssessmentCriteriaExperience(experience);
+                    logger.info("ADDED holder.  " + criteriaAndExperienceHolder.getCriteriaText());
+                    criteriaExperienceHolders.add(criteriaAndExperienceHolder);
+                }
+
                 transporter.setAssessmentScoreDefinitions(elo.getAssessment().getAssessmentScoreDefinitions());
+                transporter.setCriteriaAndExperienceHolders(criteriaExperienceHolders);
             }
         }
 
@@ -171,5 +197,13 @@ public class StudentEloRefViewerController  extends BaseFormController {
 
     public void setAssignedPedagogicalPlanService(AssignedPedagogicalPlanService assignedPedagogicalPlanService) {
         this.assignedPedagogicalPlanService = assignedPedagogicalPlanService;
+    }
+
+    public AssessmentService getAssessmentService() {
+        return assessmentService;
+    }
+
+    public void setAssessmentService(AssessmentService assessmentService) {
+        this.assessmentService = assessmentService;
     }
 }

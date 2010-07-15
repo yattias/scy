@@ -530,6 +530,25 @@ CREATE TABLE `assessmentscoredefinition` (
     CONSTRAINT `assessmentasdcritconst` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `assessmentcriteriaexperience`;
+CREATE TABLE `assessmentcriteriaexperience` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`heading` varchar(250) default NULL,
+	`score` int(8) default 0,
+	`description` text,
+	`criteriaText` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `user_primKey` bigint(20) NULL,
+    `assessmentCriteria_primKey` varchar(55) default NULL ,
+	PRIMARY KEY  (`primKey`),
+    KEY `useraceref` (`user_primKey`),
+    KEY `assessmentcriterieexperiencerer` (`assessmentCriteria_primKey`),
+    CONSTRAINT `userassessmentcriteriaexperiencerefconst` FOREIGN KEY (`user_primKey`) REFERENCES `users` (`id`),
+    CONSTRAINT `assessmentcriterieexperiencererconst` FOREIGN KEY (`assessmentCriteria_primKey`) REFERENCES `assessmentcriteria` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 set FOREIGN_KEY_CHECKS=1;
 
 
