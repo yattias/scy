@@ -19,12 +19,11 @@ public class AssignedPedagogicalPlanServiceImpl extends BaseServiceImpl implemen
 
     private AssignedPedagogicalPlanDAO assignedPedagogicalPlanDAO;
 
-    @Override
     public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(PedagogicalPlan pedagogicalPlan) {
         return getAssignedPedagogicalPlanDAO().getAssignedPedagogicalPlans(pedagogicalPlan);
     }
 
-    @Override
+
     @Transactional
     public AssignedPedagogicalPlan assignPedagogicalPlanToUser(PedagogicalPlan plan, User user) {
         return getAssignedPedagogicalPlanDAO().assignPedagogicalPlanToUser(plan, user);
@@ -34,18 +33,18 @@ public class AssignedPedagogicalPlanServiceImpl extends BaseServiceImpl implemen
         return getAssignedPedagogicalPlanDAO().getAssignedPedagogicalPlansCount(pedagogicalPlan);
     }
 
-    @Override
+
     public List<AssignedPedagogicalPlan> getAssignedPedagogicalPlans(User user) {
         return getAssignedPedagogicalPlanDAO().getAssignedPedagogicalPlans(user);
     }
 
-    @Override
+
     @Transactional
     public void removeAssignedAssessment(User user, PedagogicalPlan plan) {
         getAssignedPedagogicalPlanDAO().removeAssignedAssessment(user, plan);
     }
 
-    @Override
+
     public AssignedPedagogicalPlan getCurrentAssignedPedagogicalPlan(User currentUser) {
         return getAssignedPedagogicalPlanDAO().getCurrentAssignedPedagogicalPlan(currentUser);
     }

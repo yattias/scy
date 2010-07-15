@@ -45,43 +45,43 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlanByName(name);
     }
 
-    @Override
+
     public PedagogicalPlan getPedagogicalPlan(String id) {
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlan(id);
     }
 
-    @Override
+
     public List<Scenario> getCompatibleScenarios(Mission mission) {
         return getPedagogicalPlanPersistenceDAO().getCompatibleScenarios(mission);
     }
 
-    @Override
+
     public List<Mission> getCompatibleMissions(Scenario scenario) {
         return getPedagogicalPlanPersistenceDAO().getCompatibleMissions(scenario);
     }
 
-    @Override
+
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlan(mission, scenario);
     }
 
-    @Override
+
     public List<PedagogicalPlan> getPedagogicalPlans() {
         return getPedagogicalPlanPersistenceDAO().getPedagogicalPlans();
     }
 
-    @Override
+
     public List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
         return getPedagogicalPlanPersistenceDAO().getLearningActivitySpaces(pedagogicalPlan);
     }
 
-    @Override
+
     @Transactional
     public void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO) {
         getPedagogicalPlanPersistenceDAO().addAnchorEloToPedagogicalPlan(pedagogicalPlan, anchorELO);
     }
 
-    @Override
+
     public <AnchorELO> List getAnchorELOs(PedagogicalPlan pedagogicalPlan) {
         return getPedagogicalPlanPersistenceDAO().getAnchorELOs(pedagogicalPlan);
     }
