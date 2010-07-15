@@ -92,15 +92,12 @@
                         <th>
                             Criteria
                         </th>
-                        <c:choose>
-                            <c:when test="${fn:length(transporter.assessmentScoreDefinitions) > 0}">
-                                <c:forEach var="scoreDefinition" items="${transporter.assessmentScoreDefinitions}">
-                                    <th>
-                                        ${scoreDefinition.heading}
-                                    </th>
-                                </c:forEach>
-                            </c:when>
-                        </c:choose>
+                        <th>
+                            Score
+                        </th>
+                        <th>
+                            Comment
+                        </th>
                     </tr>
                     <c:choose>
                         <c:when test="${fn:length(transporter.criteriaAndExperienceHolders) > 0}">
@@ -110,15 +107,15 @@
                                         <td>
                                             <s:dialog url="CriteriaBasedEvaluation.html" title="${criteriaAndExperienceHolder.criteriaText}" extraParameters="evaluationCriteriaId=${criteriaAndExperienceHolder.criteria.id}&anchorEloId=${transporter.eloRef.anchorELO.id}&eloRefId=${transporter.eloRef.id}"/>
                                         </td>
-                                        <c:choose>
-                                            <c:when test="${fn:length(transporter.assessmentScoreDefinitions) > 0}">
-                                                <c:forEach var="scoreDefinition" items="${transporter.assessmentScoreDefinitions}">
-                                                    <td>
-                                                        <a href="studentEloRefViewer.html?criteriaId=${criteria.id}&scoreDefinitionId=${scoreDefinition.id}&model=${encodedModel}&action=addAssessment">5</a>
-                                                    </td>
-                                                </c:forEach>
-                                            </c:when>
-                                        </c:choose>
+                                        <td>
+                                            <c:if test="${criteriaAndExperienceHolder.fileRef != null}">
+                                                <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${criteriaAndExperienceHolder.fileRef.id}&showIcon=true"/>
+                                           </c:if>
+                                            ${criteriaAndExperienceHolder.score}
+                                        </td>
+                                        <td>
+                                            ${criteriaAndExperienceHolder.comment}
+                                        </td>
                                     </tr>
                                 </c:forEach>
                         </c:when>

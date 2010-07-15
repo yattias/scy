@@ -62,7 +62,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl implements Assessment
 
     @Override
     @Transactional
-    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score) {
-        getAssessmentDAO().createOrUpdateAssessmentCriteriaExperience(user, criteria, criteriaText, score);    
+    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment) {
+        getAssessmentDAO().createOrUpdateAssessmentCriteriaExperience(user, criteria, criteriaText, score, comment);    
     }
 }

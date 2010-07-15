@@ -26,4 +26,8 @@ public interface AssessmentCriteriaExperience extends BaseObject{
     String getCriteriaText();
 
     void setCriteriaText(String criteriaText);
+
+    String getComment();
+
+    void setComment(String comment);
 }

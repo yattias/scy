@@ -13,6 +13,7 @@ public class FileUploadBean {
 
     private MultipartFile file;
     private String listener;
+    private String model;
 
     public MultipartFile getFile() {
         System.out.println("returning file: " + file);
@@ -29,5 +30,13 @@ public class FileUploadBean {
 
     public void setListener(String listener) {
         this.listener = listener;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

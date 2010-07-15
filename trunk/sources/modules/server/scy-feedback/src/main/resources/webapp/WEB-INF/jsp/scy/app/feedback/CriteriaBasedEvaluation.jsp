@@ -4,7 +4,7 @@
     <table>
         <tr>
             <td colspan="2" align="left">
-                Criteria:(you can alter the text in the field belowwwww)
+                Criteria:(you can alter the text in the field below)
             </td>
         </tr>
         <tr>
@@ -25,27 +25,32 @@
             </td>
         </tr>
         <tr>
-            <td align="left">
-                <textarea rows="3" cols="25"/>
-            </td>
-            <td>
-                SCORE HERE
-                <!--table>
+            <td colspan="2">
+                <table>
                     <c:choose>
                         <c:when test="${fn:length(assessmentCriteria.assessment.assessmentScoreDefinitions) > 0}">
-
-                            <c:forEach var="assessmentScoreDefinition" items="${assessmentCriteria.assessment.assessmentScoreDefinitions}">
-                                <tr>
+                            <tr>
+                                <c:forEach var="assessmentScoreDefinition" items="${assessmentCriteria.assessment.assessmentScoreDefinitions}">
                                     <td>
-                                        <input type="radio" name="score" value="${assessmentScoreDefinition.heading}">
+                                        <c:if test="${assessmentScoreDefinition.fileRef != null}">
+                                            <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${assessmentScoreDefinition.fileRef.id}&showIcon=true"/>
+                                       </c:if>
+                                        <input type="radio" name="score" value="${assessmentScoreDefinition.score}">
                                     </td>
+                                </c:forEach>
                                 </tr>
-                            </c:forEach>
+
 
                         </c:when>
                     </c:choose>
-                </table-->
+                </table>
             </td>
+        </tr>
+        <tr>
+            <td align="left" colspan="2">
+                <textarea rows="3" cols="25" name="comment"></textarea>
+            </td>
+
 
         </tr>
         <tr>

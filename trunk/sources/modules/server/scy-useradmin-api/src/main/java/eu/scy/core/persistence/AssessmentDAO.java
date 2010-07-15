@@ -24,7 +24,7 @@ public interface AssessmentDAO extends SCYBaseDAO{
 
     AssessmentCriteria getAssessmentCriteria(String parameter);
 
-    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score);
+    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment);
 
     AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria);
 }

@@ -7,6 +7,7 @@ import eu.scy.core.model.FileData;
 import eu.scy.core.model.FileRef;
 import eu.scy.core.model.ImageRef;
 import eu.scy.core.persistence.FileDAO;
+import eu.scy.core.persistence.SCYBaseDAO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
@@ -28,6 +29,7 @@ public class FileServiceImpl extends BaseServiceImpl implements FileService {
     }
 
     public void setFileDAO(FileDAO fileDAO) {
+        setScyBaseDAO((SCYBaseDAO) fileDAO);
         this.fileDAO = fileDAO;
 
     }

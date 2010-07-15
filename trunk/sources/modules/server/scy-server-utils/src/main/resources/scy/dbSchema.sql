@@ -525,9 +525,12 @@ CREATE TABLE `assessmentscoredefinition` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `assessment_primKey` varchar(55) default NULL ,
+    `fileRef_primKey` varchar(55) default NULL ,
 	PRIMARY KEY  (`primKey`),
     KEY `assessmentasdref` (`assessment_primKey`),
-    CONSTRAINT `assessmentasdcritconst` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
+    KEY `assessmentscoredeffileref` (`fileRef_primKey`),
+    CONSTRAINT `assessmentasdcritconst` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`),
+    CONSTRAINT `assessmentasfilerefconst` FOREIGN KEY (`fileRef_primKey`) REFERENCES `fileref` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -539,6 +542,7 @@ CREATE TABLE `assessmentcriteriaexperience` (
 	`score` int(8) default 0,
 	`description` text,
 	`criteriaText` text,
+	`comment` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `user_primKey` bigint(20) NULL,
     `assessmentCriteria_primKey` varchar(55) default NULL ,

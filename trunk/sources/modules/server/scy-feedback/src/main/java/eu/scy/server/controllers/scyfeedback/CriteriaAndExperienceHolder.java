@@ -1,7 +1,12 @@
 package eu.scy.server.controllers.scyfeedback;
 
 import eu.scy.core.model.AssessmentCriteria;
+import eu.scy.core.model.FileRef;
+import eu.scy.core.model.pedagogicalplan.Assessment;
 import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
+import eu.scy.core.model.pedagogicalplan.AssessmentScoreDefinition;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,5 +41,39 @@ public class CriteriaAndExperienceHolder {
             if(getAssessmentCriteriaExperience().getCriteriaText() != null) return getAssessmentCriteriaExperience().getCriteriaText();
         }
         return getCriteria().getCriteria();
+    }
+
+    public String getScore() {
+        if(getAssessmentCriteriaExperience() != null) {
+            if(getAssessmentCriteriaExperience().getScore() != null){
+                return getAssessmentCriteriaExperience().getScore().toString();
+            }
+        }
+        return "";
+    }
+
+    public String getComment() {
+        if(getAssessmentCriteriaExperience() != null) {
+            if(getAssessmentCriteriaExperience().getComment() != null) {
+                return getAssessmentCriteriaExperience().getComment();
+            }
+        }
+        return "";
+    }
+
+    public FileRef getFileRef()  {
+        if(getAssessmentCriteriaExperience() != null) {
+            Assessment assessment = getAssessmentCriteriaExperience().getAssessmentCriteria().getAssessment();
+            List scoreDefs = assessment.getAssessmentScoreDefinitions();
+            if(getAssessmentCriteriaExperience().getScore() != null) {
+                for (int i = 0; i < scoreDefs.size(); i++) {
+                    AssessmentScoreDefinition assessmentScoreDefinition = (AssessmentScoreDefinition) scoreDefs.get(i);
+                    if(assessmentScoreDefinition.getScore().equals(getAssessmentCriteriaExperience().getScore())) return  assessmentScoreDefinition.getFileRef();
+                }
+
+            }
+        }
+
+        return null;
     }
 }
