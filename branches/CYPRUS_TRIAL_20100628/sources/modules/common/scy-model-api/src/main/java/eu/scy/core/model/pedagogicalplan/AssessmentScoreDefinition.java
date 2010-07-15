@@ -1,5 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import eu.scy.core.model.FileRef;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -20,4 +22,8 @@ public interface AssessmentScoreDefinition extends BaseObject{
     Integer getScore();
 
     void setScore(Integer score);
+
+    FileRef getFileRef();
+
+    void setFileRef(FileRef fileRef);
 }

@@ -3,6 +3,8 @@ package eu.scy.server.controllers.components.fileupload;
 import eu.scy.core.FileService;
 import eu.scy.core.model.FileRef;
 import eu.scy.core.model.ImageRef;
+import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.impl.ScyBaseObject;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,18 +72,54 @@ public class FileUploadController extends SimpleFormController implements Applic
         String listener = bean.getListener();
 
         if (file.getContentType().contains("image")) {
-            ImageRef fileRef = (ImageRef) getFileService().saveFile(tmpFile);
+            getFileService().saveFile(tmpFile);
         } else {
-            FileRef fileRef = getFileService().saveFile(tmpFile);
+            getFileService().saveFile(tmpFile);
         }
 
         if (listener != null) {
+
+
             FileUploadListener fileUploaded = (FileUploadListener) getApplicationContext().getBean(bean.getListener());
+
+            String modelId = parseModelId(bean.getModel());
+            Class clazz = parseClass(bean.getModel());
+
+            logger.info("MODEL ID: " + modelId + " CLASS:_ " + clazz);
+
+            ScyBaseObject model = (ScyBaseObject) getFileService().get(modelId, clazz);
+            fileUploaded.setModel(model);
+
             fileUploaded.fileUploaded(tmpFile);
+
         }
 
         ModelAndView modelAndView = new ModelAndView(getSuccessView());
         return modelAndView;
+    }
+
+    private Class parseClass(String model) {
+        if(model != null) {
+            String [] array = model.split("_");
+            try {
+                Class clazz = Class.forName(array[0]);
+                return clazz;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        return ScyBaseObject.class;
+    }
+
+    private String parseModelId(String model) {
+        logger.info("******************************************** PARSING MODEL ID: " + model);
+        if(model != null) {
+            String [] array = model.split("_");
+            String id = array[1];
+            return id;
+        }
+
+        return "";
     }
 
     protected boolean isFormSubmission(HttpServletRequest request) {

@@ -15,4 +15,8 @@ public interface AssessmentCriteria extends BaseObject {
     public Assessment getAssessment();
 
     public void setAssessment(Assessment assessment);
+
+    String getCriteria();
+
+    void setCriteria(String criteria);
 }

@@ -1,7 +1,10 @@
 package eu.scy.core;
 
+import eu.scy.core.model.AssessmentCriteria;
+import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
+import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 import eu.scy.core.persistence.AssessmentDAO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,5 +48,21 @@ public class AssessmentServiceImpl extends BaseServiceImpl implements Assessment
     @Transactional
     public void addScoreDefinition(Assessment assessment) {
         getAssessmentDAO().addScoreDefinition(assessment);
+    }
+
+    @Override
+    public AssessmentCriteria getAssessmentCriteria(String parameter) {
+        return getAssessmentDAO().getAssessmentCriteria(parameter);
+    }
+
+    @Override
+    public AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria) {
+        return getAssessmentDAO().getAssessmentCriteriaExperience(user, criteria);
+    }
+
+    @Override
+    @Transactional
+    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment) {
+        getAssessmentDAO().createOrUpdateAssessmentCriteriaExperience(user, criteria, criteriaText, score, comment);    
     }
 }

@@ -1,7 +1,10 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.AssessmentCriteria;
+import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
+import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,4 +21,10 @@ public interface AssessmentDAO extends SCYBaseDAO{
     void addAssessment(AnchorELO anchorELO);
 
     void addScoreDefinition(Assessment assessment);
+
+    AssessmentCriteria getAssessmentCriteria(String parameter);
+
+    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment);
+
+    AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria);
 }

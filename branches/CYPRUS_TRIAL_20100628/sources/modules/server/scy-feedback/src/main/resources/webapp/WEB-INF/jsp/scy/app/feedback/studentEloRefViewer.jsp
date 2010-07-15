@@ -44,39 +44,78 @@
         <fieldset>
             <label>Peer Evaluation</label>
 
+
+            <c:choose>
+                <c:when test="${fn:length(transporter.assessments) > 0}">
+                    <table>
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Evaluator
+                            </th>
+                            <th>
+                                Comment
+                            </th>
+                            <th>
+                                Evaluation Score
+                            </th>
+                        </tr>
+                        <c:forEach var="assessment" items="${transporter.assessments}">
+                            <tr class="${oddEven.oddEven}">
+                                <td>
+                                    ${assessment.date}
+                                </td>
+                                <td>
+                                    ${assessment.reviewer.userDetails.username}
+                                </td>
+                                <td>
+                                    <strong>${assessment.comment}</strong>
+                                </td>
+                                <td>
+                                    ${assessment.score}
+                                </td>
+
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:when>
+            </c:choose>
+
+            <br/>
+            <br/>
+
             <table>
                 <c:if test="${transporter.useCriteriaBasedAssessment}">
                     <tr>
                         <th>
                             Criteria
                         </th>
-                        <c:choose>
-                            <c:when test="${fn:length(transporter.assessmentScoreDefinitions) > 0}">
-                                <c:forEach var="scoreDefinition" items="${transporter.assessmentScoreDefinitions}">
-                                    <th>
-                                        ${scoreDefinition.heading}
-                                    </th>
-                                </c:forEach>
-                            </c:when>
-                        </c:choose>
+                        <th>
+                            Score
+                        </th>
+                        <th>
+                            Comment
+                        </th>
                     </tr>
                     <c:choose>
-                        <c:when test="${fn:length(transporter.evaluationCriteria) > 0}">
+                        <c:when test="${fn:length(transporter.criteriaAndExperienceHolders) > 0}">
 
-                                <c:forEach var="criteria" items="${transporter.evaluationCriteria}">
+                                <c:forEach var="criteriaAndExperienceHolder" items="${transporter.criteriaAndExperienceHolders}">
                                     <tr class="${oddEven.oddEven}">
                                         <td>
-                                            ${criteria.criteria}
+                                            <s:dialog url="CriteriaBasedEvaluation.html" title="${criteriaAndExperienceHolder.criteriaText}" extraParameters="evaluationCriteriaId=${criteriaAndExperienceHolder.criteria.id}&anchorEloId=${transporter.eloRef.anchorELO.id}&eloRefId=${transporter.eloRef.id}"/>
                                         </td>
-                                        <c:choose>
-                                            <c:when test="${fn:length(transporter.assessmentScoreDefinitions) > 0}">
-                                                <c:forEach var="scoreDefinition" items="${transporter.assessmentScoreDefinitions}">
-                                                    <td>
-                                                        <a href="studentEloRefViewer.html?criteriaId=${criteria.id}&scoreDefinitionId=${scoreDefinition.id}&model=${encodedModel}&action=addAssessment">5</a>
-                                                    </td>
-                                                </c:forEach>
-                                            </c:when>
-                                        </c:choose>
+                                        <td>
+                                            <c:if test="${criteriaAndExperienceHolder.fileRef != null}">
+                                                <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${criteriaAndExperienceHolder.fileRef.id}&showIcon=true"/>
+                                           </c:if>
+                                            ${criteriaAndExperienceHolder.score}
+                                        </td>
+                                        <td>
+                                            ${criteriaAndExperienceHolder.comment}
+                                        </td>
                                     </tr>
                                 </c:forEach>
                         </c:when>
@@ -84,7 +123,7 @@
                 </c:if>
                 <tr class="${oddEven.oddEven}">
                     <td colspan="${transporter.colSpan}">
-                        <form method="POST" accept-charset="UTF-8" action="studentEloRefViewer.html">'
+                        <form method="POST" accept-charset="UTF-8" action="studentEloRefViewer.html">
 
                             <table>
                                 <input type="hidden" name="action" value="addNewComment"/>
@@ -115,33 +154,6 @@
                 </tr>
             </table>
 
-            <c:choose>
-                <c:when test="${fn:length(transporter.assessments) > 0}">
-                    <table>
-                        <c:forEach var="assessment" items="${transporter.assessments}">
-                            <tr class="${oddEven.oddEven}">
-                                <td with="100%">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                ${assessment.date} by ${assessment.reviewer.userDetails.username}
-                                            </td>
-                                            <td>
-                                                ${assessment.score}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <strong>${assessment.comment}</strong>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </c:when>
-            </c:choose>
 
         </fieldset>
 

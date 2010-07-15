@@ -1,8 +1,11 @@
 package eu.scy.server.controllers.scyfeedback;
 
+import eu.scy.core.model.AssessmentCriteria;
 import eu.scy.core.model.ELORef;
+import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,8 +22,11 @@ public class ELORefDataTransporter {
     private Integer totalScore;
     private Integer totalAssessments;
     private List evaluationCriteria;
+    private List criteriaAndExperienceHolders;
     private List assessmentScoreDefinitions;
     private Boolean useCriteriaBasedAssessment;
+
+    private Map criteriaMap;
 
 
     public ELORef getEloRef() {
@@ -92,4 +98,34 @@ public class ELORefDataTransporter {
     public void setUseCriteriaBasedAssessment(Boolean useCriteriaBasedAssessment) {
         this.useCriteriaBasedAssessment = useCriteriaBasedAssessment;
     }
+
+    public AssessmentCriteriaExperience getExperience(AssessmentCriteria assessmentCriteria) {
+        return (AssessmentCriteriaExperience) criteriaMap.get(assessmentCriteria);
+    }
+
+    public List getCriteriaAndExperienceHolders() {
+        return criteriaAndExperienceHolders;
+    }
+
+    public void setCriteriaAndExperienceHolders(List criteriaAndExperienceHolders) {
+        this.criteriaAndExperienceHolders = criteriaAndExperienceHolders;
+    }
+
+    public Map getCriteriaMap() {
+        return criteriaMap;
+    }
+
+    public void setCriteriaMap(Map criteriaMap) {
+        this.criteriaMap = criteriaMap;
+    }
+
+    public String getStudentCriteriaText(AssessmentCriteria assessmentCriteria) {
+        if(getExperience(assessmentCriteria) != null) {
+            AssessmentCriteriaExperience experience = getExperience(assessmentCriteria);
+            if(experience.getCriteriaText() != null) return experience.getCriteriaText();
+        }
+
+        return assessmentCriteria.getCriteria();
+    }
+
 }
