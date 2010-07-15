@@ -57,7 +57,7 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
 
     def uriLocalizer = new UriLocalizer();
 
-    var media:String;
+    var media:String = "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_2956241001_big-buck-bunny-640x360.flv";
     var title:String;
     var subtitle:String;
     var mediaBox:MediaBox =  MediaBox {
@@ -68,12 +68,13 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
                 translateX: 5
                 translateY: 5
                 //binding width and height kills every simple piece of performance
-                width: 320
-                //width: bind scyWindow.width - 50;
-                height: 240
-                //height: bind scyWindow.height - 50;
+                //width: 320
+                width: bind scyWindow.width - 25;
+                //height: 240
+                height: bind scyWindow.height - 50;
                 autoPlay: false
                 mediaControlBarHeight: 25
+                preserveRatio: true
     }
 
 
@@ -93,15 +94,19 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
         mediaBox.mediaTitle = dataFromXML.getTitle();
         mediaBox.mediaDescription = dataFromXML.getSubtitle();
         setScyWindowTitle();
-        //this will resize the scyWindow to the current media size - tho it might be buggy with streaming medai etc.
+        //this will resize the scyWindow to the current media size - tho it might be buggy with streaming media etc.
+        /*
         var testMedia = javafx.scene.media.Media {
                 source: dataFromXML.getURI();
-        }
+        } */
+        //mediaBox.height = 640;
+        //mediaBox.width = 360;
+        //this.setSizeToCurrent();
         //kinda ugly to create another media object, mediaBox offers no access to the media file.
-        scyWindow.height = testMedia.height+34;
-        mediaBox.height = testMedia.height;
-        scyWindow.width = testMedia.width+13;
-        mediaBox.width = testMedia.width;
+        //scyWindow.height = testMedia.height+34;
+        //mediaBox.height = testMedia.height;
+        //scyWindow.width = testMedia.width+13;
+        //mediaBox.width = testMedia.width;
     }
 
     /**
@@ -155,7 +160,6 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
     }
 
     override function onGotFocus():Void {
-
     }
 
     override function onLostFocus():Void {
