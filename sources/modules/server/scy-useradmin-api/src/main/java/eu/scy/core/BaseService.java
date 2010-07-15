@@ -13,4 +13,6 @@ public interface BaseService {
 
     void save(ScyBase scyBaseObject);
 
+    public ScyBase get(String id, Class type);
+
 }

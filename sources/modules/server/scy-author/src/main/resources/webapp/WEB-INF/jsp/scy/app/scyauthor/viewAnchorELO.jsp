@@ -54,6 +54,12 @@
                            <td>
                                <s:ajaxNumberField model="${assessmentScoreDefinition}" property="score"/>
                            </td>
+                           <td>
+                               <c:if test="${assessmentScoreDefinition.fileRef != null}">
+                                    <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${assessmentScoreDefinition.fileRef.id}&showIcon=true"/>
+                               </c:if>
+                               <s:uploadFile listener="fileUploadedForAssessmentScoreDefinition" model="${assessmentScoreDefinition.class.name}_${assessmentScoreDefinition.id}"/>
+                           </td>
                        </tr>
 
                    </c:forEach>

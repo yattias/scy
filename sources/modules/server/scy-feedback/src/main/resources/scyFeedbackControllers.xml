@@ -39,6 +39,8 @@
                    /app/feedback/studentEloRefViewer.html=studentEloRefViewerController
                    /app/feedback/studentFeedbackForm.html=studentFeedbackFormController
                    /app/feedback/uploadELOForFeedbackForm.html=uploadELOForFeedbackFormController
+                   /app/feedback/CriteriaBasedEvaluation.html=criteriaBasedEvaluationController
+                   /app/feedback/storeCriteriaBasedEvaluation.html=storeNewCriteriaBasedEvaluationController
                </value>
            </property>
        </bean>
@@ -60,6 +62,7 @@
         <property name="userService" ref="userService"/>
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="assessmentService" ref="assessmentService"/>
 	</bean>
 
     <bean id="uploadELOForFeedbackFormController" class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
@@ -81,8 +84,28 @@
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
 	</bean>
 
+    <bean id="criteriaBasedEvaluationController" class="eu.scy.server.controllers.scyfeedback.CriteriaBasedEvaluationController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="assessmentService" ref="assessmentService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+	</bean>
+
+    <bean id="storeNewCriteriaBasedEvaluationController" class="eu.scy.server.controllers.scyfeedback.StoreNewCriteriaBasedEvaluationController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.CriteriaBasedEvaluationBean"/>
+        <property name="userService" ref="userService"/>
+        <property name="assessmentService" ref="assessmentService"/>
+	</bean>
+
 
     <bean id="fileUploadedForFeedbackListener" class="eu.scy.server.controllers.scyfeedback.FileUploadedForFeedbackListener"/>
+    <bean id="fileUploadedForAssessmentScoreDefinition" class="eu.scy.server.controllers.scyfeedback.FileAddedToAssessmentScoreDefinitionListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
 
 
 

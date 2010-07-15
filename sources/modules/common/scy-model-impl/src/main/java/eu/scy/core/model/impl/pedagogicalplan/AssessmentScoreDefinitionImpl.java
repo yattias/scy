@@ -1,5 +1,7 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.FileRef;
+import eu.scy.core.model.impl.FileRefImpl;
 import eu.scy.core.model.pedagogicalplan.Assessment;
 import eu.scy.core.model.pedagogicalplan.AssessmentScoreDefinition;
 
@@ -22,6 +24,7 @@ public class AssessmentScoreDefinitionImpl extends BaseObjectImpl implements Ass
     private Assessment assessment;
     private String heading;
     private Integer score;
+    private FileRef fileRef;
 
     @Override
     @ManyToOne(targetEntity = AssessmentImpl.class)
@@ -53,5 +56,17 @@ public class AssessmentScoreDefinitionImpl extends BaseObjectImpl implements Ass
     @Override
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    @Override
+    @ManyToOne (targetEntity = FileRefImpl.class)
+    @JoinColumn (name = "fileRef_primKey")
+    public FileRef getFileRef() {
+        return fileRef;
+    }
+
+    @Override
+    public void setFileRef(FileRef fileRef) {
+        this.fileRef = fileRef;
     }
 }
