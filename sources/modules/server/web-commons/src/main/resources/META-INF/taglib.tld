@@ -165,7 +165,7 @@
         <attribute>
             <name>title</name>
             <required>true</required>
-            <rtexprvalue>false</rtexprvalue>
+            <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
             <name>width</name>

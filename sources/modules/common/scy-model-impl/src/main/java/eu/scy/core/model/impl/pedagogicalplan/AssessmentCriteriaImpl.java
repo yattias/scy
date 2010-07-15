@@ -33,10 +33,12 @@ public class AssessmentCriteriaImpl extends BaseObjectImpl implements Assessment
         this.assessment = assessment;
     }
 
+    @Override
     public String getCriteria() {
         return criteria;
     }
 
+    @Override
     public void setCriteria(String criteria) {
         this.criteria = criteria;
     }

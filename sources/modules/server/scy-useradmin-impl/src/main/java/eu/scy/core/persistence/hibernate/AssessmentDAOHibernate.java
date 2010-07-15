@@ -1,13 +1,17 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.AssessmentCriteria;
+import eu.scy.core.model.User;
+import eu.scy.core.model.impl.pedagogicalplan.AssessmentCriteriaExperienceImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AssessmentCriteriaImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AssessmentImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AssessmentScoreDefinitionImpl;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.Assessment;
+import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 import eu.scy.core.model.pedagogicalplan.AssessmentScoreDefinition;
 import eu.scy.core.persistence.AssessmentDAO;
+import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +21,9 @@ import eu.scy.core.persistence.AssessmentDAO;
  * To change this template use File | Settings | File Templates.
  */
 public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements AssessmentDAO {
+
+    private static Logger log = Logger.getLogger("AssessmentDAOHibernate.class");
+
     @Override
     public Assessment findAssessmentByName(String s) {
         return (Assessment) getSession().createQuery("from AssessmentImpl where name like :name")
@@ -47,5 +54,42 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
         save(scoreDefinition);
         assessment.addAssessmentScoreDefinition(scoreDefinition);
         save(assessment);
+    }
+
+    @Override
+    public AssessmentCriteria getAssessmentCriteria(String parameter) {
+        return (AssessmentCriteria) getSession().createQuery("From AssessmentCriteriaImpl where id like :id")
+                .setString("id", parameter)
+                .uniqueResult();
+    }
+
+    @Override
+    public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score) {
+        logger.info("CHECKING WHETHER EXPERIENCE ALREADY HAS BEEN STORED FOR " + user.getUserDetails().getUsername() + " " + criteria.getId());
+        AssessmentCriteriaExperience assessmentCriteriaExperience = getAssessmentCriteriaExperience(user, criteria);
+        if(assessmentCriteriaExperience == null) {
+            logger.info("DID NOT FIND ANY EXPERIENCE FOR THIS COMBINATION - CREATING NEW:...");
+            assessmentCriteriaExperience =  new AssessmentCriteriaExperienceImpl();
+            assessmentCriteriaExperience.setUser(user);
+            assessmentCriteriaExperience.setAssessmentCriteria(criteria);
+            save(assessmentCriteriaExperience);
+
+        } else {
+            logger.info("EXPERIENCE ALREADY EXISTED - UPDATING");
+        }
+
+        assessmentCriteriaExperience.setScore(score);
+        assessmentCriteriaExperience.setCriteriaText(criteriaText);
+
+        getHibernateTemplate().saveOrUpdate(assessmentCriteriaExperience);
+    }
+
+    @Override
+    public AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria) {
+        return (AssessmentCriteriaExperience) getSession().createQuery("from AssessmentCriteriaExperienceImpl where user = :user and assessmentCriteria = :criteria")
+                .setEntity("user", user)
+                .setEntity("criteria", criteria)
+                .uniqueResult();
+
     }
 }
