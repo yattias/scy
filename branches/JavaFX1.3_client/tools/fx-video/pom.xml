@@ -41,7 +41,7 @@
       <dependency>
          <groupId>com.sun.javafx</groupId>
          <artifactId>mediabox</artifactId>
-         <version>20090413</version>
+         <version>20100715</version>
       </dependency>
   
       <dependency>
