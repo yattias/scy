@@ -20,6 +20,7 @@ import eu.scy.client.tools.copex.synchro.Locker;
 import eu.scy.client.tools.copex.utilities.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -233,7 +234,7 @@ public class CopexControllerDB implements ControllerInterface {
                 return cr;
             listProc.get(k).setName(labDocName);
         }
-        if (listInitialProc == null || listInitialProc.size() == 0)
+        if (listInitialProc == null || listInitialProc.isEmpty())
             return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_DATA"), false);
         int nbIP = listInitialProc.size();
 //        cr = db.getProcMissionFromDB(this.locker, dbKeyMission,locale,  dbKeyUser,   listPhysicalQuantity,  v);
@@ -318,7 +319,7 @@ public class CopexControllerDB implements ControllerInterface {
         // s'il n'y a pas de protocole on en cree un  :
         // MBo le 27/02/2009 : si ts les proc de la mission sont lockes on n'en cree pas d'autres
         boolean askForInitProc = false;
-        if (listProc.size() == 0 && !allProcLocked){
+        if (listProc.isEmpty() && !allProcLocked){
             if (nbIP == 1){
                 cr = createProc(listInitialProc.get(0).getName(getLocale()), listInitialProc.get(0), false );
                 if (cr.isError()){
@@ -1884,9 +1885,7 @@ public class CopexControllerDB implements ControllerInterface {
                 if (a != null && a.getVariable() != null){
                     InitialActionParam[] tab = a.getVariable().getTabParam();
                     if(tab != null){
-                        for (int j=0; j<tab.length; j++){
-                            list.add(tab[j]);
-                        }
+                        list.addAll(Arrays.asList(tab));
                     }
                 }
             }else if (t instanceof CopexActionAcquisition){
@@ -1894,9 +1893,7 @@ public class CopexControllerDB implements ControllerInterface {
                 if (a != null && a.getVariable() != null){
                     InitialActionParam[] tab = a.getVariable().getTabParam();
                     if(tab != null){
-                        for (int j=0; j<tab.length; j++){
-                            list.add(tab[j]);
-                        }
+                        list.addAll(Arrays.asList(tab));
                     }
                 }
             }else if (t instanceof CopexActionTreatment){
@@ -1904,9 +1901,7 @@ public class CopexControllerDB implements ControllerInterface {
                 if (a != null && a.getVariable() != null){
                     InitialActionParam[] tab = a.getVariable().getTabParam();
                     if(tab != null){
-                        for (int j=0; j<tab.length; j++){
-                            list.add(tab[j]);
-                        }
+                        list.addAll(Arrays.asList(tab));
                     }
                 }
             }
@@ -2178,7 +2173,7 @@ public class CopexControllerDB implements ControllerInterface {
 
     private void updateDatasheetProd(LearnerProcedure proc){
         List<QData> listDataProd = proc.getListDataProd();
-        if(listDataProd.size() == 0)
+        if(listDataProd.isEmpty())
             proc.setDataSheet(null);
         else
             proc.setDataSheet(new DataSheet(listDataProd));
