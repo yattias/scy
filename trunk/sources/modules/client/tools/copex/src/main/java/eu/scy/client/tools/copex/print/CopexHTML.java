@@ -190,15 +190,15 @@ public class CopexHTML {
         boolean hasChildren = task.getDbKeyChild() != -1;
         String taskTable = "<table width='100%'  border='0' cellpadding='0'>\n";
         taskTable += "<tr>\n";
-            taskTable += "<td>\n";
+            taskTable += "<td><span class='proc'>\n";
                 taskTable += descriptionTask+"\n";
-            taskTable += "</td>\n";
+            taskTable += "</span></td>\n";
         taskTable += "</tr>\n";
         if(comments != null && comments.length() > 0){
         taskTable += "<tr>\n";
-            taskTable += "<td>\n";
+            taskTable += "<td> <span class='comment'>\n";
                 taskTable += comments+"\n";
-            taskTable += "</td>\n";
+            taskTable += "</span></td>\n";
         taskTable += "</tr>\n";
         }
         if(hasChildren){

@@ -214,7 +214,7 @@ public class ExperimentalProcedureFromDB {
         dbC.updateDb(MyConstants.DB_LABBOOK);
         ArrayList<Long> listLabDoc = new ArrayList();
         String query = "SELECT D.ID_LABDOC FROM LABDOC D, MISSION_CONF C " +
-                "WHERE C.ID_MISSION_CONF = D.ID_MISSION_CONF " +
+                "WHERE C.ID_MISSION_CONF = D.ID_MISSION_CONF AND C.ID_MISSION = "+dbKeyMission+" AND D.TYPE='Procedure' " +
                 "AND C.ID_LEARNER_GROUP IN (SELECT ID_LEARNER_GROUP FROM LINK_GROUP_LEARNER WHERE ID_LEARNER = "+dbKeyUser+" ) ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
@@ -249,15 +249,16 @@ public class ExperimentalProcedureFromDB {
             if(i < nbLD-1)
                 listLD += ", ";
         }
-         query = "SELECT E.ID_PROC, E.PROC_NAME, L.ID_INITIAL_PROC  " +
-                " FROM EXPERIMENTAL_PROCEDURE E, LINK_LEARNER_INITIAL_PROC L, LINK_LABDOC_PROC D, LEARNER_PROC P " +
-                "WHERE D.ID_LABDOC IN ("+listLD+") AND "+
+         query = "SELECT E.ID_PROC, E.PROC_NAME, L.ID_INITIAL_PROC, M.ID_MISSION  " +
+                " FROM EXPERIMENTAL_PROCEDURE E, LINK_LEARNER_INITIAL_PROC L, LINK_LABDOC_PROC D, LEARNER_PROC P, LINK_MISSION_INITIAL_PROC M " +
+                "WHERE D.ID_LABDOC IN ("+listLD+") AND L.ID_INITIAL_PROC = M.ID_INIT_PROC AND "+
                 "D.ID_PROC = P.ID_PROC AND D.ID_PROC  = E.ID_PROC AND D.ID_PROC = L.ID_LEARNER_PROC ;";
          v2 = new ArrayList();
         listFields = new ArrayList();
         listFields.add("E.ID_PROC");
         listFields.add("E.PROC_NAME");
         listFields.add("L.ID_INITIAL_PROC");
+        listFields.add("M.ID_MISSION");
         cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -273,10 +274,12 @@ public class ExperimentalProcedureFromDB {
                 continue;
             s = rs.getColumnData("L.ID_INITIAL_PROC") ;
             long dbKeyInitProc = Long.parseLong(s);
+            s = rs.getColumnData("M.ID_MISSION");
+            long idMission = Long.parseLong(s);
             ArrayList v3 = new ArrayList();
             ArrayList<Long> listInitProc = new ArrayList();
             listInitProc.add(dbKeyInitProc);
-            cr = getSimpleInitialProcFromDB(dbC, locale,dbKeyMission, listInitProc, v3);
+            cr = getSimpleInitialProcFromDB(dbC, locale,idMission, listInitProc, v3);
             if(cr.isError())
                 return cr;
             ArrayList<InitialProcedure> listIP = (ArrayList<InitialProcedure>)v3.get(0);
@@ -1333,7 +1336,7 @@ public class ExperimentalProcedureFromDB {
         ArrayList v2 = new ArrayList();
         ArrayList<Long> listIdInitProc = new ArrayList();
         listIdInitProc.add(dbKeyInitProc);
-        CopexReturn cr = getInitialProcFromDB(dbC, locale,  dbKeyUser, listIdInitProc, listPhysicalQuantity, listMaterialStrategy, v2);
+        CopexReturn cr = getInitialProcFromDB(dbC, locale,  dbKeyMission, listIdInitProc, listPhysicalQuantity, listMaterialStrategy, v2);
         if (cr.isError())
             return cr;
         ArrayList<InitialProcedure> listInitProc = (ArrayList<InitialProcedure>)v2.get(0);
@@ -1778,8 +1781,8 @@ public class ExperimentalProcedureFromDB {
                 "I.IS_FREE_ACTION, I.IS_TASK, I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE  " +
            " FROM EXPERIMENTAL_PROCEDURE E, LINK_MISSION_INITIAL_PROC L, INITIAL_PROC I " +
                    "WHERE L.ID_MISSION = "+dbKeyMission+"  AND "+
-                   "L.ID_PROC IN "+list+" AND "+
-                   "L.ID_PROC  = E.ID_PROC AND L.ID_PROC = I.ID_PROC  " +
+                   "L.ID_INIT_PROC IN "+list+" AND "+
+                   "L.ID_INIT_PROC  = E.ID_PROC AND L.ID_INIT_PROC = I.ID_PROC  " +
                    " ORDER BY I.CODE_PROC  ;";
 
         ArrayList v2 = new ArrayList();
