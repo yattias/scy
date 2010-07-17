@@ -123,10 +123,22 @@
                 </c:when>
             </c:choose>
 
-            <tr>
+            <tr class="${oddEven.oddEven}">
                 <td colspan="2">
                     <s:dialog url="selectAnchorELOsToBePeerAssessed.html" title="Select Anchor ELO" extraParameters="id=${pedagogicalPlan.id}"/>    
                 </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
+                <td>
+                    Assessment score icon
+                </td>
+                <td>
+                    <c:if test="${pedagogicalPlan.assessmentScoreIcon != null}">
+                         <img src="/webapp/components/resourceservice.html?id=${pedagogicalPlan.assessmentScoreIcon.id}"/>
+                    </c:if>
+                    <s:uploadFile listener="addAssessmentScoreIconListener" model="${pedagogicalPlan.class.name}_${pedagogicalPlan.id}"/>
+                </td>
+
             </tr>
         </table>
 

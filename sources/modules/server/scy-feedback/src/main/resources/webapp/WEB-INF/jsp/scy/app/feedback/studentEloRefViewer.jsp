@@ -74,7 +74,7 @@
                                     <strong>${assessment.comment}</strong>
                                 </td>
                                 <td>
-                                    ${assessment.score}
+                                    <s:scorePresentation score="${assessment.score}" imageId="${transporter.scoreImageId}"/>
                                 </td>
 
                             </tr>
@@ -138,8 +138,14 @@
                                     </td>
                                     <td>
                                         <strong>Evaluation score</strong>
-                                        <input type="range" min="1" max="5" value="1" name="score" />
-                                        <strong>5</strong>
+                                        <!--input type="range" min="1" max="5" value="1" name="score" /-->
+                                        <!--strong>5</strong-->
+
+                                        <input id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="0" minimum="0" maximum="5"
+                                             discreteValues="5" intermediateChanges="true" onChange="dojo.byId('horizontalSlider').value = arguments[0];"
+                                             handleSrc="preciseSliderThumb.png" name=score>
+                                        </input>
+
                                     </td>
                                 </tr>
                                 <tr>
