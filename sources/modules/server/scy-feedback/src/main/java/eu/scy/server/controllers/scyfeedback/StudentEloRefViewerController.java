@@ -57,7 +57,6 @@ public class StudentEloRefViewerController  extends BaseFormController {
         getPlayfulAssessmentService().save(playfulAssessment);
 
 
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("username", getCurrentUserName(request));
         modelAndView.addObject("username", getCurrentUserName(request));
