@@ -270,6 +270,10 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
 	</bean>
 
+    <bean id="addAssessmentScoreIconListener" class="eu.scy.server.controllers.AddAssessmentScoreIconListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
 
 
     <!--bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl">

@@ -24,7 +24,7 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
 
     private static Logger log = Logger.getLogger("AssessmentDAOHibernate.class");
 
-
+    @Override
     public Assessment findAssessmentByName(String s) {
         return (Assessment) getSession().createQuery("from AssessmentImpl where name like :name")
                 .setString("name", s)
@@ -32,7 +32,7 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
                 .uniqueResult();
     }
 
-
+    @Override
     public void addCriteria(Assessment assessment) {
         AssessmentCriteria assessmentCriteria = new AssessmentCriteriaImpl();
         save(assessmentCriteria);
@@ -40,7 +40,7 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
         save(assessment);
     }
 
-
+    @Override
     public void addAssessment(AnchorELO anchorELO) {
         Assessment assessment = new AssessmentImpl();
         save(assessment);
@@ -48,7 +48,7 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
         save(anchorELO);
     }
 
-
+    @Override
     public void addScoreDefinition(Assessment assessment) {
         AssessmentScoreDefinition scoreDefinition = new AssessmentScoreDefinitionImpl();
         save(scoreDefinition);
@@ -56,14 +56,14 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
         save(assessment);
     }
 
-
+    @Override
     public AssessmentCriteria getAssessmentCriteria(String parameter) {
         return (AssessmentCriteria) getSession().createQuery("From AssessmentCriteriaImpl where id like :id")
                 .setString("id", parameter)
                 .uniqueResult();
     }
 
-
+    @Override
     public void createOrUpdateAssessmentCriteriaExperience(User user, AssessmentCriteria criteria, String criteriaText, int score, String comment) {
         logger.info("CHECKING WHETHER EXPERIENCE ALREADY HAS BEEN STORED FOR " + user.getUserDetails().getUsername() + " " + criteria.getId());
         AssessmentCriteriaExperience assessmentCriteriaExperience = getAssessmentCriteriaExperience(user, criteria);
@@ -85,7 +85,7 @@ public class AssessmentDAOHibernate extends ScyBaseDAOHibernate implements Asses
         getHibernateTemplate().saveOrUpdate(assessmentCriteriaExperience);
     }
 
-
+    @Override
     public AssessmentCriteriaExperience getAssessmentCriteriaExperience(User user, AssessmentCriteria criteria) {
         return (AssessmentCriteriaExperience) getSession().createQuery("from AssessmentCriteriaExperienceImpl where user = :user and assessmentCriteria = :criteria")
                 .setEntity("user", user)

@@ -13,16 +13,9 @@
 
         <tr>
             <td align="left"><strong>ELO Title</strong></td>
-            <td align="left">
-                 <c:choose>
-                    <c:when test="${fn:length(elosToBeAssessed) > 0}">
-                        <select name="anchorEloId">
-                            <c:forEach var="eloToBeAssessed" items="${elosToBeAssessed}">
-                                <option value="${eloToBeAssessed.id}">${eloToBeAssessed.humanReadableName}</option>
-                            </c:forEach>
-                        </select>
-                    </c:when>
-                </c:choose>
+            </td>
+            <td align="left" >
+                <input type="text" name="name">
             </td>
         </tr>
 
@@ -43,7 +36,15 @@
                 </strong>
             </td>
             <td align="left">
-                <input type="text" name="productType">
+                 <c:choose>
+                    <c:when test="${fn:length(elosToBeAssessed) > 0}">
+                        <select name="anchorEloId">
+                            <c:forEach var="eloToBeAssessed" items="${elosToBeAssessed}">
+                                <option value="${eloToBeAssessed.id}">${eloToBeAssessed.humanReadableName}</option>
+                            </c:forEach>
+                        </select>
+                    </c:when>
+                </c:choose>
             </td>
         </tr>
         <tr>

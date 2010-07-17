@@ -4,6 +4,7 @@ import eu.scy.core.*;
 import eu.scy.core.model.AssessmentCriteria;
 import eu.scy.core.model.ELORef;
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.ImageRefImpl;
 import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
@@ -54,7 +55,6 @@ public class StudentEloRefViewerController  extends BaseFormController {
         playfulAssessment.setELORef(getEloRefService().getELORefById(studentFeedbackBean.getModelId()));
         playfulAssessment.setScore(studentFeedbackBean.getScore());
         getPlayfulAssessmentService().save(playfulAssessment);
-
 
 
         ModelAndView modelAndView = new ModelAndView();
@@ -111,7 +111,10 @@ public class StudentEloRefViewerController  extends BaseFormController {
         logger.info("I found " + getPlayfulAssessmentService().getAssesmentsForELORef(eloRef).size() + " ASSESSMENTS!!");
 
         AssignedPedagogicalPlan assignedPedagogicalPlan = getAssignedPedagogicalPlanService().getCurrentAssignedPedagogicalPlan(getCurrentUser(request));
-        if(assignedPedagogicalPlan != null) transporter.setUseCriteriaBasedAssessment(assignedPedagogicalPlan.getUseCriteriaBasedAssessment());
+        if(assignedPedagogicalPlan != null)  {
+            transporter.setUseCriteriaBasedAssessment(assignedPedagogicalPlan.getUseCriteriaBasedAssessment());
+            transporter.setScoreImageId(((ImageRefImpl)assignedPedagogicalPlan.getPedagogicalPlan().getAssessmentScoreIcon()).getId());
+        }
 
         AnchorELO elo = eloRef.getAnchorELO();
         if(elo != null) {

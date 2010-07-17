@@ -42,7 +42,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .uniqueResult();
     }
 
-
+    @Override
     public List<Scenario> getCompatibleScenarios(Mission mission) {
         List<Scenario> scenarios = getSession().createQuery("select plan.scenario from PedagogicalPlanImpl as plan where plan.mission = :mission")
                 .setEntity("mission", mission)
@@ -57,7 +57,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         return scenarios;
     }
 
-
+    @Override
     public List<Mission> getCompatibleMissions(Scenario scenario) {
         return getSession().createQuery("select distinct(plan.mission) from PedagogicalPlanImpl as plan where plan.scenario = :scenario")
                 .setEntity("scenario", scenario)
@@ -65,7 +65,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
 
     }
 
-
+    @Override
     public PedagogicalPlan getPedagogicalPlan(Mission mission, Scenario scenario) {
         log.info("Searching for plan for " + mission + " and " + scenario);
         List pedagogicalPlans = getSession().createQuery("from PedagogicalPlanImpl as plan where plan.scenario = :scenario and plan.mission = :mission order by plan.name")
@@ -78,13 +78,13 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
 
     }
 
-
+    @Override
     public List<PedagogicalPlan> getPedagogicalPlans() {
         return getSession().createQuery("from PedagogicalPlanImpl order by name")
                 .list();
     }
 
-
+    @Override
     public PedagogicalPlan getPedagogicalPlan(String id) {
         return (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where id like :id")
                 .setString("id", id)
@@ -92,7 +92,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
 
     }
 
-
+    @Override
     public List<LearningActivitySpace> getLearningActivitySpaces(PedagogicalPlan pedagogicalPlan) {
         pedagogicalPlan = (PedagogicalPlan) getHibernateTemplate().merge(pedagogicalPlan);
         log.info("GOT PED PLAN: " + pedagogicalPlan);
@@ -104,7 +104,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
 
     }
 
-
+    @Override
     public void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO) {
         if(pedagogicalPlan == null || anchorELO == null) throw new RuntimeException("Illegal null value: pedagogical plan: " + pedagogicalPlan + " anchor ELO: " + anchorELO);
         PedagogicalPlanAnchorEloConnection connection = new PedagogicalPlanAnchorEloConnectionImpl();
@@ -113,7 +113,7 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         save(connection);
     }
 
-
+    @Override
     public List getAnchorELOs(PedagogicalPlan pedagogicalPlan) {
         return getSession().createQuery("select connection.anchorELO from PedagogicalPlanAnchorEloConnectionImpl as connection where connection.pedagogicalPlan = :pedagogicalPlan")
                 .setEntity("pedagogicalPlan", pedagogicalPlan)

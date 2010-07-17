@@ -350,4 +350,21 @@
 
     </tag>
 
+    <tag>
+        <name>scorePresentation</name>
+        <tagclass>eu.scy.server.taglibs.components.custom.ScorePresentation</tagclass>
+        <info>Presents score</info>
+
+        <attribute>
+            <name>score</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>imageId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
 </taglib>

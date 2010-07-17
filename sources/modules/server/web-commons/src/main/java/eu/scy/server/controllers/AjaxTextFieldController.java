@@ -21,6 +21,7 @@ public class AjaxTextFieldController extends AbstractAjaxController {
         String id = httpServletRequest.getParameter(ID);
         String property = httpServletRequest.getParameter(PROPERTY);
         String value = httpServletRequest.getParameter("value");
+        logger.info("VALUE:"  + value);
 
         if(clazz != null && id != null && property != null) {
             Class c = Class.forName(clazz);
