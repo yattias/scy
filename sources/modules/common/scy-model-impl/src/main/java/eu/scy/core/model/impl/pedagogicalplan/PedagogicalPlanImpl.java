@@ -1,5 +1,7 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.ImageRef;
+import eu.scy.core.model.impl.ImageRefImpl;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
@@ -28,6 +30,7 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     private String overallSCYLabScaffoldingLevel= null;
     private String overallMissionContentScaffoldingLevel = null;
     private List anchorELOsToBePeerAssessed;
+    private ImageRef assessmentScoreIcon;
 
 
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.LAZY)
@@ -103,4 +106,15 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
         this.limitNumberOfELOsAvailableForPeerAssessment = limitNumberOfELOsAvailableForPeerAssessment;
     }
 
+    @Override
+    @ManyToOne (targetEntity = ImageRefImpl.class)
+    @JoinColumn (name="imageRef_primKey")
+    public ImageRef getAssessmentScoreIcon() {
+        return assessmentScoreIcon;
+    }
+
+    @Override
+    public void setAssessmentScoreIcon(ImageRef assessmentScoreIcon) {
+        this.assessmentScoreIcon = assessmentScoreIcon;
+    }
 }
