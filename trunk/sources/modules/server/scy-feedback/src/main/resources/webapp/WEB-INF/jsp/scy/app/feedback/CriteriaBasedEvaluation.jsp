@@ -9,19 +9,11 @@
         </tr>
         <tr>
             <td colspan="2" align="left">
-                <input type="text" name="criteriaText" value="${assessmentCriteria.criteria}">
+                <textarea rows="3" cols="50" name="criteriaText">${assessmentCriteria.criteria}</textarea>
                 <input type="hidden" value="${anchorELO.id}" name="modelId">
                 <input type="hidden" value="${eloRef.id}" name="eloRefId">
                 <input type="hidden" value="${assessmentCriteria.id}" name="evaluationCriteriaId">
                 <input type="hidden" value="${assessment.id}" name="assessmentId"/>
-            </td>
-        </tr>
-        <tr>
-            <td align="left">
-                Comments/Proposed changes:
-            </td>
-            <td align="left">
-                Evaluation Score
             </td>
         </tr>
         <tr>
@@ -32,15 +24,15 @@
                             <tr>
                                 <c:forEach var="assessmentScoreDefinition" items="${assessmentCriteria.assessment.assessmentScoreDefinitions}">
                                     <td>
-                                        <c:if test="${assessmentScoreDefinition.fileRef != null}">
-                                            <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${assessmentScoreDefinition.fileRef.id}&showIcon=true"/>
-                                       </c:if>
+                                        <strong>${assessmentScoreDefinition.heading}</strong>  <br/>
                                         <input type="radio" name="score" value="${assessmentScoreDefinition.score}">
+                                        <c:if test="${assessmentScoreDefinition.fileRef != null}">
+                                            <img src="/webapp/components/resourceservice.html?id=${assessmentScoreDefinition.fileRef.id}&showIcon=true"/>
+                                       </c:if>
+
                                     </td>
                                 </c:forEach>
                                 </tr>
-
-
                         </c:when>
                     </c:choose>
                 </table>
@@ -48,7 +40,13 @@
         </tr>
         <tr>
             <td align="left" colspan="2">
-                <textarea rows="3" cols="25" name="comment"></textarea>
+                Comments/Proposed changes:
+            </td>
+        </tr>
+
+        <tr>
+            <td align="left" colspan="2">
+                <textarea rows="3" cols="50" name="comment"></textarea>
             </td>
 
 
