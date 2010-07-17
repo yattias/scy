@@ -15,7 +15,7 @@
                                         <c:choose>
                                              <c:when test="${fn:length(transporter.files) > 0}">
                                                 <c:forEach var="refFile" items="${transporter.files}">
-                                                    <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${refFile.id}&showIcon=true" }/>
+                                                    <img src="/webapp/components/resourceservice.html?id=${refFile.id}&showIcon=true" }/>
                                                 </c:forEach>
                                             </c:when>
                                         </c:choose>

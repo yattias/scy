@@ -31,7 +31,9 @@
                 <td><strong>Viewings</strong></td>
                 <td>${transporter.eloRef.viewings}</td>
                 <td><strong>Evaluation</strong></td>
-                <td>${transporter.totalScore}</td>
+                <td>
+                    <s:scorePresentation score="${transporter.totalScore}" imageId="${transporter.scoreImageId}"/>
+                </td>
             </tr>
         </table>
 
@@ -74,7 +76,7 @@
                                     <strong>${assessment.comment}</strong>
                                 </td>
                                 <td>
-                                    ${assessment.score}
+                                    <s:scorePresentation score="${assessment.score}" imageId="${transporter.scoreImageId}"/>
                                 </td>
 
                             </tr>
@@ -109,7 +111,7 @@
                                         </td>
                                         <td>
                                             <c:if test="${criteriaAndExperienceHolder.fileRef != null}">
-                                                <img style="background-color:#cccccc;padding:15px;"src="/webapp/components/resourceservice.html?id=${criteriaAndExperienceHolder.fileRef.id}&showIcon=true"/>
+                                                <img src="/webapp/components/resourceservice.html?id=${criteriaAndExperienceHolder.fileRef.id}&showIcon=true"/>
                                            </c:if>
                                             ${criteriaAndExperienceHolder.score}
                                         </td>
@@ -123,7 +125,7 @@
                 </c:if>
                 <tr class="${oddEven.oddEven}">
                     <td colspan="${transporter.colSpan}">
-                        <form method="POST" accept-charset="UTF-8" action="studentEloRefViewer.html">
+                        <form method="POST" accept-charset="UTF-8" action="storeELORefComment.html">
 
                             <table>
                                 <input type="hidden" name="action" value="addNewComment"/>
@@ -137,9 +139,18 @@
                                         <textarea name="comment" cols="40" rows="4"></textarea>
                                     </td>
                                     <td>
-                                        <strong>Evaluation score</strong>
-                                        <input type="range" min="1" max="5" value="1" name="score" />
-                                        <strong>5</strong>
+                                        <strong>Evaluation score</strong><br/>
+                                        <!--input id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="0" minimum="0" maximum="5"
+                                             discreteValues="5" intermediateChanges="true" onChange="dojo.byId('horizontalSlider').value = arguments[0];"
+                                             handleSrc="preciseSliderThumb.png" name=score>
+                                        </input-->
+                                        <!--input type="range" min="1" max="5" value="1" name="score" /-->
+                                        <input type="radio" name="score" value="1"/>1<br/>
+                                        <input type="radio" name="score" value="2"/>2<br/>
+                                        <input type="radio" name="score" value="3"/>3<br/>
+                                        <input type="radio" name="score" value="4"/>4<br/>
+                                        <input type="radio" name="score" value="5"/>5<br/>
+
                                     </td>
                                 </tr>
                                 <tr>

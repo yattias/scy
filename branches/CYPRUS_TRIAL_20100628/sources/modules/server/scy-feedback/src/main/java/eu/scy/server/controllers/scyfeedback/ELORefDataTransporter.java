@@ -25,6 +25,7 @@ public class ELORefDataTransporter {
     private List criteriaAndExperienceHolders;
     private List assessmentScoreDefinitions;
     private Boolean useCriteriaBasedAssessment;
+    private String scoreImageId;
 
     private Map criteriaMap;
 
@@ -128,4 +129,11 @@ public class ELORefDataTransporter {
         return assessmentCriteria.getCriteria();
     }
 
+    public String getScoreImageId() {
+        return scoreImageId;
+    }
+
+    public void setScoreImageId(String scoreImageId) {
+        this.scoreImageId = scoreImageId;
+    }
 }
