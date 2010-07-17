@@ -93,7 +93,7 @@
         <dependency>
             <groupId>eu.scy.server</groupId>
             <artifactId>scy-hub-commons</artifactId>
-            <version>${pom.version}</version>
+            <version>9.11.0.CYPRUS</version>
         </dependency>
 
         <dependency>
