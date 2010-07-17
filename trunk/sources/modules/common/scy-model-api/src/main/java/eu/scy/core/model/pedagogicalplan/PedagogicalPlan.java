@@ -1,5 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import eu.scy.core.model.ImageRef;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -37,5 +39,7 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
     Boolean getLimitNumberOfELOsAvailableForPeerAssessment();
     void setLimitNumberOfELOsAvailableForPeerAssessment(Boolean limitNumberOfELOsAvailableForPeerAssessment);
 
-    
+    ImageRef getAssessmentScoreIcon();
+
+    void setAssessmentScoreIcon(ImageRef assessmentScoreIcon);
 }
