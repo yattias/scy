@@ -206,7 +206,7 @@ public class UploadELOForFeedbackFormController extends SimpleFormController {
 
 
         if (file.getContentType().contains("image")) {
-            ImageRef fileRef = (ImageRef) getFileService().saveFile(tmpFile);
+            FileRef fileRef = getFileService().saveFile(tmpFile);
             getFileService().addFileToELORef(fileRef, eloRef);
         } else {
             FileRef fileRef = getFileService().saveFile(tmpFile);

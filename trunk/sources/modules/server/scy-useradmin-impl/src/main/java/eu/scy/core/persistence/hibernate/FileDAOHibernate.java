@@ -75,7 +75,7 @@ public class FileDAOHibernate extends ScyBaseDAOHibernate implements FileDAO {
     private String getContentType(File file) {
         String extension = file.getName().substring(file.getName().lastIndexOf("."), file.getName().length());
         String contentType = (String) contentTypes.get(extension);
-        if(contentType == null) contentType = "new MimetypesFileTypeMap().getContentType(file)";
+        if(contentType == null) contentType = new MimetypesFileTypeMap().getContentType(file);
         return contentType;
     }
 
