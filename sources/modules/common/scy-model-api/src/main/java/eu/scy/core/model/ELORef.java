@@ -65,4 +65,8 @@ public interface ELORef extends BaseObject {
     AnchorELO getAnchorELO();
 
     void setAnchorELO(AnchorELO anchorELO);
+
+    Boolean getHidden();
+
+    void setHidden(Boolean hidden);
 }
