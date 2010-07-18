@@ -57,11 +57,23 @@ public class FileStreamerView extends AbstractView {
                 }
 
 
+            } else {
+                logger.info("Streaming file ref!");
+                byte[] bytes = null;
+                bytes = fileRef.getFileData().getBytes();
+                out = httpServletResponse.getOutputStream();
+                httpServletResponse.setContentType(fileRef.getFileData().getContentType());
+                httpServletResponse.setContentLength(bytes.length);
+                out.write(bytes);
+                out.flush();
             }
 
-
         }
+
+
     }
+
+
 
     public FileService getFileService() {
         return fileService;

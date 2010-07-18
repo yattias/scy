@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,12 +27,20 @@ import java.util.List;
 public class FileDAOHibernate extends ScyBaseDAOHibernate implements FileDAO {
 
     private ImageConverter imageConverter;
+    private static Map contentTypes = new HashMap();
 
+    
+    static {
+        contentTypes.put("ppt", "application/vnd.ms-powerpoint");
+        contentTypes.put("pptx", "application/vnd.ms-powerpoint");
+        contentTypes.put("doc", "msword");
+        contentTypes.put("docx", "msword");
+    }
     @Override
     public FileRef saveFile(File file) {
         FileData fileData = new FileDataImpl();
         fileData.setBytes(getBytes(file));
-        fileData.setContentType(new MimetypesFileTypeMap().getContentType(file));
+        fileData.setContentType(getContentType(file));
         fileData.setName(file.getName());
         fileData.setOriginalName(file.getName());
         save(fileData);
@@ -60,6 +70,13 @@ public class FileDAOHibernate extends ScyBaseDAOHibernate implements FileDAO {
         fileRef.setFileData(fileData);
         save(fileRef);
         return fileRef;
+    }
+
+    private String getContentType(File file) {
+        String extension = file.getName().substring(file.getName().lastIndexOf("."), file.getName().length());
+        String contentType = (String) contentTypes.get(extension);
+        if(contentType == null) contentType = "new MimetypesFileTypeMap().getContentType(file)";
+        return contentType;
     }
 
     @Override

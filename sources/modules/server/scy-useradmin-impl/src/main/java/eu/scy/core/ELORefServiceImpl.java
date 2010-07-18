@@ -27,7 +27,12 @@ public class ELORefServiceImpl extends BaseServiceImpl implements ELORefService 
 		return getEloRefDAO().getELORefs();
 	}
 
-	@Transactional
+    @Override
+    public List<ELORef> getAllVisibleELORefs() {
+        return getEloRefDAO().getAllVisibleELORefs();
+    }
+
+    @Transactional
 	@Override
 	public void save(ELORef eloRef) {
 		getEloRefDAO().save(eloRef);
@@ -38,7 +43,13 @@ public class ELORefServiceImpl extends BaseServiceImpl implements ELORefService 
 		return getEloRefDAO().getELORefById(id);
 	}
 
-	public ELORefDAO getEloRefDAO() {
+    @Override
+    @Transactional
+    public void delete(ELORef model) {
+        getEloRefDAO().delete(model);
+    }
+
+    public ELORefDAO getEloRefDAO() {
 		return (ELORefDAO) getScyBaseDAO();
 	}
 

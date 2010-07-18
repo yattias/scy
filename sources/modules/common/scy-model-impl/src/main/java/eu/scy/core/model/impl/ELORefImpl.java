@@ -34,6 +34,7 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
     private String comment;
     private Integer viewings = 0;
     private AnchorELO anchorELO;
+    private Boolean hidden = false;
 
     private List fileRefs ;
 
@@ -177,5 +178,15 @@ public class ELORefImpl extends BaseObjectImpl implements ELORef {
     @Override
     public void setAnchorELO(AnchorELO anchorELO) {
         this.anchorELO = anchorELO;
+    }
+
+    @Override
+    public Boolean getHidden() {
+        return hidden;
+    }
+
+    @Override
+    public void setHidden(Boolean hidden) {
+        this.hidden = hidden;
     }
 }
