@@ -360,6 +360,7 @@ CREATE TABLE `eloref` (
 	`viewings` int(11) DEFAULT NULL,
 	`mission_primKey` varchar(55) default NULL,
 	`anchorELO_primKey` varchar(55) default NULL,
+	`hidden` tinyint(1) default 0,
 
   	KEY `eloRefUser` (`user_primKey`),
   	KEY `eloRefMission` (`mission_primKey`),

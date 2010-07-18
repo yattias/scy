@@ -56,9 +56,9 @@ public class ScyFeedbackIndexController extends BaseFormController {
 
 
         List transporters = new LinkedList();
-        List eloRefs = getEloRefService().getELORefs();
+        List <ELORef> eloRefs = getEloRefService().getAllVisibleELORefs();
         for (int i = 0; i < eloRefs.size(); i++) {
-            ELORef eloRef = (ELORef) eloRefs.get(i);
+            ELORef eloRef = eloRefs.get(i);
             List files = getFileService().getFilesForELORef(eloRef);
             ELORefDataTransporter transporter = new ELORefDataTransporter();
             transporter.setEloRef(eloRef);

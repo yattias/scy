@@ -168,6 +168,10 @@
 
         </fieldset>
 
+        <c:if test="${CAN_DELETE_MODEL}">
+            <s:deleteLink confirmText="Do you really want to delete the ELO?" title="Delete" href="studentEloRefViewer.html?action=delete&model=${transporter.eloRef.class.name}_${transporter.eloRef.id}"/>
+        </c:if>
+        
 
     </tiles:putAttribute>
 </tiles:insertDefinition>
