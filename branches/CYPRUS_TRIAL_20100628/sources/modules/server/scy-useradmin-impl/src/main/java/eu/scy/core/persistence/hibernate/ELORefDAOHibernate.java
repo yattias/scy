@@ -27,4 +27,18 @@ public class ELORefDAOHibernate extends ScyBaseDAOHibernate implements ELORefDAO
 				.setMaxResults(1)
 				.uniqueResult();
 	}
+
+    @Override
+    public List<ELORef> getAllVisibleELORefs() {
+        return getSession().createQuery("from ELORefImpl where hidden = :hidden order by viewings desc")
+                .setBoolean("hidden", false)
+                .list();
+    }
+
+    @Override
+    public void delete(ELORef model) {
+        model.setHidden(true);
+        save(model);
+
+    }
 }

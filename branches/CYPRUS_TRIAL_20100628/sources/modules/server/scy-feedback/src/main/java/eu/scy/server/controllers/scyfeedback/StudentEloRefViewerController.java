@@ -3,6 +3,7 @@ package eu.scy.server.controllers.scyfeedback;
 import eu.scy.core.*;
 import eu.scy.core.model.AssessmentCriteria;
 import eu.scy.core.model.ELORef;
+import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ImageRefImpl;
 import eu.scy.core.model.impl.playful.PlayfulAssessmentImpl;
@@ -11,12 +12,9 @@ import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.playful.PlayfulAssessment;
 import eu.scy.server.common.OddEven;
-import eu.scy.server.controllers.BaseController;
 import eu.scy.server.controllers.BaseFormController;
-import eu.scy.server.url.UrlInspector;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,6 +85,7 @@ public class StudentEloRefViewerController  extends BaseFormController {
 
         if(request.getParameter("action") != null) {
             if(request.getParameter("action").equals("addAssessment")) addAssessment(request, modelAndView);
+            else if(request.getParameter("action").equals("delete") ) deleteELO(getModel(), modelAndView);
         }
 
         ELORefDataTransporter transporter = new ELORefDataTransporter();
@@ -106,6 +105,25 @@ public class StudentEloRefViewerController  extends BaseFormController {
         getEloRefService().save(eloRef);
         transporter.setFiles(getFileService().getFilesForELORef(eloRef));
         transporter.setTotalScore(getPlayfulAssessmentService().getScoreForELORef(eloRef));
+
+
+
+
+        if(eloRef.getAuthor() != null || getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_TEACHER") ) {
+            if(eloRef.getAuthor() != null && eloRef.getAuthor().getUserDetails().getUsername().equals(getCurrentUser(request).getUserDetails().getUsername())) {
+                logger.info("This user can delete elo - setting permissions");
+                modelAndView.addObject("CAN_DELETE_MODEL", true);
+            } else {
+                modelAndView.addObject("CAN_DELETE_MODEL", false);
+            }
+
+            //Override if teacher:
+            if(getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_TEACHER")) {
+                modelAndView.addObject("CAN_DELETE_MODEL", true);
+            }
+        }
+
+
 
         transporter.setAssessments(getPlayfulAssessmentService().getAssesmentsForELORef(eloRef));
         logger.info("I found " + getPlayfulAssessmentService().getAssesmentsForELORef(eloRef).size() + " ASSESSMENTS!!");
@@ -143,6 +161,11 @@ public class StudentEloRefViewerController  extends BaseFormController {
         modelAndView.addObject("encodedModel", encodedModel);
         modelAndView.addObject("modelId", eloRef.getId());
         
+    }
+
+    private void deleteELO(ScyBase model, ModelAndView modelAndView) {
+        getEloRefService().delete((ELORef) model);
+        modelAndView.setViewName("forward:ScyFeedbackIndex.html");
     }
 
     private void addAssessment(HttpServletRequest request, ModelAndView modelAndView) {
