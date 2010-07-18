@@ -1,6 +1,7 @@
 package eu.scy.core.persistence;
 
 import eu.scy.core.model.ELORef;
+import eu.scy.core.model.ScyBase;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface ELORefDAO extends SCYBaseDAO {
 	void createELORef(ELORef eloRef);
 
 	ELORef getELORefById(String id);
+
+    List<ELORef> getAllVisibleELORefs();
+
+    void delete(ELORef model);
 }
