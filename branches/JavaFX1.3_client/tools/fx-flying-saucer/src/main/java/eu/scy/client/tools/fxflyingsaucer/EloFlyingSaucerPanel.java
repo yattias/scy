@@ -108,8 +108,17 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
          return;
       }
       String homeUrl = getUrlFromContent(elo.getContent());
-      String localizedHomeUrl = getLocalizedUri(homeUrl);
-      setHomeUrl(localizedHomeUrl);
+      final String localizedHomeUrl = getLocalizedUri(homeUrl);
+      Thread t = new Thread() {
+
+            @Override
+            public void run() {
+                setHomeUrl(localizedHomeUrl);
+            }
+
+      };
+      t.start();
+      
    }
 
    private String getLocalizedUri(String urlString){
