@@ -108,7 +108,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 					120 * AgentProtocol.MINUTE);
 		}
 		if (!parameter.containsParameter(MINIMUM_NUMBER_OF_CONCEPTS)) {
-			parameter.setParameter(MINIMUM_NUMBER_OF_CONCEPTS, 5L);
+			parameter.setParameter(MINIMUM_NUMBER_OF_CONCEPTS, 5);
 		}
 	}
 
