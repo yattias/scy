@@ -54,73 +54,82 @@ public class EdgesManager extends IEdgesManager {
         //logger.debug("#datasync edges before: {datasyncNodes.sizeof}");
         delete edge from datasyncNodes;
         delete edge from nodes;
-        //logger.debug("#datasync edges after: {datasyncNodes.sizeof}");
+    //logger.debug("#datasync edges after: {datasyncNodes.sizeof}");
 
     }
 
     public function addLink(source: ScyWindow, target: ScyWindow, text: String): Void {
-        def edge: Edge = Edge {
-                    start: (source as StandardScyWindow);
-                    end: (target as StandardScyWindow);
-                    manager: this;
-                    text: text;
-                    visible: showEloRelations;
-                    opacity: 0.0
-                }
-        insert edge into nodes;
-        Timeline {
-            keyFrames: [at (0.5s) {edge.opacity => 0.3 tween Interpolator.EASEIN}]
-        }.play();
+        FX.deferAction(function() :Void {
+            def edge: Edge = Edge {
+                        start: (source as StandardScyWindow);
+                        end: (target as StandardScyWindow);
+                        manager: this;
+                        text: text;
+                        visible: showEloRelations;
+                        opacity: 0.0
+                    }
+            insert edge into nodes;
+            Timeline {
+                keyFrames: [at (0.5s) {edge.opacity => 0.3 tween Interpolator.EASEIN}]
+            }.play();
+        });
     }
 
-    public override function findLinks(sourceWindow: ScyWindow)     {
+    public override function findLinks(sourceWindow: ScyWindow) {
         logger.debug("finding links...");
         delete  nodes;
         // insert datasyncnodes if according window is visible
         insertDatasyncNodes();
-        if (not (sourceWindow.eloUri == null) and sourceWindow.eloUri.toString() != "") {
-            def metadata: IMetadata = repository.retrieveMetadata(sourceWindow.eloUri);
-            var targetURI: URI;
-            var targetWindow ;
-            // show "IS_VERSION_OF"-Relation
-            targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSION_OF.getId())).getValue() as URI;
-            targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI == null) and not (targetWindow == null)) {
-                addLink(sourceWindow, targetWindow, "is version of");
-            }
 
-            // show "IS_VERSIONED_BY"-Relation
-            targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSIONED_BY.getId())).getValue() as URI;
-            targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI == null) and not (targetWindow == null)) {
-                addLink(sourceWindow, targetWindow, "is versioned by");
-            }
+        var f = function() {
+            if (not (sourceWindow.eloUri == null) and sourceWindow.eloUri.toString() != "") {
+                def metadata: IMetadata = repository.retrieveMetadata(sourceWindow.eloUri);
+                var targetURI: URI;
+                var targetWindow;
+                // show "IS_VERSION_OF"-Relation
+                targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSION_OF.getId())).getValue() as URI;
+                targetWindow = windowManager.findScyWindow(targetURI);
+                if (not (targetURI == null) and not (targetWindow == null)) {
+                    addLink(sourceWindow, targetWindow, "is version of");
+                }
 
-            // show "IS_FORK_OF"-Relation
-            targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF.getId())).getValue() as URI;
-            targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI == null) and not (targetWindow == null)) {
-                addLink(sourceWindow, targetWindow, "is fork of");
-            }
+                // show "IS_VERSIONED_BY"-Relation
+                targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_VERSIONED_BY.getId())).getValue() as URI;
+                targetWindow = windowManager.findScyWindow(targetURI);
+                if (not (targetURI == null) and not (targetWindow == null)) {
+                    addLink(sourceWindow, targetWindow, "is versioned by");
+                }
 
-            // show "IS_FORKED_BY"-Relation
-            targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY.getId())).getValue() as URI;
-            targetWindow = windowManager.findScyWindow(targetURI);
-            if (not (targetURI == null) and not (targetWindow == null)) {
-                addLink(sourceWindow, targetWindow, "is forked by");
+                // show "IS_FORK_OF"-Relation
+                targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF.getId())).getValue() as URI;
+                targetWindow = windowManager.findScyWindow(targetURI);
+                if (not (targetURI == null) and not (targetWindow == null)) {
+                    addLink(sourceWindow, targetWindow, "is fork of");
+                }
+
+                // show "IS_FORKED_BY"-Relation
+                targetURI = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY.getId())).getValue() as URI;
+                targetWindow = windowManager.findScyWindow(targetURI);
+                if (not (targetURI == null) and not (targetWindow == null)) {
+                    addLink(sourceWindow, targetWindow, "is forked by");
+                }
             }
-        }
+        };
+        var t = BackgroundTask {
+            backgroundFunction: f;
+            };
+        t.start();
     }
 
     protected function insertDatasyncNodes() {
         for (datasyncNode in datasyncNodes) {
-                var window = windowManager.findScyWindow((datasyncNode as DatasyncEdge).startAttrib.scyWindow.eloUri);
-                if (not (window == null)) {
-                    insert datasyncNode into nodes;
-                    (datasyncNode as DatasyncEdge).update();
-                }           
+            var window = windowManager.findScyWindow((datasyncNode as DatasyncEdge).startAttrib.scyWindow.eloUri);
+            if (not (window == null)) {
+                insert datasyncNode into nodes;
+                (datasyncNode as DatasyncEdge).update();
+            }
         }
-        //insert datasyncNodes into nodes;
+    //insert datasyncNodes into nodes;
     }
 
     override protected function create(): Node {
