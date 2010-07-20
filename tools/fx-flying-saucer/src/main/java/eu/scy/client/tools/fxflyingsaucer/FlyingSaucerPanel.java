@@ -251,20 +251,29 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       setHomeUrl(newHomeUrl);
    }
 
-   public void loadUrl(String url)
+   public void loadUrl(final String url)
    {
       urlFieldIsTitleBeforeLoading = urlFieldIsTitle;
       errorInPage = false;
       try
       {
          urlFieldIsTitle = true;
-         browser.setDocument(url);
+         Thread t = new Thread() {
+
+                @Override
+                public void run() {
+                    browser.setDocument(url);
+                }
+
+         };
+         t.start();
          if (!errorInPage)
          {
             isPageLoaded = true;
             urlField.setEditable(false);
             homeButton.setEnabled(true);
          }
+
       }
       catch (Exception e)
       {
