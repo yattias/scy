@@ -105,23 +105,24 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         }
     }
 
-    public void joinSession(String mucID){
+    public boolean joinSession(String mucID){
         if(session != null){
             leaveSession(session.getId());
         }
         try {
-			session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
-		} catch (DataSyncException e) {
-			// TODO handle exception in an appropriate way
-			e.printStackTrace();
-		}
-        debugLogger.log(Level.INFO, "joinSession: "+session.getId());
+            session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
+	} catch (DataSyncException e) {
+		JOptionPane.showMessageDialog(null, getBundleString("MSG_ERROR_SYNC"));
+		e.printStackTrace();
+                return false;
+	}
         if (session == null) {
-            JOptionPane.showMessageDialog(null, "join session error, null");
+            JOptionPane.showMessageDialog(null, getBundleString("MSG_ERROR_SYNC"));
+            return false;
         } else{
-            // not working right now, ask Adam
-            //readAllSyncObjects();
+            readAllSyncObjects();
         }
+        return true;
     }
 
     public void leaveSession(String mucID){
@@ -141,15 +142,15 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     public void readAllSyncObjects(){
         List<ISyncObject> syncObjects = null;
-		try {
-			syncObjects = session.getAllSyncObjects();
-		} catch (DataSyncException e) {
-			// TODO handle exception in an appropriate way
-			e.printStackTrace();
-		}
+	try {
+		syncObjects = session.getAllSyncObjects();
+	} catch (DataSyncException e) {
+		JOptionPane.showMessageDialog(null, getBundleString("MSG_ERROR_SYNC"));
+		e.printStackTrace();
+	}
         if(syncObjects == null)
             return;
-        debugLogger.log(Level.INFO, "readAllSyncObjects ("+syncObjects.size()+") "+session.getId());
+        //debugLogger.log(Level.INFO, "readAllSyncObjects ("+syncObjects.size()+") "+session.getId());
         // find the header first
         for (ISyncObject syncObject : syncObjects) {
             if (syncObject.getProperties() != null && syncObject.getProperty(TYPE_DATASET_HEADER) != null) {
@@ -165,13 +166,13 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void readSyncObject(ISyncObject syncObject){
-        debugLogger.log(Level.INFO, "readSyncObject... "+session.getId());
+        debugLogger.log(Level.INFO, "readSyncObject... ");
         if(syncObject.getToolname() != null && syncObject.getToolname().equals(SIMULATOR_NAME)){
             if(syncObject.getProperties() != null) {
                 String type = syncObject.getProperty(SYNC_OBJECT_TYPE);
                 if(type != null){
                     if(type.equals(TYPE_DATASET_HEADER)){
-                        debugLogger.log(Level.INFO, "...of type header "+session.getId());
+                        debugLogger.log(Level.INFO, "...of type header ");
                         String dataheader = syncObject.getProperty(TYPE_DATASET_HEADER);
                         if(dataheader != null){
                             try{
@@ -290,7 +291,9 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     @Override
     public void syncObjectAdded(final ISyncObject syncObject) {
-        debugLogger.log(Level.INFO, "syncObjectAdded ("+syncObject.getID()+") "+session.getId());
+        if(syncObject == null)
+            return;
+       // debugLogger.log(Level.INFO, "syncObjectAdded ("+syncObject.getID()+") "+session.getId());
          SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
