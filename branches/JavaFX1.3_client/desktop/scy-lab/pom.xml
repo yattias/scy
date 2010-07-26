@@ -76,13 +76,11 @@
 			<artifactId>fx-interviewtool</artifactId>
 			<version>9.8.0-JFX1.3-SNAPSHOT</version>
 		</dependency>
-      <!--
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-video</artifactId>
-			<version>${pom.version}</version>
+			<version>9.8.0-JFX1.3-SNAPSHOT</version>
 		</dependency>
-      -->
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-webresourcer</artifactId>
