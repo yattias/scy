@@ -32,7 +32,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import javafx.scene.layout.Container;
-import javax.swing.JComponent;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 
@@ -57,10 +56,6 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    var wrappedCopexPanel:Node;
    var technicalFormatKey: IMetadataKey;
-   def swingContentGroup = Group{
-      autoSizeChildren:false
-   }
-   var swingContent:JComponent;
 
    var elo:IELO;
 
