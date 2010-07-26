@@ -15,16 +15,10 @@ import javafx.scene.control.Button;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
-
 import eu.scy.scymapper.impl.SCYMapperPanel;
-
 import roolo.elo.api.IELO;
-
 import org.apache.log4j.Logger;
-
 import javax.swing.JOptionPane;
-
-
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.common.datasync.ISyncSession;
@@ -32,6 +26,7 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 
 public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
@@ -101,6 +96,12 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                                 doSaveConceptMapAs();
                            }
                         }
+                        Button {
+                           text: "Add to Portfolio"
+                           action: function() {
+                                addToPortfolio();
+                           }
+                        }
                      ]
                   }
                   wrappedScyMapperPanel
@@ -134,9 +135,17 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         eloSaver.eloSaveAs(currentELO, this);
     }
 
+    function addToPortfolio() {
+//        (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).logAddToPortfolio();
+    }
+
  public override function canAcceptDrop(object:Object):Boolean{
       println("SCYMAPPER: canAcceptDrop of {object.getClass()}");
-      return true;
+      if(object instanceof ContactFrame ){
+        return true;
+      }
+      return false;
+
    }
 
    public override function acceptDrop(object:Object):Void{
