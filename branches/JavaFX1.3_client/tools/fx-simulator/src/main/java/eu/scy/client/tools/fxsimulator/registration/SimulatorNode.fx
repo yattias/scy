@@ -1,7 +1,6 @@
 package eu.scy.client.tools.fxsimulator.registration;
 
 import java.net.URI;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,6 +30,7 @@ import eu.scy.client.tools.scysimulator.SimConfig;
 import sqv.SimQuestViewer;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.awt.event.ActionEvent;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
 import javax.swing.JLabel;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
@@ -40,6 +40,16 @@ import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import eu.scy.client.common.datasync.DummySyncListener;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
+import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -74,6 +84,8 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var eloDataset: IELO;
     var dataCollector: DataCollector;
     var syncAttrib: DatasyncAttribute;
+    var datasyncEdge: DatasyncEdge;
+    var acceptDialog: AcceptSyncModalDialog;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
     def simulatorContent = Group{
@@ -91,6 +103,41 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function acceptDrop(object: Object) {
+        logger.debug("drop accepted.");
+        var isSync = isSynchronizingWith(object as ISynchronizable);
+        if (isSync) {
+            removeDatasync(object as ISynchronizable);
+        } else {
+            acceptDialog = AcceptSyncModalDialog {
+                        object: object as ISynchronizable
+                        okayAction: initializeDatasync
+                        cancelAction: cancelDialog
+                    }
+            createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
+        }
+    }
+
+    function cancelDialog(): Void {
+            acceptDialog.modalDialogBox.close();
+    }
+
+    function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
+        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        modalDialogNode.modalDialogBox = ModalDialogBox {
+            content: EmptyBorderNode {
+                content: Group {
+                    content: modalDialogNode.getContentNodes();
+                }
+            }
+            targetScene: scyWindow.windowManager.scyDesktop.scene
+            title: title
+            windowColorScheme: windowColorScheme
+            closeAction: function (): Void {
+            }
+        }
+    }
+
+    public function acceptDrop_(object: Object) {
         logger.debug("drop accepted.");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if (isSync) {
@@ -120,12 +167,12 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public function initializeDatasync(fitex: ISynchronizable):Void {
-//        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
-//        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
-//        fitex.join(datasyncsession.getId(), datasyncEdge as Object);
-//        this.join(datasyncsession.getId());
-//        datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
-//        acceptDialog.modalDialogBox.close();
+        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
+        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
+        fitex.join(datasyncsession.getId(), datasyncEdge as Object);
+        this.join(datasyncsession.getId());
+        datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
+        acceptDialog.modalDialogBox.close();
     }
 
     public function removeDatasync(fitex: ISynchronizable) {
@@ -186,7 +233,9 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     override public function processNotification(note: INotification): Void {
         if (dataCollector != null) {
             logger.info("process notification, forwarding to DataCollector");
-            dataCollector.processNotification(note);
+            FX.deferAction(function () {
+                dataCollector.processNotification(note);
+            })
         } else {
             logger.info("notification not processed, DataCollector == null");
         }
@@ -287,22 +336,31 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 //            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
 //            toolBrokerAPI.registerForNotifications(this as INotifiable);
 //            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
-            var simulationPanel = new JPanel();
-            simulationPanel.setLayout(new BorderLayout());
+            //--- creating a splitpane
+            var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+            // creating the datacollector
+            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
             var simulationViewer = simquestViewer.getInterfacePanel();
             simulationViewer.setPreferredSize(simquestViewer.getRealSize());
-            simulationPanel.add(simulationViewer, BorderLayout.CENTER);
-            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+            // adding simulation and datacollector to splitpane
+            var scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroller.setViewportView(simquestViewer.getInterfacePanel());
+            split.setTopComponent(scroller);
+            //dataCollector.setPreferredSize(new Dimension(100, 300));
+            split.setBottomComponent(dataCollector);
+            split.setDividerLocation(500);
+            // adding the splitcomponent to the simquestpanel
+            split.setEnabled(true);
+
             toolBrokerAPI.registerForNotifications(this as INotifiable);
-            simulationPanel.add(dataCollector, BorderLayout.SOUTH);
             fixedDimension = simquestViewer.getRealSize();
-            switchSwingDisplayComponent(simulationPanel);
+            switchSwingDisplayComponent(split);
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
             }
             fixedDimension.height = fixedDimension.height + 260;
             scyWindow.open();
-            var syncAttrib = DatasyncAttribute {
+            syncAttrib = DatasyncAttribute {
                         scyWindow:scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this };
