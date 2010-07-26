@@ -29,7 +29,7 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContent
 
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.tools.interviewtool.InterviewToolContentCreator;
-//import eu.scy.client.tools.fxvideo.VideoContentCreator;
+import eu.scy.client.tools.fxvideo.VideoContentCreator;
 import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
@@ -106,7 +106,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(InterviewToolContentCreator{},scyInterviewId);
 
-//   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
