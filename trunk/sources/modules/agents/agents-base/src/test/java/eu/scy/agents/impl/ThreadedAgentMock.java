@@ -28,7 +28,7 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 
 	public ThreadedAgentMock(Map<String, Object> map) {
 		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID));
-		parameter.setParameter(TEST_PARAMETER, TEST_VALUE);
+		configuration.setParameter(TEST_PARAMETER, TEST_VALUE);
 		runCount = 0;
 	}
 

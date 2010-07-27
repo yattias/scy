@@ -5,7 +5,7 @@ import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import eu.scy.agents.api.IAgent;
-import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.api.parameter.AgentConfiguration;
 
 /**
  * Implementation of the IAgent interface.
@@ -38,7 +38,7 @@ public abstract class AbstractAgent implements IAgent {
 	/**
 	 * The parameter of the agent.
 	 */
-	protected AgentParameter parameter;
+	protected AgentConfiguration configuration;
 
 	/**
 	 * Create a new AbstractAgent with <code>name</code> and <code>id</code>.
@@ -91,7 +91,7 @@ public abstract class AbstractAgent implements IAgent {
 	 */
 	public AbstractAgent(String agentName, String agentId, String tsHost,
 			int tsPort, boolean runAutonomous) {
-		parameter = new AgentParameter();
+		configuration = new AgentConfiguration();
 		name = agentName;
 		id = agentId;
 		host = tsHost;

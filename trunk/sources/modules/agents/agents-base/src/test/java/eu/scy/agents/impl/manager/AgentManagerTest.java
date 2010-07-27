@@ -59,6 +59,7 @@ public class AgentManagerTest {
 			// conf.setWebServicesEnabled(false);
 			conf.setRemoteAdminEnabled(false);
 			conf.setLocal(false);
+			conf.setShellEnabled(false);
 			Server.startServer();
 		}
 	}

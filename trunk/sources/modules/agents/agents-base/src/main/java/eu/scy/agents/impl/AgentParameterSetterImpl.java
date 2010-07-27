@@ -4,7 +4,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
-import eu.scy.agents.api.AgentParameterSetter;
+import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.api.parameter.AgentParameterSetter;
 
 public class AgentParameterSetterImpl implements AgentParameterSetter {
 
@@ -21,49 +22,51 @@ public class AgentParameterSetterImpl implements AgentParameterSetter {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getParameter(String agentName, String mission, String user,
-			String parameterName) {
-		return (T) getParameterViaTuple(agentName, mission, user, parameterName);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getParameter(String agentName, String mission,
-			String parameterName) {
-		return (T) getParameterViaTuple(agentName, mission, null, parameterName);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getParameter(String agentName, String parameterName) {
-		return (T) getParameterViaTuple(agentName, null, null, parameterName);
-	}
-
-	@Override
-	public <T> void setParameter(String agentName, String mission, String user,
-			String parameterName, T value) {
-		try {
-			tupleSpace.write(createSetParameterTupleTemplate(agentName,
-					mission, user, parameterName, value));
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Couldn't set parameter" + parameterName
-					+ " for " + agentName, e);
-		}
-	}
-
-	@Override
-	public <T> void setParameter(String agentName, String mission,
-			String parameterName, T value) {
-		setParameter(agentName, mission, null, parameterName, value);
-	}
-
-	@Override
-	public <T> void setParameter(String agentName, String parameterName, T value) {
-		setParameter(agentName, null, null, parameterName, value);
-	}
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public <T> T getParameter(String agentName, String mission, String user,
+	// String parameterName) {
+	// return (T) getParameterViaTuple(agentName, mission, user, parameterName);
+	// }
+	//
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public <T> T getParameter(String agentName, String mission,
+	// String parameterName) {
+	// return (T) getParameterViaTuple(agentName, mission, null, parameterName);
+	// }
+	//
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public <T> T getParameter(String agentName, String parameterName) {
+	// return (T) getParameterViaTuple(agentName, null, null, parameterName);
+	// }
+	//
+	// @Override
+	// public <T> void setParameter(String agentName, String mission, String
+	// user,
+	// String parameterName, T value) {
+	// try {
+	// tupleSpace.write(createSetParameterTupleTemplate(agentName,
+	// mission, user, parameterName, value));
+	// } catch (TupleSpaceException e) {
+	// e.printStackTrace();
+	// throw new RuntimeException("Couldn't set parameter" + parameterName
+	// + " for " + agentName, e);
+	// }
+	// }
+	//
+	// @Override
+	// public <T> void setParameter(String agentName, String mission,
+	// String parameterName, T value) {
+	// setParameter(agentName, mission, null, parameterName, value);
+	// }
+	//
+	// @Override
+	// public <T> void setParameter(String agentName, String parameterName, T
+	// value) {
+	// setParameter(agentName, null, null, parameterName, value);
+	// }
 
 	private <T> Tuple createSetParameterTupleTemplate(String agentName,
 			String mission, String user, String parameterName, T value) {
@@ -96,8 +99,7 @@ public class AgentParameterSetterImpl implements AgentParameterSetter {
 		try {
 			tupleSpace.write(getParameterTuple);
 			Tuple getParameterResponse = tupleSpace.waitToRead(AgentProtocol
-					.getParameterGetResponseTupleTemplate(agentName),
-					5 * AgentProtocol.SECOND);
+					.getParameterGetResponseTupleTemplate(agentName));
 			if (getParameterResponse == null) {
 				return null;
 			}
@@ -106,5 +108,26 @@ public class AgentParameterSetterImpl implements AgentParameterSetter {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getParameter(String agentName, AgentParameter parameter) {
+		return (T) getParameterViaTuple(agentName, parameter.getMission(),
+				parameter.getUser(), parameter.getParameterName());
+	}
+
+	@Override
+	public <T> void setParameter(String agentName, AgentParameter parameter) {
+		try {
+			Tuple setParameterTuple = createSetParameterTupleTemplate(
+					agentName, parameter.getMission(), parameter.getUser(),
+					parameter.getParameterName(), parameter.getParameterValue());
+			tupleSpace.write(setParameterTuple);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Couldn't set parameter"
+					+ parameter.getParameterName() + " for " + agentName, e);
+		}
 	}
 }
