@@ -46,10 +46,6 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
 	private TupleID aliveTupleID = null;
 
-	private int commandId;
-
-	private int identifyId;
-
 	protected ReentrantLock lock = new ReentrantLock();
 
 	private Thread myThread;
@@ -64,6 +60,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	protected Status status;
 
 	private boolean killed = false;
+
+	private int commandId;
+
+	private int identifyId;
 
 	private int parameterGetId;
 
