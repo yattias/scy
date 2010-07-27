@@ -10,8 +10,11 @@ import info.collide.sqlspaces.commons.TupleSpaceException.TupleSpaceError;
 import java.rmi.dgc.VMID;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.log4j.Logger;
+
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
+import eu.scy.agents.api.parameter.AgentParameter;
 
 /**
  * A basic implementation of a threaded agent. It provides basic starting and
@@ -51,6 +54,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
 	private Thread myThread;
 
+	protected Logger logger;
+
 	/**
 	 * The current status of the agent.
 	 * 
@@ -60,7 +65,9 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
 	private boolean killed = false;
 
-	private int parameterId;
+	private int parameterGetId;
+
+	private int parameterSetId;
 
 	/**
 	 * Create a new {@link AbstractThreadedAgent}. Only allowed to call by
@@ -74,6 +81,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	protected AbstractThreadedAgent(String name, String id) {
 		super(name, id);
 		status = Status.Initializing;
+		logger = Logger.getLogger(name);
 	}
 
 	protected AbstractThreadedAgent(String name, String id, String host,
@@ -92,40 +100,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 		}
 		String agentCommand = afterTuple.getField(0).getValue().toString();
 		if (AgentProtocol.COMMAND_LINE.equals(agentCommand)) {
-			if (afterTuple.getField(2).getValue().equals(getId().trim())) {
-				String message = (String) afterTuple.getField(4).getValue();
-				if (AgentProtocol.MESSAGE_STOP.equals(message)
-						&& afterTuple.getField(2).getValue().equals(
-								getId().trim())) {
-					try {
-						// if the message was to stop....
-						getCommandSpace().take(afterTuple);
-						stop();
-					} catch (AgentLifecycleException e) {
-						e.printStackTrace();
-					} catch (TupleSpaceException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-
+			handleCommands(afterTuple);
 		} else if (AgentProtocol.QUERY.equals(agentCommand)) {
 			// Field 1 is (due to conventions) queryId
-			final String queryId = afterTuple.getField(1).getValue().toString();
-			// Reply on ident-query
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						getCommandSpace().write(getIdentifyTuple(queryId));
-					} catch (TupleSpaceException e) {
-						e.printStackTrace();
-					}
-				}
-			}).start();
-			// String.class, String.class, String.class,
-			// Field.createWildCardField());
+			handleQuery(afterTuple);
 		} else if (AgentProtocol.AGENT_PARAMETER_SET.equals(agentCommand)) {
 			handleParameterSetCommand(afterTuple);
 		} else if (AgentProtocol.AGENT_PARAMETER_GET.equals(agentCommand)) {
@@ -133,51 +111,83 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 		}
 	}
 
+	private void handleCommands(Tuple afterTuple) {
+		if (afterTuple.getField(2).getValue().equals(getId().trim())) {
+			String message = (String) afterTuple.getField(4).getValue();
+			if (AgentProtocol.MESSAGE_STOP.equals(message)
+					&& afterTuple.getField(2).getValue().equals(getId().trim())) {
+				try {
+					// if the message was to stop....
+					getCommandSpace().take(afterTuple);
+					stop();
+				} catch (AgentLifecycleException e) {
+					e.printStackTrace();
+				} catch (TupleSpaceException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void handleQuery(Tuple afterTuple) {
+		final String queryId = afterTuple.getField(1).getValue().toString();
+		// Reply on ident-query
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					getCommandSpace().write(getIdentifyTuple(queryId));
+				} catch (TupleSpaceException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
 	private void handleParameterSetCommand(Tuple afterTuple) {
 		String agentName = (String) afterTuple.getField(1).getValue();
 		if (getName().equals(agentName)) {
-			String mission = (String) afterTuple.getField(2).getValue();
-			String user = (String) afterTuple.getField(3).getValue();
-			String parameterName = (String) afterTuple.getField(4).getValue();
-			Object parameterValue = afterTuple.getField(4).getValue();
 
-			if (mission != null) {
-				if (user != null) {
-					parameter.setParameter(mission, user, parameterName,
-							parameterValue);
-				} else {
-					parameter.setParameter(mission, parameterName,
-							parameterValue);
-				}
-			} else {
-				parameter.setParameter(parameterName, parameterValue);
-			}
+			AgentParameter agentParameter = new AgentParameter();
+			agentParameter.setMission((String) afterTuple.getField(2)
+					.getValue());
+			agentParameter.setUser((String) afterTuple.getField(3).getValue());
+			agentParameter.setParameterName((String) afterTuple.getField(4)
+					.getValue());
+			agentParameter.setParameterValue(afterTuple.getField(5).getValue());
+
+			configuration.setParameter(agentParameter);
+			parametersChanged(agentParameter);
 		}
+	}
+
+	protected void parametersChanged(AgentParameter agentParameter) {
+		logger.info("Setting parameter " + agentParameter.getParameterName()
+				+ " to " + agentParameter.getParameterValue() + " for mission "
+				+ agentParameter.getMission() + " and user "
+				+ agentParameter.getUser());
 	}
 
 	private void handleParameterGetCommand(Tuple afterTuple) {
 		String agentName = (String) afterTuple.getField(2).getValue();
 		if (getName().equals(agentName)) {
-			String mission = (String) afterTuple.getField(3).getValue();
-			String user = (String) afterTuple.getField(4).getValue();
-			String parameterName = (String) afterTuple.getField(5).getValue();
+			AgentParameter parameter = new AgentParameter();
+			parameter.setMission((String) afterTuple.getField(3).getValue());
+			parameter.setUser((String) afterTuple.getField(4).getValue());
+			parameter.setParameterName((String) afterTuple.getField(5)
+					.getValue());
+			Object value = configuration.getParameter(parameter);
+			logger.debug("Got parameter " + parameter.getParameterName()
+					+ " is: " + value);
 
-			Object value = null;
-			if (mission != null) {
-				if (user != null) {
-					value = parameter
-							.getParameter(mission, user, parameterName);
-				} else {
-					value = parameter.getParameter(mission, parameterName);
-				}
-			} else {
-				value = parameter.getParameter(parameterName);
-			}
 			Tuple getParameterResponseTuple = AgentProtocol
 					.getParameterGetResponseTupleTemplate(getName());
-			getParameterResponseTuple.getField(3).setValue(mission);
-			getParameterResponseTuple.getField(4).setValue(user);
-			getParameterResponseTuple.getField(5).setValue(parameterName);
+			getParameterResponseTuple.getField(3).setValue(
+					parameter.getMission());
+			getParameterResponseTuple.getField(4).setValue(parameter.getUser());
+			getParameterResponseTuple.getField(5).setValue(
+					parameter.getParameterName());
 			getParameterResponseTuple.getField(6).setValue(value);
 
 			try {
@@ -364,7 +374,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 					AgentProtocol.getCommandTuple(id, name), this, true);
 			identifyId = getCommandSpace().eventRegister(Command.WRITE,
 					AgentProtocol.getIdentifyTuple(id, name), this, true);
-			parameterId = getCommandSpace().eventRegister(Command.WRITE,
+			parameterSetId = getCommandSpace().eventRegister(Command.WRITE,
+					AgentProtocol.getParameterSetTupleTemplate(name), this,
+					true);
+			parameterGetId = getCommandSpace().eventRegister(Command.WRITE,
 					AgentProtocol.getParameterGetQueryTupleTemplate(name),
 					this, true);
 		} catch (TupleSpaceException e) {
