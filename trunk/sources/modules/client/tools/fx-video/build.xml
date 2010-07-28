@@ -6,7 +6,7 @@
     <description>Builds, tests, and runs the project fx-video.</description>
     <import file="nbproject/build-impl.xml"/>
 	
-	<path id="maven-ant-tasks.classpath" path="nbproject/maven-ant-tasks-2.0.9.jar" />
+	<path id="maven-ant-tasks.classpath" path="nbproject/maven-ant-tasks-2.0.10.jar" />
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
            classpathref="maven-ant-tasks.classpath" />
 
@@ -24,8 +24,16 @@
             <entry operation="=" key="maven.dependency.classpath" value="${maven-ant-tasks.dependency.path}"/>
         </propertyfile>
     </target>
+    
+    <!-- do the maven pom to nb config files and lib before compiling -->
+    <!--
     <target name="-pre-compile" depends="-maven-retrieve"/>
     <target name="-pre-compile-single" depends="-maven-retrieve"/>
+    -->
+
+    <!-- do the maven pom to nb config files and lib updates after the clean -->
+    <target name="-post-clean" depends="-maven-retrieve"/>
+
     <!--
 
     There exist several targets which are by default empty and which can be 
