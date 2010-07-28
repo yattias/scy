@@ -30,7 +30,7 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-      
+		
 		<dependency>
          <groupId>log4j</groupId>
          <artifactId>log4j</artifactId>
@@ -99,7 +99,7 @@
          <artifactId>tool-broker-api</artifactId>
       <version>9.8.0-SNAPSHOT</version>
       </dependency>
-
+	
       <dependency>
          <groupId>eu.scy.client.desktop</groupId>
          <artifactId>tool-broker</artifactId>
@@ -161,12 +161,16 @@
                   <phase>compile</phase>
                   <configuration>
                      <tasks>
-                        <echo>Compiling JavaFX sources</echo>
+                     	<condition else="" property="binary.extension" value=".exe">
+            				<os family="windows"/>
+        				</condition>
+                        <echo>Compiling JavaFX sources with ${binary.extension}</echo>
                         <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
                         <mkdir dir="target/classes"/>
-                        <javafxc  debug="true" verbose="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                        <javafxc debug="true" verbose="false" destdir="target/classes" executable="javafxc${binary.extension}">
                            <src path="src/main/java"/>
                            <classpath refid="maven.compile.classpath"/>
+                           <compilerarg value="-J-Xmx512m" />
                         </javafxc>
                      </tasks>
                   </configuration>
