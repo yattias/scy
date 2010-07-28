@@ -139,10 +139,10 @@ static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox,
         return buttonBar
     }
 
-public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function()){
+public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function()):Void{
    
         def dialogBox: DialogBox = DialogBox {
-                    content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
+//                    content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
                     targetScene: scyDesktop.scene
                     eloIcon: ImageEloIcon{
                             activeImage:imageLoader.getImage("info_red_active_x16.png");
@@ -157,25 +157,27 @@ public static function showMessageDialog(text:String,dialogTitle:String, dialogW
                     }
                     windowColorScheme: WindowColorScheme.getWindowColorScheme(EloImageInformation.getScyColors("general/new"));
                 };
+        dialogBox.content= getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){});
+        dialogBox.place();
 }
 
-public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function()){
+public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function()):Void{
     showMessageDialog(text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true,true,  okAction);
 }
 
-public static function showMessageDialog(params:DialogBoxParams){
+public static function showMessageDialog(params:DialogBoxParams):Void{
     showMessageDialog(params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal,params.indicateFocus, params.okAction);
 }
 
 
-public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function(), cancelAction:function()){
+public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function(), cancelAction:function()):Void{
         def supportedOptionTypes = [DialogType.OK_CANCEL_DIALOG, DialogType.YES_NO_DIALOG];
         def dialogBox: DialogBox = DialogBox {
-                    content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
-                                getDialogBoxContent(dialogWidth, dialogBox, dialogType,text, okAction, cancelAction, function(){})
-                            } else { //Default OptionPane Type
-                                getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
-                                }
+//                    content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
+//                                getDialogBoxContent(dialogWidth, dialogBox, dialogType,text, okAction, cancelAction, function(){})
+//                            } else { //Default OptionPane Type
+//                                getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
+//                                }
                     targetScene: scyDesktop.scene
                     eloIcon: ImageEloIcon{
                             activeImage:imageLoader.getImage("question_blue_active_x16.png");
@@ -190,13 +192,19 @@ public static function showOptionDialog(dialogType:DialogType,text:String,dialog
                     }
                     windowColorScheme: WindowColorScheme.getWindowColorScheme(EloImageInformation.getScyColors("general/search"));
                 };
+        dialogBox.content= if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
+                                getDialogBoxContent(dialogWidth, dialogBox, dialogType,text, okAction, cancelAction, function(){})
+                            } else { //Default OptionPane Type
+                                getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
+                                };
+        dialogBox.place();
 }
 
-public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function(), noAction:function()){
+public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function(), noAction:function()):Void{
     showOptionDialog(DialogType.YES_NO_DIALOG,text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, yesAction, noAction);
 } 
 
-public static function showOptionDialog(params:DialogBoxParams){
+public static function showOptionDialog(params:DialogBoxParams):Void{
     showOptionDialog(params.dialogType,params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal, params.indicateFocus, params.okAction, params.noAction);
 }
 
@@ -219,14 +227,16 @@ public class DialogBox extends CustomNode {
     var dialogWindow: ScyWindow;
 
     init {
-        FX.deferAction(place);
+       if (content!=null){
+         FX.deferAction(place);
+       }
     }
 
     public override function create(): Node {
         dialogWindow = StandardScyWindow {
             eloUri:null;
             eloType:null;
-            scyContent: content;
+            scyContent: bind content;
             title: title
             eloIcon: eloIcon;
             windowColorScheme: windowColorScheme

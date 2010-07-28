@@ -41,8 +41,13 @@ public abstract class ScyWindow extends CustomNode {
 	public var width: Number = 150;
 	public var height: Number = 100;
 
+   // set the desired width/height are applied after the scyContent of the window has changed
+   // both the desired width and height must be set
+   // the desiredWidth/desiredHeight specifies the window sizes and takes presence over the desired content size
    public var desiredWidth: Number = -1;
 	public var desiredHeight: Number = -1;
+   public var desiredContentWidth: Number = -1;
+	public var desiredContentHeight: Number = -1;
 
    public var minimumWidth: Number = -1;
    public var minimumHeight: Number = -1;

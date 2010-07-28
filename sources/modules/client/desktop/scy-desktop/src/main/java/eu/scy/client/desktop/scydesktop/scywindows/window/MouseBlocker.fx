@@ -22,17 +22,20 @@ import java.lang.IllegalArgumentException;
 
 var theStage:Stage;
 
+var mouseBlockingActive = false;
+
 def testBorder = 0;
 
-var mouseBlockNode:Rectangle = Rectangle {
+public var mouseBlockNode:Rectangle = Rectangle {
    blocksMouse:true;
+   visible:bind mouseBlockingActive
    x: testBorder, y: testBorder
    width: 100, height: 100
 //   fill: Color.color(.5,.5,.5,.5)
    fill: Color.TRANSPARENT
 //   stroke:null
    stroke:Color.color(.5,.5,.5,.5)
-   strokeWidth:3.0
+   strokeWidth:10.0
    onMouseClicked: function (e: MouseEvent): Void {
       if (mouseBlockingActive){
          println("mouse blocking disabled, by clicking on the mouseBlockNode");
@@ -50,11 +53,9 @@ var mouseBlockNode:Rectangle = Rectangle {
 
 }
 
-var mouseBlockingActive = false;
-
 public function initMouseBlocker(stage:Stage):Void{
    if (stage==null){
-      System.err.println("initMouseBlocker called with a null stage!");
+      System.err.println("initMouseBlocker called with a null stage! (theStage: {theStage})");
       try{
          throw new IllegalArgumentException("stage may not be null");
       }
@@ -65,6 +66,9 @@ public function initMouseBlocker(stage:Stage):Void{
    }
    else{
       theStage = stage;
+//      var sceneContent = theStage.scene.content;
+//      insert mouseBlockNode into sceneContent;
+//      theStage.scene.content = sceneContent;
    }
 }
 
@@ -78,9 +82,9 @@ public function startMouseBlocking():Void{
    mouseBlockNode.width = theStage.scene.width-2*testBorder;
    mouseBlockNode.height = theStage.scene.height-2*testBorder;
    //insert mouseBlockNode into theStage.scene.content;
-   var sceneContent = theStage.scene.content;
-   insert mouseBlockNode into sceneContent;
-   theStage.scene.content = sceneContent;
+//   var sceneContent = theStage.scene.content;
+//   insert mouseBlockNode into sceneContent;
+//   theStage.scene.content = sceneContent;
 }
 
 public function stopMouseBlocking():Void{
@@ -91,9 +95,9 @@ public function stopMouseBlocking():Void{
    }
    mouseBlockingActive = false;
    //delete mouseBlockNode from theStage.scene.content;
-   var sceneContent = theStage.scene.content;
-   delete mouseBlockNode from sceneContent;
-   theStage.scene.content = sceneContent;
+//   var sceneContent = theStage.scene.content;
+//   delete mouseBlockNode from sceneContent;
+//   theStage.scene.content = sceneContent;
 }
 
 function checkInitialisation(){

@@ -30,6 +30,7 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 
 /**
  * @author sikken
@@ -52,9 +53,6 @@ public class LoginDialog extends CustomNode {
    postinit {
       
       FX.deferAction(initMouseBlocker);
-//      FX.deferAction(function () {
-//         MouseBlocker.initMouseBlocker(scene.stage);
-//      });
    }
    
    function initMouseBlocker():Void{
@@ -77,6 +75,7 @@ public class LoginDialog extends CustomNode {
                  autoLogin:initializer.autoLogin
                  languages: initializer.languages
               }
+//      loginNode.layout();
       loginWindow = StandardScyWindow {
          title: bind loginNode.loginTitle
 //         eloIcon: CharacterEloIcon {
@@ -86,6 +85,8 @@ public class LoginDialog extends CustomNode {
          windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
          scyContent: EmptyBorderNode{
             content:loginNode
+            widthCorrection:10.0
+            heightCorrection:6.0
          }
          allowClose: false;
          allowResize: false;
@@ -204,14 +205,19 @@ public class LoginDialog extends CustomNode {
 
 
    function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String):ScyDesktop {
-      // using the sceneContent, with a copy of scene.content, does work
-      // directly adding scyDesktop to scene.content does not seem to work
-      var sceneContent = scene.content;
+     // either place the components "static" in the scene in initializer.getScene
+     // or do it here "dynamic" (meaning after a succesfull login)
+//     insert ScyDesktop.scyDektopGroup into scene.content;
+//     insert ModalDialogBox.modalDialogGroup into scene.content;
+//     insert SimpleTooltipManager.tooltipGroup into scene.content;
+//     insert MouseBlocker.mouseBlockNode into scene.content;
+
       var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
-      delete this from sceneContent;
-      insert scyDesktop into sceneContent;
-      insert SimpleTooltipManager.tooltipGroup into sceneContent;
-      scene.content = sceneContent;
+
+      // all components are already placed in the scene
+      // so we only need to remove this login from the scene
+      delete this from scene.content;
+
       return scyDesktop;
    }
 }

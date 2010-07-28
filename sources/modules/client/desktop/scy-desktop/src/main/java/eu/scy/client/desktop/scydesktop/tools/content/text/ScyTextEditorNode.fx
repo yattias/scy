@@ -6,7 +6,6 @@
 
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -14,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Container;
 import java.awt.Dimension;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
@@ -29,7 +29,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import java.lang.UnsupportedOperationException;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 /**
  * @author sikken
@@ -40,7 +40,6 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def logger = Logger.getLogger(this.getClass());
 
    def scyTextType = "scy/text";
-//   def untitledDocName = "untitled";
    def textTagName = "text";
    def jdomStringConversion = new JDomStringConversion();
 
@@ -53,7 +52,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   var wrappedTextEditor:SwingComponent;
+   var wrappedTextEditor:Node;
 
    var elo:IELO;
 
@@ -70,7 +69,8 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def spacing = 5.0;
 
    public override function create(): Node {
-      wrappedTextEditor = SwingComponent.wrap(textEditor);
+       wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
+      resizeContent();
       FX.deferAction(resizeContent);
       return Group {
          blocksMouse:true;
@@ -111,13 +111,6 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       if (newElo != null)
       {
          var metadata = newElo.getMetadata();
-//         IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
-//         // TODO fixe the locale problem!!!
-//         Object titleObject = metadataValueContainer.getValue();
-//         Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-//         Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-//
-//         setDocName(titleObject3.toString());
          var text = eloContentXmlToText(newElo.getContent().getXmlString());
          textEditor.setText(text);
          logger.info("elo text loaded");
@@ -165,26 +158,16 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
         this.elo = elo;
     }
 
-   function resizeContent(){
-      var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      textEditor.setPreferredSize(size);
-//      println("pref sized set to {size}");
-      // setSize is not visual needed
-      // but set it, so the component can react to it
-      textEditor.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+   function resizeContent():Void{
+      Container.resizeNode(wrappedTextEditor,width,height-wrappedTextEditor.boundsInParent.minY-spacing);
    }
 
    public override function getPrefHeight(width: Number) : Number{
-//      return 200;
-//      println("textEditor.getPreferredSize(): {textEditor.getPreferredSize()}");
-      return textEditor.getPreferredSize().getHeight();
+      return Container.getNodePrefHeight(wrappedTextEditor, width)+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-//      return 300;
-      return textEditor.getPreferredSize().getWidth();
+     return Container.getNodePrefWidth(wrappedTextEditor, width);
    }
 
    public override function getMinHeight() : Number{

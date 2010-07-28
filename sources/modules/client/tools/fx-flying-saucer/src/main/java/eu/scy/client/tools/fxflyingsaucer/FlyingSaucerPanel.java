@@ -251,13 +251,28 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       setHomeUrl(newHomeUrl);
    }
 
-   public void loadUrl(String url)
+   public void loadUrl(final String url)
    {
       urlFieldIsTitleBeforeLoading = urlFieldIsTitle;
       errorInPage = false;
       try
       {
          urlFieldIsTitle = true;
+         // loading the document in the background causes some time a nullpointer exception
+         // it seems to happen only for certain documents, one such document is:
+         // http://www.scy-lab.eu/content/en/mission1/LAS_Conceptualization_design/Assignments/A_First_ideas.html
+         // the exception occurs at org.xhtmlrenderer.context.StyleReference:199
+         // for some reason org.xhtmlrenderer.css.newmatch.Matcher _matcher is null
+         //
+//         Thread t = new Thread() {
+//
+//                @Override
+//                public void run() {
+//                    browser.setDocument(url);
+//                }
+//
+//         };
+//         t.start();
          browser.setDocument(url);
          if (!errorInPage)
          {
@@ -265,6 +280,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
             urlField.setEditable(false);
             homeButton.setEnabled(true);
          }
+
       }
       catch (Exception e)
       {

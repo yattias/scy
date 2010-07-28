@@ -6,78 +6,85 @@
 package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 
 /**
  * @author sikken
  */
 public class CreateNewElo extends ModalDialogNode {
 
-    public-read var label: javafx.scene.control.Label;//GEN-BEGIN:main
-    public-read var listView: javafx.scene.control.ListView;
-    public-read var cancelButton: javafx.scene.control.Button;
-    public-read var createButton: javafx.scene.control.Button;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
+    public-read def sizeRectangle: javafx.scene.shape.Rectangle = javafx.scene.shape.Rectangle {
+        layoutX: 158.0
+        layoutY: 125.0
+        fill: javafx.scene.paint.Color.WHITE
+        width: 100.0
+        height: 50.0
+    }
     
-    public-read var currentState: org.netbeans.javafx.design.DesignState;
+    def __layoutInfo_label: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+        width: 259.0
+        height: 16.0
+    }
+    public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
+        layoutX: 0.0
+        layoutY: 0.0
+        layoutInfo: __layoutInfo_label
+        text: "##Select ELO type"
+    }
     
-    // <editor-fold defaultstate="collapsed" desc="Generated Init Block">
+    def __layoutInfo_listView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+        width: 259.0
+        height: 123.0
+    }
+    public-read def listView: javafx.scene.control.ListView = javafx.scene.control.ListView {
+        layoutX: 0.0
+        layoutY: 22.0
+        layoutInfo: __layoutInfo_listView
+        onKeyTyped: listViewOnKeyTyped
+        onMouseClicked: listViewOnMouseClicked
+    }
+    
+    public-read def cancelButton: javafx.scene.control.Button = javafx.scene.control.Button {
+        layoutX: 192.0
+        layoutY: 156.0
+        text: "##Cancel"
+        action: cancelButtonAction
+    }
+    
+    public-read def createButton: javafx.scene.control.Button = javafx.scene.control.Button {
+        disable: true
+        layoutX: 88.0
+        layoutY: 156.0
+        text: "##Create"
+        strong: true
+        action: createButtonAction
+    }
+    
     init {
-        label = javafx.scene.control.Label {
-            layoutX: 0.0
-            layoutY: 0.0
-            width: 259.0
-            height: 16.0
-            layoutInfo: javafx.scene.layout.LayoutInfo {
-                width: bind label.width
-                height: bind label.height
-            }
-            text: "##Select ELO type"
-        };
-        listView = javafx.scene.control.ListView {
-            layoutX: 0.0
-            layoutY: 28.0
-            width: 259.0
-            height: 111.0
-            layoutInfo: javafx.scene.layout.LayoutInfo {
-                width: bind listView.width
-                height: bind listView.height
-            }
-            onKeyTyped: listViewOnKeyTyped
-            onMouseClicked: listViewOnMouseClicked
-        };
-        cancelButton = javafx.scene.control.Button {
-            layoutX: 181.0
-            layoutY: 152.0
-            text: "##Cancel"
-            action: cancelButtonAction
-        };
-        createButton = javafx.scene.control.Button {
-            disable: true
-            layoutX: 88.0
-            layoutY: 152.0
-            text: "##Create"
-            action: createButtonAction
-            strong: true
-        };
-        
-        currentState = org.netbeans.javafx.design.DesignState {
-            names: [ ]
-            stateChangeType: org.netbeans.javafx.design.DesignStateChangeType.PAUSE_AND_PLAY_FROM_START
-            createTimeline: function (actual) {
-                null
-            }
-        }
-    }// </editor-fold>
+    }
     
-    // <editor-fold defaultstate="collapsed" desc="Generated Design Functions">
-    public function getDesignRootNodes () : javafx.scene.Node[] {
-        [ label, listView, cancelButton, createButton, ]
+    public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
+        names: [ ]
+        timelines: [
+        ]
+    }
+    
+    public function getDesignRootNodes (): javafx.scene.Node[] {
+        [ sizeRectangle, label, listView, cancelButton, createButton, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
         javafx.scene.Scene {
             content: getDesignRootNodes ()
         }
-    }// </editor-fold>//GEN-END:main
+    }
+    // </editor-fold>//GEN-END:main
+
+   postinit{
+      sizeRectangle.fill = Color.TRANSPARENT;
+   }
+
 
    function listViewOnKeyTyped(event: javafx.scene.input.KeyEvent): Void {
       println("key: {event} {event.char=='\n'}");

@@ -9,13 +9,14 @@ package eu.scy.client.tools.fxwebresourcer;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.Group;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 /**
  * @author pg
@@ -29,7 +30,7 @@ public class CommentBox extends CustomNode {
     public-init var point:CommentPoint;
     var editorPane = new JTextPane();
     var editorScroll = new JScrollPane(editorPane);
-    var commentEditor: SwingComponent = SwingComponent.wrap(editorScroll) ;
+    var commentEditor: Node = ScySwingWrapper.wrap(editorScroll) ;
 
     var commentUpdateButton:Button = Button {
         text: ##"update";
@@ -62,8 +63,7 @@ public class CommentBox extends CustomNode {
     init {
         initCommentsEditor();
         if(newComment) {
-            commentEditor.height = 75;
-            commentEditor.width = 475;
+           Container.resizeNode(commentEditor,475,75);
         }
         else {
             def sizeTest:Text = Text {
@@ -73,8 +73,7 @@ public class CommentBox extends CustomNode {
             }
             commentEditor.translateX = 0;
             commentEditor.translateY = 0;
-            commentEditor.height = sizeTest.layoutBounds.height + 15;
-            commentEditor.width = 475;
+           Container.resizeNode(commentEditor,475,sizeTest.layoutBounds.height + 15);
             //textfeld befüllen!
             editorPane.setText(this.content);
         }

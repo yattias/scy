@@ -8,33 +8,30 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
-import javafx.ext.swing.SwingComponent;
 import org.apache.commons.lang.StringUtils;
 import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 
-import javafx.ext.swing.SwingComponent;
 import eu.scy.tools.planning.controller.*;
 import eu.scy.tools.planning.*;
 import roolo.elo.metadata.BasicMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Resizable;
 import javax.swing.JComponent;
-import java.awt.Dimension;
 import javafx.scene.layout.VBox;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
-import eu.scy.core.model.student.StudentPlanELO;
 import javax.swing.JLabel;
 import java.lang.Exception;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import javafx.scene.layout.Container;
 
 
 
@@ -53,7 +50,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
      def scySPTType = "scy/studentplanningtool";
     def jdomStringConversion = new JDomStringConversion();
 
-    public var wrappedSPTPanel:SwingComponent;
+    public var wrappedSPTPanel:Node;
     public var panel:JComponent;
     public var studentPlanningController:StudentPlanningController;
     
@@ -73,24 +70,13 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     var errorLabel = new JLabel("There has been a problem with the server side services.");
 
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle();
     };
 
-
-    function setScyWindowTitle(){
-        if (scyWindow == null) {
-            return;
-        }
-
-        scyWindow.title = "Student Planning Tool";
-      
-    };
 
    public override function loadElo(eloUri:URI):Void{
        println("LOAD ELO SPT: {eloUri}");
        logger.info("Trying to load elo {eloUri}");
        elo = repository.retrieveELO(eloUri);
-        setScyWindowTitle();
    }
 
    public override function canAcceptDrop(object:Object):Boolean{
@@ -176,7 +162,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                     studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
                 } catch(e: Exception) {
                     logger.debug(e.getMessage());
-                    wrappedSPTPanel = SwingComponent.wrap(errorLabel);
+                    wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
 
                     return VBox {
                         blocksMouse:true;
@@ -208,7 +194,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                     var newMetadata = repository.updateELO(elo)
                 } catch(e: Exception) {
                     logger.debug(e.getMessage());
-                    wrappedSPTPanel = SwingComponent.wrap(errorLabel);
+                    wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
 
                     return VBox {
                         blocksMouse:true;
@@ -221,7 +207,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
                     studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
                    } catch(e: Exception) {
                     logger.debug(e.getMessage());
-                    wrappedSPTPanel = SwingComponent.wrap(errorLabel);
+                    wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
 
                     return VBox {
                         blocksMouse:true;
@@ -240,7 +226,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
         studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
-        wrappedSPTPanel = SwingComponent.wrap(panel);
+        wrappedSPTPanel = ScySwingWrapper.wrap(panel);
 
         println("ENDING SPT create node.......");
 
@@ -254,23 +240,16 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
    def spacing = 5.0;
 
 
-  function resizeContent(){
-
-       var size = new Dimension(width,height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      panel.setPreferredSize(size);
-      studentPlanningTool.resizeSPT(width, height-wrappedSPTPanel.boundsInParent.minY-spacing);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      panel.setSize(size);
+   function resizeContent(){
+       Container.resizeNode(wrappedSPTPanel,width,height);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return panel.getPreferredSize().getHeight();
-   }
+   public override function getPrefHeight(height: Number) : Number{
+      Container.getNodePrefHeight(wrappedSPTPanel, height);
+    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return panel.getPreferredSize().getWidth();
+      Container.getNodePrefWidth(wrappedSPTPanel, width);
    }
 
 

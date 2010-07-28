@@ -51,20 +51,4 @@ stage = Stage {
    width: 400
    height: 300
 	scene: initializer.getScene(createScyDesktop);
-//   scene: scene = Scene {
-//      content: [
-////         initializer.getBackgroundImageView(scene),
-//          ImageView {
-//            image: initializer.backgroundImage
-//            fitWidth: bind scene.width
-//            fitHeight: bind scene.height
-//            preserveRatio: false
-//            cache: true
-//         }
-//         LoginDialog {
-//            createScyDesktop: createScyDesktop
-//            initializer: initializer;
-//         }
-//      ]
-//   }
 }

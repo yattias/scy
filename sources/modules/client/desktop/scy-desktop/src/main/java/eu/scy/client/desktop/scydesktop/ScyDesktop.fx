@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
-import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
@@ -66,15 +65,12 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import java.lang.IllegalStateException;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.notification.api.INotification;
 import java.lang.Void;
-import java.net.URI;
-import javax.swing.JOptionPane;
 import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
@@ -85,17 +81,23 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEl
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import javafx.scene.effect.Effect;
+import java.lang.System;
 import eu.scy.client.desktop.scydesktop.remotecontrol.RemoteCommandRegistryFX;
 
 /**
  * @author sikkenj
  */
-public class ScyDesktop extends CustomNode, INotifiable {
+
+public def scyDektopGroup = Group{
+   visible: true
+}
+
+public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     public var initializer: Initializer;
     public var config: Config;
-    def desktopScene = bind scene;
+    public def scene = scyDektopGroup.scene;
     public var missionModelFX: MissionModelFX = MissionModelFX { };
     public var eloInfoControl: EloInfoControl;
     public var eloDisplayTypeControl: EloDisplayTypeControl;
@@ -169,9 +171,10 @@ public class ScyDesktop extends CustomNode, INotifiable {
 
         scyWindowControl.missionModel = missionModelFX;
         FX.deferAction(initialWindowPositioning);
-        FX.deferAction(function () {
-            MouseBlocker.initMouseBlocker(scene.stage);
-        });
+        FX.deferAction(initMouseBlocker);
+//        FX.deferAction(function () {
+//            MouseBlocker.initMouseBlocker(scene.stage);
+//        });
         logger.info("repository class: {config.getRepository().getClass()}");
         if (config.getRepository() instanceof RepositoryWrapper) {
             var repositoryWrapper = config.getRepository() as RepositoryWrapper;
@@ -184,9 +187,21 @@ public class ScyDesktop extends CustomNode, INotifiable {
             logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
         }
         FX.addShutdownAction(scyDesktopShutdownAction);
+        create();
     }
 
-    function initialWindowPositioning() {
+   function initMouseBlocker():Void{
+      var theStage = scene.stage;
+      if (theStage==null){
+         System.err.println("defering initMouseBlocker, because of the missing stage");
+         FX.deferAction(initMouseBlocker);
+      }
+      else{
+         MouseBlocker.initMouseBlocker(scene.stage);
+      }
+   }
+
+   function initialWindowPositioning() {
         //      scyWindowControl.positionWindows();
     }
 
@@ -431,12 +446,45 @@ public class ScyDesktop extends CustomNode, INotifiable {
       return jdomStringConversion.xmlToString(textElement);
    }
 
-    public override function create(): Node {
+//    public override function create(): Node {
+//        logger.info("create");
+//        checkProperties();
+//        createElements();
+//        Group {
+//            content: [
+//                ///Testing only
+//                //            Rectangle{width:bind boundsInLocal.width,
+//                //                height:bind boundsInLocal.height,
+//                //                fill:Color.BLACK
+//                //            },
+//                //backgroundImageView,
+//                lowDebugGroup,
+//                edgesManager,
+//                windows.scyWindows,
+//                topLeftCorner,
+//                topRightCorner,
+//                bottomRightCorner,
+//                bottomLeftCorner,
+//                highDebugGroup,
+//                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
+//            /*
+//            Button {
+//            text: "add an edge ";
+//            translateX: 210;
+//            action: function() {
+//            edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
+//            }
+//            }
+//             */
+//            ]
+//        }
+//    }
+
+    function create(): Void {
         logger.info("create");
         checkProperties();
         createElements();
-        Group {
-            content: [
+        scyDektopGroup.content = [
                 ///Testing only
                 //            Rectangle{width:bind boundsInLocal.width,
                 //                height:bind boundsInLocal.height,
@@ -451,7 +499,7 @@ public class ScyDesktop extends CustomNode, INotifiable {
                 bottomRightCorner,
                 bottomLeftCorner,
                 highDebugGroup,
-                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
+//                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
             /*
             Button {
             text: "add an edge ";
@@ -462,7 +510,6 @@ public class ScyDesktop extends CustomNode, INotifiable {
             }
              */
             ]
-        }
     }
 
     public function fillNewScyWindow2(window: ScyWindow): Void {
@@ -479,13 +526,18 @@ public class ScyDesktop extends CustomNode, INotifiable {
         FX.deferAction(function () {
             // one defer does not seem to be enough to show the please wait content
             FX.deferAction(function () {
-                realFillNewScyWindow2(window, false);
-                if (window.mucId.length()>0 and not initializer.offlineMode){
-                   installCollaborationTools(window);
-                }
+               fillScyWindowNow(window);
             });
         });
     }
+
+    function fillScyWindowNow(window:ScyWindow):Void{
+       realFillNewScyWindow2(window, false);
+       if (window.mucId.length()>0 and not initializer.offlineMode){
+          installCollaborationTools(window);
+       }
+    }
+
 
     public function installCollaborationTools(window:ScyWindow):Void{
        realFillNewScyWindow2(window, true);
@@ -761,7 +813,7 @@ function run()    {
             width: 800
             height: 600
             content: [
-                scyDesktop
+//                scyDesktop
             ]
         }
     }

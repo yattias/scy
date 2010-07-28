@@ -23,6 +23,11 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 
 // place your code here
+
+public def modalDialogGroup = Group{
+   visible: false
+}
+
 public class ModalDialogBox extends CustomNode {
 
    public var content:Node;
@@ -74,16 +79,20 @@ public class ModalDialogBox extends CustomNode {
    }
 
    public function close():Void{
-      var sceneContentList = scene.content;
-      delete this from sceneContentList;
-      scene.content = sceneContentList;
+//      var sceneContentList = scene.content;
+//      delete this from sceneContentList;
+//      scene.content = sceneContentList;
+      delete this from modalDialogGroup.content;
+      modalDialogGroup.visible = false;
       closeAction();
    }
 
    public function place():Void{
-      var sceneContentList = targetScene.content;
-      insert this into sceneContentList;
-      targetScene.content = sceneContentList;
+//      var sceneContentList = targetScene.content;
+//      insert this into sceneContentList;
+//      targetScene.content = sceneContentList;
+      insert this into modalDialogGroup.content;
+      modalDialogGroup.visible = true;
       this.requestFocus();
       center();
    }

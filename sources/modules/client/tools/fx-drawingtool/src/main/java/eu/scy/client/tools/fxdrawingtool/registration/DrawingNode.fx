@@ -8,7 +8,6 @@ package eu.scy.client.tools.fxdrawingtool.registration;
 
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import java.net.URI;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,7 +17,9 @@ import javafx.scene.control.Button;
 
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
+import javafx.scene.layout.Container;
 
+import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -30,8 +31,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import javafx.scene.layout.Container;
-import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 
 /**
@@ -53,7 +53,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   var wrappedWhiteboardPanel:SwingComponent;
+   var wrappedWhiteboardPanel:Node;
    var technicalFormatKey: IMetadataKey;
 
    var elo:IELO;
@@ -74,7 +74,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    }
 
    public override function create(): Node {
-      wrappedWhiteboardPanel = SwingComponent.wrap(whiteboardPanel);
+      wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
       //wrappedWhiteboardPanel.cache = true;
       return Group {
          blocksMouse:true;
@@ -147,21 +147,15 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
     }
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
-      Container.resizeNode(wrappedWhiteboardPanel,size.width,size.height);
-      whiteboardPanel.setPreferredSize(size);
-//      println("pref sized set to {size}");
-      // setSize is not visual needed
-      // but set it, so the component can react to it
-      whiteboardPanel.setSize(size);
+      Container.resizeNode(wrappedWhiteboardPanel,width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return whiteboardPanel.getPreferredSize().getHeight()+wrappedWhiteboardPanel.boundsInParent.minY+spacing;
+   public override function getPrefHeight(height: Number) : Number{
+      return Container.getNodePrefHeight(wrappedWhiteboardPanel, height)+wrappedWhiteboardPanel.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return whiteboardPanel.getPreferredSize().getWidth();
+      return Container.getNodePrefWidth(wrappedWhiteboardPanel, width);
    }
 
 

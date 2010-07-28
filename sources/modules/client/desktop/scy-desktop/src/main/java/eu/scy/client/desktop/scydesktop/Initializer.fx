@@ -14,7 +14,6 @@ import java.lang.IllegalArgumentException;
 import java.lang.System;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher;
 import java.lang.Thread;
 import java.lang.Exception;
 import javax.swing.UIManager;
@@ -39,6 +38,10 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.StringTokenizer;
 import javafx.util.Sequences;
 import javafx.util.StringLocalizer;
+import eu.scy.client.desktop.scydesktop.utils.FilteringExceptionCatcher;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -134,7 +137,7 @@ public class Initializer {
     init {
         StringLocalizer.associate("languages.scydesktop","eu.scy.client.desktop.scydesktop");
 
-        Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-Lab"));
+        Thread.setDefaultUncaughtExceptionHandler(new FilteringExceptionCatcher("SCY-Lab"));
         parseApplicationParameters();
         parseWebstartParameters();
         setupBackgroundImage();
@@ -401,23 +404,25 @@ public class Initializer {
         return null;
     }
 
-    public function getScene(createScyDesktop: function( tbi:  ToolBrokerAPI,userName: String): ScyDesktop):Scene{
-       var scene = Scene{
-
-       };
-       background = DynamicTypeBackground{
-
-       };
-
-      scene.content=[
+   public function getScene(createScyDesktop: function(tbi: ToolBrokerAPI, userName: String): ScyDesktop): Scene {
+      var scene = Scene {
+         };
+      background = DynamicTypeBackground {
+         };
+      // add all component groups to the scene, as adding them dynamicly later might case problems
+      scene.content = [
             background,
             LoginDialog {
-              createScyDesktop: createScyDesktop
-              initializer:this;
+               createScyDesktop: createScyDesktop
+               initializer: this;
             }
+            ScyDesktop.scyDektopGroup,
+            ModalDialogBox.modalDialogGroup,
+            SimpleTooltipManager.tooltipGroup,
+            MouseBlocker.mouseBlockNode
          ];
-       scene
-    }
+      scene
+   }
 
     function setupLanguages(): Void{
       var tokenizer = new StringTokenizer(languageList,", ");

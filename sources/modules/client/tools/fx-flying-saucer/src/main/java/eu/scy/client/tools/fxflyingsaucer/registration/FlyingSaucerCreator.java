@@ -18,7 +18,8 @@ public class FlyingSaucerCreator implements ScyToolCreator {
    @Override
    public JComponent createScyToolComponent(String eloType, String creatorId, boolean windowContent)
    {
-      return new EloFlyingSaucerPanel();
+      JComponent flyingSaucer = new EloFlyingSaucerPanel();
+      return flyingSaucer;
    }
 
    @Override
