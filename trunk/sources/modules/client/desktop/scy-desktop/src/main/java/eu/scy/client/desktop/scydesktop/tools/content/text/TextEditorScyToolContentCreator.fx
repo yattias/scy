@@ -19,6 +19,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 public class TextEditorScyToolContentCreator extends ScyToolCreatorFX {
 
    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow,windowContent:Boolean):Node{
+      scyWindow.desiredContentWidth = 250;
+      scyWindow.desiredContentHeight = 200;
       return createTextEditorNode();
    }
 

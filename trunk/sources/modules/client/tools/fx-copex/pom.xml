@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>javafx-deps</artifactId>
-			<version>1.2.3</version>
+			<version>${javafx-version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>

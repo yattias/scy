@@ -6,34 +6,26 @@
 
 package eu.scy.client.tools.fxscymapper.registration;
 
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
-import eu.scy.awareness.IAwarenessUser;
-import java.awt.Dimension;
 import eu.scy.scymapper.impl.SCYMapperPanel;
 import roolo.elo.api.IELO;
 import org.apache.log4j.Logger;
 import javax.swing.JOptionPane;
-import org.springframework.util.StringUtils;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import java.lang.System;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
-import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 
 public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
@@ -47,23 +39,16 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
     public var syncSession:ISyncSession;
 
-    public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle()
-    }
+    public var scyWindow:ScyWindow;
 
     var logger = Logger.getLogger(ScyMapperRepositoryWrapper.class.getName());
 
-    var wrappedScyMapperPanel:SwingComponent;
+    var wrappedScyMapperPanel:Node;
 
     def spacing = 5.0;
 
-
-    function setScyWindowTitle(){
-
-    };
-
     public override function create(): Node {
-      wrappedScyMapperPanel = SwingComponent.wrap(scyMapperPanel);
+      wrappedScyMapperPanel = ScySwingWrapper.wrap(scyMapperPanel);
       return Group {
          blocksMouse:true;
          content: [
@@ -143,7 +128,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     function addToPortfolio() {
-        (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).logAddToPortfolio();
+//        (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).logAddToPortfolio();
     }
 
  public override function canAcceptDrop(object:Object):Boolean{
@@ -173,21 +158,15 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     function resizeContent(){
-        var size = new Dimension(width,height-wrappedScyMapperPanel.boundsInParent.minY-spacing);
-        // setPreferredSize is needed
-        scyMapperPanel.setPreferredSize(size);
-        // setSize is not visual needed
-        // but set it, so the component react to it
-        scyMapperPanel.setSize(size);
-        //println("resized whiteboardPanel to ({width},{height})");
+        Container.resizeNode(wrappedScyMapperPanel,width,height-wrappedScyMapperPanel.boundsInParent.minY-spacing);
     }
 
     public override function getPrefHeight(width: Number) : Number{
-        return scyMapperPanel.getPreferredSize().getHeight();
+      return Container.getNodePrefHeight(wrappedScyMapperPanel, height)+wrappedScyMapperPanel.boundsInParent.minY+spacing;
     }
 
     public override function getPrefWidth(width: Number) : Number{
-        return scyMapperPanel.getPreferredSize().getWidth();
+      return Container.getNodePrefWidth(wrappedScyMapperPanel, width);
     }
 
     public override function loadElo(uri:URI){

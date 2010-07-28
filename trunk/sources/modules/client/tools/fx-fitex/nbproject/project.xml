@@ -5,11 +5,10 @@
         <data xmlns="http://www.netbeans.org/ns/javafx-project/3">
             <name>fx-fitex</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <explicit-platform explicit-javac-supported="true" explicit-source-supported="true"/>
-                <source-roots>
-                    <root id="src.java.dir"/>
-                </source-roots>
-                <test-roots/>
+            <source-roots>
+                <root id="src.java.dir"/>
+            </source-roots>
+            <test-roots/>
         </data>
     </configuration>
 </project>

@@ -1,7 +1,6 @@
 package eu.scy.client.tools.fxscydynamics.registration;
 
 import java.net.URI;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -10,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import colab.um.xml.model.JxmModel;
-import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -25,6 +23,8 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
@@ -44,7 +44,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   var wrappedModelEditor:SwingComponent;
+   var wrappedModelEditor:Node;
    var technicalFormatKey: IMetadataKey;
    var elo:IELO;
    def spacing = 5.0;
@@ -61,7 +61,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
    public override function create(): Node {
       // note: the injected services are not yet available here
       // e.g., use the initialize(..) method
-      wrappedModelEditor = SwingComponent.wrap(modelEditor);
+      wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
       return Group {
          blocksMouse:true;
          content: [
@@ -136,21 +136,15 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     }
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedModelEditor.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      modelEditor.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      modelEditor.setSize(size);
-//      println("resized whiteboardPanel to ({width},{height})");
+      Container.resizeNode(wrappedModelEditor,width,height-wrappedModelEditor.boundsInParent.minY-spacing);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return modelEditor.getPreferredSize().getHeight();
+   public override function getPrefHeight(height: Number) : Number{
+      return Container.getNodePrefHeight(wrappedModelEditor, height)+wrappedModelEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return modelEditor.getPreferredSize().getWidth();
+      return Container.getNodePrefWidth(wrappedModelEditor, width);
    }
 
 

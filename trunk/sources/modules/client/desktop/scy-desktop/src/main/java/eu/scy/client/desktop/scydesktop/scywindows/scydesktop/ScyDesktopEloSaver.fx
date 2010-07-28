@@ -23,13 +23,12 @@ import eu.scy.client.desktop.scydesktop.config.DisplayNames;
 import java.util.List;
 import eu.scy.client.desktop.scydesktop.config.Config;
 
-import javafx.ext.swing.SwingComponent;
-
 import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 /**
  * @author sikken
@@ -145,7 +144,7 @@ public class ScyDesktopEloSaver extends EloSaver {
 
       var modalDialogBox = ModalDialogBox{
          content: Group{
-               content: SwingComponent.wrap(eloSaveAsPanel);
+               content: ScySwingWrapper.wrap(eloSaveAsPanel);
             }
          targetScene:window.scene
          title:"Enter ELO specification"

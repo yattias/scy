@@ -1,7 +1,6 @@
 package eu.scy.client.tools.fxsimulator.registration;
 
 import java.net.URI;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -10,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
-import java.lang.System;
 import java.awt.BorderLayout;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -24,6 +22,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javax.swing.JPanel;
+import javax.swing.JComponent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
 import eu.scy.client.tools.scysimulator.DataCollector;
@@ -31,27 +30,26 @@ import eu.scy.client.tools.scysimulator.SimConfig;
 import sqv.SimQuestViewer;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.awt.event.ActionEvent;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
 import javax.swing.JLabel;
 import eu.scy.notification.api.INotifiable;
-import java.lang.UnsupportedOperationException;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
-import eu.scy.client.common.datasync.ISyncSession;
-import eu.scy.client.common.datasync.DummySyncListener;
-import java.util.UUID;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
-import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import eu.scy.client.common.datasync.DummySyncListener;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
+import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
-import javax.swing.JSplitPane;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -77,7 +75,8 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                 }
             };
     var fixedDimension = new Dimension(575, 275);
-    var wrappedSimquestPanel: SwingComponent;
+    var displayComponent: JComponent;
+    var wrappedSimquestPanel: Node;
     var technicalFormatKey: IMetadataKey;
     var keywordsKey: IMetadataKey;
     var newSimulationPanel: NewSimulationPanel;
@@ -89,6 +88,10 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var acceptDialog: AcceptSyncModalDialog;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
+    def simulatorContent = Group{
+
+    }
+
 
     public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -211,14 +214,16 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
 
     public override function newElo() {
         newSimulationPanel = new NewSimulationPanel(this);
-        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
+//        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
+         switchSwingDisplayComponent(newSimulationPanel);
     }
 
     public override function actionPerformed(evt: ActionEvent) {
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
-            newSimulationPanel.remove(newSimulationPanel.load);
-            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
+//            newSimulationPanel.remove(newSimulationPanel.load);
+//            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
+            switchSwingDisplayComponent(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function (): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
@@ -241,7 +246,7 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     }
 
     public override function create(): Node {
-        wrappedSimquestPanel = SwingComponent.wrap(simquestPanel);
+        switchSwingDisplayComponent(simquestPanel);
         return Group {
                     blocksMouse: true;
                     //         cache: bind scyWindow.cache
@@ -280,12 +285,21 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
                                         }
                                     ]
                                 }
-                                wrappedSimquestPanel
+                                simulatorContent
+//                                wrappedSimquestPanel
                             ]
                         }
                     ]
                 };
     }
+
+    function switchSwingDisplayComponent(newComponent : JComponent):Void{
+      displayComponent = newComponent;
+      wrappedSimquestPanel = ScySwingWrapper.wrap(displayComponent);
+      simulatorContent.content = wrappedSimquestPanel;
+      resizeContent();
+    }
+
 
     function doLoadElo(eloUri: URI) {
         logger.info("Trying to load elo {eloUri}");
@@ -316,12 +330,18 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
         dataCollector = null;
         try {
             simquestViewer.run();
-            simquestPanel.setLayout(new BorderLayout());
-            simquestPanel.removeAll();
+//            simquestPanel.setLayout(new BorderLayout());
+//            simquestPanel.removeAll();
+//            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+//            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+//            toolBrokerAPI.registerForNotifications(this as INotifiable);
+//            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
             //--- creating a splitpane
             var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
             // creating the datacollector
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+            var simulationViewer = simquestViewer.getInterfacePanel();
+            simulationViewer.setPreferredSize(simquestViewer.getRealSize());
             // adding simulation and datacollector to splitpane
             var scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             scroller.setViewportView(simquestViewer.getInterfacePanel());
@@ -331,13 +351,10 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
             split.setDividerLocation(500);
             // adding the splitcomponent to the simquestpanel
             split.setEnabled(true);
-            simquestPanel.add(split, BorderLayout.CENTER);
-
-            //simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
 
             toolBrokerAPI.registerForNotifications(this as INotifiable);
-            //simquestPanel.add(dataCollector, BorderLayout.SOUTH);
             fixedDimension = simquestViewer.getRealSize();
+            switchSwingDisplayComponent(split);
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
             }
@@ -406,30 +423,17 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     }
 
     function resizeContent() {
-        var size = new Dimension(width, height - wrappedSimquestPanel.boundsInParent.minY - spacing);
-        // setPreferredSize is needed
-        simquestPanel.setPreferredSize(size);
-        // setSize is not visual needed
-        // but set it, so the component react to it
-        simquestPanel.setSize(size);
+        Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing);
     }
 
-    public override function getPrefHeight(width: Number): Number {
-        return fixedDimension.height;
+    public override function getPrefHeight(height: Number): Number {
+       // TODO, calculate the correct preferred height
+       // the bottom part is not displayed
+       return Container.getNodePrefHeight(wrappedSimquestPanel, height)+wrappedSimquestPanel.boundsInParent.minY+spacing;
     }
 
     public override function getPrefWidth(width: Number): Number {
-        return fixedDimension.width;
-    }
-
-    public override function getMinHeight(): Number {
-        //return fixedDimension.height;
-        return 300;
-    }
-
-    public override function getMinWidth(): Number {
-        //return fixedDimension.width;
-        return 300;
+       Container.getNodePrefWidth(wrappedSimquestPanel, width);
     }
 
 }

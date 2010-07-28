@@ -8,11 +8,11 @@
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/1/0/UDEPoliceA.scy</entry>
+        <entry>roolo://memory/1/0/UDEPoliceA.video</entry>
       </identifier>
     </general>
     <technical>
-      <format>scy/text</format>
+      <format>scy/video</format>
       <customElements>
         <dateCreated>1252574962998</dateCreated>
       </customElements>

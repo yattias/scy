@@ -24,7 +24,7 @@ public class DatasyncEdge extends CustomNode, ISyncListener {
     public-init var endAttrib: DatasyncAttribute;
     var session: ISyncSession;
     def logger = Logger.getLogger(this.getClass());
-    public-read var line: Line = Line {
+    public-read def line: Line = Line {
                 startX: startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).x;
                 startY: startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).y;
                 endX: endAttrib.localToScene(endAttrib.cableStartX, endAttrib.cableStartY).x;

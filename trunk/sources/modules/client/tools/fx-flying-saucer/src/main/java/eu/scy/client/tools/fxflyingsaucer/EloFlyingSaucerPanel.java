@@ -9,13 +9,9 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
@@ -78,22 +74,22 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
 
    public void setRepository(IRepository repository)
    {
-      logger.debug("repository set");
+//      logger.debug("repository set");
       this.repository = repository;
    }
 
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
    {
-      logger.debug("metadataTypeManager set");
+//      logger.debug("metadataTypeManager set");
       this.metadataTypeManager = metadataTypeManager;
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-      logger.debug("retrieved key " + titleKey.getId());
+//      logger.debug("retrieved key " + titleKey.getId());
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    }
 
    public void setEloFactory(IELOFactory eloFactory)
    {
-      logger.debug("eloFactory set");
+//      logger.debug("eloFactory set");
       this.eloFactory = eloFactory;
    }
 

@@ -38,12 +38,12 @@ import eu.scy.actionlogging.DevNullActionLogger;
 import org.jdom.Element;
 import eu.scy.client.common.richtexteditor.RichTextEditor;
 
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import java.awt.Dimension;
+import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 /**
  * @author kaido
@@ -72,7 +72,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    var openLabel = ##"Open ELO";
    var saveLabel = ##"Save ELO";
    var saveAsLabel = ##"Save ELO as";
-   var wrappedRichTextEditor:SwingComponent;
+   var wrappedRichTextEditor:Node;
    def richTextTagName = "RichText";
 
    function setLoggerEloUri() {
@@ -163,7 +163,9 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
     }
 
    public override function create(): Node {
-      wrappedRichTextEditor = SwingComponent.wrap(richTextEditor);
+      wrappedRichTextEditor = ScySwingWrapper.wrap(richTextEditor,true);
+      resizeContent();
+      FX.deferAction(resizeContent);
       return Group {
          blocksMouse:true;
          content: [
@@ -208,11 +210,11 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    }
 
    public override function getPrefHeight(width: Number) : Number{
-      return getMinHeight();
+      return Container.getNodePrefHeight(wrappedRichTextEditor, height)+wrappedRichTextEditor.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(height: Number) : Number{
-      return getMinWidth();
+      return Container.getNodePrefWidth(wrappedRichTextEditor, width);
    }
 
    public override function getMinHeight() : Number {
@@ -226,9 +228,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   function resizeContent(){
-      var size = new Dimension(width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
-      richTextEditor.setPreferredSize(size);
-      richTextEditor.setSize(size);
+   function resizeContent(): Void{
+      Container.resizeNode(wrappedRichTextEditor,width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
    }
 }

@@ -1,7 +1,6 @@
 package eu.scy.client.tools.fxfitex.registration;
 
 import java.net.URI;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -12,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 
-import java.awt.Dimension;
 import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
@@ -21,7 +19,6 @@ import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -35,11 +32,14 @@ import javax.swing.JOptionPane;
 import eu.scy.client.common.datasync.ISynchronizable;
 import eu.scy.client.common.datasync.DummySyncListener;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import javafx.scene.layout.Container;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
+import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 
 /**
  * @author Marjolaine
@@ -58,7 +58,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    public var toolBrokerAPI: ToolBrokerAPI;
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
-   var wrappedFitexPanel:SwingComponent;
+   var wrappedFitexPanel:Node;
    var technicalFormatKey: IMetadataKey;
    var syncAttrib: DatasyncAttribute;
    var datasyncEdge: DatasyncEdge;
@@ -223,7 +223,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
    public override function create(): Node {
       bundle = new ResourceBundleWrapper(this);
-      wrappedFitexPanel = SwingComponent.wrap(fitexPanel);
+      wrappedFitexPanel = ScySwingWrapper.wrap(fitexPanel);
       return Group {
          blocksMouse:true;
          content: [
@@ -307,21 +307,15 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
 
    function resizeContent(){
-      var size = new Dimension(width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      fitexPanel.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      fitexPanel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
+      Container.resizeNode(wrappedFitexPanel,width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return fitexPanel.getPreferredSize().getHeight();
+   public override function getPrefHeight(height: Number) : Number{
+      return Container.getNodePrefHeight(wrappedFitexPanel, height)+wrappedFitexPanel.boundsInParent.minY+spacing;
    }
 
    public override function getPrefWidth(width: Number) : Number{
-      return fitexPanel.getPreferredSize().getWidth();
+      return Container.getNodePrefWidth(wrappedFitexPanel, width);
    }
    
    public override function getMinHeight() : Number{

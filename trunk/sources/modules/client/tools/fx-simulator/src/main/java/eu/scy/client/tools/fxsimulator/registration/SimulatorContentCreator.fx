@@ -14,6 +14,8 @@ public class SimulatorContentCreator extends ScyToolCreatorFX {
         var panel:JPanel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setVisible(true);
+        scyWindow.desiredContentWidth = 400;
+        scyWindow.desiredContentHeight = 400;
         SimulatorNode{
            simquestPanel: panel;
            scyWindow: scyWindow
