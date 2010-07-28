@@ -67,9 +67,9 @@ public class SimpleSaveAsNodeDesign {
         currentState = org.netbeans.javafx.design.DesignState {
             names: [ ]
             stateChangeType: org.netbeans.javafx.design.DesignStateChangeType.PAUSE_AND_PLAY_FROM_START
-            createTimeline: function (actual) {
-                null
-            }
+//            createTimeline: function (actual) {
+//                null
+//            }
         }
     }// </editor-fold>
     
