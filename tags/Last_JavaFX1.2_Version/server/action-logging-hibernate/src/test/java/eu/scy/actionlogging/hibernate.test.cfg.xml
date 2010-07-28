@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <mapping class="eu.scy.core.model.impl.SCYProjectImpl"/>
+        <mapping class="eu.scy.core.model.impl.GroupImpl"/>
+		<mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>        
+        <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+        <mapping class="eu.scy.core.model.impl.PersistentAction"/>
+
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" />
+    </session-factory>
+</hibernate-configuration>

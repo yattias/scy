@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<mapping class="eu.scy.core.model.impl.SCYProjectImpl"/>
+        <mapping class="eu.scy.core.model.impl.GroupImpl"/>
+		<mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
+        <mapping class="eu.scy.core.model.impl.PedagogicalPlanGroupImpl"/>
+		<mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
+		<mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+		<mapping class="eu.scy.core.model.impl.SCYStudentUserDetails"/>
+		<mapping class="eu.scy.core.model.impl.SCYTeacherUserDetails"/>
+		<mapping class="eu.scy.core.model.impl.SCYGrantedAuthorityImpl"/>
+		<mapping class="eu.scy.core.model.impl.ServerImpl"/>
+
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.MissionImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.ActivityImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.ToolImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanTemplateImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanAnchorEloConnectionImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.ToolImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl"/>
+		<mapping class="eu.scy.core.model.impl.student.StudentPlanELOImpl"/>
+		<mapping class="eu.scy.core.model.impl.student.StudentPlannedActivityImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentStrategyImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentScoreDefinitionImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.PeerToPeerAssessmentStrategyImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentCriteriaImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssessmentCriteriaExperienceImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningGoalImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentPropertyImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentPropertyValueImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AgentPropertyValueLevelImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceAgentConfigurationImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.AssignedPedagogicalPlanImpl"/>
+		<mapping class="eu.scy.core.model.impl.pedagogicalplan.SetupImpl"/>
+
+
+        <mapping class="eu.scy.core.model.impl.FileDataImpl"/>
+        <mapping class="eu.scy.core.model.impl.FileRefImpl"/>
+        <mapping class="eu.scy.core.model.impl.ImageRefImpl"/>
+        <mapping class="eu.scy.core.model.impl.FileRefConnectionImpl"/>
+        <mapping class="eu.scy.core.model.impl.FileRefEloRefConnectionImpl"/>
+
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningMaterialImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.WebLinkImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningMaterialImageImpl"/>
+
+		<mapping class="eu.scy.core.model.impl.playful.PlayfulAssessmentImpl"/>
+		<mapping class="eu.scy.core.model.impl.ELORefImpl"/>
+
+        <mapping class="eu.scy.core.model.impl.runtime.AbstractRuntimeActionImpl"/>
+        <mapping class="eu.scy.core.model.impl.runtime.ToolRuntimeActionImpl"/>
+        <mapping class="eu.scy.core.model.impl.runtime.EloRuntimeActionImpl"/>
+        <mapping class="eu.scy.core.model.impl.runtime.LASRuntimeActionImpl"/>
+        
+	</session-factory>
+</hibernate-configuration>
