@@ -23,8 +23,9 @@ import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
 
 /**
- * (ExtractTfIdfKeywords:String, query:String, <QueryId>:String, <Text>:String)-> (ExtractTfIdfKeywords:String,
- * response:String, <QueryId>:String, <Keywords>:String)->
+ * (ExtractTfIdfKeywords:String, query:String, <QueryId>:String,
+ * <Text>:String)-> (ExtractTfIdfKeywords:String, response:String,
+ * <QueryId>:String, <Keywords>:String)->
  * 
  * @author fschulz
  */
@@ -32,13 +33,14 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	public static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTfIdfKeywords";
 
-	static final String NAME = ExtractTfIdfKeywordsAgent.class.getName();
+	public static final String NAME = ExtractTfIdfKeywordsAgent.class.getName();
 
 	private Tuple activationTuple;
 
 	private int listenerId;
 
-	private static final Logger logger = Logger.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
 	private PersistentStorage storage = null;
 
@@ -50,10 +52,12 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
-		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS,
+				AgentProtocol.QUERY, String.class, String.class);
 		storage = new PersistentStorage(host, port);
 		try {
-			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
+			listenerId = getCommandSpace().eventRegister(Command.WRITE,
+					activationTuple, this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -78,11 +82,13 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			keywordBuffer.append(keyword);
 			keywordBuffer.append(";");
 		}
-		return new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId, keywordBuffer.toString().trim());
+		return new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE,
+				queryId, keywordBuffer.toString().trim());
 	}
 
 	private Set<String> extractKeywords(String text) {
-		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+		DocumentFrequencyModel dfModel = storage
+				.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		Document document = convertTextToDocument(text);
 		if (dfModel == null) {
@@ -90,9 +96,12 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			return new HashSet<String>();
 		}
 
-		Operator extractKeywordsOperator = new ExtractTfIdfKeywordsWorkflow().getOperator("Main");
-		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
-		extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+		Operator extractKeywordsOperator = new ExtractTfIdfKeywordsWorkflow()
+				.getOperator("Main");
+		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT,
+				document);
+		extractKeywordsOperator.setInputParameter(
+				KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 		Container result = extractKeywordsOperator.run();
 		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 
@@ -110,7 +119,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		try {
 			getCommandSpace().eventDeRegister(listenerId);
 		} catch (TupleSpaceException e) {
-			throw new AgentLifecycleException("Could not deregister listener", e);
+			throw new AgentLifecycleException("Could not deregister listener",
+					e);
 		}
 		status = Status.Stopping;
 	}
@@ -126,7 +136,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	@Override
-	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+	public void call(Command command, int seq, Tuple afterTuple,
+			Tuple beforeTuple) {
 		if (listenerId != seq) {
 			logger.debug("Callback passed to Superclass.");
 			super.call(command, seq, afterTuple, beforeTuple);

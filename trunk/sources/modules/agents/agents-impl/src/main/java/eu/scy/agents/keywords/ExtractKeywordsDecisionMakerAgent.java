@@ -7,7 +7,6 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+
 import roolo.api.IRepository;
-import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -27,6 +26,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.extractors.WebresourceExtractor;
 
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		implements IRepositoryAgent {
@@ -80,6 +80,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 	private IRepository repository;
 
+	private WebresourceExtractor extractor;
+
 	@SuppressWarnings("unchecked")
 	public ExtractKeywordsDecisionMakerAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
@@ -89,6 +91,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		this.registerToolStartedListener();
 		this.user2Context = Collections
 				.synchronizedMap(new HashMap<String, ContextInformation>());
+		extractor = new WebresourceExtractor();
+		extractor.setTupleSpace(getCommandSpace());
 	}
 
 	private void setParameter(Map<String, Object> params) {
@@ -99,16 +103,17 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 
-		parameter.addAllParameter(params);
-		if (!parameter.containsParameter(IDLE_TIME_INMS)) {
-			parameter.setParameter(IDLE_TIME_INMS, 5 * AgentProtocol.MINUTE);
+		configuration.addAllParameter(params);
+		if (!configuration.containsParameter(IDLE_TIME_INMS)) {
+			configuration
+					.setParameter(IDLE_TIME_INMS, 5 * AgentProtocol.MINUTE);
 		}
-		if (!parameter.containsParameter(TIME_AFTER_USERS_ARE_REMOVED)) {
-			parameter.setParameter(TIME_AFTER_USERS_ARE_REMOVED,
+		if (!configuration.containsParameter(TIME_AFTER_USERS_ARE_REMOVED)) {
+			configuration.setParameter(TIME_AFTER_USERS_ARE_REMOVED,
 					120 * AgentProtocol.MINUTE);
 		}
-		if (!parameter.containsParameter(MINIMUM_NUMBER_OF_CONCEPTS)) {
-			parameter.setParameter(MINIMUM_NUMBER_OF_CONCEPTS, 5);
+		if (!configuration.containsParameter(MINIMUM_NUMBER_OF_CONCEPTS)) {
+			configuration.setParameter(MINIMUM_NUMBER_OF_CONCEPTS, 5);
 		}
 	}
 
@@ -292,7 +297,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	private boolean userIsIdleForTooLongTime(long currentTime,
 			ContextInformation contextInformation) {
 		long timeSinceLastAction = currentTime - contextInformation.lastAction;
-		Integer timeAfterThatItIsSaveToRemoveUser = parameter.getParameter(
+		Integer timeAfterThatItIsSaveToRemoveUser = configuration.getParameter(
 				contextInformation.mission, contextInformation.user,
 				TIME_AFTER_USERS_ARE_REMOVED);
 		return timeSinceLastAction > timeAfterThatItIsSaveToRemoveUser;
@@ -305,17 +310,38 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			@Override
 			public void run() {
 				logger.info("Notifiying " + user);
-				String text = ExtractKeywordsDecisionMakerAgent.this
-						.getEloText(contextInformation.webresourcerELO);
-				if (!"".equals(text)) {
-					List<String> keywords = ExtractKeywordsDecisionMakerAgent.this
-							.getKeywords(text);
-					logger.info("found keywords to send to " + user + ": "
-							+ keywords);
-					ExtractKeywordsDecisionMakerAgent.this.sendNotification(
-							contextInformation, keywords);
-					contextInformation.lastNotification = currentTime;
+				IELO elo = getELO(contextInformation);
+				if (elo == null) {
+					logger.fatal("ELO " + contextInformation.webresourcerELO
+							+ " was null");
+					return;
 				}
+				List<String> keywords = extractor.getKeywords(elo);
+
+				// String text = ExtractKeywordsDecisionMakerAgent.this
+				// .getEloText(contextInformation.webresourcerELO);
+				// if (!"".equals(text)) {
+				// List<String> keywords =
+				// ExtractKeywordsDecisionMakerAgent.this
+				// .getKeywords(text);
+				logger.info("found keywords to send to " + user + ": "
+						+ keywords);
+				ExtractKeywordsDecisionMakerAgent.this.sendNotification(
+						contextInformation, keywords);
+				contextInformation.lastNotification = currentTime;
+				// }
+			}
+
+			private IELO getELO(final ContextInformation contextInformation) {
+				logger.info("Getting elo: "
+						+ contextInformation.webresourcerELO);
+				if (ExtractKeywordsDecisionMakerAgent.this.repository == null) {
+					logger.fatal("repository is null");
+					return null;
+				}
+				IELO elo = ExtractKeywordsDecisionMakerAgent.this.repository
+						.retrieveELO(contextInformation.webresourcerELO);
+				return elo;
 			}
 		}, "NotifyUser").start();
 
@@ -328,10 +354,10 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		long timeSinceLastAction = currentTime
 				- contextInformation.lastNotification;
 
-		Integer idleTimeInMS = parameter.getParameter(
+		Integer idleTimeInMS = configuration.getParameter(
 				contextInformation.mission, contextInformation.user,
 				IDLE_TIME_INMS);
-		Integer minimumNumberOfConcepts = parameter.getParameter(
+		Integer minimumNumberOfConcepts = configuration.getParameter(
 				contextInformation.mission, contextInformation.user,
 				MINIMUM_NUMBER_OF_CONCEPTS);
 
@@ -365,59 +391,60 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		}
 	}
 
-	private String getEloText(URI webresourcerELO) {
-		logger.info("Getting elo: " + webresourcerELO);
-		if (this.repository == null) {
-			logger.fatal("repository is null");
-			return "";
-		}
-		IELO elo = this.repository.retrieveELO(webresourcerELO);
-		if (elo == null) {
-			logger.fatal("ELO " + webresourcerELO + " was null");
-			return "";
-		}
-		IContent content = elo.getContent();
-		if (content == null) {
-			logger.fatal("Content of elo is null");
-			return "";
-		}
-		String text = content.getXml();
-		text = text.substring(text.indexOf(ANNOTATIONS_START), text
-				.lastIndexOf(ANNOTATIONS_END)
-				+ ANNOTATIONS_END.length());
-		logger.debug("Got text " + text);
-		return text;
-	}
-
-	private List<String> getKeywords(String text) {
-		try {
-			String queryId = new VMID().toString();
-			Tuple extractKeywordsTriggerTuple = new Tuple(
-					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text);
-			extractKeywordsTriggerTuple.setExpiration(7200000);
-			Tuple responseTuple = null;
-			if (this.getCommandSpace().isConnected()) {
-				this.getCommandSpace().write(extractKeywordsTriggerTuple);
-				responseTuple = this.getCommandSpace().waitToTake(
-						new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-								AgentProtocol.RESPONSE, queryId, Field
-										.createWildCardField()));
-			}
-			if (responseTuple != null) {
-				ArrayList<String> keywords = new ArrayList<String>();
-				for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
-					String keyword = (String) responseTuple.getField(i)
-							.getValue();
-					keywords.add(keyword);
-				}
-				return keywords;
-			}
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<String>();
-	}
+	// private String getEloText(URI webresourcerELO) {
+	// logger.info("Getting elo: " + webresourcerELO);
+	// if (this.repository == null) {
+	// logger.fatal("repository is null");
+	// return "";
+	// }
+	// IELO elo = this.repository.retrieveELO(webresourcerELO);
+	// if (elo == null) {
+	// logger.fatal("ELO " + webresourcerELO + " was null");
+	// return "";
+	// }
+	// extractor.getKeywords(elo);
+	// IContent content = elo.getContent();
+	// if (content == null) {
+	// logger.fatal("Content of elo is null");
+	// return "";
+	// }
+	// String text = content.getXml();
+	// text = text.substring(text.indexOf(ANNOTATIONS_START), text
+	// .lastIndexOf(ANNOTATIONS_END)
+	// + ANNOTATIONS_END.length());
+	// logger.debug("Got text " + text);
+	// return text;
+	// }
+	//
+	// private List<String> getKeywords(String text) {
+	// try {
+	// String queryId = new VMID().toString();
+	// Tuple extractKeywordsTriggerTuple = new Tuple(
+	// ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
+	// queryId, text);
+	// extractKeywordsTriggerTuple.setExpiration(7200000);
+	// Tuple responseTuple = null;
+	// if (this.getCommandSpace().isConnected()) {
+	// this.getCommandSpace().write(extractKeywordsTriggerTuple);
+	// responseTuple = this.getCommandSpace().waitToTake(
+	// new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
+	// AgentProtocol.RESPONSE, queryId, Field
+	// .createWildCardField()));
+	// }
+	// if (responseTuple != null) {
+	// ArrayList<String> keywords = new ArrayList<String>();
+	// for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
+	// String keyword = (String) responseTuple.getField(i)
+	// .getValue();
+	// keywords.add(keyword);
+	// }
+	// return keywords;
+	// }
+	// } catch (TupleSpaceException e) {
+	// e.printStackTrace();
+	// }
+	// return new ArrayList<String>();
+	// }
 
 	@Override
 	protected Tuple getIdentifyTuple(String queryId) {
