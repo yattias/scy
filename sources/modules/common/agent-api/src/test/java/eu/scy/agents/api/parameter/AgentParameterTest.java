@@ -100,7 +100,7 @@ public class AgentParameterTest {
 		agentParameter.setParameterValue(5);
 
 		parameter.setParameter(agentParameter);
-		assertEquals(7, parameter.getParameter(agentParameter));
+		assertEquals(5, parameter.getParameter(agentParameter));
 	}
 
 }
