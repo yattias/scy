@@ -270,17 +270,18 @@ public class AgentConfiguration {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T getParameter(AgentParameter parameter) {
 		if (parameter.getMission() != null) {
 			if (parameter.getUser() != null) {
-				return getParameter(parameter.getMission(),
+				return (T) getParameter(parameter.getMission(),
 						parameter.getUser(), parameter.getParameterName());
 			} else {
-				return getParameter(parameter.getMission(), parameter
+				return (T)getParameter(parameter.getMission(), parameter
 						.getParameterName());
 			}
 		} else {
-			return getParameter(parameter.getParameterName());
+			return (T)getParameter(parameter.getParameterName());
 		}
 	}
 }
