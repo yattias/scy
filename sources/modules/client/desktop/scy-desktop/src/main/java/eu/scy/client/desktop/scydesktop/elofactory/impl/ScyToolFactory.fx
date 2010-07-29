@@ -19,9 +19,9 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.lang.Exception;
 import java.lang.System;
-import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
-import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import javafx.scene.layout.Container;
+import javafx.scene.control.TextBox;
+import javafx.scene.layout.LayoutInfo;
 
 /**
  * @author sikken
@@ -117,12 +117,15 @@ public class ScyToolFactory extends ContentFactory {
    }
 
    function createErrorNode(errorMessage: String, window:ScyWindow): Node {
-      var textEditor = new TextEditor();
-      textEditor.setEditable(false);
-      textEditor.setText(errorMessage);
-      textEditor.resetScrollbars();
-
-      return ScySwingWrapper.wrap(textEditor);
+      var textBox:TextBox = TextBox{
+         text:errorMessage
+         multiline:true
+         editable:false
+         layoutInfo: LayoutInfo {
+            height: bind textBox.width
+            width: bind textBox.width
+         }
+      }
    }
 
    function getErrorMessage(e: Exception, eloUri: URI, id: String, type: String, drawer: Boolean, creator: Object): String {
