@@ -6,6 +6,48 @@
     <description>Builds, tests, and runs the project scy-desktop.</description>
     <import file="nbproject/build-impl.xml"/>
 
+    <!-- We put the new modified compile process here and override the original one by adding -->
+    <!-- some compiler arguments to increase the heap space: <arg value="-J-Xmx512m" /> -->
+
+    <property name="heap.size" value="512"/>
+
+    <target depends="init,deps-jar,-pre-compile" name="-do-compile">
+        <echo>Compiling JavaFX with increased heap size: ${heap.size}</echo>
+        <exec executable="${platform.fxhome}/bin/javafxpackager${binary.extension}" failonerror="true" logerror="true">
+            <arg value="-J-Xmx${heap.size}m"/>
+            <arg value="-src"/>
+            <arg value="${src.java.dir}"/>
+            <arg value="-workdir"/>
+            <arg file="${build.dir}"/>
+            <arg value="-d"/>
+            <arg file="${dist.dir}"/>
+            <arg value="-appname"/>
+            <arg value="${application.title}"/>
+            <arg value="-appvendor"/>
+            <arg value="${application.vendor}"/>
+            <arg value="-appwidth"/>
+            <arg value="${applet.width}"/>
+            <arg value="-appheight"/>
+            <arg value="${applet.height}"/>
+            <arg value="-appclass"/>
+            <arg value="${main.class}"/>
+            <arg line="${codebase.arg}"/>
+            <arg value="-encoding"/>
+            <arg value="${source.encoding}"/>
+            <arg value="-p"/>
+            <arg value="${javafx.profile}"/>
+            <arg value="${verbose.arg}"/>
+            <arg value="${draggable.arg}"/>
+            <arg value="${pack200.arg}"/>
+            <arg value="${sign.arg}"/>
+            <arg value="-updatecheck"/>
+            <arg value="${jnlp.update.model}"/>
+            <arg line="${packager.options}"/>
+            <arg value="-cp"/>
+            <arg path="${javac.classpath}"/>
+        </exec>
+    </target>
+
     <path id="maven-ant-tasks.classpath" path="nbproject/maven-ant-tasks-2.0.10.jar" />
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
            classpathref="maven-ant-tasks.classpath" />
