@@ -19,7 +19,8 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 	public static final String NAME = ExtractKeywordsAgent.class.getName();
 	public static final Object EXTRACT_KEYWORDS = "ExtractKeywords";
 
-	private static final Logger logger = Logger.getLogger(ExtractKeywordsAgent.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(ExtractKeywordsAgent.class.getName());
 
 	private Tuple activationTuple;
 	private int listenerId = -1;
@@ -32,16 +33,19 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
-		activationTuple = new Tuple(EXTRACT_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		activationTuple = new Tuple(EXTRACT_KEYWORDS, AgentProtocol.QUERY,
+				String.class, String.class);
 		try {
-			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
+			listenerId = getCommandSpace().eventRegister(Command.WRITE,
+					activationTuple, this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+	protected void doRun() throws TupleSpaceException, AgentLifecycleException,
+			InterruptedException {
 		while (status == Status.Running) {
 			sendAliveUpdate();
 			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
@@ -65,7 +69,8 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private Set<String> mergeKeywords(Set<String> tfIdfKeywords, Set<String> topicKeywords, Set<String> ontologyKeywords) {
+	private Set<String> mergeKeywords(Set<String> tfIdfKeywords,
+			Set<String> topicKeywords, Set<String> ontologyKeywords) {
 		Set<String> mergedResult = new HashSet<String>();
 		mergedResult.addAll(tfIdfKeywords);
 		mergedResult.addAll(topicKeywords);
@@ -77,9 +82,11 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		String queryId = new VMID().toString();
 		Set<String> result = new HashSet<String>();
 		try {
-			getCommandSpace().write(new Tuple(agent, AgentProtocol.QUERY, queryId, text));
+			getCommandSpace().write(
+					new Tuple(agent, AgentProtocol.QUERY, queryId, text));
 			Tuple response = getCommandSpace().waitToTake(
-					new Tuple(agent, AgentProtocol.RESPONSE, queryId, String.class), AgentProtocol.ALIVE_INTERVAL * 3);
+					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
+							String.class), AgentProtocol.ALIVE_INTERVAL * 3);
 			if (response == null) {
 				return result;
 			}
@@ -94,36 +101,13 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		return result;
 	}
 
-	// private ArrayList<String> getTopicKeywords(String text) {
-	// String queryId = new VMID().toString();
-	// ArrayList<String> result = new ArrayList<String>();
-	// try {
-	// getCommandSpace().write(
-	// new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY,
-	// queryId, text));
-	// Tuple response = getCommandSpace().waitToTake(
-	// new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE,
-	// queryId, String.class));
-	// if (response == null) {
-	// return new ArrayList<String>();
-	// }
-	// String keywordString = (String) response.getField(3).getValue();
-	// StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
-	// while (tokenizer.hasMoreTokens()) {
-	// result.add(tokenizer.nextToken());
-	// }
-	// } catch (TupleSpaceException e) {
-	// e.printStackTrace();
-	// }
-	// return result;
-	// }
-
 	@Override
 	protected void doStop() throws AgentLifecycleException {
 		try {
 			getCommandSpace().eventDeRegister(listenerId);
 		} catch (TupleSpaceException e) {
-			throw new AgentLifecycleException("Could not deregister listener", e);
+			throw new AgentLifecycleException("Could not deregister listener",
+					e);
 		}
 
 		status = Status.Stopping;
@@ -149,38 +133,20 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			String queryId = (String) tuple.getField(2).getValue();
 			String text = (String) tuple.getField(3).getValue();
 
-			Set<String> tfIdfKeywords = callKeywordsAgent(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, text);
-			Set<String> topicKeywords = callKeywordsAgent(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
+			Set<String> tfIdfKeywords = callKeywordsAgent(
+					ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, text);
+			Set<String> topicKeywords = callKeywordsAgent(
+					ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
 					text);
-			Set<String> ontologyKeywords = callKeywordsAgent(OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text);
+			Set<String> ontologyKeywords = callKeywordsAgent(
+					OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text);
 
-			Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords, topicKeywords, ontologyKeywords);
+			Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords,
+					topicKeywords, ontologyKeywords);
 			logger.info("found keywords: " + mergedKeywords);
 
 			sendAnswer(mergedKeywords, queryId);
 		}
 	}
 
-	// private ArrayList<String> getOntologyKeywords(String text) {
-	// String queryId = new VMID().toString();
-	// ArrayList<String> result = new ArrayList<String>();
-	// try {
-	// getCommandSpace().write(
-	// new Tuple(OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.QUERY, queryId, text));
-	// Tuple response = getCommandSpace().waitToTake(
-	// new Tuple(OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.RESPONSE, queryId,
-	// String.class));
-	// if (response == null) {
-	// return new ArrayList<String>();
-	// }
-	// String keywordString = (String) response.getField(3).getValue();
-	// StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
-	// while (tokenizer.hasMoreTokens()) {
-	// result.add(tokenizer.nextToken());
-	// }
-	// } catch (TupleSpaceException e) {
-	// e.printStackTrace();
-	// }
-	// return result;
-	// }
 }

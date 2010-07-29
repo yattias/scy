@@ -30,9 +30,11 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	public static final String EXTRACT_TOPIC_MODEL_KEYWORDS = "ExtractTopicModelKeywords";
 
-	static final String NAME = ExtractTopicModelKeywordsAgent.class.getName();
+	public static final String NAME = ExtractTopicModelKeywordsAgent.class
+			.getName();
 
-	private static final Logger logger = Logger.getLogger(ExtractTopicModelKeywordsAgent.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(ExtractTopicModelKeywordsAgent.class.getName());
 
 	private Tuple activationTuple;
 
@@ -48,10 +50,12 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
-		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS,
+				AgentProtocol.QUERY, String.class, String.class);
 		storage = new PersistentStorage(host, port);
 		try {
-			listenerId = getCommandSpace().eventRegister(Command.WRITE, activationTuple, this, true);
+			listenerId = getCommandSpace().eventRegister(Command.WRITE,
+					activationTuple, this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -75,15 +79,18 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			keywordBuffer.append(keyword);
 			keywordBuffer.append(";");
 		}
-		return new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE, queryId, keywordBuffer.toString().trim());
+		return new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE,
+				queryId, keywordBuffer.toString().trim());
 	}
 
 	private Set<String> extractKeywords(String text) {
-		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+		DocumentFrequencyModel dfModel = storage
+				.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 		if (dfModel == null) {
 			return new HashSet<String>();
 		}
-		TopicModelParameter tmParameter = (TopicModelParameter) storage.get(CO2_SCY_ENGLISH);
+		TopicModelParameter tmParameter = (TopicModelParameter) storage
+				.get(CO2_SCY_ENGLISH);
 		if (tmParameter == null) {
 			return new HashSet<String>();
 		}
@@ -94,10 +101,14 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 		// TODO real bad hack REMOVE
 		try {
-			Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow().getOperator("Main");
-			extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
-			extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-			extractKeywordsOperator.setInputParameter(KeywordConstants.TOPIC_MODEL, tm);
+			Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow()
+					.getOperator("Main");
+			extractKeywordsOperator.setInputParameter(
+					ObjectIdentifiers.DOCUMENT, document);
+			extractKeywordsOperator.setInputParameter(
+					KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+			extractKeywordsOperator.setInputParameter(
+					KeywordConstants.TOPIC_MODEL, tm);
 			Container result = extractKeywordsOperator.run();
 			Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 			return doc.getFeature(KeywordConstants.TM_KEYWORDS);
@@ -119,7 +130,8 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 		try {
 			getCommandSpace().eventDeRegister(listenerId);
 		} catch (TupleSpaceException e) {
-			throw new AgentLifecycleException("Could not deregister listener", e);
+			throw new AgentLifecycleException("Could not deregister listener",
+					e);
 		}
 		status = Status.Stopping;
 	}
@@ -135,7 +147,8 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	@Override
-	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+	public void call(Command command, int seq, Tuple afterTuple,
+			Tuple beforeTuple) {
 		if (listenerId != seq) {
 			logger.debug("Callback passed to Superclass.");
 			super.call(command, seq, afterTuple, beforeTuple);

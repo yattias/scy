@@ -95,7 +95,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 		try {
 			VMID queryId = new VMID();
 			this.getCommandSpace().write(
-					new Tuple(queryId.toString(), "onto", "entities", "http://www.scy.eu/scyontology#"));
+					new Tuple(queryId.toString(), "onto", "entities", "http://www.scy.eu/co2house#"));
 
 			Tuple response = this.getCommandSpace().waitToTake(new Tuple(queryId.toString(), String.class),
 					AgentProtocol.ALIVE_INTERVAL * 3);
