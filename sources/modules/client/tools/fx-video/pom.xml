@@ -60,7 +60,18 @@
       </dependency>
 	  
    </dependencies>
-
+   <repositories>
+       <repository>
+           <releases>
+                <enabled>true</enabled>
+           </releases>
+           <snapshots>
+                <enabled>false</enabled>
+           </snapshots>
+           <id>thirdparty-local</id>
+           <url>http://mvn.collide.info/content/repositories/thirdparty</url>
+       </repository>
+   </repositories>
  <build>
       <resources>
          <resource>
