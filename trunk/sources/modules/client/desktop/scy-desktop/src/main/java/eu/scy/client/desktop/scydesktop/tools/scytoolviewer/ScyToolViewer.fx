@@ -18,7 +18,6 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import java.net.URI;
 
-import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
 
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
@@ -37,8 +36,11 @@ import roolo.api.IExtensionManager;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELOFactory;
 import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-import javafx.scene.layout.Container;
+import javafx.scene.control.TextBox;
+import javafx.scene.layout.LayoutInfo;
+import javafx.scene.layout.Priority;
+import javafx.geometry.Insets;
+import javafx.util.Math;
 
 /**
  * @author sikken
@@ -47,8 +49,8 @@ import javafx.scene.layout.Container;
 // place your code here
 public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
-   public override var width on replace {resizeContent()};
-   public override var height on replace {resizeContent()};
+   public override var width on replace {sizeChanged()};
+   public override var height on replace {sizeChanged()};
 
    public var toolBrokerAPI:ToolBrokerAPI on replace {serviceSet("toolBrokerAPI",toolBrokerAPI)};
    public var repository:IRepository on replace {serviceSet("repository",repository)};
@@ -63,10 +65,22 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
    var uri = "?????";
    var location = "?";
-   def textEditor = new TextEditor();
-   def wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
    def spacing = 5.0;
    def dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
+   def minimumWidth = 250;
+
+   def textBox:TextBox = TextBox{
+      multiline:true
+      lines:3
+      editable:false
+      layoutInfo: LayoutInfo {
+         hfill:true
+         vfill:true
+         hgrow: Priority.ALWAYS
+         vgrow: Priority.ALWAYS
+      }
+   }
+   var nodeBox:VBox;
 
    init{
       addMessage("class init");
@@ -78,10 +92,12 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
    public override function create(): Node {
       addMessage("CustomNode.create");
-      textEditor.setEditable(false);
-      return VBox {
+      return nodeBox = VBox {
+         managed:false
          spacing:spacing;
-         layoutY:spacing
+         padding: Insets {
+            top: spacing
+         }
          content: [
             Text {
                font: Font {
@@ -99,7 +115,7 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
                y: 0
                content: bind "Location - {location}"
             }
-            wrappedTextEditor
+            textBox
          ]
       };
    }
@@ -112,14 +128,13 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
       addMessage(message);
    }
 
-
    function addMessage(message:String){
       var newLine = "";
-      var messages = textEditor.getText();
+      var messages = textBox.text;
       if (messages.length()>0){
          newLine = "\n";
       }
-      textEditor.setText("{textEditor.getText()}{newLine}{dateTimeFormat.format(new Date())} - {message}");
+      textBox.text = "{textBox.text}{newLine}{dateTimeFormat.format(new Date())} - {message}";
    }
 
    public override function initialize(windowContent: Boolean):Void{
@@ -185,15 +200,23 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
       addMessage("acceptDrop of {object.getClass()}");
    }
 
-   function resizeContent(){
-      Container.resizeNode(wrappedTextEditor,width,height-wrappedTextEditor.boundsInParent.minY-spacing);
+   function sizeChanged(): Void {
+      Container.resizeNode(nodeBox, width, height);
    }
 
-   public override function getPrefHeight(width: Number) : Number{
-      return Container.getNodePrefHeight(wrappedTextEditor, width)+wrappedTextEditor.boundsInParent.minY+spacing;
+   public override function getPrefHeight(h: Number) : Number{
+      textBox.boundsInParent.minY + textBox.getPrefHeight(h);
    }
 
-   public override function getPrefWidth(width: Number) : Number{
-     return Container.getNodePrefWidth(wrappedTextEditor, width);
+   public override function getPrefWidth(w: Number) : Number{
+      Math.max(minimumWidth,textBox.boundsInParent.minX + textBox.getPrefWidth(w));
+   }
+
+   public override function getMinHeight() : Number{
+     textBox.boundsInParent.minY + textBox.getMinHeight();
+   }
+
+   public override function getMinWidth() : Number{
+      Math.max(minimumWidth,textBox.getMinWidth());
    }
 }
