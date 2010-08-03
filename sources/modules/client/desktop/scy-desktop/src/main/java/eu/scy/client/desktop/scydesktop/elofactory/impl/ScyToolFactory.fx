@@ -122,7 +122,7 @@ public class ScyToolFactory extends ContentFactory {
          multiline:true
          editable:false
          layoutInfo: LayoutInfo {
-            height: bind textBox.width
+            height: bind textBox.height
             width: bind textBox.width
          }
       }
