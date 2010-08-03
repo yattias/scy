@@ -16,7 +16,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  */
 
 // place your code here
-public class TextEditorScyToolContentCreator extends ScyToolCreatorFX {
+public class SwingTextEditorScyToolContentCreator extends ScyToolCreatorFX {
 
    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow,windowContent:Boolean):Node{
       scyWindow.desiredContentWidth = 250;
@@ -24,9 +24,11 @@ public class TextEditorScyToolContentCreator extends ScyToolCreatorFX {
       return createTextEditorNode();
    }
 
-	function createTextEditorNode():ScyTextEditorNode{
+	function createTextEditorNode():SwingTextEditorNode{
 //      Thread.sleep(3000);
-		return ScyTextEditorNode{
+		var textEditor = new TextEditor();
+		return SwingTextEditorNode{
+			textEditor:textEditor;
 		}
 	}
 }

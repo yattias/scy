@@ -7,12 +7,14 @@
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
 import javafx.scene.CustomNode;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
+import java.awt.Dimension;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
@@ -27,17 +29,13 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import javafx.scene.control.TextBox;
-import javafx.scene.layout.LayoutInfo;
-import javafx.util.Math;
-import javafx.scene.layout.Priority;
-import javafx.geometry.Insets;
+import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
 /**
  * @author sikken
  */
 
-public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class SwingTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
    def logger = Logger.getLogger(this.getClass());
 
@@ -45,25 +43,16 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def textTagName = "text";
    def jdomStringConversion = new JDomStringConversion();
 
+   public-init var textEditor:TextEditor;
+
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
 
-   public override var width on replace {sizeChanged()};
-   public override var height on replace {sizeChanged()};
+   public override var width on replace {resizeContent()};
+   public override var height on replace {resizeContent()};
 
-   def textBox:TextBox = TextBox{
-      multiline:true
-      editable:true
-      layoutInfo: LayoutInfo {
-         hfill:true
-         vfill:true
-         hgrow: Priority.ALWAYS
-         vgrow: Priority.ALWAYS
-      }
-   }
-   var nodeBox:VBox;
-   var buttonBox:HBox;
+   var wrappedTextEditor:Node;
 
    var elo:IELO;
 
@@ -80,20 +69,19 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def spacing = 5.0;
 
    public override function create(): Node {
-//      resizeContent();
-//      FX.deferAction(resizeContent);
-      nodeBox = VBox{
-         blocksMouse:true
-         managed:false
+       wrappedTextEditor = ScySwingWrapper.wrap(textEditor);
+      resizeContent();
+      FX.deferAction(resizeContent);
+      return Group {
+         blocksMouse:true;
+         content: [
+            VBox{
+               translateY:spacing;
                spacing:spacing;
                content:[
-                  buttonBox = HBox{
+                  HBox{
+                     translateX:spacing;
                      spacing:spacing;
-                     padding: Insets {
-                        left: spacing
-                        top: spacing
-                        right: spacing
-                     }
                      content:[
                         Button {
                            text: "Save"
@@ -109,10 +97,12 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
                         }
                      ]
                   }
-                  textBox
+                  wrappedTextEditor
                ]
             }
-    }
+         ]
+      };
+   }
 
    function doLoadElo(eloUri:URI)
    {
@@ -122,14 +112,14 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       {
          var metadata = newElo.getMetadata();
          var text = eloContentXmlToText(newElo.getContent().getXmlString());
-         textBox.text = text;
+         textEditor.setText(text);
          logger.info("elo text loaded");
          elo = newElo;
       }
    }
 
    function doSaveElo(){
-      elo.getContent().setXmlString(textToEloContentXml(textBox.rawText));
+      elo.getContent().setXmlString(textToEloContentXml(textEditor.getText()));
       eloSaver.eloUpdate(getElo(),this);
    }
 
@@ -142,7 +132,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyTextType);
       }
-      elo.getContent().setXmlString(textToEloContentXml(textBox.rawText));
+      elo.getContent().setXmlString(textToEloContentXml(textEditor.getText()));
       return elo;
    }
 
@@ -168,23 +158,23 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
         this.elo = elo;
     }
 
-    function sizeChanged(): Void {
-      Container.resizeNode(nodeBox, width, height);
+   function resizeContent():Void{
+      Container.resizeNode(wrappedTextEditor,width,height-wrappedTextEditor.boundsInParent.minY-spacing);
    }
 
-   public override function getPrefHeight(h: Number) : Number{
-      textBox.boundsInParent.minY + textBox.getPrefHeight(h);
+   public override function getPrefHeight(width: Number) : Number{
+      return Container.getNodePrefHeight(wrappedTextEditor, width)+wrappedTextEditor.boundsInParent.minY+spacing;
    }
 
-   public override function getPrefWidth(w: Number) : Number{
-      textBox.boundsInParent.minX + textBox.getPrefWidth(w);
+   public override function getPrefWidth(width: Number) : Number{
+     return Container.getNodePrefWidth(wrappedTextEditor, width);
    }
 
    public override function getMinHeight() : Number{
-     textBox.boundsInParent.minY + textBox.getMinHeight();
+      return 100;
    }
 
    public override function getMinWidth() : Number{
-      Math.max(buttonBox.getMinWidth(), textBox.getMinWidth())
+      return 140;
    }
 }
