@@ -29,6 +29,7 @@ public class XMPPTest implements ITest {
 		return name;
 	}
 
+	
 	@Override
 	public TestResult getResult() {
 		return rslt;
