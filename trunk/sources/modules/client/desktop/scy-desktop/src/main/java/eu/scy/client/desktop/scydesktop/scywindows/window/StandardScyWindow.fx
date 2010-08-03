@@ -256,10 +256,12 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
 //      println("scyContentChanged(): {newContentWidth}*{newContentHeight}");
 //      println("preffered sizes    : {Container.getNodePrefWidth(scyContent)}*{Container.getNodePrefHeight(scyContent)}");
-      var limittedSize = limitSize(newContentWidth + deltaContentWidth,newContentHeight + deltaContentHeight);
-//      println("limitted to        : {limittedSize.x-deltaContentWidth}*{limittedSize.y-deltaContentHeight}");
-      width = limittedSize.x;
-      height = limittedSize.y;
+      FX.deferAction(function():Void{
+            var limittedSize = limitSize(newContentWidth + deltaContentWidth,newContentHeight + deltaContentHeight);
+      //      println("limitted to        : {limittedSize.x-deltaContentWidth}*{limittedSize.y-deltaContentHeight}");
+            width = limittedSize.x;
+            height = limittedSize.y;
+         });
       scyToolsList.windowContentTool = scyContent;
    }
 
