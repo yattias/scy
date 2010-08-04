@@ -13,7 +13,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  */
 
 // place your code here
-public class EloXmlViewerCreator extends ScyToolCreatorFX{
+public class EloXmlViewerCreatorFX extends ScyToolCreatorFX{
 
     override public function createScyToolNode (eloType:String,creatorId:String, scyWindow:ScyWindow, windowContent:Boolean) : Node {
         EloXmlViewerNode{
