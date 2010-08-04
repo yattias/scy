@@ -20,7 +20,7 @@ import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 
 import eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator;
 
-import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreatorFX;
 
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
 
@@ -130,7 +130,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 
-scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloXmlViewerCreatorFX{}, "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("xmlViewer");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
