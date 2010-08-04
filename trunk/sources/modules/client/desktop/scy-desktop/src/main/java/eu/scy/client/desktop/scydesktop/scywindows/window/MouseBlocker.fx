@@ -24,7 +24,7 @@ var theStage:Stage;
 
 var mouseBlockingActive = false;
 
-def testBorder = 0;
+def testBorder = 2.0;
 
 public var mouseBlockNode:Rectangle = Rectangle {
    blocksMouse:true;
@@ -35,7 +35,7 @@ public var mouseBlockNode:Rectangle = Rectangle {
    fill: Color.TRANSPARENT
 //   stroke:null
    stroke:Color.color(.5,.5,.5,.5)
-   strokeWidth:10.0
+   strokeWidth:testBorder
    onMouseClicked: function (e: MouseEvent): Void {
       if (mouseBlockingActive){
          println("mouse blocking disabled, by clicking on the mouseBlockNode");
