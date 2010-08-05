@@ -57,16 +57,21 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       System.getProperties().setProperty("xr.use.listeners", "true");
       browser.addDocumentListener(new DocumentListener()
       {
+         long startNanos;
 
          @Override
          public void documentStarted()
          {
 //            System.out.println("Start loading document: " + browser.getURL());
+            startNanos = System.nanoTime();
          }
 
          @Override
          public void documentLoaded()
          {
+            long usedNanos = System.nanoTime() - startNanos;
+            long usedMillis = usedNanos/1000000;
+            logger.info("Loaded page in " + usedMillis + " msec, url: "+ browser.getURL());
 //            System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
             if (urlFieldIsTitle)
             {
