@@ -88,10 +88,8 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var acceptDialog: AcceptSyncModalDialog;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
-    def simulatorContent = Group{
-
-    }
-
+    def lostPixels = 20.0;
+    def simulatorContent = Group{}
 
     public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -348,13 +346,15 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
             split.setTopComponent(scroller);
             //dataCollector.setPreferredSize(new Dimension(100, 300));
             split.setBottomComponent(dataCollector);
-            split.setDividerLocation(500);
             // adding the splitcomponent to the simquestpanel
             split.setEnabled(true);
 
             toolBrokerAPI.registerForNotifications(this as INotifiable);
             fixedDimension = simquestViewer.getRealSize();
             switchSwingDisplayComponent(split);
+            split.setDividerLocation(0.66);
+            split.setResizeWeight(1.0);
+
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
             }
@@ -423,17 +423,25 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     }
 
     function resizeContent() {
-        Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing);
+        Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing-lostPixels);
     }
 
     public override function getPrefHeight(height: Number): Number {
        // TODO, calculate the correct preferred height
        // the bottom part is not displayed
-       return Container.getNodePrefHeight(wrappedSimquestPanel, height)+wrappedSimquestPanel.boundsInParent.minY+spacing;
+       return Container.getNodePrefHeight(wrappedSimquestPanel, height)+wrappedSimquestPanel.boundsInParent.minY+spacing+lostPixels;
     }
 
     public override function getPrefWidth(width: Number): Number {
        Container.getNodePrefWidth(wrappedSimquestPanel, width);
+    }
+
+    public override function getMinWidth(): Number {
+       400;
+    }
+
+    public override function getMinHeight(): Number {
+       500;
     }
 
 }
