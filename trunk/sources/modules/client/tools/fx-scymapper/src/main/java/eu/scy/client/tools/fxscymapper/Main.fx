@@ -22,7 +22,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyMapperTestConfig.xml"
-            loginType:"remote"
+            loginType:"local"
+            enableLocalLogging:true
             authorMode:true
         }
 

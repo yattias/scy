@@ -17,18 +17,18 @@ import javax.swing.SwingUtilities;
  * Time: 12:53:40
  */
 public class DiagramModel implements IDiagramModel {
-	private String name;
-	private Set<INodeModel> nodes = new HashSet<INodeModel>();
-    private Set<ILinkModel> links = new HashSet<ILinkModel>();
 
+    private String name;
+    private Set<INodeModel> nodes = new HashSet<INodeModel>();
+    private Set<ILinkModel> links = new HashSet<ILinkModel>();
     private transient java.util.List<IDiagramListener> listeners = new ArrayList<IDiagramListener>();
 
     private Object readResolve() {
-		listeners = new ArrayList<IDiagramListener>();
-		return this;
-	}
+        listeners = new ArrayList<IDiagramListener>();
+        return this;
+    }
 
-	public DiagramModel() {
+    public DiagramModel() {
     }
 
     @Override
@@ -43,34 +43,38 @@ public class DiagramModel implements IDiagramModel {
 
     @Override
     public void addNode(INodeModel node) {
-		nodes.add(node);
+        nodes.add(node);
         notifyNodeAdded(node);
     }
 
-	@Override
-	public void addNode(INodeModel node, boolean preventOverlap) {
-		if (preventOverlap) {
-			Rectangle b = new Rectangle(node.getLocation(), node.getSize());
-			Point location = getFreeSpace(b).getLocation();
-			node.setLocation(location);
-		}
-		addNode(node);
-	}
+    @Override
+    public void addNode(INodeModel node, boolean preventOverlap) {
+        if (preventOverlap) {
+            Rectangle b = new Rectangle(node.getLocation(), node.getSize());
+            Point location = getFreeSpace(b).getLocation();
+            node.setLocation(location);
+        }
+        addNode(node);
+    }
 
-	private Rectangle getFreeSpace(Rectangle bounds) {
-		while (hasNodes(bounds)) {
-			bounds.setLocation(bounds.x+10, bounds.y+10);
-		}
-		return bounds;
-	}
-	private boolean hasNodes(Rectangle rect) {
-		for (INodeModel node : nodes) {
-			Rectangle b = new Rectangle(node.getLocation(), node.getSize());
-			if (b.contains(rect.getLocation())) return true;
-		}
-		return false;
-	}
-	@Override
+    private Rectangle getFreeSpace(Rectangle bounds) {
+        while (hasNodes(bounds)) {
+            bounds.setLocation(bounds.x + 10, bounds.y + 10);
+        }
+        return bounds;
+    }
+
+    private boolean hasNodes(Rectangle rect) {
+        for (INodeModel node : nodes) {
+            Rectangle b = new Rectangle(node.getLocation(), node.getSize());
+            if (b.contains(rect.getLocation())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public synchronized void removeNode(INodeModel n) {
         nodes.remove(n);
         System.out.println("#######################REMOVED NOW NOTIFYING LISTENERS = " + n);
@@ -83,13 +87,13 @@ public class DiagramModel implements IDiagramModel {
         notifyLinkAdded(l);
     }
 
-	@Override
-	public synchronized void removeLink(ILinkModel l) {
-		links.remove(l);
-		notifyLinkRemoved(l);
-	}
+    @Override
+    public synchronized void removeLink(ILinkModel l) {
+        links.remove(l);
+        notifyLinkRemoved(l);
+    }
 
-	@Override
+    @Override
     public synchronized Set<ILinkModel> getLinks() {
         return links;
     }
@@ -99,18 +103,22 @@ public class DiagramModel implements IDiagramModel {
         return nodes;
     }
 
-	@Override
-	public IDiagramElement getElementById(String id) {
-		for (INodeModel node : nodes) {
-			if (node.getId().equals(id)) return node;
-		}
-		for (ILinkModel link : links) {
-			if (link.getId().equals(id)) return link;
-		}
-		return null;
-	}
+    @Override
+    public IDiagramElement getElementById(String id) {
+        for (INodeModel node : nodes) {
+            if (node.getId().equals(id)) {
+                return node;
+            }
+        }
+        for (ILinkModel link : links) {
+            if (link.getId().equals(id)) {
+                return link;
+            }
+        }
+        return null;
+    }
 
-	@Override
+    @Override
     public void addDiagramListener(IDiagramListener l) {
         listeners.add(l);
     }
@@ -122,62 +130,67 @@ public class DiagramModel implements IDiagramModel {
 
     @Override
     public void notifyUpdated() {
-    	SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IDiagramListener listener : listeners) {
-					listener.updated(DiagramModel.this);
-				}
-			}
-		});
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                for (IDiagramListener listener : listeners) {
+                    listener.updated(DiagramModel.this);
+                }
+            }
+        });
     }
 
     @Override
     public void notifyNodeAdded(final INodeModel node) {
-    	SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IDiagramListener listener : listeners) {
-					listener.nodeAdded(node);
-				}
-			}
-		});
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                for (IDiagramListener listener : listeners) {
+                    listener.nodeAdded(node);
+                }
+            }
+        });
     }
 
     @Override
     public void notifyNodeRemoved(final INodeModel n) {
-    	SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IDiagramListener listener : listeners) {
-					listener.nodeRemoved(n);
-				}
-			}
-		});
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                for (IDiagramListener listener : listeners) {
+                    listener.nodeRemoved(n);
+                }
+            }
+        });
     }
 
     @Override
     public void notifyLinkAdded(final ILinkModel link) {
-    	SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IDiagramListener listener : listeners) {
-					listener.linkAdded(link);
-				}
-			}
-		});
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                for (IDiagramListener listener : listeners) {
+                    listener.linkAdded(link);
+                }
+            }
+        });
     }
 
     @Override
     public void notifyLinkRemoved(final ILinkModel link) {
-    	SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				for (IDiagramListener listener : listeners) {
-					listener.linkRemoved(link);
-				}
-			}
-		});
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                for (IDiagramListener listener : listeners) {
+                    listener.linkRemoved(link);
+                }
+            }
+        });
     }
 
     @Override
@@ -187,21 +200,29 @@ public class DiagramModel implements IDiagramModel {
         nodes.clear();
         links.clear();
 
-        for (INodeModel n : nodesCopy) notifyNodeRemoved(n);
-        for (ILinkModel l : linksCopy) notifyLinkRemoved(l);
+        for (INodeModel n : nodesCopy) {
+            notifyNodeRemoved(n);
+        }
+        for (ILinkModel l : linksCopy) {
+            notifyLinkRemoved(l);
+        }
     }
 
     @Override
     public INodeModel getNodeAt(Point point) {
         for (INodeModel node : nodes) {
-			Rectangle b = new Rectangle(node.getLocation(), node.getSize());
-			if (b.contains(point)) return node;
-		}
+            Rectangle b = new Rectangle(node.getLocation(), node.getSize());
+            if (b.contains(point)) {
+                return node;
+            }
+        }
         return null;
     }
 
     @Override
     public void addNodes(List<INodeModel> nodes) {
-        for (INodeModel node : nodes) addNode(node);
+        for (INodeModel node : nodes) {
+            addNode(node);
+        }
     }
 }
