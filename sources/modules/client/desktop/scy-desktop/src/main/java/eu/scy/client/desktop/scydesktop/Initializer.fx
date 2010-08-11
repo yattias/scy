@@ -19,7 +19,6 @@ import java.lang.Exception;
 import javax.swing.UIManager;
 import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.login.ToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
@@ -43,6 +42,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
+import eu.scy.toolbrokerapi.ToolBrokerLogin;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -599,6 +599,7 @@ public class Initializer {
         } else {
             throw new IllegalArgumentException("unknown login type: {loginType}");
         }
+        toolBrokerLogin.prepare();
     }
 
 }

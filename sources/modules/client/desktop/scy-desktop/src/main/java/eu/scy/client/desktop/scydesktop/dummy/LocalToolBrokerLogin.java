@@ -5,7 +5,7 @@
 package eu.scy.client.desktop.scydesktop.dummy;
 
 import eu.scy.toolbrokerapi.LoginFailedException;
-import eu.scy.client.desktop.scydesktop.login.ToolBrokerLogin;
+import eu.scy.toolbrokerapi.ToolBrokerLogin;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,6 +20,10 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
    private final String userNameKey = "userName";
    private final String tbiBeanName = "toolBrokerAPI";
    private String springConfigFile;
+
+   public void prepare()
+   {
+   }
 
    public String getSpringConfigFile()
    {

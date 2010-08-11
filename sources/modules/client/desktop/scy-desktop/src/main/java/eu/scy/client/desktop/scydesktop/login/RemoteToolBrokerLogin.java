@@ -5,6 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.login;
 
+import eu.scy.toolbrokerapi.ToolBrokerLogin;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.LoginFailedException;
@@ -18,6 +19,10 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin {
    private final static Logger logger = Logger.getLogger(RemoteToolBrokerLogin.class);
 
    private String springConfigFile;
+
+   public void prepare()
+   {
+   }
 
    public String getSpringConfigFile()
    {
