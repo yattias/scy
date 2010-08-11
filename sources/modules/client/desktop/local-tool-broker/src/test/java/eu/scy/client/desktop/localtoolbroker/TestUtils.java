@@ -1,6 +1,7 @@
 package eu.scy.client.desktop.localtoolbroker;
 
 import java.io.File;
+import java.io.IOException;
 
 import junit.framework.Assert;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -19,7 +20,7 @@ public class TestUtils
       Assert.assertNotNull(tbi.getDataSyncService());
    }
 
-   public static void deleteDirectory(File dir, boolean onlyContent)
+   public static void deleteDirectory(File dir, boolean onlyContent) throws IOException
    {
       for (File file : dir.listFiles())
       {
@@ -28,12 +29,57 @@ public class TestUtils
             deleteDirectory(file, false);
          }
          else
-            file.delete();
+         {
+            if (!file.delete())
+            {
+               throw new IOException("failed to delete file: " + file.getAbsolutePath());
+            }
+         }
       }
       if (!onlyContent)
       {
-         dir.delete();
+         if (!dir.delete())
+         {
+            throw new IOException("failed to delete directory: " + dir.getAbsolutePath());
+         }
       }
+   }
+
+   public static long getDirectoryBytes(File dir)
+   {
+      long bytes = 0;
+      for (File file : dir.listFiles())
+      {
+         if (file.isHidden())
+         {
+            continue;
+         }
+         if (file.isDirectory())
+         {
+            bytes += getDirectoryBytes(file);
+         }
+         else
+            bytes += file.length();
+      }
+      return bytes;
+   }
+
+   public static int getDirectoryFileCount(File dir)
+   {
+      int files = 0;
+      for (File file : dir.listFiles())
+      {
+         if (file.isHidden())
+         {
+            continue;
+         }
+         if (file.isDirectory())
+         {
+            files += getDirectoryFileCount(file);
+         }
+         ++files;
+      }
+      return files;
    }
 
 }

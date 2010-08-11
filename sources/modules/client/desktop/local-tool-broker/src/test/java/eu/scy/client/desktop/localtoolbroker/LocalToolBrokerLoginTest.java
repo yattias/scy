@@ -5,6 +5,7 @@
 package eu.scy.client.desktop.localtoolbroker;
 
 import java.io.File;
+import java.util.List;
 
 import junit.framework.Assert;
 import eu.scy.toolbrokerapi.LoginFailedException;
@@ -14,6 +15,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import roolo.api.search.ISearchResult;
 import static org.junit.Assert.*;
 
 /**
@@ -100,24 +103,40 @@ public class LocalToolBrokerLoginTest
       localToolBrokerLogin.login("a", null);
    }
 
-   @Test
+   @Test(expected = LoginFailedException.class)
    public void testLogin4()
    {
-      final String userName = "a";
-      ToolBrokerAPI tbi = localToolBrokerLogin.login(userName, userName);
-      testToolBrokerAPI(tbi);
-      Assert.assertEquals(userName,tbi.getLoginUserName());
-   }
-   
-   private void testToolBrokerAPI(ToolBrokerAPI tbi){
-      Assert.assertNotNull(tbi);
-      Assert.assertNotNull(tbi.getRepository());
-      Assert.assertNotNull(tbi.getExtensionManager());
-      Assert.assertNotNull(tbi.getMetaDataTypeManager());
-      Assert.assertNotNull(tbi.getELOFactory());
-      Assert.assertNotNull(tbi.getActionLogger());
-      Assert.assertNotNull(tbi.getAwarenessService());
-      Assert.assertNotNull(tbi.getDataSyncService());
+      localToolBrokerLogin.login("a", "a");
    }
 
+   @Test(expected = LoginFailedException.class)
+   public void testLogin5()
+   {
+      localToolBrokerLogin.login("ab", "ab");
+   }
+
+   @Test(expected = LoginFailedException.class)
+   public void testLogin6()
+   {
+      localToolBrokerLogin.login(" ab", " ab");
+   }
+
+   @Test(expected = LoginFailedException.class)
+   public void testLogin7()
+   {
+      localToolBrokerLogin.login("ab/", "ab/");
+   }
+
+   @Test
+   public void testLogin10()
+   {
+      final String userName = "abc";
+      ToolBrokerAPI tbi = localToolBrokerLogin.login(userName, userName);
+      TestUtils.testToolBrokerAPI(tbi);
+      Assert.assertEquals(userName,tbi.getLoginUserName());
+      Assert.assertTrue(localToolBrokerLogin.loggingDirectory.listFiles().length>0);
+      List<ISearchResult> searchResults = tbi.getRepository().search(null);
+      Assert.assertFalse(searchResults.isEmpty());
+   }
+   
 }
