@@ -15,8 +15,6 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.Initializer;
-import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
-import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
@@ -30,7 +28,6 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 
 /**
  * @author sikken
