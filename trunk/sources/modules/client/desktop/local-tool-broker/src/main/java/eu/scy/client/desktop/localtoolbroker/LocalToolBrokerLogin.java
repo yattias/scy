@@ -7,6 +7,7 @@ package eu.scy.client.desktop.localtoolbroker;
 
 import java.io.File;
 
+import eu.scy.client.desktop.localtoolbroker.accesschecker.AccessChecker;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ToolBrokerLogin;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -31,6 +32,7 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
    private String springConfigFile;
    protected File eloStoreDirectory = new File(eloStoreDirectoryName);
    protected File loggingDirectory = new File(loggingDirectoryName);
+   private AccessChecker accessChecker = new AccessChecker();
 
    public LocalToolBrokerLogin()
    {
@@ -44,7 +46,12 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
    {
       findGeneralDirectories();
    }
-
+   
+   public void setPasswordChecker(String name)
+   {
+      accessChecker.setPasswordChecker(name);
+   }
+   
    protected void findGeneralDirectories()
    {
       eloStoreDirectory = new File(System.getProperty(eloStoreDirectoryKey));
@@ -99,17 +106,30 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
       {
          throw new LoginFailedException("user name not be empty");
       }
-      loginCheck(userName, password);
-      System.setProperty(userNameKey, userName);
+      String usedUserName = userName.trim();
+      try
+      {
+         accessChecker.checkAndCleanName(userName);
+      }
+      catch (IllegalArgumentException e)
+      {
+         throw new LoginFailedException(e.getMessage());
+      }
+      loginCheck(usedUserName, password);
+      System.setProperty(userNameKey, usedUserName);
       return readTbiFromSpringConfig();
    }
 
    protected void loginCheck(String userName, String password) throws LoginFailedException
    {
-      if (userName == null || !userName.equals(password))
+      if (!accessChecker.isAccessAllowed(userName, "", password))
       {
          throw new LoginFailedException("user name and/or password not valid");
       }
+//      if (userName == null || !userName.equals(password))
+//      {
+//         throw new LoginFailedException("user name and/or password not valid");
+//      }
    }
 
    private ToolBrokerAPI readTbiFromSpringConfig()

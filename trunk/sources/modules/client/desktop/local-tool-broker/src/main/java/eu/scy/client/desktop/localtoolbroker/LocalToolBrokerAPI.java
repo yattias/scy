@@ -5,6 +5,9 @@
 
 package eu.scy.client.desktop.localtoolbroker;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
@@ -24,7 +27,7 @@ import roolo.elo.api.IMetadataTypeManager;
  *
  * @author sikken
  */
-public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting
+public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSetting, Closeable
 {
    private final static Logger logger = Logger.getLogger(LocalToolBrokerAPI.class);
 
@@ -41,7 +44,21 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    private String userName;
    private String missionId;
 
-   public void setRepository(IRepository repository)
+   @Override
+   public void close()
+   {
+      closeIfPossible(metadataTypeManager,"metadataTypeManager");
+      closeIfPossible(extensionManager,"extensionManager");
+      closeIfPossible(repository,"repository");
+      closeIfPossible(eloFactory,"eloFactory");
+      closeIfPossible(actionLogger,"actionLogger");
+      closeIfPossible(awarenessService,"awarenessService");
+      closeIfPossible(dataSyncService,"dataSyncService");
+      closeIfPossible(pedagogicalPlanService,"pedagogicalPlanService");      
+      closeIfPossible(studentPedagogicalPlanService,"studentPedagogicalPlanService");      
+   }
+   
+  public void setRepository(IRepository repository)
    {
       this.repository = repository;
    }
@@ -184,8 +201,22 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
       return "false";
    }
 
+   private void closeIfPossible(Object object, String label)
+   {
+      if (object instanceof Closeable){
+         try
+         {
+            ((Closeable)object).close();
+         }
+         catch (IOException e)
+         {
+            logger.error("an exception occured during the close of " + label,e);
+         }
+      }
+   }
 
 
+   
 
 
 }

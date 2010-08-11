@@ -1,14 +1,16 @@
 package eu.scy.client.desktop.localtoolbroker;
 
+import java.io.Closeable;
+
 import eu.scy.actionlogging.FileLogger;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 
 /**
- *
+ * 
  * @author sikken
  */
-public class LocalFileActionLogger implements IActionLogger
+public class LocalFileActionLogger implements IActionLogger, Closeable
 {
    private static final String fileName = "actions";
    private String logDirectory;
@@ -21,11 +23,21 @@ public class LocalFileActionLogger implements IActionLogger
       this.logDirectory = logDirectory;
    }
 
+   public void close()
+   {
+      if (fileLogger != null)
+      {
+         fileLogger.close();
+      }
+   }
+
    public void setEnableLogging(boolean enableLogging)
    {
       this.enableLogging = enableLogging;
-      if (enableLogging && fileLogger==null){
-         fileLogger = new FileLogger(DirectoryUtils.getLogFile(logDirectory,fileName,".txt").getAbsolutePath());
+      if (enableLogging && fileLogger == null)
+      {
+         fileLogger = new FileLogger(DirectoryUtils.getLogFile(logDirectory, fileName, ".txt")
+                  .getAbsolutePath());
       }
    }
 
@@ -44,6 +56,5 @@ public class LocalFileActionLogger implements IActionLogger
    {
       log(action);
    }
-
 
 }

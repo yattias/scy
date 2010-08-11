@@ -11,7 +11,7 @@ public class LocalMultiUserToolBrokerLogin extends LocalToolBrokerLogin
    private final String usersDirectoryName = "users";
    
    private File storeDirectory;
-   private File masterEloStoreDirectory;
+   protected File masterEloStoreDirectory;
    protected File usersDirectory;
    
    private File userDirectory;
