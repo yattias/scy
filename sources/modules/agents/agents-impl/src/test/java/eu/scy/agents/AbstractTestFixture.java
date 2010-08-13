@@ -71,10 +71,13 @@ public class AbstractTestFixture {
 
 	@Before
 	public void setUp() throws Exception {
-		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false,
-				false, AgentProtocol.COMMAND_SPACE_NAME);
-		actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false,
-				false, AgentProtocol.ACTION_SPACE_NAME);
+		if (Server.isRunning()) {
+			tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
+					false, false, AgentProtocol.COMMAND_SPACE_NAME);
+			actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
+					false, false, AgentProtocol.ACTION_SPACE_NAME);
+			storage = new PersistentStorage(TSHOST, TSPORT);
+		}
 
 		agentMap.clear();
 
@@ -90,7 +93,6 @@ public class AbstractTestFixture {
 		repository = (IRepository) applicationContext
 				.getBean("localRepository");
 
-		storage = new PersistentStorage(TSHOST, TSPORT);
 	}
 
 	@After
@@ -108,7 +110,9 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
-		storage.close();
+		if (storage != null) {
+			storage.close();
+		}
 	}
 
 	protected void removeTopicModel() {
