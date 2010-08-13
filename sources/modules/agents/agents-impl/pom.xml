@@ -55,13 +55,13 @@
 			<artifactId>roolo-api</artifactId>
 			<version>0.6.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>elo-api</artifactId>
 			<version>0.6.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>elo-impl</artifactId>
@@ -72,13 +72,13 @@
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-server</artifactId>
 		</dependency>
-					
+
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-client</artifactId>
 			<scope>compile</scope>
-		</dependency>	
-		
+		</dependency>
+
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-commons</artifactId>
@@ -90,13 +90,13 @@
 			<artifactId>agents-base</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-commons</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
@@ -114,37 +114,32 @@
 			<artifactId>obwious-mallet</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
 			<artifactId>obwious-util</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
-			<artifactId>obwious</artifactId>
-			<version>1.0.1</version>
+			<artifactId>obwious-core</artifactId>
+			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
 			<artifactId>obwious-featurecarrier</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>de.fhg.iais.kd.tm</groupId>
-			<artifactId>obwious-system</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		
+
+
 		<dependency>
 			<groupId>org.tartarus</groupId>
 			<artifactId>snowball</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.gnu</groupId>
 			<artifactId>trove</artifactId>
@@ -173,39 +168,30 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
-			
+
 		<dependency>
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
 			<version>1.0.b2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- unused
-		<dependency>
-			<groupId>jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.12</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.swabunga</groupId>
-			<artifactId>jazzy</artifactId>
-			<version>0.5.2</version>
-		</dependency>
-			
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-		</dependency>
+
+		<!--
+			unused <dependency> <groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId> <version>1.0.12</version>
+			</dependency> <dependency> <groupId>com.swabunga</groupId>
+			<artifactId>jazzy</artifactId> <version>0.5.2</version> </dependency>
+
+			<dependency> <groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId> </dependency>
 		-->
-		
+
 	</dependencies>
 
 	<!--
