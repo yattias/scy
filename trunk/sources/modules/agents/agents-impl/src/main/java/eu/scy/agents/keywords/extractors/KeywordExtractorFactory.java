@@ -8,10 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * <ul>
  * <li>scy/text via call to ExtractKeywordsAgent</li>
  * <li>scy/webresourcer via call to ExtractKeywordsAgent</li>
+ * <li>scy/mapping</li>
  * </ul>
  * Extractors to come are for
  * <ul>
- * <li>scy/mapping</li>
  * <li>scy/copex</li>
  * <li>scy/model</li>
  * </ul>
@@ -24,7 +24,9 @@ public class KeywordExtractorFactory {
 	private static ConcurrentHashMap<String, KeywordExtractor> keywordExtractors = new ConcurrentHashMap<String, KeywordExtractor>();
 
 	private KeywordExtractorFactory() {
-		// do nothing
+		setKeywordExtractor("scy/text", new TextExtractor());
+		setKeywordExtractor("scy/webresourcer", new WebresourceExtractor());
+		setKeywordExtractor("scy/mapping", new ConceptMapExtractor());
 	}
 
 	/**
