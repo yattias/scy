@@ -64,6 +64,7 @@ public class Initializer {
     public-init var writeJavaLoggingToFile = true;
     public-init var lookAndFeel = "nimbus";
     public-init var loginType = "local";
+    public-init var localPasswordCheckMethod = "same";
     public-init var localToolBrokerLoginConfigFile: String = "/config/localScyServices.xml";
     public-init var remoteToolBrokerLoginConfigFile: String = "/config/remoteScyServices.xml";
     public-init var defaultUserName: String;
@@ -109,6 +110,7 @@ public class Initializer {
     def writeJavaLoggingToFileOption = "writeJavaLoggingToFile";
     def lookAndFeelOption = "lookAndFeel";
     def loginTypeOption = "loginType";
+    def localPasswordCheckMethodOption = "localPasswordCheckMethod";
     def localToolBrokerLoginConfigFileOption = "localToolBrokerLoginConfigFile";
     def remoteToolBrokerLoginConfigFileOption = "remoteToolBrokerLoginConfigFile";
     def defaultUserNameOption = "defaultUserName";
@@ -200,6 +202,9 @@ public class Initializer {
                 } else if (option == loginTypeOption.toLowerCase()) {
                     loginType = argumentsList.nextStringValue(loginTypeOption);
                     logger.info("app: {loginTypeOption}: {loginType}");
+                } else if (option == localPasswordCheckMethodOption.toLowerCase()) {
+                    localPasswordCheckMethod = argumentsList.nextStringValue(localPasswordCheckMethodOption);
+                    logger.info("app: {localPasswordCheckMethodOption}: {localPasswordCheckMethod}");
                 } else if (option == localToolBrokerLoginConfigFileOption.toLowerCase()) {
                     localToolBrokerLoginConfigFile = argumentsList.nextStringValue(localToolBrokerLoginConfigFileOption);
                     logger.info("app: {localToolBrokerLoginConfigFileOption}: {localToolBrokerLoginConfigFile}");
@@ -284,6 +289,7 @@ public class Initializer {
         writeJavaLoggingToFile = getWebstartParameterBooleanValue(writeJavaLoggingToFileOption, writeJavaLoggingToFile);
         lookAndFeel = getWebstartParameterStringValue(lookAndFeelOption, lookAndFeel);
         loginType = getWebstartParameterStringValue(loginTypeOption, loginType);
+        localPasswordCheckMethod = getWebstartParameterStringValue(localPasswordCheckMethodOption, localPasswordCheckMethod);
         localToolBrokerLoginConfigFile = getWebstartParameterStringValue(localToolBrokerLoginConfigFileOption, localToolBrokerLoginConfigFile);
         remoteToolBrokerLoginConfigFile = getWebstartParameterStringValue(remoteToolBrokerLoginConfigFileOption, remoteToolBrokerLoginConfigFile);
         defaultUserName = getWebstartParameterStringValue(defaultUserNameOption, defaultUserName);
@@ -348,6 +354,7 @@ public class Initializer {
         printWriter.println("- writeJavaLoggingToFile: {writeJavaLoggingToFile}");
         printWriter.println("- lookAndFeel: {lookAndFeel}");
         printWriter.println("- loginType: {loginType}");
+        printWriter.println("- localPasswordCheckMethod: {localPasswordCheckMethod}");
         printWriter.println("- localToolBrokerLoginConfigFile: {localToolBrokerLoginConfigFile}");
         printWriter.println("- remoteToolBrokerLoginConfigFile: {remoteToolBrokerLoginConfigFile}");
         printWriter.println("- defaultUserName: {defaultUserName}");
@@ -591,10 +598,12 @@ public class Initializer {
     function setupToolBrokerLogin() {
         if ("local".equalsIgnoreCase(loginType)) {
             var localToolBrokerLogin = new LocalToolBrokerLogin();
+            localToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
             localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
             toolBrokerLogin = localToolBrokerLogin;
         } else if ("localMultiUser".equalsIgnoreCase(loginType)) {
             var localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
+            localMultiUserToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
             localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
             toolBrokerLogin = localMultiUserToolBrokerLogin;
         } else if ("remote".equalsIgnoreCase(loginType)) {
