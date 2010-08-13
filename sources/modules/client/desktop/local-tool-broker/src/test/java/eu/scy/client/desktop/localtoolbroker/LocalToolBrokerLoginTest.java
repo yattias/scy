@@ -23,11 +23,8 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  *
  * @author SikkenJ
  */
-public class LocalToolBrokerLoginTest
+public class LocalToolBrokerLoginTest extends CommonToolBrokerLoginTest
 {
-   private final String localToolBrokerLoginConfigFile = "/config/localScyServices.xml";
-   private final String enableLocalLoggingKey = "enableLocalLogging";
-   private LocalToolBrokerLogin localToolBrokerLogin;
 
    public LocalToolBrokerLoginTest()
    {
@@ -83,48 +80,6 @@ public class LocalToolBrokerLoginTest
    {
       System.setProperty(localToolBrokerLogin.loggingDirectoryKey, new File("pom.xml").getAbsolutePath());
       localToolBrokerLogin.prepare();
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin1()
-   {
-      localToolBrokerLogin.login(null, null);
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin2()
-   {
-      localToolBrokerLogin.login("", null);
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin3()
-   {
-      localToolBrokerLogin.login("a", null);
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin4()
-   {
-      localToolBrokerLogin.login("a", "a");
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin5()
-   {
-      localToolBrokerLogin.login("ab", "ab");
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin6()
-   {
-      localToolBrokerLogin.login(" ab", " ab");
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin7()
-   {
-      localToolBrokerLogin.login("ab/", "ab/");
    }
 
    @Test
