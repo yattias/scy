@@ -90,7 +90,7 @@
          <artifactId>tool-broker-api</artifactId>
          <version>${pom.version}</version>
       </dependency>
-	  
+
 	  <dependency>
          <groupId>eu.scy.common</groupId>
          <artifactId>data-sync-common</artifactId>
@@ -130,6 +130,12 @@
       <dependency>
          <groupId>eu.scy.client.desktop</groupId>
          <artifactId>tool-broker</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>local-tool-broker</artifactId>
          <version>${pom.version}</version>
       </dependency>
 
