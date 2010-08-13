@@ -9,7 +9,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
@@ -19,15 +18,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryF
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
-import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
-import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
-import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
-import java.lang.IllegalArgumentException;
-import java.lang.Integer;
 import java.lang.Object;
-import java.lang.String;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
@@ -41,15 +32,8 @@ import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManage
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
-import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
-import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.RoleAreaWindowPositioner;
-import roolo.api.search.AndQuery;
-import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import javafx.lang.FX;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -67,15 +51,9 @@ import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.edges.EdgesManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.collaboration.api.CollaborationStartable;
-import eu.scy.notification.api.INotification;
 import java.lang.Void;
-import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
-import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
@@ -83,6 +61,31 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import javafx.scene.effect.Effect;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.remotecontrol.RemoteCommandRegistryFX;
+import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
+import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
+import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
+import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
+import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.notification.api.INotification;
+import java.io.Closeable;
+import java.lang.IllegalArgumentException;
+import java.lang.Integer;
+import java.lang.String;
+import org.jdom.Element;
+import roolo.api.search.AndQuery;
+import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
+import java.lang.Exception;
 
 /**
  * @author sikkenj
@@ -686,7 +689,19 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     function scyDesktopShutdownAction():Void{
        println("Scy desktop is shutting down....");
+       closeIfPossible(config.getToolBrokerAPI(),"tool broker");
     }
+
+   function closeIfPossible(object: Object, label: String):Void {
+      if (object instanceof Closeable){
+         try {
+            (object as Closeable).close();
+         }
+         catch (e: Exception) {
+            logger.error("an exception occured during the close of {label}",e);
+         }
+      }
+   }
 
 }
 
