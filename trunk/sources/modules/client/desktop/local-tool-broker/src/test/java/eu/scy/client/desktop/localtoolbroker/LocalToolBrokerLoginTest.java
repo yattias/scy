@@ -8,8 +8,7 @@ import java.io.File;
 import java.util.List;
 
 import junit.framework.Assert;
-import eu.scy.toolbrokerapi.LoginFailedException;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,7 +16,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import roolo.api.search.ISearchResult;
-import static org.junit.Assert.*;
+import eu.scy.toolbrokerapi.LoginFailedException;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
