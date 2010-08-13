@@ -14,17 +14,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import roolo.api.search.ISearchResult;
-
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
-import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
-public class LocalMultiUserToolBrokerLoginTest
+public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
 {
-   private final String localToolBrokerLoginConfigFile = "/config/localScyServices.xml";
-   private final String enableLocalLoggingKey = "enableLocalLogging";
    private final String userNameA = "userA";
    private final String userNameB = "userB";
    private LocalMultiUserToolBrokerLogin localMultiUserToolBrokerLogin;
@@ -47,6 +43,7 @@ public class LocalMultiUserToolBrokerLoginTest
    {
       System.out.println("setUp");
       localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
+      localToolBrokerLogin = localMultiUserToolBrokerLogin;
       localMultiUserToolBrokerLogin.prepare();
       localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
       System.getProperties().put(enableLocalLoggingKey, "true");
@@ -68,50 +65,6 @@ public class LocalMultiUserToolBrokerLoginTest
             TestUtils.deleteDirectory(localMultiUserToolBrokerLogin.usersDirectory, true);
          }
       }
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin1()
-   {
-//      setUp();
-      System.out.println("localMultiUserToolBrokerLogin: " + localMultiUserToolBrokerLogin);
-      localMultiUserToolBrokerLogin.login(null, null);
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin2()
-   {
-      localMultiUserToolBrokerLogin.login("", null);
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin3()
-   {
-      localMultiUserToolBrokerLogin.login("a", null);
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin4()
-   {
-      localMultiUserToolBrokerLogin.login("a", "a");
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin5()
-   {
-      localMultiUserToolBrokerLogin.login("ab", "ab");
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin6()
-   {
-      localMultiUserToolBrokerLogin.login(" ab", " ab");
-   }
-
-   @Test(expected = LoginFailedException.class)
-   public void testLogin7()
-   {
-      localMultiUserToolBrokerLogin.login("ab/", "ab/");
    }
 
    @Test
