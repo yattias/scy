@@ -19,7 +19,6 @@ import java.lang.Exception;
 import javax.swing.UIManager;
 import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
@@ -43,6 +42,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
 import eu.scy.toolbrokerapi.ToolBrokerLogin;
+import eu.scy.client.desktop.localtoolbroker.LocalToolBrokerLogin;
+import eu.scy.client.desktop.localtoolbroker.LocalMultiUserToolBrokerLogin;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -142,7 +143,7 @@ public class Initializer {
         parseWebstartParameters();
         setupBackgroundImage();
         usingWebStart = System.getProperty("javawebstart.version") != null;
-        offlineMode = loginType == "local";
+        offlineMode = loginType.toLowerCase().startsWith("local");
         System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
         var loggingDirectoryKeyValue = "";
         if (enableLocalLogging) {
@@ -592,6 +593,10 @@ public class Initializer {
             var localToolBrokerLogin = new LocalToolBrokerLogin();
             localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
             toolBrokerLogin = localToolBrokerLogin;
+        } else if ("localMultiUser".equalsIgnoreCase(loginType)) {
+            var localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
+            localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
+            toolBrokerLogin = localMultiUserToolBrokerLogin;
         } else if ("remote".equalsIgnoreCase(loginType)) {
             var remoteToolBrokerLogin = new RemoteToolBrokerLogin();
             remoteToolBrokerLogin.setSpringConfigFile(remoteToolBrokerLoginConfigFile);

@@ -19,7 +19,7 @@
    <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">
       <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
       <property name="extensionManager" ref="localExtensionManager"/>
-      <property name="eloStoreDirectory" value="eloStore"/>
+      <property name="eloStoreDirectory" value="${eloStoreDirectory}"/>
       <property name="storeElosInStoreDirectory" value="${storeElosOnDisk}"/>
    </bean>
 
