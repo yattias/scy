@@ -8,7 +8,9 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import roolo.api.search.ISearchResult;
@@ -27,10 +29,23 @@ public class LocalMultiUserToolBrokerLoginTest
    private final String userNameB = "userB";
    private LocalMultiUserToolBrokerLogin localMultiUserToolBrokerLogin;
    private ToolBrokerAPI tbi = null;
+   
+   @BeforeClass
+   public static void setUpClass()
+   {
+      System.out.println("setUpClass");
+   }
+
+   @AfterClass
+   public static void tearDownClass() throws Exception
+   {
+      System.out.println("tearDownClass");
+   }
 
    @Before
    public void setUp()
    {
+      System.out.println("setUp");
       localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
       localMultiUserToolBrokerLogin.prepare();
       localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
@@ -40,6 +55,7 @@ public class LocalMultiUserToolBrokerLoginTest
    @After
    public void tearDown() throws IOException
    {
+      System.out.println("tearDown");
       try
       {
          closeTbi();
@@ -57,6 +73,8 @@ public class LocalMultiUserToolBrokerLoginTest
    @Test(expected = LoginFailedException.class)
    public void testLogin1()
    {
+//      setUp();
+      System.out.println("localMultiUserToolBrokerLogin: " + localMultiUserToolBrokerLogin);
       localMultiUserToolBrokerLogin.login(null, null);
    }
 
