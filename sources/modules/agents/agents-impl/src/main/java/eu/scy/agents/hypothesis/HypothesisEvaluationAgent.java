@@ -22,8 +22,6 @@ public class HypothesisEvaluationAgent extends AbstractThreadedAgent implements 
 
   private static final String TOOL_NAME = "richtext";
 
-  private static final String TOOL_START = "tool_start";
-
   private static final Logger logger = Logger.getLogger(HypothesisEvaluationAgent.class.getName());
 
   private boolean isStopped;
@@ -42,7 +40,8 @@ public class HypothesisEvaluationAgent extends AbstractThreadedAgent implements 
       // TODO add Tool
       getActionSpace().eventRegister(
                                      Command.WRITE,
-                                     new Tuple("action", String.class, Long.class, TOOL_START,
+                                     new Tuple(AgentProtocol.ACTION_SPACE_NAME, String.class,
+                                               Long.class, AgentProtocol.ACTION_TOOL_STARTED,
                                                Field.createWildCardField(), TOOL_NAME,
                                                Field.createWildCardField()), hypothesisCallback,
                                      true);
