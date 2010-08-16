@@ -28,7 +28,7 @@ var initializer = Initializer{
    javaUtilLoggingInitFile:"/config/scy-desktop-java-util-logging.properties"
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"local"
-   storeElosOnDisk:false
+   storeElosOnDisk:true
    createPersonalMissionMap:true
    enableLocalLogging:true
    redirectSystemStream:false
