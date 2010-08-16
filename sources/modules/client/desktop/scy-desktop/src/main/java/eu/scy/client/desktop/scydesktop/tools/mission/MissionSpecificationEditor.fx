@@ -9,18 +9,13 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import java.net.URI;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import org.jdom.Element;
-import javax.swing.JFileChooser;
 import java.awt.Component;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Resizable;
@@ -34,6 +29,12 @@ import javafx.scene.layout.Container;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.util.Math;
+import java.net.URI;
+import javax.swing.JFileChooser;
+import roolo.elo.api.IELO;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFilter;
+import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
 
 /**
  * @author sikken
@@ -101,7 +102,7 @@ public class MissionSpecificationEditor extends CustomNode, Resizable, ScyToolFX
                         Button {
                            text: ##"Import"
                            action: function() {
-                              doSaveAsElo();
+                              doImport();
                            }
                         }
                      ]
@@ -116,28 +117,30 @@ public class MissionSpecificationEditor extends CustomNode, Resizable, ScyToolFX
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
    }
 
+   public override function loadElo(uri:URI){
+      doLoadElo(uri);
+   }
+
    function getParentComponent(): Component {
       return null;
    }
 
-   function askUserForFile(): Void {
+   function doImport(){
       var fileChooser = new JFileChooser();
       fileChooser.setCurrentDirectory(lastUsedDirectory);
+      fileChooser.setFileFilter(new ExampleFileFilter("xml","Spring mission specification"));
       if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getParentComponent())) {
          //getting the file from the fileChooser
          //lastUsedDirectory = fileChooser.getCurrentDirectory();
          lastUsedDirectory = fileChooser.getCurrentDirectory();
-         var imageUrl = "{fileChooser.getSelectedFile().toURL()}";
- //        showImage(imageUrl);
-         var eloTitle = fileChooser.getSelectedFile().getName();
-         var lastPointPos = eloTitle.lastIndexOf(".");
-         if (lastPointPos >= 0) {
-            eloTitle = eloTitle.substring(0, lastPointPos);
+         var springConfigFileImporter = SpringConfigFileImporter{
+            file:fileChooser.getSelectedFile().getAbsolutePath()
+            repository:repository
          }
-         getElo().getMetadata().getMetadataValueContainer(titleKey).setValue(eloTitle);
-         eloSaver.eloUpdate(elo, this);
+         textBox.text = springConfigFileImporter.missionMapXml;
       }
    }
+
 
    function doLoadElo(eloUri:URI)
    {
