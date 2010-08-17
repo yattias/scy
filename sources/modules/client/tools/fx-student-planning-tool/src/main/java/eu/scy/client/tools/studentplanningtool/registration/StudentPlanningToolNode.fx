@@ -14,6 +14,8 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 
+import eu.scy.tools.service.LocalFreakinStudentPedagogicalPlanService;
+import eu.scy.tools.service.StudentPlanELOParser;
 import eu.scy.tools.planning.controller.*;
 import eu.scy.tools.planning.*;
 import roolo.elo.metadata.BasicMetadata;
@@ -56,6 +58,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
     
     public var studentPlanningTool:StudentPlanningTool;
     public var metadataTypeManager: IMetadataTypeManager;
+    public var service: LocalFreakinStudentPedagogicalPlanService;
     public var repository:IRepository on replace {
         
     }
@@ -131,8 +134,7 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
    }
 
     public override function create(): Node {
-     //initTBI();
-    // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
+        service = new LocalFreakinStudentPedagogicalPlanService(); 
         println("STARTING SPT create node.......");
         println("toolbroker on stp is {toolBrokerAPI}");
 
@@ -153,13 +155,16 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
             println( "xml String from ELO {xmlString}");
 
             if( xmlString == null ) {
-                //need to create a new id
+                //need to create a new StudentPlanELO
                 
 
                 println("tbi login name: {loginName}");
 
+
+
+
                 try {
-                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
+                    studentPlan = service.createStudentPlan(loginName);
                 } catch(e: Exception) {
                     logger.debug(e.getMessage());
                     wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
@@ -173,57 +178,31 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
 
                 println("we got a new SPT ID: {studentPlan.getId()}");
 
-                elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
+                elo.getContent().setXmlString(StudentPlanELOParser.parseToXML(studentPlan));
 
                 var newMetadata = repository.updateELO(elo)
             } else {
-                var rootElement = jdomStringConversion.stringToXml(xmlString);
-                println("ROOT ELEMENT {rootElement}");
-                var parsed = StringUtils.stripToNull(rootElement.getText());
 
-                println("FOUND ID {parsed}");
+               try {
+               studentPlan = StudentPlanELOParser.parseFromXML(xmlString);
+               service.setCurrentStudentPlanELO(studentPlan);
+                println("STUDENT PLAN IS: {studentPlan} ");
+               } catch(e: Exception) {
+                logger.debug(e.getMessage());
+                wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
 
-
-                if( xmlString.equals("<studentPlanId>null</studentPlanId>") or (parsed == null or parsed.equals(null) )) {
-                  try {
-                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().createStudentPlan(loginName);
-                    println("werid <studentPlanId>null</studentPlanId> NEW SPT ID {studentPlan.getId()}");
-
-                    elo.getContent().setXmlString("<studentPlanId>{studentPlan.getId()}</studentPlanId>");
-
-                    var newMetadata = repository.updateELO(elo)
-                } catch(e: Exception) {
-                    logger.debug(e.getMessage());
-                    wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
-
-                    return VBox {
-                        blocksMouse:true;
-                        cache:false;
-                        content:wrappedSPTPanel;
+                return VBox {
+                    blocksMouse:true;
+                    cache:false;
+                    content:wrappedSPTPanel;
                     };
-                    }
-                } else {
-                   try {
-                    studentPlan = toolBrokerAPI.getStudentPedagogicalPlanService().getStudentPlanELO(parsed);
-                   } catch(e: Exception) {
-                    logger.debug(e.getMessage());
-                    wrappedSPTPanel = ScySwingWrapper.wrap(errorLabel);
-
-                    return VBox {
-                        blocksMouse:true;
-                        cache:false;
-                        content:wrappedSPTPanel;
-                    };
-                    }
                 }
 
-
-
-          
             }
         }
 
-        studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI);
+        studentPlanningController = new StudentPlanningController(studentPlan, toolBrokerAPI, service);
+        studentPlanningController.setElo(elo);
         studentPlanningTool = new StudentPlanningTool(studentPlanningController);
         panel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = ScySwingWrapper.wrap(panel);

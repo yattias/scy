@@ -42,4 +42,8 @@ public interface StudentPedagogicalPlanService {
     StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId, String studentPlanId);
 
     StudentPlanELO getStudentPlanELO(String eloId);
+
+    StudentPlanELO getCurrentStudentPlanELO();
+
+    void setCurrentStudentPlanELO(StudentPlanELO currentStudentPlanELO);
 }
