@@ -86,4 +86,14 @@ public class StudentPedagogicalPlanServiceImpl extends AbstractPedagogicalPlanSe
     public StudentPlanELO getStudentPlanELO(String eloId){
         return getStudentPedagogicalPlanPersistenceService().getStudentPlanELOBasedOnELOId(eloId);
     }
+
+    @Override
+    public StudentPlanELO getCurrentStudentPlanELO() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setCurrentStudentPlanELO(StudentPlanELO currentStudentPlanELO) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

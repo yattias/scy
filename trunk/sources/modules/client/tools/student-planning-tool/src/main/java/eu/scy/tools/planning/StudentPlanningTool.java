@@ -401,7 +401,7 @@ public class StudentPlanningTool {
 	public void acceptDrop(Object drop) {
 		
 	
-		log.severe("we just dropped a load of..." + drop.toString()); //$NON-NLS-1$
+		log.severe("we just dropped a load of..." + drop.toString() +  " " + drop.getClass().getName()); //$NON-NLS-1$
 		
 		if( drop == null) {
 			
@@ -422,7 +422,8 @@ public class StudentPlanningTool {
 			
 			//find the activity
 			//create studenActivityPlane			
-			
+
+            log.fine("DROPPED ID: " + drop);
 			String eloId = (String) drop;
 			
 			if( studentPlanningController.doesTaskPaneExist(eloId) ) {
@@ -521,10 +522,10 @@ public class StudentPlanningTool {
 		Activity activity = null;
 		// create a taskpane, and set it's title and icon
 		JXTaskPane taskpane = new JXTaskPane();
-		taskpane.setName(assoicatedELO.getName());
+		if(assoicatedELO != null) taskpane.setName(assoicatedELO.getName());
 		taskpane.setToolTipText(Messages.getString("StudentPlanningTool.4")); //$NON-NLS-1$
 		taskpane.setCollapsed(true);
-		taskpane.setTitle(assoicatedELO.getName());
+		if(assoicatedELO != null) taskpane.setTitle(assoicatedELO.getName());
 		taskpane.setForeground(Color.white);
 		taskpane.setBackground(Color.black);
 		taskpane.setOpaque(true);
