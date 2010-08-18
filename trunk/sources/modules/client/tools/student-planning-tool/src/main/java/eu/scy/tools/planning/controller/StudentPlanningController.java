@@ -265,6 +265,7 @@ public class StudentPlanningController {
 
             try {
                 getStudentPlanService().removeStudentPlannedActivityFromStudentPlan(studentPlannedActivity, this.studentPlanELO);
+                updateCurrenteELOWithContent();
             } catch (Exception e) {
                 log.severe(e.getMessage());
             }
@@ -379,7 +380,7 @@ public class StudentPlanningController {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                log.severe("Adding MEMBER TO STUDENT ACTIVITY " + nickName + " " + studentPlannedActivity);
+                log.severe("Adding MEMBER TO STUDENT ACTIVITY " + studentPlannedActivity.getId() + " " + nickName + " " + studentPlannedActivity);
                 try {
                     getStudentPlanService().addMember(studentPlannedActivity, nickName);
                     updateCurrenteELOWithContent();
@@ -398,6 +399,7 @@ public class StudentPlanningController {
         log.severe("YOU DONT LIKE, REMOVING STUDENT PLANNED ACTIVITY: " + studentPlannedActivity.getId() + " " + studentPlannedActivity.getName() + " from user: " + nickName);
         try {
             this.getStudentPlanService().removeMember(studentPlannedActivity, nickName);
+            updateCurrenteELOWithContent();
         } catch (Exception e) {
             log.severe(e.getMessage());
         }

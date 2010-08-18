@@ -76,10 +76,12 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
         SCYUserDetails userDetails = new SCYUserDetails();
         userDetails.setUsername(user);
         userDetails.setPassword(user);
+        scyUser.setUserDetails(userDetails);
     }
 
     @Override
     public void removeMember(StudentPlannedActivity studentPlannedActivity, String user) {
+        System.out.println("REMOVING USER WITH NICK NAME: " + user);
         List members = studentPlannedActivity.getMembers();
         SCYUserImpl userToRemove = null;
         for (int i = 0; i < members.size(); i++) {
@@ -88,7 +90,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
         }
 
         studentPlannedActivity.getMembers().remove(userToRemove);
-
+        System.out.println("REMOVED " + userToRemove);
     }
 
     @Override
@@ -132,11 +134,12 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
 
         StudentPlannedActivity studentPlannedActivity = new StudentPlannedActivityImpl();
         studentPlannedActivity.setId(anchorELOIde);
+        studentPlannedActivity.setName(anchorELOIde);
         getCurrentStudentPlanELO().getStudentPlannedActivities().add(studentPlannedActivity);
 
         AnchorELO anchorELO = new AnchorELOImpl();
         anchorELO.setId(anchorELOIde);
-        anchorELO.setName("ANCHOR: " + studentPlannedActivity.getName());
+        anchorELO.setName(studentPlannedActivity.getName());
         studentPlannedActivity.setAssoicatedELO(anchorELO);
 
         return studentPlannedActivity;

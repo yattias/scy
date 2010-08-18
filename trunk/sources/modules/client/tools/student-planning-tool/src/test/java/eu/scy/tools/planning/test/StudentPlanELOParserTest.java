@@ -1,5 +1,6 @@
 package eu.scy.tools.planning.test;
 
+import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYUserDetails;
 import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
@@ -90,6 +91,7 @@ public class StudentPlanELOParserTest extends TestCase {
             assertEquals(originalPlannedActivity.getEndDate().toString(), parsedActivity.getEndDate().toString());
             assertEquals(originalPlannedActivity.getDescription(), parsedActivity.getDescription());
             assertEquals(originalPlannedActivity.getNote(), parsedActivity.getNote());
+            assertEquals(originalPlannedActivity.getId(), parsedActivity.getId());
 
             assertEquals(originalPlannedActivity.getMembers().size(), parsedActivity.getMembers().size());
             System.out.println("testing anchorelos");
@@ -98,6 +100,14 @@ public class StudentPlanELOParserTest extends TestCase {
                 assertEquals(originalPlannedActivity.getAssoicatedELO().getId(), parsedActivity.getAssoicatedELO().getId());
             } else {
                 System.out.println("no anchor elos for " + parsedActivity.getName());
+            }
+
+            assertEquals(originalPlannedActivity.getMembers().size(), parsedActivity.getMembers().size());
+            for (int j = 0; j < originalPlannedActivity.getMembers().size(); j++) {
+                User user = originalPlannedActivity.getMembers().get(j);
+                User parsedUser = parsedActivity.getMembers().get(j);
+                assertEquals(user.getUserDetails().getUsername(), parsedUser.getUserDetails().getUsername());
+                assertEquals(user.getUserDetails().getPassword(), parsedUser.getUserDetails().getPassword());
             }
 
         }

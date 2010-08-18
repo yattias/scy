@@ -57,9 +57,12 @@ public class StudentPlanELOParser {
             Element studentPlannedActivityElement = createElement("studentPlannedActivity", "");
 
             studentPlannedActivityElement.setAttribute(ID, activity.getId());
+            System.out.println("ACTIVITY ID:  " + activity.getId());
             studentPlannedActivityElement.getChildren().add(createElement(NAME, activity.getName()));
-            if(activity.getStartDate() != null) studentPlannedActivityElement.getChildren().add(createElement(START_DATE, dateFormat.format(activity.getStartDate())));
-            if(activity.getEndDate() != null) studentPlannedActivityElement.getChildren().add(createElement(END_DATE, dateFormat.format(activity.getEndDate())));
+            if (activity.getStartDate() != null)
+                studentPlannedActivityElement.getChildren().add(createElement(START_DATE, dateFormat.format(activity.getStartDate())));
+            if (activity.getEndDate() != null)
+                studentPlannedActivityElement.getChildren().add(createElement(END_DATE, dateFormat.format(activity.getEndDate())));
             studentPlannedActivityElement.getChildren().add(createElement(NOTES, activity.getNote()));
             studentPlannedActivityElement.getChildren().add(createElement(DESCRIPTION, activity.getDescription()));
 
@@ -84,25 +87,28 @@ public class StudentPlanELOParser {
 
     private static void addAnchorELOs(Element studentPlannedActivityElement, StudentPlannedActivity activity) {
         AnchorELO anchorElo = activity.getAssoicatedELO();
-        if(anchorElo != null) {
+        if (anchorElo != null) {
             Element anchorEloElement = createElement(ANCHORELO, "");
             anchorEloElement.getChildren().add(createElement(NAME, anchorElo.getName()));
             anchorEloElement.getChildren().add(createElement(ID, anchorElo.getId()));
 
-            studentPlannedActivityElement.getChildren().add(anchorEloElement);            
+            studentPlannedActivityElement.getChildren().add(anchorEloElement);
         }
 
 
     }
 
     private static void addMembers(Element studentPlannedActivityElement, StudentPlannedActivity activity) {
-        Element membersElement = createElement(MEMBERS,"");
+        Element membersElement = createElement(MEMBERS, "");
         for (int i = 0; i < activity.getMembers().size(); i++) {
             SCYUserImpl scyUser = (SCYUserImpl) activity.getMembers().get(i);
             Element memberElement = createElement("member", "");
-            memberElement.getChildren().add(createElement(USERNAME, scyUser.getUserDetails().getUsername()));
-            memberElement.getChildren().add(createElement(PASSWORD, scyUser.getUserDetails().getPassword()));
-            membersElement.getChildren().add(memberElement);
+            if (scyUser != null) {
+                memberElement.getChildren().add(createElement(USERNAME, scyUser.getUserDetails().getUsername()));
+                memberElement.getChildren().add(createElement(PASSWORD, scyUser.getUserDetails().getPassword()));
+                membersElement.getChildren().add(memberElement);
+            }
+
         }
 
         studentPlannedActivityElement.getChildren().add(membersElement);
@@ -131,12 +137,12 @@ public class StudentPlanELOParser {
 
                 Element studentPlannedActivities = rootElement.getChild("studentPlannedActivities");
 
-                List activities= studentPlannedActivities.getChildren("studentPlannedActivity");
+                List activities = studentPlannedActivities.getChildren("studentPlannedActivity");
                 for (int i = 0; i < activities.size(); i++) {
                     Element element = (Element) activities.get(i);
                     StudentPlannedActivity studentPlannedActivity = new StudentPlannedActivityImpl();
 
-                    studentPlannedActivity.setId(getElementValue(element, ID));
+                    studentPlannedActivity.setId(element.getAttributeValue(ID));
                     studentPlannedActivity.setName(getElementValue(element, NAME));
                     studentPlannedActivity.setNote(getElementValue(element, NOTES));
                     studentPlannedActivity.setDescription(getElementValue(element, DESCRIPTION));
@@ -145,16 +151,15 @@ public class StudentPlanELOParser {
                     Element endDateElement = element.getChild(END_DATE);
 
 
-                    if(startDateElement != null) {
+                    if (startDateElement != null) {
                         java.util.Date uDate = dateFormat.parse(startDateElement.getText());
                         studentPlannedActivity.setStartDate(new Date(uDate.getTime()));
                     }
 
-                    if(endDateElement!= null) {
+                    if (endDateElement != null) {
                         java.util.Date uDate = dateFormat.parse(endDateElement.getText());
                         studentPlannedActivity.setEndDate(new Date(uDate.getTime()));
                     }
-
 
 
                     studentPlanELO.addStudentPlannedActivity(studentPlannedActivity);
@@ -171,20 +176,19 @@ public class StudentPlanELOParser {
             }
 
 
-
         }
         return studentPlanELO;
 
     }
 
     private static String getElementValue(Element element, String name) {
-        if(element.getChild(name) != null) return element.getChild(name).getText();
+        if (element.getChild(name) != null) return element.getChild(name).getText();
         return null;
     }
 
     private static void parseAnchorELO(Element element, StudentPlannedActivity studentPlannedActivity) {
         Element anchorELOElement = element.getChild(ANCHORELO);
-        if(anchorELOElement != null) {
+        if (anchorELOElement != null) {
             AnchorELO anchorELO = new AnchorELOImpl();
             anchorELO.setId(anchorELOElement.getChild(ID).getText());
             anchorELO.setName(anchorELOElement.getChild(NAME).getText());
@@ -194,13 +198,13 @@ public class StudentPlanELOParser {
 
     private static void parseMembers(Element studentPlannedActivityElement, StudentPlannedActivity studentPlannedActivity) {
         Element membersElement = studentPlannedActivityElement.getChild(MEMBERS);
-        if(membersElement != null) {
+        if (membersElement != null) {
             for (int i = 0; i < membersElement.getChildren().size(); i++) {
                 Element memberElement = (Element) membersElement.getChildren().get(i);
                 studentPlannedActivity.addMember(parseUser(memberElement));
 
             }
-                
+
         }
     }
 
