@@ -262,7 +262,7 @@ public class StudentPlanningTool {
 	
 			
 			for (StudentPlannedActivity studentPlannedActivity : studentPlannedActivities) {
-				
+                System.out.println("ABOUT TO CREATE ANCHOR ELO PANEL FOR ACTIVITY: " + studentPlannedActivity.getId());
 				this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
 			}
 		} else {
@@ -446,7 +446,7 @@ public class StudentPlanningTool {
 			
 			StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
 			
-			log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId); //$NON-NLS-1$
+			log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId + " ID: " + studentPlannedIdFromEloId.getId()); //$NON-NLS-1$
 			this.addTaskPane(createAnchorELOPanel(studentPlannedIdFromEloId));
 			
 		} else if(drop instanceof IAwarenessUser ){
@@ -462,6 +462,7 @@ public class StudentPlanningTool {
 				log.severe("Awareness user: jid" + awarenessUser.getJid() + " nick name" + awarenessUser.getNickName()); //$NON-NLS-1$ //$NON-NLS-2$
 			
 				studentPlanningController.addMemberToStudentPlannedActivity((StudentPlannedActivity) openTaskPane.getClientProperty(STUDENT_PLANNED_ACTIVITY), awarenessUser.getNickName());
+                getStudentPlanningController().updateCurrenteELOWithContent();
 				messageLabel.setText(Messages.getString("StudentPlanningTool.44")); //$NON-NLS-1$
 			} else {
 				String msg = Messages.getString("StudentPlanningTool.45"); //$NON-NLS-1$
@@ -516,6 +517,8 @@ public class StudentPlanningTool {
 
 	public JXTaskPane createAnchorELOPanel(
 			StudentPlannedActivity studentPlannedActivity) {
+
+        System.out.println("CREATING ANCHOR ELO PANEL: " + studentPlannedActivity.getId());
 		
 		AnchorELO assoicatedELO = studentPlannedActivity.getAssoicatedELO();
 		//Activity activity = assoicatedELO.getProducedBy();
@@ -701,6 +704,9 @@ public class StudentPlanningTool {
 				.setToolTipText(Messages.getString("StudentPlanningTool.61")); //$NON-NLS-1$
 		noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
+
+        System.out.println("Set client property::::::: " + studentPlannedActivity.getId());
+
 		noteTextArea.addFocusListener(new FocusListener() {
 
 			@Override
@@ -1009,14 +1015,9 @@ public class StudentPlanningTool {
 				List<User> members = studentPlannedActivity.getMembers();
 				for (User user : members) {
 					UserDetails userDetails = user.getUserDetails();
-					String nickName = null;
-					if( userDetails instanceof SCYTeacherUserDetails ) {
-						//nickName = ((SCYTeacherUserDetails)userDetails).getFirstName();
-						nickName = ((SCYTeacherUserDetails)userDetails).getUsername();
-					} else if(userDetails instanceof SCYStudentUserDetails) {
-						//nickName = ((SCYStudentUserDetails)userDetails).getFirstname();
-						nickName = ((SCYStudentUserDetails)userDetails).getUsername();
-					}
+                    System.out.println("create MEMBERS panel, adding buddies: " + userDetails.getUsername());
+					String nickName = nickName = userDetails.getUsername();
+
 					IAwarenessUser aw = new AwarenessUser();
 					aw.setNickName(nickName);
 					membersPanel.addBuddy(aw);
