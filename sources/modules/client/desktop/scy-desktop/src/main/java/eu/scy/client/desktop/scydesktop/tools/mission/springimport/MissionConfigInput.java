@@ -21,14 +21,7 @@ public interface MissionConfigInput {
    public BasicMissionMap getBasicMissionMap();
    public List<BasicMissionAnchor> getBasicMissionAnchors();
 
-   public List<URI> getAllMissionEloUris();
-
-//   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs();
-//   public String getMissionId();
-//   public String getMissionName();
-//   public URI getActiveMissionAnchorUri();
-
-   public List<NewEloDescription> getNewEloDescriptions();
+   public List<EloToolConfig> getEloToolConfigs();
 
    public List<URI> getTemplateEloUris();
 

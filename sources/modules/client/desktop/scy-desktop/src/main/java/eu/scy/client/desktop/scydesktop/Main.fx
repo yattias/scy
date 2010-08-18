@@ -18,6 +18,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.tools.speedtest.SpeedTestPanelCreator;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.MissionMapModelEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.EloToolConfigurationEditorCreator;
 
 /**
  * @author sikkenj
@@ -28,7 +30,7 @@ var initializer = Initializer{
    javaUtilLoggingInitFile:"/config/scy-desktop-java-util-logging.properties"
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"local"
-   storeElosOnDisk:true
+   storeElosOnDisk:false
    createPersonalMissionMap:true
    enableLocalLogging:true
    redirectSystemStream:false
@@ -50,6 +52,8 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    def presentationViewerId = "presentationUpload";
    def speedTestPanelId = "speedTestPanel";
    def missionSpecificationId = "missionSpecification";
+   def missionMapModelId = "missionMapModel";
+   def eloToolConfigurationId = "eloToolConfiguration";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -66,6 +70,8 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionSpecificationCreator{}, missionSpecificationId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionMapModelEditorCreator{}, missionMapModelId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloToolConfigurationEditorCreator{}, eloToolConfigurationId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    

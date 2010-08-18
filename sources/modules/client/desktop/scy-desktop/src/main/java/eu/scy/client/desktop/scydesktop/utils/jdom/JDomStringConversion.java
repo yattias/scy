@@ -8,8 +8,7 @@ package eu.scy.client.desktop.scydesktop.utils.jdom;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -37,7 +36,8 @@ public class JDomStringConversion {
 		}
 		catch (IOException e)
 		{
-			logger.log(Level.WARNING, "problems converting jdom status to string", e);
+			logger.warn("problems converting jdom xml to string");
+         throw new IllegalArgumentException("A problem occured during converting jdom xml to string.\n" + e.getMessage());
 		}
 		return stringWriter.toString();
 	}
@@ -52,8 +52,9 @@ public class JDomStringConversion {
 		}
 		catch (Exception e)
 		{
-			logger.log(Level.WARNING, "problems converting string status to jdom", e);
-			return null;
+			logger.warn("problems converting xml string to jdom");
+         throw new IllegalArgumentException("A problem occured during converting xml string to jdom.\n" + e.getMessage());
+//			return null;
 		}
 	}
 

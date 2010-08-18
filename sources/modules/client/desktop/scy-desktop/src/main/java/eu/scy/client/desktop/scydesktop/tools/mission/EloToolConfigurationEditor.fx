@@ -2,20 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.tools.mission;
 
-import javax.swing.JFileChooser;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFilter;
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
+import javax.swing.JFileChooser;
+import java.lang.String;
+import eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloToolConfigXmlUtils;
 
 /**
- * @author sikken
+ * @author SikkenJ
  */
-public class MissionSpecificationEditor extends EloXmlEditor {
+public class EloToolConfigurationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      "scy/missionspecification"
+      "scy/elotoolconfiguration"
    }
 
    override protected function doImport(): Void {
@@ -29,18 +30,18 @@ public class MissionSpecificationEditor extends EloXmlEditor {
                file: fileChooser.getSelectedFile().getAbsolutePath()
                repository: repository
             }
-//         textBox.text = springConfigFileImporter.eloToolConfigsXml;
+         textBox.text = springConfigFileImporter.eloToolConfigsXml;
       }
    }
 
    override protected function validateXml(xml: String): String {
       var errors = super.validateXml(xml);
       if (errors == null) {
-//         def eloToolConfigXmlUtils = new EloToolConfigXmlUtils();
-//         var eloConfigs = eloToolConfigXmlUtils.eloToolConfigsFromXml(xml);
-//         if (eloConfigs == null) {
-//            errors = "The xml is not valid for elo tool configurations";
-//         }
+         def eloToolConfigXmlUtils = new EloToolConfigXmlUtils();
+         var eloConfigs = eloToolConfigXmlUtils.eloToolConfigsFromXml(xml);
+         if (eloConfigs == null) {
+            errors = "The xml is not valid for elo tool configurations";
+         }
       }
       errors
    }

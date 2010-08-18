@@ -6,19 +6,13 @@
 package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
-import eu.scy.client.desktop.scydesktop.config.BasicEloConfig;
-import eu.scy.client.desktop.scydesktop.config.BasicLas;
 import eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor;
 import eu.scy.client.desktop.scydesktop.config.BasicMissionMap;
 import eu.scy.client.desktop.scydesktop.config.DisplayNames;
-import eu.scy.client.desktop.scydesktop.config.NewEloDescription;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import roolo.api.IRepository;
@@ -31,9 +25,7 @@ import roolo.elo.api.IMetadata;
 public class BasicMissionConfigInput implements MissionConfigInput {
    private static final Logger logger = Logger.getLogger(BasicConfig.class);
    private IRepository repository;
-   private List<BasicEloConfig> eloConfigList;
-   private Map<String, BasicEloConfig> eloConfigs;
-   private List<NewEloDescription> newEloDescriptions;
+   private List<EloToolConfig> eloToolConfigList;
    private BasicMissionMap basicMissionMap;
    private List<BasicMissionAnchor> basicMissionAnchors;
    private List<URI> templateEloUris;
@@ -43,18 +35,6 @@ public class BasicMissionConfigInput implements MissionConfigInput {
    public void parseEloConfigs(IRepository repository)
    {
       this.repository = repository;
-      eloConfigs = new HashMap<String, BasicEloConfig>();
-      List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
-      for (BasicEloConfig basicEloConfig : eloConfigList)
-      {
-         basicEloConfig.checkTypeNames(logicalTypeDisplayNames, functionalTypeDisplayNames);
-         eloConfigs.put(basicEloConfig.getType(), basicEloConfig);
-         if (basicEloConfig.isCreatable())
-         {
-            realNewDescriptions.add(new NewEloDescription(basicEloConfig.getType(), basicEloConfig.getDisplay()));
-         }
-      }
-      newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
       if (templateEloUris == null)
       {
          templateEloUris = new ArrayList<URI>();
@@ -75,15 +55,15 @@ public class BasicMissionConfigInput implements MissionConfigInput {
       templateEloUris.addAll(templateEloUriSet);
    }
 
-   public void setEloConfigs(List<BasicEloConfig> eloConfigList)
+   public void setEloToolConfigs(List<EloToolConfig> eloConfigList)
    {
-      this.eloConfigList = eloConfigList;
+      this.eloToolConfigList = eloConfigList;
    }
 
    @Override
-   public List<NewEloDescription> getNewEloDescriptions()
+   public List<EloToolConfig> getEloToolConfigs()
    {
-      return newEloDescriptions;
+      return eloToolConfigList;
    }
 
    public void setBasicMissionAnchors(List<BasicMissionAnchor> basicMissionAnchors)
@@ -116,47 +96,6 @@ public class BasicMissionConfigInput implements MissionConfigInput {
          }
       }
       return basicMissionAnchorList;
-   }
-
-   @Override
-   public List<URI> getAllMissionEloUris()
-   {
-      List<URI> allMissionEloUris = new ArrayList<URI>();
-      if (basicMissionMap != null)
-      {
-         Set<URI> allMissionEloUriSet = new HashSet<URI>();
-         addListToSet(basicMissionMap.getLoEloUris(), allMissionEloUriSet);
-         Set<String> anchorIdSet = new HashSet<String>();
-         for (BasicLas basicLas : basicMissionMap.getLasses())
-         {
-            addListToSet(basicLas.getLoEloUris(), allMissionEloUriSet);
-            anchorIdSet.add(basicLas.getAnchorEloId());
-            if (basicLas.getIntermediateEloIds() != null)
-            {
-               anchorIdSet.addAll(basicLas.getIntermediateEloIds());
-            }
-         }
-         for (BasicMissionAnchor missionAnchor : basicMissionAnchors)
-         {
-            if (missionAnchor.getUri() != null)
-            {
-               allMissionEloUriSet.add(missionAnchor.getUri());
-            }
-            addListToSet(missionAnchor.getLoEloUris(), allMissionEloUriSet);
-         }
-         allMissionEloUris.addAll(allMissionEloUriSet);
-         Collections.sort(allMissionEloUris);
-      }
-      return allMissionEloUris;
-   }
-
-   private void addListToSet(List<URI> uris, Set<URI> uriSet)
-   {
-
-      if (uris != null)
-      {
-         uriSet.addAll(uris);
-      }
    }
 
    public void setTemplateEloUris(List<URI> templateEloUris)
