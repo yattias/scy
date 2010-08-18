@@ -122,6 +122,13 @@ public class StudentPlanningController {
         //this.dumpStudentPlan(studentPlanELO);
     }
 
+
+    public void updateCurrenteELOWithContent(String xmlContent) {
+        this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
+        this.elo.getContent().setXmlString(xmlContent);
+        getToolbrokerApi().getRepository().updateELO(this.elo);
+    }
+
     public Icon getBuddyImageIcon(String nickName) {
 
         if (nickName == null)
@@ -249,16 +256,22 @@ public class StudentPlanningController {
     }
 
     public void collapseAllExcept(String name) {
-        for (JXTaskPane tpane : taskPanes) {
-            JXEntryPanel entryPanel = (JXEntryPanel) tpane.getParent();
-            if (!tpane.getName().equals(name)) {
-                tpane.setCollapsed(true);
-                entryPanel.setBackgroundOff();
-            } else {
-                entryPanel.setBackgroundOn();
-            }
+        System.out.println("COLLAPSING ALL EXCEPT: " + name);
+        if (name != null) {
+            for (JXTaskPane tpane : taskPanes) {
+                JXEntryPanel entryPanel = (JXEntryPanel) tpane.getParent();
+                if (!name.equals(tpane.getName())) {
+                    tpane.setCollapsed(true);
+                    entryPanel.setBackgroundOff();
+                } else {
+                    entryPanel.setBackgroundOn();
+                }
 
+            }
+        } else {
+            System.out.println("NAME WAS NULL, DID NOTHING");
         }
+
     }
 
 
@@ -322,6 +335,7 @@ public class StudentPlanningController {
     public void saveStudentActivity(StudentPlannedActivity studenPlannedActivity) {
 
         try {
+            updateCurrenteELOWithContent(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
             this.getStudentPlanService().save((ScyBaseObject) studenPlannedActivity);
         } catch (Exception e) {
             log.severe(e.getMessage());
@@ -392,9 +406,11 @@ public class StudentPlanningController {
             try {
                 if (getStudentPlanService() == null) System.out.println("STUDENTPLAN SERVICE IS NULL!!");
                 spa = this.getStudentPlanService().getStudentPlannedActivity(getUserName(), eloId, id);
-                elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
-                elo.getContent().setXmlString(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
-                getToolbrokerApi().getRepository().updateELO(elo);
+                /*this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
+                this.elo.getContent().setXmlString(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
+                getToolbrokerApi().getRepository().updateELO(this.elo);*/
+                updateCurrenteELOWithContent(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
+
 
             } catch (Exception e) {
                 e.printStackTrace();
