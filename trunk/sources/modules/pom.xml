@@ -6,7 +6,7 @@
     <groupId>eu.scy</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>21-SNAPSHOT</version>
+    <version>23-SNAPSHOT</version>
     <name>scy</name>
     <url>http://www.scy-lab.eu</url>
 
