@@ -62,7 +62,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
     @Override
     public void save(ScyBaseObject scyBase) {
         //wee wee - save me to roolo please
-        System.out.println("SAVING: " + scyBase);
+        System.out.println("SAVING: " + scyBase + " " + scyBase.getClass().getName());
     }
 
     @Override
@@ -116,7 +116,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
             List activities = elo.getStudentPlannedActivities();
             for (int i = 0; i < activities.size(); i++) {
                 StudentPlannedActivity activity = (StudentPlannedActivity) activities.get(i);
-                if(activity.getId().equals(achorELOId)) {
+                if(activity != null && activity.getId().equals(achorELOId)) {
                     System.out.println("Found existing activity: " + activity);
                     return activity;
                 }
@@ -135,7 +135,8 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
         getCurrentStudentPlanELO().getStudentPlannedActivities().add(studentPlannedActivity);
 
         AnchorELO anchorELO = new AnchorELOImpl();
-        anchorELO.setId("a-" + anchorELOIde);
+        anchorELO.setId(anchorELOIde);
+        anchorELO.setName("ANCHOR: " + studentPlannedActivity.getName());
         studentPlannedActivity.setAssoicatedELO(anchorELO);
 
         return studentPlannedActivity;
