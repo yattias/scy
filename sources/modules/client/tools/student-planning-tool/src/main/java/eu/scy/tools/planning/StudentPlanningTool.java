@@ -716,8 +716,11 @@ public class StudentPlanningTool {
 
 					@Override
 					public void run() {
-						studentPlanningController.saveStudentActivity(stp);
+						System.out.println("updating " + stp.getName() + " " + stp.getId());
+                        studentPlanningController.saveStudentActivity(stp);
 						messageLabel.setText(Messages.getString("StudentPlanningTool.3")); //$NON-NLS-1$
+                        getStudentPlanningController().updateCurrenteELOWithContent();
+
 					}
 				});
 

@@ -123,8 +123,26 @@ public class StudentPlanningController {
     }
 
 
-    public void updateCurrenteELOWithContent(String xmlContent) {
-        this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
+    public void updateCurrenteELOWithContent() {
+
+        String xmlContent = StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO());
+
+        List elos = getToolbrokerApi().getRepository().retrieveELOAllVersions(elo.getUri());
+
+        //REALLY BIG HACK:
+
+        for (int i = 0; i < elos.size(); i++) {
+            IELO ielo = (IELO) elos.get(i);
+            this.elo = ielo;
+
+            System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
+            System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
+            System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
+
+        }
+
+        //this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
+        System.out.println("ELO URI: " + elo.getUri());
         this.elo.getContent().setXmlString(xmlContent);
         getToolbrokerApi().getRepository().updateELO(this.elo);
     }
@@ -335,8 +353,8 @@ public class StudentPlanningController {
     public void saveStudentActivity(StudentPlannedActivity studenPlannedActivity) {
 
         try {
-            updateCurrenteELOWithContent(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
             this.getStudentPlanService().save((ScyBaseObject) studenPlannedActivity);
+            updateCurrenteELOWithContent();
         } catch (Exception e) {
             log.severe(e.getMessage());
         }
@@ -364,6 +382,7 @@ public class StudentPlanningController {
                 log.severe("Adding MEMBER TO STUDENT ACTIVITY " + nickName + " " + studentPlannedActivity);
                 try {
                     getStudentPlanService().addMember(studentPlannedActivity, nickName);
+                    updateCurrenteELOWithContent();
                 } catch (Exception e) {
                     log.severe(e.getMessage());
                 }
@@ -409,7 +428,7 @@ public class StudentPlanningController {
                 /*this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
                 this.elo.getContent().setXmlString(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
                 getToolbrokerApi().getRepository().updateELO(this.elo);*/
-                updateCurrenteELOWithContent(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));
+                updateCurrenteELOWithContent();
 
 
             } catch (Exception e) {
