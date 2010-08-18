@@ -127,9 +127,13 @@ function createStringListXml(tagName:String ,strings:String[] ):Element{
 }
 
 public function convertToMissionModel(xml: String): MissionModelFX {
+   var root = jdomStringConversion.stringToXml(xml);
+   if (root==null or not missionModelName.equals(root.getName())){
+      return null;
+   }
+
    var missionModel = MissionModelFX {
            };
-   var root = jdomStringConversion.stringToXml(xml);
    missionModel.id = root.getChildTextTrim(idName);
    missionModel.name = root.getChildTextTrim(nameName);
    missionModel.loEloUris = createEloUriList(root.getChild(loElosName));

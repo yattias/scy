@@ -21,6 +21,18 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/missionmapmodel</value>
+               </key>
+               <value>.scymissionmapmodel</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/elotoolconfiguration</value>
+               </key>
+               <value>.scyelotoolconfiguration</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>

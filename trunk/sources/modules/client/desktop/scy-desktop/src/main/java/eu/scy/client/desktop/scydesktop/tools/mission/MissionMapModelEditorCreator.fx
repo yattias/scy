@@ -11,11 +11,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 /**
  * @author SikkenJ
  */
-// place your code here
-public class MissionSpecificationCreator extends ScyToolCreatorFX {
+public class MissionMapModelEditorCreator extends ScyToolCreatorFX {
 
    override public function createScyToolNode(eloType: String, creatorId: String, window: ScyWindow, windowContent: Boolean): Node {
-      MissionSpecificationEditor {
+      MissionMapModelEditor {
          window: window
       }
 
