@@ -152,13 +152,7 @@ public class SearchElos extends ModalDialogNode {
         text: ""
     }
     
-    init {
-    }
-    
     public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
-        names: [ ]
-        timelines: [
-        ]
     }
     
     public function getDesignRootNodes (): javafx.scene.Node[] {
@@ -182,6 +176,9 @@ public class SearchElos extends ModalDialogNode {
 
    function resultsListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
       openButton.disable = resultsListView.selectedIndex < 0;
+      if (event.clickCount==2 and resultsListView.selectedIndex>=0 ){
+         openButtonAction();
+      }
    }
 
    function searchButtonAction(): Void {
@@ -190,6 +187,9 @@ public class SearchElos extends ModalDialogNode {
 
    function typesListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
       allTypesCheckBox.selected = false;
+      if (event.clickCount==2){
+         searchButtonAction();
+      }
    }
 
    function onlyMineCheckBoxOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
