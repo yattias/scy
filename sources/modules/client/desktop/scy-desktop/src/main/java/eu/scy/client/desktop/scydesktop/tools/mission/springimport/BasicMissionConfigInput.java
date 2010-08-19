@@ -29,8 +29,6 @@ public class BasicMissionConfigInput implements MissionConfigInput {
    private BasicMissionMap basicMissionMap;
    private List<BasicMissionAnchor> basicMissionAnchors;
    private List<URI> templateEloUris;
-   private DisplayNames logicalTypeDisplayNames;
-   private DisplayNames functionalTypeDisplayNames;
 
    public void parseEloConfigs(IRepository repository)
    {
@@ -107,28 +105,6 @@ public class BasicMissionConfigInput implements MissionConfigInput {
    public List<URI> getTemplateEloUris()
    {
       return templateEloUris;
-   }
-
-   @Override
-   public DisplayNames getFunctionalTypeDisplayNames()
-   {
-      return functionalTypeDisplayNames;
-   }
-
-   public void setFunctionalTypeDisplayNames(DisplayNames functionalTypeDisplayNames)
-   {
-      this.functionalTypeDisplayNames = functionalTypeDisplayNames;
-   }
-
-   @Override
-   public DisplayNames getLogicalTypeDisplayNames()
-   {
-      return logicalTypeDisplayNames;
-   }
-
-   public void setLogicalTypeDisplayNames(DisplayNames logicalTypeDisplayNames)
-   {
-      this.logicalTypeDisplayNames = logicalTypeDisplayNames;
    }
 
    @Override

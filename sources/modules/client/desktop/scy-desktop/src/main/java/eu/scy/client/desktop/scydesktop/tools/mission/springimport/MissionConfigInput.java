@@ -7,8 +7,6 @@ package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
 import eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor;
 import eu.scy.client.desktop.scydesktop.config.BasicMissionMap;
-import eu.scy.client.desktop.scydesktop.config.DisplayNames;
-import eu.scy.client.desktop.scydesktop.config.NewEloDescription;
 import java.net.URI;
 import java.util.List;
 
@@ -24,8 +22,4 @@ public interface MissionConfigInput {
    public List<EloToolConfig> getEloToolConfigs();
 
    public List<URI> getTemplateEloUris();
-
-   public DisplayNames getLogicalTypeDisplayNames();
-   public DisplayNames getFunctionalTypeDisplayNames();
-
 }
