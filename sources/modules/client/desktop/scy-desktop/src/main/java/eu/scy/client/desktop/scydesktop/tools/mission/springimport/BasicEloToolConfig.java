@@ -6,7 +6,7 @@
 package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloLogicalRole;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomCoversionUtils;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomConversionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -226,7 +226,7 @@ public class BasicEloToolConfig implements EloToolConfig {
 
    public void setEloLogicalRoleValues(List<String> eloLogicalRoles)
    {
-      this.eloLogicalRoles = JDomCoversionUtils.convertToEnums(EloLogicalRole.class, eloLogicalRoles);
+      this.eloLogicalRoles = JDomConversionUtils.convertToEnums(EloLogicalRole.class, eloLogicalRoles);
    }
 
    @Override
@@ -242,7 +242,7 @@ public class BasicEloToolConfig implements EloToolConfig {
 
    public void setEloFunctionalRoleValues(List<String> eloFunctionalRoles)
    {
-      this.eloFunctionalRoles = JDomCoversionUtils.convertToEnums(EloFunctionalRole.class, eloFunctionalRoles);
+      this.eloFunctionalRoles = JDomConversionUtils.convertToEnums(EloFunctionalRole.class, eloFunctionalRoles);
    }
 
 }

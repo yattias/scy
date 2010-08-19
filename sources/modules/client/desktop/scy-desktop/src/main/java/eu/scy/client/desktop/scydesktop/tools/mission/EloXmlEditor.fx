@@ -50,8 +50,8 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    public override var width on replace { sizeChanged() };
    public override var height on replace { sizeChanged() };
    protected var elo: IELO;
-   var technicalFormatKey: IMetadataKey;
-   var titleKey: IMetadataKey;
+   protected var technicalFormatKey: IMetadataKey;
+   protected var titleKey: IMetadataKey;
    protected def textBox: TextBox = TextBox {
          multiline: true
          editable: true
