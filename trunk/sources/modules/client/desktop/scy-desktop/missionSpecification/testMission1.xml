@@ -5,13 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-   <import resource="logicalAndFunctionalTypes.xml"/>
-
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
-
-      <property name="logicalTypeDisplayNames" ref="logicalTypeDisplayNames"/>
-
-      <property name="functionalTypeDisplayNames" ref="functionalTypeDisplayNames"/>
 
       <property name="eloToolConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloToolConfig">
@@ -41,19 +35,19 @@
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
-               <property name="logicalTypeNames">
+               <property name="eloLogicalRoleValues">
                   <list>
-                     <value>structuredText</value>
-                     <value>richText</value>
+                     <value>structured_Text</value>
+                     <value>rich_Text</value>
                      <value>presentation</value>
                   </list>
                </property>
-               <property name="functionalTypeNames">
+               <property name="eloFunctionalRoleValues">
                   <list>
                      <value>hypothesis</value>
-                     <value>documentDesign</value>
-                     <value>reportEvaluation</value>
-                     <value>reportFinal</value>
+                     <value>document_Design</value>
+                     <value>report_Evaluation</value>
+                     <value>report_Final</value>
                   </list>
                </property>
             </bean>
@@ -65,18 +59,21 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicEloToolConfig">
                <property name="eloType" value="scy/image"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
                <property name="contentCreatorId" value="image"/>
                <property name="topDrawerCreatorId" value="xmlViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicEloToolConfig">
                <property name="eloType" value="scy/speedTest"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
                <property name="contentCreatorId" value="speedTestPanel"/>
                <property name="topDrawerCreatorId" value="xmlViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicEloToolConfig">
                <property name="eloType" value="scy/missionspecification"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
                <property name="contentCreatorId" value="missionSpecification"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
