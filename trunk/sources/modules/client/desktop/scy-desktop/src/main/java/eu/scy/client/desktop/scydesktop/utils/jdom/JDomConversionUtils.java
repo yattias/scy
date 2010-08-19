@@ -12,10 +12,10 @@ import org.jdom.Element;
  *
  * @author SikkenJ
  */
-public class JDomCoversionUtils
+public class JDomConversionUtils
 {
 
-   private JDomCoversionUtils()
+   private JDomConversionUtils()
    {
    }
 
@@ -40,7 +40,7 @@ public class JDomCoversionUtils
       {
          for (T value : values)
          {
-            element.addContent(createElement(tag, (value==null) ? "" : value.toString()));
+            element.addContent(createElement(tag, (value == null) ? "" : value.toString()));
          }
       }
       return element;
@@ -74,22 +74,28 @@ public class JDomCoversionUtils
    public static <T extends Enum<T>> List<T> getEnumListValue(Class<T> enumType, Element element, String childName, String tagName)
    {
       List<String> strings = new ArrayList<String>();
-      @SuppressWarnings("unchecked")
-      List<Element> stringChildren = element.getChildren(childName);
-      if (stringChildren != null)
+      Element listRoot = element.getChild(childName);
+      if (listRoot != null)
       {
-         for (Element stringChild : stringChildren)
+         @SuppressWarnings("unchecked")
+         List<Element> stringChildren = listRoot.getChildren(tagName);
+         if (stringChildren != null)
          {
-            strings.add(stringChild.getTextTrim());
+            for (Element stringChild : stringChildren)
+            {
+               strings.add(stringChild.getTextTrim());
+            }
          }
       }
-      return convertToEnums(enumType,strings);
+      return convertToEnums(enumType, strings);
    }
 
-   public static <T extends Enum<T>> List<T> convertToEnums(Class<T> enumType,List<String> values){
+   public static <T extends Enum<T>> List<T> convertToEnums(Class<T> enumType, List<String> values)
+   {
       List<T> eloFunctionalRoles = new ArrayList<T>();
-      for (String value : values){
-         eloFunctionalRoles.add(Enum.valueOf(enumType,value.toUpperCase()));
+      for (String value : values)
+      {
+         eloFunctionalRoles.add(Enum.valueOf(enumType, value.toUpperCase()));
       }
       return eloFunctionalRoles;
    }

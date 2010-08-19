@@ -37,8 +37,7 @@ public class SpringConfigFileImporter {
       missionConfigInput = readSpringConfig();
       def missionModel = retrieveMissionModelFromConfig();
       missionMapXml = MissionModelXml.convertToXml(missionModel);
-      var eloToolConfigXmlUtils = new EloToolConfigXmlUtils();
-      eloToolConfigsXml = eloToolConfigXmlUtils.eloToolConfigsToXml(missionConfigInput.getEloToolConfigs());
+      eloToolConfigsXml = EloToolConfigXmlUtils.eloToolConfigsToXml(missionConfigInput.getEloToolConfigs());
    }
 
    function readSpringConfig(): MissionConfigInput {

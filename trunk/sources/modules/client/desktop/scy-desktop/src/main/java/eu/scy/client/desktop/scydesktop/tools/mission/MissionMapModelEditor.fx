@@ -13,10 +13,13 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 /**
  * @author SikkenJ
  */
+
+public def eloType = "scy/missionmapmodel";
+
 public class MissionMapModelEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      "scy/missionmapmodel"
+      eloType
    }
 
    override protected function doImport(): Void {
@@ -25,7 +28,6 @@ public class MissionMapModelEditor extends EloXmlEditor {
       fileChooser.setFileFilter(new ExampleFileFilter("xml", "Spring mission specification"));
       if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getParentComponent())) {
          //getting the file from the fileChooser
-         //lastUsedDirectory = fileChooser.getCurrentDirectory();
          lastUsedDirectory = fileChooser.getCurrentDirectory();
          var springConfigFileImporter = SpringConfigFileImporter {
                file: fileChooser.getSelectedFile().getAbsolutePath()

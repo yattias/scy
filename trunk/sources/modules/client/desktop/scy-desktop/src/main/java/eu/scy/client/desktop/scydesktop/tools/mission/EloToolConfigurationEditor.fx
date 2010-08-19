@@ -13,10 +13,13 @@ import eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloToolConfig
 /**
  * @author SikkenJ
  */
+
+public def eloType = "scy/elotoolconfiguration";
+
 public class EloToolConfigurationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      "scy/elotoolconfiguration"
+      eloType
    }
 
    override protected function doImport(): Void {
@@ -37,8 +40,7 @@ public class EloToolConfigurationEditor extends EloXmlEditor {
    override protected function validateXml(xml: String): String {
       var errors = super.validateXml(xml);
       if (errors == null) {
-         def eloToolConfigXmlUtils = new EloToolConfigXmlUtils();
-         var eloConfigs = eloToolConfigXmlUtils.eloToolConfigsFromXml(xml);
+         def eloConfigs = EloToolConfigXmlUtils.eloToolConfigsFromXml(xml);
          if (eloConfigs == null) {
             errors = "The xml is not valid for elo tool configurations";
          }

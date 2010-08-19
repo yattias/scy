@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomCoversionUtils;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomConversionUtils;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,41 +35,44 @@ public class EloToolConfigXmlUtils
    private static final String eloLogicalRoleName = "eloLogicalRole";
    private static final String eloFunctionalRolesName = "eloFunctionalRoles";
    private static final String eloFunctionalRoleName = "eloFunctionalRole";
-   private JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
-   public String eloToolConfigsToXml(List<EloToolConfig> eloToolConfigs)
+   private EloToolConfigXmlUtils()
+   {
+   }
+
+   public static String eloToolConfigsToXml(List<EloToolConfig> eloToolConfigs)
    {
       Element root = new Element(eloToolConfigsName);
       for (EloToolConfig eloToolConfig : eloToolConfigs)
       {
          root.addContent(createEloToolConfigXml(eloToolConfig));
       }
-      return jdomStringConversion.xmlToString(root);
+      return new JDomStringConversion().xmlToString(root);
    }
 
-   private Element createEloToolConfigXml(EloToolConfig eloToolConfig)
+   private static Element createEloToolConfigXml(EloToolConfig eloToolConfig)
    {
       Element element = new Element(eloToolConfigName);
-      element.addContent(JDomCoversionUtils.createElement(eloTypeName, eloToolConfig.getEloType()));
-      element.addContent(JDomCoversionUtils.createElement(eloSystemRoleName, eloToolConfig.getEloSystemRole().toString()));
-      element.addContent(JDomCoversionUtils.createElement(contentCreatorIdName, eloToolConfig.getContentCreatorId()));
-      element.addContent(JDomCoversionUtils.createElement(topDrawerCreatorIdName, eloToolConfig.getTopDrawerCreatorId()));
-      element.addContent(JDomCoversionUtils.createElement(rightDrawerCreatorIdName, eloToolConfig.getRightDrawerCreatorId()));
-      element.addContent(JDomCoversionUtils.createElement(bottomDrawerCreatorIdName, eloToolConfig.getBottomDrawerCreatorId()));
-      element.addContent(JDomCoversionUtils.createElement(leftDrawerCreatorIdName, eloToolConfig.getLeftDrawerCreatorId()));
-      element.addContent(JDomCoversionUtils.createElement(isContentCollaborationName, eloToolConfig.isContentCollaboration()));
-      element.addContent(JDomCoversionUtils.createElement(isTopDrawerCollaborationName, eloToolConfig.isTopDrawerCollaboration()));
-      element.addContent(JDomCoversionUtils.createElement(isRightDrawerCollaborationName, eloToolConfig.isRightDrawerCollaboration()));
-      element.addContent(JDomCoversionUtils.createElement(isBottomDrawerCollaborationName, eloToolConfig.isBottomDrawerCollaboration()));
-      element.addContent(JDomCoversionUtils.createElement(isLeftDrawerCollaborationName, eloToolConfig.isLeftDrawerCollaboration()));
-      element.addContent(JDomCoversionUtils.createElement(eloLogicalRolesName, eloLogicalRoleName, eloToolConfig.getEloLogicalRoles()));
-      element.addContent(JDomCoversionUtils.createElement(eloFunctionalRolesName, eloFunctionalRoleName, eloToolConfig.getEloLogicalRoles()));
+      element.addContent(JDomConversionUtils.createElement(eloTypeName, eloToolConfig.getEloType()));
+      element.addContent(JDomConversionUtils.createElement(eloSystemRoleName, eloToolConfig.getEloSystemRole().toString()));
+      element.addContent(JDomConversionUtils.createElement(contentCreatorIdName, eloToolConfig.getContentCreatorId()));
+      element.addContent(JDomConversionUtils.createElement(topDrawerCreatorIdName, eloToolConfig.getTopDrawerCreatorId()));
+      element.addContent(JDomConversionUtils.createElement(rightDrawerCreatorIdName, eloToolConfig.getRightDrawerCreatorId()));
+      element.addContent(JDomConversionUtils.createElement(bottomDrawerCreatorIdName, eloToolConfig.getBottomDrawerCreatorId()));
+      element.addContent(JDomConversionUtils.createElement(leftDrawerCreatorIdName, eloToolConfig.getLeftDrawerCreatorId()));
+      element.addContent(JDomConversionUtils.createElement(isContentCollaborationName, eloToolConfig.isContentCollaboration()));
+      element.addContent(JDomConversionUtils.createElement(isTopDrawerCollaborationName, eloToolConfig.isTopDrawerCollaboration()));
+      element.addContent(JDomConversionUtils.createElement(isRightDrawerCollaborationName, eloToolConfig.isRightDrawerCollaboration()));
+      element.addContent(JDomConversionUtils.createElement(isBottomDrawerCollaborationName, eloToolConfig.isBottomDrawerCollaboration()));
+      element.addContent(JDomConversionUtils.createElement(isLeftDrawerCollaborationName, eloToolConfig.isLeftDrawerCollaboration()));
+      element.addContent(JDomConversionUtils.createElement(eloLogicalRolesName, eloLogicalRoleName, eloToolConfig.getEloLogicalRoles()));
+      element.addContent(JDomConversionUtils.createElement(eloFunctionalRolesName, eloFunctionalRoleName, eloToolConfig.getEloFunctionalRoles()));
       return element;
    }
 
-   public List<EloToolConfig> eloToolConfigsFromXml(String xml){
+   public static List<EloToolConfig> eloToolConfigsFromXml(String xml){
       List<EloToolConfig> eloToolConfigs = new ArrayList<EloToolConfig>();
-      Element root = jdomStringConversion.stringToXml(xml);
+      Element root = new JDomStringConversion().stringToXml(xml);
       if (root==null || !eloToolConfigsName.equals(root.getName())){
          return null;
       }
@@ -83,23 +86,23 @@ public class EloToolConfigXmlUtils
       return eloToolConfigs;
    }
 
-   private EloToolConfig createEloToolConfig(Element eloToolConfigChild)
+   private static EloToolConfig createEloToolConfig(Element eloToolConfigChild)
    {
       BasicEloToolConfig eloToolConfig = new BasicEloToolConfig();
       eloToolConfig.setEloType(eloToolConfigChild.getChildTextTrim(eloTypeName));
-      eloToolConfig.setEloSystemRole(EloSystemRole.valueOf(eloToolConfigChild.getChildTextTrim(eloTypeName)));
+      eloToolConfig.setEloSystemRole(EloSystemRole.valueOf(eloToolConfigChild.getChildTextTrim(eloSystemRoleName)));
       eloToolConfig.setContentCreatorId(eloToolConfigChild.getChildTextTrim(contentCreatorIdName));
       eloToolConfig.setTopDrawerCreatorId(eloToolConfigChild.getChildTextTrim(topDrawerCreatorIdName));
       eloToolConfig.setRightDrawerCreatorId(eloToolConfigChild.getChildTextTrim(rightDrawerCreatorIdName));
       eloToolConfig.setBottomDrawerCreatorId(eloToolConfigChild.getChildTextTrim(bottomDrawerCreatorIdName));
       eloToolConfig.setLeftDrawerCreatorId(eloToolConfigChild.getChildTextTrim(leftDrawerCreatorIdName));
-      eloToolConfig.setContentCollaboration(JDomCoversionUtils.getBooleanValue(eloToolConfigChild,isContentCollaborationName));
-      eloToolConfig.setTopDrawerCollaboration(JDomCoversionUtils.getBooleanValue(eloToolConfigChild,isTopDrawerCollaborationName));
-      eloToolConfig.setRightDrawerCollaboration(JDomCoversionUtils.getBooleanValue(eloToolConfigChild,isRightDrawerCollaborationName));
-      eloToolConfig.setBottomDrawerCollaboration(JDomCoversionUtils.getBooleanValue(eloToolConfigChild,isBottomDrawerCollaborationName));
-      eloToolConfig.setLeftDrawerCollaboration(JDomCoversionUtils.getBooleanValue(eloToolConfigChild,isLeftDrawerCollaborationName));
-      eloToolConfig.setEloLogicalRoles(JDomCoversionUtils.getEnumListValue(EloLogicalRole.class ,eloToolConfigChild,eloLogicalRolesName,eloLogicalRoleName));
-      eloToolConfig.setEloFunctionalRoles(JDomCoversionUtils.getEnumListValue(EloFunctionalRole.class ,eloToolConfigChild,eloFunctionalRolesName, eloFunctionalRoleName));
+      eloToolConfig.setContentCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isContentCollaborationName));
+      eloToolConfig.setTopDrawerCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isTopDrawerCollaborationName));
+      eloToolConfig.setRightDrawerCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isRightDrawerCollaborationName));
+      eloToolConfig.setBottomDrawerCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isBottomDrawerCollaborationName));
+      eloToolConfig.setLeftDrawerCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isLeftDrawerCollaborationName));
+      eloToolConfig.setEloLogicalRoles(JDomConversionUtils.getEnumListValue(EloLogicalRole.class ,eloToolConfigChild,eloLogicalRolesName,eloLogicalRoleName));
+      eloToolConfig.setEloFunctionalRoles(JDomConversionUtils.getEnumListValue(EloFunctionalRole.class ,eloToolConfigChild,eloFunctionalRolesName, eloFunctionalRoleName));
       return eloToolConfig;
    }
 }
