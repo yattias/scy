@@ -61,13 +61,7 @@ public class CreateNewElo extends ModalDialogNode {
         action: createButtonAction
     }
     
-    init {
-    }
-    
     public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
-        names: [ ]
-        timelines: [
-        ]
     }
     
     public function getDesignRootNodes (): javafx.scene.Node[] {
@@ -95,6 +89,10 @@ public class CreateNewElo extends ModalDialogNode {
 
    function listViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
       createButton.disable = listView.selectedIndex < 0;
+      if (event.clickCount==2 and listView.selectedIndex>=0 ){
+         createButtonAction();
+      }
+
    }
 
    function createButtonAction(): Void {

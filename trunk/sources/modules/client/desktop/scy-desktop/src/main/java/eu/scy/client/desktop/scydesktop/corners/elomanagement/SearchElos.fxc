@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Model modelID="fxc" modelVersion="56" rootInstance="DesignModel1" version="1">
+<Model modelID="fxc" modelVersion="69" rootInstance="DesignModel1" version="1">
     <Instance classID="DesignModel" instanceID="DesignModel1">
         <List name="stateVariables">
             <Item value="inst:StateVariableModel1"/>
@@ -7,6 +7,7 @@
         <List name="resources"/>
         <List name="dataSources"/>
         <List name="templates"/>
+        <List name="customClasses"/>
         <Reference name="scene" value="inst:SceneModel1"/>
         <Reference name="designWidth" value="flt:480.0"/>
         <Reference name="designHeight" value="flt:320.0"/>
@@ -18,8 +19,10 @@
         <List name="states"/>
         <Reference name="startState" value="null"/>
         <Reference name="stateChangeType" value="statechange:PAUSE_AND_PLAY_FROM_START"/>
+        <Reference name="doNotAnimateOnce" value="bool:true"/>
         <Reference name="defaultInterpolator" value="interpolator:DISCRETE"/>
         <Reference name="defaultDuration" value="int:0"/>
+        <Reference name="onTransitionFinished" value="null"/>
     </Instance>
     <Instance classID="SceneModel" instanceID="SceneModel1">
         <Reference name="instanceName" value="str:scene"/>
@@ -45,12 +48,18 @@
         <Reference name="width" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:508.0,4,null,"/>
         <Reference name="height" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:293.0,4,null,"/>
         <Reference name="generateSceneInstance" value="bool:false"/>
+        <Reference name="generateGetDesignSceneFunction" value="bool:true"/>
+        <Reference name="generateLayoutXYForRootLevelComponents" value="bool:true"/>
     </Instance>
     <Instance classID="LabelModel" instanceID="LabelModel1">
         <Reference name="instanceName" value="str:label"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,19,anim:,,str:##Query:,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -59,7 +68,11 @@
         <Reference name="instanceName" value="str:label2"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:125.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,str:##All,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -68,8 +81,12 @@
         <Reference name="instanceName" value="str:allTypesCheckBox"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:158.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:-1.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="onMouseClicked" value="prop2:7,NOT_SET,4,null,4,null,41,anim:,,str:allTypesCheckBoxOnMouseClicked,4,null,"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,str:,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -81,15 +98,23 @@
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:28.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:150.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:93.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="onMouseClicked" value="prop2:7,NOT_SET,4,null,4,null,38,anim:,,str:typesListViewOnMouseClicked,4,null,"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
     </Instance>
     <Instance classID="LabelModel" instanceID="LabelModel3">
         <Reference name="instanceName" value="str:label3"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:240.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,18,anim:,,str:##Title,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -100,7 +125,11 @@
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:28.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:169.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:24.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
     </Instance>
     <Instance classID="CheckBoxModel" instanceID="CheckBoxModel2">
@@ -109,8 +138,12 @@
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:102.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:17.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:17.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="onMouseClicked" value="prop2:7,NOT_SET,4,null,4,null,41,anim:,,str:onlyMineCheckBoxOnMouseClicked,4,null,"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,str:,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -121,7 +154,11 @@
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:80.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:49.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:22.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,19,anim:,,str:##Author,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -130,7 +167,11 @@
         <Reference name="instanceName" value="str:line"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:137.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="stroke" value="prop2:7,NOT_SET,4,null,4,null,45,animcode:,,javafx.scene.paint.Color.LIGHTBLUE,4,null,"/>
         <Reference name="strokeWidth" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:2.0,4,null,"/>
         <Reference name="endX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:493.0,4,null,"/>
@@ -140,7 +181,11 @@
         <Reference name="instanceName" value="str:searchButton"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:419.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:100.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,19,anim:,,str:##Search,4,null,"/>
         <Reference name="hpos" value="prop2:7,NOT_SET,4,null,4,null,17,anim:,,hpos:RIGHT,4,null,"/>
@@ -151,7 +196,11 @@
         <Reference name="instanceName" value="str:label5"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:147.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,21,anim:,,str:##Results:,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -162,8 +211,12 @@
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:169.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:384.0,4,null,"/>
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:112.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="onMouseClicked" value="prop2:7,NOT_SET,4,null,4,null,40,anim:,,str:resultsListViewOnMouseClicked,4,null,"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
     </Instance>
     <Instance classID="ButtonModel" instanceID="ButtonModel2">
@@ -171,7 +224,11 @@
         <Reference name="disable" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,bool:true,4,null,"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:435.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:217.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,17,anim:,,str:##Open,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -181,7 +238,11 @@
         <Reference name="instanceName" value="str:cancelButton"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:426.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:259.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,19,anim:,,str:##Cancel,4,null,"/>
         <Reference name="textAlignment" value="prop2:7,NOT_SET,4,null,4,null,21,anim:,,textalign:LEFT,4,null,"/>
@@ -193,7 +254,11 @@
         <Reference name="instanceName" value="str:label6"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:240.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:102.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,str:##Me,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -202,7 +267,11 @@
         <Reference name="instanceName" value="str:label7"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:316.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:102.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,19,anim:,,str:##Others,4,null,"/>
         <Reference name="graphic" value="null"/>
@@ -211,7 +280,11 @@
         <Reference name="instanceName" value="str:othersCheckBox"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:370.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:102.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
         <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,str:,4,null,"/>
         <Reference name="graphic" value="null"/>
