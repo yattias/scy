@@ -33,14 +33,14 @@ public class JDomCoversionUtils
       return element;
    }
 
-   public static Element createElement(String tags, String tag, List<String> values)
+   public static <T extends Object> Element createElement(String tags, String tag, List<T> values)
    {
       Element element = new Element(tags);
       if (values != null)
       {
-         for (String value : values)
+         for (T value : values)
          {
-            element.addContent(createElement(tag, value));
+            element.addContent(createElement(tag, (value==null) ? "" : value.toString()));
          }
       }
       return element;
@@ -69,5 +69,28 @@ public class JDomCoversionUtils
          }
       }
       return strings;
+   }
+
+   public static <T extends Enum<T>> List<T> getEnumListValue(Class<T> enumType, Element element, String childName, String tagName)
+   {
+      List<String> strings = new ArrayList<String>();
+      @SuppressWarnings("unchecked")
+      List<Element> stringChildren = element.getChildren(childName);
+      if (stringChildren != null)
+      {
+         for (Element stringChild : stringChildren)
+         {
+            strings.add(stringChild.getTextTrim());
+         }
+      }
+      return convertToEnums(enumType,strings);
+   }
+
+   public static <T extends Enum<T>> List<T> convertToEnums(Class<T> enumType,List<String> values){
+      List<T> eloFunctionalRoles = new ArrayList<T>();
+      for (String value : values){
+         eloFunctionalRoles.add(Enum.valueOf(enumType,value.toUpperCase()));
+      }
+      return eloFunctionalRoles;
    }
 }

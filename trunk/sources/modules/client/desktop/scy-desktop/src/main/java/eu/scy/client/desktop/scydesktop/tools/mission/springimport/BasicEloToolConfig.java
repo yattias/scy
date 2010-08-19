@@ -5,7 +5,8 @@
 
 package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
-import eu.scy.client.desktop.scydesktop.config.DisplayNames;
+import eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloLogicalRole;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomCoversionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class BasicEloToolConfig implements EloToolConfig {
 
    private String eloType;
+   private EloSystemRole eloSystemRole = EloSystemRole.USER;
    private String contentCreatorId;
    private String topDrawerCreatorId;
    private String rightDrawerCreatorId;
@@ -26,8 +28,8 @@ public class BasicEloToolConfig implements EloToolConfig {
    private boolean rightDrawerCollaboration = false;
    private boolean bottomDrawerCollaboration = false;
    private boolean leftDrawerCollaboration = false;
-   private List<String> logicalTypeNames;
-   private List<String> functionalTypeNames;
+   private List<EloLogicalRole> eloLogicalRoles;
+   private List<EloFunctionalRole> eloFunctionalRoles;
 
    @Override
    public String toString()
@@ -54,13 +56,13 @@ public class BasicEloToolConfig implements EloToolConfig {
       rightDrawerCollaboration = eloToolConfig.rightDrawerCollaboration;
       bottomDrawerCollaboration = eloToolConfig.bottomDrawerCollaboration;
       leftDrawerCollaboration = eloToolConfig.leftDrawerCollaboration;
-      if (eloToolConfig.logicalTypeNames != null)
+      if (eloToolConfig.eloLogicalRoles != null)
       {
-         logicalTypeNames = new ArrayList<String>(eloToolConfig.logicalTypeNames);
+         eloLogicalRoles = new ArrayList<EloLogicalRole>(eloToolConfig.eloLogicalRoles);
       }
-      if (eloToolConfig.functionalTypeNames != null)
+      if (eloToolConfig.eloFunctionalRoles != null)
       {
-         functionalTypeNames = new ArrayList<String>(eloToolConfig.functionalTypeNames);
+         eloFunctionalRoles = new ArrayList<EloFunctionalRole>(eloToolConfig.eloFunctionalRoles);
       }
    }
 
@@ -68,45 +70,37 @@ public class BasicEloToolConfig implements EloToolConfig {
    public BasicEloToolConfig clone() throws CloneNotSupportedException
    {
       BasicEloToolConfig clone = (BasicEloToolConfig) super.clone();
-      if (logicalTypeNames != null)
+      if (eloLogicalRoles != null)
       {
-         clone.logicalTypeNames = new ArrayList<String>(logicalTypeNames);
+         clone.eloLogicalRoles = new ArrayList<EloLogicalRole>(eloLogicalRoles);
       }
-      if (functionalTypeNames != null)
+      if (eloFunctionalRoles != null)
       {
-         clone.functionalTypeNames = new ArrayList<String>(functionalTypeNames);
+         clone.eloFunctionalRoles = new ArrayList<EloFunctionalRole>(eloFunctionalRoles);
       }
       return clone;
    }
 
-   public void checkTypeNames(DisplayNames logicalTypeDisplayNames, DisplayNames functionalTypeDisplayNames)
-   {
-      checkTyleTypeNames(logicalTypeNames, logicalTypeDisplayNames, "logicalTypeNames");
-      checkTyleTypeNames(functionalTypeNames, functionalTypeDisplayNames, "functionalTypeNames");
-   }
-
-   private void checkTyleTypeNames(List<String> typeNames, DisplayNames displayNames, String label)
-   {
-      if (typeNames != null)
-      {
-         for (String typeName : typeNames)
-         {
-            if (!displayNames.typeExists(typeName))
-            {
-               throw new IllegalArgumentException("Type name defined in " + label + " in eloConfig " + eloType + " is not defined: " + typeName);
-            }
-         }
-      }
-   }
-
+   @Override
    public String getEloType()
    {
       return eloType;
    }
 
-   public void setEloType(String eloType)
+   public void setEloType(String eloSysteType)
    {
-      this.eloType = eloType;
+      this.eloType = eloSysteType;
+   }
+
+   @Override
+   public EloSystemRole getEloSystemRole()
+   {
+      return eloSystemRole;
+   }
+
+   public void setEloSystemRole(EloSystemRole eloSystemRole)
+   {
+      this.eloSystemRole = eloSystemRole;
    }
 
    @Override
@@ -220,25 +214,35 @@ public class BasicEloToolConfig implements EloToolConfig {
    }
 
    @Override
-   public List<String> getFunctionalTypeNames()
+   public List<EloLogicalRole> getEloLogicalRoles()
    {
-      return functionalTypeNames;
+      return eloLogicalRoles;
    }
 
-   public void setFunctionalTypeNames(List<String> functionalTypeNames)
+   public void setEloLogicalRoles(List<EloLogicalRole> eloLogicalRoles)
    {
-      this.functionalTypeNames = functionalTypeNames;
+      this.eloLogicalRoles = eloLogicalRoles;
+   }
+
+   public void setEloLogicalRoleValues(List<String> eloLogicalRoles)
+   {
+      this.eloLogicalRoles = JDomCoversionUtils.convertToEnums(EloLogicalRole.class, eloLogicalRoles);
    }
 
    @Override
-   public List<String> getLogicalTypeNames()
+   public List<EloFunctionalRole> getEloFunctionalRoles()
    {
-      return logicalTypeNames;
+      return eloFunctionalRoles;
    }
 
-   public void setLogicalTypeNames(List<String> logicalTypeNames)
+   public void setEloFunctionalRoles(List<EloFunctionalRole> eloFunctionalRoles)
    {
-      this.logicalTypeNames = logicalTypeNames;
+      this.eloFunctionalRoles = eloFunctionalRoles;
+   }
+
+   public void setEloFunctionalRoleValues(List<String> eloFunctionalRoles)
+   {
+      this.eloFunctionalRoles = JDomCoversionUtils.convertToEnums(EloFunctionalRole.class, eloFunctionalRoles);
    }
 
 }

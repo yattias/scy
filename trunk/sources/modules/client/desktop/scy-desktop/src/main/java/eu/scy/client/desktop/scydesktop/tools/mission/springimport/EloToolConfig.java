@@ -14,6 +14,7 @@ import java.util.List;
 public interface EloToolConfig {
 
    public String getEloType();
+   public EloSystemRole getEloSystemRole();
 
    public String getContentCreatorId();
 
@@ -28,7 +29,7 @@ public interface EloToolConfig {
    public boolean isBottomDrawerCollaboration();
    public boolean isLeftDrawerCollaboration();
 
-   public List<String> getLogicalTypeNames();
-   public List<String> getFunctionalTypeNames();
+   public List<EloLogicalRole> getEloLogicalRoles();
+   public List<EloFunctionalRole> getEloFunctionalRoles();
 }
 
