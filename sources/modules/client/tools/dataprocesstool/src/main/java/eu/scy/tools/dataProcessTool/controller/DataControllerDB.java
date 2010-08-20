@@ -294,6 +294,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         listDataset.add(dataset);
         listNoDefaultCol.add(nbCol);
         v.add(dataset.clone());
@@ -600,6 +603,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en v[0] le nouveau dataset clone
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -632,6 +638,9 @@ public class DataControllerDB implements ControllerInterface{
         dataset.addOperation(operation);
         // en v[0] le nouveau dataset clone et en v[1] le dataOperation
         cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -769,6 +778,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en v[0] : le nouveau dataset
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -870,6 +882,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en v[0] : le nouveau dataset
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
@@ -922,6 +937,9 @@ public class DataControllerDB implements ControllerInterface{
         // en v[0] : le nouveau dataset
         //System.out.println("dataset apres updateData : "+dataset.toString());
         CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -1079,6 +1097,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         return new CopexReturn();
     }
@@ -1207,6 +1228,9 @@ public class DataControllerDB implements ControllerInterface{
         CopexReturn cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
 
     }
@@ -1271,6 +1295,9 @@ public class DataControllerDB implements ControllerInterface{
         CopexReturn cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn();
@@ -1317,6 +1344,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         v.add(dataset.clone());
         listDataset.set(idDs, dataset);
         //System.out.println("dataset apres insertData : "+dataset.toString());
@@ -1346,6 +1376,9 @@ public class DataControllerDB implements ControllerInterface{
         CopexReturn cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         return new CopexReturn();
     }
@@ -1360,6 +1393,9 @@ public class DataControllerDB implements ControllerInterface{
         dataset = (Dataset)ds.clone();
         v.add(dataset.clone());
         CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -1509,6 +1545,9 @@ public class DataControllerDB implements ControllerInterface{
         CopexReturn cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         listDataset.set(idDs, dataset);
         v.add(vis.clone());
         return new CopexReturn();
@@ -1617,6 +1656,9 @@ public class DataControllerDB implements ControllerInterface{
             }
         }
         CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -1744,6 +1786,9 @@ public class DataControllerDB implements ControllerInterface{
             }
         }
         cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         v.add(dataset.clone());
@@ -1986,6 +2031,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
     }
 
@@ -2129,6 +2177,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
     }
 
@@ -2162,6 +2213,9 @@ public class DataControllerDB implements ControllerInterface{
         myOp.setListNo(operation.getListNo());
         dataset.calculateOperation();
         CopexReturn cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         v.add(dataset.clone());
@@ -2303,6 +2357,8 @@ public class DataControllerDB implements ControllerInterface{
         // deverouille les feuilles de donnnees
         unsetLockers(this.listDataset);
         this.locker.stop();
+        // unset the locker in labbook !!
+        CopexMissionFromDB.unsetLabdocLockerInDB(dbC, dbKeyLabDoc);
         return new CopexReturn();
     }
 
@@ -2385,6 +2441,12 @@ public class DataControllerDB implements ControllerInterface{
             return cr;
         String s = (String)v.get(0);
         cr = DatasetFromDB.setPreviewLabdocInDB(dbC, dbKeyLabDoc, s);
+        return cr;
+    }
+
+    /** update the labdoc status */
+    private CopexReturn updateLabdocStatus(){
+        CopexReturn cr = CopexMissionFromDB.updateLabdocStatusInDB(dbC, dbKeyLabDoc, dbKeyUser, dbKeyGroup);
         return cr;
     }
 }

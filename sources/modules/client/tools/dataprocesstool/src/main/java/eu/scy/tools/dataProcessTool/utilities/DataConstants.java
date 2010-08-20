@@ -60,6 +60,10 @@ public class DataConstants {
     /* db labbook_fitex */
     public final static int DB_LABBOOK_FITEX = 2;
 
+    /** labdoc status lock */
+    public final static String LABDOC_STATUS_LOCK="LOCK";
+    public final static String LABDOC_STATUS_UPDATE="UPDATE";
+
     /* nombre max de plots */
     public final static int MAX_PLOT = 4;
     /* couleur points graphique */
