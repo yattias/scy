@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 /**
- *
+ * fitex application labbook
  * @author Marjolaine
  */
 public class DataProcessApplication extends JFrame implements  ActionDataProcessTool{
