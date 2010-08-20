@@ -26,7 +26,7 @@
                 </strong>
             </td>
             <td align="left">
-                ${currentUser.userDetails.firstname}&nbsp;${currentUser.userDetails.lastname}
+                ${currentUser.userDetails.firstName}&nbsp;${currentUser.userDetails.lastName}
             </td>
         </tr>
         <tr>

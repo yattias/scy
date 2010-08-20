@@ -18,8 +18,8 @@
                             <td>
                                 <a href="viewStudentsForPedagogicalPlan.html?action=addStudent&username=${student.userDetails.username}&id=${id}">${student.userDetails.username}</a>
                             </td>
-                            <td>${student.userDetails.firstname} </td>
-                            <td>${student.userDetails.lastname}</td>
+                            <td>${student.userDetails.firstName} </td>
+                            <td>${student.userDetails.lastName}</td>
                         </tr>
                     </c:forEach>
                 </table>

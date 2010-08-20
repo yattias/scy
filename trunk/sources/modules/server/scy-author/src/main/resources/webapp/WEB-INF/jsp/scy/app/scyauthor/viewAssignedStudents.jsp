@@ -12,7 +12,7 @@
                             <td>
                                 <s:studentEditor username="${student.userDetails.username}"/>
                                 <!--div id="user_details">
-                                    <img src="/webapp/common/filestreamer.html?username=${student.userDetails.username}&showIcon"/>&nbsp;<strong>${student.userDetails.firstname}&nbsp;${student.userDetails.lastname}</strong>
+                                    <img src="/webapp/common/filestreamer.html?username=${student.userDetails.username}&showIcon"/>&nbsp;<strong>${student.userDetails.firstName}&nbsp;${student.userDetails.lastName}</strong>
                                 </div-->
                             </td>
                         </tr>
