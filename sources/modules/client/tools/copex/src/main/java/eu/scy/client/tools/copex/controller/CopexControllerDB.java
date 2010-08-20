@@ -433,6 +433,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee
         CopexTask taskBranch = listT.get(0);
         CopexTask lastTaskBranch = listT.get(subTree.getIdLastTask());
@@ -538,6 +541,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         List<TaskTreePosition> listPositionTask = getTaskPosition(proc, listTask);
         Profiler.end("supprBD");
         Profiler.start("supprMem");
@@ -875,6 +881,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         long newDbKey = (Long)v2.get(0);
         // mise a jour des donnees 
         task.setDbKey(newDbKey);
@@ -1035,6 +1044,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // mise a jour en memoire 
         //oldTask.setComments(newTask.getComments());
         //oldTask.setDescription(newTask.getDescription());
@@ -1167,7 +1179,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
-        
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // memoire
         proc.setOpen(true);
         this.listProc.add(proc);
@@ -1353,6 +1367,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en memoire
         //listProc.get(idP).setName(CopexUtilities.getTextLocal(name, getLocale()));
         listProc.get(idP).setName(name);
@@ -1589,6 +1606,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
 //        System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
@@ -1637,6 +1657,10 @@ public class CopexControllerDB implements ControllerInterface {
             if (setTrace()){
                 copex.logEndTool();
             }
+            // unset the locker for the labdoc !!
+            cr = MissionFromDB.unsetLabdocLockerInDB(db.getDbC(), dbKeyLabDoc);
+            if (cr.isError())
+               return cr;
             return new CopexReturn();
         }catch(Exception e){
             System.out.println("stopEdp : "+e);
@@ -2019,6 +2043,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         if(setTrace())
             copex.logHypothesis(p, oldHypothesis,hypothesis);
         return new CopexReturn();
@@ -2058,6 +2085,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         if(setTrace())
             copex.logGeneralPrinciple(p, oldPrinciple,principle);
         return new CopexReturn();
@@ -2097,6 +2127,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         if(setTrace())
             copex.logEvaluation(p, oldEvaluation,evaluation);
         return new CopexReturn();
@@ -2167,6 +2200,9 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         v.add(listC);
         return new CopexReturn();
     }
@@ -2203,6 +2239,12 @@ public class CopexControllerDB implements ControllerInterface {
             return cr;
         String s = (String)v.get(0);
         cr = ExperimentalProcedureFromDB.setPreviewLabdocInDB(db.getDbC(), dbKeyLabDoc, s);
+        return cr;
+    }
+
+    /** update the labdoc status */
+    private CopexReturn updateLabdocStatus(){
+        CopexReturn cr = MissionFromDB.updateLabdocStatusInDB(db.getDbC(), dbKeyLabDoc, dbKeyUser, dbKeyGroup);
         return cr;
     }
     

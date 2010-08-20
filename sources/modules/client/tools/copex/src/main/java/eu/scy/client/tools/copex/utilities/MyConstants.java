@@ -50,6 +50,10 @@ public class MyConstants {
     /* db labbook_copex */
     public final static int DB_LABBOOK_COPEX = 1;
 
+    /** labdoc status lock */
+    public final static String LABDOC_STATUS_LOCK="LOCK";
+    public final static String LABDOC_STATUS_UPDATE="UPDATE";
+
     /* xml language */
     public final static String XMLNAME_LANGUAGE="language";
 
