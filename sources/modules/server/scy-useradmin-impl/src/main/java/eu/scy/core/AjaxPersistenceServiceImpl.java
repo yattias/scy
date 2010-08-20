@@ -24,13 +24,13 @@ public class AjaxPersistenceServiceImpl extends BaseServiceImpl implements AjaxP
     }
 
     @Override
-    public ScyBase get(Class c, String id) {
+    public Object get(Class c, String id) {
         return ajaxPersistenceDAO.get(c, id);
     }
 
     @Override
     @Transactional
-    public void save(ScyBase scyBaseObject) {
+    public void save(Object scyBaseObject) {
         super.save(scyBaseObject);
     }
 }

@@ -24,7 +24,7 @@ public class BaseServiceImpl implements BaseService{
     }
 
     @Transactional
-    public void save(ScyBase scyBaseObject) {
+    public void save(Object scyBaseObject) {
         getScyBaseDAO().save(scyBaseObject);
     }
 

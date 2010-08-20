@@ -23,7 +23,7 @@ public class AjaxComboboxController extends AbstractAjaxController {
 
         if (clazz != null && id != null && property != null) {
             Class c = Class.forName(clazz);
-            ScyBase scyBase = getAjaxPersistenceService().get(c, id);
+            Object scyBase = getAjaxPersistenceService().get(c, id);
             executeSetter(scyBase, property, value, setterClass);
             getAjaxPersistenceService().save(scyBase);
         }

@@ -19,8 +19,8 @@ import java.util.Date;
 @Table(name = "student_user_details")
 public class SCYStudentUserDetails extends SCYUserDetails implements StudentUserDetails, Serializable {
 
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private Integer gender;
     private Date birthday;
     private Date lastLoginTime;
@@ -31,23 +31,23 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     private ImageRef profilePicture;
 
     @Override
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
     @Override
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     @Override
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override

@@ -10,13 +10,13 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public interface StudentUserDetails extends UserDetails{
-    String getFirstname();
+    String getFirstName();
 
-    void setFirstname(String firstname);
+    void setFirstName(String firstName);
 
-    String getLastname();
+    String getLastName();
 
-    void setLastname(String lastname);
+    void setLastName(String lastname);
 
     Integer getGender();
 

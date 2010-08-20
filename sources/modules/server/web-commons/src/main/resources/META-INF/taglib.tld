@@ -196,7 +196,29 @@
         <bodycontent>empty</bodycontent>
         <info>Student Editor</info>
         <attribute>
-            <name>username</name>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>editUserRoles</name>
+        <tagclass>eu.scy.server.taglibs.editors.EditUserRoles</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student Editor</info>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>availableAuthorities</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>successView</name>
             <required>true</required>
             <rtexprvalue>false</rtexprvalue>
         </attribute>

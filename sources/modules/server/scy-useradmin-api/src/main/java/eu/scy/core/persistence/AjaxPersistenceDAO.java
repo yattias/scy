@@ -10,5 +10,5 @@ import eu.scy.core.model.ScyBase;
  * To change this template use File | Settings | File Templates.
  */
 public interface AjaxPersistenceDAO extends SCYBaseDAO{
-    ScyBase get(Class c, String id);
+    Object get(Class c, String id);
 }

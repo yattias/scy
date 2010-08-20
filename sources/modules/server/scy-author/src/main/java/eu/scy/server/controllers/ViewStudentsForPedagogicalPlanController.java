@@ -58,7 +58,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         User user = getUserService().getUser(username);
         StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
 
-        logger.info("Adding " + details.getUsername() + " " + details.getFirstname() + " " + details.getLastname() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
+        logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
 
         getAssignedPedagogicalPlanService().assignPedagogicalPlanToUser(pedagogicalPlan, user);
 
