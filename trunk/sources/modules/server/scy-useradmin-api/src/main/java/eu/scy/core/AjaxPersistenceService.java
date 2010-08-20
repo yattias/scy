@@ -10,8 +10,8 @@ import eu.scy.core.model.ScyBase;
  * To change this template use File | Settings | File Templates.
  */
 public interface AjaxPersistenceService extends BaseService{
-    ScyBase get(Class c, String id);
+    Object get(Class c, String id);
 
     @Override
-    void save(ScyBase scyBaseObject);
+    void save(Object scyBaseObject);
 }

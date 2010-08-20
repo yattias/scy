@@ -63,8 +63,8 @@ public abstract class BaseController extends AbstractController {
     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         logger.info("-----------------------------------------------------");
         if(getUrlInspector() != null) {
-            ScyBase model = getUrlInspector().instpectRequest(request, httpServletResponse);
-            setModel(model);
+            Object model = getUrlInspector().instpectRequest(request, httpServletResponse);
+            setModel((ScyBase) model);
         }
         logger.info("*******************************************************");
     }

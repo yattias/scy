@@ -56,8 +56,8 @@ public class RuntimeUserInfoJSON extends AbstractController {
                 StudentUserDetails copy = new SCYStudentUserDetails();
                 StudentUserDetails original = (StudentUserDetails) assignedPedagogicalPlan.getUser().getUserDetails();
                 copy.setUsername(original.getUsername());
-                copy.setFirstname(original.getFirstname());
-                copy.setLastname(original.getLastname());
+                copy.setFirstName(original.getFirstName());
+                copy.setLastName(original.getLastName());
                 model.add(copy);
 
                 String lasName = getRuntimeService().getCurrentLAS(assignedPedagogicalPlan.getUser());

@@ -1,6 +1,7 @@
 package eu.scy.server.taglibs;
 
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.impl.SCYUserDetails;
 
 import javax.servlet.jsp.JspException;
 import java.lang.reflect.Method;
@@ -36,7 +37,12 @@ public class AjaxTextField extends AjaxBaseComponent{
 
             pageContext.getOut().write("<input type=\"hidden\" id=\"ajaxTextField" + id + "\" name=\"value\" value=\"\" + executeGetter(getModel(), getProperty()) + \"\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"clazz\" value=\"" + getModel().getClass().getName() + "\">");
-            pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
+            if(getModel() instanceof ScyBase) {
+                pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((ScyBase)getModel()).getId() + "\">");
+            } else if(getModel() instanceof SCYUserDetails) {
+                pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + ((SCYUserDetails)getModel()).getId() + "\">");
+            }
+
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");
             pageContext.getOut().write("</form>");
         } catch(Exception e) {
@@ -64,6 +70,11 @@ public class AjaxTextField extends AjaxBaseComponent{
         } catch (Exception e) {
             e.printStackTrace();  
         }
-        throw new RuntimeException("NOOO");
+        throw new RuntimeException("NOOO - " + getClassName(object) + " property: " + property);
+    }
+
+    private String getClassName(Object object) {
+        if(object != null) return object.getClass().getName();
+        return "Object is null!";
     }
 }

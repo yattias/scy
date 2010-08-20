@@ -97,4 +97,11 @@ public interface UserDAO extends SCYBaseDAO{
     public User createUser(String username, String password, String role);
 
     public List<User> getStudents();
+
+    /**
+     * returns all granted authorities
+     * @return
+     */
+    public List<SCYGrantedAuthority> getGrantedAuthorities();
+
 }

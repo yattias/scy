@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.SCYGrantedAuthority;
 import eu.scy.core.model.User;
 import eu.scy.core.persistence.UserDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
     @Override
     public User save(User user) {
         return (User) getUserDAO().save(user);
+    }
+
+    @Override
+    public List<SCYGrantedAuthority> getGrantedAuthorities() {
+        return getUserDAO().getGrantedAuthorities();
     }
 
     public UserDAO getUserDAO() {

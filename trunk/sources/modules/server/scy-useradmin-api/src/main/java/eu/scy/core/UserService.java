@@ -1,5 +1,6 @@
 package eu.scy.core;
 
+import eu.scy.core.model.SCYGrantedAuthority;
 import eu.scy.core.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,4 +24,6 @@ public interface UserService extends BaseService{
     public List<User> getStudents();
 
     public User save(User user);
+
+    public List <SCYGrantedAuthority> getGrantedAuthorities();
 }

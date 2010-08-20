@@ -17,14 +17,14 @@ public class UrlInspector {
 
     private AjaxPersistenceService service;
 
-    public ScyBase instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    public Object instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
          String modelString = request.getParameter("model");
         if(modelString != null) {
             String type = modelString.substring(0, modelString.indexOf("_"));
             String id = modelString.substring(modelString.indexOf("_")+1, modelString.length());
             try {
                 Class clazz = Class.forName(type);
-                ScyBase model =  getService().get(clazz, id);
+                Object model =  getService().get(clazz, id);
 
                 request.setAttribute("modelObject", model);
 

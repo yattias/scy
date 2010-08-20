@@ -79,7 +79,7 @@ public class StudentEloRefViewerController  extends BaseFormController {
     }
 
     private void prepareNextPage(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        setModel(getUrlInspector().instpectRequest(request,response));
+        setModel((ScyBase) getUrlInspector().instpectRequest(request,response));
 
         logger.info("MODEL  IS: " + getModel());
 

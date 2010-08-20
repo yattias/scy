@@ -51,6 +51,7 @@
                    /components/json/ScenarioDiagramJSON.html=scenarioDiagramJSON
                    /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
                    /components/resourceservice.html=resourceService
+                   /components/roleeditor/RoleEditorContoller.html=roleEditorController
                </value>
            </property>
        </bean>
@@ -126,6 +127,10 @@
 
     <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
         <property name="fileService" ref="fileService"/>
+    </bean>
+
+    <bean id="roleEditorController" class="eu.scy.server.controllers.components.roleeditor.RoleEditorController">
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>

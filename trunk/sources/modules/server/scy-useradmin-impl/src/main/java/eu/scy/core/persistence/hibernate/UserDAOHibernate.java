@@ -71,6 +71,12 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .list();
     }
 
+    @Override
+    public List<SCYGrantedAuthority> getGrantedAuthorities() {
+        return getSession().createQuery("select distinct(authority)from eu.scy.core.model.impl.SCYGrantedAuthorityImpl as authority order by authority.authority")
+                .list();
+    }
+
     private UserDetails createTeacherUserDetails(String suggestedUserName, String password) {
         SCYTeacherUserDetails userDetails = new SCYTeacherUserDetails();
         userDetails.setUsername(suggestedUserName);
@@ -94,8 +100,8 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         SCYStudentUserDetails userDetails = new SCYStudentUserDetails();
         userDetails.setUsername(suggestedUserName);
         userDetails.setPassword(password);
-        userDetails.setFirstname("fn");
-        userDetails.setLastname("ln");
+        userDetails.setFirstName("fn");
+        userDetails.setLastName("ln");
         userDetails.setAccountQuestion("q");
         userDetails.setAccountAnswer("a");
         userDetails.setBirthday(new Date());

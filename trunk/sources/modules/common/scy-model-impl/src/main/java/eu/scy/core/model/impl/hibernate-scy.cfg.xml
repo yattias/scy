@@ -51,6 +51,7 @@
         <mapping class="eu.scy.core.model.impl.PedagogicalPlanGroupImpl"/>
 		<mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
 		<mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+		<mapping class="eu.scy.core.model.impl.SCYGrantedAuthorityImpl"/>
 
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.MissionImpl"/>
 		<mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>

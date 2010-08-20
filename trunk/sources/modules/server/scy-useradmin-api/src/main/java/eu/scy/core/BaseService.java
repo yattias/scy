@@ -11,7 +11,7 @@ import eu.scy.core.model.ScyBase;
  */
 public interface BaseService {
 
-    void save(ScyBase scyBaseObject);
+    void save(Object scyBaseObject);
 
     public ScyBase get(String id, Class type);
 
