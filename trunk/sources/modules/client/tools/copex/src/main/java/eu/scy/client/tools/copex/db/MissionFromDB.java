@@ -11,8 +11,8 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * gestion de la table MISSION dans la BD labbook
- * @author MBO
+ * mission and labdoc status in the db labbook
+ * @author Marjolaine
  */
 public class MissionFromDB {
     
@@ -97,6 +97,65 @@ public class MissionFromDB {
         }
         
         v.add(listMission);
+        return new CopexReturn();
+    }
+
+    /* unset the locker for the specified labdoc */
+    public static CopexReturn unsetLabdocLockerInDB(DataBaseCommunication dbC, long dbKeyLabdoc){
+        dbC.updateDb(MyConstants.DB_LABBOOK);
+        String query = "DELETE FROM LABDOC_STATUS WHERE ID_LABDOC = "+dbKeyLabdoc+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"' ;";
+        CopexReturn cr = dbC.executeQuery(query);
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+        return cr;
+    }
+
+    /** update the labdoc status */
+    public static CopexReturn updateLabdocStatusInDB(DataBaseCommunication dbC, long dbKeyLabdoc, long dbKeyUser, long dbKeyGroup){
+        dbC.updateDb(MyConstants.DB_LABBOOK);
+        String query = "SELECT ID_LEARNER FROM LINK_GROUP_LEARNER "
+                + "WHERE ID_LEARNER_GROUP = "+dbKeyGroup+" AND ID_LEARNER != "+dbKeyUser+";";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_LEARNER");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError()){
+            dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+            return cr;
+        }
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_LEARNER");
+            long idLearner = Long.parseLong(s);
+            if (s == null)
+                continue;
+            String querySt = "SELECT ID_LABDOC FROM LABDOC_STATUS "
+                    + "WHERE ID_LABDOC = "+dbKeyLabdoc+" AND ID_LB_USER = "+idLearner+" AND LABDOC_STATUS != '"+MyConstants.LABDOC_STATUS_LOCK+"';";
+            ArrayList v3 = new ArrayList();
+            ArrayList<String> listFields2 = new ArrayList();
+            listFields2.add("ID_LABDOC");
+            cr = dbC.sendQuery(querySt, listFields2, v3);
+            if (cr.isError()){
+                dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+                return cr;
+            }
+            int nbR3 = v3.size();
+            int nbSt = 0;
+            for (int j=0; j<nbR3; j++){
+                nbSt++;
+            }
+            if(nbSt == 0){
+                String queryInsert = "INSERT INTO LABDOC_STATUS (ID_LABDOC, ID_LB_USER, LABDOC_STATUS) "
+                            + "VALUES ("+dbKeyLabdoc+", "+idLearner+", '"+MyConstants.LABDOC_STATUS_UPDATE+"')";
+                cr = dbC.executeQuery(queryInsert);
+                if (cr.isError()){
+                    dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+                    return cr;
+                }
+            }
+        }
+        dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
         return new CopexReturn();
     }
 }
