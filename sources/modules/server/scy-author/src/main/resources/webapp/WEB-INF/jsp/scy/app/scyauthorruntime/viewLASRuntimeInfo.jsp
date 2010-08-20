@@ -4,7 +4,7 @@
 
 
         <c:if test="${showUserInfo}">
-            <h1><img src="/webapp/common/filestreamer.html?username=${userdetails.username}&showIcon"/>Activity overview ${userdetails.firstname}&nbsp;${userdetails.lastname}</h1>
+            <h1><img src="/webapp/common/filestreamer.html?username=${userdetails.username}&showIcon"/>Activity overview ${userdetails.firstName}&nbsp;${userdetails.lastName}</h1>
 
             <s:currentStudentActivity username="${userdetails.username}"/>
 
@@ -75,10 +75,10 @@
                                 <a href="viewLASRuntimeInfo.html?username=${user.userDetails.username}">${user.userDetails.username}</a>
                             </td>
                             <td>
-                                ${user.userDetails.firstname}
+                                ${user.userDetails.firstName}
                             </td>
                             <td>
-                                ${user.userDetails.lastname}
+                                ${user.userDetails.lastName}
                             </td>
                             <td>
                                 <s:currentStudentActivity username="${user.userDetails.username}"/>

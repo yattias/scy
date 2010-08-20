@@ -4,6 +4,7 @@ import eu.scy.core.AssignedPedagogicalPlanService;
 import eu.scy.core.GroupService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
+import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,6 +56,7 @@ public class ViewPedagogicalPlanController extends BaseController {
             modelAndView.addObject("assignedPedagogicalPlansCount", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlansCount(plan));
             modelAndView.addObject("pedagogicalPlanGroupsCount", getGroupService().getPedagogicalPlanGroupsCount(plan));
             modelAndView.addObject("anchorElos", getPedagogicalPlanPersistenceService().getAnchorELOs(plan));
+            modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
         }
     }
 
@@ -89,4 +91,15 @@ public class ViewPedagogicalPlanController extends BaseController {
     public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
+
+    public String getCurrentUserName(HttpServletRequest request) {
+       org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+        logger.info("UserName: " + user.getUsername());
+       return user.getUsername();
+   }
+
+   public User getCurrentUser(HttpServletRequest request) {
+       return getUserService().getUser(getCurrentUserName(request));
+   }
+
 }

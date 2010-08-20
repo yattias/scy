@@ -43,7 +43,7 @@
                                         <strong>By</strong>
                                     </td>
                                     <td>
-                                        ${transporter.eloRef.author.userDetails.firstname}&nbsp;${transporter.eloRef.author.userDetails.lastname}
+                                        ${transporter.eloRef.author.userDetails.firstName}&nbsp;${transporter.eloRef.author.userDetails.lastName}
 
                                     </td>
                                 </tr>

@@ -26,8 +26,8 @@
                             <td>
                                 ${assignedPedagogicalPlan.user.userDetails.username}
                             </td>
-                            <td>${assignedPedagogicalPlan.user.userDetails.firstname} </td>
-                            <td>${assignedPedagogicalPlan.user.userDetails.lastname}</td>
+                            <td>${assignedPedagogicalPlan.user.userDetails.firstName} </td>
+                            <td>${assignedPedagogicalPlan.user.userDetails.lastName}</td>
                         </tr>
                     </c:forEach>
                 </table>

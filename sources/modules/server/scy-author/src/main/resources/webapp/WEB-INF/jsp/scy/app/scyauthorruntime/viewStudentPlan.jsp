@@ -4,7 +4,7 @@
 
         <h1>${studentPlan.pedagogicalPlan.name}</h1>
         <div id="user_details">
-            <img src="/webapp/common/filestreamer.html?username=${studentPlan.user.userDetails.username}&showIcon"/>&nbsp;<strong>${studentPlan.user.userDetails.firstname}&nbsp;${studentPlan.user.userDetails.lastname}</strong>
+            <img src="/webapp/common/filestreamer.html?username=${studentPlan.user.userDetails.username}&showIcon"/>&nbsp;<strong>${studentPlan.user.userDetails.firstName}&nbsp;${studentPlan.user.userDetails.lastName}</strong>
         </div>
 
         <c:choose>

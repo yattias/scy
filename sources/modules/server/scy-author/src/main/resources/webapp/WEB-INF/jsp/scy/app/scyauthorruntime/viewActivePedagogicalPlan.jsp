@@ -28,8 +28,8 @@
                             <td>
                                 ${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.username}
                             </td>
-                            <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.firstname} </td>
-                            <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.lastname}</td>
+                            <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.firstName} </td>
+                            <td>${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.lastName}</td>
                             <td><s:currentStudentActivity username="${assignedPedagogicalPlan.assignedPedagogicalPlan.user.userDetails.username}"/></td>
                             <td>
                                 <c:choose>

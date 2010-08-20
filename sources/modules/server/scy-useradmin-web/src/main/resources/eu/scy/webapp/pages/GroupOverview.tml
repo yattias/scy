@@ -17,10 +17,10 @@
                     <t:actionlink t:id="openUser" context="currentUser.id">${userDetails.username}</t:actionlink>
                 </td>
                 <td>
-                    ${userDetails.firstname}
+                    ${userDetails.firstName}
                 </td>
                 <td>
-                    ${userDetails.lastname}
+                    ${userDetails.lastName}
                 </td>
                 <td>
                     ${currentUser.userDetails.emailAddress}
