@@ -25,7 +25,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import javafx.scene.control.TextBox;
 import javafx.scene.layout.LayoutInfo;

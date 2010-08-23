@@ -9,17 +9,16 @@ import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFil
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
 import javax.swing.JFileChooser;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
+import eu.scy.client.desktop.scydesktop.EloType;
 
 /**
  * @author SikkenJ
  */
 
-public def eloType = "scy/missionmapmodel";
-
 public class MissionMapModelEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      eloType
+      EloType.MISSION_MAP_MODEL.getType()
    }
 
    override protected function doImport(): Void {

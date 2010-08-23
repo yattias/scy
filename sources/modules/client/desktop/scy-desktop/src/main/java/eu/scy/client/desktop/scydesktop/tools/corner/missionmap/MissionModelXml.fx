@@ -5,7 +5,7 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import java.net.URI;
 import java.util.HashMap;
 import org.jdom.Element;

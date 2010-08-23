@@ -18,6 +18,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
+import eu.scy.common.mission.impl.jdom.EloToolConfigXmlUtils;
 
 /**
  * @author SikkenJ

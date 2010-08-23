@@ -17,9 +17,10 @@ import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.tools.speedtest.SpeedTestPanelCreator;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreatorFX;
-import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionMapModelEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.EloToolConfigurationEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.MissionRuntimeEditorCreator;
 
 /**
  * @author sikkenj
@@ -30,7 +31,7 @@ var initializer = Initializer{
    javaUtilLoggingInitFile:"/config/scy-desktop-java-util-logging.properties"
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"local"
-   storeElosOnDisk:false
+   storeElosOnDisk:true
    createPersonalMissionMap:true
    enableLocalLogging:true
    redirectSystemStream:false
@@ -54,6 +55,7 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    def missionSpecificationId = "missionSpecification";
    def missionMapModelId = "missionMapModel";
    def eloToolConfigurationId = "eloToolConfiguration";
+   def missionRuntimeId = "missionRuntime";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -69,9 +71,10 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{extensions: ["ppt","pptx"];fileFilterDescription:"PowerPoint Presentations"}, presentationViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionSpecificationCreator{}, missionSpecificationId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionSpecificationEditorCreator{}, missionSpecificationId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionMapModelEditorCreator{}, missionMapModelId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloToolConfigurationEditorCreator{}, eloToolConfigurationId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionRuntimeEditorCreator{}, missionRuntimeId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    

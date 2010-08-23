@@ -8,18 +8,17 @@ import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFil
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
 import javax.swing.JFileChooser;
 import java.lang.String;
-import eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloToolConfigXmlUtils;
+import eu.scy.common.mission.impl.jdom.EloToolConfigXmlUtils;
+import eu.scy.client.desktop.scydesktop.EloType;
 
 /**
  * @author SikkenJ
  */
 
-public def eloType = "scy/elotoolconfiguration";
-
 public class EloToolConfigurationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      eloType
+      EloType.ELO_TOOL_CONFIGURATION.getType()
    }
 
    override protected function doImport(): Void {

@@ -28,7 +28,7 @@ import javafx.util.Math;
 import java.net.URI;
 import roolo.elo.api.IELO;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import javafx.scene.text.Text;

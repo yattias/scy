@@ -3,10 +3,14 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
+package eu.scy.common.mission.impl;
 
-import eu.scy.client.desktop.scydesktop.tools.mission.springimport.EloLogicalRole;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomConversionUtils;
+import eu.scy.common.mission.EloFunctionalRole;
+import eu.scy.common.mission.EloLogicalRole;
+import eu.scy.common.mission.EloLogicalRole;
+import eu.scy.common.mission.EloSystemRole;
+import eu.scy.common.mission.EloToolConfig;
+import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
 import java.util.ArrayList;
 import java.util.List;
 

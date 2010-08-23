@@ -2,10 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
+package eu.scy.common.mission.impl.jdom;
 
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomConversionUtils;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.mission.EloFunctionalRole;
+import eu.scy.common.mission.EloLogicalRole;
+import eu.scy.common.mission.EloSystemRole;
+import eu.scy.common.mission.EloToolConfig;
+import eu.scy.common.mission.impl.BasicEloToolConfig;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdom.Element;
