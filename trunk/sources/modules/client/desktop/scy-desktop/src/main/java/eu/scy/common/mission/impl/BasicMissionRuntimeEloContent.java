@@ -2,17 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
+package eu.scy.common.mission.impl;
+
+import eu.scy.common.mission.MissionRuntimeEloContent;
 import java.net.URI;
 
 /**
  *
  * @author SikkenJ
  */
-public class BasicMissionSpecification implements MissionSpecification
-{
-
+public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent {
+   private URI missionSpecificationEloUri;
    private URI missionMapModelEloUri;
    private URI eloToolConfigsEloUri;
 
@@ -37,4 +38,16 @@ public class BasicMissionSpecification implements MissionSpecification
    {
       this.missionMapModelEloUri = missionMapModelEloUri;
    }
+
+   @Override
+   public URI getMissionSpecificationEloUri()
+   {
+      return missionSpecificationEloUri;
+   }
+
+   public void setMissionSpecificationEloUri(URI missionSpecificationEloUri)
+   {
+      this.missionSpecificationEloUri = missionSpecificationEloUri;
+   }
+
 }

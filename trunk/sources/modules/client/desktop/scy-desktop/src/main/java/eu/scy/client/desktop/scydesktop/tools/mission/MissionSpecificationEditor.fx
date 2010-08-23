@@ -8,19 +8,19 @@ import javax.swing.JFileChooser;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFilter;
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
 import roolo.elo.api.IELO;
-import eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionSpecification;
-import eu.scy.client.desktop.scydesktop.tools.mission.springimport.MissionSpecificationXmlUtils;
+import eu.scy.common.mission.impl.BasicMissionSpecificationEloContent;
+import eu.scy.common.mission.impl.jdom.MissionSpecificationEloContentXmlUtils;
 import java.io.File;
+import eu.scy.client.desktop.scydesktop.EloType;
 
 /**
  * @author sikken
  */
-public def eloType = "scy/missionspecification";
 
 public class MissionSpecificationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      eloType
+      EloType.MISSION_SPECIFICATIOM.getType()
    }
 
    override protected function doImport(): Void {
@@ -45,12 +45,12 @@ public class MissionSpecificationEditor extends EloXmlEditor {
             file: file.getAbsolutePath()
             repository: repository
          }
-      var missionMapModelElo = saveXmlInElo(MissionMapModelEditor.eloType, name, springConfigFileImporter.missionMapXml);
-      var eloToolConfigsElo = saveXmlInElo(EloToolConfigurationEditor.eloType, name, springConfigFileImporter.eloToolConfigsXml);
-      var missionSpecification = new BasicMissionSpecification();
+      var missionMapModelElo = saveXmlInElo(EloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
+      var eloToolConfigsElo = saveXmlInElo(EloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
+      var missionSpecification = new BasicMissionSpecificationEloContent();
       missionSpecification.setMissionMapModelEloUri(missionMapModelElo.getUri());
       missionSpecification.setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
-      textBox.text = MissionSpecificationXmlUtils.missionSpecificationToXml(missionSpecification)
+      textBox.text = MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification)
    }
 
    function saveXmlInElo(type: String, name: String, xml: String): IELO {
@@ -66,7 +66,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
    override protected function validateXml(xml: String): String {
       var errors = super.validateXml(xml);
       if (errors == null) {
-         def missionSpecification = MissionSpecificationXmlUtils.missionSpecificationFromXml(xml);
+         def missionSpecification = MissionSpecificationEloContentXmlUtils.missionSpecificationFromXml(xml);
          if (missionSpecification == null) {
             errors = "The xml is not valid for mission specification";
          }

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.desktop.scydesktop.utils.jdom;
+package eu.scy.common.mission.impl.jdom;
 
 import java.io.IOException;
 import java.io.StringReader;

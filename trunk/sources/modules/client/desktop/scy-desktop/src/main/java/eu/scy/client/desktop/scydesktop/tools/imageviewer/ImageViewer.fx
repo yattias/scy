@@ -19,7 +19,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import roolo.elo.api.IContent;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import org.jdom.Element;
 import javax.swing.JFileChooser;
 import java.awt.Component;

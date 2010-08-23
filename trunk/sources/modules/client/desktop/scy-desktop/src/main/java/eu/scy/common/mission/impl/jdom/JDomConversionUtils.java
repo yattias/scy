@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.scy.client.desktop.scydesktop.utils.jdom;
+package eu.scy.common.mission.impl.jdom;
 
 import java.util.ArrayList;
 import java.util.List;

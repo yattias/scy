@@ -130,8 +130,10 @@ public class ScyDesktopCreator {
          eloConfigManager = new BasicEloConfigManager(config);
       }
 
+//      findMission();
 
       handleToolRegistration();
+
       if (missionModelFX == null) {
          readMissionModel();
       }
@@ -206,6 +208,15 @@ public class ScyDesktopCreator {
       }
       return key;
    }
+
+   function findMission(){
+      var missionLocator = MissionLocator{
+         config:config
+         userName:userName
+      }
+      missionLocator.locateMission();
+   }
+
 
 
    function handleToolRegistration() {

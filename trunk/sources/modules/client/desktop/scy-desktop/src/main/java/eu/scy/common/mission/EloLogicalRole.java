@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
+package eu.scy.common.mission;
 
 import java.util.ArrayList;
 import java.util.List;

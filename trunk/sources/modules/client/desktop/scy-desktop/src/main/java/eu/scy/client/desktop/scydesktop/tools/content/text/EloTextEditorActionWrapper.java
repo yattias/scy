@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
