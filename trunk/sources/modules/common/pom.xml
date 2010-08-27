@@ -30,6 +30,8 @@
 		<module>agent-api</module>
 		<module>awareness-api</module>
 		<module>awareness-impl</module>
+		<module>scy-elo</module>
+		<module>mission</module>
 		<module>scy-commons</module>
 		<module>scy-model-api</module>
 		<module>scy-model-impl</module>
@@ -38,8 +40,8 @@
 		<module>notification-impl</module>	
 		<module>scy-sessionmanager-api</module>
 		<module>tool-broker-api</module>
-        <module>pedagogical-plan-service-api</module>
-  </modules>
+       <module>pedagogical-plan-service-api</module>
+   </modules>
 
 	<build>
 		<plugins>
