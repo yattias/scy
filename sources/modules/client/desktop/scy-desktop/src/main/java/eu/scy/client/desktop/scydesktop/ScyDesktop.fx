@@ -87,6 +87,7 @@ import roolo.cms.repository.search.BasicSearchOperations;
 import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 
 /**
  * @author sikkenj
@@ -100,6 +101,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     def logger = Logger.getLogger(this.getClass());
     public var initializer: Initializer;
+    public-init var missionRunConfigs: MissionRunConfigs;
     public var config: Config;
     public def scene = scyDektopGroup.scene;
     public var missionModelFX: MissionModelFX = MissionModelFX { };
@@ -189,6 +191,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
             repositoryWrapper.setMissionId(missionModelFX.id);
             repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
+            repositoryWrapper.setMissionSpcificationEloUri(missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
             logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
         }
         FX.addShutdownAction(scyDesktopShutdownAction);

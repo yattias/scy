@@ -91,6 +91,7 @@ public class MissionLocator {
       missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
       missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
       missionRuntimeElo.setMissionRunning(userName);
+      missionRuntimeElo.setMissionSpecificationElo(missionSpecificationElo.getUri());
       missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(missionSpecificationElo.getUri());
       missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(personalMissionMapModelElo.getUri());
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(eloToolConfigsElo.getUri());

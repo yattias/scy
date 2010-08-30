@@ -30,6 +30,7 @@ public class RepositoryWrapper implements IRepository
 
    private final static Logger logger = Logger.getLogger(RepositoryWrapper.class);
 //	private final static String meloType = "scy/melo";
+   private URI missionSpcificationEloUri;
    private String missionId;
    private String lasId;
    private String userId;
@@ -120,6 +121,11 @@ public class RepositoryWrapper implements IRepository
    public void setMissionId(String missionId)
    {
       this.missionId = missionId;
+   }
+
+   public void setMissionSpcificationEloUri(URI missionSpcificationEloUri)
+   {
+      this.missionSpcificationEloUri = missionSpcificationEloUri;
    }
 
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
