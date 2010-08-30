@@ -107,6 +107,16 @@ public class JDomConversionUtils
       return strings;
    }
 
+   public static List<String> getStringListValue(Element element, String childName, String tagName)
+   {
+      Element child = element.getChild(childName);
+      if (child != null)
+      {
+         return getStringListValue(child, tagName);
+      }
+      return new ArrayList<String>();
+   }
+
    public static List<URI> getUriListValue(Element element, String childName) throws URISyntaxException
    {
       List<URI> uris = new ArrayList<URI>();

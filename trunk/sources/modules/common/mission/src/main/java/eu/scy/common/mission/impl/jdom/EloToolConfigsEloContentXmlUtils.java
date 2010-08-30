@@ -111,8 +111,8 @@ public class EloToolConfigsEloContentXmlUtils
       eloToolConfig.setBottomDrawerCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isBottomDrawerCollaborationName));
       eloToolConfig.setLeftDrawerCollaboration(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isLeftDrawerCollaborationName));
       eloToolConfig.setContentStatic(JDomConversionUtils.getBooleanValue(eloToolConfigChild,isContentStaticName));
-      eloToolConfig.setEloLogicalRoles(JDomConversionUtils.getEnumListValue(EloLogicalRole.class ,eloToolConfigChild,eloLogicalRolesName,eloLogicalRoleName));
-      eloToolConfig.setEloFunctionalRoles(JDomConversionUtils.getEnumListValue(EloFunctionalRole.class ,eloToolConfigChild,eloFunctionalRolesName, eloFunctionalRoleName));
+      eloToolConfig.setEloLogicalRoles(EloLogicalRole.convertToEloLogicalRoles(JDomConversionUtils.getStringListValue(eloToolConfigChild,eloLogicalRolesName,eloLogicalRoleName)));
+      eloToolConfig.setEloFunctionalRoles(EloFunctionalRole.convertToEloFunctionalRoles(JDomConversionUtils.getStringListValue(eloToolConfigChild,eloFunctionalRolesName, eloFunctionalRoleName)));
       return eloToolConfig;
    }
 }
