@@ -9,8 +9,9 @@ connect :-
 	command_space(CommandSpace),
 	ts_host(TsHost),
 	ts_port(TsPort),
+    agent_name(Name),
 	agent_id(ID),
-	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, ID, '', CommandTS),
+	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, ID, Name, CommandTS),
 	assert(ts(command, CommandTS)).
 
 next_command(Cmd, Id, Params) :-
@@ -36,7 +37,8 @@ field_values(element(tuple, _, Fields), FieldValues) :-
 respond(Id, Params) :-
 	ts(command, TS),
 	tspl_actual_field(string, Id, F0),
-	tspl_tuple([F0|Params], T),
+	tspl_actual_field(string, 'response', F1),
+	tspl_tuple([F0,F1|Params], T),
 	tspl_write(TS, T),
 	!.
 
@@ -130,7 +132,7 @@ lookup(OntName, OntTerm, Category) :-
 % (<ID>:String, "onto":String, "class info":String, <OntName>:String, <OntTerm>:String) -> (<ID>:String, <InstanceList>:String, <SuperclassList>:String, <SubclassList>:String)
 class_info(OntName, OntTerm, Instances, Superclasses, Subclasses) :-
 	ont_connect(_, OntName, _),
-	findall(Instance, prdf(Instance, type, OntName), Instances),
+	findall(Instance, prdf(Instance, type, OntTerm), Instances),
 	findall(Superclass, prdf(OntTerm, subclassof, Superclass), Superclasses),
 	findall(Subclass, prdf(Subclass, subclassof, OntTerm), Subclasses).
 
