@@ -4,13 +4,14 @@
  */
 package eu.scy.common.mission;
 
+import java.net.URISyntaxException;
+
+import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicTemplateElosEloContent;
 import eu.scy.common.mission.impl.jdom.TemplateElosEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
-import java.net.URISyntaxException;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -48,9 +49,9 @@ public class TemplateElosElo extends ContentTypedScyElo<TemplateElosEloContent>
    }
    private static final TemplateElosEloContentCreator templateElosEloContentCreator = new TemplateElosEloContentCreator();
 
-   public TemplateElosElo(IELO elo, IMetadataTypeManager metadataTypemanager)
+   public TemplateElosElo(IELO elo, ToolBrokerAPI tbi)
    {
-      super(elo, metadataTypemanager, templateElosEloContentCreator);
+      super(elo, tbi, templateElosEloContentCreator);
       setTechnicalFormat(MissionEloType.TEMPLATES_ELOS.getType());
    }
 }

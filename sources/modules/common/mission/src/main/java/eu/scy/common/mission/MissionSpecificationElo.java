@@ -4,13 +4,14 @@
  */
 package eu.scy.common.mission;
 
+import java.net.URISyntaxException;
+
+import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicMissionSpecificationEloContent;
 import eu.scy.common.mission.impl.jdom.MissionSpecificationEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
-import java.net.URISyntaxException;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -47,9 +48,9 @@ public class MissionSpecificationElo extends ContentTypedScyElo<MissionSpecifica
    }
    private final static MissionSpecificationEloContentCreator missionSpecificationEloContentCreator = new MissionSpecificationEloContentCreator();
 
-   public MissionSpecificationElo(IELO elo, IMetadataTypeManager metadataTypemanager)
+   public MissionSpecificationElo(IELO elo, ToolBrokerAPI tbi)
    {
-      super(elo, metadataTypemanager, missionSpecificationEloContentCreator);
+      super(elo, tbi, missionSpecificationEloContentCreator);
       setTechnicalFormat(MissionEloType.MISSION_SPECIFICATIOM.getType());
    }
 }
