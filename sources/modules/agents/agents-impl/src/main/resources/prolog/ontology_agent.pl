@@ -10,8 +10,7 @@ connect :-
 	ts_host(TsHost),
 	ts_port(TsPort),
     agent_name(Name),
-	agent_id(ID),
-	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, ID, Name, CommandTS),
+	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, Name, '', CommandTS),
 	assert(ts(command, CommandTS)).
 
 next_command(Cmd, Id, Params) :-
