@@ -33,13 +33,18 @@ import eu.scy.client.tools.fxvideo.VideoContentCreator;
 import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.client.tools.fxrichtexteditor.registration.RichTextEditorContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.tools.speedtest.SpeedTestPanelCreator;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.tools.mission.EloToolConfigurationEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.MissionMapModelEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.MissionRuntimeEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreator;
 
 /**
  * @author sikkenj
@@ -57,7 +62,7 @@ var initializer = Initializer {
 //           enableLocalLogging:true
         }
 
-function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    def scyDrawingId = "drawing";
    def scyFitexId = "fitex";
@@ -78,11 +83,15 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def wordUploadId = "wordUpload";
    def scyRichTextId = "richtext";
    def speedTestPanelId = "speedTestPanel";
+   def missionSpecificationId = "missionSpecification";
+   def missionMapModelId = "missionMapModel";
+   def eloToolConfigurationId = "eloToolConfiguration";
+   def missionRuntimeId = "missionRuntime";
+   def templateElosId = "templateElos";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              toolBrokerAPI: toolBrokerAPI;
-              userName: userName;
+              missionRunConfigs: missionRunConfigs;
            }
 
 //   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
@@ -130,12 +139,18 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionSpecificationEditorCreator{}, missionSpecificationId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionMapModelEditorCreator{}, missionMapModelId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloToolConfigurationEditorCreator{}, eloToolConfigurationId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionRuntimeEditorCreator{}, missionRuntimeId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TemplateElosEloEditorCreator{}, templateElosId);
+
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloXmlViewerCreatorFX{}, "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("xmlViewer");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
 
-   var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+   var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolDrawerContentCreatorFX {
@@ -162,7 +177,6 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
       metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-      userId:userName
    }
    return scyDesktop;
 }
