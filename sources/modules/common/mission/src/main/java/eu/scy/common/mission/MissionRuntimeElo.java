@@ -4,6 +4,7 @@
  */
 package eu.scy.common.mission;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 
 import roolo.elo.api.IELO;
@@ -50,12 +51,14 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
    }
    private static final MissionRuntimeEloContentCreator missionRuntimeEloContentCreator = new MissionRuntimeEloContentCreator();
    private final IMetadataKey missionRunningKey;
+   private final IMetadataKey missionSpecificationEloKey;
 
    public MissionRuntimeElo(IELO elo, ToolBrokerAPI tbi)
    {
       super(elo, tbi, missionRuntimeEloContentCreator);
       setTechnicalFormat(MissionEloType.MISSION_RUNTIME.getType());
       missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
+      missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
    }
 
    public void setMissionRunning(String userName){
@@ -64,5 +67,13 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
 
    public String getMissionRunning(){
       return (String) getMetatadata().getMetadataValueContainer(missionRunningKey).getValue();
+   }
+   
+   public void setMissionSpecificationElo(URI uri){
+      getMetatadata().getMetadataValueContainer(missionSpecificationEloKey).setValue(uri);
+   }
+
+   public URI getMissionSpecificationElo(){
+      return (URI) getMetatadata().getMetadataValueContainer(missionSpecificationEloKey).getValue();
    }
 }
