@@ -14,10 +14,10 @@ import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 
 /**
  * @author sikkenj
@@ -29,7 +29,7 @@ var initializer = Initializer {
            authorMode:true
         }
 
-function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyDrawingId = "drawing";
    def eloXmlViewerId = "xmlViewer";
    def scyToolViewerId = "scyToolViewer";
@@ -37,8 +37,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              toolBrokerAPI: toolBrokerAPI;
-              userName: userName;
+              missionRunConfigs: missionRunConfigs;
            }
 
 //   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator {}, scyDrawingId);
@@ -56,7 +55,6 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
       metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-      userId:userName
    }
 
    return scyDesktop;

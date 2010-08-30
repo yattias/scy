@@ -15,12 +15,12 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.IAwarenessService;
 import org.apache.log4j.Logger;
 import java.lang.*;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 /**
  * @author jeremyt
  */
@@ -30,7 +30,7 @@ var initializer = Initializer {
         };
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
 
-function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scychatId = "chat";
    def scychatpresenceId = "presence";
    def scystudentplanningId = "studentplanningtool";
@@ -38,13 +38,12 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              toolBrokerAPI: toolBrokerAPI;
-              userName: userName;
+              missionRunConfigs: missionRunConfigs;
            }
 
     
 
-    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    // awarenessService.setMUCConferenceExtension("conference.scy.collide.info");
    logger.info("MUC Conference: {awarenessService.getMUCConferenceExtension()}");
 
@@ -87,7 +86,6 @@ var scyDesktop = scyDesktopCreator.createScyDesktop();
       metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-      userId:userName
    }
    return scyDesktop;
 }
