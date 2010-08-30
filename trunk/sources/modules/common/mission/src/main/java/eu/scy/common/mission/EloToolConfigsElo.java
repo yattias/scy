@@ -4,12 +4,12 @@
  */
 package eu.scy.common.mission;
 
+import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicEloToolConfigsEloContent;
 import eu.scy.common.mission.impl.jdom.EloToolConfigsEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -39,9 +39,9 @@ public class EloToolConfigsElo extends ContentTypedScyElo<EloToolConfigsEloConte
    }
    private static final EloToolConfigsEloContentCreator eloToolConfigsEloContentCreator = new EloToolConfigsEloContentCreator();
 
-   public EloToolConfigsElo(IELO elo, IMetadataTypeManager metadataTypemanager)
+   public EloToolConfigsElo(IELO elo, ToolBrokerAPI tbi)
    {
-      super(elo, metadataTypemanager, eloToolConfigsEloContentCreator);
+      super(elo, tbi, eloToolConfigsEloContentCreator);
       setTechnicalFormat(MissionEloType.ELO_TOOL_CONFIGURATION.getType());
    }
 }

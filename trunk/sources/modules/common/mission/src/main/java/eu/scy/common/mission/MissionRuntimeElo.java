@@ -8,12 +8,12 @@ import java.net.URISyntaxException;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.common.mission.impl.BasicMissionRuntimeEloContent;
 import eu.scy.common.mission.impl.jdom.MissionRuntimeEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -51,9 +51,9 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
    private static final MissionRuntimeEloContentCreator missionRuntimeEloContentCreator = new MissionRuntimeEloContentCreator();
    private final IMetadataKey missionRunningKey;
 
-   public MissionRuntimeElo(IELO elo, IMetadataTypeManager metadataTypemanager)
+   public MissionRuntimeElo(IELO elo, ToolBrokerAPI tbi)
    {
-      super(elo, metadataTypemanager, missionRuntimeEloContentCreator);
+      super(elo, tbi, missionRuntimeEloContentCreator);
       setTechnicalFormat(MissionEloType.MISSION_RUNTIME.getType());
       missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
    }
