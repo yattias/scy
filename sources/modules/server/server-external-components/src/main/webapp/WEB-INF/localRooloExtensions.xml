@@ -15,6 +15,30 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/missionspecification</value>
+               </key>
+               <value>.scymissionspecification</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/missionmapmodel</value>
+               </key>
+               <value>.scymissionmapmodel</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/elotoolconfiguration</value>
+               </key>
+               <value>.scyelotoolconfiguration</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/templateelos</value>
+               </key>
+               <value>.scytemplateelos</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>
@@ -132,6 +156,12 @@
                   <value>scy/studentplanningtool</value>
                </key>
                <value>.studentplan</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/speedtest</value>
+               </key>
+               <value>.speedtest</value>
             </entry>
          </map>
       </property>
