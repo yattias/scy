@@ -318,18 +318,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				}
 				List<String> keywords = extractor.getKeywords(elo);
 
-				// String text = ExtractKeywordsDecisionMakerAgent.this
-				// .getEloText(contextInformation.webresourcerELO);
-				// if (!"".equals(text)) {
-				// List<String> keywords =
-				// ExtractKeywordsDecisionMakerAgent.this
-				// .getKeywords(text);
 				logger.info("found keywords to send to " + user + ": "
 						+ keywords);
 				ExtractKeywordsDecisionMakerAgent.this.sendNotification(
 						contextInformation, keywords);
 				contextInformation.lastNotification = currentTime;
-				// }
 			}
 
 			private IELO getELO(final ContextInformation contextInformation) {
@@ -391,64 +384,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		}
 	}
 
-	// private String getEloText(URI webresourcerELO) {
-	// logger.info("Getting elo: " + webresourcerELO);
-	// if (this.repository == null) {
-	// logger.fatal("repository is null");
-	// return "";
-	// }
-	// IELO elo = this.repository.retrieveELO(webresourcerELO);
-	// if (elo == null) {
-	// logger.fatal("ELO " + webresourcerELO + " was null");
-	// return "";
-	// }
-	// extractor.getKeywords(elo);
-	// IContent content = elo.getContent();
-	// if (content == null) {
-	// logger.fatal("Content of elo is null");
-	// return "";
-	// }
-	// String text = content.getXml();
-	// text = text.substring(text.indexOf(ANNOTATIONS_START), text
-	// .lastIndexOf(ANNOTATIONS_END)
-	// + ANNOTATIONS_END.length());
-	// logger.debug("Got text " + text);
-	// return text;
-	// }
-	//
-	// private List<String> getKeywords(String text) {
-	// try {
-	// String queryId = new VMID().toString();
-	// Tuple extractKeywordsTriggerTuple = new Tuple(
-	// ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-	// queryId, text);
-	// extractKeywordsTriggerTuple.setExpiration(7200000);
-	// Tuple responseTuple = null;
-	// if (this.getCommandSpace().isConnected()) {
-	// this.getCommandSpace().write(extractKeywordsTriggerTuple);
-	// responseTuple = this.getCommandSpace().waitToTake(
-	// new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-	// AgentProtocol.RESPONSE, queryId, Field
-	// .createWildCardField()));
-	// }
-	// if (responseTuple != null) {
-	// ArrayList<String> keywords = new ArrayList<String>();
-	// for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
-	// String keyword = (String) responseTuple.getField(i)
-	// .getValue();
-	// keywords.add(keyword);
-	// }
-	// return keywords;
-	// }
-	// } catch (TupleSpaceException e) {
-	// e.printStackTrace();
-	// }
-	// return new ArrayList<String>();
-	// }
-
 	@Override
 	protected Tuple getIdentifyTuple(String queryId) {
-		return null;
+		return new Tuple(AgentProtocol.RESPONSE, queryId, getId(), getName(),
+				AgentProtocol.MESSAGE_IDENTIFY, IDLE_TIME_INMS,
+				MINIMUM_NUMBER_OF_CONCEPTS, TIME_AFTER_USERS_ARE_REMOVED);
 	}
 
 	@Override

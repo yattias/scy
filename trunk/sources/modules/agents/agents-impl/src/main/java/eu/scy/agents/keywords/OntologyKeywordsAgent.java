@@ -19,7 +19,8 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class OntologyKeywordsAgent extends AbstractRequestAgent {
 
-	private static final Logger logger = Logger.getLogger(OntologyKeywordsAgent.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(OntologyKeywordsAgent.class.getName());
 
 	public static final String EXTRACT_ONTOLOGY_KEYWORDS = "ExtractOntologyKeywords";
 
@@ -36,9 +37,11 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
-		this.activationTuple = new Tuple(EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
+		this.activationTuple = new Tuple(EXTRACT_ONTOLOGY_KEYWORDS,
+				AgentProtocol.QUERY, String.class, String.class);
 		try {
-			this.listenerId = this.getCommandSpace().eventRegister(Command.WRITE, this.activationTuple, this, true);
+			this.listenerId = this.getCommandSpace().eventRegister(
+					Command.WRITE, this.activationTuple, this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +49,8 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	@Override
-	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+	public void call(Command command, int seq, Tuple afterTuple,
+			Tuple beforeTuple) {
 		if (this.listenerId != seq) {
 			logger.debug("Callback passed to Superclass.");
 			super.call(command, seq, afterTuple, beforeTuple);
@@ -58,7 +62,8 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			Set<String> keywords = this.getKeywords(text);
 
 			try {
-				this.getCommandSpace().write(this.createResponseTuple(keywords, queryId));
+				this.getCommandSpace().write(
+						this.createResponseTuple(keywords, queryId));
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
@@ -71,7 +76,8 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			keywordBuffer.append(keyword);
 			keywordBuffer.append(";");
 		}
-		return new Tuple(EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.RESPONSE, queryId, keywordBuffer.toString().trim());
+		return new Tuple(EXTRACT_ONTOLOGY_KEYWORDS, AgentProtocol.RESPONSE,
+				queryId, keywordBuffer.toString().trim());
 	}
 
 	private Set<String> getKeywords(String text) {
@@ -95,10 +101,12 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 		try {
 			VMID queryId = new VMID();
 			this.getCommandSpace().write(
-					new Tuple(queryId.toString(), "onto", "entities", "http://www.scy.eu/co2house#"));
+					new Tuple(queryId.toString(), "onto", "entities",
+							"http://www.scy.eu/co2house#"));
 
-			Tuple response = this.getCommandSpace().waitToTake(new Tuple(queryId.toString(), String.class),
-					AgentProtocol.ALIVE_INTERVAL * 3);
+			Tuple response = this.getCommandSpace().waitToTake(
+					new Tuple(queryId.toString(), AgentProtocol.RESPONSE,
+							String.class), AgentProtocol.ALIVE_INTERVAL * 3);
 			if (response == null) {
 				return ontologyKeywords;
 			}
@@ -138,7 +146,8 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	@Override
-	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+	protected void doRun() throws TupleSpaceException, AgentLifecycleException,
+			InterruptedException {
 		while (this.status == Status.Running) {
 			this.sendAliveUpdate();
 			try {
@@ -155,7 +164,8 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			this.getCommandSpace().eventDeRegister(this.listenerId);
 			this.listenerId = -1;
 		} catch (TupleSpaceException e) {
-			throw new AgentLifecycleException("Could not deregister listener", e);
+			throw new AgentLifecycleException("Could not deregister listener",
+					e);
 		}
 		this.status = Status.Stopping;
 
