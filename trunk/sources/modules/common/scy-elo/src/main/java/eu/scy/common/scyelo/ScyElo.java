@@ -5,6 +5,8 @@
 package eu.scy.common.scyelo;
 
 import java.net.URI;
+
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
@@ -20,17 +22,20 @@ public class ScyElo
 {
 
    private IELO elo;
+   private final ToolBrokerAPI tbi;
    private final IMetadataTypeManager metadataTypemanager;
    private final IMetadataKey titleKey;
    private final IMetadataKey technicalFormatKey;
    private final IMetadataKey descriptionKey;
 
-   public ScyElo(IELO elo, IMetadataTypeManager metadataTypemanager)
+   public ScyElo(IELO elo, ToolBrokerAPI tbi)
    {
       assert elo != null;
-      assert metadataTypemanager != null;
+      assert tbi != null;
+      assert tbi.getMetaDataTypeManager() != null;
       this.elo = elo;
-      this.metadataTypemanager = metadataTypemanager;
+      this.tbi = tbi;
+      this.metadataTypemanager = tbi.getMetaDataTypeManager();
       titleKey = findMetadataKey(CoreRooloMetadataKeyIds.TITLE);
       technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       descriptionKey = findMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION);
@@ -49,7 +54,7 @@ public class ScyElo
    @Override
    public String toString()
    {
-      return  getClass().getSimpleName() + "{uri=" + getUri() + ", title=" + getTitle() + ",tFormat=" + getTechnicalFormat() + '}';
+      return  getClass().getSimpleName() + "{uri=" + getUri() + ", title=" + getTitle() + ", format=" + getTechnicalFormat() + '}';
    }
 
    public IELO getElo()
