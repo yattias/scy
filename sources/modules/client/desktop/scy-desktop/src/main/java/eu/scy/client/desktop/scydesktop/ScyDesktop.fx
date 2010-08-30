@@ -85,6 +85,8 @@ import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
 import java.lang.Exception;
+import java.net.URI;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 
 /**
  * @author sikkenj
@@ -109,6 +111,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
     public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
     public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
     public var eloConfigManager: EloConfigManager;
+    public var templateEloUris: URI[];
     public var topLeftCornerTool: Node on replace {
                 topLeftCorner.content = topLeftCornerTool
             };
@@ -567,7 +570,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
        logger.info("realFillNewScyWindow2({window.eloUri},{collaboration})");
-        var eloConfig = eloConfigManager.getEloConfig(window.eloType);
+        var eloConfig = eloConfigManager.getEloToolConfig(window.eloType);
         if (eloConfig == null) {
             logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
             return ;
@@ -818,9 +821,9 @@ function run()    {
     scyDesktop.bottomLeftCornerTool = newScyWindowTool;
     //   scyDesktop.bottomLeftCornerTool = Rectangle{x:10,y:10,width:100,height:100,fill:Color.BLACK};
 
-    scyDesktop.newEloCreationRegistry.registerEloCreation("test", "test");
-    scyDesktop.newEloCreationRegistry.registerEloCreation("tst", "tst");
-    scyDesktop.newEloCreationRegistry.registerEloCreation("size", "Size test");
+    scyDesktop.newEloCreationRegistry.registerEloCreation("test");
+    scyDesktop.newEloCreationRegistry.registerEloCreation("tst");
+    scyDesktop.newEloCreationRegistry.registerEloCreation("size");
     Stage {
         title: "ScyDestop Test"
         scene: Scene {

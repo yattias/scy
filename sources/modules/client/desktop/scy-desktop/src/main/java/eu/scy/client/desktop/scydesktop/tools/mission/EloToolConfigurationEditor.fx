@@ -8,8 +8,8 @@ import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFil
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
 import javax.swing.JFileChooser;
 import java.lang.String;
-import eu.scy.common.mission.impl.jdom.EloToolConfigXmlUtils;
-import eu.scy.client.desktop.scydesktop.EloType;
+import eu.scy.common.mission.impl.jdom.EloToolConfigsEloContentXmlUtils;
+import eu.scy.common.mission.MissionEloType;
 
 /**
  * @author SikkenJ
@@ -18,7 +18,7 @@ import eu.scy.client.desktop.scydesktop.EloType;
 public class EloToolConfigurationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      EloType.ELO_TOOL_CONFIGURATION.getType()
+      MissionEloType.ELO_TOOL_CONFIGURATION.getType()
    }
 
    override protected function doImport(): Void {
@@ -39,7 +39,7 @@ public class EloToolConfigurationEditor extends EloXmlEditor {
    override protected function validateXml(xml: String): String {
       var errors = super.validateXml(xml);
       if (errors == null) {
-         def eloConfigs = EloToolConfigXmlUtils.eloToolConfigsFromXml(xml);
+         def eloConfigs = EloToolConfigsEloContentXmlUtils.eloToolConfigsFromXml(xml);
          if (eloConfigs == null) {
             errors = "The xml is not valid for elo tool configurations";
          }

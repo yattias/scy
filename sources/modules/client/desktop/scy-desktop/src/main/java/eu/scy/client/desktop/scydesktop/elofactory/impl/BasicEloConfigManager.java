@@ -4,10 +4,10 @@
  */
 package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
-import eu.scy.client.desktop.scydesktop.config.BasicEloConfig;
 import eu.scy.client.desktop.scydesktop.config.Config;
-import eu.scy.client.desktop.scydesktop.config.EloConfig;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
+import eu.scy.common.mission.EloToolConfig;
+import eu.scy.common.mission.impl.BasicEloToolConfig;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,12 +28,12 @@ public class BasicEloConfigManager implements EloConfigManager
    }
 
    @Override
-   public EloConfig getEloConfig(String eloType)
+   public EloToolConfig getEloToolConfig(String eloType)
    {
-      BasicEloConfig eloConfig = config.getEloConfig(eloType);
+      BasicEloToolConfig eloConfig = config.getEloToolConfig(eloType);
       if (eloConfig != null)
       {
-         BasicEloConfig basicEloConfig = new BasicEloConfig(eloConfig);
+         BasicEloToolConfig basicEloConfig = new BasicEloToolConfig(eloConfig);
          basicEloConfig.setContentCreatorId(getDebugCheckedCreatorId(eloConfig.getContentCreatorId()));
          basicEloConfig.setTopDrawerCreatorId(getDebugCheckedCreatorId(eloConfig.getTopDrawerCreatorId()));
          basicEloConfig.setRightDrawerCreatorId(getDebugCheckedCreatorId(eloConfig.getRightDrawerCreatorId()));

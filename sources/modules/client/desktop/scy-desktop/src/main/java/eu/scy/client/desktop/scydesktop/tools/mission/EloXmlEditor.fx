@@ -180,7 +180,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
          }
          title: title
          windowColorScheme: window.windowColorScheme
-         targetScene: this.scene
+//         targetScene: this.scene
       }
    }
 

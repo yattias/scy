@@ -32,7 +32,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.client.desktop.scydesktop.uicontrols.DynamicTypeBackground;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.StringTokenizer;
 import javafx.util.Sequences;
 import javafx.util.StringLocalizer;
@@ -44,6 +43,7 @@ import eu.scy.client.common.scyi18n.UriLocalizer;
 import eu.scy.toolbrokerapi.ToolBrokerLogin;
 import eu.scy.client.desktop.localtoolbroker.LocalToolBrokerLogin;
 import eu.scy.client.desktop.localtoolbroker.LocalMultiUserToolBrokerLogin;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -88,6 +88,7 @@ public class Initializer {
     public-init var missionMapNotSelectedImageScale = 1.0;
     public-init var missionMapPositionScale = 1.0;
     public-init var localUriReplacements = "";
+    public-init var usingRooloCache = true;
     public-read var languages:String[];
     public-read var backgroundImage: Image;
     public-read var localLoggingDirectory: File = null;
@@ -133,6 +134,7 @@ public class Initializer {
     def missionMapNotSelectedImageScaleOption = "missionMapNotSelectedImageScale";
     def missionMapPositionScaleOption = "missionMapPositionScale";
     def localUriReplacementsOption = "localUriReplacements";
+    def usingRooloCacheOption = "usingRooloCache";
 
     var setupLoggingToFiles:SetupLoggingToFiles;
     package var background:DynamicTypeBackground;
@@ -271,6 +273,9 @@ public class Initializer {
                 } else if (option == localUriReplacementsOption.toLowerCase()) {
                     localUriReplacements = argumentsList.nextStringValue(localUriReplacementsOption);
                     logger.info("app: {localUriReplacementsOption}: {localUriReplacements}");
+                } else if (option == usingRooloCacheOption.toLowerCase()) {
+                    usingRooloCache = argumentsList.nextBooleanValue(usingRooloCacheOption);
+                    logger.info("app: {usingRooloCacheOption}: {usingRooloCache}");
                 } else {
                     logger.info("Unknown option: {option}");
                 }
@@ -312,6 +317,7 @@ public class Initializer {
         missionMapNotSelectedImageScale = getWebstartParameterNumberValue(missionMapNotSelectedImageScaleOption, missionMapNotSelectedImageScale);
         missionMapPositionScale = getWebstartParameterNumberValue(missionMapPositionScaleOption, missionMapPositionScale);
         localUriReplacements = getWebstartParameterStringValue(localUriReplacementsOption, localUriReplacements);
+        usingRooloCache = getWebstartParameterBooleanValue(usingRooloCacheOption, usingRooloCache);
     }
 
     function getWebstartParameterStringValue(name: String, default: String): String {
@@ -379,6 +385,7 @@ public class Initializer {
         printWriter.println("- missionMapNotSelectedImageScale: {missionMapNotSelectedImageScale}");
         printWriter.println("- missionMapPositionScale: {missionMapPositionScale}");
         printWriter.println("- localUriReplacements: {localUriReplacements}");
+        printWriter.println("- usingRooloCache: {usingRooloCache}");
     }
 
     public function isEmpty(string: String): Boolean {
@@ -412,7 +419,7 @@ public class Initializer {
         return null;
     }
 
-   public function getScene(createScyDesktop: function(tbi: ToolBrokerAPI, userName: String): ScyDesktop): Scene {
+   public function getScene(createScyDesktop: function(missionRunConfigs: MissionRunConfigs): ScyDesktop): Scene {
       var scene = Scene {
          };
       background = DynamicTypeBackground {

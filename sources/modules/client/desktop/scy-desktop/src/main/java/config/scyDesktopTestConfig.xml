@@ -142,6 +142,22 @@
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionruntime"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionRuntime"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/templateelos"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="templateElos"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
          </list>
       </property>
 

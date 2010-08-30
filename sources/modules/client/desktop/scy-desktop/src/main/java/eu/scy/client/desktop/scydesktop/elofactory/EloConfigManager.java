@@ -5,7 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.elofactory;
 
-import eu.scy.client.desktop.scydesktop.config.EloConfig;
+import eu.scy.common.mission.EloToolConfig;
 
 /**
  *
@@ -13,7 +13,7 @@ import eu.scy.client.desktop.scydesktop.config.EloConfig;
  */
 public interface EloConfigManager
 {
-   public EloConfig getEloConfig(String eloType);
+   public EloToolConfig getEloToolConfig(String eloType);
    public void addDebugCreatorId(String creatorId);
    public void setDebug(boolean debug);
 }

@@ -23,7 +23,7 @@ import eu.scy.client.desktop.scydesktop.config.DisplayNames;
 import java.util.List;
 import eu.scy.client.desktop.scydesktop.config.Config;
 
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
@@ -112,7 +112,7 @@ public class ScyDesktopEloSaver extends EloSaver {
 
    function showEloSaveAsPanel(elo:IELO, suggestedEloTitle:String, myElo:Boolean, eloSaverCallBack: EloSaverCallBack):Void{
       var eloSaveAsPanel = new EloSaveAsPanel();
-      eloSaveAsPanel.setEloConfig(config.getEloConfig(window.eloType));
+      eloSaveAsPanel.setEloToolConfig(config.getEloToolConfig(window.eloType));
       eloSaveAsPanel.setLogicalTypeDisplayNames(logicalTypeDisplayNames);
       eloSaveAsPanel.setFunctinalTypeDisplayNames(functionalTypeDisplayNames);
 
@@ -146,7 +146,7 @@ public class ScyDesktopEloSaver extends EloSaver {
          content: Group{
                content: ScySwingWrapper.wrap(eloSaveAsPanel);
             }
-         targetScene:window.scene
+//         targetScene:window.scene
          title:"Enter ELO specification"
          eloIcon:eloIcon
          windowColorScheme:windowColorScheme

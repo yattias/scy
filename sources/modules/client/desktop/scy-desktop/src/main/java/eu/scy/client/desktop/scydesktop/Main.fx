@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
@@ -21,6 +20,8 @@ import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationEditor
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionMapModelEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.EloToolConfigurationEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionRuntimeEditorCreator;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreator;
 
 /**
  * @author sikkenj
@@ -31,7 +32,7 @@ var initializer = Initializer{
    javaUtilLoggingInitFile:"/config/scy-desktop-java-util-logging.properties"
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"local"
-   storeElosOnDisk:true
+   storeElosOnDisk:false
    createPersonalMissionMap:true
    enableLocalLogging:true
    redirectSystemStream:false
@@ -44,7 +45,7 @@ var initializer = Initializer{
 //   eloImagesPath:"file:eloImages/"
 }
 
-function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {
+function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyTextId = "text";
    def scyImageId = "image";
    def eloXmlViewerId = "xmlViewer";
@@ -56,11 +57,11 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    def missionMapModelId = "missionMapModel";
    def eloToolConfigurationId = "eloToolConfiguration";
    def missionRuntimeId = "missionRuntime";
+   def templateElosId = "templateElos";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              toolBrokerAPI:toolBrokerAPI;
-              userName:userName;
+              missionRunConfigs: missionRunConfigs;
            }
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
@@ -75,6 +76,7 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionMapModelEditorCreator{}, missionMapModelId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloToolConfigurationEditorCreator{}, eloToolConfigurationId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionRuntimeEditorCreator{}, missionRuntimeId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TemplateElosEloEditorCreator{}, templateElosId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    
@@ -86,14 +88,13 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
       metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-      userId:userName
    }
    return scyDesktop;
 }
 
 Stage {
 	title : "SCY Desktop"
-   width:400
-   height:300
+   width:500
+   height:400
 	scene: initializer.getScene(createScyDesktop);
 }

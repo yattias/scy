@@ -8,7 +8,7 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.FunctionalTypes;
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;

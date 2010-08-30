@@ -81,7 +81,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             content: Group {
                content: eloSaveAsPanel.getDesignRootNodes()
             }
-            targetScene: window.scene
+//            targetScene: window.scene
             title: ##"Enter title"
             eloIcon: eloIcon
             windowColorScheme: windowColorScheme

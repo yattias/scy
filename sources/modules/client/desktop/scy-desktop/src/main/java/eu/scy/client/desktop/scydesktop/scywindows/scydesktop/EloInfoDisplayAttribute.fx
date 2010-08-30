@@ -15,7 +15,7 @@ import javafx.scene.shape.Circle;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import javafx.scene.input.MouseEvent;
 import java.net.URI;

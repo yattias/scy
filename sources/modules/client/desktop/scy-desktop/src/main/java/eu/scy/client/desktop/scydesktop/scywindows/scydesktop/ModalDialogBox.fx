@@ -17,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.input.KeyEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
@@ -31,7 +32,7 @@ public def modalDialogGroup = Group{
 public class ModalDialogBox extends CustomNode {
 
    public var content:Node;
-   public var targetScene:Scene;
+   public var targetScene:Scene; // not used
    public var title:String;
    public var eloIcon : EloIcon;
    public var windowColorScheme:WindowColorScheme;
@@ -45,6 +46,10 @@ public class ModalDialogBox extends CustomNode {
 
 
    public override function create(): Node {
+      if (windowColorScheme==null){
+         windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+      }
+
       dialogWindow = StandardScyWindow{
          scyContent:content;
          title:title

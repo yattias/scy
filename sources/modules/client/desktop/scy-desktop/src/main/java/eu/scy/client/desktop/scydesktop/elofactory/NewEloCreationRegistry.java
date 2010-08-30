@@ -18,7 +18,7 @@ public interface NewEloCreationRegistry {
     * @param eloType
     * @param displayName
     */
-   public void registerEloCreation(String eloType, String displayName);
+   public void registerEloCreation(String eloType);
 
    /**
     * Return the eloType belonging to the typeName
@@ -42,4 +42,12 @@ public interface NewEloCreationRegistry {
     * @return
     */
    public String[] getEloTypeNames();
+
+   /**
+    * Returns true if the eloType is registered
+    * 
+    * @param eloType
+    * @return
+    */
+   public boolean containsEloType(String eloType);
 }
