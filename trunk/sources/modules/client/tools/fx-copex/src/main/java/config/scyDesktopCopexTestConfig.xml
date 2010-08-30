@@ -4,23 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-   <import resource="localRooloConfig.xml"/>
-   <!--<import resource="localWrappedRooloConfig.xml"/>-->
-	<!-- <import resource="remoteRooloConfig.xml"/> -->
-
-   <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
-      <constructor-arg index="0" ref="metadataTypeManager"/>
-   </bean>
-
    <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
-      <!--
-      <property name="repository" ref="repository"/>
-      <property name="extensionManager" ref="extensionManager"/>
-      <property name="metadataTypeManager" ref="metadataTypeManager"/>
-      <property name="eloFactory" ref="eloFactory"/>
-      <property name="titleKey" ref="titleKey"/>
-      <property name="technicalFormatKey" ref="technicalFormatKey"/>
-      -->
 
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">

@@ -11,8 +11,8 @@ import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 
 /**
  * @author pg
@@ -23,7 +23,7 @@ var initializer = Initializer {
            authorMode:true
         }
 
-function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    //def scyWebType = "scy/webresource";
    def scyWebresourceId = "webresource";
 //var test = JAXBTest{};
@@ -31,8 +31,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              toolBrokerAPI: toolBrokerAPI;
-              userName: userName;
+              missionRunConfigs: missionRunConfigs;
            }
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
@@ -49,7 +48,6 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
       metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-      userId:userName
    }
 
    return scyDesktop;

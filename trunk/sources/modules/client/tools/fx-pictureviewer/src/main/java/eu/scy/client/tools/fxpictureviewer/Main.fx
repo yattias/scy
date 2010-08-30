@@ -15,7 +15,7 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 
 /**
  * @author pg
@@ -24,14 +24,13 @@ var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopPictureViewerTestConfig.xml"
         }
 
-function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 // def scyPictureType = "scy/pictureviewer";
    def scyPictureViewerId = "pictureviewer";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              toolBrokerAPI: toolBrokerAPI;
-              userName: userName;
+              missionRunConfigs: missionRunConfigs;
            }
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(PictureViewerContentCreator {}, scyPictureViewerId);
@@ -53,17 +52,9 @@ var stage: Stage;
 var scene: Scene;
 
 stage = Stage {
-   title: "pictureviewer"
+   title: "SCY-Lab with pictureviewer"
    width: 350
    height: 250
-   scene: scene = Scene {
-      content: [
-         initializer.getBackgroundImageView(scene),
-         LoginDialog {
-            createScyDesktop: createScyDesktop
-            initializer: initializer;
-         }
-      ]
-   }
+   scene: initializer.getScene(createScyDesktop);
 }
 

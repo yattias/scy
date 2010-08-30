@@ -8,8 +8,6 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
-import org.apache.commons.lang.StringUtils;
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -34,6 +32,7 @@ import javax.swing.JLabel;
 import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import javafx.scene.layout.Container;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 
 
 
