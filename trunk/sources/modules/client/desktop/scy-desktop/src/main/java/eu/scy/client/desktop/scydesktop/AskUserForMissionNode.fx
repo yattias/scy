@@ -3,7 +3,6 @@
  *
  * Created on 23-aug-2010, 15:31:44
  */
-
 package eu.scy.client.desktop.scydesktop;
 
 /**
@@ -13,7 +12,9 @@ public class AskUserForMissionNode {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
     public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
-        text: "Continue with"
+        layoutX: 0.0
+        layoutY: 0.0
+        text: "##Continue with"
     }
     
     def __layoutInfo_startedMissionListView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
@@ -21,36 +22,63 @@ public class AskUserForMissionNode {
         height: 73.0
     }
     public-read def startedMissionListView: javafx.scene.control.ListView = javafx.scene.control.ListView {
+        layoutX: 0.0
+        layoutY: 15.0
         layoutInfo: __layoutInfo_startedMissionListView
+        onMouseClicked: startedMissionListViewOnMouseClicked
         items: [ "Item 1", "Item 2", "Item 3", ]
     }
     
     public-read def label2: javafx.scene.control.Label = javafx.scene.control.Label {
-        text: "Start new mission"
+        layoutX: 0.0
+        layoutY: 94.0
+        text: "##Start new mission"
     }
     
-    def __layoutInfo_listView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+    def __layoutInfo_newMissionListView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
         width: 246.0
         height: 71.0
     }
-    public-read def listView: javafx.scene.control.ListView = javafx.scene.control.ListView {
-        layoutInfo: __layoutInfo_listView
+    public-read def newMissionListView: javafx.scene.control.ListView = javafx.scene.control.ListView {
+        layoutX: 0.0
+        layoutY: 109.0
+        layoutInfo: __layoutInfo_newMissionListView
+        onMouseClicked: newMissionListViewOnMouseClicked
         items: [ "Item 1", "Item 2", "Item 3", ]
     }
     
+    def __layoutInfo_cancelButton: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+        hpos: javafx.geometry.HPos.RIGHT
+    }
     public-read def cancelButton: javafx.scene.control.Button = javafx.scene.control.Button {
-        text: "Cancel"
+        layoutX: 191.0
+        layoutY: 192.0
+        layoutInfo: __layoutInfo_cancelButton
+        text: "##Quit"
     }
     
     public-read def goButton: javafx.scene.control.Button = javafx.scene.control.Button {
-        text: "Go"
+        disable: true
+        layoutX: 113.0
+        layoutY: 192.0
+        text: "##Go"
+    }
+    
+    def __layoutInfo_blankButton: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+        hpos: javafx.geometry.HPos.LEFT
+    }
+    public-read def blankButton: javafx.scene.control.Button = javafx.scene.control.Button {
+        layoutX: 0.0
+        layoutY: 192.0
+        layoutInfo: __layoutInfo_blankButton
+        text: "##Blank"
     }
     
     public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
     }
     
     public function getDesignRootNodes (): javafx.scene.Node[] {
-        [ label, startedMissionListView, label2, listView, cancelButton, goButton, ]
+        [ label, startedMissionListView, label2, newMissionListView, cancelButton, goButton, blankButton, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
@@ -59,6 +87,30 @@ public class AskUserForMissionNode {
         }
     }
     // </editor-fold>//GEN-END:main
+
+   function newMissionListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      updateGoButtonStatus();
+      if (newMissionListView.selectedIndex >= 0) {
+         startedMissionListView.clearSelection();
+         if (event.clickCount == 2) {
+            goButton.fire();
+         }
+      }
+   }
+
+   function startedMissionListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      updateGoButtonStatus();
+      if (startedMissionListView.selectedIndex >= 0) {
+         newMissionListView.clearSelection();
+         if (event.clickCount == 2) {
+            goButton.fire();
+         }
+      }
+   }
+
+   function updateGoButtonStatus(): Void {
+      goButton.disable = newMissionListView.selectedIndex >= 0 and startedMissionListView.selectedIndex >= 0;
+   }
 
 }
 

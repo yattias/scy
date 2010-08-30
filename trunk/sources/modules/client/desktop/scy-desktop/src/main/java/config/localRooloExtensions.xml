@@ -33,6 +33,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/templateelos</value>
+               </key>
+               <value>.scytemplateelos</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>

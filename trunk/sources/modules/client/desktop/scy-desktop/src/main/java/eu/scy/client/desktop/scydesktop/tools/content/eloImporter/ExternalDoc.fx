@@ -36,7 +36,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextOrigin;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import java.awt.Component;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;

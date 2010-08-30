@@ -5,6 +5,7 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
+import eu.scy.common.mission.impl.BasicEloToolConfig;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
@@ -40,9 +41,9 @@ public class BasicConfig implements Config
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
    private RegisterContentCreators[] registerContentCreators;
-   private List<BasicEloConfig> eloConfigList;
-   private Map<String, BasicEloConfig> eloConfigs;
-   private List<NewEloDescription> newEloDescriptions;
+   private List<BasicEloToolConfig> eloToolConfigList;
+   private Map<String, BasicEloToolConfig> eloConfigs;
+   private List<String> newEloDescriptions;
    private BasicMissionMap basicMissionMap;
 //   private String missionId;
 //   private String missionName;
@@ -63,18 +64,11 @@ public class BasicConfig implements Config
 
    public void parseEloConfigs()
    {
-      eloConfigs = new HashMap<String, BasicEloConfig>();
-      List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
-      for (BasicEloConfig basicEloConfig : eloConfigList)
+      eloConfigs = new HashMap<String, BasicEloToolConfig>();
+      for (BasicEloToolConfig basicEloToolConfig : eloToolConfigList)
       {
-         basicEloConfig.checkTypeNames(logicalTypeDisplayNames, functionalTypeDisplayNames);
-         eloConfigs.put(basicEloConfig.getType(), basicEloConfig);
-         if (basicEloConfig.isCreatable())
-         {
-            realNewDescriptions.add(new NewEloDescription(basicEloConfig.getType(), basicEloConfig.getDisplay()));
-         }
+         eloConfigs.put(basicEloToolConfig.getEloType(), basicEloToolConfig);
       }
-      newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
       if (templateEloUris == null)
       {
          templateEloUris = new ArrayList<URI>();
@@ -205,17 +199,30 @@ public class BasicConfig implements Config
 
    public void setEloConfigs(List<BasicEloConfig> eloConfigList)
    {
-      this.eloConfigList = eloConfigList;
+      List<String> realNewTypes = new ArrayList<String>();
+      eloToolConfigList = new ArrayList<BasicEloToolConfig>();
+      for (BasicEloConfig basicEloConfig : eloConfigList){
+         eloToolConfigList.add(basicEloConfig);
+         if (basicEloConfig.isCreatable()){
+            realNewTypes.add(basicEloConfig.getEloType());
+         }
+      }
+      newEloDescriptions = Collections.unmodifiableList(realNewTypes);
+   }
+
+   public void setEloToolConfigs(List<BasicEloToolConfig> eloToolConfigList)
+   {
+      this.eloToolConfigList = eloToolConfigList;
    }
 
    @Override
-   public BasicEloConfig getEloConfig(String eloType)
+   public BasicEloToolConfig getEloToolConfig(String eloType)
    {
       return eloConfigs.get(eloType);
    }
 
    @Override
-   public List<NewEloDescription> getNewEloDescriptions()
+   public List<String> getNewEloTypes()
    {
       return newEloDescriptions;
    }

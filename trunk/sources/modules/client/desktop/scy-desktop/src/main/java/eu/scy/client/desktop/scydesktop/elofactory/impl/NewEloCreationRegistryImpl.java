@@ -20,20 +20,22 @@ public class NewEloCreationRegistryImpl implements NewEloCreationRegistry
 {
 
    private final static Logger logger = Logger.getLogger(NewEloCreationRegistryImpl.class);
-   private HashMap<String, String> registry = new HashMap<String, String>();
+   private HashMap<String, String> nameTypeMap = new HashMap<String, String>();
+   private HashMap<String, String> typeNameMap = new HashMap<String, String>();
    private List<String> typeNames = new ArrayList<String>();
    private final ResourceBundleWrapper resourceBundleWrapper = new ResourceBundleWrapper(this);
 
    @Override
-   public void registerEloCreation(String eloType, String displayName)
+   public void registerEloCreation(String eloType)
    {
-      logger.info("registering new elo creation for type " + eloType + " with name " + displayName);
-      if (!registry.containsValue(eloType))
+      logger.info("registering new elo creation for type " + eloType);
+      if (!nameTypeMap.containsValue(eloType))
       {
          String i18nDisplayName = resourceBundleWrapper.getString("technicalFormat."+eloType);
-         if (!registry.containsValue(i18nDisplayName))
+         if (!nameTypeMap.containsValue(i18nDisplayName))
          {
-            registry.put(i18nDisplayName,eloType);
+            nameTypeMap.put(i18nDisplayName,eloType);
+            typeNameMap.put(eloType,i18nDisplayName);
             typeNames.add(i18nDisplayName);
          }
          else
@@ -50,17 +52,15 @@ public class NewEloCreationRegistryImpl implements NewEloCreationRegistry
    @Override
    public String getEloType(String typeName)
    {
-      return registry.get(typeName);
+      return nameTypeMap.get(typeName);
    }
 
    @Override
    public String getEloTypeName(String type)
    {
-      for (Entry<String, String> entry : registry.entrySet()){
-         if (entry.getValue().equals(type))
-         {
-            return entry.getKey();
-         }
+      String name = typeNameMap.get(type);
+      if (name!=null){
+         return name;
       }
       return "Unknown type: " + type;
    }
@@ -69,5 +69,11 @@ public class NewEloCreationRegistryImpl implements NewEloCreationRegistry
    public String[] getEloTypeNames()
    {
       return typeNames.toArray(new String[0]);
+   }
+
+   @Override
+   public boolean containsEloType(String eloType)
+   {
+      return typeNameMap.containsKey(eloType);
    }
 }

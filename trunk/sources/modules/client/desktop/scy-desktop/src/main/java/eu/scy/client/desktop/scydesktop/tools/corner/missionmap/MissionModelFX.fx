@@ -11,6 +11,10 @@ import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author sikken
@@ -58,16 +62,6 @@ public class MissionModelFX {
          }
       }
    }
-
-   public function getAllEloUris():URI[]{
-      var allEloUris:URI[];
-      insert loEloUris into allEloUris;
-      for (las in lasses){
-         insert las.getAllEloUris() into allEloUris;
-      }
-      return allEloUris;
-   }
-
 
    public function anchorSelected(las:Las,anchor:MissionAnchorFX):Void{
       if (las==activeLas){
@@ -175,6 +169,41 @@ public class MissionModelFX {
             insert las into nextlas.previousLasses;
          }
       }
+   }
+
+   public function getEloUris(onlyAnchors: Boolean): List {
+      def eloUris = new HashSet();
+      if (not onlyAnchors) {
+         addNotNullUriList(eloUris, loEloUris);
+      }
+      for (las in lasses) {
+         if (not onlyAnchors) {
+            addNotNullUriList(eloUris, las.loEloUris);
+         }
+         addAnhorUris(eloUris, las.mainAnchor, onlyAnchors);
+         for (anchor in las.intermediateAnchors) {
+            addAnhorUris(eloUris, anchor, onlyAnchors);
+         }
+      }
+      return new ArrayList(eloUris);
+   }
+
+   function addNotNullUriList(eloUris: Set, uris: URI[]) {
+      for (uri in uris) {
+         if (uri != null) {
+            eloUris.add(uri)
+         }
+      }
+   }
+
+   function addAnhorUris(eloUris: Set, anchor: MissionAnchorFX, onlyAnchors: Boolean) {
+      if (anchor.eloUri != null) {
+         eloUris.add(anchor.eloUri);
+         if (not onlyAnchors) {
+            addNotNullUriList(eloUris, anchor.loEloUris);
+         }
+      }
+
    }
 
 }

@@ -4,8 +4,8 @@
  */
 
 package eu.scy.client.desktop.scydesktop.tools.mission;
-import eu.scy.client.desktop.scydesktop.EloType;
 import eu.scy.common.mission.impl.jdom.MissionRuntimeEloContentXmlUtils;
+import eu.scy.common.mission.MissionEloType;
 
 /**
  * @author SikkenJ
@@ -14,7 +14,7 @@ import eu.scy.common.mission.impl.jdom.MissionRuntimeEloContentXmlUtils;
 public class MissionRuntimeEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      EloType.MISSION_RUNTIME.getType()
+      MissionEloType.MISSION_RUNTIME.getType()
    }
 
    override protected function doImport(): Void {

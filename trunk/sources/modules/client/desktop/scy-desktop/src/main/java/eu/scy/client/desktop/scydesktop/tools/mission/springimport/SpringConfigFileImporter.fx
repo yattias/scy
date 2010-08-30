@@ -18,7 +18,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
-import eu.scy.common.mission.impl.jdom.EloToolConfigXmlUtils;
+import eu.scy.common.mission.impl.jdom.EloToolConfigsEloContentXmlUtils;
+import eu.scy.common.mission.impl.BasicEloToolConfigsEloContent;
+import eu.scy.common.mission.impl.BasicTemplateElosEloContent;
+import eu.scy.common.mission.impl.jdom.TemplateElosEloContentXmlUtils;
 
 /**
  * @author SikkenJ
@@ -31,6 +34,7 @@ public class SpringConfigFileImporter {
    public-init var repository: IRepository;
    public-read var missionMapXml: String;
    public-read var eloToolConfigsXml: String;
+   public-read var templateElosXml: String;
    var missionConfigInput: MissionConfigInput;
    def missionConfigInputBeanName = "missionConfigInput";
 
@@ -38,7 +42,12 @@ public class SpringConfigFileImporter {
       missionConfigInput = readSpringConfig();
       def missionModel = retrieveMissionModelFromConfig();
       missionMapXml = MissionModelXml.convertToXml(missionModel);
-      eloToolConfigsXml = EloToolConfigXmlUtils.eloToolConfigsToXml(missionConfigInput.getEloToolConfigs());
+      def eloToolConfigsEloContent = new BasicEloToolConfigsEloContent();
+      eloToolConfigsEloContent.setEloToolConfigs(missionConfigInput.getEloToolConfigs());
+      eloToolConfigsXml = EloToolConfigsEloContentXmlUtils.eloToolConfigsToXml(eloToolConfigsEloContent);
+      def templateElosEloContent = new BasicTemplateElosEloContent();
+      templateElosEloContent.setTemplateEloUris(missionConfigInput.getTemplateEloUris());
+      templateElosXml = TemplateElosEloContentXmlUtils.templateElosEloContentToXml(templateElosEloContent);
    }
 
    function readSpringConfig(): MissionConfigInput {

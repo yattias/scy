@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
 import javafx.util.Math;
-import eu.scy.client.desktop.scydesktop.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import java.net.URI;
 
 /**

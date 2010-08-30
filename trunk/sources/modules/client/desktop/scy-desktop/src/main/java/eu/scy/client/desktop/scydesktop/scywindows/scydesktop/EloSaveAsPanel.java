@@ -13,9 +13,12 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 import eu.scy.client.desktop.scydesktop.config.DisplayNames;
 import eu.scy.client.desktop.scydesktop.config.EloConfig;
 import eu.scy.client.desktop.scydesktop.utils.StringUtils;
+import eu.scy.common.mission.EloToolConfig;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JList;
+
+// TODO: replace by a working javafx version
 
 /**
  *
@@ -209,7 +212,7 @@ public class EloSaveAsPanel extends javax.swing.JPanel
    private javax.swing.JButton saveButton;
    private javax.swing.JTextField titleField;
    // End of variables declaration//GEN-END:variables
-   private EloConfig eloConfig;
+   private EloToolConfig eloToolConfig;
    private DisplayNames logicalTypeDisplayNames;
    private DisplayNames functinalTypeDisplayNames;
    private boolean typesAdded = false;
@@ -237,9 +240,9 @@ public class EloSaveAsPanel extends javax.swing.JPanel
       this.eloSaveAsActionListener = eloSaveAsActionListener;
    }
 
-   public void setEloConfig(EloConfig eloConfig)
+   public void setEloToolConfig(EloToolConfig eloToolConfig)
    {
-      this.eloConfig = eloConfig;
+      this.eloToolConfig = eloToolConfig;
       addAllTypes();
    }
 
@@ -259,10 +262,10 @@ public class EloSaveAsPanel extends javax.swing.JPanel
 
    private void addAllTypes()
    {
-      if (!typesAdded && eloConfig != null && functinalTypeDisplayNames != null && logicalTypeDisplayNames != null)
+      if (!typesAdded && eloToolConfig != null && functinalTypeDisplayNames != null && logicalTypeDisplayNames != null)
       {
-         addTypes(logicalTypeList, eloConfig.getLogicalTypeNames(), logicalTypeDisplayNames);
-         addTypes(functionalTypeList, eloConfig.getFunctionalTypeNames(), functinalTypeDisplayNames);
+//         addTypes(logicalTypeList, eloToolConfig.getLogicalTypeNames(), logicalTypeDisplayNames);
+//         addTypes(functionalTypeList, eloToolConfig.getFunctionalTypeNames(), functinalTypeDisplayNames);
          typesAdded = true;
       }
    }
@@ -323,7 +326,7 @@ public class EloSaveAsPanel extends javax.swing.JPanel
       int selectedIndex = logicalTypeList.getSelectedIndex();
       if (selectedIndex >= 0)
       {
-         return eloConfig.getLogicalTypeNames().get(selectedIndex);
+//         return eloToolConfig.getLogicalTypeNames().get(selectedIndex);
       }
       return null;
    }
@@ -340,7 +343,7 @@ public class EloSaveAsPanel extends javax.swing.JPanel
       int selectedIndex = functionalTypeList.getSelectedIndex();
       if (selectedIndex >= 0)
       {
-         return eloConfig.getFunctionalTypeNames().get(selectedIndex);
+//         return eloToolConfig.getFunctionalTypeNames().get(selectedIndex);
       }
       return null;
    }

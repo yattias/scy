@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
+import eu.scy.common.mission.impl.BasicEloToolConfig;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
@@ -34,7 +35,7 @@ public interface Config {
 
    public RegisterContentCreators[] getRegisterContentCreators();
 
-   public BasicEloConfig getEloConfig(String eloType);
+   public BasicEloToolConfig getEloToolConfig(String eloType);
 
    public BasicMissionMap getBasicMissionMap();
    public List<BasicMissionAnchor> getBasicMissionAnchors();
@@ -46,7 +47,7 @@ public interface Config {
 //   public String getMissionName();
 //   public URI getActiveMissionAnchorUri();
 
-   public List<NewEloDescription> getNewEloDescriptions();
+   public List<String> getNewEloTypes();
 
    public List<URI> getTemplateEloUris();
 

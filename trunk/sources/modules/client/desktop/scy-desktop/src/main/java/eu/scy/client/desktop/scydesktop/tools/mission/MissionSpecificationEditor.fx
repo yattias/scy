@@ -11,7 +11,7 @@ import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicMissionSpecificationEloContent;
 import eu.scy.common.mission.impl.jdom.MissionSpecificationEloContentXmlUtils;
 import java.io.File;
-import eu.scy.client.desktop.scydesktop.EloType;
+import eu.scy.common.mission.MissionEloType;
 
 /**
  * @author sikken
@@ -20,7 +20,7 @@ import eu.scy.client.desktop.scydesktop.EloType;
 public class MissionSpecificationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
-      EloType.MISSION_SPECIFICATIOM.getType()
+      MissionEloType.MISSION_SPECIFICATIOM.getType()
    }
 
    override protected function doImport(): Void {
@@ -45,11 +45,13 @@ public class MissionSpecificationEditor extends EloXmlEditor {
             file: file.getAbsolutePath()
             repository: repository
          }
-      var missionMapModelElo = saveXmlInElo(EloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
-      var eloToolConfigsElo = saveXmlInElo(EloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
+      var missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
+      var eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
+      var templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml);
       var missionSpecification = new BasicMissionSpecificationEloContent();
       missionSpecification.setMissionMapModelEloUri(missionMapModelElo.getUri());
       missionSpecification.setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
+      missionSpecification.setTemplateElosEloUri(templateElosElo.getUri());
       textBox.text = MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification)
    }
 

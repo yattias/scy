@@ -28,6 +28,8 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
+import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 
 /**
  * @author sikken
@@ -37,66 +39,63 @@ package def loginColor = Color.hsb(255, 1, 1.0);
 package def successColor = Color.hsb(135, 1, 0.8);
 package def failedColor = Color.hsb(360, 1, 0.9);
 
-
 public class LoginDialog extends CustomNode {
+
    def logger = Logger.getLogger(this.getClass());
-
-   public var initializer   :  Initializer ;
-   public var createScyDesktop: function( tbi:  ToolBrokerAPI,userName: String): ScyDesktop;
-
+   public var initializer: Initializer;
+   public var createScyDesktop: function(missionRunConfigs: MissionRunConfigs): ScyDesktop;
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
+   var windowTitle:String = null;
 
    postinit {
-      
+
       FX.deferAction(initMouseBlocker);
    }
-   
-   function initMouseBlocker():Void{
+
+   function initMouseBlocker(): Void {
       var theStage = scene.stage;
-      if (theStage==null){
+      if (theStage == null) {
          System.err.println("defering initMouseBlocker, because of the missing stage");
          FX.deferAction(initMouseBlocker);
-      }
-      else{
+      } else {
          MouseBlocker.initMouseBlocker(scene.stage);
       }
    }
-   
 
    public override function create(): Node {
       loginNode = LoginNode {
-                 loginAction: loginAction
-                 defaultUserName: initializer.defaultUserName
-                 defaultPassword: initializer.defaultPassword
-                 autoLogin:initializer.autoLogin
-                 languages: initializer.languages
-              }
-//      loginNode.layout();
-      loginWindow = StandardScyWindow {
-         title: bind loginNode.loginTitle
-//         eloIcon: CharacterEloIcon {
-//            iconCharacter: "L"
-//            color: loginColor
-//         }
-         windowColorScheme:WindowColorScheme.getWindowColorScheme(ScyColors.green)
-         scyContent: EmptyBorderNode{
-            content:loginNode
-            widthCorrection:10.0
-            heightCorrection:6.0
+            loginAction: loginAction
+            defaultUserName: initializer.defaultUserName
+            defaultPassword: initializer.defaultPassword
+            autoLogin: initializer.autoLogin
+            languages: initializer.languages
          }
-         allowClose: false;
-         allowResize: false;
-         allowRotate: false;
-         allowMinimize: false;
-         opacity:0.0;
-      };
+      //      loginNode.layout();
+      loginWindow = StandardScyWindow {
+            title: bind if (windowTitle==null) loginNode.loginTitle else windowTitle
+            //         eloIcon: CharacterEloIcon {
+            //            iconCharacter: "L"
+            //            color: loginColor
+            //         }
+            windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.green)
+            scyContent: EmptyBorderNode {
+               content: loginNode
+               widthCorrection: 10.0
+               heightCorrection: 6.0
+            }
+            allowClose: false;
+            allowResize: false;
+            allowRotate: false;
+            allowMinimize: false;
+            opacity: 0.0;
+         };
       loginWindow.windowColorScheme.mainColor = loginColor;
       loginWindow.activated = true;
-      loginWindow.eloIcon = LogoEloIcon{
-         color: bind loginWindow.windowColorScheme.mainColor
-         selected:false
-      }
+      loginWindow.eloIcon = LogoEloIcon {
+            color: bind loginWindow.windowColorScheme.mainColor
+            selected: false
+         }
 
       loginWindow.openWindow(0, 0);
       FX.deferAction(placeWindowCenter);
@@ -110,89 +109,81 @@ public class LoginDialog extends CustomNode {
       def window = loginWindow;
       Timeline {
          repeatCount: 1
-         keyFrames : [
-            at(0ms){
+         keyFrames: [
+            at (0ms) {
                window.opacity => 0.0
             }
-            at(750ms){
+            at (750ms) {
                window.opacity => 1.0
             }
          ]
       }.play();
-//      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
-//      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
+   //      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
+   //      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
    }
 
    function loginAction(userName: String, password: String): Void {
       println("userName: {userName}, password: {password}");
       try {
          var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
-
          logger.info(
-         "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n"
-         "tbi.getMission() : {toolBrokerAPI.getMission()}\n"
-         "tbi.getRepository() : {toolBrokerAPI.getRepository()}\n"
-         "tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n"
-         "tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n"
-         "tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n"
-         "tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n"
-         "tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n"
-         "tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n"
-         "tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n"
-         "tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
-         showLoginResult(toolBrokerAPI,userName);
-         //placeScyDescktop(toolBrokerAPI, userName);
-      } catch (e: LoginFailedException) {
+         "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
+         showLoginResult(toolBrokerAPI, userName);
+      //placeScyDescktop(toolBrokerAPI, userName);
+      }
+      catch (e: LoginFailedException) {
          logger.info("failed to login with {e.getUserName()}");
-         showLoginResult(null,userName);
-      } catch (e: ServerNotRespondingException) {
+         showLoginResult(null, userName);
+      }
+      catch (e: ServerNotRespondingException) {
          logger.info("Could not connect to host {e.getServer()}:{e.getServer()}");
-         JOptionPane.showMessageDialog(null as Component,"Could not connect to host {e.getServer()}:{e.getPort()}","Connection problems",JOptionPane.ERROR_MESSAGE);
+         JOptionPane.showMessageDialog(null as Component, "Could not connect to host {e.getServer()}:{e.getPort()}", "Connection problems", JOptionPane.ERROR_MESSAGE);
       }
    }
 
-   function showLoginResult(toolBrokerAPI:ToolBrokerAPI, userName: String){
+   function showLoginResult(toolBrokerAPI: ToolBrokerAPI, userName: String) {
       def window = loginWindow;
       def windowColorScheme = window.windowColorScheme;
-      if (toolBrokerAPI!=null){
+      if (toolBrokerAPI != null) {
          // successfull login
          Timeline {
             repeatCount: 1
-            keyFrames : [
+            keyFrames: [
                KeyFrame {
-                  time : 750ms
-                  values:windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
-                  action:function(){
-                     loginWindow.scyContent = WelcomeNode{
-                        name:userName;
-                     }
+                  time: 750ms
+                  values: windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
+                  action: function() {
+                     findMission(toolBrokerAPI,userName);
+//                     loginWindow.scyContent = WelcomeNode {
+//                           name: userName;
+//                        }
                   }
                }
-               KeyFrame {
-                  time : 1000ms
-                  action:function(){
-                     var stage = scene.stage;
-                     var stageTitle = stage.title;
-                     stage.title = "{stageTitle} : {userName}";
-                     var scyDesktop = placeScyDescktop(toolBrokerAPI, userName);
-                     stage.title = "{stageTitle} : {userName} in {scyDesktop.missionModelFX.name}";
-                  }
-               }
+//               KeyFrame {
+//                  time: 1000ms
+//                  action: function() {
+//                     var stage = scene.stage;
+//                     var stageTitle = stage.title;
+//                     stage.title = "{stageTitle} : {userName}";
+//                     var scyDesktop = placeScyDescktop(toolBrokerAPI, userName);
+//                     stage.title = "{stageTitle} : {userName} in {scyDesktop.missionModelFX.name}";
+//                  }
+//               }
             ]
          }.play();
       }
-      else{
+      else {
          Timeline {
             repeatCount: 6
-            autoReverse:true
-            keyFrames : [
+            autoReverse: true
+            keyFrames: [
                KeyFrame {
-                  time : 0ms
-                  values:windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
+                  time: 0ms
+                  values: windowColorScheme.mainColor => loginColor tween Interpolator.LINEAR;
                }
                KeyFrame {
-                  time : 500ms
-                  values:windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
+                  time: 500ms
+                  values: windowColorScheme.mainColor => failedColor tween Interpolator.LINEAR;
                }
             ]
          }.play();
@@ -200,16 +191,43 @@ public class LoginDialog extends CustomNode {
       }
    }
 
+   function findMission(toolBrokerAPI: ToolBrokerAPI, userName: String) {
+      windowTitle = ##"Welcome to SCY-Lab";
+      MissionLocator {
+         tbi: toolBrokerAPI
+         userName: userName
+         initializer:initializer
+         window: loginWindow
+         startMission: startMission
+         cancelMission: cancelMission
+      }.locateMission();
 
-   function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String):ScyDesktop {
-     // either place the components "static" in the scene in initializer.getScene
-     // or do it here "dynamic" (meaning after a succesfull login)
-//     insert ScyDesktop.scyDektopGroup into scene.content;
-//     insert ModalDialogBox.modalDialogGroup into scene.content;
-//     insert SimpleTooltipManager.tooltipGroup into scene.content;
-//     insert MouseBlocker.mouseBlockNode into scene.content;
+   }
 
-      var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
+   function cancelMission(): Void {
+      FX.exit();
+   }
+
+   function startMission(missionRunConfigs: MissionRunConfigs): Void {
+      def userName = missionRunConfigs.tbi.getLoginUserName();
+      loginWindow.scyContent = WelcomeNode {
+            name: userName
+         }
+      var stage = scene.stage;
+      var stageTitle = stage.title;
+      stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionMapModel.name}";
+      var scyDesktop = placeScyDescktop(missionRunConfigs);
+   }
+
+   function placeScyDescktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
+      // either place the components "static" in the scene in initializer.getScene
+      // or do it here "dynamic" (meaning after a succesfull login)
+      //     insert ScyDesktop.scyDektopGroup into scene.content;
+      //     insert ModalDialogBox.modalDialogGroup into scene.content;
+      //     insert SimpleTooltipManager.tooltipGroup into scene.content;
+      //     insert MouseBlocker.mouseBlockNode into scene.content;
+
+      var scyDesktop = createScyDesktop(missionRunConfigs);
 
       // all components are already placed in the scene
       // so we only need to remove this login from the scene
@@ -217,13 +235,14 @@ public class LoginDialog extends CustomNode {
 
       return scyDesktop;
    }
+
 }
 
-function run()    {
+function run() {
    var loginDialog = LoginDialog {
-              layoutX: 10
-              layoutY: 10
-           }
+         layoutX: 10
+         layoutY: 10
+      }
 
    Stage {
       title: "Login dialog test"

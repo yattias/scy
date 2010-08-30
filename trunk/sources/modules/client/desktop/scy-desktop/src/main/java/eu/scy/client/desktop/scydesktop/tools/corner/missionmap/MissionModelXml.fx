@@ -9,6 +9,7 @@ import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import java.net.URI;
 import java.util.HashMap;
 import org.jdom.Element;
+import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
 
 /**
  * @author sikken
@@ -191,7 +192,7 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
 
 function createMissionAnchor(root:Element):MissionAnchorFX{
    var missionAnchor = MissionAnchorFX{
-      eloUri: new URI(root.getChildText(eloUriName))
+      eloUri: JDomConversionUtils.getUriValue(root,eloUriName)
       iconType: root.getChildText(iconTypeName)
       mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
       loEloUris: createEloUriList(root.getChild(loElosName))
@@ -207,7 +208,7 @@ function createEloUriList(root:Element):URI[]{
       if (children!=null){
          for (child in children) {
             var eloUriChild = child as Element;
-            var eloUri = new URI(eloUriChild.getText());
+            var eloUri = JDomConversionUtils.getUriValue(eloUriChild);
             insert eloUri into eloUris;
          }
       }
