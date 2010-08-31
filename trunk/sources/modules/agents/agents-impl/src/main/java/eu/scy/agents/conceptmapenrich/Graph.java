@@ -56,4 +56,9 @@ public class Graph {
         return sb.toString();
     }
 
+	public void removeNode(String property) {
+		// TODO mach ma
+		
+	}
+
 }
