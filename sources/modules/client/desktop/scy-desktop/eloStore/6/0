@@ -148,7 +148,7 @@
   </eloToolConfig>
   <eloToolConfig>
     <eloType>scy/image</eloType>
-    <eloSystemRole>SYSTEM</eloSystemRole>
+    <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>image</contentCreatorId>
     <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
     <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
@@ -198,6 +198,40 @@
     <eloFunctionalRoles />
   </eloToolConfig>
   <eloToolConfig>
+    <eloType>scy/missionmapmodel</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>missionMapModel</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration>false</isContentCollaboration>
+    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
+    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
+    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
+    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
+    <isContentStatic>false</isContentStatic>
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/elotoolconfiguration</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>eloToolConfiguration</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration>false</isContentCollaboration>
+    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
+    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
+    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
+    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
+    <isContentStatic>false</isContentStatic>
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/missionruntime</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>missionRuntime</contentCreatorId>
@@ -231,8 +265,24 @@
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
-</eloToolConfigs>
-</content>
+  <eloToolConfig>
+    <eloType>scy/runtimesettings</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>runtimeSettings</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration>false</isContentCollaboration>
+    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
+    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
+    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
+    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
+    <isContentStatic>false</isContentStatic>
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+</eloToolConfigs></content>
 <resources>
 </resources>
 </elo>

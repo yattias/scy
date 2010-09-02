@@ -7,11 +7,12 @@ package eu.scy.client.desktop.scydesktop.tools.mission;
 import javax.swing.JFileChooser;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFilter;
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
-import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicMissionSpecificationEloContent;
 import eu.scy.common.mission.impl.jdom.MissionSpecificationEloContentXmlUtils;
 import java.io.File;
 import eu.scy.common.mission.MissionEloType;
+import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikken
@@ -36,33 +37,35 @@ public class MissionSpecificationEditor extends EloXmlEditor {
 
    function doImport(file: File) {
       var name = file.getName();
-      var lastPointIndex = name.lastIndexOf(".");
+      def lastPointIndex = name.lastIndexOf(".");
       if (lastPointIndex >= 0) {
          name = name.substring(0, lastPointIndex);
       }
 
-      var springConfigFileImporter = SpringConfigFileImporter {
+      def springConfigFileImporter = SpringConfigFileImporter {
             file: file.getAbsolutePath()
             repository: repository
          }
-      var missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
-      var eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
-      var templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml);
-      var missionSpecification = new BasicMissionSpecificationEloContent();
+      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
+      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
+      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml);
+      def runtimeSettingsElo = RuntimeSettingsElo.createElo(toolBrokerAPI);
+      runtimeSettingsElo.setTitle(name);
+      runtimeSettingsElo.saveAsNewElo();
+      def missionSpecification = new BasicMissionSpecificationEloContent();
       missionSpecification.setMissionMapModelEloUri(missionMapModelElo.getUri());
       missionSpecification.setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
       missionSpecification.setTemplateElosEloUri(templateElosElo.getUri());
+      missionSpecification.setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
       textBox.text = MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification)
    }
 
-   function saveXmlInElo(type: String, name: String, xml: String): IELO {
-      var elo = eloFactory.createELO();
-      elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(type);
-      elo.getMetadata().getMetadataValueContainer(titleKey).setValue(name);
-      elo.getContent().setXmlString(xml);
-      var metadata = repository.addNewELO(elo);
-      eloFactory.updateELOWithResult(elo, metadata);
-      elo
+   function saveXmlInElo(type: String, name: String, xml: String): ScyElo {
+      def scyElo = ScyElo.createElo(type, toolBrokerAPI);
+      scyElo.setTitle(name);
+      scyElo.getContent().setXmlString(xml);
+      scyElo.saveAsNewElo();
+      scyElo
    }
 
    override protected function validateXml(xml: String): String {

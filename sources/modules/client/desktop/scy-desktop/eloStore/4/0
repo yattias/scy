@@ -57,6 +57,7 @@
   <missionMapModelEloUri />
   <eloToolConfigsEloUri />
   <templateElosEloUri />
+  <runtimeSettingsEloUri />
 </missionRuntimeElo>
 </content>
 <resources>
