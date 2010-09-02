@@ -8,6 +8,8 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.TupleSpaceException.TupleSpaceError;
 
 import java.rmi.dgc.VMID;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
@@ -69,6 +71,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
 	private int parameterSetId;
 
+	private int listParametersListenerId;
+
 	/**
 	 * Create a new {@link AbstractThreadedAgent}. Only allowed to call by
 	 * subclasses.
@@ -104,11 +108,31 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 		} else if (AgentProtocol.QUERY.equals(agentCommand)) {
 			// Field 1 is (due to conventions) queryId
 			handleQuery(afterTuple);
+		} else if (AgentProtocol.LIST_PARAMETERS.equals(agentCommand)) {
+			handleListParameter(afterTuple);
 		} else if (AgentProtocol.AGENT_PARAMETER_SET.equals(agentCommand)) {
 			handleParameterSetCommand(afterTuple);
 		} else if (AgentProtocol.AGENT_PARAMETER_GET.equals(agentCommand)) {
 			handleParameterGetCommand(afterTuple);
 		}
+	}
+
+	private void handleListParameter(Tuple afterTuple) {
+		String queryId = (String) afterTuple.getField(2).getValue();
+		String agentName = (String) afterTuple.getField(3).getValue();
+		if (agentName.equals(getName())) {
+			try {
+				getCommandSpace().write(getListParameterTuple(queryId));
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	protected Tuple getListParameterTuple(String queryId) {
+		List<String> emptyList = Collections.emptyList();
+		return AgentProtocol.getListParametersTupleResponse(getName(), queryId,
+				emptyList);
 	}
 
 	private void handleCommands(Tuple afterTuple) {
@@ -380,6 +404,9 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 			parameterGetId = getCommandSpace().eventRegister(Command.WRITE,
 					AgentProtocol.getParameterGetQueryTupleTemplate(name),
 					this, true);
+			listParametersListenerId = getCommandSpace().eventRegister(
+					Command.WRITE, AgentProtocol.LIST_PARAMETER_QUERY, this,
+					true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

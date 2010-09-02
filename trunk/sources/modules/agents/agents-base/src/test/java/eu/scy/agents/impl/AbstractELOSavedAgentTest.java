@@ -3,6 +3,10 @@ package eu.scy.agents.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.List;
+
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -133,5 +137,12 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
 			errorOccurred = true;
 		}
 
+	}
+
+	@Override
+	protected Tuple getListParameterTuple(String queryId) {
+		List<String> emptyList = Collections.emptyList();
+		return AgentProtocol.getListParametersTupleResponse(getName(), queryId,
+				emptyList);
 	}
 }

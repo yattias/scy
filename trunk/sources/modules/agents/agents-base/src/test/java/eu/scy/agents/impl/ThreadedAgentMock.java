@@ -6,6 +6,7 @@ package eu.scy.agents.impl;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class ThreadedAgentMock extends AbstractThreadedAgent {
@@ -76,6 +77,12 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 
 	public void setUpdated(boolean u) {
 		updated = u;
+	}
+
+	@Override
+	protected Tuple getListParameterTuple(String queryId) {
+		return AgentProtocol.getListParametersTupleResponse(getName(), queryId,
+				Arrays.asList(TEST_PARAMETER));
 	}
 
 }
