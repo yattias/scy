@@ -7,6 +7,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -389,6 +390,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		return new Tuple(AgentProtocol.RESPONSE, queryId, getId(), getName(),
 				AgentProtocol.MESSAGE_IDENTIFY, IDLE_TIME_INMS,
 				MINIMUM_NUMBER_OF_CONCEPTS, TIME_AFTER_USERS_ARE_REMOVED);
+	}
+
+	@Override
+	protected Tuple getListParameterTuple(String queryId) {
+		return AgentProtocol.getListParametersTupleResponse(getName(), queryId,
+				Arrays.asList(IDLE_TIME_INMS, MINIMUM_NUMBER_OF_CONCEPTS,
+						TIME_AFTER_USERS_ARE_REMOVED));
 	}
 
 	@Override
