@@ -8,7 +8,7 @@ import eu.scy.common.mission.MissionRuntimeEloContent;
 import java.net.URI;
 
 /**
- *
+ * 
  * @author SikkenJ
  */
 public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
@@ -18,11 +18,16 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
    private URI missionMapModelEloUri;
    private URI eloToolConfigsEloUri;
    private URI templateElosEloUri;
+   private URI runtimeSettingsEloUri;
 
    @Override
    public String toString()
    {
-      return "BasicMissionRuntimeEloContent{" + "missionSpecificationEloUri=" + missionSpecificationEloUri + "missionMapModelEloUri=" + missionMapModelEloUri + "eloToolConfigsEloUri=" + eloToolConfigsEloUri + "templateElosEloUri=" + templateElosEloUri + '}';
+      return "BasicMissionRuntimeEloContent{" + "missionSpecificationEloUri="
+               + missionSpecificationEloUri + ",missionMapModelEloUri=" + missionMapModelEloUri
+               + ",eloToolConfigsEloUri=" + eloToolConfigsEloUri + ",templateElosEloUri="
+               + templateElosEloUri +",runtimeSettingsEloUri="
+               + runtimeSettingsEloUri + '}';
    }
 
    @Override
@@ -71,5 +76,17 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
    public void setTemplateElosEloUri(URI templateElosEloUri)
    {
       this.templateElosEloUri = templateElosEloUri;
+   }
+
+   @Override
+   public URI getRuntimeSettingsEloUri()
+   {
+      return runtimeSettingsEloUri;
+   }
+
+   @Override
+   public void setRuntimeSettingsEloUri(URI runtimeSettingsEloUri)
+   {
+      this.runtimeSettingsEloUri = runtimeSettingsEloUri;
    }
 }

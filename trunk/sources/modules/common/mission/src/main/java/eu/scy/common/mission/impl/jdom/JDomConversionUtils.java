@@ -24,7 +24,9 @@ public class JDomConversionUtils
    public static Element createElement(String tag, String value)
    {
       Element element = new Element(tag);
+      if (value!=null){
       element.setText(value);
+      }
       return element;
    }
 
