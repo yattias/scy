@@ -25,6 +25,13 @@ public class ContentTypedScyElo<E> extends ScyElo
       eloContentChanged();
    }
 
+   @Override
+   public IELO getUpdatedElo()
+   {
+      typedContentChanged();
+      return super.getUpdatedElo();
+   }
+
    public final void eloContentChanged()
    {
       typedContent = scyEloContentCreator.createScyEloContent(this);
@@ -33,12 +40,6 @@ public class ContentTypedScyElo<E> extends ScyElo
    public final void typedContentChanged()
    {
       scyEloContentCreator.updateEloContent(this);
-   }
-
-   public IELO getUpdatedElo()
-   {
-      typedContentChanged();
-      return super.getElo();
    }
 
    public E getTypedContent()
