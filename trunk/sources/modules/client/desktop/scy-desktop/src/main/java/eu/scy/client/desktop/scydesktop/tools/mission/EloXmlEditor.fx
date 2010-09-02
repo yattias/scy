@@ -34,6 +34,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import javafx.scene.text.Text;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.text.TextOrigin;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikken
@@ -46,6 +47,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
+   public var toolBrokerAPI : ToolBrokerAPI;
    public var window: ScyWindow;
    public override var width on replace { sizeChanged() };
    public override var height on replace { sizeChanged() };

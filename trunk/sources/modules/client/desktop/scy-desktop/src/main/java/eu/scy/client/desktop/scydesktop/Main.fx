@@ -22,6 +22,7 @@ import eu.scy.client.desktop.scydesktop.tools.mission.EloToolConfigurationEditor
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionRuntimeEditorCreator;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.mission.RuntimeSettingsEditorCreator;
 
 /**
  * @author sikkenj
@@ -58,6 +59,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def eloToolConfigurationId = "eloToolConfiguration";
    def missionRuntimeId = "missionRuntime";
    def templateElosId = "templateElos";
+   def runtimeSettingsId = "runtimeSettings";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -77,6 +79,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloToolConfigurationEditorCreator{}, eloToolConfigurationId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionRuntimeEditorCreator{}, missionRuntimeId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TemplateElosEloEditorCreator{}, templateElosId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(RuntimeSettingsEditorCreator{}, runtimeSettingsId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    

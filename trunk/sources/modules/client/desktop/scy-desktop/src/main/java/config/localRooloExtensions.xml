@@ -39,6 +39,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/runtimesettings</value>
+               </key>
+               <value>.runtimesettings</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>

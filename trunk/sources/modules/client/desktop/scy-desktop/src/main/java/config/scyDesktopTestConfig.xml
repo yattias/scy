@@ -158,6 +158,14 @@
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/runtimesettings"/>
+               <property name="display" value="Runtime settings"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="runtimeSettings"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
          </list>
       </property>
 

@@ -18,7 +18,6 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.common.mission.EloFunctionalRole;
 import java.net.URI;
-import roolo.elo.api.IELO;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -27,6 +26,8 @@ import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.common.mission.TemplateElosElo;
+import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
 
 /**
  * @author SikkenJ
@@ -41,7 +42,6 @@ public class MissionLocator {
    public-init var startMission: function(missionRunConfigs: MissionRunConfigs): Void;
    public-init var cancelMission: function(): Void;
    var askUserForMissionNode: AskUserForMissionNode;
-//   def titleKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
    def technicalFormatKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    def anchorIdKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID);
    def lasKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.LAS);
@@ -51,6 +51,7 @@ public class MissionLocator {
    def missionRunningKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
    var eloToolConfigsElo: EloToolConfigsElo;
    var templateElosElo: TemplateElosElo;
+   var runtimeSettingsElo: RuntimeSettingsElo;
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
@@ -75,19 +76,26 @@ public class MissionLocator {
       // we are starting with a new mission, so we have to create a new MissionRuntimeElo
       def missionSpecification = missionSpecificationElo.getTypedContent();
       // create the elo tool configs
-      var elo = tbi.getRepository().retrieveELO(missionSpecification.getEloToolConfigsEloUri());
-      var metadata = tbi.getRepository().addForkedELO(elo);
-      tbi.getELOFactory().updateELOWithResult(elo, metadata);
-      eloToolConfigsElo = new EloToolConfigsElo(elo, tbi);
+      eloToolConfigsElo = EloToolConfigsElo.loadElo(missionSpecification.getEloToolConfigsEloUri(), tbi);
+      eloToolConfigsElo.saveAsForkedElo();
       // create the personal mission map model
       def personalMissionMapModelElo = createPersonalMissionMapModelElo(missionSpecification.getMissionMapModelEloUri());
       // create the template elos elo
-      elo = tbi.getRepository().retrieveELO(missionSpecification.getTemplateElosEloUri());
-      metadata = tbi.getRepository().addForkedELO(elo);
-      tbi.getELOFactory().updateELOWithResult(elo, metadata);
-      templateElosElo = new TemplateElosElo(elo, tbi);
+      templateElosElo = TemplateElosElo.loadElo(missionSpecification.getTemplateElosEloUri(), tbi);
+      templateElosElo.saveAsForkedElo();
+      // create an empty runtime settings elo
+      runtimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecification.getRuntimeSettingsEloUri(), tbi);
+      if (runtimeSettingsElo != null) {
+         runtimeSettingsElo.setTypeContent(new BasicRuntimeSettingsEloContent());
+         runtimeSettingsElo.saveAsForkedElo();
+      }
+      else {
+         runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
+         runtimeSettingsElo.setTitle(missionSpecificationElo.getTitle());
+         runtimeSettingsElo.saveAsNewElo();
+      }
 
-      def missionRuntimeElo = new MissionRuntimeElo(tbi.getELOFactory().createELO(), tbi);
+      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
       missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
       missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
       missionRuntimeElo.setMissionRunning(userName);
@@ -96,29 +104,30 @@ public class MissionLocator {
       missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(personalMissionMapModelElo.getUri());
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
       missionRuntimeElo.getTypedContent().setTemplateElosEloUri(templateElosElo.getUri());
-      metadata = tbi.getRepository().addNewELO(missionRuntimeElo.getUpdatedElo());
-      tbi.getELOFactory().updateELOWithResult(missionRuntimeElo.getElo(), metadata);
+      missionRuntimeElo.saveAsNewElo();
       startMission(MissionRunConfigs {
          tbi: tbi
          missionRuntimeElo: missionRuntimeElo
          eloToolConfigsElo: eloToolConfigsElo
          missionMapModel: missionMapModel
          templateElosElo: templateElosElo
+         runtimeSettingsElo: runtimeSettingsElo
       });
    }
 
    function continueMission(missionRuntimeElo: MissionRuntimeElo) {
       if (missionRuntimeElo.getTypedContent().getMissionMapModelEloUri() != null) {
-         def elo = tbi.getRepository().retrieveELO(missionRuntimeElo.getTypedContent().getMissionMapModelEloUri());
-         missionMapModel = MissionModelXml.convertToMissionModel(elo.getContent().getXmlString());
+         def scyElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getMissionMapModelEloUri(), tbi);
+         missionMapModel = MissionModelXml.convertToMissionModel(scyElo.getContent().getXmlString());
       }
       if (missionRuntimeElo.getTypedContent().getEloToolConfigsEloUri() != null) {
-         def elo = tbi.getRepository().retrieveELO(missionRuntimeElo.getTypedContent().getEloToolConfigsEloUri());
-         eloToolConfigsElo = new EloToolConfigsElo(elo, tbi);
+         eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEloToolConfigsEloUri(), tbi);
       }
       if (missionRuntimeElo.getTypedContent().getTemplateElosEloUri() != null) {
-         def elo = tbi.getRepository().retrieveELO(missionRuntimeElo.getTypedContent().getTemplateElosEloUri());
-         templateElosElo = new TemplateElosElo(elo, tbi);
+         templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getTemplateElosEloUri(), tbi);
+      }
+      if (missionRuntimeElo.getTypedContent().getRuntimeSettingsEloUri() != null) {
+         runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getTemplateElosEloUri(), tbi);
       }
       startMission(MissionRunConfigs {
          tbi: tbi
@@ -126,24 +135,29 @@ public class MissionLocator {
          eloToolConfigsElo: eloToolConfigsElo
          missionMapModel: missionMapModel
          templateElosElo: templateElosElo
+         runtimeSettingsElo: runtimeSettingsElo
       });
    }
 
    function startBlankMission(): Void {
-      def missionRuntimeElo = new MissionRuntimeElo(tbi.getELOFactory().createELO(), tbi);
+      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
       missionRuntimeElo.setTitle(##"Empty mission");
+      runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
+      runtimeSettingsElo.setTitle(missionRuntimeElo.getTitle());
+      runtimeSettingsElo.saveAsNewElo();
       missionRuntimeElo.setMissionRunning(userName);
       missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(null);
       missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(null);
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(null);
-      var metadata = tbi.getRepository().addNewELO(missionRuntimeElo.getUpdatedElo());
-      tbi.getELOFactory().updateELOWithResult(missionRuntimeElo.getElo(), metadata);
+      missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
+      missionRuntimeElo.saveAsNewElo();
       startMission(MissionRunConfigs {
          tbi: tbi
          missionRuntimeElo: missionRuntimeElo
          eloToolConfigsElo: null
          missionMapModel: null
          templateElosElo: null
+         runtimeSettingsElo: runtimeSettingsElo
       });
    }
 
@@ -193,16 +207,15 @@ public class MissionLocator {
          }
    }
 
-   function createPersonalMissionMapModelElo(missionMapModelEloUri: URI): IELO {
-      def missionMapModelElo = tbi.getRepository().retrieveELO(missionMapModelEloUri);
+   function createPersonalMissionMapModelElo(missionMapModelEloUri: URI): ScyElo {
+      def missionMapModelElo = ScyElo.loadElo(missionMapModelEloUri, tbi);
       missionMapModel = MissionModelXml.convertToMissionModel(missionMapModelElo.getContent().getXmlString());
       makePersonalMissionMapModel(missionMapModel);
       missionMapModelElo.getContent().setXmlString(MissionModelXml.convertToXml(missionMapModel));
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
       //      missionMapModelElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(MissionEloType.MISSION_MAP_MODEL.getType());
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
-      var metadata = tbi.getRepository().addForkedELO(missionMapModelElo);
-      tbi.getELOFactory().updateELOWithResult(missionMapModelElo, metadata);
+      missionMapModelElo.saveAsForkedElo();
       missionMapModelElo
    }
 
