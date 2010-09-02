@@ -30,6 +30,7 @@ public class MissionRuntimeEloContentXmlUtils {
       root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.missionMapModelEloUriName, missionSpecification.getMissionMapModelEloUri()));
       root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.eloToolConfigsEloUriName, missionSpecification.getEloToolConfigsEloUri()));
       root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.templateElosEloUriName, missionSpecification.getTemplateElosEloUri()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.runtimeSettingsEloUriName, missionSpecification.getRuntimeSettingsEloUri()));
       return new JDomStringConversion().xmlToString(root);
    }
 
@@ -44,6 +45,7 @@ public class MissionRuntimeEloContentXmlUtils {
       missionRuntimeElo.setMissionMapModelEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.missionMapModelEloUriName));
       missionRuntimeElo.setEloToolConfigsEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.eloToolConfigsEloUriName));
       missionRuntimeElo.setTemplateElosEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.templateElosEloUriName));
+      missionRuntimeElo.setRuntimeSettingsEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.runtimeSettingsEloUriName));
       return missionRuntimeElo;
    }
 

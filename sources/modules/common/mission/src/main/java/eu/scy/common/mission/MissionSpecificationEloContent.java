@@ -24,4 +24,8 @@ public interface MissionSpecificationEloContent
    public URI getTemplateElosEloUri();
 
    public void setTemplateElosEloUri(URI templateElosEloUri);
+
+   public URI getRuntimeSettingsEloUri();
+
+   public void setRuntimeSettingsEloUri(URI runtimeSettingsEloUri);
 }
