@@ -1,19 +1,24 @@
 package eu.scy.agents.impl;
 
+import java.rmi.dgc.VMID;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import eu.scy.agents.api.parameter.AgentParameter;
-import eu.scy.agents.api.parameter.AgentParameterSetter;
+import eu.scy.agents.api.parameter.AgentParameterAPI;
 
-public class AgentParameterSetterImpl implements AgentParameterSetter {
+public class AgentParameterAPIImpl implements AgentParameterAPI {
 
 	private static final String TS_USER = "AgentParameterSetterImpl";
 
 	private TupleSpace tupleSpace;
 
-	public AgentParameterSetterImpl(String tsHost, int tsPort) {
+	public AgentParameterAPIImpl(String tsHost, int tsPort) {
 		try {
 			tupleSpace = new TupleSpace(new User(TS_USER), tsHost, tsPort,
 					true, false, AgentProtocol.COMMAND_SPACE_NAME);
@@ -21,52 +26,6 @@ public class AgentParameterSetterImpl implements AgentParameterSetter {
 			e.printStackTrace();
 		}
 	}
-
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public <T> T getParameter(String agentName, String mission, String user,
-	// String parameterName) {
-	// return (T) getParameterViaTuple(agentName, mission, user, parameterName);
-	// }
-	//
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public <T> T getParameter(String agentName, String mission,
-	// String parameterName) {
-	// return (T) getParameterViaTuple(agentName, mission, null, parameterName);
-	// }
-	//
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public <T> T getParameter(String agentName, String parameterName) {
-	// return (T) getParameterViaTuple(agentName, null, null, parameterName);
-	// }
-	//
-	// @Override
-	// public <T> void setParameter(String agentName, String mission, String
-	// user,
-	// String parameterName, T value) {
-	// try {
-	// tupleSpace.write(createSetParameterTupleTemplate(agentName,
-	// mission, user, parameterName, value));
-	// } catch (TupleSpaceException e) {
-	// e.printStackTrace();
-	// throw new RuntimeException("Couldn't set parameter" + parameterName
-	// + " for " + agentName, e);
-	// }
-	// }
-	//
-	// @Override
-	// public <T> void setParameter(String agentName, String mission,
-	// String parameterName, T value) {
-	// setParameter(agentName, mission, null, parameterName, value);
-	// }
-	//
-	// @Override
-	// public <T> void setParameter(String agentName, String parameterName, T
-	// value) {
-	// setParameter(agentName, null, null, parameterName, value);
-	// }
 
 	private <T> Tuple createSetParameterTupleTemplate(String agentName,
 			String mission, String user, String parameterName, T value) {
@@ -129,5 +88,29 @@ public class AgentParameterSetterImpl implements AgentParameterSetter {
 			throw new RuntimeException("Couldn't set parameter"
 					+ parameter.getParameterName() + " for " + agentName, e);
 		}
+	}
+
+	@Override
+	public List<String> listAgentParameter(String agentName) {
+		VMID queryId = new VMID();
+		Tuple listParameterTuple = AgentProtocol.getListParametersTupleQuery(
+				agentName, queryId.toString());
+		try {
+			tupleSpace.write(listParameterTuple);
+			Tuple responseTupleFormat = AgentProtocol.LIST_PARAMETER_RESPONSE;
+			responseTupleFormat.getField(2).setValue(queryId.toString());
+			responseTupleFormat.getField(3).setValue(agentName);
+			Tuple responseTuple = tupleSpace.waitToRead(responseTupleFormat,
+					2 * AgentProtocol.MINUTE);
+			List<String> parameterNames = new ArrayList<String>();
+			for (int i = 4; i < responseTuple.getNumberOfFields(); i++) {
+				parameterNames.add((String) responseTuple.getField(i)
+						.getValue());
+			}
+			return parameterNames;
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
 	}
 }

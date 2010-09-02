@@ -4,6 +4,7 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 
 import java.rmi.dgc.VMID;
+import java.util.List;
 
 /**
  * Class that defines necessary constants and methods for the AgentProtocol.
@@ -26,6 +27,7 @@ public final class AgentProtocol {
 	public static final String COMMAND_LINE = "agent command";
 	public static final String AGENT_PARAMETER_SET = "agent_parameter_set";
 	public static final String AGENT_PARAMETER_GET = "agent_parameter_get";
+	public static final Object LIST_PARAMETERS = "list_parameters";
 
 	public static final String MESSAGE_IDENTIFY = "identify";
 	public static final String MESSAGE_STOP = "stop";
@@ -88,6 +90,21 @@ public final class AgentProtocol {
 
 	public static final Tuple IDENTIFY_TEMPLATE = new Tuple(QUERY,
 			String.class, String.class, String.class, MESSAGE_IDENTIFY);
+
+	/**
+	 * (list_parameters:String, query:String,
+	 * <QueryId>:String,<AgentName>:String)
+	 */
+	public static final Tuple LIST_PARAMETER_QUERY = new Tuple(LIST_PARAMETERS,
+			QUERY, String.class, String.class);
+
+	/**
+	 * (list_parameters:String, response:String,
+	 * <QueryId>:String,<AgentName>:String, *:String)
+	 */
+	public static final Tuple LIST_PARAMETER_RESPONSE = new Tuple(
+			LIST_PARAMETERS, RESPONSE, String.class, String.class, Field
+					.createWildCardField());
 
 	/**
 	 * Get a tuple that identifies a parameter set command. The tuple format is: <br/>
@@ -173,4 +190,21 @@ public final class AgentProtocol {
 		return identifyTuple;
 	}
 
+	public static Tuple getListParametersTupleQuery(String agentName,
+			String queryId) {
+		Tuple listParameterQuery = LIST_PARAMETER_QUERY;
+		listParameterQuery.getField(2).setValue(queryId);
+		listParameterQuery.getField(3).setValue(agentName);
+		return listParameterQuery;
+	}
+
+	public static Tuple getListParametersTupleResponse(String agentName,
+			String queryId, List<String> parameterNames) {
+		Tuple listParameterResponse = new Tuple(LIST_PARAMETERS, RESPONSE,
+				queryId, agentName);
+		for (String parameterName : parameterNames) {
+			listParameterResponse.add(parameterName);
+		}
+		return listParameterResponse;
+	}
 }

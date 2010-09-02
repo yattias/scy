@@ -1,16 +1,19 @@
 package eu.scy.agents.impl.parameter;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,8 +24,8 @@ import org.junit.Test;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.parameter.AgentParameter;
-import eu.scy.agents.api.parameter.AgentParameterSetter;
-import eu.scy.agents.impl.AgentParameterSetterImpl;
+import eu.scy.agents.api.parameter.AgentParameterAPI;
+import eu.scy.agents.impl.AgentParameterAPIImpl;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ThreadedAgentMock;
 
@@ -31,7 +34,7 @@ public class AgentParameterSetterImplTest {
 	private static final String TEST_AGENT = "TestAgent";
 	private static final String TSHOST = "localhost";
 	private static final int TSPORT = 2525;
-	private AgentParameterSetter agentParameterSetter;
+	private AgentParameterAPI agentParameterSetter;
 	private TupleSpace tupleSpace;
 	private ThreadedAgentMock agent;
 
@@ -63,7 +66,7 @@ public class AgentParameterSetterImplTest {
 		agent = new ThreadedAgentMock(map);
 		agent.start();
 
-		agentParameterSetter = new AgentParameterSetterImpl(TSHOST, TSPORT);
+		agentParameterSetter = new AgentParameterAPIImpl(TSHOST, TSPORT);
 		tupleSpace = new TupleSpace(TSHOST, TSPORT,
 				AgentProtocol.COMMAND_SPACE_NAME);
 	}
@@ -90,7 +93,6 @@ public class AgentParameterSetterImplTest {
 	public void testGetParameterAgentnameMissionParamname() {
 		AgentParameter parameter = new AgentParameter();
 		parameter.setMission(ThreadedAgentMock.MISSION);
-		// parameter.setUser(ThreadedAgentMock.USER);
 		parameter.setParameterName(ThreadedAgentMock.TEST_PARAMETER);
 
 		assertEquals(ThreadedAgentMock.TEST_VALUE, agentParameterSetter
@@ -100,8 +102,6 @@ public class AgentParameterSetterImplTest {
 	@Test
 	public void testGetParameterAgentnameParamname() {
 		AgentParameter parameter = new AgentParameter();
-		// parameter.setMission(ThreadedAgentMock.MISSION);
-		// parameter.setUser(ThreadedAgentMock.USER);
 		parameter.setParameterName(ThreadedAgentMock.TEST_PARAMETER);
 
 		assertEquals(ThreadedAgentMock.TEST_VALUE, agentParameterSetter
@@ -128,7 +128,6 @@ public class AgentParameterSetterImplTest {
 			throws TupleSpaceException, InterruptedException {
 		AgentParameter parameter = new AgentParameter();
 		parameter.setMission(ThreadedAgentMock.MISSION);
-		// parameter.setUser(ThreadedAgentMock.USER);
 		parameter.setParameterName(ThreadedAgentMock.TEST_PARAMETER);
 		parameter.setParameterValue(ThreadedAgentMock.TEST_VALUE);
 
@@ -141,8 +140,6 @@ public class AgentParameterSetterImplTest {
 	public void testSetParameterAgentnameParamnameValue()
 			throws TupleSpaceException, InterruptedException {
 		AgentParameter parameter = new AgentParameter();
-		// parameter.setMission(ThreadedAgentMock.MISSION);
-		// parameter.setUser(ThreadedAgentMock.USER);
 		parameter.setParameterName(ThreadedAgentMock.TEST_PARAMETER);
 		parameter.setParameterValue(ThreadedAgentMock.TEST_VALUE);
 
@@ -187,6 +184,14 @@ public class AgentParameterSetterImplTest {
 		assertEquals(expectedParameterName, tuple.getField(4).getValue());
 		assertEquals(expectedValue, tuple.getField(5).getValue());
 		assertTrue(true);
+	}
+
+	@Test
+	public void testGetParameterList() {
+		List<String> parameter = agentParameterSetter.listAgentParameter(agent
+				.getName());
+		assertEquals(1, parameter.size());
+		assertEquals(ThreadedAgentMock.TEST_PARAMETER, parameter.get(0));
 	}
 
 	@Ignore
