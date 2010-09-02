@@ -11,7 +11,7 @@ package eu.scy.common.scyelo;
  */
 public interface ScyEloContentCreator<E> {
 
-   public E createScyEloContent(ContentTypedScyElo<E> scyElo);
+   public E createScyEloContent(ScyElo scyElo);
 
    public void updateEloContent(ContentTypedScyElo<E> scyElo);
 }
