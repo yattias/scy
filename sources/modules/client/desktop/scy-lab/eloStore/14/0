@@ -55,6 +55,7 @@
   <missionMapModelEloUri>roolo://memory/11/0/co2Mission.scymissionmapmodel</missionMapModelEloUri>
   <eloToolConfigsEloUri>roolo://memory/12/0/co2Mission.scyelotoolconfiguration</eloToolConfigsEloUri>
   <templateElosEloUri>roolo://memory/13/0/co2Mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/15/0/co2Mission.runtimesettings</runtimeSettingsEloUri>
 </missionSpeicification>
 </content>
 <resources>
