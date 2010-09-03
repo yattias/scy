@@ -36,7 +36,7 @@ public class SCYMapperAdapter implements ConceptMapAdapter<String> {
                 String id = getChildValue(nodeItem, "id");
                 String label = getChildValue(nodeItem, "label");
                 nodes.put(id, label);
-                g.addNode(label);
+                g.addNode(label, id);
             }
             
             NodeList linkList = (NodeList) xPath.evaluate("//links/*", doc, XPathConstants.NODESET);
@@ -52,7 +52,7 @@ public class SCYMapperAdapter implements ConceptMapAdapter<String> {
                 NodeList toNodeList = (NodeList) xPath.evaluate(xpathToTo, doc, XPathConstants.NODESET);
                 String fromNodeId =  getChildValue(fromNodeList.item(0), "id");
                 String toNodeId =  getChildValue(toNodeList.item(0), "id");
-                g.addEdge(nodes.get(fromNodeId), nodes.get(toNodeId), label);
+                g.addEdge(nodes.get(fromNodeId), nodes.get(toNodeId), label, "dummy-id"); // TODO: find edge ID
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();

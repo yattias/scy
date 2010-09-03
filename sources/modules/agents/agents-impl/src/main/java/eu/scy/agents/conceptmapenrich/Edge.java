@@ -95,4 +95,9 @@ public class Edge {
     public String toString() {
         return "Edge(" + fromNode.getLabel() + " --(" + label + ")--> " + toNode.getLabel() +", " + id + ")";
     }
+
+    public void setLabel(String label) {
+        this.label = label;
+        stemmedLabel = Stemmer.stem(label);
+    }
 }

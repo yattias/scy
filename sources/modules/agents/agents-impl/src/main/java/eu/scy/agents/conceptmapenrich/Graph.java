@@ -75,12 +75,37 @@ public class Graph {
         return sb.toString();
     }
 
-//    public void removeNode(String labelOrId) {
-//        nodes.remove(labelOrId);
-//    }
-//
-//    public void removeNode(String labelOrId) {
-//        nodes.remove(labelOrId);
-//    }
+    public void removeNode(String labelOrId) {
+        nodes.remove(labelOrId);
+    }
+
+    public void removeEdge(String labelOrId) {
+        edges.remove(labelOrId);
+    }
+    
+    public void changeLabel(String labelOrId, String label) {
+        Node n = nodes.get(labelOrId);
+        if (n != null) {
+            if (useStemming) {
+                nodes.remove(labelOrId);
+                n.setLabel(label);
+                nodes.put(n.getStemmedLabel(), n);
+            } else {
+                n.setLabel(label);
+            }
+            return;
+        } 
+        Edge e = edges.get(labelOrId);
+        if (e != null) {
+            if (useStemming) {
+                edges.remove(labelOrId);
+                e.setLabel(label);
+                edges.put(e.getStemmedLabel(), e);
+            } else {
+                e.setLabel(label);
+            }
+            return;
+        } 
+    }
 
 }
