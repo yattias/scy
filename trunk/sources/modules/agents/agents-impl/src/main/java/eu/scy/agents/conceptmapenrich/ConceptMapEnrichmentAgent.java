@@ -35,7 +35,8 @@ public class ConceptMapEnrichmentAgent extends AbstractThreadedAgent {
     public ConceptMapEnrichmentAgent(Map<String, Object> map) {
         super(ConceptMapEnrichmentAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         Arrays.sort(strategies);
-        con = new SWATConnection();
+        con = new SWATConnection("de");
+//        con = new SWATConnection("en");
 //        con = new OntologyAgentConnection();
     }
 
@@ -139,8 +140,7 @@ public class ConceptMapEnrichmentAgent extends AbstractThreadedAgent {
             propValues = con.getPropValuesOfInstance(entity, ONTOLOGY_NS);;
             for (String pv : propValues) {
                 if (!pv.isEmpty()) {
-                    String[] strings = pv.split(" ");
-                    concepts.add(unCamelize(entity, false) + " " + unCamelize(strings[0], false) + " " + unCamelize(strings[1], false));
+                    concepts.add(unCamelize(entity, false) + " " + pv);
                 }
             }
         }

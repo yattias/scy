@@ -7,6 +7,8 @@ import info.collide.swat.beans.DatatypePropertyValueBean;
 import info.collide.swat.beans.ObjectPropertyValueBean;
 import info.collide.swat.beans.PropertyValueBean;
 import info.collide.swat.model.Class;
+import info.collide.swat.model.DatatypeAnnotation;
+import info.collide.swat.model.DatatypeAnnotation.Type;
 import info.collide.swat.model.Entity;
 import info.collide.swat.model.Instance;
 import info.collide.swat.model.OWLType;
@@ -15,32 +17,40 @@ import info.collide.swat.model.XSDValue;
 
 import java.util.HashSet;
 
-
 public class SWATConnection implements OntologyConnection {
 
     private SWATClient sc;
-    
-    public SWATConnection() {
+
+    private String language;
+
+    public SWATConnection(String language) {
         try {
-            sc = new SWATClient("http://www.scy.eu/co2house#", "scy.collide.info", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
+            Stemmer.setLanguage(language);
+            this.language = language;
+            this.sc = new SWATClient("http://www.scy.eu/co2house#", "scy.collide.info", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public String[] getOntologyTerms(String namespace) throws TupleSpaceException {
         try {
-            Instance[] instances = sc.getOntology().listInstances();
-            Class[] classes = sc.getOntology().listClasses();
-            String[] result = new String[instances.length + classes.length];
-            int i = 0;
-            for (; i < instances.length; i++) {
-                result[i] = instances[i].getId().getName();
+            DatatypeAnnotation[] listLabels = sc.getOntology().listLabels(language);
+            String[] result = new String[listLabels.length];
+            for (int i = 0; i < result.length; i++) {
+                result[i] = listLabels[i].getValue();
             }
-            for (; i - instances.length < classes.length; i++) {
-                result[i] = classes[i - instances.length].getId().getName();
-            }
+            // Instance[] instances = sc.getOntology().listInstances();
+            // Class[] classes = sc.getOntology().listClasses();
+            // String[] result = new String[instances.length + classes.length];
+            // int i = 0;
+            // for (; i < instances.length; i++) {
+            // result[i] = instances[i].getId().getName();
+            // }
+            // for (; i - instances.length < classes.length; i++) {
+            // result[i] = classes[i - instances.length].getId().getName();
+            // }
             return result;
         } catch (SWATException e) {
             e.printStackTrace();
@@ -50,11 +60,17 @@ public class SWATConnection implements OntologyConnection {
 
     @Override
     public String lookupEntityType(String entity, String namespace) throws TupleSpaceException {
-        Entity e = sc.getOntology().getEntity(namespace + entity);
-        if (e instanceof Class) {
-            return "class";
-        } else if (e instanceof Instance) {
-            return "individual";
+        // Entity e = sc.getOntology().getEntity(namespace + entity);
+        DatatypeAnnotation da = new DatatypeAnnotation(Type.LABEL, language, entity);
+        try {
+            Entity e = sc.getOntology().getEntityForLabel(da);
+            if (e instanceof Class) {
+                return "class";
+            } else if (e instanceof Instance) {
+                return "individual";
+            }
+        } catch (SWATException e1) {
+            e1.printStackTrace();
         }
         // should never happen ;)
         return null;
@@ -62,12 +78,13 @@ public class SWATConnection implements OntologyConnection {
 
     @Override
     public String[] getSubclassesOfClass(String entity, String namespace) throws TupleSpaceException {
-        Entity e = sc.getOntology().getEntity(namespace + entity);
-        Class c = (Class) e;
         try {
+            // Entity e = sc.getOntology().getEntity(namespace + entity);
+            Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
+            Class c = (Class) e;
             String[] result = new String[c.getDirectSubClasses().length];
             for (int i = 0; i < result.length; i++) {
-                result[i] = c.getDirectSubClasses()[i].getId().getName();
+                result[i] = getLabels(c.getDirectSubClasses()[i]);
             }
             return result;
         } catch (SWATException e1) {
@@ -78,12 +95,13 @@ public class SWATConnection implements OntologyConnection {
 
     @Override
     public String[] getSuperclassesOfClass(String entity, String namespace) throws TupleSpaceException {
-        Entity e = sc.getOntology().getEntity(namespace + entity);
-        Class c = (Class) e;
         try {
+            // Entity e = sc.getOntology().getEntity(namespace + entity);
+            Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
+            Class c = (Class) e;
             String[] result = new String[c.getDirectSuperClasses().length];
             for (int i = 0; i < result.length; i++) {
-                result[i] = c.getDirectSuperClasses()[i].getId().getName();
+                result[i] = getLabels(c.getDirectSuperClasses()[i]);
             }
             return result;
         } catch (SWATException e1) {
@@ -94,12 +112,13 @@ public class SWATConnection implements OntologyConnection {
 
     @Override
     public String[] getInstancesOfClass(String entity, String namespace) throws TupleSpaceException {
-        Entity e = sc.getOntology().getEntity(namespace + entity);
-        Class c = (Class) e;
         try {
+            // Entity e = sc.getOntology().getEntity(namespace + entity);
+            Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
+            Class c = (Class) e;
             String[] result = new String[c.getInstances().length];
             for (int i = 0; i < result.length; i++) {
-                result[i] = c.getInstances()[i].getId().getName();
+                result[i] = getLabels(c.getInstances()[i]);
             }
             return result;
         } catch (SWATException e1) {
@@ -110,12 +129,13 @@ public class SWATConnection implements OntologyConnection {
 
     @Override
     public String[] getClassesOfInstance(String entity, String namespace) throws TupleSpaceException {
-        Entity e = sc.getOntology().getEntity(namespace + entity);
-        Instance i = (Instance) e;
         try {
+            // Entity e = sc.getOntology().getEntity(namespace + entity);
+            Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
+            Instance i = (Instance) e;
             String[] result = new String[i.getInstancesOf().length];
             for (int x = 0; x < result.length; x++) {
-                result[x] = i.getInstancesOf()[x].getId().getName();
+                result[x] = getLabels(i.getInstancesOf()[x]);
             }
             return result;
         } catch (SWATException e1) {
@@ -126,9 +146,10 @@ public class SWATConnection implements OntologyConnection {
 
     @Override
     public String[] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException {
-        Entity e = sc.getOntology().getEntity(namespace + entity);
-        Instance i = (Instance) e;
         try {
+            // Entity e = sc.getOntology().getEntity(namespace + entity);
+            Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
+            Instance i = (Instance) e;
             HashSet<String> result = new HashSet<String>();
             for (int x = 0; x < i.getPropertyValues().length; x++) {
                 PropertyValueBean<?> pvb = i.getPropertyValues()[x];
@@ -140,7 +161,7 @@ public class SWATConnection implements OntologyConnection {
                 } else {
                     ObjectPropertyValueBean b = (ObjectPropertyValueBean) pvb;
                     for (Instance v : b.getValues()) {
-                        result.add(pvb.getProperty().getName() + " " + v.getId().getName());
+                        result.add(pvb.getProperty().getName() + " " + getLabels(v));
                     }
                 }
             }
@@ -151,6 +172,20 @@ public class SWATConnection implements OntologyConnection {
         return new String[0];
     }
 
+    private String getLabels(Entity e) throws SWATException {
+        DatatypeAnnotation[] das = e.getDatatypeAnnotations();
+        String result = ""; 
+        for (DatatypeAnnotation da : das) {
+            if (da.getType() == Type.LABEL && da.getLang().equals(language)) {
+                result+= da.getValue() + ","; 
+            }
+        }
+        if (result.length() > 0) {
+            result = result.substring(0, result.length() - 1);
+        }
+        return result;
+    }
+    
     @Override
     public void close() {
         try {
@@ -159,6 +194,5 @@ public class SWATConnection implements OntologyConnection {
             e.printStackTrace();
         }
     }
-
 
 }

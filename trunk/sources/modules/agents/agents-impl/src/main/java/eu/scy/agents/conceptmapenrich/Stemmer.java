@@ -2,13 +2,13 @@ package eu.scy.agents.conceptmapenrich;
 
 import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
+import org.tartarus.snowball.ext.germanStemmer;
 
 public class Stemmer {
 
     private static SnowballStemmer stemmer;
-
+    
     static {
-        // stemmer = new germanStemmer();
         stemmer = new englishStemmer();
     }
 
@@ -19,13 +19,21 @@ public class Stemmer {
     }
 
     public static String stemWordWise(String string) {
-        String temp = ""; 
+        String temp = "";
         // no stringbuilder, because there will be rarely any terms with words > 2
         for (String l : string.split(" ")) {
             temp += Stemmer.stem(l) + " ";
         }
         temp = temp.substring(0, temp.length() - 1);
         return temp;
+    }
+
+    public static void setLanguage(String language) {
+        if (language.equals("en")) {
+            stemmer = new englishStemmer();
+        } else if (language.equals("de")){
+            stemmer = new germanStemmer();
+        }
     }
 
 }
