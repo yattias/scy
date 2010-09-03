@@ -145,31 +145,31 @@ public class SWATConnection implements OntologyConnection {
     }
 
     @Override
-    public String[] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException {
+    public String[][] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException {
         try {
             // Entity e = sc.getOntology().getEntity(namespace + entity);
             Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
             Instance i = (Instance) e;
-            HashSet<String> result = new HashSet<String>();
+            HashSet<String[]> result = new HashSet<String[]>();
             for (int x = 0; x < i.getPropertyValues().length; x++) {
                 PropertyValueBean<?> pvb = i.getPropertyValues()[x];
                 if (pvb instanceof DatatypePropertyValueBean) {
                     DatatypePropertyValueBean b = (DatatypePropertyValueBean) pvb;
                     for (XSDValue v : b.getValues()) {
-                        result.add(pvb.getProperty().getName() + " " + v.getValue());
+                        result.add(new String[] { pvb.getProperty().getName(), v.getValue() });
                     }
                 } else {
                     ObjectPropertyValueBean b = (ObjectPropertyValueBean) pvb;
                     for (Instance v : b.getValues()) {
-                        result.add(pvb.getProperty().getName() + " " + getLabels(v));
+                        result.add(new String[] { pvb.getProperty().getName(), getLabels(v) });
                     }
                 }
             }
-            return (String[]) result.toArray(new String[result.size()]);
+            return (String[][]) result.toArray(new String[result.size()][]);
         } catch (SWATException e1) {
             e1.printStackTrace();
         }
-        return new String[0];
+        return new String[0][0];
     }
 
     private String getLabels(Entity e) throws SWATException {

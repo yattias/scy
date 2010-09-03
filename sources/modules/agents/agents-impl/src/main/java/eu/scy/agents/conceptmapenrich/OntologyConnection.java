@@ -8,7 +8,7 @@ public interface OntologyConnection {
 
     public String[] getClassesOfInstance(String entity, String namespace) throws TupleSpaceException;
 
-    public String[] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException;
+    public String[][] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException;
 
     public String lookupEntityType(String entity, String namespace) throws TupleSpaceException;
 
