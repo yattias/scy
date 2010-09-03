@@ -9,21 +9,36 @@ public class Graph {
 
     private Map<String, Edge> edges;
 
+    private boolean useStemming;
+
     public Graph() {
+        this(false);
+    }
+
+    public Graph(boolean useStemming) {
         nodes = new HashMap<String, Node>();
         edges = new HashMap<String, Edge>();
+        this.useStemming = useStemming;
     }
 
-    public void addNode(String label) {
-        Node node = new Node(label);
-        nodes.put(node.getStemmedLabel(), node);
+    public void addNode(String label, String id) {
+        Node node = new Node(label, id);
+        if (useStemming) {
+            nodes.put(node.getStemmedLabel(), node);
+        } else {
+            nodes.put(id, node);
+        }
     }
 
-    public void addEdge(String from, String to, String label) {
+    public void addEdge(String from, String to, String label, String id) {
         Node fromNode = nodes.get(Stemmer.stem(from));
         Node toNode = nodes.get(Stemmer.stem(to));
-        Edge edge = new Edge(label, fromNode, toNode);
-        edges.put(edge.getStemmedLabel(), edge);
+        Edge edge = new Edge(label, fromNode, toNode, id);
+        if (useStemming) {
+            edges.put(edge.getStemmedLabel(), edge);
+        } else {
+            edges.put(id, edge);
+        }
     }
 
     public Node[] getNodes() {
@@ -34,8 +49,12 @@ public class Graph {
         return (Edge[]) edges.values().toArray(new Edge[edges.values().size()]);
     }
 
-    public Node getNode(String label) {
-        return nodes.get(Stemmer.stem(label));
+    public Node getNode(String labelOrId) {
+        if (useStemming) {
+            return nodes.get(Stemmer.stem(labelOrId));
+        } else {
+            return nodes.get(labelOrId);
+        }
     }
 
     @Override
@@ -56,9 +75,12 @@ public class Graph {
         return sb.toString();
     }
 
-	public void removeNode(String property) {
-		// TODO mach ma
-		
-	}
+//    public void removeNode(String labelOrId) {
+//        nodes.remove(labelOrId);
+//    }
+//
+//    public void removeNode(String labelOrId) {
+//        nodes.remove(labelOrId);
+//    }
 
 }
