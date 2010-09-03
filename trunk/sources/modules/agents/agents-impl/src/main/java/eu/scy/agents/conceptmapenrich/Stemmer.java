@@ -21,7 +21,7 @@ public class Stemmer {
     public static String stemWordWise(String string) {
         String temp = "";
         // no stringbuilder, because there will be rarely any terms with words > 2
-        for (String l : string.split(" ")) {
+        for (String l : string.toLowerCase().split(" ")) {
             temp += Stemmer.stem(l) + " ";
         }
         temp = temp.substring(0, temp.length() - 1);

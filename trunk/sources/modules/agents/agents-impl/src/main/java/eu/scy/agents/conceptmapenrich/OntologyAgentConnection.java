@@ -80,10 +80,16 @@ public class OntologyAgentConnection implements OntologyConnection {
     }
 
     @Override
-    public String[] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException {
+    public String[][] getPropValuesOfInstance(String entity, String namespace) throws TupleSpaceException {
         Tuple result = queryOntoAgent("instance info", namespace, entity);
         String[] propValues = result.getField(3).getValue().toString().split(",");
-        return propValues;
+        String[][] output = new String[propValues.length][];
+        for (int i = 0; i < propValues.length; i++) {
+            output[i] = new String[2]; 
+            output[i][0] = propValues[i].substring(0, propValues[i].indexOf(' '));
+            output[i][1] = propValues[i].substring(propValues[i].indexOf(' ') + 1);
+        }
+        return output;
     }
     
     @Override
