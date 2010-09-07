@@ -68,6 +68,7 @@ public class DataMenu extends JPopupMenu implements ActionListener{
     // INTERFACE
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("actionPerformed "+e);
         if (e.getSource().equals(this.itemIgnored))
             ignoreData();
         else if (e.getSource().equals(this.itemNotIgnored))
@@ -103,17 +104,17 @@ public class DataMenu extends JPopupMenu implements ActionListener{
         this.itemInsert = new JMenuItem(owner.getBundleString("MENU_INSERT"));
         this.itemInsert.addActionListener(this);
         this.itemDelete = new JMenuItem(owner.getBundleString("MENU_DELETE"));
-        this.itemDelete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         this.itemDelete.addActionListener(this);
+        this.itemDelete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         this.itemCopy = new JMenuItem(owner.getBundleString("MENU_COPY"));
-        this.itemCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
         this.itemCopy.addActionListener(this);
+        this.itemCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
         this.itemPaste = new JMenuItem(owner.getBundleString("MENU_PASTE"));
-        this.itemPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
         this.itemPaste.addActionListener(this);
+        this.itemPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
         this.itemCut = new JMenuItem(owner.getBundleString("MENU_CUT"));
-        this.itemCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
         this.itemCut.addActionListener(this);
+        this.itemCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
         this.itemIgnored = new JMenuItem(owner.getBundleString("MENU_IGNORED"));
         this.itemIgnored.addActionListener(this);
         this.itemNotIgnored = new JMenuItem(owner.getBundleString("MENU_NOT_IGNORED"));

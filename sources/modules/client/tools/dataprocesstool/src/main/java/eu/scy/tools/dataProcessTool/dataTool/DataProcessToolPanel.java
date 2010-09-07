@@ -64,7 +64,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* width */
     public static final int PANEL_WIDTH = 585;
     /* height */
-    public static final int PANEL_HEIGHT = 330;
+    public static final int PANEL_HEIGHT = 355;
 
     
     
@@ -81,7 +81,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private ResourceBundleWrapper bundle;
     //private ResourceBundle bundle;
     /* version */
-    private String version = "3.3";
+    private String version = "3.4";
     /* number format */
     private NumberFormat numberFormat;
 

@@ -76,7 +76,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
       if (n == 1)
           this.cbType.setEnabled(false);
       selectVisualType();
-      setSize(380,200);
+      setSize(400,200);
       setPreferredSize(getSize());
       resizePanel();
     }
@@ -190,10 +190,10 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-         if (name.length() > DataConstants.MAX_LENGHT_GRAPH_NAME){
+         if (name.length() > DataConstants.MAX_LENGHT_VISUALIZATION_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
              msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
-             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_GRAPH_NAME);
+             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_VISUALIZATION_NAME);
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
          }
@@ -353,7 +353,7 @@ private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:e
         if(cbData == null){
             cbData = new JComboBox();
             cbData.setName("cbData");
-            cbData.setBounds(labelDataChoice.getX()+labelDataChoice.getWidth()+5, 0, 80, 20);
+            cbData.setBounds(labelDataChoice.getX()+labelDataChoice.getWidth()+5, 0, 100, 20);
             for (int i=0; i<listCol.length; i++){
                 if(listCol[i] != null){
                     cbData.addItem(listCol[i].getValue());

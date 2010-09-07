@@ -103,6 +103,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         //this.setCellEditor(new DefaultCellEditor(cellField));
         this.setCellEditor(myCellEditor);
         this.setDefaultEditor(Object.class, myCellEditor);
+        this.setRowHeight(21);
         // ecoute evements
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -668,6 +669,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* copie => met en cache les donnees selectionnees  + update menu */
     public ArrayList<int[]> copy(){
+        System.out.println("copy");
         ArrayList<int[]> listSelCell = getSelectedCells();
         copySubData = getSubData(listSelCell);
         owner.updateMenuData();

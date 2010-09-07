@@ -113,7 +113,11 @@ public class FitexHTML {
                     h[0] = tabHeader[t] == null ? "" : tabHeader[t].getValue() ;
                     h[1] = tabHeader[t] == null ? "" : tabHeader[t].getUnit();
                     addString("<td>");
-                    addString("<span class='header'>"+h[0]+((h[1] == null || h[1].equals("")) ? "": " ("+h[1]+")")+"</span>");
+                    String c = "header";
+                    if(!tabHeader[t].isDouble()){
+                        c = "headerText";
+                    }
+                    addString("<span class='"+c+"'>"+h[0]+((h[1] == null || h[1].equals("")) ? "": " ("+h[1]+")")+"</span>");
                     addString("</td>");
                 }
                 // => operations sur les lignes (donc en colonne)
@@ -210,7 +214,7 @@ public class FitexHTML {
     }
 
     private void setVisualization(Visualization vis, Object o, int noVis){
-        addString("<p>"+vis.getName()+"<p/>");
+        addString("<p>"+vis.getName()+"</p>");
         if(vis instanceof SimpleVisualization){
             setChart((SimpleVisualization)vis, (JFreeChart)o, noVis);
         }else if(vis instanceof Graph){
@@ -268,7 +272,7 @@ public class FitexHTML {
         }catch(IOException ioex){
             Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, ioex);
         }
-        String preview = "<img src = \"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt = \"Graphe\">";
+        String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\">";
         addString(preview);
     }
 
@@ -304,7 +308,7 @@ public class FitexHTML {
         }catch(IOException ioex){
             Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, ioex);
         }
-        String preview = "<img src = \"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt = \"Graphe\">";
+        String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\">";
         addString(preview);
     }
 }

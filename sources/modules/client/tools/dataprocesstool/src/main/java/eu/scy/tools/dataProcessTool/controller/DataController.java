@@ -250,7 +250,7 @@ public class DataController implements ControllerInterface{
             for (int i=0; i<nbCols; i++){
                 String unit = header.getColumns().get(i).getUnit();
                 String type = header.getColumns().get(i).getType();
-                if (type == null || !type.equals(DataConstants.TYPE_DOUBLE) || !type.equals(DataConstants.TYPE_STRING))
+                if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
                 dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription(), null) ;
             }
@@ -293,7 +293,7 @@ public class DataController implements ControllerInterface{
         for (int i=0; i<nbCols; i++){
             String unit = header.getColumns().get(i).getUnit();
             String type = header.getColumns().get(i).getType();
-            if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equals(DataConstants.TYPE_STRING)))
+            if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
             dataHeader[i] = new DataHeader(idDataHeader++, header.getColumns().get(i).getSymbol(), unit, i, type, header.getColumns().get(i).getDescription(), null) ;
         }
@@ -1351,10 +1351,10 @@ public class DataController implements ControllerInterface{
                     maxY = listY.get(i);
             }
             // +/- 10%
-            double  x_min  = minX - Math.abs(minX/10) ;
-            double  y_min  = minY -Math.abs(minY/10) ;
-            double  x_max  = maxX +Math.abs(maxX/10) ;
-            double  y_max  = maxY +Math.abs(maxY/10);
+            double  x_min  = minX - Math.abs(minX/5) ;
+            double  y_min  = minY -Math.abs(minY/5) ;
+            double  x_max  = maxX +Math.abs(maxX/5) ;
+            double  y_max  = maxY +Math.abs(maxY/5);
             double deltaX = vis.getParamGraph().getDeltaX();
             double deltaY = vis.getParamGraph().getDeltaY();
             if(!vis.getParamGraph().isDeltaFixedAutoscale()){

@@ -36,8 +36,7 @@ public class DataConstants {
     public static final int MAX_LENGHT_DATAHEADER_DESCRIPTION = 1024;
      public static final int MAX_LENGHT_DATAHEADER_FORMULA = 1024;
     public static final int MAX_LENGHT_UNIT = 32;
-    public static final int MAX_LENGHT_VISUALIZATION_NAME = 32;
-    public static final int MAX_LENGHT_GRAPH_NAME = 32;
+    public static final int MAX_LENGHT_VISUALIZATION_NAME = 64;
     public static final int MAX_LENGHT_AXIS_NAME= 10;
     public final static int MAX_LENGHT_DATA=128;
 

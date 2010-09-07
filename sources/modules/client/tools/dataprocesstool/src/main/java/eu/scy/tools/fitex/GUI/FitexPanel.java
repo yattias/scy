@@ -26,6 +26,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -50,7 +51,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
 
-    
+    private static final Color DEFAULT_TEXT_COLOR  = Color.LIGHT_GRAY;
     private FitexToolPanel owner;
     /* donnees */
     private DefaultTableModel[] datas = null;
@@ -263,16 +264,28 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
                     drawFct();
                 }
             });
+            textFieldFct.setText(getBundleString("DEFAULT_FUNCTION_MODEL"));
+            textFieldFct.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
+            textFieldFct.setForeground(DEFAULT_TEXT_COLOR);
             textFieldFct.addFocusListener(new java.awt.event.FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
-
+                    if(textFieldFct.getText().equals(getBundleString("DEFAULT_FUNCTION_MODEL"))){
+                        textFieldFct.setText("");
+                        textFieldFct.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+                        textFieldFct.setForeground(couleurSelect);
+                    }
                 }
                 @Override
                 public void focusLost(FocusEvent e) {
                     drawFct();
                     for (String param:mapDesFonctions.get(couleurSelect).getMapParametre().keySet()) {
                         mapDesSpinners.get(param).setFocus();
+                    }
+                    if(textFieldFct.getText().equals("")){
+                        textFieldFct.setText(getBundleString("DEFAULT_FUNCTION_MODEL"));
+                        textFieldFct.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
+                        textFieldFct.setForeground(DEFAULT_TEXT_COLOR);
                     }
                 }
             });
@@ -487,12 +500,15 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
         // si il n'existe pas, creation de l'objet fonction
         if (!isRows())
             return ;
+        String text = textFieldFct.getText();
+        if(text.equals(getBundleString("DEFAULT_FUNCTION_MODEL")))
+            text = "";
         if (mapDesFonctions.get(couleurSelect) == null){
-            mapDesFonctions.put(couleurSelect, new Function(owner, textFieldFct.getText(), typeSelect, datas));
+            mapDesFonctions.put(couleurSelect, new Function(owner, text, typeSelect, datas));
         }else{
             String oldT = mapDesFonctions.get(couleurSelect).getIntitule();
-            if(oldT != null  && !oldT.equals(textFieldFct.getText()) || typeSelect != mapDesFonctions.get(couleurSelect).getType())
-                mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText(), typeSelect) ;
+            if(oldT != null  && !oldT.equals(text) || typeSelect != mapDesFonctions.get(couleurSelect).getType())
+                mapDesFonctions.get(couleurSelect).maJFonction(text, typeSelect) ;
         }
         // affichage des parametres de la fonction
         affichageParametres(couleurSelect) ;
@@ -506,7 +522,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             listParam.add(p);
         }
         if(actionFitex != null)
-            actionFitex.setFunctionModel(textFieldFct.getText(), typeSelect, couleurSelect, listParam);
+            actionFitex.setFunctionModel(text, typeSelect, couleurSelect, listParam);
     }
 
     /** MaJ de l'affichage des parametres de la fonction */
@@ -571,6 +587,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
         // MaJ de la fonction dans son label
         textFieldFct.setForeground(coul);
         if (mapDesFonctions.get(coul)!=null) {
+            textFieldFct.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
             if(mapDesFonctions.get(coul).getType() == DataConstants.FUNCTION_TYPE_Y_FCT_X){
                 labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );
                 typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
@@ -581,7 +598,9 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             textFieldFct.setText((mapDesFonctions.get(coul)).getIntitule());
         }
         else{
-            textFieldFct.setText("");
+            textFieldFct.setText(getBundleString("DEFAULT_FUNCTION_MODEL"));
+            textFieldFct.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
+            textFieldFct.setForeground(DEFAULT_TEXT_COLOR);
             labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );
             typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
         }
@@ -718,6 +737,8 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
 
    public void setPredefinedFunction(PreDefinedFunction function){
        if(textFieldFct != null){
+           textFieldFct.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+           textFieldFct.setForeground(couleurSelect);
            textFieldFct.setText(function.getExpression());
            if(function.getType() == DataConstants.FUNCTION_TYPE_Y_FCT_X){
                 labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );

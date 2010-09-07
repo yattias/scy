@@ -64,7 +64,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 
     public void load(){
         dataProcessPanel.loadData();
-        setSize(585, 335);
+        setSize(585, 355);
     }
 
     private void initDataProcessTool(){
@@ -85,7 +85,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 
     private void initGUI(){
         this.addWindowListener(this);
-        setMinimumSize(new Dimension(585, 330));
+        setMinimumSize(new Dimension(585, 355));
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("SCYDataViewer ");
         setLayout(new BorderLayout());
