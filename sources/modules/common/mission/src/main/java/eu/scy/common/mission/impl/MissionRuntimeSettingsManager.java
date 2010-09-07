@@ -38,7 +38,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
    private RuntimeSettingsElo runtimeRuntimeSettingsElo;
    private final Set<URI> specifiactionContentEloUri;
    private final ToolBrokerAPI tbi;
-   private final RuntimeSettingsManager specifiactionRuntimeSettings;
+   private final RuntimeSettingsManager specificationRuntimeSettings;
    private RuntimeSettingsManager runtimeRuntimeSettings;
    private final Object addSettingsLock = new Object();
    // a ConcurrentHashMap cannot store a null value, so use a special null value
@@ -47,7 +47,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
    private final Map<URI, URI> specificationEloUriMap = new ConcurrentHashMap<URI, URI>();
 
    public MissionRuntimeSettingsManager(RuntimeSettingsElo specificationRuntimeSettingsElo,
-            RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specifiactionContentEloUri,
+            RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specificationContentEloUri,
             ToolBrokerAPI tbi) throws URISyntaxException
    {
       super();
@@ -55,9 +55,9 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       this.runtimeRuntimeSettingsElo = runtimeRuntimeSettingsElo;
       // the set with the specification content elo uris is only used for looking up,
       // it is not modified, thus a HashSet is thread save
-      this.specifiactionContentEloUri = new HashSet<URI>(specifiactionContentEloUri);
+      this.specifiactionContentEloUri = new HashSet<URI>(specificationContentEloUri);
       this.tbi = tbi;
-      this.specifiactionRuntimeSettings = specificationRuntimeSettingsElo.getTypedContent();
+      this.specificationRuntimeSettings = specificationRuntimeSettingsElo.getTypedContent();
       this.runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
    }
 
@@ -78,7 +78,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       {
          specificationEloUri = getSpecificationEloUri(key.getEloUri());
       }
-      value = specifiactionRuntimeSettings.getSetting(new RuntimeSettingKey(key.getName(), key
+      value = specificationRuntimeSettings.getSetting(new RuntimeSettingKey(key.getName(), key
                .getLasId(), specificationEloUri));
       if (value != null)
       {
@@ -126,6 +126,16 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       }
 
       return findSpecificationEloUri(scyElo.getIsForkedOfEloUri());
+   }
+
+   public List<String> getSettings(List<RuntimeSettingKey> keys)
+   {
+      List<String> values = new ArrayList<String>(keys.size());
+      for (RuntimeSettingKey key : keys)
+      {
+         values.add(getSetting(key));
+      }
+      return values;
    }
 
    @Override
