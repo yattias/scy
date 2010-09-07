@@ -32,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import java.util.ResourceBundle;
 import java.lang.Exception;
+import javafx.scene.layout.LayoutInfo;
 
 /**
  * @author kaido
@@ -73,7 +74,8 @@ var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.inter
 var interviewStrings:InterviewStrings = InterviewStrings{};
 public var interviewLogger: InterviewLogger;
 var log = true;
-var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
+//var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
+var guidePane : InterviewGuides = InterviewGuides{layoutInfo: LayoutInfo { width:rightWidth, height:height-rightBottomHeight }};
 var lowerNodes : Node;
 protected var treeMaximized : Boolean = false;
 protected var schemaMaximized : Boolean = false;
@@ -84,8 +86,9 @@ function makeTree() : InterviewTree {
     return InterviewTree{
         translateX: 0
         translateY: 0
-        width: width - rightWidth
-        height: height
+//        width: width - rightWidth
+//        height: height
+        layoutInfo:LayoutInfo{width: width - rightWidth, height: height}
         font: treeFont
         root: InterviewTreeCell{
             text: "Root"
@@ -228,8 +231,9 @@ function showQuestion() {
             content: ##"Research question"
         }
         InterviewTextArea {
-                width: rightWidth-2*hPadding
-                height: 150
+//                width: rightWidth-2*hPadding
+//                height: 150
+                layoutInfo: LayoutInfo{width: rightWidth-2*hPadding, height: 150}
                 translateX: hPadding
                 translateY: 50
                 font: normalFont
@@ -303,6 +307,7 @@ function showTopics() : Void {
         logAction: interviewLogger.logTopicAction
         width: rightWidth - 2*hPadding
         height: 150
+//        layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 150}
         font: normalFont
         headerFont: labelFont
     }
@@ -340,6 +345,7 @@ function showTopic(cell: InterviewTreeCell) {
         logAction: interviewLogger.logIndicatorAction
         width: rightWidth - 2*hPadding
         height: 150
+//        layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 150}
         font: normalFont
         headerFont: labelFont
     }
@@ -382,6 +388,7 @@ function showIndicator(cell: InterviewTreeCell) {
         logNamelyAction: interviewLogger.logOtherNamelyAction
         width: rightWidth - 2*hPadding
         height: 120
+//        layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 120}
         font: normalFont
         headerFont: labelFont
         namelyShow: true
@@ -414,8 +421,9 @@ function showIndicatorFormulate(cell: InterviewTreeCell) {
             content: "{interviewStrings.indicatorFormulation} \"{cell.indicator.indicator}\""
         }
         InterviewTextArea {
-                width: rightWidth - 2*hPadding
-                height: 150
+//                width: rightWidth - 2*hPadding
+//                height: 150
+                layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 150}
                 translateX: hPadding
                 translateY: 50
                 font: normalFont
@@ -441,6 +449,8 @@ function zoomEditorIn(editor:SwingComponent, button:ImageView) {
     lowerNodes.translateY=0;
     editor.width = width;
     editor.height = height - parentHeightOffset - toolBottomOffset;
+    editor.layoutInfo = LayoutInfo{width: width,
+        height: height - parentHeightOffset - toolBottomOffset}
     editor.translateX = 0;
     editor.translateY = 0;
     button.translateX = width-3-23;
@@ -453,6 +463,8 @@ function zoomEditorOut(editor:SwingComponent, button:ImageView) {
     lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
     editor.width = rightWidth-2*hPadding;
     editor.height = lowerNodesHeight-2*vPadding;
+    editor.layoutInfo = LayoutInfo{width: rightWidth-2*hPadding,
+        height: lowerNodesHeight-2*vPadding}
     editor.translateX = hPadding;
     editor.translateY = vPadding;
     button.translateX = rightWidth-hPadding-3-23;
@@ -661,6 +673,7 @@ protected var content: Node[] = [
         x: bind width-rightWidth+3,
         y: bind height - rightBottomHeight - parentHeightOffset - toolBottomOffset + 3
         width: rightWidth-6, height: rightBottomHeight-6
+//        layoutInfo: LayoutInfo{width: rightWidth-6, height: rightBottomHeight-6}
         fill: Color.TRANSPARENT,
         stroke: Color.GREY
     },
@@ -670,6 +683,7 @@ protected var content: Node[] = [
         translateY: bind height - parentHeightOffset - 30 - toolBottomOffset
         translateX: bind width - rightWidth + 10
         width: rightWidth-20
+//        layoutInfo: LayoutInfo{width: rightWidth-20}
         content: [
         Button {
             text: ##"Back"
@@ -728,10 +742,14 @@ protected var content: Node[] = [
     ];
 
    public override function getPrefHeight(width: Number) : Number{
-      return getMinHeight();
+      if (height<getMinHeight())
+          return getMinHeight();
+      return height;
    }
    public override function getPrefWidth(height: Number) : Number{
-      return getMinWidth();
+      if (width<getMinWidth())
+          return getMinWidth();
+      return width;
    }
    public override function getMinHeight() : Number {
       return 500;
@@ -744,7 +762,13 @@ protected var content: Node[] = [
    function drawNormalWindow() {
       interviewTree.width = width - rightWidth;
       interviewTree.height = height - parentHeightOffset - toolBottomOffset;
+      interviewTree.layoutInfo = LayoutInfo{
+            height: height - parentHeightOffset - toolBottomOffset
+            width: width - rightWidth};
       guidePane.height = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
+      guidePane.layoutInfo = LayoutInfo{
+            height: height - rightBottomHeight - parentHeightOffset - toolBottomOffset
+            width: rightWidth};
       guidePane.translateX = width - rightWidth;
       lowerNodes.translateX = width - rightWidth;
       lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
@@ -754,6 +778,9 @@ protected var content: Node[] = [
       if (treeMaximized) {
           interviewTree.width = width;
           interviewTree.height = height - parentHeightOffset - toolBottomOffset;
+          interviewTree.layoutInfo = LayoutInfo{
+                height: height - parentHeightOffset - toolBottomOffset
+                width: width};
       } else if (schemaMaximized) {
           zoomSchemaIn();
       } else if (guidelinesMaximized) {
@@ -769,13 +796,12 @@ protected var content: Node[] = [
        action: function() {
             if (not schemaMaximized and not guidelinesMaximized) {
                 if (treeMaximized) {
-                    interviewTree.width=width - rightWidth;
                     treeMaximized = false;
                     resizeContent();
                     interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
                 } else {
-                    interviewTree.width=width;
                     treeMaximized = true;
+                    resizeContent();
                     interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
                 }
             }

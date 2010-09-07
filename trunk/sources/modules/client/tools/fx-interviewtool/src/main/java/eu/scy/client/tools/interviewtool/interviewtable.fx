@@ -30,6 +30,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import javafx.scene.control.Button;
 import javax.swing.JOptionPane;
+import javafx.scene.layout.LayoutInfo;
 
 /**
  * @author kaido
@@ -181,8 +182,9 @@ package class InterviewTableEditor extends CustomNode {
     var table = InterviewTable {
                     translateX:translateX
                     translateY:translateY
-                    width: width
-                    height: height
+//                    width: width
+//                    height: height
+                    layoutInfo:LayoutInfo{width: width, height: height}
                     font: font
                     headerFont: headerFont
                     focusLostCount: bind focusLostCount with inverse
