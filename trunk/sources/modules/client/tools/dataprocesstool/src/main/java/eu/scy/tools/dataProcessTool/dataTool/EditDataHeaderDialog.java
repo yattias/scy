@@ -55,17 +55,13 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
 
     /* initialisation */
     private void initGUI(){
-        // init of cb type
-        String doubleS = owner.getBundleString("LABEL_HEADER_TYPE_DOUBLE");
-        cbType.addItem(doubleS);
-        String stringS = owner.getBundleString("LABEL_HEADER_TYPE_STRING");
-        cbType.addItem(stringS);
-        cbType.setSelectedIndex(0);
         // resize
         this.labelHeaderName.setSize(MyUtilities.lenghtOfString(this.labelHeaderName.getText(), labelHeaderName.getFontMetrics(this.labelHeaderName.getFont())), this.labelHeaderName.getHeight());
         this.labelUnit.setSize(MyUtilities.lenghtOfString(this.labelUnit.getText(), labelUnit.getFontMetrics(this.labelUnit.getFont())), this.labelUnit.getHeight());
         this.labelDescription.setSize(MyUtilities.lenghtOfString(this.labelDescription.getText(), labelDescription.getFontMetrics(this.labelUnit.getFont())), this.labelDescription.getHeight());
         this.labelType.setSize(MyUtilities.lenghtOfString(this.labelType.getText(), labelType.getFontMetrics(this.labelType.getFont())), this.labelType.getHeight());
+        this.rbTypeDouble.setSize(40+MyUtilities.lenghtOfString(this.rbTypeDouble.getText(), rbTypeDouble.getFontMetrics(this.rbTypeDouble.getFont())), this.rbTypeDouble.getHeight());
+        this.rbTypeString.setSize(40+MyUtilities.lenghtOfString(this.rbTypeString.getText(), rbTypeString.getFontMetrics(this.rbTypeString.getFont())), this.rbTypeString.getHeight());
         this.labelValue.setSize(MyUtilities.lenghtOfString(this.labelValue.getText(), labelValue.getFontMetrics(this.labelValue.getFont())), this.labelValue.getHeight());
         this.rbValueFree.setSize(40+MyUtilities.lenghtOfString(this.rbValueFree.getText(), rbValueFree.getFontMetrics(this.rbValueFree.getFont())), this.rbValueFree.getHeight());
         this.rbValueFormula.setSize(40+MyUtilities.lenghtOfString(this.rbValueFormula.getText(), rbValueFormula.getFontMetrics(this.rbValueFormula.getFont())), this.rbValueFormula.getHeight());
@@ -76,17 +72,18 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         posx += 10;
         this.textFieldHeaderName.setBounds(posx, textFieldHeaderName.getY()-4, textFieldHeaderName.getWidth(), textFieldHeaderName.getHeight());
         this.textFieldUnit.setBounds(posx, textFieldUnit.getY()-4, textFieldUnit.getWidth(), textFieldUnit.getHeight());
+        this.rbTypeDouble.setBounds(posx, rbTypeDouble.getY(), rbTypeDouble.getWidth(), rbTypeDouble.getHeight());
+        this.rbTypeString.setBounds(rbTypeDouble.getX()+rbTypeDouble.getWidth()+5, rbTypeString.getY(), rbTypeString.getWidth(), rbTypeString.getHeight());
         this.rbValueFree.setBounds(posx, rbValueFree.getY(), rbValueFree.getWidth(), rbValueFree.getHeight());
         this.rbValueFormula.setBounds(rbValueFree.getX()+rbValueFree.getWidth()+5, rbValueFormula.getY(), rbValueFormula.getWidth(), rbValueFormula.getHeight());
         this.labelEqual.setBounds(posx, labelEqual.getY(), labelEqual.getWidth(), labelEqual.getHeight());
         this.fieldFormula.setBounds(labelEqual.getX()+labelEqual.getWidth()+5, fieldFormula.getY(), fieldFormula.getWidth(), fieldFormula.getHeight());
         this.scrollPaneDescription.setBounds(posx, scrollPaneDescription.getY(), scrollPaneDescription.getWidth(), scrollPaneDescription.getHeight());
-        this.cbType.setBounds(posx, cbType.getY(), cbType.getWidth(), cbType.getHeight());
         int width = 300;
         width = Math.max(textFieldHeaderName.getX()+textFieldHeaderName.getWidth(), textFieldUnit.getX()+textFieldUnit.getWidth());
         width = Math.max(width, rbValueFormula.getX()+rbValueFormula.getWidth());
+        width = Math.max(width, rbTypeString.getX()+rbTypeString.getWidth());
         width = Math.max(width, scrollPaneDescription.getX()+scrollPaneDescription.getWidth());
-        width = Math.max(width, cbType.getX()+cbType.getWidth());
         width += 20;
         this.setSize(width, 180);
         this.setPreferredSize(getSize());
@@ -94,7 +91,8 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
             this.textFieldHeaderName.setEnabled(false);
             this.textFieldUnit.setEnabled(false);
             this.areaDescription.setEnabled(false);
-            this.cbType.setEnabled(false);
+            this.rbTypeDouble.setEnabled(false);
+            this.rbTypeString.setEnabled(false);
             this.rbValueFormula.setEnabled(false);
             this.rbValueFree.setEnabled(false);
             this.fieldFormula.setEnabled(false);
@@ -120,16 +118,18 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
                 fieldFormula.setText(header.getFormulaValue());
             this.areaDescription.setText(header.getDescription());
             if(header.getType().equalsIgnoreCase(DataConstants.TYPE_DOUBLE)){
-                cbType.setSelectedIndex(0);
+                rbTypeDouble.setSelected(true);
+                rbTypeString.setSelected(false);
             }else if (header.getType().equalsIgnoreCase(DataConstants.TYPE_STRING)){
-                cbType.setSelectedIndex(1);
+                rbTypeDouble.setSelected(false);
+                rbTypeString.setSelected(true );
             }
+            updateType();
         }
     }
     /* mise a jour du type */
     private void updateType(){
-        int id = cbType.getSelectedIndex();
-        isUnitMode = id==0;
+        isUnitMode = rbTypeDouble.isSelected();
         labelUnit.setVisible(isUnitMode);
         textFieldUnit.setVisible(isUnitMode);
         labelValue.setVisible(isUnitMode);
@@ -207,9 +207,8 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
             return;
         }
         // type
-        int idT = cbType.getSelectedIndex();
         String type = DataConstants.TYPE_DOUBLE;
-        if(idT==1){
+        if(rbTypeString.isSelected()){
             type =  DataConstants.TYPE_STRING;
             unit = null;
         }
@@ -240,12 +239,13 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         labelType = new javax.swing.JLabel();
         scrollPaneDescription = new javax.swing.JScrollPane();
         areaDescription = new javax.swing.JTextArea();
-        cbType = new javax.swing.JComboBox();
         labelValue = new javax.swing.JLabel();
         rbValueFree = new javax.swing.JRadioButton();
         rbValueFormula = new javax.swing.JRadioButton();
         labelEqual = new javax.swing.JLabel();
         fieldFormula = new javax.swing.JTextField();
+        rbTypeDouble = new javax.swing.JRadioButton();
+        rbTypeString = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(owner.getBundleString("TITLE_DIALOG_EDIT_DATAHEADER"));
@@ -309,14 +309,6 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         getContentPane().add(scrollPaneDescription);
         scrollPaneDescription.setBounds(110, 160, 220, 60);
 
-        cbType.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbTypeItemStateChanged(evt);
-            }
-        });
-        getContentPane().add(cbType);
-        cbType.setBounds(110, 40, 130, 20);
-
         labelValue.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelValue.setText(owner.getBundleString("LABEL_HEADER_VALUE"));
         getContentPane().add(labelValue);
@@ -348,6 +340,25 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         getContentPane().add(fieldFormula);
         fieldFormula.setBounds(120, 125, 210, 30);
 
+        rbTypeDouble.setSelected(true);
+        rbTypeDouble.setText(owner.getBundleString("LABEL_HEADER_TYPE_DOUBLE"));
+        rbTypeDouble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbTypeDoubleActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rbTypeDouble);
+        rbTypeDouble.setBounds(110, 40, 91, 23);
+
+        rbTypeString.setText(owner.getBundleString("LABEL_HEADER_TYPE_STRING"));
+        rbTypeString.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbTypeStringActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rbTypeString);
+        rbTypeString.setBounds(210, 40, 91, 23);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -358,10 +369,6 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonCancelActionPerformed
-
-    private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTypeItemStateChanged
-        updateType();
-    }//GEN-LAST:event_cbTypeItemStateChanged
 
     private void rbValueFreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbValueFreeActionPerformed
         rbValueFree.setSelected(true);
@@ -375,6 +382,18 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         rbValueFormula.setSelected(true);
         fieldFormula.setEnabled(true);
     }//GEN-LAST:event_rbValueFormulaActionPerformed
+
+    private void rbTypeDoubleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTypeDoubleActionPerformed
+        rbTypeDouble.setSelected(true);
+        rbTypeString.setSelected(false);
+        updateType();
+    }//GEN-LAST:event_rbTypeDoubleActionPerformed
+
+    private void rbTypeStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTypeStringActionPerformed
+        rbTypeDouble.setSelected(false);
+        rbTypeString.setSelected(true);
+        updateType();
+    }//GEN-LAST:event_rbTypeStringActionPerformed
 
     /**
     * @param args the command line arguments
@@ -397,7 +416,6 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea areaDescription;
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonOk;
-    private javax.swing.JComboBox cbType;
     private javax.swing.JTextField fieldFormula;
     private javax.swing.JLabel labelDescription;
     private javax.swing.JLabel labelEqual;
@@ -405,6 +423,8 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
     private javax.swing.JLabel labelType;
     private javax.swing.JLabel labelUnit;
     private javax.swing.JLabel labelValue;
+    private javax.swing.JRadioButton rbTypeDouble;
+    private javax.swing.JRadioButton rbTypeString;
     private javax.swing.JRadioButton rbValueFormula;
     private javax.swing.JRadioButton rbValueFree;
     private javax.swing.JScrollPane scrollPaneDescription;

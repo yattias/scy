@@ -103,7 +103,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                 mission= "1";
                 idGroup = "1";
                 idLabDoc = "69";
-                labDocName = "Jeu de données";
+                labDocName = "résultat";
             } catch (MalformedURLException ex) {
 
             }

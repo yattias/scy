@@ -1599,10 +1599,10 @@ public class DataControllerDB implements ControllerInterface{
                     maxY = listY.get(i);
             }
             // +/- 10%
-            double  x_min  = minX - Math.abs(minX/10) ;
-            double  y_min  = minY -Math.abs(minY/10) ;
-            double  x_max  = maxX +Math.abs(maxX/10) ;
-            double  y_max  = maxY +Math.abs(maxY/10);
+            double  x_min  = minX - Math.abs(minX/5) ;
+            double  y_min  = minY -Math.abs(minY/5) ;
+            double  x_max  = maxX +Math.abs(maxX/5) ;
+            double  y_max  = maxY +Math.abs(maxY/5);
             double deltaX = vis.getParamGraph().getDeltaX();
             double deltaY = vis.getParamGraph().getDeltaY();
             if(!vis.getParamGraph().isDeltaFixedAutoscale()){

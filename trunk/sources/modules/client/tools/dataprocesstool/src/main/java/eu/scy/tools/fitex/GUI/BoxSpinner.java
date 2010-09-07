@@ -21,7 +21,7 @@ public class BoxSpinner extends javax.swing.JPanel {
     FitexPanel owner ;
     private char right;
     private Double value ;
-    private double step = 0.1 ;
+    private double step = 1 ;
     
     /** Creates new form BoxSpinner */
     public BoxSpinner(FitexPanel owner, char right) {
@@ -132,23 +132,23 @@ public class BoxSpinner extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void previousMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMousePressed
-        updateValue();
+        updateValue(false);
         value = value - step ;
         majParametre() ;
     }//GEN-LAST:event_previousMousePressed
 
     private void nextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMousePressed
-        updateValue();
+        updateValue(false);
         value = value + step ;
         majParametre() ;
     }//GEN-LAST:event_nextMousePressed
 
     private void champValeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champValeurActionPerformed
-       updateValue();
+       updateValue(true);
     }//GEN-LAST:event_champValeurActionPerformed
 
     private void champValeurFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_champValeurFocusLost
-        updateValue();
+        updateValue(false);
     }//GEN-LAST:event_champValeurFocusLost
     
     public void majParametre (){
@@ -219,13 +219,14 @@ public class BoxSpinner extends javax.swing.JPanel {
         return height ;
     }
 
-    private void updateValue(){
+    private void updateValue(boolean updateStep){
         String s = champValeur.getText();
         s = s.replace(",", ".");
         try {
             value = Double.parseDouble(s) ;
             owner.maJParametreDansFonction(label.getText(), value);
-            majStep(s);
+            if(updateStep)
+                majStep(s);
         } catch (NumberFormatException e) {
             System.out.println("Le nombre entre n'est pas reconnu. "+s);
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));

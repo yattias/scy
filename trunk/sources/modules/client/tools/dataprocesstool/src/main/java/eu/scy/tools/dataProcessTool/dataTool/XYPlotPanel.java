@@ -130,7 +130,7 @@ public class XYPlotPanel extends JPanel implements ActionCopexButton{
         if(cbAxisX == null){
             cbAxisX = new JComboBox();
             cbAxisX.setName("cbAxisX");
-            cbAxisX.setBounds(labelX.getX()+labelX.getWidth()+5, 0, 80, 20);
+            cbAxisX.setBounds(labelX.getX()+labelX.getWidth()+5, 0, 120, 20);
             for (int i=0; i<listCol.length; i++){
                 if(listCol[i] != null){
                     cbAxisX.addItem(listCol[i].getValue());
@@ -162,7 +162,7 @@ public class XYPlotPanel extends JPanel implements ActionCopexButton{
         if(cbAxisY == null){
             cbAxisY = new JComboBox();
             cbAxisY.setName("cbAxisY");
-            cbAxisY.setBounds(labelY.getX()+labelY.getWidth()+5, 0, 80, 20);
+            cbAxisY.setBounds(labelY.getX()+labelY.getWidth()+5, 0, 120, 20);
             cbAxisY.addItemListener(new java.awt.event.ItemListener() {
                 public void itemStateChanged(java.awt.event.ItemEvent evt) {
                     setCbChange();

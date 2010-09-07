@@ -5,6 +5,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import java.awt.Font;
 
 /*
  * To change this template, choose Tools | Templates
@@ -29,11 +30,14 @@ public class MyTableEditor extends DefaultCellEditor{
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         component =  super.getTableCellEditorComponent(table, value, isSelected, row, column);
-        table.setRowHeight(row, 25);
+        //no resize for the height of a row
+        //table.setRowHeight(row, 25);
+       ((JTextField)component).setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
         if (table instanceof DataTable && (((DataTable)table).isValueHeader(row, column))){
 
         }else{
-            ((JTextField)component).setText("");
+            // keep the value of the cell
+            //((JTextField)component).setText("");
         }
         return component;
     }

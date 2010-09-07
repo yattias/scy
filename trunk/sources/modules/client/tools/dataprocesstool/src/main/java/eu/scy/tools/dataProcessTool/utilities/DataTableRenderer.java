@@ -36,6 +36,8 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
     private static final Color backgroundColor = Color.WHITE;
     /* couleur de fond cellules header */
     public static final Color headerBackgroundColor = new Color(217,217, 217);
+     /* couleur de fond cellules header de type texte */
+    public static final Color headerTextBackgroundColor = new Color(218,221, 197);
      /* couleur de fond cellules numerotation ligne */
     private static final Color noBackgroundColor = new Color(217,217,217);
     /* couleur de la selection */
@@ -64,6 +66,9 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
                 // header
                 cell.setFont(titleFont);
                 cell.setBackground(headerBackgroundColor);
+                if (!((DataTable)table).isValueDoubleHeader(row, column)){
+                    cell.setBackground(headerTextBackgroundColor);
+                }
                 setAlignmentX(CENTER_ALIGNMENT);
                 if(cell instanceof JLabel && value != null && (value instanceof String[]) && (((String[])value).length ==2) ){
                 //if(cell instanceof JLabel){
