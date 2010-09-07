@@ -53,7 +53,7 @@ public class RuntimeSettingsEloContentXmlUtils
          {
             String name = runtimeSettingChild.getChildTextTrim(nameName);
             String lasId = runtimeSettingChild.getChildTextTrim(lasIdName);
-            URI eloUri = new URI(runtimeSettingChild.getChildTextTrim(eloUriName));
+            URI eloUri = JDomConversionUtils.getUriValue(runtimeSettingChild, eloUriName);
             String value = runtimeSettingChild.getChildTextTrim(valueName);
             runtimeSettings.addSetting(new RuntimeSettingKey(name,lasId,eloUri), value);
          }

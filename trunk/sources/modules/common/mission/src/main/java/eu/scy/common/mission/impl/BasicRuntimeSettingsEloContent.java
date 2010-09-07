@@ -29,6 +29,17 @@ public class BasicRuntimeSettingsEloContent implements RuntimeSettingsEloContent
    }
 
    @Override
+   public List<String> getSettings(List<RuntimeSettingKey> keys)
+   {
+      List<String> values = new ArrayList<String>(keys.size());
+      for (RuntimeSettingKey key : keys)
+      {
+         values.add(getSetting(key));
+      }
+      return values;
+   }
+
+   @Override
    public List<RuntimeSetting> getAllSettings()
    {
       List<RuntimeSetting> settingsList = new ArrayList<RuntimeSetting>();
