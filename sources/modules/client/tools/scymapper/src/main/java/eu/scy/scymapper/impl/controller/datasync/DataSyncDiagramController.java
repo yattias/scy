@@ -266,7 +266,15 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		syncSession.removeSyncObject(syncObject);
 	}
 
-	public void setSession(ISyncSession currentSession) {
+	public void setSession(ISyncSession currentSession, boolean writeCurrentStateToServer) {
 		this.syncSession = currentSession;
+		if (writeCurrentStateToServer) {
+			for (INodeModel node : model.getNodes()) {
+				add(node);
+			}
+			for (ILinkModel link : model.getLinks()) {
+				add(link);
+			}
+		}
 	}
 }

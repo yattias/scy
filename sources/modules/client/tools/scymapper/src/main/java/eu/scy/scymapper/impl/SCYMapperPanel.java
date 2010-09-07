@@ -150,7 +150,9 @@ public class SCYMapperPanel extends JPanel {
     }
 
     public void joinSession(ISyncSession session) {
-        conceptDiagramView.setController(new DataSyncDiagramController(conceptMap.getDiagram(), session));
+    	DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram(), session);
+    	diagramController.setSession(currentSession, true);
+        conceptDiagramView.setController(diagramController);
         conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
     }
 
@@ -372,20 +374,23 @@ public class SCYMapperPanel extends JPanel {
     }
 
     public void joinSession(String sessId) {
+		joinSession(sessId, false);
+	}
 
-        if (sessId != null) {
-            try {
-                DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
-                currentSession = toolBroker.getDataSyncService().joinSession(sessId, diagramController, "scymapper");
-                diagramController.setSession(currentSession);
-                conceptDiagramView.setController(diagramController);
-                conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(currentSession));
-            } catch (DataSyncException e) {
-                e.printStackTrace();
-            }
-            sessionId.setText(sessId);
-        }
-    }
+	public void joinSession(String sessId, boolean writeCurrentStateToServer) {
+		if (sessId != null) {
+			try {
+				DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
+				currentSession = toolBroker.getDataSyncService().joinSession(sessId, diagramController, "scymapper");
+				diagramController.setSession(currentSession, writeCurrentStateToServer);
+				conceptDiagramView.setController(diagramController);
+				conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(currentSession));
+			} catch (DataSyncException e) {
+				e.printStackTrace();
+			}
+			sessionId.setText(sessId);
+		}
+	}
 
     private void createSession() {
         if (toolBroker == null) {
