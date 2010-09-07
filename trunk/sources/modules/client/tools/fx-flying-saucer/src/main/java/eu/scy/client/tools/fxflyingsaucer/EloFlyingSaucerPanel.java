@@ -8,7 +8,7 @@ import eu.scy.client.common.scyi18n.UriLocalizer;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import roolo.api.IRepository;
+import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
@@ -97,6 +98,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    public void setEloSaver(EloSaver eloSaver)
    {
       this.eloSaver = eloSaver;
+   }
+   
+   @Override
+   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever){
+
    }
 
    public void setHomeElo(URI uri)
