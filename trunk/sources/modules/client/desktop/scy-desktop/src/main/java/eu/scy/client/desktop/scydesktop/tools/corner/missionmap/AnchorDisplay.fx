@@ -36,6 +36,7 @@ public class AnchorDisplay extends CustomNode {
    public var selectedScale = 1.5;
    public var notSelectedScale = 1.25;
    public var notExistsOpacity = 0.5;
+   public var positionScale = 1.0;
 
    public var las: Las;
    public var windowStyler:WindowStyler;
@@ -93,8 +94,8 @@ public class AnchorDisplay extends CustomNode {
          notSelectedEloImage.opacity = notExistsOpacity;
       }
       Group {
-         layoutX: bind las.xPos;
-         layoutY: bind las.yPos;
+         layoutX: bind positionScale*las.xPos;
+         layoutY: bind positionScale*las.yPos;
          content: [
 //            eloIcon,
             selectedEloImage,
@@ -162,8 +163,8 @@ public class AnchorDisplay extends CustomNode {
          return;
       }
       var mouseEventInScene = MouseEventInScene{mouseEvent:e};
-      las.xPos = originalAnchorXPos+mouseEventInScene.dragX;
-      las.yPos = originalAnchorYPos+mouseEventInScene.dragY;
+      las.xPos = (originalAnchorXPos+mouseEventInScene.dragX)/positionScale;
+      las.yPos = (originalAnchorYPos+mouseEventInScene.dragY)/positionScale;
    }
 
    function mouseReleased( e: MouseEvent ):Void{

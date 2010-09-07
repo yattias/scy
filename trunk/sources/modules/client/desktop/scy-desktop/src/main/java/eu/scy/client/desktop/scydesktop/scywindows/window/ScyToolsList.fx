@@ -15,6 +15,8 @@ import java.lang.IllegalStateException;
 import java.lang.Object;
 import java.lang.Void;
 import java.net.URI;
+import java.lang.UnsupportedOperationException;
+import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 
 /**
  * @author sikken
@@ -158,5 +160,12 @@ public class ScyToolsList extends ScyTool {
         }
         throw new IllegalStateException("could not find a tool, which accepted the drop of {object.getClass()}");
     }
+
+    override public function setRuntimeSettingsRetriever (runtimeSettingsRetriever : RuntimeSettingsRetriever) : Void {
+        for (scyTool in scyToolList){
+           scyTool.setRuntimeSettingsRetriever(runtimeSettingsRetriever);
+        }
+    }
+
 
 }

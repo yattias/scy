@@ -88,6 +88,11 @@ import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.mission.impl.MissionRuntimeSettingsManager;
+import java.util.HashSet;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettingsRetriever;
+import eu.scy.common.mission.MissionSpecificationElo;
 
 /**
  * @author sikkenj
@@ -157,6 +162,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
     var backgroundImageView: ImageView;
     public-read var lowDebugGroup = Group { };
     public-read var highDebugGroup = Group { };
+
+    var missionRuntimeSettingsManager:MissionRuntimeSettingsManager;
 
     def cornerToolEffect: Effect = null;
 //    def cornerToolEffect = DropShadow {
@@ -264,6 +271,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             config: config;
             newTitleGenerator: newTitleGenerator;
         }
+        def missionSpecificationElo = MissionSpecificationElo.loadElo(missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri(),missionRunConfigs.tbi);
+        def specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(),missionRunConfigs.tbi);
+        missionRuntimeSettingsManager = new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo,missionRunConfigs.runtimeSettingsElo,new HashSet(missionRunConfigs.missionMapModel.getEloUris(false)),missionRunConfigs.tbi);
         //      windowContentFactory = WindowContentFactory{
         //         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
         //         config:config;
@@ -307,6 +317,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             missionModel: missionModelFX
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
+            runtimeSettingsRetriever:EloRuntimeSettingsRetriever{
+               eloUri:null;
+               runtimeSettingsManager:missionRuntimeSettingsManager
+            }
             scyDesktop: this
             metadataTypeManager: config.getMetadataTypeManager()
             showLasId:initializer.debugMode
@@ -638,6 +652,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                     windowStyler: windowStyler;
                     scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
                 };
+        var runtimeSettingsRetriever = EloRuntimeSettingsRetriever{
+           eloUri:bind window.eloUri
+           runtimeSettingsManager:missionRuntimeSettingsManager
+        }
+
         // place the logger first
         if (scyToolsList.actionLoggerTool != null) {
             window.scyToolsList.actionLoggerTool = scyToolsList.actionLoggerTool;
@@ -645,6 +664,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         // do the initialize cycle on the created tools
         scyToolsList.setEloSaver(myEloSaver);
         scyToolsList.setMyEloChanged(myEloChanged);
+        scyToolsList.setRuntimeSettingsRetriever(runtimeSettingsRetriever);
         scyToolsList.initialize();
         scyToolsList.postInitialize();
         // place the tools in the window      

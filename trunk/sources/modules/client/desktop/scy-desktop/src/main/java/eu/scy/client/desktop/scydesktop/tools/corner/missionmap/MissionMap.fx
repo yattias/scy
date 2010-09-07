@@ -30,6 +30,8 @@ import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
+import eu.scy.common.mission.RuntimeSettingUtils;
 
 /**
  * @author sikken
@@ -37,6 +39,9 @@ import javafx.util.Sequences;
 public class MissionMap extends CustomNode {
 
    def logger = Logger.getLogger(this.getClass());
+   def positionScaleName = "missionMap.positionScale";
+   def selectedScaleName = "missionMap.selectedScale";
+   def notSelectedScaleName = "missionMap.notSelectedScale";
 
    public var missionModel: MissionModelFX;
    public var scyWindowControl: ScyWindowControl;
@@ -44,6 +49,7 @@ public class MissionMap extends CustomNode {
    public var dragAndDropManager: DragAndDropManager;
    public var scyDesktop: ScyDesktop;
    public var metadataTypeManager: IMetadataTypeManager;
+   public var runtimeSettingsRetriever: RuntimeSettingsRetriever;
    public var showLasId = false;
    public var eloDisplayTypeControl: EloDisplayTypeControl;
    public var selectedScale = 1.5;
@@ -128,10 +134,14 @@ public class MissionMap extends CustomNode {
    }
 
    function createAnchorDisplays(): AnchorDisplay[] {
+      def realPositionScale:Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(positionScaleName),positionScale);
+      def realSelectedScale:Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(selectedScaleName),selectedScale);
+      def realNotSelectedScale:Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(notSelectedScaleName),notSelectedScale);
       for (las in missionModel.lasses) {
          las.xPos *= positionScale;
          las.yPos *= positionScale;
          var anchorDisplay = AnchorDisplay {
+               positionScale:realPositionScale
                las: las,
                selectionAction: anchorSelected;
                dragAndDropManager: dragAndDropManager
@@ -139,8 +149,8 @@ public class MissionMap extends CustomNode {
                selectedFxdImageLoader:selectedFxdImageLoader
                notSelectedFxdImageLoader:notSelectedFxdImageLoader
                eloDisplayTypeControl:eloDisplayTypeControl
-               selectedScale: selectedScale
-               notSelectedScale:notSelectedScale
+               selectedScale: realSelectedScale
+               notSelectedScale:realNotSelectedScale
 //               positionScale:positionScale
             }
          anchorMap.put(las, anchorDisplay);

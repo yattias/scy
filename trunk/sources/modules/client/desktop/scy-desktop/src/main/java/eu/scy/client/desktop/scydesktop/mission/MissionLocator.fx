@@ -104,6 +104,7 @@ public class MissionLocator {
       missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(personalMissionMapModelElo.getUri());
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
       missionRuntimeElo.getTypedContent().setTemplateElosEloUri(templateElosElo.getUri());
+      missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
       missionRuntimeElo.saveAsNewElo();
       startMission(MissionRunConfigs {
          tbi: tbi
