@@ -550,6 +550,7 @@ public class ScyDesktopCreator {
       def scyDesktop: ScyDesktop = ScyDesktop {
             initializer: initializer
             config: config;
+            missionRunConfigs:missionRunConfigs
             missionModelFX: missionModelFX;
             eloInfoControl: eloInfoControl;
             eloDisplayTypeControl: eloDisplayTypeControl;

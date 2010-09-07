@@ -13,6 +13,7 @@ package eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.net.URI;
@@ -210,6 +211,11 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
 
    @Override
    public void acceptDrop(Object object)
+   {
+   }
+
+   @Override
+   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever)
    {
    }
 

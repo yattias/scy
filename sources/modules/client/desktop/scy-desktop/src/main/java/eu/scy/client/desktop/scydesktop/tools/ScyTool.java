@@ -104,4 +104,10 @@ public interface ScyTool
     * this method is called when an object is dropped on the window. This method will only be called after canAcceptDrop has returned true
     */
    public void acceptDrop(Object object);
+
+   /**
+    * supplies the tool with runtimeSettingsRetriever object, which can be used to retrieve runtime settings.
+    * @param runtimeSettingsRetriever
+    */
+   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever); 
 }
