@@ -1,10 +1,14 @@
 package eu.scy.agents.conceptmapenrich;
 
+import info.collide.sqlspaces.commons.Field;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Graph {
 
+	private static final char SEPARATOR = ';';
+	
     private Map<String, Node> nodes;
 
     private Map<String, Edge> edges;
@@ -56,6 +60,39 @@ public class Graph {
             return nodes.get(labelOrId);
         }
     }
+
+	/**
+	 * Returns a {@link info.collide.sqlspaces.commons.Field} array of all
+	 * nodes. Syntax of one Field is: {@literal id;label}
+	 * 
+	 * @return Field array containing all nodes
+	 */
+	public Field[] getNodesAsFields() {
+		Node[] nodes = getNodes();
+		Field[] fields = new Field[nodes.length];
+		for (int i = 0; i < nodes.length; i++) {
+			String s = nodes[i].getId() + SEPARATOR + nodes[i].getLabel();
+			fields[i] = new Field(s);
+		}
+		return fields;
+	}
+
+	/**
+	 * Returns a {@link info.collide.sqlspaces.commons.Field} array of all
+	 * edges. Syntax of one Field is: {@literal id;label;fromNodeID;toNodeID}
+	 * 
+	 * @return Field array containing all edges
+	 */
+	public Field[] getEdgesAsFields() {
+		Edge[] edges = getEdges();
+		Field[] fields = new Field[edges.length];
+		for (int i = 0; i < edges.length; i++) {
+			String s = edges[i].getId() + SEPARATOR + edges[i].getLabel() + SEPARATOR
+					+ edges[i].getFromNode().getId() + SEPARATOR + edges[i].getToNode().getId();
+			fields[i] = new Field(s);
+		}
+		return fields;
+	}
 
     @Override
     public String toString() {
