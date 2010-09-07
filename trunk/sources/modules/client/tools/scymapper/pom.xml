@@ -234,6 +234,13 @@
 		</dependency>					
 		-->
 		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>awareness-impl</artifactId>
+			<version>23-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	
 	<repositories>
