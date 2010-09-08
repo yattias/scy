@@ -28,6 +28,7 @@ import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
+import eu.scy.common.mission.MissionEloType;
 
 /**
  * @author SikkenJ
@@ -141,14 +142,25 @@ public class MissionLocator {
    }
 
    function startBlankMission(): Void {
+      missionMapModel = MissionModelFX{
+
+      }
+      def missionMapModelElo = ScyElo.createElo(MissionEloType.MISSION_MAP_MODEL.getType(), tbi);
+      missionMapModelElo.setTitle(##"Empty mission");
+      missionMapModelElo.getContent().setXmlString(MissionModelXml.convertToXml(missionMapModel));
+      missionMapModelElo.getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
+      missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
+      missionMapModelElo.saveAsNewElo();
+
       def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
       missionRuntimeElo.setTitle(##"Empty mission");
       runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
       runtimeSettingsElo.setTitle(missionRuntimeElo.getTitle());
       runtimeSettingsElo.saveAsNewElo();
+
       missionRuntimeElo.setMissionRunning(userName);
       missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(null);
-      missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(null);
+      missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(missionMapModelElo.getUri());
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(null);
       missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
       missionRuntimeElo.saveAsNewElo();
@@ -156,7 +168,7 @@ public class MissionLocator {
          tbi: tbi
          missionRuntimeElo: missionRuntimeElo
          eloToolConfigsElo: null
-         missionMapModel: null
+         missionMapModel: missionMapModel
          templateElosElo: null
          runtimeSettingsElo: runtimeSettingsElo
       });

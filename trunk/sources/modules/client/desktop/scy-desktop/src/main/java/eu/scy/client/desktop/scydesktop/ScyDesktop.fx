@@ -271,8 +271,15 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             config: config;
             newTitleGenerator: newTitleGenerator;
         }
-        def missionSpecificationElo = MissionSpecificationElo.loadElo(missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri(),missionRunConfigs.tbi);
-        def specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(),missionRunConfigs.tbi);
+        var specificationRuntimeSettingsElo = null;
+        def missionSpecificationEloUri = missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
+        if (missionSpecificationEloUri!=null){
+           def missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationEloUri, missionRunConfigs.tbi);
+           def specificationRuntimeSettingsEloUri = missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri();
+           if (specificationRuntimeSettingsEloUri!=null){
+              specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(specificationRuntimeSettingsEloUri,missionRunConfigs.tbi);
+           }
+        }
         missionRuntimeSettingsManager = new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo,missionRunConfigs.runtimeSettingsElo,new HashSet(missionRunConfigs.missionMapModel.getEloUris(false)),missionRunConfigs.tbi);
         //      windowContentFactory = WindowContentFactory{
         //         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
