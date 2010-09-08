@@ -135,20 +135,26 @@ public class ScyElo
 
    public void saveAsNewElo()
    {
-      IMetadata metdata = tbi.getRepository().addNewELO(getUpdatedElo());
-      tbi.getELOFactory().updateELOWithResult(elo, metdata);
+      IMetadata mdata = tbi.getRepository().addNewELO(getUpdatedElo());
+      updateMetadata(mdata);
    }
 
    public void updateElo()
    {
-      IMetadata metdata = tbi.getRepository().updateELO(getUpdatedElo());
-      tbi.getELOFactory().updateELOWithResult(elo, metdata);
+      IMetadata mdata = tbi.getRepository().updateELO(getUpdatedElo());
+      updateMetadata(mdata);
    }
 
    public void saveAsForkedElo()
    {
-      IMetadata metdata = tbi.getRepository().addForkedELO(getUpdatedElo());
-      tbi.getELOFactory().updateELOWithResult(elo, metdata);
+      IMetadata mdata = tbi.getRepository().addForkedELO(getUpdatedElo());
+      updateMetadata(mdata);
+   }
+
+   private void updateMetadata(IMetadata mdata)
+   {
+      tbi.getELOFactory().updateELOWithResult(elo, mdata);
+      metadata = elo.getMetadata();
    }
 
    public IELO getElo()
