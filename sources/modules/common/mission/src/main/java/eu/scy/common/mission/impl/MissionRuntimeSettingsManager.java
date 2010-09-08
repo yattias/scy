@@ -57,7 +57,14 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       // it is not modified, thus a HashSet is thread save
       this.specifiactionContentEloUri = new HashSet<URI>(specificationContentEloUri);
       this.tbi = tbi;
-      this.specificationRuntimeSettings = specificationRuntimeSettingsElo.getTypedContent();
+      if (specificationRuntimeSettingsElo != null)
+      {
+         this.specificationRuntimeSettings = specificationRuntimeSettingsElo.getTypedContent();
+      }
+      else
+      {
+         this.specificationRuntimeSettings = null;
+      }
       this.runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
    }
 
@@ -73,16 +80,19 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       {
          return value;
       }
-      URI specificationEloUri = null;
-      if (!key.isEloUriEmpty())
+      if (specificationRuntimeSettings != null)
       {
-         specificationEloUri = getSpecificationEloUri(key.getEloUri());
-      }
-      value = specificationRuntimeSettings.getSetting(new RuntimeSettingKey(key.getName(), key
-               .getLasId(), specificationEloUri));
-      if (value != null)
-      {
-         return value;
+         URI specificationEloUri = null;
+         if (!key.isEloUriEmpty())
+         {
+            specificationEloUri = getSpecificationEloUri(key.getEloUri());
+         }
+         value = specificationRuntimeSettings.getSetting(new RuntimeSettingKey(key.getName(), key
+                  .getLasId(), specificationEloUri));
+         if (value != null)
+         {
+            return value;
+         }
       }
       if (!key.isEloUriEmpty())
       {
