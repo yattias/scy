@@ -71,8 +71,8 @@ public class SCYSimulatorStandalone implements INotifiable {
         //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
     	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
     	//URI fileUri = new URI("http://localhost/co2_house.sqzx");
-    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_converter.sqzx");
-    	URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
+    	URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
+    	//URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
     	
     	SimQuestViewer simquestViewer = new SimQuestViewer(false);
         //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter.sqzx");

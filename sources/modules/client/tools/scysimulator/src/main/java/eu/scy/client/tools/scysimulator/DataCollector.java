@@ -43,7 +43,7 @@ import org.jdom.JDOMException;
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
-import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.actionlogging.*;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
 import eu.scy.elo.contenttype.dataset.DataSet;
@@ -128,7 +128,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             logger.setUsername(tbi.getLoginUserName());
         } else {
             debugLogger.info("setting action logger to DevNullActionLogger");
-            logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger(), eloURI);
+            logger = new ScySimLogger(simquestViewer.getDataServer(), new SystemOutActionLogger(), eloURI);
         }
         // logger.sendListOfInputVariables();
         logger.logListOfVariables("input_variables", logger.getInputVariables());

@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.client.tools</groupId>
-		<version>23-SNAPSHOT</version>
+		<version>24-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>tool-broker-api</artifactId>
-			<version>23-SNAPSHOT</version>
+			<version>24-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -237,7 +237,7 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>awareness-impl</artifactId>
-			<version>23-SNAPSHOT</version>
+			<version>24-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
