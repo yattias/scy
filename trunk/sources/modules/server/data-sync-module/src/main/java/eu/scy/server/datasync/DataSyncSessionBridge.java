@@ -207,6 +207,7 @@ public class DataSyncSessionBridge {
 		SyncMessage syncMessage = new SyncMessage();
 		syncMessage.setEvent(Event.queryall);
 		syncMessage.setType(Type.answer);
+		syncMessage.setSessionId(id);
 		try {
 			lock.lock();
 			Tuple[] tuples = sessionSpace.readAll(new Tuple());
@@ -346,13 +347,15 @@ public class DataSyncSessionBridge {
 	                	}
 	                } else if (transformer instanceof DataSyncMessagePacketTransformer) {
 	                	SyncMessage command = (SyncMessage) extension.getTransformer().getObject();
-	                    if (command.getEvent() == Event.queryall) {
-	                    	logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
-	                    	queryAll(command);
-	                    } else if (command.getEvent() == Event.queryone) {
-	                    	logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
-	                    	queryOne(command);
-	                    }
+	                	if (id.equals(command.getSessionId())) {
+	                		if (command.getEvent() == Event.queryall) {
+	                			logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
+	                			queryAll(command);
+	                		} else if (command.getEvent() == Event.queryone) {
+	                			logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
+	                			queryOne(command);
+	                		}
+	                	}
 	                }
 	            }
         	}
