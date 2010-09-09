@@ -31,6 +31,7 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     private ImageRef profilePicture;
 
     @Override
+    @Column (name = "firstname")
     public String getFirstName() {
         return firstName;
     }
@@ -41,6 +42,7 @@ public class SCYStudentUserDetails extends SCYUserDetails implements StudentUser
     }
 
     @Override
+    @Column (name = "lastname")
     public String getLastName() {
         return lastName;
     }
