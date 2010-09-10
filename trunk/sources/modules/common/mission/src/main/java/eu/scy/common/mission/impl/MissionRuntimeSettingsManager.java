@@ -36,7 +36,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
 {
    // private final RuntimeSettingsElo specificationRuntimeSettingsElo;
    private RuntimeSettingsElo runtimeRuntimeSettingsElo;
-   private final Set<URI> specifiactionContentEloUri;
+   private final Set<URI> specifiactionContentEloUris;
    private final ToolBrokerAPI tbi;
    private final RuntimeSettingsManager specificationRuntimeSettings;
    private RuntimeSettingsManager runtimeRuntimeSettings;
@@ -47,7 +47,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
    private final Map<URI, URI> specificationEloUriMap = new ConcurrentHashMap<URI, URI>();
 
    public MissionRuntimeSettingsManager(RuntimeSettingsElo specificationRuntimeSettingsElo,
-            RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specificationContentEloUri,
+            RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specificationContentEloUris,
             ToolBrokerAPI tbi) throws URISyntaxException
    {
       super();
@@ -55,7 +55,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       this.runtimeRuntimeSettingsElo = runtimeRuntimeSettingsElo;
       // the set with the specification content elo uris is only used for looking up,
       // it is not modified, thus a HashSet is thread save
-      this.specifiactionContentEloUri = new HashSet<URI>(specificationContentEloUri);
+      this.specifiactionContentEloUris = new HashSet<URI>(specificationContentEloUris);
       this.tbi = tbi;
       if (specificationRuntimeSettingsElo != null)
       {
@@ -130,7 +130,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       {
          return null;
       }
-      if (specifiactionContentEloUri.contains(scyElo.getUri()))
+      if (specifiactionContentEloUris.contains(scyElo.getUri()))
       {
          return scyElo.getUri();
       }
