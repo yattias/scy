@@ -95,5 +95,12 @@ public interface ISyncSession {
 	 * leaves a session and de-registers all IDataSyncListener
 	 */
 	public void leaveSession();
+	
+	/**
+	 * Returns the logged-in username of the current syncsession
+	 * 
+	 * @return username the logged-in username
+	 */
+	public String getUsername();
 
 }
