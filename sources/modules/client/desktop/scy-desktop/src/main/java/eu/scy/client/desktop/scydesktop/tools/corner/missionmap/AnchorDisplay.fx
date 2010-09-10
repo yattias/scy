@@ -40,8 +40,8 @@ public class AnchorDisplay extends CustomNode {
 
    public var las: Las;
    public var windowStyler:WindowStyler;
-   public-read var xCenter = bind las.xPos + size / 2;
-   public-read var yCenter = bind las.yPos + size / 2;
+   public-read var xCenter = bind positionScale*las.xPos + size / 2;
+   public-read var yCenter = bind positionScale*las.yPos + size / 2;
    public var selected = false on replace {
       setColors();
       selectedEloImage.visible = selected;
@@ -163,8 +163,8 @@ public class AnchorDisplay extends CustomNode {
          return;
       }
       var mouseEventInScene = MouseEventInScene{mouseEvent:e};
-      las.xPos = (originalAnchorXPos+mouseEventInScene.dragX)/positionScale;
-      las.yPos = (originalAnchorYPos+mouseEventInScene.dragY)/positionScale;
+      las.xPos = originalAnchorXPos+mouseEventInScene.dragX/positionScale;
+      las.yPos = originalAnchorYPos+mouseEventInScene.dragY/positionScale;
    }
 
    function mouseReleased( e: MouseEvent ):Void{

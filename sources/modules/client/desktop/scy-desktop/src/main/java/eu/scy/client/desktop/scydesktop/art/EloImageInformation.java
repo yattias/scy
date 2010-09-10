@@ -34,7 +34,18 @@ public enum EloImageInformation
    assignment("special/assignment","assignment",ScyColors.brown),
    generalNew("general/new","new",ScyColors.darkRed),
    generalSearch("general/search","search",ScyColors.darkBlue),
-   generalLogo("general/logo","logo_gray",ScyColors.darkGray);
+   generalLogo("general/logo","logo_gray",ScyColors.darkGray),
+   conceptMap2("ard/concept_map","concept_map2",ScyColors.blue),
+   assignment2("ard/assignment","assignment2",ScyColors.magenta),
+   choices2("ard/choices","choices2",ScyColors.blue),
+   conclusion2("ard/conclusion","conclusion2",ScyColors.pink),
+   drawing2("ard/drawing","drawing2",ScyColors.blue),
+   house2("ard/house","house2",ScyColors.orange),
+   hypothese2("ard/hypothese","hypothese2",ScyColors.pink),
+   info2("ard/info","info2",ScyColors.magenta),
+   idea2("ard/idea","idea2",ScyColors.blue),
+   presentation2("ard/presentation","presentation2",ScyColors.pink),
+   report2("ard/report","report2",ScyColors.pink);
    
    public final String type;
    public final String iconName;
