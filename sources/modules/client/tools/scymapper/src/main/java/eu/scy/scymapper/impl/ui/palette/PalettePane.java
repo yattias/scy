@@ -27,7 +27,7 @@ import java.util.List;
  * Date: 03.sep.2009
  * Time: 13:24:59
  */
-public class PalettePane extends JToolBar {
+public class PalettePane extends JPanel {
 	private final static Logger logger = Logger.getLogger(PalettePane.class);
 
 	private ConceptMapPanel conceptMapPanel;
@@ -40,7 +40,6 @@ public class PalettePane extends JToolBar {
 	//private volatile NodeColorChooserPanel nodeColorChooser;
 
 	public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
-		super("Palette");
 		this.conceptMapPanel = conceptMapPanel;
 		this.linkFactories = conf.getLinkFactories();
 		this.nodeFactories = conf.getNodeFactories();
@@ -50,14 +49,10 @@ public class PalettePane extends JToolBar {
 
 	private void initComponents() {
 		//setLayout(new MigLayout("wrap, center", "[grow,fill]"));
-		//setLayout(new GridLayout(0, 1));
-
-		setOrientation(JToolBar.VERTICAL);
-
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		createNodeButtons();
-		add(new Separator());
 		createConnectorButtons();
-		add(new Separator());
 		createLinkButtons();
 
 		//add(nodeStylePanel);

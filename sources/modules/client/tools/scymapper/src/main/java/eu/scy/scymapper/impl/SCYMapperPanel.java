@@ -216,36 +216,36 @@ public class SCYMapperPanel extends JPanel {
 
     private void initComponents() {
 
-        JPanel topToolBarPanel = new JPanel(new MigLayout("flowy", "[left,grow,fill]"));
+        JPanel topToolBarPanel = new JPanel(new GridLayout(1, 0));
         // topToolBarPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
 
-        JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        //JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        sessionId = new JTextField("No session");
-        sessionId.setEditable(false);
-        sessionId.setPreferredSize(new Dimension(200, 20));
-
-        JButton joinSessionButton = new JButton("Join session");
-        joinSessionButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String sessId = JOptionPane.showInputDialog("Enter session ID");
-                joinSession(sessId);
-            }
-        });
-        JButton createSessionButton = new JButton("Create session");
-        createSessionButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createSession();
-            }
-        });
-        sessionPanel.add(new JLabel("Session: "));
-        sessionPanel.add(sessionId);
-        sessionPanel.add(createSessionButton);
-        sessionPanel.add(joinSessionButton);
+//        sessionId = new JTextField("No session");
+//        sessionId.setEditable(false);
+//        sessionId.setPreferredSize(new Dimension(200, 20));
+//
+//        JButton joinSessionButton = new JButton("Join session");
+//        joinSessionButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                String sessId = JOptionPane.showInputDialog("Enter session ID");
+//                joinSession(sessId);
+//            }
+//        });
+//        JButton createSessionButton = new JButton("Create session");
+//        createSessionButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                createSession();
+//            }
+//        });
+//        sessionPanel.add(new JLabel("Session: "));
+//        sessionPanel.add(sessionId);
+//        sessionPanel.add(createSessionButton);
+//        sessionPanel.add(joinSessionButton);
 
         JButton makeNotificationButton = new JButton("Create dummy notification");
         makeNotificationButton.addActionListener(new ActionListener() {
@@ -284,22 +284,22 @@ public class SCYMapperPanel extends JPanel {
                 showKeywordSuggestion();
             }
         });
-        if (conf.isDebug()) {
-            sessionPanel.add(hideNotificationButton);
-            sessionPanel.add(makeNotificationButton);
-            sessionPanel.add(showNotificationButton);
-        }
-        sessionPanel.add(testSuggestKeywordButton);
-        topToolBarPanel.add(sessionPanel);
+//        if (conf.isDebug()) {
+//            sessionPanel.add(hideNotificationButton);
+//            sessionPanel.add(makeNotificationButton);
+//            sessionPanel.add(showNotificationButton);
+//        }
+//        sessionPanel.add(testSuggestKeywordButton);
+//        topToolBarPanel.add(sessionPanel);
 
         cmapPanel = new ConceptMapPanel(conceptMap);
         cmapPanel.setBackground(Color.WHITE);
         conceptDiagramView = cmapPanel.getDiagramView();
 
-        JToolBar toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView);
+        JPanel toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView);
+        JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
         topToolBarPanel.add(toolBar);
-
-        JToolBar palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
+//        topToolBarPanel.add(palettePane);
 
         add(BorderLayout.NORTH, topToolBarPanel);
         add(BorderLayout.WEST, palettePane);
@@ -334,14 +334,14 @@ public class SCYMapperPanel extends JPanel {
             }
             System.out.println("CREATING SESSION");
             createSession();
-            displaySessionId();
+//            displaySessionId();
 
         }
     }
 
-    private void displaySessionId() {
-        sessionId.setText(currentSession.getId());
-    }
+//    private void displaySessionId() {
+//        sessionId.setText(currentSession.getId());
+//    }
 
     private class ShowSessionIDAction extends AbstractAction {
 
@@ -351,7 +351,7 @@ public class SCYMapperPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ev) {
-            displaySessionId();
+//            displaySessionId();
         }
     }
 
@@ -388,11 +388,10 @@ public class SCYMapperPanel extends JPanel {
 			} catch (DataSyncException e) {
 				e.printStackTrace();
 			}
-			sessionId.setText(sessId);
 		}
 	}
 
-    private void createSession() {
+    public ISyncSession createSession() {
         if (toolBroker == null) {
             JOptionPane.showMessageDialog(this, "Error: ToolBroker is null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -400,9 +399,10 @@ public class SCYMapperPanel extends JPanel {
             currentSession = toolBroker.getDataSyncService().createSession(dummySyncListener, "scymapper");
             joinSession(currentSession);
             actionLogger.setSession(currentSession);
-            displaySessionId();
+            return currentSession;
         } catch (Exception e) {
             e.printStackTrace(); // To change body of catch statement use File | Settings | File Templates.
         }
+        return null;
     }
 }
