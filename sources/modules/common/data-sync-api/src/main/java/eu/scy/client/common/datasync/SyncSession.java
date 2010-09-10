@@ -135,7 +135,7 @@ public class SyncSession implements ISyncSession {
 	
 	@Override
 	public void addSyncObject(ISyncObject syncObject) {
-		syncObject.setCreator(muc.getNickname());
+		syncObject.setCreator(xmppConnection.getUser());
 		sendSyncAction(Type.add, syncObject);
 	}
 
@@ -155,7 +155,7 @@ public class SyncSession implements ISyncSession {
 		Message message = muc.createMessage();
 		message.setFrom(xmppConnection.getUser());
 		
-		ISyncAction syncAction = new SyncAction(this.getId(), muc.getNickname(), type, syncObject);
+		ISyncAction syncAction = new SyncAction(this.getId(), xmppConnection.getUser(), type, syncObject);
 		
 		SyncActionPacketTransformer syncActionTransformer = new SyncActionPacketTransformer(syncAction);
 		message.addExtension(new SmacketExtension(syncActionTransformer));
@@ -240,5 +240,13 @@ public class SyncSession implements ISyncSession {
 	public void leaveSession() {
 		muc.leave();
 		listeners.removeAllElements();
+	}
+
+	@Override
+	public String getUsername() {
+		if (xmppConnection != null) {
+			return xmppConnection.getUser();
+		}
+		return null;
 	}
 }
