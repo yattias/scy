@@ -1,5 +1,17 @@
 package eu.scy.scymapper.impl.ui.toolbar;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JToolBar.Separator;
+
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.controller.IDiagramController;
@@ -14,16 +26,11 @@ import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * @author bjoerge
  * @created 02.feb.2010 18:54:54
  */
-public class ConceptMapToolBar extends JToolBar {
+public class ConceptMapToolBar extends JPanel {
 	private IConceptMap conceptMap;
 	private ConceptDiagramView diagramView;
 	private IDiagramController diagramController;
@@ -35,9 +42,10 @@ public class ConceptMapToolBar extends JToolBar {
 		this.diagramView = diagramView;
 		diagramSelectionModel = conceptMap.getDiagramSelectionModel();
 
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		
 		add(new ClearConceptMapButton());
 		add(new RemoveConceptButton());
-		add(new Separator());
 		add(new BackgroundColorButton());
 		add(new ForegroundColorButton());
 		add(new OpaqueCheckbox());

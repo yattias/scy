@@ -119,11 +119,14 @@ public class SCYMapperStandalone extends JFrame {
 		appContext = new ClassPathXmlApplicationContext(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
 		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setSize((int) (dim.getWidth() * .8), (int) (dim.getHeight() * .8));
+//		setSize((int) (dim.getWidth() * .8), (int) (dim.getHeight() * .8));
 
-		setLocation((int) (dim.getWidth() * .1), (int) (dim.getHeight() * .1));
+//		setLocation((int) (dim.getWidth() * .1), (int) (dim.getHeight() * .1));
+		
+		setSize(800, 600);
+		setLocationByPlatform(true);
 
 		onlineIcon = new ImageIcon(getClass().getResource("online.png"));
 		offlineIcon = new ImageIcon(getClass().getResource("offline.png"));
@@ -131,10 +134,10 @@ public class SCYMapperStandalone extends JFrame {
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
 		((JLabel) loginStatus).setText("Offline");
 
-		loginStatus.setBorder(BorderFactory.createEmptyBorder(3, 15, 3, 15));
+//		loginStatus.setBorder(BorderFactory.createEmptyBorder(3, 15, 3, 15));
 
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(BorderLayout.NORTH, loginStatus);
+//		getContentPane().add(BorderLayout.NORTH, loginStatus);
 
 		initMenuBar();
 	}
@@ -179,9 +182,15 @@ public class SCYMapperStandalone extends JFrame {
 		JMenu fileMenu = new JMenu("File");
 		JMenu viewMenu = new JMenu("View");
 		JMenu sessionMenu = new JMenu("Session");
+		
 		menuBar.add(fileMenu);
 		menuBar.add(viewMenu);
 		menuBar.add(sessionMenu);
+		
+		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
+		((JLabel) loginStatus).setText("Offline");
+		
+		menuBar.add(loginStatus);
 
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(new ActionListener() {
@@ -508,9 +517,8 @@ public class SCYMapperStandalone extends JFrame {
 				return;
 			}
 			System.out.println("CREATING SESSION");
-			createSession();
+			currentSession = scyMapperPanel.createSession();
 			displaySessionId();
-
 		}
 	}
 
@@ -628,24 +636,8 @@ public class SCYMapperStandalone extends JFrame {
 	private void joinSession() {
 		String sessId = JOptionPane.showInputDialog("Enter session ID");
 		if (sessId != null) {
-//			try {
 				scyMapperPanel.joinSession(sessId);
-//				currentSession = dataSyncService.joinSession(sessId, SCYMapperStandalone.this.dummySyncListener, "scymapper");
-//			} catch (DataSyncException e) {
-//				JOptionPane.showMessageDialog(this, "Could not join session!", "Exception", JOptionPane.ERROR_MESSAGE);
-//				e.printStackTrace();
-//			}
-//			scyMapperPanel.joinSession(currentSession);
 		}
 	}
 
-	private void createSession() {
-		try {
-			currentSession = dataSyncService.createSession(SCYMapperStandalone.this.dummySyncListener, "scymapper");
-			scyMapperPanel.joinSession(currentSession);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Could not create session!", "Exception", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
-	}
 }
