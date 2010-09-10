@@ -154,21 +154,8 @@ public class LoginDialog extends CustomNode {
                   values: windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
                   action: function() {
                      findMission(toolBrokerAPI,userName);
-//                     loginWindow.scyContent = WelcomeNode {
-//                           name: userName;
-//                        }
                   }
                }
-//               KeyFrame {
-//                  time: 1000ms
-//                  action: function() {
-//                     var stage = scene.stage;
-//                     var stageTitle = stage.title;
-//                     stage.title = "{stageTitle} : {userName}";
-//                     var scyDesktop = placeScyDescktop(toolBrokerAPI, userName);
-//                     stage.title = "{stageTitle} : {userName} in {scyDesktop.missionModelFX.name}";
-//                  }
-//               }
             ]
          }.play();
       }
@@ -209,14 +196,19 @@ public class LoginDialog extends CustomNode {
    }
 
    function startMission(missionRunConfigs: MissionRunConfigs): Void {
-      def userName = missionRunConfigs.tbi.getLoginUserName();
       loginWindow.scyContent = WelcomeNode {
-            name: userName
+            name: missionRunConfigs.tbi.getLoginUserName();
          }
-      var stage = scene.stage;
-      var stageTitle = stage.title;
-      stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionMapModel.name}";
-      var scyDesktop = placeScyDescktop(missionRunConfigs);
+      FX.deferAction(function(): Void {
+         def userName = missionRunConfigs.tbi.getLoginUserName();
+         loginWindow.scyContent = WelcomeNode {
+               name: userName
+            }
+         var stage = scene.stage;
+         var stageTitle = stage.title;
+         stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionMapModel.name}";
+         var scyDesktop = placeScyDescktop(missionRunConfigs);
+      });
    }
 
    function placeScyDescktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
