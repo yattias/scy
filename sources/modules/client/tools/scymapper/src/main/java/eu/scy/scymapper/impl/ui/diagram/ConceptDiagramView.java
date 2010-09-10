@@ -166,13 +166,13 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 	}
 
 	@Override
-	public void nodeAdded(INodeModel node) {
-		addNodeView(node, true);
+	public void nodeAdded(INodeModel node, boolean focused) {
+		addNodeView(node, focused);
 	}
 
 	@Override
-	public void linkAdded(ILinkModel link) {
-		addLinkView(link, true);
+	public void linkAdded(ILinkModel link, boolean focused) {
+		addLinkView(link, focused);
 	}
 
 	@Override

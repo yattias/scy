@@ -115,17 +115,7 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 	}
 
 	@Override
-	public void linkAdded(ILinkModel link) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
 	public void linkRemoved(ILinkModel link) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void nodeAdded(INodeModel n) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
@@ -182,6 +172,18 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 		link.setLabel("I'm fat'n dashed!");
 		diagramModel.addLink(link);
 
+	}
+
+	@Override
+	public void linkAdded(ILinkModel link, boolean focused) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void nodeAdded(INodeModel n, boolean focused) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

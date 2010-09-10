@@ -51,23 +51,32 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		String xml = syncObject.getProperty("initial");
 		XStream xstream = new XStream(new DomDriver());
 		IDiagramElement element = (IDiagramElement) xstream.fromXML(xml);
-
-		if (element instanceof INodeModel) {
-			final INodeModel node = (INodeModel) element;
-			
-			sync(syncObject, node);
-			model.addNode(node);
-			
-		} else if (element instanceof INodeLinkModel) {
-			// Get the actual local objects for the from / to node of this link (it is deserialized)
-			final INodeLinkModel link = (INodeLinkModel) element;
-			link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
-			link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
-			
-			sync(syncObject, link);
-			model.addLink(link);
-		} else {
-			logger.debug("Could not recognize sync object. Skipping.");
+		if (model.getElementById(element.getId()) == null) {
+			if (element instanceof INodeModel) {
+				final INodeModel node = (INodeModel) element;
+				sync(syncObject, node);
+				
+				if (syncSession != null && syncObject.getCreator().equals(syncSession.getUsername())) {
+					model.addNode(node);
+				} else {
+					model.addNodeRemotely(node);
+				}
+				
+			} else if (element instanceof INodeLinkModel) {
+				// Get the actual local objects for the from / to node of this link (it is deserialized)
+				final INodeLinkModel link = (INodeLinkModel) element;
+				link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
+				link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
+				
+				sync(syncObject, link);
+				if (syncObject.getCreator().equals(syncSession.getUsername())) {
+					model.addLink(link);
+				} else {
+					model.addLinkRemotely(link);
+				}
+			} else {
+				logger.debug("Could not recognize sync object. Skipping.");
+			}
 		}
 	}
 
