@@ -34,6 +34,13 @@ public interface IDiagramModel extends Serializable {
 	void addNode(INodeModel n);
 
 	/**
+	 * Adds a remote node to the diagram without focus.
+	 *
+	 * @param n the node to add
+	 */
+	void addNodeRemotely(INodeModel n);
+
+	/**
 	 * Adds a node to the diagram. If preventOverlap is true then the node will be added at a free space
 	 *
 	 * @param n			  the node to add
@@ -54,6 +61,13 @@ public interface IDiagramModel extends Serializable {
 	 * @param n the link to add
 	 */
 	void addLink(ILinkModel n);
+	
+	/**
+	 * Adds a remote link to the diagram without focus.
+	 *
+	 * @param n the link to add
+	 */
+	void addLinkRemotely(ILinkModel n);
 
 	/**
 	 * Removes a link from the diagram
@@ -102,10 +116,11 @@ public interface IDiagramModel extends Serializable {
 	/**
 	 * Made to ensure the implementation of a method that notifies
 	 * listeners when a node is added to the diagram
-	 *
+	 * 
 	 * @param node the added node
+	 * @param focused whether node should be focused or not
 	 */
-	void notifyNodeAdded(INodeModel node);
+	void notifyNodeAdded(INodeModel node, boolean focused);
 
 	/**
 	 * Made to ensure the implementation of a method that notifies
@@ -120,8 +135,9 @@ public interface IDiagramModel extends Serializable {
 	 * listeners when a link is added to the diagram
 	 *
 	 * @param link the added link
+	 * @param focused whether link should be focused or not
 	 */
-	void notifyLinkAdded(ILinkModel link);
+	void notifyLinkAdded(ILinkModel link, boolean focused);
 
 	/**
 	 * Made to ensure the implementation of a method that notifies

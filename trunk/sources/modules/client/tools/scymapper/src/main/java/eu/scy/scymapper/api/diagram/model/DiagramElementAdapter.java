@@ -7,7 +7,7 @@ package eu.scy.scymapper.api.diagram.model;
 public abstract class DiagramElementAdapter implements IDiagramListener, ILinkModelListener, INodeModelListener {
 
 	@Override
-	public void linkAdded(ILinkModel link) {
+	public void linkAdded(ILinkModel link, boolean focused) {
 	}
 
 	@Override
@@ -15,7 +15,7 @@ public abstract class DiagramElementAdapter implements IDiagramListener, ILinkMo
 	}
 
 	@Override
-	public void nodeAdded(INodeModel n) {
+	public void nodeAdded(INodeModel n, boolean focused) {
 	}
 
 	@Override

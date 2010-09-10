@@ -147,7 +147,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     }
 
     @Override
-    public void nodeAdded(INodeModel n) {
+    public void nodeAdded(INodeModel n, boolean focused) {
         logNodeAdded(n);
         n.addListener(this);
     }
@@ -159,7 +159,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     }
 
     @Override
-    public void linkAdded(ILinkModel link) {
+    public void linkAdded(ILinkModel link, boolean focused) {
         if (link instanceof INodeLinkModel) {
             logLinkAdded((INodeLinkModel) link);
             link.addListener(this);

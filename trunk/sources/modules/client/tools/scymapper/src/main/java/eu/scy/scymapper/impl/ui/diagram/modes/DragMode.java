@@ -33,7 +33,6 @@ public class DragMode implements IDiagramMode {
 			com.getParent().setComponentZOrder(com, 0);
 			if (!e.isControlDown()) view.getSelectionModel().clearSelection();
 			view.getSelectionModel().select(((RichNodeView) com).getModel());
-			relativePos = e.getPoint();
 		}
 
 		@Override

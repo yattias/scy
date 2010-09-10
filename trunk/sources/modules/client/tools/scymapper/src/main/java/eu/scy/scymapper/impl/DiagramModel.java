@@ -44,7 +44,14 @@ public class DiagramModel implements IDiagramModel {
     @Override
     public void addNode(INodeModel node) {
         nodes.add(node);
-        notifyNodeAdded(node);
+        notifyNodeAdded(node, true);
+    }
+    
+    @Override
+    public void addNodeRemotely(INodeModel node) {
+    	nodes.add(node);
+    	notifyNodeAdded(node, false);
+    	
     }
 
     @Override
@@ -84,7 +91,13 @@ public class DiagramModel implements IDiagramModel {
     @Override
     public synchronized void addLink(ILinkModel l) {
         links.add(l);
-        notifyLinkAdded(l);
+        notifyLinkAdded(l, true);
+    }
+
+    @Override
+    public synchronized void addLinkRemotely(ILinkModel l) {
+    	links.add(l);
+    	notifyLinkAdded(l, false);
     }
 
     @Override
@@ -142,13 +155,13 @@ public class DiagramModel implements IDiagramModel {
     }
 
     @Override
-    public void notifyNodeAdded(final INodeModel node) {
+    public void notifyNodeAdded(final INodeModel node, final boolean focused) {
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
                 for (IDiagramListener listener : listeners) {
-                    listener.nodeAdded(node);
+                    listener.nodeAdded(node, focused);
                 }
             }
         });
@@ -168,13 +181,13 @@ public class DiagramModel implements IDiagramModel {
     }
 
     @Override
-    public void notifyLinkAdded(final ILinkModel link) {
+    public void notifyLinkAdded(final ILinkModel link, final boolean focused) {
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
                 for (IDiagramListener listener : listeners) {
-                    listener.linkAdded(link);
+                    listener.linkAdded(link, focused);
                 }
             }
         });

@@ -200,11 +200,9 @@ public class PalettePane extends JToolBar {
 
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
-		INodeModel node = nodeFactory.create();
-
-		Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
-
 		Icon icon = nodeFactory.getIcon();
+
+		Dimension size = tk.getBestCursorSize(icon.getIconWidth(), icon.getIconWidth());
 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice gs = ge.getDefaultScreenDevice();
@@ -219,7 +217,7 @@ public class PalettePane extends JToolBar {
 		Rectangle rect = new Rectangle(0, 0, size.width, size.height);
 		icon.paintIcon(null, g2d, 0, 0);
 
-		return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
+		return tk.createCustomCursor(i, new Point(rect.width / 2, rect.height / 2), "Place shape here");
 	}
 
 	Cursor createLinkShapedCursor(ILinkFactory linkFactory) {
