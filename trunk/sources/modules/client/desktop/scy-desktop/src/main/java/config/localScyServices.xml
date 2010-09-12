@@ -38,5 +38,6 @@
    </bean>
 
    <bean name="dataSyncService" class="eu.scy.client.desktop.localtoolbroker.DummyDataSyncService">
+      <property name="userName" value="${userName}"/>
    </bean>
 </beans>
