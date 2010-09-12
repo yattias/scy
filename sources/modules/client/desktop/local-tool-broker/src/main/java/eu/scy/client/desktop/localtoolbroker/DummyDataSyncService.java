@@ -62,6 +62,19 @@ public class DummyDataSyncService implements IDataSyncService {
       public void leaveSession() {
       }
 
+      @Override
+      public String getUsername()
+      {
+         return userName;
+      }
+
+   }
+   
+   private String userName;
+   
+   public void setUserName(String userName)
+   {
+      this.userName = userName;
    }
 
    @Override
