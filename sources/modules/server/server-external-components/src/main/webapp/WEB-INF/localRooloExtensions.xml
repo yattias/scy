@@ -33,6 +33,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/missionruntime</value>
+               </key>
+               <value>.scymissionruntime</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/templateelos</value>
                </key>
                <value>.scytemplateelos</value>
