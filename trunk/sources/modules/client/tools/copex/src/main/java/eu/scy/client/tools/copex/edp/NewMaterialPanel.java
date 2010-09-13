@@ -141,7 +141,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
         if(fieldName == null){
             fieldName = new JTextField();
             fieldName.setName("fieldName");
-            fieldName.setBounds(labelName.getX()+labelName.getWidth()+10, labelName.getY()-5, 150, 27);
+            fieldName.setBounds(labelName.getX()+labelName.getWidth()+10, labelName.getY()-5, 220, 27);
         }
         return fieldName;
     }

@@ -15,6 +15,7 @@ import eu.scy.client.tools.copex.utilities.CommentsPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -362,6 +363,11 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         setMinimumSize(new java.awt.Dimension(350, 250));
         setModal(true);
         setResizable(false);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -405,6 +411,11 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         textAreaDescription.setLineWrap(true);
         textAreaDescription.setRows(3);
         textAreaDescription.setName("textAreaDescription"); // NOI18N
+        textAreaDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textAreaDescriptionKeyPressed(evt);
+            }
+        });
         jScrollPaneDescription.setViewportView(textAreaDescription);
 
         getContentPane().add(jScrollPaneDescription);
@@ -426,6 +437,18 @@ private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 // TODO add your handling code here:
     this.dispose();
 }//GEN-LAST:event_buttonCancelActionPerformed
+
+private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        validDialog();
+    }
+}//GEN-LAST:event_formKeyPressed
+
+private void textAreaDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textAreaDescriptionKeyPressed
+    if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        validDialog();
+    }
+}//GEN-LAST:event_textAreaDescriptionKeyPressed
 
     /**
     * @param args the command line arguments
@@ -477,6 +500,11 @@ private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     @Override
     public void actionSetSelected(Object oldSel, Object newSel) {
         
+    }
+
+    @Override
+    public void enterKeyPressed() {
+       validDialog();
     }
 
    

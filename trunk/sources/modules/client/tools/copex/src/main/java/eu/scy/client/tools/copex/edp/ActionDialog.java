@@ -14,6 +14,7 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -327,6 +328,14 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             textAreaDescription.setWrapStyleWord(true);
             if(!modeAdd)
                 this.textAreaDescription.setText(this.description);
+            textAreaDescription.addKeyListener(new java.awt.event.KeyAdapter() {
+                @Override
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+                        validDialog();
+                    }
+                }
+            });
         }
         return textAreaDescription;
     }
@@ -1499,6 +1508,11 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     public void actionSetSelected(Object oldSel, Object newSel) {
         setElementEnabled(oldSel, true);
         setElementEnabled(newSel, false);
+    }
+
+    @Override
+    public void enterKeyPressed() {
+        validDialog();
     }
 
    
