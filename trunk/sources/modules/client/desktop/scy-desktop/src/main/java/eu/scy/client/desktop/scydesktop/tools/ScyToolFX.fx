@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.tools;
 
 import java.net.URI;
 import java.lang.IllegalStateException;
+import java.awt.image.BufferedImage;
 
 /**
  * @author sikken
@@ -69,6 +70,10 @@ public mixin class ScyToolFX extends ScyTool {
 
    public override function setRuntimeSettingsRetriever(runtimeSettingsRetriever: RuntimeSettingsRetriever): Void {
       this.runtimeSettingsRetriever = runtimeSettingsRetriever;
+   }
+
+   public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+      return null;
    }
 
 }
