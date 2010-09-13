@@ -259,4 +259,82 @@ public class ScyElo
    {
       return (List<URI>) getMetadataValueContainer(isForkedByKey).getValueList();
    }
+
+   public URI getMission() {
+       // TODO
+       return null;
+   }
+
+   public void setMission() {
+       // TODO
+   }
+
+   public void setLearningActivity(String activity) {
+       // this is the method to set the LAS in which the elo has been created
+       // the type String may be replaced by an ENUM
+       // examples would be "experimentation", "design activity", "report"
+       // (have to check with WPI documents
+       // to be stored in /elo/metadata/lom/educational/context
+       // TODO
+   }
+
+   public String getLearningActivity() {
+       // TODO
+       return null;
+   }
+
+   public void setFunctionalRole(String role) {
+       // sets the functional role of an elo
+       // may be replaced with an ENUM
+       // examples are resource, report, hypothesis
+       // to be stored in /elo/metadata/lom/educational/learningResourceType
+       // TODO
+   }
+
+   public String getFunctionalRole() {
+       // TODO
+       return null;
+   }
+
+   public void addKeyword(String keyword) {
+       // store a keyword to the list of keywords
+       // at elo/metadata/lom/general/keyword
+       // TODO
+   }
+
+   public void addKeywords(List<String> keywords) {
+       // TODO
+   }
+
+   public List<String> getKeywords() {
+       // TODO
+       return null;
+   }
+
+   public void addAuthor(String authorID) {
+       // adding an author requires three values to be added
+       // /elo/metadata/lom/lifecycle/contribution/role = "author"
+       // /elo/metadata/lom/lifecycle/contribution/entity = authorID
+       // /elo/metadata/lom/lifecycle/contribution/data = dataTime (see lom specification)
+       // TODO
+   }
+
+   public List<String> getAuthors() {
+       // TODO
+       return null;
+   }
+
+   public void setAccess(String accessTag) {
+       // goes to /elol/metadata/lom/rights/copyrightAndOtherRestrictions
+       // defines access limitations of an elo
+       // could also define an elo as "deleted" (without actually deleting it from roolo
+       // different use cases have to be decided soon
+       // TODO
+   }
+
+   public String getAccess() {
+       // TODO
+       return null;
+   }
+
 }
