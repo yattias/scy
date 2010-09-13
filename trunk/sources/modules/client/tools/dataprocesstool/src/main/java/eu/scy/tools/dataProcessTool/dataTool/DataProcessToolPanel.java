@@ -81,7 +81,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private ResourceBundleWrapper bundle;
     //private ResourceBundle bundle;
     /* version */
-    private String version = "3.4";
+    private String version = "3.5";
     /* number format */
     private NumberFormat numberFormat;
 
@@ -875,8 +875,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     /* log: paste*/
-    public void logPaste(Dataset ds, int[] selCell, Dataset subData){
-        List<FitexProperty> attribute = FitexLog.logPaste(ds, selCell, subData);
+    public void logPaste(Dataset ds, int[] selCell, CopyDataset copyDs){
+        List<FitexProperty> attribute = FitexLog.logPaste(ds, selCell, copyDs);
         action.logAction(DataConstants.LOG_TYPE_PASTE, attribute);
     }
 

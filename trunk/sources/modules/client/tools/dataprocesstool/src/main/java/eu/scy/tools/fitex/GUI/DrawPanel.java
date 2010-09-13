@@ -220,7 +220,6 @@ public class DrawPanel extends javax.swing.JPanel {
 
         // tracie des axes et des graduations
         tracerAxes(g);
-        drawGraphInformations(g);
 
         // parcours et trace pour toutes les courbes definies dans la HashMap
         for (Color coul:mapDesFonctions.keySet()) {
@@ -315,7 +314,7 @@ public class DrawPanel extends javax.swing.JPanel {
         int k0 ;
         int k1 ;
 
-        // tracie des graduations
+        // trace des graduations
         // axe des X
         if(delta_x != 0){
             k0=(int)Math.ceil(x_min/delta_x) ;
@@ -336,115 +335,20 @@ public class DrawPanel extends javax.swing.JPanel {
 
         // trace des axes
         // axe des X
+        int y= (yToYEcran(y_min)-yToYEcran(y_max))/2;
+        boolean decal = false;
         boolean decalX = false;
         if (y_min*y_max<=0) { // la zone de tracie contient l'axe des x
             tracerSegment(g, Color.GRAY,x_min,0.0,x_max,0.0);
-//            // xmin
-//            g.setFont(axisFont);
-//            int y= yToYEcran(0)-10;
-//            boolean decal = false;
-//            if(y <yToYEcran(y_max)){
-//                y = yToYEcran(0)+10;
-//                decalX = true;
-//                decal = true;
-//            }
-//            g.drawString(""+decimalFormat.format(x_min), xToXEcran(x_min),y);
-//            // xmax
-//            String s = ""+decimalFormat.format(x_max) ;
-//            int l = MyUtilities.lenghtOfString(s, g.getFontMetrics());
-//            int x =xToXEcran(x_max)-l-10;
-//            g.drawString(s, x, y);
-//            // unite axe x
-//            g.setFont(axisNameFont);
-//            l = MyUtilities.lenghtOfString(x_axisUnit, g.getFontMetrics());
-//            x =xToXEcran(x_max)-l-5;
-//            y = yToYEcran(0)+10;
-//            if(decal)
-//                y = yToYEcran(0)+20;
-//            if(y> yToYEcran(y_min))
-//                y = yToYEcran(0)-20;
-//            g.drawString(x_axisUnit,x, y);
-//            //nom axe x
-//            int nbDx = x_axisName.size();
-//            int maxL = 0;
-//            g.setFont(axisNameFont);
-//            for(int d=0; d<nbDx; d++){
-//                maxL = Math.max(maxL, MyUtilities.lenghtOfString(x_axisName.get(d), g.getFontMetrics()));
-//            }
-//            for(int d=0; d<nbDx;d++){
-//                g.setColor(x_color.get(d));
-//                x =xToXEcran(x_max)-maxL-5;
-//                y = yToYEcran(0)+20+10*d;
-//                if(decal)
-//                    y = yToYEcran(0)+30+10*d;
-//                if(y> yToYEcran(y_min))
-//                    y = yToYEcran(0)-30-10*d;
-//                g.drawString(x_axisName.get(d),x, y);
-//            }
+            y= yToYEcran(0)-10;
+            if(y <yToYEcran(y_max)){
+                y = yToYEcran(0)+10;
+                decal = true;
+                decalX = true;
+            }
         }
-        // axe des Y
-        if (x_min*x_max<=0) { // la zone de tracie contient l'axe des y
-            tracerSegment(g, Color.GRAY,0.0,y_min,0.0,y_max);
-            // ymin
-//            g.setFont(axisFont);
-//            int x = xToXEcran(0)+5;
-//            int l = MyUtilities.lenghtOfString(""+decimalFormat.format(y_min), g.getFontMetrics());
-//            int y = yToYEcran(y_min);
-//            boolean decal = false;
-//            if(x+l > xToXEcran(x_max)){
-//                x = xToXEcran(0)-l-5;
-//                decal = true;
-//            }
-//            g.drawString(""+decimalFormat.format(y_min), x, y);
-//            //ymax
-//            if(decalX && decal)
-//                x = xToXEcran(0)-l-40;
-//            y =yToYEcran(y_max)+10;
-//            g.drawString(""+decimalFormat.format(y_max), x, y);
-//            //unite axe y
-//            g.setFont(axisNameFont);
-//            l = MyUtilities.lenghtOfString(y_axisUnit, g.getFontMetrics());
-//            x = xToXEcran(0)-l-5;
-//            if(decalX && decal)
-//                x = xToXEcran(0)-l-40;
-//            if(x < xToXEcran(x_min)){
-//                x = xToXEcran(0)+5;
-//                decal = true;
-//            }
-//            y = yToYEcran(y_max)+10;
-//            if(decal)
-//                y = yToYEcran(y_max)+20;
-//            //g.drawString(y_axisName, xToXEcran(-0.2)-l, y);
-//            g.drawString(y_axisUnit,x, y);
-//            //nom axe y
-//            int nbDy = y_axisName.size();
-//            int maxL = 0;
-//            for(int d=0; d<nbDy; d++){
-//                maxL = Math.max(maxL, MyUtilities.lenghtOfString(y_axisName.get(d), g.getFontMetrics()));
-//            }
-//            for(int d=0; d<nbDy;d++){
-//                g.setFont(axisNameFont);
-//                g.setColor(y_color.get(d));
-//                x = xToXEcran(0)-l-5;
-//                if(decalX && decal)
-//                    x = xToXEcran(0)-maxL-40;
-//                if(x < xToXEcran(x_min)){
-//                    x = xToXEcran(0)+5;
-//                    decal = true;
-//                }
-//                y = yToYEcran(y_max)+20+10*d;
-//                if(decal)
-//                    y = yToYEcran(y_max)+30+10*d;
-//                g.drawString(y_axisName.get(d),x, y);
-//            }
-        }
-    }
-
-    /** draw the informations, axes name, unit, xmin, ... ymax*/
-    public void drawGraphInformations(Graphics g) {
         // xmin
         g.setFont(axisFont);
-        int y= (yToYEcran(y_min)-yToYEcran(y_max))/2;
         g.drawString(""+decimalFormat.format(x_min), xToXEcran(x_min),y);
         // xmax
         String s = ""+decimalFormat.format(x_max) ;
@@ -453,7 +357,15 @@ public class DrawPanel extends javax.swing.JPanel {
         // unite axe x
         g.setFont(axisNameFont);
         l = MyUtilities.lenghtOfString(x_axisUnit, g.getFontMetrics());
-        y+=10;
+        if (y_min*y_max<=0) {
+            y = yToYEcran(0)+10;
+            if(decal)
+                y = yToYEcran(0)+20;
+            if(y> yToYEcran(y_min))
+                y = yToYEcran(0)-20;
+        }else{
+            y+=10;
+        }
         g.drawString(x_axisUnit,xToXEcran(x_max)-l-5, y);
         //nom axe x
         int nbDx = x_axisName.size();
@@ -464,22 +376,55 @@ public class DrawPanel extends javax.swing.JPanel {
         }
         for(int d=0; d<nbDx;d++){
             g.setColor(x_color.get(d));
-            y += 10;
+            if (y_min*y_max<=0) {
+                y = yToYEcran(0)+20+10*d;
+                if(decal)
+                    y = yToYEcran(0)+30+10*d;
+                if(y> yToYEcran(y_min))
+                    y = yToYEcran(0)-30-10*d;
+            }else{
+                y += 10;
+            }
             g.drawString(x_axisName.get(d),xToXEcran(x_max)-maxL-5, y);
+        }
+        // axe des Y
+        decal = false;
+        int x= (xToXEcran(x_max)-xToXEcran(x_min))/2;
+        if (x_min*x_max<=0) { // la zone de tracie contient l'axe des y
+            tracerSegment(g, Color.GRAY,0.0,y_min,0.0,y_max);
+            x = xToXEcran(0)+5;
+            decal = false;
+            if(x+l > xToXEcran(x_max)){
+                x = xToXEcran(0)-l-5;
+                decal = true;
+            }
         }
         // ymin
         g.setColor(coordColor);
         g.setFont(axisFont);
-        int x= (xToXEcran(x_max)-xToXEcran(x_min))/2;
         g.drawString(""+decimalFormat.format(y_min), x,yToYEcran(y_min));
         // ymax
         s = ""+decimalFormat.format(y_max) ;
         l = MyUtilities.lenghtOfString(s, g.getFontMetrics());
-        g.drawString(s, x, yToYEcran(y_max)+10);
+        if(x_min*x_max<=0){
+            if(decalX && decal)
+                x = xToXEcran(0)-l-40;
+            y =yToYEcran(y_max)+10;
+        }else{
+            y = yToYEcran(y_max)+10;
+        }
+        g.drawString(s, x, y);
         // unite axe y
         g.setFont(axisNameFont);
         l = MyUtilities.lenghtOfString(y_axisUnit, g.getFontMetrics());
-        g.drawString(y_axisUnit,x, yToYEcran(y_max)+20);
+        if(x_min*x_max<=0){
+            y = yToYEcran(y_max)+20;
+            if(decal)
+                y = yToYEcran(y_max)+30;
+        }else{
+            y = yToYEcran(y_max)+20;
+        }
+        g.drawString(y_axisUnit,x, y);
         //nom axe y
         int nbDy = y_axisName.size();
         maxL = 0;
@@ -489,10 +434,16 @@ public class DrawPanel extends javax.swing.JPanel {
         }
         for(int d=0; d<nbDy;d++){
             g.setColor(y_color.get(d));
-            g.drawString(y_axisName.get(d),x, yToYEcran(y_max)+30+10*d);
+            if(x_min*x_max<=0){
+                y = yToYEcran(y_max)+30+10*d;
+                if(decal)
+                    y = yToYEcran(y_max)+40+10*d;
+            }else{
+                y = yToYEcran(y_max)+30+10*d;
+            }
+            g.drawString(y_axisName.get(d),x, y);
         }
     }
-
 
      /** methode permettant de realiser le trace d'une courbe avec une certaine couleur*/
     public void tracerUneCourbe(Graphics g, Color couleur, char type, Expression fonction) {

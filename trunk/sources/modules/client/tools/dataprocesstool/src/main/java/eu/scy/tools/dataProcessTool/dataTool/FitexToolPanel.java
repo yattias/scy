@@ -7,6 +7,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 
 
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
@@ -72,6 +73,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -1337,9 +1339,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
 
     /* copie de donnees */
-    public boolean paste(Dataset subData, int[] selCell){
+    public boolean paste(CopyDataset copyDs, int[] selCell){
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.paste(dataset.getDbKey(), subData, selCell, v);
+        CopexReturn cr = this.controller.paste(dataset.getDbKey(), copyDs, selCell, v);
         if(cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
@@ -1352,8 +1354,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetTable.updateDataset(nds, true);
         updateGraphs(nds, true);
 
-        datasetTable.addUndo(new PasteUndoRedo(datasetTable, this, controller, subData, selCell, listData, listDataHeader, listRowAndCol));
-        dataProcessToolPanel.logPaste(dataset, selCell, subData);
+        datasetTable.addUndo(new PasteUndoRedo(datasetTable, this, controller, copyDs, selCell, listData, listDataHeader, listRowAndCol));
+        dataProcessToolPanel.logPaste(dataset, selCell, copyDs);
         return true;
     }
 

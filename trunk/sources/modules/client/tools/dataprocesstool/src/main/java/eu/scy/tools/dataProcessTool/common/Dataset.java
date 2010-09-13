@@ -31,7 +31,7 @@ import org.jdom.Element;
  * @author Marjolaine Bodin
  */
 public class Dataset implements Cloneable{
-    private final static String TAG_DATASET = "dataset";
+    public final static String TAG_DATASET = "dataset";
     /* identifiant*/
     protected long dbKey;
     /* name */
