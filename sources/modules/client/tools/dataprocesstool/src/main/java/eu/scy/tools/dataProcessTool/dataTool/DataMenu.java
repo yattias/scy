@@ -68,7 +68,6 @@ public class DataMenu extends JPopupMenu implements ActionListener{
     // INTERFACE
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("actionPerformed "+e);
         if (e.getSource().equals(this.itemIgnored))
             ignoreData();
         else if (e.getSource().equals(this.itemNotIgnored))

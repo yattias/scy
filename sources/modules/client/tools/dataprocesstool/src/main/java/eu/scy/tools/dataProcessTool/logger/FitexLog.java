@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.logger;
 
+import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
@@ -282,18 +283,18 @@ public class FitexLog {
         Element e = new Element(TAG_CELL);
         e.addContent(new Element(TAG_ROW).setText(Integer.toString(cell[0])));
         e.addContent(new Element(TAG_COL).setText(Integer.toString(cell[1])));
-        if(cell[0] < ds.getNbRows() && cell[1] < ds.getNbCol() && ds.getData(cell[0], cell[1]) != null){
+        if(cell[0] < ds.getNbRows() && cell[1] < ds.getNbCol() && cell[0] >-1 && cell[1] > -1 && ds.getData(cell[0], cell[1]) != null){
             e.addContent(new Element(TAG_DATA).setText(TAG_ID).setText(ds.getData(cell[0], cell[1]).getValue()));
         }
         return e;
     }
 
     /* log: paste*/
-    public static List<FitexProperty> logPaste(Dataset ds, int[] selCell, Dataset subData){
+    public static List<FitexProperty> logPaste(Dataset ds, int[] selCell, CopyDataset copyDs){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_CELL, "", getCell(ds, selCell)));
-        list.add(new FitexProperty(TAG_SUBDATA, "", subData.toXMLLog()));
+        list.add(new FitexProperty(TAG_SUBDATA, "", copyDs.toXMLLog()));
         return list;
     }
 

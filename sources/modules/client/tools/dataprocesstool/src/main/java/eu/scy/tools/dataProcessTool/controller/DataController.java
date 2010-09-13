@@ -1529,7 +1529,7 @@ public class DataController implements ControllerInterface{
 
     /* copie-colle */
     @Override
-    public CopexReturn paste(long dbKeyDs, Dataset subData, int[] selCell, ArrayList v){
+    public CopexReturn paste(long dbKeyDs, CopyDataset copyDs, int[] selCell, ArrayList v){
         int idDs = getIdDataset(dbKeyDs);
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -1546,8 +1546,12 @@ public class DataController implements ControllerInterface{
         ArrayList<Integer> listNoCol = new ArrayList();
         int idR = selCell[0] ;
         int idC = selCell[1] ;
-        int nbRowsToPaste = subData.getNbRows();
-        int nbColsToPaste = subData.getNbCol();
+        int nbRowsToPaste = 0;
+        if(copyDs.getListRow() != null)
+            nbRowsToPaste = copyDs.getListRow().size();
+        int nbColsToPaste = 0;
+        if(copyDs.getListHeader() != null)
+            nbColsToPaste = copyDs.getListHeader().size();
         int nbR = dataset.getNbRows() ;
         int nbC = dataset.getNbCol() ;
         
@@ -1602,8 +1606,8 @@ public class DataController implements ControllerInterface{
         if(pasteHeader){
            for (int j=0; j<nbColsToPaste; j++){
                DataHeader header = null;
-               if (subData.getDataHeader(j) != null){
-                   header = new DataHeader(idDataHeader++, subData.getDataHeader(j).getValue(),subData.getDataHeader(j).getUnit(),  idC+j, subData.getDataHeader(j).getType(), subData.getDataHeader(j).getDescription(), subData.getDataHeader(j).getFormulaValue());
+               if (copyDs.getListHeader().get(j) != null){
+                   header = new DataHeader(idDataHeader++, copyDs.getListHeader().get(j).getValue(),copyDs.getListHeader().get(j).getUnit(),  idC+j, copyDs.getListHeader().get(j).getType(), copyDs.getListHeader().get(j).getDescription(), copyDs.getListHeader().get(j).getFormulaValue());
                    DataHeader[] headers = new DataHeader[2];
                    headers[0] = null;
                    if(idC+j< oldDs.getNbCol()){
@@ -1615,9 +1619,14 @@ public class DataController implements ControllerInterface{
                dataset.setDataHeader(header, idC+j);
            }
         }
-        for (int i=0; i<nbRowsToPaste; i++){
-            for (int j=0; j<nbColsToPaste; j++){
-                Data d = subData.getData(i, j);
+        if(copyDs.getListData() != null){
+            for(Iterator<Data> s=copyDs.getListData().iterator();s.hasNext();){
+                Data d = s.next();
+                int i= d.getNoRow();
+                int j= d.getNoCol();
+                if(d.getValue() == null || d.getValue().equals("")){
+                    d = null;
+                }
                 Data nd = null;
                 if (d != null){
                     nd = new Data(idData++, d.getValue(), idR+i, idC+j, d.isIgnoredData()) ;

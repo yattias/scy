@@ -429,7 +429,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
     /* retourne les data selectionnees */
-    public ArrayList<Data> getSelectedData(ArrayList<int[]> listSelected){
+    public ArrayList<Data> getSelectedData(ArrayList<int[]> listSelected, boolean computeNull){
         ArrayList<Data> listSelectedData = new ArrayList();
         int nb = listSelected.size();
         for (int i=0; i<nb; i++){
@@ -437,6 +437,9 @@ public class DataTableModel extends AbstractTableModel {
             Data data = null;
             if (isValueData(selCell[0], selCell[1])){
                 data = datas[selCell[0]-1][selCell[1]-1];
+                if(data == null && computeNull){
+                    data = new Data(-1, null, selCell[0]-1, selCell[1]-1, true);
+                }
             }
             if (data != null)
                 listSelectedData.add(data);
@@ -604,7 +607,7 @@ public class DataTableModel extends AbstractTableModel {
             if (lastCol){
                 idBefore = this.nbColDs ;
                 nbInsert++;
-            }else if(listSelectedCol.size() == 0){
+            }else if(listSelectedCol.isEmpty()){
                 idBefore = this.nbColDs;
             }else{
                 idBefore = listSelectedCol.get(0);
@@ -614,7 +617,7 @@ public class DataTableModel extends AbstractTableModel {
             if (lastRow){
                 idBefore = this.nbRowDs ;
                 nbInsert++;
-            }else if(listSelectedRow.size() == 0){
+            }else if(listSelectedRow.isEmpty()){
                 idBefore = this.nbRowDs;
             }else{
                 idBefore = listSelectedRow.get(0);
@@ -629,95 +632,15 @@ public class DataTableModel extends AbstractTableModel {
         return v;
     }
 
-
-
-    /* retourne le dataset selectionne */
-    public Dataset getSelectedDataset(ArrayList<int[]> listSelected){
-        int nb = listSelected.size();
-        // col et ligne sel
-        boolean[] colSel = new boolean[nbColDs];
-        boolean[] rowSel = new boolean[nbRowDs];
-        for (int i=0; i<nbRowDs; i++){
-            rowSel[i] = false;
-        }
-        for (int j=0; j<nbColDs; j++){
-            colSel[j] = false;
-        }
-        for (int i=0; i<nb; i++){
-            int[] selCell = listSelected.get(i);
-            if (isValueData(selCell[0], selCell[1]) ){
-                rowSel[selCell[0]-1] = true;
-                colSel[selCell[1]-1] = true;
-            }
-        }
-        int nbR = 0;
-        for (int i=0; i<nbRowDs; i++){
-            if(rowSel[i])
-                nbR++;
-        }
-        int nbC = 0;
-        for (int j=0; j<nbColDs; j++){
-            if(colSel[j])
-                nbC++;
-        }
-        // correspondance
-        int[] corrRow = new int[nbR];
-        int id=0;
-        for (int i=0; i<nbRowDs; i++){
-            if(rowSel[i]){
-                corrRow[id] = i;
-                id++;
-            }
-        }
-        int[] corrCol = new int[nbC];
-        id=0;
-        for (int j=0; j<nbColDs; j++){
-            if(colSel[j]){
-                corrCol[id] = j;
-                id++;
-            }
-        }
-        // creation d'un dataset nbR / nbC
-        DataHeader[] headers = new DataHeader[nbC];
-        Data[][] data = new Data[nbR][nbC];
-        for (int i=0; i<nb; i++){
-            int[] selCell = listSelected.get(i);
-            if (isValueHeader(selCell[0], selCell[1])){
-                int idC=-1;
-                for (int k=0; k<nbC; k++){
-                    if (corrCol[k] == (selCell[1]-1)){
-                        idC = k;
-                        break;
-                    }
-                }
-                if(idC != -1)
-                    headers[idC] = this.dataset.getDataHeader(selCell[1]-1);
-            }else if (isValueData(selCell[0], selCell[1])){
-                int idC=-1;
-                for (int k=0; k<nbC; k++){
-                    if (corrCol[k] == (selCell[1]-1)){
-                        idC = k;
-                        break;
-                    }
-                }
-                int idR = -1;
-                for (int k=0; k<nbR; k++){
-                    if (corrRow[k] == (selCell[0]-1)){
-                        idR = k;
-                        break;
-                    }
-                }
-                if(idR != -1 && idC != -1){
-                    data[idR][idC] = this.dataset.getData(selCell[0]-1, selCell[1]-1);
-                }
-            }
-        }
-
-        Dataset ds = new Dataset(-1,null, -1,"subData", nbC, nbR, headers, data,getSelectedOperation(listSelected), new ArrayList(), DataConstants.EXECUTIVE_RIGHT );
-        return ds;
+    /* get the selected data for copy */
+    public CopyDataset getCopyDataset(ArrayList<int[]> listSelected){
+        ArrayList<DataOperation> listOp = getSelectedOperation(listSelected);
+        ArrayList<DataHeader> listHeader = getSelectedHeader(listSelected);
+        ArrayList<Integer> listRow = getSelectedRowAndCol(listSelected)[0];
+        ArrayList<Data> listData = getSelectedData(listSelected, true);
+        CopyDataset copyDs = new CopyDataset(listData, listHeader, listRow, listOp);
+        return copyDs;
     }
-
-
 
     /* mise a jour du dataset */
     public void updateDataset(Dataset ds, boolean reload){
@@ -726,8 +649,6 @@ public class DataTableModel extends AbstractTableModel {
             loadData();
         this.fireTableStructureChanged();
     }
-
-    
 
     /* creation d'une nouvelle operation */
     public void createOperation(Dataset ds, DataOperation operation){

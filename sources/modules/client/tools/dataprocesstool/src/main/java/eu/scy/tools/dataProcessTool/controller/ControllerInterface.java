@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.controller;
 
+import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
@@ -57,11 +58,11 @@ public interface ControllerInterface {
    /** update the dataset name */
     public CopexReturn renameDataset(Dataset ds, String name);
     /** delete data or operations in a dataset*/
-    public CopexReturn  deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol, ArrayList<DataOperation> listOperation,  ArrayList v);
+    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol, ArrayList<DataOperation> listOperation,  ArrayList v);
     /** add or update a function model */
     public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
     /** insert row or columns*/
-    public CopexReturn  insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v) ;
+    public CopexReturn insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v) ;
     /** PDF export*/
     public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph);
     /** get the list of missions and list of dataset per mission that can be opened */
@@ -77,7 +78,7 @@ public interface ControllerInterface {
     /** update the autoscale */
     public CopexReturn setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale, ArrayList v);
     /** copy/paste*/
-    public CopexReturn paste(long dbKeyDs, Dataset subData, int[] selCell, ArrayList v);
+    public CopexReturn paste(long dbKeyDs, CopyDataset copyDs, int[] selCell, ArrayList v);
     /** import a CSV file */
     public CopexReturn importCSVFile(File file,String sepField, String sepText, ArrayList v);
     /** delete a dataset*/

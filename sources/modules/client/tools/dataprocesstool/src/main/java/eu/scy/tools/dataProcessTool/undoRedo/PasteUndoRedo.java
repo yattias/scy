@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.undoRedo;
 
+import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.Dataset;
@@ -23,16 +24,16 @@ import org.jdom.Element;
  * @author Marjolaine
  */
 public class PasteUndoRedo extends DataUndoRedo {
-    private Dataset subData;
+    private CopyDataset copyDs;
     private int[] selCell;
 
     private ArrayList<Data[]> listData;
     private ArrayList<DataHeader[]> listHeader;
     private ArrayList<Integer>[] listRowAndCol;
 
-    public PasteUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, Dataset subData, int[] selCell, ArrayList<Data[]> listData, ArrayList<DataHeader[]> listHeader, ArrayList<Integer>[] listRowAndCol) {
+    public PasteUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, CopyDataset copyDs, int[] selCell, ArrayList<Data[]> listData, ArrayList<DataHeader[]> listHeader, ArrayList<Integer>[] listRowAndCol) {
         super(table, dataToolPanel, controller);
-        this.subData = subData;
+        this.copyDs = copyDs;
         this.selCell = selCell;
         this.listData = listData;
         this.listHeader = listHeader;
@@ -45,7 +46,7 @@ public class PasteUndoRedo extends DataUndoRedo {
     public void redo() throws CannotRedoException {
         super.redo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.paste(getDataset().getDbKey(),subData, selCell, v);
+        CopexReturn cr = this.controller.paste(getDataset().getDbKey(),copyDs, selCell, v);
         if(cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -109,7 +110,7 @@ public class PasteUndoRedo extends DataUndoRedo {
     @Override
     public Element toXMLLog(){
         Element element = new Element("undoRedoPaste");
-        element.addContent(subData.toXMLLog());
+        element.addContent(copyDs.toXMLLog());
         Element e = new Element("sel_cell");
         e.addContent(new Element("id_row").setText(Integer.toString(selCell[0])));
         e.addContent(new Element("id_col").setText(Integer.toString(selCell[1])));

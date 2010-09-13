@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
@@ -13,6 +14,9 @@ import eu.scy.tools.dataProcessTool.undoRedo.DataUndoManager;
 import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -27,6 +31,8 @@ import eu.scy.tools.dataProcessTool.utilities.MyTableEditor;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -38,7 +44,7 @@ import javax.swing.undo.CannotUndoException;
  * table which represents the dataset and the operations
  * @author Marjolaine Bodin
  */
-public class DataTable extends JTable implements MouseListener, MouseMotionListener{
+public class DataTable extends JTable implements MouseListener, MouseMotionListener, KeyListener, ClipboardOwner{
     /* largeur min d'une colonne */
     private static final int MIN_WIDTH_COL = 20;
     private static final int DELTA_RESIZE_COL = 5;
@@ -58,8 +64,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /*menu droit */
     private DataMenu popUpMenu;
 
-    /* sous table copiee */
-    private Dataset copySubData = null;
+    /* data copied */
+    private CopyDataset copyDs = null;
 
     /* undo/redo */
     private DataUndoManager undoManager;
@@ -107,6 +113,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         // ecoute evements
         addMouseListener(this);
         addMouseMotionListener(this);
+        addKeyListener(this);
         // DRAG AND DROP
         /*setDragEnabled(true);
         transferHandler  = new SubDataTransfertHandler();
@@ -178,11 +185,9 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             popUpMenu = null;
             int x = e.getPoint().x;
             int y = e.getPoint().y;
-            if (!isElementsSel()) 
+            if (!isElementsSel())
                return;
             getPopUpMenu();
-
-
             this.popUpMenu.setEnabledItemIgnored(canEdit&& canIgnore());
             this.popUpMenu.setEnabledItemNotIgnored(canEdit&& canIgnore());
             this.popUpMenu.setEnabledItemOperation(canEdit&& canOperations());
@@ -192,7 +197,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             this.popUpMenu.setEnabledItemPaste(canEdit&& canPaste());
             this.popUpMenu.setEnabledItemCut(canEdit&& canCut());
             this.popUpMenu.setEnabledItemSort(canSort());
-
             this.popUpMenu.show(this, x, y);
         }else if (e.getClickCount() == 1){
             Point p = e.getPoint() ;
@@ -208,7 +212,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 owner.editDataHeader(tableModel.getHeader(r,c), c-1);
             }
         }
-
     }
 
     private void selectEntireColumnRow(int r, int c){
@@ -446,11 +449,9 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return selRows.length == this.getNbRows() -1;
     }
 
-
-
     /*retourne la liste des donnees selectionnees */
     public ArrayList<Data> getSelectedData(){
-        return this.tableModel.getSelectedData(getSelectedCells());
+        return this.tableModel.getSelectedData(getSelectedCells(), false);
     }
 
     /* retourne le premier en tete selectionne, sinon la premiere op en ligne, sinon null */
@@ -516,7 +517,14 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     
     /* retourne vrai si paste est possible */
     public boolean canPaste(){
-        return this.copySubData != null && getSelectedCells().size() > 0;
+        ArrayList<int[]> selectedCell = getSelectedCells();
+//        boolean canCopyH = copyDs != null && copyDs.getListHeader() != null &&
+//                ((copyDs.getListHeader().size() > 0 && tableModel.getSelectedRowAndCol(selectedCell)[1].size() > 0)
+//                || (copyDs.getListHeader().isEmpty() && tableModel.getSelectedRowAndCol(selectedCell)[1].isEmpty())) ;
+//        boolean canCopyR = copyDs != null && copyDs.getListRow() != null &&
+//                ((copyDs.getListRow().size() > 0 && tableModel.getSelectedRowAndCol(selectedCell)[0].size() > 0)
+//                || (copyDs.getListRow().isEmpty() && tableModel.getSelectedRowAndCol(selectedCell)[0].isEmpty())) ;
+        return this.copyDs != null  && selectedCell.size() > 0 ;
     }
     
     /* retourne vrai si cut est possible */
@@ -669,9 +677,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* copie => met en cache les donnees selectionnees  + update menu */
     public ArrayList<int[]> copy(){
-        System.out.println("copy");
         ArrayList<int[]> listSelCell = getSelectedCells();
-        copySubData = getSubData(listSelCell);
+        copyDs = tableModel.getCopyDataset(listSelCell);
         owner.updateMenuData();
         return listSelCell;
     }
@@ -968,10 +975,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
 
-    /* construit une sous table a  partir des donnees selectionnees */
-    private Dataset getSubData(ArrayList<int[]> listSelected){
-        return  tableModel.getSelectedDataset( listSelected);
-    }
 
     /* cut : => copy puis suppression */
     public void cut(){
@@ -982,7 +985,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* paste */
     public void paste(){
         // copy des donnees
-        boolean isOk = owner.paste(copySubData, tableModel.getSelectedCell(getSelectedCells()));
+        boolean isOk = owner.paste(copyDs, tableModel.getSelectedCell(getSelectedCells()));
         if (isOk){
             owner.updateMenuData();
             owner.setModification();
@@ -1235,6 +1238,34 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             }
         }
         owner.updateMenuData();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_C && canCopy()){
+            copy();
+        }else if (e.getKeyCode() == KeyEvent.VK_X && canCut()){
+            cut();
+        }else if (e.getKeyCode() == KeyEvent.VK_V && canPaste()){
+            paste();
+        }else if (e.getKeyCode() == KeyEvent.VK_DELETE && canSuppr()){
+            delete();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void lostOwnership(Clipboard clipboard, Transferable contents) {
+        //
     }
 
   
