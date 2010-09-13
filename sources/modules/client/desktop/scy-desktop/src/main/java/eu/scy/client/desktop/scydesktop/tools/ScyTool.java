@@ -4,6 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.tools;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 
 /**
@@ -109,5 +110,16 @@ public interface ScyTool
     * supplies the tool with runtimeSettingsRetriever object, which can be used to retrieve runtime settings.
     * @param runtimeSettingsRetriever
     */
-   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever); 
+   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever);
+
+   /**
+    * this method can be called by SCY-Desktop at undefined moments, in order to get the thumbnail of the current ELO.
+    *
+    * Currently a null return value is being accepted
+    *
+    * @Param width the width of the thumbnail in pixels
+    * @Param width the height of the thumbnail in pixels
+    * @returns the thumbnail image
+    */
+   public BufferedImage getThumbnail(int width, int height);
 }

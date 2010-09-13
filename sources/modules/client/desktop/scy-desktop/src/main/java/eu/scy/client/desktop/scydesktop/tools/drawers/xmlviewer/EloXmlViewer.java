@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import org.apache.log4j.Logger;
 import roolo.api.IRepository;
@@ -217,6 +218,12 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
    @Override
    public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever)
    {
+   }
+
+   @Override
+   public BufferedImage getThumbnail(int width, int height)
+   {
+      return null;
    }
 
 }
