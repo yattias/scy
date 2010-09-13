@@ -61,7 +61,7 @@ public class CopexHTML {
             return;
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
-                addString("<img src = ../tool_copex/images/"+icon+">");
+                addString("<img src=\"../tool_copex/images/"+icon+"\">");
             addString("</td>");
             addString("<td>");
                 addString("<table width='100%'  border='0' cellpadding='0'>");
@@ -84,7 +84,7 @@ public class CopexHTML {
                     }
                 addString("</table>");
             addString("</td>");
-        addString("<tr>");
+        addString("</tr>");
     }
 
 
@@ -101,7 +101,7 @@ public class CopexHTML {
 
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
-                addString("<img src = ../tool_copex/images/icone_AdT_material.png>");
+                addString("<img src=\"../tool_copex/images/icone_AdT_material.png\">");
             addString("</td>");
             addString("<td>");
                 addString("<table width='100%'  border='0' cellpadding='0'>");
@@ -132,7 +132,7 @@ public class CopexHTML {
                     addString("</tr>");
                 addString("</table>");
             addString("</td>");
-        addString("<tr>");
+        addString("</tr>");
     }
 
     private void setManipulation(ExperimentalProcedure proc){
@@ -142,7 +142,7 @@ public class CopexHTML {
         }
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
-                addString("<img src = ../tool_copex/images/"+icon+">");
+                addString("<img src=\"../tool_copex/images/"+icon+"\">");
             addString("</td>");
             addString("<td>");
                 addString("<table width='100%'  border='0' cellpadding='0'>");
@@ -158,7 +158,7 @@ public class CopexHTML {
                     addString("</tr>");
                 addString("</table>");
             addString("</td>");
-        addString("<tr>");
+        addString("</tr>");
     }
 
     private String getChildTaskTable(ExperimentalProcedure proc, CopexTask task){
@@ -168,7 +168,7 @@ public class CopexHTML {
         for(int i=0; i<nb; i++){
             manip += "<tr>\n";
                 manip += "<td width='3%' valign='top'>\n";
-                    manip += "<img src = ../tool_copex/images/"+getTaskIcon(proc, childTasks.get(i))+">\n";
+                    manip += "<img src=\"../tool_copex/images/"+getTaskIcon(proc, childTasks.get(i))+"\">\n";
                 manip += "</td>\n";
                 manip += "<td>\n";
                     manip += getTaskTable(proc, childTasks.get(i))+"\n";

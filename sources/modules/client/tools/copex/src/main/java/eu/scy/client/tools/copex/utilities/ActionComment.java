@@ -16,4 +16,6 @@ public interface ActionComment {
     public void saveComment();
     /* met le texte  commentaires*/
     public void setComment();
+    /* enter key pressed */
+    public void enterKeyPressed();
 }

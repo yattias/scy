@@ -1442,7 +1442,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
     /* returns the arborescence level max */
     public int getLevelTree(){
-        return getLevelTree((CopexNode)copexTreeModel.getRoot());
+        int level = getLevelTree((CopexNode)copexTreeModel.getRoot());
+        return level-1;
     }
 
     private int getLevelTree(CopexNode node){
@@ -1605,7 +1606,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
      * level 1: root and its children (non deployed)
      */
     public void displayLevel(int level){
-        //level = level+1;
+        level = level+1;
         setVisibleNode(level, (CopexNode)copexTreeModel.getRoot());
     }
 

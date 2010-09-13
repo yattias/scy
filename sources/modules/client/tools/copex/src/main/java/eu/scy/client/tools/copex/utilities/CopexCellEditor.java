@@ -18,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.event.CellEditorListener;
@@ -45,8 +46,10 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
     private JLabel labelRepeat;
     private JLabel labelNode;
     private JTextArea textNode;
+    private JScrollPane scrollPaneText;
     private JLabel labelComment;
     private JTextArea commentNode;
+    private JScrollPane scrollPaneComment;
     private MyWhiteBoardPanel drawPanel;
     protected JLabel taskImageNode;
     private TextTable materialTable;
@@ -111,10 +114,12 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         this.panelNode.setLayout(null);
         this.panelNode.setBackground(CopexTreeCellRenderer.BG_COLOR);
         getLabelNode();
-        getTextNode();
+        //getTextNode();
+        getScrollPaneText();
         getLabelComment();
         getMaterialTable();
-        getCommentNode();
+        //getCommentNode();
+        getScrollPaneComment();
         this.taskImageNode = new JLabel();
         this.panelNode.add(taskImageNode);
         getDrawPanel();
@@ -181,9 +186,29 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
                 }
             });
-            this.panelNode.add(textNode);
+            //this.panelNode.add(textNode);
         }
         return this.textNode;
+    }
+
+    private JScrollPane getScrollPaneText(){
+        if(scrollPaneText == null){
+            scrollPaneText = new JScrollPane();
+            scrollPaneText.setName("scrollPaneText");
+            scrollPaneText.setViewportView(getTextNode());
+            this.panelNode.add(scrollPaneText);
+        }
+        return scrollPaneText;
+    }
+
+    private JScrollPane getScrollPaneComment(){
+        if(scrollPaneComment == null){
+            scrollPaneComment = new JScrollPane();
+            scrollPaneComment.setName("scrollPaneComment");
+            scrollPaneComment.setViewportView(getCommentNode());
+            this.panelNode.add(scrollPaneComment);
+        }
+        return scrollPaneComment;
     }
 
     public TextTable getMaterialTable(){
@@ -245,8 +270,11 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         // panel
         String text = ((CopexTree)tree).getDescriptionValue(value);
         if(text == null){
-            if(textNode != null)
-                this.panelNode.remove(textNode);
+            if(textNode != null){
+                //this.panelNode.remove(textNode);
+                this.panelNode.remove(scrollPaneText);
+            }
+            scrollPaneText = null;
             textNode = null;
             List<String> listMaterial = ((CopexTree)tree).getMaterialValue(value);
             if(listMaterial != null && listMaterial.size() > 0){
@@ -267,7 +295,8 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             }
             materialTable = null;
             String defaultText = ((CopexTree)tree).getDefaultDescriptionValue(value);
-            getTextNode();
+            //getTextNode();
+            getScrollPaneText();
             if(text.length() == 0 && defaultText != null){
                 text = defaultText;
                 this.textNode.setFont(CopexTreeCellRenderer.FONT_NODE_DEFAULT_TEXT);
@@ -305,17 +334,22 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             }else
                 textNode.setBorder(null);
             textNode.setSize(w, heightText);
-            textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
+            scrollPaneText.setSize(w, heightText);
+            //textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
+            scrollPaneText.setBounds(0, labelNode.getHeight()+labelNode.getY(), scrollPaneText.getWidth(), scrollPaneText.getHeight());
 //            String toolTipText = ((CopexTree)tree).getToolTipTextValue(value);
 //            textNode.setToolTipText(toolTipText);
         }
         // comments
         String comment = ((CopexTree)tree).getCommentValue(value);
-        getCommentNode();
+        //getCommentNode();
+        getScrollPaneComment();
         commentNode.setText(comment);
         //if (comment == null || comment.length() == 0){
         if (comment == null){
-            this.panelNode.remove(commentNode);
+            //this.panelNode.remove(commentNode);
+            this.panelNode.remove(scrollPaneComment);
+            scrollPaneComment = null;
             commentNode = null;
         }else{
             boolean editable = ((CopexTree)tree).isEditableValue(value);
@@ -323,7 +357,8 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 getLabelComment();
                 labelComment.setText(((CopexTree)tree).getCommentLabelText());
                 labelComment.setSize(CopexUtilities.lenghtOfString(labelComment.getText(), getFontMetrics(labelComment.getFont())),14);
-                labelComment.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), labelComment.getWidth(), labelComment.getHeight());
+                //labelComment.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), labelComment.getWidth(), labelComment.getHeight());
+                labelComment.setBounds(0, this.scrollPaneText.getY()+this.scrollPaneText.getHeight(), labelComment.getWidth(), labelComment.getHeight());
                 commentNode.setFont(CopexTreeCellRenderer.FONT_NODE);
                 commentNode.setForeground(Color.BLACK);
             }else{
@@ -349,21 +384,26 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 heightComment = CopexTreeCellRenderer.HEIGHT_ONE_LINE_COMMENT;
             heightComment = Math.max(nbLC*CopexTreeCellRenderer.HEIGHT_ONE_LINE_COMMENT, heightComment);
             commentNode.setSize(cw, heightComment);
+            scrollPaneComment.setSize(cw, heightComment);
             nbLC = CopexTreeCellRenderer.getNbLine(comment, cw, getFontMetrics(commentNode.getFont()));
             commentNode.setSize(cw, nbLC*CopexTreeCellRenderer.HEIGHT_ONE_LINE_COMMENT);
+            scrollPaneComment.setSize(cw, nbLC*CopexTreeCellRenderer.HEIGHT_ONE_LINE_COMMENT);
             if(editable){
                 cw = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
                 heightComment = Math.max(MIN_HEIGHT_AREA, heightComment);
                 commentNode.setBorder(BorderFactory.createLineBorder(AREA_BORDER_COLOR));
                 commentNode.setSize(cw, heightComment);
+                scrollPaneComment.setSize(cw, heightComment);
             }else
                 commentNode.setBorder(null);
         }
         if (commentNode != null){
-            int posy = this.textNode.getY()+this.textNode.getHeight();
+            //int posy = this.textNode.getY()+this.textNode.getHeight();
+            int posy = this.scrollPaneText.getY()+this.scrollPaneText.getHeight();
             if(labelComment != null)
                 posy = this.labelComment.getY()+labelComment.getHeight();
-            this.commentNode.setBounds(0, posy, this.commentNode.getWidth(), this.commentNode.getHeight());
+            //this.commentNode.setBounds(0, posy, this.commentNode.getWidth(), this.commentNode.getHeight());
+            this.scrollPaneComment.setBounds(0, posy, this.scrollPaneComment.getWidth(), this.scrollPaneComment.getHeight());
         }
         ImageIcon taskImage = ((CopexTree)tree).getImageValue(value);
         if (taskImage != null){
@@ -484,7 +524,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             commentNode.setForeground(CopexTreeCellRenderer.COMMENT_COLOR);
             //this.commentNode.setOpaque(true);
             //this.commentNode.setBounds(0, this.taskImageNode.getY()+this.taskImageNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());
-            this.panelNode.add(commentNode);
+            //this.panelNode.add(commentNode);
             
         }
         return this.commentNode;
@@ -509,14 +549,16 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             labelCommentD = labelComment.getSize();
         Dimension commentNodeD = new Dimension(0, 0);
         if (this.commentNode != null)
-            commentNodeD = commentNode.getSize();
+            //commentNodeD = commentNode.getSize();
+            commentNodeD = scrollPaneComment.getSize();
         Dimension taskImageD = taskImageNode.getSize();
         Dimension taskDrawD = new Dimension(0,0);
         if (this.drawPanel != null)
             taskDrawD = drawPanel.getSize();
         Dimension textNodeD = new Dimension(0,0);
         if(this.textNode != null){
-            textNodeD = this.textNode.getSize();
+            //textNodeD = this.textNode.getSize();
+            textNodeD = this.scrollPaneText.getSize();
         }
         Dimension materialTableD = new Dimension(0,0);
         if(this.materialTable != null){

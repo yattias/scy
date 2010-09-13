@@ -14,7 +14,21 @@
         <name language="fr">Procedure</name>
         <name language="en">Procedure</name>
         <hypothesis_mode>M</hypothesis_mode>
+        <proc_hypothesis>
+            <hypothesis language="en"></hypothesis>
+            <hypothesis language="fr"></hypothesis>
+            <hypothesis_hide>false</hypothesis_hide>
+            <comment language="en"></comment>
+           <comment language="fr"></comment>
+        </proc_hypothesis>
         <principle_mode>M</principle_mode>
+        <proc_general_principle>
+            <principle language="en"></principle>
+            <principle language="fr"></principle>
+            <principle_hide>false</principle_hide>
+           <principle_comment language="en"></principle_comment>
+           <principle_comment language="fr"></principle_comment>
+        </proc_general_principle>
         <evaluation_mode>N</evaluation_mode>
         <draw_principle>false</draw_principle>
         <is_task_repeat>false</is_task_repeat>

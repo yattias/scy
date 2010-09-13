@@ -125,8 +125,8 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
                 idUser = "2";
                 mission= "2";
                 group = "1";
-                labDoc = "70";
-                labDocName = "mon proc mission 2";
+                labDoc = "68";
+                labDocName = "Thermostat setting";
             } catch (MalformedURLException ex) {
 
             }

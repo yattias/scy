@@ -6,6 +6,7 @@
 package eu.scy.client.tools.copex.utilities;
 
 import eu.scy.client.tools.copex.edp.EdPPanel;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -124,6 +125,14 @@ public class CommentsPanel extends CopexPanelHideShow {
             areaComments.setRows(3);
             areaComments.setLineWrap(true);
             areaComments.setWrapStyleWord(true);
+            areaComments.addKeyListener(new java.awt.event.KeyAdapter() {
+                @Override
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+                        actionComment.enterKeyPressed();
+                    }
+                }
+            });
         }
         return areaComments ;
     }

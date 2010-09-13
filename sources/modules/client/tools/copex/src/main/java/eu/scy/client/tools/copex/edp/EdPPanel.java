@@ -1863,7 +1863,7 @@ public class EdPPanel extends JPanel {
             if(!openQuestion){
                 String msg = getBundleString("MSG_ERROR_FIELD_NULL");
                 msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
-                displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+                //displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
             }
             return question.getDescription(getLocale());
         }

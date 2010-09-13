@@ -35,14 +35,17 @@ public class SubTreeTransferable implements Transferable {
     }
     
     
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
        return flavors;
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(subTreeFlavor);
     }
 
+    @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         if (flavor == subTreeFlavor) {
            return this;
