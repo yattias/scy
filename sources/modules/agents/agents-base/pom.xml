@@ -88,5 +88,10 @@
 			</dependency>
 		-->
 
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>agent-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
 	</dependencies>
 </project>
