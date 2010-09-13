@@ -9,6 +9,7 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -242,5 +243,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    @Override
    public void acceptDrop(Object object)
    {
+   }
+
+   @Override
+   public BufferedImage getThumbnail(int width, int height)
+   {
+      return null;
    }
 }
