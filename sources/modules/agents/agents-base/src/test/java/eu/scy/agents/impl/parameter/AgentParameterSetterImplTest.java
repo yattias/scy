@@ -25,7 +25,6 @@ import org.junit.Test;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.api.parameter.AgentParameterAPI;
-import eu.scy.agents.impl.AgentParameterAPIImpl;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ThreadedAgentMock;
 
