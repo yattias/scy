@@ -54,7 +54,11 @@ public class FormElement extends CustomNode {
     def typeLabel:Text = Text {font: Font { size: 14} content: "Type" }
     def cardinalityLabel:Text = Text {font: Font { size: 14} content: "Cardinality" }
     //input:
-    def captionBox:TextBox = TextBox { columns: 24; selectOnFocus: true; text: bind caption with inverse }
+    def captionBox:TextBox = TextBox { 
+        columns: 24;
+        selectOnFocus: true;
+        text: bind caption with inverse
+    }
     def cardinalityBox:TextBox = TextBox { columns: 3; selectOnFocus: true; text: bind cardinality with inverse }
     public var typeChoice:ChoiceBox = ChoiceBox {
         items: ["TEXT", "IMAGE", "VOICE", "COUNTER", "NUMBER", "GPS", "DATE", "TIME"]

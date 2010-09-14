@@ -160,7 +160,7 @@ public class FormAuthorRepositoryWrapper {
             elo.setDefaultLanguage(Locale.ENGLISH);
             elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
             elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.GERMANY);
-            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/text");
+            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/formauthor");
             elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
             new Long(System.currentTimeMillis()));
             elo.getMetadata().getMetadataValueContainer(authorKey).setValue(

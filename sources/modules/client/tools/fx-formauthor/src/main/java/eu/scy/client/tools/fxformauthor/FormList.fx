@@ -103,6 +103,11 @@ public class FormList extends CustomNode {
                 graphic: ImageView{ image: Image { url: "{__DIR__}resources/world_add.png" } }
                 tooltip: Tooltip { text: "browse ELOs" }
                 action:function():Void {formNode.browseElos()}
+            },
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_white_world.png" } }
+                tooltip: Tooltip { text: "save ELO" }
+                action:function():Void {formNode.saveElo()}
             }
 
         ]
@@ -378,6 +383,9 @@ public class FormList extends CustomNode {
         //tihs works with a shitload of try n catch :/
         var nl:NodeList;
         nl = doc.getElementsByTagName("form");
+        println("#FOOFOOBAR");
+        println(nl.getLength());
+        println("#foofoobar");
         try {
             for (i in [0..nl.getLength()-1]) {
                 titleBox.text = (nl.item(i) as Element).getAttribute("title");
@@ -478,6 +486,8 @@ public class FormList extends CustomNode {
         scyWindow = window;
     }
 
+
+
     public function getXML():String {
          try {
             var doc:Document = createDoc();
@@ -493,6 +503,8 @@ public class FormList extends CustomNode {
         catch(e:Exception) {
             e.printStackTrace();
         }
+        //just in case we got an error
+        return "<form>error!</form>";
     }
 
 

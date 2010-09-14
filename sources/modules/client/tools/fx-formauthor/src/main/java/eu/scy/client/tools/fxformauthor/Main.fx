@@ -15,6 +15,8 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 
 /**
  * @author pg
+ TODO:
+    - save AS / save
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopFormAuthorTestConfig.xml"

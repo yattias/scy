@@ -75,4 +75,9 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         formAuthorRepositoryWrapper.loadFormAction();
     }
 
+    public function saveElo():Void {
+        formAuthorRepositoryWrapper.saveFormAction();
+    }
+
+
 }
