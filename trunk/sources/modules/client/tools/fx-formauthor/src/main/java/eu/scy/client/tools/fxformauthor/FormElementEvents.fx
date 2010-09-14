@@ -17,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.control.ScrollBarPolicy;
 import javafx.scene.control.ScrollView;
-import com.sun.javafx.mediabox.MediaBox;
 
 /**
  * @author pg
