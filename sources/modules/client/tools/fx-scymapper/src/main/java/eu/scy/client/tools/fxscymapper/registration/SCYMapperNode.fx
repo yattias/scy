@@ -25,9 +25,14 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import java.awt.Dimension;
 
 public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
+
+    var Dimension;
     public-init var scyMapperPanel: SCYMapperPanel;
     public-init var repositoryWrapper: ScyMapperRepositoryWrapper;
     public-init var currentELO: IELO;
@@ -86,6 +91,12 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                                                 addToPortfolio();
                                             }
                                         }
+                                        Button {
+                                            text: "test thumbnail"
+                                            action: function () {
+                                                testThumbnail();
+                                            }
+                                        }
                                     ]
                                 }
                                 wrappedScyMapperPanel
@@ -96,9 +107,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     }
 
     function newConceptMap() {
-
         var answer = JOptionPane.showConfirmDialog(null, "This will discard any changes done to the current concept map. Do you want to continue?", "Confirm discard changes", JOptionPane.YES_NO_CANCEL_OPTION);
-
         if (answer == JOptionPane.YES_OPTION) {
             newElo();
         }
@@ -124,13 +133,30 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     //        (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).logAddToPortfolio();
     }
 
+    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+      if (scyMapperPanel != null) {
+        return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(scyMapperPanel, scyMapperPanel.getSize(), new Dimension(width, height));
+      } else {
+        return null;
+      }
+    }
+    
+    public function testThumbnail(): Void {
+        var thumbnail = getThumbnail(64, 64);
+        var icon = new ImageIcon(thumbnail);
+        JOptionPane.showMessageDialog(null,
+            "Look at this!",
+            "thumbnail test",
+            JOptionPane.INFORMATION_MESSAGE,
+            icon);
+    }
+
     public override function canAcceptDrop(object: Object): Boolean {
         println("SCYMAPPER: canAcceptDrop of {object.getClass()}");
         if (object instanceof ContactFrame) {
             return true;
         }
         return false;
-
     }
 
     public override function acceptDrop(object: Object): Void {
