@@ -61,6 +61,12 @@
 			<scope>compile</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-elo</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 </project>
