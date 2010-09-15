@@ -7,9 +7,9 @@ import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
 import eu.scy.common.mission.impl.jdom.RuntimeSettingsEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
+import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloContent>
 {
@@ -47,38 +47,38 @@ public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloCon
 
    private static final RuntimeSettingsEloContentCreator runtimeSettingsEloContentCreator = new RuntimeSettingsEloContentCreator();
 
-   public RuntimeSettingsElo(IELO elo, ToolBrokerAPI tbi)
+   public RuntimeSettingsElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, tbi, runtimeSettingsEloContentCreator);
+      super(elo, rooloServices, runtimeSettingsEloContentCreator);
       verifyTechnicalFormat(MissionEloType.RUNTIME_SETTINGS.getType());
    }
 
-   public static RuntimeSettingsElo loadElo(URI uri, ToolBrokerAPI tbi)
+   public static RuntimeSettingsElo loadElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELO(uri);
+      IELO elo = rooloServices.getRepository().retrieveELO(uri);
       if (elo == null)
       {
          return null;
       }
-      return new RuntimeSettingsElo(elo, tbi);
+      return new RuntimeSettingsElo(elo, rooloServices);
    }
 
-   public static RuntimeSettingsElo loadLastVersionElo(URI uri, ToolBrokerAPI tbi)
+   public static RuntimeSettingsElo loadLastVersionElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELOLastVersion(uri);
+      IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
       if (elo == null)
       {
          return null;
       }
-      return new RuntimeSettingsElo(elo, tbi);
+      return new RuntimeSettingsElo(elo, rooloServices);
    }
 
-   public static RuntimeSettingsElo createElo(ToolBrokerAPI tbi)
+   public static RuntimeSettingsElo createElo(RooloServices rooloServices)
    {
-      IELO elo = tbi.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(tbi)).setValue(
+      IELO elo = rooloServices.getELOFactory().createELO();
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
                MissionEloType.RUNTIME_SETTINGS.getType());
-      RuntimeSettingsElo scyElo = new RuntimeSettingsElo(elo, tbi);
+      RuntimeSettingsElo scyElo = new RuntimeSettingsElo(elo, rooloServices);
       return scyElo;
    }
 

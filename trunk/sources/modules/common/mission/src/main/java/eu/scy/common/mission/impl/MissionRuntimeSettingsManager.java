@@ -10,13 +10,12 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import roolo.elo.api.exceptions.ELONotLastVersionException;
-
 import eu.scy.common.mission.RuntimeSetting;
 import eu.scy.common.mission.RuntimeSettingKey;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsManager;
+import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * This implementation of the RuntimeSettingsManager handles the search for settings in the correct
@@ -37,7 +36,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
    // private final RuntimeSettingsElo specificationRuntimeSettingsElo;
    private RuntimeSettingsElo runtimeRuntimeSettingsElo;
    private final Set<URI> specifiactionContentEloUris;
-   private final ToolBrokerAPI tbi;
+   private final RooloServices rooloServices;
    private final RuntimeSettingsManager specificationRuntimeSettings;
    private RuntimeSettingsManager runtimeRuntimeSettings;
    private final Object addSettingsLock = new Object();
@@ -48,7 +47,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
 
    public MissionRuntimeSettingsManager(RuntimeSettingsElo specificationRuntimeSettingsElo,
             RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specificationContentEloUris,
-            ToolBrokerAPI tbi) throws URISyntaxException
+            RooloServices rooloServices) throws URISyntaxException
    {
       super();
       // this.specificationRuntimeSettingsElo = specificationRuntimeSettingsElo;
@@ -56,7 +55,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       // the set with the specification content elo uris is only used for looking up,
       // it is not modified, thus a HashSet is thread save
       this.specifiactionContentEloUris = new HashSet<URI>(specificationContentEloUris);
-      this.tbi = tbi;
+      this.rooloServices = rooloServices;
       if (specificationRuntimeSettingsElo != null)
       {
          this.specificationRuntimeSettings = specificationRuntimeSettingsElo.getTypedContent();
@@ -125,7 +124,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
 
    private URI findSpecificationEloUri(URI eloUri)
    {
-      ScyElo scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      ScyElo scyElo = ScyElo.loadMetadata(eloUri, rooloServices);
       if (scyElo == null)
       {
          return null;
@@ -177,7 +176,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
             // some one else has updated the runtime settings elo
             // get the latest version and try again
             runtimeRuntimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(
-                     runtimeRuntimeSettingsElo.getUri(), tbi);
+                     runtimeRuntimeSettingsElo.getUri(), rooloServices);
             runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
             addSettings(runtimeSettings);
          }

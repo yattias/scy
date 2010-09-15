@@ -5,11 +5,13 @@
 
 package eu.scy.common.mission.impl.jdom;
 
-import eu.scy.common.mission.TemplateElosEloContent;
-import eu.scy.common.mission.impl.BasicTemplateElosEloContent;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import org.jdom.Element;
+
+import eu.scy.common.mission.TemplateElosEloContent;
+import eu.scy.common.mission.impl.BasicTemplateElosEloContent;
 
 /**
  *

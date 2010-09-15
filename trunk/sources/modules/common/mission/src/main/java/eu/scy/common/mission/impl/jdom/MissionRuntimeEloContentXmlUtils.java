@@ -5,10 +5,12 @@
 
 package eu.scy.common.mission.impl.jdom;
 
+import java.net.URISyntaxException;
+
+import org.jdom.Element;
+
 import eu.scy.common.mission.MissionRuntimeEloContent;
 import eu.scy.common.mission.impl.BasicMissionRuntimeEloContent;
-import java.net.URISyntaxException;
-import org.jdom.Element;
 
 /**
  *

@@ -12,10 +12,10 @@ import roolo.elo.api.IMetadataKey;
 import eu.scy.common.mission.impl.BasicMissionRuntimeEloContent;
 import eu.scy.common.mission.impl.jdom.MissionRuntimeEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
+import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -54,40 +54,40 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
    private final IMetadataKey missionRunningKey;
    private final IMetadataKey missionSpecificationEloKey;
 
-   public MissionRuntimeElo(IELO elo, ToolBrokerAPI tbi)
+   public MissionRuntimeElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, tbi, missionRuntimeEloContentCreator);
+      super(elo, rooloServices, missionRuntimeEloContentCreator);
       verifyTechnicalFormat(MissionEloType.MISSION_RUNTIME.getType());
       missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
       missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
    }
 
-   public static MissionRuntimeElo loadElo(URI uri, ToolBrokerAPI tbi)
+   public static MissionRuntimeElo loadElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELO(uri);
+      IELO elo = rooloServices.getRepository().retrieveELO(uri);
       if (elo == null)
       {
          return null;
       }
-      return new MissionRuntimeElo(elo, tbi);
+      return new MissionRuntimeElo(elo, rooloServices);
    }
 
-   public static MissionRuntimeElo loadLastVersionElo(URI uri, ToolBrokerAPI tbi)
+   public static MissionRuntimeElo loadLastVersionElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELOLastVersion(uri);
+      IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
       if (elo == null)
       {
          return null;
       }
-      return new MissionRuntimeElo(elo, tbi);
+      return new MissionRuntimeElo(elo, rooloServices);
    }
 
-   public static MissionRuntimeElo createElo(ToolBrokerAPI tbi)
+   public static MissionRuntimeElo createElo(RooloServices rooloServices)
    {
-      IELO elo = tbi.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(tbi)).setValue(
+      IELO elo = rooloServices.getELOFactory().createELO();
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
                MissionEloType.MISSION_RUNTIME.getType());
-      MissionRuntimeElo scyElo = new MissionRuntimeElo(elo, tbi);
+      MissionRuntimeElo scyElo = new MissionRuntimeElo(elo, rooloServices);
       return scyElo;
    }
 

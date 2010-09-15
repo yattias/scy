@@ -5,9 +5,10 @@
 
 package eu.scy.common.mission.impl;
 
-import eu.scy.common.mission.TemplateElosEloContent;
 import java.net.URI;
 import java.util.List;
+
+import eu.scy.common.mission.TemplateElosEloContent;
 
 /**
  *
