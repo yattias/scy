@@ -10,9 +10,9 @@ import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicEloToolConfigsEloContent;
 import eu.scy.common.mission.impl.jdom.EloToolConfigsEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
+import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -42,38 +42,38 @@ public class EloToolConfigsElo extends ContentTypedScyElo<EloToolConfigsEloConte
    }
    private static final EloToolConfigsEloContentCreator eloToolConfigsEloContentCreator = new EloToolConfigsEloContentCreator();
 
-   public EloToolConfigsElo(IELO elo, ToolBrokerAPI tbi)
+   public EloToolConfigsElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, tbi, eloToolConfigsEloContentCreator);
+      super(elo, rooloServices, eloToolConfigsEloContentCreator);
       verifyTechnicalFormat(MissionEloType.ELO_TOOL_CONFIGURATION.getType());
    }
 
-   public static EloToolConfigsElo loadElo(URI uri, ToolBrokerAPI tbi)
+   public static EloToolConfigsElo loadElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELO(uri);
+      IELO elo = rooloServices.getRepository().retrieveELO(uri);
       if (elo == null)
       {
          return null;
       }
-      return new EloToolConfigsElo(elo, tbi);
+      return new EloToolConfigsElo(elo, rooloServices);
    }
 
-   public static EloToolConfigsElo loadLastVersionElo(URI uri, ToolBrokerAPI tbi)
+   public static EloToolConfigsElo loadLastVersionElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELOLastVersion(uri);
+      IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
       if (elo == null)
       {
          return null;
       }
-      return new EloToolConfigsElo(elo, tbi);
+      return new EloToolConfigsElo(elo, rooloServices);
    }
 
-   public static EloToolConfigsElo createElo(ToolBrokerAPI tbi)
+   public static EloToolConfigsElo createElo(RooloServices rooloServices)
    {
-      IELO elo = tbi.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(tbi)).setValue(
+      IELO elo = rooloServices.getELOFactory().createELO();
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
                MissionEloType.ELO_TOOL_CONFIGURATION.getType());
-      EloToolConfigsElo scyElo = new EloToolConfigsElo(elo, tbi);
+      EloToolConfigsElo scyElo = new EloToolConfigsElo(elo, rooloServices);
       return scyElo;
    }
 }

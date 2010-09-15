@@ -1,6 +1,7 @@
 package eu.scy.common.mission.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,7 +15,7 @@ import eu.scy.common.mission.RuntimeSettingKey;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsManager;
 import eu.scy.common.mission.TestRuntimeSettingKeys;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.common.scyelo.RooloServices;
 
 public class MissionRuntimeSettingsManagerTest extends TestRuntimeSettingKeys
 {   
@@ -28,15 +29,15 @@ public class MissionRuntimeSettingsManagerTest extends TestRuntimeSettingKeys
    @Before
    public void setUp() throws Exception
    {
-      ToolBrokerAPI tbi = ToolBrokerApiCreator.createTestTbi();
-      RuntimeSettingsElo specificationRuntimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
+      RooloServices rooloServices = RooloServicesCreator.createTestRooloServices();
+      RuntimeSettingsElo specificationRuntimeSettingsElo = RuntimeSettingsElo.createElo(rooloServices);
       specificationRuntimeSettingsElo.saveAsNewElo();
-      RuntimeSettingsElo runtimeRuntimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
+      RuntimeSettingsElo runtimeRuntimeSettingsElo = RuntimeSettingsElo.createElo(rooloServices);
       runtimeRuntimeSettingsElo.saveAsNewElo();
       Set<URI> specifiactionContentEloUri = new HashSet<URI>();
       missionRuntimeSettingsManager = new MissionRuntimeSettingsManager(
                specificationRuntimeSettingsElo, runtimeRuntimeSettingsElo,
-               specifiactionContentEloUri, tbi);
+               specifiactionContentEloUri, rooloServices);
       specificationRuntimeSettings = specificationRuntimeSettingsElo.getTypedContent();
       runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
    }

@@ -16,22 +16,16 @@ import roolo.elo.metadata.keys.LongMetadataKey;
 import roolo.elo.metadata.keys.RelationMetadataKey;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.keys.UriMetadataKey;
-import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.notification.api.INotifiable;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
-import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
-import eu.scy.sessionmanager.SessionManager;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.common.scyelo.RooloServices;
 
-public class ToolBrokerApiCreator
+public class RooloServicesCreator
 {
-   private static class TestToolBrokerAPI implements ToolBrokerAPI
+   private static class TestRooloServices implements RooloServices
    {
       private IELOFactory eloFactory;
       private IRepository repository;
       private IMetadataTypeManager metadataTypeManager;
+      private IExtensionManager extensionManager;
 
       @Override
       public IELOFactory getELOFactory()
@@ -52,83 +46,18 @@ public class ToolBrokerApiCreator
       }
 
       @Override
-      public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri)
-      {
-         return null;
-      }
-
-      @Override
-      public IActionLogger getActionLogger()
-      {
-         return null;
-      }
-
-      @Override
-      public IAwarenessService getAwarenessService()
-      {
-         return null;
-      }
-
-      @Override
-      public IDataSyncService getDataSyncService()
-      {
-         return null;
-      }
-
-      @Override
       public IExtensionManager getExtensionManager()
       {
-         return null;
+         return extensionManager;
       }
-
-      @Override
-      public String getLoginUserName()
-      {
-         return null;
-      }
-
-      @Override
-      public String getMission()
-      {
-         return null;
-      }
-
-      @Override
-      public PedagogicalPlanService getPedagogicalPlanService()
-      {
-         return null;
-      }
-
-      @Override
-      public StudentPedagogicalPlanService getStudentPedagogicalPlanService()
-      {
-         return null;
-      }
-
-      @Override
-      public SessionManager getUserSession(String username, String password)
-      {
-         return null;
-      }
-
-      @Override
-      public void proposeCollaborationWith(String proposedUser, String elouri, String mucid)
-      {
-      }
-
-      @Override
-      public void registerForNotifications(INotifiable notifiable)
-      {
-      }
-
    }
 
-   private ToolBrokerApiCreator()
+   private RooloServicesCreator()
    {
 
    }
 
-   public static ToolBrokerAPI createTestTbi()
+   public static RooloServices createTestRooloServices()
    {
       IMetadataTypeManager metadataTypeManager = new MockMetadataTypeManager();
       IMetadataKey identifierKey = new UriMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId(),
@@ -172,10 +101,10 @@ public class ToolBrokerApiCreator
       repository.setMetadataTypeManager(metadataTypeManager);
       repository.setEloFactory(new JDomBasicELOFactory(metadataTypeManager));
 
-      TestToolBrokerAPI tbi = new TestToolBrokerAPI();
-      tbi.eloFactory = new JDomBasicELOFactory(metadataTypeManager);
-      tbi.metadataTypeManager = metadataTypeManager;
-      tbi.repository = repository;
-      return tbi;
+      TestRooloServices rooloServices = new TestRooloServices();
+      rooloServices.eloFactory = new JDomBasicELOFactory(metadataTypeManager);
+      rooloServices.metadataTypeManager = metadataTypeManager;
+      rooloServices.repository = repository;
+      return rooloServices;
    }
 }

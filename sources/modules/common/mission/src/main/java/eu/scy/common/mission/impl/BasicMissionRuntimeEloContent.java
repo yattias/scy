@@ -4,8 +4,9 @@
  */
 package eu.scy.common.mission.impl;
 
-import eu.scy.common.mission.MissionRuntimeEloContent;
 import java.net.URI;
+
+import eu.scy.common.mission.MissionRuntimeEloContent;
 
 /**
  * 

@@ -4,10 +4,11 @@
  */
 package eu.scy.common.mission.impl;
 
-import eu.scy.common.mission.EloToolConfig;
-import eu.scy.common.mission.EloToolConfigsEloContent;
 import java.util.HashMap;
 import java.util.List;
+
+import eu.scy.common.mission.EloToolConfig;
+import eu.scy.common.mission.EloToolConfigsEloContent;
 
 /**
  *

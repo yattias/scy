@@ -8,8 +8,8 @@ package eu.scy.common.mission.impl.jdom;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import org.apache.log4j.Logger;
 
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;

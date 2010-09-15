@@ -11,9 +11,9 @@ import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicTemplateElosEloContent;
 import eu.scy.common.mission.impl.jdom.TemplateElosEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
+import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -51,38 +51,38 @@ public class TemplateElosElo extends ContentTypedScyElo<TemplateElosEloContent>
    }
    private static final TemplateElosEloContentCreator templateElosEloContentCreator = new TemplateElosEloContentCreator();
 
-   public TemplateElosElo(IELO elo, ToolBrokerAPI tbi)
+   public TemplateElosElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, tbi, templateElosEloContentCreator);
+      super(elo, rooloServices, templateElosEloContentCreator);
       verifyTechnicalFormat(MissionEloType.TEMPLATES_ELOS.getType());
    }
 
-   public static TemplateElosElo loadElo(URI uri, ToolBrokerAPI tbi)
+   public static TemplateElosElo loadElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELO(uri);
+      IELO elo = rooloServices.getRepository().retrieveELO(uri);
       if (elo == null)
       {
          return null;
       }
-      return new TemplateElosElo(elo, tbi);
+      return new TemplateElosElo(elo, rooloServices);
    }
 
-   public static TemplateElosElo loadLastVersionElo(URI uri, ToolBrokerAPI tbi)
+   public static TemplateElosElo loadLastVersionElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELOLastVersion(uri);
+      IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
       if (elo == null)
       {
          return null;
       }
-      return new TemplateElosElo(elo, tbi);
+      return new TemplateElosElo(elo, rooloServices);
    }
 
-   public static TemplateElosElo createElo(ToolBrokerAPI tbi)
+   public static TemplateElosElo createElo(RooloServices rooloServices)
    {
-      IELO elo = tbi.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(tbi)).setValue(
+      IELO elo = rooloServices.getELOFactory().createELO();
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
                MissionEloType.TEMPLATES_ELOS.getType());
-      TemplateElosElo scyElo = new TemplateElosElo(elo, tbi);
+      TemplateElosElo scyElo = new TemplateElosElo(elo, rooloServices);
       return scyElo;
    }
 }
