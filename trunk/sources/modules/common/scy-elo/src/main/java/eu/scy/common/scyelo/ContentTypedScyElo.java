@@ -5,7 +5,6 @@
 package eu.scy.common.scyelo;
 
 import roolo.elo.api.IELO;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  *
@@ -17,9 +16,9 @@ public class ContentTypedScyElo<E> extends ScyElo
    private ScyEloContentCreator<E> scyEloContentCreator;
    private E typedContent;
 
-   public ContentTypedScyElo(IELO elo, ToolBrokerAPI tbi, ScyEloContentCreator<E> scyEloContentCreator)
+   public ContentTypedScyElo(IELO elo, RooloServices rooloServices, ScyEloContentCreator<E> scyEloContentCreator)
    {
-      super(elo, tbi);
+      super(elo, rooloServices);
       assert scyEloContentCreator!=null;
       this.scyEloContentCreator = scyEloContentCreator;
       eloContentChanged();

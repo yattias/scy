@@ -7,7 +7,6 @@ package eu.scy.common.scyelo;
 import java.net.URI;
 import java.util.List;
 
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -26,7 +25,7 @@ public class ScyElo
 
    private IELO elo;
    private IMetadata metadata;
-   private final ToolBrokerAPI tbi;
+   private final RooloServices rooloServices;
    private final IMetadataTypeManager metadataTypemanager;
    private final IMetadataKey identifierKey;
    private final IMetadataKey titleKey;
@@ -35,15 +34,15 @@ public class ScyElo
    private final IMetadataKey isForkOfKey;
    private final IMetadataKey isForkedByKey;
 
-   private ScyElo(IELO elo, IMetadata metadata, ToolBrokerAPI tbi)
+   private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices)
    {
       assert metadata != null;
-      assert tbi != null;
-      assert tbi.getMetaDataTypeManager() != null;
+      assert rooloServices != null;
+      assert rooloServices.getMetaDataTypeManager() != null;
       this.elo = elo;
       this.metadata = metadata;
-      this.tbi = tbi;
-      this.metadataTypemanager = tbi.getMetaDataTypeManager();
+      this.rooloServices = rooloServices;
+      this.metadataTypemanager = rooloServices.getMetaDataTypeManager();
       identifierKey = findMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
       titleKey = findMetadataKey(CoreRooloMetadataKeyIds.TITLE);
       technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -52,60 +51,60 @@ public class ScyElo
       isForkedByKey = findMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY);
    }
 
-   public ScyElo(IELO elo, ToolBrokerAPI tbi)
+   public ScyElo(IELO elo, RooloServices rooloServices)
    {
-      this(elo, elo.getMetadata(), tbi);
+      this(elo, elo.getMetadata(), rooloServices);
    }
 
-   public ScyElo(IMetadata metadata, ToolBrokerAPI tbi)
+   public ScyElo(IMetadata metadata, RooloServices rooloServices)
    {
-      this(null, metadata, tbi);
+      this(null, metadata, rooloServices);
    }
 
-   public static ScyElo loadElo(URI uri, ToolBrokerAPI tbi)
+   public static ScyElo loadElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELO(uri);
+      IELO elo = rooloServices.getRepository().retrieveELO(uri);
       if (elo == null)
       {
          return null;
       }
-      return new ScyElo(elo, tbi);
+      return new ScyElo(elo, rooloServices);
    }
 
-   public static ScyElo loadLastVersionElo(URI uri, ToolBrokerAPI tbi)
+   public static ScyElo loadLastVersionElo(URI uri, RooloServices rooloServices)
    {
-      IELO elo = tbi.getRepository().retrieveELOLastVersion(uri);
+      IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
       if (elo == null)
       {
          return null;
       }
-      return new ScyElo(elo, tbi);
+      return new ScyElo(elo, rooloServices);
    }
 
-   public static ScyElo loadMetadata(URI uri, ToolBrokerAPI tbi)
+   public static ScyElo loadMetadata(URI uri, RooloServices rooloServices)
    {
-      IMetadata metadata = tbi.getRepository().retrieveMetadata(uri);
+      IMetadata metadata = rooloServices.getRepository().retrieveMetadata(uri);
       if (metadata == null)
       {
          return null;
       }
-      return new ScyElo(metadata, tbi);
+      return new ScyElo(metadata, rooloServices);
    }
 
-   public static ScyElo loadLastVersionMetadata(URI uri, ToolBrokerAPI tbi)
+   public static ScyElo loadLastVersionMetadata(URI uri, RooloServices rooloServices)
    {
-      IMetadata metadata = tbi.getRepository().retrieveMetadataLastVersion(uri);
+      IMetadata metadata = rooloServices.getRepository().retrieveMetadataLastVersion(uri);
       if (metadata == null)
       {
          return null;
       }
-      return new ScyElo(metadata, tbi);
+      return new ScyElo(metadata, rooloServices);
    }
 
-   public static ScyElo createElo(String technicalFormat, ToolBrokerAPI tbi)
+   public static ScyElo createElo(String technicalFormat, RooloServices rooloServices)
    {
-      IELO elo = tbi.getELOFactory().createELO();
-      ScyElo scyElo = new ScyElo(elo, tbi);
+      IELO elo = rooloServices.getELOFactory().createELO();
+      ScyElo scyElo = new ScyElo(elo, rooloServices);
       scyElo.getMetadata().getMetadataValueContainer(scyElo.technicalFormatKey).setValue(
                technicalFormat);
       return scyElo;
@@ -121,9 +120,9 @@ public class ScyElo
       return key;
    }
 
-   protected static IMetadataKey getTechnicalFormatKey(ToolBrokerAPI tbi)
+   protected static IMetadataKey getTechnicalFormatKey(RooloServices rooloServices)
    {
-      return tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      return rooloServices.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
    @Override
@@ -135,25 +134,25 @@ public class ScyElo
 
    public void saveAsNewElo()
    {
-      IMetadata mdata = tbi.getRepository().addNewELO(getUpdatedElo());
+      IMetadata mdata = rooloServices.getRepository().addNewELO(getUpdatedElo());
       updateMetadata(mdata);
    }
 
    public void updateElo()
    {
-      IMetadata mdata = tbi.getRepository().updateELO(getUpdatedElo());
+      IMetadata mdata = rooloServices.getRepository().updateELO(getUpdatedElo());
       updateMetadata(mdata);
    }
 
    public void saveAsForkedElo()
    {
-      IMetadata mdata = tbi.getRepository().addForkedELO(getUpdatedElo());
+      IMetadata mdata = rooloServices.getRepository().addForkedELO(getUpdatedElo());
       updateMetadata(mdata);
    }
 
    private void updateMetadata(IMetadata mdata)
    {
-      tbi.getELOFactory().updateELOWithResult(elo, mdata);
+      rooloServices.getELOFactory().updateELOWithResult(elo, mdata);
       metadata = elo.getMetadata();
    }
 
@@ -186,7 +185,7 @@ public class ScyElo
       }
       if (hasOnlyMetadata())
       {
-         elo = tbi.getRepository().retrieveELO(getUri());
+         elo = rooloServices.getRepository().retrieveELO(getUri());
          metadata = elo.getMetadata();
       }
    }
