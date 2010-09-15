@@ -129,7 +129,7 @@ public class MissionLocator {
          templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getTemplateElosEloUri(), tbi);
       }
       if (missionRuntimeElo.getTypedContent().getRuntimeSettingsEloUri() != null) {
-         runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getTemplateElosEloUri(), tbi);
+         runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getRuntimeSettingsEloUri(), tbi);
       }
       startMission(MissionRunConfigs {
          tbi: tbi
