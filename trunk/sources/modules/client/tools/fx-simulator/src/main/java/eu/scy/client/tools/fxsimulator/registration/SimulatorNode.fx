@@ -50,9 +50,17 @@ import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import eu.scy.client.common.scyi18n.UriLocalizer;
+import java.net.URL;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.RenderingHints;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
+    var simquestViewer: SimQuestViewer;
     def logger = Logger.getLogger(this.getClass());
     def simconfigType = "scy/simconfig";
     def datasetType = "scy/dataset";
@@ -180,7 +188,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         fitex.leave(fitex.getSessionID());
     }
 
-public override function getDatasyncAttribute(): DatasyncAttribute {
+    public override function getDatasyncAttribute(): DatasyncAttribute {
         return syncAttrib;
     }
 
@@ -205,6 +213,25 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     public override function getToolName(): String {
         return "simulator";
     }
+
+    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+      if (simquestViewer != null) {
+        return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(simquestViewer.getInterfacePanel(), simquestViewer.getRealSize(), new Dimension(width, height));
+      } else {
+        return null;
+      }
+    }
+
+    public function testThumbnail(): Void {
+        var thumbnail = getThumbnail(64, 64);
+        var icon = new ImageIcon(thumbnail);
+        JOptionPane.showMessageDialog(null,
+            "Look at this!",
+            "thumbnail test",
+            JOptionPane.INFORMATION_MESSAGE,
+            icon);
+    }
+
 
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -247,7 +274,7 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
         switchSwingDisplayComponent(simquestPanel);
         return Group {
                     blocksMouse: true;
-                    //         cache: bind scyWindow.cache
+                    // cache: bind scyWindow.cache
                     content: [
                         VBox {
                             translateY: spacing;
@@ -268,23 +295,22 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
                                             action: function () {
                                                 doSaveAsSimconfig();
                                             }
-                                        }
-                                        /*Button {
-                                        text: "Save Dataset"
-                                        action: function () {
-                                        doSaveDataset();
-                                        }
-                                        }*/
+                                        }  
                                         Button {
                                             text: ##"SaveAs Dataset"
                                             action: function () {
                                                 doSaveAsDataset();
                                             }
                                         }
+                                        Button {
+                                            text: "test thumbnail"
+                                            action: function () {
+                                                testThumbnail();
+                                            }
+                                        }
                                     ]
                                 }
                                 simulatorContent
-//                                wrappedSimquestPanel
                             ]
                         }
                     ]
@@ -297,7 +323,6 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
       simulatorContent.content = wrappedSimquestPanel;
       resizeContent();
     }
-
 
     function doLoadElo(eloUri: URI) {
         logger.info("Trying to load elo {eloUri}");
@@ -320,8 +345,14 @@ public override function getDatasyncAttribute(): DatasyncAttribute {
     function loadSimulation(simulationUri: String) {
         var fileUri = new URI(simulationUri);
         // the flag "false" configures the SQV for memory usage (instead of disk usage)
-        var simquestViewer = new SimQuestViewer(false);
+        simquestViewer = new SimQuestViewer(false);
         logger.info("trying to load simulation: {fileUri.toString()}");
+        //
+        // testing uri localization
+        //var uriLocalizer = new UriLocalizer();
+        //var url = uriLocalizer.localizeUrl(new URL("http://www.scy-lab.eu/sqzx/co2_house_en.sqzx"));
+        //logger.info("*** url after: {url.toString()}");
+        //
         simquestViewer.setFile(fileUri);
         simquestViewer.setLookAndFeel(false);
         simquestViewer.createFrame(false);
