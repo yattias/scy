@@ -1,12 +1,9 @@
 package eu.scy.toolbrokerapi;
 
-import roolo.api.IExtensionManager;
-import roolo.api.IRepository;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.common.scyelo.RooloServices;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
@@ -19,27 +16,27 @@ import eu.scy.sessionmanager.SessionManager;
  * 
  * @author Giemza
  */
-public interface ToolBrokerAPI {
+public interface ToolBrokerAPI extends RooloServices {
 
-    /**
-     * This method returns the repository instance to be used by clients of the
-     * ToolsBrokerAPI.
-     * 
-     * @return repository the repository instace
-     */
-    public IRepository getRepository();
-
-    /**
-     * @return the metaDataTypeManager
-     */
-    public IMetadataTypeManager getMetaDataTypeManager();
-
-    /**
-     * @return the extensionManager
-     */
-    public IExtensionManager getExtensionManager();
-
-    public IELOFactory getELOFactory();
+//    /**
+//     * This method returns the repository instance to be used by clients of the
+//     * ToolsBrokerAPI.
+//     * 
+//     * @return repository the repository instace
+//     */
+//    public IRepository getRepository();
+//
+//    /**
+//     * @return the metaDataTypeManager
+//     */
+//    public IMetadataTypeManager getMetaDataTypeManager();
+//
+//    /**
+//     * @return the extensionManager
+//     */
+//    public IExtensionManager getExtensionManager();
+//
+//    public IELOFactory getELOFactory();
 
     /**
      * The session manager for handling user authentication and authorisation
