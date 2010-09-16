@@ -1,38 +1,23 @@
 package eu.scy.client.tools.fxfitex.registration;
 
-import java.net.URI;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-
 import javafx.scene.control.Button;
-
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
+import javafx.scene.layout.Container;
 
-import org.jdom.Element;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javax.swing.JOptionPane;
-import eu.scy.client.common.datasync.ISynchronizable;
-import eu.scy.client.common.datasync.DummySyncListener;
-import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
@@ -40,6 +25,24 @@ import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.AcceptSyncModalDialog;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
+import eu.scy.client.desktop.scydesktop.utils.UiUtils;
+import eu.scy.client.common.datasync.ISynchronizable;
+import eu.scy.client.common.datasync.DummySyncListener;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.api.IRepository;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+
+import java.net.URI;
+import org.jdom.Element;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
+import java.awt.Dimension;
 
 /**
  * @author Marjolaine
@@ -253,6 +256,12 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                                 doSaveAsElo();
                            }
                         }
+                        Button {
+                           text: "test thumbnail"
+                           action: function () {
+                                testThumbnail();
+                           }
+                        }
                      ]
                   }
                   wrappedFitexPanel
@@ -329,5 +338,23 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    public function getBundleString(key:String) : String{
        return bundle.getString(key);
    }
+
+   public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+      if (fitexPanel != null) {
+        return UiUtils.createThumbnail(fitexPanel.getInterfacePanel(), fitexPanel.getRealSize(), new Dimension(width, height));
+      } else {
+        return null;
+      }
+    }
+
+    public function testThumbnail(): Void {
+        var thumbnail = getThumbnail(64, 64);
+        var icon = new ImageIcon(thumbnail);
+        JOptionPane.showMessageDialog(null,
+            "Look at this!",
+            "thumbnail test",
+            JOptionPane.INFORMATION_MESSAGE,
+            icon);
+    }
    
 }
