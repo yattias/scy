@@ -9,13 +9,13 @@ import java.util.List;
 
 import org.jdom.Element;
 
-import eu.scy.common.mission.EloFunctionalRole;
-import eu.scy.common.mission.EloLogicalRole;
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.EloToolConfigsEloContent;
 import eu.scy.common.mission.impl.BasicEloToolConfig;
 import eu.scy.common.mission.impl.BasicEloToolConfigsEloContent;
+import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.common.scyelo.EloLogicalRole;
 
 /**
  *
