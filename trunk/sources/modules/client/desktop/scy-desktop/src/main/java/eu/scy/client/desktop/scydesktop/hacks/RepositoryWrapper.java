@@ -30,7 +30,7 @@ public class RepositoryWrapper implements IRepository
 
    private final static Logger logger = Logger.getLogger(RepositoryWrapper.class);
 //	private final static String meloType = "scy/melo";
-   private URI missionSpcificationEloUri;
+   private URI missionRuntimeEloUri;
    private String missionId;
    private String lasId;
    private String userId;
@@ -45,6 +45,7 @@ public class RepositoryWrapper implements IRepository
    private IMetadataKey missionKey;
    private IMetadataKey lasKey;
    private IMetadataKey activeAnchorEloKey;
+   private IMetadataKey missionRuntimeKey;
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
@@ -123,9 +124,9 @@ public class RepositoryWrapper implements IRepository
       this.missionId = missionId;
    }
 
-   public void setMissionSpcificationEloUri(URI missionSpcificationEloUri)
+   public void setMissionRuntimeEloUri(URI missionSpcificationEloUri)
    {
-      this.missionSpcificationEloUri = missionSpcificationEloUri;
+      this.missionRuntimeEloUri = missionSpcificationEloUri;
    }
 
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
@@ -138,6 +139,7 @@ public class RepositoryWrapper implements IRepository
       missionKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION);
       lasKey = getMetadataKey(ScyRooloMetadataKeyIds.LAS);
       activeAnchorEloKey = getMetadataKey(ScyRooloMetadataKeyIds.ACTIVE_ANCHOR_ELO);
+      missionRuntimeKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
    }
 
    private IMetadataKey getMetadataKey(IMetadataKeyIdDefinition keyId)
@@ -174,6 +176,10 @@ public class RepositoryWrapper implements IRepository
       if (missionId != null)
       {
          elo.getMetadata().getMetadataValueContainer(missionKey).setValue(missionId);
+      }
+      if (missionRuntimeEloUri != null)
+      {
+         elo.getMetadata().getMetadataValueContainer(missionRuntimeKey).setValue(missionRuntimeEloUri);
       }
       if (lasId != null)
       {

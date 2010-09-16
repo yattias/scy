@@ -16,7 +16,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
-import eu.scy.common.mission.EloFunctionalRole;
+import eu.scy.common.scyelo.EloFunctionalRole;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -29,6 +29,7 @@ import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
 import eu.scy.common.mission.MissionEloType;
+import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 
 /**
  * @author SikkenJ
@@ -74,6 +75,12 @@ public class MissionLocator {
 
    function startNewMission(missionSpecificationElo: MissionSpecificationElo) {
       logger.info("prepare new mission runtime for {missionSpecificationElo.getUri()}");
+      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
+      missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
+      missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
+      missionRuntimeElo.setMissionRunning(userName);
+      missionRuntimeElo.saveAsNewElo();
+      injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
       // we are starting with a new mission, so we have to create a new MissionRuntimeElo
       def missionSpecification = missionSpecificationElo.getTypedContent();
       // create the elo tool configs
@@ -96,17 +103,13 @@ public class MissionLocator {
          runtimeSettingsElo.saveAsNewElo();
       }
 
-      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
-      missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
-      missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
-      missionRuntimeElo.setMissionRunning(userName);
       missionRuntimeElo.setMissionSpecificationElo(missionSpecificationElo.getUri());
       missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(missionSpecificationElo.getUri());
       missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(personalMissionMapModelElo.getUri());
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
       missionRuntimeElo.getTypedContent().setTemplateElosEloUri(templateElosElo.getUri());
       missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
-      missionRuntimeElo.saveAsNewElo();
+      missionRuntimeElo.updateElo();
       startMission(MissionRunConfigs {
          tbi: tbi
          missionRuntimeElo: missionRuntimeElo
@@ -118,6 +121,7 @@ public class MissionLocator {
    }
 
    function continueMission(missionRuntimeElo: MissionRuntimeElo) {
+      injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
       if (missionRuntimeElo.getTypedContent().getMissionMapModelEloUri() != null) {
          def scyElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getMissionMapModelEloUri(), tbi);
          missionMapModel = MissionModelXml.convertToMissionModel(scyElo.getContent().getXmlString());
@@ -142,9 +146,14 @@ public class MissionLocator {
    }
 
    function startBlankMission(): Void {
-      missionMapModel = MissionModelFX{
+      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
+      missionRuntimeElo.setTitle(##"Empty mission");
+      missionRuntimeElo.setMissionRunning(userName);
+      missionRuntimeElo.saveAsNewElo();
+      injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
 
-      }
+      missionMapModel = MissionModelFX {
+         }
       def missionMapModelElo = ScyElo.createElo(MissionEloType.MISSION_MAP_MODEL.getType(), tbi);
       missionMapModelElo.setTitle(##"Empty mission");
       missionMapModelElo.getContent().setXmlString(MissionModelXml.convertToXml(missionMapModel));
@@ -152,18 +161,15 @@ public class MissionLocator {
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
       missionMapModelElo.saveAsNewElo();
 
-      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
-      missionRuntimeElo.setTitle(##"Empty mission");
       runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
       runtimeSettingsElo.setTitle(missionRuntimeElo.getTitle());
       runtimeSettingsElo.saveAsNewElo();
 
-      missionRuntimeElo.setMissionRunning(userName);
       missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(null);
       missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(missionMapModelElo.getUri());
       missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(null);
       missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
-      missionRuntimeElo.saveAsNewElo();
+      missionRuntimeElo.updateElo();
       startMission(MissionRunConfigs {
          tbi: tbi
          missionRuntimeElo: missionRuntimeElo
@@ -172,6 +178,14 @@ public class MissionLocator {
          templateElosElo: null
          runtimeSettingsElo: runtimeSettingsElo
       });
+   }
+
+   function injectMissionRuntimeEloInRepository(missionRuntimeEloUri: URI) {
+      println("tbi.getRepository(): {tbi.getRepository().getClass()}");
+      if (tbi.getRepository() instanceof RepositoryWrapper) {
+         var repositoryWrapper = tbi.getRepository() as RepositoryWrapper;
+         repositoryWrapper.setMissionRuntimeEloUri(missionRuntimeEloUri);
+      }
    }
 
    function askUserForMission(missions: Missions) {

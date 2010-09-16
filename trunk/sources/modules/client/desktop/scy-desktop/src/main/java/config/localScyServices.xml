@@ -12,14 +12,8 @@
 
    <import resource="localWrappedRooloConfig.xml"/>
 
-   <bean name="cachedRepository" class="roolo.cms.cache.RepositoryCache">
-      <constructor-arg index="0" ref="repository"/>
-      <constructor-arg index="1" ref="eloFactory"/>
-      <constructor-arg index="2" ref="metadataTypeManager"/>
-   </bean>
-
    <bean name="toolBrokerAPI" class="eu.scy.client.desktop.localtoolbroker.LocalToolBrokerAPI">
-      <property name="repository" ref="cachedRepository"/>
+      <property name="repository" ref="repository"/>
       <property name="extensionManager" ref="extensionManager"/>
       <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="eloFactory" ref="eloFactory"/>
