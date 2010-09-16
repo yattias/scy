@@ -29,6 +29,7 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -955,5 +956,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         else
             return new ArrayList();
     }
-   
+
+    /* returns the interface panel for the thumbnail */
+    public Container getInterfacePanel(){
+        if(activFitex != null)
+            return activFitex.getInterfacePanel();
+        else
+            return new JPanel();
+    }
 }

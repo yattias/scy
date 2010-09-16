@@ -31,6 +31,7 @@ import eu.scy.tools.dataProcessTool.utilities.MyTableEditor;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.Toolkit;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseMotionListener;
@@ -44,7 +45,7 @@ import javax.swing.undo.CannotUndoException;
  * table which represents the dataset and the operations
  * @author Marjolaine Bodin
  */
-public class DataTable extends JTable implements MouseListener, MouseMotionListener, KeyListener, ClipboardOwner{
+public class DataTable extends JTable implements MouseListener, MouseMotionListener, KeyListener{
     /* largeur min d'une colonne */
     private static final int MIN_WIDTH_COL = 20;
     private static final int DELTA_RESIZE_COL = 5;
@@ -86,7 +87,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* selection des cells */
     private List<int[]> listSelectedCell;
-    
     
     // CONSTRUCTOR
     public DataTable(FitexToolPanel owner, Dataset ds) {
@@ -518,12 +518,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* retourne vrai si paste est possible */
     public boolean canPaste(){
         ArrayList<int[]> selectedCell = getSelectedCells();
-//        boolean canCopyH = copyDs != null && copyDs.getListHeader() != null &&
-//                ((copyDs.getListHeader().size() > 0 && tableModel.getSelectedRowAndCol(selectedCell)[1].size() > 0)
-//                || (copyDs.getListHeader().isEmpty() && tableModel.getSelectedRowAndCol(selectedCell)[1].isEmpty())) ;
-//        boolean canCopyR = copyDs != null && copyDs.getListRow() != null &&
-//                ((copyDs.getListRow().size() > 0 && tableModel.getSelectedRowAndCol(selectedCell)[0].size() > 0)
-//                || (copyDs.getListRow().isEmpty() && tableModel.getSelectedRowAndCol(selectedCell)[0].isEmpty())) ;
+        //        boolean canCopyH = copyDs != null && copyDs.getListHeader() != null &&
+        //                ((copyDs.getListHeader().size() > 0 && tableModel.getSelectedRowAndCol(selectedCell)[1].size() > 0)
+        //                || (copyDs.getListHeader().isEmpty() && tableModel.getSelectedRowAndCol(selectedCell)[1].isEmpty())) ;
+        //        boolean canCopyR = copyDs != null && copyDs.getListRow() != null &&
+        //                ((copyDs.getListRow().size() > 0 && tableModel.getSelectedRowAndCol(selectedCell)[0].size() > 0)
+        //                || (copyDs.getListRow().isEmpty() && tableModel.getSelectedRowAndCol(selectedCell)[0].isEmpty())) ;
         return this.copyDs != null  && selectedCell.size() > 0 ;
     }
     
@@ -1263,11 +1263,4 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     }
 
-    @Override
-    public void lostOwnership(Clipboard clipboard, Transferable contents) {
-        //
-    }
-
-  
-  
 }

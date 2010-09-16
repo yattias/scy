@@ -43,6 +43,7 @@ import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.IllegalComponentStateException;
 import java.awt.Image;
@@ -73,7 +74,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -1701,5 +1701,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             }
         }
         return list;
+    }
+
+    /* returns the interface panel for the thumbnail */
+    public Container getInterfacePanel(){
+        datasetTable.setSize(128,128);
+        return datasetTable;
     }
 }
