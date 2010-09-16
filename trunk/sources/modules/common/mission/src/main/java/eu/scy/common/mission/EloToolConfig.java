@@ -7,6 +7,9 @@ package eu.scy.common.mission;
 
 import java.util.List;
 
+import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.common.scyelo.EloLogicalRole;
+
 /**
  *
  * @author SikkenJ

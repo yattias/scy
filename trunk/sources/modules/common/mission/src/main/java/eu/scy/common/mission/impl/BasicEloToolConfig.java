@@ -8,11 +8,11 @@ package eu.scy.common.mission.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.scy.common.mission.EloFunctionalRole;
-import eu.scy.common.mission.EloLogicalRole;
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
+import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.common.scyelo.EloLogicalRole;
 
 /**
  *
