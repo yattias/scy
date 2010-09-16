@@ -32,6 +32,8 @@ import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.io.File;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -222,7 +224,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     public void load(){
         dataProcessPanel.loadData();
-        setSize(500,300);
+        setSize(550,355);
     }
     public void newElo(){
         this.dataProcessPanel.newElo();
@@ -351,5 +353,14 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
    private String getBundleString(String key){
        return this.bundle.getString(key);
    }
+
+   /* returns the interface panel for the thumbnail */
+    public Container getInterfacePanel(){
+        return dataProcessPanel.getInterfacePanel();
+    }
+
+    public Dimension getRealSize(){
+        return dataProcessPanel.getInterfacePanel().getSize();
+    }
 
 }
