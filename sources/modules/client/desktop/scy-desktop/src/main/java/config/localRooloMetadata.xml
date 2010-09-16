@@ -22,6 +22,10 @@
             <ref bean="usesRelationKey"/>
             <ref bean="annotatesRelationKey"/>
             <ref bean="versionKey"/>
+            <ref bean="keywordsKey"/>
+            <ref bean="learningActivityKey"/>
+            <ref bean="accessKey"/>
+            <ref bean="missionRuntimeKey"/>
 
             <ref bean="missionKey"/>
             <ref bean="lasKey"/>
@@ -155,6 +159,36 @@
       <constructor-arg index="2" value="UNIVERSAL"/>
       <constructor-arg index="3" value="SINGLE"/>
       <constructor-arg index="4" ref="defaultLongValidator"/>
+   </bean>
+   <bean name="keywordsKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+      <constructor-arg index="0" value="keywords"/>
+      <constructor-arg index="1" value="/lom/general/keyword"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="LIST"/>
+      <constructor-arg index="4" ref="defaultStringValidator"/>
+   </bean>
+
+   <bean name="learningActivityKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+      <constructor-arg index="0" value="learningActivity"/>
+      <constructor-arg index="1" value="/lom/educational/context"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultStringValidator"/>
+   </bean>
+
+   <bean name="accessKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+      <constructor-arg index="0" value="access"/>
+      <constructor-arg index="1" value="/lom/rights/copyrightAndOtherRestrictions"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultStringValidator"/>
+   </bean>
+   <bean name="missionRuntimeKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+      <constructor-arg index="0" value='missionRuntime'/>
+      <constructor-arg index="1" value='/lom/relation/[kind="isbasedon",type="scy/missionruntime"]'/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultUriValidator"/>
    </bean>
 
 
