@@ -16,8 +16,8 @@
 			<list>
 				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
 					<property name="name" value=""/>
-					<property name="width" value="150"/>
-					<property name="height" value="70"/>
+					<property name="width" value="120"/>
+					<property name="height" value="46"/>
 					<property name="nodeShape">
 						<bean class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
 

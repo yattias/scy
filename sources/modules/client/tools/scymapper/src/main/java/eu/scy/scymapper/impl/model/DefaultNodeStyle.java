@@ -26,7 +26,7 @@ public class DefaultNodeStyle implements INodeStyle {
 
 	private int minWidth = 60;
 
-	private int minHeight = 60;
+	private int minHeight = 46;
 
 	private boolean shadow = true;
 
