@@ -13,6 +13,10 @@ import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
 public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
 {
 
+   KEYWORDS("keywords"),
+   LEARNING_ACTIVITY("learningActivity"),
+   ACCESS("access"),
+   MISSION_RUNTIME("missionRuntime"),
    MISSION("mission"),
    MISSION_RUNNING("missionRunning"),
    MISSION_SPECIFICATION_ELO("missionSpecificationElo"),
