@@ -25,6 +25,7 @@ public class ScyElo
 
    private IELO elo;
    private IMetadata metadata;
+   private URI uriFirstVersion;
    private final RooloServices rooloServices;
    private final IMetadataTypeManager metadataTypemanager;
    private final IMetadataKey identifierKey;
@@ -33,6 +34,13 @@ public class ScyElo
    private final IMetadataKey descriptionKey;
    private final IMetadataKey isForkOfKey;
    private final IMetadataKey isForkedByKey;
+   private final IMetadataKey logicalRoleKey;
+   private final IMetadataKey functionalRoleKey;
+   private final IMetadataKey authorKey;
+   private final IMetadataKey keywordsKey;
+   private final IMetadataKey learningActivityKey;
+   private final IMetadataKey accessKey;
+   private final IMetadataKey missionRuntimeKey;
 
    private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices)
    {
@@ -49,6 +57,13 @@ public class ScyElo
       descriptionKey = findMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION);
       isForkOfKey = findMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF);
       isForkedByKey = findMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY);
+      logicalRoleKey = findMetadataKey(ScyRooloMetadataKeyIds.LOGICAL_TYPE);
+      functionalRoleKey = findMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE);
+      authorKey = findMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+      keywordsKey = findMetadataKey(ScyRooloMetadataKeyIds.KEYWORDS);
+      learningActivityKey = findMetadataKey(ScyRooloMetadataKeyIds.LEARNING_ACTIVITY);
+      accessKey = findMetadataKey(ScyRooloMetadataKeyIds.ACCESS);
+      missionRuntimeKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
    }
 
    public ScyElo(IELO elo, RooloServices rooloServices)
@@ -122,7 +137,8 @@ public class ScyElo
 
    protected static IMetadataKey getTechnicalFormatKey(RooloServices rooloServices)
    {
-      return rooloServices.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      return rooloServices.getMetaDataTypeManager().getMetadataKey(
+               CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
    @Override
@@ -214,6 +230,25 @@ public class ScyElo
       return (URI) getMetadataValueContainer(identifierKey).getValue();
    }
 
+   public URI getUriFirstVersion()
+   {
+      if (uriFirstVersion == null)
+      {
+         if (getUri() == null)
+         {
+            return null;
+         }
+         IMetadata metadataFirstVersion = rooloServices.getRepository()
+                  .retrieveMetadataFirstVersion(getUri());
+         if (metadataFirstVersion != null)
+         {
+            uriFirstVersion = (URI) metadataFirstVersion.getMetadataValueContainer(identifierKey)
+                     .getValue();
+         }
+      }
+      return uriFirstVersion;
+   }
+
    public String getTechnicalFormat()
    {
       return (String) getMetadataValueContainer(technicalFormatKey).getValue();
@@ -259,81 +294,147 @@ public class ScyElo
       return (List<URI>) getMetadataValueContainer(isForkedByKey).getValueList();
    }
 
-   public URI getMission() {
-       // TODO
-       return null;
+   public URI getMissionRuntimeEloUri()
+   {
+      return (URI) getMetadataValueContainer(missionRuntimeKey).getValue();
    }
 
-   public void setMission() {
-       // TODO
+   public void setMissionRuntimeEloUri(URI uri)
+   {
+      getMetadataValueContainer(missionRuntimeKey).setValue(uri);
    }
 
-   public void setLearningActivity(String activity) {
-       // this is the method to set the LAS in which the elo has been created
-       // the type String may be replaced by an ENUM
-       // examples would be "experimentation", "design activity", "report"
-       // (have to check with WPI documents
-       // to be stored in /elo/metadata/lom/educational/context
-       // TODO
+   public void setLearningActivity(LearningActivity activity)
+   {
+      // this is the method to set the LAS in which the elo has been created
+      // the type String may be replaced by an ENUM
+      // examples would be "experimentation", "design activity", "report"
+      // (have to check with WPI documents
+      // to be stored in /elo/metadata/lom/educational/context
+      String activityString = "";
+      if (activity != null)
+      {
+         activityString = activity.toString();
+      }
+      getMetadataValueContainer(learningActivityKey).setValue(activityString);
    }
 
-   public String getLearningActivity() {
-       // TODO
-       return null;
+   public LearningActivity getLearningActivity()
+   {
+      String value = (String) getMetadataValueContainer(learningActivityKey).getValue();
+      if (value != null)
+      {
+         return LearningActivity.valueOf(value);
+      }
+      return null;
    }
 
-   public void setFunctionalRole(String role) {
-       // sets the functional role of an elo
-       // may be replaced with an ENUM
-       // examples are resource, report, hypothesis
-       // to be stored in /elo/metadata/lom/educational/learningResourceType
-       // TODO
+   public void setFunctionalRole(EloFunctionalRole role)
+   {
+      // sets the functional role of an elo
+      // may be replaced with an ENUM
+      // examples are resource, report, hypothesis
+      // to be stored in /elo/metadata/lom/educational/learningResourceType
+      String roleString = "";
+      if (role != null)
+      {
+         roleString = role.toString();
+      }
+      getMetadataValueContainer(functionalRoleKey).setValue(roleString);
    }
 
-   public String getFunctionalRole() {
-       // TODO
-       return null;
+   public EloFunctionalRole getFunctionalRole()
+   {
+      String value = (String) getMetadataValueContainer(functionalRoleKey).getValue();
+      if (value != null)
+      {
+         return EloFunctionalRole.valueOf(value);
+      }
+      return null;
    }
 
-   public void addKeyword(String keyword) {
-       // store a keyword to the list of keywords
-       // at elo/metadata/lom/general/keyword
-       // TODO
+   public void setLogicalRole(EloLogicalRole role)
+   {
+      // sets the logical role of an elo
+      // may be replaced with an ENUM
+      // examples are resource, report, hypothesis
+      // to be stored in /elo/metadata/lom/educational/learningResourceType?????????????????
+      String roleString = "";
+      if (role != null)
+      {
+         roleString = role.toString();
+      }
+      getMetadataValueContainer(logicalRoleKey).setValue(roleString);
    }
 
-   public void addKeywords(List<String> keywords) {
-       // TODO
+   public EloLogicalRole getLogicalRole()
+   {
+      String value = (String) getMetadataValueContainer(logicalRoleKey).getValue();
+      if (value != null)
+      {
+         return EloLogicalRole.valueOf(value);
+      }
+      return null;
    }
 
-   public List<String> getKeywords() {
-       // TODO
-       return null;
+   public void addKeyword(String keyword)
+   {
+      // store a keyword to the list of keywords
+      // at elo/metadata/lom/general/keyword
+      getMetadataValueContainer(keywordsKey).addValue(keyword);
    }
 
-   public void addAuthor(String authorID) {
-       // adding an author requires three values to be added
-       // /elo/metadata/lom/lifecycle/contribution/role = "author"
-       // /elo/metadata/lom/lifecycle/contribution/entity = authorID
-       // /elo/metadata/lom/lifecycle/contribution/data = dataTime (see lom specification)
-       // TODO
+   public void addKeywords(List<String> keywords)
+   {
+      for (String keyword : keywords)
+      {
+         getMetadataValueContainer(keywordsKey).addValue(keyword);
+      }
    }
 
-   public List<String> getAuthors() {
-       // TODO
-       return null;
+   @SuppressWarnings("unchecked")
+   public List<String> getKeywords()
+   {
+      return (List<String>) getMetadataValueContainer(keywordsKey).getValueList();
    }
 
-   public void setAccess(String accessTag) {
-       // goes to /elol/metadata/lom/rights/copyrightAndOtherRestrictions
-       // defines access limitations of an elo
-       // could also define an elo as "deleted" (without actually deleting it from roolo
-       // different use cases have to be decided soon
-       // TODO
+   public void addAuthor(String authorID)
+   {
+      // adding an author requires three values to be added
+      // /elo/metadata/lom/lifecycle/contribution/role = "author"
+      // /elo/metadata/lom/lifecycle/contribution/entity = authorID
+      // /elo/metadata/lom/lifecycle/contribution/data = dataTime (see lom specification)
+      getMetadataValueContainer(authorKey).addValue(authorID);
    }
 
-   public String getAccess() {
-       // TODO
-       return null;
+   @SuppressWarnings("unchecked")
+   public List<String> getAuthors()
+   {
+      return (List<String>) getMetadataValueContainer(authorKey).getValueList();
+   }
+
+   public void setAccess(Access access)
+   {
+      // goes to /elol/metadata/lom/rights/copyrightAndOtherRestrictions
+      // defines access limitations of an elo
+      // could also define an elo as "deleted" (without actually deleting it from roolo
+      // different use cases have to be decided soon
+      String accessString = "";
+      if (access != null)
+      {
+         accessString = access.toString();
+      }
+      getMetadataValueContainer(accessKey).setValue(accessString);
+   }
+
+   public Access getAccess()
+   {
+      String value = (String) getMetadataValueContainer(accessKey).getValue();
+      if (value != null)
+      {
+         return Access.valueOf(value);
+      }
+      return null;
    }
 
 }
