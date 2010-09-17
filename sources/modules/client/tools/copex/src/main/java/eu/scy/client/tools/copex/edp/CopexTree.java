@@ -53,13 +53,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -70,7 +71,7 @@ import org.jdom.Element;
  * copex tree
  * @author Marjolaine
  */
-public class CopexTree extends JTree implements MouseListener, KeyListener{
+public class CopexTree extends JTree implements MouseListener, KeyListener, MouseMotionListener{
     private CopexTreeModel copexTreeModel;
     private CopexTreeCellRenderer copexTreeCellRenderer;
     private CopexCellEditor copexCellEditor;
@@ -94,22 +95,26 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     private TaskSelected oldTs;
     /*register the tasks status*/
     private boolean register;
+    private boolean isEditingNode;
+    private CopexNode lastPath;
 
     public CopexTree(EdPPanel owner, ExperimentalProcedure proc) {
         this.proc = proc;
         this.owner = owner;
+        isEditingNode = false;
+        lastPath = null;
         // model creation
         this.copexTreeModel = new CopexTreeModel(proc);
         this.setModel(copexTreeModel);
         // renderer
         copexTreeCellRenderer = new CopexTreeCellRenderer(this);
         this.setCellRenderer(copexTreeCellRenderer);
-        copexCellEditor = new CopexCellEditor(this);
-        this.setCellEditor(copexCellEditor);
         //event
         // listen the mouse events
         this.selectionListener = new CopexTreeSelectionListener (this);
         addTreeSelectionListener(selectionListener);
+        copexCellEditor = new CopexCellEditor(this);
+        this.setCellEditor(copexCellEditor);
         // param of the tree
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
         setShowsRootHandles(false);
@@ -121,6 +126,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             setEditable(false);
         setToggleClickCount(0);
         this.addMouseListener(this);
+        this.addMouseMotionListener(this);
         this.addKeyListener(this);
         // DRAG AND DROP
         setDragEnabled(true);
@@ -539,37 +545,39 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
+//        if(popUpMenu != null){
+//            popUpMenu.setVisible(false);
+//            popUpMenu = null;
+//        }
         // double-click : open the dialog
-        if (e.getClickCount() == 2){
-            int row = getRowForLocation(e.getX(), e.getY());
-            if (row == -1)
-                return;
-            edit();
-           return;
-        }
-        if (SwingUtilities.isRightMouseButton(e)){
-            popUpMenu = null;
-            int x = e.getPoint().x;
-            int y = e.getPoint().y;
-            if (!isElementSelTaskTree())
-               return;
-            getPopUpMenu(getSelectedTasksSimple());
-            boolean alone =  isOnlyOneElementIsSel();
-
-            popUpMenu.setInsertAfterEnabled(canAddAfter()) ;
-            popUpMenu.setInsertInEnabled(canAddIn());
-            popUpMenu.setCutItemEnabled(canCut());
-            popUpMenu.setCopyItemEnabled(canCopy());
-            popUpMenu.setPasteItemEnabled(canPaste());
-            popUpMenu.setSupprItemEnabled(canSuppr());
-            popUpMenu.setEditItemEnabled(alone);
-            this.popUpMenu.show(this, x, y);
-
-        }
+//       if (e.getClickCount() == 2){
+//            int row = getRowForLocation(e.getX(), e.getY());
+//            if (row == -1)
+//                return;
+//            edit(false);
+//           return;
+//        }
+        int row = getRowForLocation(e.getX(), e.getY());
+        if (row == -1)
+            return;
+        edit(true);
+        openPopUpMenu(e.getX(), e.getY());
     }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
+//        Object o=new Object();
+//        try{
+//            synchronized(o) { o.wait(100); }
+//        }catch(InterruptedException ex) {
+//        }
+//        if (e.getClickCount() ==1){
+//            int row = getRowForLocation(e.getX(), e.getY());
+//            if (row == -1)
+//                return;
+//            edit(true);
+//            openPopUpMenu(e.getX(), e.getY());
+//        }
     }
 
     @Override
@@ -588,26 +596,41 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     public void selectNode(){
         this.owner.updateMenu();
     }
-    public void edit(){
+    public void edit(boolean oneClick){
         CopexNode currentNode = getSelectedNode();
         if (currentNode == null)
                 return;
-//        if (currentNode.isQuestion()){
-//            editQuestion();
-//        }else if(currentNode.isMaterial()){
+        if(!isEditingNode && (lastPath == null || (lastPath != null && !lastPath.equals(currentNode)))){
+            if (currentNode.isQuestion()){
+                lastPath = currentNode;
+                setQuestionEditor();
+            }else if (currentNode.isHypothesis()){
+                lastPath = currentNode;
+                setHypothesisEditor();
+            }else if (currentNode.isGeneralPrinciple()) {
+                lastPath = currentNode;
+                setPrincipleEditor();
+            }else if (currentNode.isEvaluation()) {
+                lastPath = currentNode;
+                setEvaluationEditor();
+            }
+        }else{
+            setEditingNode(false);
+        }
         if(currentNode.isMaterial()){
             editMaterial();
-        }else if(currentNode instanceof TaskTreeNode){
+        }else if(currentNode instanceof TaskTreeNode && !oneClick){
             if (((TaskTreeNode)currentNode).isAction()){
                 editAction(((TaskTreeNode)currentNode));
             }else if (((TaskTreeNode)currentNode).isStep()){
                 editStep(((TaskTreeNode)currentNode));
             }
         //}else if(currentNode.isManipulation() && currentNode.getChildCount() == 0){
-          }else if(currentNode.isManipulation() ){
-            openHelpManipulationDialog();
-        }else if(currentNode.isManipulation() && getLevelTreeDisplay() <2 && currentNode.getChildCount() > 0)
-            displayLevel(2);
+          }
+//        else if(currentNode.isManipulation() ){
+//            openHelpManipulationDialog();
+//        }else if(currentNode.isManipulation() && getLevelTreeDisplay() <2 && currentNode.getChildCount() > 0)
+//            displayLevel(1);
     }
 
     private void openHelpManipulationDialog(){
@@ -844,7 +867,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
     private boolean taskSelected(){
-        ArrayList<CopexNode> listNode = getSelectedNodes();
+        ArrayList<CopexNode> listNode = getSelectedNodes(true);
         if(listNode == null)
             return false;
         for(Iterator<CopexNode> n = listNode.iterator();n.hasNext();){
@@ -1001,7 +1024,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
    }
 
    /* returns the sel nodes and the children */
-   public ArrayList<CopexNode> getSelectedNodes(){
+   public ArrayList<CopexNode> getSelectedNodes(boolean withChildren){
       TreePath[] tabPaths = this.getSelectionPaths();
       if (tabPaths == null || tabPaths.length == 0 )
           return null;
@@ -1011,10 +1034,12 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
           CopexNode selNode = ((CopexNode) tabPaths[i].getLastPathComponent());
           if(selNode instanceof TaskTreeNode)
                 listTreeNode.add((TaskTreeNode)selNode);
-          int nbC = selNode.getChildCount();
-          for (int c=0; c<nbC; c++){
-              if (!isSelectedNode((CopexNode)selNode.getChildAt(c)))
-                listTreeNode.add((CopexNode)selNode.getChildAt(c));
+          if(withChildren){
+            int nbC = selNode.getChildCount();
+            for (int c=0; c<nbC; c++){
+                if (!isSelectedNode((CopexNode)selNode.getChildAt(c)))
+                    listTreeNode.add((CopexNode)selNode.getChildAt(c));
+            }
           }
       }
 
@@ -1083,26 +1108,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
 
-    /* pop up menu creation */
-    private CopexPopUpMenu getPopUpMenu(ArrayList<CopexTask> taskList){
-        if (popUpMenu == null){
-            int nb = taskList.size();
-            char mode = MyConstants.POPUPMENU_UNDEF;
-            if(nb == 1){
-                CopexTask task = taskList.get(0);
-                if(task.isStep()){
-                    mode = MyConstants.POPUPMENU_STEP;
-                    if(proc.isTaskProc())
-                        mode = MyConstants.POPUPMENU_TASK;
-                }else if(task.isAction()){
-                    mode = MyConstants.POPUPMENU_ACTION;
-                }
-            }
-            System.out.println("mode popupmenu : "+mode);
-            popUpMenu = new CopexPopUpMenu(owner, owner.getController(), this, mode);
-        }
-        return popUpMenu;
-    }
+    
     /* returns the ts */
     private TaskSelected getTaskSelected(CopexNode selNode){
 //        if (selNode == null)
@@ -1710,11 +1716,11 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         }else if (e.getKeyCode() == KeyEvent.VK_X && canCut()){
             owner.cut();
         }else if (e.getKeyCode() == KeyEvent.VK_V && canPaste()){
-            owner.paste();
+            owner.pasteUnder();
         }else if (e.getKeyCode() == KeyEvent.VK_DELETE && canSuppr()){
             this.owner.suppr();
         }else if (e.getKeyCode() == KeyEvent.VK_E && isOnlyOneElementIsSel()){
-            this.edit();
+            this.edit(false);
         }
     }
 
@@ -1727,7 +1733,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     /* returns the sub tree to be copied  */
     public SubTree getSubTreeCopy(boolean dragNdrop){
         // on selectionne egalement les taches enfants des etapes / ss question
-        SubTree st = new SubTree(owner, owner.getController(), proc, this, getSelectedTasks(), getSelectedNodes(), dragNdrop);
+        SubTree st = new SubTree(owner, owner.getController(), proc, this, getSelectedTasks(), getSelectedNodes(true), dragNdrop);
         return st;
     }
 
@@ -2045,6 +2051,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     public void resizeWidth(){
 //        if(listVisibleNode != null && listVisibleNode.size() == 0)
             markDisplay();
+        isEditingNode = false;
         copexTreeModel.reload();
         displayTree();
         revalidate();
@@ -2410,7 +2417,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     /* ouverture auto de la fenetre d'edition de la question */
     public void openQuestionDialog(){
         setSelectionPath(new TreePath(copexTreeModel.getRoot()));
-        edit();
+        edit(false);
     }
 
     public void editMaterial(){
@@ -2439,5 +2446,81 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         setSelectionPath(path);
         startEditingAtPath(path);
     }
-    
+
+    private void openPopUpMenu(int x, int y){
+        popUpMenu = null;
+        ArrayList<CopexNode> listNodes = getSelectedNodes(false);
+        if(listNodes == null)
+            return;
+        char modeNode = MyConstants.POPUPMENU_UNDEFINED;
+        boolean manipulation = false;
+        if(getSelectedNode() != null && getSelectedNode().isManipulation()  ){
+            listNodes = new ArrayList();
+            listNodes.add(getSelectedNode());
+            modeNode = MyConstants.POPUPMENU_MANIPULATION;
+            manipulation = true;
+        }
+        if(listNodes.isEmpty())
+            return;
+        char mode = proc.isTaskProc()?MyConstants.POPUPMENU_TASK:MyConstants.POPUPMENU_STEP_ACTION;
+        if(listNodes.size() > 1){
+            modeNode = MyConstants.POPUPMENU_MULTINODE;
+        }else if(!manipulation){
+            for(Iterator<CopexNode> n = listNodes.iterator();n.hasNext();){
+                CopexNode node = n.next();
+                if(node.isAction()){
+                    modeNode = MyConstants.POPUPMENU_ACTION;
+                }else{
+                    modeNode = MyConstants.POPUPMENU_STEP;
+                    if(proc.isTaskProc()){
+                        modeNode = MyConstants.POPUPMENU_TASK;
+                    }
+                }
+            }
+        }
+        popUpMenu = new CopexPopUpMenu(owner, owner.getController(), this, mode, modeNode);
+        popUpMenu.setInsertAfterEnabled(canAddAfter()) ;
+        popUpMenu.setInsertInEnabled(canAddIn());
+        popUpMenu.setCutItemEnabled(canCut());
+        popUpMenu.setCopyItemEnabled(canCopy());
+        popUpMenu.setPasteItemEnabled(canPaste());
+        popUpMenu.setSupprItemEnabled(canSuppr());
+        popUpMenu.setEditItemEnabled(isOnlyOneElementIsSel());
+        popUpMenu.init();
+        double w = popUpMenu.getPreferredSize().getWidth();
+        double h = popUpMenu.getPreferredSize().getHeight();
+        if(x+w > (owner.getWidth())){
+            x = (int)(x-w);
+        }
+        if(y+h > (owner.getHeight())){
+            y = (int)(y-h);
+        }
+        popUpMenu.show(this, x, y);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if(popUpMenu != null){
+            popUpMenu.setVisible(false);
+            popUpMenu = null;
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if(popUpMenu != null){
+            popUpMenu.setVisible(false);
+            popUpMenu = null;
+        }
+    }
+
+    @Override
+    public void startEditingAtPath(TreePath path) {
+        super.startEditingAtPath(path);
+        this.isEditingNode = true;
+    }
+
+    public void setEditingNode(boolean b){
+        this.isEditingNode = b;
+    }
 }

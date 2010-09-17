@@ -8,10 +8,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -72,6 +72,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
     private boolean isDefaultText = false;
     transient private ChangeEvent changeEvent = null;
+
 
 
     public CopexCellEditor(CopexTree copexTree) {
@@ -452,14 +453,15 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
     @Override
     public boolean isCellEditable(EventObject anEvent) {
-        boolean isEditable = copexTree.isPathEditable(null);
-        if(isEditable){
-            if(anEvent instanceof MouseEvent){
-                return ((MouseEvent)anEvent).getClickCount()==2;
-            }
-            return isEditable;
-        }
-        return isEditable;
+//        boolean isEditable = copexTree.isPathEditable(null);
+//        if(isEditable){
+//            if(anEvent instanceof MouseEvent){
+//                return (((MouseEvent)anEvent).getClickCount()== 1);
+//            }
+//            return isEditable;
+//        }
+//        return isEditable;
+        return copexTree.isPathEditable(null);
     }
 
     @Override
@@ -582,6 +584,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         if(commentNode != null)
             c = commentNode.getText();
         this.copexTree.setNodeText(node, textNode.getText(),c);
+        this.copexTree.setEditingNode(false);
     }
 
     

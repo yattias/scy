@@ -61,6 +61,7 @@ import eu.scy.client.tools.copex.common.MaterialStrategy;
 import eu.scy.client.tools.copex.common.TypeMaterial;
 import eu.scy.client.tools.copex.controller.CopexControllerAuth;
 import eu.scy.client.tools.copex.db.DataBaseCommunication;
+import java.awt.Container;
 
 /**
  * main panel COPEX
@@ -982,4 +983,11 @@ public class CopexPanel extends JPanel {
         return !dbMode;
     }
 
+    /* return the panel for the thumbnail*/
+    public Container getInterfacePanel(){
+        if(activCopex!= null){
+            return activCopex.getInterfacePanel();
+        }
+        return new JPanel();
+    }
 }
