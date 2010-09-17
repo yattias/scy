@@ -176,10 +176,6 @@ public class PreDefinedFunctionDialog extends javax.swing.JDialog {
 
     private void validPreDefinedFunction(){
         PreDefinedFunction fct = getSelectedFunction();
-//        if(fct.getType() == DataConstants.FUNCTION_TYPE_X_FCT_Y){
-//            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_NOT_YET_IMPLEMENTED"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-//            return;
-//        }
         fitexPanel.setPredefinedFunction(fct);
         this.dispose();
     }
