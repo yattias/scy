@@ -40,6 +40,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
             Callback cc = new CollaborationCallback();
+            commandSpace.eventRegister(Command.WRITE, new Tuple(String.class, "collaboration", "collaboration_request", Field.createWildCardField()), cc, false);
             actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, "collaboration_request", Field.createWildCardField()), cc, false);
             actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, "collaboration_response", Field.createWildCardField()), cc, true);
         } catch (TupleSpaceException e) {
@@ -78,49 +79,84 @@ public class CollaborationAgent extends AbstractThreadedAgent {
 
     class CollaborationCallback implements Callback {
 
-
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-            Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
-            String mission = a.getContext(ContextConstants.mission);
-            String session = a.getContext(ContextConstants.session);
-            String elouri = a.getAttribute("proposed_elo");
-            if (a.getType().equals("collaboration_request")) {
-                String proposedUser = a.getAttribute("proposed_user");
-                String proposingUser = a.getUser();
-                String mucid = a.getAttribute("mucid");
-                if (mucid != null) {
-                    mucids.put(elouri, mucid);
+            String proposedUser;
+            String proposingUser;
+            String mucid;
+            boolean requestAccepted;
+            String mission;
+            String session;
+            String elouri;
+            String type;
+            
+            // determine if triggered by user or by agent
+            if (afterTuple.getField(0).getValue().toString().equals("action")) {
+                Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
+                mission = a.getContext(ContextConstants.mission);
+                session = a.getContext(ContextConstants.session);
+                elouri = a.getAttribute("proposed_elo");
+                type = a.getType();
+                if (type.equals("collaboration_request")) {
+                    proposedUser = a.getAttribute("proposed_user");
+                    proposingUser = a.getUser();
+                    mucid = a.getAttribute("mucid");
+                    handleCollaborationRequest(proposedUser, proposingUser, elouri, mission, session, mucid);
+                } else if (type.equals("collaboration_response")) {
+                    proposedUser = a.getUser();
+                    proposingUser = a.getAttribute("proposing_user");
+                    requestAccepted = Boolean.parseBoolean(a.getAttribute("request_accepted"));
+                    handleCollaborationResponse(proposedUser, proposingUser, elouri, mission, session, requestAccepted);
+                    return;
                 }
+            } else {
+                type = afterTuple.getField(2).getValue().toString();
+                proposedUser = afterTuple.getField(3).getValue().toString();
+                elouri = afterTuple.getField(4).getValue().toString();
+                mission = afterTuple.getField(5).getValue().toString();
+                session = afterTuple.getField(6).getValue().toString();
+                handleCollaborationRequest(proposedUser, "collaboration agent", elouri, mission, session, null);
+            }
+        }
+
+        private void handleCollaborationResponse(String proposedUser, String proposingUser, String elouri, String mission, String session, boolean requestAccepted) {
+            logger.debug("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
+            if (requestAccepted) {
+                try {
+                    String mucId = mucids.remove(elouri);
+                    if (mucId == null) {
+                        String id = new VMID().toString();
+                        commandSpace.write(new Tuple(id, "datasync", "create_session"));
+                        logger.debug("Requesting a new mucid from datasync (ID " + id + ")");
+                        Tuple dataSyncResponse = commandSpace.waitToRead(new Tuple(id, String.class));
+                        mucId = dataSyncResponse.getField(1).getValue().toString();
+                        logger.debug("Fetching datasync response for ID " + id + ", mucid is " + mucId);
+                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                    }
+                    sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                } catch (TupleSpaceException e) {
+                    // in case of problems dump a stacktrace and do as if request has not been
+                    // accepted ...
+                    sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false");
+                    e.printStackTrace();
+                }
+            } else {
+                sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false");
+            }
+        }
+
+        private void handleCollaborationRequest(String proposedUser, String proposingUser, String elouri, String mission, String session, String mucid) {
+            if (mucid != null) {
+                mucids.put(elouri, mucid);
+            }
+            if (proposedUser.contains(",")) {
+                for (String user : proposedUser.split(",")) {
+                    logger.debug("Got a collaboration request from user " + proposingUser + " to " + user + " for elo " + elouri);
+                    sendNotification(user, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                }
+            } else {
                 logger.debug("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
                 sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
-            } else if (a.getType().equals("collaboration_response")) {
-                boolean requestAccepted = Boolean.parseBoolean(a.getAttribute("request_accepted"));
-                String proposedUser = a.getUser();
-                String proposingUser = a.getAttribute("proposing_user");
-                logger.debug("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
-                if (requestAccepted) {
-                    try {
-                        String mucId = mucids.remove(elouri);
-                        if (mucId == null) {
-                            String id = new VMID().toString();
-                            commandSpace.write(new Tuple(id, "datasync", "create_session"));
-                            logger.debug("Requesting a new mucid from datasync (ID " + id + ")");
-                            Tuple dataSyncResponse = commandSpace.waitToRead(new Tuple(id, String.class));
-                            mucId = dataSyncResponse.getField(1).getValue().toString();
-                            logger.debug("Fetching datasync response for ID " + id + ", mucid is " + mucId);
-                            sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
-                        }
-                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
-                    } catch (TupleSpaceException e) {
-                        // in case of problems dump a stacktrace and do as if request has not been
-                        // accepted ...
-                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false");
-                        e.printStackTrace();
-                    }
-                } else {
-                    sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false");
-                }
             }
         }
     }
