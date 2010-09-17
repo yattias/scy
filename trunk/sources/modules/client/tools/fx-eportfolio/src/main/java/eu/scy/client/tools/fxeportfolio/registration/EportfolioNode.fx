@@ -1,9 +1,3 @@
-/*
- * EportfolioNode.fx
- *
- * Created on 28.01.2010, 00:05:00
- */
-
 package eu.scy.client.tools.fxeportfolio.registration;
 
 import javafx.scene.CustomNode;
@@ -11,220 +5,218 @@ import javafx.scene.Node;
 import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import org.apache.log4j.Logger;
-import roolo.api.IRepository;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import roolo.api.IExtensionManager;
-import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
-import javax.swing.JOptionPane;
-import java.util.List;
-import eu.scy.actionlogging.DevNullActionLogger;
-import org.jdom.Element;
-
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Stack;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.control.Label;
+import javafx.geometry.HPos;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.Container;
-import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-
-/**
- * @author jeremy
- */
+import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.text.TextAlignment;
+import javafx.geometry.VPos;
+import javafx.geometry.Insets;
+import javafx.scene.input.MouseEvent;
 
 public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
-   def logger = Logger.getLogger("eu.scy.client.tools.fxeportfolio.EportfolioNode");
-   def scyEportfolioType = "scy/rtf";
-   def jdomStringConversion = new JDomStringConversion();
-   def spacing = 5.0;
-   def toolname = "formatted text editor";
-   //def richTextEditor:RichTextEditor = new RichTextEditor();
-   public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
-   public var toolBrokerAPI:ToolBrokerAPI;
-   public var extensionManager:IExtensionManager;
-   public var actionLogger:IActionLogger;
-   public var awarenessService:IAwarenessService;
-   public var dataSyncService:IDataSyncService;
-   public var pedagogicalPlanService:PedagogicalPlanService;
-   public var scyWindow:ScyWindow;
-   var elo:IELO;
-   var technicalFormatKey: IMetadataKey;
-   var selectFormattedText = ##"Select formatted text";
-   var openLabel = ##"Open ELO";
-   var saveLabel = ##"Save ELO";
-   var saveAsLabel = ##"Save ELO as";
-   var wrappedRichTextEditor:Node;
-   def richTextTagName = "RichText";
 
-   function setLoggerEloUri() {
-      var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
-      if (myEloUri == null and scyWindow.eloUri != null)
-         myEloUri = scyWindow.eloUri.toString();
-      //richTextEditor.setEloUri(myEloUri);
-   }
+    public override var width on replace {resizeContent()};
+    public override var height on replace {resizeContent()};
 
-   public override function initialize(windowContent:Boolean):Void{
-      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-      if (actionLogger==null) {
-         actionLogger = new DevNullActionLogger();
-      }
-      //richTextEditor.setRichTextEditorLogger(actionLogger, "username", toolname, "missionname", "sessionname", "formatted text editor");
-      setLoggerEloUri();
+    public var userName:String;
+    var list = ["Select ...", "My obligatory ELO no. 1", "My obligatory ELO no. 2", "My obligatory ELO no. 3", "My obligatory ELO no. 4"];
+    public var statusString:String = "creating";
+
+    var obligatoryElosChoiceBox:ChoiceBox;
+    var addObligatoryElosButton:Button;
+    var obligatoryEloHBox: HBox;
+    var toolSelectionHBox: HBox;
+    var toolInstructionsHBox: HBox;
+    var toolViewHBox: HBox;
+    var addButtonVisible:Boolean = false;
+
+    def obligatoryElosChoiceBoxHandler = bind obligatoryElosChoiceBox.selectedItem on replace {
+        if(obligatoryElosChoiceBox.selectedIndex > 0) {
+            addButtonVisible = true;
+        }
+        else {
+            addButtonVisible = false;
+        }
+    };
+    
+    public override function initialize(windowContent:Boolean):Void{
     }
 
-   public override function loadElo(uri:URI){
-      doLoadElo(uri);
-   }
-
-   function doLoadElo(eloUri:URI) {
-      logger.info("Trying to load elo {eloUri}");
-      var newElo = repository.retrieveELO(eloUri);
-      if (newElo != null) {
-         eloContentXmlToRichText(newElo.getContent().getXmlString());
-         logger.info("elo rtf loaded");
-         elo = newElo;
-      }
-      setLoggerEloUri();
-   }
-
-   function openElo() {
-      //var query:IQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyRichTextEditorType, null);
-      //var searchResults:List = repository.search(query);
-      var richTextUris:URI[];
-      /*for (searchResult in searchResults)
-         insert (searchResult as ISearchResult).getUri() into richTextUris;*/
-      var richTextUri:URI = JOptionPane.showInputDialog(null, selectFormattedText,
-      selectFormattedText, JOptionPane.QUESTION_MESSAGE, null, richTextUris, null) as URI;
-      if (richTextUri != null) {
-         loadElo(richTextUri);
-      }
-   }
-
-   function doSaveElo(){
-      //elo.getContent().setXmlString(richTextToEloContentXml(richTextEditor.getRtfText()));
-      eloSaver.eloUpdate(getElo(),this);
-   }
-
-   function doSaveAsElo(){
-     eloSaver.eloSaveAs(getElo(),this);
-   }
+    public override function loadElo(uri:URI){
+    }
 
     override public function eloSaveCancelled (elo : IELO) : Void {
     }
 
     override public function eloSaved (elo : IELO) : Void {
-        this.elo = elo;
-        setLoggerEloUri();
     }
 
-   function getElo():IELO{
-      if (elo==null){
-         elo = eloFactory.createELO();
-        // elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyRichTextEditorType);
-      }
-     // elo.getContent().setXmlString(richTextToEloContentXml(richTextEditor.getRtfText()));
-      return elo;
-   }
-
-   function richTextToEloContentXml(text:String):String{
-      var textElement= new Element(richTextTagName);
-      textElement.setText(text);
-      return jdomStringConversion.xmlToString(textElement);
-   }
-
-   function eloContentXmlToRichText(text:String) {
-      var richTextElement=jdomStringConversion.stringToXml(text);
-      if (richTextTagName != richTextElement.getName()){
-         logger.error("wrong tag name, expected {richTextTagName}, but got {richTextElement.getName()}");
-      }
-     // richTextEditor.setText(richTextElement.getText().trim());
+    override function postInitialize():Void {
     }
 
-   public override function create(): Node {
-     // wrappedRichTextEditor = ScySwingWrapper.wrap(richTextEditor,true);
-      resizeContent();
-      FX.deferAction(resizeContent);
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:spacing;
-               spacing:spacing;
-               content:[
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        /* 100301 Jakob, commented out open button, it should not be in the tool
-                        Button {
-                           text: openLabel
-                           action: function() {
-                               openElo();
-                           }
+    public override function getPrefHeight(height: Number) : Number{
+        //return Container.getNodePrefHeight(wrappedRichTextEditor, height)+wrappedRichTextEditor.boundsInParent.minY+spacing;
+        return getMinHeight();
+    }
+
+    public override function getPrefWidth(width: Number) : Number{
+        //return Container.getNodePrefWidth(wrappedRichTextEditor, width);
+        return getMinWidth();
+    }
+
+    public override function getMinHeight() : Number {
+        return 400;
+    }
+
+    public override function getMinWidth() : Number {
+        return 600;
+    }
+
+    function resizeContent(): Void{
+        //Container.resizeNode(wrappedRichTextEditor,width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
+    }
+
+    var bgRect = Rectangle {
+        width: bind this.width;
+        height: 50;
+        fill: LinearGradient {
+            startX: 0.0, startY: 0.0, endX: 0.0, endY: 1.0
+            proportional: true
+            stops: [ Stop { offset: 0.0 color: Color.BLACK },
+                     Stop { offset: 1.0 color: Color.GREY } ]
+        };
+        strokeWidth: 1.0;
+    };
+
+
+    public override function create(): Node {
+        return Group {
+            blocksMouse:true;
+            content: [
+                VBox {
+                    content: [
+                        Stack {
+                            content: [
+                                bgRect,
+                                Label {
+                                    width: bind this.width;
+                                    text: "Hey {userName}\nThis is your eportfolio tool. Here you can do very cool things!!"
+                                    font: Font { size: 13 }
+                                    textFill: Color.WHITE;
+                                    hpos: HPos.CENTER;
+                                    textAlignment: TextAlignment.CENTER;
+                                }
+                            ]
+                        },
+                    ]
+                },
+                toolSelectionHBox = HBox {
+                    translateY: 60;
+                    spacing: 10;
+                    width: bind this.width;
+                    content: [
+                        obligatoryEloHBox = HBox {
+                            translateX: 10;
+                            spacing: 10;
+                            content: [
+                                obligatoryElosChoiceBox = ChoiceBox {
+                                    items: bind list;
+                                },
+                                addObligatoryElosButton = Button {
+                                    text: "ADD";
+                                    visible: bind addButtonVisible;
+                                    action: function() {
+                                    }
+                                }
+                            ]
+                        },
+                        HBox {
+                            width: this.width - (obligatoryEloHBox.translateX + obligatoryEloHBox.width);
+                            nodeHPos: HPos.RIGHT;
+                            nodeVPos: VPos.BASELINE;
+                            content: [
+                                HBox {
+                                    content: [
+                                        Label {
+                                            text: "Status: ";
+                                            textFill: Color.BLACK;
+                                            textAlignment: TextAlignment.LEFT;
+                                        },
+                                        Label {
+                                            text: "{statusString}";
+                                            textFill: Color.GREEN;
+                                            textAlignment: TextAlignment.LEFT;
+                                        }
+                                    ]
+                                }
+                            ]
                         }
-                        */
-                        Button {
-                           text: saveLabel
-                           action: function() {
-                              doSaveElo();
-                           }
+                    ]
+                },
+                toolInstructionsHBox = HBox {
+                    translateY: bind (toolSelectionHBox.translateY + toolSelectionHBox.height);
+                    width: bind this.width;
+                    height: bind (this.height - (toolSelectionHBox.translateY+toolSelectionHBox.height+toolViewHBox.height));
+                    nodeVPos: VPos.CENTER;
+                    nodeHPos: HPos.CENTER;
+                    content: [
+                        Stack {
+                            content: [
+                                Rectangle {
+                                    width: 400;
+                                    height: 200;
+                                    fill: LinearGradient {
+                                        startX: 0.0, startY: 0.0, endX: 0.0, endY: 1.0
+                                        proportional: true;
+                                        stops: [
+                                            Stop { offset: 0.0 color: Color.BLACK },
+                                            Stop { offset: 1.0 color: Color.GREY }
+                                        ]
+                                    };
+                                    strokeWidth: 1.0;
+                                },
+                                Label {
+                                    width: 380;
+                                    text: "Choose an obligatory ELO from the comboBox and add ELOs to your portfolio."
+                                    font: Font { size: 18 }
+                                    textFill: Color.WHITE;
+                                    textWrap: true;
+                                    textAlignment: TextAlignment.CENTER;
+                                }
+                            ]
                         }
-                        Button {
-                           text: saveAsLabel
-                           action: function() {
-    							doSaveAsElo();
-                           }
+                    ]
+                },
+                toolViewHBox = HBox {
+                    width: bind this.width;
+                    translateY: bind (this.height - toolViewHBox.height);
+                    nodeHPos: HPos.CENTER;
+                    padding: Insets { bottom: 10 top: 10 }
+                    content: [
+                        Stack {
+                            content: [
+                                Button {
+                                    text: "VIEW";
+                                    action: function() {
+                                    }
+                                }
+                            ]
                         }
-                     ]
-                  }
-                  wrappedRichTextEditor
-               ]
-            }
-         ]
-      };
-   }
-
-   override function postInitialize():Void {
-   }
-
-   public override function getPrefHeight(width: Number) : Number{
-      return Container.getNodePrefHeight(wrappedRichTextEditor, height)+wrappedRichTextEditor.boundsInParent.minY+spacing;
-   }
-
-   public override function getPrefWidth(height: Number) : Number{
-      return Container.getNodePrefWidth(wrappedRichTextEditor, width);
-   }
-
-   public override function getMinHeight() : Number {
-       return 200;
-   }
-
-   public override function getMinWidth() : Number {
-       return 400;
-   }
-
-   public override var width on replace {resizeContent()};
-   public override var height on replace {resizeContent()};
-
-   function resizeContent(): Void{
-      Container.resizeNode(wrappedRichTextEditor,width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
-   }
+                    ]
+                }
+            ]
+        };
+    }
 }

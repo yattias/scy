@@ -4,13 +4,14 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import javafx.util.StringLocalizer;
 
-/**
- * @author kaido
- */
-
 public class EportfolioContentCreatorFX extends ScyToolWindowContentCreatorFX {
-   public override function createScyToolWindowContent():Node{
-      StringLocalizer.associate("eu.scy.client.tools.fxeportfolio.registration.resources.EportfolioRegistration", "eu.scy.client.tools.fxeportfolio.registration");
-      return EportfolioNode{};
-   }
+    public var userName:String;
+    
+    public override function createScyToolWindowContent():Node{
+        StringLocalizer.associate("eu.scy.client.tools.fxeportfolio.registration.resources.EportfolioRegistration", "eu.scy.client.tools.fxeportfolio.registration");
+        
+        return EportfolioNode{
+            userName: userName;
+        };
+    }
 }
