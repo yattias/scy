@@ -43,13 +43,11 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             Callback arc = new AccessRooloCallback();
-            commandSpace.eventRegister(Command.WRITE, new Tuple( String.class,AGENT_NAME, String.class, Field.createWildCardField()), arc, false);
+            commandSpace.eventRegister(Command.WRITE, new Tuple(String.class, AGENT_NAME, String.class, Field.createWildCardField()), arc, false);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
-
-
 
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
@@ -80,21 +78,39 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
 
     class AccessRooloCallback implements Callback {
 
+        private static final String ELO = "elo";
+
+        private static final String METADATA = "metadata";
+
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
             try {
                 String requestUID = afterTuple.getField(0).getValue().toString();
+                String type = afterTuple.getField(2).getValue().toString();
+                if (requestUID == null || requestUID.isEmpty()) {
+                    logger.debug("UID of request is null or empty.");
+                }
+                if (type == null || type.isEmpty()) {
+                    logger.debug("Type of request is null or empty." + " RequestID was: " + requestUID);
+                }
                 URI eloURI;
                 eloURI = new URI(afterTuple.getField(3).getValue().toString());
-                String type = afterTuple.getField(2).getValue().toString();
-                if (type.equals("metadata")) {
-                    logger.debug("Request to fetch metadata for ELO: " + eloURI + " RequestID was: " + requestUID);
-                    IMetadata metadata = repo.retrieveMetadata(eloURI);
-                    sendResponse(metadata, requestUID);
-                } else if (type.equals("elo")) {
-                    logger.debug("Request to fetch ELO: " + eloURI + " RequestID was: " + requestUID);
-                    IELO elo = repo.retrieveELO(eloURI);
-                    sendResponse(elo, requestUID);
+                if (type.equals(METADATA)) {
+                    if (repo != null) {
+                        logger.debug("Request to fetch metadata for ELO: " + eloURI + " RequestID was: " + requestUID);
+                        IMetadata metadata = repo.retrieveMetadata(eloURI);
+                        sendResponse(metadata, requestUID);
+                    } else {
+                        logger.debug("Request to fetch metadata for ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
+                    }
+                } else if (type.equals(ELO)) {
+                    if (repo != null) {
+                        logger.debug("Request to fetch ELO: " + eloURI + " RequestID was: " + requestUID);
+                        IELO elo = repo.retrieveELO(eloURI);
+                        sendResponse(elo, requestUID);
+                    } else {
+                        logger.debug("Request to fetch ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
+                    }
                 } else {
                     logger.debug("Unknown Type in Request-Tuple: " + type + " RequestID was: " + requestUID);
                 }
@@ -106,23 +122,29 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
     }
 
     public void sendResponse(IELO elo, String requestUID) {
-        Tuple answerTuple = new Tuple(requestUID,ROOLO_RESPONSE, elo.getXml());
-        try {
-            commandSpace.write(answerTuple);
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
+        if (elo != null) {
+            Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, elo.getXml());
+            try {
+                commandSpace.write(answerTuple);
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.debug("Repository returned null for ELO request with id: " + requestUID);
         }
-
     }
 
     public void sendResponse(IMetadata metadata, String requestUID) {
-        Tuple answerTuple = new Tuple(requestUID,ROOLO_RESPONSE, metadata.getXml());
-        try {
-            commandSpace.write(answerTuple);
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
+        if (metadata != null) {
+            Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, metadata.getXml());
+            try {
+                commandSpace.write(answerTuple);
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.debug("Repository returned null for metadata request with id: " + requestUID);
         }
-
     }
 
     @Override
@@ -132,7 +154,7 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
 
     @Override
     public void setMetadataTypeManager(IMetadataTypeManager manager) {
-        this.manager=manager;
+        this.manager = manager;
 
     }
 
