@@ -3,7 +3,7 @@
  *
  * Created on 23-aug-2010, 15:31:44
  */
-package eu.scy.client.desktop.scydesktop;
+package eu.scy.client.desktop.scydesktop.mission;
 
 /**
  * @author SikkenJ

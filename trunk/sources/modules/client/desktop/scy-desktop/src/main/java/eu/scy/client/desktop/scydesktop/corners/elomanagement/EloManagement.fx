@@ -37,6 +37,9 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikken
@@ -161,7 +164,10 @@ public class EloManagement extends CustomNode {
 
    function createUriDisplay(uri: URI, showAuthor: Boolean): UriDisplay {
       if (uri == null) {
-         return null;
+         return UriDisplay{
+               uri:uri
+               display: ##"Nothing found"
+            };
       }
       var metadata = repository.retrieveMetadata(uri);
       if (metadata == null) {
@@ -285,6 +291,8 @@ public class EloManagement extends CustomNode {
          }
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       searchElos.typesListView.items = Sequences.sort(typeNames);
+      searchElos.resultsListView.cellFactory = eloUriCellFactory;
+      updateSearchResultState(searchElos,true);
 
       var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
       var windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
@@ -326,6 +334,7 @@ public class EloManagement extends CustomNode {
 
          }
       searchElos.resultsListView.items = resultsUris;
+      updateSearchResultState(searchElos,resultsUris.size()==0);
    }
 
    function createTypeQuery(searchElos: SearchElos): IQuery {
@@ -376,5 +385,22 @@ public class EloManagement extends CustomNode {
       searchElos.modalDialogBox.close();
       searchButton.turnedOn = false;
    }
+
+   function updateSearchResultState(searchElos: SearchElos, empty: Boolean):Void{
+      if (empty){
+         searchElos.resultsListView.items = [createUriDisplay(null, true)];
+      }
+      searchElos.resultsListView.disable = empty;
+   }
+
+   function eloUriCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+            node: Label {
+               text: bind (listCell.item as UriDisplay).display
+            }
+         }
+   }
+
 
 }
