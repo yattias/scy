@@ -89,9 +89,11 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
                 String type = afterTuple.getField(2).getValue().toString();
                 if (requestUID == null || requestUID.isEmpty()) {
                     logger.debug("UID of request is null or empty.");
+                    return;
                 }
                 if (type == null || type.isEmpty()) {
                     logger.debug("Type of request is null or empty." + " RequestID was: " + requestUID);
+                    return;
                 }
                 URI eloURI;
                 eloURI = new URI(afterTuple.getField(3).getValue().toString());
