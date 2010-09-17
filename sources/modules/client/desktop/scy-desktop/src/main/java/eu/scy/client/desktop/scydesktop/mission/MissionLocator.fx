@@ -9,7 +9,6 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import eu.scy.client.desktop.scydesktop.AskUserForMissionNode;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
 import eu.scy.common.scyelo.ScyElo;
