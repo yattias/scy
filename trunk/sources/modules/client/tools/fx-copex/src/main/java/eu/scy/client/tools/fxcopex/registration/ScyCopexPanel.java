@@ -18,6 +18,7 @@ import eu.scy.client.tools.copex.edp.CopexPanel;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
@@ -126,5 +127,13 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         if(actionLogger != null)
             actionLogger.log(action);
     }
-    
+
+    /* returns the interface panel for the thumbnail */
+    public Container getInterfacePanel(){
+        return copex.getInterfacePanel();
+    }
+
+    public Dimension getRealSize(){
+        return copex.getInterfacePanel().getSize();
+    }
 }
