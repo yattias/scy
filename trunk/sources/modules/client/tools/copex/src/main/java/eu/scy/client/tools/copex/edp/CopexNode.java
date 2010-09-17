@@ -106,7 +106,7 @@ public class CopexNode extends DefaultMutableTreeNode {
     }
 
     public String getDebug(Locale locale){
-        locale = new Locale("en", "GB");
+        //locale = new Locale("en", "GB");
         if(isQuestion())
             return "question "+getTask().getDescription(locale);
         else if(isHypothesis())

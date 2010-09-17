@@ -66,10 +66,13 @@ public class MyConstants {
     public final static String XML_BOOLEAN_FALSE = "false";
 
     /* pop up menu */
+    public final static char POPUPMENU_MANIPULATION = 'M';
+    public final static char POPUPMENU_STEP_ACTION = 'E';
+    public final static char POPUPMENU_TASK = 'T';
     public final static char POPUPMENU_STEP = 'S';
     public final static char POPUPMENU_ACTION = 'A';
-    public final static char POPUPMENU_TASK = 'T';
-    public final static char POPUPMENU_UNDEF = 'U';
+    public final static char POPUPMENU_MULTINODE = 'N';
+    public final static char POPUPMENU_UNDEFINED = 'U';
 
     public final static char INSERT_TASK_UNDEF = 'U';
     public final static char INSERT_TASK_IN = 'I';

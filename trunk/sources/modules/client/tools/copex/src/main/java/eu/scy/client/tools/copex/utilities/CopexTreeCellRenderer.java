@@ -82,7 +82,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     private ImageIcon actionReadOnlyIcon;
 
 
-    public CopexTreeCellRenderer(CopexTree copexTree) {
+    public CopexTreeCellRenderer(final CopexTree copexTree) {
         super();
         this.copexTree = copexTree;
         // recuperation des images
@@ -131,7 +131,6 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         this.panelNode.add(taskImageNode);
         getDrawPanel();
         add(panelNode);
-
         // resize
         Dimension d = getPanelPreferredSize() ;
         this.panelNode.setSize(d);
