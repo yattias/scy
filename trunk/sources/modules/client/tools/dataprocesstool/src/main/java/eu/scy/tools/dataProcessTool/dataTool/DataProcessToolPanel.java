@@ -220,7 +220,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
     /* retourne un message selon cle*/
     public String getBundleString(String key){
-        return bundle.getString(key);
+        return bundle.getString("FITEX."+key);
 //       String s = "";
 //        try{
 //            s = this.bundle.getString(key);
