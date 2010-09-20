@@ -19,6 +19,8 @@
 "Results:" = "Gevonden:"
 "Open" = "Open"
 "unknown" = "onbekend"
+"searching..." = "bezig met zoeken..."
+"nothing found" = "niets gevonden"
 "Select template" = "Selecteer voorbeeld"
 "Select type" = "Selecteer type"
 "Create new" = "Maak nieuw"
