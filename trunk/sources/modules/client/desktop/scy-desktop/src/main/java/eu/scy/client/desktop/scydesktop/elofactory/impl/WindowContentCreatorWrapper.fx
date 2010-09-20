@@ -12,7 +12,6 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
-import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 
@@ -20,22 +19,14 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
  * @author sikkenj
  */
 
-public class WindowContentCreatorWrapper extends WindowContentCreatorFX {
+public class WindowContentCreatorWrapper extends WindowContentCreatorFX, NeedsServiceInjection {
    def logger = Logger.getLogger(this.getClass());
 
-   public var config:Config on replace {injectServices()};
+   public-init var windowContentCreator: WindowContentCreator;
 
-   public var windowContentCreator: WindowContentCreator on replace {injectServices()};
-
-   function injectServices(){
-      if (config!=null and windowContentCreator!=null){
-         var servicesInjector = ServicesInjector{
-            config:config;
-         }
-         servicesInjector.injectServices(windowContentCreator);
-      }
+   override public function injectServices(servicesInjector: ServicesInjector): Void{
+      servicesInjector.injectServices(windowContentCreator);
    }
-
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
       var component = windowContentCreator.getScyWindowContent(eloUri);

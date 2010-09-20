@@ -269,6 +269,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
             drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
             config: config;
+            initializer:initializer
             newTitleGenerator: newTitleGenerator;
         }
         var specificationRuntimeSettingsElo = null;
@@ -721,8 +722,28 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     function scyDesktopShutdownAction():Void{
        println("Scy desktop is shutting down....");
+       saveAll();
        closeIfPossible(config.getToolBrokerAPI(),"tool broker");
     }
+
+   function saveAll() {
+      for (window in windows.getScyWindows()) {
+         if (window.eloUri != null) {
+            try {
+               window.scyToolsList.onQuit();
+            }
+            catch (e: Exception) {
+               logger.error("an exception occured during the aboutToClose of {window.eloUri}", e);
+            }
+         }
+      }
+      try {
+         missionModelFX.updateElo();
+      }
+      catch (e: Exception) {
+         logger.error("an exception occured during the update of mission map model elo", e);
+      }
+   }
 
    function closeIfPossible(object: Object, label: String):Void {
       if (object instanceof Closeable){

@@ -27,6 +27,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.Initializer;
 
 
 /**
@@ -37,6 +38,7 @@ public class ServicesInjector {
    def logger = Logger.getLogger(this.getClass());
 
    public var config: Config;
+   public var initializer:Initializer;
 
    public function injectServices(object: Object) {
       if (object != null) {
@@ -75,7 +77,7 @@ public class ServicesInjector {
             injectServiceIfWanted(object, IExtensionManager.class, "extensionManager", config.getExtensionManager());
             injectServiceIfWanted(object, IRepository.class, "repository", config.getRepository());
          }
-
+         injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
       }
    }
 

@@ -77,6 +77,10 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       doLoadElo(uri);
    }
 
+   public override function onQuit():Void{
+      doSaveElo();
+   }
+
    def spacing = 5.0;
 
    public override function create(): Node {
@@ -160,6 +164,8 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       }
       return textElement.getTextTrim();
    }
+
+
 
     override public function eloSaveCancelled (elo : IELO) : Void {
     }

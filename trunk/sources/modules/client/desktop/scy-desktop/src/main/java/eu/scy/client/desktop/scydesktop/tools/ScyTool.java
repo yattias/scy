@@ -85,6 +85,13 @@ public interface ScyTool
    public void onClosed();
 
    /**
+    * this method is called when SCY-Lab is going to close. It gives the tool the option to save its content.
+    *
+    * It is not possible to ask the user anything, the GUI is not visible anymore.
+    */
+   public void onQuit();
+
+   /**
     * supplies the tool with eloSaver object, which can be used to save/update elos.
     * @param eloSaver
     */

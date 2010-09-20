@@ -62,6 +62,7 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    public var dataSyncService:IDataSyncService on replace {serviceSet("dataSyncService",dataSyncService)};
    public var pedagogicalPlanService:PedagogicalPlanService on replace {serviceSet("pedagogicalPlanService",pedagogicalPlanService)};
    public var scyWindow:ScyWindow on replace {addMessage("scyWindow set ({scyWindow.title})")};
+   public var authorMode:Boolean on replace {addMessage("authorMode set ({authorMode})")};
 
    var uri = "?????";
    var location = "?";
@@ -183,6 +184,10 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    public override function aboutToClose():Boolean{
       addMessage("aboutToClose");
       return true;
+   }
+
+   public override function onQuit():Void{
+      addMessage("onQuit");
    }
 
    public override function setEloSaver(eloSaver:EloSaver):Void{
