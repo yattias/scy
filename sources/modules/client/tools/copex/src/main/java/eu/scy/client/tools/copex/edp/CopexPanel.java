@@ -314,7 +314,7 @@ public class CopexPanel extends JPanel {
         String s = "";
         try{
             //s = this.bundle.getString(key);
-            s = this.bundle.getString(key);
+            s = this.bundle.getString("COPEX."+key);
             return s;
         }catch(Exception e){
             return null;
