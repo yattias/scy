@@ -60,6 +60,7 @@
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:73.0,4,null,"/>
         <Reference name="gridLayoutInfoHLocation" value="int:0"/>
         <Reference name="gridLayoutInfoVLocation" value="int:0"/>
+        <Reference name="onKeyTyped" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,null,4,null,"/>
         <Reference name="onMouseClicked" value="prop2:7,NOT_SET,4,null,4,null,47,anim:,,str:startedMissionListViewOnMouseClicked,4,null,"/>
         <Reference name="clip" value="null"/>
         <Map name="customProperties"/>
@@ -88,6 +89,7 @@
         <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:71.0,4,null,"/>
         <Reference name="gridLayoutInfoHLocation" value="int:0"/>
         <Reference name="gridLayoutInfoVLocation" value="int:0"/>
+        <Reference name="onKeyTyped" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,null,4,null,"/>
         <Reference name="onMouseClicked" value="prop2:7,NOT_SET,4,null,4,null,43,anim:,,str:newMissionListViewOnMouseClicked,4,null,"/>
         <Reference name="clip" value="null"/>
         <Map name="customProperties"/>
