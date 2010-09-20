@@ -230,6 +230,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    }
 
    @Override
+   public void onQuit()
+   {
+   }
+
+   @Override
    public void setMyEloChanged(MyEloChanged myEloChanged)
    {
    }
