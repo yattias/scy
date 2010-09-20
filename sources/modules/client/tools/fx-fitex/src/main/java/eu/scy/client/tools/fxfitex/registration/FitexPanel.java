@@ -114,12 +114,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         try {
             session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
 	} catch (DataSyncException e) {
-		JOptionPane.showMessageDialog(null, getBundleString("MSG_ERROR_SYNC"));
+		JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
 		e.printStackTrace();
                 return false;
 	}
         if (session == null) {
-            JOptionPane.showMessageDialog(null, getBundleString("MSG_ERROR_SYNC"));
+            JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
             return false;
         } else{
             readAllSyncObjects();
@@ -147,7 +147,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 	try {
 		syncObjects = session.getAllSyncObjects();
 	} catch (DataSyncException e) {
-		JOptionPane.showMessageDialog(null, getBundleString("MSG_ERROR_SYNC"));
+		JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
 		e.printStackTrace();
 	}
         if(syncObjects == null)
@@ -332,7 +332,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 	if (userResponse == JFileChooser.APPROVE_OPTION){
 		File file = aFileChooser.getSelectedFile();
                 if(!isCSVFile(file)){
-                    JOptionPane.showMessageDialog(this ,getBundleString("MSG_ERROR_CSV_FILE") , getBundleString("TITLE_DIALOG_ERROR_CSV"),JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this ,getBundleString("FX-FITEX.MSG_ERROR_CSV_FILE") , getBundleString("FX-FITEX.TITLE_DIALOG_ERROR_CSV"),JOptionPane.ERROR_MESSAGE);
                     return null;
                 }
                 lastUsedFileImport = file;
