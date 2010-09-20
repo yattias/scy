@@ -94,13 +94,13 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                      spacing:spacing;
                      content:[
                         Button {
-                           text: getBundleString("MENU_SAVE");
+                           text: getBundleString("FX-COPEX.MENU_SAVE");
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
-                           text: getBundleString("MENU_SAVE_AS");
+                           text: getBundleString("FX-COPEX.MENU_SAVE_AS");
                            action: function() {
                               doSaveAsElo();
                            }
