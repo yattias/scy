@@ -102,16 +102,16 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                     }
                 createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
             }else if(isDnDFitex(object as ISynchronizable)){
-                    var yesNoOptions = [getBundleString("YES"), getBundleString("NO")];
+                    var yesNoOptions = [getBundleString("FX-FITEX.YES"), getBundleString("FX-FITEX.NO")];
                     var n = -1;
-                    var question = getBundleString("MSG_MERGE_DATASET");
+                    var question = getBundleString("FX-FITEX.MSG_MERGE_DATASET");
                     if(isSynchronizing()){
-                        question = getBundleString("MSG_STOP_SYNC_BEFORE_MERGE");
+                        question = getBundleString("FX-FITEX.MSG_STOP_SYNC_BEFORE_MERGE");
                     }
 
                      n = JOptionPane.showOptionDialog( null,
                         question,               // question
-                        getBundleString("TITLE_DIALOG_MERGE"),           // title
+                        getBundleString("FX-FITEX.TITLE_DIALOG_MERGE"),           // title
                         JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE,  // icon
                         null, yesNoOptions,yesNoOptions[0] );
@@ -239,19 +239,19 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                      spacing:spacing;
                      content:[
                         Button {
-                           text: getBundleString("MENU_IMPORT_DATA");
+                           text: getBundleString("FX-FITEX.MENU_IMPORT_DATA");
                            action: function() {
                               doImportCSVFile();
                            }
                         }
                         Button {
-                           text: getBundleString("MENU_SAVE");
+                           text: getBundleString("FX-FITEX.MENU_SAVE");
                            action: function() {
                               doSaveElo();
                            }
                         }
                         Button {
-                           text: getBundleString("MENU_SAVE_AS");
+                           text: getBundleString("FX-FITEX.MENU_SAVE_AS");
                            action: function() {
                                 doSaveAsElo();
                            }
