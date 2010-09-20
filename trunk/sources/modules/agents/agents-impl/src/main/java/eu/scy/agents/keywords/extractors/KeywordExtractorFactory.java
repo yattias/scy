@@ -27,6 +27,7 @@ public class KeywordExtractorFactory {
 		setKeywordExtractor("scy/text", new TextExtractor());
 		setKeywordExtractor("scy/webresourcer", new WebresourceExtractor());
 		setKeywordExtractor("scy/mapping", new ConceptMapExtractor());
+//        setKeywordExtractor("scy/copex", new CopexExtractor());
 	}
 
 	/**

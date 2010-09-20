@@ -26,7 +26,7 @@ public class ExtractTopicModelKeywordsWorkflow extends Workflow {
 
 		addOperatorSpecification(EXTRACT_TOPIC_MODEL_KEYWORDS, ExtractTopicModelKeywords.class);
 		addNamespaceLink(EXTRACT_TOPIC_MODEL_KEYWORDS, Features.DOCUMENTFREQUENCY,
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		addDefaultOutputLink(ObjectIdentifiers.DOCUMENT);
 		verify();

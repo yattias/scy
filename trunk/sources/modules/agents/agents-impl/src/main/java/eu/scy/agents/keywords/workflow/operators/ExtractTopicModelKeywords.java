@@ -18,7 +18,7 @@ import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import edu.emory.mathcs.backport.java.util.Collections;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 /**
  * Implements an OBWIOUS operator that
@@ -45,16 +45,16 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 
 	public ExtractTopicModelKeywords() {
 		super();
-		addInputType(KeywordConstants.TOPIC_MODEL, TopicModelAnnotator.class);
-		addParameterType(KeywordConstants.NUMBER_OF_KEYWORDS, Integer.class, false, 20);
+		addInputType(KeywordWorkflowConstants.TOPIC_MODEL, TopicModelAnnotator.class);
+		addParameterType(KeywordWorkflowConstants.NUMBER_OF_KEYWORDS, Integer.class, false, 20);
 	}
 
 	@Override
 	protected Container run(Container inputParameters) {
-		TopicModelAnnotator lda = (TopicModelAnnotator) inputParameters.get(KeywordConstants.TOPIC_MODEL);
+		TopicModelAnnotator lda = (TopicModelAnnotator) inputParameters.get(KeywordWorkflowConstants.TOPIC_MODEL);
 		HashSet<String> topFeaturesBag = getTopFeatures(lda, 0.003);
 		Document document = (Document) inputParameters.get(ObjectIdentifiers.DOCUMENT);
-		int numberOfFeatures = (Integer) inputParameters.get(KeywordConstants.NUMBER_OF_KEYWORDS);
+		int numberOfFeatures = (Integer) inputParameters.get(KeywordWorkflowConstants.NUMBER_OF_KEYWORDS);
 
 		Map<String, Set<String>> stemMapping = document.getFeature(StemTokens.STEM_MAPPING);
 		Map<String, Double> tfIfdMap = document.getFeature(Features.TFIDF);
@@ -63,7 +63,7 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 		Set<String> tmKeywords = getTopicModelKeywords(sortedTerms, stemMapping, topFeaturesBag, numberOfFeatures);
 
 		defineFeature();
-		document.setFeature(KeywordConstants.TM_KEYWORDS, tmKeywords);
+		document.setFeature(KeywordWorkflowConstants.TM_KEYWORDS, tmKeywords);
 
 		Container output = new Container(getOutputSignature());
 		output.setObject(ObjectIdentifiers.DOCUMENT, document);
@@ -84,8 +84,8 @@ public class ExtractTopicModelKeywords extends DocumentOperatorSpecification {
 	}
 
 	private void defineFeature() {
-		if (!Features.getInstance().isFeature(KeywordConstants.TM_KEYWORDS)) {
-			Features.getInstance().addFeature(KeywordConstants.TM_KEYWORDS, Set.class);
+		if (!Features.getInstance().isFeature(KeywordWorkflowConstants.TM_KEYWORDS)) {
+			Features.getInstance().addFeature(KeywordWorkflowConstants.TM_KEYWORDS, Set.class);
 		}
 	}
 

@@ -29,7 +29,7 @@ import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
@@ -106,7 +106,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	public void tearDown() {
 		try {
 			this.getPersistentStorage().remove(
-					KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+					KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 			this.removeTopicModel();
 			this.stopAgentFrameWork();
 			super.tearDown();
@@ -122,7 +122,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
 				.readObject();
 		this.getPersistentStorage().put(
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
 	@Test

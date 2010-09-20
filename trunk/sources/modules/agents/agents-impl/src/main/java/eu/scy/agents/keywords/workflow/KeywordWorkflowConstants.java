@@ -1,6 +1,6 @@
 package eu.scy.agents.keywords.workflow;
 
-public final class KeywordConstants {
+public final class KeywordWorkflowConstants {
 
 	public static final String NUMBER_OF_KEYWORDS = "numberOfKeywords";
 	public static final String ONTOLOGY_KEYWORDS = "ontologyKeywords";
@@ -10,8 +10,7 @@ public final class KeywordConstants {
 	public static final String DOCUMENT_FREQUENCY_MODEL = "DocumentFrequencyModel";
 	public static final String DOCUMENT_FREQUENCY = "DocumentFrequency";
 	public static final String TFIDF = "TfIdf";
-
-	private KeywordConstants() {
+  private KeywordWorkflowConstants() {
 		// disallow construction
 	}
 

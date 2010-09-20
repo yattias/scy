@@ -20,7 +20,7 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 /**
  * (ExtractTfIdfKeywords:String, query:String, <QueryId>:String,
@@ -88,7 +88,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	private Set<String> extractKeywords(String text) {
 		DocumentFrequencyModel dfModel = storage
-				.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+				.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		Document document = convertTextToDocument(text);
 		if (dfModel == null) {
@@ -101,11 +101,11 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT,
 				document);
 		extractKeywordsOperator.setInputParameter(
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 		Container result = extractKeywordsOperator.run();
 		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 
-		return doc.getFeature(KeywordConstants.TFIDF_KEYWORDS);
+		return doc.getFeature(KeywordWorkflowConstants.TFIDF_KEYWORDS);
 	}
 
 	private Document convertTextToDocument(String text) {
