@@ -19,6 +19,8 @@
 "Results:" = "Results:"
 "Open" = "Open"
 "unknown" = "unknown"
+"searching..." = "searching..."
+"nothing found" = "nothing found"
 "Select template" = "Select template"
 "Select type" = "Select type"
 "Create new" = "Create new"

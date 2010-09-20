@@ -39,7 +39,9 @@ import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import eu.scy.common.scyelo.ScyElo;
+import java.lang.Thread;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 /**
  * @author sikken
@@ -292,7 +294,6 @@ public class EloManagement extends CustomNode {
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       searchElos.typesListView.items = Sequences.sort(typeNames);
       searchElos.resultsListView.cellFactory = eloUriCellFactory;
-      updateSearchResultState(searchElos,true);
 
       var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
       var windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
@@ -301,6 +302,23 @@ public class EloManagement extends CustomNode {
    }
 
    function searchForElos(searchElos: SearchElos): Void {
+      setSearchResultState(searchElos, ##"searching...");
+      searchElos.openButton.disable = true;
+      // delay the search action, so the searching message can be shown
+      Timeline {
+         repeatCount: 1
+         keyFrames: [
+            KeyFrame {
+               time: 25ms
+               action: function(): Void {
+                  doSearchForElos(searchElos);
+               }
+            }
+         ]
+      }.play()
+   }
+
+   function doSearchForElos(searchElos: SearchElos): Void {
       var searchQuery: AndQuery;
       var typeQuery = createTypeQuery(searchElos);
       var titleQuery = createTitleQuery(searchElos);
@@ -324,17 +342,22 @@ public class EloManagement extends CustomNode {
       }
       var queryResults = repository.search(searchQuery);
       logger.info("search query: {searchQuery}\nNumber of results: {queryResults.size()}");
-      var resultsUris = for (queryResult in queryResults) {
-            var eloType = eloInfoControl.getEloType(queryResult.getUri());
-            if (scyDesktop.newEloCreationRegistry.containsEloType(eloType)) {
-               createUriDisplay(queryResult.getUri(), true);
-            } else {
-               null
-            }
+      if (queryResults.size()>0){
+         var resultsUris = for (queryResult in queryResults) {
+               var eloType = eloInfoControl.getEloType(queryResult.getUri());
+               if (scyDesktop.newEloCreationRegistry.containsEloType(eloType)) {
+                  createUriDisplay(queryResult.getUri(), true);
+               } else {
+                  null
+               }
 
-         }
-      searchElos.resultsListView.items = resultsUris;
-      updateSearchResultState(searchElos,resultsUris.size()==0);
+            }
+         searchElos.resultsListView.items = resultsUris;
+         searchElos.resultsListView.disable = false;
+      }
+      else{
+         setSearchResultState(searchElos,##"nothing found");
+      }
    }
 
    function createTypeQuery(searchElos: SearchElos): IQuery {
@@ -386,11 +409,12 @@ public class EloManagement extends CustomNode {
       searchButton.turnedOn = false;
    }
 
-   function updateSearchResultState(searchElos: SearchElos, empty: Boolean):Void{
-      if (empty){
-         searchElos.resultsListView.items = [createUriDisplay(null, true)];
-      }
-      searchElos.resultsListView.disable = empty;
+   function setSearchResultState(searchElos: SearchElos, statusMessage: String):Void{
+      searchElos.resultsListView.items = UriDisplay{
+            uri:null;
+            display: statusMessage
+         };
+      searchElos.resultsListView.disable = true;
    }
 
    function eloUriCellFactory(): ListCell {
