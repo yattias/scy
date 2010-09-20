@@ -25,6 +25,7 @@ public class AskUserForMissionNode {
         layoutX: 0.0
         layoutY: 15.0
         layoutInfo: __layoutInfo_startedMissionListView
+        onKeyTyped: null
         onMouseClicked: startedMissionListViewOnMouseClicked
         items: [ "Item 1", "Item 2", "Item 3", ]
     }
@@ -43,6 +44,7 @@ public class AskUserForMissionNode {
         layoutX: 0.0
         layoutY: 109.0
         layoutInfo: __layoutInfo_newMissionListView
+        onKeyTyped: null
         onMouseClicked: newMissionListViewOnMouseClicked
         items: [ "Item 1", "Item 2", "Item 3", ]
     }
@@ -88,10 +90,24 @@ public class AskUserForMissionNode {
     }
     // </editor-fold>//GEN-END:main
 
-   function newMissionListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
-      updateGoButtonStatus();
-      if (newMissionListView.selectedIndex >= 0) {
+   def newMissionSelected = bind newMissionListView.selectedItem!=null on replace{
+      if (newMissionSelected){
          startedMissionListView.clearSelection();
+      }
+   }
+
+   def startedMissionSelected = bind startedMissionListView.selectedItem!=null on replace{
+      if (newMissionSelected){
+         newMissionListView.clearSelection();
+      }
+   }
+
+   def missionSelected = bind newMissionSelected or startedMissionSelected on replace {
+      goButton.disable = not missionSelected
+   }
+
+   function newMissionListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+      if (newMissionListView.selectedIndex >= 0) {
          if (event.clickCount == 2) {
             goButton.fire();
          }
@@ -99,17 +115,11 @@ public class AskUserForMissionNode {
    }
 
    function startedMissionListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
-      updateGoButtonStatus();
       if (startedMissionListView.selectedIndex >= 0) {
-         newMissionListView.clearSelection();
          if (event.clickCount == 2) {
             goButton.fire();
          }
       }
-   }
-
-   function updateGoButtonStatus(): Void {
-      goButton.disable = newMissionListView.selectedIndex >= 0 and startedMissionListView.selectedIndex >= 0;
    }
 
 }
