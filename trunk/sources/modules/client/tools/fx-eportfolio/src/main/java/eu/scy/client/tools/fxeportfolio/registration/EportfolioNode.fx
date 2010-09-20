@@ -23,16 +23,20 @@ import javafx.scene.control.Button;
 import javafx.scene.text.TextAlignment;
 import javafx.geometry.VPos;
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
+import java.util.Random;
+import java.lang.System;
+
 
 public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
     public override var width on replace {resizeContent()};
     public override var height on replace {resizeContent()};
 
+    var stageGroup:Group;
     public var userName:String;
     var list = ["Select ...", "My obligatory ELO no. 1", "My obligatory ELO no. 2", "My obligatory ELO no. 3", "My obligatory ELO no. 4"];
     public var statusString:String = "creating";
+    var count = 0;
 
     var obligatoryElosChoiceBox:ChoiceBox;
     var addObligatoryElosButton:Button;
@@ -41,6 +45,8 @@ public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCa
     var toolInstructionsHBox: HBox;
     var toolViewHBox: HBox;
     var addButtonVisible:Boolean = false;
+    var currentNode:String = "box0";
+
 
     def obligatoryElosChoiceBoxHandler = bind obligatoryElosChoiceBox.selectedItem on replace {
         if(obligatoryElosChoiceBox.selectedIndex > 0) {
@@ -49,6 +55,12 @@ public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCa
         else {
             addButtonVisible = false;
         }
+
+        var oldNode:Node = stageGroup.lookup(currentNode);
+        oldNode.visible = false;
+        currentNode = "box{obligatoryElosChoiceBox.selectedIndex}";
+        var newNode:Node = stageGroup.lookup(currentNode);
+        newNode.visible = true;
     };
     
     public override function initialize(windowContent:Boolean):Void{
@@ -99,10 +111,25 @@ public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCa
         };
         strokeWidth: 1.0;
     };
+    
+    def colors = [
+        Color.web("#d02020"),
+        Color.web("#ff8010"),
+        Color.web("#d0e000"),
+        Color.web("#10c010"),
+        Color.web("#3030f0"),
+        Color.web("#d050ff"),
+    ];
+
+    def rand = new Random();
+
+    function randColor():Color {
+        colors[rand.nextInt(sizeof colors)]
+    }
 
 
     public override function create(): Node {
-        return Group {
+        return stageGroup = Group {
             blocksMouse:true;
             content: [
                 VBox {
@@ -166,6 +193,7 @@ public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCa
                     ]
                 },
                 toolInstructionsHBox = HBox {
+                    id: "box0";
                     translateY: bind (toolSelectionHBox.translateY + toolSelectionHBox.height);
                     width: bind this.width;
                     height: bind (this.height - (toolSelectionHBox.translateY+toolSelectionHBox.height+toolViewHBox.height));
@@ -199,6 +227,29 @@ public class EportfolioNode extends CustomNode, Resizable, ScyToolFX, EloSaverCa
                         }
                     ]
                 },
+                for (b in list) {
+                    count++;
+                    HBox {
+                        id: "box{count}";
+                        visible: false;
+                        translateY: bind (toolSelectionHBox.translateY + toolSelectionHBox.height);
+                        width: bind this.width;
+                        height: bind (this.height - (toolSelectionHBox.translateY+toolSelectionHBox.height+toolViewHBox.height));
+                        nodeVPos: VPos.CENTER;
+                        nodeHPos: HPos.CENTER;
+                        content: [
+                            Stack {
+                                content: [
+                                    Rectangle {
+                                        width: bind toolInstructionsHBox.width;
+                                        height: bind toolInstructionsHBox.height;
+                                        fill: randColor();
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
                 toolViewHBox = HBox {
                     width: bind this.width;
                     translateY: bind (this.height - toolViewHBox.height);
