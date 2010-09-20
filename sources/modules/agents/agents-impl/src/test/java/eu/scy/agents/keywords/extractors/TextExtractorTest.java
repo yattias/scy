@@ -24,7 +24,7 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class TextExtractorTest extends AbstractTestFixture {
 
@@ -79,7 +79,7 @@ public class TextExtractorTest extends AbstractTestFixture {
 		try {
 			if (this.getPersistentStorage() != null) {
 				this.getPersistentStorage().remove(
-						KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+						KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 				this.removeTopicModel();
 			} else {
 				System.out.println("break");
@@ -98,7 +98,7 @@ public class TextExtractorTest extends AbstractTestFixture {
 		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
 				.readObject();
 		this.getPersistentStorage().put(
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
 	@Test

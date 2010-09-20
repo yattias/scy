@@ -22,7 +22,7 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
@@ -85,7 +85,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	private Set<String> extractKeywords(String text) {
 		DocumentFrequencyModel dfModel = storage
-				.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+				.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 		if (dfModel == null) {
 			return new HashSet<String>();
 		}
@@ -106,12 +106,12 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			extractKeywordsOperator.setInputParameter(
 					ObjectIdentifiers.DOCUMENT, document);
 			extractKeywordsOperator.setInputParameter(
-					KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+					KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 			extractKeywordsOperator.setInputParameter(
-					KeywordConstants.TOPIC_MODEL, tm);
+					KeywordWorkflowConstants.TOPIC_MODEL, tm);
 			Container result = extractKeywordsOperator.run();
 			Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
-			return doc.getFeature(KeywordConstants.TM_KEYWORDS);
+			return doc.getFeature(KeywordWorkflowConstants.TM_KEYWORDS);
 		} catch (RuntimeException e) {
 			logger.fatal(e.getMessage());
 			e.printStackTrace();

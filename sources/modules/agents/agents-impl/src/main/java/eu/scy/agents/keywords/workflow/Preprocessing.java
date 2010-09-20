@@ -58,12 +58,12 @@ public class Preprocessing extends Workflow {
 		setInputParameter(STEM_TOKENS, StemTokens.CREATE_MAPPING, true);
 		addOperatorSpecification(PROVIDE_TERM_FREQUENCY, ProvideTermFrequency.class);
 
-		addOperatorSpecification(KeywordConstants.TFIDF, ProvideTfIdf.class);
+		addOperatorSpecification(KeywordWorkflowConstants.TFIDF, ProvideTfIdf.class);
 
-		addNamespaceLink(KeywordConstants.TFIDF, KeywordConstants.DOCUMENT_FREQUENCY);
+		addNamespaceLink(KeywordWorkflowConstants.TFIDF, KeywordWorkflowConstants.DOCUMENT_FREQUENCY);
 
-		addNamespaceLink(KeywordConstants.TFIDF, KeywordConstants.DOCUMENT_FREQUENCY,
-				KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
+		addNamespaceLink(KeywordWorkflowConstants.TFIDF, KeywordWorkflowConstants.DOCUMENT_FREQUENCY,
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		addDefaultOutputLinks();
 		verify();

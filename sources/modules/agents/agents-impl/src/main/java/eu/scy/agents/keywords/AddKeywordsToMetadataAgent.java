@@ -15,11 +15,10 @@ import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		IRepositoryAgent {
-
-	private static final String AGENT_KEYWORDS = "agentKeywords";
 
 	private final static String NAME = AddKeywordsToMetadataAgent.class
 			.getName();
@@ -60,7 +59,7 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			return;
 		}
 		IMetadataKey keywordKey = metadataTypeManager
-				.getMetadataKey(AGENT_KEYWORDS);
+				.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
 		IMetadataValueContainer agentKeywordsContainer = elo.getMetadata()
 				.getMetadataValueContainer(keywordKey);
 		agentKeywordsContainer.setValueList(keywords);

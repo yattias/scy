@@ -13,7 +13,7 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.type.Container;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 /**
  * Implements an OBWIOUS operator that
@@ -40,7 +40,7 @@ public class ExtractTfIdfKeywords extends DocumentOperatorSpecification {
 
 	public ExtractTfIdfKeywords() {
 		super();
-		addParameterType(KeywordConstants.NUMBER_OF_KEYWORDS, Integer.class, false, 10);
+		addParameterType(KeywordWorkflowConstants.NUMBER_OF_KEYWORDS, Integer.class, false, 10);
 	}
 
 	@Override
@@ -48,14 +48,14 @@ public class ExtractTfIdfKeywords extends DocumentOperatorSpecification {
 
 		Document document = (Document) inputParameters.get(ObjectIdentifiers.DOCUMENT);
 		Map<String, Double> tfIdf = document.getFeature(Features.TFIDF);
-		int numberOfKeywords = (Integer) inputParameters.get(KeywordConstants.NUMBER_OF_KEYWORDS);
+		int numberOfKeywords = (Integer) inputParameters.get(KeywordWorkflowConstants.NUMBER_OF_KEYWORDS);
 
 		Map<String, Set<String>> stemMapping = document.getFeature(StemTokens.STEM_MAPPING);
 		ArrayList<Entry<String, Double>> sortedTerms = sortTermsByTfIdf(tfIdf);
 
 		defineFeature();
 		Set<String> keywords = getTfIdfKeywords(sortedTerms, numberOfKeywords, stemMapping);
-		document.setFeature(KeywordConstants.TFIDF_KEYWORDS, keywords);
+		document.setFeature(KeywordWorkflowConstants.TFIDF_KEYWORDS, keywords);
 
 		Container output = new Container(getOutputSignature());
 		output.setObject(ObjectIdentifiers.DOCUMENT, document);
@@ -64,8 +64,8 @@ public class ExtractTfIdfKeywords extends DocumentOperatorSpecification {
 	}
 
 	private void defineFeature() {
-		if (!Features.getInstance().isFeature(KeywordConstants.TFIDF_KEYWORDS)) {
-			Features.getInstance().addFeature(KeywordConstants.TFIDF_KEYWORDS, Set.class);
+		if (!Features.getInstance().isFeature(KeywordWorkflowConstants.TFIDF_KEYWORDS)) {
+			Features.getInstance().addFeature(KeywordWorkflowConstants.TFIDF_KEYWORDS, Set.class);
 		}
 	}
 

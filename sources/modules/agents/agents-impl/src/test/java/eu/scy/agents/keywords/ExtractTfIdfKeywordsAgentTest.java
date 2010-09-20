@@ -22,7 +22,7 @@ import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.workflow.KeywordConstants;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 
@@ -58,7 +58,7 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	public void tearDown() throws AgentLifecycleException {
 		try {
 			getCommandSpace().take(
-					new Tuple("persistent_storage_1_0", KeywordConstants.DOCUMENT_FREQUENCY_MODEL, Field
+					new Tuple("persistent_storage_1_0", KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, Field
 							.createWildCardField()));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 		InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
 		ObjectInputStream in = new ObjectInputStream(inStream);
 		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
-		getPersistentStorage().put(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+		getPersistentStorage().put(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 	}
 
 	@Test
