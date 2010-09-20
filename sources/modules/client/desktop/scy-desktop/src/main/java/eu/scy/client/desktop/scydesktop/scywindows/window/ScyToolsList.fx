@@ -127,6 +127,12 @@ public class ScyToolsList extends ScyTool {
       }
    }
 
+   override public function onQuit(): Void {
+      for (scyTool in scyToolList) {
+         scyTool.onQuit();
+      }
+   }
+
    override public function setEloSaver(eloSaver: EloSaver): Void {
       for (scyTool in scyToolList) {
          scyTool.setEloSaver(eloSaver);

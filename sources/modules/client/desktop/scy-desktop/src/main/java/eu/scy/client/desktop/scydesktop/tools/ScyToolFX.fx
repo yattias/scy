@@ -52,6 +52,9 @@ public mixin class ScyToolFX extends ScyTool {
       return true;
    }
 
+   public override function onQuit(): Void {
+   }
+
    public override function setEloSaver(eloSaver: EloSaver): Void {
       this.eloSaver = eloSaver;
    }

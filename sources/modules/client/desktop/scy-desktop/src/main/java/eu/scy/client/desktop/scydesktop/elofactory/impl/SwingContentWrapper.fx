@@ -29,27 +29,22 @@ import javafx.scene.layout.Container;
 
 // place your code here
 
-public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter {
+public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetter, NeedsServiceInjection {
    def logger = Logger.getLogger(this.getClass());
 
    public var swingContent: JComponent;
-   public var config:Config on replace {injectServices()}
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
    var swingComponent:Node;
 
    public override function create(): Node {
-      injectServices();
       swingComponent = ScySwingWrapper.wrap(swingContent);
 //      resizeContent();
       return swingComponent;
    }
 
-   function injectServices(){
-      var servicesInjector = ServicesInjector{
-         config:config;
-      }
+   override public function injectServices(servicesInjector: ServicesInjector): Void{
       servicesInjector.injectServices(swingContent);
    }
 

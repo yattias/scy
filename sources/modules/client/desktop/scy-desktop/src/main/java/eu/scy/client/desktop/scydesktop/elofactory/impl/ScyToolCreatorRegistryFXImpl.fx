@@ -27,7 +27,7 @@ public class ScyToolCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX,
    public var config: Config;
 
    override public function registerScyToolCreator(scyToolCreator: ScyToolCreator, id: String): Void {
-      registerScyToolCreatorFX(ScyToolCreatorWrapper {scyToolCreator: scyToolCreator; config: config}, id);
+      registerScyToolCreatorFX(ScyToolCreatorWrapper {scyToolCreator: scyToolCreator}, id);
    }
 
    override public function registerScyToolCreatorFX(scyToolCreatorFX: ScyToolCreatorFX, id: String): Void {

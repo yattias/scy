@@ -134,7 +134,7 @@ public class MissionModelFX {
    }
 
 
-   function updateElo():Void{
+   public function updateElo():Void{
       if (repository==null or eloFactory==null){
          logger.error("failed to update elo because repository and/or eloFactory is null");
          return;
