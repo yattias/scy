@@ -1,4 +1,4 @@
-package eu.scy.agents.conceptmapenrich;
+package eu.scy.agents.conceptmap.model;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -17,6 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import eu.scy.agents.conceptmap.Graph;
 
 
 public class SCYMapperAdapter implements ConceptMapAdapter<String> {

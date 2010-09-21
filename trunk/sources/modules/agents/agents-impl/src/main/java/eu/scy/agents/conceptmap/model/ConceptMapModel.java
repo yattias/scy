@@ -2,7 +2,7 @@ package eu.scy.agents.conceptmap.model;
 
 import java.util.Properties;
 
-import eu.scy.agents.conceptmapenrich.Graph;
+import eu.scy.agents.conceptmap.Graph;
 
 public class ConceptMapModel {
 	private static final String PROP_ID = "id";

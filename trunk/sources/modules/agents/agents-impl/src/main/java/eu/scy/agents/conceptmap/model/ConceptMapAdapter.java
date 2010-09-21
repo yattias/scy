@@ -1,4 +1,6 @@
-package eu.scy.agents.conceptmapenrich;
+package eu.scy.agents.conceptmap.model;
+
+import eu.scy.agents.conceptmap.Graph;
 
 
 public interface ConceptMapAdapter<T> {

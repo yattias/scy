@@ -1,4 +1,6 @@
-package eu.scy.agents.conceptmapenrich;
+package eu.scy.agents.conceptmap;
+
+import eu.scy.agents.conceptmap.proposer.Stemmer;
 
 public class Edge {
 
@@ -38,11 +40,8 @@ public class Edge {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((fromNode == null) ? 0 : fromNode.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((label == null) ? 0 : label.hashCode());
-        result = prime * result + ((stemmedLabel == null) ? 0 : stemmedLabel.hashCode());
-        result = prime * result + ((toNode == null) ? 0 : toNode.hashCode());
         return result;
     }
 
@@ -55,11 +54,6 @@ public class Edge {
         if (getClass() != obj.getClass())
             return false;
         Edge other = (Edge) obj;
-        if (fromNode == null) {
-            if (other.fromNode != null)
-                return false;
-        } else if (!fromNode.equals(other.fromNode))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -69,16 +63,6 @@ public class Edge {
             if (other.label != null)
                 return false;
         } else if (!label.equals(other.label))
-            return false;
-        if (stemmedLabel == null) {
-            if (other.stemmedLabel != null)
-                return false;
-        } else if (!stemmedLabel.equals(other.stemmedLabel))
-            return false;
-        if (toNode == null) {
-            if (other.toNode != null)
-                return false;
-        } else if (!toNode.equals(other.toNode))
             return false;
         return true;
     }
