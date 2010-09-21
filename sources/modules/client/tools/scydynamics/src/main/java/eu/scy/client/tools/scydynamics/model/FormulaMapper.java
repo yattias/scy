@@ -4,22 +4,21 @@ import java.util.HashMap;
 
 public class FormulaMapper {
 
-	/* The ForumulaMapper provides a mapping from the
-	 * operators and functions recognized by the JEP libraries
-	 * to the SimQuest simulation engine.
-	 * Also, it ensures that only "valid" and tested operators are
-	 * used. 
+	/*
+	 * The ForumulaMapper provides a mapping from the operators and functions
+	 * recognized by the JEP libraries to the SimQuest simulation engine. Also,
+	 * it ensures that only "valid" and tested operators are used.
 	 */
 	private static FormulaMapper instance = null;
-	
+
 	private HashMap<String, String> operatorMap;
 	private HashMap<String, String> functionMap;
-	
+
 	private FormulaMapper() {
 		createOperatorMap();
 		createFunctionMap();
 	}
-	
+
 	private void createOperatorMap() {
 		operatorMap = new HashMap<String, String>();
 		operatorMap.put("+", "+");
@@ -30,7 +29,7 @@ public class FormulaMapper {
 		operatorMap.put("%", "mod");
 		operatorMap.put("^", "^");
 	}
-	
+
 	private void createFunctionMap() {
 		functionMap = new HashMap<String, String>();
 		functionMap.put("sin", "sin");
@@ -50,21 +49,23 @@ public class FormulaMapper {
 		functionMap.put("log", "log10");
 		functionMap.put("exp", "exp");
 		functionMap.put("rand", "random");
+		functionMap.put("min", "min_binary");
+		functionMap.put("max", "max_binary");
 	}
-	
+
 	public static FormulaMapper getInstance() {
 		if (instance == null) {
 			instance = new FormulaMapper();
 		}
 		return instance;
 	}
-	
+
 	public HashMap<String, String> getOperatorMap() {
 		return operatorMap;
 	}
-	
+
 	public HashMap<String, String> getFunctionMap() {
 		return functionMap;
 	}
-	
+
 }
