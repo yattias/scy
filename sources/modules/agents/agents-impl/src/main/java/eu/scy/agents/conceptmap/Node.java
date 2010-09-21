@@ -1,7 +1,9 @@
-package eu.scy.agents.conceptmapenrich;
+package eu.scy.agents.conceptmap;
 
 import java.util.Arrays;
 import java.util.HashSet;
+
+import eu.scy.agents.conceptmap.proposer.Stemmer;
 
 public class Node {
 
@@ -17,10 +19,8 @@ public class Node {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(edges);
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((label == null) ? 0 : label.hashCode());
-        result = prime * result + ((stemmedLabel == null) ? 0 : stemmedLabel.hashCode());
         return result;
     }
 
@@ -33,8 +33,6 @@ public class Node {
         if (getClass() != obj.getClass())
             return false;
         Node other = (Node) obj;
-        if (!Arrays.equals(edges, other.edges))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -44,11 +42,6 @@ public class Node {
             if (other.label != null)
                 return false;
         } else if (!label.equals(other.label))
-            return false;
-        if (stemmedLabel == null) {
-            if (other.stemmedLabel != null)
-                return false;
-        } else if (!stemmedLabel.equals(other.stemmedLabel))
             return false;
         return true;
     }
@@ -114,6 +107,39 @@ public class Node {
 
     public String getStemmedLabel() {
         return stemmedLabel;
+    }
+    
+    public int getDistance(Node n) {
+        if (n.equals(this)) {
+            return 0;
+        }
+        int distance = 0;
+        HashSet<Node> closedList= new HashSet<Node>();
+        HashSet<Node> openList = new HashSet<Node>();
+        openList.add(this);
+        while (!openList.isEmpty()) {
+            if (openList.contains(n)) {
+                return distance;
+            }
+            distance++;
+            HashSet<Node> newOpenList = new HashSet<Node>();
+            for (Node nextOpenNode : openList) {
+                for (Edge e : nextOpenNode.getEdges()) {
+                    Node nextNode = null;
+                    if (e.getToNode().equals(nextOpenNode)) {
+                        nextNode = e.getFromNode();
+                    } else {
+                        nextNode = e.getToNode();
+                    }
+                    if (!closedList.contains(nextNode)) {
+                        newOpenList.add(nextNode);
+                    }
+                }
+            }
+            closedList.addAll(openList);
+            openList = newOpenList;
+        }
+        return -1;
     }
     
 }
