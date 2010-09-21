@@ -5,10 +5,10 @@ import info.collide.sqlspaces.commons.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import eu.scy.agents.conceptmap.model.EscapeUtils;
+
 public class Graph {
 
-	private static final char SEPARATOR = ';';
-	
     private Map<String, Node> nodes;
 
     private Map<String, Edge> edges;
@@ -63,7 +63,7 @@ public class Graph {
 
 	/**
 	 * Returns a {@link info.collide.sqlspaces.commons.Field} array of all
-	 * nodes. Syntax of one Field is: {@literal id;label}
+	 * nodes. Syntax of one Field is: {@literal id,label}
 	 * 
 	 * @return Field array containing all nodes
 	 */
@@ -71,7 +71,9 @@ public class Graph {
 		Node[] nodes = getNodes();
 		Field[] fields = new Field[nodes.length];
 		for (int i = 0; i < nodes.length; i++) {
-			String s = nodes[i].getId() + SEPARATOR + nodes[i].getLabel();
+			String s = EscapeUtils.escape(
+					nodes[i].getId(), nodes[i].getLabel());
+//			String s = nodes[i].getId() + SEPARATOR + nodes[i].getLabel();
 			fields[i] = new Field(s);
 		}
 		return fields;
@@ -79,7 +81,7 @@ public class Graph {
 
 	/**
 	 * Returns a {@link info.collide.sqlspaces.commons.Field} array of all
-	 * edges. Syntax of one Field is: {@literal id;label;fromNodeID;toNodeID}
+	 * edges. Syntax of one Field is: {@literal id,label,fromNodeID,toNodeID}
 	 * 
 	 * @return Field array containing all edges
 	 */
@@ -87,8 +89,13 @@ public class Graph {
 		Edge[] edges = getEdges();
 		Field[] fields = new Field[edges.length];
 		for (int i = 0; i < edges.length; i++) {
-			String s = edges[i].getId() + SEPARATOR + edges[i].getLabel() + SEPARATOR
-					+ edges[i].getFromNode().getId() + SEPARATOR + edges[i].getToNode().getId();
+			String s = EscapeUtils.escape(
+					edges[i].getId(), edges[i].getLabel(), 
+					edges[i].getFromNode().getId(), edges[i].getToNode().getId()
+					);
+
+//			String s = edges[i].getId() + SEPARATOR + edges[i].getLabel() + SEPARATOR
+//					+ edges[i].getFromNode().getId() + SEPARATOR + edges[i].getToNode().getId();
 			fields[i] = new Field(s);
 		}
 		return fields;
