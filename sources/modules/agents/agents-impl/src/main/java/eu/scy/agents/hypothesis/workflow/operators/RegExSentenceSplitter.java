@@ -16,7 +16,7 @@ import de.fhg.iais.kd.tm.obwious.util.Assert;
  * generates a feature tokens, which is represented as a list. The delimiters are regular
  * expressions which have to be applied in a special order
  * 
- * @author J�rg Kindermann
+ * @author Jörg Kindermann
  */
 public class RegExSentenceSplitter extends DocumentOperatorSpecification {
 
@@ -49,7 +49,7 @@ public class RegExSentenceSplitter extends DocumentOperatorSpecification {
 
   public static final String NUMBER_PATTERN = "[\\-\\+]*[0-9]+([,\\.][0-9]+)*";
 
-  public static final String WORD_PATTERN = "[" + ALPHA_PATTERN + "�\\'\\`�]+";
+  public static final String WORD_PATTERN = "[" + ALPHA_PATTERN + "°\\'\\`²]+";
 
   public static final String PHRASE_PATTERN = WORD_PATTERN + "([-&]" + WORD_PATTERN + ")*";
 
