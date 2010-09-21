@@ -161,6 +161,8 @@ public class SimquestModel extends Element {
 		parser.addStandardFunctions();
 		parser.addStandardConstants();
 		parser.setAllowUndeclared(true);
+		parser.addFunction("min", new MinFunction());
+                parser.addFunction("max", new MaxFunction());
 		// parser.setTraverse(true);
 		try {
 			parser.parseExpression(expr);
