@@ -16,7 +16,7 @@ import de.fhg.iais.kd.tm.obwious.util.Assert;
  * generates a feature tokens, which is represented as a list. The delimiters are regular
  * expressions which have to be applied in a special order
  * 
- * @author Jörg Kindermann
+ * @author Jï¿½rg Kindermann
  */
 public class RegExSentenceSplitter extends DocumentOperatorSpecification {
 
@@ -33,7 +33,7 @@ public class RegExSentenceSplitter extends DocumentOperatorSpecification {
   /**
    * regular expressions needed to tokenize text and split into sentences
    */
-  public static final String ALPHA_PATTERN = "a-zA-ZäöüßáéíúóúàèìòùãõâêîôûåäëïöüçñøıÿÄÖÜÁÉÍÚÓÚÀÈÌÒÙÃÕÂÊÎÔÛÄËÏÖÜÇÑØİ";
+  public static final String ALPHA_PATTERN = "a-zA-ZÃ¤Ã¶Ã¼ÃŸÃ¡Ã©Ã­ÃºÃ³ÃºÃ Ã¨Ã¬Ã²Ã¹Ã£ÃµÃ¢ÃªÃ®Ã´Ã»Ã¥Ã¤Ã«Ã¯Ã¶Ã¼Ã§Ã±Ã¸Ã½Ã¿Ã„Ã–ÃœÃÃ‰ÃÃšÃ“ÃšÃ€ÃˆÃŒÃ’Ã™ÃƒÃ•Ã‚ÃŠÃÃ”Ã›Ã„Ã‹ÃÃ–ÃœÃ‡Ã‘Ã˜Ã";
 
   public static final String URL_PATTERN = "(http|https)://[-_\\.\\~" + ALPHA_PATTERN
                                            + "0-9/=&\\?]+";
@@ -49,7 +49,7 @@ public class RegExSentenceSplitter extends DocumentOperatorSpecification {
 
   public static final String NUMBER_PATTERN = "[\\-\\+]*[0-9]+([,\\.][0-9]+)*";
 
-  public static final String WORD_PATTERN = "[" + ALPHA_PATTERN + "°\\'\\`²]+";
+  public static final String WORD_PATTERN = "[" + ALPHA_PATTERN + "ï¿½\\'\\`ï¿½]+";
 
   public static final String PHRASE_PATTERN = WORD_PATTERN + "([-&]" + WORD_PATTERN + ")*";
 
