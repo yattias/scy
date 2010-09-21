@@ -1,7 +1,6 @@
 package eu.scy.agents.roolo.rooloaccessor;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -26,6 +25,10 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
 
     private static final String ROOLO_RESPONSE = "roolo-response";
 
+    private static final String ELO = "elo";
+
+    private static final String METADATA = "metadata";
+
     private static final Logger logger = Logger.getLogger(RooloAccessorAgent.class.getName());
 
     private static final String AGENT_NAME = "roolo-agent";
@@ -42,8 +45,6 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         super(RooloAccessorAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
-            Callback arc = new AccessRooloCallback();
-            commandSpace.eventRegister(Command.WRITE, new Tuple(String.class, AGENT_NAME, String.class, Field.createWildCardField()), arc, false);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -53,7 +54,11 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
             sendAliveUpdate();
-            Thread.sleep(5000);
+            Tuple t = commandSpace.waitToTake(new Tuple(String.class, AGENT_NAME, String.class, Field.createWildCardField()), AgentProtocol.COMMAND_EXPIRATION);
+            if (t != null) {
+                processTuple(t);
+            }
+            //Thread.sleep(5000);
         }
     }
 
@@ -76,50 +81,42 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         return isStopped;
     }
 
-    class AccessRooloCallback implements Callback {
-
-        private static final String ELO = "elo";
-
-        private static final String METADATA = "metadata";
-
-        @Override
-        public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-            try {
-                String requestUID = afterTuple.getField(0).getValue().toString();
-                String type = afterTuple.getField(2).getValue().toString();
-                if (requestUID == null || requestUID.isEmpty()) {
-                    logger.debug("UID of request is null or empty.");
-                    return;
-                }
-                if (type == null || type.isEmpty()) {
-                    logger.debug("Type of request is null or empty." + " RequestID was: " + requestUID);
-                    return;
-                }
-                URI eloURI;
-                eloURI = new URI(afterTuple.getField(3).getValue().toString());
-                if (type.equals(METADATA)) {
-                    if (repo != null) {
-                        logger.debug("Request to fetch metadata for ELO: " + eloURI + " RequestID was: " + requestUID);
-                        IMetadata metadata = repo.retrieveMetadata(eloURI);
-                        sendResponse(metadata, requestUID);
-                    } else {
-                        logger.debug("Request to fetch metadata for ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
-                    }
-                } else if (type.equals(ELO)) {
-                    if (repo != null) {
-                        logger.debug("Request to fetch ELO: " + eloURI + " RequestID was: " + requestUID);
-                        IELO elo = repo.retrieveELO(eloURI);
-                        sendResponse(elo, requestUID);
-                    } else {
-                        logger.debug("Request to fetch ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
-                    }
-                } else {
-                    logger.debug("Unknown Type in Request-Tuple: " + type + " RequestID was: " + requestUID);
-                }
-            } catch (URISyntaxException e) {
-                logger.debug("Cannot parse URI from Tuple: " + afterTuple.getField(2).getValue().toString());
-                e.printStackTrace();
+    public void processTuple(Tuple tuple) {
+        try {
+            String requestUID = tuple.getField(0).getValue().toString();
+            String type = tuple.getField(2).getValue().toString();
+            if (requestUID == null || requestUID.isEmpty()) {
+                logger.debug("UID of request is null or empty.");
+                return;
             }
+            if (type == null || type.isEmpty()) {
+                logger.debug("Type of request is null or empty." + " RequestID was: " + requestUID);
+                return;
+            }
+            URI eloURI;
+            eloURI = new URI(tuple.getField(3).getValue().toString());
+            if (type.equals(METADATA)) {
+                if (repo != null) {
+                    logger.debug("Request to fetch metadata for ELO: " + eloURI + " RequestID was: " + requestUID);
+                    IMetadata metadata = repo.retrieveMetadata(eloURI);
+                    sendResponse(metadata, requestUID);
+                } else {
+                    logger.debug("Request to fetch metadata for ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
+                }
+            } else if (type.equals(ELO)) {
+                if (repo != null) {
+                    logger.debug("Request to fetch ELO: " + eloURI + " RequestID was: " + requestUID);
+                    IELO elo = repo.retrieveELO(eloURI);
+                    sendResponse(elo, requestUID);
+                } else {
+                    logger.debug("Request to fetch ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
+                }
+            } else {
+                logger.debug("Unknown Type in Request-Tuple: " + type + " RequestID was: " + requestUID);
+            }
+        } catch (URISyntaxException e) {
+            logger.debug("Cannot parse URI from Tuple: " + tuple.getField(2).getValue().toString());
+            e.printStackTrace();
         }
     }
 
