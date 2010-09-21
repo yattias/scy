@@ -117,6 +117,18 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
       doLoadElo(uri);
    }
 
+   public override function onQuit():Void{
+      if (elo!=null){
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
+   }
+
    protected function getParentComponent(): Component {
       return null;
    }

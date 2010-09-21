@@ -582,9 +582,9 @@ public class Initializer {
             newScyServerHost = scyServerHost;
         } else if (useWebStartHost) {
             try {
+                var basicService = ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                 var webstartServiceNames = javax.jnlp.ServiceManager.getServiceNames();
                 logger.info("Available web start services: {webstartServiceNames}");
-                var basicService = ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                 if (basicService != null) {
                     var codeBase = basicService.getCodeBase();
                     logger.info("webstart codeBase: {codeBase}");

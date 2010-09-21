@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELO;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikken
@@ -107,6 +108,7 @@ public class SimpleSaveAsNodeDesign {
    public var myElo: Boolean;
    public var eloSaverCallBack: EloSaverCallBack;
    public var modalDialogBox: ModalDialogBox;
+   public var scyElo: ScyElo;
 
    function updateSaveState() {
       var title = getTitle();

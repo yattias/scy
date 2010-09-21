@@ -29,6 +29,10 @@ import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
 import eu.scy.common.mission.MissionEloType;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleSaveAsNodeDesign;
 
 /**
  * @author SikkenJ
@@ -124,6 +128,8 @@ public class MissionLocator {
       if (missionRuntimeElo.getTypedContent().getMissionMapModelEloUri() != null) {
          def scyElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getMissionMapModelEloUri(), tbi);
          missionMapModel = MissionModelXml.convertToMissionModel(scyElo.getContent().getXmlString());
+         missionMapModel.elo = scyElo.getElo();
+         missionMapModel.eloFactory = tbi.getELOFactory();
       }
       if (missionRuntimeElo.getTypedContent().getEloToolConfigsEloUri() != null) {
          eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEloToolConfigsEloUri(), tbi);
@@ -145,8 +151,31 @@ public class MissionLocator {
    }
 
    function startBlankMission(): Void {
-      def missionRuntimeElo = MissionRuntimeElo.createElo(tbi);
-      missionRuntimeElo.setTitle(##"Empty mission");
+      askUserForBlankMissionName(MissionRuntimeElo.createElo(tbi));
+   }
+
+   function askUserForBlankMissionName(missionRuntimeElo: MissionRuntimeElo){
+      var eloSaveAsPanel = SimpleSaveAsNodeDesign {
+            saveAction: createBlankMissionAction
+            cancelAction: cancelBlankMissionAction
+            scyElo: missionRuntimeElo
+         }
+      eloSaveAsPanel.setTitle(##"Empty mission");
+      Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes());
+      eloSaveAsPanel.modalDialogBox = ModalDialogBox {
+            content: Group {
+               content: eloSaveAsPanel.getDesignRootNodes()
+            }
+            title: ##"Enter title"
+            eloIcon: window.eloIcon
+            windowColorScheme: window.windowColorScheme
+         }
+   }
+
+   function createBlankMissionAction(eloSaveAsPanel: SimpleSaveAsNodeDesign): Void{
+      eloSaveAsPanel.modalDialogBox.close();
+      def missionRuntimeElo = eloSaveAsPanel.scyElo as MissionRuntimeElo;
+      missionRuntimeElo.setTitle(eloSaveAsPanel.titleTextBox.text);
       missionRuntimeElo.setMissionRunning(userName);
       missionRuntimeElo.saveAsNewElo();
       injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
@@ -154,11 +183,13 @@ public class MissionLocator {
       missionMapModel = MissionModelFX {
          }
       def missionMapModelElo = ScyElo.createElo(MissionEloType.MISSION_MAP_MODEL.getType(), tbi);
-      missionMapModelElo.setTitle(##"Empty mission");
+      missionMapModelElo.setTitle(missionRuntimeElo.getTitle());
       missionMapModelElo.getContent().setXmlString(MissionModelXml.convertToXml(missionMapModel));
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
       missionMapModelElo.saveAsNewElo();
+      missionMapModel.elo = missionMapModelElo.getElo();
+      missionMapModel.eloFactory = tbi.getELOFactory();
 
       runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
       runtimeSettingsElo.setTitle(missionRuntimeElo.getTitle());
@@ -177,6 +208,10 @@ public class MissionLocator {
          templateElosElo: null
          runtimeSettingsElo: runtimeSettingsElo
       });
+   }
+
+   function cancelBlankMissionAction(eloSaveAsPanel: SimpleSaveAsNodeDesign): Void{
+      eloSaveAsPanel.modalDialogBox.close();
    }
 
    function injectMissionRuntimeEloInRepository(missionRuntimeEloUri: URI) {
@@ -242,6 +277,8 @@ public class MissionLocator {
       //      missionMapModelElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(MissionEloType.MISSION_MAP_MODEL.getType());
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
       missionMapModelElo.saveAsForkedElo();
+      missionMapModel.elo = missionMapModelElo.getElo();
+      missionMapModel.eloFactory = tbi.getELOFactory();
       missionMapModelElo
    }
 

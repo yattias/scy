@@ -214,6 +214,14 @@ public class ScyDesktopCreator {
       missionModelFX.eloFactory = config.getEloFactory();
       handleEloToolConfigs();
       handleTemplateElos();
+      logger.info("missionRunConfigs elos:\n"
+         "- mission specification: {missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri()}\n"
+         "- mission runtime: {missionRunConfigs.missionRuntimeElo.getUri()}\n"
+         "- mission map model : {missionRunConfigs.missionMapModel.elo.getUri()}\n"
+         "- elo tool configs: {missionRunConfigs.eloToolConfigsElo.getUri()}\n"
+         "- template elos: {missionRunConfigs.templateElosElo.getUri()}\n"
+         "- runtime settings: {missionRunConfigs.runtimeSettingsElo.getUri()}"
+         );
       if (initializer.debugMode) {
          printConfiguration();
       }
