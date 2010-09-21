@@ -1,62 +1,62 @@
 package eu.scy.agents.hypothesis.workflow.operators;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.fhg.iais.kd.tm.obwious.JavaClasses;
-import de.fhg.iais.kd.tm.obwious.OBWIOUSClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
-import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.type.Container;
-import de.fhg.iais.kd.tm.obwious.util.Assert;
 
 /**
- * Takes the feature specified in parameter baseText (default:text), which is a single string and
- * generates a feature tokens, which is represented as a list. The delimiters are regular
- * expressions which have to be applied in a special order
+ * Takes the feature specified in parameter baseText (default:text), which is a
+ * single string and generates a feature tokens, which is represented as a list.
+ * The delimiters are regular expressions which have to be applied in a special
+ * order
  * 
- * @author Jörg Kindermann
+ * @author JÃ¶rg Kindermann
  */
 public class KeywordsInSentenceSpotter extends OperatorSpecification {
 
-  /**
-   * Should documents really be updated. true, false
-   */
-  public static final String UPDATE = "update";
-  public static final String HISTOGRAM = "histogram";
+	/**
+	 * Should documents really be updated. true, false
+	 */
+	public static final String UPDATE = "update";
+	public static final String HISTOGRAM = "histogram";
 
-  /**
-   * Construct new Operator that spots keywords in sentences and computes a keyword-in-sentence ratio.
-   */
-  public KeywordsInSentenceSpotter() {
-    super();
-    this.addParameterType(UPDATE, JavaClasses.BOOLEAN, false, Boolean.TRUE);
-    this.addInputType(ObjectIdentifiers.DOCUMENT, Document.class);
-    this.addOutputType(HISTOGRAM, List.class);
-  }
+	/**
+	 * Construct new Operator that spots keywords in sentences and computes a
+	 * keyword-in-sentence ratio.
+	 */
+	public KeywordsInSentenceSpotter() {
+		super();
+		this.addParameterType(UPDATE, JavaClasses.BOOLEAN, false, Boolean.TRUE);
+		this.addInputType(ObjectIdentifiers.DOCUMENT, Document.class);
+		this.addOutputType(HISTOGRAM, List.class);
+	}
 
-  @Override
-  public Container run(Container inputParameters) {
+	@Override
+	public Container run(Container inputParameters) {
 
-    Document document = (Document) inputParameters.getObject(ObjectIdentifiers.DOCUMENT);
-    // logger.info("Tokenizing document to sentence tokens" + document.getId());
+		Document document = (Document) inputParameters
+				.getObject(ObjectIdentifiers.DOCUMENT);
+		// logger.info("Tokenizing document to sentence tokens" +
+		// document.getId());
 
-    List sentences = (List) document.getFeature(Features.SENTENCES);
-    Boolean update = (Boolean) inputParameters.getObject(UPDATE);
+		List sentences = (List) document.getFeature(Features.SENTENCES);
+		Boolean update = (Boolean) inputParameters.getObject(UPDATE);
 
-    Container output = new Container(getOutputSignature());
-// analyze document....
-    output.setObject(ObjectIdentifiers.DOCUMENT, document);
+		Container output = new Container(getOutputSignature());
+		// analyze document....
+		output.setObject(ObjectIdentifiers.DOCUMENT, document);
 
-    return output;
-  }
+		return output;
+	}
 
-  private String[] tokenize(String text) {
-    String regex = "\\s+";
-    String[] sent = text.split(regex);
-    return sent;
-  }
+	private String[] tokenize(String text) {
+		String regex = "\\s+";
+		String[] sent = text.split(regex);
+		return sent;
+	}
 }
