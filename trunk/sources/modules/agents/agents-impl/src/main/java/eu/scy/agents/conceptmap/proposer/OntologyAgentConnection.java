@@ -124,6 +124,18 @@ public class OntologyAgentConnection implements OntologyConnection {
     public void close() {
         // do nothing
     }
+
+    @Override
+    public String getOntologyNamespace() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public String getLanguage() {
+        // TODO
+        return null;
+    }
     
     
 }

@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 public class EscapeUtils {
 
-    private static final String SEPARATOR = ",";
+    public static final String SEPARATOR = ",";
 
-    private static final String ESCAPE_CHAR = "\\";
+    public static final String ESCAPE_CHAR = "\\";
 
     public static String escape(String... strings) {
         StringBuilder sb = new StringBuilder();
