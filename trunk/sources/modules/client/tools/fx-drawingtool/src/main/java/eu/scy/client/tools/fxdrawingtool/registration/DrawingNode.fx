@@ -66,6 +66,18 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       doLoadElo(uri);
    }
 
+   public override function onQuit():Void{
+      if (elo!=null){
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
+   }
+
    public override function create(): Node {
       wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
       //wrappedWhiteboardPanel.cache = true;
