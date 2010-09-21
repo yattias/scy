@@ -83,25 +83,28 @@ public class MissionModelFX {
       updateElo();
    }
 
-
-
-   public function eloUriChanged(oldEloUri:URI, newEloUri:URI){
+   public function eloUriChanged(oldEloUri: URI, newEloUri: URI) {
       logger.info("eloUri changed from {oldEloUri} to {newEloUri}");
-      if (oldEloUri==null){
+      if (oldEloUri == null) {
          // it's a new elo, being saved
-         if (activeLas!=null){
+         if (activeLas != null) {
             insert newEloUri into activeLas.otherEloUris;
          }
-         return;
+         else{
+            insert newEloUri into loEloUris;
+         }
+         contentChanged = true;
       }
-      loEloUris = updateEloUri(loEloUris,oldEloUri,newEloUri);
-      for (las in lasses){
-         updateLasEloUri(las,oldEloUri,newEloUri)
+      else {
+         loEloUris = updateEloUri(loEloUris, oldEloUri, newEloUri);
+         for (las in lasses) {
+            updateLasEloUri(las, oldEloUri, newEloUri)
+         }
       }
-      if (contentChanged){
-          updateElo();
+      if (contentChanged) {
+         updateElo();
       }
-    }
+   }
 
    function updateEloUri(uris:URI[], oldEloUri:URI, newEloUri:URI):URI[]{
       var updatedUris:URI[];
@@ -123,6 +126,7 @@ public class MissionModelFX {
          updateAnchorEloUri(intermediateAnchor,oldEloUri,newEloUri);
       }
       las.loEloUris = updateEloUri(las.loEloUris,oldEloUri,newEloUri);
+      las.otherEloUris = updateEloUri(las.otherEloUris,oldEloUri,newEloUri);
    }
 
    function updateAnchorEloUri(anchor:MissionAnchorFX,oldEloUri:URI, newEloUri:URI){
@@ -132,7 +136,6 @@ public class MissionModelFX {
       }
       anchor.loEloUris = updateEloUri(anchor.loEloUris,oldEloUri,newEloUri);
    }
-
 
    public function updateElo():Void{
       if (repository==null or eloFactory==null){

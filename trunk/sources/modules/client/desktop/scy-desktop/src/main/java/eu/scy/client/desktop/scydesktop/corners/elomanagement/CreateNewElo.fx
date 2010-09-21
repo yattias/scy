@@ -38,6 +38,7 @@ public class CreateNewElo extends ModalDialogNode {
         height: 123.0
     }
     public-read def listView: javafx.scene.control.ListView = javafx.scene.control.ListView {
+        disable: false
         layoutX: 0.0
         layoutY: 22.0
         layoutInfo: __layoutInfo_listView
@@ -79,20 +80,20 @@ public class CreateNewElo extends ModalDialogNode {
       sizeRectangle.fill = Color.TRANSPARENT;
    }
 
+   def eloSelected = bind listView.selectedItem!=null on replace{
+      createButton.disable = not eloSelected;
+   }
 
    function listViewOnKeyTyped(event: javafx.scene.input.KeyEvent): Void {
-      println("key: {event} {event.char=='\n'}");
       if (not createButton.disabled and event.char=='\n') {
          createButtonAction();
       }
    }
 
    function listViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
-      createButton.disable = listView.selectedIndex < 0;
       if (event.clickCount==2 and listView.selectedIndex>=0 ){
          createButtonAction();
       }
-
    }
 
    function createButtonAction(): Void {

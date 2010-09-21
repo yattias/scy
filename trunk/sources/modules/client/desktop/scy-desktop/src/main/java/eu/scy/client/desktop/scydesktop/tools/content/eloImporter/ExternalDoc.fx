@@ -288,6 +288,17 @@ public class ExternalDoc extends CustomNode,Resizable, ScyToolFX, EloSaverCallBa
    public override function newElo(){
    }
    
+   public override function onQuit():Void{
+      if (elo!=null){
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
+   }
 
    public override function create(): Node {
       contentGroup = Group {

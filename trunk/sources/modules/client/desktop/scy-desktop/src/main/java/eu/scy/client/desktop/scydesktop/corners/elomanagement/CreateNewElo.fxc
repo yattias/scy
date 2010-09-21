@@ -69,6 +69,7 @@
     </Instance>
     <Instance classID="ListViewModel" instanceID="ListViewModel1">
         <Reference name="instanceName" value="str:listView"/>
+        <Reference name="disable" value="prop2:7,NOT_SET,4,null,4,null,17,anim:,,bool:false,4,null,"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:22.0,4,null,"/>
         <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:259.0,4,null,"/>
