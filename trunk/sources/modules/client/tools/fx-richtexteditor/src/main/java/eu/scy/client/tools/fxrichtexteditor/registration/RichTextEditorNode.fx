@@ -55,7 +55,6 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    def jdomStringConversion = new JDomStringConversion();
    def spacing = 5.0;
    def toolname = "formatted text editor";
-   def richTextEditor:RichTextEditor = new RichTextEditor();
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
@@ -66,6 +65,11 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    public var dataSyncService:IDataSyncService;
    public var pedagogicalPlanService:PedagogicalPlanService;
    public var scyWindow:ScyWindow;
+   public var authorMode:Boolean;
+   // interval in milliseconds after what typed text is wrote
+   // into action log - should be configurable from authoring tools
+   public var typingLogIntervalMs = 10000;
+   var richTextEditor:RichTextEditor;
    var elo:IELO;
    var technicalFormatKey: IMetadataKey;
    var selectFormattedText = ##"Select formatted text";
@@ -163,6 +167,8 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
     }
 
    public override function create(): Node {
+      richTextEditor = new RichTextEditor(false, authorMode);
+      richTextEditor.setTypingLogIntervalMs(typingLogIntervalMs);
       wrappedRichTextEditor = ScySwingWrapper.wrap(richTextEditor,true);
       resizeContent();
       FX.deferAction(resizeContent);
@@ -231,4 +237,9 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    function resizeContent(): Void{
       Container.resizeNode(wrappedRichTextEditor,width,height-wrappedRichTextEditor.boundsInParent.minY-spacing);
    }
+
+   public override function onQuit() {
+       richTextEditor.insertedTextToActionLog();
+   }
+
 }
