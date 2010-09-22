@@ -216,7 +216,7 @@ function showPrepare() : Void {
     lowerNodes = null;
     refreshStage();
 }
-protected var question: String;
+public var question: String;
 var questionBefore: String;
 var questionAfter: String on replace {if (not questionBefore.equals(questionAfter)) {interviewLogger.logQuestionChange(questionBefore,questionAfter);}};
 function showQuestion() {
