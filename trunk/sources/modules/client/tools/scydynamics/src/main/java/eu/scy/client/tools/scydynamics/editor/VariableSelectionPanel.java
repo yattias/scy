@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scydynamics.editor;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -27,20 +28,21 @@ public class VariableSelectionPanel extends JPanel {
 	private static final long serialVersionUID = 694812595907870835L;
 	private Map<String, JCheckBox> variables;
 	private ModelEditor editor;
+    private final ResourceBundleWrapper bundle;
 
-	public VariableSelectionPanel(ModelEditor editor) {
+	public VariableSelectionPanel(ModelEditor editor, ResourceBundleWrapper bundle) {
 		super();
 		this.editor = editor;
+                this.bundle = bundle;
 		variables = new HashMap<String, JCheckBox>();
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createTitledBorder("variable selection"));
+		this.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
 		if (editor.getModel() != null) {
 			updateVariables();
 		}
 	}
 	
 	public void checkModel() {
-		//
 		Enumeration<JdObject> objects = editor.getModel().getObjects().elements();
 		JdObject object;
 		while (objects.hasMoreElements()) {
@@ -48,8 +50,7 @@ public class VariableSelectionPanel extends JPanel {
 			if (!object.isSpecified()) {
 				System.out.println("VariableSelectionPanel.checkModel: "+object.getLabel()+" is not specified!");
 			}
-		}
-		
+		}	
 	}
 
 	public void updateVariables() {
@@ -64,7 +65,7 @@ public class VariableSelectionPanel extends JPanel {
 				+ model.getStocks().size();
 		if (variablecount == 0) {
 			// no relevant variables in model
-			this.add(new JLabel("<html><body>There are no plottable variables<br>(i.e. stocks or aux's) in the model.</body></html>"), BorderLayout.NORTH);
+			this.add(new JLabel(bundle.getString("PANEL_NOVARIABLES")), BorderLayout.NORTH);
 		} else {
 			FlowLayout leftFlow = new FlowLayout();
 			leftFlow.setAlignment(FlowLayout.LEFT);
@@ -83,7 +84,7 @@ public class VariableSelectionPanel extends JPanel {
 					colorLabel.setForeground(object.getLabelColor());
 					//vPanel.setBackground(object.getLabelColor());
 					vPanel.add(colorLabel);
-					box = new JCheckBox(" (stock) "+object.getLabel());
+					box = new JCheckBox(" ("+bundle.getString("EDITOR_STOCK")+") "+object.getLabel());
 					if (oldSelection.contains(object.getLabel())) {
 						box.setSelected(true);
 					}
@@ -95,7 +96,7 @@ public class VariableSelectionPanel extends JPanel {
 					colorLabel = new JLabel("\u2588");
 					colorLabel.setForeground(object.getLabelColor());
 					vPanel.add(colorLabel);
-					box = new JCheckBox(" (aux) "+object.getLabel());
+					box = new JCheckBox(" ("+bundle.getString("EDITOR_AUX")+") "+object.getLabel());
 					if (oldSelection.contains(object.getLabel())) {
 						box.setSelected(true);
 					}

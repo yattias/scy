@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scydynamics.editor;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -19,10 +20,10 @@ java.awt.event.ActionListener {
 	private VariableDialog variableDialog;
 
 	
-	public ColorDialog(Frame frame, Point position, VariableDialog variableDialog) {
+	public ColorDialog(Frame frame, Point position, VariableDialog variableDialog, ResourceBundleWrapper bundle) {
 		super(frame, false);
 		this.setLocation(position);
-		this.setTitle("Please choose a color...");
+		this.setTitle(bundle.getString("VARIABLEDIALOG_CHOOSECOLOR"));
 		this.variableDialog = variableDialog;
 		this.getContentPane().setLayout(new FlowLayout());
 		
@@ -42,7 +43,7 @@ java.awt.event.ActionListener {
 			this.getContentPane().add(colorButton);
 		}
 		
-		colorButton = new JButton("cancel");
+		colorButton = new JButton(bundle.getString("VARIABLEDIALOG_CANCEL"));
 		colorButton.setActionCommand("cancel");
 		colorButton.addActionListener(this);
 		this.getContentPane().add(colorButton);

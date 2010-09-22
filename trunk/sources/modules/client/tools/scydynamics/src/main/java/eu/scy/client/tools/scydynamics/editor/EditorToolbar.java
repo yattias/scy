@@ -11,6 +11,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import colab.um.tools.JTools;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 
 public class EditorToolbar extends JToolBar implements ActionListener {
@@ -34,25 +35,25 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 	private HashMap<String, JToggleButton> buttonMap;
 	private ActionListener actionListener;
 	
-	public EditorToolbar(ActionListener actionListener) {
+	public EditorToolbar(ActionListener actionListener, ResourceBundleWrapper bundle) {
 		super(JToolBar.VERTICAL);
 		this.actionListener = actionListener;
 		setFloatable(false);
 		buttonMap = new HashMap<String, JToggleButton>();
-		add(createToggleButton(CURSOR, "EditorCursorTB", "cursor"));	
-		add(createToggleButton(CONSTANT, "EditorConstantTB", "constant"));
-		add(createToggleButton(STOCK, "EditorStockTB", "stock"));
-		add(createToggleButton(FLOW, "EditorFlowTB", "flow"));
-		add(createToggleButton(RELATION, "EditorRelationTB", "relation"));
-		add(createToggleButton(AUX, "EditorAuxTB", "auxiliary"));
+		add(createToggleButton(CURSOR, "EditorCursorTB", bundle.getString("EDITOR_CURSOR")));
+		add(createToggleButton(CONSTANT, "EditorConstantTB", bundle.getString("EDITOR_CONSTANT")));
+		add(createToggleButton(STOCK, "EditorStockTB", bundle.getString("EDITOR_STOCK")));
+		add(createToggleButton(FLOW, "EditorFlowTB", bundle.getString("EDITOR_FLOW")));
+		add(createToggleButton(RELATION, "EditorRelationTB", bundle.getString("EDITOR_RELATION")));
+		add(createToggleButton(AUX, "EditorAuxTB", bundle.getString("EDITOR_AUX")));
 		//add(createButton(DATASET, "EdDataset.gif"));
 		add(new JToolBar.Separator());
 		add(new JToolBar.Separator());
 		//add(createButton(DELETE, "EditorDeleteTB", "delete"));
-		add(createButton(DELETE, "delete", "delete"));
-		add(createButton(CUT, "cut", "cut"));
-		add(createButton(COPY, "copy", "copy"));
-		add(createButton(PASTE, "paste", "paste"));
+		add(createButton(DELETE, "delete", bundle.getString("EDITOR_DELETE")));
+		add(createButton(CUT, "cut", bundle.getString("EDITOR_CUT")));
+		add(createButton(COPY, "copy", bundle.getString("EDITOR_COPY")));
+		add(createButton(PASTE, "paste", bundle.getString("EDITOR_PASTE")));
 		buttonMap.get(CURSOR+"").setSelected(true);
 		currentAction = CURSOR;
 	}
