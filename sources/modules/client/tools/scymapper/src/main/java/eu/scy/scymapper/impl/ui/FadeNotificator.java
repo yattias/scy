@@ -60,6 +60,8 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
 
     private boolean setToInvisible;
 
+    private boolean borderPainted;
+
     public FadeNotificator(JComponent parent, JComponent content, Position position) {
         this.parent = parent;
         this.content = content;
@@ -67,9 +69,10 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
         this.contentWidth = content.getWidth();
         this.contentHeight = content.getHeight();
         this.visible = false;
+        this.borderPainted = true;
         content.setVisible(visible);
         animator = new Animator(duration, this);
-        animator.setInterpolator(new SplineInterpolator(0.5f, 0.0f, 1f, 0.01f));
+        animator.setInterpolator(new SplineInterpolator(0.4f, 0.0f, 1f, 0.6f));
         Point contentPoint = calculatePosition();
         content.setBounds(contentPoint.x, contentPoint.y, content.getWidth(), content.getHeight());
         parent.addComponentListener(this);
@@ -80,7 +83,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
                 Graphics2D g2d = (Graphics2D) g.create();
                 Component[] components = getComponents();
                 for (Component component : components) {
-                    if (component.isVisible()) {
+                    if (component.isVisible() && borderPainted) {
                         Rectangle bounds = component.getBounds();
                         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
@@ -89,7 +92,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
                             float pct = (float) (sw - i) / (sw - 1);
                             g2d.setColor(getMixedColor(Color.DARK_GRAY, pct, Color.WHITE, 1.0f - pct));
                             g2d.setStroke(new BasicStroke(i));
-                            g2d.drawRoundRect(bounds.x+(sw/4), bounds.y+(sw/4), bounds.width-(sw/4), bounds.height-(sw/4), 2, 2);
+                            g2d.drawRoundRect(bounds.x + (sw / 4), bounds.y + (sw / 4), bounds.width - (sw / 4), bounds.height - (sw / 4), 2, 2);
                         }
                     }
                 }
@@ -122,8 +125,13 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
         return visible;
     }
 
-    public void setDuration(int millis){
-        this.duration=millis;
+    public void setDuration(int millis) {
+        this.duration = millis;
+        animator.setDuration(millis);
+    }
+
+    public void setBorderPainted(boolean enabled) {
+        this.borderPainted = enabled;
     }
 
     private Point calculatePosition() {
@@ -149,7 +157,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
                 break;
             case LOWER_RIGHT_CORNER:
                 x = (parent.getWidth() - content.getWidth());
-                y = (parent.getHeight() ) - (content.getHeight() );
+                y = (parent.getHeight()) - (content.getHeight());
                 break;
             case LOWER_LEFT_CORNER:
                 x = 0;
@@ -172,58 +180,69 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
 
     public void show() {
         if (!visible) {
+            try {
             animator.setStartFraction(1f);
             animator.setStartDirection(Direction.BACKWARD);
             visible = true;
             setToInvisible = false;
             animator.start();
+            } catch (IllegalStateException ise) {
+                System.out.println("You cannot perform the show() operation during an animation");
+            }
         }
     }
 
     public void hide() {
         if (visible) {
-            animator.setStartFraction(0f);
-            animator.setStartDirection(Direction.FORWARD);
-            setToInvisible = true;
-            animator.start();
+            try {
+                animator.setStartFraction(0f);
+                animator.setStartDirection(Direction.FORWARD);
+                setToInvisible = true;
+                animator.start();
+            } catch (IllegalStateException ise) {
+                System.out.println("You cannot perform the hide() operation during an animation");
+            }
         }
     }
 
     public static void main(String[] args) {
-        JFrame jf = new JFrame("Parent Frame");
-        JPanel jp = new JPanel();
-        jp.setLayout(new GridLayout(1, 0));
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame("Parent Frame");
+        JPanel panel = new JPanel();
         JButton label = new JButton("Button as component");
-        label.setSize(300, 300);
-        jf.setSize(600, 480);
-        jf.setVisible(true);
-        final FadeNotificator notificator = new FadeNotificator(jf.getRootPane(), label, FadeNotificator.Position.LOWER_RIGHT_CORNER);
+        panel.setLayout(new GridLayout(1, 0));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        label.setSize(100, 80);
+        frame.setSize(1000, 800);
+        frame.setVisible(true);
+        final FadeNotificator notification = new FadeNotificator(frame.getRootPane(), label, FadeNotificator.Position.EAST);
+        notification.setDuration(300);
         label.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (notificator.isVisible()) {
-                    notificator.hide();
+                if (notification.isVisible()) {
+                    notification.hide();
+
                 } else {
-                    notificator.show();
+                    notification.show();
+
                 }
             }
         });
-        JButton showHideNoti = new JButton("Show/hide notification");
-        showHideNoti.addActionListener(new ActionListener() {
+        JButton showHideButton = new JButton("Show/hide notification");
+        showHideButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (notificator.isVisible()) {
-                    notificator.hide();
+                if (notification.isVisible()) {
+                    notification.hide();
                 } else {
-                    notificator.show();
+                    notification.show();
                 }
             }
         });
-        jp.add(showHideNoti);
-        jf.add(jp, BorderLayout.NORTH);
+        panel.add(showHideButton);
+        frame.add(panel, BorderLayout.NORTH);
     }
 
     @Override
