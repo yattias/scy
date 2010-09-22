@@ -9,8 +9,9 @@ import javafx.util.StringLocalizer;
  */
 
 public class RichTextEditorContentCreatorFX extends ScyToolWindowContentCreatorFX {
-   public override function createScyToolWindowContent():Node{
-      StringLocalizer.associate("eu.scy.client.tools.fxrichtexteditor.registration.resources.RichTextEditorRegistration", "eu.scy.client.tools.fxrichtexteditor.registration");
-      return RichTextEditorNode{};
-   }
+    public var authorMode:Boolean;
+    public override function createScyToolWindowContent():Node{
+        StringLocalizer.associate("eu.scy.client.tools.fxrichtexteditor.registration.resources.RichTextEditorRegistration", "eu.scy.client.tools.fxrichtexteditor.registration");
+        return RichTextEditorNode{authorMode:authorMode};
+    }
 }
