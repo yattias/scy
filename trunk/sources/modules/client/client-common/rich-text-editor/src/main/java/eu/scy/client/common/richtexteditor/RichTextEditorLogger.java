@@ -9,6 +9,7 @@ import eu.scy.actionlogging.Action;
 * Action logger for rich text editor component.
 */
 public class RichTextEditorLogger {
+    public final static String OPEN = "open file";
     public final static String SAVE_RTF = "save rtf file";
     public final static String PRINT = "print";
     public final static String PDF = "save pdf file";
@@ -17,6 +18,8 @@ public class RichTextEditorLogger {
     public final static String UNDERLINE = "underline action";
     public final static String SUPERSCRIPT = "superscript action";
     public final static String SUBSCRIPT = "subscript action";
+    public final static String INSERT = "insert text";
+    public final static String DELETE = "delete text";
     public static int COUNT = 0;
 
     private IActionLogger actionLogger;
@@ -55,7 +58,7 @@ public class RichTextEditorLogger {
         action = new Action();
         action.setUser(username);
         action.setType(type);
-        action.addContext(ContextConstants.tool, toolname+"_"+String.valueOf(loggerCount));
+        action.addContext(ContextConstants.tool, toolname+"_"+String.valueOf(loggerCount)+"_rich text editor component");
         action.addContext(ContextConstants.mission, missionname);
         action.addContext(ContextConstants.session, sessionname);
         if (eloUri != null) {
@@ -79,6 +82,19 @@ public class RichTextEditorLogger {
         createBasicAction(type);
         action.addAttribute("text", text);
         action.addAttribute("isStyleIn", isStyleIn);
+        write();
+    }
+
+    public void logDeleteAction(String text) {
+        createBasicAction(DELETE);
+        action.addAttribute("text", text);
+        write();
+    }
+
+    public void logInsertAction(String text, int interval) {
+        createBasicAction(INSERT);
+        action.addAttribute("text", text);
+        action.addAttribute("interval", String.valueOf(interval));
         write();
     }
 }

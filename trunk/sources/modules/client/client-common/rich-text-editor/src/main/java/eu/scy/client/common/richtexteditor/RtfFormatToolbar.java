@@ -25,7 +25,17 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	private ImageIcon underlineIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_underline.png"));
 	private ImageIcon superIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sup_letter.png"));
 	private ImageIcon subIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sub_letter.png"));
+	private ImageIcon boldIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_bold_in.png"));
+	private ImageIcon italicIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_italic_in.png"));
+	private ImageIcon underlineIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_underline_in.png"));
+	private ImageIcon superIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sup_letter_in.png"));
+	private ImageIcon subIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sub_letter_in.png"));
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
+	private JButton boldButton = new JButton(boldIcon);
+	private JButton italicButton = new JButton(italicIcon);
+	private JButton underlineButton = new JButton(underlineIcon);
+	private JButton superButton = new JButton(superIcon);
+	private JButton subButton = new JButton(subIcon);
 
 	private RichTextEditor editorPanel;
 
@@ -43,40 +53,39 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 		this.setOrientation(SwingConstants.HORIZONTAL);
 		this.setFloatable(false);
 
-		JButton button = new JButton(boldIcon);
-		button.setActionCommand("bold");
-		button.addActionListener(this);
-		button.addActionListener(new RTFEditorKit.BoldAction());
-		button.setToolTipText(messages.getString("bold"));
-		this.add(button);
+		boldButton.setActionCommand("bold");
+		boldButton.addActionListener(this);
+		boldButton.addActionListener(new RTFEditorKit.BoldAction());
+		boldButton.setToolTipText(messages.getString("bold"));
+		this.add(boldButton);
 
-		button = new JButton(italicIcon);
-		button.setActionCommand("italics");
-		button.addActionListener(this);
-		button.addActionListener(new StyledEditorKit.ItalicAction());
-		button.setToolTipText(messages.getString("italics"));
-		this.add(button);
+		italicButton = new JButton(italicIcon);
+		italicButton.setActionCommand("italics");
+		italicButton.addActionListener(this);
+		italicButton.addActionListener(new StyledEditorKit.ItalicAction());
+		italicButton.setToolTipText(messages.getString("italics"));
+		this.add(italicButton);
 
-		button = new JButton(underlineIcon);
-		button.setActionCommand("underline");
-		button.addActionListener(this);
-		button.addActionListener(new StyledEditorKit.UnderlineAction());
-		button.setToolTipText(messages.getString("underline"));
-		this.add(button);
+		underlineButton = new JButton(underlineIcon);
+		underlineButton.setActionCommand("underline");
+		underlineButton.addActionListener(this);
+		underlineButton.addActionListener(new StyledEditorKit.UnderlineAction());
+		underlineButton.setToolTipText(messages.getString("underline"));
+		this.add(underlineButton);
 
-		button = new JButton(superIcon);
-		button.setActionCommand("superscript");
-		button.addActionListener(this);
-		button.addActionListener(new SuperscriptAction());
-		button.setToolTipText(messages.getString("superscript"));
-		this.add(button);
+		superButton = new JButton(superIcon);
+		superButton.setActionCommand("superscript");
+		superButton.addActionListener(this);
+		superButton.addActionListener(new SuperscriptAction());
+		superButton.setToolTipText(messages.getString("superscript"));
+		this.add(superButton);
 
-		button = new JButton(subIcon);
-		button.setActionCommand("subscript");
-		button.addActionListener(this);
-		button.addActionListener(new SubscriptAction());
-		button.setToolTipText(messages.getString("subscript"));
-		this.add(button);
+		subButton = new JButton(subIcon);
+		subButton.setActionCommand("subscript");
+		subButton.addActionListener(this);
+		subButton.addActionListener(new SubscriptAction());
+		subButton.setToolTipText(messages.getString("subscript"));
+		this.add(subButton);
 
 	}
 	
@@ -84,6 +93,7 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
         int pos = editorPanel.getJTextPane().getSelectionStart();
         String text = editorPanel.getJTextPane().getSelectedText();
+        RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
         if (text==null)
             text = "";
         if (e.getActionCommand().equals("bold")) {
@@ -109,18 +119,24 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
                     RichTextEditorLogger.UNDERLINE,text,underlineLogValue);
             }
 		} else if (e.getActionCommand().equals("superscript")) {
-    		RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
 			String in = (StyleConstants.isSuperscript(rtfek.getInputAttributes())) ? "true" : "false";
             if (editorPanel.getRichTextEditorLogger() != null)
                 editorPanel.getRichTextEditorLogger().logFormatAction(
                     RichTextEditorLogger.SUPERSCRIPT,text,in);
         } else if (e.getActionCommand().equals("subscript")) {
-    			RTFEditorKit rtfek=(RTFEditorKit)editorPanel.getJTextPane().getEditorKit();
 				String in = (StyleConstants.isSubscript(rtfek.getInputAttributes())) ? "true" : "false";
             if (editorPanel.getRichTextEditorLogger() != null)
                 editorPanel.getRichTextEditorLogger().logFormatAction(
                     RichTextEditorLogger.SUBSCRIPT,text,in);
 		}
+        setFormatIcons(
+            StyleConstants.isBold(rtfek.getInputAttributes()),
+            StyleConstants.isItalic(rtfek.getInputAttributes()),
+            StyleConstants.isUnderline(rtfek.getInputAttributes()),
+            StyleConstants.isSuperscript(rtfek.getInputAttributes()),
+            StyleConstants.isSubscript(rtfek.getInputAttributes())
+        );
+        editorPanel.getJTextPane().requestFocusInWindow();
 	}
 
 	public static class SuperscriptAction extends StyledEditorKit.StyledTextAction {
@@ -135,9 +151,14 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
                 StyledDocument doc=(StyledDocument)editor.getDocument();
     			RTFEditorKit rtfek=(RTFEditorKit)editor.getEditorKit();
         		MutableAttributeSet attr=rtfek.getInputAttributes();
-				boolean subscript = (StyleConstants.isSuperscript(rtfek
+				boolean superscript = (StyleConstants.isSuperscript(rtfek
 						.getInputAttributes())) ? false : true;
-               	StyleConstants.setSuperscript(attr, subscript);
+				boolean subscript = (StyleConstants.isSubscript(rtfek
+						.getInputAttributes())) ? true : false;
+                if (superscript)
+                    subscript = false;
+               	StyleConstants.setSuperscript(attr, superscript);
+               	StyleConstants.setSubscript(attr, subscript);
     			if(editor.getSelectedText()!=null && !editor.getSelectedText().equals(""))
         		{
             		int start=editor.getSelectionStart();
@@ -163,7 +184,12 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
         		MutableAttributeSet attr=rtfek.getInputAttributes();
 				boolean subscript = (StyleConstants.isSubscript(rtfek
 						.getInputAttributes())) ? false : true;
+				boolean superscript = (StyleConstants.isSuperscript(rtfek
+						.getInputAttributes())) ? true : false;
+                if (subscript)
+                    superscript = false;
                	StyleConstants.setSubscript(attr, subscript);
+               	StyleConstants.setSuperscript(attr, superscript);
     			if(editor.getSelectedText()!=null && !editor.getSelectedText().equals(""))
         		{
             		int start=editor.getSelectionStart();
@@ -173,4 +199,28 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
             }
         }
 	}
+
+    public void setFormatIcons(boolean bold, boolean italic, boolean underline,
+            boolean sup, boolean sub) {
+        if (bold)
+            boldButton.setIcon(boldIconIn);
+        else
+            boldButton.setIcon(boldIcon);
+        if (italic)
+            italicButton.setIcon(italicIconIn);
+        else
+            italicButton.setIcon(italicIcon);
+        if (underline)
+            underlineButton.setIcon(underlineIconIn);
+        else
+            underlineButton.setIcon(underlineIcon);
+        if (sup)
+            superButton.setIcon(superIconIn);
+        else
+            superButton.setIcon(superIcon);
+        if (sub)
+            subButton.setIcon(subIconIn);
+        else
+            subButton.setIcon(subIcon);
+    }
 }

@@ -24,12 +24,20 @@ import java.util.ResourceBundle;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import eu.scy.actionlogging.api.IActionLogger;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
+import javax.swing.Timer;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
 * Rich text editor component for SCY project.
 */
-public class RichTextEditor extends JPanel implements DocumentListener, Printable {
+public class RichTextEditor extends JPanel implements DocumentListener, Printable, CaretListener {
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 	private JTextPane textPane;
@@ -38,24 +46,42 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     private RtfFileToolbar fileToolbar;
 	private RtfFormatToolbar formatToolbar;
     private RichTextEditorLogger rtfLogger = null;
-    private boolean html;
+    private boolean html = false;
+    private String oldText = "";
+    private String insertedText = "";
+    private boolean authorMode = false;
+    private int typingLogIntervalMs = 30000;
+    private Timer timer = null;
+    private int typingOldPos = 0;
 
     /**
     * Creates rich text editor component for rtf format.
+    * By default creates rtf format editor with authorMode = false
     */
     public RichTextEditor() {
         super();
-        html = false;
         initUI();
     }
 
     /**
-    * Creates rich text editor component for rtf or html format.
+    * Creates rich text editor component for rtf or html format with no authoring mode.
     * @param html if true then then generates html format editor else generates rtf format editor
     */
     public RichTextEditor(boolean html) {
         super();
         this.html = html;
+        initUI();
+    }
+
+    /**
+    * Creates rich text editor component for rtf or html format in authoring mode or not.
+    * @param html if true then then generates html format editor else generates rtf format editor
+    * @param authorMode if true then in authoring mode else non-authoring mode
+    */
+    public RichTextEditor(boolean html, boolean authorMode) {
+        super();
+        this.html = html;
+        this.authorMode = authorMode;
         initUI();
     }
 
@@ -116,13 +142,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         ByteArrayInputStream bis = null;
         try {
             textPane.setText("");
-            StringBuffer stringBuffer = new StringBuffer(text);
+            StringBuilder stringBuffer = new StringBuilder(text);
             bis = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
             if (html) {
                 htmlEditor.read(bis, textPane.getDocument(), 0);
             } else {
                 rtfEditor.read(bis, textPane.getDocument(), 0);
             }
+            oldText = getPlainText();
         } catch (IOException ex) {
             showError("setTextError", ex);
         } catch (BadLocationException ex) {
@@ -144,6 +171,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         try {
             textPane.setText("");
             textPane.getDocument().insertString(0, text, null);
+            oldText = text;
         } catch (BadLocationException ex) {
             showError("setTextError", ex);
         }
@@ -157,6 +185,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         textPane.getDocument().putProperty(Document.StreamDescriptionProperty, null);
         try {
             textPane.setPage(url);
+            oldText = getPlainText();
         } catch (IOException ex) {
             showError("setTextError", ex);
         }
@@ -197,8 +226,24 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         return "";
     }
 
+    /**
+     * Sets time period after what inserted text is logged to actionlog
+     * @param interval interval in milliseconds
+     */
+    public void setTypingLogIntervalMs(int interval) {
+        typingLogIntervalMs = interval;
+    }
+
+    /**
+     * Gets inserted text logging interval in milliseconds
+     * @return inserted text logging interval in milliseconds
+     */
+    public int getTypingLogIntervalMs() {
+        return typingLogIntervalMs;
+    }
+
     private void showError(String messageID, Throwable e) {
-        logger. error(messages.getString(messageID), e);
+        logger.error(messages.getString(messageID), e);
         System.err.println(messages.getString(messageID) + " " + new Date());
         e.printStackTrace(System.err);
         JOptionPane.showMessageDialog(textPane, messages.getString(messageID) +
@@ -218,10 +263,11 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             textPane.setContentType("text/rtf;charset=utf-8");
         }
 		textPane.getDocument().addDocumentListener(this);
+		textPane.addCaretListener(this);
         this.add(new JScrollPane(textPane), BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		this.fileToolbar = new RtfFileToolbar(this);
+		this.fileToolbar = new RtfFileToolbar(this, authorMode);
 		panel.add(fileToolbar, BorderLayout.WEST);
         if (!html) {
     		this.formatToolbar = new RtfFormatToolbar(this);
@@ -230,30 +276,62 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 		this.add(panel, BorderLayout.NORTH);
 	}
 
+    public void insertedTextToActionLog() {
+        if (timer != null) {
+            if (!insertedText.equals("")) {
+                if (rtfLogger != null)
+                    rtfLogger.logInsertAction(insertedText, typingLogIntervalMs);
+logger.debug(insertedText);
+                insertedText = "";
+                if (timer.getDelay() != typingLogIntervalMs)
+                    timer.setDelay(typingLogIntervalMs);
+            }
+        }
+    }
+
+    @Override
 	public void insertUpdate(DocumentEvent e) {
-		updateLog(e, "inserted into");
+        oldText = getPlainText();
+        if (typingOldPos!=e.getOffset()-1)
+            insertedText = insertedText + "\n";
+        typingOldPos = e.getOffset();
+        insertedText = insertedText + oldText.substring(e.getOffset(), e.getOffset()+e.getLength());
+        if (timer == null) {
+            timer = new Timer(typingLogIntervalMs, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    insertedTextToActionLog();
+                }
+            });
+            timer.start();
+        }
 	}
 
+    @Override
 	public void removeUpdate(DocumentEvent e) {
-		updateLog(e, "removed from");
+        rtfLogger.logDeleteAction(oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
+        oldText = getPlainText();
 	}
 
+    @Override
 	public void changedUpdate(DocumentEvent e) {
-		updateLog(e, "changed");
-	}
-
-	public void updateLog(DocumentEvent e, String action) {
 /*
-        Document doc = (Document)e.getDocument();
-        int changeLength = e.getLength();
-        String newline = "\n";
-        logger.info(changeLength + " character" +
-            ((changeLength == 1) ? " " : "s ") +
-            action + " " + doc.getProperty("name") + "." + newline +
-            "  Text length = " + doc.getLength() + newline);
+        logger.debug("formatted: "+oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
+        AttributeSet attributeSet = ((StyledDocument) e.getDocument()).getCharacterElement(e.getOffset()).getAttributes();
+        logger.debug("italics: " + attributeSet.getAttribute(StyleConstants.Italic).toString());
+        logger.debug("bold: " + attributeSet.getAttribute(StyleConstants.Bold).toString());
+        String underlineLogValue = "null";
+        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
+            underlineLogValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
+        logger.debug("underline: " + underlineLogValue);
+        String superscript = (StyleConstants.isSuperscript(rtfEditor.getInputAttributes())) ? "true" : "false";
+        logger.debug("superscript: " + superscript);
+        String subscript = (StyleConstants.isSubscript(rtfEditor.getInputAttributes())) ? "true" : "false";
+        logger.debug("subscript: " + subscript);
 */
-	}
+ }
 
+    @Override
     public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if (pageIndex > 0) {
           return(NO_SUCH_PAGE);
@@ -268,4 +346,44 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
           return(PAGE_EXISTS);
         }
     }
+
+    @Override
+    public void caretUpdate(CaretEvent e) {
+        int location = e.getMark();
+        try {
+            if (location != 0 && textPane.getDocument().getLength()>0 &&
+                !textPane.getDocument().getText(location-1, 1).equals("\n"))
+                location--;
+        } catch (BadLocationException ex) {
+            logger.error("BadLocationException in caretUpdate");
+        }
+        AttributeSet attributeSet = ((StyledDocument)textPane.getDocument()).getCharacterElement(location).getAttributes();
+        String underlineValue = "false";
+        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
+            underlineValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
+        String superscriptValue = "false";
+        if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
+            superscriptValue = attributeSet.getAttribute(StyleConstants.Superscript).toString();
+        String subscriptValue = "false";
+        if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
+            subscriptValue = attributeSet.getAttribute(StyleConstants.Subscript).toString();
+        formatToolbar.setFormatIcons(
+            Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()),
+            Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()),
+            Boolean.parseBoolean(underlineValue),
+            Boolean.parseBoolean(superscriptValue),
+            Boolean.parseBoolean(subscriptValue)
+        );
+    }
+/*
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            insertedTextToActionLog();
+        } catch(Exception e) {
+        } finally {
+            super.finalize();
+        }
+    }
+ */
 }
