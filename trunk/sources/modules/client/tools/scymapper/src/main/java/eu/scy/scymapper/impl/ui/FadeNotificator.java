@@ -29,7 +29,7 @@ import org.jdesktop.animation.timing.interpolation.SplineInterpolator;
 
 public class FadeNotificator implements ComponentListener, TimingTarget, AnimatedNotification {
 
-    private int ANIMATION_DURATION = 400;
+    private int duration = 400;
 
     public enum Position {
         TOP,
@@ -68,7 +68,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
         this.contentHeight = content.getHeight();
         this.visible = false;
         content.setVisible(visible);
-        animator = new Animator(ANIMATION_DURATION, this);
+        animator = new Animator(duration, this);
         animator.setInterpolator(new SplineInterpolator(0.5f, 0.0f, 1f, 0.01f));
         Point contentPoint = calculatePosition();
         content.setBounds(contentPoint.x, contentPoint.y, content.getWidth(), content.getHeight());
@@ -120,6 +120,10 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public void setDuration(int millis){
+        this.duration=millis;
     }
 
     private Point calculatePosition() {
