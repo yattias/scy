@@ -817,9 +817,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       else if ("left".equalsIgnoreCase(which)){
          leftDrawer.opened = true;
       }
-
    }
 
+   function startDragIcon(e:MouseEvent):Void{
+      if (eloUri!=null){
+         def dragIcon = windowControl.windowStyler.getScyEloIcon(eloUri);
+         def metadata = tbi.getRepository().retrieveMetadata(eloUri);
+         dragAndDropManager.startDrag(dragIcon, metadata, this, e);
+      }
+   }
 
 	public override function create(): Node {
       if (isClosed){
@@ -868,6 +874,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          eloIcon:bind eloIcon;
          activated:bind activated
          beingDragged:bind beingDragged
+         startDragIcon:startDragIcon
          windowColorScheme:windowColorScheme
          layoutX:titleBarLeftOffset;
          layoutY:titleBarTopOffset;

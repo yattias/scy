@@ -452,9 +452,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             missionMap: missionMap;
             eloInfoControl: eloInfoControl;
             windowStyler: windowStyler;
-            extensionManager: config.getExtensionManager();
-            repository: config.getRepository();
-            metadataTypeManager: config.getMetadataTypeManager();
+            tbi: config.getToolBrokerAPI()
             setScyContent: fillNewScyWindow2;
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager

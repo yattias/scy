@@ -21,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikkenj
@@ -92,6 +93,7 @@ public abstract class ScyWindow extends CustomNode {
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
    public var mucId: String;
+   public var tbi:ToolBrokerAPI;
 
 	// status variables
 	public-read protected var isMinimized = false;
