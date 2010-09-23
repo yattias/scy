@@ -250,12 +250,12 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                                 doSaveAsElo();
                            }
                         }
-                        Button {
-                           text: "test thumbnail"
-                           action: function () {
-                                testThumbnail();
-                           }
-                        }
+//                        Button {
+//                           text: "test thumbnail"
+//                           action: function () {
+//                                testThumbnail();
+//                           }
+//                        }
                      ]
                   }
                   wrappedFitexPanel
