@@ -15,6 +15,7 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.type.Container;
+import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 /**
@@ -30,8 +31,6 @@ public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
    */
   public static final String UPDATE = "update";
 
-  public static final String HISTOGRAM = "histogram";
-
   /**
    * Construct new Operator that spots keywords in sentences and computes a keyword-in-sentence
    * ratio.
@@ -40,15 +39,15 @@ public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
     super();
     this.addParameterType(UPDATE, JavaClasses.BOOLEAN, false, Boolean.TRUE);
     this.addInputType(ObjectIdentifiers.DOCUMENT, Document.class);
-    this.addOutputType(HISTOGRAM, HashMap.class);
+    this.addOutputType(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, HashMap.class);
   }
 
   @Override
   public Container run(Container inputParameters) {
 
     Document document = (Document) inputParameters.getObject(ObjectIdentifiers.DOCUMENT);
-    if (!Features.getInstance().isFeature(HISTOGRAM)) {
-      Features.getInstance().addFeature(HISTOGRAM, Map.class);
+    if (!Features.getInstance().isFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM)) {
+      Features.getInstance().addFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, Map.class);
     }
     ArrayList<String> sentences = (ArrayList<String>) document.getFeature(Features.SENTENCES);
     ArrayList<String> keywords = (ArrayList<String>) document.getFeature(Features.WORDS);
@@ -72,7 +71,7 @@ public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
         histogram.put(count, 1);
       }
     }
-    document.setFeature(HISTOGRAM, histogram);
+    document.setFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, histogram);
     Container output = new Container(getOutputSignature());
     output.setObject(ObjectIdentifiers.DOCUMENT, document);
 

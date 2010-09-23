@@ -1,28 +1,15 @@
 package eu.scy.agents.hypothesis;
 
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Callback;
-import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.User;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.tika.metadata.Metadata;
-
-import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
-import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
-import de.fhg.iais.kd.tm.obwious.operator.Operator;
-import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
@@ -31,14 +18,15 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import util.Utilities;
-
-import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
+import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
+import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
+import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
+import de.fhg.iais.kd.tm.obwious.operator.Operator;
+import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
+import eu.scy.agents.hypothesis.workflow.EvalHypothesisWorkflow;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
-import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
@@ -56,7 +44,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 
   public static final Object EVAL = "EvalHypothesis";
 
-  private static final String TOOL_NAME = "copex";
+  // private static final String TOOL_NAME = "copex";
 
   private static final Logger logger = Logger.getLogger(HypothesisEvaluationAgent.class.getName());
 
@@ -122,10 +110,10 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   // String mission = a.getContext(ContextConstants.mission);
   // String session = a.getContext(ContextConstants.session);
   // String elouri = a.getContext(ContextConstants.eloURI);
-  //      
+  //
   // // determine keywords per sentence histogram
-  //      
-  //      
+  //
+  //
   // // TODO Here the logic must be inserted ;-)
   // // Wait till saved -> then its easy but maybe we want to evaluate intermediate
   // // results....
@@ -158,10 +146,14 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       keywords = (List<String>) metadataValueContainer.getValueList();
       String text = Utilities.getEloText(elo, logger);
       // make OBWIOUS document and process in workflow:
-      Document document = convertTextToDocument(text);
+      Document document = Utilities.convertTextToDocument(text);
       document.setFeature(Features.WORDS, keywords);
-      
-      //Operator evalHypothesisOperator = new Spl 
+      Operator cmpHistogramOp = new EvalHypothesisWorkflow().getOperator("Main");
+      cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
+      Container result = cmpHistogramOp.run();
+      Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
+      HashMap<Integer, Integer> hist = docResult.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
+      addSentenceHistogramToMetadata(elo, hist);
     } catch (URISyntaxException e) {
       // TODO: handle exception
     }
@@ -179,22 +171,26 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
     repository = rep;
   }
 
-  private void addKeywordsToMetadata(IELO elo, List<String> keywords) {
-    if (keywords.isEmpty()) {
+  private void addSentenceHistogramToMetadata(IELO elo, HashMap<Integer, Integer> histogram) {
+    if (histogram.isEmpty()) {
       return;
     }
-    IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
-    IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(
-                                                                                                 keywordKey);
-    agentKeywordsContainer.setValueList(keywords);
+    IMetadataKey keywordSentenceHistogramKey = metadataTypeManager.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
+    IMetadataValueContainer keywordSentenceHistogramContainer = elo.getMetadata().getMetadataValueContainer(keywordSentenceHistogramKey);
+    keywordSentenceHistogramContainer.setValue(histogram);
 
     repository.updateELO(elo);
   }
 
-  private Document convertTextToDocument(String text) {
-    Document doc = new Document("id");
-    doc.setFeature(Features.TEXT, text);
-    return doc;
+  private void addKeywordsToMetadata(IELO elo, List<String> keywords) {
+    if (keywords.isEmpty()) {
+      return;
+    }
+    IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(KeywordConstants.AGENT_KEYWORDS);
+    IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(keywordKey);
+    agentKeywordsContainer.setValueList(keywords);
+
+    repository.updateELO(elo);
   }
 
 }

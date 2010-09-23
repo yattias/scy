@@ -9,5 +9,6 @@ package eu.scy.agents.keywords;
 public class KeywordConstants {
 
   public static final String AGENT_KEYWORDS = "agentKeywords";
+  public static final String KEYWORD_SENTENCE_HISTOGRAM = "keywordSentenceHistogram";
 
 }

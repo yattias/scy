@@ -30,10 +30,12 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import cc.mallet.topics.TopicModelParameter;
+import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.impl.manager.AgentManager;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class AbstractTestFixture {
 
@@ -246,5 +248,12 @@ public class AbstractTestFixture {
     }
     reader.close();
     return text;
+  }
+
+  protected void initDfModel() throws ClassNotFoundException, IOException {
+    InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
+    ObjectInputStream in = new ObjectInputStream(inStream);
+    DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
+    this.getPersistentStorage().put(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
   }
 }

@@ -77,13 +77,6 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		}
 	}
 
-	private void initDfModel() throws ClassNotFoundException, IOException {
-		InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
-		ObjectInputStream in = new ObjectInputStream(inStream);
-		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
-		this.getPersistentStorage().put(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-	}
-
 	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
