@@ -25,6 +25,8 @@ import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.BorderLayout;
@@ -63,7 +65,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //CONSTANTES
     
     /* width */
-    public static final int PANEL_WIDTH = 585;
+    public static final int PANEL_WIDTH = 615;
     /* height */
     public static final int PANEL_HEIGHT = 355;
 
@@ -362,8 +364,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     
     
-    public void setDataset(Dataset ds){
-        if(scyMode && activFitex != null)
+    public void setDataset(Dataset ds, boolean replace){
+        if(replace || (scyMode && activFitex != null))
             activFitex.setDataset(ds);
         else if(!scyMode){
             this.addFitexPanel(ds);
@@ -380,6 +382,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     public boolean canSave(){
         return !scyMode && !dbMode;
+    }
+
+    public boolean canImport(){
+        //return !scyMode;
+        return true;
     }
 
     public boolean canPrint(){
@@ -404,10 +411,33 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             ArrayList<ArrayList<Dataset>> listDatasetMission = (ArrayList) v.get(1);
             openFitexDialog = new OpenFitexDialog(this, dbMode, listMission, listDatasetMission);
         }else{
-            openFitexDialog = new OpenFitexDialog(this, dbMode, lastUsedFileOpen, lastUsedFileImport, lastUsedFileMerge);
+            openFitexDialog = new OpenFitexDialog(this, dbMode, lastUsedFileOpen);
         }
         openFitexDialog.addOpenFitexAction(this);
         openFitexDialog.setVisible(true);
+    }
+
+    public void openDialogImport(){
+        if(scyMode){
+            openImportChooseFile();
+            return;
+        }
+        ImportDialog importDialog =null;
+        if(dbMode){
+            ArrayList v = new ArrayList();
+            CopexReturn cr = this.controller.getListDatasetToOpenOrMerge(v);
+            if (cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            ArrayList<Mission> listMission = (ArrayList)v.get(0);
+            ArrayList<ArrayList<Dataset>> listDatasetMission = (ArrayList) v.get(1);
+            importDialog = new ImportDialog(this, dbMode, listMission, listDatasetMission);
+        }else{
+            importDialog = new ImportDialog(this, dbMode, lastUsedFileImport, lastUsedFileMerge);
+        }
+        importDialog.addOpenFitexAction(this);
+        importDialog.setVisible(true);
     }
 
     public void openDialogCloseDataset(Dataset ds) {
@@ -466,7 +496,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 return;
             }
             Dataset ds = (Dataset)v.get(0) ;
-            this.setDataset(ds);
+            this.setDataset(ds, false);
         }
     }
 
@@ -530,7 +560,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return;
         }
         Dataset ds = (Dataset)v.get(0) ;
-        this.setDataset(ds);
+        this.setDataset(ds, false);
         logNewElo();
     }
     // nouvel elo non scy, multi onglets
@@ -543,7 +573,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return;
         }
         Dataset ds = (Dataset)v.get(0) ;
-        this.setDataset(ds);
+        this.setDataset(ds, false);
     }
 
 
@@ -624,6 +654,14 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 if(id != -1)
                     fileName = fileName.substring(0, id);
             }
+            if(dbMode){
+                cr = this.controller.deleteDataset(activFitex.getDataset());
+                if(cr.isError()){
+                    displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                    return null;
+                }
+                activFitex.deleteAll();
+            }
             loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
         }
         logImportCsvFile(file.getPath(), activFitex.getDataset());
@@ -686,7 +724,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return;
         }
         Dataset dataset = (Dataset)v.get(0);
-        setDataset(dataset);
+        setDataset(dataset, true);
 
     }
 
@@ -722,7 +760,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             }
             Dataset ds = (Dataset)v.get(0);
-            setDataset(ds);
+            setDataset(ds, false);
             logInitializeHeader(ds);
         }
     }
@@ -963,5 +1001,30 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return activFitex.getInterfacePanel();
         else
             return new JPanel();
+    }
+
+
+    private void openImportChooseFile(){
+        JFileChooser aFileChooser = new JFileChooser();
+        aFileChooser.setFileFilter(new MyFileFilterCSV());
+        if (lastUsedFileImport != null){
+            aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileImport);
+        }
+        int userResponse = aFileChooser.showOpenDialog(this);
+        if (userResponse == JFileChooser.APPROVE_OPTION){
+            File file = aFileChooser.getSelectedFile();
+            if(!MyUtilities.isCSVFile(file)){
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            lastUsedFileImport = file;
+            if(lastUsedFileImport == null){
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            importELO(lastUsedFileImport);
+            return;
+        }
     }
 }

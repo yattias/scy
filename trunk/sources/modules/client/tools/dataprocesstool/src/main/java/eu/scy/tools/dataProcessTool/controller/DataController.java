@@ -215,7 +215,7 @@ public class DataController implements ControllerInterface{
                 ds.setName(dsName);
             this.listDataset.add(ds);
             this.listNoDefaultCol.add(1);
-            this.dataToolPanel.setDataset((Dataset)ds.clone());
+            this.dataToolPanel.setDataset((Dataset)ds.clone(), false);
         }
         return cr;
     }
@@ -1489,7 +1489,7 @@ public class DataController implements ControllerInterface{
                 }
             }
             //mise a jour graphique
-            this.dataToolPanel.setDataset((Dataset)dataset.clone());
+            this.dataToolPanel.setDataset((Dataset)dataset.clone(), true);
         }
         return cr;
     }
