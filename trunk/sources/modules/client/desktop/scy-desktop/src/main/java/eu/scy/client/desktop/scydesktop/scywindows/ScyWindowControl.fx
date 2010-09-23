@@ -21,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 
 /**
@@ -39,13 +40,17 @@ public mixin class ScyWindowControl {
    public var edgesManager:IEdgesManager;
    public var stage: Stage;
    public var eloInfoControl: EloInfoControl;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var extensionManager: IExtensionManager;
-   public var repository: IRepository;
+   public var tbi:ToolBrokerAPI;
+//   public var metadataTypeManager: IMetadataTypeManager;
+//   public var extensionManager: IExtensionManager;
+//   public var repository: IRepository;
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
    public var repositoryWrapper:RepositoryWrapper;
 
+   protected def metadataTypeManager = tbi.getMetaDataTypeManager();
+   protected def extensionManager = tbi.getExtensionManager();
+   protected def repository = tbi.getRepository();
 
    public var setScyContent:function(window: ScyWindow):Void;
    //   public var edgesManager: EdgesManager;

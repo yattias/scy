@@ -252,6 +252,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             missionModelFX: missionModel
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
+            tbi: tbi
             windowControl:this
          }
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
@@ -284,6 +285,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             missionModelFX: missionModel
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
+            tbi: tbi
             windowControl:this
          }
       if (showEloInfoDisplay){

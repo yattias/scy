@@ -27,6 +27,7 @@ import javafx.scene.paint.Stop;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
+import javafx.scene.Cursor;
 
 /**
  * @author sikkenj
@@ -49,6 +50,7 @@ public class WindowTitleBar extends WindowElement {
             mouseOverTitleDisplay.abort();
          }
       };
+   public-init var startDragIcon: function(e: MouseEvent ):Void;
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
@@ -117,7 +119,14 @@ public class WindowTitleBar extends WindowElement {
       activatedChanged();
       nodeGroup = Group{
          content:[
-            eloIcon,
+            Group{
+               blocksMouse:startDragIcon!=null
+               cursor: if(startDragIcon!=null) Cursor.HAND else null
+               content:eloIcon
+               onMousePressed:function(e: MouseEvent ):Void{
+                  startDragIcon(e);
+               }
+            }
             textBackgroundFillRect,
             titleText = Text { // title
                font: textFont
