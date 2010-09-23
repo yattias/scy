@@ -319,7 +319,7 @@ public class DataControllerDB implements ControllerInterface{
                 ds.setName(dsName);
             this.listDataset.add(ds);
             this.listNoDefaultCol.add(1);
-            this.dataToolPanel.setDataset((Dataset)ds.clone());
+            this.dataToolPanel.setDataset((Dataset)ds.clone(), false);
         }
         return cr;
     }
@@ -1870,7 +1870,7 @@ public class DataControllerDB implements ControllerInterface{
                 }
             }
             //mise a jour graphique
-            this.dataToolPanel.setDataset((Dataset)dataset.clone());
+            this.dataToolPanel.setDataset((Dataset)dataset.clone(), true);
         }
         return cr;
     }
@@ -2277,7 +2277,7 @@ public class DataControllerDB implements ControllerInterface{
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_WARNING_DATASET_LOCKED")+"\n"+listDataset.get(id).getName(), false);
             }
             listDataset.get(id).setOpen(true);
-            this.dataToolPanel.setDataset((Dataset)listDataset.get(id).clone());
+            this.dataToolPanel.setDataset((Dataset)listDataset.get(id).clone(), false);
         }else{
             int idM = getIdMission(mission.getDbKey());
             if(idM != -1){
@@ -2288,7 +2288,7 @@ public class DataControllerDB implements ControllerInterface{
                     if(cr.isError())
                         return cr;
                     Dataset dataset = (Dataset)v2.get(0);
-                    this.dataToolPanel.setDataset((Dataset)dataset.clone());
+                    this.dataToolPanel.setDataset((Dataset)dataset.clone(), false);
                 }
             }
         }

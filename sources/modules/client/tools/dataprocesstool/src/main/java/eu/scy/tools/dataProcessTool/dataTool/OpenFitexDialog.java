@@ -9,7 +9,6 @@ import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.event.ItemEvent;
@@ -27,8 +26,6 @@ import javax.swing.JTextField;
  * open data dialog, 4 options :
  * - new ELO
  * - open an ELO ds/pds
- * - import .csv
- * - merge a ds to the current ds
  * @author Marjolaine
  */
 public class OpenFitexDialog extends JDialog {
@@ -36,8 +33,6 @@ public class OpenFitexDialog extends JDialog {
     private OpenDataAction actionData;
     private boolean dbMode;
     private File lastUsedFileOpen = null;
-    private File lastUsedFileImport = null;
-    private File lastUsedFileMerge = null;
 
     private ArrayList<Mission> listMission;
     private ArrayList<ArrayList<Dataset>> listDatasetMission;
@@ -47,30 +42,21 @@ public class OpenFitexDialog extends JDialog {
     private JTextField fieldName;
 
     private JRadioButton rbOpen;
+    private JLabel labelOpen;
     private JLabel labelMissionOpen;
     private JComboBox cbMissionOpen;
     private JLabel labelDsOpen;
     private JComboBox cbDsOpen;
 
-    private JRadioButton rbImport;
-
-    private JRadioButton rbMerge;
-    private JLabel labelMissionMerge;
-    private JComboBox cbMissionMerge;
-    private JLabel labelDsMerge;
-    private JComboBox cbDsMerge;
-
     private JButton buttonOk;
     private JButton buttonCancel;
 
 
-    public OpenFitexDialog(DataProcessToolPanel owner, boolean dbMode, File openFile, File importFile, File mergeFile) {
+    public OpenFitexDialog(DataProcessToolPanel owner, boolean dbMode, File openFile) {
         super();
         this.owner = owner;
         this.dbMode = dbMode;
         this.lastUsedFileOpen = openFile;
-        this.lastUsedFileImport = importFile;
-        this.lastUsedFileMerge = mergeFile;
         initGUI();
         setResizable(false);
         setModal(true);
@@ -106,8 +92,10 @@ public class OpenFitexDialog extends JDialog {
             this.add(getLabelCreateName());
             this.add(getFieldCreateName());
         }
-
-        this.add(getRbOpen());
+        if(canCreate())
+            this.add(getRbOpen());
+        else
+            this.add(getLabelOpen());
         if(dbMode){
             this.add(getLabelMissionOpen());
             this.add(getCbMissionOpen());
@@ -115,15 +103,6 @@ public class OpenFitexDialog extends JDialog {
             this.add(getCbDsOpen());
         }
 
-        this.add(getRbImport());
-
-        this.add(getRbMerge());
-        if(dbMode){
-            this.add(getLabelMissionMerge());
-            this.add(getCbMissionMerge());
-            this.add(getLabelDsMerge());
-            this.add(getCbDsMerge());
-        }
         // largeur
         int width = 400;
         if(canCreate())
@@ -138,7 +117,6 @@ public class OpenFitexDialog extends JDialog {
         selectRb(1);
         if(dbMode){
             changeMissionOpen();
-            changeMissionMerge();
         }
     }
 
@@ -208,6 +186,22 @@ public class OpenFitexDialog extends JDialog {
         return rbOpen;
     }
 
+     private JLabel getLabelOpen(){
+        if(this.labelOpen == null){
+            labelOpen = new JLabel();
+            labelOpen.setName("labelOpen");
+            labelOpen.setText(owner.getBundleString("LABEL_OPEN_ELO"));
+            labelOpen.setFont(new java.awt.Font("Tahoma", 1, 11));
+            labelOpen.setSize(MyUtilities.lenghtOfString(this.labelOpen.getText(), getFontMetrics(this.labelOpen.getFont())), 14);
+            int y = 10;
+            if(canCreate()){
+                y = fieldName.getY()+fieldName.getHeight()+10;
+            }
+            labelOpen.setBounds(10, y, labelOpen.getWidth(), labelOpen.getHeight());
+        }
+        return labelOpen;
+    }
+
       
      private JLabel getLabelMissionOpen(){
          if(this.labelMissionOpen == null){
@@ -216,7 +210,12 @@ public class OpenFitexDialog extends JDialog {
             labelMissionOpen.setText(owner.getBundleString("LABEL_MISSION"));
             labelMissionOpen.setFont(new java.awt.Font("Tahoma", 1, 11));
             labelMissionOpen.setSize(MyUtilities.lenghtOfString(this.labelMissionOpen.getText(), getFontMetrics(this.labelMissionOpen.getFont())), 14);
-            labelMissionOpen.setBounds(10, rbOpen.getY()+rbOpen.getHeight()+5, labelMissionOpen.getWidth(), labelMissionOpen.getHeight());
+            int y = 0;
+            if(rbOpen == null)
+                y = labelOpen.getY()+labelOpen.getHeight()+5;
+            else
+                y = rbOpen.getY()+rbOpen.getHeight()+5;
+            labelMissionOpen.setBounds(10, y, labelMissionOpen.getWidth(), labelMissionOpen.getHeight());
         }
         return labelMissionOpen;
      }
@@ -229,6 +228,7 @@ public class OpenFitexDialog extends JDialog {
                  cbMissionOpen.addItem(listMission.get(i).getCode());
              }
              cbMissionOpen.addItemListener(new java.awt.event.ItemListener() {
+                @Override
                 public void itemStateChanged(ItemEvent e) {
                     changeMissionOpen();
                 }
@@ -258,105 +258,6 @@ public class OpenFitexDialog extends JDialog {
         return cbDsOpen;
      }
 
-
-     private JRadioButton getRbImport(){
-        if(rbImport == null){
-            rbImport = new JRadioButton();
-            rbImport.setName("rbImport");
-            rbImport.setText(owner.getBundleString("LABEL_IMPORT_ELO"));
-            rbImport.setSelected(false);
-            rbImport.setFont(new java.awt.Font("Tahoma", 1, 11));
-            rbImport.setSize(60+MyUtilities.lenghtOfString(this.rbImport.getText(), getFontMetrics(this.rbImport.getFont())), 23);
-            rbImport.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    selectRb(3);
-                }
-            });
-            int y = 0;
-            if(dbMode){
-                y = cbDsOpen.getY()+cbDsOpen.getHeight()+10;
-            }else{
-                y = rbOpen.getY()+rbOpen.getHeight()+10;
-            }
-            rbImport.setBounds(10,y,rbImport.getWidth(), rbImport.getHeight());
-        }
-        return rbImport;
-    }
-
-     
-
-     private JRadioButton getRbMerge(){
-        if(rbMerge == null){
-            rbMerge = new JRadioButton();
-            rbMerge.setName("rbMerge");
-            rbMerge.setText(owner.getBundleString("LABEL_MERGE_ELO"));
-            rbMerge.setSelected(false);
-            rbMerge.setFont(new java.awt.Font("Tahoma", 1, 11));
-            rbMerge.setSize(60+MyUtilities.lenghtOfString(this.rbMerge.getText(), getFontMetrics(this.rbMerge.getFont())), 23);
-            rbMerge.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    selectRb(4);
-                }
-            });
-            rbMerge.setBounds(10,rbImport.getY()+rbImport.getHeight()+10,rbMerge.getWidth(), rbMerge.getHeight());
-        }
-        return rbMerge;
-    }
-
-    
-
-     private JLabel getLabelMissionMerge(){
-         if(this.labelMissionMerge == null){
-            labelMissionMerge = new JLabel();
-            labelMissionMerge.setName("labelMissionMerge");
-            labelMissionMerge.setText(owner.getBundleString("LABEL_MISSION"));
-            labelMissionMerge.setFont(new java.awt.Font("Tahoma", 1, 11));
-            labelMissionMerge.setSize(MyUtilities.lenghtOfString(this.labelMissionMerge.getText(), getFontMetrics(this.labelMissionMerge.getFont())), 14);
-            labelMissionMerge.setBounds(10, rbMerge.getY()+rbMerge.getHeight()+5, labelMissionMerge.getWidth(), labelMissionMerge.getHeight());
-        }
-        return labelMissionMerge;
-     }
-     private JComboBox getCbMissionMerge(){
-         if(this.cbMissionMerge == null){
-             cbMissionMerge = new JComboBox();
-             cbMissionMerge.setName("cbMissionMerge");
-             int n = listMission.size();
-             for (int i=0; i<n; i++){
-                 cbMissionMerge.addItem(listMission.get(i).getCode());
-             }
-             cbMissionMerge.addItemListener(new java.awt.event.ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    changeMissionMerge();
-                }
-             });
-             cbMissionMerge.setBounds(labelMissionMerge.getX()+labelMissionMerge.getWidth()+5, labelMissionMerge.getY()-3, 100,20);
-        }
-        return cbMissionMerge;
-     }
-
-     private JLabel getLabelDsMerge(){
-         if(this.labelDsMerge == null){
-            labelDsMerge = new JLabel();
-            labelDsMerge.setName("labelDsMerge");
-            labelDsMerge.setText(owner.getBundleString("LABEL_DATASET"));
-            labelDsMerge.setFont(new java.awt.Font("Tahoma", 1, 11));
-            labelDsMerge.setSize(MyUtilities.lenghtOfString(this.labelDsMerge.getText(), getFontMetrics(this.labelDsMerge.getFont())), 14);
-            labelDsMerge.setBounds(10, labelMissionMerge.getY()+labelMissionMerge.getHeight()+5, labelDsMerge.getWidth(), labelDsMerge.getHeight());
-        }
-        return labelDsMerge;
-     }
-     private JComboBox getCbDsMerge(){
-         if(this.cbDsMerge == null){
-             cbDsMerge = new JComboBox();
-             cbDsMerge.setName("cbDsMerge");
-             cbDsMerge.setBounds(labelDsMerge.getX()+labelDsMerge.getWidth()+5, labelDsMerge.getY()-3, 100,20);
-        }
-        return cbDsMerge;
-     }
-
-
      private JButton getButtonOk(){
          if(buttonOk == null){
              buttonOk = new JButton();
@@ -365,12 +266,15 @@ public class OpenFitexDialog extends JDialog {
              buttonOk.setSize(60+MyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), 23);
              int y = 20;
              if(dbMode){
-                 y += labelDsMerge.getY()+labelDsMerge.getHeight();
+                 y += labelDsOpen.getY()+labelDsOpen.getHeight();
+             }else if(rbOpen != null){
+                 y += rbOpen.getY()+rbOpen.getHeight();
              }else{
-                 y += rbMerge.getY()+rbMerge.getHeight();
+                 y += labelOpen.getY()+labelOpen.getHeight();
              }
              buttonOk.setBounds(this.getWidth()/4, y, buttonOk.getWidth(), buttonOk.getHeight());
              buttonOk.addActionListener(new java.awt.event.ActionListener() {
+                @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     buttonOk();
                 }
@@ -387,6 +291,7 @@ public class OpenFitexDialog extends JDialog {
              buttonCancel.setSize(60+MyUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), 23);
              buttonCancel.setBounds(this.getWidth() - this.getWidth()/4 - this.buttonCancel.getWidth(), buttonOk.getY(), buttonCancel.getWidth(), buttonCancel.getHeight());
              buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+                @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     buttonCancel();
                 }
@@ -396,7 +301,7 @@ public class OpenFitexDialog extends JDialog {
      }
 
     private boolean rbNull(){
-        return ((canCreate() && rbCreate == null)) || rbImport == null || rbMerge == null || rbOpen == null;
+        return ((canCreate() && rbCreate == null))  || rbOpen == null;
     }
     private void selectRb(int rb){
         if(rbNull())
@@ -405,8 +310,6 @@ public class OpenFitexDialog extends JDialog {
             rb =2;
         boolean create = rb==1;
         boolean open = rb==2;
-        boolean importCsv = rb==3;
-        boolean merge = rb==4;
         if(canCreate()){
             this.rbCreate.setSelected(create);
             fieldName.setEditable(create);
@@ -420,14 +323,6 @@ public class OpenFitexDialog extends JDialog {
             if(listMission.size() > 0){
                 cbMissionOpen.setSelectedIndex(0);
             }
-        }
-        this.rbImport.setSelected(importCsv);
-        this.rbMerge.setSelected(merge);
-        if(dbMode){
-            cbMissionMerge.setEnabled(merge);
-            cbDsMerge.setEnabled(merge);
-            if(listMission.size() > 0)
-                cbMissionMerge.setSelectedIndex(0);
         }
     }
 
@@ -446,24 +341,6 @@ public class OpenFitexDialog extends JDialog {
                 }
                 if (nb > 0)
                     cbDsOpen.setSelectedIndex(0);
-            }
-        }
-        repaint();
-    }
-    private void changeMissionMerge(){
-        cbDsMerge.removeAllItems();
-        int id = cbMissionMerge.getSelectedIndex();
-        if (id != -1){
-            ArrayList<Dataset> list = this.listDatasetMission.get(id);
-            if (list != null){
-                // initialisation liste des missions
-                int nb = list.size();
-                for (int i=0; i<nb; i++){
-                    Dataset ds = list.get(i);
-                    cbDsMerge.addItem(ds.getName());
-                }
-                if (list.size() > 0)
-                    cbDsMerge.setSelectedIndex(0);
             }
         }
         repaint();
@@ -492,55 +369,6 @@ public class OpenFitexDialog extends JDialog {
             return;
         }
     }
-    private void buttonExplImport(){
-        JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterCSV());
-        if (lastUsedFileImport != null){
-            aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
-            aFileChooser.setSelectedFile(lastUsedFileImport);
-        }
-        int userResponse = aFileChooser.showOpenDialog(this);
-        if (userResponse == JFileChooser.APPROVE_OPTION){
-            File file = aFileChooser.getSelectedFile();
-            if(!MyUtilities.isCSVFile(file)){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE_CSV"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            lastUsedFileImport = file;
-            if(lastUsedFileImport == null){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            actionData.importELO(lastUsedFileImport);
-            this.dispose();
-            return;
-        }
-    }
-    private void buttonExplMerge(){
-        JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFileMerge != null){
-            aFileChooser.setCurrentDirectory(lastUsedFileMerge.getParentFile());
-            aFileChooser.setSelectedFile(lastUsedFileMerge);
-        }
-        int userResponse = aFileChooser.showOpenDialog(this);
-        if (userResponse == JFileChooser.APPROVE_OPTION){
-            File file = aFileChooser.getSelectedFile();
-            if(!MyUtilities.isXMLFile(file)){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE_XML"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            lastUsedFileMerge = file;
-            if(lastUsedFileMerge == null){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_MERGE_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            actionData.mergeELO(lastUsedFileMerge);
-            this.dispose();
-            return;
-        }
-    }
-
     private void buttonOk(){
         boolean create = false;
         if(canCreate())
@@ -564,7 +392,7 @@ public class OpenFitexDialog extends JDialog {
             this.dispose();
             return;
         }
-        boolean open = this.rbOpen.isSelected();
+        boolean open = this.rbOpen == null || this.rbOpen.isSelected();
         if(open){
             if(dbMode){
                 int idM = cbMissionOpen.getSelectedIndex() ;
@@ -578,26 +406,6 @@ public class OpenFitexDialog extends JDialog {
                 return;
             }
         }
-        boolean importCsv = this.rbImport.isSelected();
-        if(importCsv){
-            buttonExplImport();
-            return;
-        }
-        boolean merge = this.rbMerge.isSelected();
-        if(merge){
-            if(dbMode){
-                int idM = cbMissionMerge.getSelectedIndex() ;
-                Mission m = listMission.get(idM);
-                Dataset ds = listDatasetMission.get(idM).get(cbDsMerge.getSelectedIndex());
-                actionData.mergeDataset(m,ds);
-                this.dispose();
-                return;
-            }else{
-                buttonExplMerge();
-                return;
-            }
-        }
-
     }
 
     private void buttonCancel(){

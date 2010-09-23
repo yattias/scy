@@ -14,6 +14,7 @@ import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
+import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.PreDefinedFunctionCategory;
@@ -138,6 +139,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private MyMenuItem menuItemPrint;
     private MyMenuItem menuItemCsv;
     private MyMenuItem menuItemHelp;
+    private MyMenuItem menuItemImport;
     /* data organizer*/
     private JScrollPane scrollPaneDataOrganizer;
     private DataTable datasetTable;
@@ -258,6 +260,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
             if(dataProcessToolPanel.canSave()){
                 menuBarData.add(getMenuItemSave());
+            }
+            if(dataProcessToolPanel.canImport()){
+                menuBarData.add(getMenuItemImport());
                 menuBarData.add(getSep7());
             }
             menuBarData.add(getMenuItemInsert());
@@ -298,11 +303,23 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         return menuItemSave;
     }
+    private MyMenuItem getMenuItemImport(){
+        if (menuItemImport == null){
+            menuItemImport = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_IMPORT"),menuBarData.getBackground(),getCopexImage("import.png"), getCopexImage("import_survol.png"), getCopexImage("import_clic.png"), getCopexImage("import_grise.png"));
+            int x = 0;
+            if(menuItemSave != null){
+                x = menuItemSave.getX()+menuItemSave.getWidth();
+            }
+            menuItemImport.setBounds(x, 0, menuItemImport.getWidth(), menuItemImport.getHeight());
+            menuItemImport.addActionMenu(this);
+        }
+        return menuItemImport;
+    }
 
     private JSeparator getSep7(){
         if(sep7 == null){
             sep7 = new JSeparator(JSeparator.VERTICAL);
-            sep7.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, DataProcessToolPanel.MENU_BAR_HEIGHT);
+            sep7.setBounds(menuItemImport.getX()+menuItemImport.getWidth(), 0, 5, DataProcessToolPanel.MENU_BAR_HEIGHT);
         }
         return sep7;
     }
@@ -312,7 +329,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         if (menuItemInsert == null){
             menuItemInsert = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_INSERT"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_insert.png"), getCopexImage("Bouton-AdT-28_insert_sur.png"), getCopexImage("Bouton-AdT-28_insert_cli.png"), getCopexImage("Bouton-AdT-28_insert_gri.png"));
             int x = 0;
-            if(dataProcessToolPanel.canSave())
+            if(dataProcessToolPanel.canImport())
                 x = sep7.getX()+sep7.getWidth();
             menuItemInsert.setBounds(x, 0, menuItemInsert.getWidth(), menuItemInsert.getHeight());
             menuItemInsert.addActionMenu(this);
@@ -660,6 +677,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }else if(item.equals(menuItemCsv)){
             openCsvDialog();
             return;
+        }else if(item.equals(menuItemImport)){
+            openImportDialog();
+            return;
         }
 
         displayError(new CopexReturn("Not yet implemented !!", false), "En travaux");
@@ -774,7 +794,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         int nb = listGraphFrame.size();
         InternalGraphFrame gFrame = new InternalGraphFrame(this, dataset, vis);
         int y = this.scrollPaneDataOrganizer.getY()+nb*20;
-        int h = panelDataset.getHeight() - panelMenuData.getHeight()-y-20;
+        int h = panelDataset.getHeight() - panelMenuData.getHeight()-y;
         int w = h;
         int x = this.getWidth()-w;
         gFrame.setBounds(x,y,w,h);
@@ -1707,5 +1727,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public Container getInterfacePanel(){
         datasetTable.setSize(128,128);
         return datasetTable;
+    }
+
+    public void openImportDialog(){
+        dataProcessToolPanel.openDialogImport();
     }
 }

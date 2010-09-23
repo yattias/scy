@@ -81,11 +81,11 @@ public class ImportCsvDialog extends javax.swing.JDialog {
         buttonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(owner.getBundleString("TITLE_DIALOG_IMPORT_CSV"));
+        setTitle(owner.getBundleString("TITLE_DIALOG_IMPORT"));
         setModal(true);
         setResizable(false);
 
-        labelSepField.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelSepField.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelSepField.setText(owner.getBundleString("LABEL_SEPARATOR_FIELD"));
 
         cbSeparatorField.addItemListener(new java.awt.event.ItemListener() {
@@ -94,7 +94,7 @@ public class ImportCsvDialog extends javax.swing.JDialog {
             }
         });
 
-        labelSepText.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelSepText.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelSepText.setText(owner.getBundleString("LABEL_SEPARATOR_TEXT"));
 
         buttonOk.setText(owner.getBundleString("BUTTON_OK"));
