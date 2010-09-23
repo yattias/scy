@@ -88,13 +88,6 @@ public class CopexExtractorTest extends AbstractTestFixture {
     }
   }
 
-  private void initDfModel() throws ClassNotFoundException, IOException {
-    InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
-    ObjectInputStream in = new ObjectInputStream(inStream);
-    DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
-    this.getPersistentStorage().put(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-  }
-
   @Test
   public void testGetKeywords() {
     List<String> keywords = copexExtractor.getKeywords(elo);
