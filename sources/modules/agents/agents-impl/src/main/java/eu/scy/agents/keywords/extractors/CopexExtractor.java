@@ -99,7 +99,6 @@ public class CopexExtractor implements KeywordExtractor {
       document = builder.build(stringReader);
       Element element = document.getRootElement();
       text = findElementContent(path, element);
-      String name = element.getName();
     } catch (IOException e) {
       logger.fatal(e.toString());
     } catch (JDOMException e) {
