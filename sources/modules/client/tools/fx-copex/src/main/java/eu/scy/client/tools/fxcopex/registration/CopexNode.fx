@@ -105,12 +105,12 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                               doSaveAsElo();
                            }
                         }
-                        Button {
-                           text: "test thumbnail"
-                           action: function () {
-                                testThumbnail();
-                           }
-                        }
+//                        Button {
+//                           text: "test thumbnail"
+//                           action: function () {
+//                                testThumbnail();
+//                           }
+//                        }
                      ]
                   }
                   wrappedCopexPanel
