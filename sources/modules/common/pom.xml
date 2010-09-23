@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy</groupId>
-		<version>24-SNAPSHOT</version>
+		<version>25-SNAPSHOT</version>
 	</parent> 	
  
 	<modelVersion>4.0.0</modelVersion>
@@ -21,6 +21,7 @@
 		action-logging-hibernate
 		<module>action-logging</module>
 		-->
+		<module>agent-commons</module>
 		<module>configuration</module>
 		<module>data-sync-api</module>
 		<module>data-sync-common</module>
