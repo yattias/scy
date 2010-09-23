@@ -66,7 +66,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
         this.setLayout(new BorderLayout());
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new BorderLayout());
-        westPanel.add(variablePanel = new VariableSelectionPanel(editor, bundle), BorderLayout.NORTH);
+        westPanel.add(variablePanel = new VariableSelectionPanel(editor, bundle, true), BorderLayout.NORTH);
         westPanel.add(simulationPanel = new SimulationSettingsPanel(editor, this), BorderLayout.CENTER);
         this.add(westPanel, BorderLayout.WEST);
         this.add(createTable(), BorderLayout.CENTER);
@@ -110,12 +110,12 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
             // building the tablemodel
             ArrayList<ModelVariable> selectedVariables = new ArrayList<ModelVariable>();
             ModelVariable time = new ModelVariable();
-            for (ModelVariable var : model.getVariables()) {
-                // getting a reference to the time variable
-                if (var.getKind() == ModelVariable.VK_TIME) {
-                    selectedVariables.add(var);
-                }
-            }
+//            for (ModelVariable var : model.getVariables()) {
+//                // getting a reference to the time variable
+//                if (var.getKind() == ModelVariable.VK_TIME) {
+//                    selectedVariables.add(var);
+//                }
+//            }
             for (ModelVariable var : model.getVariables()) {
                 // getting a reference to the time variable
                 if (variablePanel.getSelectedVariables().contains(var.getName())) {
@@ -133,7 +133,11 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
 
             String variableIdList = new String();
             for (String varname : variablePanel.getSelectedVariables()) {
-                variableIdList = variableIdList.concat(editor.getModel().getObjectOfName(varname).getID() + ", ");
+            	if (varname.equals("time")) {
+            		variableIdList = variableIdList.concat("time, ");
+            	} else {
+            		variableIdList = variableIdList.concat(editor.getModel().getObjectOfName(varname).getID() + ", ");
+            	}
             }
 
             if (variableIdList.length() > 0) {
