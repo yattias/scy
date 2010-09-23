@@ -75,7 +75,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
     private EditorTab editorTab;
     private ArrayList<String> modelCheckMessages = new ArrayList();
     private final Properties properties;
-    private JTabbedPane tabbedPane;
+    protected JTabbedPane tabbedPane;
     private GraphTab graphTab;
     private TableTab tableTab;
     private final ResourceBundleWrapper bundle;
@@ -113,6 +113,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
         props.put("show.table", "true");
         props.put("show.filetoolbar", "true");
         props.put("editor.fixedcalculationmethod", "false");
+        props.put("show.popouttabs", "false");
         return props;
     }
 
@@ -171,12 +172,16 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
                 JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
-    public void addGraph() {
-        tabbedPane.addTab(bundle.getString("PANEL_GRAPH"), new ImageIcon(JTools.getSysResourceImage("JvtGraph")), graphTab);
+    public void addGraph()
+    {
+        tabbedPane.add(graphTab, 1);
+        tabbedPane.setTabComponentAt(1, new TabPanel("graph", graphTab, this, properties));
     }
 
-    public void addTable() {
-        tabbedPane.addTab(bundle.getString("PANEL_TABLE"), new ImageIcon(JTools.getSysResourceImage("JvtTable")), tableTab);
+    public void addTable()
+    {
+        tabbedPane.add(tableTab, tabbedPane.getComponentCount() - 1);
+        tabbedPane.setTabComponentAt(tabbedPane.getComponentCount() - 2, new TabPanel("table", tableTab, this, properties));
     }
 
     // ---------------------------------------------------------------------------

@@ -44,6 +44,7 @@ public class ModellingStandalone extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		props.put("show.popouttabs", "true");
 		return props;
 	}
 
