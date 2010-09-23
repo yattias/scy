@@ -24,21 +24,18 @@ import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.common.datasync.ISyncObject;
-import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
-import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.File;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 
 /**
@@ -247,12 +244,6 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         return this.dataProcessPanel.getPDS();
     }
 
-    /* import CSV file => EDLO dataset */
-    public DataSet importCSVFile(File file){
-        if (file  != null)
-            return  dataProcessPanel.importCSVFile(file);
-        return null;
-    }
 
     @Override
     public void resizeDataToolPanel(int width, int height) {
@@ -321,34 +312,6 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         }
     }*/
 
-    public DataSet importCsvFile() {
-        JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterCSV());
-	if (lastUsedFileImport != null){
-            aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
-            aFileChooser.setSelectedFile(lastUsedFileImport);
-        }
-	int userResponse = aFileChooser.showOpenDialog(null);
-	if (userResponse == JFileChooser.APPROVE_OPTION){
-		File file = aFileChooser.getSelectedFile();
-                if(!isCSVFile(file)){
-                    JOptionPane.showMessageDialog(this ,getBundleString("FX-FITEX.MSG_ERROR_CSV_FILE") , getBundleString("FX-FITEX.TITLE_DIALOG_ERROR_CSV"),JOptionPane.ERROR_MESSAGE);
-                    return null;
-                }
-                lastUsedFileImport = file;
-                if(lastUsedFileImport != null)
-                    return importCSVFile(file);
-	}
-
-        return null;
-    }
-
-    public static boolean isCSVFile(File file){
-        int id = file.getName().lastIndexOf(".");
-        if(id == -1 || id==file.getName().length()-1)
-            return false;
-        return file.getName().substring(id+1).equals("csv");
-    }
 
    private String getBundleString(String key){
        return this.bundle.getString(key);
