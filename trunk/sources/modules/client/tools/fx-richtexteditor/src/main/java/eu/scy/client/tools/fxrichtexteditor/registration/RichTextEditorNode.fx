@@ -68,7 +68,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
    public var authorMode:Boolean;
    // interval in milliseconds after what typed text is wrote
    // into action log - should be configurable from authoring tools
-   public var typingLogIntervalMs = 10000;
+   public var typingLogIntervalMs = 30000;
    var richTextEditor:RichTextEditor;
    var elo:IELO;
    var technicalFormatKey: IMetadataKey;
