@@ -3,14 +3,11 @@
  */
 package eu.scy.agents.keywords.extractors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
@@ -22,11 +19,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
-
 import roolo.elo.api.IELO;
 import roolo.elo.content.BasicContent;
-
+import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
@@ -106,30 +101,6 @@ public class CopexExtractorTest extends AbstractTestFixture {
     assertEquals(12, keywords.size());
     assertTrue(hasItems(keywords, "ingredients", "nontoxic", "binder", "solvent", "labels",
                         "toxic", "chemical", "voc", "paint", "health", "natural", "pigment"));
-  }
-
-  private boolean hasItems(List<String> keywords, String... values) {
-    for (String value : values) {
-      if (!keywords.contains(value)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private String readFile(InputStream inStream) throws IOException {
-    // reads text from file and creates one String
-    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
-    String text = "";
-    String line = "";
-    while ((line = reader.readLine()) != null) {
-      if (line.matches("\\s")) {
-        continue;
-      }
-      text = text + " " + line;
-    }
-    reader.close();
-    return text;
   }
 
 }

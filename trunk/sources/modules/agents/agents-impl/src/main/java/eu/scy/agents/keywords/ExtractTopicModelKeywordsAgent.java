@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import util.Utilities;
+
 import cc.mallet.topics.TopicModelAnnotator;
 import cc.mallet.topics.TopicModelParameter;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
@@ -97,7 +99,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 		TopicModelAnnotator tm = new TopicModelAnnotator(tmParameter);
 
-		Document document = convertTextToDocument(text);
+		Document document = Utilities.convertTextToDocument(text);
 
 		// TODO real bad hack REMOVE
 		try {
@@ -117,12 +119,6 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			e.printStackTrace();
 			return new HashSet<String>();
 		}
-	}
-
-	private Document convertTextToDocument(String text) {
-		Document doc = new Document("id");
-		doc.setFeature(Features.TEXT, text);
-		return doc;
 	}
 
 	@Override

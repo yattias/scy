@@ -7,8 +7,6 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -20,9 +18,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.tika.metadata.Metadata;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
 
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
@@ -30,12 +25,12 @@ import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 
 import roolo.api.IRepository;
-import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
+import util.Utilities;
 
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionTupleTransformer;
@@ -161,10 +156,10 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       // if keywords exist in ELO, we can go on extracting them and the hypothesis text:
       IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(metadataKey);
       keywords = (List<String>) metadataValueContainer.getValueList();
-      String text = getEloText(elo);
+      String text = Utilities.getEloText(elo, logger);
       // make OBWIOUS document and process in workflow:
       Document document = convertTextToDocument(text);
-      document.setFeature(Features.TOKENS, keywords);
+      document.setFeature(Features.WORDS, keywords);
       
       //Operator evalHypothesisOperator = new Spl 
     } catch (URISyntaxException e) {
@@ -182,27 +177,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   public void setRepository(IRepository rep) {
     // injects RoOLO repository to provide access to ELOs
     repository = rep;
-  }
-
-  private String getEloText(IELO elo) {
-    IContent content = elo.getContent();
-    if (content == null) {
-      logger.fatal("Content of elo is null");
-      return "";
-    }
-    String text = "";
-    SAXBuilder builder = new SAXBuilder();
-    try {
-      Element rootElement = builder.build(new StringReader(content.getXml())).getRootElement();
-      text = rootElement.getTextTrim();
-    } catch (JDOMException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    logger.debug("Got text " + text);
-    return text;
   }
 
   private void addKeywordsToMetadata(IELO elo, List<String> keywords) {

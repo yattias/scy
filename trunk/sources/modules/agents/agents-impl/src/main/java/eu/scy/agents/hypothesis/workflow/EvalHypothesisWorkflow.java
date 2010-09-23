@@ -4,25 +4,25 @@ import java.util.Properties;
 
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
-import eu.scy.agents.hypothesis.workflow.operators.KeywordsInSentenceSpotter;
+import eu.scy.agents.hypothesis.workflow.operators.ComputeKeywordsInSentenceHistogram;
 import eu.scy.agents.hypothesis.workflow.operators.RegExSentenceSplitter;
 
-public class SplitIntoSentenceWorkflow extends Workflow {
+public class EvalHypothesisWorkflow extends Workflow {
 
 	private static final long serialVersionUID = 3762190530929039379L;
 
 	private static final String SPLIT_INTO_SENTENCES = "SplitIntoSentences";
-    private static final String COMPUTE_KEYWORDS_IN_SENTENCE_RATIO = "KeywordsInSentenceRatio";
+    private static final String COMPUTE_KEYWORDS_IN_SENTENCE_HISTOGRAM = "KeywordsInSentenceHistogram";
 
-	public SplitIntoSentenceWorkflow() {
+	public EvalHypothesisWorkflow() {
 		this(new Properties());
 	}
 
-	public SplitIntoSentenceWorkflow(Properties props) {
+	public EvalHypothesisWorkflow(Properties props) {
 		super(props);
 
 		addOperatorSpecification(SPLIT_INTO_SENTENCES, RegExSentenceSplitter.class);
-        addOperatorSpecification(COMPUTE_KEYWORDS_IN_SENTENCE_RATIO, KeywordsInSentenceSpotter.class);
+        addOperatorSpecification(COMPUTE_KEYWORDS_IN_SENTENCE_HISTOGRAM, ComputeKeywordsInSentenceHistogram.class);
 
 		addDefaultOutputLink(ObjectIdentifiers.DOCUMENT);
 		verify();
