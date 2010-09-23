@@ -239,12 +239,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                      spacing:spacing;
                      content:[
                         Button {
-                           text: getBundleString("FX-FITEX.MENU_IMPORT_DATA");
-                           action: function() {
-                              doImportCSVFile();
-                           }
-                        }
-                        Button {
                            text: getBundleString("FX-FITEX.MENU_SAVE");
                            action: function() {
                               doSaveElo();
@@ -310,10 +304,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         fitexPanel.setEloUri(elo.getUri().toString());
     }
 
-
-   function doImportCSVFile(){
-       fitexPanel.importCsvFile();
-   }
 
    function resizeContent(){
       Container.resizeNode(wrappedFitexPanel,width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
