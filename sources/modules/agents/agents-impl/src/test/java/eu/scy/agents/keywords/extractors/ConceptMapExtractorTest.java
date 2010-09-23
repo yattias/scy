@@ -48,13 +48,4 @@ public class ConceptMapExtractorTest extends AbstractTestFixture {
 				"moment child 2", "moment"));
 	}
 
-	private boolean hasItems(List<String> keywords, String... values) {
-		for (String value : values) {
-			if (!keywords.contains(value)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 }

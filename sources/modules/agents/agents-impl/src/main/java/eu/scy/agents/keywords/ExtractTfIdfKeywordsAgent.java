@@ -9,8 +9,9 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import util.Utilities;
+
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
-import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
@@ -90,7 +91,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		DocumentFrequencyModel dfModel = storage
 				.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 
-		Document document = convertTextToDocument(text);
+		Document document = Utilities.convertTextToDocument(text);
 		if (dfModel == null) {
 			logger.fatal("TfIdfModel is not present");
 			return new HashSet<String>();
@@ -106,12 +107,6 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 
 		return doc.getFeature(KeywordWorkflowConstants.TFIDF_KEYWORDS);
-	}
-
-	private Document convertTextToDocument(String text) {
-		Document doc = new Document("id");
-		doc.setFeature(Features.TEXT, text);
-		return doc;
 	}
 
 	@Override

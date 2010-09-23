@@ -8,11 +8,14 @@ import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -220,4 +223,28 @@ public class AbstractTestFixture {
 				AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
 				"SomeMission", "TestSession", eloUri, "type=" + type);
 	}
+
+  protected boolean hasItems(List<String> keywords, String... values) {
+    for (String value : values) {
+      if (!keywords.contains(value)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected String readFile(InputStream inStream) throws IOException {
+    // reads text from file and creates one String
+    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+    String text = "";
+    String line = "";
+    while ((line = reader.readLine()) != null) {
+      if (line.matches("\\s")) {
+        continue;
+      }
+      text = text + " " + line;
+    }
+    reader.close();
+    return text;
+  }
 }

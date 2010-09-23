@@ -15,7 +15,6 @@ import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		IRepositoryAgent {
