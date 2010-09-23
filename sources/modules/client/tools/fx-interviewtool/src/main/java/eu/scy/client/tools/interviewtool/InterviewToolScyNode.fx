@@ -294,4 +294,9 @@ logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.get
     return  "{toolBrokerAPI.getLoginUserName()} {andStr} [{anonUser}]";
 }
 
+
+   public override function onQuit() {
+       schemaEditor.insertedTextToActionLog();
+   }
+
 }

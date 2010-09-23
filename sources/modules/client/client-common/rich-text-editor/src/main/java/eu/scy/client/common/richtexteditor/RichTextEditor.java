@@ -281,7 +281,6 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             if (!insertedText.equals("")) {
                 if (rtfLogger != null)
                     rtfLogger.logInsertAction(insertedText, typingLogIntervalMs);
-logger.debug(insertedText);
                 insertedText = "";
                 if (timer.getDelay() != typingLogIntervalMs)
                     timer.setDelay(typingLogIntervalMs);
