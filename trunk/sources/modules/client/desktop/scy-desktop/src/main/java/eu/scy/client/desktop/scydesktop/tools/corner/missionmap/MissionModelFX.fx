@@ -183,9 +183,9 @@ public class MissionModelFX {
          if (not onlyAnchors) {
             addNotNullUriList(eloUris, las.loEloUris);
          }
-         addAnhorUris(eloUris, las.mainAnchor, onlyAnchors);
+         addAnchorUris(eloUris, las.mainAnchor, onlyAnchors);
          for (anchor in las.intermediateAnchors) {
-            addAnhorUris(eloUris, anchor, onlyAnchors);
+            addAnchorUris(eloUris, anchor, onlyAnchors);
          }
       }
       return new ArrayList(eloUris);
@@ -199,7 +199,7 @@ public class MissionModelFX {
       }
    }
 
-   function addAnhorUris(eloUris: Set, anchor: MissionAnchorFX, onlyAnchors: Boolean) {
+   function addAnchorUris(eloUris: Set, anchor: MissionAnchorFX, onlyAnchors: Boolean) {
       if (anchor.eloUri != null) {
          eloUris.add(anchor.eloUri);
          if (not onlyAnchors) {
