@@ -63,10 +63,6 @@
 <content languageIndependent="true" contentType="xml">
 <experimental_procedure>
   <mission>
-    <options>
-      <add_proc>true</add_proc>
-      <trace>true</trace>
-    </options>
     <initial_proc>
       <name language="fr">Procedure</name>
       <name language="en">Procedure</name>
@@ -83,6 +79,20 @@
           <repeat_right>N</repeat_right>
         </task_right>
       </question>
+    <proc_hypothesis>
+        <hypothesis language="en" />
+        <hypothesis language="fr" />
+        <comment language="en" />
+        <comment language="fr" />
+        <hypothesis_hide>false</hypothesis_hide>
+      </proc_hypothesis>
+      <proc_general_principle>
+        <principle language="en" />
+        <principle language="fr" />
+        <principle_comment language="en" />
+        <principle_comment language="fr" />
+        <principle_hide>false</principle_hide>
+      </proc_general_principle>
       <manipulation />
       <code>TEST</code>
       <is_free_action>true</is_free_action>
@@ -112,6 +122,20 @@
         <repeat_right>N</repeat_right>
       </task_right>
     </question>
+    <proc_hypothesis>
+      <hypothesis language="en" />
+      <hypothesis language="fr" />
+      <comment language="en" />
+      <comment language="fr" />
+      <hypothesis_hide>false</hypothesis_hide>
+    </proc_hypothesis>
+    <proc_general_principle>
+      <principle language="en" />
+      <principle language="fr" />
+      <principle_comment language="en" />
+      <principle_comment language="fr" />
+      <principle_hide>false</principle_hide>
+    </proc_general_principle>
     <manipulation />
     <initial_proc_ref>
       <code>TEST</code>
