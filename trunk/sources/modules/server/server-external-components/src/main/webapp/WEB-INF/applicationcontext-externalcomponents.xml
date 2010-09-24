@@ -3,34 +3,46 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-    <bean id="scyHub" class="eu.scy.scyhub.SCYHubComponent" lazy-init="true"></bean>
+	<bean id="scyHub" class="eu.scy.scyhub.SCYHubComponent" lazy-init="true"></bean>
 
-    <bean id="scyAuthorRuntimeModule" class="eu.scy.core.openfire.ScyAuthorRuntimeModule" lazy-init="true">
-        <constructor-arg><ref bean="scyHub"/></constructor-arg>
-        <property name="runtimeService" ref="runtimeService"/>
-    </bean>
+	<bean id="scyAuthorRuntimeModule" class="eu.scy.core.openfire.ScyAuthorRuntimeModule"
+		lazy-init="true">
+		<constructor-arg>
+			<ref bean="scyHub" />
+		</constructor-arg>
+		<property name="runtimeService" ref="runtimeService" />
+	</bean>
 
-	<bean id="notificator" class="eu.scy.server.notification.Notificator" lazy-init="true">
-        <constructor-arg><ref bean="scyHub"/></constructor-arg>
-    </bean>
+	<bean id="notificator" class="eu.scy.server.notification.Notificator"
+		lazy-init="true">
+		<constructor-arg>
+			<ref bean="scyHub" />
+		</constructor-arg>
+	</bean>
 
-	<bean id="actionProcessModule" class="eu.scy.actionlogging.server.ActionProcessModule" lazy-init="true">
-        <constructor-arg><ref bean="scyHub"/></constructor-arg>
-    </bean>
+	<bean id="actionProcessModule" class="eu.scy.actionlogging.server.ActionProcessModule"
+		lazy-init="true">
+		<constructor-arg>
+			<ref bean="scyHub" />
+		</constructor-arg>
+	</bean>
 
-	<bean id="dataSyncModule" class="eu.scy.server.datasync.DataSyncModule" lazy-init="true">
-        <constructor-arg><ref bean="scyHub"/></constructor-arg>
-    </bean>
+	<bean id="dataSyncModule" class="eu.scy.server.datasync.DataSyncModule"
+		lazy-init="true">
+		<constructor-arg>
+			<ref bean="scyHub" />
+		</constructor-arg>
+	</bean>
 
 	<bean id="externalComponentManager"
 		class="eu.scy.server.externalcomponents.ExternalComponentManager"
 		singleton="true">
 		<property name="externalComponents">
 			<list>
-                <ref local="sqlSpacesComponent"/>
-                <!-- ref local="swatComponent"/-->
-				<ref local="scyHubExternalComponent"/>
-				<ref local="agentFrameworkComponent"/>
+				<ref local="sqlSpacesComponent" />
+				<!-- ref local="swatComponent"/-->
+				<ref local="scyHubExternalComponent" />
+				<ref local="agentFrameworkComponent" />
 			</list>
 		</property>
 	</bean>
@@ -40,9 +52,11 @@
 		singleton="true" />
 	<bean id="swatComponent" class="eu.scy.server.externalcomponents.swat.SWATComponent"
 		singleton="true" />
-	<bean id="scyHubExternalComponent" class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent" singleton="true" >
-        <property name="scyhub" ref="scyHub"/>
-    </bean>
+	<bean id="scyHubExternalComponent"
+		class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent"
+		singleton="true">
+		<property name="scyhub" ref="scyHub" />
+	</bean>
 	<bean id="agentFrameworkComponent"
 		class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent"
 		singleton="true">
@@ -51,7 +65,6 @@
 				<!-- ref bean="supervisor" /-->
 				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
-				<!-- <ref bean="topicdetector" /> -->
 				<ref bean="generalELOSavedAgent" />
 				<ref bean="scysim" />
 				<ref bean="votat" />
@@ -62,6 +75,8 @@
 				<ref bean="keywordsOntology" />
 				<ref bean="keywords" />
 				<ref bean="keywordsDecisionMaker" />
+				<ref bean="addKeywordsToMetadataAgent" />
+				<ref bean="notifyUserAgent" />
 			</set>
 		</property>
 		<property name="repository">

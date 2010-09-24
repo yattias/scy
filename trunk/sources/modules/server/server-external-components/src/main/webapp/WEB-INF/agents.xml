@@ -79,12 +79,12 @@
 		</constructor-arg>
 	</bean>
 	<bean id="keywordsOntology" class="eu.scy.agents.impl.AgentStartConfiguration">
-        <constructor-arg index="0"
-            value="eu.scy.agents.keywords.OntologyKeywordsAgent" />
-        <constructor-arg index="1">
-            <map />
-        </constructor-arg>
-    </bean>
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.OntologyKeywordsAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
 	<bean id="keywords" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.keywords.ExtractKeywordsAgent" />
@@ -100,11 +100,25 @@
 		</constructor-arg>
 	</bean>
 	<bean id="generalELOSavedAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
-        <constructor-arg index="0"
-            value="eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent" />
-        <constructor-arg index="1">
-            <map />
-        </constructor-arg>
-    </bean>
+		<constructor-arg index="0"
+			value="eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="addKeywordsToMetadataAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.roolo.keywords.AddKeywordsToMetadataAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
 	
+	<bean id="notifyUserAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.roolo.authoring.NotifyUserAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
 </beans>
