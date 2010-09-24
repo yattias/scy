@@ -16,73 +16,70 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
 
-public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
-		IRepositoryAgent {
+public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
 
-	private final static String NAME = AddKeywordsToMetadataAgent.class
-			.getName();
+  private final static String NAME = AddKeywordsToMetadataAgent.class.getName();
 
-	private IMetadataTypeManager metadataTypeManager;
-	private IRepository repository;
+  private IMetadataTypeManager metadataTypeManager;
 
-	protected AddKeywordsToMetadataAgent(Map<String, Object> params) {
-		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
-		if (params.containsKey(AgentProtocol.TS_HOST)) {
-			this.host = (String) params.get(AgentProtocol.TS_HOST);
-		}
-		if (params.containsKey(AgentProtocol.TS_PORT)) {
-			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
-		}
-	}
+  private IRepository repository;
 
-	@Override
-	protected void processELOSavedAction(String actionId, String user,
-			long timeInMillis, String tool, String mission, String session,
-			String eloUri, String eloType) {
+  protected AddKeywordsToMetadataAgent(Map<String, Object> params) {
+    super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
+    if (params.containsKey(AgentProtocol.TS_HOST)) {
+      this.host = (String) params.get(AgentProtocol.TS_HOST);
+    }
+    if (params.containsKey(AgentProtocol.TS_PORT)) {
+      this.port = (Integer) params.get(AgentProtocol.TS_PORT);
+    }
+  }
 
-		IELO elo = getELO(eloUri);
-		if (elo == null) {
-			return;
-		}
+  @Override
+  protected void processELOSavedAction(String actionId, String user, long timeInMillis,
+                                       String tool, String mission, String session, String eloUri,
+                                       String eloType) {
 
-		KeywordExtractor extractor = KeywordExtractorFactory
-				.getKeywordExtractor(eloType);
-		extractor.setTupleSpace(getCommandSpace());
-		List<String> keywords = extractor.getKeywords(elo);
+    IELO elo = getELO(eloUri);
+    if (elo == null) {
+      return;
+    }
 
-		addKeywordsToMetadata(elo, keywords);
-	}
+    KeywordExtractorFactory factory = new KeywordExtractorFactory();
+    KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
+    extractor.setTupleSpace(getCommandSpace());
+    List<String> keywords = extractor.getKeywords(elo);
 
-	private void addKeywordsToMetadata(IELO elo, List<String> keywords) {
-		if (keywords.isEmpty()) {
-			return;
-		}
-		IMetadataKey keywordKey = metadataTypeManager
-				.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
-		IMetadataValueContainer agentKeywordsContainer = elo.getMetadata()
-				.getMetadataValueContainer(keywordKey);
-		agentKeywordsContainer.setValueList(keywords);
+    addKeywordsToMetadata(elo, keywords);
+  }
 
-		repository.updateELO(elo);
-	}
+  private void addKeywordsToMetadata(IELO elo, List<String> keywords) {
+    if (keywords.isEmpty()) {
+      return;
+    }
+    IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
+    IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(keywordKey);
+    agentKeywordsContainer.setValueList(keywords);
 
-	private IELO getELO(String eloUri) {
-		try {
-			return repository.retrieveELO(new URI(eloUri));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    repository.updateELO(elo);
+  }
 
-	@Override
-	public void setMetadataTypeManager(IMetadataTypeManager manager) {
-		metadataTypeManager = manager;
-	}
+  private IELO getELO(String eloUri) {
+    try {
+      return repository.retrieveELO(new URI(eloUri));
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 
-	@Override
-	public void setRepository(IRepository rep) {
-		repository = rep;
-	}
+  @Override
+  public void setMetadataTypeManager(IMetadataTypeManager manager) {
+    metadataTypeManager = manager;
+  }
+
+  @Override
+  public void setRepository(IRepository rep) {
+    repository = rep;
+  }
 
 }

@@ -11,30 +11,17 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.xml.sax.SAXException;
 
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.ExtractKeywordsAgent;
-
-import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import util.Utilities;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.ExtractKeywordsAgent;
 
 /**
  * @author Jörg Kindermann
@@ -47,16 +34,10 @@ public class CopexExtractor implements KeywordExtractor {
 
   private TupleSpace tupleSpace;
 
-  private static String[] XMLPATH = { "experimental_procedure", "learner_proc", "proc_hypothesis",
-                                     "hypothesis" };
-
-  private ArrayList<String> path;
+  public static List<String> XMLPATH = Arrays.asList("experimental_procedure", "learner_proc",
+                                                     "proc_hypothesis", "hypothesis");
 
   public CopexExtractor() {
-    path = new ArrayList<String>();
-    for (int i = 0; i < XMLPATH.length; i++) {
-      path.add(XMLPATH[i]);
-    }
   }
 
   /*
@@ -66,12 +47,17 @@ public class CopexExtractor implements KeywordExtractor {
    */
   @Override
   public List<String> getKeywords(IELO elo) {
-    String text = Utilities.getEloText(elo, path, logger);
+    String text = getText(elo);
     if (!"".equals(text)) {
       return getKeywords(text);
     } else {
       return new ArrayList<String>();
     }
+  }
+
+  private String getText(IELO elo) {
+    String text = Utilities.getEloText(elo, XMLPATH, logger);
+    return text;
   }
 
   private List<String> getKeywords(String text) {

@@ -119,6 +119,8 @@
 				<ref bean="isVersionedBy" />
 				<ref bean="isForkOf" />
 				<ref bean="isForkedBy" />
+				<ref bean="agentKeywords" />
+				<ref bean="keywordSentenceHistogram" />
 			</list>
 		</property>
 	</bean>
@@ -127,6 +129,14 @@
 	<bean name="topicScores" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
 		<constructor-arg index="0" value="topicScores" />
 		<constructor-arg index="1" value="/agentdata/topics/topicScore" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="LIST" />
+		<constructor-arg index="4" ref="defaultEntryValidator" />
+	</bean>
+	
+	<bean name="keywordSentenceHistogram" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
+		<constructor-arg index="0" value="keywordSentenceHistogram" />
+		<constructor-arg index="1" value="/agentdata/keywordSentenceHistogram/" />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="LIST" />
 		<constructor-arg index="4" ref="defaultEntryValidator" />
@@ -345,6 +355,15 @@
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultRelationValidator" />
+	</bean>
+	
+	<bean name="agentKeywords" class="roolo.elo.metadata.keys.StringMetadataKey">
+		<constructor-arg index="0" value="agentKeywords" />
+		<constructor-arg index="1"
+			value='/agentdata/keywords' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="LIST" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
 
 	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
