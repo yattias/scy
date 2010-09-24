@@ -123,6 +123,10 @@ public class AbstractTestFixture {
 	protected void removeTopicModel() {
 		storage.remove(TM_MODEL_NAME);
 	}
+	
+	protected void removeDFModel() {
+      storage.remove(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+  }
 
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();

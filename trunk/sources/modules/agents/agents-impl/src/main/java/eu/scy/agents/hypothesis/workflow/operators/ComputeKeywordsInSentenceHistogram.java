@@ -3,12 +3,9 @@ package eu.scy.agents.hypothesis.workflow.operators;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import util.Utilities;
-
 import de.fhg.iais.kd.tm.obwious.JavaClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
@@ -16,7 +13,6 @@ import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.keywords.KeywordConstants;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 /**
  * computes a histogram of number of keywords per sentence:
@@ -26,6 +22,10 @@ import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
  */
 public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   /**
    * Should documents really be updated. true, false
    */

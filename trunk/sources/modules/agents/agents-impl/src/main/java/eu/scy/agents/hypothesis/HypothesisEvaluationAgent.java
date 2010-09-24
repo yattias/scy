@@ -3,12 +3,16 @@ package eu.scy.agents.hypothesis;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.axis.utils.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
 
 import roolo.api.IRepository;
@@ -29,6 +33,7 @@ import eu.scy.agents.hypothesis.workflow.EvalHypothesisWorkflow;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.KeywordConstants;
+import eu.scy.agents.keywords.extractors.CopexExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
 
@@ -37,9 +42,11 @@ import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
  * 
  *         Workflow: extract Keywords (or read them from meta-data of ELO) - tokenize text into
  *         sentences - determine keyword-per-sentence histogram: the idea is to check for
- *         co-occurrgin keywords in sentences
+ *         co-occurring keywords in sentences. Output is a hashmap that stores the number of
+ *         sentences which contain 0,1,2... keywords.
  */
 public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
+
   public static final String NAME = HypothesisEvaluationAgent.class.getName();
 
   public static final Object EVAL = "EvalHypothesis";
@@ -133,18 +140,27 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       IELO elo = repository.retrieveELO(eloURI);
       IMetadataKey metadataKey = metadataTypeManager.getMetadataKey(KeywordConstants.AGENT_KEYWORDS);
       IMetadata metadata = elo.getMetadata();
-      List<String> keywords;
+      List<String> keywords = new ArrayList<String>();
       if (!metadata.metadataKeyExists(metadataKey)) {
         // get keywords extracted and store them in ELO meta data section!
-        KeywordExtractor keywordExtractor = KeywordExtractorFactory.getKeywordExtractor(eloType);
+        KeywordExtractorFactory factory = new KeywordExtractorFactory();
+        KeywordExtractor keywordExtractor = factory.getKeywordExtractor(eloType);
+        keywordExtractor.setTupleSpace(getCommandSpace());
         keywords = keywordExtractor.getKeywords(elo);
-        addKeywordsToMetadata(elo, keywords);
+        IMetadata newMetadata = addKeywordsToMetadata(elo, keywords);
+        if(newMetadata != null) {
+          elo.setMetadata(newMetadata);
+        }
       }
 
       // if keywords exist in ELO, we can go on extracting them and the hypothesis text:
+      metadata = elo.getMetadata();
       IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(metadataKey);
-      keywords = (List<String>) metadataValueContainer.getValueList();
-      String text = Utilities.getEloText(elo, logger);
+      List<String> tmpKeywords = (List<String>) metadataValueContainer.getValueList();
+      if(!tmpKeywords.isEmpty()) {
+        keywords = tmpKeywords;
+      }
+      String text = Utilities.getEloText(elo, CopexExtractor.XMLPATH, logger);
       // make OBWIOUS document and process in workflow:
       Document document = Utilities.convertTextToDocument(text);
       document.setFeature(Features.WORDS, keywords);
@@ -154,8 +170,20 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
       HashMap<Integer, Integer> hist = docResult.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
       addSentenceHistogramToMetadata(elo, hist);
+
+      ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+      ObjectOutputStream out = new ObjectOutputStream(bytesOut);
+
+      out.writeObject(hist);
+      Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission, session, tool, eloUri,
+                                                   bytesOut.toByteArray());
+      getCommandSpace().write(activateDecisionMakerTuple);
     } catch (URISyntaxException e) {
       // TODO: handle exception
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (TupleSpaceException e) {
+      e.printStackTrace();
     }
 
   }
@@ -182,15 +210,16 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
     repository.updateELO(elo);
   }
 
-  private void addKeywordsToMetadata(IELO elo, List<String> keywords) {
+  private IMetadata addKeywordsToMetadata(IELO elo, List<String> keywords) {
     if (keywords.isEmpty()) {
-      return;
+      return null;
     }
     IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(KeywordConstants.AGENT_KEYWORDS);
     IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(keywordKey);
     agentKeywordsContainer.setValueList(keywords);
 
-    repository.updateELO(elo);
+    IMetadata updateELO = repository.updateELO(elo);
+    return updateELO;
   }
 
 }
