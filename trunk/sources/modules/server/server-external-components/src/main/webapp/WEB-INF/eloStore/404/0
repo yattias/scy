@@ -60,12 +60,14 @@
       <column>
         <symbol>data 1</symbol>
         <description />
-        <type>unit</type>
+        <type>double</type>
+        <unit>unit</unit>
       </column>
       <column>
         <symbol>data 2</symbol>
         <description />
-        <type>unit</type>
+        <type>double</type>
+        <unit>unit</unit>
       </column>
     </header>
     <row>
