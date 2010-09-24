@@ -1,7 +1,6 @@
 package eu.scy.agents.conceptmap.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class EscapeUtils {
@@ -48,9 +47,10 @@ public class EscapeUtils {
         return (String[]) results.toArray(new String[results.size()]);
     }
 
-    public static void main(String[] args) {
-        String test = "abc\\\\,def\\,ghj";
-        System.out.println(Arrays.toString(deEscape(test)));
-    }
+// Only for testing purposes
+//    public static void main(String[] args) {
+//        String test = "abc\\\\,def\\,ghj";
+//        System.out.println(Arrays.toString(deEscape(test)));
+//    }
 
 }
