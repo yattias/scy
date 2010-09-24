@@ -35,10 +35,12 @@ public class Eportfolio implements ToggleViewListener {
 		jPanelLayers.addElement(introductionPanel);
 		searchPanel = new SearchPanel(new Dimension(600, 400));
 		searchPanel.addToggleViewListener(this);
+		searchPanel.setVisible(false);
 		jPanel.add(searchPanel);
 		jPanelLayers.addElement(searchPanel);
 		reflectionPanel = new ReflectionPanel(new Dimension(600, 400));
 		reflectionPanel.addToggleViewListener(this);
+		reflectionPanel.setVisible(false);
 		jPanel.add(reflectionPanel);
 		jPanelLayers.addElement(reflectionPanel);
 		return jPanel;
