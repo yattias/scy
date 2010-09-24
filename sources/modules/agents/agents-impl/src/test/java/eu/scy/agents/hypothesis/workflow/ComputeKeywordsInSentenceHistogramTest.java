@@ -30,6 +30,7 @@ import roolo.elo.content.BasicContent;
 import util.Utilities;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture {
@@ -95,7 +96,7 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
     cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT, doc);
     Container result = cmpHistogramOp.run();
     Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
-    HashMap<Integer, Integer> hist = docResult.getFeature(HISTOGRAM);
+    HashMap<Integer, Integer> hist = docResult.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
     String string = hist.toString();
     assertEquals(string, "{0=16, 1=14, 2=7, 3=5, 4=1, 5=1}");
   }
