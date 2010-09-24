@@ -1,5 +1,7 @@
 package eu.scy.agents.conceptmap.model;
 
+
+
 import java.util.Properties;
 
 import eu.scy.agents.conceptmap.Graph;
@@ -16,11 +18,20 @@ public class ConceptMapModel {
 	private Graph graph;
 
 	/**
-	 * Constructs a new ConceptMapModel.
+	 * Constructs a new ConceptMapModel for the EloURI.
+	 * 
 	 */
 	public ConceptMapModel(String eloUri) {
+		this(eloUri, new Graph());
+	}
+	
+	/**
+	 * Constructs a new ConceptMapModel for the EloURI.
+	 */
+	public ConceptMapModel(String eloUri, Graph graph) {
 		this.eloURI = eloUri;
-		graph = new Graph();
+		this.graph = graph;
+		
 	}
 
 	public String getEloURI() {
@@ -29,6 +40,10 @@ public class ConceptMapModel {
 
 	public Graph getGraph() {
 		return graph;
+	}
+	
+	public void setGraph(Graph graph) {
+		this.graph = graph;
 	}
 
 	public void nodeAdded(Properties props) {
