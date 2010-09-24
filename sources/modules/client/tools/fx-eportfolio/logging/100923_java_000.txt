@@ -1,0 +1,102 @@
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=identifier,xPath=/lom/general/identifier,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=title,xPath=/lom/general/title,i18nType=SPECIFIC,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=technicalFormat,xPath=/lom/technical/format,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=dateCreated,xPath=/lom/technical/customElements/dateCreated,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=dateLastModified,xPath=/lom/technical/customElements/dateLastModified,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=author,xPath=/lom/lifecycle/contribute/[kind="author"],i18nType=UNIVERSAL,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.ContributeValidator@24e72f0c}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=languages,xPath=/lom/general/language,i18nType=UNIVERSAL,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=description,xPath=/lom/general/description,i18nType=SPECIFIC,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=isVersionOf,xPath=/lom/relation/[kind="is_version_of"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=isVersionedBy,xPath=/lom/relation/[kind="is_versioned_by"],i18nType=UNIVERSAL,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=isForkOf,xPath=/lom/relation/[kind="is_fork_of"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=isForkedBy,xPath=/lom/relation/[kind="is_forked_by"],i18nType=UNIVERSAL,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=uses,xPath=/lom/relationU/[kind="uses"],i18nType=UNIVERSAL,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=annotates,xPath=/lom/relationA/[kind="annotates"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=version,xPath=/lom/lifecycle/version,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=keywords,xPath=/lom/general/keyword,i18nType=UNIVERSAL,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=learningActivity,xPath=/lom/educational/context,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=access,xPath=/lom/rights/copyrightAndOtherRestrictions,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=missionRuntime,xPath=/lom/relation/[kind="isbasedon",type="scy/missionruntime"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=mission,xPath=/lom/general/mission,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=las,xPath=/lom/general/las,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=anchorId,xPath=/lom/general/anchorId,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=activeAnchorElo,xPath=/lom/relation/[kind="isbasedon",type="scy/anchor"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=containsAssignment,xPath=/lom/relation/[kind="containsAssignment",type="scy/anchor"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=logicalType,xPath=/lom/general/structure,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=functionalType,xPath=/lom/educational/learningResourceType,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=missionRunning,xPath=/lom/general/missionRunning,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=missionSpecificationElo,xPath=/lom/relation/[kind="isbasedon",type="scy/missionSpecification"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.UriValidator@5b5ede11}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=externalDoc,xPath=/lom/annotation/[entity="externalDoc"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=iconType,xPath=/lom/annotation/[entity="icon"],i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=mucId,xPath=/lom/technical/mucId,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=lineCount,xPath=/lom/agentData/draw/lineCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=rectangleCount,xPath=/lom/agentData/draw/rectangleCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=ovalCount,xPath=/lom/agentData/draw/ovalCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=freehandCount,xPath=/lom/agentData/draw/freehandCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=textCount,xPath=/lom/agentData/draw/textCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=imageCount,xPath=/lom/agentData/draw/imageCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=tagPointerCount,xPath=/lom/agentData/draw/tagPointerCount,i18nType=UNIVERSAL,metadataValueCount=SINGLE,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.LongValidator@43fd360b}
+Sep 23, 2010 2:21:02 PM roolo.elo.MockMetadataTypeManager registerMetadataKey
+INFO: Registered key: {id=testStringList,xPath=/test/list,i18nType=SPECIFIC,metadataValueCount=LIST,metadataTokenization=UNTOKENIZED,validator=roolo.elo.metadata.value.validators.StringValidator@62c639ce}
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/1/0, uri: roolo://memory/1/0/mission1.scymissionruntime
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/1/1, uri: roolo://memory/1/1/mission1.scymissionruntime
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/2/0, uri: roolo://memory/2/0/mission1.scymissionmapmodel
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/2/1, uri: roolo://memory/2/1/mission1.scymissionmapmodel
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/3/0, uri: roolo://memory/3/0/mission1.runtimesettings
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/4/0, uri: roolo://memory/4/0/Empty+mission.scymissionruntime
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/4/1, uri: roolo://memory/4/1/Empty+mission.scymissionruntime
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/5/0, uri: roolo://memory/5/0/Empty+mission.scymissionmapmodel
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/5/1, uri: roolo://memory/5/1/Empty+mission.scymissionmapmodel
+Sep 23, 2010 2:21:03 PM roolo.cms.repository.mock.MockRepository loadElo
+INFO: loaded elo from /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore/6/0, uri: roolo://memory/6/0/Empty+mission.runtimesettings
+Sep 23, 2010 2:21:10 PM roolo.cms.repository.mock.MockRepository retrieveMetadataFirstVersion
+INFO: retrieved metadata for first version of elo: roolo://memory/7/0/Empty+mission.scymissionruntime
+Sep 23, 2010 2:21:10 PM eu.scy.client.common.scyi18n.ResourceBundleWrapper getString
+SEVERE: Error while retrieving bundle string with the key: technicalFormat.scy/eportfoliotool
