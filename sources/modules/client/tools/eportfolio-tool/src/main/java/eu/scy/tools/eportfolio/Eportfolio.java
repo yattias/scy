@@ -18,6 +18,7 @@ public class Eportfolio implements ToggleViewListener {
 	private JPanel jPanel;
 	private IntroductionPanel introductionPanel;
 	private SearchPanel searchPanel;
+	private ReflectionPanel reflectionPanel;
 	private Vector<JPanel> jPanelLayers = new Vector<JPanel>();
 	
 	
@@ -36,6 +37,10 @@ public class Eportfolio implements ToggleViewListener {
 		searchPanel.addToggleViewListener(this);
 		jPanel.add(searchPanel);
 		jPanelLayers.addElement(searchPanel);
+		reflectionPanel = new ReflectionPanel(new Dimension(600, 400));
+		reflectionPanel.addToggleViewListener(this);
+		jPanel.add(reflectionPanel);
+		jPanelLayers.addElement(reflectionPanel);
 		return jPanel;
 	}
 
