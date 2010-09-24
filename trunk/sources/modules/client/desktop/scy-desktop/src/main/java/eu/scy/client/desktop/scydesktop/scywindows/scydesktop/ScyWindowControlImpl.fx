@@ -69,6 +69,26 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
    }
 
+   public override function removeOtherScyWindow(eloUri:URI): Void{
+      missionModel.removeElo(eloUri);
+      def scyWindow = findScyWindow(eloUri);
+      if (scyWindow!=null){
+         scyWindow.scyToolsList.onQuit();
+         windowManager.removeScyWindow(scyWindow);
+         windowPositioner.removeOtherWindow(scyWindow);
+      }
+   }
+
+   public override function removeOtherScyWindow(scyWindow:ScyWindow): Void{
+      if (scyWindow.eloUri!=null){
+         removeOtherScyWindow(scyWindow.eloUri);
+      }
+      else{
+         windowManager.removeScyWindow(scyWindow);
+         windowPositioner.removeOtherWindow(scyWindow);
+      }
+   }
+
    public override function addOtherScyWindow(eloUri: URI): ScyWindow {
       if (Sequences.indexOf(activeLas.otherEloUris, eloUri)<=0){
          missionModel.eloUriChanged(null, eloUri);

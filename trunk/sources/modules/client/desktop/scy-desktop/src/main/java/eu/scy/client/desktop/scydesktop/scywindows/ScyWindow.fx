@@ -121,8 +121,8 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
    public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
 
 
-   public abstract function canAcceptDrop(object:Object):Boolean;
-   public abstract function acceptDrop(object:Object):Void;
+//   public abstract function canAcceptDrop(object:Object):Boolean;
+//   public abstract function acceptDrop(object:Object):Void;
 
    // this is probably not the best way to handle it
    public abstract function openDrawer(which:String):Void;

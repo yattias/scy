@@ -88,6 +88,13 @@ public mixin class WindowPositioner {
     public abstract function addOtherWindow(window:ScyWindow):Boolean;
 
     /**
+    * removes an other window.
+    *
+    * there is no need to position any thing
+    */
+    public abstract function removeOtherWindow(window:ScyWindow):Void;
+
+    /**
     * adds an other window.
     *
     * The window should be positioned immediately

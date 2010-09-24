@@ -13,9 +13,6 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 
 import java.net.URI;
 
-import roolo.api.IExtensionManager;
-import roolo.api.IRepository;
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
@@ -41,9 +38,6 @@ public mixin class ScyWindowControl {
    public var stage: Stage;
    public var eloInfoControl: EloInfoControl;
    public var tbi:ToolBrokerAPI;
-//   public var metadataTypeManager: IMetadataTypeManager;
-//   public var extensionManager: IExtensionManager;
-//   public var repository: IRepository;
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
    public var repositoryWrapper:RepositoryWrapper;
@@ -57,6 +51,10 @@ public mixin class ScyWindowControl {
 
    public abstract function addOtherScyWindow(eloUri:URI): ScyWindow;
    public abstract function addOtherScyWindow(eloType:String): ScyWindow;
+
+   public abstract function removeOtherScyWindow(eloUri:URI): Void;
+
+   public abstract function removeOtherScyWindow(window:ScyWindow): Void;
 
    public abstract function makeMainScyWindow(eloUri:URI): Void;
 

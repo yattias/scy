@@ -83,6 +83,13 @@ public class MissionModelFX {
       updateElo();
    }
 
+   public function removeElo(eloUri: URI):Void{
+      if (activeLas != null) {
+         delete eloUri from activeLas.otherEloUris;
+         updateElo();
+      }
+   }
+
    public function eloUriChanged(oldEloUri: URI, newEloUri: URI) {
       logger.info("eloUri changed from {oldEloUri} to {newEloUri}");
       if (oldEloUri == null) {

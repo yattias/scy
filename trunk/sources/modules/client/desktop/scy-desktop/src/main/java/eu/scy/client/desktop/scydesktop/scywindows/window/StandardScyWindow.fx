@@ -820,11 +820,17 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    function startDragIcon(e:MouseEvent):Void{
+      var dragNode: Node;
+      var dragObject: Object;
       if (eloUri!=null){
-         def dragIcon = windowControl.windowStyler.getScyEloIcon(eloUri);
-         def metadata = tbi.getRepository().retrieveMetadata(eloUri);
-         dragAndDropManager.startDrag(dragIcon, metadata, this, e);
+         dragNode = windowControl.windowStyler.getScyEloIcon(eloUri);
+         dragObject = tbi.getRepository().retrieveMetadata(eloUri);
       }
+      else{
+         dragNode = windowControl.windowStyler.getScyEloIcon(eloType);
+         dragObject = this;
+      }
+      dragAndDropManager.startDrag(dragNode, dragObject, this, e);
    }
 
 	public override function create(): Node {

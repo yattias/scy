@@ -155,6 +155,10 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
       return true;
    }
 
+   public override function removeOtherWindow(window: ScyWindow): Void {
+      delete window from otherWindowPositioner.windows;
+   }
+
    public override function placeOtherWindow(window: ScyWindow): Boolean {
       otherWindowPositioner.positionNewWindow(window);
       return true;
