@@ -27,4 +27,6 @@ public mixin class DragAndDropManager {
    * @param e - the mouseEvent which initiated the drag and drop action
    */
    public abstract function startDrag(node:Node, object:Object, source:Node, e:MouseEvent):Void;
+
+   public abstract function addDropTaget(node:Node):Void;
 }

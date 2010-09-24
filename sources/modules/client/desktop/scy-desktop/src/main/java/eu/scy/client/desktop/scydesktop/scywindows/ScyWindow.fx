@@ -22,12 +22,13 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 
 /**
  * @author sikkenj
  */
 
-public abstract class ScyWindow extends CustomNode {
+public abstract class ScyWindow extends CustomNode, DropTarget {
    public var title = "???";
 	public var eloType = "?123";
    public var eloUri:URI;
