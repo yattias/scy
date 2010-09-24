@@ -39,9 +39,9 @@ import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import java.lang.Thread;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author sikken
@@ -91,6 +91,12 @@ public class EloManagement extends CustomNode {
          imageName: "new_a"
          action: createNewBlankEloAction
       }
+   def archiver = Archiver{
+      tbi:scyDesktop.config.getToolBrokerAPI()
+      missionMapModel:scyDesktop.missionModelFX
+      scyWindowControl:scyWindowControl
+   }
+
 
    init {
       //      var image = Image{
@@ -105,6 +111,7 @@ public class EloManagement extends CustomNode {
       }
       if (scyWindowControl == null) {
          scyWindowControl = scyDesktop.scyWindowControl;
+         archiver.scyWindowControl = scyWindowControl;
       }
       if (tooltipManager == null) {
          tooltipManager = scyDesktop.tooltipManager;
@@ -120,6 +127,7 @@ public class EloManagement extends CustomNode {
       }
       //newFromEloTemplateButton.disable = templateEloUris == null or templateEloUris.isEmpty();
       findTemplateEloInformation();
+      scyDesktop.dragAndDropManager.addDropTaget(archiver);
    }
 
    public override function create(): Node {
@@ -132,6 +140,7 @@ public class EloManagement extends CustomNode {
       VBox {
          spacing: 5;
          content: [
+            archiver,
             newFromEloTemplateButton,
             searchButton,
             if (showCreateBlankElo) {

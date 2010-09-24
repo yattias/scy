@@ -93,6 +93,10 @@ public class SimpleWindowPositioner extends WindowPositioner {
       return true;
    }
 
+   public override function removeOtherWindow(window:ScyWindow):Void{
+   //       logger.info("removeOtherWindow({window.title})");
+   }
+
    public override function placeOtherWindow(window:ScyWindow):Boolean{
       addWindowImmediately(window);
       return true;
