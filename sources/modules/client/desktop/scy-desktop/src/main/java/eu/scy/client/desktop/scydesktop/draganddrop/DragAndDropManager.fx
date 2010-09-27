@@ -28,5 +28,10 @@ public mixin class DragAndDropManager {
    */
    public abstract function startDrag(node:Node, object:Object, source:Node, e:MouseEvent):Void;
 
+   /**
+   * register a node as drop target. The node must implement the DropTarget interface.
+   *
+   * @param node - the drop target
+   */
    public abstract function addDropTaget(node:Node):Void;
 }

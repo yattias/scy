@@ -7,9 +7,6 @@ package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Object;
 import roolo.elo.api.IMetadata;
@@ -18,14 +15,15 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import java.lang.Object;
 import java.lang.Void;
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
+import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 
 /**
  * @author SikkenJ
  */
-public class Archiver extends CustomNode, DropTarget {
+public class Archiver extends CustomNode, DropTarget2 {
    def logger = Logger.getLogger(this.getClass());
 
    public-init var missionMapModel: MissionModelFX;
@@ -34,19 +32,40 @@ public class Archiver extends CustomNode, DropTarget {
 
    def identifierKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
 
+   def archiverButton = MultiImageButton {
+               imageName: "archive"
+               action: archiveAction
+            };
+
    public override function create(): Node {
       Group {
          content: [
-            Rectangle {
-               x: 0
-               y: 0
-               width: 50
-               height: 25
-               fill: Color.LIGHTGRAY
-               stroke: Color.BLACK
-            }
+            archiverButton
+//            Rectangle {
+//               x: 0
+//               y: 0
+//               width: 50
+//               height: 25
+//               fill: Color.LIGHTGRAY
+//               stroke: Color.BLACK
+//            }
+            
          ]
       }
+   }
+
+   function archiveAction():Void{
+
+   }
+
+   override public function dropEntered(object: Object, canAccept: Boolean): Void{
+      if (canAccept){
+         archiverButton.turnedOn = true;
+      }
+   }
+
+   override public function dropLeft(object: Object): Void{
+      archiverButton.turnedOn = false;
    }
 
    override public function canAcceptDrop(object: Object): Boolean {

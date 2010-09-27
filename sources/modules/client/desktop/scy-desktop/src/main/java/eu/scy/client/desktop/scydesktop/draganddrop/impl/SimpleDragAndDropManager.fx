@@ -16,33 +16,31 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 import java.lang.Exception;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
+import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 import java.lang.IllegalArgumentException;
 
 /**
  * @author sikken
  */
 public class SimpleDragAndDropManager extends DragAndDropManager {
+
    def logger = Logger.getLogger(this.getClass());
-
-   public var windowManager:WindowManager;
-
+   public var windowManager: WindowManager;
    var dropTargets: Node[];
-
    def dragOpacity = 0.35;
    def dropOpacity = 0.85;
-
-   var dropObject:Object;
+   var dropObject: Object;
    var dragNode: Node;
    var orginalDragNodeX: Number;
    var orginalDragNodeY: Number;
    var sourceNode: Node;
-   var sourceNodeOnMouseDragged:function(e:MouseEvent):Void;
-   var sourceNodeOnMouseReleased:function(e:MouseEvent):Void;
+   var sourceNodeOnMouseDragged: function(e: MouseEvent): Void;
+   var sourceNodeOnMouseReleased: function(e: MouseEvent): Void;
    var mousehasBeenDragged = false;
+   var currentDropTargetUnderMouse: DropTarget;
+   var needToCallDropLeft = false;
 
-   var currentDropTargetUnderMouse:DropTarget;
-
-   override public function startDrag(node: Node, object: Object, source: Node, e:MouseEvent): Void {
+   override public function startDrag(node: Node, object: Object, source: Node, e: MouseEvent): Void {
       MouseBlocker.startMouseBlocking();
       dropObject = object;
       dragNode = node;
@@ -50,6 +48,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       dragNode.opacity = 0.0;
 
       currentDropTargetUnderMouse = null;
+      needToCallDropLeft = false;
 
       dragNode.layoutX = e.sceneX - e.x;
       dragNode.layoutY = e.sceneY - e.y;
@@ -64,14 +63,13 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       mousehasBeenDragged = false;
    }
 
-   function realStartDrag():Void{
-      
-   }
+   function realStartDrag(): Void {
 
+   }
 
    function mouseDragged(e: MouseEvent): Void {
       if (dragNode != null) {
-         if (not mousehasBeenDragged){
+         if (not mousehasBeenDragged) {
             dragNode.opacity = dragOpacity;
 
             var sceneContent = sourceNode.scene.content;
@@ -80,10 +78,10 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
          }
 
          mousehasBeenDragged = true;
-         var mouseEventInScene = MouseEventInScene{mouseEvent:e};
+         var mouseEventInScene = MouseEventInScene { mouseEvent: e };
          dragNode.layoutX = orginalDragNodeX + mouseEventInScene.dragX;
          dragNode.layoutY = orginalDragNodeY + mouseEventInScene.dragY;
-//         println("SimpleDragAndDropManager.mouseDragged ({dragNode.layoutX},{dragNode.layoutY})");
+         //         println("SimpleDragAndDropManager.mouseDragged ({dragNode.layoutX},{dragNode.layoutY})");
          checkDropStatus(e);
       } else {
          logger.warn("SimpleDragAndDropManager.mouseDragged, but no dragNode!!!");
@@ -93,21 +91,32 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    function mouseReleased(e: MouseEvent): Void {
       if (dragNode != null) {
-//         println("SimpleDragAndDropManager.mouseReleased");
-         try{
-            if (mousehasBeenDragged){
+         //         println("SimpleDragAndDropManager.mouseReleased");
+         try {
+            if (mousehasBeenDragged) {
                tryDrop(e);
             }
          }
-         catch (ex:Exception){
+         catch (ex: Exception) {
             logger.error("an exception occured while trying to drop {dropObject.getClass()}", ex);
          }
-         finally{
+         finally {
+            if (needToCallDropLeft and currentDropTargetUnderMouse instanceof DropTarget2) {
+               try {
+                  (currentDropTargetUnderMouse as DropTarget2).dropLeft(dropObject);
+               }
+               catch (ex: Exception) {
+                  logger.error("an exception occured while calling dropLeft of {getDropTargetDescription(currentDropTargetUnderMouse)}", ex);
+               }
+               needToCallDropLeft = false;
+            }
+
             var sceneContent = dragNode.scene.content;
             delete dragNode from sceneContent;
             dragNode.scene.content = sceneContent;
 
             dragNode = null;
+            dropObject = null;
 
             sourceNode.onMouseDragged = sourceNodeOnMouseDragged;
             sourceNode.onMouseReleased = sourceNodeOnMouseReleased;
@@ -121,27 +130,45 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    function checkDropStatus(e: MouseEvent): Void {
       def dropTarget = findDropTarget(e);
-      if (dropTarget!=currentDropTargetUnderMouse){
-         if (currentDropTargetUnderMouse!=null){
+      if (dropTarget != currentDropTargetUnderMouse) {
+         if (currentDropTargetUnderMouse != null) {
+            if (currentDropTargetUnderMouse instanceof DropTarget2) {
+               try {
+                  (currentDropTargetUnderMouse as DropTarget2).dropLeft(dropObject);
+               }
+               catch (ex: Exception) {
+                  logger.error("an exception occured while calling dropLeft of {getDropTargetDescription(currentDropTargetUnderMouse)}", ex);
+               }
+               needToCallDropLeft = false;
+            }
             logger.debug("mouse left {getDropTargetDescription(currentDropTargetUnderMouse)}")
          }
          var dropAcceptable = false;
-            currentDropTargetUnderMouse = dropTarget;
-            if (currentDropTargetUnderMouse!=null){
+         currentDropTargetUnderMouse = dropTarget;
+         if (currentDropTargetUnderMouse != null) {
+            try {
+               dropAcceptable = currentDropTargetUnderMouse.canAcceptDrop(dropObject);
+            }
+            catch (ex: Exception) {
+               logger.error("an exception occured while checking for the drop status of {getDropTargetDescription(currentDropTargetUnderMouse)}", ex);
+            }
+         }
+         if (currentDropTargetUnderMouse != null) {
+            if (currentDropTargetUnderMouse instanceof DropTarget2) {
                try {
-                  dropAcceptable = currentDropTargetUnderMouse.canAcceptDrop(dropObject);
+                  (currentDropTargetUnderMouse as DropTarget2).dropEntered(dropObject, dropAcceptable);
                }
                catch (ex: Exception) {
-                  logger.error("an exception occured while checking for the drop status of {getDropTargetDescription(currentDropTargetUnderMouse)}", ex);
+                  logger.error("an exception occured while calling dropEntered of {getDropTargetDescription(currentDropTargetUnderMouse)}", ex);
                }
+               needToCallDropLeft = true;
             }
-         if (currentDropTargetUnderMouse!=null){
+
             logger.debug("mouse entered {getDropTargetDescription(currentDropTargetUnderMouse)}, dropAcceptable: {dropAcceptable} ")
          }
-         if (dropAcceptable){
+         if (dropAcceptable) {
             dragNode.opacity = dropOpacity;
-         }
-         else{
+         } else {
             dragNode.opacity = dragOpacity;
          }
       }
@@ -189,18 +216,17 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
          }
       }
       var windowUnderMouse = windowManager.getWindowUnderMouse(e.sceneX, e.sceneY);
-      if (windowUnderMouse!=null){
+      if (windowUnderMouse != null) {
          return windowUnderMouse as DropTarget;
       }
       return null;
    }
 
-   function getDropTargetDescription(dropTarget: DropTarget): String{
-      if (dropTarget instanceof ScyWindow){
+   function getDropTargetDescription(dropTarget: DropTarget): String {
+      if (dropTarget instanceof ScyWindow) {
          def window = dropTarget as ScyWindow;
          return "elo: {window.eloUri}"
-      }
-      else{
+      } else {
          return "dropTaget class: {dropTarget.getClass()}"
       }
    }
