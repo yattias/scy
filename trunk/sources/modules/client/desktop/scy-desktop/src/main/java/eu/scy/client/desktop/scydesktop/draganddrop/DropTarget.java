@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.draganddrop;
 
 /**
+ * Interface which nodes have to implement, in order to recieve drops. The node must be registered at the DragAndDropManager before it can recieve drops.
  *
  * @author SikkenJ
  */
