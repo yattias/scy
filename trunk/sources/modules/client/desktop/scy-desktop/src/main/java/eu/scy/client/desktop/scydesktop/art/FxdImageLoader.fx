@@ -9,12 +9,15 @@ import javafx.fxd.FXDContent;
 import javafx.scene.Group;
 import javafx.fxd.Duplicator;
 import javafx.scene.Node;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikken
  */
 
 public class FxdImageLoader extends FXDContent {
+   def logger = Logger.getLogger(this.getClass());
+
    public-init var sourceLocation = ArtSource.artSource;
    public-init var sourceName:String;
    public-init var backgroundLoading=false;
@@ -22,6 +25,7 @@ public class FxdImageLoader extends FXDContent {
    public-read var sourceUrl = "{sourceLocation}{sourceName}";
    public-init var loadedAction: function():Void;
    public var returnDuplicates = true;
+   public var notFoundReplacementName = ArtSource.notFoundReplacementName;
 
    def fxdNode = MyFxdLoader{
       url:sourceUrl
@@ -44,6 +48,10 @@ public class FxdImageLoader extends FXDContent {
 
    override public function getNode(id: String) : Node{
       var node = fxdNode.getNode(id);
+      if (node==null){
+         node = fxdNode.getNode(notFoundReplacementName);
+         logger.error("failed to find fxd image node {id}, replaced by {notFoundReplacementName}");
+      }
       if (node!=null and returnDuplicates){
          node = Duplicator.duplicate(node);
       }

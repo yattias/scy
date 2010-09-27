@@ -46,6 +46,9 @@ public enum EloImageInformation
    idea2("ard/idea","idea2",ScyColors.blue),
    presentation2("ard/presentation","presentation2",ScyColors.pink),
    report2("ard/report","report2",ScyColors.pink);
+
+   private static final String defaultIconName = "logo_gray";
+   private static final ScyColors defaultScyColors = ScyColors.darkGray;
    
    public final String type;
    public final String iconName;
@@ -68,10 +71,18 @@ public enum EloImageInformation
    }
 
    public static String getIconName(String type){
-      return typeNamesMap.get(type);
+      final String name = typeNamesMap.get(type);
+      if (name!=null){
+         return name;
+      }
+      return defaultIconName;
    }
    
    public static ScyColors getScyColors(String type){
-      return colorStringsMap.get(type);
+      final ScyColors scyColors = colorStringsMap.get(type);
+      if (scyColors!=null){
+         return scyColors;
+      }
+      return defaultScyColors;
    }
 }
