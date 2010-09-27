@@ -302,12 +302,12 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                                 doSaveAsDataset();
                                             }
                                         }
-                                        Button {
+                                        /*Button {
                                             text: "test thumbnail"
                                             action: function () {
                                                 testThumbnail();
                                             }
-                                        }
+                                        }*/
                                     ]
                                 }
                                 simulatorContent

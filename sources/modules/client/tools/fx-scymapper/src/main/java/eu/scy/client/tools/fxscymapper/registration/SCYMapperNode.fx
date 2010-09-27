@@ -91,12 +91,12 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
                                                 addToPortfolio();
                                             }
                                         }
-                                        Button {
+                                        /*Button {
                                             text: "test thumbnail"
                                             action: function () {
                                                 testThumbnail();
                                             }
-                                        }
+                                        }*/
                                     ]
                                 }
                                 wrappedScyMapperPanel

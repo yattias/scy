@@ -103,12 +103,12 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
                                                 doSaveAsElo();
                                             }
                                         }
-                                        Button {
+                                        /*Button {
                                             text: "test thumbnail"
                                             action: function() {
                                                 testThumbnail();
                                             }
-                                        }
+                                        }*/
                                     ]
                                 }
                                 wrappedModelEditor
