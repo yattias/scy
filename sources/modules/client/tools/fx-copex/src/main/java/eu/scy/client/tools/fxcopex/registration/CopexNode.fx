@@ -201,4 +201,17 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
             JOptionPane.INFORMATION_MESSAGE,
             icon);
     }
+
+    public override function onQuit():Void{
+      if (elo!=null){
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
+   }
+   
 }
