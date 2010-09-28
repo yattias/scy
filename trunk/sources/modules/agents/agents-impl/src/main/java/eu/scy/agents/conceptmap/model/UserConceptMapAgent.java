@@ -160,13 +160,12 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 			ConceptMapModel currentModel = currentUser.getModel(eloUri);
 
 			if (currentModel == null) {
-				// no local model - search in TupleSpace
+				// no local model - search in Roolo
 				myLock.lock();
 				userBlockingQueue.put(eloUri,new LinkedBlockingQueue<Tuple>());
 				currentModel = reconstructConceptMapModel(eloUri);
 
 				if(currentModel == null) {
-					// No ELO in Roolo!
 					throw new MissingModelException();
 				}
 				
@@ -197,13 +196,21 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 				} else {
 					modifyGraph(currentModel, type, props);
 				}
+			} else if(type.equals("print_graph")) {
+				// TODO only for testing purposes
+				System.out.println(currentModel.getGraph().toString());
 			}
 
 		} catch (MissingModelException e) {
-			logger.severe("Unable to open concept map model for ELO "+ eloUri);
+			// worst case, no error recovery!
+			// TODO changed for testing purposes
+//			logger.severe("Unable to open concept map model for ELO "+ eloUri);
+			System.out.println("Unable to open concept map model for ELO "+ eloUri);
 		} catch (TupleSpaceException e) {
 			// worst case, no error recovery!
-			logger.info("Error in TupleSpace while reconstructing model");
+			// TODO changed for testing purposes
+//			logger.info("Error in TupleSpace while reconstructing model");
+			System.out.println("Error in TupleSpace while reconstruction model");
 		} finally {
 			myLock.unlock();
 		}
@@ -220,7 +227,6 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 		return currentUser;
 	}
 
-	
 	public void modifyGraph(ConceptMapModel model, String type, Properties props) {
 		if (type.equals(TYPE_NODE_ADDED)) {
 			model.nodeAdded(props);
@@ -273,8 +279,9 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 		if(currentModel == null) {
 			return null;
 		}
-
-		// Search timestamp of the latest eloload 
+		
+		// TODO TupleSpace server does not respond
+		// Search timestamp of the latest eloload
 		for(Tuple tuple: actionSpace.readAll(eloloadTemplate)) {
 			if (latestTimestamp < tuple.getCreationTimestamp()) {
 				latestTimestamp = tuple.getCreationTimestamp();
@@ -311,18 +318,20 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 	 * @return The ConceptMapModel for the ELO
 	 */
 	public ConceptMapModel loadELO(String eloUri) throws TupleSpaceException {
-		Tuple responseTuple; 
-		String uniqueId = new VMID().toString();
-		Tuple queryTemplate = new Tuple(uniqueId, ROOLO_AGENT_NAME, "elo", eloUri);
-		Tuple responseTemplate = new Tuple(uniqueId,"response", String.class);
+		// TODO changed for testing purposes
+//		Tuple responseTuple; 
+//		String uniqueId = new VMID().toString();
+//		Tuple queryTemplate = new Tuple(uniqueId, ROOLO_AGENT_NAME, "elo", eloUri);
+//		Tuple responseTemplate = new Tuple(uniqueId,"response", String.class);
 		
-		commandSpace.write(queryTemplate);
-		responseTuple = commandSpace.waitToTake(responseTemplate, 30000);
-		if(responseTuple == null) {
-			return null;
-		}
-
-		String eloAsXML = responseTuple.getField(2).toString();
+//		commandSpace.write(queryTemplate);
+//		responseTuple = commandSpace.waitToTake(responseTemplate, 30000);
+//		if(responseTuple == null) {
+//			return null;
+//		}
+//
+//		String eloAsXML = responseTuple.getField(2).toString();
+		String eloAsXML = TestingEnvironment.getExampleXml();
 		SCYMapperAdapter adapter = new SCYMapperAdapter();
 		return new ConceptMapModel(eloUri, adapter.transformToGraph(eloAsXML));
 	}
