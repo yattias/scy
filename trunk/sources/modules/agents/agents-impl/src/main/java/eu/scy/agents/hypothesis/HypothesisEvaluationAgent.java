@@ -148,7 +148,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
         keywordExtractor.setTupleSpace(getCommandSpace());
         keywords = keywordExtractor.getKeywords(elo);
         IMetadata newMetadata = addKeywordsToMetadata(elo, keywords);
-        if(newMetadata != null) {
+        if (newMetadata != null) {
           elo.setMetadata(newMetadata);
         }
       }
@@ -157,7 +157,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       metadata = elo.getMetadata();
       IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(metadataKey);
       List<String> tmpKeywords = (List<String>) metadataValueContainer.getValueList();
-      if(!tmpKeywords.isEmpty()) {
+      if (!tmpKeywords.isEmpty()) {
         keywords = tmpKeywords;
       }
       String text = Utilities.getEloText(elo, CopexExtractor.XMLPATH, logger);
@@ -171,10 +171,12 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       HashMap<Integer, Integer> hist = docResult.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
       addSentenceHistogramToMetadata(elo, hist);
 
+      // write HashMap histogram as a ByteArray object
       ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
       ObjectOutputStream out = new ObjectOutputStream(bytesOut);
-
       out.writeObject(hist);
+      // write a tuple with Byte version of histogram to trigger the HypothesisEvaluation decision
+      // maker
       Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission, session, tool, eloUri,
                                                    bytesOut.toByteArray());
       getCommandSpace().write(activateDecisionMakerTuple);
