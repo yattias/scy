@@ -356,6 +356,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent imp
     notificationTuple.add(NAME);
     notificationTuple.add(contextInformation.mission);
     notificationTuple.add(contextInformation.session);
+    
     notificationTuple.add("type=concept_proposal");
     for (String keyword : keywords) {
       notificationTuple.add("keyword=" + keyword);
