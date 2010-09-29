@@ -15,7 +15,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.hypothesis.workflow.operators.ComputeKeywordsInSentenceHistogram;
 import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -36,7 +39,7 @@ import eu.scy.agents.impl.AgentProtocol;
  * 
  * @author Jörg Kindermann
  */
-public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implements Callback{
+public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implements Callback {
 
   class ContextInformation {
 
@@ -47,6 +50,8 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     public String user;
 
   }
+
+  private final static Logger logger = Logger.getLogger(HypothesisDecisionMakerAgent.class);
 
   static final String NAME = HypothesisDecisionMakerAgent.class.getName();
 
@@ -60,14 +65,14 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     super(HypothesisDecisionMakerAgent.class.getName(),
           (String) params.get(AgentProtocol.PARAM_AGENT_ID));
     try {
-      this.listenerId = this.getActionSpace().eventRegister(Command.WRITE,
-                                                            new Tuple(
-                                                                      HypothesisEvaluationAgent.EVAL,
-                                                                      String.class, String.class,
-                                                                      String.class, String.class,
-                                                                      String.class,
-                                                                      Field.createWildCardField()),
-                                                            this, true);
+      this.listenerId = this.getCommandSpace().eventRegister(Command.WRITE,
+                                                             new Tuple(
+                                                                       HypothesisEvaluationAgent.EVAL,
+                                                                       String.class, String.class,
+                                                                       String.class, String.class,
+                                                                       String.class,
+                                                                       Field.createWildCardField()),
+                                                             this, true);
     } catch (TupleSpaceException e) {
       e.printStackTrace();
     }
@@ -101,7 +106,7 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
           score = score(histogramMap) / numberOfSentences;
 
         int maxKey = maxKey(histogramMap);
-        ContextInformation contextInformation = getContextInformation(beforeTuple);
+        ContextInformation contextInformation = getContextInformation(hypothesisHistogramTuple);
 
         // TODO get information about level of scaffold
         if (score < 0.6) {
@@ -133,6 +138,7 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     notificationTuple.add(contextInformation.session);
 
     notificationTuple.add(message);
+    logger.info("sent notification: " + notificationTuple.toString());
     try {
       if (this.getCommandSpace().isConnected()) {
         this.getCommandSpace().write(notificationTuple);
@@ -140,6 +146,7 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     } catch (TupleSpaceException e) {
       e.printStackTrace();
     }
+
   }
 
   public ContextInformation getContextInformation(Tuple beforeTuple) {

@@ -24,10 +24,6 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
-
-import cc.mallet.extract.ExtractionConfidenceEstimator;
-
-import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
@@ -35,7 +31,6 @@ import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class HypopthesisEvaluationTest extends AbstractTestFixture {
 
@@ -115,8 +110,6 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
                             "testUser", "SomeTool", "SomeMission", "TestSession", eloPath,
                             "type=" + ELO_TYPE);
     getActionSpace().write(tuple);
-    // this.getCommandSpace().write(
-    // new Tuple(HypothesisEvaluationAgent.EVAL, AgentProtocol.QUERY, queryId.toString(), TEXT));
 
     Tuple response = this.getCommandSpace().waitToTake(new Tuple(HypothesisEvaluationAgent.EVAL,
                                                                  String.class, String.class,

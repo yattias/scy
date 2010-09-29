@@ -7,12 +7,10 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
-import org.apache.axis.utils.ByteArrayOutputStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,8 +24,12 @@ import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.ExtractKeywordsAgent;
+import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
+import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
+import eu.scy.agents.keywords.OntologyKeywordsAgent;
 
-public class HypothesisDecisionMakerTest extends AbstractTestFixture {
+public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
   private static final String ELO_TYPE = "scy/copex";
 
@@ -38,8 +40,6 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
   private static final String UUID1234 = "uuid1234";
 
   private String eloPath;
-
-  private HashMap<Integer, Integer> histogram;
 
   @BeforeClass
   public static void startTS() {
@@ -63,6 +63,11 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
     params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
     params.put(AgentProtocol.TS_HOST, TSHOST);
     params.put(AgentProtocol.TS_PORT, TSPORT);
+    this.agentMap.put(ExtractKeywordsAgent.NAME, params);
+    this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
+    this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
+    this.agentMap.put(OntologyKeywordsAgent.NAME, params);
+    this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
     this.agentMap.put(HypothesisDecisionMakerAgent.NAME, params);
 
     this.startAgentFramework(this.agentMap);
@@ -76,14 +81,6 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
     this.eloPath = eloUri.toString();
 
     System.out.println(eloUri.toString());
-
-    histogram = new HashMap<Integer, Integer>();
-    histogram.put(0, 16);
-    histogram.put(1, 14);
-    histogram.put(2, 7);
-    histogram.put(3, 5);
-    histogram.put(4, 1);
-    histogram.put(5, 1);
   }
 
   @Override
@@ -101,25 +98,16 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
   @Test
   public void testRun() throws InterruptedException, TupleSpaceException, IOException {
+    Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, AgentProtocol.ACTION_ELO_SAVED,
+                            "testUser", "copex", "SomeMission", "TestSession", eloPath, "type="
+                                                                                        + ELO_TYPE);
+    getActionSpace().write(tuple);
 
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    ObjectOutputStream objectOut = new ObjectOutputStream(bytes);
-    objectOut.writeObject(histogram);
-    objectOut.close();
+    Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class,
+                                    "copex", String.class, String.class, String.class,
+                                    Field.createWildCardField());
 
-    Tuple tuple = new Tuple(HypothesisEvaluationAgent.EVAL, "testUser", "SomeMission",
-                            "TestSession", "copex", eloPath, bytes.toByteArray());
-    getCommandSpace().write(tuple);
-    Tuple response = this.getCommandSpace().waitToTake(new Tuple(
-                                                                          AgentProtocol.NOTIFICATION,
-                                                                          String.class,
-                                                                          String.class,
-                                                                          "copex",
-                                                                          String.class,
-                                                                          String.class,
-                                                                          String.class,
-                                                                          Field.createWildCardField()),
-                                                                AgentProtocol.ALIVE_INTERVAL);
+    Tuple response = this.getCommandSpace().waitToTake(responseTuple, AgentProtocol.ALIVE_INTERVAL*10);
     assertNotNull("no response received", response);
     String message = (String) response.getField(7).getValue();
     assertNotNull(message, "message = ok");

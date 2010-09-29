@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import util.Utilities;
 import de.fhg.iais.kd.tm.obwious.JavaClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
@@ -13,6 +15,7 @@ import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.keywords.KeywordConstants;
+import eu.scy.agents.keywords.extractors.TextExtractor;
 
 /**
  * computes a histogram of number of keywords per sentence:
@@ -22,10 +25,10 @@ import eu.scy.agents.keywords.KeywordConstants;
  */
 public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
 
-  /**
-   * 
-   */
+  private final static Logger logger = Logger.getLogger(ComputeKeywordsInSentenceHistogram.class);
+
   private static final long serialVersionUID = 1L;
+
   /**
    * Should documents really be updated. true, false
    */
@@ -71,6 +74,7 @@ public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
         histogram.put(count, 1);
       }
     }
+    logger.info(histogram.toString());
     document.setFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, histogram);
     Container output = new Container(getOutputSignature());
     output.setObject(ObjectIdentifiers.DOCUMENT, document);
