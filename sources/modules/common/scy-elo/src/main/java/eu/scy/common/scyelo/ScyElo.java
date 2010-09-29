@@ -5,6 +5,7 @@
 package eu.scy.common.scyelo;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import roolo.elo.api.IContent;
@@ -15,6 +16,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
+import roolo.elo.metadata.keys.Contribute;
 
 /**
  * 
@@ -404,13 +406,20 @@ public class ScyElo
       // /elo/metadata/lom/lifecycle/contribution/role = "author"
       // /elo/metadata/lom/lifecycle/contribution/entity = authorID
       // /elo/metadata/lom/lifecycle/contribution/data = dataTime (see lom specification)
-      getMetadataValueContainer(authorKey).addValue(authorID);
+      getMetadataValueContainer(authorKey).addValue(new Contribute(authorID, System.currentTimeMillis()));
    }
 
    @SuppressWarnings("unchecked")
    public List<String> getAuthors()
    {
-      return (List<String>) getMetadataValueContainer(authorKey).getValueList();
+      List<Contribute> authors = (List<Contribute>) getMetadataValueContainer(authorKey).getValueList();
+      List<String> authorIds = new ArrayList<String>();
+      if (authors!=null){
+         for (Contribute author: authors){
+            authorIds.add(author.getVCard());
+         }
+      }
+      return authorIds;
    }
 
    public void setAccess(Access access)
