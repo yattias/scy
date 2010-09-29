@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.EventListenerList;
@@ -580,13 +581,15 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
     }
     
     public void validText(){
-        String c = "";
-        if(commentNode != null)
-            c = commentNode.getText();
-        this.copexTree.setNodeText(node, textNode.getText(),c);
-        this.copexTree.setEditingNode(false);
+        SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    String c = "";
+                    if(commentNode != null)
+                        c = commentNode.getText();
+                    copexTree.setNodeText(node, textNode.getText(),c);
+                    copexTree.setEditingNode(false);
+                }
+            });
     }
-
-    
-
 }

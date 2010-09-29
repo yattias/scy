@@ -112,7 +112,8 @@ public class CopexControllerDB implements ControllerInterface {
         db.setIdUser(""+dbKeyUser);
         this.dbKeyGroup = dbKeyGroup;
         // LOCKER
-        this.locker = new Locker(copex, db.getDbC(), dbKeyUser);
+        DataBaseCommunication dbLabBook = new DataBaseCommunication(copexURL, MyConstants.DB_LABBOOK, dbKeyMission, idUser);
+        this.locker = new Locker(copex, dbLabBook, dbKeyUser);
         // chargement des parametres :
         // chargement des grandeurs physiques
         v = new ArrayList();
@@ -1151,7 +1152,7 @@ public class CopexControllerDB implements ControllerInterface {
         proc.getQuestion().setDbKey(dbKeyQuestion);
         proc.getListTask().get(0).setDbKey(dbKeyQuestion);
         // lock
-        setLocker(dbKeyProc);
+        setLocker(dbKeyLabDoc);
         // material to used
         if(!copy){
             proc.setListMaterialUsed(getListMaterialUsed(proc));
@@ -1658,9 +1659,9 @@ public class CopexControllerDB implements ControllerInterface {
                 copex.logEndTool();
             }
             // unset the locker for the labdoc !!
-            cr = MissionFromDB.unsetLabdocLockerInDB(db.getDbC(), dbKeyLabDoc);
-            if (cr.isError())
-               return cr;
+            //cr = MissionFromDB.unsetLabdocLockerInDB(db.getDbC(), dbKeyLabDoc);
+            //if (cr.isError())
+            //   return cr;
             return new CopexReturn();
         }catch(Exception e){
             System.out.println("stopEdp : "+e);
@@ -1821,9 +1822,9 @@ public class CopexControllerDB implements ControllerInterface {
     }
 
     
-    /* pose les verrous sur un proc */
-    private void setLocker(long dbKeyProc){
-        this.locker.setProcLocker(dbKeyProc);
+    /* pose les verrous sur un labdoc */
+    private void setLocker(long dbKeylabdoc){
+        this.locker.setLabdocLocker(dbKeylabdoc);
     }
 
 
@@ -1832,23 +1833,25 @@ public class CopexControllerDB implements ControllerInterface {
         int nb = listP.size();
         ArrayList listId = new ArrayList();
         for (int i=0; i<nb; i++){
-            listId.add(listP.get(i).getDbKey());
+            listId.add(listP.get(i).getDbKeyLabDoc());
         }
-        this.locker.setProcLockers(listId);
+        this.locker.setLabdocLockers(listId);
     }
 
     /* deverouille un proc */
     private void unsetLocker(ExperimentalProcedure proc){
-        this.locker.unsetProcLocker(proc.getDbKey());
+        if(proc instanceof LearnerProcedure){
+            this.locker.unsetLabdocLocker(((LearnerProcedure)proc).getDbKeyLabDoc());
+        }
     }
     /* deverouille une liste de proc */
     private void unsetLockers(ArrayList<LearnerProcedure> listP){
         int nb = listP.size();
         ArrayList listId = new ArrayList();
         for (int i=0; i<nb; i++){
-            listId.add(listP.get(i).getDbKey());
+            listId.add(listP.get(i).getDbKeyLabDoc());
         }
-        this.locker.unsetProcLockers(listId);
+        this.locker.unsetLabdocLockers(listId);
     }
 
 

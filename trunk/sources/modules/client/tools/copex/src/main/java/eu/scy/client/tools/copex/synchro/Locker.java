@@ -8,6 +8,7 @@ package eu.scy.client.tools.copex.synchro;
 import eu.scy.client.tools.copex.db.DataBaseCommunication;
 import eu.scy.client.tools.copex.edp.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
+import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
@@ -22,9 +23,9 @@ import java.util.ArrayList;
 public class Locker {
     // CONSTANTES
     /** Le delai de validite d'un verrou (en secondes). */
-	public static final int LOCKER_VALIDITY = 600;
-	/** Le delai de replacement d'un verrou (en secondes). */
-	public static final int LOCKER_DELAY = 300;
+    public static final int LOCKER_VALIDITY = 600;
+    /** Le delai de replacement d'un verrou (en secondes). */
+    public static final int LOCKER_DELAY = 300;
 
 
     /* editeur de protocoles */
@@ -32,13 +33,12 @@ public class Locker {
     /* connection base */
     private  DataBaseCommunication dbC;
     /** Le user de l'application. */
-	private  long idUser = -1;
-	/** Ce vecteur contient la liste des verrous a remettre a jour dans cette application. */
-	private  ArrayList lockers = new ArrayList();
+    private  long idUser = -1;
+    /** Ce vecteur contient la liste des verrous a remettre a jour dans cette application. */
+    private  ArrayList lockers = new ArrayList();
     /* thread */
     private ActivatorThread thread;
 
-    // CONSTRUCTOR
     /**
     * Constructeur du locker. Il s'agit essentiellement de lancer le thread en batch qui reactive periodiquement les verrous decrits dans le vector lockers.
     */
@@ -62,29 +62,29 @@ public class Locker {
         this.lockers = lockers;
     }
 
-   /* pose de verrous sur une liste de protocoles */
-    public  CopexReturn setProcLockers(ArrayList<Long> procs) {
-        int nbP = procs.size();
+   /* pose de verrous sur une liste de labdocs */
+    public  CopexReturn setLabdocLockers(ArrayList<Long> labdocs) {
+        int nbP = labdocs.size();
         ArrayList v = new ArrayList();
         String[] querys = new String[nbP];
         for (int i=0; i<nbP; i++){
-            querys[i] = "INSERT INTO VERROU (ID_PROC,ID_USER,DAT_VER) " +
-                "VALUES( "+procs.get(i)+" ," + this.idUser + ",NOW()) ;";
+            querys[i] = "INSERT INTO LABDOC_STATUS (ID_LABDOC,ID_LB_USER,LABDOC_STATUS, LOCK_DATE) " +
+                "VALUES( "+labdocs.get(i)+" ," + this.idUser + ",'"+MyConstants.LABDOC_STATUS_LOCK+"', NOW()) ;";
         }
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
             copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         for (int i=0; i<nbP; i++){
-            lockers.add(procs.get(i));
+            lockers.add(labdocs.get(i));
         }
         return new CopexReturn();
     }
 
-    /* pose un verrou sur un protocole*/
-    public  CopexReturn setProcLocker(long idProc){
-        String query = "INSERT INTO VERROU (ID_PROC,ID_USER,DAT_VER) " +
-                "VALUES( "+idProc+" ," + this.idUser + ",NOW()) ;";
+    /* pose un verrou sur un labdoc*/
+    public  CopexReturn setLabdocLocker(long idLabdoc){
+        String query = "INSERT INTO LABDOC_STATUS (ID_LABDOC,ID_LB_USER,LABDOC_STATUS, LOCK_DATE) " +
+                "VALUES( "+idLabdoc+" ," + this.idUser + ",'"+MyConstants.LABDOC_STATUS_LOCK+"', NOW()) ;";
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query ;
@@ -92,13 +92,13 @@ public class Locker {
         if (cr.isError()){
             copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        this.lockers.add(idProc);
+        this.lockers.add(idLabdoc);
         return new CopexReturn();
     }
 
-    /* supprime le verrou d'un protocole */
-    public  CopexReturn unsetProcLocker(long idProc){
-        String query = "DELETE FROM VERROU WHERE ID_PROC = "+idProc+" ;";
+    /* supprime le verrou d'un labdoc */
+    public  CopexReturn unsetLabdocLocker(long idLabdoc){
+        String query = "DELETE FROM LABDOC_STATUS WHERE ID_LABDOC = "+idLabdoc+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"';";
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query;
@@ -106,36 +106,36 @@ public class Locker {
         if (cr.isError()){
             copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        this.lockers.remove(idProc);
+        this.lockers.remove(idLabdoc);
         return new CopexReturn();
     }
 
-    /* supprime le verrou d'une liste de protocoles */
-    public  CopexReturn unsetProcLockers(ArrayList<Long> procs){
-        int nbP = procs.size();
+    /* supprime le verrou d'une liste de labdocs */
+    public  CopexReturn unsetLabdocLockers(ArrayList<Long> labdocs){
+        int nbP = labdocs.size();
         ArrayList v = new ArrayList();
         String[] querys = new String[nbP];
         for (int i=0; i<nbP; i++){
-            querys[i] = "DELETE FROM VERROU WHERE ID_PROC = "+procs.get(i)+" ;";
+            querys[i] = "DELETE FROM LABDOC_STATUS WHERE ID_LABDOC = "+labdocs.get(i)+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"' ;";
         }
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
             copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         for (int i=0; i<nbP; i++){
-            this.lockers.remove(procs.get(i));
+            this.lockers.remove(labdocs.get(i));
         }
         return new CopexReturn();
     }
 
-    /* retourne vrai si le proc est verrouille */
-    public  boolean isLocked(long idProc){
+    /* retourne vrai si le labodc est verrouille */
+    public  boolean isLocked(long idLabdoc){
         // suppression des anciens verrous
         CopexReturn cr = deleteOldLockers();
         if (cr.isError()){
             copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        String query = "SELECT * FROM VERROU WHERE ID_PROC = "+idProc+" ;";
+        String query = "SELECT * FROM VERROU WHERE ID_LABDOC = "+idLabdoc+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"';";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("DAT_VER");
@@ -151,7 +151,7 @@ public class Locker {
 
     /* suppression d'anciens verrous */
     private  CopexReturn deleteOldLockers(){
-        String query = "DELETE FROM VERROU WHERE (NOW() - DAT_VER)  > " + LOCKER_VALIDITY;
+        String query = "DELETE FROM LABDOC_STATUS WHERE (NOW() - DAT_VER)  > " + LOCKER_VALIDITY+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"';";
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query;

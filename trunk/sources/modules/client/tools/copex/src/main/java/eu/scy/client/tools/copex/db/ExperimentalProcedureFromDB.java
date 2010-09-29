@@ -93,7 +93,7 @@ public class ExperimentalProcedureFromDB {
 
 
             // MBO proc lockes
-            if (locker.isLocked(dbKey)){
+            if (locker.isLocked(dbKeyLabDoc)){
                 listProcLocked.add(name);
             }else{
                 allProcLocked = false;
