@@ -38,7 +38,7 @@ import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
 
 /**
- * @author Joerg Kindermann
+ * @author Jörg Kindermann
  * 
  *         Workflow: extract Keywords (or read them from meta-data of ELO) - tokenize text into
  *         sentences - determine keyword-per-sentence histogram: the idea is to check for
@@ -50,8 +50,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   public static final String NAME = HypothesisEvaluationAgent.class.getName();
 
   public static final Object EVAL = "EvalHypothesis";
-
-  // private static final String TOOL_NAME = "copex";
 
   private static final Logger logger = Logger.getLogger(HypothesisEvaluationAgent.class.getName());
 
@@ -65,18 +63,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
     super(HypothesisEvaluationAgent.class.getName(),
           (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST),
           (Integer) map.get(AgentProtocol.TS_PORT));
-    // try {
-    // Callback hypothesisCallback = new HypothesisCallback();
-    // getActionSpace().eventRegister(
-    // Command.WRITE,
-    // new Tuple(AgentProtocol.ACTION_SPACE_NAME, String.class,
-    // Long.class, AgentProtocol.ACTION_TOOL_STARTED,
-    // Field.createWildCardField(), TOOL_NAME,
-    // Field.createWildCardField()), hypothesisCallback,
-    // true);
-    // } catch (TupleSpaceException e) {
-    // e.printStackTrace();
-    // }
   }
 
   @Override
@@ -107,25 +93,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   public boolean isStopped() {
     return isStopped;
   }
-
-  //
-  // class HypothesisCallback implements Callback {
-  //
-  // @Override
-  // public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-  // Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
-  // String mission = a.getContext(ContextConstants.mission);
-  // String session = a.getContext(ContextConstants.session);
-  // String elouri = a.getContext(ContextConstants.eloURI);
-  //
-  // // determine keywords per sentence histogram
-  //
-  //
-  // // TODO Here the logic must be inserted ;-)
-  // // Wait till saved -> then its easy but maybe we want to evaluate intermediate
-  // // results....
-  // }
-  // }
 
   @Override
   protected void processELOSavedAction(String actionId, String user, long timeInMillis,
@@ -181,7 +148,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
                                                    bytesOut.toByteArray());
       getCommandSpace().write(activateDecisionMakerTuple);
     } catch (URISyntaxException e) {
-      // TODO: handle exception
+      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (TupleSpaceException e) {
