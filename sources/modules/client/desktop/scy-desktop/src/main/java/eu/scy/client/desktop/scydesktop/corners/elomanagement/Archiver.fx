@@ -29,6 +29,9 @@ public class Archiver extends CustomNode, DropTarget2 {
    public-init var missionMapModel: MissionModelFX;
    public-init var tbi: ToolBrokerAPI;
    public var scyWindowControl: ScyWindowControl;
+   public var turnedOn = false on replace{
+         archiverButton.turnedOn = turnedOn
+      };
 
    def identifierKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
 

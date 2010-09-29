@@ -15,7 +15,6 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import javafx.util.Sequences;
@@ -41,7 +40,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
-import javafx.scene.shape.Rectangle;
+import eu.scy.common.scyelo.ScyElo;
+import java.util.ArrayList;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameEloSearcher;
+import roolo.api.search.ISearchResult;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTechnicalFormatSearcher;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
 
 /**
  * @author sikken
@@ -58,15 +62,12 @@ public class EloManagement extends CustomNode {
    public var eloFactory: IELOFactory;
    public var templateEloUris: URI[];
    public var tooltipManager: TooltipManager;
-//   public var userId:String;
    public var windowStyler: WindowStyler;
    public var eloInfoControl: EloInfoControl;
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
-   def newFromEloTemplateColor = Color.BLUE;
-   def searchColor = Color.BLUE;
-   def createBlankEloColor = Color.BLUE;
    def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    def userId = scyDesktop.config.getToolBrokerAPI().getLoginUserName();
+   def tbi = scyDesktop.config.getToolBrokerAPI();
 //   def newFromEloTemplateButton =  Button {
 //      text: "New"
 //      action: createNewEloFromTemplateAction
@@ -83,29 +84,24 @@ public class EloManagement extends CustomNode {
          imageName: "new"
          action: createNewEloFromTemplateAction
       }
-   def searchButton: MultiImageButton = MultiImageButton {
+   def searcher: Searcher = Searcher {
+         tbi: scyDesktop.config.getToolBrokerAPI()
          imageName: "search"
-         action: searchEloAction
+         clickAction: searchEloAction
+         dropAction: eloBasedSearchAction
       }
    def createBlankEloButton: MultiImageButton = MultiImageButton {
          imageName: "new_a"
          action: createNewBlankEloAction
       }
-   def archiver = Archiver{
-      tbi:scyDesktop.config.getToolBrokerAPI()
-      missionMapModel:scyDesktop.missionModelFX
-      scyWindowControl:scyWindowControl
-   }
-
+   def archiver = Archiver {
+         tbi: scyDesktop.config.getToolBrokerAPI()
+         missionMapModel: scyDesktop.missionModelFX
+         scyWindowControl: scyWindowControl
+      }
+   def eloBasedSearchers = new ArrayList();
 
    init {
-      //      var image = Image{
-      //            url:"{__DIR__}images/new.png"
-      //            backgroundLoading:false;
-      //         }
-      //      var swingIcon = SwingIcon{image:image};
-      //      println("image: url:{image.url}, {image.error}");
-      //      newFromEloTemplateButton.icon = swingIcon;
       if (eloFactory == null) {
          eloFactory = scyDesktop.config.getEloFactory();
       }
@@ -128,6 +124,10 @@ public class EloManagement extends CustomNode {
       //newFromEloTemplateButton.disable = templateEloUris == null or templateEloUris.isEmpty();
       findTemplateEloInformation();
       scyDesktop.dragAndDropManager.addDropTaget(archiver);
+      scyDesktop.dragAndDropManager.addDropTaget(searcher);
+      eloBasedSearchers.add(new SameEloSearcher());
+      eloBasedSearchers.add(new SameTechnicalFormatSearcher(tbi));
+      eloBasedSearchers.add(new SameAuthorSearcher(tbi));
    }
 
    public override function create(): Node {
@@ -142,7 +142,7 @@ public class EloManagement extends CustomNode {
          content: [
             archiver,
             newFromEloTemplateButton,
-            searchButton,
+            searcher,
             if (showCreateBlankElo) {
                createBlankEloButton
             } else {
@@ -175,8 +175,8 @@ public class EloManagement extends CustomNode {
 
    function createUriDisplay(uri: URI, showAuthor: Boolean): UriDisplay {
       if (uri == null) {
-         return UriDisplay{
-               uri:uri
+         return UriDisplay {
+               uri: uri
                display: ##"Nothing found"
             };
       }
@@ -288,13 +288,21 @@ public class EloManagement extends CustomNode {
             closeAction: function(): Void {
                newFromEloTemplateButton.turnedOn = false;
                createBlankEloButton.turnedOn = false;
-               searchButton.turnedOn = false;
+               searcher.turnedOn = false;
             }
          }
    }
 
+   function cancelModalDialog(modalDialogNode: ModalDialogNode): Void {
+      modalDialogNode.modalDialogBox.close();
+      newFromEloTemplateButton.turnedOn = false;
+      createBlankEloButton.turnedOn = false;
+      searcher.turnedOn = false;
+      archiver.turnedOn = false;
+   }
+
    function searchEloAction(): Void {
-      searchButton.turnedOn = true;
+      searcher.turnedOn = true;
       var searchElos = SearchElos {
             cancelAction: cancelSearchElo
             searchAction: searchForElos
@@ -304,8 +312,8 @@ public class EloManagement extends CustomNode {
       searchElos.typesListView.items = Sequences.sort(typeNames);
       searchElos.resultsListView.cellFactory = eloUriCellFactory;
 
-      var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
-      var windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
+      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
+      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
 
       createModalDialog(windowColorScheme, eloIcon, ##"Search", searchElos);
    }
@@ -351,7 +359,7 @@ public class EloManagement extends CustomNode {
       }
       var queryResults = repository.search(searchQuery);
       logger.info("search query: {searchQuery}\nNumber of results: {queryResults.size()}");
-      if (queryResults.size()>0){
+      if (queryResults.size() > 0) {
          var resultsUris = for (queryResult in queryResults) {
                var eloType = eloInfoControl.getEloType(queryResult.getUri());
                if (scyDesktop.newEloCreationRegistry.containsEloType(eloType)) {
@@ -363,9 +371,8 @@ public class EloManagement extends CustomNode {
             }
          searchElos.resultsListView.items = resultsUris;
          searchElos.resultsListView.disable = false;
-      }
-      else{
-         setSearchResultState(searchElos,##"nothing found");
+      } else {
+         setSearchResultState(searchElos, ##"nothing found");
       }
    }
 
@@ -410,17 +417,17 @@ public class EloManagement extends CustomNode {
       }
 
       searchElos.modalDialogBox.close();
-      searchButton.turnedOn = false;
+      searcher.turnedOn = false;
    }
 
    function cancelSearchElo(searchElos: SearchElos): Void {
       searchElos.modalDialogBox.close();
-      searchButton.turnedOn = false;
+      searcher.turnedOn = false;
    }
 
-   function setSearchResultState(searchElos: SearchElos, statusMessage: String):Void{
-      searchElos.resultsListView.items = UriDisplay{
-            uri:null;
+   function setSearchResultState(searchElos: SearchElos, statusMessage: String): Void {
+      searchElos.resultsListView.items = UriDisplay {
+            uri: null;
             display: statusMessage
          };
       searchElos.resultsListView.disable = true;
@@ -435,5 +442,63 @@ public class EloManagement extends CustomNode {
          }
    }
 
+   function eloBasedSearchAction(scyElo: ScyElo): Void {
+      FX.deferAction(function():Void{
+            searcher.turnedOn = true;
+         });
+      var eloBasedSearchDesign = EloBasedSearchDesign {
+            newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+            cancelAction: cancelModalDialog
+            doSearch: doEloBasedSearch
+            baseOnAction: doEloBasedBaseOn
+            openAction: doEloBasedOpen
+         }
+      eloBasedSearchDesign.baseElo = scyElo;
+      if (eloBasedSearchers != null) {
+         eloBasedSearchDesign.relationListView.items = for (eloBasedSearcher in eloBasedSearchers) {
+               eloBasedSearcher as EloBasedSearcher
+            }
+      }
+      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
+      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
+
+      createModalDialog(windowColorScheme, eloIcon, ##"Search", eloBasedSearchDesign);
+   }
+
+   function doEloBasedSearch(eloBasedSearchDesign: EloBasedSearchDesign): Void {
+      if (eloBasedSearchDesign.selectedEloBasedSearcher == null) {
+         delete  eloBasedSearchDesign.resultsListView.items;
+         return;
+      }
+
+      def uriSearchResults = eloBasedSearchDesign.selectedEloBasedSearcher.findElos(eloBasedSearchDesign.baseElo);
+      var searchResults: ScySearchResult[] = [];
+      if (uriSearchResults != null) {
+         for (uriSearchResultObject in uriSearchResults) {
+            def uriSearchResult = uriSearchResultObject as ISearchResult;
+            def eloType = eloInfoControl.getEloType(uriSearchResult.getUri());
+            if (scyDesktop.newEloCreationRegistry.containsEloType(eloType)) {
+               def scyElo = ScyElo.loadMetadata(uriSearchResult.getUri(), tbi);
+               def searchResult = ScySearchResult {
+                     scyElo: scyElo
+                     relevance: uriSearchResult.getRelevance();
+                  }
+               insert searchResult into searchResults;
+            }
+         }
+      }
+      eloBasedSearchDesign.resultsListView.items = searchResults
+
+   }
+
+   function doEloBasedBaseOn(eloBasedSearchDesign: EloBasedSearchDesign): Void {
+      eloBasedSearchDesign.baseElo = eloBasedSearchDesign.selectedSearchResult.scyElo;
+      doEloBasedSearch(eloBasedSearchDesign);
+   }
+
+   function doEloBasedOpen(eloBasedSearchDesign: EloBasedSearchDesign): Void {
+      scyWindowControl.addOtherScyWindow(eloBasedSearchDesign.selectedSearchResult.scyElo.getUri());
+      cancelModalDialog(eloBasedSearchDesign);
+   }
 
 }
