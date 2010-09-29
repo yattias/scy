@@ -8,10 +8,11 @@ package eu.scy.client.tools.copex.synchro;
 import eu.scy.client.tools.copex.db.DataBaseCommunication;
 import eu.scy.client.tools.copex.edp.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
+import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- *Ce thread contrale periodiquement la base de donnees.
+ * Ce thread controle periodiquement la base de donnees.
  * @author Marjolaine
  */
 public class ActivatorThread extends Thread{
@@ -20,7 +21,7 @@ public class ActivatorThread extends Thread{
     /*connection db */
     private DataBaseCommunication dbC;
     /** Le locker pour garder le contact dans ce thread avec le reste de l'execution. */
-	private Locker locker = null;
+    private Locker locker = null;
 
     // CONSTRUCTOR
     public ActivatorThread(CopexPanel copex, DataBaseCommunication dbC, Locker l) {
@@ -55,8 +56,10 @@ public class ActivatorThread extends Thread{
             }
             // Ouverture d'une connection
             for (int i = 0; i < nbLock; i++) {
-                long lockedProc = (Long) this.locker.getLockers().get(i);
-                String query = "UPDATE VERROU SET DAT_VER=NOW() WHERE ID_PROC=" + lockedProc +" ;";
+                //long lockedProc = (Long) this.locker.getLockers().get(i);
+                long lockedLabdoc = (Long) this.locker.getLockers().get(i);
+                //String query = "UPDATE VERROU SET DAT_VER=NOW() WHERE ID_PROC=" + lockedProc +" ;";
+                String query = "UPDATE LABDOC SET LABDOC_STATUS=NOW() WHERE ID_LABDOC=" + lockedLabdoc +" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"' ;";
 
                 ArrayList v = new ArrayList();
                 String[] querys = new String[1];
