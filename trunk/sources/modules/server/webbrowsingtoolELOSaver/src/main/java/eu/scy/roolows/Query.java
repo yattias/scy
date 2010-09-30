@@ -59,14 +59,14 @@ import org.codehaus.jettison.json.JSONObject;
 import roolo.api.search.AndQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.elo.BasicMetadataQuery;
-import roolo.elo.BasicSearchOperations;
+
+
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.search.LuceneQuery;
+
 
 /**
  * REST Web Service
@@ -167,7 +167,7 @@ public class Query {
 
 
     private List<ISearchResult> doAndQuery(UriInfo ui) {
-        MultivaluedMap<String, String> params = ui.getQueryParameters();
+/*        MultivaluedMap<String, String> params = ui.getQueryParameters();
         log.info("params: " + params);
         String[] keys = new String[params.keySet().size()];
         params.keySet().toArray(keys);
@@ -189,7 +189,7 @@ public class Query {
         andQuery = new AndQuery(query, queriesArray);
 
         return beans.getRepository().search(andQuery);
-
+*/ return null;
     }
 
     /**
@@ -210,7 +210,7 @@ public class Query {
     @Consumes("text/plain")
     @Produces("application/json")
     public JSONArray query(String queryString) {
-        JSONArray queriedURIs = new JSONArray();
+/*        JSONArray queriedURIs = new JSONArray();
         try {
 
             //query roolo
@@ -232,6 +232,7 @@ public class Query {
         } finally {
             return queriedURIs;
         }
+*/ return null;
     }
 
     private void initMetadataKeys() {
