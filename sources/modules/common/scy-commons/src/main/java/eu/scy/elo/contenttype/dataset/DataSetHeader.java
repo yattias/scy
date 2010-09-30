@@ -14,33 +14,33 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 import roolo.elo.JDomStringConversion;
-import roolo.helper.SerializationHelper;
+//import roolo.helper.SerializationHelper;
 
 public class DataSetHeader implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7291313935532912820L;
 	@JcrName private String name = "DataSetHeader"; // name of the node set by Jcrom
-	@JcrPath private String path; // mandatory attribute -- requested by Jcrom	
-	
+	@JcrPath private String path; // mandatory attribute -- requested by Jcrom
+
     @JcrChildNode private List<DataSetColumn> variables;
     @JcrProperty private Locale locale;
-    
+
     private Element element;
     @JcrProperty private String elementStr;
-    
+
     // This constructor is only used by jcrom for persistance purposes
     public DataSetHeader(){
-    	this.elementStr = SerializationHelper.nullSerialization;
+    	//this.elementStr = SerializationHelper.nullSerialization;
     }
-    
+
     public DataSetHeader(List<DataSetColumn> variables, Locale locale) {
         this.variables = variables;
         this.locale = locale;
-        this.elementStr = SerializationHelper.nullSerialization;
+       // this.elementStr = SerializationHelper.nullSerialization;
     }
-    
+
     public DataSetHeader(Element xmlElem) throws JDOMException {
         if (xmlElem.getName().equals("header")) {
             variables = new LinkedList<DataSetColumn>();
@@ -53,14 +53,14 @@ public class DataSetHeader implements Serializable {
             throw(new JDOMException("DataSetHeader expects <header> as root element, but found <"+xmlElem.getName()+">."));
         }
     }
-    
+
     public DataSetHeader(String xmlString) throws JDOMException {
         this(new JDomStringConversion().stringToXml(xmlString));
     }
-    
+
     public Element toXML() {
     	loadIfNecessary();
-    	
+
         if (element == null) {
             element = new Element("header");
             element.setAttribute("language", locale.getLanguage().toString());
@@ -68,26 +68,26 @@ public class DataSetHeader implements Serializable {
                 element.addContent(variable.next().toXML());
             }
         }
-        
-        elementStr = SerializationHelper.serializeValue(element);
+
+        //elementStr = SerializationHelper.serializeValue(element);
         return element;
     }
-    
+
     public List<DataSetColumn> getColumns() {
         return variables;
     }
-    
+
     public int getColumnCount() {
         return variables.size();
     }
-    
+
     public Locale getLocale() {
         return locale;
     }
-    
+
     private void loadIfNecessary() {
-		if (element == null && !elementStr.equals(SerializationHelper.nullSerialization)){
-			element = (Element)SerializationHelper.unSerializeValue(elementStr);
-		}
+//		if (element == null && !elementStr.equals(SerializationHelper.nullSerialization)){
+//			element = (Element)SerializationHelper.unSerializeValue(elementStr);
+//		}
 	}
 }

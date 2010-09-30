@@ -14,34 +14,34 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 import roolo.elo.JDomStringConversion;
-import roolo.helper.SerializationHelper;
+//import roolo.helper.SerializationHelper;
 
 public class DataSet implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3582487762894340144L;
 	@JcrName private String name = "DataSet"; // name of the node set by Jcrom
-	@JcrPath private String path; // mandatory attribute -- requested by Jcrom	
-	
+	@JcrPath private String path; // mandatory attribute -- requested by Jcrom
+
     @JcrChildNode private List<DataSetHeader> headers;
     @JcrChildNode private List<DataSetRow> rows;
-    
+
     private Element element;
     @JcrProperty  private String elementStr;
-    
+
     //This constructor is only used by jcrom for persistance purposes
     public DataSet(){
-    	this.elementStr = SerializationHelper.nullSerialization;
+    	//this.elementStr = SerializationHelper.nullSerialization;
     }
-    
+
     public DataSet(List<DataSetHeader> headers) {
         //TODO check for consistent headers (i.e. all have same variablecount)
         this.headers = headers;
         rows = new LinkedList<DataSetRow>();
-        this.elementStr = SerializationHelper.nullSerialization;
+        //this.elementStr = SerializationHelper.nullSerialization;
     }
-    
+
     public DataSet(Element xmlElem) throws JDOMException {
         if (xmlElem.getName().equals("dataset")) {
             createHeadersFromXML(xmlElem.getChildren("header"));
@@ -51,11 +51,11 @@ public class DataSet implements Serializable {
                     "DataSet expects <dataset> as root element, but found <"
                     + xmlElem.getName() + ">."));
         }
-        
-        elementStr = SerializationHelper.nullSerialization;
+
+       // elementStr = SerializationHelper.nullSerialization;
     }
-    
-    
+
+
     private void createHeadersFromXML(List<Element> headersElem) throws JDOMException {
         headers = new LinkedList<DataSetHeader>();
         DataSetHeader newHeader;
@@ -65,18 +65,18 @@ public class DataSet implements Serializable {
             headers.add(newHeader);
         }
     }
-    
+
     private void createRowsFromXML(List<Element> rowsElem) throws JDOMException {
         rows = new LinkedList<DataSetRow>();
         for (Iterator<Element> rowElem = rowsElem.iterator(); rowElem.hasNext();) {
             addRow(new DataSetRow(rowElem.next()));
         }
     }
-    
+
     public DataSet(String xmlString) throws JDOMException {
         this(new JDomStringConversion().stringToXml(xmlString));
     }
-    
+
     public void addRow(DataSetRow values) {
         if (values.getLength() == headers.get(0).getColumnCount()) {
             rows.add(values);
@@ -88,15 +88,15 @@ public class DataSet implements Serializable {
                     + values.getLength()));
         }
     }
-    
+
     public List<DataSetRow> getValues() {
         return rows;
     }
-    
+
     public List<DataSetHeader> getHeaders() {
         return headers;
     }
-    
+
     public DataSetHeader getHeader(Locale locale) {
         DataSetHeader thisheader;
         for (Iterator<DataSetHeader> header = headers.iterator(); header.hasNext();) {
@@ -107,7 +107,7 @@ public class DataSet implements Serializable {
         }
         return null;
     }
-    
+
     public List<Locale> getLanguages() {
         List<Locale> locales = new LinkedList<Locale>();
         for (Iterator<DataSetHeader> header = headers.iterator(); header.hasNext();) {
@@ -115,10 +115,10 @@ public class DataSet implements Serializable {
         }
         return locales;
     }
-    
+
     public Element toXML() {
     	loadIfNecessary();
-    	
+
         if (element == null) {
             element = new Element("dataset");
             for (Iterator<DataSetHeader> header = headers.iterator(); header.hasNext();) {
@@ -128,20 +128,20 @@ public class DataSet implements Serializable {
                 element.addContent(row.next().toXML());
             }
         }
-        elementStr = SerializationHelper.serializeValue(elementStr);
+        //elementStr = SerializationHelper.serializeValue(elementStr);
         return element;
     }
-    
+
     public void removeAll() {
         rows.clear();
         element = null;
-        elementStr = SerializationHelper.nullSerialization;
+        //elementStr = SerializationHelper.nullSerialization;
     }
-    
+
     private void loadIfNecessary() {
-		if (element == null && !elementStr.equals(SerializationHelper.nullSerialization)){
-			element = (Element)SerializationHelper.unSerializeValue(elementStr);
-		}
+//		if (element == null && !elementStr.equals(SerializationHelper.nullSerialization)){
+//			element = (Element)SerializationHelper.unSerializeValue(elementStr);
+//		}
 	}
-    
+
 }
