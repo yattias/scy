@@ -44,15 +44,6 @@ public class Archiver extends CustomNode, DropTarget2 {
       Group {
          content: [
             archiverButton
-//            Rectangle {
-//               x: 0
-//               y: 0
-//               width: 50
-//               height: 25
-//               fill: Color.LIGHTGRAY
-//               stroke: Color.BLACK
-//            }
-            
          ]
       }
    }

@@ -26,6 +26,14 @@ public class SameEloSearcher implements EloBasedSearcher {
    @Override
    public List<ISearchResult> findElos(ScyElo scyElo)
    {
+      // just for testing
+      try
+      {
+         Thread.sleep(2500);
+      }
+      catch (InterruptedException ex)
+      {
+      }
       List<ISearchResult> searchResults = new ArrayList<ISearchResult>();
       searchResults.add(new SimpleSearchResult(scyElo.getUri(), 1.0));
       return searchResults;
