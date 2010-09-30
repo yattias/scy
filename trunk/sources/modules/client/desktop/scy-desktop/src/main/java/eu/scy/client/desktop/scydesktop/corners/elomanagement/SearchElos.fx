@@ -10,7 +10,7 @@ import javafx.scene.Node;
 /**
  * @author sikken
  */
-public class SearchElos extends ModalDialogNode {
+public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
     public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
@@ -204,6 +204,10 @@ public class SearchElos extends ModalDialogNode {
    public var openAction: function(searchElos: SearchElos): Void;
    public var cancelAction: function(searchElos: SearchElos): Void;
 
+   init{
+      resultsListView.cellFactory = scyEloCellFactory;
+   }
+   
    override public function getContentNodes(): Node[] {
       return getDesignRootNodes();
    }
