@@ -4,13 +4,14 @@
  */
 package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
-import eu.scy.common.scyelo.ScyElo;
+import java.util.List;
 
 /**
+ *
  * @author SikkenJ
  */
-public class ScySearchResult {
+public interface EloBasedSearchFinished
+{
 
-   public-init var scyElo: ScyElo;
-   public-init var relevance: Number;
+   public void eloBasedSearchFinished(List<ScySearchResult> scySearchResults);
 }

@@ -208,7 +208,7 @@ public class EloBasedSearchDesign extends ModalDialogNode {
    function getResultDisplay(item: Object): String {
       if (item instanceof ScySearchResult) {
          def searchResult = item as ScySearchResult;
-         return getEloDescription(searchResult.scyElo);
+         return getEloDescription(searchResult.getScyElo());
       }
       if (item instanceof String){
          return item as String
