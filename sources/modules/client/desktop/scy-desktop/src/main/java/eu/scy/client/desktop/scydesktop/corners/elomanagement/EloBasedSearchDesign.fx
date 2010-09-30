@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 /**
  * @author SikkenJ
  */
-public class EloBasedSearchDesign extends ModalDialogNode {
+public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
     public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
@@ -173,7 +173,6 @@ public class EloBasedSearchDesign extends ModalDialogNode {
    public var baseElo: ScyElo on replace {
          eloDescription.text = getEloDescription(baseElo);
       };
-   public var newEloCreationRegistry: NewEloCreationRegistry;
    public-read def selectedEloBasedSearcher = bind relationListView.selectedItem as EloBasedSearcher on replace {
          doSearch(this);
       };
@@ -194,43 +193,6 @@ public class EloBasedSearchDesign extends ModalDialogNode {
                text: bind "{(listCell.item as EloBasedSearcher).getDisplayId()}"
             }
          }
-   }
-
-   function scyEloCellFactory(): ListCell {
-      var listCell: ListCell;
-      listCell = ListCell {
-            node: Label {
-               text: bind getResultDisplay(listCell.item)
-            }
-         }
-   }
-
-   function getResultDisplay(item: Object): String {
-      if (item instanceof ScySearchResult) {
-         def searchResult = item as ScySearchResult;
-         return getEloDescription(searchResult.getScyElo());
-      }
-      if (item instanceof String){
-         return item as String
-      }
-
-      return ""
-   }
-
-   function getEloDescription(scyElo: ScyElo):String{
-         var authorDisplay = ##"unknown";
-         def authors = scyElo.getAuthors();
-         if (authors.size() > 0) {
-            authorDisplay = "";
-            for (author in authors) {
-               if (indexof author > 0) {
-                  authorDisplay = "{authorDisplay}, ";
-               }
-               authorDisplay = "{authorDisplay}{author}";
-            }
-         }
-         def typeName = newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat());
-         return "{authorDisplay}:{scyElo.getTitle()} ({typeName})"
    }
 
 }
