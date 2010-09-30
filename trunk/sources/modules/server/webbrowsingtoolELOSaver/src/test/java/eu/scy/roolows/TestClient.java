@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Vector;
 import org.apache.log4j.Logger;
@@ -31,7 +32,7 @@ import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.keys.LongMetadataKey;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.keys.UriMetadataKey;
-import roolo.search.LuceneQuery;
+
 
 /** 
  * Tests the REST Webservice as a client using jersey testframework and jUnit 4
@@ -225,7 +226,8 @@ public class TestClient extends JerseyTest {
         }
         logger.info("response entity: " + responseEntity);
 
-        final List<ISearchResult> searchResults = beans.getRepository().search(new LuceneQuery(searchString));
+        //final List<ISearchResult> searchResults = beans.getRepository().search(new LuceneQuery(searchString));
+        final List<ISearchResult> searchResults = new ArrayList<ISearchResult>();
         logger.info("found "+searchResults.size()+" results in repo");
         //Make a Hashset of all URIs (-> retrieved directly from repository)
         HashSet<String> resultsFromRepository = new HashSet<String>();
