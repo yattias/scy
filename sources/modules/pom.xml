@@ -434,12 +434,12 @@
          the modules may be commented out to avoid top-to-bottom dependencies
          in the pom hierarchy
          -->
-    <!--modules>
+    <modules>
         <module>common</module>
         <module>agents</module>
         <module>client</module>
         <module>server</module>
-    </modules-->
+    </modules>
 
     <properties>
         <slf4j.version>1.5.5</slf4j.version>
