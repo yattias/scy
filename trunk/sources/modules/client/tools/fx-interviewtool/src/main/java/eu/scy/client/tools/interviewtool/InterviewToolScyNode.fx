@@ -11,12 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javax.jnlp.*;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import org.apache.log4j.Logger;
 import org.jdom.Element;
-import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
@@ -36,12 +33,12 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 
 import javax.swing.JOptionPane;
 import java.util.List;
 import javafx.scene.layout.Resizable;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 
 /**
  * @author kaido
@@ -121,7 +118,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
 
    function openElo() {
       var query:IQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyInterviewType, null);
+         BasicSearchOperations.EQUALS, scyInterviewType);
       var searchResults:List = repository.search(query);
       var interviewUris:URI[];
       for (searchResult in searchResults)
