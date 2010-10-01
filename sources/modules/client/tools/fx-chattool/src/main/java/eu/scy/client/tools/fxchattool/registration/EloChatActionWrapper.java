@@ -22,8 +22,8 @@ import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
@@ -170,7 +170,7 @@ public class EloChatActionWrapper {
    {
       IQuery query = null;
       IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyDrawType, null);
+         BasicSearchOperations.EQUALS, scyDrawType);
       query = metadataQuery;
       List<ISearchResult> searchResults = repository.search(query);
       URI[] drawingUris = new URI[searchResults.size()];

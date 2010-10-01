@@ -12,8 +12,8 @@ import java.util.List;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import roolo.api.search.OrQuery;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
@@ -46,11 +46,11 @@ public class SameAuthorSearcher implements EloBasedSearcher {
       if (authors == null || authors.isEmpty()){
          return null;
       }
-      IQuery query = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, new Contribute(authors.get(0),System.currentTimeMillis()), null);
+      IQuery query = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, new Contribute(authors.get(0),System.currentTimeMillis()));
       if (authors.size()>1){
          IQuery[] queries = new IQuery[authors.size()-1];
          for (int i = 1; i<authors.size();i++){
-            queries[i-1] = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, new Contribute(authors.get(i),System.currentTimeMillis()), null);
+            queries[i-1] = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, new Contribute(authors.get(i),System.currentTimeMillis()));
          }
          query = new OrQuery(query,queries);
       }

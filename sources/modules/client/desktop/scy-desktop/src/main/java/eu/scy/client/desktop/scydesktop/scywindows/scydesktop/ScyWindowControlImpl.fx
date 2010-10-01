@@ -514,7 +514,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //         //         var keys = roolo.getKeys();
 //         return;
 //      }
-//      var query = new BasicMetadataQuery(relationKey,"EQUALS",activeAnchor.eloUri,null);
+//      var query = new BasicMetadataQuery(relationKey,"EQUALS",activeAnchor.eloUri);
 //      var results = repository.search(query);
 //      println("Query: {query.toString()}, results: {results.size()}");
 //      for (r in results){

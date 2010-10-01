@@ -23,8 +23,8 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.api.search.IQuery;
 import roolo.api.search.AndQuery;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
@@ -368,7 +368,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       var eloTypeName = searchElos.typesListView.selectedItem as String;
       if (not searchElos.allTypesCheckBox.selected and eloTypeName != null) {
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
-         return new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, eloType, null);
+         return new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, eloType);
       }
       return null;
    }
@@ -376,7 +376,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    function createTitleQuery(searchElos: SearchElos): IQuery {
       var searchTitle = searchElos.nameTextbox.rawText.trim();
       if (searchTitle.length() > 0) {
-         return new BasicMetadataQuery(titleKey, BasicSearchOperations.REGULAR_EXPRESSIONS, ".*{searchTitle}.*", null);
+         return new BasicMetadataQuery(titleKey, BasicSearchOperations.REGULAR_EXPRESSIONS, ".*{searchTitle}.*");
       }
       return null;
    }
@@ -387,11 +387,11 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
          if (not (searchElos.mineCheckBox.selected and searchElos.othersCheckBox.selected)) {
             if (searchElos.mineCheckBox.selected) {
                var authorValue = new Contribute(userId, System.currentTimeMillis());
-               return new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, authorValue, null);
+               return new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, authorValue);
             }
             if (searchElos.othersCheckBox.selected) {
                var authorValue = new Contribute(userId, System.currentTimeMillis());
-               return new BasicMetadataQuery(authorKey, BasicSearchOperations.NOT_EQUALS, authorValue, null);
+               return new BasicMetadataQuery(authorKey, BasicSearchOperations.NOT_EQUALS, authorValue);
             }
          }
       }
