@@ -93,6 +93,8 @@ import eu.scy.common.mission.impl.MissionRuntimeSettingsManager;
 import java.util.HashSet;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettingsRetriever;
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 
 /**
  * @author sikkenj
@@ -273,6 +275,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             newTitleGenerator: newTitleGenerator;
         }
         var specificationRuntimeSettingsElo = null;
+        var specificationMissionMapModelEloUriSet = new HashSet();
         def missionSpecificationEloUri = missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
         if (missionSpecificationEloUri!=null){
            def missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationEloUri, missionRunConfigs.tbi);
@@ -280,8 +283,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
            if (specificationRuntimeSettingsEloUri!=null){
               specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(specificationRuntimeSettingsEloUri,missionRunConfigs.tbi);
            }
+           if (missionSpecificationElo.getTypedContent().getMissionMapModelEloUri()!=null){
+              def specificationMissionMapModelElo = ScyElo.loadElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), missionRunConfigs.tbi);
+              def specificationMissionMapModel = MissionModelXml.convertToMissionModel(specificationMissionMapModelElo.getContent().getXmlString());
+              specificationMissionMapModelEloUriSet.addAll(specificationMissionMapModel.getEloUris(false));
+           }
         }
-        missionRuntimeSettingsManager = new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo,missionRunConfigs.runtimeSettingsElo,new HashSet(missionRunConfigs.missionMapModel.getEloUris(false)),missionRunConfigs.tbi);
+
+        missionRuntimeSettingsManager = new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo,missionRunConfigs.runtimeSettingsElo,specificationMissionMapModelEloUriSet,missionRunConfigs.tbi);
         //      windowContentFactory = WindowContentFactory{
         //         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
         //         config:config;
