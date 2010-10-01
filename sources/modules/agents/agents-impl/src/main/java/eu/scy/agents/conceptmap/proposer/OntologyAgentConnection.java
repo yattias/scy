@@ -10,6 +10,8 @@ import info.collide.sqlspaces.commons.User;
 
 import java.rmi.server.UID;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -133,6 +135,12 @@ public class OntologyAgentConnection implements OntologyConnection {
 
     @Override
     public String getLanguage() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public Map<String, Set<String>> getOntologyClouds(String namespace) throws TupleSpaceException {
         // TODO
         return null;
     }

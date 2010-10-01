@@ -13,7 +13,7 @@ public class Stemmer {
     }
 
     public static String stem(String string) {
-        stemmer.setCurrent(string);
+        stemmer.setCurrent(string.toLowerCase());
         stemmer.stem();
         return stemmer.getCurrent();
     }

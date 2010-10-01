@@ -1,5 +1,8 @@
 package eu.scy.agents.conceptmap.proposer;
 
+import java.util.Map;
+import java.util.Set;
+
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 public interface OntologyConnection {
@@ -23,5 +26,7 @@ public interface OntologyConnection {
     public String getOntologyNamespace();
 
     public String getLanguage();
+
+    public Map<String, Set<String>> getOntologyClouds(String namespace) throws TupleSpaceException;
 
 }
