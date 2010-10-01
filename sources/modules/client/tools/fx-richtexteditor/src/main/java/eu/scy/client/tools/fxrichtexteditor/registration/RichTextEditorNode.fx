@@ -30,8 +30,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import javax.swing.JOptionPane;
 import java.util.List;
 import eu.scy.actionlogging.DevNullActionLogger;
@@ -44,6 +42,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 
 /**
  * @author kaido
@@ -114,7 +114,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
 
    function openElo() {
       var query:IQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyRichTextEditorType, null);
+         BasicSearchOperations.EQUALS, scyRichTextEditorType);
       var searchResults:List = repository.search(query);
       var richTextUris:URI[];
       for (searchResult in searchResults)
