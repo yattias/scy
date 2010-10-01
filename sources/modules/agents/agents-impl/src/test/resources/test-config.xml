@@ -86,11 +86,14 @@
 	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
 		<property name="extensionManager" ref="localExtensionManager" />
-		<!-- <property name="eloStoreDirectory" value="eloStore" />
-		<property name="storeElosInStoreDirectory" value="true" /> -->
+		<!--
+			<property name="eloStoreDirectory" value="eloStore" /> <property
+			name="storeElosInStoreDirectory" value="true" />
+		-->
 	</bean>
 
-	<bean name="localMetadataTypeManager" class="roolo.elo.MockMetadataTypeManager">
+	<bean name="localMetadataTypeManager" class="roolo.elo.MetadataTypeManager"
+		factory-method="getInstance">
 		<property name="metadataKeys">
 			<list>
 				<ref bean="uriKey" />
@@ -103,7 +106,7 @@
 				<ref bean="authorKey" />
 				<ref bean="annotatesRelationKey" />
 				<ref bean="descriptionKey" />
-				<ref bean="versionKey"/>
+				<ref bean="versionKey" />
 				<ref bean="topicScores" />
 
 				<!--
@@ -133,10 +136,11 @@
 		<constructor-arg index="3" value="LIST" />
 		<constructor-arg index="4" ref="defaultEntryValidator" />
 	</bean>
-	
+
 	<bean name="keywordSentenceHistogram" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
 		<constructor-arg index="0" value="keywordSentenceHistogram" />
-		<constructor-arg index="1" value="/agentdata/keywordSentenceHistogram/" />
+		<constructor-arg index="1"
+			value="/agentdata/keywordSentenceHistogram/" />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="LIST" />
 		<constructor-arg index="4" ref="defaultEntryValidator" />
@@ -356,11 +360,10 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultRelationValidator" />
 	</bean>
-	
+
 	<bean name="agentKeywords" class="roolo.elo.metadata.keys.StringMetadataKey">
 		<constructor-arg index="0" value="agentKeywords" />
-		<constructor-arg index="1"
-			value='/agentdata/keywords' />
+		<constructor-arg index="1" value='/agentdata/keywords' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="LIST" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
