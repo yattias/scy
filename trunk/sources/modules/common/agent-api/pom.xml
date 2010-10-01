@@ -30,27 +30,6 @@
 			<scope>compile</scope>
 		</dependency>
 		
-		<!-- unused
-		<dependency>
-			<groupId>info.collide</groupId>
-			<artifactId>sqlspaces-client</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>action-logging-api</artifactId>
-			<version>21-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>notification-api</artifactId>
-			<version>21-SNAPSHOT</version>
-		</dependency>
-		-->
-
 	</dependencies>
 
 </project>
