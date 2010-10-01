@@ -2,6 +2,7 @@ package eu.scy.agents.conceptmap;
 
 import info.collide.sqlspaces.commons.Field;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class Graph {
 
     private Map<String, Node> nodes;
 
-    private Map<String, Edge> edges;
+    private Map<String, Set<Edge>> edges;
 
     private boolean useStemming;
 
@@ -25,7 +26,7 @@ public class Graph {
 
     public Graph(boolean useStemming) {
         nodes = new HashMap<String, Node>();
-        edges = new HashMap<String, Edge>();
+        edges = new HashMap<String, Set<Edge>>();
         this.useStemming = useStemming;
     }
 
@@ -49,11 +50,18 @@ public class Graph {
             toNode = nodes.get(to);
         }
         Edge edge = new Edge(label, fromNode, toNode, id);
+        String key;
         if (useStemming) {
-            edges.put(edge.getStemmedLabel(), edge);
+            key = edge.getStemmedLabel();
         } else {
-            edges.put(id, edge);
+            key = id;
         }
+        Set<Edge> edgeSet = edges.get(key);
+        if (edgeSet == null) {
+            edgeSet = new HashSet<Edge>();
+            edges.put(key, edgeSet);
+        }
+        edgeSet.add(edge);
     }
 
     public Node[] getNodes() {
@@ -61,7 +69,13 @@ public class Graph {
     }
 
     public Edge[] getEdges() {
-        return (Edge[]) edges.values().toArray(new Edge[edges.values().size()]);
+        ArrayList<Edge> edgeList = new ArrayList<Edge>();
+        for (Set<Edge> es : edges.values()) {
+            for (Edge e : es) {
+                edgeList.add(e);
+            }
+        }
+        return (Edge[]) edgeList.toArray(new Edge[edgeList.size()]);
     }
 
     public Node getNode(String labelOrId) {
@@ -72,45 +86,41 @@ public class Graph {
         }
     }
 
-	/**
-	 * Returns a {@link info.collide.sqlspaces.commons.Field} array of all
-	 * nodes. Syntax of one Field is: {@literal id,label}
-	 * 
-	 * @return Field array containing all nodes
-	 */
-	public Field[] getNodesAsFields() {
-		Node[] nodes = getNodes();
-		Field[] fields = new Field[nodes.length];
-		for (int i = 0; i < nodes.length; i++) {
-			String s = EscapeUtils.escape(
-					nodes[i].getId(), nodes[i].getLabel());
-//			String s = nodes[i].getId() + SEPARATOR + nodes[i].getLabel();
-			fields[i] = new Field(s);
-		}
-		return fields;
-	}
+    /**
+     * Returns a {@link info.collide.sqlspaces.commons.Field} array of all nodes. Syntax of one
+     * Field is: {@literal id,label}
+     * 
+     * @return Field array containing all nodes
+     */
+    public Field[] getNodesAsFields() {
+        Node[] nodes = getNodes();
+        Field[] fields = new Field[nodes.length];
+        for (int i = 0; i < nodes.length; i++) {
+            String s = EscapeUtils.escape(nodes[i].getId(), nodes[i].getLabel());
+            // String s = nodes[i].getId() + SEPARATOR + nodes[i].getLabel();
+            fields[i] = new Field(s);
+        }
+        return fields;
+    }
 
-	/**
-	 * Returns a {@link info.collide.sqlspaces.commons.Field} array of all
-	 * edges. Syntax of one Field is: {@literal id,label,fromNodeID,toNodeID}
-	 * 
-	 * @return Field array containing all edges
-	 */
-	public Field[] getEdgesAsFields() {
-		Edge[] edges = getEdges();
-		Field[] fields = new Field[edges.length];
-		for (int i = 0; i < edges.length; i++) {
-			String s = EscapeUtils.escape(
-					edges[i].getId(), edges[i].getLabel(), 
-					edges[i].getFromNode().getId(), edges[i].getToNode().getId()
-					);
+    /**
+     * Returns a {@link info.collide.sqlspaces.commons.Field} array of all edges. Syntax of one
+     * Field is: {@literal id,label,fromNodeID,toNodeID}
+     * 
+     * @return Field array containing all edges
+     */
+    public Field[] getEdgesAsFields() {
+        Edge[] edges = getEdges();
+        Field[] fields = new Field[edges.length];
+        for (int i = 0; i < edges.length; i++) {
+            String s = EscapeUtils.escape(edges[i].getId(), edges[i].getLabel(), edges[i].getFromNode().getId(), edges[i].getToNode().getId());
 
-//			String s = edges[i].getId() + SEPARATOR + edges[i].getLabel() + SEPARATOR
-//					+ edges[i].getFromNode().getId() + SEPARATOR + edges[i].getToNode().getId();
-			fields[i] = new Field(s);
-		}
-		return fields;
-	}
+            // String s = edges[i].getId() + SEPARATOR + edges[i].getLabel() + SEPARATOR
+            // + edges[i].getFromNode().getId() + SEPARATOR + edges[i].getToNode().getId();
+            fields[i] = new Field(s);
+        }
+        return fields;
+    }
 
     public void fillFromFields(Field[] edgeFields, Field[] nodeFields) {
         for (Field f : nodeFields) {
@@ -122,7 +132,7 @@ public class Graph {
             addEdge(s[2], s[3], s[1], s[0]);
         }
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -133,10 +143,12 @@ public class Graph {
             sb.append("\n");
         }
         sb.append("Edges:\n");
-        for (Edge e : edges.values()) {
-            sb.append("  ");
-            sb.append(e);
-            sb.append("\n");
+        for (Set<Edge> es : edges.values()) {
+            for (Edge e : es) {
+                sb.append("  ");
+                sb.append(e);
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }
@@ -161,12 +173,15 @@ public class Graph {
             }
             return;
         }
-        Edge e = edges.get(labelOrId);
+        Set<Edge> es = edges.get(labelOrId);
+        if (es.size() > 1) {
+            throw new UnsupportedOperationException();
+        }
+        Edge e = es.iterator().next();
         if (e != null) {
             if (useStemming) {
-                edges.remove(labelOrId);
-                e.setLabel(label);
-                edges.put(e.getStemmedLabel(), e);
+                removeEdge(labelOrId);
+                addEdge(e.getFromNode().getLabel(), e.getToNode().getLabel(), labelOrId, e.getStemmedLabel());
             } else {
                 e.setLabel(label);
             }
@@ -191,15 +206,20 @@ public class Graph {
         }
         return m;
     }
-    
-    public Map<Node, Integer> getDegree() {
-        Map<Node, Integer> m = new TreeMap<Node, Integer>();
+
+    public Map<Integer, Set<Node>> getDegree() {
+        Map<Integer, Set<Node>> m = new TreeMap<Integer, Set<Node>>();
         for (Node n1 : nodes.values()) {
-            m.put(n1, n1.getEdges().length);
+            Set<Node> set = m.get(n1.getEdges().length);
+            if (set == null) {
+                set = new HashSet<Node>();
+                m.put(n1.getEdges().length, set);
+            }
+            set.add(n1);
         }
         return m;
     }
-    
+
     // TODO swap map dimensions
     public Map<Double, Set<Node>> getCloseness() {
         Map<Double, Set<Node>> m = new TreeMap<Double, Set<Node>>();
@@ -231,5 +251,5 @@ public class Graph {
         }
         addEdge(fromNode, toNode, edge, edge);
     }
-    
+
 }

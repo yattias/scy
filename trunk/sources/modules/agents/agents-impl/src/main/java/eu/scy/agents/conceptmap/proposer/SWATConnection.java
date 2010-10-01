@@ -15,7 +15,10 @@ import info.collide.swat.model.OWLType;
 import info.collide.swat.model.SWATException;
 import info.collide.swat.model.XSDValue;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class SWATConnection implements OntologyConnection {
 
@@ -92,6 +95,9 @@ public class SWATConnection implements OntologyConnection {
             return result;
         } catch (SWATException e1) {
             e1.printStackTrace();
+        } catch (ClassCastException e1) {
+            System.err.println("Error while retrieving subclasses of class " + entity);
+            e1.printStackTrace();
         }
         return new String[0];
     }
@@ -108,6 +114,9 @@ public class SWATConnection implements OntologyConnection {
             }
             return result;
         } catch (SWATException e1) {
+            e1.printStackTrace();
+        } catch (ClassCastException e1) {
+            System.err.println("Error while retrieving superclasses of class " + entity);
             e1.printStackTrace();
         }
         return new String[0];
@@ -126,6 +135,9 @@ public class SWATConnection implements OntologyConnection {
             return result;
         } catch (SWATException e1) {
             e1.printStackTrace();
+        } catch (ClassCastException e1) {
+            System.err.println("Error while retrieving instances of class " + entity);
+            e1.printStackTrace();
         }
         return new String[0];
     }
@@ -142,6 +154,9 @@ public class SWATConnection implements OntologyConnection {
             }
             return result;
         } catch (SWATException e1) {
+            e1.printStackTrace();
+        } catch (ClassCastException e1) {
+            System.err.println("Error while retrieving classes of instance " + entity);
             e1.printStackTrace();
         }
         return new String[0];
@@ -171,6 +186,9 @@ public class SWATConnection implements OntologyConnection {
             return (String[][]) result.toArray(new String[result.size()][]);
         } catch (SWATException e1) {
             e1.printStackTrace();
+        } catch (ClassCastException e1) {
+            System.err.println("Error while retrieving property values of instance " + entity);
+            e1.printStackTrace();
         }
         return new String[0][0];
     }
@@ -189,10 +207,12 @@ public class SWATConnection implements OntologyConnection {
         return result;
     }
 
+    @Override
     public String getLanguage() {
         return language;
     }
     
+    @Override
     public String getOntologyNamespace() {
         return ontologyNamespace;
     }
@@ -204,6 +224,44 @@ public class SWATConnection implements OntologyConnection {
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public Map<String, Set<String>> getOntologyClouds(String namespace) throws TupleSpaceException {
+        Map<String, Set<String>> keyword2Concept = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> cloud2Concept = new HashMap<String, Set<String>>();
+        try {
+            Class keywordListClass = (Class) sc.getOntology().getEntity(namespace + "KeywordList");
+            for (Instance i : keywordListClass.getInstances()) {
+                PropertyValueBean<?>[] values = i.getPropertyValues();
+                for (PropertyValueBean<?> pvb : values) {
+                    if (pvb.getProperty().getName().equals("isConnectedTo")) {
+                        XSDValue[] xsdValues = (XSDValue[]) pvb.getValues();
+                        Set<String> connectionPoints = new HashSet<String>();
+                        for (XSDValue xsdValue : xsdValues) {
+                            connectionPoints.add(xsdValue.getValue());
+                        }
+                        cloud2Concept.put(i.getId().getName(), connectionPoints);
+                    }
+                }
+            }
+            Class keywordClass = (Class) sc.getOntology().getEntity(namespace + "Keyword");
+            for (Instance i : keywordClass.getInstances()) {
+                PropertyValueBean<?>[] values = i.getPropertyValues();
+                for (PropertyValueBean<?> pvb : values) {
+                    if (pvb.getProperty().getName().equals("belongsToList")) {
+                        Instance[] listInstances = (Instance[]) pvb.getValues();
+                        for (Instance list : listInstances) {
+                            keyword2Concept.put(i.getId().getName(), cloud2Concept.get(list.getId().getName()));
+                        }
+                    }
+                }
+            }
+        } catch (SWATException e) {
+            // TODO return something more meaningful
+            e.printStackTrace();
+        }
+        return keyword2Concept;
     }
 
 }
