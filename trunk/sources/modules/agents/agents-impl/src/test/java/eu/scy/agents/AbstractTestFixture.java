@@ -123,22 +123,23 @@ public class AbstractTestFixture {
 	protected void removeTopicModel() {
 		storage.remove(TM_MODEL_NAME);
 	}
-	
+
 	protected void removeDFModel() {
-      storage.remove(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-  }
+		storage.remove(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+	}
 
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		// elo.getMetadata().getMetadataValueContainer(
+		// typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
+		// .getId()));
 		return elo;
 	}
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+//		elo.getMetadata().addMetadataPair(key, value)setIdentifierKey(typeManager
+//				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		IMetadataValueContainer titleContainer = elo.getMetadata()
 				.getMetadataValueContainer(
 						typeManager
@@ -230,34 +231,38 @@ public class AbstractTestFixture {
 				"SomeMission", "TestSession", eloUri, "type=" + type);
 	}
 
-  protected boolean hasItems(List<String> keywords, String... values) {
-    for (String value : values) {
-      if (!keywords.contains(value)) {
-        return false;
-      }
-    }
-    return true;
-  }
+	protected boolean hasItems(List<String> keywords, String... values) {
+		for (String value : values) {
+			if (!keywords.contains(value)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-  protected String readFile(InputStream inStream) throws IOException {
-    // reads text from file and creates one String
-    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
-    String text = "";
-    String line = "";
-    while ((line = reader.readLine()) != null) {
-      if (line.matches("\\s")) {
-        continue;
-      }
-      text = text + " " + line;
-    }
-    reader.close();
-    return text;
-  }
+	protected String readFile(InputStream inStream) throws IOException {
+		// reads text from file and creates one String
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				inStream));
+		String text = "";
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			if (line.matches("\\s")) {
+				continue;
+			}
+			text = text + " " + line;
+		}
+		reader.close();
+		return text;
+	}
 
-  protected void initDfModel() throws ClassNotFoundException, IOException {
-    InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
-    ObjectInputStream in = new ObjectInputStream(inStream);
-    DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in.readObject();
-    this.getPersistentStorage().put(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-  }
+	protected void initDfModel() throws ClassNotFoundException, IOException {
+		InputStream inStream = this.getClass().getResourceAsStream(
+				"/models/df.out");
+		ObjectInputStream in = new ObjectInputStream(inStream);
+		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
+				.readObject();
+		this.getPersistentStorage().put(
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+	}
 }

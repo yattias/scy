@@ -22,7 +22,13 @@ public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
 
 	public NotifyUserAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
-
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			host = (String) params.get(AgentProtocol.TS_HOST);
+		}
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			port = (Integer) params.get(AgentProtocol.TS_PORT);
+		}
+		
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
 					getTemplateTuple(), this, true);
