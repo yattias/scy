@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
+
 import roolo.api.IRepository;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
@@ -23,12 +24,15 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * Retrieves ELOs that contain a certain topic. ("getTopicElos", <QueryId>:String, <TopicId>:Integer, <MinProb>:Double)
- * -> ("getTopicElos", <QueryId>:String, <NumELOs>:Integer, <ELOUri_1>:<String>, <ELOUri_2>:<String>, ...)
+ * Retrieves ELOs that contain a certain topic. ("getTopicElos",
+ * <QueryId>:String, <TopicId>:Integer, <MinProb>:Double) -> ("getTopicElos",
+ * <QueryId>:String, <NumELOs>:Integer, <ELOUri_1>:<String>,
+ * <ELOUri_2>:<String>, ...)
  * 
  * @author Florian Schulz
  */
-public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IRepositoryAgent {
+public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
+		IRepositoryAgent {
 
 	static final String NAME = RetrieveEloForGivenTopic.class.getName();
 
@@ -48,7 +52,8 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple t = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.COMMAND_EXPIRATION);
+			Tuple t = getCommandSpace().waitToTake(getTemplateTuple(),
+					AgentProtocol.COMMAND_EXPIRATION);
 			if (t != null) {
 				String queryId = (String) t.getField(2).getValue();
 				Integer topicId = (Integer) t.getField(3).getValue();
@@ -56,12 +61,14 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 				KeyValuePair topicQuery = new KeyValuePair();
 				topicQuery.setKey("" + topicId);
 				topicQuery.setValue("" + topicProbability);
-				IQuery query = new BasicMetadataQuery(typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES),
-						BasicSearchOperations.HAS, topicQuery, null);
+				IQuery query = new BasicMetadataQuery(typeManager
+						.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES),
+						BasicSearchOperations.HAS, topicQuery);
 
 				List<ISearchResult> hits = repository.search(query);
 
-				List<URI> resultURIs = collectResults(topicId, topicProbability, hits);
+				List<URI> resultURIs = collectResults(topicId,
+						topicProbability, hits);
 				sendAnswer(queryId, resultURIs);
 			} else {
 				sendAliveUpdate();
@@ -70,14 +77,17 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<URI> collectResults(Integer topicId, Double topicProbability, List<ISearchResult> hits) {
-		IMetadataKey topicScoresKey = typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
+	private List<URI> collectResults(Integer topicId, Double topicProbability,
+			List<ISearchResult> hits) {
+		IMetadataKey topicScoresKey = typeManager
+				.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
 
 		List<URI> resultURIs = new ArrayList<URI>();
 		for (ISearchResult hit : hits) {
 			IELO elo = repository.retrieveELO(hit.getUri());
-			List<? extends KeyValuePair> topicScoreEntryList = (List<KeyValuePair>) elo.getMetadata()
-					.getMetadataValueContainer(topicScoresKey).getValueList();
+			List<? extends KeyValuePair> topicScoreEntryList = (List<KeyValuePair>) elo
+					.getMetadata().getMetadataValueContainer(topicScoresKey)
+					.getValueList();
 			for (KeyValuePair entry : topicScoreEntryList) {
 				if (entry.getKey().equals("" + topicId)) {
 					if (Double.parseDouble(entry.getValue()) >= topicProbability) {
@@ -89,7 +99,8 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 		return resultURIs;
 	}
 
-	private void sendAnswer(String queryId, List<URI> resultURIs) throws TupleSpaceException {
+	private void sendAnswer(String queryId, List<URI> resultURIs)
+			throws TupleSpaceException {
 		Tuple answer = new Tuple();
 		answer.add(TopicAgents.GET_TOPIC_ELOS);
 		answer.add(AgentProtocol.RESPONSE);
@@ -102,7 +113,8 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	}
 
 	private Tuple getTemplateTuple() {
-		return new Tuple(TopicAgents.GET_TOPIC_ELOS, AgentProtocol.QUERY, String.class, Integer.class, Double.class);
+		return new Tuple(TopicAgents.GET_TOPIC_ELOS, AgentProtocol.QUERY,
+				String.class, Integer.class, Double.class);
 	}
 
 	@Override
