@@ -202,12 +202,12 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             String stemmed = Stemmer.stem(term);
             if (ontologyClouds.containsKey(stemmed)) {
                 for (String keyword : ontologyClouds.get(stemmed)) {
-                    keywords.put(keyword, 0.5);
+                    keywords.put(keyword.toLowerCase(), 0.5);
                 }
             }
             // TODO maybe consider if single or complete? 
             if (ontologySingleTerms.containsKey(stemmed)) {
-                keywords.put(ontologySingleTerms.get(stemmed), 1.0);
+                keywords.put(ontologySingleTerms.get(stemmed).toLowerCase(), 1.0);
             }
         }
         return keywords;
