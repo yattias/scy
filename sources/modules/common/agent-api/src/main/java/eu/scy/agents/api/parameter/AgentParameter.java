@@ -1,11 +1,15 @@
 package eu.scy.agents.api.parameter;
 
+import java.net.URI;
+
 public class AgentParameter {
 
 	private String mission;
 	private String user;
 	private String parameterName;
 	private Object parameterValue;
+	private String las;
+	private URI eloUri;
 
 	public AgentParameter() {
 		mission = null;
@@ -47,4 +51,19 @@ public class AgentParameter {
 		this.parameterValue = parameterValue;
 	}
 
+	public String getLas() {
+		return las;
+	}
+
+	public void setLas(String las) {
+		this.las = las;
+	}
+
+	public URI getELOUri() {
+		return eloUri;
+	}
+
+	public void setELOUri(URI uri) {
+		eloUri = uri;
+	}
 }
