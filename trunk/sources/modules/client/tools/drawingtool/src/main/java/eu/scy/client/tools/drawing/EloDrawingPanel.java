@@ -18,8 +18,8 @@ import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -149,7 +149,7 @@ public class EloDrawingPanel extends JPanel
 	{
 		IQuery query = null;
 		IMetadataQuery metadataQuery = new BasicMetadataQuery(typeKey,
-					BasicSearchOperations.EQUALS, scyDrawType, null);
+					BasicSearchOperations.EQUALS, scyDrawType);
 		query = metadataQuery;
 		List<ISearchResult> searchResults = repository.search(query);
 		URI[] drawingUris = new URI[searchResults.size()];
@@ -180,7 +180,7 @@ public class EloDrawingPanel extends JPanel
 //			Object titleObject = metadataValueContainer.getValue();
 //			Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
 			Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-			
+
 			setDocName(titleObject3.toString());
 			whiteboardPanel.deleteAllWhiteboardContainers();
 			whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()

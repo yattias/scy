@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 
 import javafx.scene.layout.VBox;
 
-import roolo.cms.repository.mock.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
 
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
@@ -147,7 +147,7 @@ public class NewScyWindowTool extends CustomNode {
       if (eloTypeName!=null){
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
-            var typeQuery = new BasicMetadataQuery(technicalFormatKey,BasicSearchOperations.EQUALS,eloType,null);
+            var typeQuery = new BasicMetadataQuery(technicalFormatKey,BasicSearchOperations.EQUALS,eloType);
             var results = repository.search(typeQuery);
             logger.info("Nr of elos found: {results.size()}");
             if (results!=null and results.size()>0){

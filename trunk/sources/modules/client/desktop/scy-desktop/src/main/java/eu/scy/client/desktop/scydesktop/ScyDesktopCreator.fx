@@ -21,8 +21,8 @@ import javafx.scene.paint.Color;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import roolo.api.search.AndQuery;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
@@ -423,12 +423,12 @@ public class ScyDesktopCreator {
 //   }
 //
 //   function retrieveStoredMissionModel(): MissionModelFX {
-//      var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, MissionModelFX.eloType, null);
-//      var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName, null);
+//      var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, MissionModelFX.eloType);
+//      var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName);
 //      var andQuery = new AndQuery(typeQuery, titleQuery);
 //      var missionId = config.getBasicMissionMap().getId();
 //      if (missionId != null) {
-//         var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId, null);
+//         var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId);
 //         andQuery.addQuery(missionIdQuery);
 //      }
 //      var results = config.getRepository().search(andQuery);

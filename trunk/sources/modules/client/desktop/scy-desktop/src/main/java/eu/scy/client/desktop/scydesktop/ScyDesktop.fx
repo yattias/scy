@@ -82,8 +82,8 @@ import java.lang.String;
 import org.jdom.Element;
 import roolo.api.search.AndQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
@@ -362,12 +362,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
                         var userName = config.getToolBrokerAPI().getLoginUserName();
                         var missionId = config.getToolBrokerAPI().getMission();
-                        var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool", null);
-                        var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName, null);
+                        var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool");
+                        var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName);
                         var andQuery = new AndQuery(typeQuery, titleQuery);
                         //var missionId = config.getBasicMissionMap().getId();
                         if (missionId != null) {
-                            var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId, null);
+                            var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId);
                             andQuery.addQuery(missionIdQuery);
                         }
                         var results = config.getRepository().search(andQuery);
@@ -392,7 +392,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                             var sptMetadata = config.getRepository().addNewELO(sptELO);
                             config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
 
-                          
+
                         }
                         def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
                         newWindow.openWindow(700, 600);
@@ -625,8 +625,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
             scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
         }
-        
-        
+
+
         // all tools are created and placed in the window
         // now do the ScyTool initialisation
         var myEloChanged = SimpleMyEloChanged {
@@ -673,7 +673,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         scyToolsList.setRuntimeSettingsRetriever(runtimeSettingsRetriever);
         scyToolsList.initialize();
         scyToolsList.postInitialize();
-        // place the tools in the window      
+        // place the tools in the window
         if (scyToolsList.windowContentTool != null) {
             window.scyContent = scyToolsList.windowContentTool;
         }
@@ -700,7 +700,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             if (collaboration){
                window.openDrawer("left");
             }
-        }       
+        }
         // if the window content tool is defined, meaning a new or existing elo is loaded, report this
         if (window.scyContent != null) {
             if (window.eloUri != null) {
@@ -714,7 +714,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
     public override function processNotification(notification: INotification): Void {
        FX.deferAction(function(){
-               
+
           });
     }
 
