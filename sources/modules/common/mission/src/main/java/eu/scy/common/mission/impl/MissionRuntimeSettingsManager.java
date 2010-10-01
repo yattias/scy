@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Logger;
+
 import roolo.elo.api.exceptions.ELONotLastVersionException;
 import eu.scy.common.mission.RuntimeSetting;
 import eu.scy.common.mission.RuntimeSettingKey;
@@ -33,6 +35,8 @@ import eu.scy.common.scyelo.ScyElo;
  */
 public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
 {
+   private static final Logger logger = Logger.getLogger(MissionRuntimeSettingsManager.class);
+
    // private final RuntimeSettingsElo specificationRuntimeSettingsElo;
    private RuntimeSettingsElo runtimeRuntimeSettingsElo;
    private final Set<URI> specifiactionContentEloUris;
@@ -64,7 +68,15 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       {
          this.specificationRuntimeSettings = null;
       }
-      this.runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
+      if (runtimeRuntimeSettingsElo != null)
+      {
+         this.runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
+      }
+      else
+      {
+         logger.warn("runtimeRuntimeSettingsElo should not be null");
+
+      }
    }
 
    @Override
@@ -74,7 +86,11 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       {
          return null;
       }
-      String value = runtimeRuntimeSettings.getSetting(key);
+      String value = null;
+      if (runtimeRuntimeSettings != null)
+      {
+         value = runtimeRuntimeSettings.getSetting(key);
+      }
       if (value != null)
       {
          return value;
@@ -164,6 +180,10 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
    @Override
    public void addSettings(List<RuntimeSetting> runtimeSettings)
    {
+      if (runtimeRuntimeSettings == null)
+      {
+         return;
+      }
       synchronized (addSettingsLock)
       {
          runtimeRuntimeSettings.addSettings(runtimeSettings);
