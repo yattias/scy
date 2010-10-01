@@ -48,6 +48,11 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         this.diagram = diagram;
         this.diagram.addDiagramListener(this);
     }
+    
+    public void logRequestHelp() {
+        IAction a = createSCYMapperAction("request_help");
+        log(a);
+    }
 
     /**
      * Logs when the user change the name of a node
