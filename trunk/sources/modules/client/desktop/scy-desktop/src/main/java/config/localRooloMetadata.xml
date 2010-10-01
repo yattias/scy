@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-   <bean name="localMetadataTypeManager" class="roolo.elo.MockMetadataTypeManager">
+   <bean name="localMetadataTypeManager" class="roolo.elo.MetadataTypeManager" factory-method="getInstance">
       <property name="metadataKeys">
          <list>
             <ref bean="identifierKey"/>
