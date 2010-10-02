@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.conceptmap.Edge;
 import eu.scy.agents.conceptmap.Graph;
 import eu.scy.agents.conceptmap.Node;
 import eu.scy.agents.impl.AbstractThreadedAgent;
@@ -44,6 +45,8 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
     private TupleSpace commandSpace;
 
+    private CMProposerObserver observer;
+
     public static void main(String[] args) throws AgentLifecycleException {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(AgentProtocol.PARAM_AGENT_ID, "proposer id");
@@ -55,6 +58,11 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
     public CMProposerAgent(Map<String, Object> map) {
         super(CMProposerAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
+        if (map.get("observer") != null) {
+            this.observer = (CMProposerObserver) map.get("observer");
+        } else {
+            this.observer = new NullObserver();
+        }
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
         } catch (TupleSpaceException e) {
@@ -72,8 +80,12 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
             sendAliveUpdate();
+            observer.setStatusText("Agent running");
             Tuple returnTuple = commandSpace.waitToTake(new Tuple(String.class, "CMProposer", "cm proposal", String.class, String.class, Integer.class, String.class), 5000);
+            sendAliveUpdate();
             if (returnTuple != null) {
+                observer.clearState();
+                observer.setStatusText("Received request ...");
                 commandSpace.write(generateResponse(returnTuple));
             }
         }
@@ -90,6 +102,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         for (String proposal : proposals) {
             t.add(proposal);
         }
+        observer.setStatusText("Responding with proposals");
         return t;
     }
 
@@ -113,13 +126,23 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         try {
             String ontologyNS = getOntologyNamespace(elouri);
             String lang = determineLanguage(elouri);
-            Map<String, Double> keywordsFromText = getKeywordsFromText(TEXT, ontologyNS);
+            
+            observer.setStatusText("Retrieving text");
+            String text = getText();
+            observer.setCMText(text);
+            
+            observer.setStatusText("Determining keywords");
+            Map<String, Double> keywordsFromText = getKeywordsFromText(text, ontologyNS);
+            
+            observer.setStatusText("Retrieving student concept map");
             Graph userGraph = getUserGraph(elouri, user);
+            observer.foundStudentsMap(userGraph);
 
             if (!con.getLanguage().equals(lang) || !con.getOntologyNamespace().equals(ontologyNS)) {
                 con.close();
                 con = new SWATConnection(lang, ontologyNS);
             }
+
             Graph ontologyGraph = findOntologySubgraph(keywordsFromText.keySet(), ontologyNS);
 
             TreeMap<Double, String> rankedStrings = new TreeMap<Double, String>();
@@ -127,32 +150,47 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                 Map<Integer, Set<Node>> rankedNodes = ontologyGraph.getDegree();
                 for (Entry<Integer, Set<Node>> e : rankedNodes.entrySet()) {
                     for (Node n : e.getValue()) {
-                        double ranking = e.getKey() * keywordsFromText.get(n.getLabel());
+//                        double ranking = e.getKey() * keywordsFromText.get(n.getLabel());
+                        double ranking = e.getKey();
                         rankedStrings.put(ranking, n.getLabel());
                     }
                 }
                 ontologyConcepts.addAll(rankedStrings.values());
             }
 
+            observer.setStatusText("Find proposals");
             for (Node n : userGraph.getNodes()) {
                 ontologyConcepts.remove(n.getLabel().toLowerCase());
+                observer.markConceptAsMatching(n.getLabel());
             }
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
 
         List<String> subList = ontologyConcepts.subList(0, amount);
+        for (String s : subList) {
+            observer.markConceptAsProposal(s);
+        }
         return (String[]) subList.toArray(new String[subList.size()]);
     }
 
+    private String getText() {
+        return TEXT;
+    }
+
     private Graph getUserGraph(String elouri, String user) throws TupleSpaceException {
-        String id = new VMID().toString();
-        commandSpace.write(new Tuple(id, "userconceptmapagent", "conceptmap", user, elouri, "nodes"));
-        Tuple userNodesTuple = commandSpace.waitToTake(new Tuple(id, "response", Field.createWildCardField()));
+        String nid = new VMID().toString();
+        String eid = new VMID().toString();
+        commandSpace.write(new Tuple(nid, "userconceptmapagent", "conceptmap", user, elouri, "nodes"));
+        commandSpace.write(new Tuple(eid, "userconceptmapagent", "conceptmap", user, elouri, "edges"));
+        Tuple userNodesTuple = commandSpace.waitToTake(new Tuple(nid, "response", Field.createWildCardField()));
+        Tuple userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()));
         Graph g = new Graph();
         Field[] nodeFields = new Field[userNodesTuple.getNumberOfFields() - 2];
         System.arraycopy(userNodesTuple.getFields(), 2, nodeFields, 0, nodeFields.length);
-        g.fillFromFields(new Field[0], nodeFields);
+        Field[] edgesFields = new Field[userEdgesTuple.getNumberOfFields() - 2];
+        System.arraycopy(userEdgesTuple.getFields(), 2, edgesFields, 0, edgesFields.length);
+        g.fillFromFields(edgesFields, nodeFields);
         return g;
     }
 
@@ -203,11 +241,13 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (ontologyClouds.containsKey(stemmed)) {
                 for (String keyword : ontologyClouds.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.5);
+                    observer.foundTextKeyword(term);
                 }
             }
             // TODO maybe consider if single or complete? 
             if (ontologySingleTerms.containsKey(stemmed)) {
                 keywords.put(ontologySingleTerms.get(stemmed).toLowerCase(), 1.0);
+                observer.foundTextKeyword(term);
             }
         }
         return keywords;
@@ -267,15 +307,21 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     }
 
     public Graph findOntologySubgraph(Set<String> terms, String ontologyNamespace) {
+        observer.setStatusText("Retrieving ontology conceps");
         Map<String, String> ontologyTerms = getOntologyTerms(ontologyNamespace);
         List<String> termsFound = new ArrayList<String>();
         for (String term : terms) {
             String stemmedTerm = ontologyTerms.get(Stemmer.stemWordWise(term));
             if (stemmedTerm != null) {
                 termsFound.add(term);
+                observer.foundOntoConcept(term);
             }
         }
+        observer.setStatusText("Retrieving ontology relations");
         Graph g = findConnections(termsFound, ontologyNamespace);
+        for (Edge e : g.getEdges()) {
+            observer.foundOntoRelation(e.getFromNode().getLabel(), e.getToNode().getLabel(), e.getLabel());
+        }
         return g;
     }
 
