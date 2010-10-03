@@ -4,10 +4,14 @@
  */
 package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import javafx.scene.layout.HBox;
 
 /**
  * @author SikkenJ
@@ -15,14 +19,33 @@ import eu.scy.common.scyelo.ScyElo;
 public mixin class ScyEloListCellDisplay {
 
    public var newEloCreationRegistry: NewEloCreationRegistry;
+   public var windowStyler: WindowStyler;
+   def spacing = 5.0;
 
    public function scyEloCellFactory(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
-            node: Label {
-               text: bind getResultDisplay(listCell.item)
-            }
+            node: bind createListCellContent(listCell.item)
          }
+   }
+
+   function createListCellContent(item: Object): Node {
+      var scySearchResult: ScySearchResult = null;
+      if (item instanceof ScySearchResult){
+         scySearchResult = item as ScySearchResult;
+      }
+      var eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo().getUri());
+      eloIcon.visible = scySearchResult!=null;
+//      println("creating cell display for {item}, eloIcon: {eloIcon}");
+      HBox {
+         spacing: spacing
+         content: [
+            eloIcon,
+            Label {
+               text: bind getResultDisplay(item)
+            }
+         ]
+      }
    }
 
    function getResultDisplay(item: Object): String {
@@ -50,7 +73,7 @@ public mixin class ScyEloListCellDisplay {
          }
       }
       def typeName = newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat());
-      return "{authorDisplay}:{scyElo.getTitle()} ({typeName})"
+      return "{authorDisplay}: {scyElo.getTitle()} ({typeName})"
    }
 
 }
