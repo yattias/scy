@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.fxvideo;
 
-import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import java.io.File;
 import java.net.URI;
@@ -14,13 +13,13 @@ import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -123,7 +122,7 @@ public class EloVideoActionWrapper {
         //System.out.println(technicalFormatKey);
         //System.out.println(scyVideoType);
         IQuery query = null;
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyVideoType, null);
+        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyVideoType);
         query = metadataQuery;
         List<ISearchResult> searchResults = repository.search(query);
         URI[] drawingUris = new URI[searchResults.size()];

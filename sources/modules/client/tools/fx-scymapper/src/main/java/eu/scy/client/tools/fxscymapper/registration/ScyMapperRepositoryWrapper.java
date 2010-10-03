@@ -14,8 +14,6 @@ import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.*;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
@@ -24,6 +22,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
+import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
+import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 
 public class ScyMapperRepositoryWrapper {
 
@@ -72,7 +72,7 @@ public class ScyMapperRepositoryWrapper {
         IMetadataQuery metadataQuery = new BasicMetadataQuery(
                 technicalFormatKey,
                 BasicSearchOperations.EQUALS,
-                scyMapperType, null);
+                scyMapperType);
 
         List<ISearchResult> searchResults = repository.search(metadataQuery);
         URI[] uris = new URI[searchResults.size()];
