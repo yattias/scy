@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocumentRoot>
+  <MetaData version="2.0">
+    <DocumentProperties creationDate="2007-11-16 13:38:15.488" creatorsApplication="FreeStyler" creatorsApplicationVersion="CVS Revision 1.215" id="0" lastChanged="2008-12-04 15:06:31.501" name="77-martina-lennartsson-a-3.xml" readOnly="false" scenario="" version="1.1">
+      <Parents>
+        <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+      </Parents>
+    </DocumentProperties>
+    <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cdd">
+      <Palette name="FeedbackLoops"/>
+      <Palette name="Receiver"/>
+    </UsedPalettes>
+    <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cdc"/>
+    <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-664d" name=""/>
+    <Activity name=""/>
+    <WorkspaceMetaData id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7fb5" version="2.0" workspaceID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7fb5">
+      <DocumentProperties creationDate="2007-11-16 13:38:19.691" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cd7"/>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cd6"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-664b" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7f9a" version="2.0" workspaceID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7f9a">
+      <DocumentProperties creationDate="2007-11-16 13:38:20.082" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cd4"/>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cd3"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-664a" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7f7b" version="2.0" workspaceID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7f7b">
+      <DocumentProperties creationDate="2007-11-16 13:38:20.379" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cd1"/>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cd0"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6649" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7f33" version="2.0" workspaceID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7f33">
+      <DocumentProperties creationDate="2007-11-16 13:38:21.926" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7ccb"/>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cca"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6647" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7edd" version="2.0" workspaceID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7edd">
+      <DocumentProperties creationDate="2007-11-16 13:38:23.347" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cc5"/>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cc4"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6645" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e74" version="2.0" workspaceID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e74">
+      <DocumentProperties creationDate="2007-11-16 13:38:24.503" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cbf"/>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cbe"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6643" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="act-bcdfcee4-1b1d-5373-dc96-d53410a3369a" version="2.0" workspaceID="act-bcdfcee4-1b1d-5373-dc96-d53410a3369a">
+      <DocumentProperties id="0" name="Plan" readOnly="false" scenario="" version="1.1">
+        <Keyword>Plan</Keyword>
+        <Parents>
+          <Parent id="null" name="martinalennartsson3.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cbc">
+        <Palette name="Receiver"/>
+        <Palette name="FeedbackLoops"/>
+      </UsedPalettes>
+      <InvolvedUsers id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cbb"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6642" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+  </MetaData>
+  <SessionData alt_classname="info.collide.freestyler.pagecomposer.PagePane" id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7cb4">
+    <Workspaces>
+      <Workspace alt_classname="info.collide.freestyler.swing.NLayerComposer" id="act-bcdfcee4-1b1d-5373-dc96-d53410a3369a">
+        <Title>Plan</Title>
+        <LayerOrder activeIndex="1">
+          <Layer id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6607" index="0"/>
+          <Layer id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6621" index="1"/>
+          <Layer id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7939" index="2"/>
+        </LayerOrder>
+        <StrokeDrawingArea id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7939" visible="true">
+          <Color blue="0" green="0" id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6586" red="0"/>
+          <Thickness>4.0</Thickness>
+        </StrokeDrawingArea>
+        <JGraph alt_classname="info.collide.freestyler.graph.NodeJGraph" id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6607" mode="static" visible="true"/>
+        <JGraph alt_classname="info.collide.freestyler.graph.NodeJGraph" id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6621" mode="copypaste" visible="true">
+          <ARRAY>
+            <NodeInfo>
+              <InfoNode Font="" FontSize="12" ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e26" creationtime="1195216705347" creator="marlen0701" lastModificator="none" package="info.collide.plugins.receiver.freestyler.nodes" palette="Receiver" resizeable="false" sticky="false" uiLocked="false">
+                <Content>Please arrange all Variables in a way so that you
+can display the relation from every variable to Biomass. 
+You can link the Variable by using the links
+from the toolbox right beside your workspace. 
+</Content>
+              </InfoNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6585" x="10" y="10"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e0b" creationtime="1195216705925" creator="marlen0701" lastModificator="none" name="Hours of Light" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6584" x="10" y="130"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e09" creationtime="1195216705941" creator="marlen0701" lastModificator="none" name="Carbon Dioxide" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6583" x="7" y="210"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e07" creationtime="1195216705941" creator="marlen0701" lastModificator="none" name="Temperature" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6582" x="10" y="290"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e05" creationtime="1195216705957" creator="marlen0701" lastModificator="none" name="Oxygen" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6581" x="10" y="370"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e03" creationtime="1195216705957" creator="marlen0701" lastModificator="none" name="Water" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-6580" x="10" y="450"/>
+            </NodeInfo>
+            <NodeInfo>
+              <PropertyInputNode Font="" FontSize="11" ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7df7" creationtime="1195216706066" creator="marlen0701" lastModificator="none" package="info.collide.plugins.receiver.freestyler.nodes" palette="Receiver" resizeable="false" sticky="false" uiLocked="false">
+                <Content>true</Content>
+                <Message>
+Did you link all variables meaningfully?  
+	</Message>
+              </PropertyInputNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-657f" x="559" y="507"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7de2" creationtime="1195216706394" creator="marlen0701" lastModificator="none" name="Biomass" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-657e" x="382" y="260"/>
+            </NodeInfo>
+          </ARRAY>
+          <ARRAY>
+            <GraphEdge creationtime="1195216731752" creator="marlen0701" id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7ca8" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e0b</UniqueID>
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7de2</UniqueID>
+              <IconType type="1"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195216739002" creator="marlen0701" id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7ca7" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e09</UniqueID>
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7de2</UniqueID>
+              <IconType type="1"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195216743845" creator="marlen0701" id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7ca6" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e07</UniqueID>
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7de2</UniqueID>
+              <IconType type="2"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195216747408" creator="marlen0701" id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7ca5" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e05</UniqueID>
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7de2</UniqueID>
+              <IconType type="1"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195216749814" creator="marlen0701" id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7ca4" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7e03</UniqueID>
+              <UniqueID>39fe2d564dc5fa0b:-345bc5d6:11648775828:-7de2</UniqueID>
+              <IconType type="1"/>
+            </GraphEdge>
+          </ARRAY>
+        </JGraph>
+      </Workspace>
+    </Workspaces>
+    <ReferenceFrames id="39fe2d564dc5fa0b:-345bc5d6:11648775828:-7af3" visible="true">
+      <ReferenceFrame active="true" location="info.collide.plugins.feedback.FeedbackRefFrame"/>
+      <ReferenceFrame active="false" location="info.collide.plugins.receiver.ReceiverRefFrame"/>
+    </ReferenceFrames>
+  </SessionData>
+</DocumentRoot>

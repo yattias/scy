@@ -1,0 +1,519 @@
+/*
+ * CombinedWindowElements.fx
+ *
+ * Created on 9-apr-2010, 15:31:53
+ */
+
+package eu.scy.client.desktop.scydesktop.scywindows.window;
+
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Cursor;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import java.lang.UnsupportedOperationException;
+import java.lang.String;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import javafx.scene.shape.Rectangle;
+import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
+import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
+
+/**
+ * @author sikken
+ */
+
+public class CombinedWindowElements  extends ScyWindow {
+    override public function removeChangesListener (wcl : WindowChangesListener) : Void {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+    override public function addChangesListener (wcl : WindowChangesListener) : Void {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+    override public function openDrawer (which : String) : Void {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+    override public function canAcceptDrop (object : Object) : Boolean {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+    override public function close () : Void {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+    override public function setMinimize (state : Boolean) : Void {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+    override public function openWindow (width : Number, height : Number) : Void {
+        isClosed = false;
+        this.width = width;
+        this.height = height;
+    }
+
+    override public function acceptDrop (object : Object) : Void {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+
+   def drawerGroup:Group = Group{
+      visible: bind not isClosed and not isMinimized
+   };
+   var topDrawer:TopDrawer;
+   var rightDrawer:RightDrawer;
+   var bottomDrawer:BottomDrawer;
+   var leftDrawer:LeftDrawer;
+
+   public override var topDrawerTool on replace {setTopDrawer()};
+   public override var rightDrawerTool on replace {setRightDrawer()};
+   public override var bottomDrawerTool on replace {setBottomDrawer()};
+   public override var leftDrawerTool on replace {setLeftDrawer()};
+
+   var emptyWindow:EmptyWindow;
+   var contentElement: WindowContent;
+   var windowTitleBar: WindowTitleBar;
+   var resizeElement: WindowResize;
+   var rotateElement: WindowRotate;
+   var closeElement: WindowClose;
+   var minimizeElement: WindowMinimize;
+
+   var mainContentGroup:Group;
+
+   def borderWidth = 2.0;
+   def controlSize = 10.0;
+   def cornerRadius = 10.0;
+   def separatorLength = 7.0;
+   def titleBarTopOffset = borderWidth/2 + 3;
+   def titleBarLeftOffset = borderWidth/2 + 5;
+   def titleBarRightOffset = titleBarLeftOffset;
+   def closeBoxSize = 10.0;
+   def iconSize = 16.0;
+   def closedHeight = titleBarTopOffset+iconSize+borderWidth+1;
+   def controlStrokeWidth = 0.0;
+
+   def contentSideBorder = 5.0;
+   def contentTopOffset = titleBarLeftOffset+iconSize+contentSideBorder;
+   def deltaWidthContentWidth = borderWidth + 2 * contentSideBorder + 1;
+   def deltaHeightContentHeight = contentTopOffset + borderWidth / 2 + controlSize;
+   def contentWidth = bind width - deltaWidthContentWidth;
+   def contentHeight = bind height - deltaHeightContentHeight;
+
+   def drawerCornerOffset = controlSize+separatorLength;
+
+   postinit {
+		if (isClosed){
+			height = closedHeight;
+		}
+      closedBoundsWidth = minimumWidth+deltaWidthContentWidth;
+      closedBoundsHeight = closedHeight+deltaHeightContentHeight;
+      setTopDrawer();
+      setRightDrawer();
+      setBottomDrawer();
+      setLeftDrawer();
+      this.cache =true;
+   }
+
+   function setTopDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
+      if (topDrawer!=null){
+         delete topDrawer from drawerGroup.content;
+         topDrawer = null;
+      }
+      if (topDrawerTool!=null){
+         topDrawer = TopDrawer{
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedSize:bind width-2*drawerCornerOffset;
+//            closedStrokeWidth:controlStrokeWidth;
+            content:topDrawerTool;
+            activated:bind activated;
+//            activate: activate;
+            layoutX:drawerCornerOffset;
+            layoutY:0;
+            width:bind width-2*drawerCornerOffset
+         }
+         insert topDrawer into drawerGroup.content;
+      }
+//      scyToolsList.topDrawerTool = topDrawerTool;
+   }
+
+   function setRightDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
+      if (rightDrawer!=null){
+         delete rightDrawer from drawerGroup.content;
+         rightDrawer = null;
+      }
+      if (rightDrawerTool!=null){
+         rightDrawer = RightDrawer{
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedStrokeWidth:controlStrokeWidth;
+//            closedSize:bind height-2*drawerCornerOffset;
+            content:rightDrawerTool;
+            activated:bind activated;
+//            activate: activate;
+            layoutX:bind width;
+            layoutY:drawerCornerOffset;
+            height:bind height-2*drawerCornerOffset
+         }
+         insert rightDrawer into drawerGroup.content;
+      }
+//      scyToolsList.rightDrawerTool = rightDrawerTool;
+   }
+
+   function setBottomDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
+      if (bottomDrawer!=null){
+         delete bottomDrawer from drawerGroup.content;
+         bottomDrawer = null;
+      }
+      if (bottomDrawerTool!=null){
+         //println("new BottomDrawer with color {drawerColor}");
+         bottomDrawer = BottomDrawer{
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedSize:bind width-2*drawerCornerOffset;
+//            closedStrokeWidth:controlStrokeWidth;
+            content:bottomDrawerTool;
+            activated:bind activated;
+//            activate: activate;
+            layoutX:drawerCornerOffset;
+            layoutY:bind height;
+            width:bind width-2*drawerCornerOffset
+         }
+         insert bottomDrawer into drawerGroup.content;
+      }
+//      scyToolsList.bottomDrawerTool = bottomDrawerTool;
+   }
+
+   function setLeftDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
+      if (leftDrawer!=null){
+         delete leftDrawer from drawerGroup.content;
+         leftDrawer = null;
+      }
+      if (leftDrawerTool!=null){
+         leftDrawer = LeftDrawer{
+            windowColorScheme:windowColorScheme
+//            color:bind drawerColor;
+//            highliteColor:controlColor;
+//            closedStrokeWidth:controlStrokeWidth;
+//            closedSize:bind height-2*drawerCornerOffset;
+            content:leftDrawerTool;
+            activated:bind activated;
+//            activate: activate;
+            layoutX:0;
+            layoutY:drawerCornerOffset;
+            height:bind height-2*drawerCornerOffset
+         }
+         insert leftDrawer into drawerGroup.content;
+      }
+//      scyToolsList.leftDrawerTool = leftDrawerTool;
+   }
+
+public override function create(): Node {
+		blocksMouse = true;
+
+      emptyWindow = EmptyWindow{
+         width: bind width;
+         height:bind height;
+         controlSize:cornerRadius;
+         borderWidth:borderWidth;
+         windowColorScheme:windowColorScheme
+      }
+
+      contentElement = WindowContent{
+         width:bind contentWidth;
+         height:bind contentHeight;
+         windowColorScheme:windowColorScheme
+         content:bind scyContent;
+         activated:bind activated;
+//         activate: activate;
+         layoutX: borderWidth / 2 + 1 + contentSideBorder;
+         layoutY: contentTopOffset;
+      }
+
+      windowTitleBar = WindowTitleBar{
+         width:bind width - titleBarLeftOffset-titleBarRightOffset
+//         iconSize:iconSize;
+//         iconGap:iconGap;
+         closeBoxWidth:bind if (closeElement.visible) closeBoxSize+2*borderWidth else 0.0;
+         iconSize:iconSize
+         title:bind title;
+         eloIcon:bind eloIcon;
+         activated:bind activated
+         windowColorScheme:windowColorScheme
+         layoutX:titleBarLeftOffset;
+         layoutY:titleBarTopOffset;
+      }
+
+      resizeElement = WindowResize{
+         visible: bind allowResize or isClosed;
+         size:controlSize;
+         borderWidth:borderWidth;
+         separatorLength:separatorLength
+         windowColorScheme:windowColorScheme
+//         activate: activate;
+//         startResize:startResize;
+//         doResize:doResize;
+//         stopResize:stopResize;
+         layoutX: bind width//+controlBorderOffset+controlStrokeWidth;
+         layoutY: bind height//+controlBorderOffset+controlStrokeWidth;
+      }
+
+      rotateElement = WindowRotate{
+         visible: bind allowRotate;
+         size:controlSize;
+         borderWidth:borderWidth;
+         separatorLength:separatorLength
+         windowColorScheme:windowColorScheme
+//         activate: activate;
+         rotateWindow:this;
+         layoutX: 0;
+         layoutY: bind height;
+      }
+
+      closeElement = WindowClose{
+         visible: bind allowClose and not isClosed;
+         size:closeBoxSize;
+//         strokeWidth:controlStrokeWidth;
+         windowColorScheme:windowColorScheme
+//         activate: activate;
+         activated:bind activated
+//         closeAction:doClose;
+         layoutX: bind width - titleBarRightOffset -1.0*borderWidth - closeBoxSize - 1;
+         layoutY: borderWidth+closeBoxSize/2;
+      }
+
+      minimizeElement = WindowMinimize{
+         visible: bind allowMinimize and not isClosed;
+         size:controlSize;
+         separatorLength:separatorLength
+//         strokeWidth:controlStrokeWidth/2;
+         windowColorScheme:windowColorScheme
+//         activate: activate;
+//         minimizeAction:doMinimize;
+//         unminimizeAction:doUnminimize;
+         minimized: bind isMinimized;
+         layoutX: bind width / 2;
+         layoutY: bind height;
+      }
+
+      // show a filled rect as content for test purposes
+//      scyContent = Rectangle {
+//         x: -100, y: -100
+//         width: 1000, height: 1000
+//         fill: Color.color(1,.25,.25,.75)
+//      }
+
+		return mainContentGroup = Group {
+         cursor: Cursor.MOVE;
+         cache:true;
+			content: [
+            emptyWindow,
+            contentElement,
+            drawerGroup,
+            windowTitleBar,
+            minimizeElement,
+            resizeElement,
+            rotateElement,
+            closeElement,
+            Group{ // the scy window attributes
+               translateY: -borderWidth / 2;
+               content: bind scyWindowAttributes,
+            },
+//            draggingLayer,
+//            Group {
+//               content: [circleLayer]
+//               effect: DropShadow {
+//                  offsetX: 3
+//                  offsetY: 3
+//                  color: Color.BLACK
+//                  radius: 10
+//               }
+//               onMouseReleased: function( e: MouseEvent ):Void {
+//                  println("G entered");
+//               }
+//            }
+
+
+			]
+		};
+   }
+
+}
+
+var imageLoader = ImageLoader.getImageLoader();
+
+function loadEloIcon(type: String):EloIcon{
+   var name = EloImageInformation.getIconName(type);
+   ImageEloIcon{
+      activeImage:imageLoader.getImage("{name}_act.png")
+      inactiveImage:imageLoader.getImage("{name}_inact.png")
+   }
+}
+
+function run(){
+   var highcontrastColorScheme = WindowColorScheme{
+      mainColor:Color.BLUE
+      backgroundColor:Color.ORANGE
+      titleStartGradientColor:Color.LIGHTBLUE
+      titleEndGradientColor:Color.WHITE
+      emptyBackgroundColor:Color.WHITE
+   }
+   var windowColorScheme = WindowColorScheme{
+      mainColor:Color.web("#0042f1")
+      backgroundColor:Color.web("#f0f8db")
+      titleStartGradientColor:Color.web("#4080f8")
+      titleEndGradientColor:Color.WHITE
+      emptyBackgroundColor:Color.WHITE
+   }
+//   windowColorScheme= highcontrastColorScheme;
+
+   var openWindow = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"opened and not selected"
+      isClosed:false
+      allowClose:false
+      scyContent:Rectangle {
+         x: 0, y: 0
+         width: 200, height: 200
+         fill: Color.RED
+      }
+      layoutX: 10
+      layoutY: 20
+   }
+
+   var openWindowSelected = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"opened and selected"
+      scyContent:Rectangle {
+         x: 0, y: 0
+         width: 200, height: 200
+         fill: Color.WHITE
+      }
+      isClosed:false
+      allowClose:false
+      allowResize:true
+      activated:true
+      layoutX: 190
+      layoutY: 20
+   }
+
+   var openWindowWithClose = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"open and not selected"
+      scyContent:RulerRectangle {
+         xSize: 200
+         ySize: 200
+      }
+      isClosed:false
+      allowClose:true
+      allowResize:true
+      layoutX: 10
+      layoutY: 150
+   }
+
+   var openWindowSelectedWithClose = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"opened and selllllll"
+      scyContent:ResizableRulerRectangle {
+         width: 200, height: 200
+      }
+      isClosed:false
+      allowClose:true
+      activated:true
+      layoutX: 190
+      layoutY: 150
+   }
+
+   def minimumWidth = 70;
+
+   var closedWindow = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"closed and not selected"
+      isClosed:true
+      allowClose:true
+      height:openWindow.closedHeight
+      width:minimumWidth
+      layoutX: 10
+      layoutY: 280
+   }
+
+   var closedWindow2 = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"closed and not selected"
+      isClosed:false
+      isMinimized:true
+      allowClose:true
+      allowMinimize:true
+      height:openWindow.closedHeight
+      width:minimumWidth
+      layoutX: closedWindow.layoutX+minimumWidth+20
+      layoutY: 280
+   }
+
+   var closedWindow3 = CombinedWindowElements{
+      windowColorScheme:windowColorScheme
+      eloIcon:loadEloIcon("scy/mapping")
+      title:"closed and not selected"
+      isClosed:false
+      isMinimized:true
+      allowClose:true
+      allowMinimize:true
+      height:openWindow.closedHeight
+      width:90
+      layoutX: closedWindow2.layoutX+minimumWidth+20
+      layoutY: 280
+   }
+
+//   openWindowWithClose.windowColorScheme = highcontrastColorScheme;
+
+   Stage {
+	title : "Test of Combined window elements"
+	scene: Scene {
+		width: 400
+		height: 350
+      fill:Color.LIGHTGRAY
+		content: [
+         openWindow,
+         openWindowSelected,
+         openWindowWithClose,
+         openWindowSelectedWithClose,
+         closedWindow,
+         closedWindow2,
+         closedWindow3
+      ]
+	}
+}
+
+}

@@ -1,0 +1,33 @@
+<html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+<h1>${model.name}</h1>
+
+<t:actionlink t:id="editGroup" context="model.id">Edit</t:actionlink>
+
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+        </tr>
+        <t:loop source="groupMembers" value="currentUser">
+            <tr>
+                <td>
+                    <t:actionlink t:id="openUser" context="currentUser.id">${userDetails.username}</t:actionlink>
+                </td>
+                <td>
+                    ${userDetails.firstName}
+                </td>
+                <td>
+                    ${userDetails.lastName}
+                </td>
+                <td>
+                    ${currentUser.userDetails.emailAddress}
+                </td>
+            </tr>
+        </t:loop>
+    </table>
+
+
+</html>
