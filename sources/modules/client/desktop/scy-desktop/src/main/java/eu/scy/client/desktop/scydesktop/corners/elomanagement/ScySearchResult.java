@@ -22,6 +22,12 @@ public class ScySearchResult
       this.relevance = relevance;
    }
 
+   @Override
+   public String toString()
+   {
+      return "ScySearchResult{" + "scyElo=" + scyElo + "relevance=" + relevance + '}';
+   }
+
    public double getRelevance()
    {
       return relevance;

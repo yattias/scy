@@ -302,6 +302,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       searcher.turnedOn = true;
       searchElos = SearchElos {
             newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+            windowStyler: windowStyler
             cancelAction: cancelModalDialog
             searchAction: searchForElos
             openAction: openElo
@@ -399,9 +400,9 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    }
 
    function openElo(searchElos: SearchElos): Void {
-      var uriDisplay = searchElos.resultsListView.selectedItem as UriDisplay;
-      if (uriDisplay != null) {
-         scyWindowControl.addOtherScyWindow(uriDisplay.uri);
+      var scySearchResult = searchElos.resultsListView.selectedItem as ScySearchResult;
+      if (scySearchResult != null) {
+         scyWindowControl.addOtherScyWindow(scySearchResult.getScyElo().getUri());
       }
 
       searchElos.modalDialogBox.close();
@@ -422,6 +423,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       });
       eloBasedSearchDesign = EloBasedSearchDesign {
             newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+            windowStyler: windowStyler
             cancelAction: cancelModalDialog
             doSearch: doEloBasedSearch
             baseOnAction: doEloBasedBaseOn
