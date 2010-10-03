@@ -19,8 +19,6 @@ import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
