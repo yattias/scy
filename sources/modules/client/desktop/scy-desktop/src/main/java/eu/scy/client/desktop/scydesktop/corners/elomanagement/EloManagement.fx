@@ -176,15 +176,15 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
       var title = eloInfoControl.getEloTitle(uri);
       var technicalFormat = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
+//      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
       var typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
       var authorDisplay = "";
       if (showAuthor) {
-         var authorName = author.getVCard();
-         if (authorName == null) {
-            authorName = ##"unknown"
-         }
-         authorDisplay = "{authorName}: "
+//         var authorName = author.getVCard();
+//         if (authorName == null) {
+//            authorName = ##"unknown"
+//         }
+//         authorDisplay = "{authorName}: "
       }
 
       UriDisplay {
