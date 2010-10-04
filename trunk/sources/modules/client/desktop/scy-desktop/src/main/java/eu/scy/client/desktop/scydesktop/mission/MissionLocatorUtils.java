@@ -42,34 +42,39 @@ public class MissionLocatorUtils
       IQuery titleQuery = new BasicMetadataQuery(missionRunningKey, BasicSearchOperations.EQUALS, userName);
       IQuery myMissionRuntimeQuery = new AndQuery(missionRuntimeQuery, titleQuery);
       List<ISearchResult> missionRuntimeResults = tbi.getRepository().search(myMissionRuntimeQuery);
-      if (missionSpecificationResults.isEmpty())
+      if (missionRuntimeResults==null || missionSpecificationResults.isEmpty())
       {
          logger.warn("could not find any mission specification elos, falling back to spring configuration");
          return missions;
       }
       HashSet<URI> startedMissionSpecificationUris = new HashSet<URI>();
-      for (ISearchResult missionRuntimeResult : missionRuntimeResults)
-      {
-         IELO elo = tbi.getRepository().retrieveELO(missionRuntimeResult.getUri());
-         MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(elo, tbi);
-         missions.missionRuntimeElos.add(missionRuntimeElo);
-         if (missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri() != null)
-         {
-            startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
-         }
-      }
-      for (ISearchResult missionSpecificationResult : missionSpecificationResults)
-      {
-         IELO elo = tbi.getRepository().retrieveELO(missionSpecificationResult.getUri());
-//         String eloXml = elo.getXml();
-//         URI eloUri = elo.getUri();
-         if (!startedMissionSpecificationUris.contains(elo.getUri()))
-         {
-            MissionSpecificationElo missionSpecificationElo = new MissionSpecificationElo(elo, tbi);
-            missions.missionSpecificationElos.add(missionSpecificationElo);
-         }
-      }
-
+	  if (missionRuntimeResults!=null)
+	  {
+		  for (ISearchResult missionRuntimeResult : missionRuntimeResults)
+		  {
+			 IELO elo = tbi.getRepository().retrieveELO(missionRuntimeResult.getUri());
+			 MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(elo, tbi);
+			 missions.missionRuntimeElos.add(missionRuntimeElo);
+			 if (missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri() != null)
+			 {
+				startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
+			 }
+		  }
+	  }
+	  if (missionSpecificationResults!=null)
+	  {
+		  for (ISearchResult missionSpecificationResult : missionSpecificationResults)
+		  {
+			 IELO elo = tbi.getRepository().retrieveELO(missionSpecificationResult.getUri());
+	//         String eloXml = elo.getXml();
+	//         URI eloUri = elo.getUri();
+			 if (!startedMissionSpecificationUris.contains(elo.getUri()))
+			 {
+				MissionSpecificationElo missionSpecificationElo = new MissionSpecificationElo(elo, tbi);
+				missions.missionSpecificationElos.add(missionSpecificationElo);
+			 }
+		  }
+	  }
       return missions;
    }
 }
