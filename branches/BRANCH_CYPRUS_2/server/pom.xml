@@ -143,6 +143,7 @@
         <!--module>scy-playful</module-->
         <module>web-commons</module>
         <module>scy-feedback</module>
+        <module>scy-eportfolio</module>
   </modules>
 
     <!--properties>
