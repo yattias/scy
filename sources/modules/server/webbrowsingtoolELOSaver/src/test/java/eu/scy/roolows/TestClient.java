@@ -17,6 +17,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
@@ -144,6 +145,7 @@ public class TestClient extends JerseyTest {
         Assert.assertNotNull(responseEntity);
     }
 
+    @Ignore
     /**
      * This is a test of the full cycle of saving and retrieving an ELO
      * 1. creates an ELO
@@ -189,6 +191,7 @@ public class TestClient extends JerseyTest {
         Assert.assertEquals(retrievedELO.getXml(), elo.getXml());
     }
 
+    @Ignore
      /**
      * This is a test of querying roolo with lucene search strings
      * 1. creates an ELO
