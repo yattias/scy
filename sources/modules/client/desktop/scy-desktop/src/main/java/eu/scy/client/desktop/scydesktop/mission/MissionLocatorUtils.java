@@ -53,11 +53,16 @@ public class MissionLocatorUtils
          IELO elo = tbi.getRepository().retrieveELO(missionRuntimeResult.getUri());
          MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(elo, tbi);
          missions.missionRuntimeElos.add(missionRuntimeElo);
-         startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
+         if (missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri() != null)
+         {
+            startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
+         }
       }
       for (ISearchResult missionSpecificationResult : missionSpecificationResults)
       {
          IELO elo = tbi.getRepository().retrieveELO(missionSpecificationResult.getUri());
+//         String eloXml = elo.getXml();
+//         URI eloUri = elo.getUri();
          if (!startedMissionSpecificationUris.contains(elo.getUri()))
          {
             MissionSpecificationElo missionSpecificationElo = new MissionSpecificationElo(elo, tbi);
