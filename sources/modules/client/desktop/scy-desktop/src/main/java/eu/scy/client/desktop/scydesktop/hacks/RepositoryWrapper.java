@@ -50,6 +50,12 @@ public class RepositoryWrapper implements IRepository
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
 
+   @Override
+   public String toString()
+   {
+      return "RepositoryWrapper{" + "missionRuntimeEloUri=" + missionRuntimeEloUri + ", missionId=" + missionId + ", lasId=" + lasId + ", userId=" + userId + ", anchorEloUri=" + anchorEloUri + "\nrepository=" + repository + '}';
+   }
+
    public void addEloSavedListener(EloSavedListener eloSavedListener)
    {
       if (!eloSavedListeners.contains(eloSavedListener))
