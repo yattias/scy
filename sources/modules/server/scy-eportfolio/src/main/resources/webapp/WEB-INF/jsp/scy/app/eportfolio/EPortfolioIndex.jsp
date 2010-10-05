@@ -1,17 +1,17 @@
 <%@ include file="common-taglibs.jsp" %>
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
-       eporti
+       
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
         <!-- END Browser History required section -->  
 		    
-        <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/swfobject.js"></script>
+        <script type="text/javascript" src="/webapp/themes/scy/eportfolio/swfobject.js"></script>
         <script type="text/javascript">
             <!-- For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. --> 
             var swfVersionStr = "10.0.0";
             <!-- To use express install, set to playerProductInstall.swf, otherwise the empty string. -->
-            var xiSwfUrlStr = "http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/playerProductInstall.swf";
+            var xiSwfUrlStr = "/webapp/themes/scy/eportfolio/playerProductInstall.swf";
             var flashvars = {};
             var params = {};
             params.quality = "high";
@@ -23,7 +23,7 @@
             attributes.name = "Main";
             attributes.align = "middle";
             swfobject.embedSWF(
-                "http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/Main.swf", "flashContent", 
+                "/webapp/themes/scy/eportfolio/Main.swf", "flashContent",
                 "800", "600", 
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
@@ -44,13 +44,13 @@
 	   	
        	<noscript>
             <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="800" height="600" id="Main">
-                <param name="movie" value="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/Main.swf" />
+                <param name="movie" value="/webapp/themes/scy/eportfolio/Main.swf" />
                 <param name="quality" value="high" />
                 <param name="bgcolor" value="#ffffff" />
                 <param name="allowScriptAccess" value="always" />
                 <param name="allowFullScreen" value="true" />
                 <!--[if !IE]>-->
-                <object type="application/x-shockwave-flash" data="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/Main.swf" width="800" height="600">
+                <object type="application/x-shockwave-flash" data="/webapp/themes/scy/eportfolio/Main.swf" width="800" height="600">
                     <param name="quality" value="high" />
                     <param name="bgcolor" value="#ffffff" />
                     <param name="allowScriptAccess" value="always" />
