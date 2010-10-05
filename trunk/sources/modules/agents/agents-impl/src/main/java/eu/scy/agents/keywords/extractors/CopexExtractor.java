@@ -34,7 +34,7 @@ public class CopexExtractor implements KeywordExtractor {
 
   private TupleSpace tupleSpace;
 
-  public static List<String> XMLPATH = Arrays.asList("experimental_procedure", "learner_proc",
+  public static List<String> XMLPATH = Arrays.asList("elo", "content", "experimental_procedure", "learner_proc",
                                                      "proc_hypothesis", "hypothesis");
 
   public CopexExtractor() {

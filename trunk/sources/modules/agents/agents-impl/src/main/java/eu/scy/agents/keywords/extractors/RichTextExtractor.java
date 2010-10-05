@@ -40,16 +40,11 @@ public class RichTextExtractor implements KeywordExtractor {
 
   private TupleSpace tupleSpace;
 
-  public static List<String> XMLPATH = Arrays.asList("elo","content","RichText");
+  public static List<String> XMLPATH = Arrays.asList("elo", "content", "RichText");
 
   public RichTextExtractor() {
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.scy.agents.keywords.extractors.KeywordExtractor#getKeywords(roolo.elo.api.IELO)
-   */
   @Override
   public List<String> getKeywords(IELO elo) {
     String text = getText(elo);
@@ -65,40 +60,39 @@ public class RichTextExtractor implements KeywordExtractor {
     try {
       text = unRTF(Utilities.getEloText(elo, XMLPATH, logger));
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return text;
   }
 
-
   /**
    * Converts Rich-Text-Format (RTF) to plain text
-   * @see javax.swing.text.rtf 
-   * @param rtf a String in RTF 
+   * 
+   * @see javax.swing.text.rtf
+   * @param rtf a String in RTF
    * @return plain text
    * @throws IOException
    */
   protected static String unRTF(String rtf) throws IOException {
-      RTFEditorKit editor = new RTFEditorKit();
-      JTextPane text = new JTextPane();
-      StringReader sr = new StringReader(rtf);
-      try {
-          editor.read(sr, text.getDocument(), 0);
-      } catch (BadLocationException e1) {
-          e1.printStackTrace();
-      }
-      String txt;
-      try {
-          txt = text.getDocument().getText(0, text.getDocument().getLength());
-          return txt;
-      } catch (BadLocationException e) {
-          e.printStackTrace();
-          System.exit(1);     
-      }
-      return null;
+    RTFEditorKit editor = new RTFEditorKit();
+    JTextPane text = new JTextPane();
+    StringReader sr = new StringReader(rtf);
+    try {
+      editor.read(sr, text.getDocument(), 0);
+    } catch (BadLocationException e1) {
+      e1.printStackTrace();
+    }
+    String txt;
+    try {
+      txt = text.getDocument().getText(0, text.getDocument().getLength());
+      return txt;
+    } catch (BadLocationException e) {
+      e.printStackTrace();
+      System.exit(1);
+    }
+    return null;
   }
-  
+
   private List<String> getKeywords(String text) {
     try {
       String queryId = new VMID().toString();
@@ -126,23 +120,11 @@ public class RichTextExtractor implements KeywordExtractor {
     return new ArrayList<String>();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.scy.agents.keywords.extractors.KeywordExtractor#getTupleSpace()
-   */
   @Override
   public TupleSpace getTupleSpace() {
     return tupleSpace;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * eu.scy.agents.keywords.extractors.KeywordExtractor#setTupleSpace(info.collide.sqlspaces.client
-   * .TupleSpace)
-   */
   @Override
   public void setTupleSpace(TupleSpace tupleSpace) {
     this.tupleSpace = tupleSpace;
