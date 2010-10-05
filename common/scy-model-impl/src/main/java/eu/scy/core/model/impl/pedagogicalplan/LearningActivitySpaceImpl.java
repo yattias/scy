@@ -1,5 +1,7 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
+import eu.scy.core.model.FileRef;
+import eu.scy.core.model.impl.FileRefImpl;
 import eu.scy.core.model.pedagogicalplan.*;
 
 import javax.persistence.*;
@@ -26,6 +28,8 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
 
     private Integer xPos;
     private Integer yPos;
+
+    private FileRef image;
 
     @OneToOne(targetEntity = AssessmentImpl.class, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn (name = "assessment_primKey")
@@ -101,5 +105,17 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
     @Override
     public void setParticipatesIn(Scenario participatesIn) {
         this.participatesIn = participatesIn;
+    }
+
+    @Override
+    @OneToOne(targetEntity = FileRefImpl.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_primKey")
+    public FileRef getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(FileRef image) {
+        this.image = image;
     }
 }

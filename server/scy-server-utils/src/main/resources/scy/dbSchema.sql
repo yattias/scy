@@ -56,13 +56,16 @@ CREATE TABLE `learningactivityspace` (
     `yPos` bigint(20) NOT NULL default '0',
     `inputAnchorELO_primKey` varchar(55) default NULL,
     `assessment_primKey` varchar(55) default NULL,
+    `image_primKey` varchar(55) default NULL,
     PRIMARY KEY  (`primKey`),
     KEY `input_anchor_elo_key` (`inputAnchorELO_primKey`),
     KEY `participates_in_scenario_key` (`participatesInScenario_primKey`),
     KEY `las_assessment_key` (`assessment_primKey`),
+    KEY `las_image_key` (`image_primKey`),
     CONSTRAINT `las_input_anchor_elo` FOREIGN KEY (`inputAnchorELO_primKey`) REFERENCES `anchorelo` (`primKey`),
     CONSTRAINT `las_participates_in_scenario` FOREIGN KEY (`participatesInScenario_primKey`) REFERENCES `scenario` (`primKey`),
-    CONSTRAINT `las_assessment_const` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`)
+    CONSTRAINT `las_assessment_const` FOREIGN KEY (`assessment_primKey`) REFERENCES `assessment` (`primKey`),
+    CONSTRAINT `las_image_const` FOREIGN KEY (`image_primKey`) REFERENCES `fileref` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `activity`;
