@@ -46,7 +46,7 @@
                     </td>
                 </tr>
                 <tr class="${oddEven.oddEven}">
-                    <td colspan="2" align="right">
+                    <td colspan="2">
                         <a href="MissionHighLevelOverview.html?pedagogicalPlanId=${pedagogicalPlan.id}">More details...</a>
 
                     </td>
@@ -197,7 +197,7 @@
                     <td><s:ajaxSlider sliderValues="${agentLevels}" model="${pedagogicalPlan}" property="overallSCYLabScaffoldingLevel"/></td>
                 </tr>
                 <tr class="${oddEven.oddEven}">
-                    <td colspan="2" align="right">
+                    <td colspan="2">
                         <a href="MissionHighLevelOverview.html?pedagogicalPlanId=${pedagogicalPlan.id}">More details...</a>
 
                     </td>
