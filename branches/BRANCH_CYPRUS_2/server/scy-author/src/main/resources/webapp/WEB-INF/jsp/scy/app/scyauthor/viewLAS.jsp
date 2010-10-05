@@ -87,7 +87,12 @@
         </c:when>
         <c:otherwise>
             <h1>Learning Activity Space</h1>
-            <img src="/webapp/components/resourceservice.html?id=${model.image.id}"/>
+            <div>
+                ${model.description}
+            </div>
+            <a href="/webapp/components/resourceservice.html?id=${model.image.id}" target="_blank">
+                <img src="/webapp/components/resourceservice.html?id=${model.image.id}" width="40%"/>
+            </a>
         </c:otherwise>
         </c:choose>
     </tiles:putAttribute>
