@@ -45,6 +45,13 @@
                         <s:ajaxCheckBox model="${pedagogicalPlan}" property="makeAllAssignedStudentsBuddies"/>
                     </td>
                 </tr>
+                <tr class="${oddEven.oddEven}">
+                    <td colspan="2" align="right">
+                        <a href="MissionHighLevelOverview.html?pedagogicalPlanId=${pedagogicalPlan.id}">More details...</a>
+
+                    </td>
+                </tr>
+                
             </table>
             <br/>
             <br/>
@@ -188,6 +195,12 @@
                 <tr class="${oddEven.oddEven}">
                     <td>Scaffolding level</td>
                     <td><s:ajaxSlider sliderValues="${agentLevels}" model="${pedagogicalPlan}" property="overallSCYLabScaffoldingLevel"/></td>
+                </tr>
+                <tr class="${oddEven.oddEven}">
+                    <td colspan="2" align="right">
+                        <a href="MissionHighLevelOverview.html?pedagogicalPlanId=${pedagogicalPlan.id}">More details...</a>
+
+                    </td>
                 </tr>
 
 
