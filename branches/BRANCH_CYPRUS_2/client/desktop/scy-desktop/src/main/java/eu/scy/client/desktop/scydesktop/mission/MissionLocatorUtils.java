@@ -42,7 +42,7 @@ public class MissionLocatorUtils
       IQuery titleQuery = new BasicMetadataQuery(missionRunningKey, BasicSearchOperations.EQUALS, userName, null);
       IQuery myMissionRuntimeQuery = new AndQuery(missionRuntimeQuery, titleQuery);
       List<ISearchResult> missionRuntimeResults = tbi.getRepository().search(myMissionRuntimeQuery);
-      if (missionSpecificationResults.isEmpty())
+      if (missionSpecificationResults == null || missionSpecificationResults.isEmpty())
       {
          logger.warn("could not find any mission specification elos, falling back to spring configuration");
          return missions;
@@ -53,7 +53,10 @@ public class MissionLocatorUtils
          IELO elo = tbi.getRepository().retrieveELO(missionRuntimeResult.getUri());
          MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(elo, tbi);
          missions.missionRuntimeElos.add(missionRuntimeElo);
-         startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
+         if (missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri() != null)
+         {
+            startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
+         }
       }
       for (ISearchResult missionSpecificationResult : missionSpecificationResults)
       {

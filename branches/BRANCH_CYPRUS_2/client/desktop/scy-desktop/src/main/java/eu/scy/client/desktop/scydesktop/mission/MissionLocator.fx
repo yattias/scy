@@ -127,6 +127,11 @@ public class MissionLocator {
       injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
       if (missionRuntimeElo.getTypedContent().getMissionMapModelEloUri() != null) {
          def scyElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getMissionMapModelEloUri(), tbi);
+         println("mission model map runtime uri: {missionRuntimeElo.getTypedContent().getMissionMapModelEloUri()}");
+         println("mission model map used uri: {scyElo.getUri()}");
+         def lastVersionElo = tbi.getRepository().retrieveELOLastVersion(missionRuntimeElo.getTypedContent().getMissionMapModelEloUri());
+         println("mission model map last version uri: {lastVersionElo.getUri()}");
+
          missionMapModel = MissionModelXml.convertToMissionModel(scyElo.getContent().getXmlString());
          missionMapModel.elo = scyElo.getElo();
          missionMapModel.eloFactory = tbi.getELOFactory();
