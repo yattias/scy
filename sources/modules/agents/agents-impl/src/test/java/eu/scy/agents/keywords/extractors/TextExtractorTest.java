@@ -47,7 +47,7 @@ public class TextExtractorTest extends AbstractTestFixture {
   @Override
   @Before
   public void setUp() throws Exception {
-    super.setUp();
+//    super.setUp();
 
     this.initTopicModel();
     this.initDfModel();

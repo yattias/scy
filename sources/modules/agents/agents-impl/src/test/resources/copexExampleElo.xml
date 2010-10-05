@@ -1,3 +1,59 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/xproc</format>
+      <customElements>
+        <dateCreated>1267436266477</dateCreated>
+        <dateLastModified>1267436266477</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Empty experimental procedure</string>
+        <string language="fr">Nouveau protocole expÃ©rimental</string>
+      </title>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-03-01T10:37:46.477+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
 <experimental_procedure>
 	<mission>
 		<initial_proc>
@@ -218,5 +274,7 @@
 		</initial_proc_ref>
 	</learner_proc>
 </experimental_procedure>
-
-
+</content>
+<resources>
+</resources>
+</elo>

@@ -7,9 +7,6 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
@@ -25,7 +22,6 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
-import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;

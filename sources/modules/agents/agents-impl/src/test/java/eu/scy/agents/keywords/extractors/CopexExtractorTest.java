@@ -48,7 +48,7 @@ public class CopexExtractorTest extends AbstractTestFixture {
 
   @Before
   public void setup() throws Exception {
-    super.setUp();
+    // super.setUp();
 
     this.initTopicModel();
     this.initDfModel();

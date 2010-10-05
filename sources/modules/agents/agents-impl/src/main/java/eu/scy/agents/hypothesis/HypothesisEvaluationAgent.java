@@ -21,6 +21,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.metadata.keys.KeyValuePair;
 import util.Utilities;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
@@ -98,7 +99,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   protected void processELOSavedAction(String actionId, String user, long timeInMillis,
                                        String tool, String mission, String session, String eloUri,
                                        String eloType) {
-    // // TODO Here the logic must be inserted ;-)
     try {
       if (!eloType.equals("scy/copex")) {
         return;
@@ -136,6 +136,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
       Container result = cmpHistogramOp.run();
       Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
       HashMap<Integer, Integer> hist = docResult.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
+
       addSentenceHistogramToMetadata(elo, hist);
 
       // write HashMap histogram as a ByteArray object
@@ -174,8 +175,14 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
     }
     IMetadataKey keywordSentenceHistogramKey = metadataTypeManager.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
     IMetadataValueContainer keywordSentenceHistogramContainer = elo.getMetadata().getMetadataValueContainer(keywordSentenceHistogramKey);
-    keywordSentenceHistogramContainer.setValue(histogram);
 
+    // add key-value pairs of HashMap to elo one by one:
+    for (Integer keywordFrequency : histogram.keySet()) {
+      KeyValuePair entry = new KeyValuePair();
+      entry.setKey("" + keywordFrequency);
+      entry.setValue("" + histogram.get(keywordFrequency));
+      keywordSentenceHistogramContainer.addValue(entry);
+    }
     repository.updateELO(elo);
   }
 

@@ -18,7 +18,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.hypothesis.workflow.operators.ComputeKeywordsInSentenceHistogram;
 import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
