@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 /**
  * @author sikken
  */
-public class CreateNewElo extends ModalDialogNode {
+public class CreateNewElo extends ModalDialogNode, ScyEloListCellDisplay {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
     public-read def sizeRectangle: javafx.scene.shape.Rectangle = javafx.scene.shape.Rectangle {

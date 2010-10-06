@@ -15,11 +15,18 @@ public class ScySearchResult
 
    private final ScyElo scyElo;
    private final double relevance;
+   private Object eloIcon;
 
    public ScySearchResult(ScyElo scyElo, double relevance)
    {
       this.scyElo = scyElo;
       this.relevance = relevance;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "ScySearchResult{" + "scyElo=" + scyElo + "relevance=" + relevance + '}';
    }
 
    public double getRelevance()
@@ -31,4 +38,15 @@ public class ScySearchResult
    {
       return scyElo;
    }
+
+   public Object getEloIcon()
+   {
+      return eloIcon;
+   }
+
+   public void setEloIcon(Object eloIcon)
+   {
+      this.eloIcon = eloIcon;
+   }
+   
 }
