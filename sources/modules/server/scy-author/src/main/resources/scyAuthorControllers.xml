@@ -55,6 +55,7 @@
                    /app/scyauthor/addURLToMission.html=addURLToMissionController
                    /app/scyauthor/addFileToMission.html=addFileToMissionController
                    /app/scyauthor/selectAnchorELOsToBePeerAssessed.html=selectAnchorELOsToBePeerAssessedController
+                   /app/scyauthor/MissionHighLevelOverview.html=missionHighLevelOverviewController
 
                    /app/tools/Toolbank.html=toolbankController
                    /app/tools/viewTool.html=viewToolController
@@ -108,6 +109,7 @@
         <property name="lasService" ref="lasService"/>
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="viewAllScenarioActivitiesController" class="eu.scy.server.controllers.ViewAllScenarioActivitiesController">
@@ -234,6 +236,7 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="agentService" ref="agentService"/>
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
     </bean>
 
 
@@ -270,13 +273,24 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
 	</bean>
 
+    <bean id="missionHighLevelOverviewController" class="eu.scy.server.controllers.MissionHighLevelOverviewController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+	</bean>
+
     <bean id="addAssessmentScoreIconListener" class="eu.scy.server.controllers.AddAssessmentScoreIconListener">
         <property name="fileService" ref="fileService"/>
     </bean>
 
+    <bean id="addImageToLearningActivitySpaceListener" class="eu.scy.server.controllers.AddImageToLearningActivitySpaceListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
 
 
-    <!--bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl">
-        <property name="userService" ref="userService"/>
-    </bean-->
+    <bean id="agentParameterAPI" class="eu.scy.agents.impl.parameter.AgentParameterAPIImpl"/>
+
+    
 </beans>
