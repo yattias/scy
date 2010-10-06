@@ -34,7 +34,9 @@
         <property name="order" value="2"></property>
         <property name="mappings">
             <value>
-                /app/eportfolio/EPortfolioIndex.html=scyauthorIndexController
+                /app/eportfolio/EPortfolioIndex.html=eportfolioIndexController
+                /app/eportfolio/xml/toolURLProvider.html=toolURLProvider
+                /app/eportfolio/xml/currentMissionProgressOverview.html=currentMissionProgressOverview
             </value>
         </property>
     </bean>
@@ -42,6 +44,18 @@
     <bean id="eportfolioIndexController" class="eu.scy.server.eportfolio.EPortfolioIndex">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
 	</bean>
+
+    <bean id="toolURLProvider" class="eu.scy.server.eportfolio.xml.ToolURLProvider">
+	</bean>
+
+    <bean id="currentMissionProgressOverview" class="eu.scy.server.eportfolio.xml.CurrentMissionProgressOverviewController">
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="userService" ref="userService"/>
+        <property name="lasService" ref="lasService"/>
+	</bean>
+
+
 
 </beans>
