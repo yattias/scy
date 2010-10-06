@@ -29,6 +29,29 @@ public mixin class ScyEloListCellDisplay {
          }
    }
 
+   public function simpleScyEloCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+            node: bind createSimpleListCellContent(listCell.item)
+         }
+   }
+
+   function createSimpleListCellContent(item: Object): Node {
+      def scySearchResult = item as ScySearchResult;
+      var eloIcon: EloIcon = scySearchResult.getEloIcon() as EloIcon;
+//      eloIcon.visible = scySearchResult!=null;
+      println("creating simple cell display for {item}, eloIcon: {eloIcon}");
+      HBox {
+         spacing: spacing
+         content: [
+            eloIcon,
+            Label {
+               text: bind scySearchResult.getScyElo().getTitle()
+            }
+         ]
+      }
+   }
+
    function createListCellContent(item: Object): Node {
       var scySearchResult: ScySearchResult = null;
       if (item instanceof ScySearchResult){

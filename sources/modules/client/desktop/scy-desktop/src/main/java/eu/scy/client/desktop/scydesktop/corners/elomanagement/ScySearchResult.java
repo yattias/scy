@@ -15,6 +15,7 @@ public class ScySearchResult
 
    private final ScyElo scyElo;
    private final double relevance;
+   private Object eloIcon;
 
    public ScySearchResult(ScyElo scyElo, double relevance)
    {
@@ -37,4 +38,15 @@ public class ScySearchResult
    {
       return scyElo;
    }
+
+   public Object getEloIcon()
+   {
+      return eloIcon;
+   }
+
+   public void setEloIcon(Object eloIcon)
+   {
+      this.eloIcon = eloIcon;
+   }
+   
 }
