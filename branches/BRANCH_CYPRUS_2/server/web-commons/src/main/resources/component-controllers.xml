@@ -50,6 +50,7 @@
                    /components/json/JSonView.html=jsonView
                    /components/json/ScenarioDiagramJSON.html=scenarioDiagramJSON
                    /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
+                   /components/xml/UserInfoController.html=userInfoController
                    /components/resourceservice.html=resourceService
                    /components/roleeditor/RoleEditorContoller.html=roleEditorController
                </value>
@@ -123,6 +124,10 @@
         <property name="lasService" ref="lasService"/>
         <property name="runtimeService" ref="runtimeService"/>
         <property name="scenarioService" ref="scenarioService"/>
+    </bean>
+
+    <bean id="userInfoController" class="eu.scy.server.controllers.xml.UserInfoController">
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">

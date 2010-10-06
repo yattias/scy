@@ -1,6 +1,8 @@
 <%@ include file="common-taglibs.jsp" %>
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
+
+        <a href="${toolURLProvider}">ToolURLProvider</a>
        
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
@@ -13,6 +15,10 @@
             <!-- To use express install, set to playerProductInstall.swf, otherwise the empty string. -->
             var xiSwfUrlStr = "/webapp/themes/scy/eportfolio/playerProductInstall.swf";
             var flashvars = {};
+            flashvars.username = "${currentUser.userDetails.username}";
+            flashvars.firstName = "${currentUser.userDetails.firstName}";
+            flashvars.lastName = "${currentUser.userDetails.lastName}";
+            flashvars.toolURLProvider = "${toolURLProvider}";
             var params = {};
             params.quality = "high";
             params.bgcolor = "#ffffff";
