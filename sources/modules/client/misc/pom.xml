@@ -19,6 +19,9 @@
 	</dependencies>
 
 	<modules>
+		<!--
+		elo-importer is not used anylonger
 		<module>elo-importer</module>
+		-->
 	</modules>
 </project>
