@@ -1,42 +1,36 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.LASService;
+import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
-import eu.scy.core.model.pedagogicalplan.AssessmentStrategyType;
-import java.util.LinkedList;
-import java.util.List;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
- * Date: 16.feb.2010
- * Time: 12:02:09
+ * Date: 05.okt.2010
+ * Time: 11:15:34
  * To change this template use File | Settings | File Templates.
  */
-public class ViewLASController extends BaseController {
+public class MissionHighLevelOverviewController extends BaseController{
 
     private LASService lasService;
+    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private UserService userService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        String id = request.getParameter("id");
-        logger.info("LAS ID: " + id);
-        setModel(getLasService().getLearningActivitySpace(id));
-
-        List assessmentStrategies = new LinkedList();
-        assessmentStrategies.add(AssessmentStrategyType.PEER_TO_PEER);
-        assessmentStrategies.add(AssessmentStrategyType.SINGLE);
-        assessmentStrategies.add(AssessmentStrategyType.TEACHER);
-
-        modelAndView.addObject("assessmentStrategies", assessmentStrategies);
+        String pedPlanId = request.getParameter("pedagogicalPlanId");
+        PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
+        modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
         modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
+        
     }
-
 
     public LASService getLasService() {
         return lasService;
@@ -44,6 +38,14 @@ public class ViewLASController extends BaseController {
 
     public void setLasService(LASService lasService) {
         this.lasService = lasService;
+    }
+
+    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
+        return pedagogicalPlanPersistenceService;
+    }
+
+    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
+        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
     }
 
     public User getCurrentUser(HttpServletRequest request) {
@@ -63,5 +65,4 @@ public class ViewLASController extends BaseController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-
 }
