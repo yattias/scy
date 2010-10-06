@@ -160,6 +160,7 @@
     <bean id="viewCreateNewPedagogicalPlanController" class="eu.scy.server.controllers.ViewCreateNewPedagogicalPlanController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
     </bean>
 
     <bean id="viewMissionController" class="eu.scy.server.controllers.ViewMissionController">
