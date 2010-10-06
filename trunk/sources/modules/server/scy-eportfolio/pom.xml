@@ -6,7 +6,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.server</groupId>
-        <version>25-CYP2-SNAPSHOT</version>
+        <version>25-SNAPSHOT</version>
     </parent>
     <groupId>eu.scy.server</groupId>
     <artifactId>scy-eportfolio</artifactId>
@@ -26,6 +26,38 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-useradmin-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>web-commons</artifactId>
+            <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jsp-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+
         
 
 
