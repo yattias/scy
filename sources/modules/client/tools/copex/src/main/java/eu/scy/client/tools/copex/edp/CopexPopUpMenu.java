@@ -85,11 +85,11 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
                 }
                 break;
              case MyConstants.POPUPMENU_TASK :
-                 if(canAddAfter){
-                     this.add(getMenuItem(edP.getBundleString("MENU_ADD_TASK_UNDER"), edP.getCopexImage("add_task_under.png"),-1, -1, actionAddTaskUnder));
-                 }
                  if(canAddIn){
                      this.add(getMenuItem(edP.getBundleString("MENU_ADD_TASK_IN"), edP.getCopexImage("add_task_in.png"),-1, -1, actionAddTaskIn));
+                 }
+                 if(canAddAfter){
+                     this.add(getMenuItem(edP.getBundleString("MENU_ADD_TASK_UNDER"), edP.getCopexImage("add_task_under.png"),-1, -1, actionAddTaskUnder));
                  }
                  if(canEdit){
                      this.add(getMenuItem(edP.getBundleString("MENU_EDIT"), edP.getCopexImage("edit.png"),-1, -1, actionEdit));
@@ -109,13 +109,13 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
                  }
                  break;
              case MyConstants.POPUPMENU_STEP :
-                 if(canAddAfter){
-                     this.add(getMenuItem(edP.getBundleString("MENU_ADD_STEP_UNDER"), edP.getCopexImage("add_step_under.png"),-1, -1, actionAddStepUnder));
-                     this.add(getMenuItem(edP.getBundleString("MENU_ADD_ACTION_UNDER"), edP.getCopexImage("add_action_under.png"),-1, -1, actionAddActionUnder));
-                 }
                  if(canAddIn){
                      this.add(getMenuItem(edP.getBundleString("MENU_ADD_STEP_IN"), edP.getCopexImage("add_step_in.png"),-1, -1, actionAddStepIn));
                      this.add(getMenuItem(edP.getBundleString("MENU_ADD_ACTION_IN"), edP.getCopexImage("add_action_in.png"),-1, -1, actionAddActionIn));
+                 }
+                 if(canAddAfter){
+                     this.add(getMenuItem(edP.getBundleString("MENU_ADD_STEP_UNDER"), edP.getCopexImage("add_step_under.png"),-1, -1, actionAddStepUnder));
+                     this.add(getMenuItem(edP.getBundleString("MENU_ADD_ACTION_UNDER"), edP.getCopexImage("add_action_under.png"),-1, -1, actionAddActionUnder));
                  }
                  if(canEdit){
                      this.add(getMenuItem(edP.getBundleString("MENU_EDIT"), edP.getCopexImage("edit.png"),-1, -1, actionEdit));
