@@ -81,6 +81,8 @@ public interface ControllerInterface {
     public CopexReturn paste(long dbKeyDs, CopyDataset copyDs, int[] selCell, ArrayList v);
     /** import a CSV file */
     public CopexReturn importCSVFile(File file,String sepField, String sepText, ArrayList v);
+    /** import a GMBL file */
+    public CopexReturn importGMBLFile(File file,ArrayList v);
     /** delete a dataset*/
     public CopexReturn deleteDataset(Dataset ds);
     /** create a dataset by default*/

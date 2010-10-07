@@ -116,6 +116,11 @@ public class MyUtilities {
         return ext.equals("csv");
     }
 
+    public static boolean isGMBLFile(File file){
+        String ext = getExtensionFile(file);
+        return ext.equals("gmbl");
+    }
+
     private static  String getExtensionFile(File file){
         int id = file.getName().lastIndexOf(".");
         if(id == -1 || id==file.getName().length()-1)

@@ -589,6 +589,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         repaint();
     }
 
+    public void setVerticalScroll(){
+        scrollPaneDataOrganizer.getVerticalScrollBar().setValue(0);
+    }
     // retourne vrai s'il y a au moins une ligne de donnees
     private boolean isData(){
         if(dataset == null)

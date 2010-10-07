@@ -217,6 +217,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 // selectionne toute la colonne
                 for (int i=1; i<nbR-1; i++)
                     changeSelection(i, c, true, true);
+                owner.setVerticalScroll();
             }else if (c == 0 && (r > 0 && r <nbR )){
                 // selectionne toute la ligne
                 for (int j=1; j<nbC-1; j++)
