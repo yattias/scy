@@ -90,6 +90,12 @@
 			<version>${pom.version}</version>
 		</dependency>
 
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>configuration</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-commons</artifactId>
