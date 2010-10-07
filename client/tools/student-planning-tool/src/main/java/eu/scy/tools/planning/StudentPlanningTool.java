@@ -335,6 +335,7 @@ public class StudentPlanningTool {
 				
 				//log.severe("ADDING NEW STP PANEL" + studentPlannedIdFromEloId);
 				acceptDrop(eloId);
+                //acceptDrop(source);
 			}
 		});
 		
@@ -401,8 +402,11 @@ public class StudentPlanningTool {
 	public void acceptDrop(Object drop) {
 		
 	
-		log.severe("we just dropped a load of..." + drop.toString() +  " " + drop.getClass().getName()); //$NON-NLS-1$
-		
+		log.severe("======> we just dropped a load of..." + drop.toString() +  " " + drop.getClass().getName());
+		log.severe("======> we just dropped a load of..." + drop.toString() +  " " + drop.getClass().getName());
+		log.severe("======> we just dropped a load of..." + drop.toString() +  " " + drop.getClass().getName());
+		log.severe("======> we just dropped a load of..." + drop.toString() +  " " + drop.getClass().getName()); 
+
 		if( drop == null) {
 			
 			log.severe("DROOPPED IS NULL: " + drop); //$NON-NLS-1$
@@ -423,7 +427,7 @@ public class StudentPlanningTool {
 			//find the activity
 			//create studenActivityPlane			
 
-            log.fine("DROPPED ID: " + drop);
+            log.severe("DROPPED ID: " + drop);
 			String eloId = (String) drop;
 			
 			if( studentPlanningController.doesTaskPaneExist(eloId) ) {

@@ -19,6 +19,7 @@ import eu.scy.tools.planning.*;
 import roolo.elo.metadata.BasicMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.IELO;
 import javafx.scene.Node;
 import javafx.scene.layout.Resizable;
@@ -109,26 +110,31 @@ public class StudentPlanningToolNode extends CustomNode,ScyToolFX, Resizable {
       if( object instanceof ContactFrame ) {
          var cf = object as ContactFrame;
          studentPlanningTool.acceptDrop(cf.contact.awarenessUser);
-      } else if( object instanceof BasicMetadata) {
+     }
+      else if( object instanceof BasicMetadata) {
          var elo = object as BasicMetadata;
 
 
           println("METADATATYPEMANAGER {metadataTypeManager}");
 
-         var anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
-
-          println("ANCHOR ID {anchorIdKey}");
-
+         //Here somebody has changed the metadata keys that are used. This simply WORKED until somebody started to use other metadatakeys. Cannot explain it any other way!
+         var anchorIdKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+          println("ANCHOR----ID {anchorIdKey}");
           var value = elo.getMetadataValueContainer(anchorIdKey).getValue();
 
          if( value != null) {
-            println("DROPPED Value {value}");
+            println("DROPPED Value:: {value}");
 
             studentPlanningTool.acceptDrop(value);
+            //studentPlanningTool.acceptDrop("HenrikIsCOOl");
          } else {
             println("accept drop, i cant accept you, you are null");
          }     
       }
+      else {
+        studentPlanningTool.acceptDrop(elo);
+        }
+
 
    }
 
