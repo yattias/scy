@@ -8,10 +8,11 @@ package eu.scy.tools.dataProcessTool.synchro;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.db.DataBaseCommunication;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.util.ArrayList;
 
 /**
- * Ce thread contrale periodiquement la base de donnees.
+ * Ce thread controle periodiquement la base de donnees.
  * @author Marjolaine
  */
 public class ActivatorThread  extends Thread {
@@ -22,7 +23,6 @@ public class ActivatorThread  extends Thread {
     /** Le locker pour garder le contact dans ce thread avec le reste de l'execution. */
     private Locker locker = null;
 
-    // CONSTRUCTOR
     public ActivatorThread(DataProcessToolPanel fitex, DataBaseCommunication dbC, Locker l) {
         super("ActivatorThread");
         this.fitex = fitex;
@@ -53,8 +53,8 @@ public class ActivatorThread  extends Thread {
             }
             // Ouverture d'une connection
             for (int i = 0; i < nbLock; i++) {
-                long lockedDs = (Long) this.locker.getLockers().get(i);
-                String query = "UPDATE VERROU SET DAT_VER=NOW() WHERE ID_DATASET=" + lockedDs +" ;";
+                long lockedLabdoc = (Long) this.locker.getLockers().get(i);
+                String query = "UPDATE LABDOC_STATUS SET LOCK_DATE=NOW() WHERE ID_LABDOC=" + lockedLabdoc +" AND LABDOC_STATUS = '"+DataConstants.LABDOC_STATUS_LOCK+"' ;";
 
                 ArrayList v = new ArrayList();
                 String[] querys = new String[1];

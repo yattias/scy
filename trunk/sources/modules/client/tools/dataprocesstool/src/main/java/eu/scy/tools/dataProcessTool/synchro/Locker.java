@@ -8,6 +8,7 @@ package eu.scy.tools.dataProcessTool.synchro;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.db.DataBaseCommunication;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +39,6 @@ public class Locker {
     /* thread */
     private ActivatorThread thread;
 
-    // CONSTRUCTOR
     /**
     * Constructeur du locker. Il s'agit essentiellement de lancer le thread en batch qui reactive periodiquement les verrous decrits dans le vector lockers.
     */
@@ -63,28 +63,28 @@ public class Locker {
     }
 
    /* pose de verrous sur une liste de feuilles de donnees */
-    public  CopexReturn setDatasetLockers(ArrayList<Long> datasets) {
-        int nbDs = datasets.size();
+    public  CopexReturn setLabdocLockers(ArrayList<Long> labdocs) {
+        int nbDs = labdocs.size();
         ArrayList v = new ArrayList();
         String[] querys = new String[nbDs];
         for (int i=0; i<nbDs; i++){
-            querys[i] = "INSERT INTO VERROU (ID_DATASET,ID_USER,DAT_VER) " +
-                "VALUES( "+datasets.get(i)+" ," + this.idUser + ",NOW()) ;";
+            querys[i] = "INSERT INTO LABDOC_STATUS (ID_LABDOC,ID_LB_USER,LABDOC_STATUS, LOCK_DATE) " +
+                "VALUES( "+labdocs.get(i)+" ," + this.idUser + ",'"+DataConstants.LABDOC_STATUS_LOCK+"', NOW()) ;";
         }
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
             fitex.displayError(cr, fitex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         for (int i=0; i<nbDs; i++){
-            lockers.add(datasets.get(i));
+            lockers.add(labdocs.get(i));
         }
         return new CopexReturn();
     }
 
     /* pose un verrou sur une feuille de donnees*/
-    public  CopexReturn setDatasetLocker(long idDs){
-        String query = "INSERT INTO VERROU (ID_DATASET,ID_USER,DAT_VER) " +
-                "VALUES( "+idDs+" ," + this.idUser + ",NOW()) ;";
+    public  CopexReturn setLabdocLocker(long idLabdoc){
+        String query = "INSERT INTO LABDOC_STATUS (ID_LABDOC,ID_LB_USER,LABDOC_STATUS, LOCK_DATE) " +
+                "VALUES( "+idLabdoc+" ," + this.idUser + ",'"+DataConstants.LABDOC_STATUS_LOCK+"', NOW()) ;";
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query ;
@@ -92,13 +92,13 @@ public class Locker {
         if (cr.isError()){
             fitex.displayError(cr, fitex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        this.lockers.add(idDs);
+        this.lockers.add(idLabdoc);
         return new CopexReturn();
     }
 
     /* supprime le verrou d'une feuille de donnees */
-    public  CopexReturn unsetDatasetLocker(long idDs){
-        String query = "DELETE FROM VERROU WHERE ID_DATASET = "+idDs+" ;";
+    public  CopexReturn unsetLabdocLocker(long idLabdoc){
+        String query = "DELETE FROM LABDOC_STATUS WHERE ID_LABDOC = "+idLabdoc+" AND LABDOC_STATUS = '"+DataConstants.LABDOC_STATUS_LOCK+"';";
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query;
@@ -106,36 +106,36 @@ public class Locker {
         if (cr.isError()){
             fitex.displayError(cr, fitex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        this.lockers.remove(idDs);
+        this.lockers.remove(idLabdoc);
         return new CopexReturn();
     }
 
     /* supprime le verrou d'une liste de feuilles de donnees*/
-    public  CopexReturn unsetDatasetLockers(ArrayList<Long> datasets){
-        int nbDs = datasets.size();
+    public  CopexReturn unsetLabdocLockers(ArrayList<Long> labdocs){
+        int nbDs = labdocs.size();
         ArrayList v = new ArrayList();
         String[] querys = new String[nbDs];
         for (int i=0; i<nbDs; i++){
-            querys[i] = "DELETE FROM VERROU WHERE ID_DATASET = "+datasets.get(i)+" ;";
+            querys[i] = "DELETE FROM LABDOC_STATUS WHERE ID_LABDOC = "+labdocs.get(i)+" AND LABDOC_STATUS = '"+DataConstants.LABDOC_STATUS_LOCK+"';";
         }
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
             fitex.displayError(cr, fitex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         for (int i=0; i<nbDs; i++){
-            this.lockers.remove(datasets.get(i));
+            this.lockers.remove(labdocs.get(i));
         }
         return new CopexReturn();
     }
 
     /* retourne vrai si la feuille de donnees est verrouille */
-    public  boolean isLocked(long idDs){
+    public  boolean isLocked(long idLabdoc){
         // suppression des anciens verrous
         CopexReturn cr = deleteOldLockers();
         if (cr.isError()){
             fitex.displayError(cr, fitex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        String query = "SELECT * FROM VERROU WHERE ID_DATASET = "+idDs+" ;";
+        String query = "SELECT * FROM LABDOC_STATUS WHERE ID_LABDOC = "+idLabdoc+" AND LABDOC_STATUS = '"+DataConstants.LABDOC_STATUS_LOCK+"';";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("DAT_VER");
@@ -151,7 +151,7 @@ public class Locker {
 
     /* suppression d'anciens verrous */
     private  CopexReturn deleteOldLockers(){
-        String query = "DELETE FROM VERROU WHERE (NOW() - DAT_VER)  > " + LOCKER_VALIDITY;
+        String query = "DELETE FROM LABDOC_STATUS WHERE (NOW() - DAT_VER)  > " + LOCKER_VALIDITY +" AND LABDOC_STATUS = "+DataConstants.LABDOC_STATUS_LOCK+" ;";
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         querys[0] = query;

@@ -15,6 +15,8 @@ import org.jdom.input.SAXBuilder;
 import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
+import eu.scy.tools.dataProcessTool.gmbl.GmblColumn;
+import eu.scy.tools.dataProcessTool.gmbl.GmblDataset;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.IgnoredData;
@@ -1915,5 +1917,56 @@ public class DataController implements ControllerInterface{
         v.add(false);
         return new CopexReturn();
     }
-    
+
+    /** import a GMBL file, return v[0] the dataset elo */
+     @Override
+    public CopexReturn importGMBLFile(File file,ArrayList v){
+        if (file == null) {
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
+        }
+        if(!file.getName().substring(file.getName().length()-4).equals("gmbl")){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_GMBL"), false);
+        }
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        try{
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            Document doc = builder.build(fileReader, file.getAbsolutePath());
+            Element element = doc.getRootElement();
+            GmblDataset gmblDataset = new GmblDataset(element);
+            List<DataSetHeader> headers = new LinkedList<DataSetHeader>();
+            DataSetHeader header;
+            List<DataSetColumn> listC = new LinkedList<DataSetColumn>();
+            int nbBMaxRow = 0;
+            for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
+                GmblColumn gmblColumn = col.next();
+                DataSetColumn c = new DataSetColumn(gmblColumn.getColumnTitle(), "", gmblColumn.getType(), gmblColumn.getUnit());
+                listC.add(c);
+                nbBMaxRow = Math.max(nbBMaxRow, gmblColumn.getCellValues().size());
+            }
+            header = new DataSetHeader(listC, dataToolPanel.getLocale());
+            headers.add(header);
+            eu.scy.elo.contenttype.dataset.DataSet ds = new eu.scy.elo.contenttype.dataset.DataSet(headers);
+            for(int i=0; i<nbBMaxRow; i++){
+                List<String> values = new LinkedList<String>();
+                for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
+                    GmblColumn gmblColumn = col.next();
+                    List<String> cellsValues = gmblColumn.getCellValues();
+                    if(i<cellsValues.size() && cellsValues.get(i) != null){
+                        values.add(cellsValues.get(i));
+                    }else{
+                        values.add("");
+                    }
+                }
+                DataSetRow datasetRow = new DataSetRow(values);
+                ds.addRow(datasetRow);
+            }
+            v.add(ds);
+        }catch(IOException e1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+" "+e2, false);
+        }
+        return new CopexReturn();
+    }
 }

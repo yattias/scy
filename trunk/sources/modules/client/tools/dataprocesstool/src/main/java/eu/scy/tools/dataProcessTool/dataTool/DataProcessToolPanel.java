@@ -26,6 +26,7 @@ import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV_GMBL;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 import eu.scy.tools.fitex.analyseFn.Function;
@@ -88,7 +89,6 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* number format */
     private NumberFormat numberFormat;
 
-    // NOYAU
     private boolean scyMode;
     private boolean dbMode;
     /* interface noyau */
@@ -675,9 +675,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     @Override
     public void importELO(File file) {
-        
         lastUsedFileImport = file;
-        eu.scy.elo.contenttype.dataset.DataSet dsElo = importCSVFile(file);
+        if(MyUtilities.isGMBLFile(file)){
+            eu.scy.elo.contenttype.dataset.DataSet dsElo = importGMBLFile(file);
+        }else{
+            eu.scy.elo.contenttype.dataset.DataSet dsElo = importCSVFile(file);
+        }
 //        if(dsElo != null && !scyMode){
 //            loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
 //        }
@@ -809,6 +812,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public void logImportCsvFile(String fileName, Dataset ds){
         List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds);
         action.logAction(DataConstants.LOG_TYPE_IMPORT_CSV_FILE, attribute);
+    }
+
+    /* log: import gmbl file */
+    public void logImportGMBLFile(String fileName, Dataset ds){
+        List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds);
+        action.logAction(DataConstants.LOG_TYPE_IMPORT_GMBL_FILE, attribute);
     }
 
     /* log: delete dataset*/
@@ -1006,7 +1015,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     private void openImportChooseFile(){
         JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterCSV());
+        if(canImportGMBLFile()){
+            aFileChooser.setFileFilter(new MyFileFilterCSV_GMBL());
+        }else{
+            aFileChooser.setFileFilter(new MyFileFilterCSV());
+        }
         if (lastUsedFileImport != null){
             aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
             aFileChooser.setSelectedFile(lastUsedFileImport);
@@ -1014,6 +1027,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
+            if( (canImportGMBLFile() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)) ) || (!canImportGMBLFile() && !MyUtilities.isCSVFile(file)))
             if(!MyUtilities.isCSVFile(file)){
                 displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
                 return;
@@ -1026,5 +1040,40 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             importELO(lastUsedFileImport);
             return;
         }
+    }
+
+    /* return true if can import gmbl file*/
+    public boolean canImportGMBLFile(){
+        return this.scyMode || !this.dbMode;
+    }
+
+    /* import a gmbli file => get the dataset elo */
+    public eu.scy.elo.contenttype.dataset.DataSet importGMBLFile(File file){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.importGMBLFile(file, v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return null;
+        }
+        eu.scy.elo.contenttype.dataset.DataSet elo = (eu.scy.elo.contenttype.dataset.DataSet)v.get(0);
+        if(elo != null ){
+            String fileName = file.getName();
+            if(fileName != null){
+                int id = fileName.indexOf(".gmbl");
+                if(id != -1)
+                    fileName = fileName.substring(0, id);
+            }
+            if(dbMode){
+                cr = this.controller.deleteDataset(activFitex.getDataset());
+                if(cr.isError()){
+                    displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                    return null;
+                }
+                activFitex.deleteAll();
+            }
+            loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
+        }
+        logImportGMBLFile(file.getPath(), activFitex.getDataset());
+        return elo;
     }
 }

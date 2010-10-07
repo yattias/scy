@@ -107,6 +107,7 @@ public class DataConstants {
     public static final String LOG_TYPE_OPEN_DATASET = "open_dataset";
     public static final String LOG_TYPE_MERGE_DATASET = "merge_dataset";
     public static final String LOG_TYPE_IMPORT_CSV_FILE = "import_csv_file";
+    public static final String LOG_TYPE_IMPORT_GMBL_FILE = "import_gmbl_file";
     public static final String LOG_TYPE_EXPORT_CSV_FILE = "export_csv_file";
     public final static String LOG_TYPE_DELETE_DATASET = "delete_dataset";
     public static final String LOG_TYPE_EDIT_DATA = "edit_data";

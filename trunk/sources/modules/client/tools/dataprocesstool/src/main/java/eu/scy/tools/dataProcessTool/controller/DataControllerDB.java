@@ -135,7 +135,8 @@ public class DataControllerDB implements ControllerInterface{
             return  new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false);
         }
         // LOCKER
-        this.locker = new Locker(dataToolPanel, dbC, dbKeyUser);
+        DataBaseCommunication dbLabBook = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK, dbKeyMission, ""+dbKeyUser);
+        this.locker = new Locker(dataToolPanel, dbLabBook, dbKeyUser);
         // chargement des donnees
         // chargement des types d'operation
         v = new ArrayList();
@@ -290,7 +291,7 @@ public class DataControllerDB implements ControllerInterface{
         }
         // creation ds
         Dataset dataset = new Dataset(dbKey, mission, dbKeyLabDoc, name, nbCol, nbRows, tabHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
-        setLocker(dbKey);
+        setLocker(dbKeyLabDoc);
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
@@ -314,7 +315,7 @@ public class DataControllerDB implements ControllerInterface{
         if(v.size() > 0)
             ds = (Dataset)v.get(0);
         if(ds != null){
-            setLocker(ds.getDbKey());
+            setLocker(ds.getDbKeyLabDoc());
             if(dsName != null)
                 ds.setName(dsName);
             this.listDataset.add(ds);
@@ -2273,7 +2274,7 @@ public class DataControllerDB implements ControllerInterface{
         int id = getIdDataset(ds.getDbKey());
         if(id != -1){
             // dataset deja charge, de la mission
-            if(locker.isLocked(ds.getDbKey())){
+            if(locker.isLocked(ds.getDbKeyLabDoc())){
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_WARNING_DATASET_LOCKED")+"\n"+listDataset.get(id).getName(), false);
             }
             listDataset.get(id).setOpen(true);
@@ -2323,7 +2324,7 @@ public class DataControllerDB implements ControllerInterface{
         if(cr.isError())
             return cr;
         Dataset dataset = (Dataset)v2.get(0);
-        setLocker(dataset.getDbKey());
+        setLocker(dataset.getDbKeyLabDoc());
         listDataset.add(dataset);
         listNoDefaultCol.add(dataset.getNbCol());
         v.add(dataset);
@@ -2331,8 +2332,8 @@ public class DataControllerDB implements ControllerInterface{
     }
 
      /* pose les verrous sur une feuille de donnees*/
-    private void setLocker(long dbKeyDs){
-        this.locker.setDatasetLocker(dbKeyDs);
+    private void setLocker(long dbKeyLabdoc){
+        this.locker.setLabdocLocker(dbKeyLabdoc);
     }
 
 
@@ -2341,23 +2342,23 @@ public class DataControllerDB implements ControllerInterface{
         int nb = listDs.size();
         ArrayList listId = new ArrayList();
         for (int i=0; i<nb; i++){
-            listId.add(listDs.get(i).getDbKey());
+            listId.add(listDs.get(i).getDbKeyLabDoc());
         }
-        this.locker.setDatasetLockers(listId);
+        this.locker.setLabdocLockers(listId);
     }
 
     /* deverouille une feuille de donnees */
     private void unsetLocker(Dataset ds){
-        this.locker.unsetDatasetLocker(ds.getDbKey());
+        this.locker.unsetLabdocLocker(ds.getDbKeyLabDoc());
     }
     /* deverouille une liste de feuille de donnees */
     private void unsetLockers(ArrayList<Dataset> listDs){
         int nb = listDs.size();
         ArrayList listId = new ArrayList();
         for (int i=0; i<nb; i++){
-            listId.add(listDs.get(i).getDbKey());
+            listId.add(listDs.get(i).getDbKeyLabDoc());
         }
-        this.locker.unsetDatasetLockers(listId);
+        this.locker.unsetLabdocLockers(listId);
     }
 
     /* arret de fitex */
@@ -2367,7 +2368,7 @@ public class DataControllerDB implements ControllerInterface{
         unsetLockers(this.listDataset);
         this.locker.stop();
         // unset the locker in labbook !!
-        CopexMissionFromDB.unsetLabdocLockerInDB(dbC, dbKeyLabDoc);
+        //CopexMissionFromDB.unsetLabdocLockerInDB(dbC, dbKeyLabDoc);
         return new CopexReturn();
     }
 
@@ -2457,5 +2458,18 @@ public class DataControllerDB implements ControllerInterface{
     private CopexReturn updateLabdocStatus(){
         CopexReturn cr = CopexMissionFromDB.updateLabdocStatusInDB(dbC, dbKeyLabDoc, dbKeyUser, dbKeyGroup);
         return cr;
+    }
+
+    /** import a GMBL file, return v[0] the dataset elo */
+     @Override
+    public CopexReturn importGMBLFile(File file,ArrayList v){
+        String g="\"";
+        if (file == null) {
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
+        }
+        if(!file.getName().substring(file.getName().length()-4).equals("gmbl")){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_GMBL"), false);
+        }
+        return new CopexReturn();
     }
 }

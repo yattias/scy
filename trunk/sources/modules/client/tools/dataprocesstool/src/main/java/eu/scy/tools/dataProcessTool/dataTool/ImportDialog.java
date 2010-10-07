@@ -9,6 +9,7 @@ import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV_GMBL;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.event.ItemEvent;
@@ -275,7 +276,11 @@ public class ImportDialog extends JDialog{
 
     private void buttonExplImport(){
         JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterCSV());
+        if(owner.canImportGMBLFile()){
+            aFileChooser.setFileFilter(new MyFileFilterCSV_GMBL());
+        }else{
+            aFileChooser.setFileFilter(new MyFileFilterCSV());
+        }
         if (lastUsedFileImport != null){
             aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
             aFileChooser.setSelectedFile(lastUsedFileImport);
@@ -283,7 +288,8 @@ public class ImportDialog extends JDialog{
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
-            if(!MyUtilities.isCSVFile(file)){
+            //if(!MyUtilities.isCSVFile(file)){
+            if( (owner.canImportGMBLFile() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)) ) || (!owner.canImportGMBLFile() && !MyUtilities.isCSVFile(file))){
                 owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE_CSV"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
