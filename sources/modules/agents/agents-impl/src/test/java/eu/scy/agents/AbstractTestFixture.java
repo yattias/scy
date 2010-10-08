@@ -66,6 +66,8 @@ public class AbstractTestFixture {
 
 	private TupleSpace actionSpace;
 
+	private static ClassPathXmlApplicationContext applicationContext;
+
 	public AbstractTestFixture() {
 	}
 
@@ -88,9 +90,6 @@ public class AbstractTestFixture {
 
 		agentList = new ArrayList<String>();
 
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"test-config.xml");
-
 		typeManager = (IMetadataTypeManager) applicationContext
 				.getBean("metadataTypeManager");
 		extensionManager = (IExtensionManager) applicationContext
@@ -100,9 +99,13 @@ public class AbstractTestFixture {
 
 	}
 
+	private static void readApplicationContext() {
+		applicationContext = new ClassPathXmlApplicationContext(
+				"test-config.xml");
+	}
+
 	@After
 	public void tearDown() throws AgentLifecycleException {
-		System.err.println("super.tearDown");
 		if (tupleSpace != null) {
 			try {
 				tupleSpace.takeAll(new Tuple());
@@ -130,16 +133,11 @@ public class AbstractTestFixture {
 
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
-		// elo.getMetadata().getMetadataValueContainer(
-		// typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
-		// .getId()));
 		return elo;
 	}
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-//		elo.getMetadata().addMetadataPair(key, value)setIdentifierKey(typeManager
-//				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
 		IMetadataValueContainer titleContainer = elo.getMetadata()
 				.getMetadataValueContainer(
 						typeManager
@@ -167,6 +165,7 @@ public class AbstractTestFixture {
 			conf.setShellEnabled(false);
 			Server.startServer();
 		}
+		readApplicationContext();
 	}
 
 	protected static void stopTupleSpaceServer() {
