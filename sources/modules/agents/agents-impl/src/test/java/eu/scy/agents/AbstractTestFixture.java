@@ -90,6 +90,9 @@ public class AbstractTestFixture {
 
 		agentList = new ArrayList<String>();
 
+		if(applicationContext == null) {
+			readApplicationContext();
+		}
 		typeManager = (IMetadataTypeManager) applicationContext
 				.getBean("metadataTypeManager");
 		extensionManager = (IExtensionManager) applicationContext
