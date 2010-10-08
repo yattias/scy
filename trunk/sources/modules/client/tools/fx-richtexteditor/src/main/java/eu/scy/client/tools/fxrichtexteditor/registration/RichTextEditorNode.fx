@@ -44,6 +44,8 @@ import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
 import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
+import java.awt.image.BufferedImage;
+import java.awt.Dimension;
 
 /**
  * @author kaido
@@ -240,6 +242,14 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
 
    public override function onQuit() {
        richTextEditor.insertedTextToActionLog();
+   }
+
+   public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+      if (richTextEditor != null) {
+         return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(richTextEditor, richTextEditor.getSize(), new Dimension(width, height));
+      } else {
+         return null;
+      }
    }
 
 }
