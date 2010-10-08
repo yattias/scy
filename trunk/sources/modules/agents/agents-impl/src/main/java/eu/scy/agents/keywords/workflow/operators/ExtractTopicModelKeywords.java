@@ -1,6 +1,7 @@
 package eu.scy.agents.keywords.workflow.operators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,6 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.type.Container;
-import edu.emory.mathcs.backport.java.util.Collections;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 /**

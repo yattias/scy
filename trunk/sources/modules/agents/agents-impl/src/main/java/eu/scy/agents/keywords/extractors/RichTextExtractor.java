@@ -36,14 +36,15 @@ import eu.scy.agents.keywords.ExtractKeywordsAgent;
  */
 public class RichTextExtractor implements KeywordExtractor {
 
-  private final static Logger logger = Logger.getLogger(RichTextExtractor.class);
+	private final static Logger logger = Logger
+			.getLogger(RichTextExtractor.class);
 
-  private TupleSpace tupleSpace;
+	private TupleSpace tupleSpace;
 
   public static List<String> XMLPATH = Arrays.asList("elo", "content", "RichText");
 
-  public RichTextExtractor() {
-  }
+	public RichTextExtractor() {
+	}
 
   @Override
   public List<String> getKeywords(IELO elo) {

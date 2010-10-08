@@ -3,6 +3,7 @@ package eu.scy.agents.hypothesis;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URI;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.axis.utils.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
 
 import roolo.api.IRepository;
