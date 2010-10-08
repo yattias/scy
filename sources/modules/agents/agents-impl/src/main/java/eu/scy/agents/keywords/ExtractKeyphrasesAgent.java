@@ -75,7 +75,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 
     Properties workflowProperties = new Properties();
     workflowProperties.setProperty(WikiParameters.DIRECTORY,
-                                   "/home/joerg/eclipseSCY/parent/agents/agents-impl/src/main/resources/CO2background");
+                                   "CO2background");
 
     /* PROPERTIES ------------------------ */
 
