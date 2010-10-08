@@ -39,6 +39,15 @@ import java.util.List;
 import javafx.scene.layout.Resizable;
 import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
 import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
+import java.awt.image.BufferedImage;
+import java.awt.Dimension;
+import javafx.geometry.Bounds;
+import java.awt.Graphics2D;
+import javafx.scene.layout.Container;
+import javafx.reflect.FXLocal;
+import javafx.geometry.BoundingBox;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
 /**
  * @author kaido
@@ -74,6 +83,9 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    public var toolBrokerAPI:ToolBrokerAPI;
    protected var elo:IELO;
    var technicalFormatKey: IMetadataKey;
+   // interval in milliseconds after what typed text is wrote
+   // into action log - should be configurable from authoring tools
+   public var interviewSchemaTypingLogIntervalMs = 30000;
 
    function setLoggerEloUri() {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
@@ -233,6 +245,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
    }
    public override function create(): Node {
+      schemaEditor.setTypingLogIntervalMs(interviewSchemaTypingLogIntervalMs);
       var node:Node = Group{content: bind content};
       var buttons:Node =
           HBox{
@@ -292,8 +305,73 @@ logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.get
 }
 
 
-   public override function onQuit() {
-       schemaEditor.insertedTextToActionLog();
-   }
+    public override function onQuit() {
+        schemaEditor.insertedTextToActionLog();
+    }
+
+    public function nodeToImage(node : Node, bounds : Bounds) : BufferedImage {
+        def context = FXLocal.getContext();
+        def nodeClass = context.findClass("javafx.scene.Node");
+        def getFXNode = nodeClass.getFunction("impl_getPGNode");
+        var g2:Graphics2D;
+        if(node instanceof Container) {
+            (node as Resizable).width = bounds.width;
+            (node as Resizable).height = bounds.height;
+            (node as Container).layout();
+        } else if(node instanceof Resizable) {
+            (node as Resizable).width = bounds.width;
+            (node as Resizable).height = bounds.height;
+        }
+        def nodeBounds = node.layoutBounds;
+        def sgNode = (getFXNode.invoke(context.mirrorOf(node))
+                as FXLocal.ObjectValue).asObject();
+        def g2dClass = (context.findClass("java.awt.Graphics2D")
+                as FXLocal.ClassType).getJavaImplementationClass();
+        def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D")
+                as FXLocal.ClassType).getJavaImplementationClass();
+        def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform")
+                as FXLocal.ClassType).getJavaImplementationClass();
+        def getBounds = sgNode.getClass().getMethod("getContentBounds",
+                boundsClass, affineClass);
+        def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(),
+                new com.sun.javafx.geom.transform.Affine2D());
+        var paintMethod = sgNode.getClass().getMethod("render", g2dClass,
+                boundsClass, affineClass);
+        def bufferedImage = new java.awt.image.BufferedImage(
+                nodeBounds.width, nodeBounds.height,
+                java.awt.image.BufferedImage.TYPE_INT_ARGB);
+        g2 = (bufferedImage.getGraphics() as Graphics2D);
+        g2.setPaint(java.awt.Color.WHITE);
+        g2.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
+        paintMethod.invoke(sgNode, g2, bounds2D,
+                new com.sun.javafx.geom.transform.Affine2D());
+        g2.dispose();
+        return bufferedImage;
+    }
+
+    public function scaleImage(bufferedImage : BufferedImage, originalSize:Dimension,
+            targetSize:Dimension) : BufferedImage {
+        var bi:BufferedImage = bufferedImage;
+        var factor:Double;
+        if ((originalSize.width - targetSize.width) < (originalSize.height - targetSize.height)) {
+            factor = 1.0 * targetSize.height / originalSize.height;
+        } else {
+            factor = 1.0 * targetSize.width / originalSize.width;
+        }
+        var scale:AffineTransform = AffineTransform.getScaleInstance(factor, factor);
+        var op:AffineTransformOp = new AffineTransformOp(scale, AffineTransformOp.TYPE_BILINEAR);
+        bi = op.filter(bi, null);
+        return bi;
+    }
+
+    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+        return scaleImage(
+                    nodeToImage(this, BoundingBox {
+                        width: this.layoutBounds.width
+                        height: this.layoutBounds.height}),
+                    new Dimension(this.layoutBounds.width, this.layoutBounds.height),
+                    new Dimension(width, height)
+               );
+    }
 
 }
