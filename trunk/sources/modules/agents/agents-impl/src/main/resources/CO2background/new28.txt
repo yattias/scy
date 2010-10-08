@@ -1,0 +1,31 @@
+Pollution From Construction
+
+The construction industry is a major source of pollution, responsible for around 4% of particulate emissions, more water pollution incidents than any other industry, and thousands of noise complaints every year. Although construction activities also pollute the soil, the main areas of concern are: air, water and noise pollution.
+
+Air Pollution
+Construction activities that contribute to air pollution include: land clearing, operation of diesel engines, demolition, burning, and working with toxic materials. All construction sites generate high levels of dust (typically from concrete, cement, wood, stone, silica) and this can carry for large distances over a long period of time. Construction dust is classified as PM10 - particulate matter less than 10 microns in diameter, invisible to the naked eye. Research has shown that PM10 penetrate deeply into the lungs and cause a wide range of health problems including respiratory illness, asthma, bronchitis and even cancer. Another major source of PM10 on construction sites comes from the diesel engine exhausts of vehicles and heavy equipment. This is known as diesel particulate matter (DPM) and consists of soot, sulphates and silicates, all of which readily combine with other toxins in the atmosphere, increasing the health risks of particle inhalation. Diesel is also responsible for emissions of carbon monoxide, hydrocarbons, nitrogen oxides and carbon dioxide. Noxious vapours from oils, glues, thinners, paints, treated woods, plastics, cleaners and other hazardous chemicals that are widely used on construction sites, also contribute to air pollution.
+
+Water Pollution
+Sources of water pollution on building sites include: diesel and oil; paint, solvents, cleaners and other harmful chemicals; and construction debris and dirt. When land is cleared it causes soil erosion that leads to silt-bearing run-off and sediment pollution. Silt and soil that runs into natural waterways turns them turbid, which restricts sunlight filtration and destroys aquatic life. Surface water run-off also carries other pollutants from the site, such as diesel and oil, toxic chemicals, and building materials like cement. When these substances get into waterways they poison water life and any animal that drinks from them. Pollutants on construction sites can also soak into the groundwater, a source of human drinking water. Once contaminated, groundwater is much more difficult to treat than surface water.
+
+Noise Pollution
+Construction sites produce a lot of noise, mainly from vehicles, heavy equipment and machinery, but also from people shouting and radios turned up too loud. Excessive noise is not only annoying and distracting, but can lead to hearing loss, high blood pressure, sleep disturbance and extreme stress. Research has shown that high noise levels disturb the natural cycles of animals and reduces their usable habitat.
+
+Measures to Prevent Pollution
+Good construction site practice can help to control and prevent pollution. The first step is to prepare environmental risk assessments for all construction activities and materials likely to cause pollution. Specific measures can then be taken to mitigate these risks:
+
+    * To prevent erosion and run-off, minimise land disturbance and leave maximum vegetation cover.
+    * Control dust through fine water sprays used to dampen down the site.
+    * Screen the whole site to stop dust spreading, or alternatively, place fine mesh screening close to the dust source.
+    * Cover skips and trucks loaded with construction materials and continually damp down with low levels of water.
+    * Cover piles of building materials like cement, sand and other powders, regularly inspect for spillages, and locate them where they will not be washed into waterways or drainage areas.
+    * Use non-toxic paints, solvents and other hazardous materials wherever possible
+    * Segregate, tightly cover and monitor toxic substances to prevent spills and possible site contamination.
+    * Cover up and protect all drains on site .
+    * Collect any wastewater generated from site activities in settlement tanks, screen, discharge the clean water, and dispose of remaining sludge according to environmental regulations.
+    * Use low sulphur diesel oil in all vehicle and equipment engines, and incorporate the latest specifications of particulate filters and catalytic converters.
+    * No burning of materials on site.
+    * Reduce noise pollution through careful handling of materials; modern, quiet power tools, equipment and generators; low impact technologies; and wall structures as sound shields. 
+
+Pressure to Clean Up
+The UK Environment Agency and other government bodies are putting increasing pressure on construction companies to reduce pollution and conform to environmental regulations. In the past the pollution fines have been low and environmental regulations slack, and it could have been perceived as cheaper to pollute than to prevent pollution. This situation is now changing, and enforcement of environmental regulations is not only very expensive but can be irreversibly damaging to the reputation of a firm. Measures to reduce and control pollution are relatively inexpensive and cost-effective, and the construction industry needs to incorporate these into an environmental management strategy. By employing these practices, the construction industry is well positioned to clean up its act.
