@@ -132,23 +132,23 @@ public class BoxSpinner extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void previousMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMousePressed
-        updateValue(false);
+        updateValue();
         value = value - step ;
         majParametre() ;
     }//GEN-LAST:event_previousMousePressed
 
     private void nextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMousePressed
-        updateValue(false);
+        updateValue();
         value = value + step ;
         majParametre() ;
     }//GEN-LAST:event_nextMousePressed
 
     private void champValeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champValeurActionPerformed
-       updateValue(true);
+       updateValue();
     }//GEN-LAST:event_champValeurActionPerformed
 
     private void champValeurFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_champValeurFocusLost
-        updateValue(false);
+       updateValue();
     }//GEN-LAST:event_champValeurFocusLost
     
     public void majParametre (){
@@ -161,15 +161,28 @@ public class BoxSpinner extends javax.swing.JPanel {
         if (value>-1E-16 && value<1E-16) champValeur.setText("0");
         else if ((value>-0.09999 && value<0.099999) || value>=1E6 || value<=-1E6)
             champValeur.setText(formatE.format(value));
-        else{
+        else if(isInteger(value)){
+             champValeur.setText(""+value.intValue());
+        }else{
             int id = Double.toString(step).indexOf(".");
             if(id != -1){
-                int nb = Double.toString(step).length()-id-1;
+                // Bug#4428022 0.001 has a strange behavior = 0.0010
+//                String s = Double.toString(step);
+//                if(step>=0.001 && step <= 0.009){
+//                    s = new DecimalFormat("#.###").format(step).toString() ;
+//                }
+                DecimalFormat df = new DecimalFormat("###.########");
+                String s = df.format(step);
+                int nb = s.length()-id-1;
                 format.setMinimumFractionDigits(nb);
             }
             champValeur.setText(format.format(value));
         }
         owner.maJParametreDansFonction(label.getText(), value);
+    }
+
+    private boolean isInteger(Double d){
+        return (Double.toString(d).endsWith(".0") || !Double.toString(d).contains("."));
     }
     
     /** fonction appelee uniquement lors de l'affichage ou du reaffichage du box
@@ -207,7 +220,6 @@ public class BoxSpinner extends javax.swing.JPanel {
             else ordre = ordre - nombre.length()+ placeDuPt + 1 ;
         }
         step = Math.pow(10,ordre);
-        //System.out.println(step);
     }
     
     public int getHauteur(){
@@ -219,16 +231,16 @@ public class BoxSpinner extends javax.swing.JPanel {
         return height ;
     }
 
-    private void updateValue(boolean updateStep){
+    private void updateValue(){
         String s = champValeur.getText();
         s = s.replace(",", ".");
         try {
             value = Double.parseDouble(s) ;
             owner.maJParametreDansFonction(label.getText(), value);
-            if(updateStep)
+            //if(updateStep)
                 majStep(s);
         } catch (NumberFormatException e) {
-            System.out.println("Le nombre entre n'est pas reconnu. "+s);
+            //System.out.println("Le nombre entre n'est pas reconnu. "+s);
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
         }
     }

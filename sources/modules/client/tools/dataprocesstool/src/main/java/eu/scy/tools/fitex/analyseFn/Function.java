@@ -236,7 +236,7 @@ public class Function
                     s += "reliabilityFactor - racineCarree(1/n * sum(di²)) avec di= min(racineCarree((xi-x)²+(yi-f(x))²)) : "+Math.sqrt(r/nbPts)+"\n";
                 }
                 s += "*******************************\n";
-                System.out.println(s);
+                //System.out.println(s);
             }
         }
     }
