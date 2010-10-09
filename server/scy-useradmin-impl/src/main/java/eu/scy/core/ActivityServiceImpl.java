@@ -2,6 +2,7 @@ package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.persistence.ActivityDAO;
+import eu.scy.core.persistence.SCYBaseDAO;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +21,7 @@ public class ActivityServiceImpl extends BaseServiceImpl implements ActivityServ
 
     public void setActivityDAO(ActivityDAO activityDAO) {
         this.activityDAO = activityDAO;
+        setScyBaseDAO((SCYBaseDAO) activityDAO);
     }
 
     @Override

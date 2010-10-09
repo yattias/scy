@@ -37,6 +37,7 @@ public class ScenarioServiceImpl extends BaseServiceImpl implements ScenarioServ
     }
 
     @Override
+    @Transactional
     public void save(Scenario scenario) {
         getScenarioDAO().save(scenario);
     }
