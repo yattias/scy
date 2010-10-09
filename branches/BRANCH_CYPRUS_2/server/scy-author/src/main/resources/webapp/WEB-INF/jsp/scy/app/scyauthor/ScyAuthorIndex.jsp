@@ -33,7 +33,12 @@
 
 <br/>
 <br/>
-        <a href="viewCreateNewPedagogicalPlan.html">Create new pedagogical plan</a>
+        <!--a href="viewCreateNewPedagogicalPlan.html">Create new pedagogical plan</a-->
+
+        <div class="createNewPedPlan">
+            <a href="createnewPedplansteps/PedPlanNameController.html">Create new pedagogical plan</a>
+        </div>
+
 
         
 
