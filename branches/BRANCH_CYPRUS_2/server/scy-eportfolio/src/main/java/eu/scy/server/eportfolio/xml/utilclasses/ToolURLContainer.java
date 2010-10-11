@@ -11,6 +11,8 @@ public class ToolURLContainer {
 
     private String userInfoURL = "/webapp/components/xml/UserInfoController.html";
     private String curentMissionProgressOverview = "/webapp/app/eportfolio/xml/currentMissionProgressOverview.html";
+    private String eportfolioELOSearch = "/webapp/app/eportfolio/xml/eportfolioELOSearch.html";
+    private String obligatoryELOsInMission = "/webapp/app/eportfolio/xml/obligatoryELOsInMission.html";
     private String metaData = "We give a fuck in metadata!";
 
     public String getUserInfoURL() {
@@ -27,5 +29,21 @@ public class ToolURLContainer {
 
     public void setCurentMissionProgressOverview(String curentMissionProgressOverview) {
         this.curentMissionProgressOverview = curentMissionProgressOverview;
+    }
+
+    public String getEportfolioELOSearch() {
+        return eportfolioELOSearch;
+    }
+
+    public void setEportfolioELOSearch(String eportfolioELOSearch) {
+        this.eportfolioELOSearch = eportfolioELOSearch;
+    }
+
+    public String getObligatoryELOsInMission() {
+        return obligatoryELOsInMission;
+    }
+
+    public void setObligatoryELOsInMission(String obligatoryELOsInMission) {
+        this.obligatoryELOsInMission = obligatoryELOsInMission;
     }
 }
