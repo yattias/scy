@@ -12,6 +12,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import javafx.scene.layout.HBox;
+import javafx.scene.CustomNode;
+import javafx.scene.Group;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -32,14 +35,18 @@ public mixin class ScyEloListCellDisplay {
    public function simpleScyEloCellFactory(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
-            node: bind createSimpleListCellContent(listCell.item)
+            node: SimpleScySearchResultCellNode{
+               scySearchResult: bind listCell.item as ScySearchResult
+            }
+
+//            node: bind createSimpleListCellContent(listCell.item)
          }
    }
 
    function createSimpleListCellContent(item: Object): Node {
       def scySearchResult = item as ScySearchResult;
       var eloIcon: EloIcon = scySearchResult.getEloIcon() as EloIcon;
-//      eloIcon.visible = scySearchResult!=null;
+      //      eloIcon.visible = scySearchResult!=null;
       println("creating simple cell display for {item}, eloIcon: {eloIcon}");
       HBox {
          spacing: spacing
@@ -54,12 +61,12 @@ public mixin class ScyEloListCellDisplay {
 
    function createListCellContent(item: Object): Node {
       var scySearchResult: ScySearchResult = null;
-      if (item instanceof ScySearchResult){
+      if (item instanceof ScySearchResult) {
          scySearchResult = item as ScySearchResult;
       }
       var eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo().getUri());
-      eloIcon.visible = scySearchResult!=null;
-//      println("creating cell display for {item}, eloIcon: {eloIcon}");
+      eloIcon.visible = scySearchResult != null;
+      //      println("creating cell display for {item}, eloIcon: {eloIcon}");
       HBox {
          spacing: spacing
          content: [
@@ -97,6 +104,30 @@ public mixin class ScyEloListCellDisplay {
       }
       def typeName = newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat());
       return "{authorDisplay}: {scyElo.getTitle()} ({typeName})"
+   }
+
+}
+
+class SimpleScySearchResultCellNode extends CustomNode {
+
+   public var scySearchResult: ScySearchResult on replace { newScySearchResult() };
+   def titleDisplay = Label {};
+   def spacing = 5.0;
+   def hBox = HBox {
+         spacing: spacing
+         content: []
+      }
+
+   public override function create(): Node {
+      hBox
+   }
+
+   function newScySearchResult() {
+      titleDisplay.text = scySearchResult.getScyElo().getTitle();
+      hBox.content = [
+            scySearchResult.getEloIcon() as EloIcon,
+            titleDisplay
+         ];
    }
 
 }
