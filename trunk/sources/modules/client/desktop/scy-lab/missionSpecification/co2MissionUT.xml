@@ -332,8 +332,12 @@
                <property name="eloType" value="scy/image"/>
                <property name="eloSystemRole" value="USER"/>
                <property name="contentCreatorId" value="image"/>
-               <property name="topDrawerCreatorId" value="xmlViewer"/>
-               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+               <property name="topDrawerCreatorId" value="presence"/>
+               <property name="topDrawerCollaboration" value="true"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/speedTest"/>
@@ -638,11 +642,6 @@
                      <value>roolo://memory/511/0/Concept+map+by+Bob.jpg</value>
                      <value>roolo://memory/512/0/Concept+map+by+Chris.jpg</value>
                      <value>roolo://memory/513/0/Concept+map+by+Dave.jpg</value>
-                     <value>roolo://memory/514/0/Concept+map+by+Elisa.jpg</value>
-                     <value>roolo://memory/515/0/Concept+map+by+Fred.jpg</value>
-                     <value>roolo://memory/516/0/Concept+map+by+Gina.jpg</value>
-                     <value>roolo://memory/517/0/Concept+map+by+Helen.jpg</value>
-                     <value>roolo://memory/518/0/Concept+map+by+Ivy.jpg</value>
                   </list>
                </property>
             </bean>
@@ -931,6 +930,7 @@
             <value>roolo://memory/410/0/Presentation_document.ppt</value>
             <value>roolo://memory/411/0/Empty_rich_text.rtf</value>
             <value>roolo://memory/412/0/Word_document.doc</value>
+            <value>roolo://memory/720/0/Werkblad.rtf</value>
          </list>
       </property>
 

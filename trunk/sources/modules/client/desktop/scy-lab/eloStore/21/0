@@ -225,15 +225,10 @@
           <eloUri>roolo://memory/649/0/Texts_about_global_warming.url</eloUri>
           <eloUri>roolo://memory/648/0/Websites_about_global_warming.url</eloUri>
           <eloUri>roolo://memory/647/0/Videos_about_global_warming.url</eloUri>
-          <eloUri>roolo://memory/510/0/Concept+map+by+Ann.jpg</eloUri>
-          <eloUri>roolo://memory/511/0/Concept+map+by+Bob.jpg</eloUri>
-          <eloUri>roolo://memory/512/0/Concept+map+by+Chris.jpg</eloUri>
-          <eloUri>roolo://memory/513/0/Concept+map+by+Dave.jpg</eloUri>
-          <eloUri>roolo://memory/514/0/Concept+map+by+Elisa.jpg</eloUri>
-          <eloUri>roolo://memory/515/0/Concept+map+by+Fred.jpg</eloUri>
-          <eloUri>roolo://memory/516/0/Concept+map+by+Gina.jpg</eloUri>
-          <eloUri>roolo://memory/517/0/Concept+map+by+Helen.jpg</eloUri>
-          <eloUri>roolo://memory/518/0/Concept+map+by+Ivy.jpg</eloUri>
+          <eloUri>roolo://memory/510/0/conceptMap1.jpg</eloUri>
+          <eloUri>roolo://memory/511/0/conceptMap2.jpg</eloUri>
+          <eloUri>roolo://memory/512/0/conceptMap3.jpg</eloUri>
+          <eloUri>roolo://memory/513/0/conceptMap4.jpg</eloUri>
         </loElos>
         <inputAnchors />
         <relations />

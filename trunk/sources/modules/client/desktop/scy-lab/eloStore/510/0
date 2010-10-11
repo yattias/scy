@@ -10,11 +10,11 @@
     </technical>
     <general>
       <title>
-        <string language="en">Concept map by Ann</string>
+        <string language="en">Concept map 1</string>
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/510/0/Concept+map+by+Ann.jpg</entry>
+        <entry>roolo://memory/510/0/conceptMap1.jpg</entry>
       </identifier>
     </general>
     <lifecycle>
@@ -51,7 +51,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<imageUrl>http://www.scy-lab.eu/content/en/mission1_UT1004/cmaps/Concept%20map%20by%20Ann.png</imageUrl>
+<imageUrl>http://www.scy-lab.eu/content/en/mission1_UT1010/cmaps/conceptMap1.png</imageUrl>
 </content>
 <resources>
 </resources>

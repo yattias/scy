@@ -45,6 +45,7 @@ import eu.scy.client.desktop.scydesktop.tools.mission.MissionMapModelEditorCreat
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionRuntimeEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
 
 /**
  * @author sikkenj
@@ -88,6 +89,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def eloToolConfigurationId = "eloToolConfiguration";
    def missionRuntimeId = "missionRuntime";
    def templateElosId = "templateElos";
+   def scyImageId = "image";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -136,6 +138,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(wordExternalDocCreator, wordUploadId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 
