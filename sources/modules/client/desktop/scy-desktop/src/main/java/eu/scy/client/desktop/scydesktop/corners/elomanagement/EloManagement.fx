@@ -161,6 +161,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 //            uriDisplay;
          }
 //      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, UriDisplayComparator {}) as UriDisplay[];
+      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ScySearchResultTitleComparator()) as ScySearchResult[];
       newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
    }
 
