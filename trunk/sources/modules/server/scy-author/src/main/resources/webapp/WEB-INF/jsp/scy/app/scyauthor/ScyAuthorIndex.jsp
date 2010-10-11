@@ -1,7 +1,12 @@
 <%@ include file="common-taglibs.jsp" %>
 <tiles:insertDefinition name="default-page">
 	<tiles:putAttribute name="main">
-         
+
+        <div class="createNewPedPlan">
+            <a href="createnewPedplansteps/PedPlanNameController.html">Create new pedagogical plan</a>
+        </div>
+        
+
         <h1>My pedagogical plans</h1>
 		<c:choose>
         <c:when test="${fn:length(pedagogicalPlans) > 0}">
@@ -33,7 +38,9 @@
 
 <br/>
 <br/>
-        <a href="viewCreateNewPedagogicalPlan.html">Create new pedagogical plan</a>
+        <!--a href="viewCreateNewPedagogicalPlan.html">Create new pedagogical plan</a-->
+
+
 
         
 

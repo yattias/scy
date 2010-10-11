@@ -57,6 +57,10 @@
                    /app/scyauthor/selectAnchorELOsToBePeerAssessed.html=selectAnchorELOsToBePeerAssessedController
                    /app/scyauthor/MissionHighLevelOverview.html=missionHighLevelOverviewController
 
+                   /app/scyauthor/createnewPedplansteps/PedPlanNameController.html=pedPlanNameController
+                   /app/scyauthor/createnewPedplansteps/selectScenario.html=selectScenarioController
+                   /app/scyauthor/createnewPedplansteps/assignStudents.html=assignStudentsController
+
                    /app/tools/Toolbank.html=toolbankController
                    /app/tools/viewTool.html=viewToolController
 
@@ -160,6 +164,8 @@
     <bean id="viewCreateNewPedagogicalPlanController" class="eu.scy.server.controllers.ViewCreateNewPedagogicalPlanController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="scenarioService" ref="scenarioService"/>
     </bean>
 
     <bean id="viewMissionController" class="eu.scy.server.controllers.ViewMissionController">
@@ -236,7 +242,6 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="agentService" ref="agentService"/>
-        <property name="agentParameterAPI" ref="agentParameterAPI"/>
     </bean>
 
 
@@ -281,6 +286,27 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
 	</bean>
 
+    <bean id="pedPlanNameController" class="eu.scy.server.controllers.createnewpedplansteps.PedPlanNameController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+	</bean>
+
+    <bean id="selectScenarioController" class="eu.scy.server.controllers.createnewpedplansteps.SelectScenarioController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="scenarioService" ref="scenarioService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="activityService" ref="activityService"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+	</bean>
+
+    <bean id="assignStudentsController" class="eu.scy.server.controllers.createnewpedplansteps.AssignStudentsContoller">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
     <bean id="addAssessmentScoreIconListener" class="eu.scy.server.controllers.AddAssessmentScoreIconListener">
         <property name="fileService" ref="fileService"/>
     </bean>
@@ -290,7 +316,8 @@
     </bean>
 
 
-    <bean id="agentParameterAPI" class="eu.scy.agents.impl.parameter.AgentParameterAPIImpl"/>
 
-    
+    <!--bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl">
+        <property name="userService" ref="userService"/>
+    </bean-->
 </beans>
