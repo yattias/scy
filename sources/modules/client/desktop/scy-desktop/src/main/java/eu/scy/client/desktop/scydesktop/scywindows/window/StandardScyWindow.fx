@@ -412,7 +412,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
         width = useSize.x;
         height = useSize.y;
 //        println("useSize: {useSize}, realy used: {width}*{height}");
-        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
+        scyToolsList.onOpened();
+//        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
     }
 
    public override function setMinimize(state: Boolean):Void{

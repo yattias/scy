@@ -194,6 +194,11 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
    }
 
    @Override
+   public void onOpened()
+   {
+   }
+
+   @Override
    public void onClosed()
    {
    }

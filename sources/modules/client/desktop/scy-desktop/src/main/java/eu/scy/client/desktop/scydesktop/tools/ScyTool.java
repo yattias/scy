@@ -78,6 +78,11 @@ public interface ScyTool
    public boolean aboutToClose();
 
    /**
+    * this method is called after the ScyWindow is opened.
+    */
+   public void onOpened();
+
+   /**
     * this method is called after the ScyWindow is closed.
     *
     * This is still under investigation.

@@ -177,6 +177,10 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
       addMessage("onUnMinimized");
    }
 
+   public override function onOpened():Void{
+      addMessage("onOpened");
+   }
+
    public override function onClosed():Void{
       addMessage("onClosed");
    }

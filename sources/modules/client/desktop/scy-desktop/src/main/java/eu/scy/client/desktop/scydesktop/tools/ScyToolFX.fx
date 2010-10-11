@@ -45,6 +45,9 @@ public mixin class ScyToolFX extends ScyTool {
    public override function onUnMinimized(): Void {
    }
 
+   public override function onOpened(): Void {
+   }
+
    public override function onClosed(): Void {
    }
 

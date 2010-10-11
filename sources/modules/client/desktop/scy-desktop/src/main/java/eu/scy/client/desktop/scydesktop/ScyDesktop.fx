@@ -573,6 +573,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
        if (window.mucId.length()>0 and not initializer.offlineMode){
           installCollaborationTools(window);
        }
+       window.scyToolsList.onOpened();
     }
 
 
@@ -613,7 +614,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         // create the tools
         scyToolsList.actionLoggerTool = ScyToolActionLogger{
                 window:window;
-                config:config};
+                config:config
+                missionRuntimeEloUri:missionRunConfigs.missionRuntimeElo.getUri()
+                };
         if (not collaboration and eloConfig.isContentCollaboration()) {
             // currently, the content tool must be created on the first call, which is with collaboration false
             // otherwise the first set of tools are not informed of the elo load messages
