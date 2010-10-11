@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import eu.scy.toolbrokerapi.LoginFailedException;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class LocalMultiUserToolBrokerLogin extends LocalToolBrokerLogin
 {
@@ -34,11 +35,10 @@ public class LocalMultiUserToolBrokerLogin extends LocalToolBrokerLogin
    }
    
    @Override
-   protected void loginCheck(String userName, String password) throws LoginFailedException
+   public ToolBrokerAPI getReadyForUser(Object object)
    {
-      super.loginCheck(userName, password);
-      // user name and password are checked and thus valid
-      findUserDirectories(userName);
+      final String usedUserName = (String) object;
+      findUserDirectories(usedUserName);
       try
       {
          DirectoryUtils.copyDirectory(masterEloStoreDirectory, eloStoreDirectory);
@@ -47,8 +47,26 @@ public class LocalMultiUserToolBrokerLogin extends LocalToolBrokerLogin
       {
          new LoginFailedException("failed to setup the local eloStore of the user, " + e.getMessage());
       }
+
+      return super.getReadyForUser(object);
    }
-   
+
+//   @Override
+//   protected void loginCheck(String userName, String password) throws LoginFailedException
+//   {
+//      super.loginCheck(userName, password);
+//      // user name and password are checked and thus valid
+//      findUserDirectories(userName);
+//      try
+//      {
+//         DirectoryUtils.copyDirectory(masterEloStoreDirectory, eloStoreDirectory);
+//      }
+//      catch (IOException e)
+//      {
+//         new LoginFailedException("failed to setup the local eloStore of the user, " + e.getMessage());
+//      }
+//   }
+//   
    private void findUserDirectories(String userName){
       userDirectory = findCreateDirectory(usersDirectory,userName,userName);
       eloStoreDirectory = findCreateDirectory(userDirectory,eloStoreDirectoryName,eloStoreDirectoryName);

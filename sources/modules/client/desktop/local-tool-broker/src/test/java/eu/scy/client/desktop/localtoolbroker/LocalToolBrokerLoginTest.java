@@ -47,6 +47,7 @@ public class LocalToolBrokerLoginTest extends CommonToolBrokerLoginTest
       localToolBrokerLogin.prepare();
       localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
       System.getProperties().put(enableLocalLoggingKey, "false");
+      System.out.println("localToolBrokerLogin: " + localToolBrokerLogin);
    }
 
    @After
@@ -86,7 +87,8 @@ public class LocalToolBrokerLoginTest extends CommonToolBrokerLoginTest
    public void testLogin10()
    {
       final String userName = "abc";
-      ToolBrokerAPI tbi = localToolBrokerLogin.login(userName, userName);
+      Object object = localToolBrokerLogin.login(userName, userName);
+      ToolBrokerAPI tbi = localToolBrokerLogin.getReadyForUser(object);
       TestUtils.testToolBrokerAPI(tbi);
       Assert.assertEquals(userName,tbi.getLoginUserName());
       Assert.assertTrue(localToolBrokerLogin.loggingDirectory.listFiles().length>0);
