@@ -2,27 +2,22 @@ package eu.scy.server.controllers.json;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
 import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Scenario;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.mvc.AbstractController;
-
 import eu.scy.server.controllers.json.util.LearningActivitySpaceAnchorEloConnectionUtil;
+import org.springframework.web.servlet.view.AbstractView;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,57 +25,19 @@ import java.util.Map;
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
- * Date: 27.mai.2010
- * Time: 05:59:07
+ * Date: 11.okt.2010
+ * Time: 06:01:25
  * To change this template use File | Settings | File Templates.
  */
-public class ScenarioDiagramJSON extends AbstractController {
+public class ScenarioDiagramJSONView extends AbstractView {
 
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private ScenarioService scenarioService;
     private LASService lasService;
-    private View successView;
 
-    public View getSuccessView() {
-        return successView;
-    }
-
-    public void setSuccessView(View successView) {
-        this.successView = successView;
-    }
-
-    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
-        return pedagogicalPlanPersistenceService;
-    }
-
-    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
-        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
-    }
-
-    public ScenarioService getScenarioService() {
-        return scenarioService;
-    }
-
-    public void setScenarioService(ScenarioService scenarioService) {
-        this.scenarioService = scenarioService;
-    }
-
-    public LASService getLasService() {
-        return lasService;
-    }
-
-    public void setLasService(LASService lasService) {
-        this.lasService = lasService;
-    }
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-
-        Map model = new HashMap();
-        return new ModelAndView(successView, model);
-
-
-        /*
+    protected void renderMergedOutputModel(Map map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         String scenarioId = httpServletRequest.getParameter("model");
         Scenario scenario = null;
         List list = null;
@@ -152,7 +109,8 @@ public class ScenarioDiagramJSON extends AbstractController {
 
 
             XStream xstream = new XStream(new JettisonMappedXmlDriver());
-            httpServletResponse.setContentType("text/json");
+            //httpServletResponse.setContentType("text/json");
+            httpServletResponse.setContentType( "text/json; charset=UTF-8" );
 
             xstream.setMode(XStream.NO_REFERENCES);
             xstream.alias("model", LinkedList.class);
@@ -169,25 +127,46 @@ public class ScenarioDiagramJSON extends AbstractController {
 
 
             try {
+
+                //ServletOutputStream out = httpServletResponse.getOutputStream();
+                //httpServletResponse.getOutputStream().write(stringWriter.toString().getBytes());
+                //out.write(stringWriter.getBytes());
+                //out.flush();
+
                 xstream.toXML(learningActivitySpaces, httpServletResponse.getWriter());
             } catch (IOException e) {
-                e.printStackTrace();  
+                e.printStackTrace();
             }
 
-            logger.info("JSON SHOULD HAVE BEEN STREAMED NOW!");
+            logger.info("JSON SHOULD HAVE BEEN STREAMED NOW FROM ScenarioDiagramJSONView!");
 
 
         } else {
             logger.info("SCENARIO ID IS NULL!");
         }
+    }
 
+    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
+        return pedagogicalPlanPersistenceService;
+    }
 
+    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
+        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
+    }
 
+    public ScenarioService getScenarioService() {
+        return scenarioService;
+    }
 
+    public void setScenarioService(ScenarioService scenarioService) {
+        this.scenarioService = scenarioService;
+    }
 
+    public LASService getLasService() {
+        return lasService;
+    }
 
-        return null;
-
-        */
+    public void setLasService(LASService lasService) {
+        this.lasService = lasService;
     }
 }

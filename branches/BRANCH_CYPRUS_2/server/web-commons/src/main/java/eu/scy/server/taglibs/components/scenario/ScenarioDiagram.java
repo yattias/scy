@@ -84,30 +84,35 @@ public class ScenarioDiagram extends TagSupport {
                         "        <script type=\"text/javascript\">\n" +
                          "var userLasController = new UserLasController();\n\n" +
                         "dojo.xhrGet( {\n" +
-                        "        url: \"/webapp/components/json/ScenarioDiagramJSON.html?model=" + getPedagogicalPlan().getScenario().getId() + "\",\n" +
+                        "        url: \"/webapp/components/json/ScenarioDiagramJSON.json?model=" + getPedagogicalPlan().getScenario().getId() + "\",\n" +
                         "        handleAs: \"json\",\n" +
                         "        load: function(responseObject, ioArgs) {\n" +
                         "          // Now you can just use the object\n" +
                         "          console.dir(responseObject);  // Dump it to the console\n" +
+                        "          alert(\"responseobject: \" + responseObject);  // Dump it to the console\n" +
+                        "          alert(\"model: \" + responseObject.model[0]);  // Dump it to the console\n" +
+                        "          alert(\"learningActivitySpace \" + responseObject.model[0].LearningActivitySpace);  // Dump it to the console\n" +
+                        "          alert(\"length: \" + responseObject.model[0].LearningActivitySpace.length);  // Dump it to the console\n" +
 
                         
                                 "lasRuntimeInfoUrl = '" + getLasLink() + "';\n" + 
-                                "for(var i = 0;i<responseObject.model.LearningActivitySpace.length;i++){              " +
-                                "lasMap[responseObject.model.LearningActivitySpace[i].id] = createLas(responseObject.model.LearningActivitySpace[i]);\n" +
-                                "createLasContentBox(lasMap[responseObject.model.LearningActivitySpace[i].id], responseObject.model.LearningActivitySpace[i].id, '" + getLasLink() + "?id=' + responseObject.model.LearningActivitySpace[i].id);" +
-                                "userLasController.addLas(lasMap[responseObject.model.LearningActivitySpace[i]]);" +
+                                "for(var i = 0;i<responseObject.model[0].LearningActivitySpace.length;i++){              " +
+                                "alert(\"hei\" + i);\n" +
+                                "lasMap[responseObject.model[0].LearningActivitySpace[i].id] = createLas(responseObject.model[0].LearningActivitySpace[i]);\n" +
+                                "createLasContentBox(lasMap[responseObject.model[0].LearningActivitySpace[i].id], responseObject.model[0].LearningActivitySpace[i].id, '" + getLasLink() + "?id=' + responseObject.model[0].LearningActivitySpace[i].id);" +
+                                "userLasController.addLas(lasMap[responseObject.model[0].LearningActivitySpace[i]]);" +
 
                                 "          }"  +
 
-                                "for(var i = 0;i<responseObject.model.AnchorELO.length;i++){              " +
-                                "eloMap[responseObject.model.AnchorELO[i].id] = createElo(responseObject.model.AnchorELO[i]);\n" +
+                                "for(var i = 0;i<responseObject.model[0].AnchorELO.length;i++){              " +
+                                "eloMap[responseObject.model[0].AnchorELO[i].id] = createElo(responseObject.model[0].AnchorELO[i]);\n" +
 
                                 "          }" +
-                                "for(var i = 0;i<responseObject.model.Connection.length;i++){" +
-                                "if(responseObject.model.Connection[i].direction == \"FROM_ELO_TO_LAS\"){" +
-                                "   eloMap[responseObject.model.Connection[i].from].joint(lasMap[responseObject.model.Connection[i].to], uml.arrow).register(lasMap);" +
+                                "for(var i = 0;i<responseObject.model[0].Connection.length;i++){" +
+                                "if(responseObject.model[0].Connection[i].direction == \"FROM_ELO_TO_LAS\"){" +
+                                "   eloMap[responseObject.model[0].Connection[i].from].joint(lasMap[responseObject.model[0].Connection[i].to], uml.arrow).register(lasMap);" +
                                 "} else {" +
-                                "   lasMap[responseObject.model.Connection[i].from].joint(eloMap[responseObject.model.Connection[i].to], uml.arrow).register(lasMap);" +
+                                "   lasMap[responseObject.model[0].Connection[i].from].joint(eloMap[responseObject.model[0].Connection[i].to], uml.arrow).register(lasMap);" +
                                 "}" +
                                 "}"  +
 
