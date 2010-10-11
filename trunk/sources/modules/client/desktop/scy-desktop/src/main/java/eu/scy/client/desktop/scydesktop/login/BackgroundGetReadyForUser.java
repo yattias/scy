@@ -6,6 +6,7 @@ package eu.scy.client.desktop.scydesktop.login;
 
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerLogin;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -25,14 +26,23 @@ public class BackgroundGetReadyForUser implements Runnable
       this.tbiReady = tbiReady;
    }
 
-   public void start(){
+   public void start()
+   {
       new Thread(this).start();
    }
 
    @Override
    public void run()
    {
-      ToolBrokerAPI tbi = toolBrokerLogin.getReadyForUser(loginResult);
-      tbiReady.tbiReady(tbi);
+      final ToolBrokerAPI tbi = toolBrokerLogin.getReadyForUser(loginResult);
+      SwingUtilities.invokeLater(new Runnable()
+      {
+
+         @Override
+         public void run()
+         {
+            tbiReady.tbiReady(tbi);
+         }
+      });
    }
 }
