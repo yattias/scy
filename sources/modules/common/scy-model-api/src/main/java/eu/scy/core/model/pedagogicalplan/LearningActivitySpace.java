@@ -1,5 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import eu.scy.core.model.FileRef;
+
 import java.util.Set;
 import java.util.List;
 
@@ -33,4 +35,8 @@ public interface LearningActivitySpace extends LearningActivitySpaceBase, Assess
     Scenario getParticipatesIn();
 
     void setParticipatesIn(Scenario participatesIn);
+
+    FileRef getImage();
+
+    void setImage(FileRef image);
 }

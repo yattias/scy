@@ -30,6 +30,12 @@
             <version>${pom.version}</version>
         </dependency>
 
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <version>1.0.2.GA</version>
+            <scope>compile</scope>
+        </dependency>
 		
         <!--dependency>
             <groupId>org.testng</groupId>
@@ -62,7 +68,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.5.4-Final</version>
+            <version>3.4.0.GA</version>
             <scope>compile</scope>
         </dependency>
 
