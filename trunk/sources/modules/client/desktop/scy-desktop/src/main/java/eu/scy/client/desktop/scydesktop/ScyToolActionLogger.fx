@@ -26,6 +26,7 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
 
     public-init var window: ScyWindow;
     public-init var config: Config;
+    public-init var missionRuntimeEloUri: URI;
     var toolId = "scy://unsaved_elo_{UUID.randomUUID().toString()}";
     var oldURI = getURI();
     def actionLogger = config.getToolBrokerAPI().getActionLogger();
@@ -58,6 +59,12 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
 //        System.out.println("***** logging postInitialize for {username}@{toolname}");
     }
 
+    public override function onOpened(): Void {
+        var action = createBasicAction("tool_opened");
+        actionLogger.log(action);
+//        System.out.println("***** logging onOpened for {username}@{toolname}");
+    }
+
     public override function onClosed(): Void {
         var action = createBasicAction("tool_closed");
         actionLogger.log(action);
@@ -88,6 +95,12 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
 //        System.out.println("***** logging onLostFocus for {username}@{toolname}");
     }
 
+   public override function onQuit(): Void {
+        var action = createBasicAction("tool_quit");
+        actionLogger.log(action);
+//        System.out.println("***** logging onQuit for {username}@{toolname}");
+   }
+
     public override function loadElo(eloUri: URI): Void {
         var action = createBasicAction("elo_load");
         action.addAttribute("elo_uri", eloUri.toString());
@@ -115,17 +128,17 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
         actionLogger.log(action);
     }
 
-    public function logToolOpened(): Void {
-        var action = createBasicAction("tool_opened");
-        actionLogger.log(action);
-    }
-
+//    public function logToolOpened(): Void {
+//        var action = createBasicAction("tool_opened");
+//        actionLogger.log(action);
+//    }
+//
     public function createBasicAction(type: String): IAction {
         var action = new Action();
         action.setUser(username);
         action.setType(type);
         action.addContext(ContextConstants.tool, toolname);
-        action.addContext(ContextConstants.mission, missionname);
+        action.addContext(ContextConstants.mission, missionRuntimeEloUri.toString());
         action.addContext(ContextConstants.session, sessionname);
         if (window.eloUri == null) {
             action.addContext(ContextConstants.eloURI, toolId);

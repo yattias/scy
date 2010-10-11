@@ -225,6 +225,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    }
 
    @Override
+   public void onOpened()
+   {
+   }
+
+   @Override
    public void onClosed()
    {
    }

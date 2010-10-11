@@ -45,8 +45,8 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    public var scyWindow: ScyWindow;
    public var preserveRatio = true;
    public-init var extensions: String[];
-   public override var width on replace {resizeContent()};
-   public override var height on replace {resizeContent()};
+   public override var width on replace { resizeContent() };
+   public override var height on replace { resizeContent() };
    var elo: IELO;
    var technicalFormatKey: IMetadataKey;
    var titleKey: IMetadataKey;
@@ -133,6 +133,15 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       var contentXml = new Element(imageUrlTagName);
       contentXml.setText(url);
       content.setXmlString(jdomStringConversion.xmlToString(contentXml));
+   }
+
+   public override function onOpened(): Void {
+      if (elo != null) {
+         image.image = Image {
+               url: getUrlFromContent(elo.getContent())
+            }
+      //         showImage(getUrlFromContent(elo.getContent()));
+      }
    }
 
    override public function getPrefWidth(arg0: Number): Number {

@@ -121,6 +121,12 @@ public class ScyToolsList extends ScyTool {
       return true;
    }
 
+   override public function onOpened(): Void {
+      for (scyTool in scyToolList) {
+         scyTool.onOpened();
+      }
+   }
+
    override public function onClosed(): Void {
       for (scyTool in scyToolList) {
          scyTool.onClosed();
