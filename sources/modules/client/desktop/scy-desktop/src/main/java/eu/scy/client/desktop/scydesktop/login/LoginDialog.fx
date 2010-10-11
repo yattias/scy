@@ -39,7 +39,7 @@ package def loginColor = Color.hsb(255, 1, 1.0);
 package def successColor = Color.hsb(135, 1, 0.8);
 package def failedColor = Color.hsb(360, 1, 0.9);
 
-public class LoginDialog extends CustomNode {
+public class LoginDialog extends CustomNode, TbiReady {
 
    def logger = Logger.getLogger(this.getClass());
    public var initializer: Initializer;
@@ -47,6 +47,8 @@ public class LoginDialog extends CustomNode {
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
    var windowTitle: String = null;
+   var userName:String = null;
+   var tbi:ToolBrokerAPI = null;
 
    postinit {
 
@@ -147,6 +149,8 @@ public class LoginDialog extends CustomNode {
       def windowColorScheme = window.windowColorScheme;
       if (loginResult != null) {
          // successfull login
+         this.userName = userName;
+         getReadyForUser(loginResult);
          Timeline {
             repeatCount: 1
             keyFrames: [
@@ -154,7 +158,7 @@ public class LoginDialog extends CustomNode {
                   time: 750ms
                   values: windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
                   action: function() {
-                     getReadyForUser(loginResult, userName);
+//                     getReadyForUser(loginResult);
                   }
                }
             ]
@@ -179,14 +183,22 @@ public class LoginDialog extends CustomNode {
       }
    }
 
-   function getReadyForUser(loginResult: Object, userName: String): Void {
-      var toolBrokerAPI = initializer.toolBrokerLogin.getReadyForUser(loginResult);
-      logger.info(
-      "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
-      findMission(toolBrokerAPI, userName);
+   function getReadyForUser(loginResult: Object): Void {
+      def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin,loginResult,this);
+      backgroundGetReadyForUser.start();
+//      var toolBrokerAPI = initializer.toolBrokerLogin.getReadyForUser(loginResult);
+//      logger.info(
+//      "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
+//      findMission(toolBrokerAPI);
    }
 
-   function findMission(toolBrokerAPI: ToolBrokerAPI, userName: String) {
+   public override function tbiReady(toolBrokerAPI: ToolBrokerAPI): Void{
+      logger.info(
+      "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
+      findMission(toolBrokerAPI);
+   }
+
+   function findMission(toolBrokerAPI: ToolBrokerAPI) {
       windowTitle = ##"Welcome to SCY-Lab";
       MissionLocator {
          tbi: toolBrokerAPI
