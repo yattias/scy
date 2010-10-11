@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.login;
 
 import eu.scy.toolbrokerapi.ToolBrokerLogin;
@@ -15,11 +14,13 @@ import org.apache.log4j.Logger;
  *
  * @author sikken
  */
-public class RemoteToolBrokerLogin implements ToolBrokerLogin {
-   private final static Logger logger = Logger.getLogger(RemoteToolBrokerLogin.class);
+public class RemoteToolBrokerLogin implements ToolBrokerLogin
+{
 
+   private final static Logger logger = Logger.getLogger(RemoteToolBrokerLogin.class);
    private String springConfigFile;
 
+   @Override
    public void prepare()
    {
    }
@@ -35,18 +36,18 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin {
    }
 
    @Override
-   public ToolBrokerAPI login(String userName, String password) throws LoginFailedException
+   public Object login(String userName, String password) throws LoginFailedException
    {
-//      try{
-         if (springConfigFile!=null && springConfigFile.length()>0){
-            return new ToolBrokerImpl(userName,password,springConfigFile);
-         }
-         return new ToolBrokerImpl(userName,password);
-//      }
-//      catch (Exception e){
-//         logger.error("error during remote login",e);
-//         throw new LoginFailedException("exception: " + e.getMessage());
-//      }
+      if (springConfigFile != null && springConfigFile.length() > 0)
+      {
+         return new ToolBrokerImpl(userName, password, springConfigFile);
+      }
+      return new ToolBrokerImpl(userName, password);
    }
 
+   @Override
+   public ToolBrokerAPI getReadyForUser(Object object)
+   {
+      return (ToolBrokerAPI) object;
+   }
 }

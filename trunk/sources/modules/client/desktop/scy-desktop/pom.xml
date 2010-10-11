@@ -167,6 +167,12 @@
          <version>${pom.version}</version>
       </dependency>
 
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>awareness-impl</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
       <dependency>
          <groupId>eu.scy.client.client-common</groupId>
          <artifactId>scy-i18n</artifactId>
