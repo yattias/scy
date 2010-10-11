@@ -70,7 +70,8 @@ public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
    @Test
    public void testLogin10() throws IOException
    {
-      tbi = localMultiUserToolBrokerLogin.login(userNameA, userNameA);
+      Object object = localMultiUserToolBrokerLogin.login(userNameA, userNameA);
+      tbi = localMultiUserToolBrokerLogin.getReadyForUser(object);
       TestUtils.testToolBrokerAPI(tbi);
       Assert.assertEquals(userNameA, tbi.getLoginUserName());
       checkDirectoryCopies(true);
@@ -88,7 +89,8 @@ public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
       tbi.getActionLogger().log(action);
       closeTbi();
       // login again
-      tbi = localMultiUserToolBrokerLogin.login(userNameA, userNameA);
+      object = localMultiUserToolBrokerLogin.login(userNameA, userNameA);
+      tbi = localMultiUserToolBrokerLogin.getReadyForUser(object);
       TestUtils.testToolBrokerAPI(tbi);
       Assert.assertEquals(userNameA, tbi.getLoginUserName());
       checkDirectoryCopies(false);
@@ -97,7 +99,8 @@ public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
       Assert.assertFalse(searchResults.isEmpty());
       closeTbi();
       // login under a different name
-      tbi = localMultiUserToolBrokerLogin.login(userNameB, userNameB);
+      object = localMultiUserToolBrokerLogin.login(userNameB, userNameB);
+      tbi = localMultiUserToolBrokerLogin.getReadyForUser(object);
       Assert.assertEquals(userNameB, tbi.getLoginUserName());
       checkDirectoryCopies(true);
       Assert.assertEquals(1, localMultiUserToolBrokerLogin.loggingDirectory.listFiles().length);

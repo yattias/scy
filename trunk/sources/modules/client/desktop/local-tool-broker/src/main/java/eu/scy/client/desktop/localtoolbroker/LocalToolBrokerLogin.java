@@ -100,7 +100,7 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
    }
 
    @Override
-   public ToolBrokerAPI login(String userName, String password) throws LoginFailedException
+   public Object login(String userName, String password) throws LoginFailedException
    {
       if (userName == null || userName.length() == 0)
       {
@@ -116,8 +116,7 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
          throw new LoginFailedException(e.getMessage());
       }
       loginCheck(usedUserName, password);
-      System.setProperty(userNameKey, usedUserName);
-      return readTbiFromSpringConfig();
+      return usedUserName;
    }
 
    protected void loginCheck(String userName, String password) throws LoginFailedException
@@ -126,10 +125,14 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
       {
          throw new LoginFailedException("user name and/or password not valid");
       }
-//      if (userName == null || !userName.equals(password))
-//      {
-//         throw new LoginFailedException("user name and/or password not valid");
-//      }
+   }
+
+   @Override
+   public ToolBrokerAPI getReadyForUser(Object object)
+   {
+      final String usedUserName = (String) object;
+      System.setProperty(userNameKey, usedUserName);
+      return readTbiFromSpringConfig();
    }
 
    private ToolBrokerAPI readTbiFromSpringConfig()
