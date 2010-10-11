@@ -46,7 +46,7 @@ public class LoginDialog extends CustomNode {
    public var createScyDesktop: function(missionRunConfigs: MissionRunConfigs): ScyDesktop;
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
-   var windowTitle:String = null;
+   var windowTitle: String = null;
 
    postinit {
 
@@ -73,7 +73,7 @@ public class LoginDialog extends CustomNode {
          }
       //      loginNode.layout();
       loginWindow = StandardScyWindow {
-            title: bind if (windowTitle==null) loginNode.loginTitle else windowTitle
+            title: bind if (windowTitle == null) loginNode.loginTitle else windowTitle
             //         eloIcon: CharacterEloIcon {
             //            iconCharacter: "L"
             //            color: loginColor
@@ -125,10 +125,11 @@ public class LoginDialog extends CustomNode {
    function loginAction(userName: String, password: String): Void {
       println("userName: {userName}, password: {password}");
       try {
-         var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
-         logger.info(
-         "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
-         showLoginResult(toolBrokerAPI, userName);
+         def loginResult = initializer.toolBrokerLogin.login(userName, password);
+         //         var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
+         //         logger.info(
+         //         "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
+         showLoginResult(loginResult, userName);
       //placeScyDescktop(toolBrokerAPI, userName);
       }
       catch (e: LoginFailedException) {
@@ -141,10 +142,10 @@ public class LoginDialog extends CustomNode {
       }
    }
 
-   function showLoginResult(toolBrokerAPI: ToolBrokerAPI, userName: String) {
+   function showLoginResult(loginResult: Object, userName: String) {
       def window = loginWindow;
       def windowColorScheme = window.windowColorScheme;
-      if (toolBrokerAPI != null) {
+      if (loginResult != null) {
          // successfull login
          Timeline {
             repeatCount: 1
@@ -153,7 +154,7 @@ public class LoginDialog extends CustomNode {
                   time: 750ms
                   values: windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
                   action: function() {
-                     findMission(toolBrokerAPI,userName);
+                     getReadyForUser(loginResult, userName);
                   }
                }
             ]
@@ -178,12 +179,19 @@ public class LoginDialog extends CustomNode {
       }
    }
 
+   function getReadyForUser(loginResult: Object, userName: String): Void {
+      var toolBrokerAPI = initializer.toolBrokerLogin.getReadyForUser(loginResult);
+      logger.info(
+      "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
+      findMission(toolBrokerAPI, userName);
+   }
+
    function findMission(toolBrokerAPI: ToolBrokerAPI, userName: String) {
       windowTitle = ##"Welcome to SCY-Lab";
       MissionLocator {
          tbi: toolBrokerAPI
          userName: userName
-         initializer:initializer
+         initializer: initializer
          window: loginWindow
          startMission: startMission
          cancelMission: cancelMission
