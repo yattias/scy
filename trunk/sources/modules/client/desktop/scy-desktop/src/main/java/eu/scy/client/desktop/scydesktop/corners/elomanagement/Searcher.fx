@@ -29,7 +29,7 @@ public class Searcher extends  CustomNode, DropTarget2 {
 
    def identifierKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
    def searchButton: MultiImageButton = MultiImageButton {
-         imageName: "search"
+         imageName: imageName
          action: clickAction
       }
 
