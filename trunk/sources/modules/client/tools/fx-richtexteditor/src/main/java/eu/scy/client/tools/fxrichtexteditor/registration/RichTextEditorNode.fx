@@ -94,7 +94,7 @@ public class RichTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSav
          actionLogger = new DevNullActionLogger();
       }
       richTextEditor.setRichTextEditorLogger(actionLogger,
-        "username", toolname, "missionname", "sessionname",
+        toolBrokerAPI.getLoginUserName(), toolname, toolBrokerAPI.getMission(), "n/a",
         "formatted text editor");
       setLoggerEloUri();
     }
