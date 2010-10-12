@@ -57,6 +57,9 @@ import javax.swing.ImageIcon;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.RenderingHints;
+import javafx.animation.Timeline;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
 
 public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
@@ -97,7 +100,9 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
     def lostPixels = 20.0;
-    def simulatorContent = Group{}
+    var split: JSplitPane;
+    var scroller: JScrollPane;
+    def simulatorContent = Group{};
 
     public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -359,32 +364,26 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         dataCollector = null;
         try {
             simquestViewer.run();
-//            simquestPanel.setLayout(new BorderLayout());
-//            simquestPanel.removeAll();
-//            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
-//            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
-//            toolBrokerAPI.registerForNotifications(this as INotifiable);
-//            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
             //--- creating a splitpane
-            var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
             // creating the datacollector
             dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
             var simulationViewer = simquestViewer.getInterfacePanel();
             simulationViewer.setPreferredSize(simquestViewer.getRealSize());
             // adding simulation and datacollector to splitpane
-            var scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             scroller.setViewportView(simquestViewer.getInterfacePanel());
-            split.setTopComponent(scroller);
-            //dataCollector.setPreferredSize(new Dimension(100, 300));
+            split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+            split.setDividerLocation(0.75);
+            split.setResizeWeight(0.75);
             split.setBottomComponent(dataCollector);
+            split.setTopComponent(scroller);
+            dataCollector.setPreferredSize(new Dimension(100, 300));
             // adding the splitcomponent to the simquestpanel
             split.setEnabled(true);
 
             toolBrokerAPI.registerForNotifications(this as INotifiable);
             fixedDimension = simquestViewer.getRealSize();
             switchSwingDisplayComponent(split);
-            split.setDividerLocation(0.66);
-            split.setResizeWeight(1.0);
 
             if (fixedDimension.width < 555) {
                 fixedDimension.width = 555;
@@ -453,13 +452,31 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         }
     }
 
+    public override function onUnMinimized(): Void {
+         logger.info("onUnMinimized");
+    }
+
+    public override function onOpened(): Void {
+        Timeline {
+            repeatCount: Timeline.INDEFINITE
+            keyFrames: [
+                KeyFrame {
+                    time: 0.01s
+                    action: function(): Void {
+                        split.setDividerLocation(0.75);
+          //                      split.setVisible(true);
+                    }
+                }
+            ];
+        }.play();
+
+    }
+
     function resizeContent() {
         Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing-lostPixels);
     }
 
     public override function getPrefHeight(height: Number): Number {
-       // TODO, calculate the correct preferred height
-       // the bottom part is not displayed
        return Container.getNodePrefHeight(wrappedSimquestPanel, height)+wrappedSimquestPanel.boundsInParent.minY+spacing+lostPixels;
     }
 
@@ -472,6 +489,14 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function getMinHeight(): Number {
+       500;
+    }
+
+    public function getNodePrefWidth(): Number {
+       400;
+    }
+
+    public function getNodePrefHeight(): Number {
        500;
     }
 
