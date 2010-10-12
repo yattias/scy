@@ -30,6 +30,7 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.LoginType;
 
 /**
  * @author sikken
@@ -184,6 +185,9 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function getReadyForUser(loginResult: Object): Void {
+      if (LoginType.LOCAL_MULTI_USER == initializer.loginTypeEnum){
+         initializer.setupLogging(userName);
+      }
       def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin,loginResult,this);
       backgroundGetReadyForUser.start();
 //      var toolBrokerAPI = initializer.toolBrokerLogin.getReadyForUser(loginResult);
