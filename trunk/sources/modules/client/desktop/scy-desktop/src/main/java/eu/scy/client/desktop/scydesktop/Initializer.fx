@@ -136,7 +136,7 @@ public class Initializer {
    def usingRooloCacheOption = "usingRooloCache";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
-   var loginTypeEnum: LoginType;
+   public-read var loginTypeEnum: LoginType;
 
    init {
       StringLocalizer.associate("languages.scydesktop", "eu.scy.client.desktop.scydesktop");
@@ -148,10 +148,38 @@ public class Initializer {
       loginTypeEnum = LoginType.convertToLoginType(loginType);
       usingWebStart = System.getProperty("javawebstart.version") != null;
       offlineMode = loginType.toLowerCase().startsWith("local");
+      setupLanguages();
+      if (LoginType.LOCAL_MULTI_USER != loginTypeEnum){
+         setupLogging(null);
+      }
+
+//      System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
+//      var loggingDirectoryKeyValue = "";
+//      if (enableLocalLogging) {
+//         localLoggingDirectory = findLocalLoggingDirectory();
+//         if (localLoggingDirectory != null) {
+//            setupLoggingToFiles = new SetupLoggingToFiles(localLoggingDirectory);
+//            if (redirectSystemStream) {
+//               setupLoggingToFiles.redirectSystemStreams();
+//            }
+//            loggingDirectoryKeyValue = localLoggingDirectory.getAbsolutePath();
+//         }
+//      }
+//      System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
+//      System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
+//      setupCodeLogging();
+//      logProperties();
+      setLocalUriReplacement();
+      setLookAndFeel();
+      setupScyServerHost();
+      setupToolBrokerLogin();
+   }
+
+   function prepareLogging(userName: String){
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
       var loggingDirectoryKeyValue = "";
       if (enableLocalLogging) {
-         localLoggingDirectory = findLocalLoggingDirectory();
+         localLoggingDirectory = findLocalLoggingDirectory(userName);
          if (localLoggingDirectory != null) {
             setupLoggingToFiles = new SetupLoggingToFiles(localLoggingDirectory);
             if (redirectSystemStream) {
@@ -162,13 +190,12 @@ public class Initializer {
       }
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
-      setupLanguages();
+   }
+
+   public function setupLogging(userName: String){
+      prepareLogging(userName);
       setupCodeLogging();
       logProperties();
-      setLocalUriReplacement();
-      setLookAndFeel();
-      setupScyServerHost();
-      setupToolBrokerLogin();
    }
 
    function parseApplicationParameters() {
@@ -481,7 +508,7 @@ public class Initializer {
       }
    }
 
-   function findLocalLoggingDirectory(): File {
+   function findLocalLoggingDirectory(userName: String): File {
       try {
          var logDirectory: File;
          if (loggingDirectoryName.length() > 0) {
@@ -498,7 +525,8 @@ public class Initializer {
                if (loginTypeEnum.LOCAL_MULTI_USER == loginTypeEnum) {
                   def usersDirectory = new File("store/users");
                   if (usersDirectory.isDirectory()) {
-                     def globalUserDirectory = new File(usersDirectory, "_global_");
+
+                     def globalUserDirectory = new File(usersDirectory, if (userName!=null) userName else "_global_");
                      if (not globalUserDirectory.isDirectory()) {
                         globalUserDirectory.mkdir();
                      }
