@@ -7,6 +7,8 @@ import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.scymapper.api.diagram.model.*;
 import org.apache.log4j.Logger;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * @author bjoerge
@@ -87,6 +89,11 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         IAction a = createSCYMapperAction("node_added");
         a.addAttribute("id", node.getId());
         a.addAttribute("name", node.getLabel());
+
+        XStream xstream = new XStream(new DomDriver());
+        String xml = xstream.toXML(diagram);
+        a.addAttribute("model", xml);
+
         log(a);
     }
 
@@ -101,6 +108,11 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         a.addAttribute("name", link.getLabel());
         a.addAttribute("from_node", link.getFromNode().getId());
         a.addAttribute("to_node", link.getToNode().getId());
+
+        XStream xstream = new XStream(new DomDriver());
+        String xml = xstream.toXML(diagram);
+        a.addAttribute("model", xml);
+
         log(a);
     }
 
@@ -112,6 +124,11 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     public void logLinkRemoved(INodeLinkModel link) {
         IAction a = createSCYMapperAction("link_removed");
         a.addAttribute("id", link.getId());
+
+        XStream xstream = new XStream(new DomDriver());
+        String xml = xstream.toXML(diagram);
+        a.addAttribute("model", xml);
+
         log(a);
     }
 
@@ -123,6 +140,11 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     public void logNodeRemoved(INodeModel node) {
         IAction a = createSCYMapperAction("node_removed");
         a.addAttribute("id", node.getId());
+
+        XStream xstream = new XStream(new DomDriver());
+        String xml = xstream.toXML(diagram);
+        a.addAttribute("model", xml);
+        
         log(a);
     }
 
