@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action id="8f89703e-f66c-4600-afd7-d8ca0ada1bb6" user="jeremy" type="tool_start" timemillis="1285244478748"><context><tool>eportfoliotool</tool><mission>mission 1</mission><session>n/a</session><eloURI>scy://unsaved_elo_7bef249f-dd8f-4e7b-973b-ca7b91821a34</eloURI></context><attributes/></action>
+<action id="3aaf3e71-60de-4d98-8b30-fc07f922e23a" user="jeremy" type="tool_closed" timemillis="1285244514513"><context><tool>eportfoliotool</tool><mission>mission 1</mission><session>n/a</session><eloURI>scy://unsaved_elo_7bef249f-dd8f-4e7b-973b-ca7b91821a34</eloURI></context><attributes/></action>

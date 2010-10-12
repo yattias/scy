@@ -1,0 +1,57 @@
+<elo>
+<metadata>
+  <testpath>scy/text</testpath>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Finkenkrug</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/0/0/Finkenkrug.video</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/video</format>
+      <customElements>
+        <dateCreated>1252574962998</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<document><title>Finkenkrug</title><subtitle>the famous bathroom of a famous student bar in duisburg</subtitle><URI>http://188.40.38.84/~pg/scy/finkenK.flv</URI></document>
+</content>
+<resources>
+</resources>
+</elo>

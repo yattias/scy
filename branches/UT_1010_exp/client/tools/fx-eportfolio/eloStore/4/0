@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/missionruntime</format>
+      <customElements>
+        <dateCreated>1285169507184</dateCreated>
+        <dateLastModified>1285169507184</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Empty mission</string>
+      </title>
+      <missionRunning>jeremy</missionRunning>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/4/0/Empty+mission.scymissionruntime</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jeremy</entity>
+        <date>
+          <dateTime>2010-09-22T17:31:47.184+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/4/1/Empty+mission.scymissionruntime</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionRuntimeElo>
+  <missionSpecificationEloUri />
+  <missionMapModelEloUri />
+  <eloToolConfigsEloUri />
+  <templateElosEloUri />
+  <runtimeSettingsEloUri />
+</missionRuntimeElo>
+</content>
+<resources>
+</resources>
+</elo>
