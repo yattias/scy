@@ -27,11 +27,37 @@ public class Missions
       return missionRuntimeElos.size() + missionSpecificationElos.size();
    }
 
-   public MissionRuntimeElo[] getMissionRuntimeElosArray(){
+   public MissionRuntimeElo[] getMissionRuntimeElosArray()
+   {
       return missionRuntimeElos.toArray(new MissionRuntimeElo[0]);
    }
 
-   public MissionSpecificationElo[] getMissionSpecificationElosArray(){
+   public MissionSpecificationElo[] getMissionSpecificationElosArray()
+   {
       return missionSpecificationElos.toArray(new MissionSpecificationElo[0]);
+   }
+
+   public MissionRuntimeElo findMissionRuntimeEloByTitle(String title)
+   {
+      for (MissionRuntimeElo missionRuntimeElo : missionRuntimeElos)
+      {
+         if (title.equalsIgnoreCase(missionRuntimeElo.getTitle()))
+         {
+            return missionRuntimeElo;
+         }
+      }
+      return null;
+   }
+
+   public MissionSpecificationElo findMissionSpecificationEloByTitle(String title)
+   {
+      for (MissionSpecificationElo missionSpecificationElo : missionSpecificationElos)
+      {
+         if (title.equalsIgnoreCase(missionSpecificationElo.getTitle()))
+         {
+            return missionSpecificationElo;
+         }
+      }
+      return null;
    }
 }

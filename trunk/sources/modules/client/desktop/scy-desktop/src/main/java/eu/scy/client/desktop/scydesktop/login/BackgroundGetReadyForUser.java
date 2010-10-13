@@ -4,6 +4,8 @@
  */
 package eu.scy.client.desktop.scydesktop.login;
 
+import eu.scy.client.desktop.scydesktop.mission.MissionLocatorUtils;
+import eu.scy.client.desktop.scydesktop.mission.Missions;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerLogin;
 import javax.swing.SwingUtilities;
@@ -35,13 +37,14 @@ public class BackgroundGetReadyForUser implements Runnable
    public void run()
    {
       final ToolBrokerAPI tbi = toolBrokerLogin.getReadyForUser(loginResult);
+      final Missions missions = MissionLocatorUtils.findMissions(tbi);
       SwingUtilities.invokeLater(new Runnable()
       {
 
          @Override
          public void run()
          {
-            tbiReady.tbiReady(tbi);
+            tbiReady.tbiReady(tbi,missions);
          }
       });
    }
