@@ -38,16 +38,18 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin
    @Override
    public Object login(String userName, String password) throws LoginFailedException
    {
-      if (springConfigFile != null && springConfigFile.length() > 0)
-      {
-         return new ToolBrokerImpl(userName, password, springConfigFile);
-      }
+//      if (springConfigFile != null && springConfigFile.length() > 0)
+//      {
+//         return new ToolBrokerImpl(userName, password, springConfigFile);
+//      }
       return new ToolBrokerImpl(userName, password);
    }
 
    @Override
    public ToolBrokerAPI getReadyForUser(Object object)
    {
+      final ToolBrokerImpl tbi = (ToolBrokerImpl) object;
+      tbi.getReadyForUser(springConfigFile);
       return (ToolBrokerAPI) object;
    }
 }
