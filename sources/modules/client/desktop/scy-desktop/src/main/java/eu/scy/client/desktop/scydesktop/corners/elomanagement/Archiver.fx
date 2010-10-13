@@ -36,7 +36,7 @@ public class Archiver extends CustomNode, DropTarget2 {
    def identifierKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
 
    def archiverButton = MultiImageButton {
-               imageName: "archive"
+               imageName: "archive1"
                action: archiveAction
             };
 
