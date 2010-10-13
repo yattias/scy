@@ -19,7 +19,7 @@
             classpath:eu/scy/core/applicationContext-service.xml,
             classpath:eu/scy/core/persistence/hibernate/applicationContext-dao.xml,
             /WEB-INF/applicationContext-hibernate.xml,
-            /WEB-INF/dataGenerator.xml,
+            <!--  /WEB-INF/dataGenerator.xml,-->
             /WEB-INF/remoteRooloConfig.xml,
             classpath:co2-mission-map.xml
         </param-value>
