@@ -43,6 +43,7 @@ public class MissionLocator {
    public-init var tbi: ToolBrokerAPI;
    public-init var userName: String;
    public-init var initializer: Initializer;
+   public-init var missions: Missions;
    public-init var window: ScyWindow;
    public-init var startMission: function(missionRunConfigs: MissionRunConfigs): Void;
    public-init var cancelMission: function(): Void;
@@ -60,7 +61,6 @@ public class MissionLocator {
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
-      var missions = MissionLocatorUtils.findMissions(tbi, userName);
       if (missions.isEmpty()) {
          startBlankMission();
       }
@@ -72,6 +72,21 @@ public class MissionLocator {
          }
          return;
       }
+      if (initializer.defaultMission!=""){
+         // a default mission is specified, try to use that
+         def defaultMissionRuntimeElo = missions.findMissionRuntimeEloByTitle(initializer.defaultMission);
+         if (defaultMissionRuntimeElo!=null){
+            continueMission(defaultMissionRuntimeElo);
+            return;
+         }
+         def defaultMissionSpecificationElo = missions.findMissionSpecificationEloByTitle(initializer.defaultMission);
+         if (defaultMissionSpecificationElo!=null){
+            startNewMission(defaultMissionSpecificationElo);
+            return;
+         }
+         logger.info("failed to find the default mission: {initializer.defaultMission}");
+      }
+
       // multiple missions possible, ask the user which one
       askUserForMission(missions);
    }

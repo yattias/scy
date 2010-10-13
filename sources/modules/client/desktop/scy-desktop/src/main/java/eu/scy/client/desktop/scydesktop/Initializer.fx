@@ -88,6 +88,7 @@ public class Initializer {
    public-init var missionMapPositionScale = 1.0;
    public-init var localUriReplacements = "";
    public-init var usingRooloCache = true;
+   public-init var defaultMission = "";
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -134,6 +135,7 @@ public class Initializer {
    def missionMapPositionScaleOption = "missionMapPositionScale";
    def localUriReplacementsOption = "localUriReplacements";
    def usingRooloCacheOption = "usingRooloCache";
+   def defaultMissionOption = "defaultMission";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -303,6 +305,9 @@ public class Initializer {
             } else if (option == usingRooloCacheOption.toLowerCase()) {
                usingRooloCache = argumentsList.nextBooleanValue(usingRooloCacheOption);
                logger.info("app: {usingRooloCacheOption}: {usingRooloCache}");
+            } else if (option == defaultMissionOption.toLowerCase()) {
+               defaultMission = argumentsList.nextStringValue(defaultMissionOption);
+               logger.info("app: {defaultMissionOption}: {defaultMission}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -345,6 +350,7 @@ public class Initializer {
       missionMapPositionScale = getWebstartParameterNumberValue(missionMapPositionScaleOption, missionMapPositionScale);
       localUriReplacements = getWebstartParameterStringValue(localUriReplacementsOption, localUriReplacements);
       usingRooloCache = getWebstartParameterBooleanValue(usingRooloCacheOption, usingRooloCache);
+      defaultMission = getWebstartParameterStringValue(defaultMissionOption, defaultMission);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -393,6 +399,7 @@ public class Initializer {
       printWriter.println("- defaultUserName: {defaultUserName}");
       printWriter.println("- defaultPassword: {defaultPassword}");
       printWriter.println("- autoLogin: {autoLogin}");
+      printWriter.println("- defaultMission: {defaultMission}");
       printWriter.println("- scyDesktopConfigFile: {scyDesktopConfigFile}");
       printWriter.println("- storeElosOnDisk: {storeElosOnDisk}");
       printWriter.println("- createPersonalMissionMap: {createPersonalMissionMap}");

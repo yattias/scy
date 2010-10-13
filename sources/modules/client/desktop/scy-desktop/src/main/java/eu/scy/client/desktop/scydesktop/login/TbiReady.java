@@ -5,6 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.login;
 
+import eu.scy.client.desktop.scydesktop.mission.Missions;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -13,5 +14,5 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  */
 public interface TbiReady {
 
-   public void tbiReady(ToolBrokerAPI tbi);
+   public void tbiReady(ToolBrokerAPI tbi, Missions mission);
 }

@@ -31,7 +31,7 @@ public class MissionLocatorUtils
 
    private static final Logger logger = Logger.getLogger(MissionLocatorUtils.class);
 
-   public static Missions findMissions(final ToolBrokerAPI tbi, final String userName)
+   public static Missions findMissions(final ToolBrokerAPI tbi)
    {
       Missions missions = new Missions();
       final IMetadataKey missionRunningKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
@@ -39,7 +39,7 @@ public class MissionLocatorUtils
       IQuery missionSpecificationQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, MissionEloType.MISSION_SPECIFICATIOM.getType());
       List<ISearchResult> missionSpecificationResults = tbi.getRepository().search(missionSpecificationQuery);
       IQuery missionRuntimeQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
-      IQuery titleQuery = new BasicMetadataQuery(missionRunningKey, BasicSearchOperations.EQUALS, userName);
+      IQuery titleQuery = new BasicMetadataQuery(missionRunningKey, BasicSearchOperations.EQUALS, tbi.getLoginUserName());
       IQuery myMissionRuntimeQuery = new AndQuery(missionRuntimeQuery, titleQuery);
       List<ISearchResult> missionRuntimeResults = tbi.getRepository().search(myMissionRuntimeQuery);
       if (missionRuntimeResults==null || missionSpecificationResults.isEmpty())

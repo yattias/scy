@@ -31,6 +31,7 @@ import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.LoginType;
+import eu.scy.client.desktop.scydesktop.mission.Missions;
 
 /**
  * @author sikken
@@ -152,6 +153,7 @@ public class LoginDialog extends CustomNode, TbiReady {
          // successfull login
          this.userName = userName;
          getReadyForUser(loginResult);
+         windowTitle = ##"Welcome to SCY-Lab";
          Timeline {
             repeatCount: 1
             keyFrames: [
@@ -196,18 +198,18 @@ public class LoginDialog extends CustomNode, TbiReady {
 //      findMission(toolBrokerAPI);
    }
 
-   public override function tbiReady(toolBrokerAPI: ToolBrokerAPI): Void{
+   public override function tbiReady(toolBrokerAPI: ToolBrokerAPI, missions: Missions): Void{
       logger.info(
       "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
-      findMission(toolBrokerAPI);
+      findMission(toolBrokerAPI,missions);
    }
 
-   function findMission(toolBrokerAPI: ToolBrokerAPI) {
-      windowTitle = ##"Welcome to SCY-Lab";
+   function findMission(toolBrokerAPI: ToolBrokerAPI, missions: Missions) {
       MissionLocator {
          tbi: toolBrokerAPI
          userName: userName
          initializer: initializer
+         missions:missions
          window: loginWindow
          startMission: startMission
          cancelMission: cancelMission
