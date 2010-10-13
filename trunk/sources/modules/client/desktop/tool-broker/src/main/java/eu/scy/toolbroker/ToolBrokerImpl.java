@@ -94,9 +94,22 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
     public ToolBrokerImpl(String username, String password) throws LoginFailedException {
 
-        getConnection(username, password);
-        
-        // move the rest to getReadyForUser(), in order to run it in the background
+       getConnection(username, password);
+       
+       getReadyForUser();
+   }
+   
+    public ToolBrokerImpl(String username, String password, boolean splitLogin) throws LoginFailedException {
+
+       getConnection(username, password);
+       
+       if (!splitLogin){
+          getReadyForUser();
+       }
+   }
+   
+    public void getReadyForUser(){
+       getReadyForUser(defaultBeanConfigurationFile);
     }
     
     public void getReadyForUser(String beanConfigurationFile){
