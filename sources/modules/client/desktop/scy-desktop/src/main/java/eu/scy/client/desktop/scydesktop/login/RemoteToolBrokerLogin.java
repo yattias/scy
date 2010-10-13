@@ -42,7 +42,7 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin
 //      {
 //         return new ToolBrokerImpl(userName, password, springConfigFile);
 //      }
-      return new ToolBrokerImpl(userName, password);
+      return new ToolBrokerImpl(userName, password, true);
    }
 
    @Override
