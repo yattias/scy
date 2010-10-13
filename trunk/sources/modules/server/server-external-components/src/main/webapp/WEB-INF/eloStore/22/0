@@ -413,10 +413,10 @@
     <eloType>scy/image</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>image</contentCreatorId>
-    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
-    <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
-    <bottomDrawerCreatorId />
-    <leftDrawerCreatorId />
+    <topDrawerCreatorId>presence</topDrawerCreatorId>
+    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
     <isContentCollaboration>false</isContentCollaboration>
     <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
     <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
