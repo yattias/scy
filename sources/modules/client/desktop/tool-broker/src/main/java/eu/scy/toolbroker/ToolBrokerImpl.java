@@ -22,6 +22,7 @@ import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.utils.StringUtils;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
@@ -91,75 +92,74 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
     private Map<String, BlockingQueue<INotification>> collaborationAnswers;
 
-    public ToolBrokerImpl(String username, String password) {
-        this(username, password, defaultBeanConfigurationFile);
-    }
-
-    @SuppressWarnings("unchecked")
-    public ToolBrokerImpl(String username, String password, String beanConfigurationFile) throws LoginFailedException {
+    public ToolBrokerImpl(String username, String password) throws LoginFailedException {
 
         getConnection(username, password);
-
-        context = new ClassPathXmlApplicationContext(beanConfigurationFile);
-
-        // RoOLO
-        repository = (IRepository) context.getBean("repository");
-        metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
-        extensionManager = (IExtensionManager) context.getBean("extensionManager");
-        eloFactory = (IELOFactory) context.getBean("eloFactory");
-
-        // ActionLogger
-        actionLogger = (IActionLogger) context.getBean("actionlogger");
-        ((ActionLogger) actionLogger).init(xmppConnection);
-
-        // SessionManager (Up-to-date?)
-        sessionManager = (SessionManager) context.getBean("sessionManager");
-
-        // AwarenessService
-        awarenessService = (IAwarenessService) context.getBean("awarenessService");
-        awarenessService.init(xmppConnection);
-        awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost());
-        logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
-
-        // DataSyncService
-        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
-        ((DataSyncService) dataSyncService).init(xmppConnection);
-
-        // PedagogicalPlan
-        pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
         
-        //student planning service
-        
-        //studentPedagogicalPlanService = this.getStudentPlanService();
-        setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
+        // move the rest to getReadyForUser(), in order to run it in the background
+    }
+    
+    public void getReadyForUser(String beanConfigurationFile){
+       String beanConfigFile = beanConfigurationFile;
+       if (StringUtils.isEmpty(beanConfigFile)){
+          beanConfigFile = defaultBeanConfigurationFile;
+       }
+       context = new ClassPathXmlApplicationContext(beanConfigFile);
 
-        // NotificationReceiver
-        notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
-        notificationReceiver.init(xmppConnection);
+       // RoOLO
+       repository = (IRepository) context.getBean("repository");
+       metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
+       extensionManager = (IExtensionManager) context.getBean("extensionManager");
+       eloFactory = (IELOFactory) context.getBean("eloFactory");
 
-        // collaboration
-        collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
-        registerForNotifications(new INotifiable() {
+       // ActionLogger
+       actionLogger = (IActionLogger) context.getBean("actionlogger");
+       ((ActionLogger) actionLogger).init(xmppConnection);
 
-            @Override
-            public void processNotification(INotification notification) {
-                if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type")!=null&&notification.getFirstProperty("type").equals("collaboration_response")) {
-                    String proposingUser = notification.getFirstProperty("proposing_user");
-                    String proposedUser = notification.getFirstProperty("proposed_user");
-                    String elo = notification.getFirstProperty("proposed_elo");
-                    BlockingQueue<INotification> q = collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo);
-                    if (q != null) {
-                        q.add(notification);
-                    } else {
-                        logger.warn("Received collaboration response that could not be mapped to a request, from user " + proposingUser + " to user " + proposedUser + ", elouri is " + elo);
-                    }
-                }
-            }
-        });
-        
+       // SessionManager (Up-to-date?)
+       sessionManager = (SessionManager) context.getBean("sessionManager");
+
+       // AwarenessService
+       awarenessService = (IAwarenessService) context.getBean("awarenessService");
+       awarenessService.init(xmppConnection);
+       awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost());
+       logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
+
+       // DataSyncService
+       dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
+       ((DataSyncService) dataSyncService).init(xmppConnection);
+
+       // PedagogicalPlan
+       pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
        
-        
-        
+       //student planning service
+       
+       //studentPedagogicalPlanService = this.getStudentPlanService();
+       setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
+
+       // NotificationReceiver
+       notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
+       notificationReceiver.init(xmppConnection);
+
+       // collaboration
+       collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
+       registerForNotifications(new INotifiable() {
+
+           @Override
+           public void processNotification(INotification notification) {
+               if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type")!=null&&notification.getFirstProperty("type").equals("collaboration_response")) {
+                   String proposingUser = notification.getFirstProperty("proposing_user");
+                   String proposedUser = notification.getFirstProperty("proposed_user");
+                   String elo = notification.getFirstProperty("proposed_elo");
+                   BlockingQueue<INotification> q = collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo);
+                   if (q != null) {
+                       q.add(notification);
+                   } else {
+                       logger.warn("Received collaboration response that could not be mapped to a request, from user " + proposingUser + " to user " + proposedUser + ", elouri is " + elo);
+                   }
+               }
+           }
+       });
     }
 
 //    public StudentPedagogicalPlanService getStudentPlanService() {
