@@ -67,17 +67,17 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    def userId = scyDesktop.config.getToolBrokerAPI().getLoginUserName();
    def tbi = scyDesktop.config.getToolBrokerAPI();
    def newFromEloTemplateButton: MultiImageButton = MultiImageButton {
-         imageName: "new"
+         imageName: "new1"
          action: createNewEloFromTemplateAction
       }
    def searcher: Searcher = Searcher {
          tbi: scyDesktop.config.getToolBrokerAPI()
-         imageName: "search"
+         imageName: "search1"
          clickAction: searchEloAction
          dropAction: eloBasedSearchAction
       }
    def createBlankEloButton: MultiImageButton = MultiImageButton {
-         imageName: "new_a"
+         imageName: "new1_a"
          action: createNewBlankEloAction
       }
    def archiver = Archiver {
