@@ -449,10 +449,12 @@
          in the pom hierarchy
          -->
     <modules>
+	<!--
         <module>common</module>
         <module>agents</module>
         <module>client</module>
         <module>server</module>
+		-->
     </modules>
 
     <properties>
