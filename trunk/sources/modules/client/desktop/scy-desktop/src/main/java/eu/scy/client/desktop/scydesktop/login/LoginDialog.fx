@@ -154,6 +154,7 @@ public class LoginDialog extends CustomNode, TbiReady {
          this.userName = userName;
          getReadyForUser(loginResult);
          windowTitle = ##"Welcome to SCY-Lab";
+         loginNode.disable = true;
          Timeline {
             repeatCount: 1
             keyFrames: [
