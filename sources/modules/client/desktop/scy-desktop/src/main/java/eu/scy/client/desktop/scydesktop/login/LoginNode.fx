@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.TextBox;
 import javafx.scene.control.Button;
-
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -31,219 +30,259 @@ import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
  */
 // place your code here
 public class LoginNode extends CustomNode {
-   def logger = Logger.getLogger(this.getClass());
 
+   def logger = Logger.getLogger(this.getClass());
    public-init var defaultUserName = "name";
    public-init var defaultPassword = "pass";
    public-init var autoLogin = false;
-   public-init var languages = ["nl","en","et","fr","el"];
-   public var loginAction  : function(userName:String,password:String): Void;
-   public-read var language:String = bind languageSelector.language on replace {languageSelected()};
-   public-read var loginTitle:String = "SCY-Lab login";
-
+   public-init var languages = ["nl", "en", "et", "fr", "el"];
+   public var loginAction: function(userName: String, password: String): Void;
+   public-read var language: String = bind languageSelector.language on replace { languageSelected() };
+   public-read var loginTitle: String = "SCY-Lab login";
    def spacing = 5;
    def borderSize = 5;
    def entryFieldOffset = 120;
    def labelVOffset = 5;
    def rowHeight = 30;
    def textBoxColumns = 23;
-   var userNameLabel:Label;
+   var userNameLabel: Label;
    var userNameField: TextBox;
-   var passwordLabel:Label;
+   var passwordLabel: Label;
    var passwordField: PasswordBox;
    var loginButton: Button;
    var quitButton: Button;
    var currentLocale = Locale.getDefault();
-   def languageSelector = LanguageSelector{
+   def languageSelector = LanguageSelector {
          languages: languages
          language: currentLocale.getLanguage()
       };
-   def loginDisabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0 or languageSelector.language.length()==0);
+   def loginDisabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0 or languageSelector.language.length() == 0);
    def loginButtonText = "               ";
-   def quitButtonText  = "               ";
+   def quitButtonText = "               ";
 
-   postinit{
-      if (autoLogin){
+   postinit {
+      if (autoLogin) {
          Timeline {
             repeatCount: 1
-            keyFrames : [
+            keyFrames: [
                KeyFrame {
-                  time : 1000ms
-                  action:doAutoLogin
+                  time: 1000ms
+                  action: doAutoLogin
                }
             ]
          }.play();
       }
    }
 
-   function doAutoLogin(){
-      if (not loginButton.disabled){
+   function doAutoLogin() {
+      if (not loginButton.disabled) {
          loginButton.action();
-      }
-      else{
+      } else {
          println("autoLogin, but login is not enabled");
       }
    }
 
-   function languageSelected():Void{
+   function languageSelected(): Void {
       logger.info("languageSelected: {language}");
-      if (language==null or language==""){
+      if (language == null or language == "") {
          return;
       }
       var newLocale = new Locale(language);
-      if (newLocale!=null){
+      if (newLocale != null) {
          Locale.setDefault(newLocale);
          setLanguageLabels();
-      }
-      else{
+      } else {
          logger.error("could not find locale for language {language}");
       }
-    }
+   }
 
-    function setLanguageLabels(){
-       try{
-          var bundle = new ResourceBundleWrapper(this);
-          loginTitle = bundle.getString("LoginDialog.title");
-          userNameLabel.text = bundle.getString("LoginDialog.username");
-          passwordLabel.text = bundle.getString("LoginDialog.password");
-          loginButton.text = bundle.getString("LoginDialog.login");
-          quitButton.text = bundle.getString("LoginDialog.quit");
-       }
-       catch (e:MissingResourceException){
-          logger.info("failed to find resource bundle, {e.getMessage()}");
-       }
-    }
+   function setLanguageLabels() {
+      try {
+         var bundle = new ResourceBundleWrapper(this);
+         loginTitle = bundle.getString("LoginDialog.title");
+         userNameLabel.text = bundle.getString("LoginDialog.username");
+         passwordLabel.text = bundle.getString("LoginDialog.password");
+         loginButton.text = bundle.getString("LoginDialog.login");
+         quitButton.text = bundle.getString("LoginDialog.quit");
+      }
+      catch (e: MissingResourceException) {
+         logger.info("failed to find resource bundle, {e.getMessage()}");
+      }
+   }
 
    public override function create(): Node {
 
       var loginGroup = Group {
-                 content: [
-                    userNameLabel = Label {
-                       layoutY:labelVOffset
-                       text: "User name             "
-                    }
-                    userNameField = TextBox {
-                       layoutX: entryFieldOffset;
-                       text: defaultUserName
-                       columns: textBoxColumns
-                       selectOnFocus: true
-                       action:function(){
-                          passwordField.requestFocus();
-                       }
-                    }
-                    passwordLabel = Label {
-                       layoutY: rowHeight+labelVOffset;
-                       text: "Password             "
-                    }
-                    passwordField = PasswordBox {
-                       layoutX: entryFieldOffset;
-                       layoutY: rowHeight;
-                       text: defaultPassword
-                       columns: textBoxColumns
-                       selectOnFocus: true
-                       action:function(){
-                          if (userNameField.text.length()==0){
+            content: [
+               userNameLabel = Label {
+                     layoutY: labelVOffset
+                     text: "User name             "
+                  }
+               userNameField = TextBox {
+                     layoutX: entryFieldOffset;
+                     text: defaultUserName
+                     columns: textBoxColumns
+                     selectOnFocus: true
+                     action: function() {
+                        passwordField.requestFocus();
+                     }
+                  }
+               passwordLabel = Label {
+                     layoutY: rowHeight + labelVOffset;
+                     text: "Password             "
+                  }
+               passwordField = PasswordBox {
+                     layoutX: entryFieldOffset;
+                     layoutY: rowHeight;
+                     text: defaultPassword
+                     columns: textBoxColumns
+                     selectOnFocus: true
+                     action: function() {
+                        if (userNameField.text.length() == 0) {
                            userNameField.requestFocus();
-                          }
-                          else if (passwordField.password.length()>0){
-                             loginButton.action();
-                          }
-                       }
-                    }
-                    loginButton = Button {
-                       layoutX: entryFieldOffset;
-                       layoutY: 2 * rowHeight + spacing;
-                       strong:true
-                       text: loginButtonText
-                       disable: bind loginDisabled
-                       action: function () {
-                          loginAction(userNameField.text,passwordField.password);
-                       }
-                    }
-                    quitButton = Button {
-                       //layoutX: entryFieldOffset;
-                       layoutX: bind passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
-                       layoutY: 2 * rowHeight + spacing;
-                       text: quitButtonText
-                       action: function () {
-                          FX.exit();
-                       }
-                    }
-                 ]
-              };
+                        } else if (passwordField.password.length() > 0) {
+                           loginButton.action();
+                        }
+                     }
+                  }
+               loginButton = Button {
+                     layoutX: entryFieldOffset;
+                     layoutY: 2 * rowHeight + spacing;
+                     strong: true
+                     text: loginButtonText
+                     disable: bind loginDisabled
+                     action: function() {
+                        loginAction(userNameField.text, passwordField.password);
+                     }
+                  }
+               quitButton = Button {
+                     //layoutX: entryFieldOffset;
+                     layoutX: bind passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
+                     layoutY: 2 * rowHeight + spacing;
+                     text: quitButtonText
+                     action: function() {
+                        FX.exit();
+                     }
+                  }
+            ]
+         };
       loginGroup.layout();
       languageSelector.layout();
       languageSelected();
-      var vbox = VBox{
-         spacing:spacing;
-         hpos:HPos.RIGHT
-         nodeHPos:HPos.RIGHT
-         content:[
-            languageSelector,
-            loginGroup,
-         ]
-      }
+      var vbox = VBox {
+            spacing: spacing;
+            hpos: HPos.RIGHT
+            nodeHPos: HPos.RIGHT
+            content: [
+               languageSelector,
+               loginGroup,
+            ]
+         }
       vbox.layout();
-//      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
+      //      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
       vbox
-//      EmptyBorderNode{
-//         content: vbox
-//      }
+   //      EmptyBorderNode{
+   //         content: vbox
+   //      }
    }
 
-
-   public function loginFailed():Void{
-      def shiftField = passwordField;
+   public function loginFailed(): Void {
+      def finalUsernameLabel = passwordLabel;
+      def finalPasswordLabel = userNameLabel;
+      def finalUsernameField = userNameField;
+      def finalPasswordField = passwordField;
+      def labelColor = finalUsernameLabel.textFill;
       def quaterTime = 25ms;
       def maxShift = 5;
+      def nrOfCycles = 5;
+      // move the entry field to left and right and back
       Timeline {
-         repeatCount: 5
-         keyFrames : [
-            at(0s){
-               shiftField.translateX => 0 tween Interpolator.EASEBOTH
+         repeatCount: nrOfCycles
+         keyFrames: [
+            at (0s) {
+               finalUsernameField.translateX => 0 tween Interpolator.EASEBOTH;
+               finalPasswordField.translateX => 0 tween Interpolator.EASEBOTH
             }
             KeyFrame {
-               time : quaterTime
-               values: shiftField.translateX => maxShift tween Interpolator.EASEBOTH
+               time: quaterTime
+               values: [
+                  finalUsernameField.translateX => maxShift tween Interpolator.EASEBOTH,
+                  finalPasswordField.translateX => maxShift tween Interpolator.EASEBOTH,
+               ]
             }
             KeyFrame {
-               time : 3*quaterTime
-               values: shiftField.translateX => -maxShift tween Interpolator.EASEBOTH
+               time: 3 * quaterTime
+               values: [
+                  finalUsernameField.translateX => -maxShift tween Interpolator.EASEBOTH,
+                  finalPasswordField.translateX => -maxShift tween Interpolator.EASEBOTH
+               ]
             }
             KeyFrame {
-               time : 4*quaterTime
-               values: shiftField.translateX => 0 tween Interpolator.EASEBOTH
+               time: 4 * quaterTime
+               values: [
+                  finalUsernameField.translateX => 0 tween Interpolator.EASEBOTH,
+                  finalPasswordField.translateX => 0 tween Interpolator.EASEBOTH,
+               ]
             }
          ]
       }.play();
-      passwordLabel.textFill = Color.RED;
+      def colorChangeDuration = 500ms;
+      def colorShowDuration = 5000ms;
+      // change the color of the labels and back
+      Timeline{
+         repeatCount:1
+         keyFrames: [
+           KeyFrame {
+               time: colorChangeDuration
+               values: [
+                  finalUsernameLabel.textFill => Color.RED tween Interpolator.LINEAR,
+                  finalPasswordLabel.textFill => Color.RED tween Interpolator.LINEAR
+               ]
+            }
+           KeyFrame {
+               time: colorChangeDuration+colorShowDuration
+               values: [
+                  finalUsernameLabel.textFill => Color.RED tween Interpolator.LINEAR,
+                  finalPasswordLabel.textFill => Color.RED tween Interpolator.LINEAR
+               ]
+            }
+           KeyFrame {
+               time:colorChangeDuration+colorShowDuration+colorChangeDuration
+               values: [
+                  finalUsernameLabel.textFill => labelColor tween Interpolator.LINEAR,
+                  finalPasswordLabel.textFill => labelColor tween Interpolator.LINEAR
+               ]
+            }
+         ]
+      }.play();
+
+//      passwordLabel.textFill = Color.RED;
       passwordField.requestFocus();
 
    }
 
-
 }
 
-function run()    {
+function run() {
    var logingNode = LoginNode {
-              layoutX: 0
-              layoutY: 0
-              defaultUserName:"123"
-              defaultPassword:"321"
-              loginAction:function(userName:String, password:String):Void{
-                 println("user name: {userName}, password: {password}");
-                 }
-              }
-
-      Stage {
-         title: "Login node test"
-         scene: Scene {
-            width: 300
-            height: 200
-            content: [
-               logingNode
-            ]
+         layoutX: 0
+         layoutY: 0
+         defaultUserName: "123"
+         defaultPassword: "321"
+         loginAction: function(userName: String, password: String): Void {
+            println("user name: {userName}, password: {password}");
          }
       }
 
+   Stage {
+      title: "Login node test"
+      scene: Scene {
+         width: 300
+         height: 200
+         content: [
+            logingNode
+         ]
+      }
    }
+
+}
