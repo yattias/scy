@@ -33,6 +33,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     private String username;
     private String mission = "mission1";
     private String toolname = "scymapper";
+    private String eloURI;
     private final static Logger syslog = Logger.getLogger(ConceptMapActionLogger.class);
 
     public ConceptMapActionLogger(IActionLogger actionLogger, IDiagramModel diagram, String username) {
@@ -51,9 +52,14 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         this.diagram.addDiagramListener(this);
     }
     
-    public void logRequestHelp() {
-        IAction a = createSCYMapperAction("request_help");
-        log(a);
+    public void logRequestConceptHelp() {
+        IAction a = createSCYMapperAction("request_concept_help");
+        log(a);        
+    }
+
+    public void logRequestRelationHelp() {
+        IAction a = createSCYMapperAction("request_relation_help");
+        log(a);    
     }
 
     /**
@@ -155,6 +161,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         action.addContext(ContextConstants.tool, toolname);
         action.addContext(ContextConstants.mission, mission);
         action.addContext(ContextConstants.session, session == null ? "N/A" : session.getId());
+        action.addContext(ContextConstants.eloURI, eloURI == null ? "N/A" : eloURI);
         return action;
     }
 
@@ -204,4 +211,9 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     public void setSession(ISyncSession session) {
         this.session = session;
     }
+
+    public void setEloURI(String eloURI) {
+        this.eloURI = eloURI;
+    }
+
 }

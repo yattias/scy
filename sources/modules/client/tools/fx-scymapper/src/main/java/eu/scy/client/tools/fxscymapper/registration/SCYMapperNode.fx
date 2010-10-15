@@ -194,6 +194,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             currentELO = repositoryWrapper.loadELO(uri);
             var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
             scyMapperPanel.setConceptMap(conceptMap);
+            scyMapperPanel.setEloURI(uri.toString());
         }
     }
 
