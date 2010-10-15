@@ -73,6 +73,10 @@ public class SCYMapperPanel extends JPanel {
         validate();
     }
 
+    public ConceptDiagramView getConceptDiagramView() {
+        return conceptDiagramView;
+    }
+
     public void setToolBroker(ToolBrokerAPI tbi, String username) {
         toolBroker = tbi;
         if (toolBroker != null) {

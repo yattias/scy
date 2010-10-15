@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>tool-broker-api</artifactId>
-			<version>26-SNAPSHOT</version>
+			<version>${pom.version}</version>
 		</dependency>
 
 		<dependency>
@@ -210,10 +210,9 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>awareness-impl</artifactId>
-			<version>26-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>${pom.version}</version>
 		</dependency>
+		
 	</dependencies>
 
 	<repositories>

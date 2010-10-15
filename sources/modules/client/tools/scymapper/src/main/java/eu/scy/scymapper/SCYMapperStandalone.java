@@ -54,12 +54,9 @@ public class SCYMapperStandalone extends JFrame {
 	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperToolConfig.xml";
 	private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
 	private ApplicationContext appContext;
-
 	private Icon offlineIcon;
 	private Icon onlineIcon;
-
 	private IELO currentELO;
-
 	private ToolBrokerAPI toolBroker;
 	private IConceptMap currentConceptMap;
 	private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
@@ -115,30 +112,16 @@ public class SCYMapperStandalone extends JFrame {
 	}
 
 	void init() {
-
 		appContext = new ClassPathXmlApplicationContext(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
 		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
-//		setSize((int) (dim.getWidth() * .8), (int) (dim.getHeight() * .8));
-
-//		setLocation((int) (dim.getWidth() * .1), (int) (dim.getHeight() * .1));
-		
 		setSize(800, 600);
 		setLocationByPlatform(true);
-
 		onlineIcon = new ImageIcon(getClass().getResource("online.png"));
 		offlineIcon = new ImageIcon(getClass().getResource("offline.png"));
-
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
 		((JLabel) loginStatus).setText("Offline");
-
-//		loginStatus.setBorder(BorderFactory.createEmptyBorder(3, 15, 3, 15));
-
 		getContentPane().setLayout(new BorderLayout());
-//		getContentPane().add(BorderLayout.NORTH, loginStatus);
-
 		initMenuBar();
 	}
 
@@ -184,13 +167,14 @@ public class SCYMapperStandalone extends JFrame {
 		JMenu sessionMenu = new JMenu("Session");
 		
 		menuBar.add(fileMenu);
-		menuBar.add(viewMenu);
-		menuBar.add(sessionMenu);
+                //some menu items are disables, as they are not useful in the standalone version
+		//menuBar.add(viewMenu);
+		//menuBar.add(sessionMenu);
 		
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
 		((JLabel) loginStatus).setText("Offline");
 		
-		menuBar.add(loginStatus);
+		//menuBar.add(loginStatus);
 
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(new ActionListener() {
@@ -200,10 +184,10 @@ public class SCYMapperStandalone extends JFrame {
 			}
 		});
 		fileMenu.add(new CreateConceptMapAction());
-		fileMenu.add(new OpenConceptMapAction());
-		fileMenu.add(new SaveAction());
-		fileMenu.add(new SaveAsAction());
-		fileMenu.add(new JPopupMenu.Separator());
+		//fileMenu.add(new OpenConceptMapAction());
+		//fileMenu.add(new SaveAction());
+		//fileMenu.add(new SaveAsAction());
+		//fileMenu.add(new JPopupMenu.Separator());
 		fileMenu.add(new ImportConceptMapAction());
 		fileMenu.add(new ExportConceptMapAction());
 		fileMenu.add(new JPopupMenu.Separator());
@@ -408,7 +392,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class ImportConceptMapAction extends AbstractAction {
 		private ImportConceptMapAction() {
-			super("Import...");
+			//super("Import...");
+                        super("Open...");
 		}
 
 		@Override
@@ -449,7 +434,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class ExportConceptMapAction extends AbstractAction {
 		private ExportConceptMapAction() {
-			super("Export...");
+			//super("Export...");
+                        super("Save as...");
 		}
 
 		@Override
