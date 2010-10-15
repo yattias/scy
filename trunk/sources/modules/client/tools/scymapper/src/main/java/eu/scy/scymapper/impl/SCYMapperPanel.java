@@ -405,4 +405,8 @@ public class SCYMapperPanel extends JPanel {
         }
         return null;
     }
+    
+    public void setEloURI(String eloURI) {
+        actionLogger.setEloURI(eloURI);
+    }
 }
