@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" horizontalScrollPolicy="off" creationComplete="canvas1_creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.events.SelectionEvent;
+			
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				var tEvent:ToggleEvent = new ToggleEvent(Main.TOGGLE_COMMAND, true);
+				tEvent.eloToAdd = true;
+				tEvent.eloSelectedToSubmit = true;
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				dispatchEvent(tEvent);
+			}
+
+			public function refreshView(target:Number):void {
+				submitBox.removeAllChildren();
+				selectedElosNavigators = new ArrayCollection();
+				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var eportArray:ArrayCollection = so.data.eportArrays;
+				
+				for(var i:Number = 0; i < eportArray.length; i++) {
+					showPossibleSelection(eportArray[i], i);
+				}
+				
+				if(target > 1) {
+					submitBox.selectedIndex = target - 1;
+				}
+			}
+			
+			private function showPossibleSelection(ob:Object, index:Number):void {
+				var submitcanvasnav:submitCanvasNavigator = new submitCanvasNavigator();
+				submitcanvasnav.selectionArray = ob.arr as ArrayCollection;
+				submitcanvasnav.selectionIndex = index;
+				submitcanvasnav.categoryName = ob.catname;
+				submitBox.addChild(submitcanvasnav);
+				submitcanvasnav.setBuildTile();
+				selectedElosNavigators.addItem(submitcanvasnav);
+			}
+
+
+			protected function canvas1_creationCompleteHandler(event:FlexEvent):void {
+				this.addEventListener(Main.SELECTION_COMMAND, checkIfSelectionComplete);
+			}
+			
+			private function checkIfSelectionComplete(evt:SelectionEvent):void {
+				var readyForSubmit:Boolean = true;
+				for(var i:Number = 0; i < selectedElosNavigators.length; i++) {
+					if(!(selectedElosNavigators[i] as submitCanvasNavigator).hasSelectionBeenMade) {
+						readyForSubmit = false;
+					}
+				}
+				
+				if(readyForSubmit) {
+					okSubmit.enabled = true;
+				}
+			}
+
+
+			protected function okSubmit_clickHandler(event:MouseEvent):void {
+				//Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'));
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="selectedElosNavigators" />
+	</fx:Declarations>
+	
+	
+	
+	<mx:VBox width="100%" height="100%" horizontalAlign="center" horizontalScrollPolicy="off">
+		<mx:HBox width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{Main.THEME_COL}" />
+						<s:GradientEntry color="{Main.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<mx:Image source="assets/images/folder.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{Main.THEME_COL}" />
+						<s:GradientEntry color="{Main.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<mx:Text id="headerText" width="60%" color="{Main.BACK_GRADIENT_BOT}" fontSize="15" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'SUBMIT_HEADER')}" />
+				</mx:HBox>
+			</s:BorderContainer>	
+		</mx:HBox>
+		
+<!--		<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="#666666">
+			<s:backgroundFill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="{Main.BACK_GRADIENT_TOP}" />
+					<s:GradientEntry color="{Main.BACK_GRADIENT_BOT}" />
+				</s:LinearGradient>
+			</s:backgroundFill>
+			
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<mx:Text id="headerText" width="60%" color="#FFFFFF" fontSize="15" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'SUBMIT_HEADER')}" />
+			</mx:HBox>
+		</s:BorderContainer>
+		-->
+		
+		<mx:Spacer height="20" />
+		<mx:Accordion id="submitBox" color="0x323232" width="90%" height="100%" />
+		
+		<mx:HBox id="submitFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
+			<s:Button id="okSubmit" label="{resourceManager.getString('resources', 'SUBMIT_BUTTON')}" enabled="false" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SENDING_PANEL)" />
+			<s:Button id="backSubmit" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL)" />
+		</mx:HBox>
+	</mx:VBox>	
+</mx:Canvas>

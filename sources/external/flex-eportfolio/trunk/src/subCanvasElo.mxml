@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="200" height="230" horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundColor="{Main.THEME_COL}" buttonMode="true" mouseChildren="false" dropShadowVisible="true">
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
+			
+			import listeners.DeleteEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			[Bindable] public var type:String;
+			[Bindable] public var eloName:String;
+			[Bindable] public var thumbnail:String;
+			[Bindable] public var myname:String;
+			[Bindable] public var createdby:String;
+			[Bindable] public var modified:String;
+			[Bindable] public var description:String;
+			[Bindable] public var glg:String;
+			[Bindable] public var slg:ArrayCollection;
+			[Bindable] public var reflection:String;
+			[Bindable] public var hasBeenSelectedForSubmit:Boolean = false;
+			[Bindable] public var hasBeenReflectedOn:Boolean = false;
+			[Bindable] public var eloIndex:Number;
+			[Bindable] public var percentInquiry:Number;
+			
+			[Bindable] private var graphicHighlight:Boolean = false;
+			[Bindable] private var alphaValue:Number = .1;
+			[Bindable] private var alphaColor:Number = 0xFFFFFF;
+			
+			public function highLightELO(b:Boolean):void {
+				graphicHighlight = b;
+				if(b) {
+					alphaValue = .2;
+					alphaColor = 0xBBFFBB;
+				}
+				else {
+					alphaValue = .1;
+					alphaColor = 0xFFFFFF;
+				}
+			}
+			
+			
+
+		]]>
+	</fx:Script>
+	<mx:VBox id="box" width="100%" height="100%" verticalGap="5" borderColor="#BBFFBB" borderStyle="solid" borderVisible="{graphicHighlight}">
+		<mx:Image source="{thumbnail}" width="100" height="100"/>
+		<mx:Text width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_NAME')+': '+eloName}" />
+		<mx:Text width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_BY')+': '+createdby}"/>
+		<mx:Text width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_DATE')+': '+modified}"/>
+	</mx:VBox>
+	<mx:Canvas id="highlighter" backgroundColor="{alphaColor}" width="{this.width}" height="{this.height}" alpha="{alphaValue}" />
+</mx:Canvas>

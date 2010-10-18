@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" backgroundColor="{Main.BACK_GRADIENT_BOT}">
+	
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.events.SelectionEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.RadioButtonGroup;
+			import mx.events.ItemClickEvent;
+			
+			[Bindable] public var selectionArray:ArrayCollection;
+			[Bindable] public var categoryName:String;
+			[Bindable] public var selectionIndex:Number;
+			[Bindable] public var hasSelectionBeenMade:Boolean = false;
+			
+			private var foundElosArray:ArrayCollection;
+			private var rg:RadioButtonGroup;
+			
+			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
+				hasSelectionBeenMade = true;
+				setLabel();
+				updateSharedObjectELOsArray(event.index);
+				var sEvent:SelectionEvent = new SelectionEvent(Main.SELECTION_COMMAND, true);
+				dispatchEvent(sEvent);
+			}
+			
+			private function updateSharedObjectELOsArray(n:Number):void {
+				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var eportArray:ArrayCollection = so.data.eportArrays;
+				var selectionArray:ArrayCollection = (eportArray[selectionIndex] as Object).arr as ArrayCollection;;
+				
+				//cancel all
+				var selectedElo:Object;
+				for(var i:Number = 0;i < selectionArray.length; i++) {
+					selectedElo = selectionArray[i];
+					selectedElo.hasBeenSelectedForSubmit = false;		
+					selectionArray[i] = selectedElo;
+				}
+				
+				//select the one
+				selectedElo = selectionArray[n];
+				selectedElo.hasBeenSelectedForSubmit = true;		
+				selectionArray[n] = selectedElo;
+				
+				trace(selectionArray.length);
+				
+				eportArray[selectionIndex].arr = selectionArray;
+				so.data.eportArrays = eportArray;
+				so.flush();
+			}
+			
+			public function setBuildTile():void {
+				setLabel();
+				
+				var selectionTile:submitTile = new submitTile();
+				selectionTile.percentHeight = 100;
+				selectionTile.percentWidth = 100;
+				addElement(selectionTile);
+				
+				var selectedElo:Object;
+				var subCE:subCanvasElo;
+				var selecCol:selectableThumb;
+				foundElosArray = new ArrayCollection();
+				rg = new RadioButtonGroup();
+				rg.addEventListener(ItemClickEvent.ITEM_CLICK, radioGroup_itemClickHandler);
+				for(var i:Number = 0;i < selectionArray.length; i++) {
+					selectedElo = selectionArray[i];
+					subCE = new subCanvasElo();
+					subCE.type = selectedElo.type;
+					subCE.eloName = selectedElo.name;
+					subCE.thumbnail = selectedElo.thumbnail;
+					subCE.myname = selectedElo.myname;
+					subCE.createdby = selectedElo.createdby;
+					subCE.modified = selectedElo.modified;
+					subCE.description = selectedElo.rDesc;
+					subCE.glg = selectedElo.rGLG;
+					subCE.slg = selectedElo.rSLG;
+					subCE.reflection = selectedElo.rReflec;
+					subCE.hasBeenSelectedForSubmit = selectedElo.hasBeenSelectedForSubmit;
+					foundElosArray.addItem(selectedElo);
+					
+					selecCol = new selectableThumb();
+					selectionTile.addChild(selecCol);	
+					
+					selecCol.addChildAt(subCE, 0);
+					selecCol.rb.group = rg;
+					selecCol.rb.value = i;
+					selecCol.rb.selected = subCE.hasBeenSelectedForSubmit;
+					
+					if(subCE.hasBeenSelectedForSubmit) {
+						hasSelectionBeenMade = true;
+						setLabel();
+					}
+				}
+			}
+			
+			public function setLabel():void {
+				if(hasSelectionBeenMade) {
+					this.label = categoryName + " ("+selectionArray.length+" ELOs - 1 "+resourceManager.getString('resources', 'SELECTED')+")";
+				}
+				else {
+					this.label = categoryName + " ("+selectionArray.length+" ELOs - 0 "+resourceManager.getString('resources', 'SELECTED')+")";
+				}
+			}
+			
+			
+		]]>
+	</fx:Script>
+
+</s:NavigatorContent >

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="220" height="230" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="none" horizontalGap="0">
+	<fx:Declarations>
+		<s:Fade id="fadeOut" alphaFrom="1" alphaTo="0" duration="1000"  target="{deleteCanvas}" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.DeleteEvent;
+			
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			
+			private var hideInter:Number;
+			
+			[Bindable] public var eloIndex:Number;
+			
+			public function slideDeleteBox():void {
+				clearInterval(hideInter);
+				deleteCanvas.alpha = 1;
+				hideInter = setInterval(hideDeleteBar, 3000);
+			}
+			
+			private function hideDeleteBar():void {
+				clearInterval(hideInter);
+				fadeOut.play();
+			}
+			
+			private function alertListener(event:CloseEvent):void {
+				if(event.detail == Alert.YES) {
+					var delEvt:DeleteEvent = new DeleteEvent(Main.DELETE_COMMAND, true);
+					delEvt.selecIndex = eloIndex;
+					dispatchEvent(delEvt);
+				}
+			}
+			
+			protected function deleteCanvas_clickHandler(event:MouseEvent):void {
+				Alert.show("Do you really want to delete this ELO", "Delete ELO", 3, null, alertListener);
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:Canvas id="deleteCanvas" width="20" height="20" alpha="0" click="deleteCanvas_clickHandler(event)" mouseChildren="false" >
+		<mx:Image source="assets/images/del.png" width="20" height="20" />
+	</mx:Canvas>
+</mx:HBox>

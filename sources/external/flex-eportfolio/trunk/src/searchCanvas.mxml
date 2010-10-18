@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.RadioButton;
+			import mx.controls.RadioButtonGroup;
+			import mx.events.ItemClickEvent;
+			
+			[Bindable] private var addEloFlag:Boolean = false;
+			[Bindable] private var foundElosArray:ArrayCollection;
+			
+			private var so:SharedObject;
+			private var rg:RadioButtonGroup;
+			
+			[Bindable] private var eloss:ArrayCollection = new ArrayCollection([
+				{type: "assets/images/eloicons/con_map_act.png", name: "1st ideas of my design group", thumbnail: "assets/images/thumbs/thumb1.jpg", myname: "My_first_ideas_final", modified: "16.02.2010 14:00", createdby: "Group1", isSelected: false},
+				{type: "", name: "", thumbnail: "assets/images/thumbs/thumb2.jpg", myname: "My_first_ideas_test", modified: "10.02.2010 10:00", createdby: "Me", isSelected: false},
+				{type: "assets/images/eloicons/con_map_act.png", name: "Concept map CO2", thumbnail: "assets/images/thumbs/thumb3.jpg", myname: "Concept map of CO2", modified: "14.02.2010 12:00", createdby: "Group1", isSelected: false}
+			]);
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				if(dir == Main.LEFT_DIRECTION) {
+					so = SharedObject.getLocal("scy-eportfolio");
+					so.data.searchSelection = foundElosArray[rg.selectedValue];
+					so.flush();
+					addEloFlag = false;
+				}
+				
+				var tEvent:ToggleEvent = new ToggleEvent(Main.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				tEvent.eloToAdd = false;
+				dispatchEvent(tEvent);
+			}
+
+			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
+				addEloFlag = true;
+			}
+			
+			public function refreshContent():void {
+				so = SharedObject.getLocal("scy-eportfolio");
+				var currentELO:Object = new Object()
+				currentELO = so.data.currentElo;
+				searchString.htmlText = "<u>"+resourceManager.getString('resources', 'SEARCH_LABEL')+"</u>: "+currentELO.obliElo;
+				
+				var selectedElo:Object;
+				var subCE:subCanvasElo;
+				foundElosArray = new ArrayCollection();
+				rg = new RadioButtonGroup();
+				rg.addEventListener(ItemClickEvent.ITEM_CLICK, radioGroup_itemClickHandler);
+				searchTile.removeAllChildren();
+				for(var i:Number = 0;i < eloss.length; i++) {
+					selectedElo = eloss[i];
+					subCE = new subCanvasElo();
+					subCE.type = selectedElo.type;
+					subCE.eloName = selectedElo.name;
+					subCE.thumbnail = selectedElo.thumbnail;
+					subCE.myname = selectedElo.myname;
+					subCE.createdby = selectedElo.createdby;
+					subCE.modified = selectedElo.modified;
+					subCE.description = selectedElo.rDesc;
+					subCE.glg = selectedElo.rGLG;
+					subCE.slg = selectedElo.rSLG;
+					subCE.reflection = selectedElo.rReflec;
+					subCE.hasBeenSelectedForSubmit = selectedElo.hasBeenSelectedForSubmit;
+					subCE.highLightELO(false);
+					foundElosArray.addItem(selectedElo);
+					
+					var selecCol:selectableThumb = new selectableThumb();
+					searchTile.addChild(selecCol);	
+					
+					selecCol.addChildAt(subCE, 0);
+					selecCol.rb.group = rg;
+					selecCol.rb.value = i;
+					
+					
+					selecCol.rb.visible = !subCE.hasBeenReflectedOn;
+					
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	<mx:VBox width="100%" height="100%">
+	 	<mx:VBox id="searchBox" width="100%" height="100%" horizontalAlign="center">
+			<mx:HBox width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
+				<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
+					<s:backgroundFill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="{Main.THEME_COL}" />
+							<s:GradientEntry color="{Main.THEME_COL}" />
+						</s:LinearGradient>
+					</s:backgroundFill>
+					
+					<mx:Image source="assets/images/folder.png" width="60" height="60" left="5" top="5" />
+				</s:BorderContainer>	
+				<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
+					<s:backgroundFill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="{Main.THEME_COL}" />
+							<s:GradientEntry color="{Main.THEME_COL}" />
+						</s:LinearGradient>
+					</s:backgroundFill>
+					
+					<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+						<mx:Text id="headerText" width="60%" color="{Main.BACK_GRADIENT_BOT}" fontSize="15" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'SEARCH_RESULT_HEADER')}" />
+					</mx:HBox>
+				</s:BorderContainer>	
+			</mx:HBox>
+			
+			<mx:Spacer height="10" />
+			<mx:Text width="{this.width-20}" height="30" id="searchString" color="{Main.THEME_COL}" />
+			<mx:VBox width="{this.width-20}" height="100%" horizontalAlign="center">
+				<mx:Tile id="searchTile" width="100%" height="100%" direction="horizontal" borderStyle="none" horizontalGap="25" verticalGap="20" horizontalAlign="center" />
+			</mx:VBox>
+			<mx:Spacer height="20" />
+		</mx:VBox>
+		<mx:HBox id="searchFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
+			<s:Button id="okSearch" label="{resourceManager.getString('resources', 'ADD_EPORTFOLIO_BUTTON')}" enabled="{addEloFlag}" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_REFLEC_PANEL)" />
+			<s:Button id="cancelSearch" label="{resourceManager.getString('resources', 'CANCEL_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL)" />
+		</mx:HBox>
+	</mx:VBox>	
+</mx:Canvas>

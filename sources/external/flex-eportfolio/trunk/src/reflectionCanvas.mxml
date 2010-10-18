@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<mx:StringValidator id="validateDescription" source="{descriptionArea}" property="text" triggerEvent=""
+							minLength="5" tooShortError="{resourceManager.getString('resources', 'VALIDATOR_TOO_SHORT_ERROR')}"
+							requiredFieldError="{resourceManager.getString('resources', 'REQUIRED_DESCRIPTION_ERROR')}"/>
+		<mx:StringValidator id="validateReflection" source="{reflectionArea}" property="text" triggerEvent=""
+							minLength="5" tooShortError="{resourceManager.getString('resources', 'VALIDATOR_TOO_SHORT_ERROR')}"
+							requiredFieldError="{resourceManager.getString('resources', 'REQUIRED_REFLECTION_ERROR')}"/>
+		<mx:NumberValidator id="validateGLG"
+							source="{glgCombo}"
+							lowerThanMinError="{resourceManager.getString('resources', 'REQUIRED_GSLG_ERROR')}"
+							property="selectedIndex"
+							minValue="1" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ValidationResultEvent;
+			
+			[Bindable] private var slgSelectVisible:Boolean = false;
+			
+			[Bindable] private var GLG:ArrayCollection = new ArrayCollection([
+				"Select ...",
+				"Are able to organize, visualize and interpret data",
+				"Are able to formulate (syntactically correct) hypotheses",
+				"Are able to write a report individually"
+			]);
+			
+			[Bindable] private var SLG:ArrayCollection = new ArrayCollection([
+				{goal: "Are able to reflect on your own (prior) knowledge and learning goals", shouldDelete: false},
+				{goal: "Can identify and explain the consequences of increasing atmospheric CO2-levels, including the enhanced greenhouse effect and global warming climate change rising sea levels. Can identify and explain the most important processes in the carbon cycle, including photosynthesis, respiration, the formation of fossil fuels, the combustion of fossil fuels.", shouldDelete: false},
+				{goal: "Can identify geometrical forms in 2D and 3D from complex shapes and calculate area and volume", shouldDelete: false},
+				{goal: "Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.", shouldDelete: false},
+				{goal: "Can identify and explain the consequences of increasing atmospheric CO2-levels, including the enhanced greenhouse effect and global warming climate change rising sea levels.", shouldDelete: false},
+				{goal: "Are able to use a complex formula to calculate, and use results as imput to ther formulas", shouldDelete: false},
+				{goal: "Can identify geometrical forms in 2D and 3D from complex shapes and calculate area and volume", shouldDelete: false},
+				{goal: "Can apply the concept of overall heat transfer coefficientin which the transfer of heat by conduction and convection through all building elements are combined", checked: false}
+			]);
+			
+			private var slectedSLGs:ArrayCollection = new ArrayCollection();
+			
+			protected function clickHandler(dir:String, stack:Number, but:Boolean):void {
+				var tEvent:ToggleEvent = new ToggleEvent(Main.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				
+				if(but) {
+					var descValidation:ValidationResultEvent = validateDescription.validate();
+					var reflecValidation:ValidationResultEvent = validateReflection.validate();
+					var glgValidation:ValidationResultEvent = validateGLG.validate();
+										
+					if (descValidation.type == ValidationResultEvent.VALID 
+						&& reflecValidation.type == ValidationResultEvent.VALID 
+						&& glgValidation.type == ValidationResultEvent.VALID
+						&& slectedSLGs.length > 0 && reflectionArea.text != Main.REFLECTION_DEFAULT) {
+						
+						var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+						var selectedElo:Object = so.data.searchSelection;
+						selectedElo.rDesc = descriptionArea.text;
+						selectedElo.rGLG = glgCombo.selectedItem;
+						selectedElo.rSLG = slectedSLGs;
+						selectedElo.rReflec = reflectionArea.text;
+						selectedElo.hasBeenReflectedOn = true;
+						selectedElo.percentInquiry = refOnInqTextSlider.value*10;
+						so.data.searchSelection = selectedElo;
+						so.flush();
+												
+						tEvent.eloToAdd = true;
+						dispatchEvent(tEvent);
+						
+						resetForm();
+					}
+					else if(slectedSLGs.length == 0) {
+						Alert.show(resourceManager.getString('resources', 'SLG_SELECT_ERROR'), resourceManager.getString('resources', 'SLG_SELECT_ERROR_TITLE'));
+					}
+					else if(reflectionArea.text == Main.REFLECTION_DEFAULT) {
+						Alert.show(resourceManager.getString('resources', 'REF_SELECT_ERROR'), resourceManager.getString('resources', 'REF_SELECT_ERROR_TITLE'));
+					}
+				}
+				else {
+					tEvent.eloToAdd = false;
+					dispatchEvent(tEvent);
+				}
+			}
+
+			private function resetForm():void {
+				descriptionArea.text = "";
+				glgCombo.selectedIndex = 0;
+				for(var i:Number=0; i < SLG.length; i++) {
+					SLG[i].shouldDelete = false;
+					
+				}
+				reflectionArea.text= Main.REFLECTION_DEFAULT;
+				
+				updateSLGField();
+			}
+			
+			public function refreshContent():void {
+				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var selectedElo:Object = so.data.searchSelection;
+				eloIcon.source = selectedElo.thumbnail;
+				//elonameText.text = selectedElo.name;
+				missionText.text = Main.MISSION_NAME + " / " + selectedElo.name;
+				createdText.text = selectedElo.createdby;
+			}
+
+
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				slgSelectVisible = !slgSelectVisible;
+				updateSLGField();
+			}
+			
+			private function updateSLGField():void {
+				slectedSLGs = new ArrayCollection();
+				for(var i:Number = 0; i<SLG.length; i++) {
+					if(SLG[i].shouldDelete) {
+						slectedSLGs.addItem(SLG[i]);
+					}
+				}
+				
+				if(slectedSLGs.length > 0) {
+					slgLive.text = slectedSLGs.length + " " + resourceManager.getString('resources', 'SLG') + "(s) " + resourceManager.getString('resources', 'SELECTED');
+				}
+				else {
+					slgLive.text = "";	
+				}
+				
+				SLG.refresh();
+				slgResultGrid.validateNow();
+			}
+
+		]]>
+	</fx:Script>
+	
+	<mx:VBox width="100%" height="100%">
+		<mx:Canvas id="reflectionHeader" width="100%" height="140" backgroundColor="{Main.THEME_COL}" borderStyle="solid" borderColor="{Main.THEME_COL}" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:Canvas width="100" height="100" x="15" y="20" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowVisible="true">
+				<mx:Image id="eloIcon" width="100" height="100"/>
+			</mx:Canvas>
+			
+			<mx:Form x="{eloIcon.x+eloIcon.width+30}" y="0" verticalGap="7" color="{Main.BACK_GRADIENT_BOT}" fontSize="14">
+				<mx:FormItem label="{resourceManager.getString('resources', 'MISSION')+' / '+resourceManager.getString('resources', 'ELO_NAME')+':'}">
+					<mx:Label id="missionText" text="CO2 neutral house"/>
+				</mx:FormItem>
+				
+			<!--	<mx:FormItem label="{resourceManager.getString('resources', 'ELO_NAME')+':'}">
+					<mx:Label id="elonameText" text="elo-1234567"/>
+				</mx:FormItem>
+			-->
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'ELO_TYPE')+':'}">
+					<mx:Label id="elotypeText" text="type"/>
+				</mx:FormItem>
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'CREATED_BY')+':'}">
+					<mx:Label id="createdText" text="user1, user2, user3"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Spacer height="5" />
+		<mx:VBox id="refForm" width="100%" height="100%" horizontalAlign="center">
+			<mx:Form verticalGap="10" color="{Main.THEME_COL}" fontSize="14">
+				<mx:FormItem label="{resourceManager.getString('resources', 'DESCRIPTION')+':'}" required="true">
+					<s:TextArea width="400" height="80" id="descriptionArea" color="#000000"/>
+				</mx:FormItem>
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'GLG')+':'}" required="true">
+					<s:DropDownList width="400" dataProvider="{GLG}" selectedIndex="0" id="glgCombo" color="#000000" />
+				</mx:FormItem>
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'SLG')+':'}" required="true">
+					<mx:HBox width="100%">
+						<s:Button click="button1_clickHandler(event)" color="#000000" label="{resourceManager.getString('resources', 'SLG_SELECT')}"/>
+						<mx:Text id="slgLive" color="{Main.THEME_COL}" fontSize="11" />
+					</mx:HBox>
+				</mx:FormItem>
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION')+':'}" required="true">
+					<s:TextArea width="400" height="80" id="reflectionArea" color="#000000" text="{Main.REFLECTION_DEFAULT}"/>
+				</mx:FormItem>
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'REF_ON_INQ')+':'}">
+					<mx:VBox width="100%">
+						<mx:Text id="refOnInqText" text="{Main.REF_ON_INQ_TXT}" width="400" />
+						<mx:HSlider id="refOnInqTextSlider" minimum="1" maximum="10" value="5" dataTipPlacement="top" tickColor="0x323232"
+								   snapInterval="1" tickInterval="1" labels="['Not much','Somewhat','Very much']" allowTrackClick="true" width="400" />
+					</mx:VBox>
+				</mx:FormItem>
+				
+			</mx:Form>
+		
+		</mx:VBox>
+		<mx:HBox id="reflectionFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
+			<s:Button id="okReflect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL, true)" />
+			<s:Button id="cancelReflect" label="{resourceManager.getString('resources', 'CANCEL_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_SEARCH_PANEL, false)" />
+		</mx:HBox>
+	</mx:VBox>
+	<s:BorderContainer id="slgSelect" y="{refForm.y}" visible="{slgSelectVisible}" top="20" left="20" right="20" bottom="20" backgroundColor="{Main.BACK_GRADIENT_TOP}" borderColor="{Main.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
+		<mx:VBox width="100%" height="100%" top="20" left="20" right="20" bottom="20">
+			<mx:DataGrid id="slgResultGrid" width="100%" height="100%" dataProvider="{SLG}" variableRowHeight="true">
+				<mx:columns>
+					<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'SLG')}" wordWrap="true" />
+					<mx:DataGridColumn id="col2"
+									   editorDataField="selected"
+									   rendererIsEditor="true"
+									   dataField="data.shouldDelete"
+									   headerText="Selection"
+									   width="80">
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:CheckBox selected="{data.shouldDelete}"
+											 change="data.shouldDelete=selected" textAlign="center"/>
+							</fx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+	
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:HBox id="slgSelectFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
+				<s:Button id="okslgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button1_clickHandler(event)" />
+			</mx:HBox>
+		</mx:VBox>
+	</s:BorderContainer>
+</mx:Canvas>
