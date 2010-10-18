@@ -40,10 +40,14 @@
 			
 			/*public static const THEME_COL:Number = 0xFB06A2;
 			public static const BACK_GRADIENT_TOP:Number = 0xFF86CC;
-			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;*/
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
 			
 			public static const THEME_COL:Number = 0x459BF9;
 			public static const BACK_GRADIENT_TOP:Number = 0xB5D6FB;
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF; */
+			
+			public static const THEME_COL:Number = 0x0096AE;
+			public static const BACK_GRADIENT_TOP:Number = 0x83a6ac;
 			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
 			
 			[Bindable] private var needsRefresh:Boolean = false;
