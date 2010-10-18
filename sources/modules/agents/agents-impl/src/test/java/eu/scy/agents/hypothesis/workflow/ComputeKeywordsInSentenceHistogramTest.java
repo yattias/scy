@@ -27,14 +27,14 @@ import de.fhg.iais.kd.tm.obwious.type.Container;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.content.BasicContent;
-import util.Utilities;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
+import eu.scy.agents.util.Utilities;
 
 public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture {
-  
+
   public static final String HISTOGRAM = "histogram";
 
   private static final Logger logger = Logger.getLogger(ComputeKeywordsInSentenceHistogramTest.class.getName());
@@ -43,8 +43,8 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
 
   private String[] keywords = { "ingredients", "nontoxic", "binder", "solvent", "labels", "toxic",
                                "chemical", "voc", "paint", "health", "natural", "pigment" };
-  
-  private ArrayList <String> keywordList;
+
+  private ArrayList<String> keywordList;
 
   @BeforeClass
   public static void startTS() {
@@ -82,13 +82,9 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
 
   @Test
   public void testComputeKeywordsInSentenceHistogramTest() {
-    String[] XMLPATH = { "experimental_procedure", "learner_proc", "proc_hypothesis", "hypothesis" };
+    String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
 
-    ArrayList<String> path = new ArrayList<String>();
-    for (int i = 0; i < XMLPATH.length; i++) {
-      path.add(XMLPATH[i]);
-    }
-    String text = Utilities.getEloText(elo, path, logger);
+    String text = Utilities.getEloText(elo, XMLPATH, logger);
     Document doc = Utilities.convertTextToDocument(text);
     doc.setFeature(Features.WORDS, keywordList);
 

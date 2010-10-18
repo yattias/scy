@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import util.Utilities;
 import de.fhg.iais.kd.tm.obwious.JavaClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
@@ -16,6 +15,7 @@ import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.extractors.TextExtractor;
+import eu.scy.agents.util.Utilities;
 
 /**
  * computes a histogram of number of keywords per sentence:

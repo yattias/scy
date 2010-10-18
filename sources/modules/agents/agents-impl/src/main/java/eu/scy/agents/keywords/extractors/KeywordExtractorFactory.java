@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <li>scy/text via call to ExtractKeywordsAgent</li>
  * <li>scy/webresourcer via call to ExtractKeywordsAgent</li>
  * <li>scy/mapping</li>
+ * <li>scy/copex</li>
  * </ul>
  * Extractors to come are for
  * <ul>

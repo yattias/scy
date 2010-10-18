@@ -22,7 +22,6 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.metadata.keys.KeyValuePair;
-import util.Utilities;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
@@ -37,6 +36,7 @@ import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.extractors.CopexExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
+import eu.scy.agents.util.Utilities;
 
 /**
  * @author Jörg Kindermann

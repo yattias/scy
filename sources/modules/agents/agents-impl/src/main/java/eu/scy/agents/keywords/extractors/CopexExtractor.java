@@ -19,9 +19,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import roolo.elo.api.IELO;
-import util.Utilities;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
+import eu.scy.agents.util.Utilities;
 
 /**
  * @author Jörg Kindermann
@@ -34,9 +34,7 @@ public class CopexExtractor implements KeywordExtractor {
 
   private TupleSpace tupleSpace;
 
-  public static List<String> XMLPATH = Arrays.asList("elo", "content", "experimental_procedure", "learner_proc",
-                                                     "proc_hypothesis", "hypothesis");
-
+  public static String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
   public CopexExtractor() {
   }
 
