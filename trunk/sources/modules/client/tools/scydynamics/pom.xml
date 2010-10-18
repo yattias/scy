@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>colab.um</artifactId>
-			<version>0.1.1</version>
+			<version>0.1.2</version>
 		</dependency>
 
 		<dependency>
@@ -81,11 +81,11 @@
 			<version>1.6.0</version>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>colab.resources</artifactId>
 			<version>0.1.0</version>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>ptolemy</groupId>
