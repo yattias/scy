@@ -60,6 +60,7 @@
 
 	<properties>
 		<service.api.folder>src/main/java-service-api</service.api.folder>
+		<!-- Please change the directory to your local liferay deploy folder -->
 		<liferay.deploy.folder>/home/berezowski/Desktop/liferay-portal-5.2.3/deploy</liferay.deploy.folder>
 	</properties>
 
