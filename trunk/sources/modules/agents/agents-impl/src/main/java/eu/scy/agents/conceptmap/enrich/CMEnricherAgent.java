@@ -36,7 +36,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
             Callback cb = new CMEnricherCallback();
-            actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, "request_help", String.class, "scymapper", String.class, String.class, String.class), cb, true);
+            actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, String.class, String.class, "scymapper", String.class, String.class, String.class), cb, true);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -75,10 +75,12 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
         return result;
     }
 
-    private void sendFeeback(String id, String elouri, String user, String mission, String session, String... proposals) throws TupleSpaceException {
+    private void sendFeeback(String id, String elouri, String user, String mission, String session, String type, String... proposals) throws TupleSpaceException {
         Tuple notificationTuple = new Tuple("notification", id, user, "scymapper", "cmenricher agent", mission, session);
         for (String proposal : proposals) {
-            notificationTuple.add("proposal=" + proposal);
+            if (proposal.startsWith(type)) {
+                notificationTuple.add(proposal);
+            }
         }
         commandSpace.write(notificationTuple);
     }
@@ -88,13 +90,16 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
             String id = afterTuple.getField(1).getValue().toString();
+            String request = afterTuple.getField(3).getValue().toString();
             String user = afterTuple.getField(4).getValue().toString();
             String mission = afterTuple.getField(6).getValue().toString();
             String session = afterTuple.getField(7).getValue().toString();
             String elouri = afterTuple.getField(8).getValue().toString();
+            
+            String type = request.split("_")[1];
             try {
                 String[] proposals = askForProposals(elouri, user);
-                sendFeeback(id, elouri, user, mission, session, proposals);
+                sendFeeback(id, elouri, user, mission, session, type + "_proposal", proposals);
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }

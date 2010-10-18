@@ -21,4 +21,8 @@ public interface CMProposerObserver {
     public void markConceptAsMatching(String concept);
     
     public void markConceptAsProposal(String concept);
+
+    public void foundTextCloudKeyword(String term);
+
+    public void markRelationAsProposal(String relation);
 }
