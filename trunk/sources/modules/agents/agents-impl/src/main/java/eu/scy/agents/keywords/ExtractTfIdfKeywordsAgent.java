@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import util.Utilities;
 
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
@@ -22,6 +21,7 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
+import eu.scy.agents.util.Utilities;
 
 /**
  * (ExtractTfIdfKeywords:String, query:String, <QueryId>:String,

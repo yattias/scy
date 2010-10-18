@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import util.Utilities;
 import cc.mallet.topics.TopicModelAnnotator;
 import cc.mallet.topics.TopicModelParameter;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
@@ -23,6 +22,7 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
+import eu.scy.agents.util.Utilities;
 
 public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 

@@ -4,34 +4,25 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import util.Utilities;
-
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiFeatures;
-import de.fhg.iais.kd.tm.obwious.identifiers.WikiOperators;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiParameters;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiValues;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
-import de.fhg.iais.kd.tm.obwious.operator.feature.atomic.ProvideCSV;
-import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
-import de.fhg.iais.kd.tm.obwious.operator.workflow.ProvideKeyphrasesOnSeparateDocument;
-import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractKeyphrasesWorkflow;
-import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
+import eu.scy.agents.util.Utilities;
 
 /**
  * (ExtractKeyphrases:String, query:String, <QueryId>:String, <Text>:String)->

@@ -3,7 +3,6 @@ package eu.scy.agents.hypothesis.workflow.operators;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.Utilities;
 
 import de.fhg.iais.kd.tm.obwious.JavaClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
@@ -12,6 +11,7 @@ import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import de.fhg.iais.kd.tm.obwious.util.Assert;
+import eu.scy.agents.util.Utilities;
 
 /**
  * Takes the feature specified in parameter baseText (default:text), which is a single string and

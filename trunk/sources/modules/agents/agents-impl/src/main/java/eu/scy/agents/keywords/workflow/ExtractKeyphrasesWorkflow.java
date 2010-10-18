@@ -5,14 +5,12 @@ import java.util.Properties;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiOperators;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiParameters;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
-import de.fhg.iais.kd.tm.obwious.operator.feature.atomic.ProvideNewDocument;
 import de.fhg.iais.kd.tm.obwious.operator.feature.model.CalculateInformativeness;
 import de.fhg.iais.kd.tm.obwious.operator.feature.model.CalculatePhraseness;
 import de.fhg.iais.kd.tm.obwious.operator.feature.model.CalculateScore;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.ProvideRequiredDataOnCorpusView;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.ProvideRequiredDataOnDocument;
-import de.fhg.iais.kd.tm.obwious.operator.workflow.collection.LoadCasDocument;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.collection.LoadTextCorpusView;
 
 public class ExtractKeyphrasesWorkflow extends Workflow {
@@ -29,15 +27,6 @@ public class ExtractKeyphrasesWorkflow extends Workflow {
   public ExtractKeyphrasesWorkflow(Properties properties) {
     super(properties);
 
-    // from ProvideKeyphrasesOnSeparateDocument workflow:
-    
-//    check for separate document location
-//    if (!properties.containsKey(WikiParameters.DIRECTORY)
-//        || !properties.containsKey(WikiParameters.DOCUMENT_LINK)) {
-//      System.err.println("directory or document not given in properties");
-//      return;
-//    }
-
     /** Load corpus */
     this.propagateProperty(WikiOperators.LOAD_TEXT_COPRUS_VIEW, WikiParameters.DIRECTORY);
     this.propagateProperty(WikiOperators.LOAD_TEXT_COPRUS_VIEW, WikiParameters.FILE_TYPE);
@@ -46,11 +35,6 @@ public class ExtractKeyphrasesWorkflow extends Workflow {
     /** Provide required data of the corpus */
     this.addOperatorSpecification(WikiOperators.PROVIDE_REQUIRED_DATA_ON_COPRUS_VIEW,
                                   new ProvideRequiredDataOnCorpusView(properties));
-
-    /** Load CAS document on which the keyphrase extraction should take place */
-//    this.propagateProperty(WikiOperators.PROVIDE_NEW_DOCUMENT, WikiParameters.DOCUMENT_LINK);
-//    this.addOperatorSpecification(WikiOperators.PROVIDE_NEW_DOCUMENT, ProvideNewDocument.class);
-//    this.addOperatorSpecification(WikiOperators.LOAD_CAS_DOCUMENT, LoadCasDocument.class);
 
     /** Provide required data of the document */
     this.addOperatorSpecification(WikiOperators.PROVIDE_REQUIRED_DATA_ON_DOCUMENT,
