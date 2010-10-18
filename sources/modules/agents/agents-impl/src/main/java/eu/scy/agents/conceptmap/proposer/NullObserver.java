@@ -31,4 +31,10 @@ public class NullObserver implements CMProposerObserver {
     @Override
     public void markConceptAsProposal(String concept) {}
 
+    @Override
+    public void foundTextCloudKeyword(String term) {}
+
+    @Override
+    public void markRelationAsProposal(String relation) {}
+
 }

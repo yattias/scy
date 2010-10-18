@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +26,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.conceptmap.Edge;
 import eu.scy.agents.conceptmap.Graph;
 import eu.scy.agents.conceptmap.Node;
+import eu.scy.agents.conceptmap.RankedKeywordList;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -97,9 +99,9 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         String elouri = returnTuple.getField(4).getValue().toString();
         int amount = (Integer) returnTuple.getField(5).getValue();
         String centralityAlgorithm = returnTuple.getField(6).getValue().toString();
-        String[] proposals = getProposals(user, elouri, amount, centralityAlgorithm);
+        Field[] proposals = getProposals(user, elouri, amount, centralityAlgorithm);
         Tuple t = new Tuple(id, "response");
-        for (String proposal : proposals) {
+        for (Field proposal : proposals) {
             t.add(proposal);
         }
         observer.setStatusText("Responding with proposals");
@@ -121,76 +123,126 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         return false;
     }
 
-    private String[] getProposals(String user, String elouri, int amount, String centralityAlgorithm) {
-        List<String> ontologyConcepts = new ArrayList<String>();
-        try {
-            String ontologyNS = getOntologyNamespace(elouri);
-            String lang = determineLanguage(elouri);
-            
-            observer.setStatusText("Retrieving text");
-            String text = getText();
-            observer.setCMText(text);
-            
-            observer.setStatusText("Determining keywords");
-            Map<String, Double> keywordsFromText = getKeywordsFromText(text, ontologyNS);
-            
-            observer.setStatusText("Retrieving student concept map");
-            Graph userGraph = getUserGraph(elouri, user);
-            observer.foundStudentsMap(userGraph);
+    private Field[] getProposals(String user, String elouri, int amount, String centralityAlgorithm) {
+        String ontologyNS = getOntologyNamespace(elouri);
+        String lang = determineLanguage(elouri);
 
-            if (!con.getLanguage().equals(lang) || !con.getOntologyNamespace().equals(ontologyNS)) {
-                con.close();
-                con = new SWATConnection(lang, ontologyNS);
-            }
+        observer.setStatusText("Retrieving text");
+        String text = getText();
+        observer.setCMText(text);
 
-            Graph ontologyGraph = findOntologySubgraph(keywordsFromText.keySet(), ontologyNS);
+        observer.setStatusText("Determining keywords");
+        Map<String, Double> keywordsFromText = getKeywordsFromText(text, ontologyNS);
 
-            TreeMap<Double, String> rankedStrings = new TreeMap<Double, String>();
-            if (centralityAlgorithm.equals("degree")) {
-                Map<Integer, Set<Node>> rankedNodes = ontologyGraph.getDegree();
-                for (Entry<Integer, Set<Node>> e : rankedNodes.entrySet()) {
-                    for (Node n : e.getValue()) {
-//                        double ranking = e.getKey() * keywordsFromText.get(n.getLabel());
-                        double ranking = e.getKey();
-                        rankedStrings.put(ranking, n.getLabel());
-                    }
+        observer.setStatusText("Retrieving student concept map");
+        Graph userGraph = getUserGraph(elouri, user);
+        observer.foundStudentsMap(userGraph);
+
+        if (!con.getLanguage().equals(lang) || !con.getOntologyNamespace().equals(ontologyNS)) {
+            con.close();
+            con = new SWATConnection(lang, ontologyNS);
+        }
+
+        Graph ontologyGraph = findOntologySubgraph(keywordsFromText.keySet(), ontologyNS);
+
+        RankedKeywordList rankedStrings = new RankedKeywordList();
+        if (centralityAlgorithm.equals("degree")) {
+            TreeMap<Double, Set<Node>> rankedNodes = ontologyGraph.getNodeDegree();
+            for (Entry<Double, Set<Node>> e : rankedNodes.entrySet()) {
+                for (Node n : e.getValue()) {
+                    double ranking = e.getKey() * keywordsFromText.get(n.getLabel());
+                    rankedStrings.put(ranking, n.getLabel());
                 }
-                ontologyConcepts.addAll(rankedStrings.values());
             }
-
-            observer.setStatusText("Find proposals");
-            for (Node n : userGraph.getNodes()) {
-                ontologyConcepts.remove(n.getLabel().toLowerCase());
-                observer.markConceptAsMatching(n.getLabel());
-            }
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
         }
 
-        List<String> subList = ontologyConcepts.subList(0, amount);
-        for (String s : subList) {
+        List<String> conceptProposals = getConceptProposals(userGraph, rankedStrings);
+        if (conceptProposals.size() > amount) {
+            conceptProposals = conceptProposals.subList(0, amount);
+        }
+
+        List<String> relationProposals = getRelationProposals(ontologyGraph, userGraph, rankedStrings);
+        if (relationProposals.size() > amount) {
+            relationProposals = relationProposals.subList(0, amount);
+        }
+
+        ArrayList<Field> result = new ArrayList<Field>();
+        for (String s : conceptProposals) {
             observer.markConceptAsProposal(s);
+            result.add(new Field("concept_proposal=" + s));
         }
-        return (String[]) subList.toArray(new String[subList.size()]);
+        for (String s : relationProposals) {
+            observer.markRelationAsProposal(s);
+            result.add(new Field("relation_proposal=" + s));
+        }
+
+        return (Field[]) result.toArray(new Field[result.size()]);
+    }
+
+    private List<String> getRelationProposals(Graph ontologyGraph, Graph userGraph, RankedKeywordList rankedStrings) {
+        observer.setStatusText("Find relation proposals");
+        HashSet<String> userNodes = new HashSet<String>();
+        for (Node n : userGraph.getNodes()) {
+            userNodes.add(n.getLabel().toLowerCase());
+        }
+        HashSet<String> foundRelations = new HashSet<String>();
+        RankedKeywordList list = new RankedKeywordList();
+        for (Edge e : ontologyGraph.getEdges()) {
+            String fromLabel = e.getFromNode().getLabel();
+            String toLabel = e.getToNode().getLabel();
+            if (userNodes.contains(fromLabel) && userNodes.contains(toLabel)) {
+                Edge e1 = userGraph.getEdgeForLabels(fromLabel, toLabel, true);
+                Edge e2 = userGraph.getEdgeForLabels(toLabel, fromLabel, true);
+                if (e1 == null && e2 == null) {
+                    if (fromLabel.compareTo(toLabel) > 0) {
+                        String tmp = toLabel;
+                        toLabel = fromLabel;
+                        fromLabel = tmp;
+                    }
+                    if (!foundRelations.contains(fromLabel + "," + toLabel)) {
+                        list.put(rankedStrings.getWeightFor(fromLabel) + rankedStrings.getWeightFor(toLabel), fromLabel + "," + toLabel);
+                        foundRelations.add(fromLabel + "," + toLabel);
+                    }
+                } else {
+                    // TODO check if relation correct
+                }
+            }
+        }
+        return list.getKeywords();
+    }
+
+    private List<String> getConceptProposals(Graph userGraph, RankedKeywordList rankedStrings) {
+        observer.setStatusText("Find concept proposals");
+        List<String> ontologyConcepts = new ArrayList<String>();
+        ontologyConcepts.addAll(rankedStrings.getKeywords());
+        for (Node n : userGraph.getNodes()) {
+            ontologyConcepts.remove(n.getLabel().toLowerCase());
+            observer.markConceptAsMatching(n.getLabel());
+        }
+        return ontologyConcepts;
     }
 
     private String getText() {
         return TEXT;
     }
 
-    private Graph getUserGraph(String elouri, String user) throws TupleSpaceException {
-        String nid = new VMID().toString();
-        String eid = new VMID().toString();
-        commandSpace.write(new Tuple(nid, "userconceptmapagent", "conceptmap", user, elouri, "nodes"));
-        commandSpace.write(new Tuple(eid, "userconceptmapagent", "conceptmap", user, elouri, "edges"));
-        Tuple userNodesTuple = commandSpace.waitToTake(new Tuple(nid, "response", Field.createWildCardField()));
-        Tuple userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()));
+    private Graph getUserGraph(String elouri, String user) {
         Graph g = new Graph();
-        Field[] nodeFields = new Field[userNodesTuple.getNumberOfFields() - 2];
-        System.arraycopy(userNodesTuple.getFields(), 2, nodeFields, 0, nodeFields.length);
-        Field[] edgesFields = new Field[userEdgesTuple.getNumberOfFields() - 2];
-        System.arraycopy(userEdgesTuple.getFields(), 2, edgesFields, 0, edgesFields.length);
-        g.fillFromFields(edgesFields, nodeFields);
+        try {
+            String nid = new VMID().toString();
+            String eid = new VMID().toString();
+            commandSpace.write(new Tuple(nid, "userconceptmapagent", "conceptmap", user, elouri, "nodes"));
+            commandSpace.write(new Tuple(eid, "userconceptmapagent", "conceptmap", user, elouri, "edges"));
+            Tuple userNodesTuple = commandSpace.waitToTake(new Tuple(nid, "response", Field.createWildCardField()));
+            Tuple userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()));
+            Field[] nodeFields = new Field[userNodesTuple.getNumberOfFields() - 2];
+            System.arraycopy(userNodesTuple.getFields(), 2, nodeFields, 0, nodeFields.length);
+            Field[] edgesFields = new Field[userEdgesTuple.getNumberOfFields() - 2];
+            System.arraycopy(userEdgesTuple.getFields(), 2, edgesFields, 0, edgesFields.length);
+            g.fillFromFields(edgesFields, nodeFields);
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
         return g;
     }
 
@@ -220,8 +272,6 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             e.printStackTrace();
         }
 
-        Map<String, Set<String>> ontologyClouds = getOntologyClouds(namespace);
-
         Map<String, String> ontologyTerms = getOntologyTerms(namespace);
         HashMap<String, String> ontologySingleTerms = new HashMap<String, String>();
         for (String stemmedTerm : ontologyTerms.keySet()) {
@@ -235,19 +285,26 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                 ontologySingleTerms.put(stemmedTerm, ontologyTerms.get(stemmedTerm));
             }
         }
+
+        Map<String, Set<String>> ontologyClouds = getOntologyClouds(namespace);
         Map<String, Double> keywords = new HashMap<String, Double>();
         for (String term : text.split(" ")) {
             String stemmed = Stemmer.stem(term);
             if (ontologyClouds.containsKey(stemmed)) {
                 for (String keyword : ontologyClouds.get(stemmed)) {
-                    keywords.put(keyword.toLowerCase(), 0.5);
-                    observer.foundTextKeyword(term);
+                    keywords.put(keyword.toLowerCase(), 0.2);
+                    System.out.println("cloud: " + keyword);
                 }
             }
-            // TODO maybe consider if single or complete? 
             if (ontologySingleTerms.containsKey(stemmed)) {
-                keywords.put(ontologySingleTerms.get(stemmed).toLowerCase(), 1.0);
+                keywords.put(ontologySingleTerms.get(stemmed).toLowerCase(), 0.6);
                 observer.foundTextKeyword(term);
+                System.out.println("ontology-stemmed: " + term);
+            }
+            if (ontologyTerms.containsKey(term)) {
+                keywords.put(term.toLowerCase(), 1.0);
+                observer.foundTextKeyword(term);
+                System.out.println("ontolog-full: " + term);
             }
         }
         return keywords;

@@ -144,6 +144,6 @@ public class OntologyAgentConnection implements OntologyConnection {
         // TODO
         return null;
     }
-    
+
     
 }
