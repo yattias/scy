@@ -18,26 +18,6 @@ import eu.scy.sessionmanager.SessionManager;
  */
 public interface ToolBrokerAPI extends RooloServices {
 
-//    /**
-//     * This method returns the repository instance to be used by clients of the
-//     * ToolsBrokerAPI.
-//     * 
-//     * @return repository the repository instace
-//     */
-//    public IRepository getRepository();
-//
-//    /**
-//     * @return the metaDataTypeManager
-//     */
-//    public IMetadataTypeManager getMetaDataTypeManager();
-//
-//    /**
-//     * @return the extensionManager
-//     */
-//    public IExtensionManager getExtensionManager();
-//
-//    public IELOFactory getELOFactory();
-
     /**
      * The session manager for handling user authentication and authorisation
      * @param username
@@ -123,5 +103,19 @@ public interface ToolBrokerAPI extends RooloServices {
      * @return login user name
      */
     public String getLoginUserName();
+
+    /**
+     * Removes the connection listener.
+     * 
+     * @param connectionListener listener to be removed.
+     */
+	public void removeConnectionListener(ConnectionListener connectionListener);
+
+	/**
+	 * Adds the connection lister if not added yet.
+	 * 
+	 * @param connectionListener listener to be added.
+	 */
+	public void addConnectionListener(ConnectionListener connectionListener);
 
 }
