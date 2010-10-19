@@ -10,7 +10,7 @@
     </parent>
     <groupId>eu.scy.server</groupId>
     <artifactId>scy-eportfolio</artifactId>
-    <version>25-CYP2-SNAPSHOT</version>
+    <version>26-SNAPSHOT</version>
     <name>scy-eportfolio</name>
     <url>http://maven.apache.org</url>
     <dependencies>
