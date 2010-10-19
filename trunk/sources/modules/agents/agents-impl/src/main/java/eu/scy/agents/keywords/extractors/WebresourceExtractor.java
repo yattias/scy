@@ -15,19 +15,19 @@ import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
+import eu.scy.agents.util.Utilities;
 
 public class WebresourceExtractor implements KeywordExtractor {
 
 	private final static Logger logger = Logger.getLogger(TextExtractor.class);
 
-	private static final String ANNOTATIONS_START = "<annotations>";
-	private static final String ANNOTATIONS_END = "</annotations>";
+	  public static String XMLPATH = "//webresource/annotations";
 
 	private TupleSpace tupleSpace;
 
 	@Override
 	public List<String> getKeywords(IELO elo) {
-		String text = getEloText(elo);
+		String text = getText(elo);
 		if (!"".equals(text)) {
 			return getKeywords(text);
 		} else {
@@ -45,17 +45,8 @@ public class WebresourceExtractor implements KeywordExtractor {
 		this.tupleSpace = tupleSpace;
 	}
 
-	private String getEloText(IELO elo) {
-		IContent content = elo.getContent();
-		if (content == null) {
-			logger.fatal("Content of elo is null");
-			return "";
-		}
-		String text = content.getXml();
-		text = text.substring(text.indexOf(ANNOTATIONS_START), text
-				.lastIndexOf(ANNOTATIONS_END)
-				+ ANNOTATIONS_END.length());
-		logger.debug("Got text " + text);
+	private String getText(IELO elo) {
+	    String text = Utilities.getEloText(elo, XMLPATH, logger);
 		return text;
 	}
 
