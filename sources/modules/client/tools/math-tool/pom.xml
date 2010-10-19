@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.tools</groupId>
+        <version>26-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>math-tool</artifactId>
+    <packaging>jar</packaging>
+    <name>math-tool</name>
+
+    <developers>
+        <developer>
+            <id>anthony</id>
+            <name>Anthony Perritano</name>
+            <email>aperritano@gmail.com</email>
+            <organization>University of Oslo, InterMedia</organization>
+            <organizationUrl>www.intermedia.uio.no</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-remoting</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        
+       
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx-core</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout</artifactId>
+            <version>3.7.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+      
+        <dependency>
+        	<groupId>eu.scy.client.desktop</groupId>
+        	<artifactId>tool-broker</artifactId>
+        	<version>${pom.version}</version>
+        </dependency>
+        
+  
+		<dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
