@@ -11,15 +11,9 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.rtf.RTFEditorKit;
 
 import org.apache.log4j.Logger;
 
@@ -31,19 +25,18 @@ import eu.scy.agents.util.Utilities;
 /**
  * @author Jörg Kindermann
  * 
- *         Keyword extractor for ELOs produced by scy/rtf
+ *         Keyword extractor for ELOs produced by scy/copex
  */
-public class RichTextExtractor implements KeywordExtractor {
+public class InterviewToolExtractor implements KeywordExtractor {
 
-	private final static Logger logger = Logger
-			.getLogger(RichTextExtractor.class);
+  private final static Logger logger = Logger.getLogger(InterviewToolExtractor.class);
 
-	private TupleSpace tupleSpace;
+  private TupleSpace tupleSpace;
 
-  public static String XMLPATH = "//content/RichText";
+  public static String XMLPATH = "//interview/question";
 
-	public RichTextExtractor() {
-	}
+  public InterviewToolExtractor() {
+  }
 
   @Override
   public List<String> getKeywords(IELO elo) {
@@ -56,40 +49,8 @@ public class RichTextExtractor implements KeywordExtractor {
   }
 
   private String getText(IELO elo) {
-    String text = "";
-    try {
-      text = unRTF(Utilities.getEloText(elo, XMLPATH, logger));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    String text = Utilities.getEloText(elo, XMLPATH, logger);
     return text;
-  }
-
-  /**
-   * Converts Rich-Text-Format (RTF) to plain text
-   * 
-   * @see javax.swing.text.rtf
-   * @param rtf a String in RTF
-   * @return plain text
-   * @throws IOException
-   */
-  protected static String unRTF(String rtf) throws IOException {
-    RTFEditorKit editor = new RTFEditorKit();
-    JTextPane text = new JTextPane();
-    StringReader sr = new StringReader(rtf);
-    try {
-      editor.read(sr, text.getDocument(), 0);
-    } catch (BadLocationException e1) {
-      e1.printStackTrace();
-    }
-    String txt;
-    try {
-      txt = text.getDocument().getText(0, text.getDocument().getLength());
-      return txt;
-    } catch (BadLocationException e) {
-      e.printStackTrace();
-    }
-    return null;
   }
 
   private List<String> getKeywords(String text) {

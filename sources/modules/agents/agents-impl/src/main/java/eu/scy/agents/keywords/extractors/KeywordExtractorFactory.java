@@ -25,9 +25,11 @@ public class KeywordExtractorFactory {
 
   public KeywordExtractorFactory() {
     setKeywordExtractor("scy/text", new TextExtractor());
+    setKeywordExtractor("scy/richtext", new RichTextExtractor());
     setKeywordExtractor("scy/webresourcer", new WebresourceExtractor());
     setKeywordExtractor("scy/mapping", new ConceptMapExtractor());
     setKeywordExtractor("scy/copex", new CopexExtractor());
+    setKeywordExtractor("scy/interview", new InterviewToolExtractor());
   }
 
   /**

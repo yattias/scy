@@ -1,3 +1,6 @@
+/*
+ * Created on 21.09.2010
+ */
 package eu.scy.agents.keywords.extractors;
 
 import static org.junit.Assert.assertEquals;
@@ -24,11 +27,11 @@ import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
-public class ConceptMapExtractorTest extends AbstractTestFixture {
+public class InterviewToolExtractorTest extends AbstractTestFixture {
 
   private IELO elo;
 
-  private ConceptMapExtractor conceptMapExtractor;
+  private InterviewToolExtractor interviewToolExtractor;
 
   @BeforeClass
   public static void startTS() {
@@ -57,13 +60,13 @@ public class ConceptMapExtractorTest extends AbstractTestFixture {
     // agentMap.put(OntologyLookupAgent.class.getName(), params);
     this.startAgentFramework(this.agentMap);
 
-    InputStream inStream = this.getClass().getResourceAsStream("/conceptMap1.xml");
+    InputStream inStream = this.getClass().getResourceAsStream("/interviewToolExample1.xml");
     String eloContent = readFile(inStream);
     inStream.close();
     elo = createNewElo("TestInterview", "scy/interview");
     elo.setContent(new BasicContent(eloContent));
-    conceptMapExtractor = new ConceptMapExtractor();
-    conceptMapExtractor.setTupleSpace(getCommandSpace());
+    interviewToolExtractor = new InterviewToolExtractor();
+    interviewToolExtractor.setTupleSpace(getCommandSpace());
   }
 
   @Override
@@ -85,11 +88,9 @@ public class ConceptMapExtractorTest extends AbstractTestFixture {
 
   @Test
   public void testGetKeywords() {
-    List<String> keywords = conceptMapExtractor.getKeywords(elo);
-    assertEquals(18, keywords.size());
-    assertTrue(hasItems(keywords, "wind", "reduces", "inhabitants", "insulation", "co2", "effects",
-                        "number", "living", "needed", "sun", "temperature", "size", "roof",
-                        "inside", "heating", "energy", "wall", "outside"));
+    List<String> keywords = interviewToolExtractor.getKeywords(elo);
+    assertEquals(3, keywords.size());
+    assertTrue(hasItems(keywords, "start", "heating", "house"));
   }
 
 }
