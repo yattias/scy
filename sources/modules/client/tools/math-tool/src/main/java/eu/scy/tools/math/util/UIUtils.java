@@ -18,13 +18,15 @@ public class UIUtils {
 
 
 				JFrame frame = new JFrame("mathTool"); //$NON-NLS-1$
-				frame.setLayout(new MigLayout("insets 0 0 0 0")); //$NON-NLS-1$
+				frame.setLayout(new MigLayout("fill,insets 0 0 0 0")); //$NON-NLS-1$
 				// JScrollPane scrollPane = new JScrollPane(doInit());
 				//				
 				// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 				// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				Dimension dimension = new Dimension(500, 600);
+				frame.setPreferredSize(dimension);
 				frame.add(mathTool.createMathTool(),"grow");
-				frame.setPreferredSize(new Dimension(500, 600));
+				
 				// when you close the frame, the app exits
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
