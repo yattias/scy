@@ -5,16 +5,19 @@ import java.awt.Dimension;
 
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 
 import eu.scy.tools.math.controller.MathToolController;
+import eu.scy.tools.math.ui.images.Images;
 
 public class MathTool {
 
@@ -61,15 +64,24 @@ public class MathTool {
 	
 	public JComponent createMathTool() {
 		
-		JXPanel mainPanel = new JXPanel(new MigLayout("inset 0 0 0 0"));
+		JXPanel mainPanel = new JXPanel(new MigLayout("fill,inset 0 0 0 0"));
 		mainPanel.setBackground(Color.pink);
+		
+		mainPanel.add(createToolBar(), "dock north");
+		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.WRAP_TAB_LAYOUT);
-		tabbedPane.setPreferredSize(new Dimension(300, 300));
 		tabbedPane.addTab(_2D, createLayout(_2D));
 		tabbedPane.addTab(_3D,createLayout(_3D));
-		mainPanel.add(tabbedPane,"span");
+		mainPanel.add(tabbedPane,"grow");
 		// TODO Auto-generated method stub
 		return mainPanel;
+	}
+
+	private JToolBar createToolBar() {
+		JToolBar toolBar = new JToolBar("Still draggable");
+		toolBar.add(new JXButton(Images.SketchUp.getIcon()));
+		toolBar.setOpaque(true);
+		return toolBar;
 	}
 
 	private JComponent createLayout(String string) {
