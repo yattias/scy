@@ -98,7 +98,7 @@
     <bean id="runtimeDAO" class="eu.scy.core.persistence.hibernate.RuntimeDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="userDAO" ref="userDAO"/>
-        <property name="repository" ref="repository"/>
+        <!--property name="repository" ref="repository"/-->
         <property name="toolService" ref="toolService"/>
     </bean>
 
