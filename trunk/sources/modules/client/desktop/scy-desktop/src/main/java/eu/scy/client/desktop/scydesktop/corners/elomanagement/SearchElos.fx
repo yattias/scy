@@ -10,7 +10,7 @@ import javafx.scene.Node;
 /**
  * @author sikken
  */
-public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay {
+public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay, ShowSearching {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
     public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
@@ -100,10 +100,10 @@ public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay {
         action: searchButtonAction
     }
     
-    public-read def label5: javafx.scene.control.Label = javafx.scene.control.Label {
+    public-read def foundLabel: javafx.scene.control.Label = javafx.scene.control.Label {
         layoutX: 0.0
         layoutY: 147.0
-        text: "##Results:"
+        text: "##Found"
     }
     
     def __layoutInfo_resultsListView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
@@ -152,11 +152,16 @@ public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay {
         text: ""
     }
     
+    public-read def progressIndicator: javafx.scene.control.ProgressIndicator = javafx.scene.control.ProgressIndicator {
+        layoutX: 147.0
+        layoutY: 193.0
+    }
+    
     public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
     }
     
     public function getDesignRootNodes (): javafx.scene.Node[] {
-        [ label, label2, allTypesCheckBox, typesListView, label3, nameTextbox, mineCheckBox, label4, line, searchButton, label5, resultsListView, openButton, cancelButton, label6, label7, othersCheckBox, ]
+        [ label, label2, allTypesCheckBox, typesListView, label3, nameTextbox, mineCheckBox, label4, line, searchButton, foundLabel, resultsListView, openButton, cancelButton, label6, label7, othersCheckBox, progressIndicator, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
@@ -203,13 +208,35 @@ public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay {
    public var searchAction: function(searchElos: SearchElos): Void;
    public var openAction: function(searchElos: SearchElos): Void;
    public var cancelAction: function(searchElos: SearchElos): Void;
+   var foundLabelText:String;
 
    init{
       resultsListView.cellFactory = scyEloCellFactory;
+      progressIndicator.visible = false;
    }
    
    override public function getContentNodes(): Node[] {
       return getDesignRootNodes();
    }
 
+   public override function showSearching():Void{
+      delete resultsListView.items;
+      resultsListView.disable = true;
+      progressIndicator.visible = true;
+      setNumberOfResults("?");
+   }
+
+   public override function showSearchResult(results: Object[]):Void{
+      resultsListView.items = results;
+      resultsListView.disable = false;
+      progressIndicator.visible = false;
+      setNumberOfResults("{sizeof resultsListView.items}");
+   }
+
+   function setNumberOfResults(nr: String):Void{
+      if (foundLabelText==""){
+         foundLabelText = foundLabel.text;
+      }
+      foundLabel.text = "{foundLabelText} : {nr}";
+   }
 }

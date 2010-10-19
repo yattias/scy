@@ -92,6 +92,7 @@
             <Item value="inst:ButtonModel3"/>
             <Item value="inst:LabelModel6"/>
             <Item value="inst:LabelModel7"/>
+            <Item value="inst:ProgressIndicatorModel1"/>
         </List>
         <Reference name="width" value="prop2:7,NOT_SET,4,null,4,null,25,anim:0,DISCRETE,flt:480.0,4,null,"/>
         <Reference name="height" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:386.0,4,null,"/>
@@ -141,7 +142,7 @@
         <Reference name="cellFactory" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,null,4,null,"/>
     </Instance>
     <Instance classID="LabelModel" instanceID="LabelModel5">
-        <Reference name="instanceName" value="str:label3"/>
+        <Reference name="instanceName" value="str:foundLabel"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:-2.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:156.0,4,null,"/>
         <Reference name="gridLayoutInfoHLocation" value="int:0"/>
@@ -236,5 +237,21 @@
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,str:????,4,null,"/>
         <Reference name="graphic" value="null"/>
+    </Instance>
+    <Instance classID="ProgressIndicatorModel" instanceID="ProgressIndicatorModel1">
+        <Reference name="instanceName" value="str:progressIndicator"/>
+        <Reference name="scaleX" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:1.0,4,null,"/>
+        <Reference name="scaleY" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:1.0,4,null,"/>
+        <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:193.0,4,null,"/>
+        <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:194.0,4,null,"/>
+        <Reference name="layoutInfoWidth" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:50.0,4,null,"/>
+        <Reference name="layoutInfoHeight" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:50.0,4,null,"/>
+        <Reference name="layoutInfoHGrow" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,null,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
+        <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
+        <Reference name="tooltip" value="null"/>
     </Instance>
 </Model>

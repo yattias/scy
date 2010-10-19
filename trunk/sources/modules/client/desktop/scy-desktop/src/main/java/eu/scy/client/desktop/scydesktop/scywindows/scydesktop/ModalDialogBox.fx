@@ -10,14 +10,17 @@ import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javafx.scene.input.KeyEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import javafx.scene.Group;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Resizable;
+import javafx.scene.paint.Color;
+import java.lang.Void;
 
 /**
  * @author sikken
@@ -61,6 +64,7 @@ public class ModalDialogBox extends CustomNode {
             close();
          }
          allowMinimize:false
+         allowResize:content instanceof Resizable
          activated:true
       }
       dialogWindow.open();

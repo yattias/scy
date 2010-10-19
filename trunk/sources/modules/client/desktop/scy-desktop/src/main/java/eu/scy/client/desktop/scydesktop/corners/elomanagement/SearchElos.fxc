@@ -44,6 +44,7 @@
             <Item value="inst:LabelModel6"/>
             <Item value="inst:LabelModel7"/>
             <Item value="inst:CheckBoxModel3"/>
+            <Item value="inst:ProgressIndicatorModel1"/>
         </List>
         <Reference name="width" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:508.0,4,null,"/>
         <Reference name="height" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:293.0,4,null,"/>
@@ -193,7 +194,7 @@
         <Reference name="action" value="prop2:7,NOT_SET,4,null,4,null,29,anim:,,str:searchButtonAction,4,null,"/>
     </Instance>
     <Instance classID="LabelModel" instanceID="LabelModel5">
-        <Reference name="instanceName" value="str:label5"/>
+        <Reference name="instanceName" value="str:foundLabel"/>
         <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,14,anim:,,flt:0.0,4,null,"/>
         <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:147.0,4,null,"/>
         <Reference name="gridLayoutInfoHLocation" value="int:0"/>
@@ -202,7 +203,7 @@
         <Map name="customProperties"/>
         <Reference name="customClass" value="null"/>
         <Reference name="tooltip" value="null"/>
-        <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,21,anim:,,str:##Results:,4,null,"/>
+        <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,18,anim:,,str:##Found,4,null,"/>
         <Reference name="graphic" value="null"/>
     </Instance>
     <Instance classID="ListViewModel" instanceID="ListViewModel2">
@@ -288,5 +289,16 @@
         <Reference name="tooltip" value="null"/>
         <Reference name="text" value="prop2:7,NOT_SET,4,null,4,null,11,anim:,,str:,4,null,"/>
         <Reference name="graphic" value="null"/>
+    </Instance>
+    <Instance classID="ProgressIndicatorModel" instanceID="ProgressIndicatorModel1">
+        <Reference name="instanceName" value="str:progressIndicator"/>
+        <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:147.0,4,null,"/>
+        <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:193.0,4,null,"/>
+        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
+        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
+        <Reference name="clip" value="null"/>
+        <Map name="customProperties"/>
+        <Reference name="customClass" value="null"/>
+        <Reference name="tooltip" value="null"/>
     </Instance>
 </Model>
