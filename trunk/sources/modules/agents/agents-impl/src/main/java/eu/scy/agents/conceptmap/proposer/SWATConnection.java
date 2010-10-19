@@ -50,7 +50,7 @@ public class SWATConnection implements OntologyConnection {
             }
             Class keywordClass = (Class) sc.getOntology().getEntity(namespace + "Keyword");
             for (Instance i : keywordClass.getInstances()) {
-                result.remove(i.getLabels(language));
+//                result.remove(i.getLabels(language));
             }
             return (String[]) result.toArray(new String[result.size()]);
         } catch (SWATException e) {
@@ -190,10 +190,10 @@ public class SWATConnection implements OntologyConnection {
 
     private String getLabels(Entity e) throws SWATException {
         DatatypeAnnotation[] das = e.getDatatypeAnnotations();
-        String result = ""; 
+        String result = "";
         for (DatatypeAnnotation da : das) {
             if (da.getType() == Type.LABEL && da.getLang().equals(language)) {
-                result+= da.getValue() + ","; 
+                result+= da.getValue() + ",";
             }
         }
         if (result.length() > 0) {
@@ -206,12 +206,12 @@ public class SWATConnection implements OntologyConnection {
     public String getLanguage() {
         return language;
     }
-    
+
     @Override
     public String getOntologyNamespace() {
         return ontologyNamespace;
     }
-    
+
     @Override
     public void close() {
         try {
@@ -220,7 +220,7 @@ public class SWATConnection implements OntologyConnection {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public Map<String, Set<String>> getOntologyClouds(String namespace) throws TupleSpaceException {
         Map<String, Set<String>> keyword2Concept = new HashMap<String, Set<String>>();
@@ -234,7 +234,7 @@ public class SWATConnection implements OntologyConnection {
                         XSDValue[] xsdValues = (XSDValue[]) pvb.getValues();
                         Set<String> connectionPoints = new HashSet<String>();
                         for (XSDValue xsdValue : xsdValues) {
-                            connectionPoints.add(sc.getOntology().getEntity(xsdValue.getValue()).getLabels(language));
+//                            connectionPoints.add(sc.getOntology().getEntity(xsdValue.getValue()).getLabels(language));
                         }
                         cloud2Concept.put(i.getId().getName(), connectionPoints);
                     }
@@ -247,7 +247,7 @@ public class SWATConnection implements OntologyConnection {
                     if (pvb.getProperty().getName().equals("belongsToList")) {
                         Instance[] listInstances = (Instance[]) pvb.getValues();
                         for (Instance list : listInstances) {
-                            keyword2Concept.put(i.getLabels(language), cloud2Concept.get(list.getId().getName()));
+//                            keyword2Concept.put(i.getLabels(language), cloud2Concept.get(list.getId().getName()));
                         }
                     }
                 }
