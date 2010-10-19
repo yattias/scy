@@ -15,3 +15,6 @@ public var selectedIconsPackage = "selectedIcons.fxz";
 public var notSelectedIconsPackage = "notSelectedIcons.fxz";
 
 public var notFoundReplacementName = "logo_gray";
+
+public-read var thumbnailWidth = 64;
+public-read var thumbnailHeight = 64;

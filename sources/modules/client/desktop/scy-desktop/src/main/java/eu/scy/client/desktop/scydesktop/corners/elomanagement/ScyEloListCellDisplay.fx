@@ -12,9 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import javafx.scene.layout.HBox;
-import javafx.scene.CustomNode;
-import javafx.scene.Group;
-import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -38,8 +35,16 @@ public mixin class ScyEloListCellDisplay {
             node: SimpleScySearchResultCellNode{
                scySearchResult: bind listCell.item as ScySearchResult
             }
+         }
+   }
 
-//            node: bind createSimpleListCellContent(listCell.item)
+   public function extendedScyEloCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+            node: ExtendedScySearchResultCellNode{
+               newEloCreationRegistry: newEloCreationRegistry
+               scySearchResult: bind listCell.item as ScySearchResult
+            }
          }
    }
 
@@ -108,26 +113,3 @@ public mixin class ScyEloListCellDisplay {
 
 }
 
-class SimpleScySearchResultCellNode extends CustomNode {
-
-   public var scySearchResult: ScySearchResult on replace { newScySearchResult() };
-   def titleDisplay = Label {};
-   def spacing = 5.0;
-   def hBox = HBox {
-         spacing: spacing
-         content: []
-      }
-
-   public override function create(): Node {
-      hBox
-   }
-
-   function newScySearchResult() {
-      titleDisplay.text = scySearchResult.getScyElo().getTitle();
-      hBox.content = [
-            scySearchResult.getEloIcon() as EloIcon,
-            titleDisplay
-         ];
-   }
-
-}

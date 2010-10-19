@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 /**
  * @author SikkenJ
  */
-public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay {
+public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay, ShowSearching {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
     public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
@@ -41,7 +41,7 @@ public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay
         cellFactory: null
     }
     
-    public-read def label3: javafx.scene.control.Label = javafx.scene.control.Label {
+    public-read def foundLabel: javafx.scene.control.Label = javafx.scene.control.Label {
         layoutX: -2.0
         layoutY: 156.0
         text: "##Found"
@@ -96,6 +96,19 @@ public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay
         text: "????"
     }
     
+    def __layoutInfo_progressIndicator: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+        width: 50.0
+        height: 50.0
+        hgrow: null
+    }
+    public-read def progressIndicator: javafx.scene.control.ProgressIndicator = javafx.scene.control.ProgressIndicator {
+        layoutX: 193.0
+        layoutY: 194.0
+        layoutInfo: __layoutInfo_progressIndicator
+        scaleX: 1.0
+        scaleY: 1.0
+    }
+    
     public-read def scene: javafx.scene.Scene = javafx.scene.Scene {
         width: 480.0
         height: 386.0
@@ -136,7 +149,7 @@ public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay
     }
     
     public function getDesignRootNodes (): javafx.scene.Node[] {
-        [ label, label2, relationListView, label3, resultsListView, cancelButton, openButton, baseButton, eloDescribtion, eloDescription, ]
+        [ label, label2, relationListView, foundLabel, resultsListView, cancelButton, openButton, baseButton, eloDescribtion, eloDescription, progressIndicator, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {
@@ -180,10 +193,12 @@ public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay
          openButton.disable = selectedSearchResult == null;
          baseButton.disable = selectedSearchResult == null;
       };
+   var foundLabelText:String;
 
    init{
       relationListView.cellFactory = eloBasedSearcherCellFactory;
-      resultsListView.cellFactory = scyEloCellFactory;
+      resultsListView.cellFactory = simpleScyEloCellFactory;
+      progressIndicator.visible = false;
    }
 
    function eloBasedSearcherCellFactory(): ListCell {
@@ -195,6 +210,26 @@ public class EloBasedSearchDesign extends ModalDialogNode, ScyEloListCellDisplay
          }
    }
 
+   public override function showSearching():Void{
+      delete resultsListView.items;
+      resultsListView.disable = true;
+      progressIndicator.visible = true;
+      setNumberOfResults("?");
+   }
+
+   public override function showSearchResult(results: Object[]):Void{
+      resultsListView.items = results;
+      resultsListView.disable = false;
+      progressIndicator.visible = false;
+      setNumberOfResults("{sizeof resultsListView.items}");
+   }
+
+   function setNumberOfResults(nr: String):Void{
+      if (foundLabelText==""){
+         foundLabelText = foundLabel.text;
+      }
+      foundLabel.text = "{foundLabelText} : {nr}";
+   }
 }
 
 function run (): Void {
