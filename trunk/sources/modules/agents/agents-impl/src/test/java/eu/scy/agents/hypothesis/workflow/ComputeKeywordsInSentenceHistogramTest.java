@@ -5,11 +5,9 @@ package eu.scy.agents.hypothesis.workflow;
 
 import static org.junit.Assert.assertEquals;
 
-import java.awt.event.ComponentEvent;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -18,19 +16,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import roolo.elo.api.IELO;
+import roolo.elo.content.BasicContent;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.type.Container;
-
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.keywords.KeywordConstants;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Utilities;
 
 public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture {

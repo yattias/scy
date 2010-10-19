@@ -6,9 +6,7 @@ package eu.scy.agents.keywords.extractors;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +19,10 @@ import org.junit.Test;
 
 import roolo.elo.api.IELO;
 import roolo.elo.content.BasicContent;
-import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
@@ -59,12 +57,14 @@ public class CopexExtractorTest extends AbstractTestFixture {
     params.put(AgentProtocol.TS_PORT, TSPORT);
     this.agentMap.put(ExtractKeywordsAgent.NAME, params);
     this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
+    this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
     this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
     // agentMap.put(OntologyLookupAgent.class.getName(), params);
     this.startAgentFramework(this.agentMap);
 
     InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
     String eloContent = readFile(inStream);
+    inStream.close();
     elo = createNewElo("TestCopex", "scy/copex");
     elo.setContent(new BasicContent(eloContent));
     copexExtractor = new CopexExtractor();
@@ -91,9 +91,13 @@ public class CopexExtractorTest extends AbstractTestFixture {
   @Test
   public void testGetKeywords() {
     List<String> keywords = copexExtractor.getKeywords(elo);
-    assertEquals(12, keywords.size());
-    assertTrue(hasItems(keywords, "ingredients", "nontoxic", "binder", "solvent", "labels",
-                        "toxic", "chemical", "voc", "paint", "health", "natural", "pigment"));
+    assertEquals(26, keywords.size());
+    assertTrue(hasItems(keywords, "binder", "solvent", "voc", "natural paints", "modern paints",
+                        "ingredients", "nontoxic", "Natural paints", "Environmentally Friendly",
+                        "toxic", "chemical", "conventional paint companies", "conventional paint",
+                        "non-toxic paints", "VOC content", "used as solvent", "labels", "paint",
+                        "pre-set operation", "natural paint", "health", "chemical paints",
+                        "paint companies", "still contain", "natural", "pigment"));
   }
 
 }

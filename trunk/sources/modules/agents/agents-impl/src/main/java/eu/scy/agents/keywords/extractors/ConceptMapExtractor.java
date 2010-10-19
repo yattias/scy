@@ -1,77 +1,84 @@
 package eu.scy.agents.keywords.extractors;
 
 import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.rmi.dgc.VMID;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.apache.log4j.Logger;
 
-import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.ExtractKeywordsAgent;
+import eu.scy.agents.util.Utilities;
 
 public class ConceptMapExtractor implements KeywordExtractor {
 
-	private static final String NAME = "name";
-	private static final String NODE = "node";
-	private static final String NODES = "nodes";
+  private final static Logger logger = Logger.getLogger(InterviewToolExtractor.class);
 
-	// private TupleSpace tuplespace;
+  private TupleSpace tupleSpace;
 
-	@Override
-	public List<String> getKeywords(IELO elo) {
-		IContent content = elo.getContent();
-		List<String> nodes = extractNodes(content);
-		return nodes;
-	}
+  public static String NODEPATH = "//nodes/eu.scy.scymapper.impl.model.NodeModel/label";
+  public static String LINKPATH = "//links/eu.scy.scymapper.impl.model.NodeLinkModel/myLabel";
 
-	@SuppressWarnings("unchecked")
-	private List<String> extractNodes(IContent content) {
-		StringReader stringReader = new StringReader(content.getXmlString());
-		SAXBuilder builder = new SAXBuilder();
-		Document xmlDocument;
-		try {
-			xmlDocument = builder.build(stringReader);
-			Element rootElement = xmlDocument.getRootElement();
-			if (rootElement == null) {
-				return Collections.emptyList();
-			}
+  public ConceptMapExtractor() {
+  }
 
-			Set<String> nodeKeywords = new HashSet<String>();
-			Element nodesElement = rootElement.getChild(NODES);
-			if (nodesElement != null) {
-				List<Element> nodes = nodesElement.getChildren(NODE);
-				for (Element node : nodes) {
-					String nodeLabel = node.getAttributeValue(NAME);
-					nodeKeywords.add(nodeLabel);
-				}
-			}
+  @Override
+  public List<String> getKeywords(IELO elo) {
+    String text = getText(elo);
+    if (!"".equals(text)) {
+      return getKeywords(text);
+    } else {
+      return new ArrayList<String>();
+    }
+  }
 
-			return new ArrayList<String>(nodeKeywords);
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return Collections.emptyList();
-	}
+  private String getText(IELO elo) {
+    String text = Utilities.getEloText(elo, NODEPATH, logger);
+    text = text + " " + Utilities.getEloText(elo, LINKPATH, logger);
+    return text;
+  }
 
-	@Override
-	public TupleSpace getTupleSpace() {
-		return null;
-	}
+  private List<String> getKeywords(String text) {
+    try {
+      String queryId = new VMID().toString();
+      Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
+                                                    AgentProtocol.QUERY, queryId, text);
+      extractKeywordsTriggerTuple.setExpiration(7200000);
+      Tuple responseTuple = null;
+      if (this.tupleSpace.isConnected()) {
+        this.tupleSpace.write(extractKeywordsTriggerTuple);
+        responseTuple = this.tupleSpace.waitToTake(new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
+                                                             AgentProtocol.RESPONSE, queryId,
+                                                             Field.createWildCardField()));
+      }
+      if (responseTuple != null) {
+        ArrayList<String> keywords = new ArrayList<String>();
+        for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
+          String keyword = (String) responseTuple.getField(i).getValue();
+          keywords.add(keyword);
+        }
+        return keywords;
+      }
+    } catch (TupleSpaceException e) {
+      e.printStackTrace();
+    }
+    return new ArrayList<String>();
+  }
 
-	@Override
-	public void setTupleSpace(TupleSpace tupleSpace) {
-		// do nothing
-	}
+  @Override
+  public TupleSpace getTupleSpace() {
+    return tupleSpace;
+  }
+
+  @Override
+  public void setTupleSpace(TupleSpace tupleSpace) {
+    this.tupleSpace = tupleSpace;
+  }
 
 }

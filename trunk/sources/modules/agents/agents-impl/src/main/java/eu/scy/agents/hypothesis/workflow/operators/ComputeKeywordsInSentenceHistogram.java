@@ -14,7 +14,6 @@ import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.keywords.KeywordConstants;
-import eu.scy.agents.keywords.extractors.TextExtractor;
 import eu.scy.agents.util.Utilities;
 
 /**
