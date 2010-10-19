@@ -1,8 +1,11 @@
 
 
+<%@page import="info.collide.sqlspaces.commons.util.Base64"%>
 <%@ page import="eu.scy.server.exporter.*,java.net.URI,java.io.*"%>
 <%
-    String eloUrl = request.getParameter("eloUri").toString();
+    String eloUrlAsBase64 = request.getParameter("eloUri").toString();
+	byte[] eloUrlAsBytes = Base64.decode(eloUrlAsBase64);
+	String eloUrl = new String(eloUrlAsBytes);
     eloUrl = eloUrl.replaceAll(" ", "+");
     RetrieveElos getElo = new RetrieveElos();
     String eloXML;
