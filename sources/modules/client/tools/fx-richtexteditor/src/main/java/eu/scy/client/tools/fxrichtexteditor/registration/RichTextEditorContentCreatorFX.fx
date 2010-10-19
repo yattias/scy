@@ -12,6 +12,6 @@ public class RichTextEditorContentCreatorFX extends ScyToolWindowContentCreatorF
     public var authorMode:Boolean;
     public override function createScyToolWindowContent():Node{
         StringLocalizer.associate("eu.scy.client.tools.fxrichtexteditor.registration.resources.RichTextEditorRegistration", "eu.scy.client.tools.fxrichtexteditor.registration");
-        return RichTextEditorNode{authorMode:authorMode};
+        return RichTextEditorScyNode{authorMode:authorMode};
     }
 }
