@@ -49,7 +49,7 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin
    public ToolBrokerAPI getReadyForUser(Object object)
    {
       final ToolBrokerImpl tbi = (ToolBrokerImpl) object;
-      tbi.getReadyForUser(springConfigFile);
+      tbi.initializeServices(springConfigFile);
       return (ToolBrokerAPI) object;
    }
 }
