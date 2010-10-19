@@ -4,9 +4,17 @@
  */
 package eu.scy.common.scyelo;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import org.apache.log4j.Logger;
 
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -14,6 +22,8 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.IResource;
+import roolo.elo.api.exceptions.ResourceException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
 import roolo.elo.metadata.keys.Contribute;
@@ -24,7 +34,8 @@ import roolo.elo.metadata.keys.Contribute;
  */
 public class ScyElo
 {
-
+   private static final Logger logger = Logger.getLogger(ScyElo.class);
+   
    private IELO elo;
    private IMetadata metadata;
    private URI uriFirstVersion;
@@ -43,7 +54,11 @@ public class ScyElo
    private final IMetadataKey learningActivityKey;
    private final IMetadataKey accessKey;
    private final IMetadataKey missionRuntimeKey;
-
+   
+   private static final String thumbnailResourceName = "thumbnail";
+   private final static String thumbnailPngType = "png";
+   private final static String thumbnailScyPngType = "scy/png";
+   
    private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices)
    {
       assert metadata != null;
@@ -444,6 +459,47 @@ public class ScyElo
          return Access.valueOf(value);
       }
       return null;
+   }
+      
+   public BufferedImage getThumbnail(){
+      checkForCompleteElo();
+      IResource thumbnailResource = elo.getResource(thumbnailResourceName);
+      if (thumbnailResource==null){
+         return null;
+      }
+      ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailResource.getBytes());
+      try
+      {
+         return ImageIO.read(byteArrayInputStream);
+      }
+      catch (IOException e)
+      {
+         throw new ResourceException("problem with ",e);
+      }
+   }
+
+   public void setThumbnail(BufferedImage thumbnail){
+      if (thumbnail==null){
+         checkForCompleteElo();
+         elo.deleteResource(thumbnailResourceName);
+         logger.info("setThumbnail(): nr of bytes: null");
+      }
+      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      try
+      {
+         ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
+         IResource thumbnailResource = rooloServices.getELOFactory().createResource(thumbnailResourceName);
+         byte[] bytes = byteArrayOutputStream.toByteArray();
+         logger.info("setThumbnail(): nr of bytes: " + bytes.length);
+         thumbnailResource.setBytes(bytes);
+         thumbnailResource.setTechnicalFormat(thumbnailScyPngType);
+         checkForCompleteElo();
+         elo.addResource(thumbnailResource);
+      }
+      catch (IOException e)
+      {
+         throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
+      }
    }
 
 }
