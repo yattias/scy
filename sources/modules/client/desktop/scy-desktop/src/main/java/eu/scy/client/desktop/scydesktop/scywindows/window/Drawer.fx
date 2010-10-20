@@ -77,7 +77,7 @@ public abstract class Drawer extends CustomNode {
    protected var verticalSizeExternal = false;
    var originalWidth: Number;
    var originalHeight: Number;
-   var resizeAllowed = false;
+   var resizeAllowed = true;
    def heightOverhead = topContentBorder + bottomContentBorder + borderSize + 1;
    def widthOverhead = 2 * sideContentBorder + borderSize + 1;
    protected def clipSize = 1000000.0;
@@ -97,6 +97,7 @@ public abstract class Drawer extends CustomNode {
    var drawerCreated = false;
 
    function sizeChanged() {
+      adjustClipRect();
       positionControlElements();
    //      println("{this.getClass()} size changed to {width}*{height}");
    //      println("layout: ({layoutX}, {layoutY})");
@@ -120,8 +121,6 @@ public abstract class Drawer extends CustomNode {
             openCloseControl
          ];
       drawerCreated = true;
-      positionControlElements();
-      adjustClipRect();
       Group {
          clip: clipRect
          content: [
@@ -298,6 +297,7 @@ public abstract class Drawer extends CustomNode {
       desiredHeight = Math.max(desiredHeight, absoluteMinimumHeight);
       if (content instanceof Resizable) {
          var resizableContent = content as Resizable;
+//         println("drawer content width limits {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}");
          desiredWidth = Math.max(desiredWidth, resizableContent.getMinWidth());
          desiredHeight = Math.max(desiredHeight, resizableContent.getMinHeight());
          desiredWidth = Math.min(desiredWidth, resizableContent.getMaxWidth());
