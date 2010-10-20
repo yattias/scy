@@ -79,7 +79,7 @@ function run(){
                width:width-2*controlLength
                layoutX:emptyWindow.layoutX+controlLength;
                layoutY:emptyWindow.boundsInParent.maxY-borderWidth/2
-               opened:false
+               opened:true
                content:Rectangle {
                   x: 0, y: 0
                   width: 60, height: 60

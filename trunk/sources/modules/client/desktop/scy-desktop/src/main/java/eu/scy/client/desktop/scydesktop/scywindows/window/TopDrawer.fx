@@ -42,7 +42,7 @@ public class TopDrawer extends Drawer{
       openCloseControl.layoutX = width-closedSize/2-openCloseControl.mainRadius-handleOffset;
       openCloseControl.layoutY = -closedSize/2.0-openCloseControl.mainRadius-1;
       resizeControl.layoutX = width;
-      resizeControl.layoutY = resizeControlSize;
+      resizeControl.layoutY = resizeControlSize+3;
       resizeControl.rotate = -90;
    }
 }
@@ -84,7 +84,7 @@ function run(){
                width:width-2*controlLength
                layoutX:emptyWindow.layoutX+controlLength;
                layoutY:emptyWindow.boundsInParent.minY+borderWidth
-               opened:false
+               opened:true
             }
 
          ]

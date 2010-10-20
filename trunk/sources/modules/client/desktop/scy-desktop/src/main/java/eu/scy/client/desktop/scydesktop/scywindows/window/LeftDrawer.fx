@@ -43,7 +43,7 @@ public class LeftDrawer extends Drawer{
       openCloseControl.rotate = 180;
       openCloseControl.layoutX = -2*openCloseControl.mainRadius-borderSize+1;
       openCloseControl.layoutY = handleOffset;
-      resizeControl.layoutX = resizeControlSize;
+      resizeControl.layoutX = resizeControlSize+2;
       resizeControl.layoutY = height;
       resizeControl.rotate = 90;
    }

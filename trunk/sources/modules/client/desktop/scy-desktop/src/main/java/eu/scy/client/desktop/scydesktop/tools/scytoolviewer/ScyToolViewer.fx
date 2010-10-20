@@ -229,4 +229,12 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
    public override function getMinWidth() : Number{
       Math.max(minimumWidth,textBox.getMinWidth());
    }
+
+   public override function getMaxHeight() : Number{
+     textBox.boundsInParent.minY + textBox.getMaxHeight();
+   }
+
+   public override function getMaxWidth() : Number{
+      Math.max(minimumWidth,textBox.getMaxWidth());
+   }
 }
