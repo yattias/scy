@@ -3,6 +3,7 @@
  *
  * Created on 26-feb-2010, 12:02:24
  */
+
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import javafx.scene.Group;
@@ -47,7 +48,6 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var config: Config;
    public var windowStyler: WindowStyler;
    public var scyToolActionLogger: ScyToolActionLogger;
-
    def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
 
    public override function eloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
@@ -87,7 +87,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             content: Group {
                content: eloSaveAsPanel.getDesignRootNodes()
             }
-//            targetScene: window.scene
+            //            targetScene: window.scene
             title: ##"Enter title"
             eloIcon: eloIcon
             windowColorScheme: windowColorScheme
@@ -95,13 +95,15 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function saveAction(eloSaveAsPanel: SimpleSaveAsNodeDesign): Void {
-      var elo = eloSaveAsPanel.elo;
+      def elo = eloSaveAsPanel.elo;
       elo.getMetadata().getMetadataValueContainer(titleKey).setValue(eloSaveAsPanel.getTitle());
-      if (elo.getUri() != null) {
-         eloFactory.detachELO(elo);
-      }
       addThumbnail(elo);
-      var newMetadata = repository.addNewELO(elo);
+      var newMetadata: IMetadata;
+      if (elo.getUri() != null) {
+         newMetadata = repository.addForkedELO(elo);
+      } else {
+         newMetadata = repository.addNewELO(elo);
+      }
       eloFactory.updateELOWithResult(elo, newMetadata);
       if (eloSaveAsPanel.myElo) {
          myEloChanged.myEloChanged(elo);
@@ -118,14 +120,13 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
    public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
       if (elo.getUri() != null) {
-         var newMetadata:IMetadata;
+         var newMetadata: IMetadata;
          var eloAuthor = elo.getMetadata().getMetadataValueContainer(authorKey).getValue() as Contribute;
          addThumbnail(elo);
-         if (eloAuthor.getVCard()!=config.getToolBrokerAPI().getLoginUserName()){
+         if (eloAuthor.getVCard() != config.getToolBrokerAPI().getLoginUserName()) {
             // it is not my elo, make a fork of it
             newMetadata = repository.addForkedELO(elo);
-         }
-         else{
+         } else {
             newMetadata = repository.updateELO(elo);
          }
          eloFactory.updateELOWithResult(elo, newMetadata);
@@ -149,22 +150,22 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       showEloSaveAsPanel(elo, suggestedEloTitle, false, eloSaverCallBack);
    }
 
-   function addThumbnail(elo: IELO):Void{
-      var thumbnailImage:BufferedImage;
-      if (window.scyContent instanceof ScyTool){
-         thumbnailImage = (window.scyContent as ScyTool).getThumbnail(ArtSource.thumbnailWidth,ArtSource.thumbnailHeight);
+   function addThumbnail(elo: IELO): Void {
+      var thumbnailImage: BufferedImage;
+      if (window.scyContent instanceof ScyTool) {
+         thumbnailImage = (window.scyContent as ScyTool).getThumbnail(ArtSource.thumbnailWidth, ArtSource.thumbnailHeight);
       }
-      if (thumbnailImage==null){
+      if (thumbnailImage == null) {
          // no thumbnail returned by the tool, use the elo icon
-         def eloIcon = if (window.eloUri!=null) windowStyler.getScyEloIcon(window.eloUri) else windowStyler.getScyEloIcon(window.eloType);
-         def bounds = BoundingBox{
-            width:ArtSource.thumbnailWidth
-            height:ArtSource.thumbnailHeight
-         }
-         thumbnailImage = ImageUtils.nodeToImage(eloIcon,bounds);
+         def eloIcon = if (window.eloUri != null) windowStyler.getScyEloIcon(window.eloUri) else windowStyler.getScyEloIcon(window.eloType);
+         def bounds = BoundingBox {
+               width: ArtSource.thumbnailWidth
+               height: ArtSource.thumbnailHeight
+            }
+         thumbnailImage = ImageUtils.nodeToImage(eloIcon, bounds);
       }
 
-      def scyElo = new ScyElo(elo,config.getToolBrokerAPI());
+      def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
       scyElo.setThumbnail(thumbnailImage);
    }
 

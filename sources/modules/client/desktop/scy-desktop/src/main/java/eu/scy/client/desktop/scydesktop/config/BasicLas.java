@@ -5,6 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.config;
 
+import eu.scy.common.mission.LasType;
 import java.net.URI;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class BasicLas {
    private String anchorEloId;
    private List<String> intermediateEloIds;
    private String tooltip;
+   private URI instructionUri;
+   private LasType lasType;
 
    public String getAnchorEloId()
    {
@@ -102,5 +105,23 @@ public class BasicLas {
       this.yPosition = yPosition;
    }
 
-   
+   public URI getInstructionUri()
+   {
+      return instructionUri;
+   }
+
+   public void setInstructionUri(URI instructionUri)
+   {
+      this.instructionUri = instructionUri;
+   }
+
+   public LasType getLasType()
+   {
+      return lasType;
+   }
+
+   public void setLasType(LasType lasType)
+   {
+      this.lasType = lasType;
+   }
 }

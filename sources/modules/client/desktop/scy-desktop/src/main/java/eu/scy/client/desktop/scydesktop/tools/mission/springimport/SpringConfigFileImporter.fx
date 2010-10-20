@@ -114,6 +114,8 @@ public class SpringConfigFileImporter {
                      yPos: basicLas.getyPosition();
                      loEloUris: createExistingEloUriSequence(basicLas.getLoEloUris(), "las {basicLas.getId()}")
                      toolTip: basicLas.getTooltip();
+                     instructionUri: basicLas.getInstructionUri()
+                     lasType: basicLas.getLasType()
                   }
                if (not lasIdMap.containsKey(las.id)) {
                   lasIdMap.put(las.id, las);
@@ -150,6 +152,10 @@ public class SpringConfigFileImporter {
                      metadata: anchor.getMetadata();
                      exists: anchor.getMetadata() != null;
                      loEloUris: createExistingEloUriSequence(anchor.getLoEloUris(), "las {anchor.getId()}")
+                     targetDescriptionUri:anchor.getTargetDescription()
+                     assignmentUri:anchor.getAssignmentUri()
+                     resourcesUri:anchor.getResourcesUri()
+                     colorScheme:anchor.getColorScheme()
                   }
                if (not missionAnchorMap.containsKey(missionAnchor.id)) {
                   missionAnchorMap.put(missionAnchor.id, missionAnchor);

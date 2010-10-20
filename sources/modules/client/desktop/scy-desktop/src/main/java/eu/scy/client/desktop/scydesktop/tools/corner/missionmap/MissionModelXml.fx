@@ -10,6 +10,8 @@ import java.net.URI;
 import java.util.HashMap;
 import org.jdom.Element;
 import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
+import eu.scy.client.desktop.scydesktop.art.ColorSchemeId;
+import eu.scy.common.mission.LasType;
 
 /**
  * @author sikken
@@ -31,6 +33,8 @@ def anchorsName = "anchors";
 def anchorName = "anchor";
 def xPosName = "xPos";
 def yPosName = "yPos";
+def instructionUriName = "instructionUri";
+def lasTypeName = "lasType";
 def eloUriName = "eloUri";
 def iconTypeName = "iconType";
 def mainAnchorName = "mainAnchor";
@@ -42,6 +46,10 @@ def intermediateAnchorsName = "intermediateAnchors";
 def intermediateAnchorName = "intermediateAnchor";
 def relationsName = "relations";
 def relationName = "relation";
+def targetDescriptionUriName = "targetDescriptionUri";
+def assignmentUriName = "assignmentUri";
+def resourcesUriName = "resourcesUri";
+def colorSchemeName = "colorScheme";
 
 def jdomStringConversion = new JDomStringConversion();
 
@@ -63,18 +71,18 @@ public function convertToXml(missionModel:MissionModelFX):String{
    return jdomStringConversion.xmlToString(root);
 }
 
-function createElement(name:String, value:String):Element{
-   var element = new Element(name);
-   element.setText(value);
-   return element;
+function createElement(name:String, value:Object):Element{
+   JDomConversionUtils.createElement(name, value)
 }
 
 function createLasXml(las:Las):Element{
    var lasRoot = new Element(lasName);
    lasRoot.addContent(createElement(idName,las.id));
-   lasRoot.addContent(createElement(xPosName, "{las.xPos}"));
-   lasRoot.addContent(createElement(yPosName, "{las.yPos}"));
-   lasRoot.addContent(createElement(toolTipName, "{las.toolTip}"));
+   lasRoot.addContent(createElement(xPosName, las.xPos));
+   lasRoot.addContent(createElement(yPosName, las.yPos));
+   lasRoot.addContent(createElement(toolTipName, las.toolTip));
+   lasRoot.addContent(createElement(instructionUriName, las.instructionUri));
+   lasRoot.addContent(createElement(lasTypeName, las.lasType));
    lasRoot.addContent(createEloUriListXml(loElosName,las.loEloUris));
    lasRoot.addContent(createEloUriListXml(otherElosName,las.otherEloUris));
    lasRoot.addContent(createMissionAnchorXml(mainAnchorName, las.mainAnchor));
@@ -94,12 +102,16 @@ function createLasXml(las:Las):Element{
 
 function createMissionAnchorXml(tagName:String, missionAnchor:MissionAnchorFX):Element{
    var root = new Element(tagName);
-   root.addContent(createElement(eloUriName, "{missionAnchor.eloUri.toString()}"));
-   root.addContent(createElement(iconTypeName, "{missionAnchor.iconType}"));
-   root.addContent(createElement(mainAnchorName, "{missionAnchor.mainAnchor}"));
+   root.addContent(createElement(eloUriName, missionAnchor.eloUri));
+   root.addContent(createElement(iconTypeName, missionAnchor.iconType));
+   root.addContent(createElement(mainAnchorName, missionAnchor.mainAnchor));
    root.addContent(createEloUriListXml(loElosName,missionAnchor.loEloUris));
    root.addContent(createAnchorListXml(inputAnchorsName,missionAnchor.inputAnchors));
    root.addContent(createStringListXml(relationsName,missionAnchor.relationNames));
+   root.addContent(createElement(targetDescriptionUriName, missionAnchor.targetDescriptionUri));
+   root.addContent(createElement(assignmentUriName, missionAnchor.assignmentUri));
+   root.addContent(createElement(resourcesUriName, missionAnchor.resourcesUri));
+   root.addContent(createElement(colorSchemeName, missionAnchor.colorScheme));
    return root;
 }
 
@@ -172,6 +184,8 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
       loEloUris: createEloUriList(root.getChild(loElosName))
       otherEloUris: createEloUriList(root.getChild(otherElosName))
       mainAnchor:createMissionAnchor(root.getChild(mainAnchorName))
+      instructionUri:JDomConversionUtils.getUriValue(root, instructionUriName)
+      lasType:JDomConversionUtils.getEnumValue(LasType.class,root, instructionUriName)
    }
    las.mainAnchor.las = las;
    anchorsMap.put(las.mainAnchor.eloUri, las.mainAnchor);
@@ -189,7 +203,6 @@ function createLas(root:Element, anchorsMap: HashMap):Las{
    las;
 }
 
-
 function createMissionAnchor(root:Element):MissionAnchorFX{
    var missionAnchor = MissionAnchorFX{
       eloUri: JDomConversionUtils.getUriValue(root,eloUriName)
@@ -197,6 +210,10 @@ function createMissionAnchor(root:Element):MissionAnchorFX{
       mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
       loEloUris: createEloUriList(root.getChild(loElosName))
       relationNames: createStringList(root.getChild(relationsName),relationsName)
+      targetDescriptionUri: JDomConversionUtils.getUriValue(root,targetDescriptionUriName)
+      assignmentUri:JDomConversionUtils.getUriValue(root,assignmentUriName)
+      resourcesUri:JDomConversionUtils.getUriValue(root,resourcesUriName)
+      colorScheme:JDomConversionUtils.getEnumValue(ColorSchemeId.class,root,colorSchemeName)
    }
    return missionAnchor;
 }

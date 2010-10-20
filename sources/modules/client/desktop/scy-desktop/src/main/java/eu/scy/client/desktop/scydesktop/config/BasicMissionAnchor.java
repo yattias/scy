@@ -4,6 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
+import eu.scy.client.desktop.scydesktop.art.ColorSchemeId;
 import java.net.URI;
 import java.util.List;
 import roolo.elo.api.IMetadata;
@@ -22,6 +23,10 @@ public class BasicMissionAnchor// implements MissionAnchor
    private List<URI> loEloUris;
    private List<String> inputMissionAnchorIds;
    private List<String> relationNames;
+   private URI targetDescriptionUri;
+   private URI assignmentUri;
+   private URI resourcesUri;
+   private ColorSchemeId colorScheme;
 
    public String getId()
    {
@@ -91,5 +96,45 @@ public class BasicMissionAnchor// implements MissionAnchor
    public void setIconType(String iconType)
    {
       this.iconType = iconType;
+   }
+
+   public URI getAssignmentUri()
+   {
+      return assignmentUri;
+   }
+
+   public void setAssignmentUri(URI assignmentUri)
+   {
+      this.assignmentUri = assignmentUri;
+   }
+
+   public ColorSchemeId getColorScheme()
+   {
+      return colorScheme;
+   }
+
+   public void setColorScheme(ColorSchemeId colorScheme)
+   {
+      this.colorScheme = colorScheme;
+   }
+
+   public URI getResourcesUri()
+   {
+      return resourcesUri;
+   }
+
+   public void setResourcesUri(URI resourcesUri)
+   {
+      this.resourcesUri = resourcesUri;
+   }
+
+   public URI getTargetDescription()
+   {
+      return targetDescriptionUri;
+   }
+
+   public void setTargetDescription(URI targetDescription)
+   {
+      this.targetDescriptionUri = targetDescription;
    }
 }

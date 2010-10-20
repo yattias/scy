@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 import javafx.scene.paint.Color;
 import java.net.URI;
+import eu.scy.common.mission.LasType;
 
 /**
  * @author sikken
@@ -26,6 +27,8 @@ public class Las {
 //   public var title = "?";
    public var toolTip: String;
    public var exists=false;
+   public var instructionUri:URI;
+   public var lasType: LasType;
 
    public var selectedAnchor:MissionAnchorFX;
 
