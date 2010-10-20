@@ -16,6 +16,7 @@ import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.Visualization;
+import eu.scy.tools.dataProcessTool.controller.FitexNumber;
 import eu.scy.tools.dataProcessTool.utilities.ActionPlot;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
@@ -190,30 +191,18 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             return;
         }
         // x
-        String s = textFieldXMin.getText();
-        s = s.replace(",", ".");
-        double xMin;
-        try{
-            xMin = Double.parseDouble(s);
-        }catch(NumberFormatException e){
+        double xMin = FitexNumber.getDoubleValue(textFieldXMin.getText());
+        if(Double.isNaN(xMin)){
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        s = textFieldXMax.getText();
-        s = s.replace(",", ".");
-        double xMax;
-        try{
-            xMax = Double.parseDouble(s);
-        }catch(NumberFormatException e){
+        double xMax = FitexNumber.getDoubleValue(textFieldXMax.getText());
+        if(Double.isNaN(xMax)){
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        s = textFieldDeltaX.getText();
-        s = s.replace(",", ".");
-        double deltaX;
-        try{
-            deltaX = Double.parseDouble(s);
-        }catch(NumberFormatException e){
+        double deltaX = FitexNumber.getDoubleValue(textFieldDeltaX.getText());
+        if(Double.isNaN(deltaX)){
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -222,30 +211,18 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
             return;
         }
         //y
-        s = textFieldYMin.getText();
-        s = s.replace(",", ".");
-        double yMin;
-        try{
-            yMin = Double.parseDouble(s);
-        }catch(NumberFormatException e){
+        double yMin = FitexNumber.getDoubleValue(textFieldYMin.getText());
+        if(Double.isNaN(yMin)){
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        s = textFieldYMax.getText();
-        s = s.replace(",", ".");
-        double yMax;
-        try{
-            yMax = Double.parseDouble(s);
-        }catch(NumberFormatException e){
+        double yMax = FitexNumber.getDoubleValue(textFieldYMax.getText());
+        if(Double.isNaN(yMax)){
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        s = textFieldDeltaY.getText();
-        s = s.replace(",", ".");
-        double deltaY;
-        try{
-            deltaY = Double.parseDouble(s);
-        }catch(NumberFormatException e){
+        double deltaY = FitexNumber.getDoubleValue(textFieldDeltaY.getText());
+        if(Double.isNaN(deltaY)){
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }

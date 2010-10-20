@@ -19,6 +19,9 @@ public class DataHeader implements Cloneable {
     private final static String TAG_HEADER_TYPE = "type";
     private final static String TAG_HEADER_DESCRIPTION = "description";
     private final static String TAG_HEADER_FORMULA="formula";
+    private final static String TAG_HEADER_SCIENTIFIC_NOTATION = "scientific_notation";
+    private final static String TAG_HEADER_NB_SHOWN_DECIMAL = "nb_shown_decimal";
+    private final static String TAG_HEADER_SIGNIFICANT_DIGITS = "significant_digits";
     
     /* identifiant */
     private long dbKey;
@@ -34,9 +37,12 @@ public class DataHeader implements Cloneable {
     private String description;
     /* si formule, description de la formule */
     private String formulaValue;
+    /* scientific notation */
+    private boolean scientificNotation;
+    private int nbShownDecimals;
+    private int nbSignificantDigits;
 
-    // CONSTRUCTEURS
-    public DataHeader(long dbKey, String value, String unit, int noCol, String type, String description, String formulaValue) {
+    public DataHeader(long dbKey, String value, String unit, int noCol, String type, String description, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits) {
         this.dbKey = dbKey;
         this.value = value;
         this.unit = unit;
@@ -44,6 +50,9 @@ public class DataHeader implements Cloneable {
         this.type = type;
         this.description = description;
         this.formulaValue = formulaValue;
+        this.scientificNotation = scientificNotation;
+        this.nbShownDecimals = nbShownDecimals;
+        this.nbSignificantDigits = nbSignificantDigits;
     }
 
     // GETTER AND SETTER
@@ -95,6 +104,30 @@ public class DataHeader implements Cloneable {
         this.type = type;
     }
 
+    public int getNbShownDecimals() {
+        return nbShownDecimals;
+    }
+
+    public void setNbShownDecimals(int nbShownDecimals) {
+        this.nbShownDecimals = nbShownDecimals;
+    }
+
+    public int getNbSignificantDigits() {
+        return nbSignificantDigits;
+    }
+
+    public void setNbSignificantDigits(int nbSignificantDigits) {
+        this.nbSignificantDigits = nbSignificantDigits;
+    }
+
+    public boolean isScientificNotation() {
+        return scientificNotation;
+    }
+
+    public void setScientificNotation(boolean scientificNotation) {
+        this.scientificNotation = scientificNotation;
+    }
+
     public boolean isDouble(){
         return getType().equals(DataConstants.TYPE_DOUBLE);
     }
@@ -138,6 +171,9 @@ public class DataHeader implements Cloneable {
             dataheader.setType(new String(this.type));
             dataheader.setDescription(new String(this.description));
             dataheader.setFormulaValue(formulaValueC);
+            dataheader.setScientificNotation(new Boolean(scientificNotation));
+            dataheader.setNbShownDecimals(new Integer(nbShownDecimals));
+            dataheader.setNbSignificantDigits(new Integer(nbSignificantDigits));
             
             return dataheader;
         } catch (CloneNotSupportedException e) { 
@@ -149,11 +185,18 @@ public class DataHeader implements Cloneable {
     public Element toXMLLog(){
          Element e = new Element(TAG_HEADER);
          e.addContent(new Element(TAG_HEADER_NO).setText(Integer.toString(noCol)));
-         e.addContent(new Element(TAG_HEADER_UNIT).setText(unit));
+         if(isDouble()){
+             e.addContent(new Element(TAG_HEADER_UNIT).setText(unit));
+             if(isFormula())
+                e.addContent(new Element(TAG_HEADER_FORMULA).setText(formulaValue));
+             e.addContent(new Element(TAG_HEADER_SCIENTIFIC_NOTATION).setText(scientificNotation?"true":"false"));
+             if(this.getNbShownDecimals() != DataConstants.NB_DECIMAL_UNDEFINED)
+                e.addContent(new Element(TAG_HEADER_NB_SHOWN_DECIMAL).setText(Integer.toString(nbShownDecimals)));
+             if(this.getNbSignificantDigits() != DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED)
+                 e.addContent(new Element(TAG_HEADER_SIGNIFICANT_DIGITS).setText(Integer.toString(nbSignificantDigits)));
+         }
          e.addContent(new Element(TAG_HEADER_TYPE).setText(type));
          e.addContent(new Element(TAG_HEADER_DESCRIPTION).setText(description));
-         if(isFormula())
-            e.addContent(new Element(TAG_HEADER_FORMULA).setText(formulaValue));
          return e;
 
      }

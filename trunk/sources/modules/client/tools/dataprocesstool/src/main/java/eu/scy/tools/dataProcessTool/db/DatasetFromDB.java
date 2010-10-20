@@ -267,7 +267,7 @@ public class DatasetFromDB {
     /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION, D.FORMULA_VALUE " +
+        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION, D.FORMULA_VALUE, D.SCIENTIFIC_NOTATION, D.NB_SHOWN_DECIMALS, D.NB_SIGNIFICANT_DIGITS " +
                 "FROM DATA_HEADER D, LINK_DATASET_HEADER L " +
                 "WHERE D.ID_HEADER = L.ID_HEADER AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
@@ -279,6 +279,9 @@ public class DatasetFromDB {
         listFields.add("D.TYPE");
         listFields.add("D.DESCRIPTION");
         listFields.add("D.FORMULA_VALUE");
+        listFields.add("D.SCIENTIFIC_NOTATION");
+        listFields.add("D.NB_SHOWN_DECIMALS");
+        listFields.add("D.NB_SIGNIFICANT_DIGITS");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -313,7 +316,26 @@ public class DatasetFromDB {
             String formulaValue = rs.getColumnData("D.FORMULA_VALUE");
             if(formulaValue != null && formulaValue.equals(""))
                 formulaValue = null;
-            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description, formulaValue);
+            boolean scientificNotation = false;
+            s = rs.getColumnData("D.SCIENTIFIC_NOTATION");
+            try{
+                int b = Integer.parseInt(s);
+                scientificNotation = (b ==1);
+            }catch(NumberFormatException e){
+            }
+            int nbShownDecimal = DataConstants.NB_DECIMAL_UNDEFINED;
+            s = rs.getColumnData("D.NB_SHOWN_DECIMALS");
+            try{
+                nbShownDecimal = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+            }
+            int nbSignificantDigits = DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED;
+            s = rs.getColumnData("D.NB_SIGNIFICANT_DIGITS");
+            try{
+                nbSignificantDigits = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+            }
+            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description, formulaValue, scientificNotation, nbShownDecimal, nbSignificantDigits);
             tabHeader[noCol] = dh;
         }
         v.add(tabHeader);
@@ -585,7 +607,7 @@ public class DatasetFromDB {
     }
 
     /* creation d'un header - retourne en v[0] le nouveau dbKey */
-    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, String type, String description, String formulaValue, long dbKeyDs, ArrayList v){
+    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, String type, String description, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits, long dbKeyDs, ArrayList v){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
         type = MyUtilities.replace("\'",type,"''") ;
@@ -595,7 +617,14 @@ public class DatasetFromDB {
         String s = "NULL";
         if(formulaValue != null)
             s = "'"+formulaValue+"'";
-        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION, FORMULA_VALUE) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"', "+s+") ;";
+        int sn = scientificNotation ? 1:0;
+        String nbShDec = "NULL";
+        if(nbShownDecimals != DataConstants.NB_DECIMAL_UNDEFINED)
+            nbShDec = Integer.toString(nbShownDecimals);
+        String nbSigDig = "NULL";
+        if(nbSignificantDigits != DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED)
+            nbSigDig = Integer.toString(nbSignificantDigits);
+        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION, FORMULA_VALUE, SCIENTIFIC_NOTATION, NB_SHOWN_DECIMALS, NB_SIGNIFICANT_DIGITS) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"', "+s+", "+sn+", "+nbShDec+", "+nbSigDig+") ;";
         System.out.println("createDataHeaderInDB : "+query);
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
         System.out.println("createDataHeaderInDB : "+queryID);
@@ -617,7 +646,7 @@ public class DatasetFromDB {
     }
 
     /* mise a jour d'un header */
-    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit, String description, String type, String formulaValue){
+    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit, String description,String type, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
         description = MyUtilities.replace("\'",description,"''") ;
@@ -629,7 +658,28 @@ public class DatasetFromDB {
         String s = "NULL";
         if(formulaValue != null)
             s = "'"+formulaValue+"'";
-        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', TYPE = '"+type+"', FORMULA_VALUE = "+s+" WHERE ID_HEADER = "+dbKey+" ;";
+        int sn = scientificNotation ? 1:0;
+        String nbShDec = "NULL";
+        if(nbShownDecimals != DataConstants.NB_DECIMAL_UNDEFINED)
+            nbShDec = Integer.toString(nbShownDecimals);
+        String nbSigDig = "NULL";
+        if(nbSignificantDigits != DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED)
+            nbSigDig = Integer.toString(nbSignificantDigits);
+        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', TYPE = '"+type+"', FORMULA_VALUE = "+s+", SCIENTIFIC_NOTATION = "+sn+", NB_SHOWN_DECIMALS = "+nbShDec+", NB_SIGNIFICANT_DIGITS = "+nbSigDig+"  WHERE ID_HEADER = "+dbKey+" ;";
+        querys[0] = query ;
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
+    }
+
+    public static CopexReturn updateHeaderFormulaInDB(DataBaseCommunication dbC, long dbKey, String formulaValue){
+        if(formulaValue != null)
+            formulaValue = MyUtilities.replace("\'",formulaValue,"''") ;
+        ArrayList v = new ArrayList();
+        String[] querys = new String[1];
+        String s = "NULL";
+        if(formulaValue != null)
+            s = "'"+formulaValue+"'";
+        String query = "UPDATE DATA_HEADER SET FORMULA_VALUE = "+s+" WHERE ID_HEADER = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -681,7 +731,7 @@ public class DatasetFromDB {
         DataHeader[] tabHeader = ds.getListDataHeader();
         for (int i=0; i<tabHeader.length; i++){
             v2 = new ArrayList();
-            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), tabHeader[i].getType(), tabHeader[i].getDescription(), tabHeader[i].getFormulaValue(), dbKey, v2);
+            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), tabHeader[i].getType(), tabHeader[i].getDescription(), tabHeader[i].getFormulaValue(),tabHeader[i].isScientificNotation(), tabHeader[i].getNbShownDecimals(), tabHeader[i].getNbSignificantDigits(),  dbKey, v2);
             if (cr.isError())
                 return cr;
             long dbKeyHeader = (Long)v2.get(0);

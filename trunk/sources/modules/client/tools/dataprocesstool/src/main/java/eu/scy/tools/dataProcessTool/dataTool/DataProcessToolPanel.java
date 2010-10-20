@@ -85,7 +85,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private ResourceBundleWrapper bundle;
     //private ResourceBundle bundle;
     /* version */
-    private String version = "3.5";
+    private String version = "3.6";
     /* number format */
     private NumberFormat numberFormat;
 

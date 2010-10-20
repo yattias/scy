@@ -31,10 +31,17 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     private int colIndex;
     private String oldFormula;
     private String newFormula;
+    private boolean oldScientificNotation;
+    private boolean newScientificNotation;
+    private int oldNbShownDecimals;
+    private int newNbShownDecimals;
+    private int oldNbSignificantDigits;
+    private int newNbSignificantDigits;
 
     public EditHeaderUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller,
             String oldValue, String newValue, String oldUnit, String newUnit,  int colIndex, String oldDescription, String newDescription,
-            String oldType, String newType, String oldFormula, String newFormula) {
+            String oldType, String newType, String oldFormula, String newFormula, boolean oldScientificNotation, boolean newScientificNotation,
+            int oldNbShownDecimals, int newNbShownDecimals, int oldNbSignificantDigits, int newNbSignificantDigits) {
         super(table, dataToolPanel, controller);
         this.oldValue = oldValue;
         this.newValue = newValue;
@@ -47,13 +54,19 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
         this.oldFormula = oldFormula;
         this.newFormula = newFormula;
         this.colIndex = colIndex;
+        this.oldScientificNotation = oldScientificNotation;
+        this.newScientificNotation = newScientificNotation;
+        this.oldNbShownDecimals = oldNbShownDecimals;
+        this.newNbShownDecimals = newNbShownDecimals;
+        this.oldNbSignificantDigits = oldNbSignificantDigits;
+        this.newNbSignificantDigits = newNbSignificantDigits;
     }
 
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true,colIndex, newValue, newUnit, newDescription, newType, newFormula, dataToolPanel.getFunction(newFormula), v);
+        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true,colIndex, newValue, newUnit, newDescription, newType, newFormula, dataToolPanel.getFunction(newFormula), newScientificNotation, newNbShownDecimals, newNbSignificantDigits, v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -67,7 +80,7 @@ public class EditHeaderUndoRedo extends DataUndoRedo{
     public void undo() throws CannotUndoException {
         super.undo();
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, colIndex, oldValue, oldUnit,oldDescription, oldType, oldFormula, dataToolPanel.getFunction(oldFormula), v);
+        CopexReturn cr = this.controller.updateDataHeader(getDataset(), true, colIndex, oldValue, oldUnit,oldDescription, oldType, oldFormula, dataToolPanel.getFunction(oldFormula),oldScientificNotation, oldNbShownDecimals, oldNbSignificantDigits, v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;

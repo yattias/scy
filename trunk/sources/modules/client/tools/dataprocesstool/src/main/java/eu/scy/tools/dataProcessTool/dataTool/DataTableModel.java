@@ -5,7 +5,9 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.tools.dataProcessTool.controller.FitexNumber;
 import eu.scy.tools.dataProcessTool.common.*;
+import eu.scy.tools.dataProcessTool.controller.ScyMath;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
@@ -20,7 +22,6 @@ import javax.swing.table.AbstractTableModel;
  * @author Marjolaine bodin
  */
 public class DataTableModel extends AbstractTableModel {
-    // PROPERTY
     /* owner */
     private FitexToolPanel owner ;
     /* table */
@@ -52,7 +53,6 @@ public class DataTableModel extends AbstractTableModel {
     private NumberFormat numberFormat;
 
     
-    // CONSTRUCTOR
     public DataTableModel(FitexToolPanel owner, DataTable table, Dataset dataset) {
         super();
         this.owner = owner;
@@ -120,7 +120,8 @@ public class DataTableModel extends AbstractTableModel {
             for (int j=0; j<nbColDs; j++){
                 String s = "";
                 if(this.datas[i][j] != null && this.datas[i][j].isDoubleValue()){
-                    s = numberFormat.format(this.datas[i][j].getDoubleValue());
+                    //s = numberFormat.format(this.datas[i][j].getDoubleValue());
+                    s = FitexNumber.getFormat(this.datas[i][j].getValue(), this.dataset.isScientificNotation(j), this.dataset.getNbShownDecimals(j), this.dataset.getNbSignificantDigits(j), owner.getLocale());
                     if(Double.isNaN(this.datas[i][j].getDoubleValue()))
                         s = "";
                 }else if (this.datas[i][j] != null){
@@ -193,7 +194,7 @@ public class DataTableModel extends AbstractTableModel {
         this.tabData[rowIndex][columnIndex] = aValue;
         super.setValueAt(aValue, rowIndex, columnIndex);
         if (isValueHeader(rowIndex, columnIndex)){
-            owner.updateDataHeader(dataset, v1, v2,columnIndex-1, dataset.getDataHeader(columnIndex-1).getDescription(), dataset.getDataHeader(columnIndex-1).getType(), dataset.getDataHeader(columnIndex-1).getFormulaValue());
+            owner.updateDataHeader(dataset, v1, v2,columnIndex-1, dataset.getDataHeader(columnIndex-1).getDescription(), dataset.getDataHeader(columnIndex-1).getType(), dataset.getDataHeader(columnIndex-1).getFormulaValue(),  dataset.getDataHeader(columnIndex-1).isScientificNotation(),  dataset.getDataHeader(columnIndex-1).getNbShownDecimals(),  dataset.getDataHeader(columnIndex-1).getNbSignificantDigits());
         }else if (isValueTitleOperation(rowIndex, columnIndex)){
             DataOperation operation = null;
             if(rowIndex == 0){
@@ -228,7 +229,7 @@ public class DataTableModel extends AbstractTableModel {
                             table.setCellSelected(rowIndex, columnIndex);
                             return;
                         }
-                        owner.updateData(dataset,Double.toString(val), rowIndex-1, columnIndex-1);
+                        owner.updateData(dataset,(String)aValue, rowIndex-1, columnIndex-1);
                     }else{
                         owner.updateData(dataset, null, rowIndex-1, columnIndex-1);
                     }
@@ -257,6 +258,35 @@ public class DataTableModel extends AbstractTableModel {
         table.resizeColumn();
     }
     
+    /* retourne la liste des valeurs prises en compte pour le calcul dans la colonne donnee */
+    private ArrayList<String> getStringListValueCol(int idCol){
+        ArrayList<String> listValue = new ArrayList();
+        if(dataset.getDataHeader(idCol).isDouble()){
+            for (int i=0; i<nbRowDs; i++){
+                Data d = dataset.getData(i,idCol);
+                if (d != null && !d.isIgnoredData() && ! Double.isNaN(d.getDoubleValue()) ){
+                    listValue.add(""+this.tabData[i+1][idCol+1]);
+                }
+            }
+        }
+        return listValue;
+    }
+
+    /* retourne la liste des valeurs prises en compte pour le calcul dans la ligne donnee */
+    private ArrayList<String> getStringListValueRow(int idRow){
+        ArrayList<String> listValue = new ArrayList();
+        for (int j=0; j<nbColDs ; j++){
+            if(dataset.getDataHeader(j).isDouble()){
+                Data d = dataset.getData(idRow, j);
+                if (d != null && !d.isIgnoredData()&& !Double.isNaN(d.getDoubleValue()) ){
+                    listValue.add((String)this.tabData[idRow+1][j+1]);
+                }
+            }
+        }
+        return listValue;
+    }
+
+    
     /* applique une operation sur les colonnes */
     private void operateOnCol(DataOperation operation, int noR){
         String name = operation.getName();
@@ -264,7 +294,8 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbColDs; i++){
             int id = listNo.indexOf(i);
             if (id !=-1 && !isIgnoredCol(i)){
-                this.tabData[noR][1+i] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
+                //this.tabData[noR][1+i] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
+                this.tabData[noR][1+i] = getOperationValue(operation, i, getStringListValueCol(i), ""+this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[noR][1+i] = "-" ;
         }
@@ -309,8 +340,8 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbRowDs; i++){
             int id = listNo.indexOf(i);
             if (id != -1 && !isIgnoredRow(i)){
-                System.out.println("operateOnRow : "+i+", "+id+", "+noC);
-                this.tabData[1+i][noC] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
+                //this.tabData[1+i][noC] = numberFormat.format(this.dataset.getListOperationResult(operation).get(id));
+                this.tabData[1+i][noC] = getOperationValue(operation, i, getStringListValueRow(i), ""+this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[1+i][noC] = "-" ;
         }
@@ -326,7 +357,25 @@ public class DataTableModel extends AbstractTableModel {
     }
     
     
-    
+    private String getOperationValue(DataOperation operation, int id,  ArrayList<String> numberList, String result){
+        if(operation.getTypeOperation().getCodeName().equals("SUM")){
+            return FitexNumber.getSumValue(numberList, result, owner.getLocale());
+        }else if (operation.getTypeOperation().getCodeName().equals("AVG")){
+            ArrayList<Double> listValue = new ArrayList();
+            if (operation.isOnCol())
+                listValue  = dataset.getListValueCol(id);
+            else
+                listValue = dataset.getListValueRow(id);
+            double sum = ScyMath.calculate(getSumOperation(), listValue);
+            return FitexNumber.getAvgValue(numberList,FitexNumber.getSumValue(numberList, ""+sum, owner.getLocale()), result, owner.getLocale());
+        }else{
+            return result;
+        }
+    }
+
+    private TypeOperation getSumOperation(){
+        return owner.getOperation(DataConstants.OP_SUM);
+    }
     
     /* retourne vrai s'il s'agit d'une cellule contenant la numerotation des lignes*/
     public boolean isValueNoRow(int noRow, int noCol){
