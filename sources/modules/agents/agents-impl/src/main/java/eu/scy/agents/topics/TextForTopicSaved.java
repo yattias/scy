@@ -41,8 +41,8 @@ public class TextForTopicSaved extends AbstractELOSavedAgent {
 	}
 
 	@Override
-	protected void processELOSavedAction(String actionId, String user, long timeInMillis, String tool, String mission,
-			String session, String eloUri, String eloType) {
+  public void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
+                                    String mission, String session, String eloUri, String eloType) {
 		System.out.println(eloUri);
 		System.out.println(eloType);
 		if (isValidType(eloType)) {

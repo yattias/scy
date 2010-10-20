@@ -36,8 +36,8 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 	}
 
 	@Override
-	protected void processELOSavedAction(String actionId, String user, long timeInMillis, String tool, String mission,
-			String session, String eloUri, String eloType) {
+  public void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
+                                    String mission, String session, String eloUri, String eloType) {
 
 		Tuple notificationTuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), user, tool, NAME,
 				mission, session, AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri, AgentProtocol.ACTIONLOG_ELO_TYPE

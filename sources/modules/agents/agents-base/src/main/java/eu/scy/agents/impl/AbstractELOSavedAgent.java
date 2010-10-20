@@ -100,7 +100,7 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 		}
 	}
 
-	protected abstract void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
+	public abstract void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
 			String mission, String session, String eloUri, String eloType);
 
 }

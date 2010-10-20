@@ -18,13 +18,13 @@ import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
 
 public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
 
-  private final static String NAME = AddKeywordsToMetadataAgent.class.getName();
+  public final static String NAME = AddKeywordsToMetadataAgent.class.getName();
 
   private IMetadataTypeManager metadataTypeManager;
 
   private IRepository repository;
 
-  protected AddKeywordsToMetadataAgent(Map<String, Object> params) {
+  public AddKeywordsToMetadataAgent(Map<String, Object> params) {
     super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
     if (params.containsKey(AgentProtocol.TS_HOST)) {
       this.host = (String) params.get(AgentProtocol.TS_HOST);
@@ -33,9 +33,9 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
       this.port = (Integer) params.get(AgentProtocol.TS_PORT);
     }
   }
-
+  
   @Override
-  protected void processELOSavedAction(String actionId, String user, long timeInMillis,
+  public void processELOSavedAction(String actionId, String user, long timeInMillis,
                                        String tool, String mission, String session, String eloUri,
                                        String eloType) {
 
