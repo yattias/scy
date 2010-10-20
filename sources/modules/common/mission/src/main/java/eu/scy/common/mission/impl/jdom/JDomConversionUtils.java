@@ -22,16 +22,6 @@ public class JDomConversionUtils
    {
    }
 
-   public static Element createElement(String tag, String value)
-   {
-      Element element = new Element(tag);
-      if (value != null)
-      {
-         element.setText(value);
-      }
-      return element;
-   }
-
    public static Element createElement(String tag, boolean value)
    {
       Element element = new Element(tag);
@@ -45,6 +35,16 @@ public class JDomConversionUtils
       if (uri != null)
       {
          element.setText(uri.toString());
+      }
+      return element;
+   }
+
+   public static Element createElement(String tag, Object object)
+   {
+      Element element = new Element(tag);
+      if (object != null)
+      {
+         element.setText(object.toString());
       }
       return element;
    }
@@ -98,7 +98,7 @@ public class JDomConversionUtils
 
    public static <T extends Enum<T>> T getEnumValue(Class<T> enumType, String value)
    {
-      if (value == null)
+      if (value == null || value.length()==0)
       {
          return null;
       }
