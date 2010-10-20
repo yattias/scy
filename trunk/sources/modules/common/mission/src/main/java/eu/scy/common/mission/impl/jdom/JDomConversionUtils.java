@@ -12,7 +12,7 @@ import java.util.List;
 import org.jdom.Element;
 
 /**
- *
+ * 
  * @author SikkenJ
  */
 public class JDomConversionUtils
@@ -25,8 +25,9 @@ public class JDomConversionUtils
    public static Element createElement(String tag, String value)
    {
       Element element = new Element(tag);
-      if (value!=null){
-      element.setText(value);
+      if (value != null)
+      {
+         element.setText(value);
       }
       return element;
    }
@@ -95,6 +96,21 @@ public class JDomConversionUtils
       return new URI(trimmedUriString);
    }
 
+   public static <T extends Enum<T>> T getEnumValue(Class<T> enumType, String value)
+   {
+      if (value == null)
+      {
+         return null;
+      }
+      return Enum.valueOf(enumType, value.toUpperCase());
+   }
+
+   public static <T extends Enum<T>> T getEnumValue(Class<T> enumType, Element element,
+            String childName)
+   {
+      return getEnumValue(enumType, element.getChildTextTrim(childName));
+   }
+
    public static List<String> getStringListValue(Element element, String childName)
    {
       List<String> strings = new ArrayList<String>();
@@ -120,7 +136,8 @@ public class JDomConversionUtils
       return new ArrayList<String>();
    }
 
-   public static List<URI> getUriListValue(Element element, String childName) throws URISyntaxException
+   public static List<URI> getUriListValue(Element element, String childName)
+            throws URISyntaxException
    {
       List<URI> uris = new ArrayList<URI>();
       @SuppressWarnings("unchecked")
@@ -135,7 +152,8 @@ public class JDomConversionUtils
       return uris;
    }
 
-   public static <T extends Enum<T>> List<T> getEnumListValue(Class<T> enumType, Element element, String childName, String tagName)
+   public static <T extends Enum<T>> List<T> getEnumListValue(Class<T> enumType, Element element,
+            String childName, String tagName)
    {
       List<String> strings = new ArrayList<String>();
       Element listRoot = element.getChild(childName);

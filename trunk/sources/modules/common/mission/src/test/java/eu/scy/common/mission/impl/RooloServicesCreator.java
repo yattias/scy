@@ -12,11 +12,13 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.MetadataValueCount;
+import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.keys.LongMetadataKey;
 import roolo.elo.metadata.keys.RelationMetadataKey;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.keys.UriMetadataKey;
 import eu.scy.common.scyelo.RooloServices;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 
 public class RooloServicesCreator
 {
@@ -63,7 +65,7 @@ public class RooloServicesCreator
       IMetadataKey identifierKey = new UriMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId(),
                "/lom/general/identifier", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
       IMetadataKey titleKey = new StringMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId(),
-               "/lom/general/title", I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
+               "/lom/general/title", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
       IMetadataKey descriptionKey = new StringMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId(),
                "/lom/general/description", I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
       IMetadataKey technicalFormatKey = new StringMetadataKey(
@@ -84,6 +86,28 @@ public class RooloServicesCreator
                MetadataValueCount.LIST, null);
       IMetadataKey versionKey = new LongMetadataKey(CoreRooloMetadataKeyIds.VERSION.getId(),
                "/lom/lifecycle/version", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey logicalRoleKey = new StringMetadataKey(
+               ScyRooloMetadataKeyIds.LOGICAL_TYPE.getId(), "/lom/general/structure",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey functionalRoleKey = new StringMetadataKey(
+               ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId(), "/lom/educational/learningResourceType",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey authorKey = new ContributeMetadataKey(
+               CoreRooloMetadataKeyIds.AUTHOR.getId(), "/lom/lifecycle/contribute/[kind=\"author\"]",
+               I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
+      IMetadataKey keywordsKey = new StringMetadataKey(
+               ScyRooloMetadataKeyIds.KEYWORDS.getId(), "/lom/general/keyword",
+               I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
+      IMetadataKey learningActivityKey = new StringMetadataKey(
+               ScyRooloMetadataKeyIds.LEARNING_ACTIVITY.getId(), "/lom/educational/context",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey accessKey = new StringMetadataKey(
+               ScyRooloMetadataKeyIds.ACCESS.getId(), "/lom/rights/copyrightAndOtherRestrictions",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey missionRuntimeKey = new RelationMetadataKey(
+               ScyRooloMetadataKeyIds.MISSION_RUNTIME.getId(),
+               "/lom/relation/[kind=\"isbasedon\",type=\"scy/missionruntime\"]", I18nType.UNIVERSAL,
+               MetadataValueCount.SINGLE, null);
 
       metadataTypeManager.registerMetadataKey(identifierKey);
       metadataTypeManager.registerMetadataKey(titleKey);
@@ -94,6 +118,13 @@ public class RooloServicesCreator
       metadataTypeManager.registerMetadataKey(isForkOfKey);
       metadataTypeManager.registerMetadataKey(isForkedByKey);
       metadataTypeManager.registerMetadataKey(versionKey);
+      metadataTypeManager.registerMetadataKey(logicalRoleKey);
+      metadataTypeManager.registerMetadataKey(functionalRoleKey);
+      metadataTypeManager.registerMetadataKey(authorKey);
+      metadataTypeManager.registerMetadataKey(keywordsKey);
+      metadataTypeManager.registerMetadataKey(learningActivityKey);
+      metadataTypeManager.registerMetadataKey(accessKey);
+      metadataTypeManager.registerMetadataKey(missionRuntimeKey);
 
       MockRepository repository = new MockRepository();
       MockExtensionManager extensionManager = new MockExtensionManager();
