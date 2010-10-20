@@ -18,7 +18,7 @@ import eu.scy.agents.util.Utilities;
 
 public class ConceptMapExtractor implements KeywordExtractor {
 
-  private final static Logger logger = Logger.getLogger(InterviewToolExtractor.class);
+  private final static Logger logger = Logger.getLogger(KeywordExtractor.class);
 
   private TupleSpace tupleSpace;
 

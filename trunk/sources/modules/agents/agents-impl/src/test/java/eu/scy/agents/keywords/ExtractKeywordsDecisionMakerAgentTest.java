@@ -200,10 +200,11 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			// System.out.println(keyword);
 			assertEquals(this.expectedKeywords[i - 8], keyword);
 		}
-		assertNull(this.getCommandSpace().take(
-				new Tuple(AgentProtocol.NOTIFICATION, String.class,
-						String.class, "scymapper", String.class, String.class,
-						Field.createWildCardField())));
+		Tuple take = this.getCommandSpace().take(
+		                            new Tuple(AgentProtocol.NOTIFICATION, String.class,
+		                                    String.class, "scymapper", String.class, String.class,
+		                                    Field.createWildCardField()));
+		assertNull(take);
 
 		System.out.println("Getting second notification");
 		Thread.sleep(IDLE_TIME);

@@ -19,7 +19,7 @@ import eu.scy.agents.util.Utilities;
 
 public class WebresourceExtractor implements KeywordExtractor {
 
-	private final static Logger logger = Logger.getLogger(TextExtractor.class);
+	private final static Logger logger = Logger.getLogger(WebresourceExtractor.class);
 
 	  public static String XMLPATH = "//webresource/annotations";
 

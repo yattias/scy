@@ -61,9 +61,8 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   private IMetadataTypeManager metadataTypeManager;
 
   public HypothesisEvaluationAgent(Map<String, Object> map) {
-    super(HypothesisEvaluationAgent.class.getName(),
-          (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST),
-          (Integer) map.get(AgentProtocol.TS_PORT));
+    super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
+          (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
   }
 
   @Override
@@ -96,7 +95,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
   }
 
   @Override
-  protected void processELOSavedAction(String actionId, String user, long timeInMillis,
+  public void processELOSavedAction(String actionId, String user, long timeInMillis,
                                        String tool, String mission, String session, String eloUri,
                                        String eloType) {
     try {
