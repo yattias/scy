@@ -6,6 +6,7 @@
 
 package eu.scy.tools.fitex.GUI;
 
+import eu.scy.tools.dataProcessTool.controller.FitexNumber;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.text.DecimalFormat;
@@ -233,9 +234,8 @@ public class BoxSpinner extends javax.swing.JPanel {
 
     private void updateValue(){
         String s = champValeur.getText();
-        s = s.replace(",", ".");
         try {
-            value = Double.parseDouble(s) ;
+            value = FitexNumber.getDoubleValue(s);
             owner.maJParametreDansFonction(label.getText(), value);
             //if(updateStep)
                 majStep(s);

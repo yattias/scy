@@ -19,6 +19,7 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedHeader;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -349,8 +350,8 @@ public class Dataset implements Cloneable{
         // => dataset
         DataSet ds = new DataSet(headers);
         for(int j=0; j<nbC; j++){
-            if(getDataHeader(j) != null && ( getDataHeader(j).isFormula())){
-                listProcessedHeader.add(new ProcessedHeader(""+j, getDataHeader(j).getFormulaValue()));
+            if(getDataHeader(j) != null ){
+                listProcessedHeader.add(new ProcessedHeader(""+j, getDataHeader(j).getFormulaValue(), getDataHeader(j).isScientificNotation(), getDataHeader(j).getNbShownDecimals(), getDataHeader(j).getNbSignificantDigits()));
             }
         }
         for (int i=0; i<nbR; i++){
@@ -949,7 +950,7 @@ public class Dataset implements Cloneable{
     }
 
     /* retourne la liste des valeurs prises en compte pour le calcul dans la colonne donnee */
-    private ArrayList<Double> getListValueCol(int idCol){
+    public ArrayList<Double> getListValueCol(int idCol){
         ArrayList<Double> listValue = new ArrayList();
         if(getDataHeader(idCol).isDouble()){
             for (int i=0; i<nbRows; i++){
@@ -963,7 +964,7 @@ public class Dataset implements Cloneable{
     }
 
     /* retourne la liste des valeurs prises en compte pour le calcul dans la ligne donnee */
-    private ArrayList<Double> getListValueRow(int idRow){
+    public ArrayList<Double> getListValueRow(int idRow){
         ArrayList<Double> listValue = new ArrayList();
         for (int j=0; j<nbCol ; j++){
             if(getDataHeader(j).isDouble()){
@@ -1336,5 +1337,36 @@ public class Dataset implements Cloneable{
                 return listDataHeader[j];
         }
         return null;
+    }
+
+    public boolean isScientificNotation(int columnIndex){
+        if(listDataHeader[columnIndex] != null )
+            return listDataHeader[columnIndex].isScientificNotation();
+        else
+            return false;
+    }
+
+    public int getNbShownDecimals(int columnIndex){
+        if(listDataHeader[columnIndex] != null )
+            return listDataHeader[columnIndex].getNbShownDecimals();
+        else
+            return DataConstants.NB_DECIMAL_UNDEFINED;
+    }
+
+    public int getNbSignificantDigits(int columnIndex){
+        if(listDataHeader[columnIndex] != null )
+            return listDataHeader[columnIndex].getNbSignificantDigits();
+        else
+            return DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED;
+    }
+    
+    public List<String> getWords(int noCol){
+        List<String> words = new LinkedList();
+        for(int j=0; j<nbCol; j++){
+            if(j != noCol && listDataHeader[j] != null && listDataHeader[j].isDouble())
+                words.add(listDataHeader[j].getValue());
+        }
+        Collections.sort(words);
+        return words;
     }
 }

@@ -42,7 +42,7 @@ public interface ControllerInterface {
     /** creation of a new operation - v[0]= new Dataset and v[1]= new DataOperation */
     public CopexReturn createOperation(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo, ArrayList v);
     /** update a header */
-    public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type,String formulaValue,  Function function, ArrayList v);
+    public CopexReturn updateDataHeader(Dataset ds, boolean confirm, int colIndex, String title, String unit, String description, String type,String formulaValue,  Function function, boolean scientifcNotation, int nbShownDecimals, int nbSignificantDigits, ArrayList v);
     /** update the title of an operation */
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v);
     /** update a data */

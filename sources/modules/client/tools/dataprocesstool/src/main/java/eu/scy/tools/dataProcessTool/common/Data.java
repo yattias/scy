@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import eu.scy.tools.dataProcessTool.controller.FitexNumber;
 import org.jdom.Element;
 
 /**
@@ -30,7 +31,6 @@ public class Data implements Cloneable {
     /* donnee est elle ignoree ?*/
     private boolean isIgnoredData;
 
-    // CONSTRUCTEURS
     public Data(long dbKey, String value, int noRow, int noCol, boolean isIgnoredData) {
         this.dbKey = dbKey;
         this.value = value;
@@ -39,7 +39,6 @@ public class Data implements Cloneable {
         this.isIgnoredData = isIgnoredData;
     }
 
-    // GETTER AND SETTER
     public long getDbKey() {
         return dbKey;
     }
@@ -80,11 +79,7 @@ public class Data implements Cloneable {
         this.value = value;
     }
     public double getDoubleValue() {
-        try{
-            return Double.parseDouble(value);
-        }catch(NumberFormatException e){
-            return Double.NaN;
-        }
+        return FitexNumber.getDoubleValue(value);
     }
 
     public void setValue(double value) {
@@ -95,7 +90,7 @@ public class Data implements Cloneable {
         if(value == null || value.length() == 0)
             return true;
         try{
-            double d = Double.parseDouble(value);
+            double d = Double.parseDouble(value.replace(",", "."));
             return true;
         }catch(NumberFormatException e){
             return false;

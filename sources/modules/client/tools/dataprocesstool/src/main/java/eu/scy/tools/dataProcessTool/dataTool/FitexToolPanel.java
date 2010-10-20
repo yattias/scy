@@ -14,7 +14,6 @@ import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
-import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.PlotXY;
 import eu.scy.tools.dataProcessTool.common.PreDefinedFunctionCategory;
@@ -918,23 +917,26 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataProcessToolPanel.logEditData(ds, oldData, newData);
     }
     /* mise a jour d'une donnees header */
-    public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type, String formulaValue){
+    public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits){
         DataHeader oldHeader = ds.getDataHeader(colIndex);
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : (ds.getDataHeader(colIndex).getUnit() == null ? "" : ds.getDataHeader(colIndex).getUnit());
         String oldDescription = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getDescription();
         String oldType = ds.getDataHeader(colIndex) == null ? DataConstants.DEFAULT_TYPE_COLUMN : ds.getDataHeader(colIndex).getType();
         String oldFormula = ds.getDataHeader(colIndex) == null ? null : ds.getDataHeader(colIndex).getFormulaValue();
+        boolean oldScientificNotation = ds.getDataHeader(colIndex) == null ? false : ds.getDataHeader(colIndex).isScientificNotation();
+        int oldNbShownDecimals = ds.getDataHeader(colIndex) == null ? DataConstants.NB_DECIMAL_UNDEFINED : ds.getDataHeader(colIndex).getNbShownDecimals();
+        int oldNbSignificantDigits = ds.getDataHeader(colIndex) == null ? DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED : ds.getDataHeader(colIndex).getNbSignificantDigits();
         ArrayList v = new ArrayList();
         Function function = getFunction(formulaValue);
-        CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, formulaValue, function, v);
+        CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, formulaValue, function, scientificNotation, nbShownDecimals, nbSignificantDigits, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }else if(cr.isWarning()){
             boolean isOk = displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
             if(isOk){
-                cr = this.controller.updateDataHeader(ds,true, colIndex, value, unit,description, type,formulaValue,function, v);
+                cr = this.controller.updateDataHeader(ds,true, colIndex, value, unit,description, type,formulaValue,function,scientificNotation, nbShownDecimals, nbSignificantDigits, v);
                 if(cr.isError()){
                     displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                     return false;
@@ -949,7 +951,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         //datasetTable.updateDataset(nds, true);
         updateDataset(nds);
         datasetModif = true;
-        datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type, oldFormula, formulaValue));
+        datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type, oldFormula, formulaValue, oldScientificNotation, scientificNotation, oldNbShownDecimals, nbShownDecimals, oldNbSignificantDigits, nbSignificantDigits));
         dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
         return true;
     }
@@ -1041,7 +1043,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* retourne l'operation correspondant a un type */
-    private TypeOperation getOperation(int typeOp){
+    public TypeOperation getOperation(int typeOp){
         for (int i=0; i<tabTypeOp.length; i++){
             if (tabTypeOp[i].getType() == typeOp)
                 return tabTypeOp[i];
@@ -1431,7 +1433,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* ouverture fenetre edition header */
     public void editDataHeader(DataHeader header, int noCol){
-        EditDataHeaderDialog editDialog = new EditDataHeaderDialog(this, dataset,header,noCol,  dataset.getRight());
+        EditDataHeaderDialog editDialog = new EditDataHeaderDialog(this, dataset,header,noCol,  dataset.getRight(), dataset.getWords(noCol));
         editDialog.setVisible(true);
     }
 

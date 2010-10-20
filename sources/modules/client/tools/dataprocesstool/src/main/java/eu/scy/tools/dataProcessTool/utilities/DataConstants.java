@@ -29,8 +29,12 @@ public class DataConstants {
     public static final String TYPE_VIS_PIE = "PIE CHART";
     public static final String TYPE_VIS_BAR = "BAR CHART";
     public static final String TYPE_VIS_HISTO = "HISTO";
-    
-    /* LONGUEUR MAX DESC CHAMPS */
+
+    /* */
+    public final static int NB_DECIMAL_UNDEFINED = Integer.MAX_VALUE;
+    public final static int NB_SIGNIFICANT_DIGITS_UNDEFINED = Integer.MAX_VALUE;
+
+    /* LONGUEUR MAX DES CHAMPS */
     public static final int MAX_LENGHT_DATASET_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_DESCRIPTION = 1024;
@@ -122,7 +126,7 @@ public class DataConstants {
     public final static String LOG_TYPE_ADD_OPERATION = "add_operation";
     public final static String LOG_TYPE_IGNORE_DATA = "ignore_data";
     public final static String LOG_TYPE_CREATE_VISUALIZATION = "create_visulization";
-    public final static String LOG_TYPE_DELETE_VISUALIZATION = "delte_visualization";
+    public final static String LOG_TYPE_DELETE_VISUALIZATION = "delete_visualization";
     public final static String LOG_TYPE_GRAPH_MODE = "graph_mode";
     public final static String LOG_TYPE_UPDATE_VISUALIZATION = "update_visualization";
     public final static String LOG_TYPE_SORT_DATASET = "sort_dataset";

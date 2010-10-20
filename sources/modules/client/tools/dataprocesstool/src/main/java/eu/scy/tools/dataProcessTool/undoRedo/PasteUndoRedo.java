@@ -71,7 +71,10 @@ public class PasteUndoRedo extends DataUndoRedo {
             String description = oldH == null ? "" : oldH.getDescription();
             String type = oldH == null ?DataConstants.DEFAULT_TYPE_COLUMN : oldH.getType();
             String formula = oldH == null ? null : oldH.getFormulaValue() ;
-            CopexReturn cr = this.controller.updateDataHeader(getDataset(),true, newH.getNoCol(), title,unit,description, type,  formula,dataToolPanel.getFunction(formula), v );
+            boolean scientificNotation = oldH == null ? false : oldH.isScientificNotation();
+            int nbShDec = oldH == null ? DataConstants.NB_DECIMAL_UNDEFINED : oldH.getNbShownDecimals();
+            int nbSigDig = oldH == null? DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED : oldH.getNbSignificantDigits();
+            CopexReturn cr = this.controller.updateDataHeader(getDataset(),true, newH.getNoCol(), title,unit,description, type,  formula,dataToolPanel.getFunction(formula),scientificNotation, nbShDec, nbSigDig,  v );
             if(cr.isError()){
                 dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
