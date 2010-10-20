@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 import javafx.scene.paint.Color;
 import java.net.URI;
 import roolo.elo.api.IMetadata;
+import eu.scy.client.desktop.scydesktop.art.ColorSchemeId;
 
 /**
  * @author sikken
@@ -27,6 +28,12 @@ public class MissionAnchorFX {
    public var loEloUris: URI[];
    public var metadata: IMetadata;
    public var las:Las;
+
+   public var targetDescriptionUri:URI;
+   public var assignmentUri: URI;
+   public var resourcesUri: URI;
+   public var colorScheme: ColorSchemeId;
+
 // old props
 //   public var toolTip: String;
 //   public var intermediateEloUris: URI[];
