@@ -7,9 +7,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-
-
-
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -30,46 +27,42 @@ import javafx.scene.paint.Color;
  * @author sikkenj
  */
 // place your code here
-
 public abstract class Drawer extends CustomNode {
 
-   public var windowColorScheme:WindowColorScheme;
+   public var windowColorScheme: WindowColorScheme;
    public var borderSize = 2.0;
    public var closedSize = 20.0;
    public var content: Node;
    public var activated = false; // TODO, make only changeable from (sub) package
-   public var activate: function():Void;
-
+   public var activate: function(): Void;
    def sideContentBorder = 5.0;
    def topContentBorder = 5.0;
    def bottomContentBorder = 5.0;
-   protected def handleOffset = topContentBorder+2;
+   protected def handleOffset = topContentBorder + 2;
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
    protected def closeControlSize = 10.0;
    protected var opened = false on replace {
          // only do the animated stuff, when the creation is completed
-         if (drawerCreated){
+         if (drawerCreated) {
             openCloseDrawer();
-         }
-         else{
-            if (opened){
+         } else {
+            if (opened) {
                contentContainer.content = contentGroup;
-            }
-            else{
-               delete contentContainer.content;
+            } else {
+               delete  contentContainer.content;
             }
             positionControlElements();
          }
       };
    protected var width = 50.0 on replace {
-              sizeChanged()
-           };
+         sizeChanged()
+      };
    protected var height = 50.0 on replace {
-              sizeChanged()
-           };
-   protected var absoluteMinimumWidth = closeControlSize+resizeControlSize;
-   protected var absoluteMinimumHeight = closeControlSize+resizeControlSize;
+         sizeChanged()
+      };
+   protected var absoluteMinimumWidth = closeControlSize + resizeControlSize;
+   protected var absoluteMinimumHeight = closeControlSize + resizeControlSize;
    protected var resizeXFactor = 1.0;
    protected var resizeYFactor = 1.0;
    protected var openedXFactor = 0.0;
@@ -85,30 +78,29 @@ public abstract class Drawer extends CustomNode {
    var originalWidth: Number;
    var originalHeight: Number;
    var resizeAllowed = false;
-
-   def heightOverhead = topContentBorder + bottomContentBorder + borderSize+1;
-   def widthOverhead = 2 * sideContentBorder + borderSize+1;
+   def heightOverhead = topContentBorder + bottomContentBorder + borderSize + 1;
+   def widthOverhead = 2 * sideContentBorder + borderSize + 1;
    protected def clipSize = 1000000.0;
-   protected def clipRect = Rectangle{
-      x:0
-      y:0
-      width: clipSize
-      height: clipSize
-   }
-   def drawerGroup = Group{
-   }
-   def contentContainer = Group{
-   }
-   def contentGroup = Group{
-   }
+   protected def clipRect = Rectangle {
+         x: 0
+         y: 0
+         width: clipSize
+         height: clipSize
+      }
+   def drawerGroup = Group {
+      }
+   def contentContainer = Group {
+      }
+   def contentGroup = Group {
+      }
    var clipRectColor = Color.TRANSPARENT;
    var drawerCreated = false;
 
-
    function sizeChanged() {
       positionControlElements();
-//      println("layout: ({layoutX}, {layoutY})");
-//      println("openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
+   //      println("{this.getClass()} size changed to {width}*{height}");
+   //      println("layout: ({layoutX}, {layoutY})");
+   //      println("openControl.layout: ({openControl.layoutX}, {openControl.layoutY}), openControl: {openControl}, {openControl.boundsInParent}");
    }
 
    public override function create(): Node {
@@ -116,150 +108,166 @@ public abstract class Drawer extends CustomNode {
       positionControlElements();
       adjustClipRect();
       contentGroup.content = [
-         border,
-         contentElement,
-         resizeControl
-      ];
-      if (opened){
+            border,
+            contentElement,
+            resizeControl
+         ];
+      if (opened) {
          contentContainer.content = contentGroup;
       }
-      drawerGroup.content=[
-         contentContainer,
-         openCloseControl
-      ];
+      drawerGroup.content = [
+            contentContainer,
+            openCloseControl
+         ];
       drawerCreated = true;
-      Group{
-         clip:clipRect
-         content:[
-//            Line{
-//               startX: -100
-//               startY:0
-//               endX:100
-//               endY:0
-//               fill:Color.BLACK
-//            }
-//            Line{
-//               startX: 0
-//               startY:-100
-//               endX:0
-//               endY:100
-//               fill:Color.BLACK
-//            }
+      positionControlElements();
+      adjustClipRect();
+      Group {
+         clip: clipRect
+         content: [
+            //            Line{
+            //               startX: -100
+            //               startY:0
+            //               endX:100
+            //               endY:0
+            //               fill:Color.BLACK
+            //            }
+            //            Line{
+            //               startX: 0
+            //               startY:-100
+            //               endX:0
+            //               endY:100
+            //               fill:Color.BLACK
+            //            }
 
             drawerGroup
          ]
       }
    }
 
-   function createElements():Void{
-      openCloseControl = OpenDrawerControl{
-         windowColorScheme:windowColorScheme
-         size:closedSize
-         onMouseClicked: function (e: MouseEvent): Void {
-            opened = not opened;
+   function createElements(): Void {
+      openCloseControl = OpenDrawerControl {
+            windowColorScheme: windowColorScheme
+            size: closedSize
+            onMouseClicked: function(e: MouseEvent): Void {
+               opened = not opened;
+            }
          }
-      }
-      if (content instanceof Parent){
+      if (content instanceof Parent) {
          (content as Parent).layout();
       }
       if (content instanceof Resizable) {
          var resizableContent = content as Resizable;
          //println("preferred size: {resizableContent.getPrefWidth(width)}*{resizableContent.getPrefHeight(height)}");
-         if (not horizontal){
-            width = Math.max(resizableContent.getPrefWidth(width)+widthOverhead +1, absoluteMinimumWidth);
+         if (not horizontal) {
+            width = Math.max(resizableContent.getPrefWidth(width) + widthOverhead + 1, absoluteMinimumWidth);
          }
-         if (horizontal){
-            height = Math.max(resizableContent.getPrefHeight(height)+heightOverhead + 1, absoluteMinimumHeight);
+         if (horizontal) {
+            height = Math.max(resizableContent.getPrefHeight(height) + heightOverhead + 1, absoluteMinimumHeight);
          }
       } else if (content != null) {
-         if (not horizontal){
+         if (not horizontal) {
             width = content.boundsInLocal.width + widthOverhead;
          }
-         if (horizontal){
+         if (horizontal) {
             height = content.boundsInLocal.height + heightOverhead;
          }
          resizeAllowed = false;
       }
       border = Rectangle {
-         x: 0, y: 0
-         width: bind width, height: bind height
-         fill: bind windowColorScheme.backgroundColor
-         strokeWidth: borderSize
-         stroke: bind windowColorScheme.mainColor;
-      }
+            x: 0, y: 0
+            width: bind width, height: bind height
+            fill: bind windowColorScheme.backgroundColor
+            strokeWidth: borderSize
+            stroke: bind windowColorScheme.mainColor;
+         }
       contentElement = WindowContent {
-         windowColorScheme:windowColorScheme
-         width: bind width - widthOverhead - 1
-         height: bind height - heightOverhead - 1
-         content: bind content;
-         activated: bind activated;
-         activate:activate
-         layoutX: sideContentBorder + borderSize / 2 + 1;
-         layoutY: topContentBorder + borderSize / 2 + 1;
-      }
+            windowColorScheme: windowColorScheme
+            width: bind width - widthOverhead - 1
+            height: bind height - heightOverhead - 1
+            content: bind content;
+            activated: bind activated;
+            activate: activate
+            layoutX: sideContentBorder + borderSize / 2 + 1;
+            layoutY: topContentBorder + borderSize / 2 + 1;
+         }
       if (resizeAllowed) {
          resizeControl = WindowResize {
-            size: resizeControlSize;
-            windowColorScheme:windowColorScheme
-            activate:activate
-            startResize: startResize;
-            doResize: doResize;
-            stopResize: stopResize;
-         }
+               size: resizeControlSize;
+               windowColorScheme: windowColorScheme
+               activate: activate
+               startResize: startResize;
+               doResize: doResize;
+               stopResize: stopResize;
+            }
       }
    }
 
-   function openCloseDrawer():Void{
+   function openCloseDrawer(): Void {
       var openFactor = 0.0;
       var animationInterpolation = Interpolator.EASEBOTH;
-      if (opened){
+      if (opened) {
          contentContainer.content = contentGroup;
+         // after the first show of the content, fx content resizes to a "smaller content"
+         // give it back the original size
+         // we seems to have to wait some time, before doing it
+         Timeline {
+            repeatCount: 1
+            keyFrames: [
+               KeyFrame {
+                  time: 20ms
+                  action:function():Void{
+                     contentElement.resizeTheContent();
+                  }
+               }
+            ]
+         }.play();
          openFactor = 1.0;
          positionControlElements();
          Timeline {
             repeatCount: 1
-            keyFrames : [
+            keyFrames: [
                KeyFrame {
-                  time : 0s
-                  canSkip : true
+                  time: 0s
+                  canSkip: true
                   values: [
-                     drawerGroup.translateX => closedXFactor*width,
-                     drawerGroup.translateY => closedYFactor*height
+                     drawerGroup.translateX => closedXFactor * width,
+                     drawerGroup.translateY => closedYFactor * height
                   ]
                }
                KeyFrame {
-                  time : AnimationTiming.drawerOpenCloseDuration
-                  canSkip : true
+                  time: AnimationTiming.drawerOpenCloseDuration
+                  canSkip: true
                   values: [
-                     drawerGroup.translateX => openFactor*openedXFactor*width tween animationInterpolation,
-                     drawerGroup.translateY => openFactor*openedYFactor*height tween animationInterpolation
+                     drawerGroup.translateX => openFactor * openedXFactor * width tween animationInterpolation,
+                     drawerGroup.translateY => openFactor * openedYFactor * height tween animationInterpolation
                   ]
                }
             ]
          }.play();
       }
-      else{
+      else {
          openFactor = 1;
          Timeline {
             repeatCount: 1
-            keyFrames : [
+            keyFrames: [
                KeyFrame {
-                  time : 0s
-                  canSkip : true
+                  time: 0s
+                  canSkip: true
                   values: [
-                     drawerGroup.translateX => openFactor*openedXFactor*width,
-                     drawerGroup.translateY => openFactor*openedYFactor*height
+                     drawerGroup.translateX => openFactor * openedXFactor * width,
+                     drawerGroup.translateY => openFactor * openedYFactor * height
                   ]
                }
                KeyFrame {
-                  time : AnimationTiming.drawerOpenCloseDuration
-                  canSkip : true
+                  time: AnimationTiming.drawerOpenCloseDuration
+                  canSkip: true
                   values: [
-                     drawerGroup.translateX => closedXFactor*width tween animationInterpolation,
-                     drawerGroup.translateY => closedYFactor*height tween animationInterpolation
+                     drawerGroup.translateX => closedXFactor * width tween animationInterpolation,
+                     drawerGroup.translateY => closedYFactor * height tween animationInterpolation
                   ]
-                  action:function():Void{
-                     delete contentContainer.content;
+                  action: function(): Void {
+                     delete  contentContainer.content;
                      positionControlElements();
                      drawerGroup.translateX = 0;
                      drawerGroup.translateY = 0;
@@ -295,13 +303,16 @@ public abstract class Drawer extends CustomNode {
          desiredWidth = Math.min(desiredWidth, resizableContent.getMaxWidth());
          desiredHeight = Math.min(desiredHeight, resizableContent.getMaxHeight());
       }
-
-      width = desiredWidth;
-      height = desiredHeight;
+      if (horizontal) {
+         height = desiredHeight;
+      } else {
+         width = desiredWidth;
+      }
    }
 
    function stopResize(e: MouseEvent): Void {
       MouseBlocker.stopMouseBlocking();
    }
+
 }
 

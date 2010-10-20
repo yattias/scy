@@ -211,6 +211,7 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
    function sizeChanged(): Void {
       Container.resizeNode(nodeBox, width, height);
+//      println("ScyToolViewer: size changed to {width}*{height}");
    }
 
    public override function getPrefHeight(h: Number) : Number{
