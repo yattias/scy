@@ -29,6 +29,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.topics.TopicModelParameter;
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -214,9 +215,9 @@ public class AbstractTestFixture {
 		ObjectInputStream in = null;
 		try {
 			InputStream inStream = this.getClass().getResourceAsStream(
-					"/model.dat");
+					"/models/co2_en_tm");
 			in = new ObjectInputStream(inStream);
-			TopicModelParameter model = (TopicModelParameter) in.readObject();
+			ParallelTopicModel model = (ParallelTopicModel) in.readObject();
 			in.close();
 			storage.put(TM_MODEL_NAME, model);
 		} catch (IOException e) {
