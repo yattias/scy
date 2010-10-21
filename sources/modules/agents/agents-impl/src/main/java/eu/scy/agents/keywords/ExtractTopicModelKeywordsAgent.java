@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.topics.TopicModelAnnotator;
 import cc.mallet.topics.TopicModelParameter;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
@@ -89,13 +90,12 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 		if (dfModel == null) {
 			return new HashSet<String>();
 		}
-		TopicModelParameter tmParameter = (TopicModelParameter) storage
+		ParallelTopicModel tm = (ParallelTopicModel) storage
 				.get(CO2_SCY_ENGLISH);
-		if (tmParameter == null) {
+		if (tm== null) {
 			return new HashSet<String>();
 		}
 
-		TopicModelAnnotator tm = new TopicModelAnnotator(tmParameter);
 
 		Document document = Utilities.convertTextToDocument(text);
 
