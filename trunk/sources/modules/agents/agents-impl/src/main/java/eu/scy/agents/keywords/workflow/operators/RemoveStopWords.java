@@ -57,7 +57,7 @@ public class RemoveStopWords extends DocumentOperatorSpecification {
 		Scanner scanner = null;
 		InputStream inStream = null;
 		if (path == null) {
-			inStream = getClass().getResourceAsStream("/english_stopWords.txt");
+			inStream = getClass().getResourceAsStream("/en_stopwords.txt");
 			if (inStream == null) {
 				logger.warn("no stopwords removed");
 				output.setObject(ObjectIdentifiers.DOCUMENT, document);

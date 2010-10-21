@@ -6,10 +6,13 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
-import cc.mallet.topics.TopicModelAnnotator;
-import cc.mallet.topics.TopicModelParameter;
+import cc.mallet.topics.ParallelTopicModel;
+import cc.mallet.topics.TopicInferencer;
+import cc.mallet.types.Instance;
+
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
@@ -18,10 +21,12 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
+import eu.scy.agents.util.Preprocessor;
 
 /**
- * ("topicDetector":String, <QueryID>:String, <ModelName>:String, <Text>:String) -> ("topicDetector":String,
- * <QueryID>:String, <topicModelScore>:byte[](HashMap<Integer,Double>))
+ * ("topicDetector":String, <QueryID>:String, <ModelName>:String, <Text>:String)
+ * -> ("topicDetector":String, <QueryID>:String,
+ * <topicModelScore>:byte[](HashMap<Integer,Double>))
  * 
  * @author fschulz_2
  */
@@ -31,6 +36,7 @@ public class TopicDetector extends AbstractRequestAgent {
 
 	private PersistentStorage agentDatabase;
 	private Tuple activationTuple;
+	Preprocessor preprocessor;
 
 	public TopicDetector(Map<String, Object> params) {
 		super(NAME, params);
@@ -40,9 +46,10 @@ public class TopicDetector extends AbstractRequestAgent {
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
+		preprocessor = new Preprocessor();
 		agentDatabase = new PersistentStorage(host, port);
-		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, String.class, String.class,
-				String.class);
+		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
+				AgentProtocol.QUERY, String.class, String.class, String.class);
 	}
 
 	@Override
@@ -51,13 +58,15 @@ public class TopicDetector extends AbstractRequestAgent {
 			try {
 				Tuple tuple = null;
 				if (getCommandSpace().isConnected()) {
-					tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.COMMAND_EXPIRATION);
+					tuple = getCommandSpace().waitToTake(activationTuple,
+							AgentProtocol.COMMAND_EXPIRATION);
 				}
 				if (tuple != null) {
 					String queryID = (String) tuple.getField(2).getValue();
 					String modelName = (String) tuple.getField(3).getValue();
 					String text = (String) tuple.getField(4).getValue();
-					Map<Integer, Double> topicScores = getTopicScores(modelName, text);
+					Map<Integer, Double> topicScores = getTopicScores(
+							modelName, text);
 					sendTopicsToTS(queryID, topicScores);
 				}
 				sendAliveUpdate();
@@ -69,8 +78,8 @@ public class TopicDetector extends AbstractRequestAgent {
 		}
 	}
 
-	private void sendTopicsToTS(String queryId, Map<Integer, Double> topicScores) throws IOException,
-			TupleSpaceException {
+	private void sendTopicsToTS(String queryId, Map<Integer, Double> topicScores)
+			throws IOException, TupleSpaceException {
 
 		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
 		ObjectOutputStream out = new ObjectOutputStream(bytesOut);
@@ -78,8 +87,9 @@ public class TopicDetector extends AbstractRequestAgent {
 		out.writeObject(topicScores);
 		bytesOut.toByteArray();
 
-		Tuple topicsDetectedTuple = new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE, queryId.toString(),
-				bytesOut.toByteArray());
+		Tuple topicsDetectedTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
+				AgentProtocol.RESPONSE, queryId.toString(), bytesOut
+						.toByteArray());
 		getCommandSpace().write(topicsDetectedTuple);
 	}
 
@@ -100,15 +110,23 @@ public class TopicDetector extends AbstractRequestAgent {
 	}
 
 	private Map<Integer, Double> getTopicScores(String modelName, String text) {
-		Document doc = new Document("text");
-		doc.setFeature(Features.TEXT, text);
-		TopicModelAnnotator model = new TopicModelAnnotator((TopicModelParameter) agentDatabase.get(modelName));
-		Operator assignTopicScores = new AssignTopicScores().getOperator("Main");
-		assignTopicScores.setInputParameter(ObjectIdentifiers.DOCUMENT, doc);
-		assignTopicScores.setInputParameter(ObjectIdentifiers.MODEL, model);
-		assignTopicScores.run();
+		ParallelTopicModel model = (ParallelTopicModel) agentDatabase
+				.get(modelName);
 
-		Map<Integer, Double> topicScores = doc.getFeature(TopicAgents.KEY_TOPIC_SCORES);
+		text = preprocessor.removePunctuation(text);
+		text = preprocessor.toLowerCase(text);
+		String[] tokens = preprocessor.tokenize(text);
+		tokens = preprocessor.removeStopwords(tokens, "en");
+		Instance instance = preprocessor.createInstanceFromTokens("id", tokens);
+
+		TopicInferencer inferencer = model.getInferencer();
+		double[] sampledDistribution = inferencer.getSampledDistribution(
+				instance, 2000, 10, 1500);
+
+		Map<Integer, Double> topicScores = new HashMap<Integer, Double>();
+		for (int i = 0; i < sampledDistribution.length; i++) {
+			topicScores.put(i, sampledDistribution[i]);
+		}
 		return topicScores;
 	}
 }

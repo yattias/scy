@@ -2,6 +2,7 @@ package eu.scy.agents.keywords.workflow;
 
 import java.util.Properties;
 
+import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.atomic.ProvideTermFrequency;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.modelbased.ProvideTfIdf;
@@ -19,7 +20,8 @@ import eu.scy.agents.keywords.workflow.operators.StemTokens;
  * </ul>
  * <li><b>Parameters</b></li>
  * <ul>
- * <li>ParameterId(ParameterType): Description including range, requirement, etc.</li>
+ * <li>ParameterId(ParameterType): Description including range, requirement,
+ * etc.</li>
  * </ul>
  * <li><b>Outputs</b></li>
  * <ul>
@@ -56,13 +58,17 @@ public class Preprocessing extends Workflow {
 
 		addOperatorSpecification(STEM_TOKENS, StemTokens.class);
 		setInputParameter(STEM_TOKENS, StemTokens.CREATE_MAPPING, true);
-		addOperatorSpecification(PROVIDE_TERM_FREQUENCY, ProvideTermFrequency.class);
+		addOperatorSpecification(PROVIDE_TERM_FREQUENCY,
+				ProvideTermFrequency.class);
 
-		addOperatorSpecification(KeywordWorkflowConstants.TFIDF, ProvideTfIdf.class);
+		addOperatorSpecification(KeywordWorkflowConstants.TFIDF,
+				ProvideTfIdf.class);
 
-		addNamespaceLink(KeywordWorkflowConstants.TFIDF, KeywordWorkflowConstants.DOCUMENT_FREQUENCY);
+		addNamespaceLink(KeywordWorkflowConstants.TFIDF,
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY);
 
-		addNamespaceLink(KeywordWorkflowConstants.TFIDF, KeywordWorkflowConstants.DOCUMENT_FREQUENCY,
+		addNamespaceLink(KeywordWorkflowConstants.TFIDF,
+				ObjectIdentifiers.MODEL,
 				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 
 		addDefaultOutputLinks();
