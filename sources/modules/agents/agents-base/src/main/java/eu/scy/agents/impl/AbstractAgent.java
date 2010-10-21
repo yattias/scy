@@ -107,10 +107,7 @@ public abstract class AbstractAgent implements IAgent {
 	public TupleSpace getCommandSpace() {
 		if (tupleSpace == null) {
 			try {
-				String simpleName = getName();
-				simpleName = simpleName
-						.substring(simpleName.lastIndexOf('.') + 1);
-				tupleSpace = new TupleSpace(new User(simpleName), host, port,
+				tupleSpace = new TupleSpace(new User(getSimpleName()), host, port,
 						runAutonomous, false, AgentProtocol.COMMAND_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
@@ -127,13 +124,7 @@ public abstract class AbstractAgent implements IAgent {
 	public TupleSpace getActionSpace() {
 		if (actionSpace == null) {
 			try {
-				actionSpace = new TupleSpace(new User(getSimpleName()), host,
-						port, runAutonomous, false,
-						AgentProtocol.COMMAND_SPACE_NAME);
-				String simpleName = getName();
-				simpleName = simpleName
-						.substring(simpleName.lastIndexOf('.') + 1);
-				actionSpace = new TupleSpace(new User(simpleName), host, port,
+				actionSpace = new TupleSpace(new User(getSimpleName()), host, port,
 						runAutonomous, false, AgentProtocol.ACTION_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
