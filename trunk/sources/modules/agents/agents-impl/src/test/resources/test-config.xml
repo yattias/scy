@@ -9,83 +9,13 @@
 	<alias name="localRepository" alias="repository" />
 	<alias name="localMetadataTypeManager" alias="metadataTypeManager" />
 	<alias name="localExtensionManager" alias="extensionManager" />
-	<!--
-		<bean name="dispatcher"
-		class="eu.scy.agents.impl.elo.ELOAgentDispatcher"> <property
-		name="repository" ref="localRepository" /> <property
-		name="beforeAgents"> <list> <ref bean="graphConverterAgent" /> <ref
-		bean="drawAnalyserAgent" /> <ref bean="obwiousAgent" /> <ref
-		bean="enrichConceptMapAgent" /> <ref bean="topicDetector" /> </list>
-		</property> <property name="afterAgents"> <list> <ref
-		bean="conceptMapSavedAgent" /> <ref
-		bean="misspellingNotificationAgent" /> <ref
-		bean="notifiyEloBrowserAgent" /> </list> </property> <property
-		name="notificationAgents"> <list> </list> </property> </bean>
-	--><!--  Agents  -->
-	<!--
-		<bean name="misspellingNotificationAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO"></bean>
-	-->
 
-	<!--
-		<bean name="drawAnalyserAgent"
-		class="eu.scy.agents.roolo.elo.drawing.DrawingAnalyserAgent">
-		<property name="formatKey" ref="formatKey" /> <property
-		name="lineCountKey" ref="lineCountKey" /> <property
-		name="rectangleCountKey" ref="rectangleCountKey" /> <property
-		name="ovalCountKey" ref="ovalCountKey" /> <property
-		name="freehandCountKey" ref="freehandCountKey" /> <property
-		name="textCountKey" ref="textCountKey" /> <property
-		name="imageCountKey" ref="imageCountKey" /> <property
-		name="tagPointerCountKey" ref="tagPointerCountKey" /> </bean>
-	-->
-	<!--  misspelling agents  -->
-	<!--
-		<bean name="misspellingAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" />
-	-->
 
-	<!--
-		<bean name="misspellingCommunicationAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent"
-		/>
-	-->
 
-	<!--
-		Search for similar concept maps agents <bean name="topicDetector"
-		class="eu.scy.agents.topics.TopicDetector"> <constructor-arg index="0"
-		value="topics.scy.co2.english" /> <property name="metadataTypeManager"
-		ref="localMetadataTypeManager" /> </bean>
-	-->
-	<!--
-		Search for similar concept maps agents <bean
-		name="conceptMapSavedAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.ConceptMapSavedAgent">
+	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository"
+		depends-on="localMetadataTypeManager" init-method="initialise">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-		</bean>
-	-->
-	<!--
-		<bean name="enrichConceptMapAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.EnrichConceptMapAgent">
-		<constructor-arg index="0" value="id" /> <property
-		name="metadataTypeManager" ref="localMetadataTypeManager" /> </bean>
-	-->
-	<!--
-		<bean name="similaritySearchAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent">
-		<property name="repository" ref="localRepository" /> <property
-		name="metadataTypeManager" ref="localMetadataTypeManager" /> </bean>
-	-->
-
-	<!--
-		Notify the elo browser of new elos <bean name="notifiyEloBrowserAgent"
-		class="eu.scy.agents.roolo.elo.elobrowsernotification.NotifiyELOBroserAgent"
-		/>
-	-->
-
-	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
-		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-		<property name="extensionManager" ref="localExtensionManager" />
+		<property name="extensionManager" ref="extensionManager" />
 		<!--
 			<property name="eloStoreDirectory" value="eloStore" /> <property
 			name="storeElosInStoreDirectory" value="true" />
@@ -107,7 +37,7 @@
 				<ref bean="annotatesRelationKey" />
 				<ref bean="descriptionKey" />
 				<ref bean="versionKey" />
-				<ref bean="topicScores" />
+				<!-- <ref bean="topicScores" /> -->
 
 				<!--
 					<ref bean="lineCountKey" /> <ref bean="rectangleCountKey" /> <ref
@@ -123,7 +53,7 @@
 				<ref bean="isForkOf" />
 				<ref bean="isForkedBy" />
 				<ref bean="agentKeywords" />
-				<ref bean="keywordSentenceHistogram" />
+				<!-- <ref bean="keywordSentenceHistogram" /> -->
 			</list>
 		</property>
 	</bean>
@@ -385,55 +315,175 @@
 	<bean name="localExtensionManager" class="roolo.cms.repository.mock.MockExtensionManager">
 		<property name="extensions">
 			<map>
-				<entry>
-					<key>
-						<value>scy/drawing</value>
-					</key>
-					<value>.scydraw</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/dataset</value>
-					</key>
-					<value>.scydataset</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/simconfig</value>
-					</key>
-					<value>.scysimconfig</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/pds</value>
-					</key>
-					<value>.scypds</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/text</value>
-					</key>
-					<value>.scytext</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/image</value>
-					</key>
-					<value>.jpg</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/mapping</value>
-					</key>
-					<value>.scymapping</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/melo</value>
-					</key>
-					<value>.melo</value>
-				</entry>
-			</map>
+            <entry>
+               <key>
+                  <value>scy/missionmodel</value>
+               </key>
+               <value>.scymissionmodel</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/missionspecification</value>
+               </key>
+               <value>.scymissionspecification</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/missionmapmodel</value>
+               </key>
+               <value>.scymissionmapmodel</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/elotoolconfiguration</value>
+               </key>
+               <value>.scyelotoolconfiguration</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/missionruntime</value>
+               </key>
+               <value>.scymissionruntime</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/templateelos</value>
+               </key>
+               <value>.scytemplateelos</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/runtimesettings</value>
+               </key>
+               <value>.runtimesettings</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/drawing</value>
+               </key>
+               <value>.scydraw</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/model</value>
+               </key>
+               <value>.scymodel</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/dataset</value>
+               </key>
+               <value>.scydataset</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/simconfig</value>
+               </key>
+               <value>.scysimconfig</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/pds</value>
+               </key>
+               <value>.scypds</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/copex</value>
+               </key>
+               <value>.scycopex</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/text</value>
+               </key>
+               <value>.text</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/image</value>
+               </key>
+               <value>.jpg</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/mapping</value>
+               </key>
+               <value>.scymapping</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/melo</value>
+               </key>
+               <value>.melo</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/url</value>
+               </key>
+               <value>.url</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/interview</value>
+               </key>
+               <value>.scyinterview</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/video</value>
+               </key>
+               <value>.video</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/xproc</value>
+               </key>
+               <value>.scyxproc</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/webresourcer</value>
+               </key>
+               <value>.scywebresourcer</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/ppt</value>
+               </key>
+               <value>.ppt</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/rtf</value>
+               </key>
+               <value>.rtf</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/doc</value>
+               </key>
+               <value>.doc</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/skp</value>
+               </key>
+               <value>.skp</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/studentplanningtool</value>
+               </key>
+               <value>.studentplan</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/speedtest</value>
+               </key>
+               <value>.speedtest</value>
+            </entry>
+         </map>
 		</property>
 	</bean>
 
