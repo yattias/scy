@@ -25,16 +25,16 @@ import eu.scy.agents.util.Utilities;
 /**
  * @author Jörg Kindermann
  * 
- *         Keyword extractor for ELOs produced by scy/copex
+ *         Keyword extractor for ELOs produced by scy/pds
  */
-public class CopexExtractor implements KeywordExtractor {
+public class FitexExtractor implements KeywordExtractor {
 
-  private final static Logger logger = Logger.getLogger(CopexExtractor.class);
+  private final static Logger logger = Logger.getLogger(FitexExtractor.class);
 
   private TupleSpace tupleSpace;
 
-  public static String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
-  public CopexExtractor() {
+  public static String XMLPATH = "//column/symbol";
+  public FitexExtractor() {
   }
 
   /*

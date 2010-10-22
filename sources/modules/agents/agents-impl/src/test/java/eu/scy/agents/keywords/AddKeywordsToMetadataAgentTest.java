@@ -127,13 +127,14 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
     IMetadataKey keywordKey = typeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
     IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
     List<String> keywords = (List<String>) metadataValueContainer.getValueList();
-    assertEquals(26, keywords.size());
+    assertEquals(25, keywords.size());
+
     assertTrue(hasItems(keywords, "binder", "solvent", "voc", "natural paints", "modern paints",
                         "ingredients", "nontoxic", "Natural paints", "Environmentally Friendly",
                         "toxic", "chemical", "conventional paint companies", "conventional paint",
                         "non-toxic paints", "VOC content", "used as solvent", "labels", "paint",
-                        "pre-set operation", "natural paint", "health", "chemical paints",
-                        "paint companies", "still contain", "natural", "pigment"));
+                        "pre-set operation", "natural paint", "chemical paints", "paint companies",
+                        "still contain", "natural", "pigment"));
 
     addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED, UUID1234,
                                            TIME_IN_MILLIS, "webresourcer", "SomeMission",
@@ -143,11 +144,10 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
     keywordKey = typeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
     metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
     keywords = (List<String>) metadataValueContainer.getValueList();
-    assertEquals(16, keywords.size());
-    assertTrue(hasItems(keywords, "ecological", "development", "expressed", "carbon footprint",
-                        "measured", "strategy", "ecological footprint", "footprint", "private",
-                        "organization", "sneaked", "carbon", "capture", "undertaking", "known",
-                        "assessment"));
+    assertEquals(15, keywords.size());
+    assertTrue(hasItems(keywords, "ecological", "expressed", "carbon footprint", "strategy",
+                        "ecological footprint", "measured", "footprint", "private", "organization",
+                        "sneaked", "carbon", "capture", "undertaking", "known", "assessment"));
 
   }
 }

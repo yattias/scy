@@ -77,6 +77,6 @@ public class ExtractTopicModelKeywordsAgentTest extends AbstractTestFixture {
                                                   AgentProtocol.ALIVE_INTERVAL);
     assertNotNull("no response received", response);
     String keywords = (String) response.getField(3).getValue();
-    assertEquals("wrong keywords", "paint;natural;", keywords);
+    assertEquals("wrong keywords", "natural;", keywords);
   }
 }
