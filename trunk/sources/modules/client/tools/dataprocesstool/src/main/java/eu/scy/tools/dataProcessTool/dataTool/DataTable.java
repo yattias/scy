@@ -14,6 +14,7 @@ import eu.scy.tools.dataProcessTool.undoRedo.DataUndoManager;
 import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -29,12 +30,15 @@ import eu.scy.tools.dataProcessTool.utilities.MyTableEditor;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.Timer;
 import javax.swing.undo.CannotUndoException;
 
 /**
@@ -83,7 +87,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* selection des cells */
     private List<int[]> listSelectedCell;
-    
+
+    private boolean doubleClickOnCell = false;
+    private Timer timer;
+    private final static int clickInterval = 2*(Integer)Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval");
+    private MouseEvent lastEvent;
+
     // CONSTRUCTOR
     public DataTable(FitexToolPanel owner, Dataset ds) {
         super();
@@ -120,6 +129,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         resizeColumn();
         this.setShowGrid(false);
         this.setIntercellSpacing(new Dimension(0,0));
+        initTimer();
     }
 
     // GETTER AND SETTER
@@ -194,19 +204,72 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             this.popUpMenu.setEnabledItemCut(canEdit&& canCut());
             this.popUpMenu.setEnabledItemSort(canSort());
             this.popUpMenu.show(this, x, y);
-        }else if (e.getClickCount() == 1){
+        }
             Point p = e.getPoint() ;
             int c = columnAtPoint(p);
             int r = rowAtPoint(p);
-            changeSelection(r, c, false, false);
-            selectEntireColumnRow(r,c);
-        }else if (e.getClickCount() ==2){
-            Point p = e.getPoint() ;
-            int c = columnAtPoint(p);
-            int r = rowAtPoint(p);
-            if(tableModel.isValueHeader(r, c)){
-                owner.editDataHeader(tableModel.getHeader(r,c), c-1);
+            if(tableModel.isValueHeader(r, c) ){
+                if(e.getClickCount() == 2){
+                    owner.editDataHeader(tableModel.getHeader(r,c), c-1);
+                    return;
+                }
+                changeSelection(r, c, false, false);
+                selectEntireColumnRow(r,c);
+                return;
             }
+
+//        else if (e.getClickCount() == 1){
+//            Point p = e.getPoint() ;
+//            int c = columnAtPoint(p);
+//            int r = rowAtPoint(p);
+//            changeSelection(r, c, false, false);
+//            selectEntireColumnRow(r,c);
+//        }else if (e.getClickCount() ==2){
+//            doubleClickOnCell = true;
+//            Point p = e.getPoint() ;
+//            int c = columnAtPoint(p);
+//            int r = rowAtPoint(p);
+//            if(tableModel.isValueHeader(r, c)){
+//                owner.editDataHeader(tableModel.getHeader(r,c), c-1);
+//            }
+//        }
+          if (e.getClickCount() > 2) return;
+          lastEvent = e;
+          if (timer.isRunning())  {
+             timer.stop();
+             mouseDoubleClick(lastEvent);
+         }  else {
+             timer.restart();
+         }
+    }
+    
+    private void initTimer(){
+        timer = new Timer( clickInterval, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();  
+                mouseSimpleClick(lastEvent);
+            }
+        });
+    }
+
+    private void mouseSimpleClick(MouseEvent e){
+        Point p = e.getPoint();
+        int c = columnAtPoint(p);
+        int r = rowAtPoint(p);
+        changeSelection(r, c, false, false);
+        selectEntireColumnRow(r,c);
+        doubleClickOnCell = false;
+    }
+
+    private void mouseDoubleClick(MouseEvent e){
+        Point p = e.getPoint();
+        doubleClickOnCell = true;
+        int c = columnAtPoint(p);
+        int r = rowAtPoint(p);
+        if(tableModel.isValueHeader(r, c)){
+            owner.editDataHeader(tableModel.getHeader(r,c), c-1);
         }
     }
 
@@ -1260,4 +1323,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     }
 
+    public boolean isEditAfterOneClick(){
+        return !doubleClickOnCell;
+    }
+    
 }

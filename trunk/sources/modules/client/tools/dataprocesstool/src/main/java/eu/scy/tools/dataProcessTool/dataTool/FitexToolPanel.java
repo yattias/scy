@@ -1710,8 +1710,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return ",";
     }
 
-    public void importCsvData(String sepField, String sepText){
-        dataProcessToolPanel.importCsvData(sepField, sepText);
+    public void importCsvData(String sepField, String sepText, String charEncoding){
+        dataProcessToolPanel.importCsvData(sepField, sepText, charEncoding);
     }
 
     public ArrayList<Object> getListGraph(){
