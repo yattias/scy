@@ -90,8 +90,8 @@ public class RichTextExtractorTest extends AbstractTestFixture {
   @Test
   public void testGetKeywords() {
     List<String> keywords = textExtractor.getKeywords(elo);
-    assertEquals(11, keywords.size());
-    assertTrue(hasItems(keywords, "par", "plus", "20°c", "source", "test", "triple", "toute", "pour", "influence", "double", "comment"));
+    assertEquals(10, keywords.size());
+    assertTrue(hasItems(keywords, "par", "plus", "20°c", "test", "triple", "toute", "pour", "influence", "double", "comment"));
   }
 
 }
