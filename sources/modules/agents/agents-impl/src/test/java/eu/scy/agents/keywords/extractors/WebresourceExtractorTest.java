@@ -91,11 +91,10 @@ public class WebresourceExtractorTest extends AbstractTestFixture {
   @Test
   public void testGetKeywords() {
     List<String> keywords = webresourceExtractor.getKeywords(elo);
-    assertEquals(16, keywords.size());
-    assertTrue(hasItems(keywords, "ecological", "development", "expressed", "carbon footprint",
-                        "measured", "strategy", "ecological footprint", "footprint", "private",
-                        "organization", "sneaked", "carbon", "capture", "undertaking", "known",
-                        "assessment"));
+    assertEquals(15, keywords.size());
+    assertTrue(hasItems(keywords, "ecological", "expressed", "carbon footprint", "measured",
+                        "strategy", "ecological footprint", "footprint", "private", "organization",
+                        "sneaked", "carbon", "capture", "undertaking", "known", "assessment"));
   }
 
 }
