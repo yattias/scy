@@ -64,7 +64,7 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         fieldFormula = new MyTextFieldCompletion(words);
         getContentPane().add(fieldFormula);
         //fieldFormula.setBounds(120, 125, 210, 30);
-        fieldFormula.setBounds(120, 185, 210, 30);
+        fieldFormula.setBounds(120, 185, 210, 25);
         // resize
         this.labelHeaderName.setSize(MyUtilities.lenghtOfString(this.labelHeaderName.getText(), labelHeaderName.getFontMetrics(this.labelHeaderName.getFont())), this.labelHeaderName.getHeight());
         this.labelUnit.setSize(MyUtilities.lenghtOfString(this.labelUnit.getText(), labelUnit.getFontMetrics(this.labelUnit.getFont())), this.labelUnit.getHeight());

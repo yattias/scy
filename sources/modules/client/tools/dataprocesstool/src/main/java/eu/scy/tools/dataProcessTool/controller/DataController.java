@@ -1720,7 +1720,7 @@ public class DataController implements ControllerInterface{
 
     /* lecture de fichier cvs  => elo ds */
     @Override
-    public CopexReturn importCSVFile(File file, String sepField, String sepText, ArrayList v){
+    public CopexReturn importCSVFile(File file, String sepField, String sepText, String charEncoding, ArrayList v){
         String g="\"";
         if (file == null) {
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
@@ -1734,7 +1734,8 @@ public class DataController implements ControllerInterface{
             CopexReturn cr=  new CopexReturn();
             InputStreamReader fileReader = null;
             try {
-                fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+                //fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+                fileReader = new InputStreamReader(new FileInputStream(file), charEncoding);
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1814,9 +1815,9 @@ public class DataController implements ControllerInterface{
                     }
                 }
             }catch(IOException e){
-                cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE"), false);
+                cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+e, false);
             }catch(Exception ex){
-                cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE"), false);
+                cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+ex, false);
             }
             finally{
                 if (reader != null)

@@ -80,7 +80,7 @@ public interface ControllerInterface {
     /** copy/paste*/
     public CopexReturn paste(long dbKeyDs, CopyDataset copyDs, int[] selCell, ArrayList v);
     /** import a CSV file */
-    public CopexReturn importCSVFile(File file,String sepField, String sepText, ArrayList v);
+    public CopexReturn importCSVFile(File file,String sepField, String sepText, String charEncoding,ArrayList v);
     /** import a GMBL file */
     public CopexReturn importGMBLFile(File file,ArrayList v);
     /** delete a dataset*/

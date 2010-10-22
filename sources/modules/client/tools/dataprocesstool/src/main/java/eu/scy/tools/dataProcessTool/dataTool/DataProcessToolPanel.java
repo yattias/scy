@@ -122,6 +122,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private transient SAXBuilder builder = new SAXBuilder(false);
     private  String sepField;
     private  String sepText;
+    private String charEncoding;
 
     public DataProcessToolPanel(boolean scyMode, Locale locale) {
         super();
@@ -638,10 +639,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public eu.scy.elo.contenttype.dataset.DataSet importCSVFile(File file){
         ImportCsvDialog aDialog = new ImportCsvDialog(activFitex);
         aDialog.setVisible(true);
-        if(sepField == null && sepText == null)
+        if(sepField == null && sepText == null && charEncoding == null)
             return null;
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.importCSVFile(file, sepField, sepText, v);
+        CopexReturn cr = this.controller.importCSVFile(file, sepField, sepText,charEncoding, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return null;
@@ -668,9 +669,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         return elo;
     }
 
-    public void importCsvData(String sepField, String sepText){
+    public void importCsvData(String sepField, String sepText, String charEncoding){
         this.sepField = sepField;
         this.sepText = sepText;
+        this.charEncoding = charEncoding;
     }
 
     @Override
