@@ -35,6 +35,14 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     private String toolname = "scymapper";
     private String eloURI;
     private final static Logger syslog = Logger.getLogger(ConceptMapActionLogger.class);
+    private static final String REQUEST_CONCEPT = "concept_help_requested";
+    private static final String REQUEST_RELATION = "relation_help_requested";
+    private static final String NODE_ADDED = "node_added";
+    private static final String LINK_ADDED = "link_added";
+    private static final String NODE_RENAMED = "node_renamed";
+    private static final String LINK_RENAMED = "link_renamed";
+    private static final String LINK_REMOVED = "link_removed";
+    private static final String NODE_REMOVED = "node_removed";
 
     public ConceptMapActionLogger(IActionLogger actionLogger, IDiagramModel diagram, String username) {
         this.logger = actionLogger;
@@ -53,12 +61,12 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     }
     
     public void logRequestConceptHelp() {
-        IAction a = createSCYMapperAction("request_concept_help");
+        IAction a = createSCYMapperAction(REQUEST_CONCEPT);
         log(a);        
     }
 
     public void logRequestRelationHelp() {
-        IAction a = createSCYMapperAction("request_relation_help");
+        IAction a = createSCYMapperAction(REQUEST_RELATION);
         log(a);    
     }
 
@@ -68,7 +76,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
      * @param node The node model that was changed
      */
     public void logNodeLabelChanged(INodeModel node) {
-        IAction a = createSCYMapperAction("node_renamed");
+        IAction a = createSCYMapperAction(NODE_RENAMED);
         a.addAttribute("id", node.getId());
         a.addAttribute("new", node.getLabel());
         log(a);
@@ -80,7 +88,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
      * @param link The node model that was changed
      */
     public void logLinkLabelChanged(ILinkModel link) {
-        IAction a = createSCYMapperAction("link_renamed");
+        IAction a = createSCYMapperAction(LINK_RENAMED);
         a.addAttribute("id", link.getId());
         a.addAttribute("new", link.getLabel());
         log(a);
@@ -92,7 +100,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
      * @param node The node model that was changed
      */
     public void logNodeAdded(INodeModel node) {
-        IAction a = createSCYMapperAction("node_added");
+        IAction a = createSCYMapperAction(NODE_ADDED);
         a.addAttribute("id", node.getId());
         a.addAttribute("name", node.getLabel());
 
@@ -109,7 +117,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
      * @param link The link model that was changed
      */
     public void logLinkAdded(INodeLinkModel link) {
-        IAction a = createSCYMapperAction("link_added");
+        IAction a = createSCYMapperAction(LINK_ADDED);
         a.addAttribute("id", link.getId());
         a.addAttribute("name", link.getLabel());
         a.addAttribute("from_node", link.getFromNode().getId());
@@ -128,7 +136,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
      * @param link The node model that was changed
      */
     public void logLinkRemoved(INodeLinkModel link) {
-        IAction a = createSCYMapperAction("link_removed");
+        IAction a = createSCYMapperAction(LINK_REMOVED);
         a.addAttribute("id", link.getId());
 
         XStream xstream = new XStream(new DomDriver());
@@ -144,7 +152,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
      * @param node The node model that was changed
      */
     public void logNodeRemoved(INodeModel node) {
-        IAction a = createSCYMapperAction("node_removed");
+        IAction a = createSCYMapperAction(NODE_REMOVED);
         a.addAttribute("id", node.getId());
 
         XStream xstream = new XStream(new DomDriver());
