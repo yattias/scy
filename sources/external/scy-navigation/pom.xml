@@ -8,10 +8,10 @@
 		<version>0.0.4</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>info.collide</groupId>
-	<artifactId>kopiwa-oigroups</artifactId>
+	<groupId>info.collide.portlet</groupId>
+	<artifactId>scy-navigation</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	
 	<repositories>
 		<repository>
