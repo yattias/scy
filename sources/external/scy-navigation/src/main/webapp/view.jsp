@@ -51,7 +51,8 @@ String addressOfPictureProgress= "/scy-theme/images/common/view.png";
 String roleName = "SPGroup"; 
 
 StringBuilder sBuilder = new StringBuilder();
-String userName = themeDisplay.getUser().getFirstName().toLowerCase();
+String userName = themeDisplay.getUser().getScreenName().toLowerCase();
+
 
 %>
 
@@ -191,14 +192,23 @@ if(!themeDisplay.getUser().isDefaultUser()){
 					// Link to private Sites.
 					sb.append("<li>");
 					sb.append("<a href=\"");
+					
+					sb.append(group.getPathFriendlyURL(true, themeDisplay));
+					sb.append(group.getFriendlyURL());
+					sb.append("\"");		
+					
+					/*
 					sb.append("http://");
 					sb.append(serverName);
 					sb.append(":");
 					sb.append(serverPort);
-					sb.append("/web/general-subenvironment/subscriptions?p_p_id=29&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_29_struts_action=%2Fcommunities%2Fpage&_29_groupId=");
+					//orginal//		sb.append("/web/general-subenvironment/subscriptions?p_p_id=29&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_29_struts_action=%2Fcommunities%2Fpage&_29_groupId=");
+					sb.append("/web/guest/subscription-form?p_p_id=29&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_29_struts_action=%2Fcommunities%2Fpage&_29_groupId=");	
 					sb.append(group.getGroupId());
-					sb.append("&_29_redirect=%2Fweb%2Fgeneral-subenvironment%2Fsubscriptions&_29_privateLayout=true");
+					//orginal//		sb.append("&_29_redirect=%2Fweb%2Fgeneral-subenvironment%2Fsubscriptions&_29_privateLayout=true");
+					sb.append("&_29_redirect=%2Fweb%2Fguest%2Fsubscription-form&_29_privateLayout=true");
 					sb.append('"');
+					*/
 					sb.append(">");
 					%>
 						<%= sb.toString() %>
@@ -223,14 +233,22 @@ if(!themeDisplay.getUser().isDefaultUser()){
 					// Link to private Sites.
 					sb.append("<li>");
 					sb.append("<a href=\"");
+					
+					sb.append(group.getPathFriendlyURL(true, themeDisplay));
+					sb.append(group.getFriendlyURL());
+					sb.append("\"");	
+					/*
 					sb.append("http://");
 					sb.append(serverName);
 					sb.append(":");
 					sb.append(serverPort);
-					sb.append("/web/general-subenvironment/subscriptions?p_p_id=29&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_29_struts_action=%2Fcommunities%2Fpage&_29_groupId=");
+					//orginal//		sb.append("/web/general-subenvironment/subscriptions?p_p_id=29&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_29_struts_action=%2Fcommunities%2Fpage&_29_groupId=");
+					sb.append("/web/guest/subscription-form?p_p_id=29&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_29_struts_action=%2Fcommunities%2Fpage&_29_groupId=");
 					sb.append(group.getGroupId());
-					sb.append("&_29_redirect=%2Fweb%2Fgeneral-subenvironment%2Fsubscriptions&_29_privateLayout=true");
+					//orginal//		sb.append("&_29_redirect=%2Fweb%2Fgeneral-subenvironment%2Fsubscriptions&_29_privateLayout=true");
+					sb.append("&_29_redirect=%2Fweb%2Fguest%2Fsubscription-form&_29_privateLayout=true");
 					sb.append('"');
+					*/
 					sb.append(">");
 					sb.append(group.getDescriptiveName());
 					sb.append("</a>");	
@@ -282,7 +300,7 @@ if(!themeDisplay.getUser().isDefaultUser()){
 					sb.append("<li>");
 					
 					// The Name of the Group.
-					sb.append("<font  	color=\"#BEBEBE\">");
+					sb.append("<font  	color=\"#666666\">");
 					sb.append(group.getDescriptiveName()+"		");
 					sb.append("</font>");	
 					
@@ -372,7 +390,7 @@ if(!themeDisplay.getUser().isDefaultUser()){
 					// If the Community is NOT Private!
 					if(group.getType()!=3){ 
 						sb.append("<li>");					
-						sb.append("<font  	color=\"#BEBEBE\">");
+						sb.append("<font  	color=\"#666666\">");
 						sb.append(group.getDescriptiveName()+"		");
 						sb.append("</font>");	
 						/**
