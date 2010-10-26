@@ -1,14 +1,20 @@
 package eu.scy.agents.keywords.workflow;
 
+import java.io.File;
 import java.util.Properties;
+
+import org.apache.log4j.Level;
 
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiOperators;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiParameters;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
+import de.fhg.iais.kd.tm.obwious.operator.ParameterIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.feature.model.CalculateInformativeness;
 import de.fhg.iais.kd.tm.obwious.operator.feature.model.CalculatePhraseness;
 import de.fhg.iais.kd.tm.obwious.operator.feature.model.CalculateScore;
+import de.fhg.iais.kd.tm.obwious.operator.io.ProvideCorpusModelFromFile;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
+import de.fhg.iais.kd.tm.obwious.operator.system.io.ImportCorpusFromDirectory;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.ProvideRequiredDataOnCorpusView;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.ProvideRequiredDataOnDocument;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.collection.LoadTextCorpusView;
@@ -17,7 +23,7 @@ public class ExtractKeyphrasesWorkflow extends Workflow {
 
   private static final long serialVersionUID = 3762190530929039379L;
 
-  // private static final String EXTRACT_KEYPHRASES = "ExtractKeyphrases";
+  private static final String IMPORT_CORPUS_FROM_DIRECTORY = "ImportCorpusFromDirectory";
 
   public ExtractKeyphrasesWorkflow() {
 
@@ -27,15 +33,45 @@ public class ExtractKeyphrasesWorkflow extends Workflow {
   public ExtractKeyphrasesWorkflow(Properties properties) {
     super(properties);
 
-    /** Load corpus */
-    this.propagateProperty(WikiOperators.LOAD_TEXT_COPRUS_VIEW, WikiParameters.DIRECTORY);
-    this.propagateProperty(WikiOperators.LOAD_TEXT_COPRUS_VIEW, WikiParameters.FILE_TYPE);
-    this.addOperatorSpecification(WikiOperators.LOAD_TEXT_COPRUS_VIEW, LoadTextCorpusView.class);
+    /** Load previously calculated model */
+    String directoryName = (String) properties.get(WikiParameters.DIRECTORY);
+    File directory = new File(directoryName);
+    if (!(directory.exists())) {
+      directory = new File(ClassLoader.getSystemResource(directoryName).getFile());
+    }
+    if (!directory.exists()) {
+      logger.log(Level.FATAL,
+                 String.format("The given directory '%s' does not exist in package.", directoryName));
+      throw new RuntimeException();
+    }
+    if (!directory.isDirectory()) {
+      logger.log(Level.FATAL,
+                 String.format("The given file '%s' is not a directory.", directoryName));
+      throw new RuntimeException();
+    }
+    directoryName = directory.getAbsolutePath();
+    File modelFile = new File(directoryName + "/.model/corpus_model");
 
-    /** Provide required data of the corpus */
-    this.addOperatorSpecification(WikiOperators.PROVIDE_REQUIRED_DATA_ON_COPRUS_VIEW,
-                                  new ProvideRequiredDataOnCorpusView(properties));
+    if (modelFile.exists() && modelFile.canRead() && modelFile.isFile()) {
+      /** Load corpus */
+      this.addOperatorSpecification(IMPORT_CORPUS_FROM_DIRECTORY, ImportCorpusFromDirectory.class);
+      this.setInputParameter(IMPORT_CORPUS_FROM_DIRECTORY, ParameterIdentifiers.DIRECTORY,
+                             properties.getProperty(WikiParameters.DIRECTORY));
 
+      this.addOperatorSpecification(WikiOperators.PROVIDE_CORPUS_MODEL_FROM_FILE,
+                                    ProvideCorpusModelFromFile.class);
+      this.setInputParameter(WikiOperators.PROVIDE_CORPUS_MODEL_FROM_FILE,
+                             WikiParameters.MODEL_FILE, modelFile.getAbsolutePath());
+    } else {
+      /** Load corpus */
+      this.propagateProperty(WikiOperators.LOAD_TEXT_COPRUS_VIEW, WikiParameters.DIRECTORY);
+      this.propagateProperty(WikiOperators.LOAD_TEXT_COPRUS_VIEW, WikiParameters.FILE_TYPE);
+      this.addOperatorSpecification(WikiOperators.LOAD_TEXT_COPRUS_VIEW, LoadTextCorpusView.class);
+      /** Provide required data of the corpus */
+      this.addOperatorSpecification(WikiOperators.PROVIDE_REQUIRED_DATA_ON_COPRUS_VIEW,
+                                    new ProvideRequiredDataOnCorpusView(properties));
+    }
+    
     /** Provide required data of the document */
     this.addOperatorSpecification(WikiOperators.PROVIDE_REQUIRED_DATA_ON_DOCUMENT,
                                   new ProvideRequiredDataOnDocument(properties));
