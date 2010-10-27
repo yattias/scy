@@ -47,9 +47,9 @@ public class ExtractKeyphrases extends DocumentOperatorSpecification {
 	protected Container run(Container inputParameters) {
 
 		Document document = (Document) inputParameters.get(ObjectIdentifiers.DOCUMENT);
-		int numberOfKeywords = (Integer) inputParameters.get(KeywordWorkflowConstants.NUMBER_OF_KEYWORDS);
+//		int numberOfKeywords = (Integer) inputParameters.get(KeywordWorkflowConstants.NUMBER_OF_KEYWORDS);
 
-		Map<String, Set<String>> stemMapping = document.getFeature(StemTokens.STEM_MAPPING);
+//		Map<String, Set<String>> stemMapping = document.getFeature(StemTokens.STEM_MAPPING);
 
 		defineFeature();
 		Set<String> keywords = null;
@@ -67,7 +67,8 @@ public class ExtractKeyphrases extends DocumentOperatorSpecification {
 		}
 	}
 
-	private ArrayList<Entry<String, Double>> sortTermsByTfIdf(Map<String, Double> tfIdf) {
+	@SuppressWarnings("unused")
+  private ArrayList<Entry<String, Double>> sortTermsByTfIdf(Map<String, Double> tfIdf) {
 		ArrayList<Entry<String, Double>> sortedTerms = new ArrayList<Entry<String, Double>>();
 
 		sortedTerms.addAll(tfIdf.entrySet());
@@ -82,7 +83,8 @@ public class ExtractKeyphrases extends DocumentOperatorSpecification {
 		return sortedTerms;
 	}
 
-	private Set<String> getTfIdfKeywords(ArrayList<Entry<String, Double>> sortedTerms, int number,
+	@SuppressWarnings("unused")
+  private Set<String> getTfIdfKeywords(ArrayList<Entry<String, Double>> sortedTerms, int number,
 			Map<String, Set<String>> stemMapping) {
 		Set<String> result = new HashSet<String>();
 		int i = 0;

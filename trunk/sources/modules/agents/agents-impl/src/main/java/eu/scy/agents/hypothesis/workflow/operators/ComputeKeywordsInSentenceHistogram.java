@@ -53,7 +53,6 @@ public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
     }
     ArrayList<String> sentences = (ArrayList<String>) document.getFeature(Features.SENTENCES);
     ArrayList<String> keywords = (ArrayList<String>) document.getFeature(Features.WORDS);
-    Boolean update = (Boolean) inputParameters.getObject(UPDATE);
 
     Iterator<String> it = sentences.iterator();
     HashMap<Integer, Integer> histogram = new HashMap<Integer, Integer>();
