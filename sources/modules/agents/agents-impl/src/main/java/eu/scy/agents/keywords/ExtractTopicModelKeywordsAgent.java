@@ -10,8 +10,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import cc.mallet.topics.ParallelTopicModel;
-import cc.mallet.topics.TopicModelAnnotator;
-import cc.mallet.topics.TopicModelParameter;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;

@@ -39,14 +39,14 @@ public class Utilities {
   private Utilities() {
   }
 
-  private static String getChildValue(Node node, String childName) {
-    Node child = getChild(node, childName);
-    if (child != null) {
-      return child.getTextContent();
-    } else {
-      return null;
-    }
-  }
+//  private static String getChildValue(Node node, String childName) {
+//    Node child = getChild(node, childName);
+//    if (child != null) {
+//      return child.getTextContent();
+//    } else {
+//      return null;
+//    }
+//  }
 
   private static Node getChild(Node node, String childName) {
     NodeList childNodes = node.getChildNodes();

@@ -42,6 +42,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 
   private static final Logger logger = Logger.getLogger(ExtractKeyphrasesAgent.class.getName());
 
+  @SuppressWarnings("unused")
   private PersistentStorage storage = null;
 
   public ExtractKeyphrasesAgent(Map<String, Object> params) {

@@ -6,12 +6,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import cc.mallet.topics.ParallelTopicModel;
-import cc.mallet.topics.TopicModelAnnotator;
-import cc.mallet.topics.TopicModelParameter;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.IDSorter;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;

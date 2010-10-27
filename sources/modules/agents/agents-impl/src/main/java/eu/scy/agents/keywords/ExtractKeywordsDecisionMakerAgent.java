@@ -92,7 +92,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 	private WebresourceExtractor extractor;
 
-	@SuppressWarnings("unchecked")
 	public ExtractKeywordsDecisionMakerAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 
