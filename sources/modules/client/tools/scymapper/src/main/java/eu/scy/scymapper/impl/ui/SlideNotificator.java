@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class SlideNotificator {
+public class SlideNotificator implements Notificator {
 
 	protected static final float ANIMATION_TIME = 500;
 	protected static final int ANIMATION_DELAY = 10;

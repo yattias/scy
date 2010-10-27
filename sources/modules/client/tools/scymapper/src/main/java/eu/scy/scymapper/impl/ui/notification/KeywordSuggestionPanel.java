@@ -23,6 +23,7 @@ public class KeywordSuggestionPanel extends JPanel {
 
 	private JTextPane descriptionLabel;
 	private JPanel conceptButtonPane;
+	private JList conceptList;
 
 	public KeywordSuggestionPanel() {
 		initComponents();
@@ -45,7 +46,19 @@ public class KeywordSuggestionPanel extends JPanel {
 		descriptionLabel.setEditable(false);
 		JPanel compound = new JPanel(new BorderLayout());
 		compound.add(BorderLayout.NORTH, descriptionLabel);
-		compound.add(BorderLayout.CENTER, conceptButtonPane);
+
+		conceptList = new JList(new DefaultListModel());
+		conceptList.setCellRenderer(new IconAndTextCellRenderer());
+		conceptList.setEnabled(true);
+		conceptList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		conceptList.setLayoutOrientation(JList.VERTICAL);
+		conceptList.setFixedCellHeight(30);
+
+		conceptList.setVisibleRowCount(-1);
+		
+		compound.add(BorderLayout.CENTER, conceptList);
+		
+//		compound.add(BorderLayout.CENTER, conceptButtonPane);
 		add(BorderLayout.CENTER, compound);
 	}
 
@@ -78,6 +91,12 @@ public class KeywordSuggestionPanel extends JPanel {
 		}
 	}
 
+	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories,
+                ConceptMapPanel panel) {
+	    setSuggestions(keywords, nodeFactories, panel, "concepts");
+	}
+	
+	
 	/**
 	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
 	 * 
@@ -85,11 +104,18 @@ public class KeywordSuggestionPanel extends JPanel {
 	 * @param nodeFactories
 	 */
 	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories,
-			ConceptMapPanel panel) {
-
-		String[] text = {
-				"A SCY-Agent has discovered that you may have missed relevant keywords in your concept map. ",
-				"Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have." };
+			ConceptMapPanel panel, String type) {
+	    String[] text = null;
+	        if (keywords.isEmpty()) {
+	            text = new String[] { "Sorry, no proposals for you right now." };
+	        } else {
+	            text = new String[] { "Maybe you consider adding the following " + type + "?" };
+	        }
+	    
+				
+//		String[] text = {
+//		        "A SCY-Agent has discovered that you may have missed relevant keywords in your concept map. ",
+//		"Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have." };
 		String[] styles = { "reqular", "regular" };
 
 		StyledDocument doc = descriptionLabel.getStyledDocument();
@@ -100,6 +126,8 @@ public class KeywordSuggestionPanel extends JPanel {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+
+		DefaultListModel model = (DefaultListModel) conceptList.getModel();
 
 		for (String keyword : keywords) {
 			final JPopupMenu popup = new JPopupMenu();
@@ -117,9 +145,41 @@ public class KeywordSuggestionPanel extends JPanel {
 					popup.show(btn, 0, btn.getHeight());
 				}
 			});
-			conceptButtonPane.add(btn);
+
+//			model.addElement("<html><b>"+ keyword +"</b></html>");
+			model.addElement(keyword);
 		}
 	}
+	
+	 class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
+		 ImageIcon icon = new ImageIcon(getClass().getResource("/add-proposal.png"));
+
+	@Override
+        public Component getListCellRendererComponent(
+	       JList list,              // the list
+	       Object value,            // value to display
+	       int index,               // cell index
+	       boolean isSelected,      // is the cell selected
+	       boolean cellHasFocus)    // does the cell have focus
+	     {
+	         String s = value.toString();
+	         setText(s);
+	         setIcon(icon);
+	         if (isSelected) {
+	             setBackground(list.getSelectionBackground());
+	             setForeground(list.getSelectionForeground());
+	         } else {
+	             setBackground(list.getBackground());
+	             setForeground(list.getForeground());
+	         }
+	         setEnabled(list.isEnabled());
+	         setFont(list.getFont());
+	         setOpaque(true);
+	         return this;
+	     }
+	 }
+
+
 
 	private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
 		final JToggleButton button = new JToggleButton(factory.getIcon());
