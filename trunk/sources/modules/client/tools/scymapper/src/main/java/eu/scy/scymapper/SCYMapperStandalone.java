@@ -61,9 +61,9 @@ public class SCYMapperStandalone extends JFrame {
 	private IELO currentELO;
 
 	private ToolBrokerAPI toolBroker;
-	private IConceptMap currentConceptMap;
+	protected IConceptMap currentConceptMap;
 	private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
-	private ISCYMapperToolConfiguration configuration;
+	protected ISCYMapperToolConfiguration configuration;
 	private IDataSyncService dataSyncService;
 	private ISyncSession currentSession;
 	protected SCYMapperPanel scyMapperPanel;
@@ -84,24 +84,20 @@ public class SCYMapperStandalone extends JFrame {
 	private String username = "";
 
 	public static void main(String[] args) {
-	    start();
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                        initLAF();
+                        SCYMapperStandalone app = new SCYMapperStandalone();
+                        app.setTitle("SCYMapper Concept Mapping Tool");
+                        try {
+                                app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
+                        } catch (IOException e) {
+                        }
+                        app.setVisible(true);
+                }
+            });
 	}
 
-	public static void start() {
-	           SwingUtilities.invokeLater(new Runnable() {
-                       public void run() {
-                               initLAF();
-                               SCYMapperStandalone app = new SCYMapperStandalone();
-                               app.setTitle("SCYMapper Concept Mapping Tool");
-                               try {
-                                       app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
-                               } catch (IOException e) {
-                               }
-                               app.setVisible(true);
-                       }
-               });
-	}
-	
 	public SCYMapperStandalone() {
 		init();
 		
@@ -136,7 +132,7 @@ public class SCYMapperStandalone extends JFrame {
 		initMenuBar();
 	}
 
-	private static void initLAF() {
+	protected static void initLAF() {
 		//String laf = UIManager.getSystemLookAndFeelClassName();
 		//for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 //            if ("Nimbus".equals(info.getName())) {
@@ -152,7 +148,7 @@ public class SCYMapperStandalone extends JFrame {
 		}
 	}
 
-	private SCYMapperPanel createScyMapperPanel(IConceptMap cmap) {
+	protected SCYMapperPanel createScyMapperPanel(IConceptMap cmap) {
 		scyMapperPanel = new SCYMapperPanel(cmap, configuration);
 		currentConceptMap = cmap;
 		return scyMapperPanel;
