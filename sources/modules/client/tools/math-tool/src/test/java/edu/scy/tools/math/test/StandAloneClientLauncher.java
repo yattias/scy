@@ -14,8 +14,6 @@ public class StandAloneClientLauncher {
 	            public void run() {
 	            	MathToolController mc = new MathToolController();
 	        		MathTool mathTool = new MathTool(mc);
-	        		mathTool.hasMenu(true);
-	        		mathTool.hasToolbar(true);
 	        		UIUtils.launchInFrame(mathTool);
 	            }
 	        });
