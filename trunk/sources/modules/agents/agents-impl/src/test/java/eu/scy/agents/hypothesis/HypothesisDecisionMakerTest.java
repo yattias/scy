@@ -83,9 +83,9 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
 		histogram = new HashMap<Integer, Integer>();
 		histogram.put(0, 16);
-		histogram.put(1, 14);
+		histogram.put(1, 16);
 		histogram.put(2, 7);
-		histogram.put(3, 5);
+		histogram.put(3, 3);
 		histogram.put(4, 1);
 		histogram.put(5, 1);
 	}
@@ -120,7 +120,7 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 				new Tuple(AgentProtocol.NOTIFICATION, String.class,
 						String.class, "copex", String.class, String.class,
 						String.class, Field.createWildCardField()),
-				AgentProtocol.ALIVE_INTERVAL);
+				AgentProtocol.ALIVE_INTERVAL * 3);
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(7).getValue();
 		assertNotNull(message, "message = ok");
