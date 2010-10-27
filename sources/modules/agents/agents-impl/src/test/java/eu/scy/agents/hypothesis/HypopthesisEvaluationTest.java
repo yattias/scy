@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
@@ -31,6 +32,7 @@ import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
+import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
 
 public class HypopthesisEvaluationTest extends AbstractTestFixture {
@@ -87,6 +89,8 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
     URI eloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
     this.eloPath = eloUri.toString();
 
+    IMetadataKey keywordKey = this.typeManager.getMetadataKey(KeywordConstants.AGENT_KEYWORDS);
+    keywordKey = this.typeManager.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
   }
 
   @Override
@@ -123,7 +127,7 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
     ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
     HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
     String string = histogram.toString();
-    assertEquals(string, "{0=16, 1=14, 2=7, 3=5, 4=1, 5=1}");
+    assertEquals(string, "{0=16, 1=16, 2=7, 3=3, 4=1, 5=1}");
 
   }
 }
