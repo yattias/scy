@@ -1,15 +1,10 @@
 package eu.scy.tools.math.util;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
-
-import org.jdesktop.swingx.JXButton;
-
 import eu.scy.tools.math.ui.MathTool;
 
 public class UIUtils {
@@ -23,12 +18,15 @@ public class UIUtils {
 				//				
 				// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 				// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				Dimension dimension = new Dimension(500, 600);
-				frame.setPreferredSize(dimension);
-				frame.add(mathTool.createMathTool(),"grow");
+				
+				int width = 1280;
+				int height = 800;
+				frame.setJMenuBar(mathTool.createMenuBar());
+				frame.setPreferredSize(new Dimension(width,height));
+				frame.add(mathTool.createMathTool(width,height),"grow");
 				
 				// when you close the frame, the app exits
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 				// center the frame and show it
 				frame.setLocationRelativeTo(null);
