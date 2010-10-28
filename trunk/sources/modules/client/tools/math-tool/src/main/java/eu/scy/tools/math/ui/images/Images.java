@@ -14,7 +14,8 @@ public enum Images {
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// images
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	SketchUp("sketchup.png");
+	SketchUp("sketchup.png"), Circle("circle.png"), Rectangle("rectangle.png"), Triangle("triangle.png"), 
+	Cube("cube.png"), Sphere("sphere.png"), Prism("prism.png");
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// data
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -42,11 +43,11 @@ public enum Images {
 		return new ImageIcon(getImage());
 	}
 
-	BufferedImage getImage(int width, int height) {
+	public BufferedImage getImage(int width, int height) {
 		return GraphicsUtilities.createThumbnail(getImage(), width, height);
 	}
 
-	Icon getIcon(int width, int height) {
+	public Icon getIcon(int width, int height) {
 		return new ImageIcon(getImage(width, height));
 	}
 

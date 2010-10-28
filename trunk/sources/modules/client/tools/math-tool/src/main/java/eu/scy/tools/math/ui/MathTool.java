@@ -1,6 +1,5 @@
 package eu.scy.tools.math.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -27,6 +26,8 @@ import javax.swing.table.TableColumn;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXButton;
+import org.jdesktop.swingx.JXImagePanel;
+import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTextField;
@@ -39,6 +40,7 @@ import org.jdesktop.swingx.painter.Painter;
 import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUp;
 import eu.scy.tools.math.ui.actions.QuitAction;
+import eu.scy.tools.math.ui.images.Images;
 
 public class MathTool {
 
@@ -106,7 +108,7 @@ public class MathTool {
 		mainPanel.add(createToolBar(), "dock north"); //$NON-NLS-1$
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.WRAP_TAB_LAYOUT);
-		tabbedPane.addTab(_2D, createLayout(_2D));
+		tabbedPane.addTab(_2D,createLayout(_2D));
 		tabbedPane.addTab(_3D,createLayout(_3D));
 		mainPanel.add(tabbedPane,"grow"); //$NON-NLS-1$
 		// TODO Auto-generated method stub
@@ -122,7 +124,7 @@ public class MathTool {
 	
 	
 
-	private JComponent createLayout(String string) {
+	private JComponent createLayout(String type) {
 		
 		String insets ="6 3 6 3";
 		
@@ -131,15 +133,15 @@ public class MathTool {
 //		allPanel.setBackground(Color.blue);
 		
 		//40 of the width
-		allPanel.add(createWorkAreaPanel(string + " " +"Work Area"), "grow,span"); //$NON-NLS-1$
+		allPanel.add(createWorkAreaPanel(type), "grow,span"); //$NON-NLS-1$
 		
 		
 		JXPanel subPanel = new JXPanel(new MigLayout(" inset "+insets));
 		
 		
-		subPanel.add(createShapesPanel(string + " " +"Shapes"), "growx, wrap"); //$NON-NLS-1$
+		subPanel.add(createShapesPanel(type), "grow, wrap"); //$NON-NLS-1$
 		subPanel.add(createCalculatorPanel(),"wrap"); //$NON-NLS-1$
-		subPanel.add(createTableArea(),"grow, span"); //$NON-NLS-1$
+		subPanel.add(createTableArea(type),"grow, span"); //$NON-NLS-1$
 		allPanel.add(subPanel,"east");
 		
 		//30
@@ -149,8 +151,8 @@ public class MathTool {
 	
 
 
-	private JXTitledPanel createTableArea() {
-		tableArea = new JXTitledPanel("Computations");
+	private JXTitledPanel createTableArea(String type) {
+		tableArea = new JXTitledPanel("Computations for " + type + " Shapes");
 		this.setModTitlePanel(tableArea);
 		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 0 0 0 0"));
 		
@@ -191,8 +193,9 @@ public class MathTool {
 	    
 	    JScrollPane scrollpane = new JScrollPane(table); 
         
-	    JXPanel temp = new JXPanel(new BorderLayout(0,0));
-	    temp.add(scrollpane,BorderLayout.CENTER);
+	    JXPanel temp = new JXPanel(new MigLayout("fill,insets 5 5 5 5"));
+	    temp.setBackgroundPainter(getSubPanelBackgroundPainter());
+	    temp.add(scrollpane,"grow");
 	    return temp;
 	}
 
@@ -221,7 +224,7 @@ public class MathTool {
 		adderButtons = new ArrayList<JXButton>();
 		numberButtons = new ArrayList<JXButton>();
 		
-		symbolicButtons.add(new JXButton("PI"));
+		symbolicButtons.add(new JXButton("¹"));
 		symbolicButtons.add(new JXButton("x2"));
 		symbolicButtons.add(new JXButton("x3"));
 		symbolicButtons.add(new JXButton("."));
@@ -305,15 +308,42 @@ public class MathTool {
 		return calcPanel;
 	}
 
-	private JXTitledPanel createShapesPanel(String title) {
-		shapePanel = new JXTitledPanel(title);
+	private JXTitledPanel createShapesPanel(String type) {
+		shapePanel = new JXTitledPanel(type + " " +"Shapes");
 		this.setModTitlePanel(shapePanel);
-		//shapePanel.setPreferredSize(new Dimension((int) (frameDimension.getWidth()*.3), 100));
+		
+		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 3 3 3 3"));
+		allPanel.setBackgroundPainter(getSubPanelBackgroundPainter());
+
+		List<JXLabel> shapes = getShapes(type);
+		for (JXLabel jxLabel : shapes) {
+			allPanel.add(jxLabel, "grow");
+		}
+		
+		shapePanel.add(allPanel);
 		return shapePanel;
 	}
+	
+	private List<JXLabel> getShapes(String type) {
+		
+		List<JXLabel> shapes = new ArrayList<JXLabel>();
+		
+		if( type.equals(_2D)) {
+			shapes.add(new JXLabel(Images.Circle.getIcon()));
+			shapes.add(new JXLabel(Images.Triangle.getIcon()));
+			shapes.add(new JXLabel(Images.Rectangle.getIcon()));
+		} else if( type.equals(_3D)) {
+			shapes.add(new JXLabel(Images.Cube.getIcon()));
+			shapes.add(new JXLabel(Images.Sphere.getIcon()));
+			shapes.add(new JXLabel(Images.Prism.getIcon()));
+		}
+		
+		return shapes;
 
-	private JXTitledPanel createWorkAreaPanel(String title) {
-		workAreaPanel = new JXTitledPanel(title);
+	}
+
+	private JXTitledPanel createWorkAreaPanel(String type) {
+		workAreaPanel = new JXTitledPanel(type  + " " +"Work Area");
 		this.setModTitlePanel(workAreaPanel);
 		return workAreaPanel;
 	}
