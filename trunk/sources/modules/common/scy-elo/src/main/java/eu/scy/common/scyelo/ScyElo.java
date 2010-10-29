@@ -35,7 +35,7 @@ import roolo.elo.metadata.keys.Contribute;
 public class ScyElo
 {
    private static final Logger logger = Logger.getLogger(ScyElo.class);
-   
+
    private IELO elo;
    private IMetadata metadata;
    private URI uriFirstVersion;
@@ -54,11 +54,13 @@ public class ScyElo
    private final IMetadataKey learningActivityKey;
    private final IMetadataKey accessKey;
    private final IMetadataKey missionRuntimeKey;
-   
+   private final IMetadataKey lasKey;
+   private final IMetadataKey iconTypeKey;
+
    private static final String thumbnailResourceName = "thumbnail";
    private final static String thumbnailPngType = "png";
    private final static String thumbnailScyPngType = "scy/png";
-   
+
    private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices)
    {
       assert metadata != null;
@@ -81,6 +83,8 @@ public class ScyElo
       learningActivityKey = findMetadataKey(ScyRooloMetadataKeyIds.LEARNING_ACTIVITY);
       accessKey = findMetadataKey(ScyRooloMetadataKeyIds.ACCESS);
       missionRuntimeKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
+      lasKey = findMetadataKey(ScyRooloMetadataKeyIds.LAS);
+      iconTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.ICON_TYPE);
    }
 
    public ScyElo(IELO elo, RooloServices rooloServices)
@@ -421,16 +425,20 @@ public class ScyElo
       // /elo/metadata/lom/lifecycle/contribution/role = "author"
       // /elo/metadata/lom/lifecycle/contribution/entity = authorID
       // /elo/metadata/lom/lifecycle/contribution/data = dataTime (see lom specification)
-      getMetadataValueContainer(authorKey).addValue(new Contribute(authorID, System.currentTimeMillis()));
+      getMetadataValueContainer(authorKey).addValue(
+               new Contribute(authorID, System.currentTimeMillis()));
    }
 
    @SuppressWarnings("unchecked")
    public List<String> getAuthors()
    {
-      List<Contribute> authors = (List<Contribute>) getMetadataValueContainer(authorKey).getValueList();
+      List<Contribute> authors = (List<Contribute>) getMetadataValueContainer(authorKey)
+               .getValueList();
       List<String> authorIds = new ArrayList<String>();
-      if (authors!=null){
-         for (Contribute author: authors){
+      if (authors != null)
+      {
+         for (Contribute author : authors)
+         {
             authorIds.add(author.getVCard());
          }
       }
@@ -460,26 +468,31 @@ public class ScyElo
       }
       return null;
    }
-      
-   public BufferedImage getThumbnail(){
+
+   public BufferedImage getThumbnail()
+   {
       checkForCompleteElo();
       IResource thumbnailResource = elo.getResource(thumbnailResourceName);
-      if (thumbnailResource==null){
+      if (thumbnailResource == null)
+      {
          return null;
       }
-      ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailResource.getBytes());
+      ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailResource
+               .getBytes());
       try
       {
          return ImageIO.read(byteArrayInputStream);
       }
       catch (IOException e)
       {
-         throw new ResourceException("problem with ",e);
+         throw new ResourceException("problem with ", e);
       }
    }
 
-   public void setThumbnail(BufferedImage thumbnail){
-      if (thumbnail==null){
+   public void setThumbnail(BufferedImage thumbnail)
+   {
+      if (thumbnail == null)
+      {
          checkForCompleteElo();
          elo.deleteResource(thumbnailResourceName);
          logger.info("setThumbnail(): nr of bytes: null");
@@ -488,7 +501,8 @@ public class ScyElo
       try
       {
          ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
-         IResource thumbnailResource = rooloServices.getELOFactory().createResource(thumbnailResourceName);
+         IResource thumbnailResource = rooloServices.getELOFactory().createResource(
+                  thumbnailResourceName);
          byte[] bytes = byteArrayOutputStream.toByteArray();
          logger.info("setThumbnail(): nr of bytes: " + bytes.length);
          thumbnailResource.setBytes(bytes);
@@ -502,4 +516,23 @@ public class ScyElo
       }
    }
 
+   public String getLasId()
+   {
+      return (String) getMetadataValueContainer(lasKey).getValue();
+   }
+
+   public void setLasId(String lasId)
+   {
+      getMetadataValueContainer(lasKey).setValue(lasId);
+   }
+   
+   public String getIconType()
+   {
+      return (String) getMetadataValueContainer(iconTypeKey).getValue();
+   }
+
+   public void setIconType(String iconType)
+   {
+      getMetadataValueContainer(iconTypeKey).setValue(iconType);
+   }
 }
