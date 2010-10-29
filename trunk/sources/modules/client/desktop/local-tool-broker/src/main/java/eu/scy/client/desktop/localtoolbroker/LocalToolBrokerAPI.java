@@ -15,6 +15,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
+import eu.scy.toolbrokerapi.ConnectionListener;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import org.apache.log4j.Logger;
@@ -213,6 +214,16 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
             logger.error("an exception occured during the close of " + label,e);
          }
       }
+   }
+
+   @Override
+   public void addConnectionListener(ConnectionListener connectionListener)
+   {
+   }
+
+   @Override
+   public void removeConnectionListener(ConnectionListener connectionListener)
+   {
    }
 
 
