@@ -23,5 +23,7 @@ public interface MissionAnchor
    public void setLas(Las las);
    public void setInputMissionAnchors(List<MissionAnchor> inputMissionAnchors);
    public void setExisting(boolean existing);
-
+   public void setAssignmentUri(URI uri);
+   public void setScyElo(ScyElo scyElo);
+   
 }

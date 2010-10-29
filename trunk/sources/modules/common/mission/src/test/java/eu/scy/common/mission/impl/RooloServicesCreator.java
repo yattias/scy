@@ -108,6 +108,10 @@ public class RooloServicesCreator
                ScyRooloMetadataKeyIds.MISSION_RUNTIME.getId(),
                "/lom/relation/[kind=\"isbasedon\",type=\"scy/missionruntime\"]", I18nType.UNIVERSAL,
                MetadataValueCount.SINGLE, null);
+      IMetadataKey lasKey = new StringMetadataKey(ScyRooloMetadataKeyIds.LAS.getId(),
+               "/lom/general/las", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey iconTypeKey = new roolo.elo.metadata.keys.IconTypeAnnotationKey(ScyRooloMetadataKeyIds.ICON_TYPE.getId(),
+               "/lom/annotation/[entity=\"icon\"]", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 
       metadataTypeManager.registerMetadataKey(identifierKey);
       metadataTypeManager.registerMetadataKey(titleKey);
@@ -125,6 +129,8 @@ public class RooloServicesCreator
       metadataTypeManager.registerMetadataKey(learningActivityKey);
       metadataTypeManager.registerMetadataKey(accessKey);
       metadataTypeManager.registerMetadataKey(missionRuntimeKey);
+      metadataTypeManager.registerMetadataKey(lasKey);
+      metadataTypeManager.registerMetadataKey(iconTypeKey);
 
       MockRepository repository = new MockRepository();
       MockExtensionManager extensionManager = new MockExtensionManager();

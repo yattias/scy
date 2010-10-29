@@ -25,6 +25,12 @@ public class BasicMissionAnchor implements MissionAnchor
    
    public URI getEloUri()
    {
+      if (scyElo!=null){
+         return scyElo.getUri();
+      }
+      if (!existing){
+         return null;
+      }
       return eloUri;
    }
    public void setEloUri(URI eloUri)
