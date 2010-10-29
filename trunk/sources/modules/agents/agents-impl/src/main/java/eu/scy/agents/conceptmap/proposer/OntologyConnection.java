@@ -29,4 +29,6 @@ public interface OntologyConnection {
 
     public Map<String, Set<String>> getOntologyClouds(String namespace) throws TupleSpaceException;
 
+    public Map<String, Set<String>> getRelationHierarchy() throws TupleSpaceException;
+
 }

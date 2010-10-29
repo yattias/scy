@@ -12,6 +12,8 @@ import info.collide.swat.model.DatatypeAnnotation.Type;
 import info.collide.swat.model.Entity;
 import info.collide.swat.model.Instance;
 import info.collide.swat.model.OWLType;
+import info.collide.swat.model.ObjectProperty;
+import info.collide.swat.model.Property;
 import info.collide.swat.model.SWATException;
 import info.collide.swat.model.XSDValue;
 
@@ -34,7 +36,7 @@ public class SWATConnection implements OntologyConnection {
             Stemmer.setLanguage(language);
             this.language = language;
             this.ontologyNamespace = ontologyNamespace;
-            this.sc = new SWATClient(ontologyNamespace, "localhost", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
+            this.sc = new SWATClient(ontologyNamespace, "scy.collide.info", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -50,7 +52,7 @@ public class SWATConnection implements OntologyConnection {
             }
             Class keywordClass = (Class) sc.getOntology().getEntity(namespace + "Keyword");
             for (Instance i : keywordClass.getInstances()) {
-//                result.remove(i.getLabels(language));
+                 result.remove(i.getLabels(language));
             }
             return (String[]) result.toArray(new String[result.size()]);
         } catch (SWATException e) {
@@ -193,7 +195,7 @@ public class SWATConnection implements OntologyConnection {
         String result = "";
         for (DatatypeAnnotation da : das) {
             if (da.getType() == Type.LABEL && da.getLang().equals(language)) {
-                result+= da.getValue() + ",";
+                result += da.getValue() + ",";
             }
         }
         if (result.length() > 0) {
@@ -234,7 +236,7 @@ public class SWATConnection implements OntologyConnection {
                         XSDValue[] xsdValues = (XSDValue[]) pvb.getValues();
                         Set<String> connectionPoints = new HashSet<String>();
                         for (XSDValue xsdValue : xsdValues) {
-//                            connectionPoints.add(sc.getOntology().getEntity(xsdValue.getValue()).getLabels(language));
+                             connectionPoints.add(sc.getOntology().getEntity(xsdValue.getValue()).getLabels(language));
                         }
                         cloud2Concept.put(i.getId().getName(), connectionPoints);
                     }
@@ -247,7 +249,8 @@ public class SWATConnection implements OntologyConnection {
                     if (pvb.getProperty().getName().equals("belongsToList")) {
                         Instance[] listInstances = (Instance[]) pvb.getValues();
                         for (Instance list : listInstances) {
-//                            keyword2Concept.put(i.getLabels(language), cloud2Concept.get(list.getId().getName()));
+                             keyword2Concept.put(i.getLabels(language),
+                             cloud2Concept.get(list.getId().getName()));
                         }
                     }
                 }
@@ -257,6 +260,25 @@ public class SWATConnection implements OntologyConnection {
             e.printStackTrace();
         }
         return keyword2Concept;
+    }
+
+    @Override
+    public Map<String, Set<String>> getRelationHierarchy() throws TupleSpaceException {
+        HashMap<String, Set<String>> m = new HashMap<String, Set<String>>();
+        try {
+            ObjectProperty[] listObjectProperties = sc.getOntology().listObjectProperties();
+            for (ObjectProperty op : listObjectProperties) {
+                Property[] allSubProperties = op.getAllSubProperties();
+                HashSet<String> subProperties = new HashSet<String>();
+                for (Property p : allSubProperties) {
+                    subProperties.add(p.getLabels(language));
+                }
+                m.put(op.getLabels(language), subProperties);
+            }
+        } catch (SWATException e) {
+            e.printStackTrace();
+        }
+        return m;
     }
 
 }

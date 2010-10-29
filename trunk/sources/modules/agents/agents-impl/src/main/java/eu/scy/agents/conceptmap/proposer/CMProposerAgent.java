@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -161,54 +160,75 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             conceptProposals = conceptProposals.subList(0, amount);
         }
 
-        List<String> relationProposals = getRelationProposals(ontologyGraph, userGraph, rankedStrings);
-        if (relationProposals.size() > amount) {
-            relationProposals = relationProposals.subList(0, amount);
-        }
+        RankedKeywordList relationProposals = getRelationProposals(ontologyGraph, userGraph, rankedStrings);
 
         ArrayList<Field> result = new ArrayList<Field>();
         for (String s : conceptProposals) {
             observer.markConceptAsProposal(s);
             result.add(new Field("concept_proposal=" + s));
         }
-        for (String s : relationProposals) {
-            observer.markRelationAsProposal(s);
-            result.add(new Field("relation_proposal=" + s));
+        List<String> relationProposalList = relationProposals.getKeywords();
+        for (int i = 0; i < amount && i < relationProposalList.size(); i++) {
+            String s = relationProposalList.get(i);
+            if (relationProposals.getWeightFor(s) > 0) {
+                observer.markRelationAsProposal(s);
+                result.add(new Field("relation_proposal=" + s));
+            }
+        }
+        for (int i = 0; i < amount && i < relationProposalList.size(); i++) {
+            String s = relationProposalList.get(relationProposalList.size() - 1 - i);
+            if (relationProposals.getWeightFor(s) < 0) {
+                observer.markRelationAsProposal(s);
+                result.add(new Field("relation_specification_proposal=" + s));
+            }
         }
 
         return (Field[]) result.toArray(new Field[result.size()]);
     }
 
-    private List<String> getRelationProposals(Graph ontologyGraph, Graph userGraph, RankedKeywordList rankedStrings) {
+    private RankedKeywordList getRelationProposals(Graph ontologyGraph, Graph userGraph, RankedKeywordList rankedStrings) {
         observer.setStatusText("Find relation proposals");
-        HashSet<String> userNodes = new HashSet<String>();
-        for (Node n : userGraph.getNodes()) {
-            userNodes.add(n.getLabel().toLowerCase());
-        }
-        HashSet<String> foundRelations = new HashSet<String>();
         RankedKeywordList list = new RankedKeywordList();
-        for (Edge e : ontologyGraph.getEdges()) {
-            String fromLabel = e.getFromNode().getLabel();
-            String toLabel = e.getToNode().getLabel();
-            if (userNodes.contains(fromLabel) && userNodes.contains(toLabel)) {
-                Edge e1 = userGraph.getEdgeForLabels(fromLabel, toLabel, true);
-                Edge e2 = userGraph.getEdgeForLabels(toLabel, fromLabel, true);
-                if (e1 == null && e2 == null) {
-                    if (fromLabel.compareTo(toLabel) > 0) {
-                        String tmp = toLabel;
-                        toLabel = fromLabel;
-                        fromLabel = tmp;
+        try {
+            HashSet<String> userNodes = new HashSet<String>();
+            for (Node n : userGraph.getNodes()) {
+                userNodes.add(n.getLabel().toLowerCase());
+            }
+            HashSet<String> foundRelations = new HashSet<String>();
+            Map<String, Set<String>> relationHierarchy = con.getRelationHierarchy();
+            for (Edge e : ontologyGraph.getEdges()) {
+                String fromLabel = e.getFromNode().getLabel();
+                String toLabel = e.getToNode().getLabel();
+                if (userNodes.contains(fromLabel) && userNodes.contains(toLabel)) {
+                    Edge e1 = userGraph.getEdgeForLabels(fromLabel, toLabel, true);
+                    Edge e2 = userGraph.getEdgeForLabels(toLabel, fromLabel, true);
+                    if (e1 == null && e2 == null) {
+                        if (fromLabel.compareTo(toLabel) > 0) {
+                            String tmp = toLabel;
+                            toLabel = fromLabel;
+                            fromLabel = tmp;
+                        }
+                        if (!foundRelations.contains(fromLabel + "," + toLabel)) {
+                            list.put(rankedStrings.getWeightFor(fromLabel) + rankedStrings.getWeightFor(toLabel), fromLabel + "," + toLabel);
+                            foundRelations.add(fromLabel + "," + toLabel);
+                        }
+                    } else {
+                        Edge foundEdge = (e1 != null) ? e1 : e2;
+                        String userRelation = foundEdge.getLabel();
+                        String ontologyRelation = e.getLabel();
+                        if (relationHierarchy.get(userRelation).contains(ontologyRelation)) {
+                            if (!foundRelations.contains(fromLabel + "," + toLabel)) {
+                                list.put(-rankedStrings.getWeightFor(fromLabel) - rankedStrings.getWeightFor(toLabel), fromLabel + "," + toLabel);
+                                foundRelations.add(fromLabel + "," + toLabel);
+                            }
+                        }
                     }
-                    if (!foundRelations.contains(fromLabel + "," + toLabel)) {
-                        list.put(rankedStrings.getWeightFor(fromLabel) + rankedStrings.getWeightFor(toLabel), fromLabel + "," + toLabel);
-                        foundRelations.add(fromLabel + "," + toLabel);
-                    }
-                } else {
-                    // TODO check if relation correct
                 }
             }
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
         }
-        return list.getKeywords();
+        return list;
     }
 
     private List<String> getConceptProposals(Graph userGraph, RankedKeywordList rankedStrings) {
@@ -273,16 +293,26 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         }
 
         Map<String, String> ontologyTerms = getOntologyTerms(namespace);
-        HashMap<String, String> ontologySingleTerms = new HashMap<String, String>();
+        HashMap<String, Set<String>> ontologySingleTerms = new HashMap<String, Set<String>>();
         for (String stemmedTerm : ontologyTerms.keySet()) {
             if (stemmedTerm.contains(" ")) {
                 for (String s : stemmedTerm.split(" ")) {
                     if (!stopwords.contains(s)) {
-                        ontologySingleTerms.put(s, ontologyTerms.get(stemmedTerm));
+                        Set<String> set = ontologySingleTerms.get(s);
+                        if (set == null) {
+                            set = new HashSet<String>();
+                            ontologySingleTerms.put(s, set);
+                        }
+                        set.add(ontologyTerms.get(stemmedTerm));
                     }
                 }
             } else {
-                ontologySingleTerms.put(stemmedTerm, ontologyTerms.get(stemmedTerm));
+                Set<String> set = ontologySingleTerms.get(stemmedTerm);
+                if (set == null) {
+                    set = new HashSet<String>();
+                    ontologySingleTerms.put(stemmedTerm, set);
+                }
+                set.add(ontologyTerms.get(stemmedTerm));
             }
         }
 
@@ -297,32 +327,34 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                 }
             }
             if (ontologySingleTerms.containsKey(stemmed)) {
-                keywords.put(ontologySingleTerms.get(stemmed).toLowerCase(), 0.6);
+                for (String keyword : ontologySingleTerms.get(stemmed)) {
+                    keywords.put(keyword.toLowerCase(), 0.6);
+                    System.out.println("ontology-stemmed: " + keyword);
+                }
                 observer.foundTextKeyword(term);
-                System.out.println("ontology-stemmed: " + term);
-            }
-            if (ontologyTerms.containsKey(term)) {
-                keywords.put(term.toLowerCase(), 1.0);
-                observer.foundTextKeyword(term);
-                System.out.println("ontolog-full: " + term);
             }
         }
+        for (String oTerm : ontologyTerms.values()) {
+            if (text.toLowerCase().contains(oTerm.toLowerCase())) {
+                keywords.put(oTerm.toLowerCase(), 1.0);
+                observer.foundTextKeyword(oTerm.toLowerCase());
+                System.out.println("ontology-full: " + oTerm);
+            }
+        }
+        
+        
         return keywords;
     }
 
     private Graph findConnections(List<String> terms, String namespace) {
         Graph g = new Graph();
-        List<String> stemmedTerms = new ArrayList<String>();
-        for (String term : terms) {
-            stemmedTerms.add(Stemmer.stemWordWise(term));
-        }
         for (String term : terms) {
             try {
                 String category = con.lookupEntityType(term, namespace);
                 if (category.equals("individual")) {
-                    findConceptsOfInstance(term.toLowerCase(), g, stemmedTerms, namespace);
+                    findConceptsOfInstance(term.toLowerCase(), g, terms, namespace);
                 } else if (category.equals("class")) {
-                    findConceptsOfClass(term.toLowerCase(), g, stemmedTerms, namespace);
+                    findConceptsOfClass(term.toLowerCase(), g, terms, namespace);
                 }
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
@@ -382,13 +414,13 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         return g;
     }
 
-    private void findConceptsOfInstance(String entity, Graph g, List<String> stemmedTerms, String ontologyNamespace) throws TupleSpaceException {
+    private void findConceptsOfInstance(String entity, Graph g, List<String> terms, String ontologyNamespace) throws TupleSpaceException {
         String[] classes = null;
         String[][] propValues = null;
         if (Arrays.binarySearch(strategies, EnrichmentStrategy.SUPER) >= 0) {
             classes = con.getClassesOfInstance(entity, ontologyNamespace);
             for (String clazz : classes) {
-                if (stemmedTerms.contains(Stemmer.stemWordWise(clazz))) {
+                if (terms.contains(clazz.toLowerCase())) {
                     g.addNodeAndEdges(entity, "is a", clazz.toLowerCase());
                 }
             }
@@ -396,7 +428,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         if (Arrays.binarySearch(strategies, EnrichmentStrategy.RELATIONS) >= 0) {
             propValues = con.getPropValuesOfInstance(entity, ontologyNamespace);
             for (String[] pv : propValues) {
-                if (pv != null && pv.length == 2 && stemmedTerms.contains(Stemmer.stemWordWise(pv[1]))) {
+                if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
                     g.addNodeAndEdges(entity, pv[0], pv[1].toLowerCase());
                 }
             }
@@ -410,7 +442,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                     String[] instances = con.getInstancesOfClass(clazz, ontologyNamespace);
                     if (instances.length > 0 && instances[0].length() > 0) {
                         for (String i : instances) {
-                            if (!i.equalsIgnoreCase(entity) && stemmedTerms.contains(Stemmer.stemWordWise(i))) {
+                            if (!i.equalsIgnoreCase(entity) && terms.contains(i.toLowerCase())) {
                                 g.addNodeAndEdges(entity, "sibling of", i.toLowerCase());
                             }
                         }
@@ -420,7 +452,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                     String[] subClasses = con.getSubclassesOfClass(clazz, ontologyNamespace);
                     if (subClasses.length > 0 && subClasses[0].length() > 0) {
                         for (String sc : subClasses) {
-                            if (stemmedTerms.contains(Stemmer.stemWordWise(sc))) {
+                            if (terms.contains(sc.toLowerCase())) {
                                 g.addNodeAndEdges(entity, "has sub-sibling", sc.toLowerCase());
                             }
                         }
@@ -430,7 +462,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         }
     }
 
-    private void findConceptsOfClass(String entity, Graph g, List<String> stemmedTerms, String ontologyNamespace) throws TupleSpaceException {
+    private void findConceptsOfClass(String entity, Graph g, List<String> terms, String ontologyNamespace) throws TupleSpaceException {
         String[] instances = null;
         String[] superClasses = null;
         String[] subClasses = null;
@@ -438,7 +470,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             instances = con.getInstancesOfClass(entity, ontologyNamespace);
             if (instances.length > 0 && instances[0].length() > 0) {
                 for (String i : instances) {
-                    if (stemmedTerms.contains(Stemmer.stemWordWise(i))) {
+                    if (terms.contains(i.toLowerCase())) {
                         g.addNodeAndEdges(entity, "has example", i.toLowerCase());
                     }
                 }
@@ -446,7 +478,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             subClasses = con.getSubclassesOfClass(entity, ontologyNamespace);
             if (subClasses.length > 0 && subClasses[0].length() > 0) {
                 for (String sc : subClasses) {
-                    if (stemmedTerms.contains(Stemmer.stemWordWise(sc))) {
+                    if (terms.contains(sc.toLowerCase())) {
                         g.addNodeAndEdges(entity, "has subclass", sc.toLowerCase());
                     }
                 }
@@ -456,7 +488,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             superClasses = con.getSuperclassesOfClass(entity, ontologyNamespace);
             if (superClasses.length > 0 && superClasses[0].length() > 0) {
                 for (String sc : superClasses) {
-                    if (stemmedTerms.contains(Stemmer.stemWordWise(sc))) {
+                    if (terms.contains(sc.toLowerCase())) {
                         g.addNodeAndEdges(entity, "has superclass", sc.toLowerCase());
                     }
                 }
@@ -470,7 +502,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                 for (String i : instances) {
                     String[][] propValues = con.getPropValuesOfInstance(i, ontologyNamespace);
                     for (String[] pv : propValues) {
-                        if (pv != null && pv.length == 2 && stemmedTerms.contains(Stemmer.stemWordWise(pv[1]))) {
+                        if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
                             g.addNodeAndEdges(entity, "maybe " + pv[0], pv[1].toLowerCase());
                         }
                     }
@@ -482,7 +514,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                 for (String sc : superClasses) {
                     subClasses = con.getSubclassesOfClass(sc, ontologyNamespace);
                     for (String subc : subClasses) {
-                        if (!subc.equals(entity) && stemmedTerms.contains(Stemmer.stemWordWise(subc))) {
+                        if (!subc.equals(entity) && terms.contains(subc.toLowerCase())) {
                             g.addNodeAndEdges(entity, "has sibling", subc.toLowerCase());
                         }
                     }

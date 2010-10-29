@@ -30,7 +30,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
         agent.start();
     }
     
-    protected CMEnricherAgent(Map<String, Object> map) {
+    public CMEnricherAgent(Map<String, Object> map) {
         super(CMEnricherAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         try {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
@@ -96,7 +96,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
             String session = afterTuple.getField(7).getValue().toString();
             String elouri = afterTuple.getField(8).getValue().toString();
             
-            String type = request.split("_")[1];
+            String type = request.split("_")[0];
             try {
                 String[] proposals = askForProposals(elouri, user);
                 sendFeeback(id, elouri, user, mission, session, type + "_proposal", proposals);
