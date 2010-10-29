@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import eu.scy.common.mission.RuntimeSettingKey;
 import eu.scy.common.mission.TestRuntimeSettingKeys;
+import eu.scy.common.mission.impl.jdom.RuntimeSettingsEloContentXmlUtils;
 
 public class BasicRuntimeSettingsEloContentTest extends TestRuntimeSettingKeys
 {
@@ -54,6 +55,32 @@ public class BasicRuntimeSettingsEloContentTest extends TestRuntimeSettingKeys
       for (RuntimeSettingKey key : keys){
          assertNull(basicRuntimeSettingsEloContent.getSetting(key));
       }
+   }
+   
+   @Test
+   public void testOverwrite(){
+      assertEquals(0, basicRuntimeSettingsEloContent.getAllSettings().size());
+      basicRuntimeSettingsEloContent.addSetting(key1, value1);
+      assertEquals(1, basicRuntimeSettingsEloContent.getAllSettings().size());
+      assertEquals(value1, basicRuntimeSettingsEloContent.getSetting(key1));
+      String xml1 = RuntimeSettingsEloContentXmlUtils.runtimeSettingsToXml(basicRuntimeSettingsEloContent);
+      basicRuntimeSettingsEloContent.addSetting(key1, value2);
+      assertEquals(1, basicRuntimeSettingsEloContent.getAllSettings().size());
+      assertEquals(value2, basicRuntimeSettingsEloContent.getSetting(key1));
+      String xml2 = RuntimeSettingsEloContentXmlUtils.runtimeSettingsToXml(basicRuntimeSettingsEloContent);
+      assertEquals(xml1.length(), xml2.length());
+      basicRuntimeSettingsEloContent.addSetting(key1, value3);
+      assertEquals(1, basicRuntimeSettingsEloContent.getAllSettings().size());
+      assertEquals(value3, basicRuntimeSettingsEloContent.getSetting(key1));
+      String xml3 = RuntimeSettingsEloContentXmlUtils.runtimeSettingsToXml(basicRuntimeSettingsEloContent);
+      assertEquals(xml1.length(), xml3.length());
+      RuntimeSettingKey copyKey1 = new RuntimeSettingKey(key1.getName(), key1.getLasId(), key1.getEloUri());
+      basicRuntimeSettingsEloContent.addSetting(copyKey1, value1);
+      assertEquals(1, basicRuntimeSettingsEloContent.getAllSettings().size());
+      assertEquals(value1, basicRuntimeSettingsEloContent.getSetting(key1));
+      assertEquals(value1, basicRuntimeSettingsEloContent.getSetting(copyKey1));
+      String xml4 = RuntimeSettingsEloContentXmlUtils.runtimeSettingsToXml(basicRuntimeSettingsEloContent);
+      assertEquals(xml1.length(), xml4.length());
    }
 
 }
