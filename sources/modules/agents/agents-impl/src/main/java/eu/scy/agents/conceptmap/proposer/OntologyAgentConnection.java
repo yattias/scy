@@ -145,5 +145,10 @@ public class OntologyAgentConnection implements OntologyConnection {
         return null;
     }
 
-    
+    @Override
+    public Map<String, Set<String>> getRelationHierarchy() throws TupleSpaceException {
+        // TODO
+        return null;
+    }
+
 }
