@@ -13,7 +13,6 @@ import javafx.scene.layout.Resizable;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.tools.fxformauthor.FormAuthorRepositoryWrapper;
-import javax.swing.JOptionPane;
 
 /**
  * @author pg
@@ -55,13 +54,12 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
     override function loadXML(xml:String):Void {
-        formList.fromString(xml);
+        formList.createFromString(xml);
     }
 
     override function getXML():String {
-        return formList.getXML();
+        return formList.getXMLString();
     }
-
 
     public override function postInitialize(): Void {
         formAuthorRepositoryWrapper = new FormAuthorRepositoryWrapper(this);

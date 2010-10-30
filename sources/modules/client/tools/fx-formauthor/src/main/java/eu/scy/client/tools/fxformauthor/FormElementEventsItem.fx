@@ -16,6 +16,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import eu.scy.client.tools.fxformauthor.datamodel.FormEventDataType;
+import eu.scy.client.tools.fxformauthor.datamodel.FormEventType;
 
 /**
  * @author pg
@@ -82,6 +84,29 @@ public class FormElementEventsItem extends CustomNode {
             i++;
         }
     }
+
+    public function setDataType(datatype:FormEventDataType):Void {
+        dataChoice.select(datatype.ordinal());
+    }
+
+    public function setEventType(type:FormEventType):Void {
+        typeChoice.select(type.ordinal());
+    }
+
+
+    public function getDataType():FormEventDataType {
+        return FormEventDataType.valueOf(dataChoice.selectedItem as String);
+        //return (dataChoice.selectedItem as FormEventDataType);
+    }
+
+    public function getEventType():FormEventType {
+        return FormEventType.valueOf(typeChoice.selectedItem as String);
+        //return (typeChoice.selectedItem as FormEventType);
+    }
+
+
+
+
 
 
 

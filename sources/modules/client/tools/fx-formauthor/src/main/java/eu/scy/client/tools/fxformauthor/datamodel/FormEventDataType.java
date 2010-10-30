@@ -3,14 +3,13 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.tools.fxformauthor;
-import javafx.scene.CustomNode;
+package eu.scy.client.tools.fxformauthor.datamodel;
 
 /**
+ *
  * @author pg
  */
-
-public class DataFormElement extends CustomNode {
-
+public enum FormEventDataType {
+    GPS, TIME, DATE
 
 }

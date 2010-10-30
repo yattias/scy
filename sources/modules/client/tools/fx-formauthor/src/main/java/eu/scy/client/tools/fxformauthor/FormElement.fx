@@ -18,6 +18,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import eu.scy.client.tools.fxformauthor.datamodel.FormElementDataType;
+import eu.scy.client.tools.fxformauthor.datamodel.FormEventDataType;
+import eu.scy.client.tools.fxformauthor.datamodel.FormEventType;
 
 /**
  * @author pg
@@ -85,9 +88,32 @@ public class FormElement extends CustomNode {
         content.content = [captionLabel, captionBox, typeLabel, typeChoice, cardinalityLabel, cardinalityBox, eventButton];
     }
 
-    public function addEventItem(type:String, datatype:String) {
+    public function addEventItem(type:String, datatype:String):Void {
         events.addEventItem(type, datatype);
     }
+
+    public function addEventItem(type:FormEventType, datatype:FormEventDataType):Void {
+        events.addEventItem(type, datatype);
+    }
+
+
+    public function setType(type:FormElementDataType):Void {
+        this.typeChoice.select(type.ordinal());
+    }
+
+    public function getType():FormElementDataType { 
+        return FormElementDataType.valueOf(typeChoice.selectedItem as String);
+    }
+
+    public function getTitle() {
+        return caption;
+    }
+
+    public function getCardinality() {
+        return cardinality;
+    }
+
+
 
 
 }

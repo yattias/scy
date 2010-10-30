@@ -17,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.control.ScrollBarPolicy;
 import javafx.scene.control.ScrollView;
+import eu.scy.client.tools.fxformauthor.datamodel.FormEventDataType;
+import eu.scy.client.tools.fxformauthor.datamodel.FormEventType;
 
 /**
  * @author pg
@@ -110,6 +112,14 @@ public class FormElementEvents extends CustomNode {
         feei.setDataType(datatype);
         insert feei into itemList.content;
     }
+
+    public function addEventItem(type:FormEventType, datatype:FormEventDataType):Void {
+       var feei:FormElementEventsItem = FormElementEventsItem { eventsList: this }
+       feei.setEventType(type);
+       feei.setDataType(datatype);
+       insert feei into itemList.content;
+    }
+
 
     public function getEventItems():FormElementEventsItem[] {
         return (itemList.content as FormElementEventsItem[]);
