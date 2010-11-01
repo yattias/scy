@@ -35,6 +35,7 @@ import javafx.scene.layout.VBox;
 import eu.scy.client.tools.fxformauthor.datamodel.DataHandler;
 import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewImage;
 import eu.scy.client.tools.fxformauthor.viewer.element.AbstractElementView;
+import eu.scy.client.tools.fxformauthor.FormAuthorNode;
 
 /**
  * @author pg
@@ -50,6 +51,7 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     public-init var title:String;
     public-init var description:String;
     public-init var formAuthorRepositoryWrapper;
+    public-init var formNode:FormAuthorNode; 
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
@@ -74,6 +76,13 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
                 tooltip: Tooltip { text: "open xml file" }
                 action:function():Void {
                     loadFDM(DataHandler.getInstance().loadFromFile());
+                }
+            },
+            Button{
+                graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-7)}resources/application_form.png" } }
+                tooltip: Tooltip { text: "open in FormAuthor" }
+                action:function():Void {
+                    formNode.loadAuthor();
                 }
             }
         ];

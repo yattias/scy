@@ -13,6 +13,8 @@ import javafx.scene.layout.Resizable;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.tools.fxformauthor.FormAuthorRepositoryWrapper;
+import eu.scy.client.tools.fxformauthor.viewer.FormViewer;
+import eu.scy.client.tools.fxformauthor.datamodel.DataHandler;
 
 /**
  * @author pg
@@ -31,11 +33,41 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     var nodes:Node[];
     override var children = bind nodes;
     var formList:FormList = FormList{formNode: this};
+    var viewer:FormViewer;
 
     postinit {
         insert formList into nodes;
 
     }
+
+    public function loadViewer():Void {
+        delete formList from nodes;
+        viewer = FormViewer {
+            scyWindow: scyWindow;
+            repository: repository;
+            eloFactory: eloFactory;
+            metadataTypeManager: metadataTypeManager;
+            formNode: this;
+        }
+        var fdm = DataHandler.getInstance().getLastFDM();
+        if(fdm != null) {
+            viewer.loadFDM(fdm);
+        }
+        else {
+            fdm = formList.createFDM();
+            viewer.loadFDM(fdm);
+        }
+
+        //viewer.loadFDM(DataHandler.getInstance().getLastFDM());
+        insert viewer into nodes;
+    }
+
+    public function loadAuthor():Void {
+        delete viewer from nodes;
+        insert formList into nodes;
+    }
+
+
 
     override function getPrefWidth(height:Number):Number {
         return 600;
@@ -48,6 +80,7 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     function setScyWindowTitle():Void {
 
     }
+
 
     public function setFormAuthorRepositoryWrapper(wrapper:FormAuthorRepositoryWrapper):Void {
         formAuthorRepositoryWrapper = wrapper;

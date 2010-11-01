@@ -37,6 +37,7 @@ import org.xml.sax.InputSource;
  */
 public class DataHandler {
     private static DataHandler instance;
+    private static FormDataModel fdm;
     private DataHandler() {
         
     }
@@ -143,6 +144,7 @@ public class DataHandler {
                 e.printStackTrace();
             }
             finally {
+                this.fdm = fdm;
                 return fdm;
             }
         } else {
@@ -163,6 +165,7 @@ public class DataHandler {
             e.printStackTrace();
         }
         finally {
+            this.fdm = fdm;
             return fdm;
         }
     }
@@ -242,6 +245,7 @@ public class DataHandler {
             fdm.addElement(fde);
         }
         System.out.println("returning fdm");
+        this.fdm = fdm;
         return fdm;
     }
 
@@ -278,4 +282,7 @@ public class DataHandler {
         return doc;
     }
 
+    public FormDataModel getLastFDM() {
+        return this.fdm;
+    }
 }
