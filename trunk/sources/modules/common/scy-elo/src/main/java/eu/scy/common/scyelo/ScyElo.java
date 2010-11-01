@@ -45,6 +45,8 @@ public class ScyElo
    private final IMetadataKey titleKey;
    private final IMetadataKey technicalFormatKey;
    private final IMetadataKey descriptionKey;
+   private final IMetadataKey dateCreatedKey;
+   private final IMetadataKey dateLastModifiedKey;
    private final IMetadataKey isForkOfKey;
    private final IMetadataKey isForkedByKey;
    private final IMetadataKey logicalRoleKey;
@@ -74,6 +76,8 @@ public class ScyElo
       titleKey = findMetadataKey(CoreRooloMetadataKeyIds.TITLE);
       technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       descriptionKey = findMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION);
+      dateCreatedKey = findMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED);
+      dateLastModifiedKey = findMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED);
       isForkOfKey = findMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF);
       isForkedByKey = findMetadataKey(CoreRooloMetadataKeyIds.IS_FORKED_BY);
       logicalRoleKey = findMetadataKey(ScyRooloMetadataKeyIds.LOGICAL_TYPE);
@@ -304,6 +308,16 @@ public class ScyElo
       getMetadataValueContainer(descriptionKey).setValue(description);
    }
 
+   public long getDateCreated()
+   {
+      return (Long) getMetadataValueContainer(dateCreatedKey).getValue();
+   }
+
+   public long getDateLastModified()
+   {
+      return (Long) getMetadataValueContainer(dateLastModifiedKey).getValue();
+   }
+
    public URI getIsForkedOfEloUri()
    {
       return (URI) getMetadataValueContainer(isForkOfKey).getValue();
@@ -525,7 +539,7 @@ public class ScyElo
    {
       getMetadataValueContainer(lasKey).setValue(lasId);
    }
-   
+
    public String getIconType()
    {
       return (String) getMetadataValueContainer(iconTypeKey).getValue();
