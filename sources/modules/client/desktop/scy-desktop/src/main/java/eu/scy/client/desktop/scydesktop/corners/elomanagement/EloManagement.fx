@@ -33,8 +33,6 @@ import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
 import java.util.ArrayList;
@@ -42,7 +40,6 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameEloS
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTechnicalFormatSearcher;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
 import java.util.List;
-import javafx.scene.control.ListView;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.FindNothingSearcher;
 
 /**
@@ -153,26 +150,25 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
          }
       }
       eloTemplateUriDisplays = for (uri in eloTemplateUris) {
-         createScySearchResult(uri)
-//            var uriDisplay = createUriDisplay(uri, false);
-//            if (uriDisplay == null) {
-//               logger.error("Cannot find template elo with uri: {uri}");
-//            }
-//            uriDisplay;
+            createScySearchResult(uri)
+         //            var uriDisplay = createUriDisplay(uri, false);
+         //            if (uriDisplay == null) {
+         //               logger.error("Cannot find template elo with uri: {uri}");
+         //            }
+         //            uriDisplay;
          }
-//      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, UriDisplayComparator {}) as UriDisplay[];
+      //      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, UriDisplayComparator {}) as UriDisplay[];
       eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ScySearchResultTitleComparator()) as ScySearchResult[];
       newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
    }
 
-   function createScySearchResult(uri: URI): ScySearchResult{
+   function createScySearchResult(uri: URI): ScySearchResult {
       def scyElo = ScyElo.loadMetadata(uri, tbi);
       def eloIcon: EloIcon = windowStyler.getScyEloIcon(uri);
-      def scySearchResult = new ScySearchResult(scyElo,1.0);
+      def scySearchResult = new ScySearchResult(scyElo, 1.0);
       scySearchResult.setEloIcon(eloIcon);
       scySearchResult
    }
-
 
    function createUriDisplay(uri: URI, showAuthor: Boolean): UriDisplay {
       if (uri == null) {
@@ -187,15 +183,15 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
       var title = eloInfoControl.getEloTitle(uri);
       var technicalFormat = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-//      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
+      //      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
       var typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
       var authorDisplay = "";
       if (showAuthor) {
-//         var authorName = author.getVCard();
-//         if (authorName == null) {
-//            authorName = ##"unknown"
-//         }
-//         authorDisplay = "{authorName}: "
+      //         var authorName = author.getVCard();
+      //         if (authorName == null) {
+      //            authorName = ##"unknown"
+      //         }
+      //         authorDisplay = "{authorName}: "
       }
 
       UriDisplay {
@@ -222,7 +218,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
    function createNewEloFromTemplate(createNewElo: CreateNewElo): Void {
       var scySearchResult = createNewElo.listView.selectedItem as ScySearchResult;
-//      var uriDisplay = createNewElo.listView.selectedItem as UriDisplay;
+      //      var uriDisplay = createNewElo.listView.selectedItem as UriDisplay;
       if (scySearchResult != null) {
          var eloTemplateUri = scySearchResult.getScyElo().getUri();
          var newElo = repository.retrieveELO(eloTemplateUri);
@@ -278,9 +274,9 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    function createModalDialog(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, modalDialogNode: ModalDialogNode): Void {
       Composer.localizeDesign(modalDialogNode.getContentNodes());
       modalDialogNode.modalDialogBox = ModalDialogBox {
-//            content: EmptyBorderNode {
-//               content: modalDialogNode.getContentGroup();
-//            }
+            //            content: EmptyBorderNode {
+            //               content: modalDialogNode.getContentGroup();
+            //            }
             content: modalDialogNode.getContentGroup()
             title: title
             eloIcon: eloIcon

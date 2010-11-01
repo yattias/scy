@@ -38,9 +38,11 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
 
    public override var width on replace {
          sizeChanged();
+         printGridSizes("width");
       }
    public override var height on replace {
          sizeChanged();
+         printGridSizes("height");
       }
    var grid: Grid;
    def spacing = 5.0;
@@ -70,10 +72,9 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    def progressIndicator = ProgressIndicator {
          progress: -1
       }
-   def moreEloInfo = ExtendedScySearchResultCellNode{
-      newEloCreationRegistry:newEloCreationRegistry
-   }
-
+   def moreEloInfo = ExtendedScySearchResultCellNode {
+         newEloCreationRegistry: newEloCreationRegistry
+      }
    def foundLabelText = ##"Found";
    var foundLabel: Label;
    var baseButton: Button;
@@ -102,16 +103,6 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
          showSearchResult(null);
 //         sizeChanged();
       });
-      Timeline {
-         repeatCount: 1
-         keyFrames: [
-            KeyFrame {
-               time: 1s
-               action: sizeChanged
-            }
-         ];
-      }
-
    }
 
    public override function create(): Node {
@@ -125,6 +116,8 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
                bottom: spacing
                left: spacing
             }
+            growRows: [0, 0, 0, 0, 1, 0]
+            growColumns: [0, 1]
             rows: [
                GridRow {
                   cells: [
@@ -232,8 +225,8 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    }
 
    public override function showSearching(): Void {
-            delete resultsListView.items;
-//      resultsListView.items = [];
+      delete  resultsListView.items;
+      //      resultsListView.items = [];
       resultsListView.disable = true;
       progressIndicator.visible = true;
       setNumberOfResults("?");
@@ -266,8 +259,13 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
       grid.getMinHeight();
    }
 
-   function sizeChanged(): Void {
+   public function sizeChanged(): Void {
       Container.resizeNode(grid, width, height);
+   }
+
+   function printGridSizes(label: String): Void {
+//      println("grid {label} change: size {grid.width}*{grid.height}, ""pref {grid.getPrefWidth(grid.width)}*{grid.getPrefHeight(grid.height)}, ""min {grid.getMinWidth()}*{grid.getMinHeight()}");
+//      var square = width * height;
    }
 
    public override function getContentNodes(): Node[] {
