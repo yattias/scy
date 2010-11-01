@@ -23,44 +23,29 @@ import eu.scy.elo.contenttype.dataset.DataSetRow;
 public class ScySimLogger implements ActionListener, IDataClient {
 
     private String username = "default_username";
-
     private String toolname = "simulator";
-
     private String missionname = "mission 1";
-
     private String sessionname = "n/a";
-    
     private String eloURI = "n/a";
-
     private DataServer dataServer;
-
     private ArrayList<Double> oldInputValues;
-
     private ArrayList<Double> oldOutputValues;
-
     private ArrayList<ModelVariable> inputVariables;
-
     private ArrayList<ModelVariable> outputVariables;
-
     private IAction action;
-
     private IAction lastInputVariableValueChangedAction;
-
     private IAction lastOutputVariableValueChangedAction;
-
     private Timer inputVariableTimer;
-
     private Timer outputVariableTimer;
-
     private IAction firstInputVariableValueChangedAction;
-
     private IAction firstOutputVariableValueChangedAction;
-
     private IActionLogger actionLogger;
-
     private XMLOutputter xmlOutputter;
-
     private static int COUNT = 0;
+    public static final String VALUE_CHANGED = "value_changed";
+    public static final String ROW_ADDED = "row_added";
+    public static final String VARIABLES_CONTAINED = "variables_contained";
+    public static final String VARIABLES_SELECTED = "variables_selected";
 
     public ScySimLogger(DataServer dataServer, IActionLogger logger, String eloURI) {
         COUNT++;
@@ -71,7 +56,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
         // find input and output variables
         inputVariables = getVariables(ModelVariable.VK_INPUT);
         outputVariables = getVariables(ModelVariable.VK_OUTPUT, "Mtot");
-        
+
         // store the values to find the changed value later
         storeOldValues();
         // subscribe to variables
@@ -84,7 +69,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                IAction action = createBasicAction("value_changed");
+                IAction action = createBasicAction(VALUE_CHANGED);
                 action.addAttribute("name", lastInputVariableValueChangedAction.getAttribute("name"));
                 action.addAttribute("oldValue", stripValue(firstInputVariableValueChangedAction.getAttribute("oldValue")));
                 action.addAttribute("newValue", stripValue(lastInputVariableValueChangedAction.getAttribute("newValue")));
@@ -106,46 +91,37 @@ public class ScySimLogger implements ActionListener, IDataClient {
             }
         });
         outputVariableTimer.setRepeats(false);
-        actionLogger = logger;        
+        actionLogger = logger;
     }
-      
-    public ScySimLogger(DataServer dataServer){
-        this(dataServer,new DevNullActionLogger(), "n/a");
+
+    public ScySimLogger(DataServer dataServer) {
+        this(dataServer, new DevNullActionLogger(), "n/a");
     }
 
     public ArrayList<ModelVariable> getInputVariables() {
-    	return inputVariables;
+        return inputVariables;
     }
-    
+
     public void setUsername(String name) {
         this.username = name;
     }
 
     public String getEloURI() {
-		return eloURI;
-	}
+        return eloURI;
+    }
 
-	public void setEloURI(String eloURI) {
-		this.eloURI = eloURI;
-	}
-    
+    public void setEloURI(String eloURI) {
+        this.eloURI = eloURI;
+    }
+
     private ArrayList<ModelVariable> getVariables(int mv) {
         return getVariables(mv, null);
-        // ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
-        // for (ModelVariable variable : dataServer.getVariables("")) {
-        // if (variable.getKind() == mv) {
-        // System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
-        // variables.add(variable);
-        // }
-        // }
-        // return variables;
     }
 
     private ArrayList<ModelVariable> getVariables(int mv, String name) {
         ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
         for (ModelVariable variable : dataServer.getVariables("")) {
             if (variable.getKind() == mv && (name == null || variable.getName().equals(name))) {
-                //System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
                 variables.add(variable);
             }
         }
@@ -175,11 +151,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     private void logValueChanged(String name, double oldValue, double newValue) {
-        
-        action = createBasicAction("value_changed");
+        action = createBasicAction(VALUE_CHANGED);
         action.addAttribute("name", name);
-        action.addAttribute("oldValue", stripValue(oldValue+""));
-        action.addAttribute("newValue", stripValue(newValue+""));
+        action.addAttribute("oldValue", stripValue(oldValue + ""));
+        action.addAttribute("newValue", stripValue(newValue + ""));
         for (ModelVariable inVar : inputVariables) {
             if (inVar.getName().equals(name)) {
                 if (!inputVariableTimer.isRunning()) {
@@ -226,13 +201,12 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     public void logAddRow(DataSetRow newRow) {
-        action = createBasicAction("add_row");
+        action = createBasicAction(ROW_ADDED);
         action.addAttribute("dataRow", xmlOutputter.outputString(newRow.toXML()));
         write(action);
     }
 
     public void logListOfVariables(String actionType, List<ModelVariable> selectedVariables) {
-        //action = createBasicAction("variables_selected");
         action = createBasicAction(actionType);
         String selection = new String();
         for (ModelVariable var : selectedVariables) {
@@ -244,10 +218,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
         action.addAttribute("variables", selection);
         write(action);
     }
-    
+
     private synchronized void write(IAction action) {
-       //TODO Dirty workaround for toronto
-        if (action.getType() != null && action.getType().equals("value_changed") && action.getAttribute("name")!=null&& action.getAttribute("name").trim().toLowerCase().equals("mtot")){
+        //TODO Dirty workaround for toronto
+        if (action.getType() != null && action.getType().equals(VALUE_CHANGED) && action.getAttribute("name") != null && action.getAttribute("name").trim().toLowerCase().equals("mtot")) {
             // no evil mtot logging ...
         } else {
             System.out.println(action.toString());
@@ -255,29 +229,6 @@ public class ScySimLogger implements ActionListener, IDataClient {
         }
         // outputter.output(action.getXML(), System.out);
     }
-
-    // TODO Should be logged from SCY-LAB?
-    //public void toolStarted() {
-    //    IAction loginAction = createBasicAction("tool started");
-    //    write(loginAction);
-    //}
-
-    // TODO Should be logged from SCY-LAB?
-    //public void toolStopped() {
-    //    IAction loginAction = createBasicAction("tool stopped");
-    //    write(loginAction);
-    //}
-
-    //public void focusGained() {
-    //    IAction focusGained = createBasicAction("focus gained");
-    //    write(focusGained);
-    //}
-
-    // TODO Should be logged from SCY-LAB?
-    //public void focusLost() {
-    //    IAction focusLost = createBasicAction("focus lost");
-    //    write(focusLost);
-    //}
 
     public String getToolName() {
         return toolname;
@@ -292,7 +243,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
         if (value.contains("0000")) {
             value = value.substring(0, value.indexOf("0000"));
         } else if (value.contains("9999")) {
-            int pot = value.indexOf("9999")+1-value.indexOf(".");
+            int pot = value.indexOf("9999") + 1 - value.indexOf(".");
             if (pot > 0) {
                 Double newValue = new Double(value) * 10 * pot;
                 newValue = java.lang.Math.ceil(newValue) / (10 * pot);
@@ -301,5 +252,4 @@ public class ScySimLogger implements ActionListener, IDataClient {
         }
         return value;
     }
-
 }
