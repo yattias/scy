@@ -65,9 +65,13 @@ public class RooloServicesCreator
       IMetadataKey identifierKey = new UriMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId(),
                "/lom/general/identifier", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
       IMetadataKey titleKey = new StringMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId(),
-               "/lom/general/title", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+               "/lom/general/title", I18nType.SPECIFIC, MetadataValueCount.SINGLE, null);
       IMetadataKey descriptionKey = new StringMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId(),
-               "/lom/general/description", I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
+               "/lom/general/description", I18nType.SPECIFIC, MetadataValueCount.SINGLE, null);
+      IMetadataKey dateCreatedKey = new LongMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId(),
+               "/lom/technical/customElements/dateCreated", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey dateLastModifiedKey = new LongMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId(),
+               "/lom/technical/customElements/dateLastModified", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
       IMetadataKey technicalFormatKey = new StringMetadataKey(
                CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(), "/lom/technical/format",
                I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
@@ -117,6 +121,8 @@ public class RooloServicesCreator
       metadataTypeManager.registerMetadataKey(titleKey);
       metadataTypeManager.registerMetadataKey(descriptionKey);
       metadataTypeManager.registerMetadataKey(technicalFormatKey);
+      metadataTypeManager.registerMetadataKey(dateCreatedKey);
+      metadataTypeManager.registerMetadataKey(dateLastModifiedKey);
       metadataTypeManager.registerMetadataKey(isVersionOfKey);
       metadataTypeManager.registerMetadataKey(isVersionedByKey);
       metadataTypeManager.registerMetadataKey(isForkOfKey);
