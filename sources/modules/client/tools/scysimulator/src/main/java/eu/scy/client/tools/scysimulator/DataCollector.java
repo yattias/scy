@@ -130,8 +130,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new SystemOutActionLogger(), eloURI);
         }
-        // logger.sendListOfInputVariables();
-        logger.logListOfVariables("input_variables", logger.getInputVariables());
+        logger.logListOfVariables(ScySimLogger.VARIABLES_CONTAINED, logger.getInputVariables());
         setSelectedVariables(new ArrayList<ModelVariable>());
         // initialize user interface
         initGUI();
@@ -222,7 +221,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     public void addCurrentDatapoint() {
         if (selectedVariables.size() == 0) {
             JOptionPane.showMessageDialog(this, getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING"), getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING_TITLE"), JOptionPane.INFORMATION_MESSAGE);
-
         }
         ModelVariable var;
         List<String> values = new LinkedList<String>();
@@ -412,7 +410,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     public void setSelectedVariables(List<ModelVariable> selection) {
         selectedVariables = selection;
         cleanDataSet();
-        logger.logListOfVariables("variables_selected", selectedVariables);
+        logger.logListOfVariables(ScySimLogger.VARIABLES_SELECTED, selectedVariables);
     }
 
     private ModelVariable getVariableByName(String name) {
