@@ -47,4 +47,7 @@ public interface ILinkModel extends IDiagramElement, Serializable {
 	boolean isSelected();
 
 	void setSelected(boolean b);
+
+    void notifyEdgeFlipped();
+
 }

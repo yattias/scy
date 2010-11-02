@@ -1,14 +1,20 @@
 package eu.scy.scymapper.impl.logging;
 
+import org.apache.log4j.Logger;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.common.datasync.ISyncSession;
-import eu.scy.scymapper.api.diagram.model.*;
-import org.apache.log4j.Logger;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import eu.scy.scymapper.api.diagram.model.DiagramElementAdapter;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 /**
  * @author bjoerge
@@ -43,6 +49,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     private static final String LINK_RENAMED = "link_renamed";
     private static final String LINK_REMOVED = "link_removed";
     private static final String NODE_REMOVED = "node_removed";
+    private static final String LINK_FLIPPED = "link_flipped";
 
     public ConceptMapActionLogger(IActionLogger actionLogger, IDiagramModel diagram, String username) {
         this.logger = actionLogger;
@@ -59,15 +66,15 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         this.diagram = diagram;
         this.diagram.addDiagramListener(this);
     }
-    
+
     public void logRequestConceptHelp() {
         IAction a = createSCYMapperAction(REQUEST_CONCEPT);
-        log(a);        
+        log(a);
     }
 
     public void logRequestRelationHelp() {
         IAction a = createSCYMapperAction(REQUEST_RELATION);
-        log(a);    
+        log(a);
     }
 
     /**
@@ -129,6 +136,18 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
 
         log(a);
     }
+    public void logLinkFlipped(INodeLinkModel simpleLink) {
+        IAction a = createSCYMapperAction(LINK_FLIPPED);
+        a.addAttribute("id", simpleLink.getId());
+        a.addAttribute("name", simpleLink.getLabel());
+        a.addAttribute("from_node", simpleLink.getFromNode().getId());
+        a.addAttribute("to_node", simpleLink.getToNode().getId());
+        XStream xstream = new XStream(new DomDriver());
+        String xml = xstream.toXML(diagram);
+        a.addAttribute("model", xml);
+
+        log(a);
+    }
 
     /**
      * Logs when the user change the style of a node
@@ -158,7 +177,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
         XStream xstream = new XStream(new DomDriver());
         String xml = xstream.toXML(diagram);
         a.addAttribute("model", xml);
-        
+
         log(a);
     }
 
@@ -223,5 +242,15 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     public void setEloURI(String eloURI) {
         this.eloURI = eloURI;
     }
+
+    @Override
+    public void linkFlipped(ILinkModel linkModel) {
+        if (linkModel instanceof INodeLinkModel){
+            logLinkFlipped((INodeLinkModel)linkModel);
+        }
+    }
+
+
+
 
 }

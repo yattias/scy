@@ -43,4 +43,9 @@ public class LinkView extends LinkViewComponent implements ILinkModelListener {
 	public void labelChanged(ILinkModel link) {
 	}
 
+    @Override
+    public void linkFlipped(ILinkModel simpleLink) {
+
+    }
+
 }

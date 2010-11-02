@@ -50,7 +50,7 @@ public class PalettePane extends JPanel {
 	private void initComponents() {
 		//setLayout(new MigLayout("wrap, center", "[grow,fill]"));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		createNodeButtons();
 		createConnectorButtons();
 		createLinkButtons();
@@ -125,7 +125,7 @@ public class PalettePane extends JPanel {
 					link.setLabel(model.getLabel());
 					link.setShape(model.getShape());
 
-					final ConnectMode connectMode = new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkConnectorController(link), link));
+					final ConnectMode connectMode = new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkConnectorController(link), link),linkFactory);
 
 					conceptMapPanel.getDiagramView().setMode(connectMode);
 

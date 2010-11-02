@@ -99,7 +99,7 @@
 		</property>
 		<property name="linkFactories">
 			<list>
-				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				<bean class="eu.scy.scymapper.impl.configuration.CollideLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="arrow"/>
 				</bean>
@@ -111,7 +111,7 @@
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedArrow"/>
 				</bean>
-				--><bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				--><bean class="eu.scy.scymapper.impl.configuration.CollideLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="bidirectional_arrow"/>
 				</bean>

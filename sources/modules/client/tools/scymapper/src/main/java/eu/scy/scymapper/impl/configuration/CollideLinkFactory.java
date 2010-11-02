@@ -5,13 +5,7 @@ import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.impl.model.SimpleLink;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Bjoerge
- * Date: 30.okt.2009
- * Time: 13:25:41
- */
-public class DefaultLinkFactory implements ILinkFactory {
+public class CollideLinkFactory implements ILinkFactory {
 	private ILinkShape shape;
 	private String label;
 	private String description;
@@ -33,13 +27,12 @@ public class DefaultLinkFactory implements ILinkFactory {
 	public ILinkModel create() {
 		ILinkModel linkModel = new SimpleLink();
 		linkModel.setShape(shape);
-
-		this.type=Type.SCY;
+		type=Type.COLLIDE;
 		return linkModel;
 	}
 
 	@Override
 	public Type getType() {
-		return this.type;
+		return type;
 	}
 }
