@@ -13,29 +13,40 @@ import java.awt.image.AffineTransformOp;
  * @author lars
  */
 public class UiUtils {
+   private final static Logger logger = Logger.getLogger(UiUtils.class);
 
     public static BufferedImage createThumbnail(Container container, Dimension originalSize, Dimension targetSize) {
         try {
             BufferedImage bi = new BufferedImage(originalSize.width, originalSize.height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = bi.createGraphics();
             container.paint(g2d);
+            g2d.dispose();
+            return resizeBufferedImage(bi,targetSize);
+        } catch (Exception ex) {
+            // something went wrong...
+            logger.warn(ex.getMessage());
+            return null;
+        }
+    }
+
+    public static BufferedImage resizeBufferedImage(BufferedImage image, Dimension targetSize){
+        try {
             Double factor;
             // to preserver the aspect ratio:
             // (the result may deviate from the requested target size)
-            if ((originalSize.width - targetSize.width) < (originalSize.height - targetSize.height)) {
+            if ((image.getWidth() - targetSize.width) < (image.getHeight() - targetSize.height)) {
                 // the difference in height is larger than in width
                 // use the height to calculate the scaling factor
-                factor = 1.0 * targetSize.height / originalSize.height;
+                factor = 1.0 * targetSize.height / image.getHeight();
             } else {
-                factor = 1.0 * targetSize.width / originalSize.width;
+                factor = 1.0 * targetSize.width / image.getWidth();
             }
             AffineTransform scale = AffineTransform.getScaleInstance(factor, factor);
             AffineTransformOp op = new AffineTransformOp(scale, AffineTransformOp.TYPE_BILINEAR);
-            bi = op.filter(bi, null);
-            return bi;
+            image = op.filter(image, null);
+            return image;
         } catch (Exception ex) {
             // something went wrong...
-            Logger logger = Logger.getLogger("UiUtils");
             logger.warn(ex.getMessage());
             return null;
         }

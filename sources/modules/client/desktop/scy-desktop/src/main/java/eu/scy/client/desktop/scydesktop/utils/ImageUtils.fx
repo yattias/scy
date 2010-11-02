@@ -18,6 +18,8 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.lang.Void;
 import javax.imageio.ImageIO;
+import javafx.util.Math;
+import java.awt.Dimension;
 
 /**
  * @author Rakesh Menon
@@ -42,9 +44,7 @@ public function getContainer(): java.awt.Container {
    return container;
 }
 
-public function nodeToImage(
-   node: Node, bounds: Bounds): BufferedImage {
-
+public function nodeToImageX(node: Node, bounds: Bounds): BufferedImage {
    var g2: Graphics2D;
 
    if (node instanceof Container) {
@@ -58,25 +58,17 @@ public function nodeToImage(
 
    def nodeBounds = node.layoutBounds;
 
-   def sgNode = (getFXNode.invoke(
-      context.mirrorOf(node)) as FXLocal.ObjectValue).asObject();
-   def g2dClass = (context.findClass(
-      "java.awt.Graphics2D") as FXLocal.ClassType).getJavaImplementationClass();
-   def boundsClass = (context.findClass(
-      "com.sun.javafx.geom.Bounds2D") as FXLocal.ClassType).getJavaImplementationClass();
-   def affineClass = (context.findClass(
-      "com.sun.javafx.geom.transform.BaseTransform") as FXLocal.ClassType).getJavaImplementationClass();
+   def sgNode = (getFXNode.invoke(context.mirrorOf(node)) as FXLocal.ObjectValue).asObject();
+   def g2dClass = (context.findClass("java.awt.Graphics2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform") as FXLocal.ClassType).getJavaImplementationClass();
 
-   def getBounds = sgNode.getClass().getMethod(
-      "getContentBounds", boundsClass, affineClass);
-   def bounds2D = getBounds.invoke(
-      sgNode, new com.sun.javafx.geom.Bounds2D(),
+   def getBounds = sgNode.getClass().getMethod("getContentBounds", boundsClass, affineClass);
+   def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(),
       new com.sun.javafx.geom.transform.Affine2D());
 
-   var paintMethod = sgNode.getClass().getMethod(
-      "render", g2dClass, boundsClass, affineClass);
-   def bufferedImage = new java.awt.image.BufferedImage(
-      nodeBounds.width, nodeBounds.height,
+   var paintMethod = sgNode.getClass().getMethod("render", g2dClass, boundsClass, affineClass);
+   def bufferedImage = new java.awt.image.BufferedImage(nodeBounds.width, nodeBounds.height,
       java.awt.image.BufferedImage.TYPE_INT_ARGB);
 
    g2 = (bufferedImage.getGraphics() as Graphics2D);
@@ -86,7 +78,92 @@ public function nodeToImage(
    new com.sun.javafx.geom.transform.Affine2D());
    g2.dispose();
 
+   // restore node bounds
+   Container.layoutNode(node, nodeBounds.minX, nodeBounds.minY, nodeBounds.width, nodeBounds.height);
+
    return bufferedImage;
+}
+
+public function nodeToImageXX(node: Node, bounds: Bounds): BufferedImage {
+   var g2: Graphics2D;
+
+   def originalScaleX = node.scaleX;
+   def originalScaleY = node.scaleY;
+
+   def scaleXFactor = bounds.width / node.layoutBounds.width;
+   def scaleYFactor = bounds.height / node.layoutBounds.height;
+
+   def scaleFactor = Math.min(scaleXFactor, scaleYFactor);
+   node.scaleX *= scaleFactor;
+   node.scaleY *= scaleFactor;
+   def nodeBounds = node.layoutBounds;
+
+   def sgNode = (getFXNode.invoke(context.mirrorOf(node)) as FXLocal.ObjectValue).asObject();
+   def g2dClass = (context.findClass("java.awt.Graphics2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform") as FXLocal.ClassType).getJavaImplementationClass();
+
+   def getBounds = sgNode.getClass().getMethod("getContentBounds", boundsClass, affineClass);
+   def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(),
+      new com.sun.javafx.geom.transform.Affine2D());
+
+   var paintMethod = sgNode.getClass().getMethod("render", g2dClass, boundsClass, affineClass);
+   def bufferedImage = new java.awt.image.BufferedImage(nodeBounds.width*scaleFactor, nodeBounds.height*scaleFactor,
+      java.awt.image.BufferedImage.TYPE_INT_ARGB);
+
+   g2 = (bufferedImage.getGraphics() as Graphics2D);
+   g2.setPaint(java.awt.Color.WHITE);
+   g2.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
+   paintMethod.invoke(sgNode, g2, bounds2D, new com.sun.javafx.geom.transform.Affine2D());
+   g2.dispose();
+
+   // restore node scale
+   node.scaleX = originalScaleX;
+   node.scaleY = originalScaleY;
+
+   println("bufferedImage size: {bufferedImage.getWidth()}*{bufferedImage.getHeight()}");
+
+   return bufferedImage;
+}
+
+public function nodeToImage(node: Node, bounds: Bounds): BufferedImage {
+   var g2: Graphics2D;
+
+//   def originalLayoutX = node.layoutX;
+//   def originalLayoutY = node.layoutY;
+   // place node at 0,0
+//   Container.positionNode(node, 0.0, 0.0);
+
+   def nodeBounds = node.layoutBounds;
+
+   def sgNode = (getFXNode.invoke(context.mirrorOf(node)) as FXLocal.ObjectValue).asObject();
+   def g2dClass = (context.findClass("java.awt.Graphics2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform") as FXLocal.ClassType).getJavaImplementationClass();
+
+   def getBounds = sgNode.getClass().getMethod("getContentBounds", boundsClass, affineClass);
+   def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(),
+      new com.sun.javafx.geom.transform.Affine2D());
+
+   var paintMethod = sgNode.getClass().getMethod("render", g2dClass, boundsClass, affineClass);
+   def bufferedImage = new java.awt.image.BufferedImage(nodeBounds.width, nodeBounds.height,
+      java.awt.image.BufferedImage.TYPE_INT_ARGB);
+
+   g2 = (bufferedImage.getGraphics() as Graphics2D);
+   g2.setPaint(java.awt.Color.WHITE);
+   g2.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
+   paintMethod.invoke(sgNode, g2, bounds2D, new com.sun.javafx.geom.transform.Affine2D());
+   g2.dispose();
+
+   // put node back to its original position
+//   Container.positionNode(node, originalLayoutX, originalLayoutY);
+
+   println("bufferedImage size: {bufferedImage.getWidth()}*{bufferedImage.getHeight()}");
+
+   def resizedImage = UiUtils.resizeBufferedImage(bufferedImage, new Dimension(bounds.width,bounds.height));
+   println("resizedImage size: {resizedImage.getWidth()}*{resizedImage.getHeight()}");
+
+   return resizedImage;
 }
 
 public function saveAsImage(node: Node, file: File): Void {
