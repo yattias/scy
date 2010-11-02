@@ -38,11 +38,51 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         RELATIONS;
     }
 
+    public enum Relation {
+        isA,
+        hasRelationTo,
+        dependsOn,
+        hasInfluenceOn,
+        decreases,
+        increases,
+        includes;
+        
+        public String getLabel(@SuppressWarnings("unused") String language) {
+            switch (this) {
+                case isA:
+                    return "ist ein";
+                case hasRelationTo:
+                    return "hat Verbindung zu";
+                case dependsOn:
+                    return "beruht auf";
+                case hasInfluenceOn:
+                    return "hat Einfluss auf";
+                case decreases:
+                    return "verringert";
+                case increases:
+                    return "erhöht";
+                case includes:
+                    return "bezieht ein";
+            }
+            return "";
+        }
+        
+        public static boolean isKnown(String relation) {
+            for (Relation r : Relation.values()) {
+                if (r.name().equalsIgnoreCase(relation)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+    }
+    
     private static final String TEXT = "Als globale Erwärmung bezeichnet man den in den vergangenen Jahrzehnten beobachteten Anstieg der Durchschnittstemperatur der erdnahen Atmosphäre und der Meere sowie deren künftig erwartete Erwärmung. Zwischen 1906 und 2005 hat sich die durchschnittliche Außentemperatur in Bodennähe um 0,74 °C (+/- 0,18 °C) erhöht. Das Jahrzehnt von 2000 bis 2009 war mit Abstand das wärmste je gemessene, gefolgt von den 1990er Jahren, die wiederum wärmer waren als die 1980er Jahre. Nach gegenwärtigem wissenschaftlichen Verständnis ist hierfür \"sehr wahrscheinlich\" die Verstärkung des natürlichen Treibhauseffektes durch menschliches Einwirken ursächlich. Die menschengemachte Erwärmung entsteht durch Verbrennen fossiler Brennstoffe, durch weltumfassende Entwaldung sowie Land- und Viehwirtschaft. Dadurch wird das Treibhausgas Kohlendioxid (CO2) sowie weitere Treibhausgase wie Methan und Lachgas in der Erdatmosphäre angereichert. Diese CO2-Emissionen führen dazu, dass weniger Energie der Sonneneinstrahlung von der Erdoberfläche in das Weltall abgestrahlt werden kann. Bis zum Jahr 2100 wird, abhängig vom künftigen Treibhausgasausstoß und der tatsächlichen Reaktion des Klimasystems darauf (=Klimasensitivität), eine Erwärmung um 1,1 bis 6,4 °C erwartet. Dies hätte eine Reihe von Folgen: Verstärkte Gletscherschmelze, steigende Meeresspiegel, veränderte Niederschlagsmuster, zunehmende Wetterextreme, u.a. Die Vielzahl der Konsequenzen, die sich je nach Ausmaß der Veränderung des Klimas ergeben, ist jedoch kaum abschätzbar. Nationale und internationale Klimapolitik (siehe Kyoto-Protokoll) zielt sowohl auf die Vermeidung des Klimawandels wie auch auf die Anpassung an die zu erwartende Erwärmung ab. Der wissenschaftliche Erkenntnisstand zur globalen Erwärmung wird durch den Intergovernmental Panel on Climate Change (IPCC, im Deutschen oft als \"Weltklimarat\" bezeichnet) diskutiert und zusammengefasst. Die Analysen des IPCC, dessen Vierter Sachstandsbericht 2007 veröffentlicht wurde, bilden den Forschungsstand über menschliche Einflussnahmen auf das Klimasystem der Erde ab. Sie sind eine Hauptgrundlage der politischen und wissenschaftlichen Diskussion des Themas wie auch der Aussagen dazu in diesem Artikel. Die IPCC-Darstellung und die daraus zu ziehenden Folgerungen stehen zugleich im Mittelpunkt der Kontroverse um die globale Erwärmung.";
 
     private OntologyConnection con;
 
-    private EnrichmentStrategy[] strategies = new EnrichmentStrategy[] { EnrichmentStrategy.SUPER, EnrichmentStrategy.SUB, EnrichmentStrategy.RELATIONS, EnrichmentStrategy.SIBLING };
+    private EnrichmentStrategy[] strategies = new EnrichmentStrategy[] { EnrichmentStrategy.SUPER, EnrichmentStrategy.RELATIONS, EnrichmentStrategy.SIBLING };
 
     private TupleSpace commandSpace;
 
@@ -421,15 +461,15 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             classes = con.getClassesOfInstance(entity, ontologyNamespace);
             for (String clazz : classes) {
                 if (terms.contains(clazz.toLowerCase())) {
-                    g.addNodeAndEdges(entity, "is a", clazz.toLowerCase());
+                    g.addNodeAndEdges(entity, Relation.isA.getLabel(con.getLanguage()), clazz.toLowerCase());
                 }
             }
         }
         if (Arrays.binarySearch(strategies, EnrichmentStrategy.RELATIONS) >= 0) {
             propValues = con.getPropValuesOfInstance(entity, ontologyNamespace);
             for (String[] pv : propValues) {
-                if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
-                    g.addNodeAndEdges(entity, pv[0], pv[1].toLowerCase());
+                if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase()) && Relation.isKnown(pv[0])) {
+                    g.addNodeAndEdges(entity, Relation.valueOf(pv[0]).getLabel(con.getLanguage()), pv[1].toLowerCase());
                 }
             }
         }
@@ -443,21 +483,21 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                     if (instances.length > 0 && instances[0].length() > 0) {
                         for (String i : instances) {
                             if (!i.equalsIgnoreCase(entity) && terms.contains(i.toLowerCase())) {
-                                g.addNodeAndEdges(entity, "sibling of", i.toLowerCase());
+                                g.addNodeAndEdges(entity, Relation.hasRelationTo.getLabel(con.getLanguage()), i.toLowerCase());
                             }
                         }
                     }
                 }
-                if (Arrays.binarySearch(strategies, EnrichmentStrategy.SUB) >= 0) {
-                    String[] subClasses = con.getSubclassesOfClass(clazz, ontologyNamespace);
-                    if (subClasses.length > 0 && subClasses[0].length() > 0) {
-                        for (String sc : subClasses) {
-                            if (terms.contains(sc.toLowerCase())) {
-                                g.addNodeAndEdges(entity, "has sub-sibling", sc.toLowerCase());
-                            }
-                        }
-                    }
-                }
+//                if (Arrays.binarySearch(strategies, EnrichmentStrategy.SUB) >= 0) {
+//                    String[] subClasses = con.getSubclassesOfClass(clazz, ontologyNamespace);
+//                    if (subClasses.length > 0 && subClasses[0].length() > 0) {
+//                        for (String sc : subClasses) {
+//                            if (terms.contains(sc.toLowerCase())) {
+//                                g.addNodeAndEdges(entity, "hasSubSibling", sc.toLowerCase());
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }
@@ -471,7 +511,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (instances.length > 0 && instances[0].length() > 0) {
                 for (String i : instances) {
                     if (terms.contains(i.toLowerCase())) {
-                        g.addNodeAndEdges(entity, "has example", i.toLowerCase());
+                        g.addNodeAndEdges(entity, "hasExample", i.toLowerCase());
                     }
                 }
             }
@@ -489,33 +529,33 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (superClasses.length > 0 && superClasses[0].length() > 0) {
                 for (String sc : superClasses) {
                     if (terms.contains(sc.toLowerCase())) {
-                        g.addNodeAndEdges(entity, "has superclass", sc.toLowerCase());
+                        g.addNodeAndEdges(entity, Relation.isA.getLabel(con.getLanguage()), sc.toLowerCase());
                     }
                 }
             }
         }
-        if (Arrays.binarySearch(strategies, EnrichmentStrategy.RELATIONS) >= 0) {
-            if (instances == null) {
-                instances = con.getInstancesOfClass(entity, ontologyNamespace);
-            }
-            if (instances.length > 0 && instances[0].length() > 0) {
-                for (String i : instances) {
-                    String[][] propValues = con.getPropValuesOfInstance(i, ontologyNamespace);
-                    for (String[] pv : propValues) {
-                        if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
-                            g.addNodeAndEdges(entity, "maybe " + pv[0], pv[1].toLowerCase());
-                        }
-                    }
-                }
-            }
-        }
+//        if (Arrays.binarySearch(strategies, EnrichmentStrategy.RELATIONS) >= 0) {
+//            if (instances == null) {
+//                instances = con.getInstancesOfClass(entity, ontologyNamespace);
+//            }
+//            if (instances.length > 0 && instances[0].length() > 0) {
+//                for (String i : instances) {
+//                    String[][] propValues = con.getPropValuesOfInstance(i, ontologyNamespace);
+//                    for (String[] pv : propValues) {
+//                        if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
+//                            g.addNodeAndEdges(entity, "maybe " + pv[0], pv[1].toLowerCase());
+//                        }
+//                    }
+//                }
+//            }
+//        }
         if (Arrays.binarySearch(strategies, EnrichmentStrategy.SIBLING) >= 0) {
             if (superClasses.length > 0 && superClasses[0].length() > 0) {
                 for (String sc : superClasses) {
                     subClasses = con.getSubclassesOfClass(sc, ontologyNamespace);
                     for (String subc : subClasses) {
                         if (!subc.equals(entity) && terms.contains(subc.toLowerCase())) {
-                            g.addNodeAndEdges(entity, "has sibling", subc.toLowerCase());
+                            g.addNodeAndEdges(entity, Relation.hasRelationTo.getLabel(con.getLanguage()), subc.toLowerCase());
                         }
                     }
                 }
