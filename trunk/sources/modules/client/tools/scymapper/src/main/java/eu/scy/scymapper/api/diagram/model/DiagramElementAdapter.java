@@ -15,6 +15,10 @@ public abstract class DiagramElementAdapter implements IDiagramListener, ILinkMo
 	}
 
 	@Override
+	public void linkFlipped(ILinkModel link) {
+	}
+
+	@Override
 	public void nodeAdded(INodeModel n, boolean focused) {
 	}
 

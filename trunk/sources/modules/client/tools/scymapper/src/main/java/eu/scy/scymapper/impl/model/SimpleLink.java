@@ -124,6 +124,12 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 			listener.labelChanged(this);
 		}
 	}
+	@Override
+	public void notifyEdgeFlipped() {
+	    for (ILinkModelListener listener : listeners) {
+	        listener.linkFlipped(this);
+	    }
+	}
 
 	@Override
 	public boolean isSelected() {

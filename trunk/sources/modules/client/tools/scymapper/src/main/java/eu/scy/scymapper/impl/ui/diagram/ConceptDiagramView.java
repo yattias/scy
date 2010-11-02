@@ -1,17 +1,37 @@
 package eu.scy.scymapper.impl.ui.diagram;
 
-import eu.scy.scymapper.api.diagram.controller.IDiagramController;
-import eu.scy.scymapper.api.diagram.model.*;
-import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
-import eu.scy.scymapper.impl.controller.IElementControllerFactory;
-import eu.scy.scymapper.impl.model.ConnectorModel;
-import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
-import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import eu.scy.scymapper.api.diagram.controller.IDiagramController;
+import eu.scy.scymapper.api.diagram.model.IDiagramListener;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
+import eu.scy.scymapper.impl.controller.IElementControllerFactory;
+import eu.scy.scymapper.impl.model.ComboNodeLinkModel;
+import eu.scy.scymapper.impl.model.ConnectorModel;
+import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
+import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
 /**
  * Created by IntelliJ IDEA.
@@ -105,7 +125,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 	}
 
 	private void addLinkView(ILinkModel link, boolean editable) {
-		if (link instanceof INodeLinkModel) {
+		if (link instanceof NodeLinkModel) {
 
 			final ConceptLinkView view = new ConceptLinkView(elementControllerFactory.createLinkController(link), (INodeLinkModel) link);
 			view.addMouseListener(new MouseAdapter() {
@@ -130,6 +150,28 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 			add(view);
 
 			view.repaint();
+		}else if (link instanceof ComboNodeLinkModel){
+			final ComboConceptLinkView view = new ComboConceptLinkView(elementControllerFactory.createLinkController(link), (ComboNodeLinkModel) link);
+			view.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!e.isControlDown()) selectionModel.clearSelection();
+					selectionModel.select(view.getModel());
+				}
+			});
+
+			view.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!e.isControlDown()) selectionModel.clearSelection();
+					selectionModel.select(view.getModel());
+				}
+			});
+
+			add(view);
+
+			view.repaint();
+
 		}
 	}
 

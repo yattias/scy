@@ -35,15 +35,16 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     private JButton requestConceptHelpButton;
 
     private JButton requestRelationHelpButton;
-    
+
     // TODO for testing purposes only
     TupleSpace commandSpace;
 
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort) {
         super(cmap, configuration);
+//        actionLogger = null;
         actionLogger = new ConceptMapActionLogger(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), new VMID().toString());
     }
-    
+
     @Override
     protected Notificator createNotificator(JComponent parent, JPanel panel) {
     	int yOffset = -cmapPanel.getY();
@@ -99,7 +100,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
 			invalidate();
 			break;
-			
+
 		case CONTINUOUS:
         	// TODO Provide help after standaoneConfig.getContinuousHelpWaitTime() seconds
 			break;
@@ -136,7 +137,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
         if (notificator != null) {
             notificator.hide();
         }
-        
+
         notificator = createNotificator(this, suggestionPanel);
 
         JButton close = new JButton("Close");
