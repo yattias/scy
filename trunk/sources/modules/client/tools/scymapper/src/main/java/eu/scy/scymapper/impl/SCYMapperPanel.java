@@ -1,10 +1,35 @@
 package eu.scy.scymapper.impl;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
+import org.apache.log4j.Logger;
+
 import eu.scy.client.common.datasync.DataSyncException;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
-import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.scymapper.api.IConceptMap;
@@ -22,18 +47,6 @@ import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * User: Bjoerge Date: 27.aug.2009 Time: 13:29:56
@@ -41,14 +54,31 @@ import java.util.Set;
 public class SCYMapperPanel extends JPanel {
 
     private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
+
     private ToolBrokerAPI toolBroker;
+    
     private IConceptMap conceptMap;
-    private ISCYMapperToolConfiguration configuration;
+    
+    protected ISCYMapperToolConfiguration configuration;
+    
     private ConceptDiagramView conceptDiagramView;
+    
     private JTextField sessionId;
+    
     private ISyncSession currentSession;
+    
+    protected ConceptMapPanel cmapPanel;
+    
+    protected KeywordSuggestionPanel suggestionPanel;
+
+    protected ConceptMapActionLogger actionLogger;
+    
     protected Notificator notificator;
+
+    protected ConceptMapToolBar toolBar;
+    
     private ISCYMapperToolConfiguration conf = SCYMapperToolConfiguration.getInstance();
+    
     private ISyncListener dummySyncListener = new ISyncListener() {
 
         @Override
@@ -63,10 +93,7 @@ public class SCYMapperPanel extends JPanel {
         public void syncObjectRemoved(ISyncObject iSyncObject) {
         }
     };
-    protected ConceptMapActionLogger actionLogger;
-    private ConceptMapPanel cmapPanel;
-    protected ConceptMapToolBar toolBar;
-
+    
     public SCYMapperPanel(IConceptMap cmap, ISCYMapperToolConfiguration configuration) {
         conceptMap = cmap;
         this.configuration = configuration;
@@ -104,9 +131,9 @@ public class SCYMapperPanel extends JPanel {
         }
     }
 
-    public void suggestKeywords(java.util.List<String> keywords, String type) {
+    public void suggestKeywords(List<String> keywords, String type) {
 
-        KeywordSuggestionPanel panel = new KeywordSuggestionPanel();
+    	suggestionPanel = new KeywordSuggestionPanel();
 
         if (keywords.isEmpty()) {
             return;
@@ -115,20 +142,21 @@ public class SCYMapperPanel extends JPanel {
         checkForAlreadyPresentConcepts(keywords);
 
         if (keywords.size() == 1) {
-            panel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
+            suggestionPanel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
         } else {
-            panel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
+            suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
         }
 
-        panel.setSize(400, 350);
-        panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
+        suggestionPanel.setSize(300, cmapPanel.getHeight()-2);
+        System.out.println(suggestionPanel.getLocation());
+        suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
                 BorderFactory.createRaisedBevelBorder()));
 
         if (notificator != null) {
             notificator.hide();
         }
         
-        notificator = createNotificator(SCYMapperPanel.this, panel);
+        notificator = createNotificator(this, suggestionPanel);
 
         JButton close = new JButton("Close");
         close.addActionListener(new ActionListener() {
@@ -141,16 +169,16 @@ public class SCYMapperPanel extends JPanel {
 
         JPanel btnPanel = new JPanel();
         btnPanel.add(close);
-        panel.add(BorderLayout.SOUTH, close);
+        suggestionPanel.add(BorderLayout.SOUTH, close);
 
         notificator.show();
     }
 
-    protected Notificator createNotificator(SCYMapperPanel scyMapperPanel, JPanel panel) {
-        return new SlideNotificator(scyMapperPanel, panel);
+    protected Notificator createNotificator(JComponent parent, JPanel panel) {
+        return new SlideNotificator(parent, panel);
     }
 
-    private void checkForAlreadyPresentConcepts(List<String> keywords) {
+    protected void checkForAlreadyPresentConcepts(List<String> keywords) {
         Set<INodeModel> nodes = conceptMap.getDiagram().getNodes();
         for (INodeModel node : nodes) {
             if (keywords.contains(node.getLabel())) {
@@ -225,7 +253,8 @@ public class SCYMapperPanel extends JPanel {
 
     protected void initComponents() {
 
-        JPanel topToolBarPanel = new JPanel(new GridLayout(1, 0));
+    	JPanel topToolBarPanel = new JPanel(new GridLayout(1, 0));
+        
         // topToolBarPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
 
         //JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -256,51 +285,52 @@ public class SCYMapperPanel extends JPanel {
 //        sessionPanel.add(createSessionButton);
 //        sessionPanel.add(joinSessionButton);
 
-        JButton makeNotificationButton = new JButton("Create dummy notification");
-        makeNotificationButton.addActionListener(new ActionListener() {
+        // This is actually never been used
+//        JButton makeNotificationButton = new JButton("Create dummy notification");
+//        makeNotificationButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                INotification notification = new Notification();
+//                notification.setToolId("scymapper");
+//                notification.setSender("obama");
+//                notification.addProperty("dummyProperty", "DummyValue");
+//                showNotification(notification);
+//            }
+//        });
+//        JButton showNotificationButton = new JButton("Show notification");
+//        showNotificationButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notificator.show();
+//            }
+//        });
+//        JButton hideNotificationButton = new JButton("Hide notification");
+//        hideNotificationButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                notificator.hide();
+//            }
+//        });
+//        JButton testSuggestKeywordButton = new JButton("Suggest keywords");
+//        testSuggestKeywordButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showKeywordSuggestion();
+//            }
+//        });
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                INotification notification = new Notification();
-                notification.setToolId("scymapper");
-                notification.setSender("obama");
-                notification.addProperty("dummyProperty", "DummyValue");
-                showNotification(notification);
-            }
-        });
-
-        JButton showNotificationButton = new JButton("Show notification");
-        showNotificationButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notificator.show();
-            }
-        });
-        JButton hideNotificationButton = new JButton("Hide notification");
-        hideNotificationButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notificator.hide();
-            }
-        });
-        JButton testSuggestKeywordButton = new JButton("Suggest keywords");
-        testSuggestKeywordButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showKeywordSuggestion();
-            }
-        });
-//        if (conf.isDebug()) {
+ //        if (conf.isDebug()) {
 //            sessionPanel.add(hideNotificationButton);
 //            sessionPanel.add(makeNotificationButton);
 //            sessionPanel.add(showNotificationButton);
 //        }
 //        sessionPanel.add(testSuggestKeywordButton);
 //        topToolBarPanel.add(sessionPanel);
-
+        
         cmapPanel = new ConceptMapPanel(conceptMap);
         cmapPanel.setBackground(Color.WHITE);
         conceptDiagramView = cmapPanel.getDiagramView();
@@ -309,17 +339,20 @@ public class SCYMapperPanel extends JPanel {
         JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
         topToolBarPanel.add(toolBar);
 //        topToolBarPanel.add(palettePane);
+        
+        suggestionPanel = new KeywordSuggestionPanel();
+        suggestionPanel.setVisible(false);
 
         add(BorderLayout.NORTH, topToolBarPanel);
         add(BorderLayout.WEST, palettePane);
         add(BorderLayout.CENTER, cmapPanel);
-
+        add(BorderLayout.EAST, suggestionPanel);
     }
 
     public IConceptMap getConceptMap() {
         return conceptMap;
     }
-
+    
     public void setConceptMap(IConceptMap conceptMap) {
         removeAll();
         this.conceptMap = conceptMap;
