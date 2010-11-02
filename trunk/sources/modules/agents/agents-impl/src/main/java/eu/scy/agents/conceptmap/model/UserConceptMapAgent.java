@@ -49,6 +49,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     // <RequestType>:String, <Parameters>...)
     private static final Tuple TEMPLATE_FOR_REQUEST_CONCEPT_MAP = new Tuple(String.class, AGENT_NAME, SERVICE_TYPE, String.class, String.class, String.class, Field.createWildCardField());
 
+    // If you want to add new types, also update graphChanges() method
     private static final String TYPE_NODE_ADDED = "node_added";
 
     private static final String TYPE_NODE_RENAMED = "node_renamed";
@@ -60,6 +61,8 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     private static final String TYPE_LINK_RENAMED = "link_renamed";
 
     private static final String TYPE_LINK_REMOVED = "link_removed";
+    
+    private static final String TYPE_LINK_FLIPPED = "link_flipped";
 
     private static final String TYPE_ELOLOAD = "elo_load";
 
@@ -237,6 +240,8 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
             model.edgeRemoved(props);
         } else if (type.equals(TYPE_NODE_RENAMED) || type.equals(TYPE_LINK_RENAMED)) {
             model.labelChanged(props);
+        } else if (type.equals(TYPE_LINK_FLIPPED)) {
+        	model.edgeFlipped(props);
         }
     }
 
@@ -341,7 +346,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
      * @return
      */
     public static boolean graphChanges(String type) {
-        if (type.equals(TYPE_LINK_ADDED) || type.equals(TYPE_LINK_REMOVED) || type.equals(TYPE_LINK_RENAMED) || type.equals(TYPE_NODE_ADDED) || type.equals(TYPE_NODE_REMOVED) || type.equals(TYPE_NODE_RENAMED)) {
+        if (type.equals(TYPE_LINK_ADDED) || type.equals(TYPE_LINK_REMOVED) || type.equals(TYPE_LINK_RENAMED) || type.equals(TYPE_NODE_ADDED) || type.equals(TYPE_NODE_REMOVED) || type.equals(TYPE_NODE_RENAMED) || type.equals(TYPE_LINK_FLIPPED)) {
             return true;
         }
         return false;
