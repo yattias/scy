@@ -17,19 +17,24 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.scyelo.EloFunctionalRole;
 
 /**
  * @author SikkenJ
  */
-public class ExtendedScySearchResultCellNode extends CustomNode {
+public class ExtendedScyEloDisplayNode extends CustomNode {
 
    public var newEloCreationRegistry: NewEloCreationRegistry;
-   public var scySearchResult: ScySearchResult on replace { newScySearchResult() };
-   def scyElo = bind scySearchResult.getScyElo();
+   public var scyElo: ScyElo on replace { newScyElo() };
+   public var eloIcon: EloIcon;
    def titleDisplay = Label {};
    def authorDisplay = Label {};
    def typeDisplay = Label {};
    def roleDisplay = Label {};
+   def dateDisplay = Label {};
    def spacing = 5.0;
    def thumbnailBorder = 2.0;
    def thumbnailView = ImageView {
@@ -39,14 +44,13 @@ public class ExtendedScySearchResultCellNode extends CustomNode {
          fitHeight: ArtSource.thumbnailHeight
          preserveRatio: true
       }
-   var eloIcon: EloIcon;
    def eloIconScaleWithThumbnail = 2.0;
    def eloIconScaleWithoutThumbnail = 4.0;
+   def dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
 
    public override function create(): Node {
       HBox {
          spacing: spacing
-//         visible: bind scySearchResult!=null
          content: [
             Stack {
                content: bind [
@@ -62,27 +66,29 @@ public class ExtendedScySearchResultCellNode extends CustomNode {
                ]
             }
             VBox {
-               spacing: spacing/2
+               visible: bind scyElo != null
+               spacing: spacing / 2
                content: [
                   titleDisplay,
                   authorDisplay,
                   typeDisplay,
-                  roleDisplay
+                  roleDisplay,
+                  dateDisplay
                ]
             }
          ]
       }
    }
 
-   function newScySearchResult() {
-      titleDisplay.text = "title: {scyElo.getTitle()}";
-      authorDisplay.text = "author(s): {getAuthorsText()}";
-      typeDisplay.text = "format: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
-      roleDisplay.text = "role: {scyElo.getFunctionalRole()}";
-      eloIcon = (scySearchResult.getEloIcon() as EloIcon).clone();
+   function newScyElo() {
+      titleDisplay.text = "Title: {scyElo.getTitle()}";
+      authorDisplay.text = "Author(s): {getAuthorsText()}";
+      typeDisplay.text = "Format: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
+      roleDisplay.text = "Role: {getRoleString(scyElo.getFunctionalRole())}";
+      dateDisplay.text = "Date: created at {getDateString(scyElo.getDateCreated())}, last modified at {getDateString(scyElo.getDateLastModified())}";
       def thumbnailImage = scyElo.getThumbnail();
       if (thumbnailImage != null) {
-         thumbnailView.image = SwingUtils.toFXImage(scySearchResult.getScyElo().getThumbnail());
+         thumbnailView.image = SwingUtils.toFXImage(scyElo.getThumbnail());
          thumbnailView.visible = true;
          eloIcon.scaleX = eloIconScaleWithThumbnail;
          eloIcon.scaleY = eloIconScaleWithThumbnail;
@@ -92,11 +98,10 @@ public class ExtendedScySearchResultCellNode extends CustomNode {
          eloIcon.scaleX = eloIconScaleWithoutThumbnail;
          eloIcon.scaleY = eloIconScaleWithoutThumbnail;
       }
-
    }
 
    function getAuthorsText(): String {
-      def authors = scySearchResult.getScyElo().getAuthors();
+      def authors = scyElo.getAuthors();
       var authorsText = "";
       if (authors.size() > 0) {
          authorsText = "";
@@ -108,6 +113,24 @@ public class ExtendedScySearchResultCellNode extends CustomNode {
          }
       }
       authorsText
+   }
+
+   function getTechnicalFormatString(technicalFormat: String): String {
+      return "{newEloCreationRegistry.getEloTypeName(technicalFormat)} ({technicalFormat})"
+   }
+
+   function getRoleString(role: EloFunctionalRole): String {
+      if (role == null) {
+         return ##"unknown";
+      }
+      return role.toString();
+   }
+
+   function getDateString(millis: java.lang.Long): String {
+      if (millis == null) {
+         return ##"unknown"
+      }
+      dateFormat.format(new Date(millis))
    }
 
 }

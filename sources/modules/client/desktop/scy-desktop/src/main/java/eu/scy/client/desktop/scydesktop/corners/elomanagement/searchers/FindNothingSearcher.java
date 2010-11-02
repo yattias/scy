@@ -18,6 +18,12 @@ import roolo.api.search.ISearchResult;
 public class FindNothingSearcher implements EloBasedSearcher {
 
    @Override
+   public String toString()
+   {
+      return getDisplayId();
+   }
+
+   @Override
    public String getDisplayId()
    {
       return "findNothing";

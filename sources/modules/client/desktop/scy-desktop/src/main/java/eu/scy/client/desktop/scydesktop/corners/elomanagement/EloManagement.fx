@@ -440,15 +440,15 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    }
 
    function doEloBasedSearch(eloBasedSearchDesign: GridEloBasedSearch): Void {
-      if (eloBasedSearchDesign.selectedEloBasedSearcher == null) {
-         delete  eloBasedSearchDesign.searchersList.items;
-         return;
-      }
+//      if (eloBasedSearchDesign.selectedEloBasedSearcher == null) {
+//         delete  eloBasedSearchDesign.searchersList.items;
+//         return;
+//      }
       if (backgroundEloBasedSearch != null) {
          backgroundEloBasedSearch.abort();
       }
       eloBasedSearchDesign.showSearching();
-      backgroundEloBasedSearch = new BackgroundEloBasedSearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, eloBasedSearchDesign.selectedEloBasedSearcher, eloBasedSearchDesign.baseElo, this);
+      backgroundEloBasedSearch = new BackgroundEloBasedSearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, eloBasedSearchDesign.selectedEloBasedSearchers, eloBasedSearchDesign.baseElo, this);
 
       backgroundEloBasedSearch.start();
    }
@@ -459,6 +459,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
    function doEloBasedBaseOn(eloBasedSearchDesign: GridEloBasedSearch): Void {
       eloBasedSearchDesign.baseElo = eloBasedSearchDesign.selectedSearchResult.getScyElo();
+      eloBasedSearchDesign.baseEloIcon = (eloBasedSearchDesign.selectedSearchResult.getEloIcon() as EloIcon).clone();
       doEloBasedSearch(eloBasedSearchDesign);
    }
 

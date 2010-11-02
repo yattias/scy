@@ -32,9 +32,15 @@ public class SameTechnicalFormatSearcher implements EloBasedSearcher {
    }
 
    @Override
+   public String toString()
+   {
+      return getDisplayId();
+   }
+
+   @Override
    public String getDisplayId()
    {
-      return "sameTechnicalFormat";
+      return "findSameTechnicalFormat";
    }
 
    @Override

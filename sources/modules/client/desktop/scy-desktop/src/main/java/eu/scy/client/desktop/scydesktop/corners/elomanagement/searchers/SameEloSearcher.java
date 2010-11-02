@@ -18,9 +18,15 @@ import roolo.api.search.ISearchResult;
 public class SameEloSearcher implements EloBasedSearcher {
 
    @Override
+   public String toString()
+   {
+      return getDisplayId();
+   }
+
+   @Override
    public String getDisplayId()
    {
-      return "sameElo";
+      return "findSameElo";
    }
 
    @Override
