@@ -56,13 +56,19 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
 
     private int contentHeight;
 
+    private int xOffset;
+    
+    private int yOffset;
+
     private boolean visible;
 
     private boolean setToInvisible;
 
     private boolean borderPainted;
 
-    public FadeNotificator(JComponent parent, JComponent content, Position position) {
+    public FadeNotificator(JComponent parent, JComponent content, Position position, int xOffset, int yOffset) {
+    	this.xOffset = xOffset;
+    	this.yOffset = yOffset;
         this.parent = parent;
         this.content = content;
         this.position = position;
@@ -120,6 +126,10 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
         parentsRootPane.setGlassPane(glassPane);
         parentsRootPane.getGlassPane().setVisible(true);
     }
+ 
+    public FadeNotificator(JComponent parent, JComponent content, Position position) {
+    	this(parent, content, position, 0, 0);
+    }
 
     public boolean isVisible() {
         return visible;
@@ -133,6 +143,52 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
     public void setBorderPainted(boolean enabled) {
         this.borderPainted = enabled;
     }
+    
+    /**
+     * Sets the x-axis offset for the element, to fade in.
+     * Values greater then zero move the element to the right,
+     * values lesser then zero move the element to the left.
+     * A value of zero means, the element is horizontally centered.
+     * Is applied to Position type TOP and BOTTOM. 
+     * @param x The x offset in pixel.
+     */
+    public void setXOffset(int x) {
+    	xOffset = x;
+    }
+    
+    /**
+     * Sets the y-axis offset for the element, to fade in.
+     * Values greater then zero move the element above,
+     * values lesser then zero move the element below.
+     * A value of zero means, the element is vertically centered.
+     * Is applied to Position type EAST and WEST. 
+     * @param y The offset in pixel.
+     */
+    public void setYOffset(int y) {
+    	yOffset = y;
+    }
+    
+    /**
+     * Current x-axis offset, the element fades in.
+     * Values greater then zero move the element above,
+     * values lesser then zero move the element below.
+     * A value of zero means, the element is vertically centered.
+     * @return The current x-offset in pixel.
+     */
+    public int getXOffset() {
+    	return xOffset;
+    }
+
+    /**
+     * Current y-axis offset, the element fades in.
+     * Values greater then zero move the element to the right
+     * values lesser then zero move the element left.
+     * A value of zero means, the element is vertically centered.
+     * @return The current y-offset in pixel.
+     */
+    public int getYOffset() {
+    	return yOffset;
+    }
 
     private Point calculatePosition() {
         Point point = null;
@@ -140,20 +196,20 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
         int y = 0;
         switch (position) {
             case TOP:
-                x = (parent.getWidth() / 2) - (content.getWidth() / 2);
+                x = (parent.getWidth() / 2) - (content.getWidth() / 2) + xOffset;
                 y = 0;
                 break;
             case BOTTOM:
-                x = (parent.getWidth() / 2) - (content.getWidth() / 2);
+                x = (parent.getWidth() / 2) - (content.getWidth() / 2) + xOffset;
                 y = parent.getHeight() - content.getHeight();
                 break;
             case EAST:
                 x = (parent.getWidth() - content.getWidth());
-                y = (parent.getHeight() / 2) - (content.getHeight() / 2);
+                y = (parent.getHeight() / 2) - (content.getHeight() / 2) - yOffset;
                 break;
             case WEST:
                 x = 0;
-                y = (parent.getHeight() / 2) - (content.getHeight() / 2);
+                y = (parent.getHeight() / 2) - (content.getHeight() / 2) - yOffset;
                 break;
             case LOWER_RIGHT_CORNER:
                 x = (parent.getWidth() - content.getWidth());

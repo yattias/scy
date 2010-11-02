@@ -1,25 +1,64 @@
 package eu.scy.scymapper.impl.ui.notification;
 
-import eu.scy.scymapper.api.INodeFactory;
-import eu.scy.scymapper.api.diagram.model.INodeModel;
-import eu.scy.scymapper.api.shapes.INodeShape;
-import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.impl.ui.ConceptMapPanel;
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+
+import eu.scy.scymapper.api.INodeFactory;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 
 /**
  * @author bjoerge
  * @created 05.feb.2010 19:15:22
  */
 public class KeywordSuggestionPanel extends JPanel {
+	private static String sep = System.getProperty("file.separator");
+	private static final String ADD_PROPOSAL_ICON_PATH = "src"+ sep +"main"+ sep +"resources/";
+	private static final String ADD_PROPOSAL_ICON = "add-proposal.png";
 
 	private JTextPane descriptionLabel;
 	private JPanel conceptButtonPane;
@@ -44,8 +83,6 @@ public class KeywordSuggestionPanel extends JPanel {
 		StyleConstants.setBold(s, true);
 
 		descriptionLabel.setEditable(false);
-		JPanel compound = new JPanel(new BorderLayout());
-		compound.add(BorderLayout.NORTH, descriptionLabel);
 
 		conceptList = new JList(new DefaultListModel());
 		conceptList.setCellRenderer(new IconAndTextCellRenderer());
@@ -53,13 +90,17 @@ public class KeywordSuggestionPanel extends JPanel {
 		conceptList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		conceptList.setLayoutOrientation(JList.VERTICAL);
 		conceptList.setFixedCellHeight(30);
+		conceptList.setVisibleRowCount(3);
 
-		conceptList.setVisibleRowCount(-1);
-		
-		compound.add(BorderLayout.CENTER, conceptList);
+//		JPanel compound = new JPanel(new GridLayout(2, 1));
+//		compound.add(descriptionLabel);
+//		compound.add(conceptList);
+		JPanel compound = new JPanel(new BorderLayout());
+		compound.add(descriptionLabel, BorderLayout.NORTH);
+		compound.add(conceptList, BorderLayout.CENTER);
 		
 //		compound.add(BorderLayout.CENTER, conceptButtonPane);
-		add(BorderLayout.CENTER, compound);
+		add(compound, BorderLayout.CENTER);
 	}
 
 	/**
@@ -85,13 +126,16 @@ public class KeywordSuggestionPanel extends JPanel {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+		
+		// following line is for broken Mac Java to have a correct layout ...
+		descriptionLabel.getPreferredSize();		
 
 		for (INodeFactory factory : nodeFactories) {
 			conceptButtonPane.add(createConceptButton(factory, keyword, panel));
 		}
 	}
 
-	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories,
+	public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories,
                 ConceptMapPanel panel) {
 	    setSuggestions(keywords, nodeFactories, panel, "concepts");
 	}
@@ -103,7 +147,7 @@ public class KeywordSuggestionPanel extends JPanel {
 	 * @param keywords
 	 * @param nodeFactories
 	 */
-	public void setSuggestions(java.util.List<String> keywords, Collection<INodeFactory> nodeFactories,
+	public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories,
 			ConceptMapPanel panel, String type) {
 	    String[] text = null;
 	        if (keywords.isEmpty()) {
@@ -126,7 +170,10 @@ public class KeywordSuggestionPanel extends JPanel {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-
+		
+		// following line is for broken Mac Java to have a correct layout ...
+		descriptionLabel.getPreferredSize();
+		
 		DefaultListModel model = (DefaultListModel) conceptList.getModel();
 
 		for (String keyword : keywords) {
@@ -145,42 +192,37 @@ public class KeywordSuggestionPanel extends JPanel {
 					popup.show(btn, 0, btn.getHeight());
 				}
 			});
-
-//			model.addElement("<html><b>"+ keyword +"</b></html>");
 			model.addElement(keyword);
 		}
 	}
 	
-	 class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
-		 ImageIcon icon = new ImageIcon(getClass().getResource("/add-proposal.png"));
-
-	@Override
-        public Component getListCellRendererComponent(
-	       JList list,              // the list
-	       Object value,            // value to display
-	       int index,               // cell index
-	       boolean isSelected,      // is the cell selected
-	       boolean cellHasFocus)    // does the cell have focus
-	     {
-	         String s = value.toString();
-	         setText(s);
-	         setIcon(icon);
-	         if (isSelected) {
-	             setBackground(list.getSelectionBackground());
-	             setForeground(list.getSelectionForeground());
-	         } else {
-	             setBackground(list.getBackground());
-	             setForeground(list.getForeground());
-	         }
-	         setEnabled(list.isEnabled());
-	         setFont(list.getFont());
-	         setOpaque(true);
-	         return this;
-	     }
-	 }
-
-
-
+	class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
+		ImageIcon icon = new ImageIcon(ADD_PROPOSAL_ICON_PATH + ADD_PROPOSAL_ICON);
+	
+		@Override
+		public Component getListCellRendererComponent(
+				JList list,              // the list
+				Object value,            // value to display
+				int index,               // cell index
+				boolean isSelected,      // is the cell selected
+				boolean cellHasFocus) {    // does the cell have focus
+			String s = value.toString();
+			setText(s);
+			setIcon(icon);
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+			setEnabled(list.isEnabled());
+			setFont(list.getFont());
+			setOpaque(true);
+			return this;
+		}
+	}
+	 
 	private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
 		final JToggleButton button = new JToggleButton(factory.getIcon());
 		button.setText(keyword);
