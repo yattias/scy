@@ -72,33 +72,33 @@ import java.util.Locale;
 public class SCYMapperStandalone extends JFrame {
 
 	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperToolConfig.xml";
-	
+
 	private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
-	
+
 	private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
 
 	private ApplicationContext appContext;
 
 	private Icon offlineIcon;
-	
+
 	private Icon onlineIcon;
 
 	private IELO currentELO;
 
 	protected ISCYMapperToolConfiguration configuration;
-	
+
 	private IDataSyncService dataSyncService;
-	
+
 	private ISyncSession currentSession;
-	
+
 	private ToolBrokerAPI toolBroker;
-	
+
 	protected IConceptMap currentConceptMap;
-	
+
 	protected SCYMapperPanel scyMapperPanel;
-	
+
 	private JComponent loginStatus;
-	
+
 	private ISyncListener dummySyncListener = new ISyncListener() {
 		@Override
 		public void syncObjectAdded(ISyncObject syncObject) {
@@ -113,7 +113,7 @@ public class SCYMapperStandalone extends JFrame {
 		}
 	};
 	private String username = "";
-    
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -145,15 +145,19 @@ public class SCYMapperStandalone extends JFrame {
 		getContentPane().add(BorderLayout.CENTER, createScyMapperPanel(cmap));
 	}
 
-	void init() {
+	void init (){
+		init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
+	}
 
-		appContext = new ClassPathXmlApplicationContext(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
+	void init(String pathToSpringXML) {
+
+		appContext = new ClassPathXmlApplicationContext(pathToSpringXML);
 		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration");
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800, 600);
 		setLocationByPlatform(true);
-		
+
 		onlineIcon = new ImageIcon(getClass().getResource("online.png"));
 		offlineIcon = new ImageIcon(getClass().getResource("offline.png"));
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
@@ -202,15 +206,15 @@ public class SCYMapperStandalone extends JFrame {
 		JMenu fileMenu = new JMenu("File");
 		JMenu viewMenu = new JMenu("View");
 		JMenu sessionMenu = new JMenu("Session");
-		
+
 		menuBar.add(fileMenu);
 		//some menu items are disables, as they are not useful in the standalone version
 		//menuBar.add(viewMenu);
 		//menuBar.add(sessionMenu);
-		
+
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
 		((JLabel) loginStatus).setText("Offline");
-		
+
 		//menuBar.add(loginStatus);
 
 		JMenuItem exitItem = new JMenuItem("Exit");

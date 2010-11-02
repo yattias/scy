@@ -24,6 +24,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 	// TODO changed for testing purposes
     private static final String SQLSPACES_HOST = "scy.collide.info";
 //	private static final String SQLSPACES_HOST = "localhost";
+    private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperCollideToolConfig.xml";
 
     private static final int SQLSPACES_PORT = 2525;
 
@@ -47,7 +48,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     @Override
     void init() {
-        super.init();
+        super.init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
         try {
             commandSpace = new TupleSpace(new User("SCYMapper"), SQLSPACES_HOST, SQLSPACES_PORT, "command");
             Callback cb = new Callback() {
