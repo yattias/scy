@@ -65,6 +65,13 @@ public class ConceptMapModel {
 		graph.removeEdge(props.getProperty(PROP_ID));
 	}
 
+	public void edgeFlipped(Properties props) {		
+		graph.removeEdge(props.getProperty(PROP_ID));
+		// Attention: here is the flip!
+		graph.addEdge(props.getProperty(PROP_TO), props.getProperty(PROP_FROM),
+				props.getProperty(PROP_LABEL), props.getProperty(PROP_ID));
+	}
+	
 	public void labelChanged(Properties props) {
 		graph.changeLabel(props.getProperty(PROP_ID), props
 				.getProperty(PROP_NEW_LABEL));
