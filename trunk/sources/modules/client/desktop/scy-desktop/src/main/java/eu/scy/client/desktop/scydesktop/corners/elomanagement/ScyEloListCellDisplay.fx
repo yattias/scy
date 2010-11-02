@@ -41,9 +41,11 @@ public mixin class ScyEloListCellDisplay {
    public function extendedScyEloCellFactory(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
-            node: ExtendedScySearchResultCellNode{
+            node: ExtendedScyEloDisplayNode{
                newEloCreationRegistry: newEloCreationRegistry
-               scySearchResult: bind listCell.item as ScySearchResult
+               scyElo: bind (listCell.item as ScySearchResult).getScyElo()
+               eloIcon:bind ((listCell.item as ScySearchResult).getEloIcon() as EloIcon).clone()
+//               scySearchResult: bind listCell.item as ScySearchResult
             }
          }
    }

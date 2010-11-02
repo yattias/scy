@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import java.lang.String;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 
 /**
  * @author SikkenJ
@@ -41,5 +43,24 @@ public class MultiSelectListView extends ListView {
             }
         }
     }
+}
+
+function run(){
+   Stage {
+	title: "test MultiSelectListView"
+	onClose: function () {  }
+	scene: Scene {
+		width: 200
+		height: 200
+		content: [
+         MultiSelectListView{
+            items:["one", "two", "three"]
+         }
+
+      ]
+	}
+}
+
+
 }
 

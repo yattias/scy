@@ -27,9 +27,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
 import eu.scy.common.scyelo.ScyElo;
 import javafx.scene.layout.Stack;
-import javafx.animation.Timeline;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.utils.multiselectlistview.MultiSelectListView;
+import eu.scy.client.desktop.scydesktop.utils.multiselectlistview.MultiSelectListCell;
 
 /**
  * @author SikkenJ
@@ -47,9 +47,12 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    var grid: Grid;
    def spacing = 5.0;
    def leftCollumnSpace = 50.0;
-   var eloDescription: Label;
-   public def searchersList: ListView = ListView {
-         //                           items: ['searcher 1', 'searcher 2']
+   def baseEloInfo = ExtendedScyEloDisplayNode {
+         newEloCreationRegistry: newEloCreationRegistry
+         scyElo: bind baseElo
+         eloIcon: bind baseEloIcon
+      }
+   public def searchersList: MultiSelectListView = MultiSelectListView {
          layoutInfo: LayoutInfo {
             height: 100
             minHeight: 50
@@ -59,7 +62,6 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
          }
       };
    def resultsListView: ListView = ListView {
-         items: []
          layoutInfo: LayoutInfo {
             height: 200
             minHeight: 100
@@ -72,7 +74,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    def progressIndicator = ProgressIndicator {
          progress: -1
       }
-   def moreEloInfo = ExtendedScySearchResultCellNode {
+   def moreEloInfo = ExtendedScyEloDisplayNode {
          newEloCreationRegistry: newEloCreationRegistry
       }
    def foundLabelText = ##"Found";
@@ -84,16 +86,16 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    public var baseOnAction: function(gridEloBasedSearch: GridEloBasedSearch): Void;
    public var openAction: function(gridEloBasedSearch: GridEloBasedSearch): Void;
    public var cancelAction: function(gridEloBasedSearch: GridEloBasedSearch): Void;
-   public var baseElo: ScyElo on replace {
-         eloDescription.text = getEloDescription(baseElo);
-      };
-   public-read def selectedEloBasedSearcher = bind searchersList.selectedItem as EloBasedSearcher on replace {
+   public var baseElo: ScyElo;
+   public var baseEloIcon:EloIcon;
+   public-read def selectedEloBasedSearchers = bind searchersList.selectedItems as EloBasedSearcher[] on replace {
          doSearch(this);
       };
    public-read def selectedSearchResult = bind resultsListView.selectedItem as ScySearchResult on replace {
          openButton.disable = selectedSearchResult == null;
          baseButton.disable = selectedSearchResult == null;
-         moreEloInfo.scySearchResult = selectedSearchResult;
+         moreEloInfo.scyElo = selectedSearchResult.getScyElo();
+         moreEloInfo.eloIcon = (selectedSearchResult.getEloIcon() as EloIcon).clone();
       };
 
    init {
@@ -124,9 +126,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
                      Label {
                         text: ##"ELO"
                      }
-                     eloDescription = Label {
-                           text: "elo"
-                        }
+                     baseEloInfo
                   ]
                }
                GridRow {
@@ -217,7 +217,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
 
    function eloBasedSearcherCellFactory(): ListCell {
       var listCell: ListCell;
-      listCell = ListCell {
+      listCell = MultiSelectListCell {
             node: Label {
                text: bind "{(listCell.item as EloBasedSearcher).getDisplayId()}"
             }
@@ -226,7 +226,6 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
 
    public override function showSearching(): Void {
       delete  resultsListView.items;
-      //      resultsListView.items = [];
       resultsListView.disable = true;
       progressIndicator.visible = true;
       setNumberOfResults("?");
