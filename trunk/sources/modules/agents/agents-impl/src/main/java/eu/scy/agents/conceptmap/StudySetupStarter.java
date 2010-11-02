@@ -7,19 +7,41 @@ import eu.scy.agents.conceptmap.enrich.CMEnricherAgent;
 import eu.scy.agents.conceptmap.model.UserConceptMapAgent;
 import eu.scy.agents.conceptmap.proposer.CMProposerAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Configuration.Database;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.server.Server;
 
 public class StudySetupStarter {
 
-    public static void main(String[] args) throws AgentLifecycleException {
+    public static void main(String[] args) throws Throwable {
+        startServer();
+//        copyTSContent("http://www.scy.eu/co2house#");
+        startAgents();
+    }
+
+    public static void copyTSContent(String spaceName) throws TupleSpaceException {
+        TupleSpace tsSource = new TupleSpace("scy.collide.info", 2525, spaceName);
+        TupleSpace tsTarget = new TupleSpace("localhost", 2525, spaceName);
+        tsSource.exportTuples("tmp.xml");
+        tsTarget.importTuples("tmp.xml");
+    }
+    
+    private static void startServer() throws TupleSpaceException {
         Configuration conf = Configuration.getConfiguration();
-        conf.setDbType(Database.HSQL);
+        conf.setDbType(Database.MYSQL);
         conf.setLocal(true);
         conf.setWebEnabled(false);
         Server.startServer();
-        
+        TupleSpace ts = new TupleSpace("command");
+        ts.deleteAll(new Tuple());
+        ts.disconnect();
+    }
+
+    private static void startAgents() throws AgentLifecycleException {
+        Configuration conf = Configuration.getConfiguration();
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(AgentProtocol.TS_HOST, "localhost");
         map.put(AgentProtocol.TS_PORT, conf.getNonSSLPort());

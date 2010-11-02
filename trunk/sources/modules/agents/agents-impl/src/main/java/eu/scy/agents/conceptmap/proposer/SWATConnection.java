@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import eu.scy.agents.conceptmap.proposer.CMProposerAgent.Relation;
+
 public class SWATConnection implements OntologyConnection {
 
     private SWATClient sc;
@@ -36,7 +38,7 @@ public class SWATConnection implements OntologyConnection {
             Stemmer.setLanguage(language);
             this.language = language;
             this.ontologyNamespace = ontologyNamespace;
-            this.sc = new SWATClient(ontologyNamespace, "scy.collide.info", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
+            this.sc = new SWATClient(ontologyNamespace, "localhost", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -271,9 +273,13 @@ public class SWATConnection implements OntologyConnection {
                 Property[] allSubProperties = op.getAllSubProperties();
                 HashSet<String> subProperties = new HashSet<String>();
                 for (Property p : allSubProperties) {
-                    subProperties.add(p.getLabels(language));
+                    if (Relation.isKnown(p.getName())) {
+                        subProperties.add(Relation.valueOf(p.getName()).getLabel(language));
+                    }
                 }
-                m.put(op.getLabels(language), subProperties);
+                if (Relation.isKnown(op.getName())) {
+                    m.put(Relation.valueOf(op.getName()).getLabel(language), subProperties);
+                }
             }
         } catch (SWATException e) {
             e.printStackTrace();

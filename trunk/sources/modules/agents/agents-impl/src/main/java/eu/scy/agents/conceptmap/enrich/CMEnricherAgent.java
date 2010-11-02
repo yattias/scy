@@ -99,7 +99,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
             String type = request.split("_")[0];
             try {
                 String[] proposals = askForProposals(elouri, user);
-                sendFeeback(id, elouri, user, mission, session, type + "_proposal", proposals);
+                sendFeeback(id, elouri, user, mission, session, type, proposals);
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
