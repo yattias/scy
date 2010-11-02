@@ -33,9 +33,27 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -43,6 +61,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -51,23 +70,35 @@ import java.util.Locale;
  * Time: 19:53:10
  */
 public class SCYMapperStandalone extends JFrame {
+
 	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperToolConfig.xml";
+	
 	private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
+	
+	private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
+
 	private ApplicationContext appContext;
 
 	private Icon offlineIcon;
+	
 	private Icon onlineIcon;
 
 	private IELO currentELO;
 
-	private ToolBrokerAPI toolBroker;
-	protected IConceptMap currentConceptMap;
-	private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
 	protected ISCYMapperToolConfiguration configuration;
+	
 	private IDataSyncService dataSyncService;
+	
 	private ISyncSession currentSession;
+	
+	private ToolBrokerAPI toolBroker;
+	
+	protected IConceptMap currentConceptMap;
+	
 	protected SCYMapperPanel scyMapperPanel;
+	
 	private JComponent loginStatus;
+	
 	private ISyncListener dummySyncListener = new ISyncListener() {
 		@Override
 		public void syncObjectAdded(ISyncObject syncObject) {
@@ -82,25 +113,24 @@ public class SCYMapperStandalone extends JFrame {
 		}
 	};
 	private String username = "";
-
+    
 	public static void main(String[] args) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                        initLAF();
-                        SCYMapperStandalone app = new SCYMapperStandalone();
-                        app.setTitle("SCYMapper Concept Mapping Tool");
-                        try {
-                                app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
-                        } catch (IOException e) {
-                        }
-                        app.setVisible(true);
-                }
-            });
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				initLAF();
+				SCYMapperStandalone app = new SCYMapperStandalone();
+				app.setTitle("SCYMapper Concept Mapping Tool");
+				try {
+					app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
+				} catch (IOException e) {
+				}
+				app.setVisible(true);
+			}
+		});
 	}
 
 	public SCYMapperStandalone() {
 		init();
-		
 		getContentPane().add(BorderLayout.CENTER, createScyMapperPanel());
 	}
 
@@ -116,16 +146,16 @@ public class SCYMapperStandalone extends JFrame {
 	}
 
 	void init() {
-	    
+
 		appContext = new ClassPathXmlApplicationContext(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
 		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration");
+
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800, 600);
 		setLocationByPlatform(true);
-
+		
 		onlineIcon = new ImageIcon(getClass().getResource("online.png"));
 		offlineIcon = new ImageIcon(getClass().getResource("offline.png"));
-
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
 		((JLabel) loginStatus).setText("Offline");
 		getContentPane().setLayout(new BorderLayout());
@@ -174,7 +204,7 @@ public class SCYMapperStandalone extends JFrame {
 		JMenu sessionMenu = new JMenu("Session");
 		
 		menuBar.add(fileMenu);
-                //some menu items are disables, as they are not useful in the standalone version
+		//some menu items are disables, as they are not useful in the standalone version
 		//menuBar.add(viewMenu);
 		//menuBar.add(sessionMenu);
 		
@@ -336,7 +366,7 @@ public class SCYMapperStandalone extends JFrame {
 				return;
 			}
 			IQuery query = null;
-			java.util.List<ISearchResult> searchResults = toolBroker.getRepository().search(query);
+			List<ISearchResult> searchResults = toolBroker.getRepository().search(query);
 			URI[] uris = new URI[searchResults.size()];
 			int i = 0;
 			for (ISearchResult searchResult : searchResults) {
@@ -400,7 +430,7 @@ public class SCYMapperStandalone extends JFrame {
 	private class ImportConceptMapAction extends AbstractAction {
 		private ImportConceptMapAction() {
 			//super("Import...");
-                        super("Open...");
+			super("Open...");
 		}
 
 		@Override
@@ -442,7 +472,7 @@ public class SCYMapperStandalone extends JFrame {
 	private class ExportConceptMapAction extends AbstractAction {
 		private ExportConceptMapAction() {
 			//super("Export...");
-                        super("Save as...");
+			super("Save as...");
 		}
 
 		@Override
