@@ -285,7 +285,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
                 }
             }
         });
-        JButton showHideButton = new JButton("Show/hide notification");
+        JButton showHideButton = new JButton(Localization.getString("Mainframe.FadeNotificiator.Button"));
         showHideButton.addActionListener(new ActionListener() {
 
             @Override

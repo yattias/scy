@@ -24,6 +24,7 @@ import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
+import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 /**
@@ -56,7 +57,7 @@ public class ConceptMapToolBar extends JPanel {
 	class RemoveConceptButton extends JButton implements ActionListener {
 		RemoveConceptButton() {
 			super();
-			setToolTipText("Delete");
+			setToolTipText(Localization.getString("Mainframe.Toolbar.Delete"));
 			setIcon(new ImageIcon(getClass().getResource("delete.png")));
 			addActionListener(this);
 
@@ -87,9 +88,9 @@ public class ConceptMapToolBar extends JPanel {
 
 	class ForegroundColorButton extends ColorChooserButton {
 		ForegroundColorButton() {
-			super("Foreground");
+			super(Localization.getString("Mainframe.Toolbar.Foreground.Label"));
 			setDisplayColor(getSelectionFg());
-			setToolTipText("Select foreground color");
+			setToolTipText(Localization.getString("Mainframe.Toolbar.Foreground.Tooltip"));
 			setIcon(new ImageIcon(getClass().getResource("color-fg.png")));
 
 			setEnabled(false);
@@ -154,10 +155,10 @@ public class ConceptMapToolBar extends JPanel {
 	class BackgroundColorButton extends ColorChooserButton {
 
 		BackgroundColorButton() {
-			super("Background");
+			super(Localization.getString("Mainframe.Toolbar.Background.Label"));
 			setDisplayColor(getSelectionBg());
 			setIcon(new ImageIcon(getClass().getResource("color-bg.png")));
-			setToolTipText("Select background color");
+			setToolTipText(Localization.getString("Mainframe.Toolbar.Background.Tooltip"));
 
 			setEnabled(false);
 			diagramSelectionModel.addSelectionListener(new IDiagramSelectionListener() {
@@ -220,7 +221,7 @@ public class ConceptMapToolBar extends JPanel {
 	private class ClearConceptMapButton extends JButton implements ActionListener {
 		ClearConceptMapButton() {
 			super();
-			setToolTipText("Clear");
+			setToolTipText(Localization.getString("Mainframe.Toolbar.Clear"));
 			setIcon(new ImageIcon(getClass().getResource("clear.png")));
 			addActionListener(this);
 		}
@@ -233,7 +234,7 @@ public class ConceptMapToolBar extends JPanel {
 
 	private class OpaqueCheckbox extends JCheckBox implements ActionListener {
 		OpaqueCheckbox() {
-			super("Fill");
+			super(Localization.getString("Mainframe.Toolbar.Fill"));
 			addActionListener(this);
 			diagramSelectionModel.addSelectionListener(new IDiagramSelectionListener() {
 				@Override
@@ -259,7 +260,7 @@ public class ConceptMapToolBar extends JPanel {
 
 	private class NodeShadowCheckbox extends JCheckBox implements ActionListener {
 		NodeShadowCheckbox() {
-			super("Shadow");
+			super(Localization.getString("Mainframe.Toolbar.Shadow"));
 			addActionListener(this);
 			diagramSelectionModel.addSelectionListener(new IDiagramSelectionListener() {
 				@Override
