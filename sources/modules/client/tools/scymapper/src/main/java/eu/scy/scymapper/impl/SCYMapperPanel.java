@@ -340,13 +340,17 @@ public class SCYMapperPanel extends JPanel {
         topToolBarPanel.add(toolBar);
 //        topToolBarPanel.add(palettePane);
         
-        suggestionPanel = new KeywordSuggestionPanel();
-        suggestionPanel.setVisible(false);
+        createKeywordSuggestionPanel();
 
         add(BorderLayout.NORTH, topToolBarPanel);
         add(BorderLayout.WEST, palettePane);
         add(BorderLayout.CENTER, cmapPanel);
         add(BorderLayout.EAST, suggestionPanel);
+    }
+
+    public void createKeywordSuggestionPanel() {
+        suggestionPanel = new KeywordSuggestionPanel();
+        suggestionPanel.setVisible(false);
     }
 
     public IConceptMap getConceptMap() {

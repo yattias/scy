@@ -1,16 +1,13 @@
 package eu.scy.scymapper.impl;
 
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.User;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.dgc.VMID;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,9 +18,11 @@ import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig;
+import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig.Help;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.FadeNotificator;
 import eu.scy.scymapper.impl.ui.Notificator;
+import eu.scy.scymapper.impl.ui.notification.DoubleKeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanel;
 
 public class SCYMapperPanelCollide extends SCYMapperPanel {
@@ -36,130 +35,153 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     private JButton requestRelationHelpButton;
 
-    // TODO for testing purposes only
-    TupleSpace commandSpace;
+    private Timer timer;
+
+    private Help helpMode;
+
+    private Timer helpTimer;
+
+    protected long HELP_INTERVAL = 5000;
 
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort) {
         super(cmap, configuration);
-//        actionLogger = null;
         actionLogger = new ConceptMapActionLogger(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), new VMID().toString());
     }
 
     @Override
     protected Notificator createNotificator(JComponent parent, JPanel panel) {
-    	int yOffset = -cmapPanel.getY();
-    	FadeNotificator fn = new FadeNotificator(parent, panel, NOTIFY_POSITION, 0, yOffset);
-    	fn.setBorderPainted(false);
+        int yOffset = -cmapPanel.getY();
+        FadeNotificator fn = new FadeNotificator(parent, panel, NOTIFY_POSITION, 0, yOffset);
+        fn.setBorderPainted(false);
         return fn;
     }
 
     @Override
     protected void initComponents() {
-		super.initComponents();
-    	standaloneConfig = SCYMapperStandaloneConfig.getInstance();
+        standaloneConfig = SCYMapperStandaloneConfig.getInstance();
+        this.helpMode = standaloneConfig.getHelpMode();
+        super.initComponents();
+        switch (helpMode) {
+            case VOLUNTARY:
+                // Provide voluntary help
+                requestConceptHelpButton = new JButton("Request Concept Help");
+                requestConceptHelpButton.addActionListener(new ActionListener() {
 
-		switch (standaloneConfig.getHelpMode()) {
-		case VOLUNTARY:
-			// Provide voluntary help
-			requestConceptHelpButton = new JButton("Request Concept Help");
-			requestConceptHelpButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        requestConceptHelpButton.setEnabled(false);
+                        requestRelationHelpButton.setEnabled(false);
+                        requestConceptHelp();
+                    }
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// changed for testing purposes
-					// won't use the agents framework, instead write an example proposal tuple directly in TS
-//					requestConceptHelpButton.setEnabled(false);
-//					requestRelationHelpButton.setEnabled(false);
-//					requestConceptHelp();
-					try {
-                		commandSpace = new TupleSpace(new User("SCYMapper"), "localhost", 2525, "command");
-                        Tuple tuple = new Tuple("notification", "dummy-id", "bibi blocksberg", "scymapper","sender", "mission", "session", "proposal=Proposal 1", "proposal=Proposal 2");
-                		commandSpace.write(tuple);
-					} catch (TupleSpaceException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+                });
 
-				}
+                requestRelationHelpButton = new JButton("Request Relation Help");
+                requestRelationHelpButton.addActionListener(new ActionListener() {
 
-			});
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        requestConceptHelpButton.setEnabled(false);
+                        requestRelationHelpButton.setEnabled(false);
+                        requestRelationHelp();
+                    }
 
-			requestRelationHelpButton = new JButton("Request Relation Help");
-			requestRelationHelpButton.addActionListener(new ActionListener() {
+                });
+                toolBar.add(requestConceptHelpButton);
+                toolBar.add(requestRelationHelpButton);
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					requestConceptHelpButton.setEnabled(false);
-					requestRelationHelpButton.setEnabled(false);
-					requestRelationHelp();
-				}
+                invalidate();
+                break;
 
-			});
-			toolBar.add(requestConceptHelpButton);
-			toolBar.add(requestRelationHelpButton);
+            case CONTINUOUS:
+                timer = new Timer(true);
+                timer.schedule(new TimerTask() {
 
-			invalidate();
-			break;
+                    @Override
+                    public void run() {
+                        suggestionPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                        suggestionPanel.setVisible(true);
+                        helpTimer = new Timer(true);
+                        helpTimer.schedule(new TimerTask() {
 
-		case CONTINUOUS:
-        	// TODO Provide help after standaoneConfig.getContinuousHelpWaitTime() seconds
-			break;
+                            @Override
+                            public void run() {
+                                requestConceptHelp();
+                                requestRelationHelp();
+                            }
+                            
+                        }, 0, HELP_INTERVAL);
+                    }
+                }, standaloneConfig.getContinuousHelpWaitTime() * 10);
+                // TODO Provide help after standaoneConfig.getContinuousHelpWaitTime() seconds
+                invalidate();
+                break;
+            case NOHELP:
+                // NOHELP means nothing to do ;)
+            default:
+                // Same as no help
+                break;
+        }
+    }
 
-		case NOHELP:
-        	// NOHELP means nothing to do ;)
-		default:
-			// Same as no help
-			break;
-		}
+    @Override
+    public void createKeywordSuggestionPanel() {
+        if (helpMode == Help.CONTINUOUS) {
+            suggestionPanel = new DoubleKeywordSuggestionPanel();
+        } else {
+            suggestionPanel = new KeywordSuggestionPanel();
+        }
+        suggestionPanel.setVisible(false);
     }
 
     @Override
     public void suggestKeywords(List<String> keywords, String type) {
 
-    	suggestionPanel = new KeywordSuggestionPanel();
+        if (helpMode == Help.VOLUNTARY) {
+            requestConceptHelpButton.setEnabled(true);
+            requestRelationHelpButton.setEnabled(true);
+            suggestionPanel = new KeywordSuggestionPanel();
+        }
 
         if (keywords.isEmpty()) {
             return;
         }
 
-        checkForAlreadyPresentConcepts(keywords);
+        suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel, type);
 
-        if (keywords.size() == 1) {
-            suggestionPanel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
-        } else {
-            suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
-        }
+        if (helpMode == Help.VOLUNTARY) {
 
-        suggestionPanel.setSize(300, cmapPanel.getHeight()-2);
-        suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
-                BorderFactory.createRaisedBevelBorder()));
+            suggestionPanel.setSize(300, cmapPanel.getHeight() - 2);
+            suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
 
-        if (notificator != null) {
-            notificator.hide();
-        }
-
-        notificator = createNotificator(this, suggestionPanel);
-
-        JButton close = new JButton("Close");
-        close.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            if (notificator != null) {
                 notificator.hide();
             }
-        });
 
-        JPanel btnPanel = new JPanel();
-        btnPanel.add(close);
-        suggestionPanel.add(BorderLayout.SOUTH, close);
+            notificator = createNotificator(this, suggestionPanel);
 
-        notificator.show();
+            JButton close = new JButton("Close");
+            close.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    notificator.hide();
+                }
+            });
+
+            JPanel btnPanel = new JPanel();
+            btnPanel.add(close);
+            suggestionPanel.add(BorderLayout.SOUTH, close);
+
+            notificator.show();
+        }
     }
 
     protected void requestConceptHelp() {
-    	actionLogger.logRequestConceptHelp();
+        actionLogger.logRequestConceptHelp();
     }
+
     protected void requestRelationHelp() {
-    	actionLogger.logRequestRelationHelp();
+        actionLogger.logRequestRelationHelp();
     }
 }
