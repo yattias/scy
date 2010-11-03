@@ -69,6 +69,8 @@ public class KeywordSuggestionPanel extends JPanel {
 
     private JPanel conceptButtonPane;
 
+    private JLabel titleLabel;
+
     private JList conceptList;
 
     private ArrayList<Integer> changedIndices;
@@ -89,8 +91,8 @@ public class KeywordSuggestionPanel extends JPanel {
 
         changedIndices = new ArrayList<Integer>();
         Icon icon = UIManager.getIcon("OptionPane.informationIcon");
-        JLabel label = new JLabel(Localization.getString("Mainframe.KeywordSuggestion.Title"), icon, SwingConstants.LEFT);
-        add(BorderLayout.NORTH, label);
+        titleLabel = new JLabel(null, icon, SwingConstants.LEFT);
+        add(BorderLayout.NORTH, titleLabel);
         conceptButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));// new MigLayout("wrap 4",
                                                                         // "[fill]"));
         descriptionLabel = new JTextPane();
@@ -158,7 +160,14 @@ public class KeywordSuggestionPanel extends JPanel {
 	    setSuggestions(keywords, nodeFactories, panel, "concepts");
 	}
 	
-	
+    /**
+     * Sets a new title for the keyword suggestion panel.
+     * @param text The new text
+     */
+    public void setTitle(String text) {
+    	this.titleLabel.setText(text);
+    }
+    
 	/**
      * Suggests a keyword to be added to the concept map by displaying a list of available concept
      * shapes
@@ -172,11 +181,7 @@ public class KeywordSuggestionPanel extends JPanel {
 	        if (keywords.isEmpty()) {
 	            text = Localization.getString("Mainframe.KeywordSuggestion.NoKeyword");
 	        } else {
-	        	if(type.equals("concepts")) {
-	        		text = Localization.getString("Mainframe.KeywordSuggestion.SuggestConcepts");
-	        	} else {
-	        		text = Localization.getString("Mainframe.KeywordSuggestion.SuggestRelations");
-	        	}
+        		text = Localization.getString("Mainframe.KeywordSuggestion.Suggest");
 	        }
 	    
 				

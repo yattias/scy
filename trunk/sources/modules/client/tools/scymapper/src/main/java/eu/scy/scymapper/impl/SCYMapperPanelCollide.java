@@ -143,6 +143,12 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             suggestionPanel = new KeywordSuggestionPanel();
         }
 
+        if (type.equals("concept")) {
+            suggestionPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.ConceptTitle"));
+    	} else {
+            suggestionPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.RelationTitle"));
+    	}
+
         suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel, type);
 
         if (helpMode == Help.VOLUNTARY) {
