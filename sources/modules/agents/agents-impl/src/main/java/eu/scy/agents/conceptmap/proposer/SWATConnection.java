@@ -147,11 +147,14 @@ public class SWATConnection implements OntologyConnection {
             // Entity e = sc.getOntology().getEntity(namespace + entity);
             Entity e = sc.getOntology().getEntityForLabel(new DatatypeAnnotation(Type.LABEL, language, entity));
             Instance i = (Instance) e;
-            String[] result = new String[i.getInstancesOf().length];
-            for (int x = 0; x < result.length; x++) {
-                result[x] = getLabels(i.getInstancesOf()[x]);
+            ArrayList<String> result = new ArrayList<String>();
+            for (int x = 0; x < i.getInstancesOf().length; x++) {
+                String label = getLabels(i.getInstancesOf()[x]);
+                if (label.trim().length() != 0) {
+                    result.add(label); 
+                }
             }
-            return result;
+            return (String[]) result.toArray(new String[result.size()]);
         } catch (SWATException e1) {
             e1.printStackTrace();
         } catch (ClassCastException e1) {

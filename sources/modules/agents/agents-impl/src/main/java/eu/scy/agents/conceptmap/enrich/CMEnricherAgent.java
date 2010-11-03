@@ -36,7 +36,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
             Callback cb = new CMEnricherCallback();
-            actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, String.class, String.class, "scymapper", String.class, String.class, String.class), cb, true);
+            actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, String.class, String.class, "scymapper", String.class, String.class, String.class), cb, false);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -88,7 +88,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
     class CMEnricherCallback implements Callback {
 
         @Override
-        public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
+        public synchronized void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
             String id = afterTuple.getField(1).getValue().toString();
             String request = afterTuple.getField(3).getValue().toString();
             String user = afterTuple.getField(4).getValue().toString();
@@ -103,7 +103,6 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
-            
         }
 
     }
