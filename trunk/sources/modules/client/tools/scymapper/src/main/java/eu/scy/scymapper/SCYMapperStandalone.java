@@ -500,22 +500,25 @@ public class SCYMapperStandalone extends JFrame {
 				}
 			});
 			fileChooser.setSelectedFile(new File(currentConceptMap.getName() + ".xml")); 
-			fileChooser.showSaveDialog(SCYMapperStandalone.this);
-			File f = fileChooser.getSelectedFile();
-			if (f.exists()) {
-				int confirm = JOptionPane.showConfirmDialog(SCYMapperStandalone.this, f.getName() + Localization.getString("Dialog.Confirm.FileExists.Text"), Localization.getString("Dialog.Confirm.FileExists.Title"), JOptionPane.YES_NO_CANCEL_OPTION);
-				if (confirm != JOptionPane.YES_OPTION) return;
-			}
-			try {
-				FileWriter fw = new FileWriter(f);
-				XStream xstream = new XStream(new DomDriver());
-				xstream.toXML(currentConceptMap, fw);
-				fw.close();
-			}
-			catch (IOException e) {
-				JOptionPane.showMessageDialog(SCYMapperStandalone.this, Localization.getString("Dialog.Message.CouldNotExport.Text") +" "+ e.getLocalizedMessage(), Localization.getString("Dialog.Message.CouldNotExport.Title"),
-						JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+			int dialogResult = fileChooser.showSaveDialog(SCYMapperStandalone.this);
+			if(dialogResult == JFileChooser.APPROVE_OPTION) {
+				
+				File f = fileChooser.getSelectedFile();
+				if (f.exists()) {
+					int confirm = JOptionPane.showConfirmDialog(SCYMapperStandalone.this, f.getName() + Localization.getString("Dialog.Confirm.FileExists.Text"), Localization.getString("Dialog.Confirm.FileExists.Title"), JOptionPane.YES_NO_CANCEL_OPTION);
+					if (confirm != JOptionPane.YES_OPTION) return;
+				}
+				try {
+					FileWriter fw = new FileWriter(f);
+					XStream xstream = new XStream(new DomDriver());
+					xstream.toXML(currentConceptMap, fw);
+					fw.close();
+				}
+				catch (IOException e) {
+					JOptionPane.showMessageDialog(SCYMapperStandalone.this, Localization.getString("Dialog.Message.CouldNotExport.Text") +" "+ e.getLocalizedMessage(), Localization.getString("Dialog.Message.CouldNotExport.Title"),
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
 			}
 		}
 	}
