@@ -447,13 +447,14 @@
     <!--
          the modules may be commented out to avoid top-to-bottom dependencies
          in the pom hierarchy
-         -->
+         
     <modules>
         <module>common</module>
         <module>agents</module>
         <module>client</module>
         <module>server</module>
     </modules>
+	 -->
 
     <properties>
         <slf4j.version>1.5.8</slf4j.version>
@@ -514,6 +515,19 @@
             <organization>Collide Research Group</organization>
             <organizationUrl>http://www.collide.info</organizationUrl>
             <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+		<developer>
+            <id>larsbollen</id>
+            <name>Lars Bollen</name>
+            <email>l.bollen@utwente.nl</email>
+            <url>http://www.utwente.nl</url>
+            <organization>University of Twente, Instructional Technology</organization>
+            <organizationUrl>http://www.utwente.nl</organizationUrl>
+            <roles>
+            	<role>architect</role>
                 <role>developer</role>
             </roles>
             <timezone>+1</timezone>
