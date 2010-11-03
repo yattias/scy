@@ -120,10 +120,8 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
-            sendAliveUpdate();
             observer.setStatusText("Agent running");
             Tuple returnTuple = commandSpace.waitToTake(new Tuple(String.class, "CMProposer", "cm proposal", String.class, String.class, Integer.class, String.class), 5000);
-            sendAliveUpdate();
             if (returnTuple != null) {
                 observer.clearState();
                 observer.setStatusText("Received request ...");
@@ -363,13 +361,14 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (ontologyClouds.containsKey(stemmed)) {
                 for (String keyword : ontologyClouds.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.2);
-                    System.out.println("cloud: " + keyword);
+//                    System.out.println("cloud: " + keyword);
+                    observer.foundTextKeyword(term);
                 }
             }
             if (ontologySingleTerms.containsKey(stemmed)) {
                 for (String keyword : ontologySingleTerms.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.6);
-                    System.out.println("ontology-stemmed: " + keyword);
+//                    System.out.println("ontology-stemmed: " + keyword);
                 }
                 observer.foundTextKeyword(term);
             }
@@ -378,7 +377,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (text.toLowerCase().contains(oTerm.toLowerCase())) {
                 keywords.put(oTerm.toLowerCase(), 1.0);
                 observer.foundTextKeyword(oTerm.toLowerCase());
-                System.out.println("ontology-full: " + oTerm);
+//                System.out.println("ontology-full: " + oTerm);
             }
         }
         
