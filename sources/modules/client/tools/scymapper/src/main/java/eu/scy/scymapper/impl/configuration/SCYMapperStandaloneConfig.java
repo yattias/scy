@@ -32,11 +32,15 @@ public class SCYMapperStandaloneConfig {
 
 	private static final String KEY_CONTINUOUS_HELP_WAIT_TIME = "ContinuousHelpWaitTime";
 
+	private static final String KEY_CONTINUOUS_HELP_INTERVAL = "ContinuousHelpInterval";
+
 	private static Properties config;
 
 	private static final Help DEFAULT_HELP_MODE = Help.CONTINUOUS;
 
 	private static final int DEFAULT_CON_HELP_WAIT_TIME = 180;
+
+	private static final int DEFAULT_CON_HELP_INTERVAL = 30;
 
 	private static final String KEY_RELATIONS = "Relations";
 
@@ -114,6 +118,16 @@ public class SCYMapperStandaloneConfig {
 		}
 	}
 
+
+	public long getContinuousHelpInterval() {
+	    try {
+	        return Long.parseLong(config
+	                .getProperty(KEY_CONTINUOUS_HELP_INTERVAL));
+	    } catch (NumberFormatException e) {
+	        return DEFAULT_CON_HELP_INTERVAL;
+	    }
+	}
+	
 	public void setContinuousHelpWaitTime(int time) {
 		config.setProperty(KEY_CONTINUOUS_HELP_WAIT_TIME,
 				Integer.toString(time));
@@ -130,4 +144,5 @@ public class SCYMapperStandaloneConfig {
 			System.out.println("/"+string+"/");
 		}
 	}
+
 }

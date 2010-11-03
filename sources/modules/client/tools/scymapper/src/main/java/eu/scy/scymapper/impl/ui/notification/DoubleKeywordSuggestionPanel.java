@@ -25,7 +25,7 @@ public class DoubleKeywordSuggestionPanel extends KeywordSuggestionPanel {
     
     @Override
     public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel, String type) {
-        if (type.equals("concepts")) {
+        if (type.equals("concept")) {
             conceptPanel.setSuggestions(keywords, nodeFactories, panel, type);
         } else {
             relationPanel.setSuggestions(keywords, nodeFactories, panel, type);
