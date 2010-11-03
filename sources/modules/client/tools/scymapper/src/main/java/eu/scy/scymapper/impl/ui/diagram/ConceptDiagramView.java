@@ -30,6 +30,7 @@ import eu.scy.scymapper.impl.controller.IElementControllerFactory;
 import eu.scy.scymapper.impl.model.ComboNodeLinkModel;
 import eu.scy.scymapper.impl.model.ConnectorModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
@@ -323,7 +324,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 	}
 
 	public void confirmAndRemoveSelectedObjects() {
-		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, "Are you sure you would like to remove the selected objects?", "Confirm removal", JOptionPane.YES_NO_OPTION);
+		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, Localization.getString("Dialog.Confirm.Delete.Text"), Localization.getString("Dialog.Confirm.Delete.Title"), JOptionPane.YES_NO_OPTION);
 		if (answer == JOptionPane.YES_OPTION) {
 			if (selectionModel.hasLinkSelection()) {
 				for (ILinkModel link : selectionModel.getSelectedLinks())
@@ -337,7 +338,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 	}
 
 	public void confirmAndRemoveAll() {
-		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, "Are you sure you would like to remove *ALL* elements?", "Confirm removal", JOptionPane.YES_NO_OPTION);
+		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, Localization.getString("Dialog.Confirm.Clear.Text"), Localization.getString("Dialog.Confirm.Clear.Title"), JOptionPane.YES_NO_OPTION);
 		if (answer == JOptionPane.YES_OPTION) {
 			controller.removeAll();
 		}

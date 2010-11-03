@@ -40,6 +40,7 @@ import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncElementControllerFactory;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
+import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.Notificator;
 import eu.scy.scymapper.impl.ui.SlideNotificator;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
@@ -158,7 +159,7 @@ public class SCYMapperPanel extends JPanel {
         
         notificator = createNotificator(this, suggestionPanel);
 
-        JButton close = new JButton("Close");
+        JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
         close.addActionListener(new ActionListener() {
 
             @Override
@@ -198,7 +199,7 @@ public class SCYMapperPanel extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEtchedBorder());
         Icon icon = UIManager.getIcon("OptionPane.informationIcon");
-        JLabel label = new JLabel("Notification recieved", icon, SwingConstants.LEFT);
+        JLabel label = new JLabel(Localization.getString("Mainframe.Notificiation.Recieved"), icon, SwingConstants.LEFT);
         panel.add(BorderLayout.NORTH, label);
 
         StringBuilder sb = new StringBuilder();
@@ -221,7 +222,7 @@ public class SCYMapperPanel extends JPanel {
         }
         notificator = createNotificator(SCYMapperPanel.this, panel);
 
-        JButton close = new JButton("Close");
+        JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
         close.addActionListener(new ActionListener() {
 
             @Override
@@ -240,8 +241,8 @@ public class SCYMapperPanel extends JPanel {
     private void showKeywordSuggestion() {
 
         String input = JOptionPane.showInputDialog(
-                "What keyword would you like to have suggested to you (Separate keywords with comma)?",
-                "Contains, extensions, to, the, Swing, GUI, toolkit");
+        		Localization.getString("Dialog.Message.KeywordSuggestion.Line.1"), 
+        		Localization.getString("Dialog.Message.KeywordSuggestion.Line.2")); 
 
         if (input == null) {
             return;
@@ -255,24 +256,24 @@ public class SCYMapperPanel extends JPanel {
 
     	JPanel topToolBarPanel = new JPanel(new GridLayout(1, 0));
         
-        // topToolBarPanel.setBorder(BorderFactory.createTitledBorder("Session status"));
+        // topToolBarPanel.setBorder(BorderFactory.createTitledBorder(Localization.getString("Mainframe.Toolbar.Session.Status")));
 
         //JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-//        sessionId = new JTextField("No session");
+//        sessionId = new JTextField(Localization.getString("Mainframe.Toolbar.Session.NoSession"));
 //        sessionId.setEditable(false);
 //        sessionId.setPreferredSize(new Dimension(200, 20));
 //
-//        JButton joinSessionButton = new JButton("Join session");
+//        JButton joinSessionButton = new JButton(Localization.getString("Mainframe.Toolbar.Session.Join"));
 //        joinSessionButton.addActionListener(new ActionListener() {
 //
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
-//                String sessId = JOptionPane.showInputDialog("Enter session ID");
+//                String sessId = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.SessionID"));
 //                joinSession(sessId);
 //            }
 //        });
-//        JButton createSessionButton = new JButton("Create session");
+//        JButton createSessionButton = new JButton(Localization.getString("Mainframe.Toolbar.Session.Create"));
 //        createSessionButton.addActionListener(new ActionListener() {
 //
 //            @Override
@@ -280,7 +281,7 @@ public class SCYMapperPanel extends JPanel {
 //                createSession();
 //            }
 //        });
-//        sessionPanel.add(new JLabel("Session: "));
+//        sessionPanel.add(new JLabel(Localization.getString("Mainframe.Toolbar.Session.Create") + " "));
 //        sessionPanel.add(sessionId);
 //        sessionPanel.add(createSessionButton);
 //        sessionPanel.add(joinSessionButton);
@@ -298,7 +299,7 @@ public class SCYMapperPanel extends JPanel {
 //                showNotification(notification);
 //            }
 //        });
-//        JButton showNotificationButton = new JButton("Show notification");
+//        JButton showNotificationButton = new JButton(Localization.getString("Mainframe.Notification.Show"));
 //        showNotificationButton.addActionListener(new ActionListener() {
 //
 //            @Override
@@ -306,7 +307,7 @@ public class SCYMapperPanel extends JPanel {
 //                notificator.show();
 //            }
 //        });
-//        JButton hideNotificationButton = new JButton("Hide notification");
+//        JButton hideNotificationButton = new JButton(Localization.getString("Mainframe.Notification.Hide"));
 //        hideNotificationButton.addActionListener(new ActionListener() {
 //
 //            @Override
@@ -314,7 +315,7 @@ public class SCYMapperPanel extends JPanel {
 //                notificator.hide();
 //            }
 //        });
-//        JButton testSuggestKeywordButton = new JButton("Suggest keywords");
+//        JButton testSuggestKeywordButton = new JButton(Localization.getString("Mainframe.KeywordSuggestion.Button"));
 //        testSuggestKeywordButton.addActionListener(new ActionListener() {
 //
 //            @Override
@@ -368,17 +369,16 @@ public class SCYMapperPanel extends JPanel {
     private class CreateSessionAction extends AbstractAction {
 
         private CreateSessionAction() {
-            super("Create and join session");
+            super(Localization.getString("Mainframe.Menubar.Session.CreateJoinSession"));
         }
 
         @Override
         public void actionPerformed(ActionEvent ev) {
             if (toolBroker == null) {
-                JOptionPane.showMessageDialog(SCYMapperPanel.this, "Please login first", "Not logged in",
+                JOptionPane.showMessageDialog(SCYMapperPanel.this, Localization.getString("Dialog.Message.LoginFirst.Text"), Localization.getString("Dialog.Message.LoginFirst.Title"),
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            System.out.println("CREATING SESSION");
             createSession();
 //            displaySessionId();
 
@@ -392,7 +392,7 @@ public class SCYMapperPanel extends JPanel {
     private class ShowSessionIDAction extends AbstractAction {
 
         private ShowSessionIDAction() {
-            super("Display session ID");
+            super(Localization.getString("Mainframe.Menubar.Session.ShowID"));
         }
 
         @Override
@@ -404,17 +404,17 @@ public class SCYMapperPanel extends JPanel {
     private class JoinSessionAction extends AbstractAction {
 
         private JoinSessionAction() {
-            super("Join session");
+            super(Localization.getString("Mainframe.Menubar.Session.Join"));
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (toolBroker == null) {
-                JOptionPane.showMessageDialog(SCYMapperPanel.this, "Please login first", "Not logged in",
+                JOptionPane.showMessageDialog(SCYMapperPanel.this, Localization.getString("Dialog.Message.LoginFirst.Text"), Localization.getString("Dialog.Message.LoginFirst.Title"),
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String sessId = JOptionPane.showInputDialog("Enter session ID");
+            String sessId = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.SessionID"));
             joinSession(sessId);
         }
     }
@@ -439,7 +439,7 @@ public class SCYMapperPanel extends JPanel {
 
     public ISyncSession createSession() {
         if (toolBroker == null) {
-            JOptionPane.showMessageDialog(this, "Error: ToolBroker is null", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, Localization.getString("Dialog.Message.ToolBrokerNull.Text"), Localization.getString("Dialog.Message.ToolBrokerNull.Title"), JOptionPane.ERROR_MESSAGE);
         }
         try {
             currentSession = toolBroker.getDataSyncService().createSession(dummySyncListener, "scymapper");

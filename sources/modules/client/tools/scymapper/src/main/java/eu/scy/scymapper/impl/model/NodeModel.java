@@ -7,6 +7,7 @@ import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
 import eu.scy.scymapper.impl.shapes.nodes.DefaultNodeShape;
+import eu.scy.scymapper.impl.ui.Localization;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class NodeModel implements INodeModel, INodeStyleListener {
 	private transient java.util.List<INodeModelListener> listeners;
 	private transient boolean selected = false;
 
-	private String label = "New concept";
+	private String label = Localization.getString("Mainframe.ConceptMap.DefaultConceptName");
 
 	private INodeShape shape = new DefaultNodeShape();
 	private INodeStyle style = new DefaultNodeStyle();

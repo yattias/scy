@@ -35,6 +35,7 @@ import eu.scy.scymapper.impl.model.ComboNodeLinkModel;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.impl.shapes.links.Arrowhead;
 import eu.scy.scymapper.impl.shapes.links.QuadCurvedLine;
+import eu.scy.scymapper.impl.ui.Localization;
 
 public class ComboConceptLinkView extends LinkView implements INodeModelListener {
 
@@ -119,7 +120,7 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
         panel.add(comboBox, BorderLayout.CENTER);
         panel.add(switchButton, BorderLayout.EAST);
         add(panel);
-        comboBox.setToolTipText("Click to select option");
+        comboBox.setToolTipText(Localization.getString("Dialog.Confirm.Delete.Text"));
         comboBox.setMinimumSize(new Dimension(100, 20));
         comboBox.setMinimumSize(new Dimension(100, 20));
 

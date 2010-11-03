@@ -6,6 +6,8 @@ import eu.scy.scymapper.api.diagram.model.INodeModelListener;
 import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
+import eu.scy.scymapper.impl.ui.Localization;
+
 import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
@@ -156,7 +158,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 				if (!isEditing) labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			}
 		});
-		labelTextarea.setToolTipText("Click to add or edit text");
+		labelTextarea.setToolTipText(Localization.getString("Mainframe.ConceptMap.NodeLabel.Tooptip"));
 
 		layoutComponents();
 	}

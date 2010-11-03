@@ -9,6 +9,8 @@ import eu.scy.scymapper.api.diagram.model.INodeModelListener;
 import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.shapes.links.QuadCurvedLine;
+import eu.scy.scymapper.impl.ui.Localization;
+
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
@@ -127,7 +129,7 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 				}
 			}
 		});
-		labelTextarea.setToolTipText("Click to add or edit text");
+		labelTextarea.setToolTipText(Localization.getString("Mainframe.ConceptMap.LinkLabel.Tooltip"));
 
 		if (conf.isDebug()) {
 			addCurveSlider();
