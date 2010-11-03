@@ -21,9 +21,8 @@ import info.collide.sqlspaces.commons.Callback.Command;
 
 public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
-	// TODO changed for testing purposes
-//    private static final String SQLSPACES_HOST = "scy.collide.info";
-	private static final String SQLSPACES_HOST = "134.91.34.241";
+    private static final String SQLSPACES_HOST = "localhost";
+
     private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperCollideToolConfig.xml";
 
     private static final int SQLSPACES_PORT = 2525;

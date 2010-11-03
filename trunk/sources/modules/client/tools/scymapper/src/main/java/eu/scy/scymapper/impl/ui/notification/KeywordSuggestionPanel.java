@@ -21,10 +21,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -32,13 +33,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -56,233 +58,257 @@ import eu.scy.scymapper.impl.ui.ConceptMapPanel;
  * @created 05.feb.2010 19:15:22
  */
 public class KeywordSuggestionPanel extends JPanel {
-	private static String sep = System.getProperty("file.separator");
-	private static final String ADD_PROPOSAL_ICON_PATH = "src"+ sep +"main"+ sep +"resources/";
-	private static final String ADD_PROPOSAL_ICON = "add-proposal.png";
 
-	private JTextPane descriptionLabel;
-	private JPanel conceptButtonPane;
-	private JList conceptList;
+    private static String sep = System.getProperty("file.separator");
 
-	public KeywordSuggestionPanel() {
-		initComponents();
-	}
+    private static final String ADD_PROPOSAL_ICON_PATH = "src" + sep + "main" + sep + "resources/";
 
-	void initComponents() {
-		setLayout(new BorderLayout());
+    private static final String ADD_PROPOSAL_ICON = "add-proposal.png";
 
-		Icon icon = UIManager.getIcon("OptionPane.informationIcon");
-		JLabel label = new JLabel("Keyword Suggestion", icon, SwingConstants.LEFT);
-		add(BorderLayout.NORTH, label);
-		conceptButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));// new MigLayout("wrap 4", "[fill]"));
-		descriptionLabel = new JTextPane();
+    private JTextPane descriptionLabel;
 
-		StyledDocument doc = descriptionLabel.getStyledDocument();
-		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
-		Style s = doc.addStyle("bold", def);
-		StyleConstants.setBold(s, true);
+    private JPanel conceptButtonPane;
 
-		descriptionLabel.setEditable(false);
+    private JList conceptList;
 
-		conceptList = new JList(new DefaultListModel());
-		conceptList.setCellRenderer(new IconAndTextCellRenderer());
-		conceptList.setEnabled(true);
-		conceptList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		conceptList.setLayoutOrientation(JList.VERTICAL);
-		conceptList.setFixedCellHeight(30);
-		conceptList.setVisibleRowCount(3);
+    private ArrayList<Integer> changedIndices;
 
-//		JPanel compound = new JPanel(new GridLayout(2, 1));
-//		compound.add(descriptionLabel);
-//		compound.add(conceptList);
-		JPanel compound = new JPanel(new BorderLayout());
-		compound.add(descriptionLabel, BorderLayout.NORTH);
-		compound.add(conceptList, BorderLayout.CENTER);
-		
-//		compound.add(BorderLayout.CENTER, conceptButtonPane);
-		add(compound, BorderLayout.CENTER);
-	}
+    public KeywordSuggestionPanel() {
+        this(true);
+    }
 
-	/**
-	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
-	 * 
-	 * @param keyword
-	 * @param nodeFactories
-	 */
-	public void setSuggestion(String keyword, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
+    public KeywordSuggestionPanel(boolean init) {
+        if (init) {
+            initComponents();
+        }
+    }
 
-		String[] text = {
-				"A SCY-Agent has discovered that you may have missed a relevant keyword in your concept map. Would you like to add ",
-				keyword,
-				" as a concept to your concept map?\n\n",
-				"To do so, select first a shape for this concept from below, then click in the diagram at the place you would like to add it." };
-		String[] styles = { "reqular", "bold", "regular", "regular" };
+    void initComponents() {
+        setLayout(new BorderLayout());
+        setDoubleBuffered(true);
 
-		StyledDocument doc = descriptionLabel.getStyledDocument();
-		try {
-			for (int i = 0; i < text.length; i++) {
-				doc.insertString(doc.getLength(), text[i], doc.getStyle(styles[i]));
-			}
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-		
-		// following line is for broken Mac Java to have a correct layout ...
-		descriptionLabel.getPreferredSize();		
+        changedIndices = new ArrayList<Integer>();
+        Icon icon = UIManager.getIcon("OptionPane.informationIcon");
+        JLabel label = new JLabel("Keyword Suggestion", icon, SwingConstants.LEFT);
+        add(BorderLayout.NORTH, label);
+        conceptButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));// new MigLayout("wrap 4",
+                                                                        // "[fill]"));
+        descriptionLabel = new JTextPane();
 
-		for (INodeFactory factory : nodeFactories) {
-			conceptButtonPane.add(createConceptButton(factory, keyword, panel));
-		}
-	}
+        StyledDocument doc = descriptionLabel.getStyledDocument();
+        Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+        Style s = doc.addStyle("bold", def);
+        StyleConstants.setBold(s, true);
 
-	public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories,
-                ConceptMapPanel panel) {
-	    setSuggestions(keywords, nodeFactories, panel, "concepts");
-	}
-	
-	
-	/**
-	 * Suggests a keyword to be added to the concept map by displaying a list of available concept shapes
-	 * 
-	 * @param keywords
-	 * @param nodeFactories
-	 */
-	public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories,
-			ConceptMapPanel panel, String type) {
-	    String[] text = null;
-	        if (keywords.isEmpty()) {
-	            text = new String[] { "Sorry, no proposals for you right now." };
-	        } else {
-	            text = new String[] { "Maybe you consider adding the following " + type + "?" };
-	        }
-	    
-				
-//		String[] text = {
-//		        "A SCY-Agent has discovered that you may have missed relevant keywords in your concept map. ",
-//		"Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have." };
-		String[] styles = { "reqular", "regular" };
+        descriptionLabel.setEditable(false);
 
-		StyledDocument doc = descriptionLabel.getStyledDocument();
-		try {
-			for (int i = 0; i < text.length; i++) {
-				doc.insertString(doc.getLength(), text[i], doc.getStyle(styles[i]));
-			}
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-		
-		// following line is for broken Mac Java to have a correct layout ...
-		descriptionLabel.getPreferredSize();
-		
-		DefaultListModel model = (DefaultListModel) conceptList.getModel();
+        conceptList = new JList(new DefaultListModel());
+        conceptList.setCellRenderer(new IconAndTextCellRenderer());
+        conceptList.setEnabled(true);
+        conceptList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        conceptList.setLayoutOrientation(JList.VERTICAL);
+        conceptList.setFixedCellHeight(30);
+        conceptList.setVisibleRowCount(3);
 
-		for (String keyword : keywords) {
-			final JPopupMenu popup = new JPopupMenu();
-			popup.setLayout(new GridLayout(0, 2));
-			popup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 1),
-					BorderFactory.createTitledBorder("Select the shape")));
-			for (INodeFactory factory : nodeFactories) {
-				popup.add(createConceptButton(factory, keyword, panel));
-			}
-			final JButton btn = new JButton(keyword);
-			btn.addActionListener(new ActionListener() {
+        // JPanel compound = new JPanel(new GridLayout(2, 1));
+        // compound.add(descriptionLabel);
+        // compound.add(conceptList);
+        JPanel compound = new JPanel(new BorderLayout());
+        compound.add(descriptionLabel, BorderLayout.NORTH);
+        compound.add(conceptList, BorderLayout.CENTER);
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					popup.show(btn, 0, btn.getHeight());
-				}
-			});
-			model.addElement(keyword);
-		}
-	}
-	
-	class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
-		ImageIcon icon = new ImageIcon(ADD_PROPOSAL_ICON_PATH + ADD_PROPOSAL_ICON);
-	
-		@Override
-		public Component getListCellRendererComponent(
-				JList list,              // the list
-				Object value,            // value to display
-				int index,               // cell index
-				boolean isSelected,      // is the cell selected
-				boolean cellHasFocus) {    // does the cell have focus
-			String s = value.toString();
-			setText(s);
-			setIcon(icon);
-			if (isSelected) {
-				setBackground(list.getSelectionBackground());
-				setForeground(list.getSelectionForeground());
-			} else {
-				setBackground(list.getBackground());
-				setForeground(list.getForeground());
-			}
-			setEnabled(list.isEnabled());
-			setFont(list.getFont());
-			setOpaque(true);
-			return this;
-		}
-	}
-	 
-	private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
-		final JToggleButton button = new JToggleButton(factory.getIcon());
-		button.setText(keyword);
-		button.setHorizontalAlignment(JButton.CENTER);
-		button.addActionListener(new ActionListener() {
+        // compound.add(BorderLayout.CENTER, conceptButtonPane);
+        add(compound, BorderLayout.CENTER);
+    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				panel.getDiagramView().addMouseListener(new MouseAdapter() {
+    /**
+     * Suggests a keyword to be added to the concept map by displaying a list of available concept
+     * shapes
+     * 
+     * @param keyword
+     * @param nodeFactories
+     */
+    public void setSuggestion(String keyword, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
+        System.err.println("ALAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARM");
 
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						INodeModel node = factory.create();
-						int w = node.getWidth();
-						int h = node.getHeight();
-						node.setSize(new Dimension(w, h));
-						Point loc = new Point(e.getPoint());
-						loc.translate(w / -2, h / -2);
-						node.setLocation(loc);
-						node.setLabel(keyword);
+        String[] text = { "A SCY-Agent has discovered that you may have missed a relevant keyword in your concept map. Would you like to add ", keyword, " as a concept to your concept map?\n\n", "To do so, select first a shape for this concept from below, then click in the diagram at the place you would like to add it." };
+        String[] styles = { "reqular", "bold", "regular", "regular" };
 
-						panel.getDiagramView().getController().add(node);
-						panel.getDiagramView().removeMouseListener(this);
-						panel.getDiagramView().setCursor(null);
-						button.setSelected(false);
-					}
-				});
-				panel.getDiagramView().setCursor(createShapeCursor(factory));
-			}
-		});
-		return button;
-	}
+        StyledDocument doc = descriptionLabel.getStyledDocument();
+        try {
+            for (int i = 0; i < text.length; i++) {
+                doc.insertString(doc.getLength(), text[i], doc.getStyle(styles[i]));
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
 
-	Cursor createShapeCursor(INodeFactory nodeFactory) {
+        // following line is for broken Mac Java to have a correct layout ...
+        descriptionLabel.getPreferredSize();
 
-		Toolkit tk = Toolkit.getDefaultToolkit();
+        for (INodeFactory factory : nodeFactories) {
+            conceptButtonPane.add(createConceptButton(factory, keyword, panel));
+        }
+    }
 
-		INodeModel node = nodeFactory.create();
+    public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
+        setSuggestions(keywords, nodeFactories, panel, "concepts");
+    }
 
-		Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
+    /**
+     * Suggests a keyword to be added to the concept map by displaying a list of available concept
+     * shapes
+     * 
+     * @param keywords
+     * @param nodeFactories
+     */
+    public synchronized void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel, String type) {
+        String text = null;
+        System.err.println(type + ": " + keywords);
+        if (keywords.isEmpty()) {
+            text = "Sorry, no proposals for you right now.";
+        } else {
+            text = "Maybe you consider adding the following " + type + "?";
+        }
 
-		INodeStyle style = node.getStyle();
-		INodeShape shape = node.getShape();
+        // String[] text = {
+        // "A SCY-Agent has discovered that you may have missed relevant keywords in your concept map. ",
+        // "Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have."
+        // };
 
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        StyledDocument doc = descriptionLabel.getStyledDocument();
+        try {
+            if (!text.equals(doc.getText(0, doc.getLength()))) {
+                doc.remove(0, doc.getLength());
+                doc.insertString(doc.getLength(), text, doc.getStyle("regular"));
+            }
+            // following line is for broken Mac Java to have a correct layout ...
+            if (System.getProperty("java.vm.vendor").startsWith("Apple")) {
+                descriptionLabel.getPreferredSize();
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(keywords);
+        DefaultListModel model = (DefaultListModel) conceptList.getModel();
+        changedIndices.clear();
+        for (int i = 0; i < keywords.size(); i++) {
+            if (!model.contains(keywords.get(i))) {
+                changedIndices.add(i);
+            }
+        }
+        model.clear();
+        for (int i = 0; i < keywords.size(); i++) {
+            model.addElement(keywords.get(i));
+        }
+    }
 
-		// Create an image that supports arbitrary levels of transparency
-		BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
+    class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
 
-		Graphics2D g2d = (Graphics2D) i.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        ImageIcon icon = new ImageIcon(ADD_PROPOSAL_ICON_PATH + ADD_PROPOSAL_ICON);
 
-		g2d.setColor(style.getBackground());
+        @Override
+        public Component getListCellRendererComponent(JList list, // the list
+        Object value, // value to display
+        final int index, // cell index
+        boolean isSelected, // is the cell selected
+        boolean cellHasFocus) { // does the cell have focus
+            JLabel l = new JLabel();
+            String s = value.toString();
+            l.setText(s);
+            l.setIcon(icon);
+            if (isSelected) {
+                l.setBackground(list.getSelectionBackground());
+                l.setForeground(list.getSelectionForeground());
+            } else {
+                l.setBackground(list.getBackground());
+                l.setForeground(list.getForeground());
+            }
+            l.setEnabled(list.isEnabled());
+            l.setFont(list.getFont());
+            l.setOpaque(true);
+            if (changedIndices.contains(index)) {
+                l.setBorder(new LineBorder(Color.RED, 2));
+                Thread t = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(5000);
+                            changedIndices.remove(changedIndices.indexOf(index));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    
+                };
+                t.start();
+            } else {
+                l.setBorder(new EmptyBorder(2, 2, 2, 2));
+            }
+            return l;
+        }
+    }
 
-		Rectangle rect = new Rectangle(0, 0, size.width, size.height);
-		shape.setMode(style.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
-		shape.paint(g2d, rect);
+    private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
+        final JToggleButton button = new JToggleButton(factory.getIcon());
+        button.setText(keyword);
+        button.setHorizontalAlignment(JButton.CENTER);
+        button.addActionListener(new ActionListener() {
 
-		return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
-	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.getDiagramView().addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        INodeModel node = factory.create();
+                        int w = node.getWidth();
+                        int h = node.getHeight();
+                        node.setSize(new Dimension(w, h));
+                        Point loc = new Point(e.getPoint());
+                        loc.translate(w / -2, h / -2);
+                        node.setLocation(loc);
+                        node.setLabel(keyword);
+
+                        panel.getDiagramView().getController().add(node);
+                        panel.getDiagramView().removeMouseListener(this);
+                        panel.getDiagramView().setCursor(null);
+                        button.setSelected(false);
+                    }
+                });
+                panel.getDiagramView().setCursor(createShapeCursor(factory));
+            }
+        });
+        return button;
+    }
+
+    Cursor createShapeCursor(INodeFactory nodeFactory) {
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+
+        INodeModel node = nodeFactory.create();
+
+        Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
+
+        INodeStyle style = node.getStyle();
+        INodeShape shape = node.getShape();
+
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gs = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gs.getDefaultConfiguration();
+
+        // Create an image that supports arbitrary levels of transparency
+        BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
+
+        Graphics2D g2d = (Graphics2D) i.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2d.setColor(style.getBackground());
+
+        Rectangle rect = new Rectangle(0, 0, size.width, size.height);
+        shape.setMode(style.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
+        shape.paint(g2d, rect);
+
+        return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
+    }
 }
