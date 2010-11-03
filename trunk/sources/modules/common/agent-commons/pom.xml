@@ -3,16 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>26-SNAPSHOT</version>
+		<version>27-SNAPSHOT</version>
 	</parent>
+	
 	<groupId>eu.scy.common</groupId>
 	<artifactId>agent-commons</artifactId>
 	<name>agent-commons</name>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>agent-api</artifactId>
@@ -22,17 +25,18 @@
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-client</artifactId>
-			<version>3.9.0-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-commons</artifactId>
-			<version>3.9.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>mission</artifactId>
-			<version>26-SNAPSHOT</version>
+			<version>${pom.version}</version>
 		</dependency>
+		
 	</dependencies>
+	
 </project>
