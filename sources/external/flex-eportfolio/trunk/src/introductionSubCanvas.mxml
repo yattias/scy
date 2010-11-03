@@ -21,8 +21,6 @@
 			
 			private var selectedElo:Object;
 			private var subCE:subCanvasElo;
-			
-			[Bindable] private var altBoxInitX:Number = -350;
 
 			public function refreshView():void {
 				if(elosArray.length == 0) {
@@ -85,13 +83,13 @@
 				}
 				slgInfo.htmlText = slgString;
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).reflection;
-				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).percentInquiry+"%";
+				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).percentInquiry;
 				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
 			}
 			
 			private function hideInfoBox(evt:MouseEvent):void {
 				altBox.removeEventListener(Event.ENTER_FRAME, updateCoordinates);
-				altBox.x = altBoxInitX;
+				altBox.x = Main.ALT_BOX_INIT_X;
 			}
 			
 			private function updateCoordinates(event:Event):void {
@@ -140,7 +138,7 @@
 		<mx:Tile id="tile" width="100%" direction="horizontal" borderStyle="none" horizontalGap="20" verticalGap="20" includeIn="withElos" />
 	</mx:VBox>
  	
-	<s:BorderContainer id="altBox" width="300" x="{altBoxInitX}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+	<s:BorderContainer id="altBox" width="300" x="{Main.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
 		<mx:VBox width="100%" height="100%" verticalGap="5" color="#333333">
 			<mx:Text id="descriptionInfo" width="100%" />
 			<mx:Text id="glgInfo" width="100%" />

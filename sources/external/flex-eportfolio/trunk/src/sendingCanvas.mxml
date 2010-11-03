@@ -27,6 +27,8 @@
 				for(var i:Number=0; i<finalArray.length; i++) {
 					var sub:subCanvasElo = finalArray[i];
 					sub.highLightELO(false);
+					sub.addEventListener(MouseEvent.MOUSE_OVER, showInfoBox);
+					sub.addEventListener(MouseEvent.MOUSE_OUT, hideInfoBox);
 					coverflow.addChild(sub);
 					sub.box.setStyle("backgroundColor", Main.THEME_COL);
 				}
@@ -43,6 +45,45 @@
 			
 			protected function okSubmit_clickHandler(event:MouseEvent):void {
 				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'));
+			}
+			
+			private function updateCoordinates(event:Event):void {
+				if((mouseX + altBox.width) > this.width) {
+					altBox.x = mouseX - 20 - altBox.width;
+				}
+				else {
+					altBox.x = mouseX + 20;			
+				}
+				
+				if((mouseY + altBox.height) > this.height) {
+					altBox.y = mouseY - 20 - altBox.height;
+				}
+				else {
+					altBox.y = mouseY + 20;
+				}
+			}
+			
+			
+			protected function altBox_mouseOverHandler(event:MouseEvent):void {
+				updateCoordinates(event);
+			}
+			
+			private function showInfoBox(evt:MouseEvent):void {
+				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).description;
+				glgInfo.htmlText = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: " +(evt.target).glg;
+				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
+				for(var i:Number = 0; i<(evt.target).slg.length; i++) {
+					slgString = slgString + "     - " + (evt.target).slg[i].goal + "<br>";
+				}
+				slgInfo.htmlText = slgString;
+				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).reflection;
+				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).percentInquiry;
+				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
+			}
+			
+			private function hideInfoBox(evt:MouseEvent):void {
+				altBox.removeEventListener(Event.ENTER_FRAME, updateCoordinates);
+				altBox.x = Main.ALT_BOX_INIT_X;
 			}
 		]]>
 	</fx:Script>
@@ -85,7 +126,7 @@
 			<mx:VBox id="ref" height="100%" width="90%" verticalGap="0">
 				<mx:Spacer height="15" />
 				<s:TabBar id="tabs" dataProvider="{vs}" width="100%" cornerRadius="0"/>
-				<mx:ViewStack id="vs" width="100%" height="100%" borderStyle="solid" borderColor="#999999">
+				<mx:ViewStack id="vs" width="100%" height="100%" borderStyle="solid" borderColor="#999999" dropShadowVisible="true">
 					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT1')}" width="100%" height="100%">
 						<mx:HBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
 							<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT1')+':'}" required="true" height="90%">
@@ -121,31 +162,6 @@
 					</s:NavigatorContent>
 				</mx:ViewStack>
 			</mx:VBox>
-			
-			
-	<!--		<mx:Form verticalGap="5" color="{Main.THEME_COL}" fontSize="14">
-				<mx:HBox width="100%" verticalGap="0">
-					<mx:VBox width="100%">
-						<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION')+':'}" required="true">
-							<s:TextArea width="100%" height="70" id="descriptionArea" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT1')}"/>
-						</mx:FormItem>
-						
-						<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION')+':'}" required="true">
-							<s:TextArea width="100%" height="70" id="reflectionArea" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT2')}"/>
-						</mx:FormItem>
-					</mx:VBox>
-					<mx:VBox width="100%">
-						<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION')+':'}" required="true">
-							<s:TextArea width="100%" height="70" id="descriptionArea1" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT1')}"/>
-						</mx:FormItem>
-						
-						<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION')+':'}" required="true">
-							<s:TextArea width="100%" height="70" id="reflectionArea1" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT2')}"/>
-						</mx:FormItem>
-					</mx:VBox>
-				</mx:HBox>
-			</mx:Form>
-	-->
 		</mx:VBox>
 		
 		<mx:HBox id="submitFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
@@ -153,5 +169,15 @@
 			<s:Button id="backSubmit" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
 		</mx:HBox>
 	</mx:VBox>	
+	
+	<s:BorderContainer id="altBox" width="300" x="{Main.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+		<mx:VBox width="100%" height="100%" verticalGap="5" color="#333333">
+			<mx:Text id="descriptionInfo" width="100%" />
+			<mx:Text id="glgInfo" width="100%" />
+			<mx:Text id="slgInfo" width="100%" />
+			<mx:Text id="reflectionInfo" width="100%" />
+			<mx:Text id="reflectionInq" width="100%" />
+		</mx:VBox>
+	</s:BorderContainer>
 	
 </mx:Canvas>

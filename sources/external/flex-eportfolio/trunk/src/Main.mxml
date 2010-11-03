@@ -53,6 +53,8 @@
 			[Bindable] private var needsRefresh:Boolean = false;
 			[Bindable] private var accordionTarget:Number = 0;
 			[Bindable] private var eloSelectedToSubmit:Boolean = false;
+			
+			public static const ALT_BOX_INIT_X:Number = -350;
 		
 			protected function application1_creationCompleteHandler(event:FlexEvent):void {
 				resourceManager.localeChain = [ "en_US" ];
