@@ -232,13 +232,15 @@ public class KeywordSuggestionPanel extends JPanel {
             l.setFont(list.getFont());
             l.setOpaque(true);
             if (changedIndices.contains(index)) {
-                l.setBorder(new LineBorder(Color.RED, 2));
+                l.setBorder(new LineBorder(Color.RED, 2, true));
                 Thread t = new Thread() {
                     @Override
                     public void run() {
                         try {
                             Thread.sleep(5000);
-                            changedIndices.remove(changedIndices.indexOf(index));
+                            if (changedIndices.contains(index)) {
+                                changedIndices.remove(changedIndices.indexOf(index));
+                            }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

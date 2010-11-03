@@ -57,11 +57,8 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
                 @Override
                 public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
                     List<String> keywords = new ArrayList<String>();
-                    String type = null;
-                    for (int i = 7; i < afterTuple.getNumberOfFields(); i++) {
-                        if (type == null) {
-                            type = afterTuple.getField(i).getValue().toString().split("=")[0].split("_")[0] + "s";
-                        }
+                    String type = afterTuple.getField(7).getValue().toString().split("=")[1];
+                    for (int i = 8; i < afterTuple.getNumberOfFields(); i++) {
                         String keyword = afterTuple.getField(i).getValue().toString().split("=")[1];
                         keywords.add(keyword);
                     }

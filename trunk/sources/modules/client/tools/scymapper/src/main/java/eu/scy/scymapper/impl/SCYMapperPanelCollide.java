@@ -42,7 +42,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     private Timer helpTimer;
 
-    protected long HELP_INTERVAL = 5000;
+    private long helpInterval;
 
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort) {
         super(cmap, configuration);
@@ -61,6 +61,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     protected void initComponents() {
         standaloneConfig = SCYMapperStandaloneConfig.getInstance();
         this.helpMode = standaloneConfig.getHelpMode();
+        this.helpInterval = standaloneConfig.getContinuousHelpInterval();
         super.initComponents();
 		switch (helpMode) {
 		case VOLUNTARY:
@@ -110,18 +111,17 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                             requestRelationHelp();
                         }
                         
-                    }, 0, HELP_INTERVAL);
+                    }, 0, helpInterval);
                 }
             }, standaloneConfig.getContinuousHelpWaitTime() * 10);
             invalidate();
 			break;
-
-		case NOHELP:
-        	// NOHELP means nothing to do ;)
-		default:
-			// Same as no help
-			break;
-		}
+            case NOHELP:
+                // NOHELP means nothing to do ;)
+            default:
+                // Same as no help
+                break;
+        }
     }
 
     @Override
@@ -141,10 +141,6 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             requestConceptHelpButton.setEnabled(true);
             requestRelationHelpButton.setEnabled(true);
             suggestionPanel = new KeywordSuggestionPanel();
-        }
-
-        if (keywords.isEmpty()) {
-            return;
         }
 
         suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel, type);
