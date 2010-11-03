@@ -172,7 +172,11 @@ public class KeywordSuggestionPanel extends JPanel {
 	        if (keywords.isEmpty()) {
 	            text = Localization.getString("Mainframe.KeywordSuggestion.NoKeyword");
 	        } else {
-	            text = Localization.getString("Mainframe.KeywordSuggestion.Suggest") +" "+ type + "?";
+	        	if(type.equals("concepts")) {
+	        		text = Localization.getString("Mainframe.KeywordSuggestion.SuggestConcepts");
+	        	} else {
+	        		text = Localization.getString("Mainframe.KeywordSuggestion.SuggestRelations");
+	        	}
 	        }
 	    
 				
