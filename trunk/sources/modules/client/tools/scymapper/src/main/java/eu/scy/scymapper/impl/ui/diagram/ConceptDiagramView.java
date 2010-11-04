@@ -35,313 +35,326 @@ import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Henrik
- * Date: 23.jan.2009
- * Time: 06:40:09
+ * Created by IntelliJ IDEA. User: Henrik Date: 23.jan.2009 Time: 06:40:09
  */
 public class ConceptDiagramView extends JLayeredPane implements IDiagramListener {
 
-	private IDiagramMode mode = new DragMode(this);
+    private IDiagramMode mode = new DragMode(this);
 
-	private IDiagramModel model;
-	private IElementControllerFactory elementControllerFactory = new DefaultElementControllerFactory();
-	private IDiagramController controller;
+    private IDiagramModel model;
 
-	private IDiagramSelectionModel selectionModel;
-	private KeyListener deleteKeyListener = new DeleteKeyListener();
+    private IElementControllerFactory elementControllerFactory = new DefaultElementControllerFactory();
 
-	private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
+    private IDiagramController controller;
 
-	public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
-		this.controller = controller;
-		this.model = model;
-		this.selectionModel = selectionModel;
+    private IDiagramSelectionModel selectionModel;
 
-		setLayout(null);
+    private KeyListener deleteKeyListener = new DeleteKeyListener();
 
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				selectionModel.clearSelection();
-				requestFocus();
-			}
-		});
+    private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
 
-		initializeGUI();
+    public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
+        this.controller = controller;
+        this.model = model;
+        this.selectionModel = selectionModel;
 
-		setBackground(Color.white);
-		setOpaque(true);
+        setLayout(null);
 
-		// Register myself as observer for changes in the model
-		this.model.addDiagramListener(this);
-		setAutoscrolls(true);
-	}
+        this.addMouseListener(new MouseAdapter() {
 
-	public void setMode(IDiagramMode mode) {
-		this.mode = mode;
-	}
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectionModel.clearSelection();
+                requestFocus();
+            }
+        });
 
-	public void setElementControllerFactory(IElementControllerFactory factory) {
-		elementControllerFactory = factory;
-	}
+        initializeGUI();
 
-	private void initializeGUI() {
+        setBackground(Color.white);
+        setOpaque(true);
 
-		// Create views for links in my model
-		for (ILinkModel link : model.getLinks()) {
-			addLinkView(link, false);
-		}
-		// Create views for nodes in my model
-		for (INodeModel node : model.getNodes()) {
-			addNodeView(node, false);
-		}
-	}
+        // Register myself as observer for changes in the model
+        this.model.addDiagramListener(this);
+        setAutoscrolls(true);
+    }
 
-	private void addNodeView(INodeModel node, boolean editable) {
+    public void setMode(IDiagramMode mode) {
+        this.mode = mode;
+    }
 
-		logger.debug("NODE ADDED: " + node);
+    public void setElementControllerFactory(IElementControllerFactory factory) {
+        elementControllerFactory = factory;
+    }
 
-		RichNodeView view;
+    private void initializeGUI() {
 
-		if (node instanceof ConnectorModel) {
-			view = new ConnectorView(elementControllerFactory.createNodeController(node), node);
-		} else {
-			view = new RichNodeView(elementControllerFactory.createNodeController(node), node);
-		}
+        // Create views for links in my model
+        for (ILinkModel link : model.getLinks()) {
+            addLinkView(link, false);
+        }
+        // Create views for nodes in my model
+        for (INodeModel node : model.getNodes()) {
+            addNodeView(node, false);
+        }
+    }
 
-		view.setLabelEditable(editable, true);
+    private void addNodeView(INodeModel node, boolean editable) {
 
-		// Subscribe to mouse events in this nodes component to display the add-link button
-		view.addMouseListener(new MouseListenerDelegator());
-		view.addMouseMotionListener(new MouseMotionListenerDelegator());
+        logger.debug("NODE ADDED: " + node);
 
-		// I want to listen for mouse events in the component of this node to be able to add new links
-		view.addFocusListener(new FocusListenerDelegator());
+        RichNodeView view;
 
+        if (node instanceof ConnectorModel) {
+            view = new ConnectorView(elementControllerFactory.createNodeController(node), node);
+        } else {
+            view = new RichNodeView(elementControllerFactory.createNodeController(node), node);
+        }
 
-		view.addKeyListener(deleteKeyListener);
-		add(view, 0);
-		view.repaint();
-	}
+        view.setLabelEditable(editable, true);
 
-	private void addLinkView(ILinkModel link, boolean editable) {
-		if (link instanceof NodeLinkModel) {
+        // Subscribe to mouse events in this nodes component to display the add-link button
+        view.addMouseListener(new MouseListenerDelegator());
+        view.addMouseMotionListener(new MouseMotionListenerDelegator());
 
-			final ConceptLinkView view = new ConceptLinkView(elementControllerFactory.createLinkController(link), (INodeLinkModel) link);
-			view.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!e.isControlDown()) selectionModel.clearSelection();
-					selectionModel.select(view.getModel());
-				}
-			});
-			view.setLabelEditable(editable);
+        // I want to listen for mouse events in the component of this node to be able to add new links
+        view.addFocusListener(new FocusListenerDelegator());
 
-			view.addKeyListener(deleteKeyListener);
+        view.addKeyListener(deleteKeyListener);
+        add(view, 0);
+        view.repaint();
+    }
 
-			view.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!e.isControlDown()) selectionModel.clearSelection();
-					selectionModel.select(view.getModel());
-				}
-			});
+    private void addLinkView(ILinkModel link, boolean editable) {
+        if (link instanceof NodeLinkModel) {
 
-			add(view);
+            final ConceptLinkView view = new ConceptLinkView(elementControllerFactory.createLinkController(link), (INodeLinkModel) link);
+            view.addMouseListener(new MouseAdapter() {
 
-			view.repaint();
-		}else if (link instanceof ComboNodeLinkModel){
-			final ComboConceptLinkView view = new ComboConceptLinkView(elementControllerFactory.createLinkController(link), (ComboNodeLinkModel) link);
-			view.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!e.isControlDown()) selectionModel.clearSelection();
-					selectionModel.select(view.getModel());
-				}
-			});
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!e.isControlDown())
+                        selectionModel.clearSelection();
+                    selectionModel.select(view.getModel());
+                }
+            });
+            view.setLabelEditable(editable);
 
-			view.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!e.isControlDown()) selectionModel.clearSelection();
-					selectionModel.select(view.getModel());
-				}
-			});
+            view.addKeyListener(deleteKeyListener);
 
-			add(view);
+            view.addMouseListener(new MouseAdapter() {
 
-			view.repaint();
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!e.isControlDown())
+                        selectionModel.clearSelection();
+                    selectionModel.select(view.getModel());
+                }
+            });
 
-		}
-	}
+            add(view);
 
-	public Dimension getPreferredSize() {
-		return new Dimension(getComponentsWidth(), getComponentsHeight());
-	}
+            view.repaint();
+        } else if (link instanceof ComboNodeLinkModel) {
+            final ComboConceptLinkView view = new ComboConceptLinkView(elementControllerFactory.createLinkController(link), (ComboNodeLinkModel) link);
+            view.addMouseListener(new MouseAdapter() {
 
-	public int getComponentsWidth() {
-		int maxW = getParent() != null ? getParent().getWidth() : 0;
-		for (Component component : getComponents()) {
-			int compW = component.getX() + component.getWidth();
-			if (compW > maxW) maxW = compW;
-		}
-		return maxW;
-	}
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!e.isControlDown())
+                        selectionModel.clearSelection();
+                    selectionModel.select(view.getModel());
+                }
+            });
 
-	public int getComponentsHeight() {
-		int maxH = getParent() != null ? getParent().getHeight() : 0;
-		for (Component component : getComponents()) {
-			int compH = component.getY() + component.getHeight();
-			if (compH > maxH) maxH = compH;
-		}
-		return maxH;
-	}
+            view.addMouseListener(new MouseAdapter() {
 
-	@Override
-	public void updated(IDiagramModel diagramModel) {
-		System.out.println("ConceptDiagramView.updated");
-	}
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!e.isControlDown())
+                        selectionModel.clearSelection();
+                    selectionModel.select(view.getModel());
+                }
+            });
 
-	@Override
-	public void nodeSelected(INodeModel n) {
-		System.out.println("ConceptDiagramView.nodeSelected");
-	}
+            add(view);
 
-	@Override
-	public void nodeAdded(INodeModel node, boolean focused) {
-		addNodeView(node, focused);
-	}
+            view.repaint();
 
-	@Override
-	public void linkAdded(ILinkModel link, boolean focused) {
-		addLinkView(link, focused);
-	}
+        }
+    }
 
-	@Override
-	public void linkRemoved(ILinkModel link) {
-		for (Component component : getComponents()) {
-			if (component instanceof ConceptLinkView) {
-				ConceptLinkView lw = (ConceptLinkView) component;
-				if (lw.getModel().equals(link)) {
-					remove(lw);
-					repaint();
-					return;
-				}
-			}
-		}
-	}
+    public Dimension getPreferredSize() {
+        return new Dimension(getComponentsWidth(), getComponentsHeight());
+    }
 
-	@Override
-	public void nodeRemoved(INodeModel n) {
-		for (Component component : getComponents()) {
-			if (component instanceof RichNodeView) {
-				RichNodeView nw = (RichNodeView) component;
-				if (nw.getModel().equals(n)) {
-					remove(nw);
-					repaint();
-					return;
-				}
-			}
-		}
-	}
+    public int getComponentsWidth() {
+        int maxW = getParent() != null ? getParent().getWidth() : 0;
+        for (Component component : getComponents()) {
+            int compW = component.getX() + component.getWidth();
+            if (compW > maxW)
+                maxW = compW;
+        }
+        return maxW;
+    }
 
-	public IDiagramModel getModel() {
-		return model;
-	}
+    public int getComponentsHeight() {
+        int maxH = getParent() != null ? getParent().getHeight() : 0;
+        for (Component component : getComponents()) {
+            int compH = component.getY() + component.getHeight();
+            if (compH > maxH)
+                maxH = compH;
+        }
+        return maxH;
+    }
 
-	public IDiagramSelectionModel getSelectionModel() {
-		return selectionModel;
-	}
+    @Override
+    public void updated(IDiagramModel diagramModel) {
+        System.out.println("ConceptDiagramView.updated");
+    }
 
-	public IDiagramController getController() {
-		return controller;
-	}
+    @Override
+    public void nodeSelected(INodeModel n) {
+        System.out.println("ConceptDiagramView.nodeSelected");
+    }
 
-	public void setController(IDiagramController controller) {
-		this.controller = controller;
-	}
+    @Override
+    public void nodeAdded(INodeModel node, boolean focused) {
+        addNodeView(node, focused);
+    }
 
-	private class MouseMotionListenerDelegator implements MouseMotionListener {
+    @Override
+    public void linkAdded(ILinkModel link, boolean focused) {
+        addLinkView(link, focused);
+    }
 
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			((MouseAdapter) mode.getMouseListener()).mouseDragged(e);
-		}
+    @Override
+    public void linkRemoved(ILinkModel link) {
+        for (Component component : getComponents()) {
+            if (component instanceof LinkView) {
+                LinkView lw = (LinkView) component;
+                if (lw.getModel().equals(link)) {
+                    remove(lw);
+                    repaint();
+                    return;
+                }
+            }
+        }
+    }
 
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			((MouseAdapter) mode.getMouseListener()).mouseMoved(e);
-		}
-	}
+    @Override
+    public void nodeRemoved(INodeModel n) {
+        for (Component component : getComponents()) {
+            if (component instanceof RichNodeView) {
+                RichNodeView nw = (RichNodeView) component;
+                if (nw.getModel().equals(n)) {
+                    remove(nw);
+                    repaint();
+                    return;
+                }
+            }
+        }
+    }
 
-	private class MouseListenerDelegator implements MouseListener {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			mode.getMouseListener().mouseClicked(e);	//To change body of overridden methods use File | Settings | File Templates.
-		}
+    public IDiagramModel getModel() {
+        return model;
+    }
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			mode.getMouseListener().mousePressed(e);	//To change body of overridden methods use File | Settings | File Templates.
-		}
+    public IDiagramSelectionModel getSelectionModel() {
+        return selectionModel;
+    }
 
-		@Override
-		public void mouseExited(MouseEvent e) {
-			mode.getMouseListener().mouseExited(e);	//To change body of overridden methods use File | Settings | File Templates.
-		}
+    public IDiagramController getController() {
+        return controller;
+    }
 
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			mode.getMouseListener().mouseEntered(e);	//To change body of overridden methods use File | Settings | File Templates.
-		}
+    public void setController(IDiagramController controller) {
+        this.controller = controller;
+    }
 
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			mode.getMouseListener().mouseReleased(e);
-		}
-	}
+    private class MouseMotionListenerDelegator implements MouseMotionListener {
 
-	private class FocusListenerDelegator implements FocusListener {
-		@Override
-		public void focusGained(FocusEvent e) {
-			mode.getFocusListener().focusGained(e);
-		}
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            ((MouseAdapter) mode.getMouseListener()).mouseDragged(e);
+        }
 
-		@Override
-		public void focusLost(FocusEvent e) {
-			mode.getFocusListener().focusLost(e);
-		}
-	}
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            ((MouseAdapter) mode.getMouseListener()).mouseMoved(e);
+        }
+    }
 
-	private class DeleteKeyListener extends KeyAdapter {
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-				confirmAndRemoveSelectedObjects();
-			}
-		}
-	}
+    private class MouseListenerDelegator implements MouseListener {
 
-	public void confirmAndRemoveSelectedObjects() {
-		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, Localization.getString("Dialog.Confirm.Delete.Text"), Localization.getString("Dialog.Confirm.Delete.Title"), JOptionPane.YES_NO_OPTION);
-		if (answer == JOptionPane.YES_OPTION) {
-			if (selectionModel.hasLinkSelection()) {
-				for (ILinkModel link : selectionModel.getSelectedLinks())
-					controller.remove(link);
-			}
-			if (selectionModel.hasNodeSelection()) {
-				for (INodeModel node : selectionModel.getSelectedNodes())
-					controller.remove(node);
-			}
-		}
-	}
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            mode.getMouseListener().mouseClicked(e); // To change body of overridden methods use File | Settings | File Templates.
+        }
 
-	public void confirmAndRemoveAll() {
-		int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, Localization.getString("Dialog.Confirm.Clear.Text"), Localization.getString("Dialog.Confirm.Clear.Title"), JOptionPane.YES_NO_OPTION);
-		if (answer == JOptionPane.YES_OPTION) {
-			controller.removeAll();
-		}
+        @Override
+        public void mousePressed(MouseEvent e) {
+            mode.getMouseListener().mousePressed(e); // To change body of overridden methods use File | Settings | File Templates.
+        }
 
-	}
+        @Override
+        public void mouseExited(MouseEvent e) {
+            mode.getMouseListener().mouseExited(e); // To change body of overridden methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            mode.getMouseListener().mouseEntered(e); // To change body of overridden methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            mode.getMouseListener().mouseReleased(e);
+        }
+    }
+
+    private class FocusListenerDelegator implements FocusListener {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            mode.getFocusListener().focusGained(e);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            mode.getFocusListener().focusLost(e);
+        }
+    }
+
+    private class DeleteKeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                confirmAndRemoveSelectedObjects();
+            }
+        }
+    }
+
+    public void confirmAndRemoveSelectedObjects() {
+        int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, Localization.getString("Dialog.Confirm.Delete.Text"), Localization.getString("Dialog.Confirm.Delete.Title"), JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+            if (selectionModel.hasLinkSelection()) {
+                for (ILinkModel link : selectionModel.getSelectedLinks())
+                    controller.remove(link);
+            }
+            if (selectionModel.hasNodeSelection()) {
+                for (INodeModel node : selectionModel.getSelectedNodes())
+                    controller.remove(node);
+            }
+        }
+    }
+
+    public void confirmAndRemoveAll() {
+        int answer = JOptionPane.showConfirmDialog(ConceptDiagramView.this, Localization.getString("Dialog.Confirm.Clear.Text"), Localization.getString("Dialog.Confirm.Clear.Title"), JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+            controller.removeAll();
+        }
+
+    }
 }
