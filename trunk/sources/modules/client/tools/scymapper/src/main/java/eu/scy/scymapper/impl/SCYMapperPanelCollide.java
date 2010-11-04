@@ -63,7 +63,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     protected ConceptMapToolBar createToolbar(IConceptMap conceptMap, ConceptDiagramView conceptDiagramView) {
         return new ConceptMapToolBarCollide(conceptMap, conceptDiagramView);
     }
-    
+
     @Override
     protected void initComponents() {
         standaloneConfig = SCYMapperStandaloneConfig.getInstance();
@@ -117,7 +117,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                             requestConceptHelp();
                             requestRelationHelp();
                         }
-                        
+
                     }, 0, helpInterval * 1000);
                 }
             }, standaloneConfig.getContinuousHelpWaitTime() * 1000);
@@ -160,7 +160,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
         if (helpMode == Help.VOLUNTARY) {
 
-            suggestionPanel.setSize(300, cmapPanel.getHeight() - 2);
+            suggestionPanel.setSize(300, cmapPanel.getHeight() - 300);
             suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
 
             if (notificator != null) {
