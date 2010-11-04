@@ -2,59 +2,44 @@ package eu.scy.tools.math.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.LinearGradientPaint;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
+import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
-import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXButton;
-import org.jdesktop.swingx.JXImagePanel;
-import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.JXTitledPanel;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
-import org.jdesktop.swingx.painter.GlossPainter;
-import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.painter.Painter;
 
 import eu.scy.tools.math.controller.MathToolController;
-import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUp;
+import eu.scy.tools.math.shapes.MathToolRectangle;
+import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
 import eu.scy.tools.math.ui.actions.QuitAction;
-import eu.scy.tools.math.ui.images.Images;
+import eu.scy.tools.math.ui.actions.ToggleGridAction;
+import eu.scy.tools.math.ui.panels.ControlPanel;
+import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class MathTool {
 
-	private static final String _3D = "3D"; //$NON-NLS-1$
-	private static final String _2D = "2D"; //$NON-NLS-1$
+
+	
 	private MathToolController mathToolController;
-	private Dimension frameDimension;
-	private JXTitledPanel tableArea;
-	private JXTitledPanel calcPanel;
-	private JXTitledPanel shapePanel;
+
 	private JXTitledPanel workAreaPanel;
-	private ArrayList<JXButton> symbolicButtons;
-	private ArrayList<JXButton> adderButtons;
-	private ArrayList<JXButton> numberButtons;
+
+	private ShapeCanvas shapeCanvas;
+
+	private JXPanel mainPanel;
+
 
 	public MathTool() {
 		this.init();
@@ -66,6 +51,9 @@ public class MathTool {
 	}
 	
 	public void init() {
+		
+		UIUtils.componentLookup = new HashMap<String, Object>();
+		UIUtils.componentLookup.put(UIUtils.MATH_TOOL_PANEL, this);
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) { //$NON-NLS-1$
@@ -100,24 +88,32 @@ public class MathTool {
 		if( height == 0)
 			height = 800;
 			
-		frameDimension = new Dimension(width, height);
+		UIUtils.frameDimension = new Dimension(width, height);
 		
-		JXPanel mainPanel = new JXPanel(new MigLayout("fill,inset 0 0 0 0")); //$NON-NLS-1$
+		setMainPanel(new JXPanel(new MigLayout("fill,inset 0 0 0 0"))); //$NON-NLS-1$
 //		mainPanel.setBackground(Color.pink);
 		
-		mainPanel.add(createToolBar(), "dock north"); //$NON-NLS-1$
+		getMainPanel().add(createToolBar(), "dock north"); //$NON-NLS-1$
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.WRAP_TAB_LAYOUT);
-		tabbedPane.addTab(_2D,createLayout(_2D));
-		tabbedPane.addTab(_3D,createLayout(_3D));
-		mainPanel.add(tabbedPane,"grow"); //$NON-NLS-1$
+		tabbedPane.addTab(UIUtils._2D,createLayout(UIUtils._2D));
+		tabbedPane.addTab(UIUtils._3D,createLayout(UIUtils._3D));
+		getMainPanel().add(tabbedPane,"grow"); //$NON-NLS-1$
 		// TODO Auto-generated method stub
-		return mainPanel;
+		return getMainPanel();
 	}
 
 	private JToolBar createToolBar() {
 		JToolBar toolBar = new JToolBar("Still draggable"); //$NON-NLS-1$
-		toolBar.add(new JXButton(new ExportToGoogleSketchUp()));
+		toolBar.setFloatable(false);
+		toolBar.setRollover(false);
+		ExportToGoogleSketchUpAction exportToGoogleSketchUpAction = new ExportToGoogleSketchUpAction();
+		exportToGoogleSketchUpAction.putValue(Action.NAME, null);
+		toolBar.add(new JXButton(exportToGoogleSketchUpAction));
+		
+		ToggleGridAction toggleGridAction = new ToggleGridAction();
+		toggleGridAction.putValue(Action.NAME, null);
+		toolBar.add(new JXButton(toggleGridAction));
 		toolBar.setOpaque(true);
 		return toolBar;
 	}
@@ -130,320 +126,64 @@ public class MathTool {
 		
 		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset "+insets)); //$NON-NLS-1$
 		
-//		allPanel.setBackground(Color.blue);
-		
 		//40 of the width
 		allPanel.add(createWorkAreaPanel(type), "grow,span"); //$NON-NLS-1$
 		
+		ControlPanel subPanel = new ControlPanel(type,new MigLayout(" inset "+insets));
 		
-		JXPanel subPanel = new JXPanel(new MigLayout(" inset "+insets));
-		
-		
-		subPanel.add(createShapesPanel(type), "grow, wrap"); //$NON-NLS-1$
-		subPanel.add(createCalculatorPanel(),"wrap"); //$NON-NLS-1$
-		subPanel.add(createTableArea(type),"grow, span"); //$NON-NLS-1$
 		allPanel.add(subPanel,"east");
-		
-		//30
-		
 		return allPanel;
 	}
 	
 
-
-	private JXTitledPanel createTableArea(String type) {
-		tableArea = new JXTitledPanel("Computations for " + type + " Shapes");
-		this.setModTitlePanel(tableArea);
-		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 0 0 0 0"));
-		
-		allPanel.add(createTable(), "grow");
-		
-		tableArea.add(allPanel);
-		return tableArea;
-	}
-	
-	private JXPanel createTable() {
-	    // boilerplate table-setup; this would be the same for a JTable
-//	    ComputationTableModel model = new ComputationTableModel(6, new String[] {"Shape", "Computation"});
-		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("Name");
-		model.addColumn("Value");
-		String[] socrates = { "Socrates",  "469-399 B.C." };
-	    model.addRow(socrates);
-	    model.addRow(socrates);
-	    model.addRow(socrates);
-	    model.addRow(socrates);
-
-
-	    JXTable table = new JXTable();
-//	    model.loadData();
-//	    table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-
-	    table.setAutoCreateColumnsFromModel(true);
-        table.addHighlighter(HighlighterFactory.createSimpleStriping()); 
-	    table.setShowGrid(true, true);
-	    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//	    table.setVisibleRowCount(10); 
-	    table.setColumnControlVisible(true);
-	    
-	    table.setModel(model);
-	    table.getTableHeader().setVisible(true);
-	    List<TableColumn> columns = table.getColumns();
-//	    table.setColumnSequence(new Object[] {"Computation", "categoryColumn"}); 
-	    
-	    JScrollPane scrollpane = new JScrollPane(table); 
-        
-	    JXPanel temp = new JXPanel(new MigLayout("fill,insets 5 5 5 5"));
-	    temp.setBackgroundPainter(getSubPanelBackgroundPainter());
-	    temp.add(scrollpane,"grow");
-	    return temp;
-	}
-
-	private Font getTitleFont() {
-		Font baseFont = UIManager.getFont("JXTitledPanel.titleFont"); 
-        Font bigFont = new FontUIResource(baseFont.deriveFont(baseFont.getSize2D() * 1.3f)); 
-        return bigFont;
-        
-	}
-	private JXTitledPanel createCalculatorPanel() {
-		calcPanel = new JXTitledPanel("Calculator");
-//		calcPanel.setLayout(new MigLayout("fill, inset 0 0 0 0"));
-		this.setModTitlePanel(calcPanel);
-		
-		JXPanel calculator = new JXPanel(new MigLayout("fill, inset 5 5 5 5"));
-		calculator.setBorder(new RoundedBorder(5));
-		
-		JXTextField sumTextField = new JXTextField("sum");
-		
-		calculator.add(sumTextField,"growx, wrap");
-		
-		JXPanel buttonPanel = new JXPanel(new GridLayout(5,5,6,6));
-		
-		//symbolic
-		symbolicButtons = new ArrayList<JXButton>();
-		adderButtons = new ArrayList<JXButton>();
-		numberButtons = new ArrayList<JXButton>();
-		
-		symbolicButtons.add(new JXButton("¹"));
-		symbolicButtons.add(new JXButton("x2"));
-		symbolicButtons.add(new JXButton("x3"));
-		symbolicButtons.add(new JXButton("."));
-		symbolicButtons.add(new JXButton("C"));
-		symbolicButtons.add(new JXButton("("));
-		symbolicButtons.add(new JXButton(")"));
-		symbolicButtons.add(new JXButton("R"));
-		symbolicButtons.add(new JXButton("W"));
-		symbolicButtons.add(new JXButton("H"));
-		
-		adderButtons.add(new JXButton("*"));
-		adderButtons.add(new JXButton("-"));
-		adderButtons.add(new JXButton("/"));
-		adderButtons.add(new JXButton("+"));
-		adderButtons.add(new JXButton("="));
-		
-
-		numberButtons.add(new JXButton("4"));
-		numberButtons.add(new JXButton("5"));
-		numberButtons.add(new JXButton("3"));
-		numberButtons.add(new JXButton("9"));
-		numberButtons.add(new JXButton("1"));
-		numberButtons.add(new JXButton("2"));
-		numberButtons.add(new JXButton("8"));
-		numberButtons.add(new JXButton("6"));
-		numberButtons.add(new JXButton("0"));
-		numberButtons.add(new JXButton("7"));
-		
-		
-		for (JXButton addButton : adderButtons) {
-			addButton.setOpaque(true);
-			if( addButton.getText().equals("=")) {
-				addButton.setBackgroundPainter(getEqualButtonPainter());
-			} else {
-				addButton.setBackgroundPainter(getAdderButtonPainter());
-			}
-			
-			addButton.setForeground(Color.BLACK);
-			addButton.setBorderPainted(true);
-			addButton.setBorder(new LineBorder(Color.WHITE, 1));
-		}
-		
-		for (JXButton symButton : symbolicButtons) {
-			symButton.setOpaque(true);
-			symButton.setBackgroundPainter(getSymbolButtonPainter());
-			symButton.setForeground(Color.WHITE);
-			symButton.setBorderPainted(true);
-			symButton.setBorder(new LineBorder(Color.WHITE, 1));
-			buttonPanel.add(symButton);
-		}
-
-		for (JXButton numButton : numberButtons) {
-			numButton.setBackgroundPainter(getNumButtonPainter());
-			numButton.setForeground(Color.WHITE);
-			numButton.setBorderPainted(true);
-			numButton.setBorder(new LineBorder(Color.WHITE, 1));
-			buttonPanel.add(numButton);
-			if( numButton.getText().equals("9"))
-				buttonPanel.add(adderButtons.get(0));
-			
-			if( numButton.getText().equals("6"))
-				buttonPanel.add(adderButtons.get(1));
-			
-			if( numButton.getText().equals("7")) {
-				buttonPanel.add(adderButtons.get(2));
-				buttonPanel.add(adderButtons.get(3));
-				buttonPanel.add(adderButtons.get(4));
-			}
-		}
-		
-		
-		
-		
-		
-		buttonPanel.setOpaque(false);
-		calculator.add(buttonPanel,"grow");
-		calculator.setBackgroundPainter(getCalcBackgroundPainter());
-		calcPanel.add(calculator);
-		calcPanel.setPreferredSize(new Dimension((int) (frameDimension.getWidth()*.3), calcPanel.getPreferredSize().height));
-		
-		return calcPanel;
-	}
-
-	private JXTitledPanel createShapesPanel(String type) {
-		shapePanel = new JXTitledPanel(type + " " +"Shapes");
-		this.setModTitlePanel(shapePanel);
-		
-		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 3 3 3 3"));
-		allPanel.setBackgroundPainter(getSubPanelBackgroundPainter());
-
-		List<JXLabel> shapes = getShapes(type);
-		for (JXLabel jxLabel : shapes) {
-			allPanel.add(jxLabel, "grow");
-		}
-		
-		shapePanel.add(allPanel);
-		return shapePanel;
-	}
-	
-	private List<JXLabel> getShapes(String type) {
-		
-		List<JXLabel> shapes = new ArrayList<JXLabel>();
-		
-		if( type.equals(_2D)) {
-			shapes.add(new JXLabel(Images.Circle.getIcon()));
-			shapes.add(new JXLabel(Images.Triangle.getIcon()));
-			shapes.add(new JXLabel(Images.Rectangle.getIcon()));
-		} else if( type.equals(_3D)) {
-			shapes.add(new JXLabel(Images.Cube.getIcon()));
-			shapes.add(new JXLabel(Images.Sphere.getIcon()));
-			shapes.add(new JXLabel(Images.Prism.getIcon()));
-		}
-		
-		return shapes;
-
-	}
-
 	private JXTitledPanel createWorkAreaPanel(String type) {
 		workAreaPanel = new JXTitledPanel(type  + " " +"Work Area");
-		this.setModTitlePanel(workAreaPanel);
+		UIUtils.setModTitlePanel(workAreaPanel);
+		
+		
+		setShapeCanvas(new ShapeCanvas(true));
+		getShapeCanvas().setName(UIUtils.SHAPE_CANVAS);
+		getShapeCanvas().setBackground(Color.WHITE);
+		getShapeCanvas().setLayout(new MigLayout("fill, insets 3 3 3 3"));
+		workAreaPanel.add(getShapeCanvas());
+		
+//		getShapeCanvas().add(new MathToolRectangle(new java.awt.Rectangle(100, 200)));
+		UIUtils.componentLookup.put(UIUtils.SHAPE_CANVAS, getShapeCanvas());
 		return workAreaPanel;
 	}
 	
-	protected void setModTitlePanel(JXTitledPanel panel) {
-		panel.setBorder(new RoundedBorder(3));
-		panel.setTitleFont(getTitleFont());
-		panel.setTitleForeground(Colors.White.color());
-		panel.setTitlePainter(getTitlePainter());
-		panel.setBackgroundPainter(getSubPanelBackgroundPainter());
-		panel.revalidate();
-	}
-
 	public JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu(eu.scy.tools.math.ui.Messages.getString("MathTool.1")); //$NON-NLS-1$
 		fileMenu.add(new QuitAction());
+		
 		menuBar.add(fileMenu);
+		
+		JMenu actionsMenu = new JMenu("Actions");
+		
+		actionsMenu.add(new ExportToGoogleSketchUpAction());
+		actionsMenu.add(new ToggleGridAction());
+		
+		menuBar.add(actionsMenu);
+		
 		return menuBar;
 	}
-	
-	public Painter getTitlePainter() {
-		int width = 100;
-		int height = 100;
-		Color color1 = Colors.White.color(0.7f);
-		Color color2 = Colors.Red.color(0.7f);
 
-		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
-				width, height, new float[] { 0.0f, 1f }, new Color[] {
-						color1, color2 });
-		MattePainter mattePainter = new MattePainter(gradientPaint);
-		return mattePainter;
+	public void setShapeCanvas(ShapeCanvas shapeCanvas) {
+		this.shapeCanvas = shapeCanvas;
 	}
-	
-	public Painter getSubPanelBackgroundPainter() {
-		int width = 100;
-		int height = 100;
-		Color color1 = Colors.White.color(1f);
-		Color color2 = Colors.Black.color(0.5f);
 
-		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
-				width, height, new float[] { 0.0f, 1f }, new Color[] {
-						color1, color1 });
-		MattePainter mattePainter = new MattePainter(gradientPaint);
-		return mattePainter;
+	public ShapeCanvas getShapeCanvas() {
+		return shapeCanvas;
 	}
-	
-	public Painter getCalcBackgroundPainter() {
-		int width = 100;
-		int height = 100;
-		Color color1 = Colors.White.color(1f);
-		Color color2 = Colors.Black.color(0.8f);
 
-		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
-				width, height, new float[] { 0.0f, 1f }, new Color[] {
-						color1, color2 });
-		MattePainter mattePainter = new MattePainter(gradientPaint);
-		return mattePainter;
+	public void setMainPanel(JXPanel mainPanel) {
+		this.mainPanel = mainPanel;
+	}
+
+	public JXPanel getMainPanel() {
+		return mainPanel;
 	}
 	
 	
-	
-    private Painter getSymbolButtonPainter() { 
- 
-    	 MattePainter mp = new MattePainter(Colors.Black.alpha(0.5f));
-      GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
-                                          GlossPainter.GlossPosition.TOP);
-//      return (new CompoundPainter(mp, gp));
- 
-      return mp;
-      
-    } 
-    
-    private Painter getNumButtonPainter() { 
-    	 
-   	 MattePainter mp = new MattePainter(Colors.Blue.alpha(0.5f));
-     GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
-                                         GlossPainter.GlossPosition.TOP);
-//     return (new CompoundPainter(mp, gp));
-     
-     return mp;
-     
-   } 
-    
-    private Painter getAdderButtonPainter() { 
-   	 
-      	 MattePainter mp = new MattePainter(Colors.White.alpha(1f));
-        GlossPainter gp = new GlossPainter(Colors.Black.alpha(0.1f),
-                                            GlossPainter.GlossPosition.TOP);
-//        return (new CompoundPainter(mp, gp));
-        
-        return mp;
-      } 
-    
-    private Painter getEqualButtonPainter() { 
-      	 
-     	 MattePainter mp = new MattePainter(Colors.Orange.alpha(0.5f));
-       GlossPainter gp = new GlossPainter(Colors.Black.alpha(0.1f),
-                                           GlossPainter.GlossPosition.TOP);
-//       return (new CompoundPainter(mp, gp));
-       return mp;
-     }
 }

@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 
 import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.ui.MathTool;
-import eu.scy.tools.math.util.UIUtils;
+import eu.scy.tools.math.util.LaunchUtils;
 
 public class StandAloneClientLauncher {
 
@@ -14,7 +14,7 @@ public class StandAloneClientLauncher {
 	            public void run() {
 	            	MathToolController mc = new MathToolController();
 	        		MathTool mathTool = new MathTool(mc);
-	        		UIUtils.launchInFrame(mathTool);
+	        		LaunchUtils.launchInFrame(mathTool);
 	            }
 	        });
 	     
