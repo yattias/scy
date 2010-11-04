@@ -4,10 +4,10 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
 	   default-autowire="byName">
 
-	<import resource="genericShapes.xml"/>
+	<import resource="collideShapes.xml"/>
 
 	<alias name="simpleConfiguration" alias="configuration"/>
-
+	
 	<bean id="simpleConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration"
 		  factory-method="getInstance">
 		<property name="debug" value="false"/>
@@ -75,6 +75,7 @@
 					</property>
 					<property name="nodeStyle">
 						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+							<property name="background" ref="blue"/>
 						</bean>
 					</property>
 				</bean>
