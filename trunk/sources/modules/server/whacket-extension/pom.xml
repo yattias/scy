@@ -2,12 +2,12 @@
   
   <parent>
     <artifactId>parent</artifactId>
-    <groupId>eu.scy.common</groupId>
+    <groupId>eu.scy.server</groupId>
     <version>27-SNAPSHOT</version>
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.scy.common</groupId>
+  <groupId>eu.scy.server</groupId>
   <artifactId>whacket-extension</artifactId>
   <name>Whacket Extension</name>
 
