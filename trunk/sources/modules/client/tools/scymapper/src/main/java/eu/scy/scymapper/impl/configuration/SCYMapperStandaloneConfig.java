@@ -12,137 +12,156 @@ import org.apache.log4j.Logger;
 
 public class SCYMapperStandaloneConfig {
 
-	public enum Help {
-		NOHELP, VOLUNTARY, CONTINUOUS;
+    public enum Help {
+        NOHELP,
+        VOLUNTARY,
+        CONTINUOUS;
 
-	}
+    }
 
-	private final static Logger logger = Logger
-			.getLogger(SCYMapperStandaloneConfig.class);
+    private final static Logger logger = Logger.getLogger(SCYMapperStandaloneConfig.class);
 
-	private static SCYMapperStandaloneConfig instance = null;
+    private static SCYMapperStandaloneConfig instance = null;
 
-	// private static final String LOCAL_CONFIG_FILE_PATH =
-	// "src/main/java/eu/scy/scymapper/";
-	private static final String LOCAL_CONFIG_FILE_PATH = "";
+    // private static final String LOCAL_CONFIG_FILE_PATH =
+    // "src/main/java/eu/scy/scymapper/";
+    private static final String LOCAL_CONFIG_FILE_PATH = "";
 
-	private static final String LOCAL_CONFIG_FILE = "scymapper.properties";
+    private static final String LOCAL_CONFIG_FILE = "scymapper.properties";
 
-	private static final String KEY_HELP_MODE = "HelpMode";
+    private static final String KEY_HELP_MODE = "HelpMode";
 
-	private static final String KEY_CONTINUOUS_HELP_WAIT_TIME = "ContinuousHelpWaitTime";
+    private static final String KEY_CONTINUOUS_HELP_WAIT_TIME = "ContinuousHelpWaitTime";
 
-	private static final String KEY_CONTINUOUS_HELP_INTERVAL = "ContinuousHelpInterval";
+    private static final String KEY_CONTINUOUS_HELP_INTERVAL = "ContinuousHelpInterval";
 
-	private static Properties config;
+    private static Properties config;
 
-	private static final Help DEFAULT_HELP_MODE = Help.CONTINUOUS;
+    private static final Help DEFAULT_HELP_MODE = Help.CONTINUOUS;
 
-	private static final int DEFAULT_CON_HELP_WAIT_TIME = 180;
+    private static final int DEFAULT_CON_HELP_WAIT_TIME = 180;
 
-	private static final int DEFAULT_CON_HELP_INTERVAL = 30;
+    private static final int DEFAULT_CON_HELP_INTERVAL = 30;
 
-	private static final String KEY_RELATIONS = "Relations";
+    private static final String KEY_RELATIONS = "Relations";
 
-	private SCYMapperStandaloneConfig() {
-		config = new Properties();
-		loadDefaultConfig(config);
+    private static final String SQLSPACES_HOST = "sqlspaces.host";
 
-		File file = new File(LOCAL_CONFIG_FILE_PATH + LOCAL_CONFIG_FILE);
-		if (file.canRead()) {
-			// Use config file if possible
-			Reader reader = null;
-			try {
-				reader = new FileReader(file);
-				config.load(reader);
-			} catch (IOException e) {
-				// TODO
-			} finally {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					// TODO
-				}
-			}
-		}
-	};
+    private static final String DEFAULT_SQLSPACES_HOST = "127.0.0.1";
 
-	private static void loadDefaultConfig(Properties props) {
+    private static final String SQLSPACES_PORT = "sqlspaces.port";
 
-		props.setProperty(KEY_HELP_MODE, DEFAULT_HELP_MODE.name());
+    private static final int DEFAULT_SQLSPACES_PORT = 2525;
 
-		props.setProperty(KEY_CONTINUOUS_HELP_WAIT_TIME,
-				String.valueOf(DEFAULT_CON_HELP_WAIT_TIME));
-	}
+    private SCYMapperStandaloneConfig() {
+        config = new Properties();
+        loadDefaultConfig(config);
 
-	public static SCYMapperStandaloneConfig getInstance() {
-		if (instance == null) {
-			instance = new SCYMapperStandaloneConfig();
-		}
-		return instance;
-	}
+        File file = new File(LOCAL_CONFIG_FILE_PATH + LOCAL_CONFIG_FILE);
+        if (file.canRead()) {
+            // Use config file if possible
+            Reader reader = null;
+            try {
+                reader = new FileReader(file);
+                config.load(reader);
+            } catch (IOException e) {
+                // TODO
+            } finally {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // TODO
+                }
+            }
+        }
+    };
 
-	public Help getHelpMode() {
-		try {
-			return Help.valueOf(config.getProperty(KEY_HELP_MODE));
-		} catch (IllegalArgumentException e) {
-			return DEFAULT_HELP_MODE;
-		}
-	}
+    private static void loadDefaultConfig(Properties props) {
 
-	public List<String> getRelations() {
-		try {
-			String[] relations = config.getProperty(KEY_RELATIONS).split(",");
-			List<String> relationsAsList = new ArrayList<String>();
-			for (String string : relations) {
-				relationsAsList.add(string.trim());
+        props.setProperty(KEY_HELP_MODE, DEFAULT_HELP_MODE.name());
 
-			}
-			return relationsAsList;
+        props.setProperty(KEY_CONTINUOUS_HELP_WAIT_TIME, String.valueOf(DEFAULT_CON_HELP_WAIT_TIME));
+    }
 
-		} catch (IllegalArgumentException iae) {
-			return null;
-		}
-	}
+    public static SCYMapperStandaloneConfig getInstance() {
+        if (instance == null) {
+            instance = new SCYMapperStandaloneConfig();
+        }
+        return instance;
+    }
 
-	public void setHelpMode(Help h) {
-		config.setProperty(KEY_HELP_MODE, h.toString());
-	}
+    public Help getHelpMode() {
+        try {
+            return Help.valueOf(config.getProperty(KEY_HELP_MODE));
+        } catch (IllegalArgumentException e) {
+            return DEFAULT_HELP_MODE;
+        }
+    }
 
-	public int getContinuousHelpWaitTime() {
-		try {
-			return Integer.parseInt(config
-					.getProperty(KEY_CONTINUOUS_HELP_WAIT_TIME));
-		} catch (NumberFormatException e) {
-			return DEFAULT_CON_HELP_WAIT_TIME;
-		}
-	}
+    public List<String> getRelations() {
+        try {
+            String[] relations = config.getProperty(KEY_RELATIONS).split(",");
+            List<String> relationsAsList = new ArrayList<String>();
+            for (String string : relations) {
+                relationsAsList.add(string.trim());
 
+            }
+            return relationsAsList;
 
-	public long getContinuousHelpInterval() {
-	    try {
-	        return Long.parseLong(config
-	                .getProperty(KEY_CONTINUOUS_HELP_INTERVAL));
-	    } catch (NumberFormatException e) {
-	        return DEFAULT_CON_HELP_INTERVAL;
-	    }
-	}
-	
-	public void setContinuousHelpWaitTime(int time) {
-		config.setProperty(KEY_CONTINUOUS_HELP_WAIT_TIME,
-				Integer.toString(time));
-	}
+        } catch (IllegalArgumentException iae) {
+            return null;
+        }
+    }
 
-	// Only for testing purposes
-	public static void main(String[] args) throws CloneNotSupportedException {
-		SCYMapperStandaloneConfig config = new SCYMapperStandaloneConfig();
-		System.out.println(config.getHelpMode());
-		System.out.println(config.getContinuousHelpWaitTime());
-		List<String> relations = config.getRelations();
-		System.out.println("Relations:");
-		for (String string : relations) {
-			System.out.println("/"+string+"/");
-		}
-	}
+    public void setHelpMode(Help h) {
+        config.setProperty(KEY_HELP_MODE, h.toString());
+    }
+
+    public int getContinuousHelpWaitTime() {
+        try {
+            return Integer.parseInt(config.getProperty(KEY_CONTINUOUS_HELP_WAIT_TIME));
+        } catch (NumberFormatException e) {
+            return DEFAULT_CON_HELP_WAIT_TIME;
+        }
+    }
+
+    public long getContinuousHelpInterval() {
+        try {
+            return Long.parseLong(config.getProperty(KEY_CONTINUOUS_HELP_INTERVAL));
+        } catch (NumberFormatException e) {
+            return DEFAULT_CON_HELP_INTERVAL;
+        }
+    }
+
+    public void setContinuousHelpWaitTime(int time) {
+        config.setProperty(KEY_CONTINUOUS_HELP_WAIT_TIME, Integer.toString(time));
+    }
+
+    // Only for testing purposes
+    public static void main(String[] args) throws CloneNotSupportedException {
+        SCYMapperStandaloneConfig config = new SCYMapperStandaloneConfig();
+        System.out.println(config.getHelpMode());
+        System.out.println(config.getContinuousHelpWaitTime());
+        List<String> relations = config.getRelations();
+        System.out.println("Relations:");
+        for (String string : relations) {
+            System.out.println("/" + string + "/");
+        }
+    }
+
+    public String getSQLSpacesHost() {
+        try {
+            return config.getProperty(SQLSPACES_HOST);
+        } catch (NumberFormatException e) {
+            return DEFAULT_SQLSPACES_HOST;
+        }
+    }
+    public int getSQLSpacesPort() {
+        try {
+            return Integer.parseInt(config.getProperty(SQLSPACES_PORT));
+        } catch (NumberFormatException e) {
+            return DEFAULT_SQLSPACES_PORT;
+        }
+    }
 
 }

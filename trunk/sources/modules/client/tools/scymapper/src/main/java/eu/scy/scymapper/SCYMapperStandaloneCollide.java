@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.impl.SCYMapperPanel;
 import eu.scy.scymapper.impl.SCYMapperPanelCollide;
+import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
@@ -23,11 +24,11 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
 	// TODO changed for testing purposes
 //    private static final String SQLSPACES_HOST = "scy.collide.info";
-	private static final String SQLSPACES_HOST = "localhost";
-	
+//	private static final String SQLSPACES_HOST = "localhost";
+
     private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperCollideToolConfig.xml";
 
-    private static final int SQLSPACES_PORT = 2525;
+//    private static final int SQLSPACES_PORT = 2525;
 
     private TupleSpace commandSpace;
 
@@ -51,7 +52,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
     void init() {
         super.init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
         try {
-            commandSpace = new TupleSpace(new User("SCYMapper"), SQLSPACES_HOST, SQLSPACES_PORT, "command");
+            commandSpace = new TupleSpace(new User("SCYMapper"), SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(),  SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), "command");
             Callback cb = new Callback() {
 
                 @Override
@@ -79,7 +80,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     @Override
     protected SCYMapperPanel createScyMapperPanel(IConceptMap cmap) {
-        scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SQLSPACES_HOST, SQLSPACES_PORT);
+        scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort());
         currentConceptMap = cmap;
         return scyMapperPanel;
     }
