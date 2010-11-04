@@ -182,6 +182,9 @@ public class Converter {
 		Tuple[] allActions = ts.readAll(new Tuple());
 		for (Tuple tuple : allActions) {
 			String user = tuple.getField(4).getValue().toString();
+			if (user.indexOf("@")==-1){
+				continue;
+			}
 			user = user.substring(0, user.indexOf("@"));
 			if (users.contains(user)) {
 				continue;
