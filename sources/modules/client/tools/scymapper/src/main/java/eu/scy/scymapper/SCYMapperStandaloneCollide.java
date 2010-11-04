@@ -1,6 +1,7 @@
 package eu.scy.scymapper;
 
 import java.io.IOException;
+import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     private TupleSpace commandSpace;
 
+    private String userid;
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -50,6 +53,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     @Override
     void init() {
+        this.userid = new VMID().toString();
         super.init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
         try {
             commandSpace = new TupleSpace(new User("SCYMapper"), SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(),  SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), "command");
@@ -71,8 +75,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
                     scyMapperPanel.suggestKeywords(keywordArray, categoryArray, type);
                 }
             };
-            // TODO: insert user here!
-            commandSpace.eventRegister(Command.WRITE, new Tuple("notification", String.class, String.class, "scymapper", String.class, String.class, String.class, Field.createWildCardField()), cb, true);
+            commandSpace.eventRegister(Command.WRITE, new Tuple("notification", String.class, userid, "scymapper", String.class, String.class, String.class, Field.createWildCardField()), cb, true);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -80,7 +83,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     @Override
     protected SCYMapperPanel createScyMapperPanel(IConceptMap cmap) {
-        scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort());
+        scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), userid);
         currentConceptMap = cmap;
         return scyMapperPanel;
     }
