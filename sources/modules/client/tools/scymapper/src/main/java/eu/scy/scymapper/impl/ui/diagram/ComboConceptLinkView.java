@@ -75,8 +75,8 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
                         Arrow a = new Arrow();
                         a.setHead(new Arrowhead(10));
                         a.setTail(new Arrowhead(10));
-                        
-                        
+
+
                         model.setShape(a);
                         if (switchButton != null) {
                             switchButton.setVisible(false);
@@ -122,7 +122,7 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
         panel.add(comboBox, BorderLayout.CENTER);
         panel.add(switchButton, BorderLayout.EAST);
         add(panel);
-        comboBox.setToolTipText(Localization.getString("Dialog.Confirm.Delete.Text"));
+        comboBox.setToolTipText(comboBox.getSelectedItem().toString());
         comboBox.setMinimumSize(new Dimension(100, 20));
         comboBox.setMinimumSize(new Dimension(100, 20));
 
