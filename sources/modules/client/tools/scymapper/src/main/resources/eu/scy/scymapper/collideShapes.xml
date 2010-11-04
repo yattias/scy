@@ -52,7 +52,6 @@
 		<property name="lineShape" ref="quadCurvedLine"/>
 	</bean>
 
-
 	<bean id="quadCurvedBiDirArrow2" parent="bidirectional_arrow">
 		<property name="lineShape" ref="quadCurvedLine2"/>
 	</bean>
@@ -61,7 +60,7 @@
 		<constructor-arg value="0xffffff"/>
 	</bean>
 	<bean id="blue" class="java.awt.Color">
-		<constructor-arg value="0x5599ff"/>
+		<constructor-arg value="0x6badff"/>
 	</bean>
 	<bean id="red" class="java.awt.Color">
 		<constructor-arg value="0xff5555"/>
