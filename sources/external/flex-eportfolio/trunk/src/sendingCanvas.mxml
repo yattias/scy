@@ -154,7 +154,7 @@
 								<mx:VBox width="100%">
 									<mx:Text id="refOnInqText" text="{resourceManager.getString('resources', 'SENDING_TEXT4')}" width="400" />
 									<mx:Spacer height="10"/>
-									<mx:HSlider id="reflectionArea4" minimum="1" maximum="10" value="5" dataTipPlacement="top" tickColor="0x323232"
+									<mx:HSlider id="reflectionArea4" minimum="1" maximum="3" value="2" tickColor="0x323232"
 												snapInterval="1" tickInterval="1" labels="['Not at all','Somewhat','Very']" allowTrackClick="true" width="500" />
 								</mx:VBox>
 							</mx:FormItem>
