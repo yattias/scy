@@ -21,9 +21,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
@@ -61,9 +60,13 @@ public class KeywordSuggestionPanel extends JPanel {
 
     private static String sep = System.getProperty("file.separator");
 
-    private static final String ADD_PROPOSAL_ICON_PATH = "src" + sep + "main" + sep + "resources/";
+    private static final String ICON_PATH = "src" + sep + "main" + sep + "resources/";
 
-    private static final String ADD_PROPOSAL_ICON = "add-proposal.png";
+    private static final String ADD_NODE_ICON = "add_node.png";
+
+    private static final String ADD_EDGE_ICON = "add_edge.png";
+
+    private static final String SPECIFY_EDGE_ICON = "specify_edge.png";
 
     private JTextPane descriptionLabel;
 
@@ -73,6 +76,8 @@ public class KeywordSuggestionPanel extends JPanel {
 
     private JList conceptList;
 
+    private String[] categories;
+
     private ArrayList<Integer> changedIndices;
 
     public KeywordSuggestionPanel() {
@@ -80,18 +85,18 @@ public class KeywordSuggestionPanel extends JPanel {
     }
 
     public KeywordSuggestionPanel(boolean init) {
+        Icon icon = UIManager.getIcon("OptionPane.informationIcon");
+        titleLabel = new JLabel("", icon, SwingConstants.LEFT);
         if (init) {
             initComponents();
         }
     }
 
-	void initComponents() {
+    void initComponents() {
         setLayout(new BorderLayout());
         setDoubleBuffered(true);
 
         changedIndices = new ArrayList<Integer>();
-        Icon icon = UIManager.getIcon("OptionPane.informationIcon");
-        titleLabel = new JLabel(null, icon, SwingConstants.LEFT);
         add(BorderLayout.NORTH, titleLabel);
         conceptButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT));// new MigLayout("wrap 4",
                                                                         // "[fill]"));
@@ -121,77 +126,66 @@ public class KeywordSuggestionPanel extends JPanel {
 
         // compound.add(BorderLayout.CENTER, conceptButtonPane);
         add(compound, BorderLayout.CENTER);
-	}
+    }
 
-	/**
+    /**
      * Suggests a keyword to be added to the concept map by displaying a list of available concept
      * shapes
-	 * 
-	 * @param keyword
-	 * @param nodeFactories
-	 */
-	public void setSuggestion(String keyword, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
+     * 
+     * @param keyword
+     * @param nodeFactories
+     */
+    public void setSuggestion(String keyword, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
 
-		String[] text = {
-				Localization.getString("Mainframe.KeywordSuggestion.OneSuggestion.Panel.1"),
-				keyword,
-				Localization.getString("Mainframe.KeywordSuggestion.OneSuggestion.Panel.2"),
-				Localization.getString("Mainframe.KeywordSuggestion.OneSuggestion.Panel.3") };
-		String[] styles = { "reqular", "bold", "regular", "regular" };
+        String[] text = { Localization.getString("Mainframe.KeywordSuggestion.OneSuggestion.Panel.1"), keyword, Localization.getString("Mainframe.KeywordSuggestion.OneSuggestion.Panel.2"), Localization.getString("Mainframe.KeywordSuggestion.OneSuggestion.Panel.3") };
+        String[] styles = { "reqular", "bold", "regular", "regular" };
 
-		StyledDocument doc = descriptionLabel.getStyledDocument();
-		try {
-			for (int i = 0; i < text.length; i++) {
-				doc.insertString(doc.getLength(), text[i], doc.getStyle(styles[i]));
-			}
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-		
-		// following line is for broken Mac Java to have a correct layout ...
-		descriptionLabel.getPreferredSize();		
+        StyledDocument doc = descriptionLabel.getStyledDocument();
+        try {
+            for (int i = 0; i < text.length; i++) {
+                doc.insertString(doc.getLength(), text[i], doc.getStyle(styles[i]));
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
 
-		for (INodeFactory factory : nodeFactories) {
-			conceptButtonPane.add(createConceptButton(factory, keyword, panel));
-		}
-	}
+        // following line is for broken Mac Java to have a correct layout ...
+        descriptionLabel.getPreferredSize();
 
-    public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel) {
-	    setSuggestions(keywords, nodeFactories, panel, "concepts");
-	}
-	
+        for (INodeFactory factory : nodeFactories) {
+            conceptButtonPane.add(createConceptButton(factory, keyword, panel));
+        }
+    }
+
     /**
      * Sets a new title for the keyword suggestion panel.
-     * @param text The new text
+     * 
+     * @param text
+     *            The new text
      */
     public void setTitle(String text) {
-    	this.titleLabel.setText(text);
+        this.titleLabel.setText(text);
     }
-    
-	/**
+
+    /**
      * Suggests a keyword to be added to the concept map by displaying a list of available concept
      * shapes
-	 * 
-	 * @param keywords
-	 * @param nodeFactories
-	 */
-    public synchronized void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel, String type) {
+     * 
+     * @param keywords
+     * @param nodeFactories
+     */
+    public synchronized void setSuggestions(String[] keywords, String[] categories, Collection<INodeFactory> nodeFactories, String type, boolean highlightChanged) {
         String text = null;
-        System.err.println(type + ": " + keywords);
-	        if (keywords.isEmpty()) {
-	            text = Localization.getString("Mainframe.KeywordSuggestion.NoKeyword");
-	        } else {
-        		text = Localization.getString("Mainframe.KeywordSuggestion.Suggest");
-	        }
-	    
-				
-//		String[] text = {
-//		        "A SCY-Agent has discovered that you may have missed relevant keywords in your concept map. ",
-        // "Add suggested concepts by clicking the buttons below and selecting the shape you would like each of the concepts to have."
-        // };
+        if (keywords.length == 0) {
+            text = Localization.getString("Mainframe.KeywordSuggestion.NoKeyword");
+        } else {
+            text = Localization.getString("Mainframe.KeywordSuggestion.Suggest");
+        }
 
-		StyledDocument doc = descriptionLabel.getStyledDocument();
-		try {
+        this.categories = categories;
+
+        StyledDocument doc = descriptionLabel.getStyledDocument();
+        try {
             if (!text.equals(doc.getText(0, doc.getLength()))) {
                 doc.remove(0, doc.getLength());
                 doc.insertString(doc.getLength(), text, doc.getStyle("regular"));
@@ -199,38 +193,55 @@ public class KeywordSuggestionPanel extends JPanel {
             // following line is for broken Mac Java to have a correct layout ...
             if (System.getProperty("java.vm.vendor").startsWith("Apple")) {
                 descriptionLabel.getPreferredSize();
-			}
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-        Collections.sort(keywords);
-		DefaultListModel model = (DefaultListModel) conceptList.getModel();
-        changedIndices.clear();
-        for (int i = 0; i < keywords.size(); i++) {
-            if (!model.contains(keywords.get(i))) {
-                changedIndices.add(i);
             }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        Arrays.sort(keywords);
+        DefaultListModel model = (DefaultListModel) conceptList.getModel();
+        changedIndices.clear();
+        if (highlightChanged) {
+            for (int i = 0; i < keywords.length; i++) {
+                if (!model.contains(keywords[i])) {
+                    changedIndices.add(i);
+                }
+            } 
         }
         model.clear();
-        for (int i = 0; i < keywords.size(); i++) {
-            model.addElement(keywords.get(i));
+        for (int i = 0; i < keywords.length; i++) {
+            model.addElement(keywords[i]);
         }
     }
-	
-	class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
-		ImageIcon icon = new ImageIcon(ADD_PROPOSAL_ICON_PATH + ADD_PROPOSAL_ICON);
-	
-		@Override
+
+    class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
+
+        ImageIcon iconAddNode = new ImageIcon(ICON_PATH + ADD_NODE_ICON);
+
+        ImageIcon iconAddEdge = new ImageIcon(ICON_PATH + ADD_EDGE_ICON);
+
+        ImageIcon iconSpecifyEdge = new ImageIcon(ICON_PATH + SPECIFY_EDGE_ICON);
+
+        @Override
         public Component getListCellRendererComponent(JList list, // the list
-				Object value,            // value to display
+        Object value, // value to display
         final int index, // cell index
-				boolean isSelected,      // is the cell selected
-				boolean cellHasFocus) {    // does the cell have focus
+        boolean isSelected, // is the cell selected
+        boolean cellHasFocus) { // does the cell have focus
             JLabel l = new JLabel();
-			String s = value.toString();
+            String s = value.toString();
+            s = s.replaceAll(",", " - ");
             l.setText(s);
-            l.setIcon(icon);
-			if (isSelected) {
+            if (categories == null || categories[index].equals("concept_proposal")) {
+                l.setIcon(iconAddNode);
+                l.setToolTipText(Localization.getString("Mainframe.KeywordSuggestion.Node"));
+            } else if (categories[index].equals("relation_proposal")) {
+                l.setIcon(iconAddEdge);
+                l.setToolTipText(Localization.getString("Mainframe.KeywordSuggestion.Edge"));
+            } else {
+                l.setIcon(iconSpecifyEdge);
+                l.setToolTipText(Localization.getString("Mainframe.KeywordSuggestion.SpecifyEdge"));
+            }
+            if (isSelected) {
                 l.setBackground(list.getSelectionBackground());
                 l.setForeground(list.getSelectionForeground());
             } else {
@@ -243,6 +254,7 @@ public class KeywordSuggestionPanel extends JPanel {
             if (changedIndices.contains(index)) {
                 l.setBorder(new LineBorder(Color.RED, 2, true));
                 Thread t = new Thread() {
+
                     @Override
                     public void run() {
                         try {
@@ -254,76 +266,76 @@ public class KeywordSuggestionPanel extends JPanel {
                             e.printStackTrace();
                         }
                     }
-                    
+
                 };
                 t.start();
-			} else {
+            } else {
                 l.setBorder(new EmptyBorder(2, 2, 2, 2));
-			}
+            }
             return l;
-		}
-	}
-	 
-	private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
-		final JToggleButton button = new JToggleButton(factory.getIcon());
-		button.setText(keyword);
-		button.setHorizontalAlignment(JButton.CENTER);
-		button.addActionListener(new ActionListener() {
+        }
+    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				panel.getDiagramView().addMouseListener(new MouseAdapter() {
+    private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {
+        final JToggleButton button = new JToggleButton(factory.getIcon());
+        button.setText(keyword);
+        button.setHorizontalAlignment(JButton.CENTER);
+        button.addActionListener(new ActionListener() {
 
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						INodeModel node = factory.create();
-						int w = node.getWidth();
-						int h = node.getHeight();
-						node.setSize(new Dimension(w, h));
-						Point loc = new Point(e.getPoint());
-						loc.translate(w / -2, h / -2);
-						node.setLocation(loc);
-						node.setLabel(keyword);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.getDiagramView().addMouseListener(new MouseAdapter() {
 
-						panel.getDiagramView().getController().add(node);
-						panel.getDiagramView().removeMouseListener(this);
-						panel.getDiagramView().setCursor(null);
-						button.setSelected(false);
-					}
-				});
-				panel.getDiagramView().setCursor(createShapeCursor(factory));
-			}
-		});
-		return button;
-	}
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        INodeModel node = factory.create();
+                        int w = node.getWidth();
+                        int h = node.getHeight();
+                        node.setSize(new Dimension(w, h));
+                        Point loc = new Point(e.getPoint());
+                        loc.translate(w / -2, h / -2);
+                        node.setLocation(loc);
+                        node.setLabel(keyword);
 
-	Cursor createShapeCursor(INodeFactory nodeFactory) {
+                        panel.getDiagramView().getController().add(node);
+                        panel.getDiagramView().removeMouseListener(this);
+                        panel.getDiagramView().setCursor(null);
+                        button.setSelected(false);
+                    }
+                });
+                panel.getDiagramView().setCursor(createShapeCursor(factory));
+            }
+        });
+        return button;
+    }
 
-		Toolkit tk = Toolkit.getDefaultToolkit();
+    Cursor createShapeCursor(INodeFactory nodeFactory) {
 
-		INodeModel node = nodeFactory.create();
+        Toolkit tk = Toolkit.getDefaultToolkit();
 
-		Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
+        INodeModel node = nodeFactory.create();
 
-		INodeStyle style = node.getStyle();
-		INodeShape shape = node.getShape();
+        Dimension size = tk.getBestCursorSize(node.getWidth(), node.getHeight());
 
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        INodeStyle style = node.getStyle();
+        INodeShape shape = node.getShape();
 
-		// Create an image that supports arbitrary levels of transparency
-		BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gs = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gs.getDefaultConfiguration();
 
-		Graphics2D g2d = (Graphics2D) i.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // Create an image that supports arbitrary levels of transparency
+        BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
 
-		g2d.setColor(style.getBackground());
+        Graphics2D g2d = (Graphics2D) i.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		Rectangle rect = new Rectangle(0, 0, size.width, size.height);
-		shape.setMode(style.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
-		shape.paint(g2d, rect);
+        g2d.setColor(style.getBackground());
 
-		return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
-	}
+        Rectangle rect = new Rectangle(0, 0, size.width, size.height);
+        shape.setMode(style.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
+        shape.paint(g2d, rect);
+
+        return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
+    }
 }

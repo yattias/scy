@@ -21,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -62,7 +63,8 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
             model.getToNode().addListener(this);
         panel = new JPanel(new BorderLayout(5, 5));
         panel.setBackground(new Color(0, 0, 0, 0));
-        panel.setBorder(BorderFactory.createTitledBorder("Relation"));
+//        panel.setBorder(BorderFactory.createTitledBorder("Relation"));
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         comboBox = new JComboBox();
         comboBox.addItemListener(new ItemListener() {
 
@@ -281,7 +283,7 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
         while (y + prefSize.height > innerBounds.y + innerBounds.height) {
             y--;
         }
-        panel.setBounds(x, y, 200, 50);
+        panel.setBounds(x, y, 200, 30);
         panel.revalidate();
     }
 

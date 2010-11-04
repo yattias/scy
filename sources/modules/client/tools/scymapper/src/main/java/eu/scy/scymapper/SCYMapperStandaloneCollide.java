@@ -57,12 +57,17 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
                 @Override
                 public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
                     List<String> keywords = new ArrayList<String>();
+                    List<String> categories = new ArrayList<String>();
                     String type = afterTuple.getField(7).getValue().toString().split("=")[1];
                     for (int i = 8; i < afterTuple.getNumberOfFields(); i++) {
                         String keyword = afterTuple.getField(i).getValue().toString().split("=")[1];
+                        String category = afterTuple.getField(i).getValue().toString().split("=")[0];
                         keywords.add(keyword);
+                        categories.add(category);
                     }
-                    scyMapperPanel.suggestKeywords(keywords, type);
+                    String[] keywordArray = (String[]) keywords.toArray(new String[keywords.size()]);
+                    String[] categoryArray = (String[]) categories.toArray(new String[categories.size()]);
+                    scyMapperPanel.suggestKeywords(keywordArray, categoryArray, type);
                 }
             };
             // TODO: insert user here!

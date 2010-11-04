@@ -111,10 +111,11 @@
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedArrow"/>
 				</bean>
-				--><bean class="eu.scy.scymapper.impl.configuration.CollideLinkFactory">
+				<bean class="eu.scy.scymapper.impl.configuration.CollideLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="bidirectional_arrow"/>
 				</bean>
+				-->
 				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedBiDirArrow"/>

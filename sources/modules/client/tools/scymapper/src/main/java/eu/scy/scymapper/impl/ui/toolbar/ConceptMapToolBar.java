@@ -32,12 +32,14 @@ import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
  * @created 02.feb.2010 18:54:54
  */
 public class ConceptMapToolBar extends JPanel {
-	private IConceptMap conceptMap;
-	private ConceptDiagramView diagramView;
+	protected IConceptMap conceptMap;
+	protected ConceptDiagramView diagramView;
 	private IDiagramController diagramController;
-	private IDiagramSelectionModel diagramSelectionModel;
+	protected IDiagramSelectionModel diagramSelectionModel;
 	private ISCYMapperToolConfiguration conf = SCYMapperToolConfiguration.getInstance();
 
+	protected ConceptMapToolBar() {}
+	
 	public ConceptMapToolBar(IConceptMap cmap, ConceptDiagramView diagramView) {
 		conceptMap = cmap;
 		this.diagramView = diagramView;
@@ -218,7 +220,7 @@ public class ConceptMapToolBar extends JPanel {
 	}
 
 
-	private class ClearConceptMapButton extends JButton implements ActionListener {
+	class ClearConceptMapButton extends JButton implements ActionListener {
 		ClearConceptMapButton() {
 			super();
 			setToolTipText(Localization.getString("Mainframe.Toolbar.Clear"));

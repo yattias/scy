@@ -2,10 +2,9 @@ package eu.scy.scymapper.impl.ui.notification;
 
 import java.awt.GridLayout;
 import java.util.Collection;
-import java.util.List;
 
 import eu.scy.scymapper.api.INodeFactory;
-import eu.scy.scymapper.impl.ui.ConceptMapPanel;
+import eu.scy.scymapper.impl.ui.Localization;
 
 
 public class DoubleKeywordSuggestionPanel extends KeywordSuggestionPanel {
@@ -19,16 +18,18 @@ public class DoubleKeywordSuggestionPanel extends KeywordSuggestionPanel {
         setLayout(new GridLayout(2,1));
         relationPanel = new KeywordSuggestionPanel();
         conceptPanel = new KeywordSuggestionPanel();
+        conceptPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.ConceptTitle"));
+        relationPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.RelationTitle"));
         add(conceptPanel);
         add(relationPanel);
     }
     
     @Override
-    public void setSuggestions(List<String> keywords, Collection<INodeFactory> nodeFactories, ConceptMapPanel panel, String type) {
+    public void setSuggestions(String[] keywords, String[] categories, Collection<INodeFactory> nodeFactories, String type, boolean highlightChanged) {
         if (type.equals("concept")) {
-            conceptPanel.setSuggestions(keywords, nodeFactories, panel, type);
+            conceptPanel.setSuggestions(keywords, categories, nodeFactories, type, highlightChanged);
         } else {
-            relationPanel.setSuggestions(keywords, nodeFactories, panel, type);
+            relationPanel.setSuggestions(keywords, categories, nodeFactories, type, highlightChanged);
         }
     }
     
