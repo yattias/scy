@@ -7,9 +7,10 @@ import javax.swing.Action;
 
 import eu.scy.tools.math.ui.images.Images;
 
-public class ExportToGoogleSketchUp extends AbstractAction {
+public class ExportToGoogleSketchUpAction extends AbstractAction {
 
-	public ExportToGoogleSketchUp() {
+	public ExportToGoogleSketchUpAction() {
+		putValue(Action.NAME, "Export to Google Sketchup");
 		putValue(Action.SMALL_ICON, Images.SketchUp.getIcon());
 		putValue(Action.SHORT_DESCRIPTION, "Export to Google Sketchup");
 	}

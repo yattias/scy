@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package eu.scy.tools.math.ui;
+package eu.scy.tools.math.ui.paint;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +40,8 @@ import java.awt.RenderingHints;
 import javax.swing.border.Border;
 
 import org.jdesktop.swingx.color.ColorUtil;
+
+import eu.scy.tools.math.ui.Utilities;
 
 /**
  *

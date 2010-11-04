@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import eu.scy.tools.math.ui.MathTool;
 
-public class UIUtils {
+public class LaunchUtils {
 
 	public static void launchInFrame(final MathTool mathTool) {
 

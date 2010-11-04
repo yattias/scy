@@ -1,4 +1,4 @@
-package eu.scy.tools.math.ui;
+package eu.scy.tools.math.ui.paint;
 
 import java.awt.Color;
 import java.awt.LinearGradientPaint;
