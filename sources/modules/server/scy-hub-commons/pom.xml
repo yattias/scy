@@ -16,7 +16,7 @@
   <dependencies>
   
   	<dependency>
-  		<groupId>eu.scy.common</groupId>
+  		<groupId>eu.scy.server</groupId>
   		<artifactId>whacket-extension</artifactId>
   		<version>27-SNAPSHOT</version>
   	</dependency>
