@@ -122,7 +122,7 @@ public class SCYMapperPanel extends JPanel {
                             for (String keyword : keywords) {
                                 keywordsAsList.add(keyword);
                             }
-                            suggestKeywords(keywordsAsList, "concept");
+                            suggestKeywords(keywords, null, "concept");
                         }
                     }
                 }
@@ -132,21 +132,15 @@ public class SCYMapperPanel extends JPanel {
         }
     }
 
-    public void suggestKeywords(List<String> keywords, String type) {
+    public void suggestKeywords(String[] keywords, String[] category, String type) {
 
     	suggestionPanel = new KeywordSuggestionPanel();
 
-        if (keywords.isEmpty()) {
+        if (keywords.length == 0) {
             return;
         }
 
-        checkForAlreadyPresentConcepts(keywords);
-
-        if (keywords.size() == 1) {
-            suggestionPanel.setSuggestion(keywords.get(0), configuration.getNodeFactories(), cmapPanel);
-        } else {
-            suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel);
-        }
+        suggestionPanel.setSuggestions(keywords, category, configuration.getNodeFactories(), "concept", false);
 
         suggestionPanel.setSize(300, cmapPanel.getHeight()-2);
         System.out.println(suggestionPanel.getLocation());
@@ -247,8 +241,7 @@ public class SCYMapperPanel extends JPanel {
         if (input == null) {
             return;
         }
-        java.util.List<String> keywords = Arrays.asList(input.split(",\\s+"));
-        suggestKeywords(keywords, "keywords");
+        suggestKeywords(input.split(",\\s+"), null, "concept");
 
     }
 
@@ -336,7 +329,7 @@ public class SCYMapperPanel extends JPanel {
         cmapPanel.setBackground(Color.WHITE);
         conceptDiagramView = cmapPanel.getDiagramView();
 
-        toolBar = new ConceptMapToolBar(conceptMap, conceptDiagramView);
+        toolBar = createToolbar(conceptMap, conceptDiagramView);
         JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
         topToolBarPanel.add(toolBar);
 //        topToolBarPanel.add(palettePane);
@@ -347,6 +340,10 @@ public class SCYMapperPanel extends JPanel {
         add(BorderLayout.WEST, palettePane);
         add(BorderLayout.CENTER, cmapPanel);
         add(BorderLayout.EAST, suggestionPanel);
+    }
+
+    protected ConceptMapToolBar createToolbar(IConceptMap conceptMap, ConceptDiagramView conceptDiagramView) {
+        return new ConceptMapToolBar(conceptMap, conceptDiagramView);
     }
 
     public void createKeywordSuggestionPanel() {

@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.dgc.VMID;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,8 +22,11 @@ import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.FadeNotificator;
 import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.Notificator;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.notification.DoubleKeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanel;
+import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
+import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBarCollide;
 
 public class SCYMapperPanelCollide extends SCYMapperPanel {
 
@@ -57,6 +59,11 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
         return fn;
     }
 
+    @Override
+    protected ConceptMapToolBar createToolbar(IConceptMap conceptMap, ConceptDiagramView conceptDiagramView) {
+        return new ConceptMapToolBarCollide(conceptMap, conceptDiagramView);
+    }
+    
     @Override
     protected void initComponents() {
         standaloneConfig = SCYMapperStandaloneConfig.getInstance();
@@ -111,9 +118,9 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                             requestRelationHelp();
                         }
                         
-                    }, 0, helpInterval);
+                    }, 0, helpInterval * 1000);
                 }
-            }, standaloneConfig.getContinuousHelpWaitTime() * 10);
+            }, standaloneConfig.getContinuousHelpWaitTime() * 1000);
             invalidate();
 			break;
             case NOHELP:
@@ -135,7 +142,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     }
 
     @Override
-    public void suggestKeywords(List<String> keywords, String type) {
+    public void suggestKeywords(String[] keywords, String[] categories, String type) {
 
         if (helpMode == Help.VOLUNTARY) {
             requestConceptHelpButton.setEnabled(true);
@@ -149,7 +156,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             suggestionPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.RelationTitle"));
     	}
 
-        suggestionPanel.setSuggestions(keywords, configuration.getNodeFactories(), cmapPanel, type);
+        suggestionPanel.setSuggestions(keywords, categories, configuration.getNodeFactories(), type, helpMode == Help.CONTINUOUS);
 
         if (helpMode == Help.VOLUNTARY) {
 
