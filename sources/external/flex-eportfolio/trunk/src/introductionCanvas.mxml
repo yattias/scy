@@ -14,12 +14,7 @@
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
-			import mx.controls.ToolTip;
-			import mx.core.IToolTip;
-			import mx.core.IUIComponent;
-			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
-			import mx.managers.ToolTipManager;
 			
 			import spark.components.supportClasses.ItemRenderer;
 			import spark.events.IndexChangeEvent;
@@ -39,18 +34,12 @@
 			[Bindable] private var obliEloCanvases:ArrayCollection;
 			
 			[Bindable] private var uName:String = "";
-			
-			private var ttips:Dictionary = new Dictionary();
 
 			protected function obligEloSelection_changeHandler(event:spark.events.IndexChangeEvent):void {
 				if(event.newIndex > 0) {
 					currentState = "addAvailble";
 				}
 				else {
-					for each (var item:ToolTip in ttips) {
-						ToolTipManager.destroyToolTip(item);
-					}
-					ttips = new Dictionary();
 					currentState = "normal";
 				}
 				
@@ -80,11 +69,6 @@
 			}
 			
 			protected function clickHandler(dir:String, stack:Number):void {
-				for each (var item:ToolTip in ttips) {
-					ToolTipManager.destroyToolTip(item);
-				}
-
-				
 				if(stack == Main.STACK_SUBMIT_PANEL) {
 					buildEPortfolioArray();
 				}
@@ -136,53 +120,6 @@
 						(introStack.selectedChild as introductionSubCanvas).refreshView();
 					}
 				}
-				
-				createBigTip(obligEloSelection, "Start by selecting an obligatory elo", "errorTipAbove", true);
-				createBigTip(viewEport, "View your selected elos", "errorTipAbove");
-			}
-			
-			private var ttip:ToolTip;
-			
-			protected function createBigTip(obj:UIComponent, mess:String, pos:String, visi:Boolean=false):void {
-				//build tooltip
-
-				ttip = ToolTipManager.createToolTip(mess, 0,0, pos, obj) as ToolTip;
-				var cSSStyleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
-				cSSStyleDeclaration.setStyle("backgroundColor",0x000000);
-				cSSStyleDeclaration.setStyle("color",0xFFFFFF);
-				
-				ttip.styleName = cSSStyleDeclaration;
-				ttip.x = obligEloSelectionBox.x+obj.x+10;
-				ttip.y = obligEloSelectionBox.y-30;
-				ttips[obj.id] = ttip;
-				
-				if(visi) {
-					for each (var item:ToolTip in ttips) {
-						item.alpha = 0;
-					}
-					ttip.alpha = 1;
-				}
-				else {
-					ttip.alpha = 0;
-				}
-			
-			}
-
-			protected function obligEloSelection_rollOverHandler(event:MouseEvent):void
-			{
-				for each (var item:ToolTip in ttips) {
-					item.alpha = 0;
-				}
-
-				if(ttips[event.target.id] != null) {
-					ttips[event.target.id].alpha = 1;
-				}
-			}
-
-
-			protected function obligEloSelection_rollOutHandler(event:MouseEvent):void
-			{
-				ttips[event.target.id].alpha = 0;
 			}
 		]]>
 	</fx:Script>
@@ -229,11 +166,11 @@
 				<mx:Spacer width="10" />
 			</mx:HBox>
 		</mx:HBox>
-		<mx:HBox width="100%" id="obligEloSelectionBox">
+		<mx:HBox width="100%">
 			<mx:Spacer width="10" />
-			<s:DropDownList id="obligEloSelection" width="200" rollOver="obligEloSelection_rollOverHandler(event)" rollOut="obligEloSelection_rollOutHandler(event)" dataProvider="{obligElos}" selectedIndex="0" change="obligEloSelection_changeHandler(event)" itemRendererFunction="renderItem"/>
-			<s:Button id="viewEport" rollOver="obligEloSelection_rollOverHandler(event)" rollOut="obligEloSelection_rollOutHandler(event)" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
-			<s:Button id="addObliEloButton" rollOver="createBigTip(addObliEloButton, 'Add a potential elo for the required obligatory elo', 'errorTipAbove', true)" rollOut="obligEloSelection_rollOutHandler(event)" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" includeIn="addAvailble" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SEARCH_PANEL)" />
+			<s:DropDownList id="obligEloSelection" width="200" dataProvider="{obligElos}" selectedIndex="0" change="obligEloSelection_changeHandler(event)" itemRendererFunction="renderItem"/>
+			<s:Button id="addObliEloButton" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" includeIn="addAvailble" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SEARCH_PANEL)" />
+			<s:Button id="viewEport" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
 		</mx:HBox>
 		<mx:ViewStack id="introStack" width="100%" height="100%" selectedIndex="{obligEloSelection.selectedIndex}" resizeToContent="true"
 					  creationPolicy="all" historyManagementEnabled="true" >
