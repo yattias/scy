@@ -31,6 +31,7 @@
       <property name="extensionManager" ref="localExtensionManager"/>
       <property name="eloStoreDirectory" value="${eloStoreDirectory}"/>
       <property name="storeElosInStoreDirectory" value="${storeElosOnDisk}"/>
+      <property name="minimumNewVersionListId" value="${minimumRooloNewVersionListId}"/>
    </bean>
 
    <import resource="localRooloMetadata.xml"/>
