@@ -1,4 +1,4 @@
-package eu.scy.tools.math.shapes;
+package eu.scy.tools.math.adapters;
 
 import java.awt.Component;
 import java.awt.Point;
@@ -6,15 +6,16 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JComponent;
 
+import eu.scy.tools.math.shapes.IMathRectangle;
+import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.ui.panels.IShapeCanvas;
 import eu.scy.tools.math.ui.panels.TestPainter;
 
 public class ShapeMoverAdapter extends MouseAdapter {
-
-	private IMathShape shape;
 
 	int preX, preY;
 
@@ -30,6 +31,8 @@ public class ShapeMoverAdapter extends MouseAdapter {
 	private boolean dragging = false;
 
 	private IShapeCanvas shapeCanvas;
+	
+	private IMathShape foundShape;
 
 	public ShapeMoverAdapter(IShapeCanvas shapeCanvas) {
 		this.shapeCanvas = shapeCanvas;
@@ -42,31 +45,44 @@ public class ShapeMoverAdapter extends MouseAdapter {
 		x = e.getX();
 		y = e.getY();
 
+		ArrayList<IMathShape> mathShapes = this.shapeCanvas.getMathShapes();
+		
+
+		Collections.reverse(mathShapes);
+		for (IMathShape shape : mathShapes) {
+			Point point = new Point(x, y);
+			if (shape.contains(point)) {
+				System.out.println(shape.toString());
+					if (shape.isHitOnEndPoints(point) == -1) {
+						System.out.println(shape.toString());
+						
+						foundShape = shape;
+						break;
+					} 
+			}
+		}
+		
+		//bump it up
+		int i = mathShapes.indexOf(foundShape);
+		mathShapes.remove(i);
+		mathShapes.add(foundShape);
+		((JComponent) this.shapeCanvas).repaint();
 
 	}
 
 	public void mouseDragged(MouseEvent e) {
 		System.out.println("ShapeMoverAdapter.mouseDragged()");
-			int dx = e.getX() - x;
-			int dy = e.getY() - y;
+		int dx = e.getX() - x;
+		int dy = e.getY() - y;
 
-			ArrayList<IMathShape> mathShapes = this.shapeCanvas.getMathShapes();
-			for (IMathShape shape : mathShapes) {
-				Point point = new Point(x, y);
-				if (shape.contains(point)) {
-					if( shape.isHitOnEndPoints(point) == -1 ) {
-					System.out.println("contains");
-					shape.addX(dx);
-					shape.addY(dy);
-					System.out.println(shape.toString());
-					shape.repaint();
-					((JComponent) this.shapeCanvas).repaint();
-					}
-				}
-			}
-
-			x += dx;
-			y += dy;
+		if( foundShape != null ) {
+			foundShape.addX(dx);
+			foundShape.addY(dy);
+			foundShape.repaint();
+			((JComponent) this.shapeCanvas).repaint();
+		}
+		x += dx;
+		y += dy;
 	}
 
 }

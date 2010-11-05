@@ -31,6 +31,7 @@ public class UIUtils {
 	public static final String SHAPE_CANVAS = "SHAPE_CANVAS";
 	public static final String MATH_TOOL_PANEL = "MATH_TOOL_PANEL";
 	public static final int SHAPE_END_POINT_SIZE = 8;
+	public static final Font plainFont = new Font("Times New Roman", Font.PLAIN, 13);
     
     
 	public static Dimension frameDimension;

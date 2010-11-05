@@ -1,6 +1,8 @@
 package eu.scy.tools.math.shapes;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -8,7 +10,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
+import java.text.AttributedString;
 
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.paint.Colors;
@@ -19,8 +23,8 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	private Rectangle cornerPointRectangle;
 	private Point[] points = new Point[2];
 	private boolean showCornerPoints = true;
-	int CORNER_POINT_ADJUST = (UIUtils.SHAPE_END_POINT_SIZE/2);
 	private String id; 
+	private Color fillColor = new Color(0x9999ff);
 	
 	public MathToolRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
@@ -46,32 +50,15 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	public void paintComponent(Graphics g) {
 
 		System.out.println("repainting rect");
-		int width = 100;
-		int height = 100;
-		Color color1 = Colors.White.color(1f);
-		Color color2 = Colors.Gray.color(0.7f);
-
-		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 1.0f,
-				width, height, new float[] { 0.6f, 1f }, new Color[] { color1,
-						color2 });
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// GradientPaint gradientPaint= new GradientPaint(x, y, Color.WHITE,
-		// 10, y,Color.BLUE, true);
 
 		
 
-		g2.setPaint(Color.black);
-//		g2.draw(getRectangle());
-		
-
-
-		Color color = new Color(1, 0, 0, .7f);
-
-		g2.setPaint(color);
+		g2.setPaint(fillColor);
 		this.setFrameFromDiagonal(points[0], points[1]);
 		g2.fill(this);
 		g2.setPaint(Color.black);
@@ -82,6 +69,38 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 				setCornerPointRectangle(new Rectangle(points[1].x - UIUtils.SHAPE_END_POINT_SIZE,points[1].y - UIUtils.SHAPE_END_POINT_SIZE,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE)); 
 				g2.fill(getCornerPointRectangle());
 		}
+		
+		
+
+		
+		//text height
+		String s = "h = " + this.getHeight();
+
+	    AttributedString heightText = new AttributedString(s);
+	    heightText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+	    
+	    int x = getRectangle().x + getRectangle().width + 3;
+	    int y = getRectangle().y + (getRectangle().height  / 2);
+		g2.drawString(heightText.getIterator(), x,y);
+		
+		//text height
+		s = "w = " + this.getWidth();
+
+	    AttributedString widthText = new AttributedString(s);
+	    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+	    
+	    
+		
+		
+		FontMetrics metrics = g.getFontMetrics();
+		 
+		Rectangle2D rect = metrics.getStringBounds(s, g);
+		int sw = (int) rect.getWidth();
+		
+		x = (getRectangle().x + (getRectangle().width / 2)) - (sw/3);
+	    y = getRectangle().y+ getRectangle().height + 15;
+	    
+	    g2.drawString(widthText.getIterator(), x,y);
 		
 	}
 
@@ -114,11 +133,6 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		this.createCornerPoints();
 	}
 	
-	@Override
-	public String toString() {
-		return " x " + getRectangle().x + " y" + getRectangle().y + " bounds " + getRectangle().getBounds();
-	}
-
 	@Override
 	public void setShowCornerPoints(boolean showCornerPoints) {
 		this.showCornerPoints = showCornerPoints;
@@ -159,15 +173,8 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		return id;
 	}
 
-
-	@Override
-	public void addMouseListeners(MouseAdapter mouseAdapter) {
-		this.addMouseListeners(mouseAdapter);
-	}
-
 	@Override
 	public void repaint() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -181,5 +188,25 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		
 	}
 
+	@Override
+	public void setFillColor(Color fillColor) {
+		this.fillColor = fillColor;
+	}
+
+	@Override
+	public Color getFillColor() {
+		return this.fillColor;
+	}
+
+	@Override
+	public String toString() {
+		return "x : " + this.x + " y; " + this.y + " w: " + this.width + " h: " + this.height + " type: " + this.getType();
+	}
 	
+	@Override
+	public String getType() {
+		return "rectangle";
+	}
+
+
 }
