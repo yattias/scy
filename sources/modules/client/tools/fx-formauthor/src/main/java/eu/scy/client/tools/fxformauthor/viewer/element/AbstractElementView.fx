@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.animation.transition.FadeTransition;
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
 
 /**
  * @author pg
@@ -49,19 +50,22 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
     var eventVBox = VBox {}
     var eventView:Node[];
     var eventButton : Button = Button {
-        text: "V"
+        graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/zoom.png" } }
+        tooltip: Tooltip { text: "open events" }
         layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
         action: function():Void {
             //check for elemens
             if(fde.getEvents().size() > 0) {
                 if(eventsOpen) {
                     hideEvents();
-                    eventButton.text = "V";
+                    eventButton.tooltip.text = "open Events";
+                    eventButton.graphic = ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/zoom.png" } }
                     eventsOpen = false;
                 }
                 else {
                     showEvents();
-                    eventButton.text = "^";
+                    eventButton.tooltip.text = "close Events";
+                    eventButton.graphic = ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/zoom_out.png" } }
                     eventsOpen = true;
                 }
             }
@@ -88,6 +92,7 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
         fill: Color.TRANSPARENT;
     }
     var mapWrapper:MapWrapper = MapWrapper{
+        abstractView: this;
     };
 
     var mapHeightWatch = bind viewer.scyWindow.height on replace { mapWrapper.setSize(mapWidthWatch-10, mapHeightWatch-10); }
@@ -97,6 +102,7 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
         if(fde == null) {
             println("FATAL ERROR: FDE IS NOT SUPPOSED TO BE NULL! :-(");
         }
+       // insert mapWrapper into viewer.foreground;
         //loadFormElement();
     }
 
@@ -130,7 +136,7 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
                     insert Text {
                         content: "DataType: GPS. Type: {event.getType()}"
                     } into eventVBox.content;
-                    insert mapWrapper into viewer.foreground;
+                    /*
                     insert Button {
                         text: "show map"
                         action: function():Void {
@@ -141,7 +147,26 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
                         }
                     }
                     into eventVBox.content;
+                    */
+                    if(event.getData() == null) {
+                        insert Text {
+                            content: "No Data Found =("
+                        } into eventVBox.content;
+                    }
+                    else {
+                        var gps:Float[] = GPSTypeParser.getCoords(event.getData());
+                        if(sizeof gps == 2) {
+                            insert Button {
+                                graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/map_magnify.png" } }
+                                tooltip: Tooltip { text: "open map" }
+                                action: function():Void {
+                                    showCoordinates(gps[0], gps[1]);
+                                }
+                            }
+                            into eventVBox.content;
+                        }
 
+                    }
 
                 }
                 if(i < fde.getEvents().size()-1) {
@@ -156,6 +181,16 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
     function hideEvents() {
         delete eventNodes;
     }
+
+    public function showCoordinates(x:Number, y:Number):Void {
+        mapWrapper.addPosition(x, y, "SCY Position");
+        mapWrapper.centerView(x, y);
+        mapWrapper.setSize(viewer.scyWindow.width-10, viewer.scyWindow.height-10);
+        mapWrapper.showMap();
+        //mapWrapper.toFront();
+        insert mapWrapper into viewer.foreground;
+    }
+
 
     public function putImageToFront(img:Image):Void {
         def view:ImageView = ImageView {
@@ -220,6 +255,10 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
 
     function removeFromForeground(item:Node) {
         delete item from viewer.foreground;
+    }
+
+    public function removeMap() {
+        removeFromForeground(mapWrapper);
     }
 
 

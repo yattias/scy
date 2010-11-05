@@ -36,6 +36,11 @@ import eu.scy.client.tools.fxformauthor.datamodel.DataHandler;
 import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewImage;
 import eu.scy.client.tools.fxformauthor.viewer.element.AbstractElementView;
 import eu.scy.client.tools.fxformauthor.FormAuthorNode;
+import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewCounter;
+import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewDate;
+import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewNumber;
+import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewGPS;
+import javafx.scene.text.Font;
 
 /**
  * @author pg
@@ -62,10 +67,12 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     var elements:ArrayList = new ArrayList();
     //title
     var titleText:Text = Text {
+        font: Font { size: 14 }
         content: bind title;
     }
 
     var descriptionText:Text = Text {
+        font: Font { size: 14 }
         content: bind description;
     }
 
@@ -156,34 +163,52 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
                     viewer: this;
                     fde: fde;
                 }
-                insert element into viewElements;
             }
             if(fde.getType() == FormElementDataType.IMAGE) {
                 element = ElementViewImage {
                     viewer: this;
                     fde: fde;
                 }
-                insert element into viewElements;
             }
             if(fde.getType() == FormElementDataType.VOICE) {
+                println("VOICE field - not implemented");
 
             }
             if(fde.getType() == FormElementDataType.COUNTER) {
-
+                element = ElementViewCounter {
+                    viewer: this;
+                    fde: fde;
+                }
             }
             if(fde.getType() == FormElementDataType.NUMBER) {
-
+                element = ElementViewNumber {
+                    viewer: this;
+                    fde: fde;
+                }
             }
             if(fde.getType() == FormElementDataType.GPS) {
-
+                element = ElementViewGPS {
+                    viewer: this;
+                    fde: fde;
+                }
             }
             if(fde.getType() == FormElementDataType.DATE) {
-
+                element = ElementViewDate {
+                    viewer: this;
+                    fde: fde;
+                }
             }
             if(fde.getType() == FormElementDataType.TIME) {
-
+                element = ElementViewDate {
+                    viewer: this;
+                    fde: fde;
+                }
             }
-            elements.add(element);
+            if(element != null) {
+                elements.add(element);
+                insert element into viewElements;
+            }
+
         }
         contentBox.content = [];
         contentBox.content = viewElements;
