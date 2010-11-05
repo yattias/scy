@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+		   xmlns:mx="library://ns.adobe.com/flex/mx" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 
 	<fx:Script>
 		<![CDATA[
@@ -10,7 +10,11 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.RadioButton;
 			import mx.controls.RadioButtonGroup;
+			import mx.controls.ToolTip;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
 			import mx.events.ItemClickEvent;
+			import mx.managers.ToolTipManager;
 			
 			[Bindable] private var addEloFlag:Boolean = false;
 			[Bindable] private var foundElosArray:ArrayCollection;
@@ -25,6 +29,8 @@
 			]);
 			
 			protected function clickHandler(dir:String, stack:Number):void {
+				hideTT(new MouseEvent(MouseEvent.MOUSE_OVER));
+				
 				if(dir == Main.LEFT_DIRECTION) {
 					so = SharedObject.getLocal("scy-eportfolio");
 					so.data.searchSelection = foundElosArray[rg.selectedValue];
@@ -38,6 +44,7 @@
 				tEvent.eloToAdd = false;
 				dispatchEvent(tEvent);
 				searchTile.removeAllChildren();
+				
 			}
 
 			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
@@ -78,11 +85,40 @@
 					
 					selecCol.addChildAt(subCE, 0);
 					selecCol.rb.group = rg;
-					selecCol.rb.value = i;
-					
+					selecCol.rb.value = i;					
 					
 					selecCol.rb.visible = !subCE.hasBeenReflectedOn;
+					selecCol.addEventListener(MouseEvent.MOUSE_OVER, showTT);
+					selecCol.addEventListener(MouseEvent.MOUSE_OUT, hideTT);
 					
+				}
+				createBigTip();
+			}
+			
+			protected function showTT(evt:MouseEvent):void {
+				if(ttip != null) {
+					ttip.alpha = 1;
+				}
+			}
+			
+			protected function hideTT(evt:MouseEvent):void {
+				if(ttip != null) {
+					ttip.alpha = 0;
+				}
+			}
+			
+			private var ttip:ToolTip = null;
+			
+			protected function createBigTip():void {
+				if(ttip == null) {
+					ttip = ToolTipManager.createToolTip("Click a radio button to select an ELO.\nUse the 'add to Eportfolio' button to add it", 300, 80, "errorTipAbove") as ToolTip;
+					var cSSStyleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
+					cSSStyleDeclaration.setStyle("backgroundColor",0x000000);
+					cSSStyleDeclaration.setStyle("color",0xFFFFFF);
+					ttip.styleName = cSSStyleDeclaration;
+				}
+				else {
+					showTT(new MouseEvent(MouseEvent.MOUSE_OVER));
 				}
 			}
 

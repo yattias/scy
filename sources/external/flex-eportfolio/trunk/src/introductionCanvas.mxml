@@ -47,7 +47,10 @@
 					currentState = "addAvailble";
 				}
 				else {
-					ToolTipManager.destroyToolTip(ttips[addObliEloButton.id]);
+					for each (var item:ToolTip in ttips) {
+						ToolTipManager.destroyToolTip(item);
+					}
+					ttips = new Dictionary();
 					currentState = "normal";
 				}
 				
@@ -134,14 +137,15 @@
 					}
 				}
 				
-				createBigTip(obligEloSelection, "Start by selecting an obligatory elo", "errorTipBelow", true);
-				createBigTip(viewEport, "View your selected elos", "errorTipBelow");
+				createBigTip(obligEloSelection, "Start by selecting an obligatory elo", "errorTipAbove", true);
+				createBigTip(viewEport, "View your selected elos", "errorTipAbove");
 			}
 			
 			private var ttip:ToolTip;
 			
 			protected function createBigTip(obj:UIComponent, mess:String, pos:String, visi:Boolean=false):void {
 				//build tooltip
+
 				ttip = ToolTipManager.createToolTip(mess, 0,0, pos, obj) as ToolTip;
 				var cSSStyleDeclaration:CSSStyleDeclaration = new CSSStyleDeclaration();
 				cSSStyleDeclaration.setStyle("backgroundColor",0x000000);
@@ -149,23 +153,30 @@
 				
 				ttip.styleName = cSSStyleDeclaration;
 				ttip.x = obligEloSelectionBox.x+obj.x+10;
-				ttip.y = obligEloSelectionBox.y+obj.y+obj.height+10;
+				ttip.y = obligEloSelectionBox.y-30;
+				ttips[obj.id] = ttip;
 				
 				if(visi) {
+					for each (var item:ToolTip in ttips) {
+						item.alpha = 0;
+					}
 					ttip.alpha = 1;
 				}
 				else {
 					ttip.alpha = 0;
 				}
-				ttips[obj.id] = ttip;
+			
 			}
 
 			protected function obligEloSelection_rollOverHandler(event:MouseEvent):void
 			{
 				for each (var item:ToolTip in ttips) {
-					item.alpha = 0			;
+					item.alpha = 0;
 				}
-				ttips[event.target.id].alpha = 1;
+
+				if(ttips[event.target.id] != null) {
+					ttips[event.target.id].alpha = 1;
+				}
 			}
 
 
@@ -222,7 +233,7 @@
 			<mx:Spacer width="10" />
 			<s:DropDownList id="obligEloSelection" width="200" rollOver="obligEloSelection_rollOverHandler(event)" rollOut="obligEloSelection_rollOutHandler(event)" dataProvider="{obligElos}" selectedIndex="0" change="obligEloSelection_changeHandler(event)" itemRendererFunction="renderItem"/>
 			<s:Button id="viewEport" rollOver="obligEloSelection_rollOverHandler(event)" rollOut="obligEloSelection_rollOutHandler(event)" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
-			<s:Button id="addObliEloButton" rollOver="createBigTip(addObliEloButton, 'Add a potential elo for the required obligatory elo', 'errorTipBelow', true)" rollOut="obligEloSelection_rollOutHandler(event)" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" includeIn="addAvailble" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SEARCH_PANEL)" />
+			<s:Button id="addObliEloButton" rollOver="createBigTip(addObliEloButton, 'Add a potential elo for the required obligatory elo', 'errorTipAbove', true)" rollOut="obligEloSelection_rollOutHandler(event)" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" includeIn="addAvailble" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SEARCH_PANEL)" />
 		</mx:HBox>
 		<mx:ViewStack id="introStack" width="100%" height="100%" selectedIndex="{obligEloSelection.selectedIndex}" resizeToContent="true"
 					  creationPolicy="all" historyManagementEnabled="true" >

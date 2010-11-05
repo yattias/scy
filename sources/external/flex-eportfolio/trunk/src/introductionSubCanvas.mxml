@@ -64,7 +64,6 @@
 			}
 			
 			private function deleteSpecifiedElo(evt:DeleteEvent):void {
-				trace("ok, let's remove: "+evt.selecIndex);
 				elosArray.removeItemAt(evt.selecIndex);
 				tile.removeAllChildren();
 				refreshView();
