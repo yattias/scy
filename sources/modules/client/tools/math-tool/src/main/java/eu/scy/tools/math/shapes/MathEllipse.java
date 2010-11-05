@@ -25,6 +25,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	private Rectangle cornerPointRectangle;
 	private Point[] points  = new Point[1];
 	private Color fillColor = new Color(0x99cc99);
+	private double radius;
 
 	public MathEllipse(double x, double y, double width, double height) {
         setFrame(x, y, width, height);
@@ -41,20 +42,24 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	@Override
 	public void paintComponent(Graphics g) {
 		
+		System.out.println("repainting ellipse");
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		double radius = this.width / 2;
+		this.setRadius(this.width / 2);
 
-		double xCenter = this.x+radius;
-		double yCenter = this.y+radius;
-		Line2D.Double centerLine = new Line2D.Double(xCenter,yCenter, xCenter+radius, yCenter);
+		double xCenter = this.x+getRadius();
+		double yCenter = this.y+getRadius();
+		Line2D.Double centerLine = new Line2D.Double(xCenter,yCenter, xCenter+getRadius(), yCenter);
 
 		g2.setPaint(fillColor);
 		g2.fill(this);
-		g2.setPaint(Color.black);
-		g2.draw(this);
+		
+		if( isShowCornerPoints() ) {
+			g2.setPaint(Color.black);
+			g2.draw(this);
+		}
 		
 		Stroke oldStroke = g2.getStroke();
 		 Stroke thindashed = new BasicStroke(1.0f, // line width
@@ -64,6 +69,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 			      /* the dash phase */0.0f); /* on 8, off 3, on 2, off 3 */
 	    g2.setStroke(thindashed);
 		
+		g2.setPaint(Color.black);
 		g2.draw(centerLine);
 		g2.setStroke(oldStroke);
 		
@@ -74,7 +80,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		}
 		
 		//text height
-		String s = "r = " + radius;
+		String s = "r = " + getRadius();
 
 	    AttributedString widthText = new AttributedString(s);
 	    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -90,6 +96,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		int x = (centerLine.getBounds().x + (centerLine.getBounds().width / 2)) - (sw/3);
 	    int y = centerLine.getBounds().y+ centerLine.getBounds().height + 15;
 	    
+	    g2.setPaint(Color.black);
 	    g2.drawString(widthText.getIterator(), x,y);
 	}
 	
@@ -156,15 +163,15 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	@Override
 	public int isHitOnEndPoints(Point eventPoint) {
 		if (getCornerPointRectangle().getBounds2D().contains(eventPoint)) {
-			System.out.println("mouse pressed found at position " + 1);
-			return 1;
+			System.out.println("mouse pressed found at position " + 0);
+			return 0;
 		}
 		return -1;
 	}
 
 	@Override
 	public boolean contains(Point point) {
-		  if (getBounds().contains(point.x, point.y)) {
+		  if (this.contains(point.x, point.y)) {
               return true;
           } else {
               return false;
@@ -210,6 +217,16 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	@Override
 	public String getType() {
 		return "ellipse";
+	}
+
+	@Override
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+	@Override
+	public double getRadius() {
+		return radius;
 	}
 
 	

@@ -13,6 +13,7 @@ import java.util.Vector;
 import javax.activation.MailcapCommandMap;
 import javax.swing.JComponent;
 
+import eu.scy.tools.math.shapes.IMathEllipse;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.ui.UIUtils;
@@ -24,7 +25,9 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	final int PROX_DIST = 3;
 	private IShapeCanvas shapeCanvas;
 	private IMathShape foundShape;
-
+	private int x;
+	private int y;
+	
 	public AdjustSizeAdapter(IShapeCanvas shapeCanvas) {
 		this.shapeCanvas = shapeCanvas;
 		((JComponent) this.shapeCanvas).addMouseListener(this);
@@ -35,34 +38,21 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	public void mousePressed(MouseEvent event) {
 		System.out.println("AdjustSizeAdapter.mousePressed()");
 		Point eventPoint = event.getPoint();
-		int x = eventPoint.x;
-		int y = eventPoint.y;
+		x = eventPoint.x;
+		y = eventPoint.y;
 
 		ArrayList<IMathShape> mathShapes = this.shapeCanvas.getMathShapes();
 		for (IMathShape shape : mathShapes) {
-			if (shape instanceof IMathRectangle) {
-				int i = shape.isHitOnEndPoints(new Point(x, y));
+				int i = shape.isHitOnEndPoints(event.getPoint());
 				if (i != -1) {
 					System.out.println("adjust contains found it!! "
 							+ foundShape);
 					foundShape = shape;
 					position = i;
 					return;
-				}
 			}
 		}
 	}
-
-	// ((JComponent)mathRectangle).requestFocusInWindow();
-	//
-	// if( !mathRectangle.isShowCornerPoints() ) {
-	// mathRectangle.setShowCornerPoints(true);
-	// mathRectangle.repaint();
-	// } else {
-	// Point eventPoint = event.getPoint();
-	//
-	// position = mathRectangle.isHitOnEndPoints(eventPoint);
-	// }
 
 	public void mouseReleased(MouseEvent event) {
 		position = -1;
@@ -78,8 +68,18 @@ public class AdjustSizeAdapter extends MouseAdapter {
 
 		Point eventPoint = event.getPoint();
 
-		Point[] points = foundShape.getPoints();
+		Point[] points = foundShape.getPoints();		
 		points[position] = event.getPoint();
+		
+		if( foundShape instanceof IMathEllipse) {
+			 int dx = event.getX() - x;
+	         int dy = event.getY() - y;
+	         ((IMathEllipse) foundShape).addHeight(dx);
+	         ((IMathEllipse) foundShape).addWidth(dx);
+	         System.out.println(foundShape.toString());
+	         x += dx;
+	         y += dy;
+		}
 		foundShape.repaint();
 		((JComponent) this.shapeCanvas).repaint();
 
