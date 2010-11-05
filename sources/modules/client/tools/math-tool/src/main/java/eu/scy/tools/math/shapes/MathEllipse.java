@@ -1,0 +1,217 @@
+package eu.scy.tools.math.shapes;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
+import java.awt.font.TextAttribute;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.text.AttributedString;
+
+import eu.scy.tools.math.ui.UIUtils;
+
+public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
+
+	
+	private String id;
+	private boolean isShowCornerPoints = true;
+	private Rectangle cornerPointRectangle;
+	private Point[] points  = new Point[1];
+	private Color fillColor = new Color(0x99cc99);
+
+	public MathEllipse(double x, double y, double width, double height) {
+        setFrame(x, y, width, height);
+        this.createCornerPoints();
+    }
+	
+	private void createCornerPoints() {
+		double radius = this.width / 2;
+		int xp = (int) (this.x+(radius*2));
+		int yp = (int) (this.y+radius);
+		points[0] = new Point(xp,yp);
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		double radius = this.width / 2;
+
+		double xCenter = this.x+radius;
+		double yCenter = this.y+radius;
+		Line2D.Double centerLine = new Line2D.Double(xCenter,yCenter, xCenter+radius, yCenter);
+
+		g2.setPaint(fillColor);
+		g2.fill(this);
+		g2.setPaint(Color.black);
+		g2.draw(this);
+		
+		Stroke oldStroke = g2.getStroke();
+		 Stroke thindashed = new BasicStroke(1.0f, // line width
+			      /* cap style */BasicStroke.CAP_BUTT,
+			      /* join style, miter limit */BasicStroke.JOIN_BEVEL, 1.0f,
+			      /* the dash pattern */new float[] { 1.0f, 2.0f, 1.0f, 2.0f },
+			      /* the dash phase */0.0f); /* on 8, off 3, on 2, off 3 */
+	    g2.setStroke(thindashed);
+		
+		g2.draw(centerLine);
+		g2.setStroke(oldStroke);
+		
+		//draw corner rects
+		if( isShowCornerPoints() ) {
+				setCornerPointRectangle(new Rectangle(points[0].x,points[0].y,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE)); 
+				g2.fill(getCornerPointRectangle());
+		}
+		
+		//text height
+		String s = "r = " + radius;
+
+	    AttributedString widthText = new AttributedString(s);
+	    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+	    
+	    
+		
+		
+		FontMetrics metrics = g.getFontMetrics();
+		 
+		Rectangle2D rect = metrics.getStringBounds(s, g);
+		int sw = (int) rect.getWidth();
+		
+		int x = (centerLine.getBounds().x + (centerLine.getBounds().width / 2)) - (sw/3);
+	    int y = centerLine.getBounds().y+ centerLine.getBounds().height + 15;
+	    
+	    g2.drawString(widthText.getIterator(), x,y);
+	}
+	
+	@Override
+	public void repaint() {
+		
+	}
+
+	@Override
+	public void addX(int x) {
+		this.x += x;
+		this.createCornerPoints();
+	}
+
+	@Override
+	public void addY(int y) {
+		this.y += y;
+		this.createCornerPoints();
+	}
+	
+	@Override
+	public void addWidth(int w) {
+		this.width += w;
+		this.createCornerPoints();
+	}
+
+	@Override
+	public void addHeight(int h) {
+		this.height += h;
+		this.createCornerPoints();
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String getId() {
+		return this.id;
+	}
+
+	@Override
+	public boolean isShowCornerPoints() {
+		return isShowCornerPoints;
+	}
+
+	@Override
+	public void setShowCornerPoints(boolean showCornerPoints) {
+		this.isShowCornerPoints = showCornerPoints;
+		
+	}
+
+	@Override
+	public Point[] getPoints() {
+		return this.points;
+	}
+
+	@Override
+	public void setPoints(Point[] points) {
+		this.points = points;
+	}
+
+	@Override
+	public int isHitOnEndPoints(Point eventPoint) {
+		if (getCornerPointRectangle().getBounds2D().contains(eventPoint)) {
+			System.out.println("mouse pressed found at position " + 1);
+			return 1;
+		}
+		return -1;
+	}
+
+	@Override
+	public boolean contains(Point point) {
+		  if (getBounds().contains(point.x, point.y)) {
+              return true;
+          } else {
+              return false;
+          }
+	}
+
+	@Override
+	public void setCornerPointRectangle(Rectangle cornerPointRectangle) {
+		this.cornerPointRectangle = cornerPointRectangle;
+	}
+
+	@Override
+	public Rectangle getCornerPointRectangle() {
+		return this.cornerPointRectangle;
+	}
+
+	@Override
+	public Double getEllipse() {
+		return this;
+	}
+
+	@Override
+	public void setEllipse(Double ellipse) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setFillColor(Color fillColor) {
+		this.fillColor = fillColor;
+	}
+
+	@Override
+	public Color getFillColor() {
+		return fillColor;
+	}
+
+	@Override
+	public String toString() {
+		return "x : " + this.x + " y; " + this.y + " w: " + this.width + " h: " + this.height + " type: " + this.getType();
+	}
+
+	@Override
+	public String getType() {
+		return "ellipse";
+	}
+
+	
+
+}

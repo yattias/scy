@@ -1,18 +1,15 @@
 package eu.scy.tools.math.shapes;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.geom.Rectangle2D.Double;
-import java.util.List;
-import java.util.Vector;
 
 public interface IMathShape {
 
 	public void repaint();
 
-	public void addX(int dx);
+	public void addX(int x);
 	public void addY(int y);
 	
 
@@ -20,8 +17,6 @@ public interface IMathShape {
 	
 	public String getId();
 	
-	public void addMouseListeners(MouseAdapter mouseAdapter);
-
 	public boolean isShowCornerPoints();
 
 	public void setShowCornerPoints(boolean showCornerPoints);
@@ -40,4 +35,10 @@ public interface IMathShape {
 
 	public void paintComponent(Graphics g);
 
+	public void setFillColor(Color fillColor);
+
+	public Color getFillColor();
+
+	public String getType();
+	
 }
