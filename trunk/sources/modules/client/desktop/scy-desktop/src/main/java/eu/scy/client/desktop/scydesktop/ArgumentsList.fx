@@ -42,4 +42,9 @@ public class ArgumentsList {
       var stringValue = nextStringValue(valueName);
       return Float.parseFloat(stringValue);
    }
+
+   public function nextIntegerValue(valueName: String): Integer {
+      var stringValue = nextStringValue(valueName);
+      return Integer.parseInt(stringValue);
+   }
 }
