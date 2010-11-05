@@ -233,7 +233,7 @@ public class LoginDialog extends CustomNode, TbiReady {
             }
          var stage = scene.stage;
          var stageTitle = stage.title;
-         stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionMapModel.name}";
+         stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionRuntimeElo.getTitle()}";
          var scyDesktop = placeScyDescktop(missionRunConfigs);
       });
    }
