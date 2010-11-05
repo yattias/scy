@@ -123,6 +123,8 @@ public class AdjustSizeAdapter extends MouseAdapter {
 						.getDefaultCursor());
 			}
 
+		} else if(foundShape instanceof IMathEllipse ) {
+			
 		}
 
 	}
