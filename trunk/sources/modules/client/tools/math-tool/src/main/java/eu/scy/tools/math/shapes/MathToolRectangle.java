@@ -25,7 +25,7 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	private boolean showCornerPoints = true;
 	private String id; 
 	private Color fillColor = new Color(0x9999ff);
-	
+
 	public MathToolRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
 		this.createCornerPoints();
@@ -49,7 +49,7 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	@Override
 	public void paintComponent(Graphics g) {
 
-		System.out.println("repainting rect");
+		System.out.println("repainting rectangle");
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -61,8 +61,11 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		g2.setPaint(fillColor);
 		this.setFrameFromDiagonal(points[0], points[1]);
 		g2.fill(this);
-		g2.setPaint(Color.black);
-		g2.draw(this);
+		
+		if( isShowCornerPoints() ) {
+			g2.setPaint(Color.black);
+			g2.draw(this);
+		}
 		
 		//draw corner rects
 		if( isShowCornerPoints() ) {
@@ -81,6 +84,7 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	    
 	    int x = getRectangle().x + getRectangle().width + 3;
 	    int y = getRectangle().y + (getRectangle().height  / 2);
+	    g2.setPaint(Color.black);
 		g2.drawString(heightText.getIterator(), x,y);
 		
 		//text height
@@ -100,6 +104,7 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		x = (getRectangle().x + (getRectangle().width / 2)) - (sw/3);
 	    y = getRectangle().y+ getRectangle().height + 15;
 	    
+	    g2.setPaint(Color.black);
 	    g2.drawString(widthText.getIterator(), x,y);
 		
 	}
