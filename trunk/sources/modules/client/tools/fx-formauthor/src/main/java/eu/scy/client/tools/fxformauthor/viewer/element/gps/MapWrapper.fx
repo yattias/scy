@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import eu.scy.client.tools.fxformauthor.viewer.element.AbstractElementView;
 
 /**
  * @author pg
@@ -38,6 +39,8 @@ public class MapWrapper extends CustomNode {
    public var viewX:Double;
    public var viewY:Double;
    
+   public-init var abstractView:AbstractElementView;
+
     var manager:MapManager = new MapManager();
     var myMap = manager.getMap();
 
@@ -188,6 +191,7 @@ public class MapWrapper extends CustomNode {
         fade.rate = -1.0;
         fade.play();
         this.disable = true;
+        abstractView.removeMap();
     }
 
     public function addPosition(x:Number, y:Number, text:String):Void {
