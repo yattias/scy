@@ -89,6 +89,7 @@ public class Initializer {
    public-init var localUriReplacements = "";
    public-init var usingRooloCache = true;
    public-init var defaultMission = "";
+   public-init var minimumRooloNewVersionListId = "";
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -102,6 +103,7 @@ public class Initializer {
    def storeElosOnDiskKey = "storeElosOnDisk";
    def scyServerNameKey = "serverName";
    def sqlspacesServerKey = "sqlspacesServer";
+   def minimumRooloNewVersionListIdKey = "minimumRooloNewVersionListId";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
    def backgroundImageUrlOption = "backgroundImageUrl";
@@ -136,6 +138,7 @@ public class Initializer {
    def localUriReplacementsOption = "localUriReplacements";
    def usingRooloCacheOption = "usingRooloCache";
    def defaultMissionOption = "defaultMission";
+   def minimumRooloNewVersionListIdOption = "minimumRooloNewVersionListId";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -151,7 +154,7 @@ public class Initializer {
       usingWebStart = System.getProperty("javawebstart.version") != null;
       offlineMode = loginType.toLowerCase().startsWith("local");
       setupLanguages();
-      if (LoginType.LOCAL_MULTI_USER != loginTypeEnum){
+      if (LoginType.LOCAL_MULTI_USER != loginTypeEnum) {
          setupLogging(null);
       }
 
@@ -177,7 +180,7 @@ public class Initializer {
       setupToolBrokerLogin();
    }
 
-   function prepareLogging(userName: String){
+   function prepareLogging(userName: String) {
       System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
       var loggingDirectoryKeyValue = "";
       if (enableLocalLogging) {
@@ -194,7 +197,7 @@ public class Initializer {
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
    }
 
-   public function setupLogging(userName: String){
+   public function setupLogging(userName: String) {
       prepareLogging(userName);
       setupCodeLogging();
       logProperties();
@@ -308,6 +311,9 @@ public class Initializer {
             } else if (option == defaultMissionOption.toLowerCase()) {
                defaultMission = argumentsList.nextStringValue(defaultMissionOption);
                logger.info("app: {defaultMissionOption}: {defaultMission}");
+            } else if (option == minimumRooloNewVersionListIdOption.toLowerCase()) {
+               minimumRooloNewVersionListId = "{argumentsList.nextIntegerValue(minimumRooloNewVersionListIdOption)}";
+               logger.info("app: {minimumRooloNewVersionListIdOption}: {minimumRooloNewVersionListId}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -351,6 +357,7 @@ public class Initializer {
       localUriReplacements = getWebstartParameterStringValue(localUriReplacementsOption, localUriReplacements);
       usingRooloCache = getWebstartParameterBooleanValue(usingRooloCacheOption, usingRooloCache);
       defaultMission = getWebstartParameterStringValue(defaultMissionOption, defaultMission);
+      minimumRooloNewVersionListId = getWebstartParameterIntegerValueAsString(minimumRooloNewVersionListIdOption, minimumRooloNewVersionListId);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -380,6 +387,16 @@ public class Initializer {
       var numberValue = Float.parseFloat(webstartValue);
       logger.info("ws: {name}: {numberValue}");
       return numberValue;
+   }
+
+   function getWebstartParameterIntegerValueAsString(name: String, default: String): String {
+      var webstartValue = FX.getArgument(name) as String;
+      if (isEmpty(webstartValue)) {
+         return default;
+      }
+      var integerValue = Integer.parseInt(webstartValue);
+      logger.info("ws: {name}: {integerValue}");
+      return "{integerValue}";
    }
 
    function printInitializerValues(printWriter: PrintWriter) {
@@ -420,6 +437,7 @@ public class Initializer {
       printWriter.println("- missionMapPositionScale: {missionMapPositionScale}");
       printWriter.println("- localUriReplacements: {localUriReplacements}");
       printWriter.println("- usingRooloCache: {usingRooloCache}");
+      printWriter.println("- minimumRooloNewVersionListId: {minimumRooloNewVersionListId}");
    }
 
    public function isEmpty(string: String): Boolean {
@@ -533,7 +551,7 @@ public class Initializer {
                   def usersDirectory = new File("store/users");
                   if (usersDirectory.isDirectory()) {
 
-                     def globalUserDirectory = new File(usersDirectory, if (userName!=null) userName else "_global_");
+                     def globalUserDirectory = new File(usersDirectory, if (userName != null) userName else "_global_");
                      if (not globalUserDirectory.isDirectory()) {
                         globalUserDirectory.mkdir();
                      }
@@ -657,11 +675,13 @@ public class Initializer {
 
    function setupToolBrokerLogin() {
       if (LoginType.LOCAL == loginTypeEnum) {
+         System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
          var localToolBrokerLogin = new LocalToolBrokerLogin();
          localToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
          localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
          toolBrokerLogin = localToolBrokerLogin;
       } else if (loginTypeEnum.LOCAL_MULTI_USER == loginTypeEnum) {
+         System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
          var localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
          localMultiUserToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
          localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
