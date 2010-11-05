@@ -37,6 +37,7 @@
 				tEvent.selecTarget = stack;
 				tEvent.eloToAdd = false;
 				dispatchEvent(tEvent);
+				searchTile.removeAllChildren();
 			}
 
 			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
@@ -54,7 +55,7 @@
 				foundElosArray = new ArrayCollection();
 				rg = new RadioButtonGroup();
 				rg.addEventListener(ItemClickEvent.ITEM_CLICK, radioGroup_itemClickHandler);
-				searchTile.removeAllChildren();
+				
 				for(var i:Number = 0;i < eloss.length; i++) {
 					selectedElo = eloss[i];
 					subCE = new subCanvasElo();
