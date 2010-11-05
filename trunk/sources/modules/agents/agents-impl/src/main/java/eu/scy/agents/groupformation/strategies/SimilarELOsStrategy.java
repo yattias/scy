@@ -11,7 +11,7 @@ public class SimilarELOsStrategy implements GroupFormationStrategy {
 	@Override
 	public List<String> formGroup(IELO elo, String user) {
 		List<String> group = new ArrayList<String>();
-		return null;
+		return group;
 	}
 
 }
