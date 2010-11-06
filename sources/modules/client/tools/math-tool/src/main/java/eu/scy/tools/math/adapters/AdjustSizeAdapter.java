@@ -55,6 +55,7 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	}
 
 	public void mouseReleased(MouseEvent event) {
+		foundShape = null;
 		position = -1;
 	}
 
@@ -88,13 +89,32 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	@Override
 	public void mouseMoved(MouseEvent event) {
 
+		System.out.println("AdjustSizeAdapter.mouseMoved()");
 		// if( !foundShape.isShowCornerPoints() )
 		// return;
 
-		if (foundShape == null)
-			return;
-
 		Point p = event.getPoint();
+		
+		if (foundShape == null) {
+			System.out.println("no shape found reset cursor");
+			// If cursor is not over rect reset it to the default.
+			((JComponent) this.shapeCanvas).setCursor(Cursor
+					.getDefaultCursor());
+			return;
+		}
+		
+
+		ArrayList<IMathShape> mathShapes = this.shapeCanvas.getMathShapes();
+		for (IMathShape shape : mathShapes) {
+			if( shape.getCornerPointRectangle().contains(p) ) {
+				((JComponent) this.shapeCanvas).setCursor(Cursor
+						.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+			}
+		}
+			
+		
+
+		
 
 		if (foundShape instanceof IMathRectangle) {
 			if (!isOverRect(p, foundShape)) {
@@ -124,6 +144,20 @@ public class AdjustSizeAdapter extends MouseAdapter {
 			}
 
 		} else if(foundShape instanceof IMathEllipse ) {
+			if (foundShape.contains(p)) {
+				if (((JComponent) this.shapeCanvas).getCursor() != Cursor
+						.getDefaultCursor()) {
+					// If cursor is not over rect reset it to the default.
+					((JComponent) this.shapeCanvas).setCursor(Cursor
+							.getDefaultCursor());
+				}
+				return;
+			} else if(foundShape.getCornerPointRectangle().contains(p)) {
+				((JComponent) this.shapeCanvas).setCursor(Cursor
+						.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+				return;
+			}
+			
 			
 		}
 
