@@ -13,11 +13,14 @@ import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.playful.PlayfulAssessment;
 import eu.scy.server.common.OddEven;
 import eu.scy.server.controllers.BaseFormController;
+import eu.scy.server.roolo.RooloAccessor;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URLDecoder;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class StudentEloRefViewerController  extends BaseFormController {
     private UserService userService;
     private AssignedPedagogicalPlanService assignedPedagogicalPlanService;
     private AssessmentService assessmentService;
+    private RooloAccessor rooloAccessor;
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
@@ -72,8 +76,18 @@ public class StudentEloRefViewerController  extends BaseFormController {
         modelAndView.addObject("username", getCurrentUserName(request));
         modelAndView.addObject("oddEven", new OddEven());
 
+        String uriParam = request.getParameter("uri");
+        logger.info("LOADING URI: " + uriParam);
+        uriParam = URLDecoder.decode(uriParam, "UTF-8");
+        logger.info("DECODED:  "+ uriParam);
+        if(uriParam != null) {
+            URI uri = new URI(uriParam);
+            modelAndView.addObject("elo", getRooloAccessor().getElo(uri));
+        }
 
-        prepareNextPage(request, response, modelAndView);
+
+
+        //prepareNextPage(request, response, modelAndView);
 
         return modelAndView;
     }
@@ -231,5 +245,13 @@ public class StudentEloRefViewerController  extends BaseFormController {
 
     public void setAssessmentService(AssessmentService assessmentService) {
         this.assessmentService = assessmentService;
+    }
+
+    public RooloAccessor getRooloAccessor() {
+        return rooloAccessor;
+    }
+
+    public void setRooloAccessor(RooloAccessor rooloAccessor) {
+        this.rooloAccessor = rooloAccessor;
     }
 }

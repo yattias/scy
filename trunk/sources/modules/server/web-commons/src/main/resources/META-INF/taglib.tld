@@ -389,4 +389,23 @@
         </attribute>
     </tag>
 
+
+    <tag>
+        <name>ajaxELOTextField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxELOTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>eloURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+
 </taglib>

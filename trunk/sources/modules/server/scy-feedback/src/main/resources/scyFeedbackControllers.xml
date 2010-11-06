@@ -51,6 +51,8 @@
         <property name="eloRefService" ref="eloRefService"/>
         <property name="fileService" ref="fileService"/>
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+        <property name="rooloAccessor" ref="rooloAccessor"/>
+        <property name="authorKey" ref="authorKey"/>
     </bean>
 
     <bean id="studentEloRefViewerController"
@@ -64,6 +66,7 @@
         <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
         <property name="assessmentService" ref="assessmentService"/>
+        <property name="rooloAccessor" ref="rooloAccessor"/>
     </bean>
 
     <bean id="uploadELOForFeedbackFormController"

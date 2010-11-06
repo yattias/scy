@@ -34,14 +34,17 @@ public class RuntimeSettingKey
          RuntimeSettingKey otherRuntimeSettingKey = (RuntimeSettingKey) obj;
          if (!name.equals(otherRuntimeSettingKey.name))
          {
+             logger.info("NAME IS NOT EQAL:" + name + " && " + otherRuntimeSettingKey.name);
             return false;
          }
-         if (!objectsEquals(lasId, otherRuntimeSettingKey.lasId))
+         if (lasId != null && !objectsEquals(lasId, otherRuntimeSettingKey.lasId))
          {
+             logger.info("LAS ID IS NOT EQAL:" + lasId+ " && " + otherRuntimeSettingKey.lasId);
             return false;
          }
-         if (!objectsEquals(eloUri, otherRuntimeSettingKey.eloUri))
+         if (eloUri != null && !objectsEquals(eloUri, otherRuntimeSettingKey.eloUri))
          {
+             logger.info("eloUri ID IS NOT EQAL:" + eloUri+ " && " + otherRuntimeSettingKey.eloUri);
             return false;
          }
          return true;

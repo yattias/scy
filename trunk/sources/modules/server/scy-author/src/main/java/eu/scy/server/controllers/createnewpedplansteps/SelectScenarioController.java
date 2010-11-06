@@ -1,5 +1,7 @@
 package eu.scy.server.controllers.createnewpedplansteps;
 
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.*;
 import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
@@ -7,10 +9,12 @@ import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.server.controllers.BaseController;
+import eu.scy.server.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,7 @@ public class SelectScenarioController extends BaseController {
     private LASService lasService;
     private ActivityService activityService;
     private AnchorELOService anchorELOService;
+    private MissionELOService missionELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -42,11 +47,13 @@ public class SelectScenarioController extends BaseController {
             modelAndView.setViewName("redirect:assignStudents.html?pedPlanId=" + pedPlanId);
         } else {
             logger.info("DID NOT FIND AN ACTION - THIS IS THE FIRST TIME THE PAGE IS VIEWED!");
-            PedagogicalPlan pedagogicalPlan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
+            modelAndView.addObject("transporters", getMissionELOService().getWebSafeTransporters(getMissionELOService().getMissionSpecifications()));
+            /**PedagogicalPlan pedagogicalPlan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
             setModel(pedagogicalPlan);
             List scenaios = getScenarioService().getScenarios();
             logger.info("FOUND " + scenaios + " SCENARIOS");
             modelAndView.addObject("scenarios", scenaios);
+             */
         }
 
 
@@ -55,12 +62,13 @@ public class SelectScenarioController extends BaseController {
     private void addCopyOfSelecteScenario(HttpServletRequest request) {
         try {
             logger.info("CREATING NEW SCENARIO BASE ON EXISTING SCENARIO!");
-            String pedPlanId = request.getParameter("pedPlanId");
-            String scenarioId = request.getParameter("scenario");
-            PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
-            Scenario originalScenario = getScenarioService().getScenario(scenarioId);
-            Scenario copy = createCopyOfScenario(originalScenario, plan);
-            plan.setScenario(copy);
+
+            URI uri = new URI(request.getParameter("uri"));
+            //ScyElo missionSpecificationElo = (MissionSpecificationElo) getMissionELOService().getElo(uri);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
+            getMissionELOService().createMissionSpecification(missionSpecificationElo);
+
+            logger.info("CREATING COPY OF " + missionSpecificationElo.getTitle());
         } catch (Exception e) {
             e.printStackTrace();  
         }
@@ -232,5 +240,13 @@ public class SelectScenarioController extends BaseController {
 
     public void setAnchorELOService(AnchorELOService anchorELOService) {
         this.anchorELOService = anchorELOService;
+    }
+
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
     }
 }
