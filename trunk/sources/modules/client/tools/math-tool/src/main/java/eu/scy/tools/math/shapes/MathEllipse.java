@@ -32,12 +32,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
         this.createCornerPoints();
     }
 	
-	private void createCornerPoints() {
-		double radius = this.width / 2;
-		int xp = (int) (this.x+(radius*2));
-		int yp = (int) (this.y+radius);
-		points[0] = new Point(xp,yp);
-	}
+
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -77,27 +72,29 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		if( isShowCornerPoints() ) {
 				setCornerPointRectangle(new Rectangle(points[0].x,points[0].y,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE)); 
 				g2.fill(getCornerPointRectangle());
+				
+				//text height
+				String s = "r = " + getRadius();
+
+			    AttributedString widthText = new AttributedString(s);
+			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+			    
+			    
+				
+				
+				FontMetrics metrics = g.getFontMetrics();
+				 
+				Rectangle2D rect = metrics.getStringBounds(s, g);
+				int sw = (int) rect.getWidth();
+				
+				int x = (centerLine.getBounds().x + (centerLine.getBounds().width / 2)) - (sw/3);
+			    int y = centerLine.getBounds().y+ centerLine.getBounds().height + 15;
+			    
+			    g2.setPaint(Color.black);
+			    g2.drawString(widthText.getIterator(), x,y);
 		}
 		
-		//text height
-		String s = "r = " + getRadius();
 
-	    AttributedString widthText = new AttributedString(s);
-	    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
-	    
-	    
-		
-		
-		FontMetrics metrics = g.getFontMetrics();
-		 
-		Rectangle2D rect = metrics.getStringBounds(s, g);
-		int sw = (int) rect.getWidth();
-		
-		int x = (centerLine.getBounds().x + (centerLine.getBounds().width / 2)) - (sw/3);
-	    int y = centerLine.getBounds().y+ centerLine.getBounds().height + 15;
-	    
-	    g2.setPaint(Color.black);
-	    g2.drawString(widthText.getIterator(), x,y);
 	}
 	
 	@Override
@@ -227,6 +224,17 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	@Override
 	public double getRadius() {
 		return radius;
+	}
+
+
+
+	@Override
+	public void createCornerPoints() {
+		double radius = this.width / 2;
+		int xp = (int) (this.x+(radius*2));
+		int yp = (int) (this.y+radius);
+		points[0] = new Point(xp,yp);
+		
 	}
 
 	

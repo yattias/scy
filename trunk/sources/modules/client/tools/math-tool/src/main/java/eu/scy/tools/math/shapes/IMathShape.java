@@ -40,5 +40,7 @@ public interface IMathShape {
 	public Color getFillColor();
 
 	public String getType();
+
+	void createCornerPoints();
 	
 }

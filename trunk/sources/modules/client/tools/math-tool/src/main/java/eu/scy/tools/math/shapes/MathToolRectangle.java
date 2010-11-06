@@ -71,41 +71,43 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		if( isShowCornerPoints() ) {
 				setCornerPointRectangle(new Rectangle(points[1].x - UIUtils.SHAPE_END_POINT_SIZE,points[1].y - UIUtils.SHAPE_END_POINT_SIZE,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE)); 
 				g2.fill(getCornerPointRectangle());
+				
+				//text height
+				String s = "h = " + this.getHeight();
+
+			    AttributedString heightText = new AttributedString(s);
+			    heightText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+			    
+			    int x = getRectangle().x + getRectangle().width + 3;
+			    int y = getRectangle().y + (getRectangle().height  / 2);
+			    g2.setPaint(Color.black);
+				g2.drawString(heightText.getIterator(), x,y);
+				
+				//text height
+				s = "w = " + this.getWidth();
+
+			    AttributedString widthText = new AttributedString(s);
+			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+			    
+			    
+				
+				
+				FontMetrics metrics = g.getFontMetrics();
+				 
+				Rectangle2D rect = metrics.getStringBounds(s, g);
+				int sw = (int) rect.getWidth();
+				
+				x = (getRectangle().x + (getRectangle().width / 2)) - (sw/3);
+			    y = getRectangle().y+ getRectangle().height + 15;
+			    
+			    g2.setPaint(Color.black);
+			    g2.drawString(widthText.getIterator(), x,y);
 		}
 		
 		
 
 		
-		//text height
-		String s = "h = " + this.getHeight();
-
-	    AttributedString heightText = new AttributedString(s);
-	    heightText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
-	    
-	    int x = getRectangle().x + getRectangle().width + 3;
-	    int y = getRectangle().y + (getRectangle().height  / 2);
-	    g2.setPaint(Color.black);
-		g2.drawString(heightText.getIterator(), x,y);
 		
-		//text height
-		s = "w = " + this.getWidth();
-
-	    AttributedString widthText = new AttributedString(s);
-	    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
-	    
-	    
-		
-		
-		FontMetrics metrics = g.getFontMetrics();
-		 
-		Rectangle2D rect = metrics.getStringBounds(s, g);
-		int sw = (int) rect.getWidth();
-		
-		x = (getRectangle().x + (getRectangle().width / 2)) - (sw/3);
-	    y = getRectangle().y+ getRectangle().height + 15;
-	    
-	    g2.setPaint(Color.black);
-	    g2.drawString(widthText.getIterator(), x,y);
 		
 	}
 
