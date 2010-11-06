@@ -11,11 +11,11 @@
                 </tr>
 
                 <c:choose>
-                    <c:when test="${fn:length(scenarios) > 0}">
-                       <c:forEach var="scenario" items="${scenarios}">
+                    <c:when test="${fn:length(transporters) > 0}">
+                       <c:forEach var="transporter" items="${transporters}">
                            <tr class="${oddEven.oddEven}">
                                <td>
-                                   <a href="selectScenario.html?pedPlanId=${model.id}&action=addScenario&scenario=${scenario.id}">${scenario.name}
+                                   <a href="selectScenario.html?action=add&uri=${transporter.uri}">${transporter.elo.title}</a>
                                </td>
                            </tr>
                        </c:forEach>

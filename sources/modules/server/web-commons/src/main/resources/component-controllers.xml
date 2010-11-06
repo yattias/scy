@@ -42,6 +42,11 @@
                    /components/ajaxSlider.html=ajaxSliderController
                    /components/ajaxTimePicker.html=ajaxTimePickerController
                    /components/ajaxDatePicker.html=ajaxDatePickerController
+
+                   /components/ajaxELOTextField.html=ajaxELOTextFieldController
+
+
+
                    /editors/studentEditor.html=editSCYStudentUserController
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
@@ -84,6 +89,12 @@
     <bean id="ajaxSliderController" class="eu.scy.server.controllers.AjaxSliderController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
+
+    <bean id="ajaxELOTextFieldController" class="eu.scy.server.controllers.AjaxELOTextFieldController">
+        <property name="rooloServices" ref="missionELOService"/>
+	</bean>
+
+
 
     <bean id="fileUploadController" class="eu.scy.server.controllers.components.fileupload.FileUploadController">
         <property name="fileService" ref="fileService"/>
@@ -145,6 +156,20 @@
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
+
+    <bean name="rooloAccessor" class="eu.scy.server.roolo.impl.RooloAccessorImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+    </bean>
+
+    <bean name="missionELOService" class="eu.scy.server.roolo.impl.MissionELOServiceImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+    </bean>
 
 
 </beans>

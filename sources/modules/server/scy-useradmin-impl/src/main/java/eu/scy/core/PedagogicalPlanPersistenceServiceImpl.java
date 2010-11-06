@@ -31,6 +31,7 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
         return pedagogicalPlanPersistenceDAO.getPedagogicalPlanTemplates();
     }
 
+    @Transactional
     public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {
         return getPedagogicalPlanPersistenceDAO().createPedagogicalPlan(template);
     }

@@ -1,5 +1,6 @@
 package eu.scy.server.controllers.scyfeedback;
 
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.*;
 import eu.scy.core.model.ELORef;
 import eu.scy.core.model.FileRef;
@@ -8,21 +9,21 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ELORefImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.runtime.RuntimeService;
-import eu.scy.server.common.OddEven;
-import eu.scy.server.controllers.BaseController;
 import eu.scy.server.controllers.BaseFormController;
+import eu.scy.server.roolo.ELOWebSafeTransporter;
+import eu.scy.server.roolo.RooloAccessor;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.metadata.keys.ContributeMetadataKey;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,12 +42,12 @@ public class ScyFeedbackIndexController extends BaseFormController {
     private MissionService missionService;
     private FileService fileService;
 
+    private RooloAccessor rooloAccessor;
+    private ContributeMetadataKey authorKey;
+
+   
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        logger.info("HANDLE REQUEST!!");
-        logger.info("HANDLE REQUEST!!");
-        logger.info("HANDLE REQUEST!!");
-        logger.info("HANDLE REQUEST!!");
 
         ModelAndView modelAndView = new ModelAndView();
         instpectRequest(request, httpServletResponse);
@@ -55,26 +56,22 @@ public class ScyFeedbackIndexController extends BaseFormController {
         populateView(request, httpServletResponse, modelAndView);
 
 
-        List transporters = new LinkedList();
-        List <ELORef> eloRefs = getEloRefService().getAllVisibleELORefs();
-        for (int i = 0; i < eloRefs.size(); i++) {
-            ELORef eloRef = eloRefs.get(i);
-            List files = getFileService().getFilesForELORef(eloRef);
-            ELORefDataTransporter transporter = new ELORefDataTransporter();
-            transporter.setEloRef(eloRef);
-            transporter.setFiles(files);
-            transporter.setTotalScore(getPlayfulAssessmentService().getScoreForELORef(eloRef));
-            transporter.setTotalAssessments(getPlayfulAssessmentService().getAssesmentsForELORef(eloRef).size());
-            if(transporter.getFiles() == null) transporter.setFiles(Collections.EMPTY_LIST);
+        List elos = getRooloAccessor().getELOSWithTechnicalFormat("scy/missionspecification");
+        List transporters = getRooloAccessor().getWebSafeTransporters(elos);//new LinkedList();
+        /*for (int i = 0; i < elos.size(); i++) {
+            ScyElo elo = (ScyElo) elos.get(i);
+            ELOWebSafeTransporter transporter = new ELOWebSafeTransporter(elo);
             transporters.add(transporter);
-        }
-
-        modelAndView.addObject("eloRefTransporters", transporters);
-
+        } */
+        modelAndView.addObject("transporters", transporters);
 
         return modelAndView;
     }
 
+
+    private IMetadataValueContainer getEloData(IELO elo, ContributeMetadataKey contributeMetadataKey) {
+        return elo.getMetadata().getMetadataValueContainer(contributeMetadataKey);
+    }
 
 
     public ELORefService getEloRefService() {
@@ -234,4 +231,19 @@ public class ScyFeedbackIndexController extends BaseFormController {
         }
     }
 
+    public RooloAccessor getRooloAccessor() {
+        return rooloAccessor;
+    }
+
+    public void setRooloAccessor(RooloAccessor rooloAccessor) {
+        this.rooloAccessor = rooloAccessor;
+    }
+
+    public ContributeMetadataKey getAuthorKey() {
+        return authorKey;
+    }
+
+    public void setAuthorKey(ContributeMetadataKey authorKey) {
+        this.authorKey = authorKey;
+    }
 }

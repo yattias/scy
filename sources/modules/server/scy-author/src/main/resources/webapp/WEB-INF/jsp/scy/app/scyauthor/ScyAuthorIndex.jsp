@@ -9,7 +9,7 @@
 
         <h1>My pedagogical plans</h1>
 		<c:choose>
-        <c:when test="${fn:length(pedagogicalPlans) > 0}">
+        <c:when test="${fn:length(missionTransporters) > 0}">
             <table id="pedagogicalPlansTable" width="100%">
                 <tr>
                     <th>
@@ -22,13 +22,13 @@
                         Published
                     </th>
                 </tr>
-                <c:forEach var="pedagogicalPlan" items="${pedagogicalPlans}">
+                <c:forEach var="missionTransporter" items="${missionTransporters}">
                     <tr class="${oddEven.oddEven}">
                         <td>
-                            <s:modellink model="${pedagogicalPlan}" href="viewPedagogicalPlan.html">${pedagogicalPlan.name}</s:modellink>
+                            <a href="viewPedagogicalPlan.html?uri=${missionTransporter.uri}">${missionTransporter.elo.title}</a>
                         </td>
-                        <td>${pedagogicalPlan.description}</td>
-                        <td><s:ajaxCheckBox model="${pedagogicalPlan}" property="published"/></td>
+                        <td>${missionTransporter.elo.description}</td>
+                        <td></td>
                     </tr>
                 </c:forEach>
             </table>

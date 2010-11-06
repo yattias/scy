@@ -86,4 +86,9 @@ public abstract class BaseController extends AbstractController {
     public void setUrlInspector(UrlInspector urlInspector) {
         this.urlInspector = urlInspector;
     }
+
+    public String getCurrentUserName(HttpServletRequest request) {
+       org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+       return user.getUsername();
+   }
 }

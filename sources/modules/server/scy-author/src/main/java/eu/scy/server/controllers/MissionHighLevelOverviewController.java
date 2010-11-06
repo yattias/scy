@@ -52,12 +52,6 @@ public class MissionHighLevelOverviewController extends BaseController{
         return getUserService().getUser(getCurrentUserName(request));
     }
 
-    public String getCurrentUserName(HttpServletRequest request) {
-       org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
-        logger.info("UserName: " + user.getUsername());
-       return user.getUsername();
-   }
-
     public UserService getUserService() {
         return userService;
     }
