@@ -2,14 +2,15 @@ package edu.scy.tools.math.test;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
-import eu.scy.tools.math.adapters.AdjustSizeAdapter;
-import eu.scy.tools.math.adapters.ShapeMoverAdapter;
-import eu.scy.tools.math.shapes.MathEllipse;
-import eu.scy.tools.math.shapes.MathToolRectangle;
+import eu.scy.tools.math.shapes.MathTriangle;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class ShapesTest {
@@ -26,53 +27,31 @@ public class ShapesTest {
 		int height = 800;
 		frame.setPreferredSize(new Dimension(width,height));
 		
-		MathToolRectangle mtr = new MathToolRectangle(20, 40, 100, 100);
-		MathEllipse me = new MathEllipse(200, 200, 200, 200);
+		MathTriangle t = new MathTriangle(200, 100,103);
+		//MathToolRectangle mtr = new MathToolRectangle(20, 40, 100, 100);
+		//MathEllipse me = new MathEllipse(200, 200, 200, 200);
 //		ShapeMoverAdapter sm = new ShapeMoverAdapter(mtr);
 //		RectangleSizerAdapter ra = new RectangleSizerAdapter(mtr);
 		ShapeCanvas r = new ShapeCanvas(true);
-		new ShapeMoverAdapter(r);
-		new AdjustSizeAdapter(r);
-		r.addShape(me);
-		r.addShape(mtr);
-//		r.addMouseListener(new MouseListener() {
-//			
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mousePressed(MouseEvent e) {
-//				
-//				System.out
-//						.println("ShapesTest.main(...).new MouseListener() {...}.mousePressed()");
-//				JComponent source = (JComponent) e.getSource();
-//				source.requestFocus();
-//			}
-//			
-//			@Override
-//			public void mouseExited(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				System.out
-//						.println("ShapesTest.main(...).new MouseListener() {...}.mouseClicked()");
-//				JComponent source = (JComponent) e.getSource();
-//				source.requestFocus();
-//				
-//			}
-//		});
+		r.addShape(t);
+//		new ShapeMoverAdapter(r);
+//		new AdjustSizeAdapter(r);
+//		r.addShape(me);
+//		r.addShape(mtr);
+		r.addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				System.out.println(e.getPoint());
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		r.setBackground(Color.white);
 //		r.add(mtr);
 		
