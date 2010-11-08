@@ -772,8 +772,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     // add row
     public void addRow(DataSetRow row){
-        if(activFitex != null)
+        if(activFitex != null){
             activFitex.addData(row);
+            logAddRow(activFitex.getDataset(), row);
+        }
     }
 
     /* sortie de l'outil */
@@ -841,8 +843,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     /* log: addrow */
-    public void logAddRow(Dataset ds, Data data){
-        List<FitexProperty> attribute = FitexLog.logAddRow(ds, locale,data);
+    public void logAddRow(Dataset ds, DataSetRow row){
+        List<FitexProperty> attribute = FitexLog.logAddRow(ds, locale,row);
         action.logAction(DataConstants.LOG_ADD_ROW, attribute);
     }
 
