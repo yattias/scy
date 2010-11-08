@@ -189,5 +189,13 @@ public class LearnerProcedure extends ExperimentalProcedure{
     public char getEvaluationMode(){
         return initialProc.getEvaluationMode();
     }
+
+    @Override
+    public Element toELO(){
+        Element e = new Element(ExperimentalProcedure.TAG_EXPERIMENTAL_PROCEDURE);
+        e.addContent(getMission().toXML());
+        e.addContent(toXML());
+        return e;
+    }
     
 }
