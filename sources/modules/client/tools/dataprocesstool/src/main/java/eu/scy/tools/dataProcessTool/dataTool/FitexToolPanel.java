@@ -690,6 +690,14 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     private void copy(){
         ArrayList<int[]> listSelCell = datasetTable.copy();
+    }
+
+    /* log: cut dataset */
+    public void logCut(Dataset ds){
+        dataProcessToolPanel.logCut(dataset);
+    }
+    /* log: copy dataset */
+    public void logCopy(Dataset ds, ArrayList<int[]> listSelCell){
         dataProcessToolPanel.logCopy(dataset, listSelCell);
     }
 
@@ -1124,12 +1132,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         //log
         ArrayList<Integer> listIdRows = listRowAndCol[0];
         ArrayList<Integer> listIdColumns = listRowAndCol[1];
-        if(listIdRows.size() > 0)
-            dataProcessToolPanel.logDeleteRows(dataset, listIdRows);
-        if(listIdColumns.size() > 0)
-            dataProcessToolPanel.logDeleteColumns(dataset, listIdColumns);
-        if(listOperation.size() > 0)
-            dataProcessToolPanel.logDeleteOperations(dataset, listOperation);
+        dataProcessToolPanel.logDeleteDatas(dataset, listData, listRowAndCol[0], listRowAndCol[1],listOperation);
     }
 
     /* mise a jour d'un dataset */
