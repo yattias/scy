@@ -26,6 +26,8 @@ import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.client.desktop.scydesktop.utils.UiUtils;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -37,13 +39,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 
 /**
  * @author Marjolaine
  */
 
-public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, INotifiable {
    def logger = Logger.getLogger(this.getClass());
    def scyCopexType = "scy/xproc";
    def jdomStringConversion = new JDomStringConversion();
@@ -67,12 +77,36 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    var bundle:ResourceBundleWrapper;
 
+   var notificationDialog: NotificationDialog;
+   var notificationButton: Button;
+   var notificationAnim = Timeline {
+    repeatCount: Timeline.INDEFINITE;
+    autoReverse: true;
+    keyFrames: [
+        KeyFrame {
+            time: 0s;
+            action: function():Void {
+                notificationButton.text = "!";
+            }
+        }
+        KeyFrame {
+            time: 0.5s;
+            action: function():Void {
+                notificationButton.text = "";
+            }
+        }
+    ]
+}
+
+
    public override function initialize(windowContent: Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       scyCopexPanel.setTBI(toolBrokerAPI);
       scyCopexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       scyCopexPanel.initActionLogger();
       scyCopexPanel.initCopex();
+      toolBrokerAPI.registerForNotifications(this as INotifiable);
+      notificationAnim.play();
    }
 
    public override function loadElo(uri:URI){
@@ -111,6 +145,13 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 //                                testThumbnail();
 //                           }
 //                        }
+                        notificationButton = Button {
+                           text: "!";
+                           visible:false;
+                           action: function() {
+                              doNotify();
+                           }
+                        }
                      ]
                   }
                   wrappedCopexPanel
@@ -213,5 +254,66 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       }
       doSaveElo();
    }
-   
+
+   override public function processNotification(note: INotification): Void {
+        if (scyCopexPanel != null) {
+            logger.info("process notification, forwarding to copex");
+            notificationButton.visible = true;
+            notificationAnim.play();
+            FX.deferAction(function () {
+                scyCopexPanel.processNotification(note);
+            })
+        } else {
+            logger.info("notification not processed, copex == null");
+        }
+    }
+
+    function doNotify(){
+        notificationDialog = NotificationDialog {
+            okayAction: okayNotificationDialog
+            cancelAction: cancelNotificationDialog
+            bundle:bundle
+            notificationText:getNotification();
+        }
+        createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), getBundleString("FX-COPEX.NOTIFICATION_TITLE"), notificationDialog);
+    }
+
+    function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
+        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        modalDialogNode.modalDialogBox = ModalDialogBox {
+            content: EmptyBorderNode {
+                content: Group {
+                    content: modalDialogNode.getContentNodes();
+                }
+            }
+            targetScene: scyWindow.windowManager.scyDesktop.scene
+            title: title
+            windowColorScheme: windowColorScheme
+            closeAction: function (): Void {
+            }
+        }
+    }
+
+    function cancelNotificationDialog(): Void {
+        notificationDialog.modalDialogBox.close();
+        notificationAnim.stop();
+        notificationButton.text = "!";
+    }
+
+    function okayNotificationDialog(): Void {
+        notificationDialog.modalDialogBox.close();
+        notificationButton.visible = false;
+        notificationAnim.stop();
+    }
+
+    function getNotification(): String{
+        if(scyCopexPanel == null){
+            return getBundleString("FX-COPEX.MSG_ERROR_NOTIFICATION");
+        }else{
+            return scyCopexPanel.getNotification();
+        }
+    }
+
+
+
 }
