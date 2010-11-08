@@ -72,7 +72,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
                   titleDisplay,
                   authorDisplay,
                   typeDisplay,
-                  roleDisplay,
+//                  roleDisplay,
                   dateDisplay
                ]
             }
@@ -84,7 +84,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       titleDisplay.text = "Title: {scyElo.getTitle()}";
       authorDisplay.text = "Author(s): {getAuthorsText()}";
       typeDisplay.text = "Format: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
-      roleDisplay.text = "Role: {getRoleString(scyElo.getFunctionalRole())}";
+//      roleDisplay.text = "Role: {getRoleString(scyElo.getFunctionalRole())}";
       dateDisplay.text = "Date: created at {getDateString(scyElo.getDateCreated())}, last modified at {getDateString(scyElo.getDateLastModified())}";
       def thumbnailImage = scyElo.getThumbnail();
       if (thumbnailImage != null) {

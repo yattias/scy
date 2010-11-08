@@ -152,7 +152,7 @@ public class SpringConfigFileImporter {
                      metadata: anchor.getMetadata();
                      exists: anchor.getMetadata() != null;
                      loEloUris: createExistingEloUriSequence(anchor.getLoEloUris(), "las {anchor.getId()}")
-                     targetDescriptionUri:anchor.getTargetDescription()
+                     targetDescriptionUri:anchor.getTargetDescriptionUri()
                      assignmentUri:anchor.getAssignmentUri()
                      resourcesUri:anchor.getResourcesUri()
                      colorScheme:anchor.getColorScheme()

@@ -128,12 +128,12 @@ public class BasicMissionAnchor// implements MissionAnchor
       this.resourcesUri = resourcesUri;
    }
 
-   public URI getTargetDescription()
+   public URI getTargetDescriptionUri()
    {
       return targetDescriptionUri;
    }
 
-   public void setTargetDescription(URI targetDescription)
+   public void setTargetDescriptionUri(URI targetDescription)
    {
       this.targetDescriptionUri = targetDescription;
    }
