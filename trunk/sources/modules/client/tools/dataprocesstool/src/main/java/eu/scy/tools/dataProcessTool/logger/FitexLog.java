@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import org.jdom.Element;
+import roolo.elo.JDomStringConversion;
 
 /**
  *
@@ -40,6 +42,8 @@ public class FitexLog {
     private final static String TAG_NB_ROWS = "nb_rows";
     private final static String TAG_ID_BEFORE = "id_before";
     private final static String TAG_ID = "id";
+    private final static String TAG_ID_ROW = "id_row";
+    private final static String TAG_ID_COL = "id_col";
     private final static String TAG_OPERATION = "operation";
     private final static String TAG_VISUALIZATION = "visualization";
     private final static String TAG_GRAPH_MODE = "graph_mode";
@@ -56,11 +60,16 @@ public class FitexLog {
     private final static String TAG_COLOR_BLUE = "blue";
     private final static String TAG_SUBDATA = "subData";
     private final static String TAG_UNDO_REDO_ACTION = "undo_redo_action";
+    private final static String TAG_DATASET_MODEL = "model";
 
     
-    
+    private static String getModel(Dataset ds, Locale locale){
+        return new JDomStringConversion().xmlToString(ds.toELO(locale).toXML());
+    }
+
+
     /* log: edit data*/
-    public static List<FitexProperty> logEditData(Dataset ds, Data oldData, Data newData){
+    public static List<FitexProperty> logEditData(Dataset ds, Locale locale, Data oldData, Data newData){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         if(oldData != null){
@@ -71,11 +80,12 @@ public class FitexLog {
         }else{
             list.add(new FitexProperty(TAG_NEW, newData.getValue(), newData.toXMLLog()));
         }
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     /* log: edit header*/
-    public static List<FitexProperty> logEditHeader(Dataset ds, DataHeader oldHeader, DataHeader newHeader){
+    public static List<FitexProperty> logEditHeader(Dataset ds, Locale locale,DataHeader oldHeader, DataHeader newHeader){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         if(oldHeader != null){
@@ -86,6 +96,7 @@ public class FitexLog {
         }else{
             list.add(new FitexProperty(TAG_NEW, newHeader.getValue(), newHeader.toXMLLog()));
         }
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
@@ -103,19 +114,21 @@ public class FitexLog {
     }
 
     /* log: merge dataset */
-    public static List<FitexProperty> logMergeDataset(Dataset ds, String fileName, Dataset finalDataset){
+    public static List<FitexProperty> logMergeDataset(Dataset ds, Locale locale,String fileName, Dataset finalDataset){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_FILE_NAME, fileName, null));
         list.add(new FitexProperty(TAG_DATASET, finalDataset.getName(), finalDataset.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     /* log:import csv file */
-    public static List<FitexProperty> logImportCsvFile(String fileName, Dataset ds){
+    public static List<FitexProperty> logImportCsvFile(String fileName, Dataset ds, Locale locale ){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_FILE_NAME, fileName, null));
         list.add(new FitexProperty(TAG_DATASET, ds.getName(), ds.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
@@ -135,60 +148,66 @@ public class FitexLog {
     }
 
     /* log: insert columns*/
-    public static List<FitexProperty> logInsertColumns(Dataset ds, int nbCol, int idBefore){
+    public static List<FitexProperty> logInsertColumns(Dataset ds, Locale locale, int nbCol, int idBefore){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_NB_COL, Integer.toString(nbCol), null));
         list.add(new FitexProperty(TAG_ID_BEFORE, Integer.toString(idBefore), null));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
     /* log: insert rows*/
-    public static List<FitexProperty> logInsertRows(Dataset ds, int nbRows, int idBefore){
+    public static List<FitexProperty> logInsertRows(Dataset ds, Locale locale, int nbRows, int idBefore){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_NB_ROWS, Integer.toString(nbRows), null));
         list.add(new FitexProperty(TAG_ID_BEFORE, Integer.toString(idBefore), null));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     /* log: add row */
-    public static List<FitexProperty> logAddRow(Dataset ds, Data data){
+    public static List<FitexProperty> logAddRow(Dataset ds, Locale locale , Data data){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_DATA, data.getValue(), data.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     /* log: initialize header*/
-    public static List<FitexProperty> logInitializeHeader(Dataset ds){
+    public static List<FitexProperty> logInitializeHeader(Dataset ds, Locale locale){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         int nbH = ds.getListDataHeader().length;
         for (int j=0; j<nbH; j++){
             list.add(new FitexProperty(TAG_HEADER, ds.getDataHeader(j).getValue(), ds.getDataHeader(j).toXMLLog()));
         }
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
 
     /* log: delete rows/columns*/
-    public static List<FitexProperty> logDeleteData(Dataset ds,ArrayList<Integer> listId){
+    public static List<FitexProperty> logDeleteData(Dataset ds,Locale locale, ArrayList<Data> listData,  ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol,ArrayList<DataOperation> listOperation){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
-        for(Iterator<Integer> i = listId.iterator();i.hasNext();){
-            list.add(new FitexProperty(TAG_ID, Integer.toString(i.next()), null));
+        for(Iterator<Integer> i = listNoDataRow.iterator();i.hasNext();){
+            list.add(new FitexProperty(TAG_ID_ROW, Integer.toString(i.next()), null));
         }
-        return list;
-    }
-
-    /* log: delete operations */
-    public static List<FitexProperty> logDeleteOperations(Dataset ds, ArrayList<DataOperation> listOperation){
-        List<FitexProperty> list = new LinkedList();
-        list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
+        for(Iterator<Integer> i = listNoDataCol.iterator();i.hasNext();){
+            list.add(new FitexProperty(TAG_ID_COL, Integer.toString(i.next()), null));
+        }
         for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
             DataOperation operation = o.next();
             list.add(new FitexProperty(TAG_OPERATION, operation.getName(), operation.toXMLLog()));
         }
+        for(Iterator<Data> d = listData.iterator();d.hasNext();){
+            Data data = d.next();
+            if(data != null)
+                list.add(new FitexProperty(TAG_DATA, data.getValue(), data.toXMLLog()));
+        }
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
@@ -201,29 +220,32 @@ public class FitexLog {
     }
 
     /* log: ignore data */
-    public static List<FitexProperty> logIgnoreData(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
+    public static List<FitexProperty> logIgnoreData(Dataset ds, Locale locale, boolean isIgnored, ArrayList<Data> listData){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         for(Iterator<Data> d = listData.iterator();d.hasNext();){
             Data data = d.next();
             list.add(new FitexProperty(TAG_DATA, data.getValue(), data.toXMLLog()));
         }
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     /* log: create Visualization */
-    public static List<FitexProperty> logCreateVisualization(Dataset ds, Visualization vis){
+    public static List<FitexProperty> logCreateVisualization(Dataset ds, Locale locale, Visualization vis){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_VISUALIZATION, vis.getName(), vis.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     /* log: delete visualization */
-    public static List<FitexProperty> logDeleteVisualization(Dataset ds, Visualization vis){
+    public static List<FitexProperty> logDeleteVisualization(Dataset ds, Locale locale, Visualization vis){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_VISUALIZATION, vis.getName(), null));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
@@ -290,18 +312,19 @@ public class FitexLog {
     }
 
     /* log: paste*/
-    public static List<FitexProperty> logPaste(Dataset ds, int[] selCell, CopyDataset copyDs){
+    public static List<FitexProperty> logPaste(Dataset ds, Locale locale, int[] selCell, CopyDataset copyDs){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_CELL, "", getCell(ds, selCell)));
         list.add(new FitexProperty(TAG_SUBDATA, "", copyDs.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
     
 
     /* log: function model */
-    public static List<FitexProperty> logFunctionModel(Dataset ds, Graph graph, String description,  Color fColor, ArrayList<FunctionParam> listParam){
+    public static List<FitexProperty> logFunctionModel(Dataset ds, Locale locale, Graph graph, String description,  Color fColor, ArrayList<FunctionParam> listParam){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_VISUALIZATION, graph.getName(), null));
@@ -313,6 +336,7 @@ public class FitexLog {
                 list.add(new FitexProperty(TAG_FUNCTION_PARAM,param.getParam(), param.toXML() ));
             }
         }
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 
@@ -324,10 +348,11 @@ public class FitexLog {
         return e;
     }
 
-    public static List<FitexProperty> logUndoRedo(Dataset ds, DataUndoRedo action){
+    public static List<FitexProperty> logUndoRedo(Dataset ds, Locale locale, DataUndoRedo action){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
         list.add(new FitexProperty(TAG_UNDO_REDO_ACTION, "", action.toXMLLog()));
+        list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
 }

@@ -9,7 +9,7 @@ import java.awt.Color;
 
 
 /**
- * Constantes de l'application
+ * App. cst
  * @author Marjolaine Bodin
  */
 public class DataConstants {
@@ -20,7 +20,7 @@ public class DataConstants {
     public static final int OP_MAX = 3;
     public static final int OP_SUM_IF = 4;
     
-    /* TYPES DE VISUALISATION */
+    /* Visualisations types */
     public static final int VIS_GRAPH = 0;
     public static final int VIS_PIE=1;
     public static final int VIS_BAR = 2;
@@ -34,7 +34,7 @@ public class DataConstants {
     public final static int NB_DECIMAL_UNDEFINED = Integer.MAX_VALUE;
     public final static int NB_SIGNIFICANT_DIGITS_UNDEFINED = Integer.MAX_VALUE;
 
-    /* LONGUEUR MAX DES CHAMPS */
+    /* max lenght fields */
     public static final int MAX_LENGHT_DATASET_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_DESCRIPTION = 1024;
@@ -44,18 +44,18 @@ public class DataConstants {
     public static final int MAX_LENGHT_AXIS_NAME= 10;
     public final static int MAX_LENGHT_DATA=128;
 
-    /* MODE GRAPH */
+    /* graph mode */
     public static final char MODE_ZOOM = 'Z';
     public static final char MODE_MOVE = 'M';
     public static final char MODE_DEFAULT = MODE_ZOOM;
 
-    /* DROITS */
+    /* rights */
     public static final char NONE_RIGHT='N';
     public static final char EXECUTIVE_RIGHT='X';
 
-    /* applet de l'applet venant de SCY*/
+    /* scy mode*/
     public final static int SCY_MODE = 0;
-    /* appel de l'applet venant su site COPEX */
+    /* labbook_mode */
     public final static int COPEX_MODE = 1;
 
     /* db labbook*/
@@ -104,38 +104,36 @@ public class DataConstants {
     /* xml language */
     public final static String XMLNAME_LANGUAGE="language";
     /* LOG TYPE */
-    public static final String LOG_TYPE_START_TOOL = "start_tool";
-    public static final String LOG_TYPE_END_TOOL = "end_tool";
-    public static final String LOG_TYPE_NEW = "new_elo";
-    public final static String LOG_TYPE_SAVE_DATASET = "save_dataset";
-    public static final String LOG_TYPE_OPEN_DATASET = "open_dataset";
-    public static final String LOG_TYPE_MERGE_DATASET = "merge_dataset";
-    public static final String LOG_TYPE_IMPORT_CSV_FILE = "import_csv_file";
-    public static final String LOG_TYPE_IMPORT_GMBL_FILE = "import_gmbl_file";
-    public static final String LOG_TYPE_EXPORT_CSV_FILE = "export_csv_file";
-    public final static String LOG_TYPE_DELETE_DATASET = "delete_dataset";
-    public static final String LOG_TYPE_EDIT_DATA = "edit_data";
-    public static final String LOG_TYPE_EDIT_HEADER = "edit_header";
-    public final static String LOG_TYPE_INSERT_COLUMNS = "insert_columns";
-    public final static String LOG_TYPE_INSERT_ROWS = "insert_rows";
-    public final static String LOG_TYPE_DELETE_ROWS = "delete_rows";
-    public final static String LOG_TYPE_DELETE_COLS = "delete_cols";
-    public final static String LOG_ADD_ROW = "add_row";
-    public final static String LOG_INITIALIZE_HEADER = "initialize_header";
-    public final static String LOG_TYPE_DELETE_OPERATIONS = "delete_operations";
-    public final static String LOG_TYPE_ADD_OPERATION = "add_operation";
-    public final static String LOG_TYPE_IGNORE_DATA = "ignore_data";
-    public final static String LOG_TYPE_CREATE_VISUALIZATION = "create_visulization";
-    public final static String LOG_TYPE_DELETE_VISUALIZATION = "delete_visualization";
-    public final static String LOG_TYPE_GRAPH_MODE = "graph_mode";
-    public final static String LOG_TYPE_UPDATE_VISUALIZATION = "update_visualization";
-    public final static String LOG_TYPE_SORT_DATASET = "sort_dataset";
-    public final static String LOG_TYPE_COPY = "copy";
-    public final static String LOG_TYPE_PASTE = "paste";
-    public final static String LOG_TYPE_CUT = "cut";
-    public final static String LOG_TYPE_UNDO = "undo";
-    public final static String LOG_TYPE_REDO = "redo";
-    public final static String LOG_TYPE_GRAPH_FUNCTION = "graph_function";
-    public final static String LOG_TYPE_RENAME_DATASET = "rename_dataset";
+    public static final String LOG_TYPE_START_TOOL = "tool_started";
+    public static final String LOG_TYPE_END_TOOL = "tool_quit";
+    public static final String LOG_TYPE_NEW = "elo_added";
+    public final static String LOG_TYPE_SAVE_DATASET = "dataset_saved";
+    public static final String LOG_TYPE_OPEN_DATASET = "dataset_opened";
+    public static final String LOG_TYPE_MERGE_DATASET = "dataset_merged";
+    public final static String LOG_TYPE_DELETE_DATASET = "dataset_deleted";
+    public final static String LOG_TYPE_RENAME_DATASET = "dataset_renamed";
+    public static final String LOG_TYPE_IMPORT_CSV_FILE = "csv_file_imported";
+    public static final String LOG_TYPE_IMPORT_GMBL_FILE = "gmbl_file_imported";
+    public static final String LOG_TYPE_EXPORT_CSV_FILE = "csv_file_exported";
+    public static final String LOG_TYPE_EDIT_DATA = "data_edited";
+    public static final String LOG_TYPE_EDIT_HEADER = "header_edited";
+    public final static String LOG_TYPE_INSERT_COLUMNS = "datasheet_columns_inserted";
+    public final static String LOG_TYPE_INSERT_ROWS = "datasheet_rows_inserted";
+    public final static String LOG_TYPE_DELETE = "datasheet_deleted";
+    public final static String LOG_ADD_ROW = "sync_row_added";
+    public final static String LOG_INITIALIZE_HEADER = "sync_header_initialized";
+    public final static String LOG_TYPE_ADD_OPERATION = "operation_added";
+    public final static String LOG_TYPE_IGNORE_DATA = "data_ignored";
+    public final static String LOG_TYPE_SORT_DATASET = "datasheet_sorted";
+    public final static String LOG_TYPE_COPY = "datasheet_copied";
+    public final static String LOG_TYPE_PASTE = "datasheet_pasted";
+    public final static String LOG_TYPE_CUT = "datasheet_cut";
+    public final static String LOG_TYPE_UNDO = "action_undone";
+    public final static String LOG_TYPE_REDO = "action_redone";
+    public final static String LOG_TYPE_CREATE_VISUALIZATION = "graph_added";
+    public final static String LOG_TYPE_DELETE_VISUALIZATION = "graph_deleted";
+    public final static String LOG_TYPE_UPDATE_VISUALIZATION = "graph_updated";
+    public final static String LOG_TYPE_GRAPH_MODE = "graph_mode_updated";
+    public final static String LOG_TYPE_GRAPH_FUNCTION = "graph_function_updated";
     
 }

@@ -541,7 +541,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
 
     public Element getPDS(){
-        logSaveDataset(activFitex.getDataset());
+        //logSaveDataset(activFitex.getDataset());
          return activFitex.getPDS();
      }
 
@@ -692,7 +692,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public void mergeELO(Element elo){
         Dataset ds = (Dataset)(activFitex.getDataset().clone());
         this.activFitex.mergeELO(elo);
-        //logMergeDataset(ds,"", activFitex.getDataset());
+        logMergeDataset(ds,"", activFitex.getDataset());
     }
 
     @Override
@@ -802,23 +802,23 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     /* log: edit_dataset*/
     public void logEditData(Dataset ds, Data oldData, Data newData){
-        List<FitexProperty> attribute = FitexLog.logEditData(ds, oldData, newData);
+        List<FitexProperty> attribute = FitexLog.logEditData(ds, locale,oldData, newData);
         action.logAction(DataConstants.LOG_TYPE_EDIT_DATA, attribute);
     }
     /* log: merge dataset*/
     public void logMergeDataset(Dataset ds,String fileName , Dataset finalDataset){
-       List<FitexProperty> attribute = FitexLog.logMergeDataset(ds,  fileName, finalDataset);
+       List<FitexProperty> attribute = FitexLog.logMergeDataset(ds, locale, fileName, finalDataset);
        action.logAction(DataConstants.LOG_TYPE_MERGE_DATASET, attribute);
     }
     /* log: import csv file */
     public void logImportCsvFile(String fileName, Dataset ds){
-        List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds);
+        List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds, locale);
         action.logAction(DataConstants.LOG_TYPE_IMPORT_CSV_FILE, attribute);
     }
 
     /* log: import gmbl file */
     public void logImportGMBLFile(String fileName, Dataset ds){
-        List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds);
+        List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds, locale);
         action.logAction(DataConstants.LOG_TYPE_IMPORT_GMBL_FILE, attribute);
     }
 
@@ -830,46 +830,34 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     /* log: insert columns */
     public void logInsertColumns(Dataset ds, int nbCol, int idBefore){
-       List<FitexProperty> attribute = FitexLog.logInsertColumns(ds, nbCol, idBefore);
+       List<FitexProperty> attribute = FitexLog.logInsertColumns(ds, locale, nbCol, idBefore);
        action.logAction(DataConstants.LOG_TYPE_INSERT_COLUMNS, attribute);
     }
 
     /* log: insert rows */
     public void logInsertRows(Dataset ds, int nbRows, int idBefore){
-       List<FitexProperty> attribute = FitexLog.logInsertRows(ds, nbRows, idBefore);
+       List<FitexProperty> attribute = FitexLog.logInsertRows(ds, locale, nbRows, idBefore);
        action.logAction(DataConstants.LOG_TYPE_INSERT_ROWS, attribute);
     }
 
     /* log: addrow */
     public void logAddRow(Dataset ds, Data data){
-        List<FitexProperty> attribute = FitexLog.logAddRow(ds,data);
+        List<FitexProperty> attribute = FitexLog.logAddRow(ds, locale,data);
         action.logAction(DataConstants.LOG_ADD_ROW, attribute);
     }
 
     /* log: initialize header */
     public void logInitializeHeader(Dataset ds){
-        List<FitexProperty> attribute = FitexLog.logInitializeHeader(ds);
+        List<FitexProperty> attribute = FitexLog.logInitializeHeader(ds, locale);
         action.logAction(DataConstants.LOG_INITIALIZE_HEADER, attribute);
     }
 
-
-    /* log: delete rows*/
-    public void logDeleteRows(Dataset ds, ArrayList<Integer> listIdRows){
-        List<FitexProperty> attribute = FitexLog.logDeleteData(ds, listIdRows);
-        action.logAction(DataConstants.LOG_TYPE_DELETE_ROWS, attribute);
+    /* log: delete datas*/
+    public void logDeleteDatas(Dataset ds, ArrayList<Data> listData,  ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol,ArrayList<DataOperation> listOperation){
+        List<FitexProperty> attribute = FitexLog.logDeleteData(ds, locale, listData,listNoDataRow, listNoDataCol,listOperation );
+        action.logAction(DataConstants.LOG_TYPE_DELETE, attribute);
     }
 
-    /* log: delete columns*/
-    public void logDeleteColumns(Dataset ds, ArrayList<Integer> listIdColumns){
-        List<FitexProperty> attribute = FitexLog.logDeleteData(ds, listIdColumns);
-        action.logAction(DataConstants.LOG_TYPE_DELETE_COLS, attribute);
-    }
-
-    /* log: delete operations*/
-    public void logDeleteOperations(Dataset ds, ArrayList<DataOperation> listOperations){
-        List<FitexProperty> attribute = FitexLog.logDeleteOperations(ds, listOperations);
-        action.logAction(DataConstants.LOG_TYPE_DELETE_OPERATIONS, attribute);
-    }
 
     /* log: add operation */
     public void logAddOperation(Dataset ds, DataOperation operation){
@@ -878,25 +866,25 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
     /* log: edit data header*/
     public void logEditHeader(Dataset ds, DataHeader oldHeader, DataHeader newHeader){
-        List<FitexProperty> attribute = FitexLog.logEditHeader(ds, oldHeader, newHeader);
+        List<FitexProperty> attribute = FitexLog.logEditHeader(ds, locale, oldHeader, newHeader);
         action.logAction(DataConstants.LOG_TYPE_EDIT_HEADER, attribute);
     }
 
     /* log: ignore data */
     public void logIgnoreData(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
-        List<FitexProperty> attribute = FitexLog.logIgnoreData(ds, isIgnored, listData);
+        List<FitexProperty> attribute = FitexLog.logIgnoreData(ds, locale, isIgnored, listData);
         action.logAction(DataConstants.LOG_TYPE_IGNORE_DATA, attribute);
     }
 
     /* log: create Visualization */
     public void logCreateVisualization(Dataset ds, Visualization vis){
-        List<FitexProperty> attribute = FitexLog.logCreateVisualization(ds, vis);
+        List<FitexProperty> attribute = FitexLog.logCreateVisualization(ds, locale, vis);
         action.logAction(DataConstants.LOG_TYPE_CREATE_VISUALIZATION, attribute);
     }
 
     /* log: delete visualization */
     public void logDeleteVisualization(Dataset ds, Visualization vis){
-        List<FitexProperty> attribute = FitexLog.logDeleteVisualization(ds, vis);
+        List<FitexProperty> attribute = FitexLog.logDeleteVisualization(ds, locale, vis);
         action.logAction(DataConstants.LOG_TYPE_DELETE_VISUALIZATION, attribute);
     }
 
@@ -926,26 +914,30 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     /* log: paste*/
     public void logPaste(Dataset ds, int[] selCell, CopyDataset copyDs){
-        List<FitexProperty> attribute = FitexLog.logPaste(ds, selCell, copyDs);
+        List<FitexProperty> attribute = FitexLog.logPaste(ds, locale, selCell, copyDs);
         action.logAction(DataConstants.LOG_TYPE_PASTE, attribute);
     }
 
+    /* log: cut dataset */
+    public void logCut(Dataset ds){
+        action.logAction(DataConstants.LOG_TYPE_CUT, new LinkedList());
+    }
     
     /* log: undo*/
     public void logUndo(Dataset ds, DataUndoRedo undoAction){
-        List<FitexProperty> attribute = FitexLog.logUndoRedo(ds,  undoAction);
+        List<FitexProperty> attribute = FitexLog.logUndoRedo(ds, locale,  undoAction);
         action.logAction(DataConstants.LOG_TYPE_UNDO, attribute);
     }
 
     /* log: undo*/
     public void logRedo(Dataset ds, DataUndoRedo redoAction){
-        List<FitexProperty> attribute = FitexLog.logUndoRedo(ds,  redoAction);
+        List<FitexProperty> attribute = FitexLog.logUndoRedo(ds, locale,  redoAction);
         action.logAction(DataConstants.LOG_TYPE_REDO, attribute);
     }
 
     /* log: function model */
     public void logFunctionModel(Dataset ds, Graph graph, String description,  Color fColor, ArrayList<FunctionParam> listParam){
-        List<FitexProperty> attribute = FitexLog.logFunctionModel(ds, graph, description, fColor, listParam);
+        List<FitexProperty> attribute = FitexLog.logFunctionModel(ds, locale, graph, description, fColor, listParam);
         action.logAction(DataConstants.LOG_TYPE_GRAPH_FUNCTION, attribute);
     }
 

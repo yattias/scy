@@ -740,6 +740,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         ArrayList<int[]> listSelCell = getSelectedCells();
         copyDs = tableModel.getCopyDataset(listSelCell);
         owner.updateMenuData();
+        owner.logCopy(dataset, listSelCell);
         return listSelCell;
     }
 
@@ -1038,6 +1039,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* cut : => copy puis suppression */
     public void cut(){
+        owner.logCut(dataset);
         copy();
         delete();
     }
