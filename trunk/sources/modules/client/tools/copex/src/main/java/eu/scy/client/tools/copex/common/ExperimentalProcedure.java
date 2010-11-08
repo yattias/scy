@@ -654,4 +654,9 @@ public class ExperimentalProcedure implements Cloneable {
         return MyConstants.MODE_MENU_NO;
     }
 
+    public Element toELO(){
+        Element e = new Element(ExperimentalProcedure.TAG_EXPERIMENTAL_PROCEDURE);
+        e.addContent(toXML());
+        return e;
+    }
 }

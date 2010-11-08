@@ -530,4 +530,11 @@ public class InitialProcedure extends ExperimentalProcedure {
         return getMaterialStrategy().hasMaterial();
     }
 
+    @Override
+    public Element toELO(){
+        Element e = new Element(ExperimentalProcedure.TAG_EXPERIMENTAL_PROCEDURE);
+        e.addContent(toXML());
+        return e;
+    }
+
 }

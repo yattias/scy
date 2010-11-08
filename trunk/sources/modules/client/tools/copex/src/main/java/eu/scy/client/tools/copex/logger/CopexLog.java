@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import roolo.elo.JDomStringConversion;
 
 /**
  * copex log
@@ -36,6 +37,12 @@ public class CopexLog {
     public final static String TAG_NEW = "new";
     public final static String TAG_TASK_POSITION = "posistion";
     public final static String TAG_MATERIAL_USED = "material_used";
+    public final static String TAG_PROC_MODEL = "model";
+
+
+    private static String getModel(ExperimentalProcedure proc){
+        return new JDomStringConversion().xmlToString(proc.toELO());
+    }
 
     /* log: open proc*/
     public static List<CopexProperty> logOpenProc(Locale locale, ExperimentalProcedure proc, long dbKeyMission, String missionCode){
@@ -81,6 +88,7 @@ public class CopexLog {
         list.add(new CopexProperty(TAG_TASK_ID, Long.toString(oldTask.getDbKey()), null));
         list.add(new CopexProperty(TAG_OLD, "oldTask", oldTask.toXML()));
         list.add(new CopexProperty(TAG_NEW, "newTask", newTask.toXML()));
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -91,6 +99,7 @@ public class CopexLog {
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
         list.add(new CopexProperty(TAG_NEW, "", task.toXML()));
         list.add(new CopexProperty(TAG_TASK_POSITION, "task_position", position.toXML()));
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -102,6 +111,7 @@ public class CopexLog {
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
         list.add(new CopexProperty(TAG_TASK, "", task.toXML()));
         list.add(new CopexProperty(TAG_TASK_POSITION, "task_position", position.toXML()));
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -115,6 +125,7 @@ public class CopexLog {
             list.add(new CopexProperty(TAG_TASK, "", listTask.get(i).toXML()));
             list.add(new CopexProperty(TAG_TASK_POSITION, "task_position", listPositionTask.get(i).toXML()));
         }
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -129,6 +140,7 @@ public class CopexLog {
             list.add(new CopexProperty(TAG_TASK_POSITION, "task_position", listPositionTask.get(i).toXML()));
         }
         list.add(new CopexProperty(TAG_TASK_POSITION, "insert_task_position", insertPosition.toXML()));
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -143,6 +155,7 @@ public class CopexLog {
         if(newHypothesis != null){
             list.add(new CopexProperty(TAG_NEW, "new_hypothesis", newHypothesis.toXML()));
         }
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
     /* log : genral principle */
@@ -156,6 +169,7 @@ public class CopexLog {
         if(newGeneralPrinciple != null){
             list.add(new CopexProperty(TAG_NEW, "new_general_principle", newGeneralPrinciple.toXML()));
         }
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
     /* log : evaluation */
@@ -169,6 +183,7 @@ public class CopexLog {
         if(newEvaluation != null){
             list.add(new CopexProperty(TAG_NEW, "new_evaluation", newEvaluation.toXML()));
         }
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -180,6 +195,7 @@ public class CopexLog {
         for(Iterator<MaterialUsed> m = listMaterialUsed.iterator();m.hasNext();){
             list.add(new CopexProperty(TAG_MATERIAL_USED, "material_used", m.next().toXML()));
         }
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
 
@@ -193,6 +209,7 @@ public class CopexLog {
             list.add(new CopexProperty(TAG_OLD, "old_material_used", oldListMaterialUsed.get(i).toXML()));
             list.add(new CopexProperty(TAG_NEW, "new_material_used", newListMaterialUsed.get(i).toXML()));
         }
+        list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
    
