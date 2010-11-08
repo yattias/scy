@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.logger;
 
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
@@ -35,6 +36,7 @@ public class FitexLog {
     private final static String TAG_DATASET_NAME = "dataset_name";
     private final static String TAG_DATA = "data";
     private final static String TAG_HEADER= "header";
+    private final static String TAG_ROW_VALUE= "row_value";
     private final static String TAG_OLD = "old";
     private final static String TAG_NEW = "new";
     private final static String TAG_FILE_NAME = "file_name";
@@ -167,10 +169,14 @@ public class FitexLog {
     }
 
     /* log: add row */
-    public static List<FitexProperty> logAddRow(Dataset ds, Locale locale , Data data){
+    public static List<FitexProperty> logAddRow(Dataset ds, Locale locale , DataSetRow row){
         List<FitexProperty> list = new LinkedList();
         list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
-        list.add(new FitexProperty(TAG_DATA, data.getValue(), data.toXMLLog()));
+        for(Iterator<String> values = row.getValues().iterator();values.hasNext();){
+            String v = values.next();
+            if(v != null && v.length() > 0)
+                list.add(new FitexProperty(TAG_ROW_VALUE, v, null));
+        }
         list.add(new FitexProperty(TAG_DATASET_MODEL, getModel(ds, locale), null));
         return list;
     }
