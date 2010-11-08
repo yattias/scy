@@ -157,7 +157,8 @@ public class Converter {
 						}
 						if (i == 8) {
 							sb.append("&nbsp;<a href=\"downloadElo.jsp?eloUri="
-									+ Base64.encodeToString(longValue.getBytes(), false)
+									+ Base64.encodeToString(
+											longValue.getBytes(), false)
 									+ "\"><img border=\"0\" src=\"table-images/save.gif\" height=\"16\" width=\"16\" title=\"Click to save\" /></a>");
 
 						}
@@ -182,7 +183,7 @@ public class Converter {
 		Tuple[] allActions = ts.readAll(new Tuple());
 		for (Tuple tuple : allActions) {
 			String user = tuple.getField(4).getValue().toString();
-			if (user.indexOf("@")==-1){
+			if (user.indexOf("@") == -1) {
 				continue;
 			}
 			user = user.substring(0, user.indexOf("@"));
@@ -260,14 +261,18 @@ public class Converter {
 
 	private boolean tupleShouldBeDropped(Tuple tuple) {
 		String user = tuple.getField(4).getValue().toString();
-		user = user.substring(0, user.indexOf("@"));
-		if (users == null || users.isEmpty()) {
-			return false;
-		} else {
-			for (int i = 0; i < users.size(); i++) {
-				if (user.toLowerCase().trim()
-						.equals(((String) users.get(i)).toLowerCase().trim())) {
-					return false;
+		if (user.indexOf("@") != -1) {
+			user = user.substring(0, user.indexOf("@"));
+			if (users == null || users.isEmpty()) {
+				return false;
+			} else {
+				for (int i = 0; i < users.size(); i++) {
+					if (user.toLowerCase()
+							.trim()
+							.equals(((String) users.get(i)).toLowerCase()
+									.trim())) {
+						return false;
+					}
 				}
 			}
 		}
