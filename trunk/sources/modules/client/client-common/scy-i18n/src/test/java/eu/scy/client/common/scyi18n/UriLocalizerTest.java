@@ -205,4 +205,12 @@ public class UriLocalizerTest
       assertEquals("", uriLocalizer.makePathLocalIfSpecified(""));
       assertEquals("c:/content/en/mission1", uriLocalizer.makePathLocalIfSpecified("http://www.scy-lab.eu/content/en/mission1"));
    }
+   
+   @Test
+   public void testFilePath() throws URISyntaxException{
+      final String filePath = "d:\\projects\\SCY\\code\\scy-trunk\\content\\";
+      UriLocalizer.localUriReplacements = UriLocalizer.createLocalUriReplacementFromString("http://www.scy-lab.eu/content->file:///"+filePath);
+      String newPath = uriLocalizer.makePathLocalIfSpecified("http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html");
+      URI uri = new URI(newPath);
+   }
 }
