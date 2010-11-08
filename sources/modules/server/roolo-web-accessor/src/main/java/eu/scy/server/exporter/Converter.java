@@ -183,10 +183,11 @@ public class Converter {
 		Tuple[] allActions = ts.readAll(new Tuple());
 		for (Tuple tuple : allActions) {
 			String user = tuple.getField(4).getValue().toString();
-			if (user.indexOf("@") == -1) {
+			int indexOfUserSeparator = user.indexOf("@");
+			if (indexOfUserSeparator == -1) {
 				continue;
 			}
-			user = user.substring(0, user.indexOf("@"));
+			user = user.substring(0, indexOfUserSeparator);
 			if (users.contains(user)) {
 				continue;
 			}
@@ -261,8 +262,9 @@ public class Converter {
 
 	private boolean tupleShouldBeDropped(Tuple tuple) {
 		String user = tuple.getField(4).getValue().toString();
-		if (user.indexOf("@") != -1) {
-			user = user.substring(0, user.indexOf("@"));
+		int indexOfUserSeparator = user.indexOf("@");
+		if (indexOfUserSeparator != -1) {
+			user = user.substring(0, indexOfUserSeparator);
 			if (users == null || users.isEmpty()) {
 				return false;
 			} else {
