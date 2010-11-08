@@ -12,8 +12,10 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <!--
             <property name="id" value="testMap"/>
             <property name="name" value="test mission"/>
+            -->
             <property name="loEloUris">
                <list>
                   <value>roolo://memory/2/0/help_elo_1.text</value>
@@ -29,6 +31,8 @@
                      <property name="xPosition" value="0"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="A great small las top left"/>
+                     <property name="lasType" value="ORIENTATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/2/0/help_elo_1.text</value>
@@ -86,6 +90,9 @@
                <property name="id" value="missionDescription"/>
                <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
                <property name="iconType" value="scy/drawing"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionBackground</value>
