@@ -11,6 +11,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
@@ -23,6 +24,8 @@ import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 import javax.swing.JPanel;
 
@@ -36,13 +39,17 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     private String session_name = "n/a";
     private IActionLogger actionLogger;
     private String eloUri = "n/a";
-
+    private final Logger logger;
 
     private String toolName;
+
+    private CopexNotificationManager copexNotificationManager;
 
     public ScyCopexPanel(String toolName) {
         super();
         this.toolName = toolName;
+        this.copexNotificationManager = new CopexNotificationManager();
+        logger = Logger.getLogger(ScyCopexPanel.class.getName());
         this.setLayout(new BorderLayout());
         
     }
@@ -136,4 +143,13 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     public Dimension getRealSize(){
         return copex.getInterfacePanel().getSize();
     }
+
+    public void processNotification(INotification notification) {
+        this.copexNotificationManager.processNotification(notification);
+    }
+
+    public String getNotification(){
+        return this.copexNotificationManager.getNotification();
+    }
+
 }
