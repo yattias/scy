@@ -12,8 +12,6 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
-            <property name="id" value="co2Mission"/>
-            <property name="name" value="Design a CO2-friendly house"/>
             <property name="loEloUris">
                <list>
                   <value>roolo://memory/37/0/Glossary.url</value>
@@ -21,8 +19,6 @@
             </property>
             <property name="lasses">
                <list>
-                  <!--
-                  -->
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="startPage"/>
                      <property name="xPosition" value="0"/>
