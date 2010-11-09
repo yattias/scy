@@ -92,6 +92,7 @@ public class Initializer {
    public-init var defaultMission = "";
    public-init var minimumRooloNewVersionListId = "";
    public-init var localAuthorRootPath = "";
+   public-init var disableRooloVersioning = false;
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -106,6 +107,7 @@ public class Initializer {
    def scyServerNameKey = "serverName";
    def sqlspacesServerKey = "sqlspacesServer";
    def minimumRooloNewVersionListIdKey = "minimumRooloNewVersionListId";
+   def disableRooloVersioningKey = "disableRooloVersioning";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
    def backgroundImageUrlOption = "backgroundImageUrl";
@@ -142,6 +144,7 @@ public class Initializer {
    def defaultMissionOption = "defaultMission";
    def minimumRooloNewVersionListIdOption = "minimumRooloNewVersionListId";
    def localAuthorRootPathOption = "localAuthorRootPath";
+   def disableRooloVersioningOption = "disableRooloVersioning";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -320,6 +323,9 @@ public class Initializer {
             } else if (option == localAuthorRootPathOption.toLowerCase()) {
                localAuthorRootPath = argumentsList.nextStringValue(localAuthorRootPathOption);
                logger.info("app: {localAuthorRootPath}: {localAuthorRootPath}");
+            } else if (option == disableRooloVersioningOption.toLowerCase()) {
+               disableRooloVersioning = argumentsList.nextBooleanValue(disableRooloVersioningOption);
+               logger.info("app: {disableRooloVersioning}: {disableRooloVersioning}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -365,6 +371,7 @@ public class Initializer {
       defaultMission = getWebstartParameterStringValue(defaultMissionOption, defaultMission);
       minimumRooloNewVersionListId = getWebstartParameterIntegerValueAsString(minimumRooloNewVersionListIdOption, minimumRooloNewVersionListId);
       localAuthorRootPath = getWebstartParameterStringValue(localAuthorRootPathOption, localAuthorRootPath);
+      disableRooloVersioning = getWebstartParameterBooleanValue(disableRooloVersioningOption, disableRooloVersioning);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -446,6 +453,7 @@ public class Initializer {
       printWriter.println("- usingRooloCache: {usingRooloCache}");
       printWriter.println("- minimumRooloNewVersionListId: {minimumRooloNewVersionListId}");
       printWriter.println("- localAuthorRootPath: {localAuthorRootPath}");
+      printWriter.println("- disableRooloVersioning: {disableRooloVersioning}");
    }
 
    public function isEmpty(string: String): Boolean {
@@ -684,6 +692,7 @@ public class Initializer {
    function setupToolBrokerLogin() {
       if (LoginType.LOCAL == loginTypeEnum) {
          System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
+         System.setProperty(disableRooloVersioningKey, Boolean.toString(disableRooloVersioning));
          var localToolBrokerLogin = new LocalToolBrokerLogin();
          if (localAuthorRootPath!=""){
             def localAuthorRoot = new File(localAuthorRootPath);
