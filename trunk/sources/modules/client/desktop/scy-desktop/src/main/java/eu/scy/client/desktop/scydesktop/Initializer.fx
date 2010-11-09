@@ -689,7 +689,7 @@ public class Initializer {
             def localAuthorRoot = new File(localAuthorRootPath);
             localToolBrokerLogin = new LocalToolBrokerLogin(localAuthorRoot);
             // set the default directory, where to look for the mission model specification
-            def missionSpecificationDir = new File(localAuthorRoot,"missionModel");
+            def missionSpecificationDir = new File(localAuthorRoot.getParentFile(),"missionModels");
             if (missionSpecificationDir.isDirectory()){
                EloXmlEditor.lastUsedDirectory = missionSpecificationDir;
             }
