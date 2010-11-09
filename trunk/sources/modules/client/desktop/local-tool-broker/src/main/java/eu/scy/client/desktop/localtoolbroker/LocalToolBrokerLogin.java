@@ -42,6 +42,14 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
       
    }
 
+   public LocalToolBrokerLogin(File storeRoot)
+   {
+      super();
+      System.setProperty(eloStoreDirectoryKey, new File(storeRoot,eloStoreDirectoryName).getAbsolutePath());
+      System.setProperty(loggingDirectoryKey, new File(loggingDirectoryName).getAbsolutePath());
+      
+   }
+
    public void prepare()
    {
       findGeneralDirectories();
