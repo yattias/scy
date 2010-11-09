@@ -32,6 +32,7 @@
       <property name="eloStoreDirectory" value="${eloStoreDirectory}"/>
       <property name="storeElosInStoreDirectory" value="${storeElosOnDisk}"/>
       <property name="minimumNewVersionListId" value="${minimumRooloNewVersionListId}"/>
+      <property name="disableEloVersioning" value="${disableRooloVersioning}"/>
    </bean>
 
    <import resource="localRooloMetadata.xml"/>
