@@ -39,7 +39,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 /**
  * @author sikken
  */
-protected var lastUsedDirectory: File = new File(".");
+public var lastUsedDirectory: File = new File(".");
 
 public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 

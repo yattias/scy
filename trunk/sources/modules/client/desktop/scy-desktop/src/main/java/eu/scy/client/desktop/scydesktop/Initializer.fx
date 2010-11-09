@@ -44,6 +44,7 @@ import eu.scy.toolbrokerapi.ToolBrokerLogin;
 import eu.scy.client.desktop.localtoolbroker.LocalToolBrokerLogin;
 import eu.scy.client.desktop.localtoolbroker.LocalMultiUserToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.tools.mission.EloXmlEditor;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -90,6 +91,7 @@ public class Initializer {
    public-init var usingRooloCache = true;
    public-init var defaultMission = "";
    public-init var minimumRooloNewVersionListId = "";
+   public-init var localAuthorRootPath = "";
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -139,6 +141,7 @@ public class Initializer {
    def usingRooloCacheOption = "usingRooloCache";
    def defaultMissionOption = "defaultMission";
    def minimumRooloNewVersionListIdOption = "minimumRooloNewVersionListId";
+   def localAuthorRootPathOption = "localAuthorRootPath";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -314,6 +317,9 @@ public class Initializer {
             } else if (option == minimumRooloNewVersionListIdOption.toLowerCase()) {
                minimumRooloNewVersionListId = "{argumentsList.nextIntegerValue(minimumRooloNewVersionListIdOption)}";
                logger.info("app: {minimumRooloNewVersionListIdOption}: {minimumRooloNewVersionListId}");
+            } else if (option == localAuthorRootPathOption.toLowerCase()) {
+               localAuthorRootPath = argumentsList.nextStringValue(localAuthorRootPathOption);
+               logger.info("app: {localAuthorRootPath}: {localAuthorRootPath}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -358,6 +364,7 @@ public class Initializer {
       usingRooloCache = getWebstartParameterBooleanValue(usingRooloCacheOption, usingRooloCache);
       defaultMission = getWebstartParameterStringValue(defaultMissionOption, defaultMission);
       minimumRooloNewVersionListId = getWebstartParameterIntegerValueAsString(minimumRooloNewVersionListIdOption, minimumRooloNewVersionListId);
+      localAuthorRootPath = getWebstartParameterStringValue(localAuthorRootPathOption, localAuthorRootPath);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -438,6 +445,7 @@ public class Initializer {
       printWriter.println("- localUriReplacements: {localUriReplacements}");
       printWriter.println("- usingRooloCache: {usingRooloCache}");
       printWriter.println("- minimumRooloNewVersionListId: {minimumRooloNewVersionListId}");
+      printWriter.println("- localAuthorRootPath: {localAuthorRootPath}");
    }
 
    public function isEmpty(string: String): Boolean {
@@ -677,17 +685,29 @@ public class Initializer {
       if (LoginType.LOCAL == loginTypeEnum) {
          System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
          var localToolBrokerLogin = new LocalToolBrokerLogin();
+         if (localAuthorRootPath!=""){
+            def localAuthorRoot = new File(localAuthorRootPath);
+            localToolBrokerLogin = new LocalToolBrokerLogin(localAuthorRoot);
+            // set the default directory, where to look for the mission model specification
+            def missionSpecificationDir = new File(localAuthorRoot,"missionModel");
+            if (missionSpecificationDir.isDirectory()){
+               EloXmlEditor.lastUsedDirectory = missionSpecificationDir;
+            }
+            else{
+               EloXmlEditor.lastUsedDirectory = localAuthorRoot;
+            }
+         }
          localToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
          localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
          toolBrokerLogin = localToolBrokerLogin;
       } else if (loginTypeEnum.LOCAL_MULTI_USER == loginTypeEnum) {
          System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
-         var localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
+         def localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
          localMultiUserToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
          localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
          toolBrokerLogin = localMultiUserToolBrokerLogin;
       } else if (loginTypeEnum.REMOTE == loginTypeEnum) {
-         var remoteToolBrokerLogin = new RemoteToolBrokerLogin();
+         def remoteToolBrokerLogin = new RemoteToolBrokerLogin();
          remoteToolBrokerLogin.setSpringConfigFile(remoteToolBrokerLoginConfigFile);
          toolBrokerLogin = remoteToolBrokerLogin;
       } else {
