@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/url</format>
+      <customElements>
+        <dateCreated>1266853074153</dateCreated>
+        <dateLastModified>1266853074153</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Research questions of my expert group</string>
+        <string language="fr">Questions de recherche de mon groupe d'expert</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>information</structure>
+      <mission>co2Mission</mission>
+      <las>conceptualizationExperts</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/604/0/Research_questions_of_my_expert_group.url</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-22T16:37:54.153+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission1_UT1004/LAS_Conceptualization_expert/Assignments/A_Research_questions.html</url>
+</content>
+<resources>
+</resources>
+</elo>
