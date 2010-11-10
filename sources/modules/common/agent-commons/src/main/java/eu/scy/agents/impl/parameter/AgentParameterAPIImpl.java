@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import eu.scy.common.configuration.Configuration;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -19,7 +20,19 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
 
 	private TupleSpace tupleSpace;
 
-	public AgentParameterAPIImpl(String tsHost, int tsPort) {
+    public AgentParameterAPIImpl() {
+        int tsPort = Configuration.getInstance().getSQLSpacesServerPort();
+        String tsHost = Configuration.getInstance().getSQLSpacesServerHost();
+        try {
+            tupleSpace = new TupleSpace(new User(TS_USER), tsHost, tsPort,
+                    true, false, AgentProtocol.COMMAND_SPACE_NAME);
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public AgentParameterAPIImpl(String tsHost, int tsPort) {
 		try {
 			tupleSpace = new TupleSpace(new User(TS_USER), tsHost, tsPort,
 					true, false, AgentProtocol.COMMAND_SPACE_NAME);

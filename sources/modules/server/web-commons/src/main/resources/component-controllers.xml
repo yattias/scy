@@ -44,6 +44,7 @@
                    /components/ajaxDatePicker.html=ajaxDatePickerController
 
                    /components/ajaxELOTextField.html=ajaxELOTextFieldController
+                   /components/ajaxELOSlider.html=ajaxELOSliderController
 
 
 
@@ -93,6 +94,11 @@
     <bean id="ajaxELOTextFieldController" class="eu.scy.server.controllers.AjaxELOTextFieldController">
         <property name="rooloServices" ref="missionELOService"/>
 	</bean>
+
+    <bean id="ajaxELOSliderController" class="eu.scy.server.controllers.AjaxELOSliderController">
+        <property name="rooloServices" ref="missionELOService"/>
+	</bean>
+
 
 
 

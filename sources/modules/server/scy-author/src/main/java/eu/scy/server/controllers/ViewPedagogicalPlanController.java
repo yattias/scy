@@ -46,23 +46,32 @@ public class ViewPedagogicalPlanController extends BaseController {
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
+            Integer globalScaffoldingLevel = getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo);
+
             modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
-            modelAndView.addObject("missionGlobalScaffoldingLevel", getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo));
+            modelAndView.addObject("missionGlobalScaffoldingLevel", globalScaffoldingLevel);
 
             String action = request.getParameter("action");
-            if(action != null) {
-                if(action.equals("increaseScaffoldingLevel")) {
+            if (action != null) {
+                if (action.equals("increaseScaffoldingLevel")) {
                     increaseScaffoldingLevel(request, response, modelAndView, missionSpecificationElo);
 
                 }
 
             }
 
+            List agentLevels = new LinkedList();
+            agentLevels.add("Low");
+            agentLevels.add("Medium");
+            agentLevels.add("High");
+            modelAndView.addObject("agentLevels", agentLevels);
 
-            
+            modelAndView.addObject("scaffoldingLevel", globalScaffoldingLevel);
+            modelAndView.addObject("rooloServices", getMissionELOService());
+
 
         } catch (URISyntaxException e) {
-            e.printStackTrace();  
+            e.printStackTrace();
         }
 
         /*String pedPlanId = request.getParameter("id");
@@ -139,14 +148,14 @@ public class ViewPedagogicalPlanController extends BaseController {
     }
 
     public String getCurrentUserName(HttpServletRequest request) {
-       org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+        org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
         logger.info("UserName: " + user.getUsername());
-       return user.getUsername();
-   }
+        return user.getUsername();
+    }
 
-   public User getCurrentUser(HttpServletRequest request) {
-       return getUserService().getUser(getCurrentUserName(request));
-   }
+    public User getCurrentUser(HttpServletRequest request) {
+        return getUserService().getUser(getCurrentUserName(request));
+    }
 
     public MissionELOService getMissionELOService() {
         return missionELOService;

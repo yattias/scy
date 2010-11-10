@@ -83,6 +83,7 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
 
     @Override
     public void setGlobalMissionScaffoldingLevel(ScyElo scyElo, Object value) {
+        log.info("SETTING MISSION SCAFFOLDING LEVEL: " + value);
         if(value instanceof String ) value = Integer.valueOf((String) value);
         Integer scaffoldingLevel = (Integer) value;
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
@@ -93,7 +94,7 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
 
     @Override
     public Integer getGlobalMissionScaffoldingLevel(ScyElo scyElo) {
-        MissionSpecificationElo missionSpecificationElo = (MissionSpecificationElo) scyElo;
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
         RuntimeSettingsElo elo = getRuntimeSettingsElo(missionSpecificationElo);
         List <RuntimeSetting> settings = elo.getTypedContent().getAllSettings();
         String stringLevel = null;
