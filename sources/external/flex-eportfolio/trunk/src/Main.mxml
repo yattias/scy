@@ -44,10 +44,14 @@
 			
 			public static const THEME_COL:Number = 0x459BF9;
 			public static const BACK_GRADIENT_TOP:Number = 0xB5D6FB;
-			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF; */
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF; 
 			
 			public static const THEME_COL:Number = 0x0096AE;
 			public static const BACK_GRADIENT_TOP:Number = 0x83a6ac;
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF; */
+			
+			public static const THEME_COL:Number = 0x333333;
+			public static const BACK_GRADIENT_TOP:Number = 0x999999;
 			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
 			
 			[Bindable] private var needsRefresh:Boolean = false;
@@ -56,7 +60,7 @@
 			
 			private var editReflection:Boolean;
 			
-			public static const ALT_BOX_INIT_X:Number = -350;
+			public static const ALT_BOX_INIT_X:Number = -450;
 			
 			private function retrieveUserInfo():void {
 				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
@@ -213,6 +217,7 @@
 					subCE.hasBeenSelectedForSubmit = selectedElo.hasBeenSelectedForSubmit;
 					subCE.highLightELO(subCE.hasBeenSelectedForSubmit);
 					subCE.percentInquiry = selectedElo.percentInquiry;
+					subCE.inquiryPic = selectedElo.inquiryPic;
 					
 					if(subCE.hasBeenSelectedForSubmit) {
 						validSubcanvas = subCE;

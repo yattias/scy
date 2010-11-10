@@ -70,10 +70,15 @@
 			
 			private function showInfoBox(evt:MouseEvent):void {
 				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).description;
-				glgInfo.htmlText = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: " +(evt.target).glg;
+				//glgInfo.htmlText = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: " +(evt.target).glg;
+				var glgString:String = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: <br>";
+				for(var i:Number = 0; i<(evt.target).glg.length; i++) {
+					glgString = glgString + "     - " + ((evt.target).glg[i][0].entry).goal + "<br>";
+				}
+				glgInfo.htmlText = glgString;
 				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
 				for(var i:Number = 0; i<(evt.target).slg.length; i++) {
-					slgString = slgString + "     - " + (evt.target).slg[i].goal + "<br>";
+					slgString = slgString + "     - " + ((evt.target).slg[i][0].entry).goal + "<br>";
 				}
 				slgInfo.htmlText = slgString;
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).reflection;
@@ -151,7 +156,7 @@
 					</s:NavigatorContent>
 					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT4')}" width="100%" height="100%" >
 						<mx:VBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
-							<mx:VBox width="100%" verticalGap="0">
+							<mx:VBox verticalGap="0" horizontalCenter="0">
 								<mx:Text id="refOnInqText" text="{Main.REF_ON_INQ_TXT}" width="400" />
 								<mx:HBox width="400" height="33" horizontalGap="{(400-4*30)/3}">
 									<mx:Image source="assets/images/emoticons/1.png" width="30" height="33" />
@@ -175,7 +180,7 @@
 	</mx:VBox>	
 	
 	<s:BorderContainer id="altBox" width="300" x="{Main.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
-		<mx:VBox left="3" right="3" height="100%" verticalGap="5" color="#333333">
+		<mx:VBox left="3" right="3" height="100%" verticalGap="2" color="#333333">
 			<mx:Text id="descriptionInfo" width="100%" />
 			<mx:Text id="glgInfo" width="100%" />
 			<mx:Text id="slgInfo" width="100%" />

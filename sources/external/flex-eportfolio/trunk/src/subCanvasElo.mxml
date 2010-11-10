@@ -22,7 +22,7 @@
 			[Bindable] public var createdby:String;
 			[Bindable] public var modified:String;
 			[Bindable] public var description:String;
-			[Bindable] public var glg:String;
+			[Bindable] public var glg:ArrayCollection;
 			[Bindable] public var slg:ArrayCollection;
 			[Bindable] public var reflection:String;
 			[Bindable] public var hasBeenSelectedForSubmit:Boolean = false;

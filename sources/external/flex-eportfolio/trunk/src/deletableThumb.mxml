@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:HBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="220" height="230" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="none" horizontalGap="0">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="220" height="230" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="none" horizontalGap="0" buttonMode="true">
 	
 	<fx:Declarations>
 		<s:Fade id="fadeOut" alphaFrom="1" alphaTo="0" duration="1000"  target="{optionsCanvas}" />

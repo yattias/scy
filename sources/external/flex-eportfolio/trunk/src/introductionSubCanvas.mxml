@@ -81,12 +81,19 @@
 			
 			private function showInfoBox(evt:MouseEvent):void {
 				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).description;
-				glgInfo.htmlText = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: " +(evt.target).glg;
+				//glgInfo.htmlText = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: " +(evt.target).glg;
+				var glgString:String = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: <br>";
+				for(var i:Number = 0; i<(evt.target).glg.length; i++) {
+					glgString = glgString + "     - " + ((evt.target).glg[i][0].entry).goal + "<br>";
+				}
+				glgInfo.htmlText = glgString;
+				
 				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
 				for(var i:Number = 0; i<(evt.target).slg.length; i++) {
-					slgString = slgString + "     - " + (evt.target).slg[i].goal + "<br>";
+					slgString = slgString + "     - " + ((evt.target).slg[i][0].entry).goal + "<br>";
 				}
 				slgInfo.htmlText = slgString;
+				
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).reflection;
 				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).percentInquiry;
 				reflectionInqImg.source = (evt.target).inquiryPic;
@@ -144,8 +151,8 @@
 		<mx:Tile id="tile" width="100%" direction="horizontal" borderStyle="none" horizontalGap="20" verticalGap="20" includeIn="withElos" />
 	</mx:VBox>
  	
-	<s:BorderContainer id="altBox" width="300" x="{Main.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
-		<mx:VBox left="3" right="3" height="100%" verticalGap="5" color="#333333">
+	<s:BorderContainer id="altBox" width="400" x="{Main.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+		<mx:VBox left="3" right="3" height="100%" verticalGap="2" color="#333333">
 			<mx:Text id="descriptionInfo" width="100%" />
 			<mx:Text id="glgInfo" width="100%" />
 			<mx:Text id="slgInfo" width="100%" />
