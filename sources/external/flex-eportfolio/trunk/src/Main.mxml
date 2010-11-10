@@ -54,6 +54,8 @@
 			[Bindable] private var accordionTarget:Number = 0;
 			[Bindable] private var eloSelectedToSubmit:Boolean = false;
 			
+			private var editReflection:Boolean;
+			
 			public static const ALT_BOX_INIT_X:Number = -350;
 			
 			private function retrieveUserInfo():void {
@@ -75,6 +77,7 @@
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
+				editReflection = evt.editReflection;
 				accordionTarget = evt.accordionTarget;
 				needsRefresh = evt.eloToAdd;
 				eloSelectedToSubmit = evt.eloSelectedToSubmit;
@@ -238,7 +241,7 @@
 							(mainStack.selectedChild as searchCanvas).refreshContent();
 							break;
 						case STACK_REFLEC_PANEL:
-							(mainStack.selectedChild as reflectionCanvas).refreshContent();
+							(mainStack.selectedChild as reflectionCanvas).refreshContent(editReflection);
 							break;
 						case STACK_SUBMIT_PANEL:
 							(mainStack.selectedChild as submitCanvas).refreshView(accordionTarget);

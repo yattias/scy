@@ -57,6 +57,7 @@
 						
 						var selecCol:deletableThumb = new deletableThumb();
 						tile.addChild(selecCol);	
+						selecCol.attachedElo = selectedElo;
 						selecCol.addChildAt(subCE, 0);
 						selecCol.addEventListener(MouseEvent.MOUSE_DOWN, showDeleteBox);
 						selecCol.eloIndex = i;
@@ -65,14 +66,17 @@
 			}
 			
 			private function deleteSpecifiedElo(evt:DeleteEvent):void {
-				trace("ok, let's remove: "+evt.selecIndex);
 				elosArray.removeItemAt(evt.selecIndex);
 				tile.removeAllChildren();
-				refreshView();
+				if(evt.needsRefreshing) {
+					refreshView();
+				}
 			}
 			
 			private function showDeleteBox(evt:MouseEvent):void {
-				(evt.target.parent as deletableThumb).slideDeleteBox();
+				if(evt.target.parent.className == "deletableThumb") {
+					(evt.target.parent as deletableThumb).slideDeleteBox();
+				}
 			}
 			
 			private function showInfoBox(evt:MouseEvent):void {
