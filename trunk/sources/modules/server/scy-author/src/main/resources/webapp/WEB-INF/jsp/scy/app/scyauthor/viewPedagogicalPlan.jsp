@@ -20,14 +20,14 @@
                         <strong>Mission name</strong>
                     </td>                   '
                     <td>
-                        <s:ajaxELOTextField property="globalMissionScaffoldingLevel" eloURI="${missionSpecificationTransporter.uri}"/>
+                        <s:ajaxELOTextField property="globalMissionScaffoldingLevel" eloURI="${missionSpecificationTransporter.uri}" rooloServices="${rooloServices}"/>
                     </td>
                 </tr> <tr class="${oddEven.oddEven}">
                     <td>
                         <strong>Scaffolding level</strong>
                     </td>                   '
                     <td>
-                        ${missionGlobalScaffoldingLevel}  <a href="viewPedagogicalPlan.html?uri=${missionSpecificationTransporter.uri}&action=increaseScaffoldingLevel">+</a>
+                        <s:ajaxELOSlider sliderValues="${agentLevels}" defaultValue="${scaffoldingLevel}" eloURI="${missionSpecificationTransporter.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/>
                     </td>
                 </tr>
             </table>
