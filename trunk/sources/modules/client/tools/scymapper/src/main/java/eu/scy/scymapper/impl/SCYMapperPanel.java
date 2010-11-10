@@ -143,7 +143,6 @@ public class SCYMapperPanel extends JPanel {
         suggestionPanel.setSuggestions(keywords, category, configuration.getNodeFactories(), "concept", false);
 
         suggestionPanel.setSize(300, cmapPanel.getHeight()-2);
-        System.out.println(suggestionPanel.getLocation());
         suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
                 BorderFactory.createRaisedBevelBorder()));
 

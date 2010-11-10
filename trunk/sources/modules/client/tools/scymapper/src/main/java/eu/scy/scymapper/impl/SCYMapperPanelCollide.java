@@ -23,6 +23,7 @@ import eu.scy.scymapper.impl.ui.FadeNotificator;
 import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.Notificator;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
+import eu.scy.scymapper.impl.ui.notification.ConceptBrowserPanel;
 import eu.scy.scymapper.impl.ui.notification.DoubleKeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
@@ -30,13 +31,19 @@ import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBarCollide;
 
 public class SCYMapperPanelCollide extends SCYMapperPanel {
 
-    private final static FadeNotificator.Position NOTIFY_POSITION = FadeNotificator.Position.EAST;
+    private final static FadeNotificator.Position SUGGEST_KEYWORD_POSITION = FadeNotificator.Position.EAST;
+
+    private final static FadeNotificator.Position LEXICON_POSITION = FadeNotificator.Position.LOWER_LEFT_CORNER;
 
     private SCYMapperStandaloneConfig standaloneConfig;
 
+    private ConceptBrowserPanel conceptBrowserPanel;
+    
     private JButton requestConceptHelpButton;
 
     private JButton requestRelationHelpButton;
+
+    private JButton requestLexiconButton;
 
     private Timer timer;
 
@@ -53,8 +60,19 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     @Override
     protected Notificator createNotificator(JComponent parent, JPanel panel) {
-    	int yOffset = -cmapPanel.getY();
-    	FadeNotificator fn = new FadeNotificator(parent, panel, NOTIFY_POSITION, 0, yOffset);
+        return createNotificator(parent, panel, SUGGEST_KEYWORD_POSITION);
+    }
+
+    protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position) {
+//    	int yOffset = -cmapPanel.getY();
+//    	FadeNotificator fn = new FadeNotificator(parent, panel, position, 0, yOffset);
+    	FadeNotificator fn = new FadeNotificator(parent, panel, position);
+    	fn.setBorderPainted(false);
+        return fn;
+    }
+
+    protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position, int xOffset, int yOffset) {
+    	FadeNotificator fn = new FadeNotificator(parent, panel, position, xOffset, yOffset);
     	fn.setBorderPainted(false);
         return fn;
     }
@@ -129,6 +147,22 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                 // Same as no help
                 break;
         }
+
+		requestLexiconButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestLexicon"));
+		requestLexiconButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showLexicon();
+			}
+
+		});
+		toolBar.add(requestLexiconButton);
+		
+        conceptBrowserPanel = new ConceptBrowserPanel();
+        conceptBrowserPanel.setVisible(false);
+        add(BorderLayout.SOUTH, conceptBrowserPanel);
+
     }
 
     @Override
@@ -184,6 +218,37 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
 			notificator.show();
         }
+    }
+
+    public void showLexicon() {
+
+    	conceptBrowserPanel = new ConceptBrowserPanel();
+    	conceptBrowserPanel.readLexicon();
+
+    	conceptBrowserPanel.setSize(250, 250);
+    	conceptBrowserPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
+                BorderFactory.createRaisedBevelBorder()));
+
+        if (notificator != null) {
+            notificator.hide();
+        }
+        
+        notificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, cmapPanel.getX(), 0);
+
+        JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
+        close.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notificator.hide();
+            }
+        });
+
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(close);
+        conceptBrowserPanel.add(BorderLayout.SOUTH, close);
+
+        notificator.show();
     }
 
     protected void requestConceptHelp() {
