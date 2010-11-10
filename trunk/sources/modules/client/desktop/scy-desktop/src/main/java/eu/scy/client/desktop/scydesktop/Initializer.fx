@@ -93,6 +93,7 @@ public class Initializer {
    public-init var minimumRooloNewVersionListId = "";
    public-init var localAuthorRootPath = "";
    public-init var disableRooloVersioning = false;
+   public-init var dontUseMissionRuntimeElos = false;
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -145,6 +146,7 @@ public class Initializer {
    def minimumRooloNewVersionListIdOption = "minimumRooloNewVersionListId";
    def localAuthorRootPathOption = "localAuthorRootPath";
    def disableRooloVersioningOption = "disableRooloVersioning";
+   def dontUseMissionRuntimeElosOption = "dontUseMissionRuntimeElos";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -326,6 +328,9 @@ public class Initializer {
             } else if (option == disableRooloVersioningOption.toLowerCase()) {
                disableRooloVersioning = argumentsList.nextBooleanValue(disableRooloVersioningOption);
                logger.info("app: {disableRooloVersioning}: {disableRooloVersioning}");
+            } else if (option == dontUseMissionRuntimeElosOption.toLowerCase()) {
+               dontUseMissionRuntimeElos = argumentsList.nextBooleanValue(dontUseMissionRuntimeElosOption);
+               logger.info("app: {dontUseMissionRuntimeElos}: {dontUseMissionRuntimeElos}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -372,6 +377,7 @@ public class Initializer {
       minimumRooloNewVersionListId = getWebstartParameterIntegerValueAsString(minimumRooloNewVersionListIdOption, minimumRooloNewVersionListId);
       localAuthorRootPath = getWebstartParameterStringValue(localAuthorRootPathOption, localAuthorRootPath);
       disableRooloVersioning = getWebstartParameterBooleanValue(disableRooloVersioningOption, disableRooloVersioning);
+      dontUseMissionRuntimeElos = getWebstartParameterBooleanValue(dontUseMissionRuntimeElosOption, dontUseMissionRuntimeElos);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -454,6 +460,7 @@ public class Initializer {
       printWriter.println("- minimumRooloNewVersionListId: {minimumRooloNewVersionListId}");
       printWriter.println("- localAuthorRootPath: {localAuthorRootPath}");
       printWriter.println("- disableRooloVersioning: {disableRooloVersioning}");
+      printWriter.println("- dontUseMissionRuntimeElos: {dontUseMissionRuntimeElos}");
    }
 
    public function isEmpty(string: String): Boolean {
