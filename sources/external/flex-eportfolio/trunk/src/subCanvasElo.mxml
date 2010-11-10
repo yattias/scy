@@ -28,7 +28,8 @@
 			[Bindable] public var hasBeenSelectedForSubmit:Boolean = false;
 			[Bindable] public var hasBeenReflectedOn:Boolean = false;
 			[Bindable] public var eloIndex:Number;
-			[Bindable] public var percentInquiry:Number;
+			[Bindable] public var percentInquiry:String;
+			[Bindable] public var inquiryPic:String;
 			
 			[Bindable] private var graphicHighlight:Boolean = false;
 			[Bindable] private var alphaValue:Number = .1;
@@ -38,7 +39,8 @@
 				graphicHighlight = b;
 				if(b) {
 					alphaValue = .2;
-					alphaColor = 0xBBFFBB;
+					//alphaColor = 0xBBFFBB;
+					alphaColor = 0xFF0000;
 				}
 				else {
 					alphaValue = .1;
@@ -50,7 +52,7 @@
 
 		]]>
 	</fx:Script>
-	<mx:VBox id="box" top="5" left="5" bottom="5" right="5" verticalGap="5" borderColor="#BBFFBB" borderStyle="solid" borderVisible="{graphicHighlight}">
+	<mx:VBox id="box" top="5" left="5" bottom="5" right="5" verticalGap="5" borderColor="#FF0000" borderStyle="solid" borderVisible="{graphicHighlight}">
 		<mx:Image source="{thumbnail}" width="100" height="100"/>
 		<mx:Text width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_NAME')+': '+eloName}" />
 		<mx:Text width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_BY')+': '+createdby}"/>

@@ -70,17 +70,22 @@
 						selectedElo.rReflec = reflectionArea.text;
 						selectedElo.hasBeenReflectedOn = true;
 						
-						switch(refOnInqTextSlider.value) {
-							case 1:
-								selectedElo.percentInquiry = 1;
-								break;
-							case 2:
-								selectedElo.percentInquiry = 5;
-								break;
-							case 3:
-								selectedElo.percentInquiry = 10;
-								break;
-						} 
+						selectedElo.percentInquiry = refOnInqText.text;
+						selectedElo.inquiryPic = "assets/images/emoticons/"+new String(refOnInqTextSlider.value+1)+".png";
+						
+						
+						
+						
+//						switch(refOnInqTextSlider.value) {
+//							case 1:
+//								break;
+//							case 2:
+//								selectedElo.percentInquiry = refOnInqTextSlider.labels[1];
+//								break;
+//							case 3:
+//								selectedElo.percentInquiry = refOnInqTextSlider.labels[2];
+//								break;
+//						} 
 						
 						so.data.searchSelection = selectedElo;
 						so.flush();
@@ -201,10 +206,16 @@
 				</mx:FormItem>
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'REF_ON_INQ')+':'}">
-					<mx:VBox width="100%">
+					<mx:VBox width="100%" verticalGap="0">
 						<mx:Text id="refOnInqText" text="{Main.REF_ON_INQ_TXT}" width="400" />
-						<mx:HSlider id="refOnInqTextSlider" minimum="1" maximum="3" value="2" dataTipPlacement="top" tickColor="0x323232"
-								   snapInterval="1" tickInterval="1" labels="['Not much','Somewhat','Very much']" allowTrackClick="true" width="400" showDataTip="false"/>
+						<mx:HBox width="400" height="33" horizontalGap="{(400-4*30)/3}">
+							<mx:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+							<mx:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+							<mx:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+							<mx:Image source="assets/images/emoticons/4.png" width="30" height="33" />
+						</mx:HBox>
+						<mx:HSlider id="refOnInqTextSlider" minimum="1" maximum="4" value="2" dataTipPlacement="top" tickColor="0x323232"
+								   snapInterval="1" tickInterval="1" allowTrackClick="true" width="400" showDataTip="false"/>
 					</mx:VBox>
 				</mx:FormItem>
 				

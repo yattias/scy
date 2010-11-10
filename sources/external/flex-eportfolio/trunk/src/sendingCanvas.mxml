@@ -78,6 +78,7 @@
 				slgInfo.htmlText = slgString;
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).reflection;
 				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).percentInquiry;
+				reflectionInqImg.source = (evt.target).inquiryPic;
 				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
 			}
 			
@@ -150,14 +151,17 @@
 					</s:NavigatorContent>
 					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT4')}" width="100%" height="100%" >
 						<mx:VBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
-							<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT4')+':'}" required="true" height="90%">
-								<mx:VBox width="100%">
-									<mx:Text id="refOnInqText" text="{resourceManager.getString('resources', 'SENDING_TEXT4')}" width="400" />
-									<mx:Spacer height="10"/>
-									<mx:HSlider id="reflectionArea4" minimum="1" maximum="3" value="2" tickColor="0x323232"
-												snapInterval="1" tickInterval="1" labels="['Not at all','Somewhat','Very']" allowTrackClick="true" width="500" />
-								</mx:VBox>
-							</mx:FormItem>
+							<mx:VBox width="100%" verticalGap="0">
+								<mx:Text id="refOnInqText" text="{Main.REF_ON_INQ_TXT}" width="400" />
+								<mx:HBox width="400" height="33" horizontalGap="{(400-4*30)/3}">
+									<mx:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+									<mx:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+									<mx:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+									<mx:Image source="assets/images/emoticons/4.png" width="30" height="33" />
+								</mx:HBox>
+								<mx:HSlider id="refOnInqTextSlider" minimum="1" maximum="4" value="2" dataTipPlacement="top" tickColor="0x323232"
+											snapInterval="1" tickInterval="1" allowTrackClick="true" width="400" showDataTip="false"/>
+							</mx:VBox>
 						</mx:VBox>
 					</s:NavigatorContent>
 				</mx:ViewStack>
@@ -171,12 +175,15 @@
 	</mx:VBox>	
 	
 	<s:BorderContainer id="altBox" width="300" x="{Main.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{Main.THEME_COL}" dropShadowVisible="true" backgroundColor="{Main.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
-		<mx:VBox width="100%" height="100%" verticalGap="5" color="#333333">
+		<mx:VBox left="3" right="3" height="100%" verticalGap="5" color="#333333">
 			<mx:Text id="descriptionInfo" width="100%" />
 			<mx:Text id="glgInfo" width="100%" />
 			<mx:Text id="slgInfo" width="100%" />
 			<mx:Text id="reflectionInfo" width="100%" />
-			<mx:Text id="reflectionInq" width="100%" />
+			<mx:HBox width="100%" verticalAlign="middle" right="3">
+				<mx:Text id="reflectionInq" width="100%" />
+				<mx:Image id="reflectionInqImg" width="30" height="33" />
+			</mx:HBox>
 		</mx:VBox>
 	</s:BorderContainer>
 	

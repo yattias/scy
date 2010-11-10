@@ -8,6 +8,7 @@
 			import flashx.textLayout.events.SelectionEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.RadioButton;
 			import mx.controls.RadioButtonGroup;
 			import mx.events.ItemClickEvent;
 			
@@ -22,7 +23,12 @@
 			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
 				hasSelectionBeenMade = true;
 				setLabel();
-				updateSharedObjectELOsArray(event.index);
+				if(event.index != -1) {
+					updateSharedObjectELOsArray(event.index);
+				}
+				else {
+					updateSharedObjectELOsArray(0);
+				}
 				var sEvent:SelectionEvent = new SelectionEvent(Main.SELECTION_COMMAND, true);
 				dispatchEvent(sEvent);
 			}
@@ -94,6 +100,11 @@
 						hasSelectionBeenMade = true;
 						setLabel();
 					}
+				}
+				
+				if(!hasSelectionBeenMade && selectionArray.length > 0) {
+					((selectionTile.getChildAt(0) as selectableThumb).rb as RadioButton).selected = true;
+					rg.dispatchEvent(new ItemClickEvent(ItemClickEvent.ITEM_CLICK));
 				}
 			}
 			
