@@ -308,12 +308,12 @@ public class ScyElo
       getMetadataValueContainer(descriptionKey).setValue(description);
    }
 
-   public long getDateCreated()
+   public Long getDateCreated()
    {
       return (Long) getMetadataValueContainer(dateCreatedKey).getValue();
    }
 
-   public long getDateLastModified()
+   public Long getDateLastModified()
    {
       return (Long) getMetadataValueContainer(dateLastModifiedKey).getValue();
    }
@@ -383,7 +383,14 @@ public class ScyElo
       String value = (String) getMetadataValueContainer(functionalRoleKey).getValue();
       if (value != null)
       {
-         return EloFunctionalRole.valueOf(value);
+         try
+         {
+            return EloFunctionalRole.valueOf(value);
+         }
+         catch (IllegalArgumentException e)
+         {
+            logger.info("unkown functional role value (" + value + ") in elo: " + getUri() );
+         }
       }
       return null;
    }
@@ -407,7 +414,14 @@ public class ScyElo
       String value = (String) getMetadataValueContainer(logicalRoleKey).getValue();
       if (value != null)
       {
-         return EloLogicalRole.valueOf(value);
+         try
+         {
+            return EloLogicalRole.valueOf(value);
+         }
+         catch (Exception e)
+         {
+            logger.info("unkown logical role value (" + value + ") in elo: " + getUri() );
+         }
       }
       return null;
    }
