@@ -23,9 +23,7 @@ public class SCYMapperStandaloneConfig {
 
     private static SCYMapperStandaloneConfig instance = null;
 
-    // private static final String LOCAL_CONFIG_FILE_PATH =
-    // "src/main/java/eu/scy/scymapper/";
-    private static final String LOCAL_CONFIG_FILE_PATH = "";
+    private static final String LOCAL_CONFIG_FILE_PATH = "src/main/resources/eu/scy/scymapper/";
 
     private static final String LOCAL_CONFIG_FILE = "scymapper.properties";
 
@@ -45,11 +43,13 @@ public class SCYMapperStandaloneConfig {
 
     private static final String KEY_RELATIONS = "Relations";
 
-    private static final String SQLSPACES_HOST = "sqlspaces.host";
+    private static final String KEY_LEXICON = "Lexicon";
+
+    private static final String KEY_SQLSPACES_HOST = "sqlspaces.host";
 
     private static final String DEFAULT_SQLSPACES_HOST = "127.0.0.1";
 
-    private static final String SQLSPACES_PORT = "sqlspaces.port";
+    private static final String KEY_SQLSPACES_PORT = "sqlspaces.port";
 
     private static final int DEFAULT_SQLSPACES_PORT = 2525;
 
@@ -81,6 +81,10 @@ public class SCYMapperStandaloneConfig {
         props.setProperty(KEY_HELP_MODE, DEFAULT_HELP_MODE.name());
 
         props.setProperty(KEY_CONTINUOUS_HELP_WAIT_TIME, String.valueOf(DEFAULT_CON_HELP_WAIT_TIME));
+
+        props.setProperty(KEY_SQLSPACES_HOST, DEFAULT_SQLSPACES_HOST);
+
+        props.setProperty(KEY_SQLSPACES_PORT, String.valueOf(DEFAULT_SQLSPACES_PORT));
     }
 
     public static SCYMapperStandaloneConfig getInstance() {
@@ -107,6 +111,21 @@ public class SCYMapperStandaloneConfig {
 
             }
             return relationsAsList;
+
+        } catch (IllegalArgumentException iae) {
+            return null;
+        }
+    }
+
+    public List<String> getLexicon() {
+        try {
+            String[] entries = config.getProperty(KEY_LEXICON).split(",");
+            List<String> entriesAsList = new ArrayList<String>();
+            for (String string : entries) {
+                entriesAsList.add(string.trim());
+
+            }
+            return entriesAsList;
 
         } catch (IllegalArgumentException iae) {
             return null;
@@ -150,15 +169,11 @@ public class SCYMapperStandaloneConfig {
     }
 
     public String getSQLSpacesHost() {
-        try {
-            return config.getProperty(SQLSPACES_HOST);
-        } catch (NumberFormatException e) {
-            return DEFAULT_SQLSPACES_HOST;
-        }
+    	return config.getProperty(KEY_SQLSPACES_HOST);
     }
     public int getSQLSpacesPort() {
         try {
-            return Integer.parseInt(config.getProperty(SQLSPACES_PORT));
+            return Integer.parseInt(config.getProperty(KEY_SQLSPACES_PORT));
         } catch (NumberFormatException e) {
             return DEFAULT_SQLSPACES_PORT;
         }

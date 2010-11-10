@@ -149,7 +149,6 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
      * Values greater then zero move the element to the right,
      * values lesser then zero move the element to the left.
      * A value of zero means, the element is horizontally centered.
-     * Is applied to Position type TOP and BOTTOM. 
      * @param x The x offset in pixel.
      */
     public void setXOffset(int x) {
@@ -161,7 +160,6 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
      * Values greater then zero move the element above,
      * values lesser then zero move the element below.
      * A value of zero means, the element is vertically centered.
-     * Is applied to Position type EAST and WEST. 
      * @param y The offset in pixel.
      */
     public void setYOffset(int y) {
@@ -196,20 +194,20 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
         int y = 0;
         switch (position) {
             case TOP:
-                x = (parent.getWidth() / 2) - (content.getWidth() / 2) + xOffset;
+                x = (parent.getWidth() / 2) - (content.getWidth() / 2);
                 y = 0;
                 break;
             case BOTTOM:
-                x = (parent.getWidth() / 2) - (content.getWidth() / 2) + xOffset;
+                x = (parent.getWidth() / 2) - (content.getWidth() / 2);
                 y = parent.getHeight() - content.getHeight();
                 break;
             case EAST:
                 x = (parent.getWidth() - content.getWidth());
-                y = (parent.getHeight() / 2) - (content.getHeight() / 2) - yOffset;
+                y = (parent.getHeight() / 2) - (content.getHeight() / 2);
                 break;
             case WEST:
                 x = 0;
-                y = (parent.getHeight() / 2) - (content.getHeight() / 2) - yOffset;
+                y = (parent.getHeight() / 2) - (content.getHeight() / 2);
                 break;
             case LOWER_RIGHT_CORNER:
                 x = (parent.getWidth() - content.getWidth());
@@ -230,6 +228,8 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Animate
             default:
                 break;
         }
+        x += xOffset;
+        y += yOffset;
         point = new Point(x, y);
         return point;
     }
