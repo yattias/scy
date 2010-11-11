@@ -22,7 +22,8 @@ public class ScyIndexController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        modelAndView.addObject("missionTransporters", getMissionELOService().getWebSafeTransporters(getMissionELOService().getMissionSpecifications()));
+        String username = getCurrentUserName(request);
+        modelAndView.addObject("missionTransporters", getMissionELOService().getWebSafeTransporters(getMissionELOService().getMissionSpecifications(username)));
     }
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {

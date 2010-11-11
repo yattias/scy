@@ -10,12 +10,7 @@
                 <c:forEach var="las" items="${learningActivitySpaces}">
                     <tr class="${oddEven.oddEven}">
                         <td>
-                            ${las.name}
-                        </td>
-                        <td>
-                            <a href="viewLAS.html?id=${las.id}">
-                                <img src="/webapp/components/resourceservice.html?id=${las.image.id}&showIcon=true"/>
-                            </a>
+                            ${las.toolTip}
                         </td>
                     </tr>
 

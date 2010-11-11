@@ -46,7 +46,4 @@ public class AjaxELOTextField extends BaseAjaxELOComponent {
          return EVAL_PAGE;
     }
 
-    private String executeGetter(String eloURI, String property) {
-        return "HOOOOO";
-    }
 }
