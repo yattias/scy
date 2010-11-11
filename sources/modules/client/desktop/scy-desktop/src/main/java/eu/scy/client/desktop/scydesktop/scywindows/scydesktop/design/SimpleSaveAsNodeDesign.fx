@@ -5,77 +5,60 @@
  */
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design;
 
-import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import roolo.elo.api.IELO;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
-import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikken
  */
-public class SimpleSaveAsNodeDesign {
+public class SimpleSaveAsNodeDesign extends EloSaveAsMixin {
 
-    public-read var rectangle: javafx.scene.shape.Rectangle;//GEN-BEGIN:main
-    public-read var titleLabel: javafx.scene.control.Label;
-    public-read var titleTextBox: javafx.scene.control.TextBox;
-    public-read var cancelButton: javafx.scene.control.Button;
-    public-read var saveButton: javafx.scene.control.Button;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:main
+    public-read def rectangle: javafx.scene.shape.Rectangle = javafx.scene.shape.Rectangle {
+        disable: true
+        opacity: 0.0
+        layoutX: 2.0
+        layoutY: 1.0
+        fill: javafx.scene.paint.Color.WHITE
+        width: 300.0
+        height: 70.0
+    }
     
-    public-read var currentState: org.netbeans.javafx.design.DesignState;
+    public-read def titleLabel: javafx.scene.control.Label = javafx.scene.control.Label {
+        layoutX: 12.0
+        layoutY: 12.0
+        text: "##Title"
+    }
     
-    // <editor-fold defaultstate="collapsed" desc="Generated Init Block">
-    init {
-        rectangle = javafx.scene.shape.Rectangle {
-            disable: true
-            opacity: 0.0
-            layoutX: 2.0
-            layoutY: 1.0
-            fill: javafx.scene.paint.Color.WHITE
-            width: 300.0
-            height: 70.0
-        };
-        titleLabel = javafx.scene.control.Label {
-            layoutX: 12.0
-            layoutY: 12.0
-            text: "##Title"
-        };
-        titleTextBox = javafx.scene.control.TextBox {
-            layoutX: 54.0
-            layoutY: 6.0
-            width: 244.0
-            height: 24.0
-            layoutInfo: javafx.scene.layout.LayoutInfo {
-                width: bind titleTextBox.width
-                height: bind titleTextBox.height
-            }
-            onKeyTyped: titleTextBoxOnKeyTyped
-            action: titleTextBoxAction
-        };
-        cancelButton = javafx.scene.control.Button {
-            layoutX: 223.0
-            layoutY: 44.0
-            text: "##Cancel"
-            action: cancelButtonAction
-        };
-        saveButton = javafx.scene.control.Button {
-            disable: true
-            layoutX: 150.0
-            layoutY: 44.0
-            text: "##Save"
-            action: saveButtonAction
-        };
-        
-        currentState = org.netbeans.javafx.design.DesignState {
-            names: [ ]
-            stateChangeType: org.netbeans.javafx.design.DesignStateChangeType.PAUSE_AND_PLAY_FROM_START
-//            createTimeline: function (actual) {
-//                null
-//            }
-        }
-    }// </editor-fold>
+    def __layoutInfo_titleTextBox: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
+        width: 244.0
+        height: 24.0
+    }
+    public-read def titleTextBox: javafx.scene.control.TextBox = javafx.scene.control.TextBox {
+        layoutX: 54.0
+        layoutY: 6.0
+        layoutInfo: __layoutInfo_titleTextBox
+        onKeyTyped: titleTextBoxOnKeyTyped
+        action: titleTextBoxAction
+    }
     
-    // <editor-fold defaultstate="collapsed" desc="Generated Design Functions">
-    public function getDesignRootNodes () : javafx.scene.Node[] {
+    public-read def cancelButton: javafx.scene.control.Button = javafx.scene.control.Button {
+        layoutX: 223.0
+        layoutY: 44.0
+        text: "##Cancel"
+        action: cancelButtonAction
+    }
+    
+    public-read def saveButton: javafx.scene.control.Button = javafx.scene.control.Button {
+        disable: true
+        layoutX: 150.0
+        layoutY: 44.0
+        text: "##Save"
+        action: saveButtonAction
+    }
+    
+    public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
+    }
+    
+    public function getDesignRootNodes (): javafx.scene.Node[] {
         [ rectangle, titleLabel, titleTextBox, cancelButton, saveButton, ]
     }
     
@@ -83,7 +66,12 @@ public class SimpleSaveAsNodeDesign {
         javafx.scene.Scene {
             content: getDesignRootNodes ()
         }
-    }// </editor-fold>//GEN-END:main
+    }
+    // </editor-fold>//GEN-END:main
+
+   public override function getDesignNodes (): javafx.scene.Node[]{
+      return getDesignRootNodes()
+   }
 
    function titleTextBoxAction(): Void {
       saveButtonAction();
@@ -101,26 +89,17 @@ public class SimpleSaveAsNodeDesign {
       updateSaveState();
    }
 
-   public var saveAction: function(: SimpleSaveAsNodeDesign): Void;
-   public var cancelAction: function(: SimpleSaveAsNodeDesign): Void;
-   // store information of caller
-   public var elo: IELO;
-   public var myElo: Boolean;
-   public var eloSaverCallBack: EloSaverCallBack;
-   public var modalDialogBox: ModalDialogBox;
-   public var scyElo: ScyElo;
-
    function updateSaveState() {
       var title = getTitle();
       var saveDisabled = title.length() == 0;
       saveButton.disable = saveDisabled;
    }
 
-   public function getTitle(): String {
+   public override function getTitle(): String {
       titleTextBox.rawText.trim();
    }
 
-   public function setTitle(title:String){
+   public override function setTitle(title:String): Void{
       titleTextBox.text = title;
       updateSaveState();
    }
