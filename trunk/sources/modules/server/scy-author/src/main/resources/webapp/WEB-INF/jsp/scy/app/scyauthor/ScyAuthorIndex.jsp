@@ -2,11 +2,6 @@
 <tiles:insertDefinition name="default-page">
 	<tiles:putAttribute name="main">
 
-        <div class="createNewPedPlan">
-            <a href="createnewPedplansteps/PedPlanNameController.html">Create new pedagogical plan</a>
-        </div>
-        
-
         <h1>My pedagogical plans</h1>
 		<c:choose>
         <c:when test="${fn:length(missionTransporters) > 0}">
@@ -32,6 +27,13 @@
                     </tr>
                 </c:forEach>
             </table>
+
+            <div class="createNewPedPlan">
+                <a href="createnewPedplansteps/PedPlanNameController.html">Create new pedagogical plan</a>
+            </div>
+
+            
+
             <br>
         </c:when>
     </c:choose>

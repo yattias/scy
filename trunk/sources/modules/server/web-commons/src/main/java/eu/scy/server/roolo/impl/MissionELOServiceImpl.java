@@ -2,7 +2,6 @@ package eu.scy.server.roolo.impl;
 
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.server.roolo.ELOWebSafeTransporter;
 import eu.scy.server.roolo.MissionELOService;
 import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
 import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
@@ -11,8 +10,6 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
-import java.net.URI;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,6 +27,7 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
     private static final String GLOBAL_MISSION_SCAFFOLDING_LEVEL = "globalMissionScaffoldingLevel";
 
     private static final RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey(GLOBAL_MISSION_SCAFFOLDING_LEVEL, null, null);
+    private IMetadataKey authorKey;
 
     @Override
     public MissionSpecificationElo createMissionSpecification(String title, String description, String author) {
@@ -55,21 +53,15 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
 
     @Override
     public List getMissionSpecifications(String author) {
-        List<eu.scy.common.mission.MissionSpecificationElo> allMissions = getMissionSpecifications();
-        List result = new LinkedList();
-        for (int i = 0; i < allMissions.size(); i++) {
-            eu.scy.common.mission.MissionSpecificationElo missionSpecificationElo = allMissions.get(i);
-            if (missionSpecificationElo.getAuthors().contains(author)) result.add(missionSpecificationElo);
-        }
-
-        return result;
+        return getMissionSpecificationsByAuthor(author);
     }
 
     @Override
-    public void createMissionSpecification(MissionSpecificationElo missionSpecificationElo) {
+    public void createMissionSpecification(MissionSpecificationElo missionSpecificationElo, String authorUserName) {
 
         missionSpecificationElo.saveAsForkedElo();
-        missionSpecificationElo.setTitle("Why does the freakin' settings not work? FFFFFFFF##");
+        missionSpecificationElo.setTitle("New plan");
+        missionSpecificationElo.addAuthor(authorUserName);
 
         RuntimeSettingsElo runtimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(), this);
         runtimeSettingsElo.setTitle("runtime for " +missionSpecificationElo.getTitle());
@@ -82,8 +74,19 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
     }
 
     @Override
+    public void setTitle(ScyElo scyElo, Object value) {
+        scyElo.setTitle((String) value);
+        scyElo.updateElo();
+    }
+
+    @Override
+    public String getTitle(ScyElo scyElo) {
+        return scyElo.getTitle();
+    }
+
+
+    @Override
     public void setGlobalMissionScaffoldingLevel(ScyElo scyElo, Object value) {
-        log.info("SETTING MISSION SCAFFOLDING LEVEL: " + value);
         if(value instanceof String ) value = Integer.valueOf((String) value);
         Integer scaffoldingLevel = (Integer) value;
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
@@ -104,12 +107,15 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
             if(runtimeSetting.getKey().getName().equals(GLOBAL_MISSION_SCAFFOLDING_LEVEL)) stringLevel = runtimeSetting.getValue();
         }
 
-        //String stringLevel = elo.getTypedContent().getSetting(globalMissionScaffoldingLevelKey);
-        //log.info("XML:"  + elo.getElo().getXml());
-
         if(stringLevel == null) return 0;
 
         return new Integer(stringLevel);
+    }
+
+    @Override
+    public List<Las> getLasses(MissionSpecificationElo missionSpecificationElo) {
+        MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
+        return missionModel.getTypedContent().getLasses();//what is  this? A getter??
     }
 
     private RuntimeSettingsElo getRuntimeSettingsElo(MissionSpecificationElo missionSpecificationElo) {
@@ -123,5 +129,17 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
         return getELOs(missionSpecificationQuery);
     }
 
+    public List getMissionSpecificationsByAuthor(String author) {
+        final IMetadataKey authorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        IQuery missionSpecificationQuery = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, author);
+        return getELOs(missionSpecificationQuery);
+    }
 
+    public IMetadataKey getAuthorKey() {
+        return authorKey;
+    }
+
+    public void setAuthorKey(IMetadataKey authorKey) {
+        this.authorKey = authorKey;
+    }
 }

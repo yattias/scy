@@ -286,6 +286,7 @@
         <property name="lasService" ref="lasService"/>
         <property name="userService" ref="userService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="missionELOService" ref="missionELOService"/>
 	</bean>
 
     <bean id="pedPlanNameController" class="eu.scy.server.controllers.createnewpedplansteps.PedPlanNameController">

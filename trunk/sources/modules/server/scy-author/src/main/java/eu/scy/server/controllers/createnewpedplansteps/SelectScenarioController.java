@@ -1,7 +1,6 @@
 package eu.scy.server.controllers.createnewpedplansteps;
 
 import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.*;
 import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
 import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
@@ -46,14 +45,7 @@ public class SelectScenarioController extends BaseController {
             addCopyOfSelecteScenario(request);
             modelAndView.setViewName("redirect:assignStudents.html?pedPlanId=" + pedPlanId);
         } else {
-            logger.info("DID NOT FIND AN ACTION - THIS IS THE FIRST TIME THE PAGE IS VIEWED!");
             modelAndView.addObject("transporters", getMissionELOService().getWebSafeTransporters(getMissionELOService().getMissionSpecifications()));
-            /**PedagogicalPlan pedagogicalPlan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
-            setModel(pedagogicalPlan);
-            List scenaios = getScenarioService().getScenarios();
-            logger.info("FOUND " + scenaios + " SCENARIOS");
-            modelAndView.addObject("scenarios", scenaios);
-             */
         }
 
 
@@ -64,9 +56,8 @@ public class SelectScenarioController extends BaseController {
             logger.info("CREATING NEW SCENARIO BASE ON EXISTING SCENARIO!");
 
             URI uri = new URI(request.getParameter("uri"));
-            //ScyElo missionSpecificationElo = (MissionSpecificationElo) getMissionELOService().getElo(uri);
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
-            getMissionELOService().createMissionSpecification(missionSpecificationElo);
+            getMissionELOService().createMissionSpecification(missionSpecificationElo, getCurrentUserName(request));
 
             logger.info("CREATING COPY OF " + missionSpecificationElo.getTitle());
         } catch (Exception e) {

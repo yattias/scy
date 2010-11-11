@@ -175,6 +175,7 @@
         <property name="extensionManager" ref="extensionManager"/>
         <property name="repository" ref="repository"/>
         <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
     </bean>
 
 

@@ -1,5 +1,6 @@
 package eu.scy.server.roolo;
 
+import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 
@@ -21,9 +22,15 @@ public interface MissionELOService extends RooloAccessor{
 
     List getMissionSpecifications(String author);
 
-    void createMissionSpecification(MissionSpecificationElo missionSpecificationElo);
+    void createMissionSpecification(MissionSpecificationElo missionSpecificationElo, String authorUserName);
 
     void setGlobalMissionScaffoldingLevel(ScyElo missionSpecificationElo, Object scaffoldingLevel);
 
     Integer getGlobalMissionScaffoldingLevel(ScyElo missionSpecificationElo);
+
+    List <Las> getLasses(MissionSpecificationElo missionSpecificationElo);
+
+    void setTitle(ScyElo scyElo, Object value);
+
+    String getTitle(ScyElo scyElo);
 }

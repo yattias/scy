@@ -1,14 +1,19 @@
 package eu.scy.server.controllers;
 
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.server.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,14 +27,25 @@ public class MissionHighLevelOverviewController extends BaseController{
     private LASService lasService;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
     private UserService userService;
+    private MissionELOService missionELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        String pedPlanId = request.getParameter("pedagogicalPlanId");
-        PedagogicalPlan plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
-        modelAndView.addObject("learningActivitySpaces", getLasService().getAllLearningActivitySpacesForScenario(plan.getScenario()));
-        modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
-        
+        try {
+            String missionSpecificationUri = request.getParameter("missionSpecificationUri");
+            missionSpecificationUri = URLDecoder.decode(missionSpecificationUri, "UTF-8");
+            logger.info("loading missino specification: " + missionSpecificationUri);
+            URI uri = new URI(missionSpecificationUri);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
+            if(missionSpecificationElo != null) {
+                modelAndView.addObject("learningActivitySpaces", getMissionELOService().getLasses(missionSpecificationElo));
+            } else {
+                logger.info("DID NOT FIND THE MISSION SPECIFICATION!!!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     public LASService getLasService() {
@@ -58,5 +74,13 @@ public class MissionHighLevelOverviewController extends BaseController{
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
     }
 }
