@@ -359,7 +359,7 @@ public class ScyElo
       String value = (String) getMetadataValueContainer(learningActivityKey).getValue();
       if (value != null)
       {
-         return LearningActivity.valueOf(value);
+         return LearningActivity.myValueOf(value);
       }
       return null;
    }
@@ -385,7 +385,7 @@ public class ScyElo
       {
          try
          {
-            return EloFunctionalRole.valueOf(value);
+            return EloFunctionalRole.myValueOf(value);
          }
          catch (IllegalArgumentException e)
          {
@@ -416,7 +416,7 @@ public class ScyElo
       {
          try
          {
-            return EloLogicalRole.valueOf(value);
+            return EloLogicalRole.myValueOf(value);
          }
          catch (Exception e)
          {
