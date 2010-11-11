@@ -126,6 +126,7 @@ public class SimpleAuthorSaveAsNodeDesign extends EloSaveAsMixin {
 
    public override function setFunctionalRoleContainers(functionalRoleContainers: FunctionalRoleContainer[]): Void{
       roleChoiceBox.items = functionalRoleContainers;
+      roleChoiceBox.disable = sizeof roleChoiceBox.items <= 1;
    }
 
    public override function setFunctionalRole(functionalRole: EloFunctionalRole): Void{
