@@ -95,6 +95,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettings
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
+import eu.scy.common.scyelo.EloFunctionalRole;
 
 /**
  * @author sikkenj
@@ -669,6 +670,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                     newTitleGenerator: newTitleGenerator;
                     windowStyler: windowStyler;
                     scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
+                    authorMode: initializer.authorMode
+                    functionalRoles: for (object in eloConfig.getEloFunctionalRoles()){
+                       object as EloFunctionalRole
+                    }
                 };
         var runtimeSettingsRetriever = EloRuntimeSettingsRetriever{
            eloUri:bind window.eloUri

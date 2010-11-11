@@ -5,8 +5,6 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
-import roolo.elo.api.IELO;
-
 /**
  *
  * @author sikken
