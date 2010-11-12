@@ -1,5 +1,7 @@
 package eu.scy.agents.groupformation.strategies;
 
+import info.collide.sqlspaces.client.TupleSpace;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,20 +24,23 @@ public class GroupFormationStrategySequence implements GroupFormationStrategy {
 
 	private List<GroupFormationStrategy> strategies;
 	private Integer threshold = 2;
+	private TupleSpace commandSpace;
 
 	public GroupFormationStrategySequence() {
 		strategies = new ArrayList<GroupFormationStrategy>();
 	}
 
 	@Override
-	public List<String> formGroup(IELO elo, String user) {
+	public List<String> formGroup(IELO elo, String mission, String user) {
 		CountingSet<String> userMatchRuleCount = new CountingSet<String>();
 		List<String> finalGroup = new ArrayList<String>();
 		finalGroup.add(user);
 
 		for (int i = 0; i < strategies.size(); i++) {
 			GroupFormationStrategy strategy = strategies.get(i);
-			List<String> intermediateGroup = strategy.formGroup(elo, user);
+			strategy.setCommandSpace(commandSpace);
+			List<String> intermediateGroup = strategy.formGroup(elo, mission,
+					user);
 			for (String proposedUser : intermediateGroup) {
 				userMatchRuleCount.add(proposedUser);
 			}
@@ -64,6 +69,16 @@ public class GroupFormationStrategySequence implements GroupFormationStrategy {
 
 	public void removeStrategy(int index) {
 		strategies.remove(index);
+	}
+
+	@Override
+	public TupleSpace getCommandSpace() {
+		return commandSpace;
+	}
+
+	@Override
+	public void setCommandSpace(TupleSpace commandSpace) {
+		this.commandSpace = commandSpace;
 	}
 
 }
