@@ -63,8 +63,6 @@ public class SpringConfigFileImporter {
    function retrieveMissionModelFromConfig(): MissionModelFX {
       var basicMissionMap = missionConfigInput.getBasicMissionMap();
       var missionModel = MissionModelFX {
-            id: basicMissionMap.getId();
-            name: basicMissionMap.getName();
             loEloUris: createExistingEloUriSequence(basicMissionMap.getLoEloUris(), "mission map")
             lasses: createLasSequence(basicMissionMap.getLasses(), missionConfigInput.getBasicMissionAnchors());
          }

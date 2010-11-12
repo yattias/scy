@@ -145,7 +145,6 @@ public class ScyDesktopCreator {
 //      }
       if (toolBrokerAPI instanceof ToolBrokerAPIRuntimeSetting) {
          var toolBrokerAPIRuntimeSetting = toolBrokerAPI as ToolBrokerAPIRuntimeSetting;
-         toolBrokerAPIRuntimeSetting.setMissionId(missionModelFX.id);
       }
    }
 

@@ -55,8 +55,8 @@ def jdomStringConversion = new JDomStringConversion();
 
 public function convertToXml(missionModel:MissionModelFX):String{
    var root = new Element(missionModelName);
-   root.addContent(createElement(idName,missionModel.id));
-   root.addContent(createElement(nameName,missionModel.name));
+//   root.addContent(createElement(idName,missionModel.id));
+//   root.addContent(createElement(nameName,missionModel.name));
    var activeLasId = "";
    if (missionModel.activeLas != null){
       activeLasId = missionModel.activeLas.id;
@@ -147,8 +147,8 @@ public function convertToMissionModel(xml: String): MissionModelFX {
 
    var missionModel = MissionModelFX {
            };
-   missionModel.id = root.getChildTextTrim(idName);
-   missionModel.name = root.getChildTextTrim(nameName);
+//   missionModel.id = root.getChildTextTrim(idName);
+//   missionModel.name = root.getChildTextTrim(nameName);
    missionModel.loEloUris = createEloUriList(root.getChild(loElosName));
    var lassesMap = new HashMap();
    var anchorsMap = new HashMap();
