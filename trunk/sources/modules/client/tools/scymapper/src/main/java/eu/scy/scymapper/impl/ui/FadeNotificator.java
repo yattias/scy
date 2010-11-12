@@ -27,7 +27,7 @@ import org.jdesktop.animation.timing.Animator.Direction;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.interpolation.SplineInterpolator;
 
-public class FadeNotificator implements ComponentListener, TimingTarget, AnimatedNotification, Notificator {
+public class FadeNotificator implements ComponentListener, TimingTarget, Notificator {
 
     private int duration = 400;
 

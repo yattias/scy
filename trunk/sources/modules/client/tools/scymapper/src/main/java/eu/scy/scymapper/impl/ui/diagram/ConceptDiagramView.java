@@ -51,6 +51,8 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     private KeyListener deleteKeyListener = new DeleteKeyListener();
 
+    private int nodeCount = 0;
+    
     private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
 
     public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
@@ -123,6 +125,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         view.addKeyListener(deleteKeyListener);
         add(view, 0);
         view.repaint();
+        this.nodeCount++;
     }
 
     private void addLinkView(ILinkModel link, boolean editable) {
@@ -184,6 +187,10 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         }
     }
 
+    public int getNodeCount() {
+    	return nodeCount;
+    }
+    
     public Dimension getPreferredSize() {
         return new Dimension(getComponentsWidth(), getComponentsHeight());
     }
