@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.scymapper.api.IConceptMap;
@@ -34,7 +35,9 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     private final static FadeNotificator.Position SUGGEST_KEYWORD_POSITION = FadeNotificator.Position.EAST;
 
     private final static FadeNotificator.Position LEXICON_POSITION = FadeNotificator.Position.LOWER_LEFT_CORNER;
-
+    
+    private final static int REENABLE_BUTTONS_TIMER = 10;
+    
     private Notificator lexiconNotificator;
 
     private SCYMapperStandaloneConfig standaloneConfig;
@@ -45,10 +48,12 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     private JButton requestRelationHelpButton;
 
-    private JButton requestLexiconButton;
+    private JToggleButton requestLexiconButton;
     
     private Timer timer;
-
+    
+    private Timer reenableButtonTimer;
+    
     private Help helpMode;
 
     private Timer helpTimer;
@@ -93,6 +98,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 		switch (helpMode) {
 		case VOLUNTARY:
 			// Provide voluntary help
+			reenableButtonTimer = new Timer(true);
 			requestConceptHelpButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestConceptHelp"));
 			requestConceptHelpButton.addActionListener(new ActionListener() {
 
@@ -101,6 +107,15 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                     requestConceptHelpButton.setEnabled(false);
                     requestRelationHelpButton.setEnabled(false);
                     requestConceptHelp();
+
+					reenableButtonTimer.schedule(new TimerTask() {
+
+		                @Override
+		                public void run() {
+							requestConceptHelpButton.setEnabled(true);
+							requestRelationHelpButton.setEnabled(true);
+		                }
+		            }, REENABLE_BUTTONS_TIMER * 1000);
                 }
 			});
 
@@ -112,6 +127,15 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 					requestConceptHelpButton.setEnabled(false);
 					requestRelationHelpButton.setEnabled(false);
 					requestRelationHelp();
+
+					reenableButtonTimer.schedule(new TimerTask() {
+
+		                @Override
+		                public void run() {
+							requestConceptHelpButton.setEnabled(true);
+							requestRelationHelpButton.setEnabled(true);
+		                }
+		            }, REENABLE_BUTTONS_TIMER * 1000);
 				}
 
 			});
@@ -127,6 +151,9 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
                 @Override
                 public void run() {
+                	if(cmapPanel.getDiagramView().getNodeCount() < standaloneConfig.getContinuousHelpWaitConceptNr() || suggestionPanel.isVisible()) {
+                		return;
+                	}
                     suggestionPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     suggestionPanel.setVisible(true);
                     helpTimer = new Timer(true);
@@ -140,7 +167,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
                     }, 0, helpInterval * 1000);
                 }
-            }, standaloneConfig.getContinuousHelpWaitTime() * 1000);
+            }, standaloneConfig.getContinuousHelpWaitTime() * 1000, 10 * 1000);
             invalidate();
 			break;
             case NOHELP:
@@ -150,7 +177,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                 break;
         }
 
-		requestLexiconButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestLexicon"));
+		requestLexiconButton = new JToggleButton(Localization.getString("Mainframe.Toolbar.RequestLexicon"));
 		requestLexiconButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -187,6 +214,10 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             requestConceptHelpButton.setEnabled(true);
             requestRelationHelpButton.setEnabled(true);
             suggestionPanel = new KeywordSuggestionPanel();
+            if(reenableButtonTimer != null) {
+            	reenableButtonTimer.cancel();
+            }
+
         }
 
         if (type.equals("concept")) {
@@ -245,6 +276,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+            	requestLexiconButton.setSelected(false);
             	lexiconNotificator.hide();
             }
         });
