@@ -13,5 +13,4 @@ public interface MissionModelEloContent
 
    public void setSelectedLas(Las selectedLas);
    
-   public String getName();
 }
