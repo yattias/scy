@@ -233,7 +233,6 @@ public class MissionLocator {
       missionMapModelElo.setTitle(missionRuntimeElo.getTitle());
       missionMapModelElo.getContent().setXmlString(MissionModelXml.convertToXml(missionMapModel));
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
-      missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
       if (not initializer.dontUseMissionRuntimeElos){
          missionMapModelElo.saveAsNewElo();
          missionMapModel.elo = missionMapModelElo.getElo();
@@ -327,8 +326,6 @@ public class MissionLocator {
       makePersonalMissionMapModel(missionMapModel);
       missionMapModelElo.getContent().setXmlString(MissionModelXml.convertToXml(missionMapModel));
       missionMapModelElo.getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
-      //      missionMapModelElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(MissionEloType.MISSION_MAP_MODEL.getType());
-      missionMapModelElo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionMapModel.id);
       missionMapModelElo.saveAsForkedElo();
       missionMapModel.elo = missionMapModelElo.getElo();
       missionMapModel.eloFactory = tbi.getELOFactory();

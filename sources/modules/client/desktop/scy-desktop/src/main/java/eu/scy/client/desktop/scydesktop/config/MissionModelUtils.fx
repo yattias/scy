@@ -25,8 +25,6 @@ public class MissionModelUtils {
 public function retrieveMissionModelFromConfig(config: Config): MissionModelFX {
    var basicMissionMap = config.getBasicMissionMap();
    var missionModel = MissionModelFX {
-         id: basicMissionMap.getId();
-         name: basicMissionMap.getName();
          loEloUris: createExistingEloUriSequence(basicMissionMap.getLoEloUris(), "mission map", config)
          lasses: createLasSequence(basicMissionMap.getLasses(), config.getBasicMissionAnchors(), config);
       }
