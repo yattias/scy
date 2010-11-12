@@ -6,8 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -15,9 +18,12 @@ import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +41,7 @@ import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import eu.scy.tools.math.dnd.JLabelSelection;
 import eu.scy.tools.math.ui.ComputationDataObject;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -64,12 +71,12 @@ public class ControlPanel extends JXPanel {
 	}
 
 	private void init() {
-		this.add(createShapesPanel(type), "grow, wrap"); //$NON-NLS-1$
+		this.add(createShapesPanel(), "grow, wrap"); //$NON-NLS-1$
 		this.add(createCalculatorPanel(),"wrap"); //$NON-NLS-1$
-		this.add(createTableArea(type),"grow, span"); //$NON-NLS-1$
+		this.add(createTableArea(),"grow, span"); //$NON-NLS-1$
 	}
 	
-	private JXTitledPanel createTableArea(String type) {
+	private JXTitledPanel createTableArea() {
 		tableAreaPanel = new JXTitledPanel("Computations for " + type + " Shapes");
 		UIUtils.setModTitlePanel(tableAreaPanel);
 		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 0 0 0 0"));
@@ -84,36 +91,32 @@ public class ControlPanel extends JXPanel {
 	    // boilerplate table-setup; this would be the same for a JTable
 //	    ComputationTableModel model = new ComputationTableModel(6, new String[] {"Shape", "Computation"});
 		twoDeeTableModel = new DefaultTableModel();
-		twoDeeTableModel.addColumn(" ");
+		twoDeeTableModel.addColumn("#");
 		twoDeeTableModel.addColumn("Shape");
-		twoDeeTableModel.addColumn("Calculation");
-		twoDeeTableModel.addColumn("Sum");
-//		String[] socrates = { "1", "circle 1", "-100", "0" };
-//	    twoDeeTableModel.addRow(socrates);
-//	    twoDeeTableModel.addRow(socrates);
-//	    twoDeeTableModel.addRow(socrates);
-	    
-//	    ComputationDataObject c = new ComputationDataObject(new Integer(twoDeeTableModel.getRowCount()+1),"test", 4f, 3.00f);
-//	    twoDeeTableModel.addRow(c.toArray());
+		
+		if( type.equals(UIUtils._3D)) {
+			twoDeeTableModel.addColumn("Ratio");
+			twoDeeTableModel.addColumn("Surface Area");
+			twoDeeTableModel.addColumn("Volume");
+		} else {
+			twoDeeTableModel.addColumn("Calculation");
+			twoDeeTableModel.addColumn("Sum");
+		}
+		
 
-
-	    table = new JXTable();
-//	    model.loadData();
-//	    table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-
-	    table.setAutoCreateColumnsFromModel(true);
-	    table.addHighlighter(HighlighterFactory.createSimpleStriping()); 
-	    table.setShowGrid(true, true);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table = new JXTable(twoDeeTableModel);
+	    getComputationTable().setAutoCreateColumnsFromModel(true);
+	    getComputationTable().addHighlighter(HighlighterFactory.createSimpleStriping()); 
+	    getComputationTable().setShowGrid(true, true);
+		getComputationTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //	    table.setVisibleRowCount(10); 
-	    table.setColumnControlVisible(true);
+	    getComputationTable().setColumnControlVisible(true);
 	    
-	    table.setModel(twoDeeTableModel);
-	    table.getTableHeader().setVisible(true);
-	    List<TableColumn> columns = table.getColumns();
-//	    table.setColumnSequence(new Object[] {"Computation", "categoryColumn"}); 
+//	    getComputationTable().setModel(twoDeeTableModel);
+	    getComputationTable().getTableHeader().setVisible(true);
+	    List<TableColumn> columns = getComputationTable().getColumns();
 	    
-	    JScrollPane scrollpane = new JScrollPane(table); 
+	    JScrollPane scrollpane = new JScrollPane(getComputationTable()); 
         
 	    JXPanel temp = new JXPanel(new MigLayout("fill,insets 5 5 5 5"));
 	    temp.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
@@ -140,12 +143,12 @@ public class ControlPanel extends JXPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			int selectedRow = ControlPanel.this.table.getSelectedRow();
+			int selectedRow = ControlPanel.this.getComputationTable().getSelectedRow();
 			System.out.println(selectedRow);
 			if( selectedRow != -1) {
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				DefaultTableModel model = (DefaultTableModel)getComputationTable().getModel();
 				model.removeRow(selectedRow);
-				ControlPanel.this.table.revalidate();
+				ControlPanel.this.getComputationTable().revalidate();
 			} else {
 				JOptionPane.showMessageDialog(ControlPanel.this,"Please Select a Row to Remove");
 			}
@@ -160,14 +163,14 @@ public class ControlPanel extends JXPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			DefaultTableModel model = (DefaultTableModel)ControlPanel.this.table.getModel();
+			DefaultTableModel model = (DefaultTableModel)ControlPanel.this.getComputationTable().getModel();
 			
 			if( model.getRowCount() == 0 ) {
 				JOptionPane.showMessageDialog(ControlPanel.this,"There are no more Entries to remove.");
 			} else {
 				while (model.getRowCount() > 0){
 					model.removeRow(0);
-					ControlPanel.this.table.revalidate();
+					ControlPanel.this.getComputationTable().revalidate();
 				}
 				
 			}
@@ -178,37 +181,54 @@ public class ControlPanel extends JXPanel {
 	private JXLabel resultLabel;
 	private JXButton subtractResultButton;
 	
-	private JXTitledPanel createShapesPanel(String type) {
+	private JXTitledPanel createShapesPanel() {
 		shapePanel = new JXTitledPanel(type + " " +"Shapes");
 		UIUtils.setModTitlePanel(shapePanel);
 		
 		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 3 3 3 3"));
 		allPanel.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 
-		List<JXLabel> shapes = getShapes(type);
-		for (JXLabel jxLabel : shapes) {
-			allPanel.add(jxLabel, "grow");
+		List<Images> shapes = getShapes(type);
+		for (Images image : shapes) {
+			
+			JLabel label = new JLabel(image.getIcon());
+			label.setName(image.getName());
+			label.setTransferHandler(new JLabelSelection());
+			
+			label.addMouseListener(new MouseAdapter(){
+			      public void mousePressed(MouseEvent e){
+			    	 
+			        JComponent jc = (JComponent)e.getSource();
+			        TransferHandler th = jc.getTransferHandler();
+			        th.exportAsDrag(jc, e, TransferHandler.COPY);
+			      }
+			    });
+			allPanel.add(label, "grow");
 		}
 		
 		shapePanel.add(allPanel);
 		return shapePanel;
 	}
 	
-	private List<JXLabel> getShapes(String type) {
+	private List<Images> getShapes(String type) {
 		
-		List<JXLabel> shapes = new ArrayList<JXLabel>();
+		List<Images> shapeImages = new ArrayList<Images>();
 		
 		if( type.equals(UIUtils._2D)) {
-			shapes.add(new JXLabel(Images.Circle.getIcon()));
-			shapes.add(new JXLabel(Images.Triangle.getIcon()));
-			shapes.add(new JXLabel(Images.Rectangle.getIcon()));
+			
+			
+			shapeImages.add(Images.Circle);
+			
+			shapeImages.add(Images.Triangle);
+			
+			shapeImages.add(Images.Rectangle);
 		} else if( type.equals(UIUtils._3D)) {
-			shapes.add(new JXLabel(Images.Cube.getIcon()));
-			shapes.add(new JXLabel(Images.Sphere.getIcon()));
-			shapes.add(new JXLabel(Images.Prism.getIcon()));
+			shapeImages.add(Images.Rectangle3d);
+			shapeImages.add(Images.Sphere3d);
+			shapeImages.add(Images.Cylinder3d);
 		}
 		
-		return shapes;
+		return shapeImages;
 
 	}
 
@@ -354,6 +374,14 @@ public class ControlPanel extends JXPanel {
 		label.setForeground(Color.blue);
 	}
 	
+	public void setComputationTable(JXTable table) {
+		this.table = table;
+	}
+
+	public JXTable getComputationTable() {
+		return table;
+	}
+
 	Action addResultAction = new AbstractAction("Add") {
 
 		
@@ -364,7 +392,7 @@ public class ControlPanel extends JXPanel {
 			String text = ControlPanel.this.resultLabel.getText();
 			float parseFloat = Float.parseFloat(text);
 			
-			DefaultTableModel model = (DefaultTableModel) ControlPanel.this.table.getModel();
+			DefaultTableModel model = (DefaultTableModel) ControlPanel.this.getComputationTable().getModel();
 			
 			if( model.getRowCount() == 0 ) {
 				model.addRow(new Object[]{new Integer(1), "test shape",new Float(text),new Float(text)});
@@ -372,7 +400,7 @@ public class ControlPanel extends JXPanel {
 				
 				Vector data = model.getDataVector();
 				Vector lastElement = (Vector) data.lastElement();
-				ComputationDataObject c = new ComputationDataObject(lastElement);
+				ComputationDataObject c = new ComputationDataObject(lastElement,UIUtils._2D);
 //				
 				float sum = c.getSum() + parseFloat;
 				

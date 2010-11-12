@@ -17,16 +17,16 @@ import java.text.AttributedString;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.paint.Colors;
 
-public class MathToolRectangle extends Rectangle implements IMathRectangle {
+public class MathRectangle extends Rectangle implements IMathRectangle {
 
 	private Rectangle bounds;
-	private Rectangle cornerPointRectangle;
 	private Point[] points = new Point[2];
 	private boolean showCornerPoints = true;
 	private String id; 
 	private Color fillColor = new Color(0x9999ff);
+	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 
-	public MathToolRectangle(double x,double y, double w, double h) {
+	public MathRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
 		this.createCornerPoints();
 //		this.setOpaque(false);
@@ -36,14 +36,17 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	
 	public void createCornerPoints() {
 		
-		//top left
+	
 		int cp = (UIUtils.SHAPE_END_POINT_SIZE/2); 
 
-		points[0] = new Point(getRectangle().x, getRectangle().y);
+		
 		
 		//bottom right
 		
-		points[1] = new Point(getRectangle().x + getRectangle().width,  getRectangle().y + getRectangle().height);
+		points[0] = new Point(getRectangle().x + getRectangle().width,  getRectangle().y + getRectangle().height);
+		
+		//top left
+		points[1] = new Point(getRectangle().x, getRectangle().y);
 	}
 
 	@Override
@@ -69,9 +72,9 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 		
 		//draw corner rects
 		if( isShowCornerPoints() ) {
-				setCornerPointRectangle(new Rectangle(points[1].x - UIUtils.SHAPE_END_POINT_SIZE,points[1].y - UIUtils.SHAPE_END_POINT_SIZE,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE)); 
-				g2.fill(getCornerPointRectangle());
-				
+				cornerPointRectangles[0] = new Rectangle(points[0].x - UIUtils.SHAPE_END_POINT_SIZE,points[0].y - UIUtils.SHAPE_END_POINT_SIZE,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE); 
+				g2.fill(cornerPointRectangles[0]);
+		}	
 				//text height
 				String s = "h = " + this.getHeight();
 
@@ -102,7 +105,6 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 			    
 			    g2.setPaint(Color.black);
 			    g2.drawString(widthText.getIterator(), x,y);
-		}
 		
 		
 
@@ -122,10 +124,13 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	@Override
 	public int isHitOnEndPoints(Point eventPoint) {
 
-		if (getCornerPointRectangle().getBounds2D().contains(eventPoint)) {
-			System.out.println("mouse pressed found at position " + 1);
-			return 1;
+		for (int i = 0; i < cornerPointRectangles.length; i++) {
+			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
+				System.out.println("mouse pressed found at position " + 1);
+				return i;
+			}
 		}
+		
 		return -1;
 	}
 
@@ -158,16 +163,6 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	@Override
 	public Point[] getPoints() {
 		return points;
-	}
-
-	@Override
-	public void setCornerPointRectangle(Rectangle cornerPointRectangle) {
-		this.cornerPointRectangle = cornerPointRectangle;
-	}
-
-	@Override
-	public Rectangle getCornerPointRectangle() {
-		return cornerPointRectangle;
 	}
 
 	@Override
@@ -213,6 +208,17 @@ public class MathToolRectangle extends Rectangle implements IMathRectangle {
 	@Override
 	public String getType() {
 		return "rectangle";
+	}
+
+	@Override
+	public void setCornerPointRectangles(Rectangle[] cornerPointRectangles) {
+		this.cornerPointRectangles = cornerPointRectangles;
+		
+	}
+
+	@Override
+	public Rectangle[] getCornerPointRectangles() {
+		return cornerPointRectangles;
 	}
 
 

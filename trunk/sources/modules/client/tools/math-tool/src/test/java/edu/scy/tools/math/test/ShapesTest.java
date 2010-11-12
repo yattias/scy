@@ -3,13 +3,16 @@ package edu.scy.tools.math.test;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
+import eu.scy.tools.math.adapters.AdjustSizeAdapter;
+import eu.scy.tools.math.adapters.ShapeMoverAdapter;
+import eu.scy.tools.math.shapes.MathEllipse;
+import eu.scy.tools.math.shapes.MathRectangle;
+import eu.scy.tools.math.shapes.MathRectangle3D;
 import eu.scy.tools.math.shapes.MathTriangle;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
@@ -28,30 +31,24 @@ public class ShapesTest {
 		frame.setPreferredSize(new Dimension(width,height));
 		
 		MathTriangle t = new MathTriangle(200, 100,103);
-		//MathToolRectangle mtr = new MathToolRectangle(20, 40, 100, 100);
-		//MathEllipse me = new MathEllipse(200, 200, 200, 200);
-//		ShapeMoverAdapter sm = new ShapeMoverAdapter(mtr);
-//		RectangleSizerAdapter ra = new RectangleSizerAdapter(mtr);
+		MathRectangle mtr = new MathRectangle(20, 40, 100, 100);
+		MathEllipse me = new MathEllipse(200, 200, 200, 200);
+
 		ShapeCanvas r = new ShapeCanvas(true);
-		r.addShape(t);
-//		new ShapeMoverAdapter(r);
+		
+		new ShapeMoverAdapter(r);
 //		new AdjustSizeAdapter(r);
 //		r.addShape(me);
 //		r.addShape(mtr);
-		r.addMouseMotionListener(new MouseMotionListener() {
-			
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				System.out.println(e.getPoint());
-				
-			}
-			
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+//		r.addShape(t);
+//		JTextField b = new JTextField("kik");
+//		b.setLocation(100, 100);
+//		b.setSize(20, 20);
+//		
+//		r.add(b);
+		
+		MathRectangle3D mr3 = new MathRectangle3D(100, 200);
+		r.addShape(mr3);
 		r.setBackground(Color.white);
 //		r.add(mtr);
 		

@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.graphics.GraphicsUtilities;
 
 public enum Images {
@@ -15,19 +16,24 @@ public enum Images {
 	// images
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	SketchUp("sketchup.png"), Circle("circle.png"), Rectangle("rectangle.png"), Triangle("triangle.png"), 
-	Cube("cube.png"), Sphere("sphere.png"), Prism("prism.png"), Grid("grid.png");
+	Cube("cube.png"), Sphere("sphere.png"), Prism("prism.png"), Grid("grid.png"),Rectangle3d("rectangle3d.png"),Sphere3d("sphere3d.png"),
+	Cylinder3d("cylinder3d.png");
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// data
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	String imagefilename;
-
+	String imageName;
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// constructor
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	Images(String name) {
-		imagefilename = name;
+	Images(String fileName) {
+		imagefilename = fileName;
+		imageName = StringUtils.upperCase(StringUtils.remove(imagefilename, ".png"));
 	}
 
+	public String getName() {
+		return imageName;
+	}
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// methods
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -40,7 +46,7 @@ public enum Images {
 	}
 
 	public Icon getIcon() {
-		return new ImageIcon(getImage());
+		return  new ImageIcon(getImage());
 	}
 
 	public BufferedImage getImage(int width, int height) {

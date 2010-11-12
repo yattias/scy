@@ -10,8 +10,10 @@ import java.util.Collections;
 
 import javax.swing.JComponent;
 
+import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathShape;
+import eu.scy.tools.math.shapes.IMathTriangle;
 import eu.scy.tools.math.ui.panels.IShapeCanvas;
 import eu.scy.tools.math.ui.panels.TestPainter;
 
@@ -54,7 +56,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 		for (IMathShape shape : mathShapes) {
 			Point point = new Point(x, y);
 			int hitOnEndPoints = shape.isHitOnEndPoints(point);
-			if ( hitOnEndPoints != -1 || shape.contains(point)) {
+			if ( hitOnEndPoints != -1 || shape.contains(point) ) {
 				System.out.println(shape.toString());
 				foundShape = shape;
 				foundShape.setShowCornerPoints(true);
@@ -75,16 +77,17 @@ public class ShapeMoverAdapter extends MouseAdapter {
 		
 		Collections.reverse(mathShapes);
 		//unshow corner points except the selected one.
-		if( foundShape != null ) {
+		if (foundShape != null) {
 			for (IMathShape shape : mathShapes) {
-				if( !shape.equals(foundShape) )
+				if (!shape.equals(foundShape))
 					shape.setShowCornerPoints(false);
 			}
-		//bump it up
-		int i = mathShapes.indexOf(foundShape);
-		mathShapes.remove(i);
-		mathShapes.add(foundShape);
-		((JComponent) this.shapeCanvas).repaint();
+			// bump it up
+			int i = mathShapes.indexOf(foundShape);
+			mathShapes.remove(i);
+			System.out.println("removing shape.............................");
+			mathShapes.add(foundShape);
+			((JComponent) this.shapeCanvas).repaint();
 		}
 
 	}
@@ -108,12 +111,18 @@ public class ShapeMoverAdapter extends MouseAdapter {
 		int dx = e.getX() - x;
 		int dy = e.getY() - y;
 
-		if( foundShape != null ) {
+		if( foundShape != null && !(foundShape instanceof IMathTriangle)) {
 			
 			foundShape.addX(dx);
 			foundShape.addY(dy);
 			foundShape.repaint();
 			((JComponent) this.shapeCanvas).repaint();
+		} else if( foundShape != null && foundShape instanceof IMathTriangle ) {
+			((IMathTriangle)foundShape).moveXY(dx, dy);
+			System.out.println("TRIANGLE MOVING TOOOOOO dx,dy " + dx + " " + dy);
+			foundShape.repaint();
+			((JComponent) this.shapeCanvas).repaint();
+			
 		}
 		x += dx;
 		y += dy;

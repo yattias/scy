@@ -16,4 +16,9 @@ public interface IMathTriangle extends IMathShape {
 
 	public void setPointP(Point pointP);
 
+	public void moveXY(int x, int y);
+
+
+	public void moveCornerPoint(int position, Point point);
+
 }

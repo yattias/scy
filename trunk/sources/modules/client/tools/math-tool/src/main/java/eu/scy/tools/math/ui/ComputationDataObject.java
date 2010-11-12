@@ -8,6 +8,9 @@ public class ComputationDataObject {
 	private Float value;
 	private Integer columnNumber;
 	private Float sum;
+	private String ratio;
+	private String surfaceArea;
+	private String volume;
 
 	public ComputationDataObject(Integer columnNumber, String name, Float value, Float sum) {
 		this.setColumnNumber(columnNumber);
@@ -23,14 +26,21 @@ public class ComputationDataObject {
 		this.sum = (Float) values[3];
 	}
 	
-	public ComputationDataObject() {
-	}
-	
-	public ComputationDataObject(Vector vector) {
-		this.columnNumber  = (Integer)vector.get(0);
-		this.name = (String) vector.get(1);
-		this.value = (Float)vector.get(2);
-		this.sum = (Float) vector.get(3);
+	public ComputationDataObject(Vector vector, String type) {
+		
+		if( type.equals(UIUtils._3D)) {
+			this.columnNumber  = (Integer)vector.get(0);
+			this.name = (String) vector.get(1);
+			this.setRatio((String) vector.get(2));
+			this.setSurfaceArea((String) vector.get(3));
+			this.setVolume((String) vector.get(4));
+		} else {
+			this.columnNumber  = (Integer)vector.get(0);
+			this.name = (String) vector.get(1);
+			this.value = (Float)vector.get(2);
+			this.sum = (Float) vector.get(3);
+		
+		}
 	}
 
 	public void setValue(Float value) {
@@ -63,6 +73,30 @@ public class ComputationDataObject {
 	}
 	public Float getSum() {
 		return sum;
+	}
+
+	public void setRatio(String ratio) {
+		this.ratio = ratio;
+	}
+
+	public String getRatio() {
+		return ratio;
+	}
+
+	public void setSurfaceArea(String surfaceArea) {
+		this.surfaceArea = surfaceArea;
+	}
+
+	public String getSurfaceArea() {
+		return surfaceArea;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+
+	public String getVolume() {
+		return volume;
 	}
 	
 }
