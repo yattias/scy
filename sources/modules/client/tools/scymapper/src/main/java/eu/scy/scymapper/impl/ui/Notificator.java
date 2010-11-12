@@ -7,4 +7,6 @@ public interface Notificator {
     
     public void hide();
     
+    public boolean isVisible();
+    
 }
