@@ -35,6 +35,8 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     private final static FadeNotificator.Position LEXICON_POSITION = FadeNotificator.Position.LOWER_LEFT_CORNER;
 
+    private Notificator lexiconNotificator;
+
     private SCYMapperStandaloneConfig standaloneConfig;
 
     private ConceptBrowserPanel conceptBrowserPanel;
@@ -44,7 +46,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     private JButton requestRelationHelpButton;
 
     private JButton requestLexiconButton;
-
+    
     private Timer timer;
 
     private Help helpMode;
@@ -153,7 +155,11 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				showLexicon();
+				if(lexiconNotificator != null && lexiconNotificator.isVisible()) {
+					lexiconNotificator.hide();
+				} else {
+					showLexicon();
+				}
 			}
 
 		});
@@ -162,7 +168,6 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
         conceptBrowserPanel = new ConceptBrowserPanel();
         conceptBrowserPanel.setVisible(false);
         add(BorderLayout.SOUTH, conceptBrowserPanel);
-
     }
 
     @Override
@@ -211,44 +216,41 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 					notificator.hide();
 				}
 			});
-
-			JPanel btnPanel = new JPanel();
-			btnPanel.add(close);
 			suggestionPanel.add(BorderLayout.SOUTH, close);
 
 			notificator.show();
         }
     }
 
+    /**
+     * Creates a new ConceptBrowserPanel with a new set of lexicon entries and shows it on screen.
+     */
     public void showLexicon() {
 
     	conceptBrowserPanel = new ConceptBrowserPanel();
     	conceptBrowserPanel.readLexicon();
 
     	conceptBrowserPanel.setSize(250, 250);
-    	conceptBrowserPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
-                BorderFactory.createRaisedBevelBorder()));
+    	conceptBrowserPanel.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
+    	conceptBrowserPanel.setBackground(Color.WHITE);
 
-        if (notificator != null) {
-            notificator.hide();
+        if (lexiconNotificator != null) {
+        	lexiconNotificator.hide();
         }
         
-        notificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, cmapPanel.getX(), 0);
+        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, cmapPanel.getX(), cmapPanel.getY()-8);
 
         JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
         close.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                notificator.hide();
+            	lexiconNotificator.hide();
             }
         });
-
-        JPanel btnPanel = new JPanel();
-        btnPanel.add(close);
         conceptBrowserPanel.add(BorderLayout.SOUTH, close);
 
-        notificator.show();
+        lexiconNotificator.show();
     }
 
     protected void requestConceptHelp() {

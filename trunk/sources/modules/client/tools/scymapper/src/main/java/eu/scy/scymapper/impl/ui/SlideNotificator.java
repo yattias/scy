@@ -142,6 +142,10 @@ public class SlideNotificator implements Notificator {
 		w.setLocation(tmpLoc);
 		return offscreenImage;
 	}
+	
+	public boolean isVisible() {
+		return window.isVisible();
+	}
 
 	class Roller extends JWindow {
 		private BufferedImage offscreenImage;
