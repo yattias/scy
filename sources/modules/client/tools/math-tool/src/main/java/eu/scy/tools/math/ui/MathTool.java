@@ -21,7 +21,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledPanel;
 
 import eu.scy.tools.math.controller.MathToolController;
-import eu.scy.tools.math.shapes.MathToolRectangle;
+import eu.scy.tools.math.shapes.MathRectangle;
 import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
 import eu.scy.tools.math.ui.actions.QuitAction;
 import eu.scy.tools.math.ui.actions.ToggleGridAction;
@@ -29,17 +29,11 @@ import eu.scy.tools.math.ui.panels.ControlPanel;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class MathTool {
-
-
 	
 	private MathToolController mathToolController;
-
 	private JXTitledPanel workAreaPanel;
-
 	private ShapeCanvas shapeCanvas;
-
 	private JXPanel mainPanel;
-
 
 	public MathTool() {
 		this.init();
@@ -126,25 +120,28 @@ public class MathTool {
 		
 		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset "+insets)); //$NON-NLS-1$
 		
+		ControlPanel controlPanel = new ControlPanel(type,new MigLayout(" inset "+insets));
+		
 		//40 of the width
-		allPanel.add(createWorkAreaPanel(type), "grow,span"); //$NON-NLS-1$
+		allPanel.add(createWorkAreaPanel(type, controlPanel), "grow,span"); //$NON-NLS-1$
 		
-		ControlPanel subPanel = new ControlPanel(type,new MigLayout(" inset "+insets));
 		
-		allPanel.add(subPanel,"east");
+		
+		allPanel.add(controlPanel,"east");
 		return allPanel;
 	}
 	
 
-	private JXTitledPanel createWorkAreaPanel(String type) {
+	private JXTitledPanel createWorkAreaPanel(String type, ControlPanel controlPanel) {
 		workAreaPanel = new JXTitledPanel(type  + " " +"Work Area");
 		UIUtils.setModTitlePanel(workAreaPanel);
 		
 		
 		setShapeCanvas(new ShapeCanvas(true));
+		getShapeCanvas().setControlPanel(controlPanel);
 		getShapeCanvas().setName(UIUtils.SHAPE_CANVAS);
 		getShapeCanvas().setBackground(Color.WHITE);
-		getShapeCanvas().setLayout(new MigLayout("fill, insets 3 3 3 3"));
+		
 		workAreaPanel.add(getShapeCanvas());
 		
 //		getShapeCanvas().add(new MathToolRectangle(new java.awt.Rectangle(100, 200)));

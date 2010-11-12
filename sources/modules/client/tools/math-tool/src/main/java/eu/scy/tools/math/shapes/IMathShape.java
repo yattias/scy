@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import org.jdesktop.swingx.JXButton;
+
 public interface IMathShape {
 
 	public void repaint();
@@ -29,10 +31,6 @@ public interface IMathShape {
 
 	public boolean contains(Point point);
 
-	public void setCornerPointRectangle(Rectangle cornerPointRectangle);
-
-	public Rectangle getCornerPointRectangle();
-
 	public void paintComponent(Graphics g);
 
 	public void setFillColor(Color fillColor);
@@ -41,6 +39,11 @@ public interface IMathShape {
 
 	public String getType();
 
-	void createCornerPoints();
+	public void createCornerPoints();
+
+	public void setCornerPointRectangles(Rectangle[] cornerPointRectangles);
+
+	public Rectangle[] getCornerPointRectangles();
+
 	
 }

@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import eu.scy.tools.math.shapes.IMathEllipse;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathShape;
+import eu.scy.tools.math.shapes.IMathTriangle;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.panels.IShapeCanvas;
 
@@ -69,10 +70,11 @@ public class AdjustSizeAdapter extends MouseAdapter {
 
 		Point eventPoint = event.getPoint();
 
-		Point[] points = foundShape.getPoints();		
-		points[position] = event.getPoint();
-		
 		if( foundShape instanceof IMathEllipse) {
+			Point[] points = foundShape.getPoints();		
+			points[position] = event.getPoint();
+			System.out.println("position dragging " + position);
+			
 			 int dx = event.getX() - x;
 	         int dy = event.getY() - y;
 	         ((IMathEllipse) foundShape).addHeight(dx);
@@ -80,6 +82,13 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	         System.out.println(foundShape.toString());
 	         x += dx;
 	         y += dy;
+		} else if( foundShape instanceof IMathTriangle) {
+			((IMathTriangle) foundShape).moveCornerPoint(position,event.getPoint());
+		} else if( foundShape instanceof IMathRectangle ) {
+			Point[] points = foundShape.getPoints();		
+			points[position] = event.getPoint();
+			System.out.println("position dragging " + position);
+			
 		}
 		foundShape.repaint();
 		((JComponent) this.shapeCanvas).repaint();
@@ -106,10 +115,13 @@ public class AdjustSizeAdapter extends MouseAdapter {
 
 		ArrayList<IMathShape> mathShapes = this.shapeCanvas.getMathShapes();
 		for (IMathShape shape : mathShapes) {
-			if( shape.getCornerPointRectangle().contains(p) ) {
-				((JComponent) this.shapeCanvas).setCursor(Cursor
-						.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
-			}
+			
+				if( shape.isHitOnEndPoints(p) != -1) {
+					((JComponent) this.shapeCanvas).setCursor(Cursor
+							.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+				}
+			
+			
 		}
 			
 		
@@ -152,13 +164,27 @@ public class AdjustSizeAdapter extends MouseAdapter {
 							.getDefaultCursor());
 				}
 				return;
-			} else if(foundShape.getCornerPointRectangle().contains(p)) {
+			} else if(foundShape.isHitOnEndPoints(p) != -1) {
 				((JComponent) this.shapeCanvas).setCursor(Cursor
 						.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
 				return;
 			}
 			
 			
+		} else if( foundShape instanceof IMathTriangle) {
+			if (foundShape.contains(p)) {
+				if (((JComponent) this.shapeCanvas).getCursor() != Cursor
+						.getDefaultCursor()) {
+					// If cursor is not over rect reset it to the default.
+					((JComponent) this.shapeCanvas).setCursor(Cursor
+							.getDefaultCursor());
+				}
+				return;
+			} else if(foundShape.isHitOnEndPoints(p) == 1) {
+				((JComponent) this.shapeCanvas).setCursor(Cursor
+						.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+				return;
+			}
 		}
 
 	}

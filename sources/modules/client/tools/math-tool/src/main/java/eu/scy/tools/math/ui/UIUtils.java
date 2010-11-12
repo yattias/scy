@@ -32,9 +32,18 @@ public class UIUtils {
 	public static final String MATH_TOOL_PANEL = "MATH_TOOL_PANEL";
 	public static final int SHAPE_END_POINT_SIZE = 8;
 	public static final Font plainFont = new Font("Times New Roman", Font.PLAIN, 13);
-    
+    public static final Color dottedShapeLine = Color.yellow;
+    public static final String CIRCLE = "CIRCLE";
+	public static final String TRIANGLE = "TRIANGLE";
+	public static final String RECTANGLE = "RECTANGLE";
+	public static final String RECTANGLE3D = "RECTANGLE3D";
+	public static final String SPHERE3D = "SPHERE3D";
+	public static final Object CYLINDER3D = "CYLINDER3D";
+	public static final Color ERROR_SHAPE_COLOR = Color.red;
+	
     
 	public static Dimension frameDimension;
+	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
 
 	public static List<Component> getAllComponents(final Container c) {
 		Component[] comps = c.getComponents();

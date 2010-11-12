@@ -15,6 +15,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
+import org.jdesktop.swingx.JXButton;
+
 import eu.scy.tools.math.ui.UIUtils;
 
 public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
@@ -22,10 +24,10 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	
 	private String id;
 	private boolean isShowCornerPoints = true;
-	private Rectangle cornerPointRectangle;
 	private Point[] points  = new Point[1];
 	private Color fillColor = new Color(0x99cc99);
 	private double radius;
+	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 
 	public MathEllipse(double x, double y, double width, double height) {
         setFrame(x, y, width, height);
@@ -56,23 +58,13 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 			g2.draw(this);
 		}
 		
-		Stroke oldStroke = g2.getStroke();
-		 Stroke thindashed = new BasicStroke(1.0f, // line width
-			      /* cap style */BasicStroke.CAP_BUTT,
-			      /* join style, miter limit */BasicStroke.JOIN_BEVEL, 1.0f,
-			      /* the dash pattern */new float[] { 1.0f, 2.0f, 1.0f, 2.0f },
-			      /* the dash phase */0.0f); /* on 8, off 3, on 2, off 3 */
-	    g2.setStroke(thindashed);
 		
-		g2.setPaint(Color.black);
-		g2.draw(centerLine);
-		g2.setStroke(oldStroke);
 		
 		//draw corner rects
 		if( isShowCornerPoints() ) {
-				setCornerPointRectangle(new Rectangle(points[0].x,points[0].y,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE)); 
-				g2.fill(getCornerPointRectangle());
-				
+			    cornerPointRectangles[0] = new Rectangle(points[0].x,points[0].y,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE);
+				g2.fill(cornerPointRectangles[0]);
+		}
 				//text height
 				String s = "r = " + getRadius();
 
@@ -92,7 +84,18 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 			    
 			    g2.setPaint(Color.black);
 			    g2.drawString(widthText.getIterator(), x,y);
-		}
+			    
+			    Stroke oldStroke = g2.getStroke();
+				 Stroke thindashed = new BasicStroke(1.0f, // line width
+					      /* cap style */BasicStroke.CAP_BUTT,
+					      /* join style, miter limit */BasicStroke.JOIN_BEVEL, 1.0f,
+					      /* the dash pattern */new float[] { 1.0f, 2.0f, 1.0f, 2.0f },
+					      /* the dash phase */0.0f); /* on 8, off 3, on 2, off 3 */
+			    g2.setStroke(thindashed);
+				
+				g2.setPaint(UIUtils.dottedShapeLine);
+				g2.draw(centerLine);
+				g2.setStroke(oldStroke);
 		
 
 	}
@@ -159,10 +162,13 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	@Override
 	public int isHitOnEndPoints(Point eventPoint) {
-		if (getCornerPointRectangle().getBounds2D().contains(eventPoint)) {
-			System.out.println("mouse pressed found at position " + 0);
-			return 0;
+		for (int i = 0; i < cornerPointRectangles.length; i++) {
+			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
+				System.out.println("mouse pressed found at position " + 0);
+				return i;
+			}
 		}
+		
 		return -1;
 	}
 
@@ -173,16 +179,6 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
           } else {
               return false;
           }
-	}
-
-	@Override
-	public void setCornerPointRectangle(Rectangle cornerPointRectangle) {
-		this.cornerPointRectangle = cornerPointRectangle;
-	}
-
-	@Override
-	public Rectangle getCornerPointRectangle() {
-		return this.cornerPointRectangle;
 	}
 
 	@Override
@@ -236,6 +232,24 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		points[0] = new Point(xp,yp);
 		
 	}
+
+
+
+	@Override
+	public void setCornerPointRectangles(Rectangle[] cornerPointRectangles) {
+		this.cornerPointRectangles = cornerPointRectangles;
+	}
+
+
+
+	@Override
+	public Rectangle[] getCornerPointRectangles() {
+		return cornerPointRectangles;
+	}
+
+
+
+	
 
 	
 
