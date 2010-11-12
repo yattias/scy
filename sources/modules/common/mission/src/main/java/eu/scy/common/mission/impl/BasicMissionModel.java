@@ -34,12 +34,6 @@ public class BasicMissionModel implements MissionModel
    }
 
    @Override
-   public String getName()
-   {
-      return missionModelEloContent.getName();
-   }
-
-   @Override
    public Las getSelectedLas()
    {
       return missionModelEloContent.getSelectedLas();

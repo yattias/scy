@@ -24,6 +24,7 @@ public interface Las
    public void setSelectedMissionAnchor(MissionAnchor missionAnchor);
 
    public void setNextLasses(List<Las> nextLasses);
+   public void setLoEloUris(List<URI> loEloUris);
    public void setOtherEloUris(List<URI> otherEloUris);
    public void setXPos(float x);
    public void setYPos(float y);

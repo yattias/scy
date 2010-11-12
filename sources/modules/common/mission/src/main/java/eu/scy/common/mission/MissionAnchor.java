@@ -25,5 +25,7 @@ public interface MissionAnchor
    public void setExisting(boolean existing);
    public void setAssignmentUri(URI uri);
    public void setScyElo(ScyElo scyElo);
+   public void setEloUri(URI eloUri);
+   public void setLoEloUris(List<URI> loEloUris);
    
 }

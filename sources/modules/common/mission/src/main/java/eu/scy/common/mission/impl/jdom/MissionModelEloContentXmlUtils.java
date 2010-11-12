@@ -23,7 +23,6 @@ public class MissionModelEloContentXmlUtils
 {
    private final static String missionModelName = "missionModel";
    private final static String idName = "id";
-   private final static String nameName = "name";
    private final static String loElosName = "loElos";
    private final static String otherElosName = "otherElos";
    private final static String activeLasName = "activeLas";
@@ -60,7 +59,7 @@ public class MissionModelEloContentXmlUtils
    {
       Element root = new Element(missionModelName);
 //      root.addContent(createElement(idName,missionMapModel.id));
-      root.addContent(createElement(nameName,missionModel.getName()));
+//      root.addContent(createElement(nameName,missionModel.getName()));
       String selectedLasId = "";
       if (missionModel.getSelectedLas() != null){
          selectedLasId = missionModel.getSelectedLas().getId();
@@ -134,7 +133,6 @@ public class MissionModelEloContentXmlUtils
          return null;
       }
       BasicMissionModelEloContent missionModel = new BasicMissionModelEloContent();
-      missionModel.setName(root.getChildTextTrim(nameName));
       missionModel.setLoEloUris(getUriListValue(root.getChild(loElosName),eloUriName));
       HashMap<String,Las> lassesMap = new HashMap<String,Las>();
       HashMap<URI,MissionAnchor> anchorsMap = new HashMap<URI,MissionAnchor>();
