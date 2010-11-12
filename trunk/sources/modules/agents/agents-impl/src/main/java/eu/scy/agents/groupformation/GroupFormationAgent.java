@@ -51,12 +51,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		}
 	}
 
+	/* activated by action log */
 	private Tuple getActivationTuple() {
-		// ("form_group",<QueryID>:String, <User>:String, <ELOUri>:String.class,
-		// <Strategy>:String)
-		// return new Tuple("form_group", AgentProtocol.QUERY, String.class,
-		// String.class, String.class);
-		//		
 		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
 				FORM_GROUP, String.class, String.class, String.class,
 				String.class, String.class, Field.createWildCardField());
@@ -107,8 +103,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				// TODO handle?
 				return;
 			}
-
 			String user = getUser(elo);
+			String mission = action.getContext(ContextConstants.mission);
 
 			String strategy = action.getAttribute(STRATEGY);
 
@@ -116,7 +112,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 					.getStrategy(strategy);
 
 			List<String> formedGroup = groupFormationStrategy.formGroup(elo,
-					user);
+					mission, user);
 
 			activateCollaboration(action, formedGroup);
 		}
