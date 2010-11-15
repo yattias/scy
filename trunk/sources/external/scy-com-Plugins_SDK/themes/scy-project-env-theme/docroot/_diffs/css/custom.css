@@ -173,21 +173,21 @@ z-index:150;
 }
 
 
-/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
-/*Workaround um klicken der Topper-buttons für Startseite zu ermöglichen*/
+/* Kurioser Bug... ohne Farbwechsel gibt es ï¿½berhaupt keine Reaktion*/
+/*Workaround um klicken der Topper-buttons fï¿½r Startseite zu ermï¿½glichen*/
 .ie .lfr-grid:hover > tbody > tr > td > .lfr-portlet-column > .portlet-boundary > .portlet > .portlet-topper
 {
 background-color:#DDCBF3 !important;
 }
 
-/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
-/*Workaround um klicken der Topper-buttons für alle Seiten mit ausnahme der Startseite zu ermöglichen*/
+/* Kurioser Bug... ohne Farbwechsel gibt es ï¿½berhaupt keine Reaktion*/
+/*Workaround um klicken der Topper-buttons fï¿½r alle Seiten mit ausnahme der Startseite zu ermï¿½glichen*/
 .ie .lfr-column:hover > .lfr-portlet-column > .portlet-boundary > .portlet > .portlet-topper
 {
 background-color:#DDCBF3 !important;
 }
 
-/* Kurioser Bug... ohne Farbwechsel gibt es überhaupt keine Reaktion*/
+/* Kurioser Bug... ohne Farbwechsel gibt es ï¿½berhaupt keine Reaktion*/
 /*Workaround um klicken des Topper-Links im maximierten Modus*/
 .ie .columns-max:hover > .lfr-column > .portlet-boundary > .portlet > .portlet-topper
 {
@@ -257,7 +257,7 @@ body.portal-iframe,
 
 /*-------------------Administrations Menue------------------------------*/
 
-/*li element welches ds Administrations-Menu enthält*/
+/*li element welches ds Administrations-Menu enthï¿½lt*/
 #lfr-dock-menu li.administration-menu
 {
 position:absolute;
@@ -265,7 +265,7 @@ float: none;
 }
 
 
-/*"Administration" Drop Down menüs*/
+/*"Administration" Drop Down menï¿½s*/
 .js .interactive-mode{
 color: #FFF;
 background: #020509 url(../images/center_bg.png) repeat-x;
@@ -278,7 +278,7 @@ right:5%;
 }
 
 
-/*Das eigentlich Drop Down Menü*/
+/*Das eigentlich Drop Down Menï¿½*/
 .js .interactive-mode ul{
 position:absolute;
 z-index:83;
@@ -956,3 +956,7 @@ div.closermenuisactive_1 {
 display:block;
 }
 
+ul {
+	margin:0;
+	margin-left:2em;
+}
