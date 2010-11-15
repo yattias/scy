@@ -45,7 +45,7 @@ String serverPort = String.valueOf(themeDisplay.getServerPort());
 String addressOfPictureAdd = "/scy-theme/images/common/assign.png";
 
 //The Address for the InProgress Picture
-String addressOfPictureProgress= "/scy-theme/images/common/view.png";	
+String addressOfPictureProgress= "/scy-theme/images/hourglasses/hourglass.png";
 
 //The Name of the Role which is used for Filtering.
 String roleName = "SPGroup"; 
