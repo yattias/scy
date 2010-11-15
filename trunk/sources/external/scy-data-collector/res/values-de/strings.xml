@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="openForm">Formular öffnen</string>
+	<string name="openFormRepo">Formulare aus dem Repository laden
+	</string>
+	<string name="test">TEST</string>
+	<string name="openConfig">Konfiguration</string>
+	<string name="Quit">Beenden</string>
+	<string name="groupName">Gruppenname:</string>
+	<string name="userName">Benutzername:</string>
+	<string name="Password">Passwort:</string>
+	<string name="ServerURL">Server URL:</string>
+	<string name="OK">OK</string>
+	<string name="formulars">Formulare: </string>
+	<string name="formular">Formular: </string>
+	<string name="noFormsInRepository">Keine Formulare im Repository</string>
+	<string name="showOwnForms">eigene Formulare zeigen</string>
+	<string name="downloadSelectedForms">ausgewählte Formulare herunterladen
+	</string>
+	<string name="DownloadMessage">ausgewählte Formulare herunterladen?
+	</string>
+	<string name="openFormsNoForms">keine Formulare vorhanden</string>
+	<string name="btnSaveElo">Formulare im Repository speichern</string>
+	<string name="btnOpenForm">Formular öffnen</string>
+	<string name="btnDeleteForm">Formular löschen</string>
+	<string name="msgDeleteForm">dieses Formular löschen?</string>
+	<string name="YES">Ja</string>
+	<string name="NO">Nein</string>
+	<string name="msgSaveToSQL">Formular speichern</string>
+	<string name="msgPleaseWait">Bitte warten...</string>
+	<string name="btnDone">fertig</string>
+	<string name="msgDeleteDataSet">Diesen Datensatz löschen?</string>
+	<string name="tstRecordStart">Aufnahme gestartet</string>
+	<string name="tstRecordStop">Aufnahme gestoppt</string>
+	<string name="tstPlaybackStart">Wiedergabe gestartet</string>
+	<string name="tstPlaybackStop">Wiedergabe gestoppt</string>
+	<string name="tstPlay">Abspielen</string>
+	<string name="tstPlayDONE">Abspielen fertig</string>
+	<string name="tstCantStartRecording">Aufnahme konnte nicht gestartet werden
+	</string>
+	<string name="Events">Events</string>
+	<string name="GPS">GPS:</string>
+	<string name="noGPS">GPS war nicht verfügbar</string>
+	<string name="Position">Position</string>
+	<string name="of">von</string>
+	<string name="msgLoadFormRepo">Formular aus Repository laden</string>
+	<string name="msgDownloadForms">Ausgewählte Formulare laden?</string>
+	<string name="msgNoConnectionToRepository">Keine Verbindung zum Repository!</string>
+	<string name="chkDownlaod">herunterladen</string>
+	<string name="msgSaveToRepository">Im Repository speichern</string>
+	<string name="msgPositionCapturing">Position wird ermittelt</string>
+	<string name="msgShowGPS">Position anzeigen</string>
+	<string name="connectionError">Fehler bei der Verbindung zum Repository!</string>
+	<string name="notconfiguredyet">Die Applikation ist noch nicht konfiguriert. Bitte gehen Sie auf Konfiguration und geben Sie die benötigten Daten an.</string>
+</resources>
