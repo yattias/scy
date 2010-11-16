@@ -20,10 +20,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -59,8 +61,6 @@ import eu.scy.scymapper.impl.ui.Localization;
 public class KeywordSuggestionPanel extends JPanel {
 
     private static String sep = System.getProperty("file.separator");
-
-    private static final String ICON_PATH = "src" + sep + "main" + sep + "resources/";
 
     private static final String ADD_NODE_ICON = "add_node.png";
 
@@ -215,12 +215,31 @@ public class KeywordSuggestionPanel extends JPanel {
 
     class IconAndTextCellRenderer extends JLabel implements ListCellRenderer {
 
-        ImageIcon iconAddNode = new ImageIcon(ICON_PATH + ADD_NODE_ICON);
+        ImageIcon iconAddNode = null;
 
-        ImageIcon iconAddEdge = new ImageIcon(ICON_PATH + ADD_EDGE_ICON);
+        ImageIcon iconAddEdge = null;
 
-        ImageIcon iconSpecifyEdge = new ImageIcon(ICON_PATH + SPECIFY_EDGE_ICON);
+        ImageIcon iconSpecifyEdge = null;
 
+        public IconAndTextCellRenderer() {
+        	try {
+        		iconAddNode = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ADD_NODE_ICON)));
+				iconAddEdge = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ADD_EDGE_ICON)));
+				iconSpecifyEdge = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + SPECIFY_EDGE_ICON)));
+        	} catch(IllegalArgumentException e) {
+        		iconAddNode = new ImageIcon();
+        		iconAddEdge = new ImageIcon();
+        		iconSpecifyEdge = new ImageIcon();
+        		e.printStackTrace();
+        	} catch(IOException e) {
+        		iconAddNode = new ImageIcon();
+        		iconAddEdge = new ImageIcon();
+        		iconSpecifyEdge = new ImageIcon();        		
+        		e.printStackTrace();
+        	}
+        }
+        
+        
         @Override
         public Component getListCellRendererComponent(JList list, // the list
         Object value, // value to display

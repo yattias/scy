@@ -25,7 +25,9 @@ public class SCYMapperStandaloneConfig {
 
     private static Properties config;
     
-    private static final String LOCAL_CONFIG_FILE_PATH = "src/main/resources/eu/scy/scymapper/";
+//    private static final String LOCAL_CONFIG_FILE_PATH = "src/main/resources/eu/scy/scymapper/";
+    private static final String LOCAL_CONFIG_FILE_PATH = "";
+    
 
     private static final String LOCAL_CONFIG_FILE = "scymapper.properties";
 
@@ -60,7 +62,6 @@ public class SCYMapperStandaloneConfig {
     private SCYMapperStandaloneConfig() {
         config = new Properties();
         loadDefaultConfig(config);
-
         File file = new File(LOCAL_CONFIG_FILE_PATH + LOCAL_CONFIG_FILE);
         if (file.canRead()) {
             // Use config file if possible
@@ -129,7 +130,12 @@ public class SCYMapperStandaloneConfig {
 
     public List<String> getLexicon() {
         try {
-            String[] entries = config.getProperty(KEY_LEXICON).split(",");
+        	String lexiconEntries = config.getProperty(KEY_LEXICON);
+        	if(lexiconEntries == null) {
+        		return null;
+        	}
+        	
+            String[] entries = lexiconEntries.split(",");
             List<String> entriesAsList = new ArrayList<String>();
             for (String string : entries) {
                 entriesAsList.add(string.trim());

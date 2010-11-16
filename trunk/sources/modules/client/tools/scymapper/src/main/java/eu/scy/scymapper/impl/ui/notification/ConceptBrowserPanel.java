@@ -3,9 +3,12 @@ package eu.scy.scymapper.impl.ui.notification;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -46,7 +49,7 @@ public class ConceptBrowserPanel extends JPanel {
         setDoubleBuffered(true);
 
         descriptionLabel = new JTextPane();
-
+        
         StyledDocument doc = descriptionLabel.getStyledDocument();
         Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
         Style s = doc.addStyle("bold", def);
@@ -70,38 +73,39 @@ public class ConceptBrowserPanel extends JPanel {
     
     public void readLexicon() {
         String text = null;
+
     	List<String> lexicon = SCYMapperStandaloneConfig.getInstance().getLexicon();
     	if(lexicon == null || lexicon.size() == 0) {
             text = Localization.getString("Mainframe.Lexicon.NoEntry") + "\n";
     	} else {
             text = Localization.getString("Mainframe.Lexicon.EntryTitle") + "\n";
+
+            if (lexicon.size() <= VISIBLE_ENTRIES) {
+    			for (String entry : lexicon) {
+    				lexiconPanel.add(new JLabel(entry));
+    			}
+    		} else {
+    			Random rndGenerator = new Random();
+    			for(int i = 0; i < VISIBLE_ENTRIES; i++) {
+    				int rnd = rndGenerator.nextInt(lexicon.size());
+    				lexiconPanel.add(new JLabel(lexicon.get(rnd)));
+    				lexicon.remove(rnd);
+    			}
+    		}            
     	}
-
-        StyledDocument doc = descriptionLabel.getStyledDocument();
-        try {
-            if (!text.equals(doc.getText(0, doc.getLength()))) {
-                doc.remove(0, doc.getLength());
-                doc.insertString(doc.getLength(), text, doc.getStyle("regular"));
-            }
-            // following line is for broken Mac Java to have a correct layout ...
-            if (System.getProperty("java.vm.vendor").startsWith("Apple")) {
-                descriptionLabel.getPreferredSize();
-            }
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-
-    	if (lexicon.size() <= VISIBLE_ENTRIES) {
-			for (String entry : lexicon) {
-				lexiconPanel.add(new JLabel(entry));
-			}
-		} else {
-			Random rndGenerator = new Random();
-			for(int i = 0; i < VISIBLE_ENTRIES; i++) {
-				int rnd = rndGenerator.nextInt(lexicon.size());
-				lexiconPanel.add(new JLabel(lexicon.get(rnd)));
-				lexicon.remove(rnd);
-			}
-		}
+    	
+    	StyledDocument doc = descriptionLabel.getStyledDocument();
+    	try {
+    		if (!text.equals(doc.getText(0, doc.getLength()))) {
+    			doc.remove(0, doc.getLength());
+    			doc.insertString(doc.getLength(), text, doc.getStyle("regular"));
+    		}
+    		// following line is for broken Mac Java to have a correct layout ...
+    		if (System.getProperty("java.vm.vendor").startsWith("Apple")) {
+    			descriptionLabel.getPreferredSize();
+    		}
+    	} catch (BadLocationException e) {
+    		e.printStackTrace();
+    	}
     }
 }
