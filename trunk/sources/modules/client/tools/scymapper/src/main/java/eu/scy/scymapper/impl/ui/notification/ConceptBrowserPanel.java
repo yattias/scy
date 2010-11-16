@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -59,10 +60,11 @@ public class ConceptBrowserPanel extends JPanel {
         lexiconPanel.setBackground(Color.WHITE);
         
         JPanel compound = new JPanel(new BorderLayout());
+        compound.setBackground(Color.WHITE);
+        compound.setBorder(new EmptyBorder(5, 5, 5, 5));
         compound.add(descriptionLabel, BorderLayout.NORTH);
         compound.add(lexiconPanel, BorderLayout.CENTER);
 
-//        add(BorderLayout.NORTH, titleLabel);
         add(compound, BorderLayout.CENTER);
     }
     
