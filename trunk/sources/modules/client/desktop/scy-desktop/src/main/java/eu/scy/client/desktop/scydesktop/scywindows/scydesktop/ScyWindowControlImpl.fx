@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 import javafx.util.Sequences;
 import java.lang.Void;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -117,7 +117,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
        windowPositioner.positionWindows();
     }
 
-   function activeLasChanged(oldActiveLas: Las) {
+   function activeLasChanged(oldActiveLas: LasFX) {
       logger.info("new active las: {activeLas.id}");
       repositoryWrapper.setLasId(activeLas.id);
       if (oldActiveLas != null) {
@@ -341,7 +341,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       return null;
    }
 
-   function getAnchorDirection(las: Las): Number {
+   function getAnchorDirection(las: LasFX): Number {
       return Math.atan2(las.yPos - activeLas.yPos, las.xPos - activeLas.xPos);
    }
 

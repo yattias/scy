@@ -75,7 +75,7 @@ function createElement(name:String, value:Object):Element{
    JDomConversionUtils.createElement(name, value)
 }
 
-function createLasXml(las:Las):Element{
+function createLasXml(las:LasFX):Element{
    var lasRoot = new Element(lasName);
    lasRoot.addContent(createElement(idName,las.id));
    lasRoot.addContent(createElement(xPosName, las.xPos));
@@ -104,7 +104,7 @@ function createMissionAnchorXml(tagName:String, missionAnchor:MissionAnchorFX):E
    var root = new Element(tagName);
    root.addContent(createElement(eloUriName, missionAnchor.eloUri));
    root.addContent(createElement(iconTypeName, missionAnchor.iconType));
-   root.addContent(createElement(mainAnchorName, missionAnchor.mainAnchor));
+//   root.addContent(createElement(mainAnchorName, missionAnchor.mainAnchor));
    root.addContent(createEloUriListXml(loElosName,missionAnchor.loEloUris));
    root.addContent(createAnchorListXml(inputAnchorsName,missionAnchor.inputAnchors));
    root.addContent(createStringListXml(relationsName,missionAnchor.relationNames));
@@ -166,7 +166,7 @@ public function convertToMissionModel(xml: String): MissionModelFX {
    }
    var activeLasId = root.getChildTextTrim(activeLasName);
    if (activeLasId!=null){
-      missionModel.anchorSelected(lassesMap.get(activeLasId) as Las, null);
+      missionModel.anchorSelected(lassesMap.get(activeLasId) as LasFX, null);
    }
    if (sizeof missionModel.lasses > 0){
       fillInMissingLinks(missionModel,lassesMap,anchorsMap,lassesRoot);
@@ -175,8 +175,8 @@ public function convertToMissionModel(xml: String): MissionModelFX {
    return missionModel;
 }
 
-function createLas(root:Element, anchorsMap: HashMap):Las{
-   var las= Las{
+function createLas(root:Element, anchorsMap: HashMap):LasFX{
+   var las= LasFX{
       id: root.getChildTextTrim(idName)
       xPos: java.lang.Float.parseFloat(root.getChildTextTrim(xPosName));
       yPos: java.lang.Float.parseFloat(root.getChildTextTrim(yPosName));
@@ -207,7 +207,7 @@ function createMissionAnchor(root:Element):MissionAnchorFX{
    var missionAnchor = MissionAnchorFX{
       eloUri: JDomConversionUtils.getUriValue(root,eloUriName)
       iconType: root.getChildText(iconTypeName)
-      mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
+//      mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
       loEloUris: createEloUriList(root.getChild(loElosName))
       relationNames: createStringList(root.getChild(relationsName),relationsName)
       targetDescriptionUri: JDomConversionUtils.getUriValue(root,targetDescriptionUriName)
@@ -252,10 +252,10 @@ function fillInMissingLinks(missionModel:MissionModelFX, lassesMap: HashMap, anc
    for (lasObject in lasChildrenRoot){
       var lasChild = lasObject as Element;
       var lasId = lasChild.getChildTextTrim(idName);
-      var las = lassesMap.get(lasId) as Las;
+      var las = lassesMap.get(lasId) as LasFX;
       var nextLassesIds = createStringList(lasChild.getChild(nextLassesName),lasName);
       for (nextLasId in nextLassesIds){
-         insert lassesMap.get(nextLasId) as Las into las.nextLasses;
+         insert lassesMap.get(nextLasId) as LasFX into las.nextLasses;
       }
       fillInMissingAnchorLinks(lasChild.getChild(mainAnchorName),anchorsMap);
       var intermediateAnchorsRoot = lasChild.getChild(intermediateAnchorsName);

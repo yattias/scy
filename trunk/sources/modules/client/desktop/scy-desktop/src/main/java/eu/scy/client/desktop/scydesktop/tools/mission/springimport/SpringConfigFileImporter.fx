@@ -8,7 +8,7 @@ import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.config.BasicLas;
 import eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor;
 import eu.scy.client.desktop.scydesktop.config.MissionAnchor;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.IllegalArgumentException;
@@ -68,7 +68,7 @@ public class SpringConfigFileImporter {
          }
       var initialActiveLasId = missionConfigInput.getBasicMissionMap().getInitialLasId();
       if (initialActiveLasId != null) {
-         var initialActiveLas: Las;
+         var initialActiveLas: LasFX;
          for (las in missionModel.lasses) {
             if (las.id == initialActiveLasId) {
                initialActiveLas = las
@@ -100,13 +100,13 @@ public class SpringConfigFileImporter {
       return uris;
    }
 
-   function createLasSequence(lasList: List, missionAnchorList: List): Las[] {
+   function createLasSequence(lasList: List, missionAnchorList: List): LasFX[] {
       var lasIdMap = new HashMap();
-      var lasses: Las[];
+      var lasses: LasFX[];
       if (lasList != null)
          lasses = for (object in lasList) {
                var basicLas = object as BasicLas;
-               var las = Las {
+               var las = LasFX {
                      id: basicLas.getId();
                      xPos: basicLas.getxPosition();
                      yPos: basicLas.getyPosition();
@@ -127,9 +127,9 @@ public class SpringConfigFileImporter {
       if (lasList != null)
          for (object in lasList) {
             var basicLas = object as BasicLas;
-            var las = lasIdMap.get(basicLas.getId()) as Las;
+            var las = lasIdMap.get(basicLas.getId()) as LasFX;
             for (lasId in basicLas.getNextLasses()) {
-               var nextLas = lasIdMap.get(lasId) as Las;
+               var nextLas = lasIdMap.get(lasId) as LasFX;
                if (nextLas != null) {
                   insert nextLas into las.nextLasses;
                } else {
@@ -180,7 +180,7 @@ public class SpringConfigFileImporter {
       if (lasList != null) {
          for (object in lasList) {
             var basicLas = object as BasicLas;
-            var las = lasIdMap.get(basicLas.getId()) as Las;
+            var las = lasIdMap.get(basicLas.getId()) as LasFX;
             las.mainAnchor = missionAnchorMap.get(basicLas.getAnchorEloId()) as MissionAnchorFX;
             las.mainAnchor.las = las;
             if (las.mainAnchor == null) {

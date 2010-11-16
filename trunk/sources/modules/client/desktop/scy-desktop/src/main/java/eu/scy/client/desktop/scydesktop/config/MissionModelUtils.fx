@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import java.lang.String;
 import java.util.List;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 
 /**
  * @author sikken
@@ -30,7 +30,7 @@ public function retrieveMissionModelFromConfig(config: Config): MissionModelFX {
       }
    var initialActiveLasId = config.getBasicMissionMap().getInitialLasId();
    if (initialActiveLasId != null) {
-      var initialActiveLas: Las;
+      var initialActiveLas: LasFX;
       for (las in missionModel.lasses) {
          if (las.id == initialActiveLasId) {
             initialActiveLas = las
@@ -62,13 +62,13 @@ function createExistingEloUriSequence(uriList: List, objectLabel: String, config
    return uris;
    }
 
-function createLasSequence(lasList: List, missionAnchorList: List, config: Config): Las[] {
+function createLasSequence(lasList: List, missionAnchorList: List, config: Config): LasFX[] {
    var lasIdMap = new HashMap();
-   var lasses: Las[];
+   var lasses: LasFX[];
    if (lasList != null)
       lasses = for (object in lasList) {
          var basicLas = object as BasicLas;
-         var las = Las {
+         var las = LasFX {
                id: basicLas.getId();
                xPos: basicLas.getxPosition();
                yPos: basicLas.getyPosition();
@@ -87,9 +87,9 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
    if (lasList != null)
       for (object in lasList) {
          var basicLas = object as BasicLas;
-         var las = lasIdMap.get(basicLas.getId()) as Las;
+         var las = lasIdMap.get(basicLas.getId()) as LasFX;
          for (lasId in basicLas.getNextLasses()) {
-            var nextLas = lasIdMap.get(lasId) as Las;
+            var nextLas = lasIdMap.get(lasId) as LasFX;
             if (nextLas != null) {
                insert nextLas into las.nextLasses;
                } else {
@@ -136,7 +136,7 @@ function createLasSequence(lasList: List, missionAnchorList: List, config: Confi
    if (lasList != null) {
       for (object in lasList) {
          var basicLas = object as BasicLas;
-         var las = lasIdMap.get(basicLas.getId()) as Las;
+         var las = lasIdMap.get(basicLas.getId()) as LasFX;
          las.mainAnchor = missionAnchorMap.get(basicLas.getAnchorEloId()) as MissionAnchorFX;
          las.mainAnchor.las = las;
          if (las.mainAnchor == null) {

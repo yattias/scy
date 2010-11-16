@@ -20,14 +20,14 @@ public class MissionAnchorFX {
    public var iconType:String;
    public var inputAnchors: MissionAnchorFX[];
    public var relationNames: String[];
-   public var mainAnchor = true;
+//   public var mainAnchor = true;
    public var exists = false;
    public var color = Color.LIGHTGRAY;
    public var iconCharacter = "?";
    public var title = "?";
    public var loEloUris: URI[];
    public var metadata: IMetadata;
-   public var las:Las;
+   public var las:LasFX;
 
    public var targetDescriptionUri:URI;
    public var assignmentUri: URI;

@@ -163,7 +163,7 @@ public class MissionMap extends CustomNode {
 
    function createAnchorLinks(): AnchorLink[] {
       var links:AnchorLink[];
-      var processedLasses:Las[];
+      var processedLasses:LasFX[];
       for (fromAnchor in anchorDisplays) {
          for (toLas in fromAnchor.las.nextLasses) {
             var addLink = true;
@@ -189,7 +189,7 @@ public class MissionMap extends CustomNode {
       links
    }
 
-   function getAnchorDisplay(las: Las): AnchorDisplay {
+   function getAnchorDisplay(las: LasFX): AnchorDisplay {
       return anchorMap.get(las) as AnchorDisplay;
    }
 

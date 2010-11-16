@@ -38,7 +38,7 @@ public class AnchorDisplay extends CustomNode {
    public var notExistsOpacity = 0.5;
    public var positionScale = 1.0;
 
-   public var las: Las;
+   public var las: LasFX;
    public var windowStyler:WindowStyler;
    public-read var xCenter = bind positionScale*las.xPos + size / 2;
    public-read var yCenter = bind positionScale*las.yPos + size / 2;
