@@ -15,64 +15,48 @@ public class DataFormElementTextView extends DataFormElementView {
     public DataFormElementTextView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
         super(dfem, application, dfec);
 
-        TextView label = new TextView(application);
+        inflate(getApplication(), R.layout.textformelement, this);
+        
+        TextView label = (TextView) findViewById(R.id.textformelement_label);
         label.setWidth(super.Column1width);
-        ImageButton takeText = new ImageButton(application);
-        TextView preview = new TextView(application);
-        preview.setMaxLines(2);
-        preview.setWidth(super.Column3width + Column4width);
-        // takeText.setText("Text");
+        label.setText(dfem.getTitle());
+        
+        ImageButton takeText = (ImageButton) findViewById(R.id.textformelement_write_text);
         takeText.setMinimumWidth(super.Column2width);
-        takeText.setImageResource(R.drawable.text);
         takeText.setId(id);
-        ImageButton _btnDetails = new ImageButton(application);
-        // _btnDetails.setText("Details");
-        _btnDetails.setImageResource(R.drawable.ic_menu_info_details);
-        _btnDetails.setMaxHeight(RowMaxHeight);
-        _btnDetails.setId(id);
-
-        _btnDetails.setMinimumWidth(Column5width);
-
-        if (dfem.getDataList().size() < 1) {
-            _btnDetails.setVisibility(INVISIBLE);
-        } else
-            _btnDetails.setVisibility(VISIBLE);
-        _btnDetails.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View v) {
-                dfec.openDetail(application, id);
-            }
-        });
-
-        final int _id = id;
-
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
-            String tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
-            preview.setText(tmp);
-        }
-
         takeText.setOnClickListener(new OnClickListener() {
-
             public void onClick(View v) {
                 dfec.events(DataFormElementEventTypes.ONBEFORE);
                 Intent tki = new Intent();
                 tki.setClass(application, DataCollectorTakeTextActivity.class);
                 String datatext = "";
-                // if (dfem.getStoredData(dfem.getDataList().size() - 1) !=
-                // null) {
-                // datatext = new
-                // String(dfem.getStoredData(dfem.getDataList().size() - 1));
-                // }
                 tki.putExtra("datatext", datatext);
-                application.startActivityForResult(tki, _id);
+                application.startActivityForResult(tki, id);
+            }
+        });
+        
+        TextView preview = (TextView) findViewById(R.id.textformelement_preview_text);
+        preview.setWidth(super.Column3width + Column4width);
+        
+        ImageButton btnDetails = new ImageButton(application);
+        btnDetails.setId(id);
+        btnDetails.setMinimumWidth(Column5width);
+
+        if (dfem.getDataList().size() < 1) {
+            btnDetails.setVisibility(INVISIBLE);
+        } else {
+            btnDetails.setVisibility(VISIBLE);
+        }
+        
+        btnDetails.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                dfec.openDetail(application, id);
             }
         });
 
-        label.setText(dfem.getTitle());
-
-        addView(label);
-        addView(takeText);
-        addView(preview);
-        addView(_btnDetails);
+        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
+            String tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
+            preview.setText(tmp);
+        }
     }
 }
