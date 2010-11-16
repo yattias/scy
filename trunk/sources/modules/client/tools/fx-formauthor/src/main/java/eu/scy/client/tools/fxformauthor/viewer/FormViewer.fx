@@ -41,6 +41,7 @@ import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewDate;
 import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewNumber;
 import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewGPS;
 import javafx.scene.text.Font;
+import eu.scy.client.tools.fxformauthor.viewer.element.ElementViewAudio;
 
 /**
  * @author pg
@@ -67,11 +68,13 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     var elements:ArrayList = new ArrayList();
     //title
     var titleText:Text = Text {
-        font: Font { size: 14 }
+        translateX: 5;
+        font: Font { size: 16 }
         content: bind title;
     }
 
     var descriptionText:Text = Text {
+        translateX: 5
         font: Font { size: 14 }
         content: bind description;
     }
@@ -85,6 +88,14 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
                     loadFDM(DataHandler.getInstance().loadFromFile());
                 }
             },
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-7)}resources/world_add.png" } }
+                tooltip: Tooltip { text: "browse ELOs" }
+                action:function():Void {
+                    formNode.browseElos();
+                    loadFDM(DataHandler.getInstance().getLastFDM())
+                }
+            },
             Button{
                 graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-7)}resources/application_form.png" } }
                 tooltip: Tooltip { text: "open in FormAuthor" }
@@ -93,6 +104,7 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
                 }
             }
         ];
+        spacing: 2.0;
     }
 
     var header:VBox = VBox {
@@ -100,7 +112,7 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     }
 
     var contentBox:VBox = VBox {
-        spacing: 2.0;
+        spacing: 5.0;
         content: []
     }
 
@@ -171,7 +183,10 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
                 }
             }
             if(fde.getType() == FormElementDataType.VOICE) {
-                println("VOICE field - not implemented");
+                element = ElementViewAudio {
+                    viewer: this;
+                    fde: fde;
+                }
 
             }
             if(fde.getType() == FormElementDataType.COUNTER) {

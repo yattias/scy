@@ -6,6 +6,7 @@
 package eu.scy.client.tools.fxformauthor.viewer.element;
 import javafx.scene.text.Text;
 import eu.scy.client.tools.fxformauthor.datamodel.FormDataElement;
+import javafx.scene.paint.Color;
 
 /**
  * @author pg
@@ -13,7 +14,7 @@ import eu.scy.client.tools.fxformauthor.datamodel.FormDataElement;
 
 public class ElementViewDate extends IFormViewElement, AbstractElementView {
     postinit {
-        loadFormElement();
+        //loadFormElement();
     }
     override public function loadFormElement (fde : FormDataElement) : Void {
         if(fde != null) {
@@ -23,29 +24,29 @@ public class ElementViewDate extends IFormViewElement, AbstractElementView {
     }
 
 
-    function loadFormElement():Void {
+    override function loadFormElement():Void {
 
-        title = fde.getTitle();
+        title = "Date: {fde.getTitle()}";
         //display data..
         if(fde.getUsedCardinality() > 0) {
             for(i in [0..fde.getUsedCardinality()-1]) {
                 println("load form element.. {i}");
                 var data:Byte[] = fde.getStoredData(i);
                 if(data != null) {
-                    insert Text {
+                    itemList.add(Text {
                                     content: new String(data);
                                     wrappingWidth: bind width-20;
-                                }
-                    into dataDisplay;
+                                });
+                    //into dataDisplay;
                     println("data != null.. loading DATE");
                 }
                 else {
-                    insert Text { content: "No Data Found. Entry #{i}"; } into dataDisplay;
+                    itemList.add(Text { font: bind defaultTextFont; content: "No Data Found. Entry #{i}"; }); // into dataDisplay;
                 }
             }
         }
-        if((sizeof dataDisplay) == 0) {
-            insert Text { content: "No Data Found." } into dataDisplay;
+        if(itemList.size() == 0) {
+            itemList.add(Text {  font: defaultErrorFont; fill: Color.RED; content: "No Data Found." }); // into dataDisplay;
         }
 
     }
