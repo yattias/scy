@@ -102,6 +102,7 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
             }
         }
     }
+    /*
     var contentBox:VBox = VBox {
         content: bind [
             titleText,
@@ -120,6 +121,38 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
             ]
         padding: Insets { bottom: 2; top: 2; left: 5; right: 5; }
         layoutInfo: LayoutInfo { width: bind width-10;} 
+        translateY: 10;
+    }*/
+    var contentBox:HBox = HBox {
+        content: bind [
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/resultset_previous.png" } }
+                opacity: 0.0;
+            },
+            VBox {
+                content: [
+                    titleText,
+                    Separator{
+                        opacity: 0.0;
+                    },
+                    //dataDisplay,
+                    HBox {
+                        content: bind [itemToDisplay]
+                        translateX: 45;
+                        width: bind width-100;
+                    },
+                    //eventButton,
+                    //eventNodes
+                    eventBar
+                    ]
+            },
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/resultset_previous.png" } }
+                opacity: 0.0;
+            }
+            ]
+        padding: Insets { bottom: 2; top: 2; left: 5; right: 5; }
+        layoutInfo: LayoutInfo { width: bind width-10;}
         translateY: 10;
     }
 
@@ -164,21 +197,30 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
     var prevBT:Button = Button {
         graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/resultset_previous.png" } }
         tooltip: Tooltip { text: "previous item" }
-        translateX: bind backgroundRectangle.x;
+        translateX: bind backgroundRectangle.x;//-15;
         translateY: bind backgroundRectangle.y+(backgroundRectangle.layoutBounds.height/2)-15;
         action:function():Void {
             showPrevious();
         }
+        //layoutInfo: LayoutInfo {
+        //    width: 26;
+        //    height: 20;
+        //}
     }
     
     var nextBT:Button = Button {
         graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/resultset_next.png" } }
         tooltip: Tooltip { text: "next item" }
-        translateX: bind backgroundRectangle.x + backgroundRectangle.layoutBounds.width - 42;
+        translateX: bind backgroundRectangle.x + backgroundRectangle.layoutBounds.width - 42;//+28;
         translateY: bind backgroundRectangle.y + (backgroundRectangle.layoutBounds.height/2)-15;
         action:function():Void {
             showNext();
         }
+        //layoutInfo: LayoutInfo {
+        //    width: 26;
+        //    height: 20;
+        //}
+        
     }
 
     var buttonBox:Node[] = [prevBT, nextBT];
