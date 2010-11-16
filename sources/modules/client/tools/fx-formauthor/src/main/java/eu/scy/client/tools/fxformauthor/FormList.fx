@@ -279,18 +279,20 @@ public class FormList extends CustomNode {
     }
 
     function askForReplace():Void {
-        var options = ["Append content", "Delete current form"];
-        var result:Number = JOptionPane.showOptionDialog(
-                null,
-                "Do you want to append the ELO content to the current form?",
-                "Replace Form?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                (options as Object[]),
-                (options[0] as Object));
-        if(result == 1.0) {
-            clearContent();
+        if(DataHandler.getInstance().getLastFDM() != null) {
+            var options = ["Append content", "Delete current form"];
+            var result:Number = JOptionPane.showOptionDialog(
+                    null,
+                    "Do you want to append the ELO content to the current form?",
+                    "Replace Form?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    (options as Object[]),
+                    (options[0] as Object));
+            if(result == 1.0) {
+                clearContent();
+            }
         }
     }
 

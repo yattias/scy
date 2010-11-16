@@ -15,6 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.LayoutInfo;
 import javafx.geometry.Insets;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
 
 /**
  * @author pg
@@ -22,7 +26,7 @@ import javafx.geometry.Insets;
 
 public class ElementViewImage extends IFormViewElement, AbstractElementView {
     postinit {
-        loadFormElement();
+        //loadFormElement();
     }
     override public function loadFormElement (fde : FormDataElement) : Void {
         if(fde != null) {
@@ -32,59 +36,58 @@ public class ElementViewImage extends IFormViewElement, AbstractElementView {
     }
 
 
-    function loadFormElement():Void {
-
-        title = fde.getTitle();
+    override function loadFormElement():Void {
+        title = "Image: {fde.getTitle()}";
+        var imageContent:VBox = VBox{};
+        var imageHBox : HBox = HBox {spacing: 5.0};
         //display data..
         if(fde.getUsedCardinality() > 0) {
+            var lasti:Number = 0;
             for(i in [0..fde.getUsedCardinality()-1]) {
+                var item:Node;
                 println("load form element.. {i}");
                 var data:Byte[] = fde.getStoredData(i);
                 if(data != null) {
                 var img:BufferedImage = ImageIO.read(new ByteArrayInputStream(data));
-                /*
-                target.loadPicture(img); =>
-                 viewer.image = SwingUtils.toFXImage(img);
-                */
                 var image:Image = SwingUtils.toFXImage(img);
-                /*
-                    insert Text {
-                                    content: new String(data);
-                                    wrappingWidth: bind width-20;
-                                }
-                    into dataDisplay;
-                */
-                insert ImageView {
-                                    fitHeight: 100;
-                                    fitWidth: 100;
+                item = ImageView {
+                                    fitHeight: 200;
+                                    fitWidth: 450;
                                     image: image;
                                     preserveRatio: true;
                                     onMouseReleased: function(e:MouseEvent):Void {
                                         putImageToFront(image); 
                                     }
-                                    //onmouseover: mauszeiger ändern
                                     layoutInfo: LayoutInfo {
                                         margin: Insets {
                                             bottom: 5;
                                             top: 5;
                                         }
-
-
                                     }
-
-
                                 }
-                    into dataDisplay;
+                    //into imageHBox.content;
+                    itemList.add(item);
                     println("data != null.. loading image");
+                    if((i mod 5) == 4) {
+                        insert imageHBox into imageContent.content;
+                        imageHBox = HBox {spacing: 5.0};
+                    }
                 }
                 else {
-                    insert Text { content: "No Data Found. Entry #{i}"; } into dataDisplay;
+                    item = Text { content: "No Data Found. Entry #{i}"; }; // into item;
+                    itemList.add(item);
                 }
+                lasti = i;
             }
+            /*
+            if((lasti mod 5) != 4) {
+                insert imageHBox into imageContent.content;
+            }
+            insert imageContent into dataDisplay;
+            */
         }
-        if((sizeof dataDisplay) == 0) {
-            insert Text { content: "No Data Found." } into dataDisplay;
+        if(itemList.size() == 0) {
+            itemList.add(Text { font: defaultErrorFont; fill: Color.RED; content: "No Data Found." });
         }
-
     }
 }

@@ -4,10 +4,10 @@
  */
 
 package eu.scy.client.tools.fxformauthor.viewer.element;
-import javafx.scene.CustomNode;
 import eu.scy.client.tools.fxformauthor.datamodel.FormDataElement;
 import javafx.scene.text.Text;
 import org.apache.commons.codec.binary.Base64;
+import javafx.scene.paint.Color;
 
 /**
  * @author pg
@@ -157,9 +157,9 @@ public class ElementViewText extends  IFormViewElement, AbstractElementView {
 
 */
     postinit {
-        loadFormElement();
+        //loadFormElement();
     }
-    override public function loadFormElement (fde : FormDataElement) : Void {
+    override override public function loadFormElement (fde : FormDataElement) : Void {
         if(fde != null) {
             this.fde = fde;
             loadFormElement();
@@ -167,8 +167,8 @@ public class ElementViewText extends  IFormViewElement, AbstractElementView {
     }
 
 
-    function loadFormElement():Void {
-        title = fde.getTitle();
+    override function loadFormElement():Void {
+        title = "Text: {fde.getTitle()}";
         //display data.. 
         if(fde.getUsedCardinality() > 0) {
             for(i in [0..fde.getUsedCardinality()-1]) {
@@ -176,20 +176,21 @@ public class ElementViewText extends  IFormViewElement, AbstractElementView {
                 var data:Byte[] = fde.getStoredData(i);
                 if(data != null) {
                     var text = new String(Base64.decodeBase64(data));
-                    insert Text {
+                    itemList.add(Text {
                                     content: new String(data);
-                                    wrappingWidth: bind width-20; 
-                                }
-                    into dataDisplay; 
+                                    wrappingWidth: bind width-20;
+                                    font: bind defaultTextFont; 
+                                });
+                    //into dataDisplay;
                     println("data != null.. {text}");
                 }
                 else {
-                    insert Text { content: "No Data Found. Entry #{i}"; } into dataDisplay;
+                    itemList.add(Text { content: "No Data Found. Entry #{i}"; }); // into dataDisplay;
                 }
             }
         }
-        if((sizeof dataDisplay) == 0) {
-            insert Text { content: "No Data Found." } into dataDisplay;
+        if(itemList.size() == 0) {
+            itemList.add(Text { font: defaultErrorFont; fill: Color.RED; content: "No Data Found." }); // into dataDisplay;
         }
 
     }
