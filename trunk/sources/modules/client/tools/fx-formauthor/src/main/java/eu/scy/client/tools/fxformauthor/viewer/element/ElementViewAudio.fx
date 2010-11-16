@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
 public class ElementViewAudio extends IFormViewElement, AbstractElementView {
     postinit {
         //loadFormElement();
-        this.translateX = -2;
+        //this.translateX = -2;
     }
     override public function loadFormElement (fde : FormDataElement) : Void {
         if(fde != null) {
