@@ -57,6 +57,7 @@ public class FormList extends CustomNode {
     override var children = bind [nodes];
     public-read var backgroundColor:Color = bind scyWindow.windowColorScheme.backgroundColor;
     public-read var mainColor:Color = bind scyWindow.windowColorScheme.mainColor;
+    var fdm:FormDataModel;
     //Button-Bar
     def addButton:Button = Button { 
         graphic: ImageView{ image: Image { url: "{__DIR__}resources/textfield_add.png" } }
@@ -279,7 +280,10 @@ public class FormList extends CustomNode {
     }
 
     function askForReplace():Void {
-        if(DataHandler.getInstance().getLastFDM() != null) {
+        if(fdm == null) {
+            return;
+        }
+
             var options = ["Append content", "Delete current form"];
             var result:Number = JOptionPane.showOptionDialog(
                     null,
@@ -293,7 +297,6 @@ public class FormList extends CustomNode {
             if(result == 1.0) {
                 clearContent();
             }
-        }
     }
 
     public function createFromString(xml:String):Void {
@@ -317,6 +320,7 @@ public class FormList extends CustomNode {
                                 JOptionPane.OK_CANCEL_OPTION);
             return;
         }
+        this.fdm = fdm;
         askForReplace();
         titleBox.text = fdm.getTitle();
         descriptionBox.text = fdm.getDescription();

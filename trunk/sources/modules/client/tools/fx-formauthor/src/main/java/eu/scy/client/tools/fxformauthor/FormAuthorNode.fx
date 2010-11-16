@@ -53,7 +53,7 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         if(fdm != null) {
             viewer.loadFDM(fdm);
         }
-        else {
+        else { 
             fdm = formList.createFDM();
             viewer.loadFDM(fdm);
         }
@@ -65,6 +65,7 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     public function loadAuthor():Void {
         delete viewer from nodes;
         insert formList into nodes;
+        //formList.loadFDM(DataHandler.getInstance().getLastFDM());
     }
 
 
