@@ -11,7 +11,6 @@ import java.util.List;
 import eu.scy.common.mission.MissionAnchor;
 import java.net.URI;
 import javafx.scene.paint.Color;
-import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -30,8 +29,6 @@ public class LasFX extends Las {
    public var intermediateAnchors: MissionAnchorFX[];
    public var otherEloUris: URI[] on replace{ las.setOtherEloUris(missionUtils.getUriList(otherEloUris))};
    public var color = Color.LIGHTGRAY;
-   public var iconCharacter = "?";
-//   public var title = "?";
    public var toolTip: String;
    public var exists = false;
    public var instructionUri: URI;

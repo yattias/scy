@@ -11,19 +11,19 @@ import eu.scy.common.mission.LasType;
 /**
  * @author sikken
  */
-public class Las {
+public class LasFX {
 
    public var id = "?";
    public var xPos: Number = 0;
    public var yPos: Number = 0;
    public var loEloUris: URI[];
-   public var nextLasses: Las[];
-   public var previousLasses: Las[];
+   public var nextLasses: LasFX[];
+   public var previousLasses: LasFX[];
    public var mainAnchor: MissionAnchorFX;
    public var intermediateAnchors: MissionAnchorFX[];
    public var otherEloUris: URI[];
    public var color = Color.LIGHTGRAY;
-   public var iconCharacter = "?";
+//   public var iconCharacter = "?";
 //   public var title = "?";
    public var toolTip: String;
    public var exists=false;

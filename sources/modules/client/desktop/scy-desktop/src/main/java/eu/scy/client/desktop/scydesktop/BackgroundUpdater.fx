@@ -5,7 +5,7 @@
  */
 
 package eu.scy.client.desktop.scydesktop;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.Las;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 import eu.scy.client.desktop.scydesktop.uicontrols.DynamicTypeBackground;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 
@@ -15,7 +15,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 
 public class BackgroundUpdater {
    public-init var background: DynamicTypeBackground;
-   public var activeLas:Las on replace {updateBackground()}
+   public var activeLas:LasFX on replace {updateBackground()}
    public-init var eloDisplayTypeControl: EloDisplayTypeControl;
 
    init{

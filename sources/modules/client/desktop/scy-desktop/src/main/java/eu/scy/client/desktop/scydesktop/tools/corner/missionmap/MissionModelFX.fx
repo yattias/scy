@@ -28,8 +28,8 @@ public class MissionModelFX {
    public var lasHistory:String[];
 
    public var loEloUris:URI[];
-   public var lasses:Las[];
-   public-read var activeLas:Las on replace{
+   public var lasses:LasFX[];
+   public-read var activeLas:LasFX on replace{
          logger.debug("new activeLas {activeLas}");
          insert activeLas.id into lasHistory;
          updateElo();
@@ -60,7 +60,7 @@ public class MissionModelFX {
       }
    }
 
-   public function anchorSelected(las:Las,anchor:MissionAnchorFX):Void{
+   public function anchorSelected(las:LasFX,anchor:MissionAnchorFX):Void{
       if (las==activeLas){
          if (las.selectedAnchor==anchor){
             // nothing changed
@@ -124,7 +124,7 @@ public class MissionModelFX {
       return updatedUris;
    }
 
-   function updateLasEloUri(las:Las,oldEloUri:URI, newEloUri:URI){
+   function updateLasEloUri(las:LasFX,oldEloUri:URI, newEloUri:URI){
       updateAnchorEloUri(las.mainAnchor,oldEloUri,newEloUri);
       for (intermediateAnchor in las.intermediateAnchors){
          updateAnchorEloUri(intermediateAnchor,oldEloUri,newEloUri);
