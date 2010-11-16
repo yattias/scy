@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.dgc.VMID;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,30 +34,32 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     private final static FadeNotificator.Position SUGGEST_KEYWORD_POSITION = FadeNotificator.Position.EAST;
 
     private final static FadeNotificator.Position LEXICON_POSITION = FadeNotificator.Position.LOWER_LEFT_CORNER;
-    
+
     private final static int REENABLE_BUTTONS_TIMER = 10;
-    
+
     private Notificator lexiconNotificator;
 
     private SCYMapperStandaloneConfig standaloneConfig;
 
     private ConceptBrowserPanel conceptBrowserPanel;
-    
+
     private JButton requestConceptHelpButton;
 
     private JButton requestRelationHelpButton;
 
     private JToggleButton requestLexiconButton;
-    
+
     private Timer timer;
-    
+
     private Timer reenableButtonTimer;
-    
+
     private Help helpMode;
 
     private Timer helpTimer;
 
     private long helpInterval;
+
+    private TimerTask reEnableTask;
 
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
         super(cmap, configuration);
@@ -71,16 +72,16 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     }
 
     protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position) {
-//    	int yOffset = -cmapPanel.getY();
-//    	FadeNotificator fn = new FadeNotificator(parent, panel, position, 0, yOffset);
-    	FadeNotificator fn = new FadeNotificator(parent, panel, position);
-    	fn.setBorderPainted(false);
+        // int yOffset = -cmapPanel.getY();
+        // FadeNotificator fn = new FadeNotificator(parent, panel, position, 0, yOffset);
+        FadeNotificator fn = new FadeNotificator(parent, panel, position);
+        fn.setBorderPainted(false);
         return fn;
     }
 
     protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position, int xOffset, int yOffset) {
-    	FadeNotificator fn = new FadeNotificator(parent, panel, position, xOffset, yOffset);
-    	fn.setBorderPainted(false);
+        FadeNotificator fn = new FadeNotificator(parent, panel, position, xOffset, yOffset);
+        fn.setBorderPainted(false);
         return fn;
     }
 
@@ -95,81 +96,87 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
         this.helpMode = standaloneConfig.getHelpMode();
         this.helpInterval = standaloneConfig.getContinuousHelpInterval();
         super.initComponents();
-		switch (helpMode) {
-		case VOLUNTARY:
-			// Provide voluntary help
-			reenableButtonTimer = new Timer(true);
-			requestConceptHelpButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestConceptHelp"));
-			requestConceptHelpButton.addActionListener(new ActionListener() {
+        switch (helpMode) {
+            case VOLUNTARY:
+                // Provide voluntary help
+                reenableButtonTimer = new Timer(true);
+                requestConceptHelpButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestConceptHelp"));
+                requestConceptHelpButton.addActionListener(new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    requestConceptHelpButton.setEnabled(false);
-                    requestRelationHelpButton.setEnabled(false);
-                    requestConceptHelp();
-
-					reenableButtonTimer.schedule(new TimerTask() {
-
-		                @Override
-		                public void run() {
-							requestConceptHelpButton.setEnabled(true);
-							requestRelationHelpButton.setEnabled(true);
-		                }
-		            }, REENABLE_BUTTONS_TIMER * 1000);
-                }
-			});
-
-			requestRelationHelpButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestRelationHelp"));
-			requestRelationHelpButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					requestConceptHelpButton.setEnabled(false);
-					requestRelationHelpButton.setEnabled(false);
-					requestRelationHelp();
-
-					reenableButtonTimer.schedule(new TimerTask() {
-
-		                @Override
-		                public void run() {
-							requestConceptHelpButton.setEnabled(true);
-							requestRelationHelpButton.setEnabled(true);
-		                }
-		            }, REENABLE_BUTTONS_TIMER * 1000);
-				}
-
-			});
-			toolBar.add(requestConceptHelpButton);
-			toolBar.add(requestRelationHelpButton);
-
-			invalidate();
-			break;
-
-		case CONTINUOUS:
-            timer = new Timer(true);
-            timer.schedule(new TimerTask() {
-
-                @Override
-                public void run() {
-                	if(cmapPanel.getDiagramView().getNodeCount() < standaloneConfig.getContinuousHelpWaitConceptNr() || suggestionPanel.isVisible()) {
-                		return;
-                	}
-                    suggestionPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                    suggestionPanel.setVisible(true);
-                    helpTimer = new Timer(true);
-                    helpTimer.schedule(new TimerTask() {
-
-                        @Override
-                        public void run() {
-                            requestConceptHelp();
-                            requestRelationHelp();
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        requestConceptHelpButton.setEnabled(false);
+                        requestRelationHelpButton.setEnabled(false);
+                        requestConceptHelp();
+                        if (reEnableTask != null) {
+                            reEnableTask.cancel();
                         }
+                        reEnableTask = new TimerTask() {
 
-                    }, 0, helpInterval * 1000);
-                }
-            }, standaloneConfig.getContinuousHelpWaitTime() * 1000, 10 * 1000);
-            invalidate();
-			break;
+                            @Override
+                            public void run() {
+                                requestConceptHelpButton.setEnabled(true);
+                                requestRelationHelpButton.setEnabled(true);
+                            }
+                        };
+                        reenableButtonTimer.schedule(reEnableTask, REENABLE_BUTTONS_TIMER * 1000);
+                    }
+                });
+
+                requestRelationHelpButton = new JButton(Localization.getString("Mainframe.Toolbar.RequestRelationHelp"));
+                requestRelationHelpButton.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        requestConceptHelpButton.setEnabled(false);
+                        requestRelationHelpButton.setEnabled(false);
+                        requestRelationHelp();
+                        if (reEnableTask != null) {
+                            reEnableTask.cancel();
+                        }
+                        reEnableTask = new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                requestConceptHelpButton.setEnabled(true);
+                                requestRelationHelpButton.setEnabled(true);
+                            }
+                        };
+                        reenableButtonTimer.schedule(reEnableTask, REENABLE_BUTTONS_TIMER * 1000);
+                    }
+
+                });
+                toolBar.add(requestConceptHelpButton);
+                toolBar.add(requestRelationHelpButton);
+
+                invalidate();
+                break;
+
+            case CONTINUOUS:
+                timer = new Timer(true);
+                timer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        if (cmapPanel.getDiagramView().getNodeCount() < standaloneConfig.getContinuousHelpWaitConceptNr() || suggestionPanel.isVisible()) {
+                            return;
+                        }
+                        suggestionPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                        suggestionPanel.setVisible(true);
+                        helpTimer = new Timer(true);
+                        helpTimer.schedule(new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                requestConceptHelp();
+                                requestRelationHelp();
+                            }
+
+                        }, 0, helpInterval * 1000);
+                    }
+                }, standaloneConfig.getContinuousHelpWaitTime() * 1000, 10 * 1000);
+                invalidate();
+                break;
             case NOHELP:
                 // NOHELP means nothing to do ;)
             default:
@@ -177,21 +184,21 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                 break;
         }
 
-		requestLexiconButton = new JToggleButton(Localization.getString("Mainframe.Toolbar.RequestLexicon"));
-		requestLexiconButton.addActionListener(new ActionListener() {
+        requestLexiconButton = new JToggleButton(Localization.getString("Mainframe.Toolbar.RequestLexicon"));
+        requestLexiconButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(lexiconNotificator != null && lexiconNotificator.isVisible()) {
-					lexiconNotificator.hide();
-				} else {
-					showLexicon();
-				}
-			}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (lexiconNotificator != null && lexiconNotificator.isVisible()) {
+                    lexiconNotificator.hide();
+                } else {
+                    showLexicon();
+                }
+            }
 
-		});
-		toolBar.add(requestLexiconButton);
-		
+        });
+        toolBar.add(requestLexiconButton);
+
         conceptBrowserPanel = new ConceptBrowserPanel();
         conceptBrowserPanel.setVisible(false);
         add(BorderLayout.SOUTH, conceptBrowserPanel);
@@ -214,17 +221,17 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             requestConceptHelpButton.setEnabled(true);
             requestRelationHelpButton.setEnabled(true);
             suggestionPanel = new KeywordSuggestionPanel();
-            if(reenableButtonTimer != null) {
-            	reenableButtonTimer.cancel();
+            if (reenableButtonTimer != null) {
+                reEnableTask.cancel();
             }
 
         }
 
         if (type.equals("concept")) {
             suggestionPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.ConceptTitle"));
-    	} else {
+        } else {
             suggestionPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.RelationTitle"));
-    	}
+        }
 
         suggestionPanel.setSuggestions(keywords, categories, configuration.getNodeFactories(), type, helpMode == Help.CONTINUOUS);
 
@@ -239,17 +246,17 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
             notificator = createNotificator(this, suggestionPanel);
 
-			JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
-			close.addActionListener(new ActionListener() {
+            JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
+            close.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					notificator.hide();
-				}
-			});
-			suggestionPanel.add(BorderLayout.SOUTH, close);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    notificator.hide();
+                }
+            });
+            suggestionPanel.add(BorderLayout.SOUTH, close);
 
-			notificator.show();
+            notificator.show();
         }
     }
 
@@ -258,26 +265,26 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
      */
     public void showLexicon() {
 
-    	conceptBrowserPanel = new ConceptBrowserPanel();
-    	conceptBrowserPanel.readLexicon();
+        conceptBrowserPanel = new ConceptBrowserPanel();
+        conceptBrowserPanel.readLexicon();
 
-    	conceptBrowserPanel.setSize(250, 250);
-    	conceptBrowserPanel.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
-    	conceptBrowserPanel.setBackground(Color.WHITE);
+        conceptBrowserPanel.setSize(250, 250);
+        conceptBrowserPanel.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
+        conceptBrowserPanel.setBackground(Color.WHITE);
 
         if (lexiconNotificator != null) {
-        	lexiconNotificator.hide();
+            lexiconNotificator.hide();
         }
-        
-        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, cmapPanel.getX(), cmapPanel.getY()-8);
+
+        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, cmapPanel.getX(), cmapPanel.getY() - 8);
 
         JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
         close.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	requestLexiconButton.setSelected(false);
-            	lexiconNotificator.hide();
+                requestLexiconButton.setSelected(false);
+                lexiconNotificator.hide();
             }
         });
         conceptBrowserPanel.add(BorderLayout.SOUTH, close);
@@ -286,9 +293,10 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     }
 
     protected void requestConceptHelp() {
-    	actionLogger.logRequestConceptHelp();
+        actionLogger.logRequestConceptHelp();
     }
+
     protected void requestRelationHelp() {
-    	actionLogger.logRequestRelationHelp();
+        actionLogger.logRequestRelationHelp();
     }
 }
