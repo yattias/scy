@@ -205,7 +205,7 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
     var prevBT:Button = Button {
         graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/resultset_previous.png" } }
         tooltip: Tooltip { text: "previous item" }
-        translateX: bind backgroundRectangle.x+1;//-15;
+        translateX: bind backgroundRectangle.x-13;//-15;
         translateY: bind backgroundRectangle.y+(backgroundRectangle.layoutBounds.height/2)-15;
         action:function():Void {
             showPrevious();
@@ -219,7 +219,7 @@ public abstract class AbstractElementView extends CustomNode, IFormViewElement {
     var nextBT:Button = Button {
         graphic: ImageView{ image: Image { url: "{__DIR__.substring(0, __DIR__.length()-15)}resources/resultset_next.png" } }
         tooltip: Tooltip { text: "next item" }
-        translateX: bind backgroundRectangle.x + backgroundRectangle.layoutBounds.width - 42+14;//+28;
+        translateX: bind backgroundRectangle.x + backgroundRectangle.layoutBounds.width - 42+28;//+28;
         translateY: bind backgroundRectangle.y + (backgroundRectangle.layoutBounds.height/2)-15;
         action:function():Void {
             showNext();
