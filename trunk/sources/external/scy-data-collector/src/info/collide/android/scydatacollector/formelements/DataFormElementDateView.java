@@ -5,6 +5,7 @@ import info.collide.android.scydatacollector.DataFormElementModel;
 import info.collide.android.scydatacollector.DataFormElementEventModel.DataFormElementEventTypes;
 import android.text.format.Time;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,7 +13,7 @@ public class DataFormElementDateView extends DataFormElementView {
 
     public DataFormElementDateView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
         super(dfem, application, dfec);
-
+           
         TextView label = new TextView(getApplication());
         label.setWidth(super.Column1width);
 
