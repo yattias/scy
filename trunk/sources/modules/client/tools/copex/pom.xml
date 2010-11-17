@@ -48,6 +48,10 @@
             <artifactId>drawingtool</artifactId>
             <version>${pom.version}</version>
         </dependency>
+		<dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+		</dependency>
     </dependencies>
     
     <build>
