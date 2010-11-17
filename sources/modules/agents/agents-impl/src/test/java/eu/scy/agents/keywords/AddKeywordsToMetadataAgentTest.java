@@ -26,6 +26,7 @@ import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
+import roolo.elo.metadata.keys.KeyValuePair;
 
 public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 
@@ -124,12 +125,12 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 
     IELO retrievedELO = this.repository.retrieveELOLastVersion(copexEloUri);
     IMetadata metadata = retrievedELO.getMetadata();
-    IMetadataKey keywordKey = typeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
+    IMetadataKey keywordKey = typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
     IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
-    List<String> keywords = (List<String>) metadataValueContainer.getValueList();
+    List<KeyValuePair> keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
     assertEquals(25, keywords.size());
 
-    assertTrue(hasItems(keywords, "binder", "solvent", "voc", "natural paints", "modern paints",
+    assertTrue(hasKeywords(keywords, "binder", "solvent", "voc", "natural paints", "modern paints",
                         "ingredients", "nontoxic", "Natural paints", "Environmentally Friendly",
                         "toxic", "chemical", "conventional paint companies", "conventional paint",
                         "non-toxic paints", "VOC content", "used as solvent", "labels", "paint",
@@ -141,11 +142,11 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
                                            "TestSession", webResourceEloPath, WEBRESOURCE_ELO_TYPE);
     retrievedELO = this.repository.retrieveELOLastVersion(webResourceEloUri);
     metadata = retrievedELO.getMetadata();
-    keywordKey = typeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
+    keywordKey = typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
     metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
-    keywords = (List<String>) metadataValueContainer.getValueList();
+    keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
     assertEquals(15, keywords.size());
-    assertTrue(hasItems(keywords, "ecological", "expressed", "carbon footprint", "strategy",
+    assertTrue(hasKeywords(keywords, "ecological", "expressed", "carbon footprint", "strategy",
                         "ecological footprint", "measured", "footprint", "private", "organization",
                         "sneaked", "carbon", "capture", "undertaking", "known", "assessment"));
 

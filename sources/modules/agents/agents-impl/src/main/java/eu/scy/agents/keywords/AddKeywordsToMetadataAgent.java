@@ -15,6 +15,9 @@ import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
+import java.util.ArrayList;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.KeyValuePair;
 
 public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
 
@@ -48,15 +51,20 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
     KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
     extractor.setTupleSpace(getCommandSpace());
     List<String> keywords = extractor.getKeywords(elo);
+    List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
+      for (String keyword : keywords) {
+          //initially using a default boosting factor
+          keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
+      }
 
-    addKeywordsToMetadata(elo, keywords);
+    addKeywordsToMetadata(elo, keywordsWithBoost);
   }
 
-  private void addKeywordsToMetadata(IELO elo, List<String> keywords) {
+  private void addKeywordsToMetadata(IELO elo, List<KeyValuePair> keywords) {
     if (keywords.isEmpty()) {
       return;
     }
-    IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(eu.scy.agents.keywords.KeywordConstants.AGENT_KEYWORDS);
+    IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
     IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(keywordKey);
     agentKeywordsContainer.setValueList(keywords);
 

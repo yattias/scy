@@ -48,7 +48,9 @@
 				<ref bean="isVersionedBy" />
 				<ref bean="isForkOf" />
 				<ref bean="isForkedBy" />
-				<ref bean="agentKeywords" />
+				<ref bean="keywordsKey" />
+				<ref bean="socialTagsKey" />
+				<ref bean="thumbnailKey" />
 				<ref bean="keywordSentenceHistogram" />
 			</list>
 		</property>
@@ -287,13 +289,31 @@
 		<constructor-arg index="4" ref="defaultRelationValidator" />
 	</bean>
 
-	<bean name="agentKeywords" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="agentKeywords" />
-		<constructor-arg index="1" value='/agentdata/keywords' />
+	<bean name="thumbnailKey" class="roolo.elo.metadata.keys.BinaryKey">
+		<constructor-arg index="0" value='thumbnail' />
+		<constructor-arg index="1" value='/thumbnail' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<!-- Should that be tokenized? -->
+		<constructor-arg index="4" value="UNTOKENIZED" />
+		<constructor-arg index="5" ref="defaultStringValidator" />
+	</bean>
+	<bean name="socialTagsKey" class="roolo.elo.metadata.keys.SocialTagsMetadataKey">
+		<constructor-arg index="0" value='socialTags' />
+		<constructor-arg index="1" value='/socialTags' />
+		<!-- One SocialTags class containing all tags, language independent -->
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
+	<bean name="keywordsKey" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
+		<constructor-arg index="0" value='keywords' />
+		<constructor-arg index="1" value='/keywords' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="LIST" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
+
 
 	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
 
