@@ -89,7 +89,7 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
     URI eloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
     this.eloPath = eloUri.toString();
 
-    IMetadataKey keywordKey = this.typeManager.getMetadataKey(KeywordConstants.AGENT_KEYWORDS);
+    IMetadataKey keywordKey = this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
     keywordKey = this.typeManager.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
   }
 
