@@ -208,6 +208,22 @@ public class ScyElo
       return this.getElo();
    }
 
+   public boolean reloadFrom(URI eloUri)
+   {
+      final IELO newElo = rooloServices.getRepository().retrieveELO(eloUri);
+      if (newElo == null)
+      {
+         return false;
+      }
+      uriFirstVersion = null;
+      metadata = newElo.getMetadata();
+      if (!hasOnlyMetadata())
+      {
+         elo = newElo;
+      }
+      return true;
+   }
+
    public IMetadata getMetadata()
    {
       return metadata;
@@ -227,7 +243,7 @@ public class ScyElo
       if (hasOnlyMetadata())
       {
          elo = rooloServices.getRepository().retrieveELO(getUri());
-         metadata = elo.getMetadata();
+         elo.setMetadata(metadata);
       }
    }
 
@@ -389,7 +405,7 @@ public class ScyElo
          }
          catch (IllegalArgumentException e)
          {
-            logger.info("unkown functional role value (" + value + ") in elo: " + getUri() );
+            logger.info("unkown functional role value (" + value + ") in elo: " + getUri());
          }
       }
       return null;
@@ -420,7 +436,7 @@ public class ScyElo
          }
          catch (Exception e)
          {
-            logger.info("unkown logical role value (" + value + ") in elo: " + getUri() );
+            logger.info("unkown logical role value (" + value + ") in elo: " + getUri());
          }
       }
       return null;
