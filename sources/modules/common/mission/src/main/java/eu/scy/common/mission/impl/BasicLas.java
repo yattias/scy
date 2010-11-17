@@ -1,6 +1,7 @@
 package eu.scy.common.mission.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import eu.scy.common.mission.Las;
@@ -12,12 +13,12 @@ public class BasicLas implements Las
    private String Id;
    private float xPos;
    private float yPos;
-   private List<URI> loEloUris;
-   private List<Las> nextLasses;
-   private List<Las> previousLasses;
+   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<Las> nextLasses = new ArrayList<Las>();
+   private List<Las> previousLasses = new ArrayList<Las>();
    private MissionAnchor missionAnchor;
-   private List<MissionAnchor> intermediateAnchors;
-   private List<URI> otherEloUris;
+   private List<MissionAnchor> intermediateAnchors = new ArrayList<MissionAnchor>();
+   private List<URI> otherEloUris = new ArrayList<URI>();
    private URI instructionUri;
    private boolean existing;
    private LasType lasType;
@@ -63,6 +64,7 @@ public class BasicLas implements Las
 
    public void setLoEloUris(List<URI> loEloUris)
    {
+      assert loEloUris!=null;
       this.loEloUris = loEloUris;
    }
 
@@ -73,6 +75,7 @@ public class BasicLas implements Las
 
    public void setNextLasses(List<Las> nextLasses)
    {
+      assert nextLasses!=null;
       this.nextLasses = nextLasses;
    }
 
@@ -83,6 +86,7 @@ public class BasicLas implements Las
 
    public void setPreviousLasses(List<Las> previousLasses)
    {
+      assert previousLasses!=null;
       this.previousLasses = previousLasses;
    }
 
@@ -103,6 +107,7 @@ public class BasicLas implements Las
 
    public void setIntermediateAnchors(List<MissionAnchor> intermediateAnchors)
    {
+      assert intermediateAnchors!=null;
       this.intermediateAnchors = intermediateAnchors;
    }
 
@@ -113,6 +118,7 @@ public class BasicLas implements Las
 
    public void setOtherEloUris(List<URI> otherEloUris)
    {
+      assert otherEloUris!=null;
       this.otherEloUris = otherEloUris;
    }
 
