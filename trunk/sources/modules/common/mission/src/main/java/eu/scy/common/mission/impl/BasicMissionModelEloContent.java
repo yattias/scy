@@ -1,6 +1,7 @@
 package eu.scy.common.mission.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import eu.scy.common.mission.Las;
@@ -8,10 +9,9 @@ import eu.scy.common.mission.MissionModelEloContent;
 
 public class BasicMissionModelEloContent implements MissionModelEloContent
 {
-   private List<URI> loEloUris;
-   private List<Las> lasses;
+   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<Las> lasses = new ArrayList<Las>();
    private Las selectedLas;
-   private String name;
 
    @Override
    public List<URI> getLoEloUris()
@@ -39,23 +39,14 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
 
    public void setLoEloUris(List<URI> loEloUris)
    {
+      assert loEloUris!=null;
       this.loEloUris = loEloUris;
    }
 
    public void setLasses(List<Las> lasses)
    {
+      assert lasses!=null;
       this.lasses = lasses;
    }
 
-   public String getName()
-   {
-      return name;
-   }
-
-   public void setName(String name)
-   {
-      this.name = name;
-   }
-
-   
 }

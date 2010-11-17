@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import roolo.elo.api.IELO;
+import eu.scy.common.mission.impl.BasicMissionModel;
 import eu.scy.common.mission.impl.BasicMissionModelEloContent;
 import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
@@ -13,14 +14,16 @@ import eu.scy.common.scyelo.ScyEloContentCreator;
 
 public class MissionModelElo extends ContentTypedScyElo<MissionModelEloContent>
 {
-   private static class MissionModelEloContentCreator implements ScyEloContentCreator<MissionModelEloContent>
+   private static class MissionModelEloContentCreator implements
+            ScyEloContentCreator<MissionModelEloContent>
    {
 
       @Override
       public MissionModelEloContent createScyEloContent(ScyElo scyElo)
       {
          String xml = scyElo.getElo().getContent().getXmlString();
-         if (xml==null || xml.length()==0){
+         if (xml == null || xml.length() == 0)
+         {
             return new BasicMissionModelEloContent();
          }
          try
@@ -29,16 +32,19 @@ public class MissionModelElo extends ContentTypedScyElo<MissionModelEloContent>
          }
          catch (URISyntaxException ex)
          {
-            throw new IllegalArgumentException("problems with the xml of the elo, uri: " + scyElo.getUri(), ex);
+            throw new IllegalArgumentException("problems with the xml of the elo, uri: "
+                     + scyElo.getUri(), ex);
          }
       }
 
       @Override
       public void updateEloContent(ContentTypedScyElo<MissionModelEloContent> scyElo)
       {
-         scyElo.getElo().getContent().setXmlString(MissionModelEloContentXmlUtils.missionModelToXml(scyElo.getTypedContent()));
+         scyElo.getElo().getContent().setXmlString(
+                  MissionModelEloContentXmlUtils.missionModelToXml(scyElo.getTypedContent()));
       }
    }
+
    private final static MissionModelEloContentCreator missionMapModelEloContentCreator = new MissionModelEloContentCreator();
 
    public MissionModelElo(IELO elo, RooloServices rooloServices)
@@ -70,10 +76,15 @@ public class MissionModelElo extends ContentTypedScyElo<MissionModelEloContent>
    public static MissionModelElo createElo(RooloServices rooloServices)
    {
       IELO elo = rooloServices.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
-               MissionEloType.MISSION_SPECIFICATIOM.getType());
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
+               .setValue(MissionEloType.MISSION_SPECIFICATIOM.getType());
       MissionModelElo scyElo = new MissionModelElo(elo, rooloServices);
       return scyElo;
+   }
+
+   public MissionModel getMissionModel()
+   {
+      return new BasicMissionModel(this);
    }
 
 }
