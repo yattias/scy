@@ -8,8 +8,8 @@ import java.lang.String;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFilter;
 import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
 import javax.swing.JFileChooser;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.common.mission.MissionEloType;
+import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 
 /**
  * @author SikkenJ
@@ -39,7 +39,7 @@ public class MissionMapModelEditor extends EloXmlEditor {
    override protected function validateXml(xml: String): String {
       var errors = super.validateXml(xml);
       if (errors == null) {
-         def missionModel = MissionModelXml.convertToMissionModel(xml);
+         def missionModel = MissionModelEloContentXmlUtils.missionModelFromXml(xml);
          if (missionModel == null) {
             errors = "The xml is not valid for mission map model";
          }

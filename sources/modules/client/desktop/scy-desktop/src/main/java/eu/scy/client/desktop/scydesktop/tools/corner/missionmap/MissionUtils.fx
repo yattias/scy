@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.scy.client.desktop.scydesktop.missionmodel;
+package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 
 import java.util.HashMap;
 import eu.scy.common.mission.Las;
@@ -61,11 +61,13 @@ public class MissionUtils {
       return uris
    }
 
-   public function getUriList(uris: URI[]):List{
+   public function getUriList(uris: URI[]): List {
       def uriList = new ArrayList();
-
+      for (uri in uris) {
+         uriList.add(uri);
+      }
+      return uriList
    }
-
 
    public function getLasFXSequence(lasList: List): LasFX[] {
       var lasses: LasFX[];

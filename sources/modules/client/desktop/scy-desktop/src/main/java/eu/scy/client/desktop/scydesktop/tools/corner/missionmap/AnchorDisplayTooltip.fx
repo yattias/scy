@@ -41,7 +41,7 @@ public class AnchorDisplayTooltip extends CustomNode {
 
    public override function create(): Node {
       def typeKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-      var eloType = anchor.metadata.getMetadataValueContainer(typeKey).getValue() as String;
+      var eloType = anchor.scyElo.getTechnicalFormat();
       var eloTypeName = scyDesktop.newEloCreationRegistry.getEloTypeName(eloType);
       var progress = Math.random();
       var content = VBox{

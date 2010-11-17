@@ -93,9 +93,8 @@ import eu.scy.common.mission.impl.MissionRuntimeSettingsManager;
 import java.util.HashSet;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettingsRetriever;
 import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.scyelo.ScyElo;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.common.mission.MissionModelElo;
 
 /**
  * @author sikkenj
@@ -267,7 +266,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             initializer: initializer
             newTitleGenerator: newTitleGenerator;
          }
-      var specificationRuntimeSettingsElo = null;
+      var specificationRuntimeSettingsElo:RuntimeSettingsElo = null;
       var specificationMissionMapModelEloUriSet = new HashSet();
       def missionSpecificationEloUri = missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
       if (missionSpecificationEloUri != null) {
@@ -277,9 +276,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(specificationRuntimeSettingsEloUri, missionRunConfigs.tbi);
          }
          if (missionSpecificationElo.getTypedContent().getMissionMapModelEloUri() != null) {
-            def specificationMissionMapModelElo = ScyElo.loadElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), missionRunConfigs.tbi);
-            def specificationMissionMapModel = MissionModelXml.convertToMissionModel(specificationMissionMapModelElo.getContent().getXmlString());
-            specificationMissionMapModelEloUriSet.addAll(specificationMissionMapModel.getEloUris(false));
+            def specificationMissionMapModelElo = MissionModelElo.loadElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), missionRunConfigs.tbi);
+            specificationMissionMapModelEloUriSet.addAll(specificationMissionMapModelElo.getMissionModel().getEloUris(true));
          }
       }
 

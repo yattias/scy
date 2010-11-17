@@ -149,7 +149,7 @@ public class AnchorDisplay extends CustomNode {
 //            dragEloIcon.layoutX = eloIcon.layoutX;
 //            dragEloIcon.layoutY = eloIcon.layoutY;
          }
-         dragAndDropManager.startDrag(dragEloIcon, las.mainAnchor.metadata,this,e);
+         dragAndDropManager.startDrag(dragEloIcon, las.mainAnchor.scyElo,this,e);
          return;
       }
       dragging = true;

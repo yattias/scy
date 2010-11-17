@@ -20,34 +20,25 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.paint.Color;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
-import roolo.api.search.ISearchResult;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
-import roolo.api.search.AndQuery;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorRegistryFXImpl;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
-import eu.scy.client.desktop.scydesktop.config.MissionModelUtils;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
-import javax.swing.JOptionPane;
-import java.awt.Component;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloConfigManager;
-import java.util.ArrayList;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControlImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloDisplayTypeControlImpl;
-import eu.scy.common.mission.EloToolConfigsElo;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloToolConfigManager;
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikkenj
@@ -209,14 +200,14 @@ public class ScyDesktopCreator {
          config.getRepository().retrieveELOs(anchorEloUris);
       }
       addEloInformationToMissionModel();
-      missionModelFX.repository = config.getRepository();
-      missionModelFX.eloFactory = config.getEloFactory();
+//      missionModelFX.repository = config.getRepository();
+//      missionModelFX.eloFactory = config.getEloFactory();
       handleEloToolConfigs();
       handleTemplateElos();
       logger.info("missionRunConfigs elos:\n"
          "- mission specification: {missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri()}\n"
          "- mission runtime: {missionRunConfigs.missionRuntimeElo.getUri()}\n"
-         "- mission map model : {missionRunConfigs.missionMapModel.elo.getUri()}\n"
+         "- mission map model : {missionRunConfigs.missionMapModel.getMissionModelElo().getUri()}\n"
          "- elo tool configs: {missionRunConfigs.eloToolConfigsElo.getUri()}\n"
          "- template elos: {missionRunConfigs.templateElosElo.getUri()}\n"
          "- runtime settings: {missionRunConfigs.runtimeSettingsElo.getUri()}"
@@ -240,20 +231,21 @@ public class ScyDesktopCreator {
    function addEloInformationToMissionAnchor(missionAnchor: MissionAnchorFX): Void {
       if (missionAnchor.eloUri != null and missionAnchor.eloUri.toString() != "") {
          missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
-         missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+         missionAnchor.scyElo = ScyElo.loadMetadata(missionAnchor.eloUri, config.getToolBrokerAPI());
+//         missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
       } else {
          missionAnchor.color = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray).mainColor;
       }
 
-      if (missionAnchor.metadata != null) {
+      if (missionAnchor.scyElo != null) {
          missionAnchor.exists = true;
-         missionAnchor.title = missionAnchor.metadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
+         missionAnchor.title = missionAnchor.scyElo.getTitle();
          if (missionAnchor.iconType.length() > 0) {
             // add the icon type name as metadata
             var newMetadata = config.getEloFactory().createMetadata();
             newMetadata.getMetadataValueContainer(iconTypeKey).setValue(missionAnchor.iconType);
             config.getRepository().addMetadata(missionAnchor.eloUri, newMetadata);
-            missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+//            missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
             missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
          }
 
