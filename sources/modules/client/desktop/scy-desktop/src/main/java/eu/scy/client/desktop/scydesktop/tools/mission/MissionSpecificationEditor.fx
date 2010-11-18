@@ -17,7 +17,6 @@ import eu.scy.common.scyelo.ScyElo;
 /**
  * @author sikken
  */
-
 public class MissionSpecificationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
@@ -44,7 +43,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
 
       def springConfigFileImporter = SpringConfigFileImporter {
             file: file.getAbsolutePath()
-            repository: repository
+            tbi: toolBrokerAPI
          }
       def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
       def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
@@ -57,7 +56,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
       missionSpecification.setTemplateElosEloUri(templateElosElo.getUri());
       missionSpecification.setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
-      textBox.text = MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification)
+      setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
    }
 
    function saveXmlInElo(type: String, name: String, xml: String): ScyElo {

@@ -29,9 +29,9 @@ public class TemplateElosEloEditor  extends EloXmlEditor {
          lastUsedDirectory = fileChooser.getCurrentDirectory();
          var springConfigFileImporter = SpringConfigFileImporter {
                file: fileChooser.getSelectedFile().getAbsolutePath()
-               repository: repository
+               tbi: toolBrokerAPI
             }
-         textBox.text = springConfigFileImporter.templateElosXml;
+         setContent(springConfigFileImporter.templateElosXml,springConfigFileImporter.errors);
       }
    }
 

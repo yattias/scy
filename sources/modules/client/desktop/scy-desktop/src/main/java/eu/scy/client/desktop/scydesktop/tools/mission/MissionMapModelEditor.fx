@@ -30,9 +30,9 @@ public class MissionMapModelEditor extends EloXmlEditor {
          lastUsedDirectory = fileChooser.getCurrentDirectory();
          var springConfigFileImporter = SpringConfigFileImporter {
                file: fileChooser.getSelectedFile().getAbsolutePath()
-               repository: repository
+               tbi: toolBrokerAPI
             }
-         textBox.text = springConfigFileImporter.missionMapXml;
+         setContent(springConfigFileImporter.missionMapXml,springConfigFileImporter.errors);
       }
    }
 

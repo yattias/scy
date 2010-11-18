@@ -2,25 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.common.mission.LasType;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author sikken
  */
-public class BasicLas {
+public class BasicLas
+{
+
    private String id;
    private float xPosition;
    private float yPosition;
-   private List<URI> loEloUris;
-   private List<String> nextLasses;
+   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<String> nextLasses = new ArrayList<String>();
    private String anchorEloId;
-   private List<String> intermediateEloIds;
+   private List<String> intermediateEloIds = new ArrayList<String>();
    private String tooltip;
    private URI instructionUri;
    private LasType lasType;
@@ -52,7 +54,10 @@ public class BasicLas {
 
    public void setIntermediateEloIds(List<String> intermediateEloIds)
    {
-      this.intermediateEloIds = intermediateEloIds;
+      if (intermediateEloIds != null)
+      {
+         this.intermediateEloIds = intermediateEloIds;
+      }
    }
 
    public List<URI> getLoEloUris()
@@ -62,7 +67,10 @@ public class BasicLas {
 
    public void setLoEloUris(List<URI> loEloUris)
    {
-      this.loEloUris = loEloUris;
+      if (loEloUris != null)
+      {
+         this.loEloUris = loEloUris;
+      }
    }
 
    public List<String> getNextLasses()
@@ -72,7 +80,10 @@ public class BasicLas {
 
    public void setNextLasses(List<String> nextLasses)
    {
-      this.nextLasses = nextLasses;
+      if (nextLasses != null)
+      {
+         this.nextLasses = nextLasses;
+      }
    }
 
    public String getTooltip()

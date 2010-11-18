@@ -2,21 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.config;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author sikken
  */
-public class BasicMissionMap {
+public class BasicMissionMap
+{
+
    private String id;
    private String name;
-   private List<URI> loEloUris;
-   private List<BasicLas> lasses;
+   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<BasicLas> lasses = new ArrayList<BasicLas>();
    private String initialLasId;
 
    public String getId()
@@ -36,7 +38,10 @@ public class BasicMissionMap {
 
    public void setLasses(List<BasicLas> lasses)
    {
-      this.lasses = lasses;
+      if (lasses != null)
+      {
+         this.lasses = lasses;
+      }
    }
 
    public List<URI> getLoEloUris()
@@ -46,7 +51,10 @@ public class BasicMissionMap {
 
    public void setLoEloUris(List<URI> loEloUris)
    {
-      this.loEloUris = loEloUris;
+      if (loEloUris != null)
+      {
+         this.loEloUris = loEloUris;
+      }
    }
 
    public String getName()
