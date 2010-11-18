@@ -30,11 +30,10 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import java.lang.Exception;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
-import javafx.scene.text.Text;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javafx.scene.text.TextOrigin;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * @author sikken
@@ -47,14 +46,14 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
-   public var toolBrokerAPI : ToolBrokerAPI;
+   public var toolBrokerAPI: ToolBrokerAPI;
    public var window: ScyWindow;
    public override var width on replace { sizeChanged() };
    public override var height on replace { sizeChanged() };
    protected var elo: IELO;
    protected var technicalFormatKey: IMetadataKey;
    protected var titleKey: IMetadataKey;
-   protected def textBox: TextBox = TextBox {
+   def textBox: TextBox = TextBox {
          multiline: true
          editable: true
          layoutInfo: LayoutInfo {
@@ -64,10 +63,34 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
             vgrow: Priority.ALWAYS
          }
       }
+   def viewToggleGroup = ToggleGroup {}
+   def xmlView = RadioButton {
+         text: "XML"
+         toggleGroup: viewToggleGroup
+         selected: true
+      }
+   def errorView = RadioButton {
+         text: "Errors"
+         toggleGroup: viewToggleGroup
+      }
    var nodeBox: VBox;
    var buttonBox: HBox;
    def spacing = 5.0;
    protected def jdomStringConversion = new JDomStringConversion();
+   var xmlString = "";
+   var errorsString = "";
+   var importErrorString = "";
+   def showingXml = bind viewToggleGroup.selectedToggle == xmlView on replace {
+         if (showingXml) {
+            //switching to xml view
+            errorsString = textBox.rawText;
+            textBox.text = xmlString;
+         } else {
+            // switching to errors view
+            xmlString = textBox.rawText;
+            textBox.text = errorsString;
+         }
+      }
 
    override protected function create(): Node {
       nodeBox = VBox {
@@ -101,6 +124,8 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
                               doImport();
                            }
                         }
+                        xmlView,
+                        errorView
                      ]
                   }
                textBox
@@ -113,15 +138,25 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
    }
 
+   protected function setContent(xml: String, errors: String): Void {
+      xmlString = xml;
+      errorsString = errors;
+      importErrorString = errors;
+      textBox.text = if (showingXml) xmlString else errorsString;
+      if (errors != "") {
+         errorView.selected = true;
+      }
+   }
+
    public override function loadElo(uri: URI) {
       doLoadElo(uri);
    }
 
-   public override function onQuit():Void{
-      if (elo!=null){
+   public override function onQuit(): Void {
+      if (elo != null) {
          def oldContentXml = elo.getContent().getXmlString();
          def newContentXml = getElo().getContent().getXmlString();
-         if (oldContentXml==newContentXml){
+         if (oldContentXml == newContentXml) {
             // nothing changed
             return;
          }
@@ -140,7 +175,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
          var metadata = newElo.getMetadata();
-         textBox.text = newElo.getContent().getXmlString();
+         setContent(newElo.getContent().getXmlString(), "");
          elo = newElo;
          // just check and display the errors
          // no special actions needed when the xml is wrong
@@ -177,31 +212,47 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    }
 
    function isValidXml(xml: String): Boolean {
-      var errors = validateXml(xml);
+      var errors = "";
+      try {
+         errors = validateXml(xml);
+      }
+      catch (e: Exception) {
+         errors = "{e.getClass()}: {e.getMessage()}"
+      }
       if (errors != null) {
          showErrorMessage("Errors in the xml", errors);
+         logger.error("errors in xml: {errors}");
          return false;
       }
       return true;
    }
 
    protected function showErrorMessage(title: String, message: String): Void {
-      ModalDialogBox {
-         content: Text {
-            x: 0, y: 0
-            textOrigin: TextOrigin.TOP
-            content: message
-         }
-         title: title
-         windowColorScheme: window.windowColorScheme
-//         targetScene: this.scene
+      errorsString = "{importErrorString}\n\nXML errors:\n{message}";
+      if (not showingXml){
+         textBox.text = errorsString;
       }
+      errorView.selected = true;
+   //
+   //      ModalDialogBox {
+   //         content: Text {
+   //            x: 0, y: 0
+   //            textOrigin: TextOrigin.TOP
+   //            content: message
+   //         }
+   //         title: title
+   //         windowColorScheme: window.windowColorScheme
+   //      }
    }
 
    abstract function getEloType(): String;
 
    function getEloXml(): String {
-      textBox.rawText
+      if (showingXml) {
+         textBox.rawText
+      } else {
+         xmlString
+      }
    }
 
    protected function validateXml(xml: String): String {

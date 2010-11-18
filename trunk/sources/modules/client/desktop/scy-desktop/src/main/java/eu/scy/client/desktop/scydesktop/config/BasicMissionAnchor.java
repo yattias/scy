@@ -4,10 +4,11 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.client.desktop.scydesktop.art.ColorSchemeId;
+import eu.scy.common.mission.ColorSchemeId;
+import eu.scy.common.scyelo.ScyElo;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
-import roolo.elo.api.IMetadata;
 
 /**
  *
@@ -17,12 +18,12 @@ public class BasicMissionAnchor// implements MissionAnchor
 {
 
    private URI uri;
-   private IMetadata metadata;
+   private ScyElo scyElo;
    private String id;
    private String iconType;
-   private List<URI> loEloUris;
-   private List<String> inputMissionAnchorIds;
-   private List<String> relationNames;
+   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<String> inputMissionAnchorIds = new ArrayList<String>();
+   private List<String> relationNames = new ArrayList<String>();
    private URI targetDescriptionUri;
    private URI assignmentUri;
    private URI resourcesUri;
@@ -40,7 +41,10 @@ public class BasicMissionAnchor// implements MissionAnchor
 
    public void setInputMissionAnchorIds(List<String> inputMissionAnchorIds)
    {
-      this.inputMissionAnchorIds = inputMissionAnchorIds;
+      if (inputMissionAnchorIds != null)
+      {
+         this.inputMissionAnchorIds = inputMissionAnchorIds;
+      }
    }
 
    public void setId(String id)
@@ -65,7 +69,10 @@ public class BasicMissionAnchor// implements MissionAnchor
 
    public void setRelationNames(List<String> relationNames)
    {
-      this.relationNames = relationNames;
+      if (relationNames != null)
+      {
+         this.relationNames = relationNames;
+      }
    }
 
    public List<URI> getLoEloUris()
@@ -75,17 +82,20 @@ public class BasicMissionAnchor// implements MissionAnchor
 
    public void setLoEloUris(List<URI> loEloUris)
    {
-      this.loEloUris = loEloUris;
+      if (loEloUris != null)
+      {
+         this.loEloUris = loEloUris;
+      }
    }
 
-   public void setMetadata(IMetadata metadata)
+   public ScyElo getScyElo()
    {
-      this.metadata = metadata;
+      return scyElo;
    }
 
-   public IMetadata getMetadata()
+   public void setScyElo(ScyElo scyElo)
    {
-      return metadata;
+      this.scyElo = scyElo;
    }
 
    public String getIconType()

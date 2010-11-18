@@ -6,6 +6,7 @@ package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.common.mission.impl.BasicEloToolConfig;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
@@ -20,7 +21,6 @@ import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -282,9 +282,9 @@ public class BasicConfig implements Config
          {
             if (missionAnchor.getUri() != null)
             {
-               IMetadata metadata = repository.retrieveMetadata(missionAnchor.getUri());
-               missionAnchor.setMetadata(metadata);
-               if (metadata == null)
+               ScyElo scyElo = ScyElo.loadMetadata(missionAnchor.getUri(), toolBrokerAPI);
+               missionAnchor.setScyElo(scyElo);
+               if (scyElo == null)
                {
                   logger.error("Couldn't find anchor elo: " + missionAnchor.getUri());
                }
