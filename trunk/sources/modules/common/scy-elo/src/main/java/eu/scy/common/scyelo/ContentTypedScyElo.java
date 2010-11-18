@@ -4,24 +4,54 @@
  */
 package eu.scy.common.scyelo;
 
+import java.net.URI;
+
 import roolo.elo.api.IELO;
 
 /**
- *
+ * 
  * @author SikkenJ
  */
 public class ContentTypedScyElo<E> extends ScyElo
 {
-
+   private final String technicalFormat;
    private ScyEloContentCreator<E> scyEloContentCreator;
    private E typedContent;
 
-   public ContentTypedScyElo(IELO elo, RooloServices rooloServices, ScyEloContentCreator<E> scyEloContentCreator)
+   public ContentTypedScyElo(IELO elo, RooloServices rooloServices,
+            ScyEloContentCreator<E> scyEloContentCreator, String technicalFormat)
    {
       super(elo, rooloServices);
-      assert scyEloContentCreator!=null;
+      assert scyEloContentCreator != null;
       this.scyEloContentCreator = scyEloContentCreator;
+      this.technicalFormat = technicalFormat;
+      verifyTechnicalFormat();
       eloContentChanged();
+   }
+
+   @Override
+   protected void verifyTechnicalFormat()
+   {
+      if (technicalFormat != null)
+      {
+         if (!technicalFormat.equals(getTechnicalFormat()))
+         {
+            throw new IllegalStateException("elo is should have the technical format '"
+                     + technicalFormat + "', but it is '" + getTechnicalFormat() + ", uri="
+                     + getUri());
+         }
+      }
+   }
+
+   @Override
+   public boolean reloadFrom(URI eloUri)
+   {
+      final boolean reloaded = super.reloadFrom(eloUri);
+      if (reloaded)
+      {
+         eloContentChanged();
+      }
+      return reloaded;
    }
 
    @Override
