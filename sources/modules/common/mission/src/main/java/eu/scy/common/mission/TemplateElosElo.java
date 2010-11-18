@@ -16,13 +16,14 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
 
 /**
- *
+ * 
  * @author SikkenJ
  */
 public class TemplateElosElo extends ContentTypedScyElo<TemplateElosEloContent>
 {
 
-   private static class TemplateElosEloContentCreator implements ScyEloContentCreator<TemplateElosEloContent>
+   private static class TemplateElosEloContentCreator implements
+            ScyEloContentCreator<TemplateElosEloContent>
    {
 
       @Override
@@ -39,22 +40,26 @@ public class TemplateElosElo extends ContentTypedScyElo<TemplateElosEloContent>
          }
          catch (URISyntaxException ex)
          {
-            throw new IllegalArgumentException("problems with the xml of the elo, uri: " + scyElo.getUri(), ex);
+            throw new IllegalArgumentException("problems with the xml of the elo, uri: "
+                     + scyElo.getUri(), ex);
          }
       }
 
       @Override
       public void updateEloContent(ContentTypedScyElo<TemplateElosEloContent> scyElo)
       {
-         scyElo.getElo().getContent().setXmlString(TemplateElosEloContentXmlUtils.templateElosEloContentToXml(scyElo.getTypedContent()));
+         scyElo.getElo().getContent().setXmlString(
+                  TemplateElosEloContentXmlUtils.templateElosEloContentToXml(scyElo
+                           .getTypedContent()));
       }
    }
+
    private static final TemplateElosEloContentCreator templateElosEloContentCreator = new TemplateElosEloContentCreator();
 
    public TemplateElosElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, rooloServices, templateElosEloContentCreator);
-      verifyTechnicalFormat(MissionEloType.TEMPLATES_ELOS.getType());
+      super(elo, rooloServices, templateElosEloContentCreator, MissionEloType.TEMPLATES_ELOS
+               .getType());
    }
 
    public static TemplateElosElo loadElo(URI uri, RooloServices rooloServices)
@@ -80,8 +85,8 @@ public class TemplateElosElo extends ContentTypedScyElo<TemplateElosEloContent>
    public static TemplateElosElo createElo(RooloServices rooloServices)
    {
       IELO elo = rooloServices.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
-               MissionEloType.TEMPLATES_ELOS.getType());
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
+               .setValue(MissionEloType.TEMPLATES_ELOS.getType());
       TemplateElosElo scyElo = new TemplateElosElo(elo, rooloServices);
       return scyElo;
    }
