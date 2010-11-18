@@ -221,6 +221,7 @@ public class ScyElo
       {
          elo = newElo;
       }
+      verifyTechnicalFormat();
       return true;
    }
 
@@ -295,13 +296,9 @@ public class ScyElo
       return (String) getMetadataValueContainer(technicalFormatKey).getValue();
    }
 
-   protected void verifyTechnicalFormat(String technicalFormat)
+   protected void verifyTechnicalFormat()
    {
-      if (!technicalFormat.equals(getTechnicalFormat()))
-      {
-         throw new IllegalStateException("elo is should have a technical format '"
-                  + technicalFormat + "', but it is '" + getTechnicalFormat() + ", uri=" + getUri());
-      }
+      
    }
 
    public String getTitle()
