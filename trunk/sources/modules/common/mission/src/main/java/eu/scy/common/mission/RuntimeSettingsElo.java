@@ -49,8 +49,8 @@ public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloCon
 
    public RuntimeSettingsElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, rooloServices, runtimeSettingsEloContentCreator);
-      verifyTechnicalFormat(MissionEloType.RUNTIME_SETTINGS.getType());
+      super(elo, rooloServices, runtimeSettingsEloContentCreator, MissionEloType.RUNTIME_SETTINGS
+               .getType());
    }
 
    public static RuntimeSettingsElo loadElo(URI uri, RooloServices rooloServices)
@@ -76,8 +76,8 @@ public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloCon
    public static RuntimeSettingsElo createElo(RooloServices rooloServices)
    {
       IELO elo = rooloServices.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
-               MissionEloType.RUNTIME_SETTINGS.getType());
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
+               .setValue(MissionEloType.RUNTIME_SETTINGS.getType());
       RuntimeSettingsElo scyElo = new RuntimeSettingsElo(elo, rooloServices);
       return scyElo;
    }

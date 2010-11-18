@@ -16,20 +16,22 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
 
 /**
- *
+ * 
  * @author SikkenJ
  */
 public class MissionSpecificationElo extends ContentTypedScyElo<MissionSpecificationEloContent>
 {
 
-   private static class MissionSpecificationEloContentCreator implements ScyEloContentCreator<MissionSpecificationEloContent>
+   private static class MissionSpecificationEloContentCreator implements
+            ScyEloContentCreator<MissionSpecificationEloContent>
    {
 
       @Override
       public MissionSpecificationEloContent createScyEloContent(ScyElo scyElo)
       {
          String xml = scyElo.getElo().getContent().getXmlString();
-         if (xml==null || xml.length()==0){
+         if (xml == null || xml.length() == 0)
+         {
             return new BasicMissionSpecificationEloContent();
          }
          try
@@ -38,22 +40,26 @@ public class MissionSpecificationElo extends ContentTypedScyElo<MissionSpecifica
          }
          catch (URISyntaxException ex)
          {
-            throw new IllegalArgumentException("problems with the xml of the elo, uri: " + scyElo.getUri(), ex);
+            throw new IllegalArgumentException("problems with the xml of the elo, uri: "
+                     + scyElo.getUri(), ex);
          }
       }
 
       @Override
       public void updateEloContent(ContentTypedScyElo<MissionSpecificationEloContent> scyElo)
       {
-         scyElo.getElo().getContent().setXmlString(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(scyElo.getTypedContent()));
+         scyElo.getElo().getContent().setXmlString(
+                  MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(scyElo
+                           .getTypedContent()));
       }
    }
+
    private final static MissionSpecificationEloContentCreator missionSpecificationEloContentCreator = new MissionSpecificationEloContentCreator();
 
    public MissionSpecificationElo(IELO elo, RooloServices rooloServices)
    {
-      super(elo, rooloServices, missionSpecificationEloContentCreator);
-      verifyTechnicalFormat(MissionEloType.MISSION_SPECIFICATIOM.getType());
+      super(elo, rooloServices, missionSpecificationEloContentCreator,
+               MissionEloType.MISSION_SPECIFICATIOM.getType());
    }
 
    public static MissionSpecificationElo loadElo(URI uri, RooloServices rooloServices)
@@ -79,8 +85,8 @@ public class MissionSpecificationElo extends ContentTypedScyElo<MissionSpecifica
    public static MissionSpecificationElo createElo(RooloServices rooloServices)
    {
       IELO elo = rooloServices.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
-               MissionEloType.MISSION_SPECIFICATIOM.getType());
+      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
+               .setValue(MissionEloType.MISSION_SPECIFICATIOM.getType());
       MissionSpecificationElo scyElo = new MissionSpecificationElo(elo, rooloServices);
       return scyElo;
    }
