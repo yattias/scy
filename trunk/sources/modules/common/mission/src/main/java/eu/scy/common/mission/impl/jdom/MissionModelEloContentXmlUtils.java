@@ -190,7 +190,7 @@ public class MissionModelEloContentXmlUtils
       las.setOtherEloUris(getUriListValue(root.getChild(otherElosName), eloUriName));
       las.setMissionAnchor(createMissionAnchor(root.getChild(mainAnchorName)));
       las.setInstructionUri(getUriValue(root, instructionUriName));
-      las.setLasType(getEnumValue(LasType.class, root, instructionUriName));
+      las.setLasType(getEnumValue(LasType.class, root, lasTypeName));
       las.getMissionAnchor().setLas(las);
       anchorsMap.put(las.getMissionAnchor().getEloUri(), las.getMissionAnchor());
       Element intermediateAnchorsRoot = root.getChild(intermediateAnchorsName);
