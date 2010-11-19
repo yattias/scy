@@ -42,8 +42,9 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    private PedagogicalPlanService pedagogicalPlanService;
    private StudentPedagogicalPlanService studentPedagogicalPlanService;
 
-   private String userName;
-   private String missionId;
+   private String userName = "not set";
+   private String missionSpecificationURI = "not set";
+   private String missionRuntimeURI = "not set";
 
    @Override
    public void close()
@@ -179,15 +180,30 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    }
 
    @Override
-   public String getMission()
+   public String getMissionRuntimeURI()
    {
-      return missionId;
+      return missionRuntimeURI;
    }
 
    @Override
-   public void setMissionId(String missionId)
+   public void setMissionRuntimeURI(String missionRuntimeURI)
    {
-      this.missionId = missionId;
+      this.missionRuntimeURI = missionRuntimeURI;
+   }
+
+   @Override
+   public String getMissionSpecificationURI() {
+       return missionSpecificationURI;
+   }
+
+   @Override
+   public void setMissionSpecificationURI(String missionSpecificationURI) {
+       this.missionSpecificationURI = missionSpecificationURI;
+   }
+
+   @Deprecated
+   public String getMission() {
+       return "ToolBrokerAPI.getMission() is deprecated";
    }
 
    @Override
