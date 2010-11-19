@@ -12,6 +12,7 @@ import eu.scy.client.tools.copex.common.InitialParamData;
 import eu.scy.client.tools.copex.common.InitialParamMaterial;
 import eu.scy.client.tools.copex.common.InitialParamQuantity;
 import eu.scy.client.tools.copex.common.Material;
+import eu.scy.client.tools.copex.common.MaterialSourceAction;
 import eu.scy.client.tools.copex.common.Parameter;
 import eu.scy.client.tools.copex.common.QData;
 import eu.scy.client.tools.copex.common.TaskRepeatParam;
@@ -491,7 +492,7 @@ public class ParamRepeatPanel extends JPanel{
                 Material m = getMaterialOutput(s);
                 if (m == null){
                     List<Parameter> listParameters = new LinkedList();
-                    m = new Material(CopexUtilities.getLocalText(s, edP.getLocale()), CopexUtilities.getLocalText(s, edP.getLocale()), listOutTypeMaterial, listParameters);
+                    m = new Material(CopexUtilities.getLocalText(s, edP.getLocale()), CopexUtilities.getLocalText(s, edP.getLocale()), listOutTypeMaterial, listParameters, new MaterialSourceAction(-1));
                 }
                 list.add(m);
             }
@@ -509,7 +510,7 @@ public class ParamRepeatPanel extends JPanel{
         if(idCb >-1 && actionTaskRepeat != null && !isMaterialOutput(matName)){
             // liste des parametres
             List<Parameter> listParameters = new LinkedList();
-            Material m = new Material(CopexUtilities.getLocalText(matName, edP.getLocale()), CopexUtilities.getLocalText(matName, edP.getLocale()), listOutTypeMaterial, listParameters);
+            Material m = new Material(CopexUtilities.getLocalText(matName, edP.getLocale()), CopexUtilities.getLocalText(matName, edP.getLocale()), listOutTypeMaterial, listParameters, new MaterialSourceAction(-1));
             actionTaskRepeat.addOutputMaterial(index,idCb, m);
         }
     }

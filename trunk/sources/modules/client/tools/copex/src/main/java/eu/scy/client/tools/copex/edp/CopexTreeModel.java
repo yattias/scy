@@ -134,6 +134,7 @@ public class CopexTreeModel extends DefaultTreeModel{
 
     public void updateProc(ExperimentalProcedure newProc){
         this.proc = newProc;
+        this.listTask = proc.getListTask();
         updateNode((CopexNode)root);
     }
     

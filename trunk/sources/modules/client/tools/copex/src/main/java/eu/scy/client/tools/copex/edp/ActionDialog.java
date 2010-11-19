@@ -17,6 +17,8 @@ import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import org.jdom.Element;
 
@@ -107,7 +109,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private TaskRepeatPanel taskRepeatPanel;
     private Dimension minDim = null;
     
-
+    private static final Logger logger = Logger.getLogger(ActionDialog.class.getName());
 
     /* Constructeur de la fenetre d'ajout d'une action */
     public ActionDialog(EdPPanel edP, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, boolean isActionRepeat, char insertIn) {
@@ -912,7 +914,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
    private ArrayList<Object> getListDataProd(InitialNamedAction action, ArrayList v){
        ArrayList<Object> ld = new ArrayList();
         if (!(action instanceof InitialActionTreatment || action instanceof InitialActionAcquisition)){
-           System.out.println("ceci n'est pas une action treatment ou acquisition !!");
+           logger.log(Level.INFO, ("ceci n'est pas une action treatment ou acquisition !!"));
             v.add(true);
             return ld;
        }
@@ -978,7 +980,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
    private ArrayList<Object> getListMaterialProd(InitialNamedAction action, ArrayList v){
        ArrayList<Object> lm = new ArrayList();
        if (!(action instanceof InitialActionManipulation)){
-           System.out.println("Attention ce n'est pas une action manipulation !! ");
+           logger.log(Level.INFO, ("Attention ce n'est pas une action manipulation !! "));
            v.add(true);
            return lm;
        }
@@ -1027,8 +1029,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
            Material material = getMaterialWithName(s, listType, listParameters);
            if (material == null){
-               System.out.println("le materiel n'a pas ete trouve!!");
-               material = new Material(CopexUtilities.getLocalText(s, edP.getLocale()),CopexUtilities.getLocalText("", edP.getLocale()), listType, listParameters);
+               logger.log(Level.INFO, ("le materiel n'a pas ete trouve!!"));
+               material = new Material(CopexUtilities.getLocalText(s, edP.getLocale()),CopexUtilities.getLocalText("", edP.getLocale()), listType, listParameters, new MaterialSourceAction(action.getDbKey()));
                material.setDbKey(-1);
            }
            lm.add(material);

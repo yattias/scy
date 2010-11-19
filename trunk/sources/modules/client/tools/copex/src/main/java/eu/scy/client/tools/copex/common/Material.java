@@ -32,6 +32,10 @@ public class Material implements Cloneable {
     private final static String TAG_MATERIAL_ID = "id";
     private final static String TAG_MATERIAL_NAME = "name";
     private final static String TAG_MATERIAL_DESCRIPTION = "info";
+    private final static String TAG_MATERIAL_SOURCE_COPEX = "material_source_copex";
+    private final static String TAG_MATERIAL_SOURCE_TEACHER = "material_source_teacher";
+    private final static String TAG_MATERIAL_SOURCE_ACTION = "material_source_action";
+    private final static String TAG_MATERIAL_SOURCE_USER = "material_source_user";
 
     /* db id */
     private long dbKey;
@@ -44,40 +48,44 @@ public class Material implements Cloneable {
     private List<TypeMaterial> listType;
     /* parameters */
     private List<Parameter> listParameters;
+    private MaterialSource materialSource;
 
     
 
-    public Material(long dbKey, List<LocalText> listName, List<LocalText> listDescription) {
+    public Material(long dbKey, List<LocalText> listName, List<LocalText> listDescription, MaterialSource materialSource) {
         this.dbKey = dbKey;
         this.code = "";
         this.listName = listName;
         this.listDescription = listDescription;
         this.listType = new ArrayList();
         this.listParameters = new ArrayList();
+        this.materialSource = materialSource;
     }
 
-    public Material(long dbKey, String code, List<LocalText> listName, List<LocalText> listDescription, List<TypeMaterial> listType, List<Parameter> listParameters) {
+    public Material(long dbKey, String code, List<LocalText> listName, List<LocalText> listDescription, List<TypeMaterial> listType, List<Parameter> listParameters, MaterialSource materialSource) {
         this.dbKey = dbKey;
         this.code = code;
         this.listName = listName;
         this.listDescription = listDescription;
         this.listType = listType;
         this.listParameters = listParameters;
+        this.materialSource = materialSource;
     }
 
-    public Material(List<LocalText> listName, List<LocalText> listDescription, List<TypeMaterial> listType, List<Parameter> listParameters){
+    public Material(List<LocalText> listName, List<LocalText> listDescription, List<TypeMaterial> listType, List<Parameter> listParameters, MaterialSource materialSource){
         this.dbKey = -1;
         this.code = "";
         this.listName = listName;
         this.listDescription = listDescription;
         this.listType = listType;
         this.listParameters = listParameters;
+        this.materialSource = materialSource;
     }
 
 
     public Material(Element xmlElem, long dbKey, List<TypeMaterial> listTypeMaterial, List<PhysicalQuantity> listPhysicalQuantity, long idQuantity) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_MATERIAL)) {
-			code = xmlElem.getChild(TAG_MATERIAL_ID).getText();
+        if (xmlElem.getName().equals(TAG_MATERIAL)) {
+            code = xmlElem.getChild(TAG_MATERIAL_ID).getText();
             this.dbKey = dbKey;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_MATERIAL_NAME).iterator(); variableElem.hasNext();) {
@@ -102,12 +110,30 @@ public class Material implements Cloneable {
 		} else {
 			throw(new JDOMException("Material expects <"+TAG_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
 		}
+            materialSource = new MaterialSourceUser();
+            if(xmlElem.getChild(TAG_MATERIAL_SOURCE_TEACHER) != null){
+                materialSource = new MaterialSourceTeacher(-1);
+            }else if(xmlElem.getChild(TAG_MATERIAL_SOURCE_ACTION) != null){
+                long idAction = -1;
+                try{
+                    idAction = Long.parseLong(xmlElem.getChild(TAG_MATERIAL_SOURCE_ACTION).getText());
+                }catch(NumberFormatException e){
+                }
+                materialSource = new MaterialSourceAction(idAction);
+            }else if(xmlElem.getChild(TAG_MATERIAL_SOURCE_USER) != null){
+                materialSource = new MaterialSourceUser();
+            }
 	}
 
     public Material(Element xmlElem, List<Material> list) throws JDOMException {
         if (xmlElem.getName().equals(TAG_MATERIAL_REF)) {
-			code = xmlElem.getChild(TAG_MATERIAL_ID).getText();
+            code = xmlElem.getChild(TAG_MATERIAL_ID).getText();
             dbKey = -1;
+            this.listName = new LinkedList<LocalText>();
+            this.listDescription = new LinkedList<LocalText>();
+            this.listType = new LinkedList<TypeMaterial>();
+            this.listParameters = new LinkedList<Parameter>();
+            this.materialSource = new MaterialSourceCopex();
             for(Iterator<Material> m = list.iterator();m.hasNext();){
                 Material material = m.next();
                 if(material.getCode().equals(code)){
@@ -116,6 +142,7 @@ public class Material implements Cloneable {
                     this.listDescription = material.getListDescription();
                     this.listType = material.getListType();
                     this.listParameters = material.getListParameters();
+                    this.materialSource = material.getMaterialSource();
                 }
             }
         }else {
@@ -328,7 +355,7 @@ public class Material implements Cloneable {
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_MATERIAL);
-		element.addContent(new Element(TAG_MATERIAL_ID).setText(code));
+	element.addContent(new Element(TAG_MATERIAL_ID).setText(code));
         if(listName != null && listName.size() > 0){
             for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -348,20 +375,44 @@ public class Material implements Cloneable {
             }
         }
         for (Iterator<TypeMaterial> type = listType.iterator(); type.hasNext();) {
-				element.addContent(type.next().toXMLRef());
-		}
+            element.addContent(type.next().toXMLRef());
+	}
         if (listParameters != null){
             for (Iterator<Parameter> p = listParameters.iterator(); p.hasNext();) {
 				element.addContent(p.next().toXML());
             }
         }
-		return element;
+	return element;
     }
 
     public Element toXMLRef(){
         Element element = new Element(TAG_MATERIAL_REF);
-		element.addContent(new Element(TAG_MATERIAL_ID).setText(code));
+	element.addContent(new Element(TAG_MATERIAL_ID).setText(code));
         return element;
+    }
+
+    public boolean isGeneralCopexMaterial(){
+        return materialSource.isGeneralCopexMaterial();
+    }
+
+    public boolean isTeacherMaterial(){
+        return materialSource.isTeacherMaterial();
+    }
+
+    public boolean isUserMaterial(){
+        return materialSource.isUserMaterial();
+    }
+
+    public boolean isMaterialProduce(){
+        return materialSource.isMaterialProduce();
+    }
+
+    public MaterialSource getMaterialSource() {
+        return materialSource;
+    }
+
+    public void setMaterialSource(MaterialSource materialSource) {
+        this.materialSource = materialSource;
     }
     
 }

@@ -12,6 +12,8 @@ import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 
 
@@ -20,7 +22,7 @@ import org.jdom.Element;
  * @author MBO
  */
 public class TaskFromDB {
-
+    private static final Logger logger = Logger.getLogger(TaskFromDB.class.getName());
    
     /* chargement des t�ches liees a un protocole */
     public static CopexReturn getAllTaskFromDB(DataBaseCommunication dbC,Locale locale,  long idProc, long idQuestion, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<Material> listMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
@@ -724,7 +726,7 @@ public class TaskFromDB {
             long dbKeyMat = Long.parseLong(s);
             String matName = rs.getColumnData("M.MATERIAL_NAME");
             String desc = rs.getColumnData("M.DESCRIPTION");
-            Material material = new Material(dbKeyMat,CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(desc, locale));
+            Material material = new Material(dbKeyMat,CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(desc, locale), new MaterialSourceAction(dbKey));
             // type
             ArrayList<TypeMaterial> listT = new ArrayList();
             String query2 = "SELECT T.ID_TYPE, T.TYPE_NAME FROM MATERIAL_TYPE T, LINK_TYPE_MATERIAL L " +
@@ -956,7 +958,7 @@ public class TaskFromDB {
                     ((CopexActionParam)task).setTabParam(tabParam);
                     if(task instanceof CopexActionManipulation){
                         v3 = new ArrayList();
-                        createActionMaterialProdInDB(dbC, locale, dbKey,((CopexActionManipulation)task).getListMaterialProd(), v3 );
+                        createActionMaterialProdInDB(dbC, locale, dbKey,((CopexActionManipulation)task).getListMaterialProd(), idProc, v3 );
                         if (cr.isError())
                             return cr;
                         ArrayList<Object> listMaterialProd  = (ArrayList<Object>)v3.get(0);
@@ -1121,7 +1123,7 @@ public class TaskFromDB {
                     ((CopexActionParam)task).setTabParam(tabParam);
                     if(task instanceof CopexActionManipulation){
                         v3 = new ArrayList();
-                        createActionMaterialProdInDB(dbC, locale, dbKey,((CopexActionManipulation)task).getListMaterialProd(), v3 );
+                        createActionMaterialProdInDB(dbC, locale, dbKey,((CopexActionManipulation)task).getListMaterialProd(), idProc, v3 );
                         if (cr.isError())
                             return cr;
                         ArrayList<Object> listMaterialProd  = (ArrayList<Object>)v3.get(0);
@@ -1170,13 +1172,13 @@ public class TaskFromDB {
     }
     
     /* creation d'un materiel lie a une action, retourne en v[0] la lsite du materiel avec les nouveaux dbKey */
-    private static CopexReturn createActionMaterialProdInDB(DataBaseCommunication dbC, Locale locale,long dbKeyAction, ArrayList<Object> listMaterial, ArrayList v){
+    private static CopexReturn createActionMaterialProdInDB(DataBaseCommunication dbC, Locale locale,long dbKeyAction, ArrayList<Object> listMaterial, long idProc,  ArrayList v){
         int nbMat = listMaterial.size();
         for (int i=0; i<nbMat; i++){
             if(listMaterial.get(i) instanceof Material){
                 Material m = (Material)listMaterial.get(i);
                 ArrayList v2 = new ArrayList();
-                CopexReturn cr = createActionMaterialProdInDB(dbC, locale, dbKeyAction, m, v2);
+                CopexReturn cr = createActionMaterialProdInDB(dbC, locale, dbKeyAction, m, idProc, v2);
                 if (cr.isError())
                     return cr;
                 m =(Material)v2.get(0);
@@ -1186,7 +1188,7 @@ public class TaskFromDB {
                 for (int k=0; k<n; k++){
                     Material m = ((ArrayList<Material>)listMaterial.get(i)).get(k);
                     ArrayList v2 = new ArrayList();
-                    CopexReturn cr = createActionMaterialProdInDB(dbC, locale, dbKeyAction, m, v2);
+                    CopexReturn cr = createActionMaterialProdInDB(dbC, locale, dbKeyAction, m, idProc, v2);
                     if (cr.isError())
                         return cr;
                     m =(Material)v2.get(0);
@@ -1198,10 +1200,10 @@ public class TaskFromDB {
         return new CopexReturn();
     }
        /* creation d'un materiel lie a une action, retourne en v[0] la lsite du materiel avec les nouveaux dbKey */
-       private static CopexReturn createActionMaterialProdInDB(DataBaseCommunication dbC, Locale locale, long dbKeyAction, Material material, ArrayList v){
+       private static CopexReturn createActionMaterialProdInDB(DataBaseCommunication dbC, Locale locale, long dbKeyAction, Material material, long idProc, ArrayList v){
             if (material.getDbKey() == -1){
                 ArrayList v2 = new ArrayList();
-                CopexReturn cr = ExperimentalProcedureFromDB.createMaterialInDB(dbC, locale, material, v2);
+                CopexReturn cr = ExperimentalProcedureFromDB.createMaterialInDB(dbC, locale, material,idProc,  v2);
                 if(cr.isError())
                     return cr;
                 material = (Material)v2.get(0);
@@ -1375,7 +1377,7 @@ public class TaskFromDB {
                    ((CopexActionParam)newTask).setTabParam(newTabParam);
                     if(newTask instanceof CopexActionManipulation){
                         ArrayList v3 = new ArrayList();
-                        createActionMaterialProdInDB(dbC, locale, dbKeyOldTask,((CopexActionManipulation)newTask).getListMaterialProd(), v3 );
+                        createActionMaterialProdInDB(dbC, locale, dbKeyOldTask,((CopexActionManipulation)newTask).getListMaterialProd(), idProc, v3 );
                         if (cr.isError())
                             return cr;
                         ArrayList<Object> listMaterialProd  = (ArrayList<Object>)v3.get(0);
@@ -1702,7 +1704,7 @@ public class TaskFromDB {
                     ((CopexActionParam)task).setTabParam(tabParam);
                     if(task instanceof CopexActionManipulation){
                         v3 = new ArrayList();
-                        createActionMaterialProdInDB(dbC, locale, dbKey,((CopexActionManipulation)task).getListMaterialProd(), v3 );
+                        createActionMaterialProdInDB(dbC, locale, dbKey,((CopexActionManipulation)task).getListMaterialProd(), idProc, v3 );
                         if (cr.isError())
                             return cr;
                         ArrayList<Object> listMaterialProd  = (ArrayList<Object>)v3.get(0);
@@ -2081,7 +2083,7 @@ public class TaskFromDB {
                     return cr;
                 material = (Material)v4.get(0);
                 if (material == null){
-                    System.out.println(" !!!! material null"+dbKeyMat+" ("+dbKey+")");
+                    logger.log(Level.SEVERE, (" !!!! material null"+dbKeyMat+" ("+dbKey+")"));
                 }
             }
             s = rs.getColumnData("I.ID_INITIAL_PARAM");
@@ -2168,9 +2170,14 @@ public class TaskFromDB {
             ResultSetXML rs = (ResultSetXML)v2.get(i);
             String name = rs.getColumnData("MATERIAL_NAME");
             String description = rs.getColumnData("DESCRIPTION");
-            m = new Material(dbKeyMaterial, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(description, locale)) ;
-             // on recupere les parametres
             ArrayList v4 = new ArrayList();
+            cr  = ExperimentalProcedureFromDB.getMaterialSource(dbC, dbKeyMaterial, v4);
+            if(cr.isError())
+                return cr;
+            MaterialSource materialSource = (MaterialSource)v4.get(0);
+            m = new Material(dbKeyMaterial, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(description, locale), materialSource) ;
+             // on recupere les parametres
+            v4 = new ArrayList();
             cr = ExperimentalProcedureFromDB.getMaterialParametersFromDB(dbC,locale, dbKeyMaterial, listPhysicalQuantity, v4);
             if (cr.isError())
                 return cr;

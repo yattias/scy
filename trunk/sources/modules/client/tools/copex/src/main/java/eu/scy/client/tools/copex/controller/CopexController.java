@@ -1665,25 +1665,25 @@ public class CopexController implements ControllerInterface {
         TypeMaterial typeIngredient = new TypeMaterial(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"), getLocale()));
         // material
         listHelpMaterial = new ArrayList();
-        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(3, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(3, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(4, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(4, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
         initProc.setListMaterial(listHelpMaterial);
@@ -1874,7 +1874,7 @@ public class CopexController implements ControllerInterface {
             if(setTrace())
                 copex.logLoadELO(proc);
         } catch (JDOMException ex) {
-            System.out.println("loadElo: "+ex);
+            //System.out.println("loadElo: "+ex);
             return new CopexReturn(copex.getBundleString("MSG_ERROR_OPEN_PROC"), false);
         }
         return new CopexReturn();
@@ -2181,7 +2181,7 @@ public class CopexController implements ControllerInterface {
 
     private void updateDatasheetProd(LearnerProcedure proc){
         List<QData> listDataProd = proc.getListDataProd();
-        if(listDataProd.size() == 0)
+        if(listDataProd.isEmpty())
             proc.setDataSheet(null);
         else
             proc.setDataSheet(new DataSheet(listDataProd));
@@ -2194,7 +2194,7 @@ public class CopexController implements ControllerInterface {
         ArrayList<Material> listMaterialProc = proc.getInitialProc().getListMaterial();
         int nbMat = listMaterialProc.size();
         for (int k=0; k<nbMat; k++){
-            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial(), false);
+            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial());
             listMaterialUsed.add(matUsed);
         }
         return listMaterialUsed;

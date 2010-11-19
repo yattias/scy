@@ -195,7 +195,7 @@ public class InitialProcedure extends ExperimentalProcedure {
                 for(Iterator<Material> m = listMaterial.iterator(); m.hasNext();){
                     Material mat = m.next();
                     boolean used = materialStrategy.canChooseMaterial()?false:true;
-                    listMaterialUsed.add(new MaterialUsed(mat, new LinkedList(), used, false));
+                    listMaterialUsed.add(new MaterialUsed(mat, new LinkedList(), used));
                 }
             }
             materials = new MaterialProc(listMaterialUsed);
