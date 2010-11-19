@@ -229,7 +229,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
 
    protected function showErrorMessage(title: String, message: String): Void {
       errorsString = "{importErrorString}\n\nXML errors:\n{message}";
-      if (not showingXml){
+      if (not showingXml) {
          textBox.text = errorsString;
       }
       errorView.selected = true;
