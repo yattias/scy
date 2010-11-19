@@ -135,27 +135,27 @@ String xmlString = "<processDataset>"
 +"</processDataset>";
 
 	public ProcessedDatasetEloShowcase() {
-		ProcessedDatasetELO pds = null;
-		try {
-			// generate dataset from xml string representation
-			// construction directly from JDOMElement is also possible
-			pds = new ProcessedDatasetELO(xmlString);
+            ProcessedDatasetELO pds = null;
+            try {
+                // generate dataset from xml string representation
+		// construction directly from JDOMElement is also possible
+		pds = new ProcessedDatasetELO(xmlString);
 
-			// show an xml representation generated from dataset
-			XMLOutputter fmt = new XMLOutputter();
-			fmt.output(pds.toXML(), System.out);
+		// show an xml representation generated from dataset
+		XMLOutputter fmt = new XMLOutputter();
+		fmt.output(pds.toXML(), System.out);
 
-			// show some of the content of the pds
-            System.out.println("\nDataset : ");
-			String symbol = pds.getDataset().getHeader(Locale.ENGLISH).getColumns().get(0).getSymbol();
-			String type = pds.getDataset().getHeader(Locale.ENGLISH).getColumns().get(0).getType();
-			System.out.println("\n\nsymbol / type of first variable : "+symbol+" / "+type);
+		// show some of the content of the pds
+                System.out.println("\nDataset : ");
+		String symbol = pds.getDataset().getHeader(Locale.ENGLISH).getColumns().get(0).getSymbol();
+		String type = pds.getDataset().getHeader(Locale.ENGLISH).getColumns().get(0).getType();
+		System.out.println("\n\nsymbol / type of first variable : "+symbol+" / "+type);
 
-			// show all values of first variable
-			List<DataSetRow> rows = pds.getDataset().getValues();
-			for (Iterator<DataSetRow> row = rows.iterator(); row.hasNext();) {
-				System.out.println(row.next().getValues().get(0));
-			}
+		// show all values of first variable
+		List<DataSetRow> rows = pds.getDataset().getValues();
+		for (Iterator<DataSetRow> row = rows.iterator(); row.hasNext();) {
+                    System.out.println(row.next().getValues().get(0));
+		}
 
             // processed Dataset
             System.out.println("\nProcessed Dataset : ");
@@ -182,15 +182,14 @@ String xmlString = "<processDataset>"
                 }
             }
 
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	} catch (JDOMException e) {
+            e.printStackTrace();
+	} catch (IOException e) {
+            e.printStackTrace();
+	}
         if (pds != null)
             pds.toXML();
-
-	}
+    }
 
 	public static void main(String[] args) {
 		new ProcessedDatasetEloShowcase();

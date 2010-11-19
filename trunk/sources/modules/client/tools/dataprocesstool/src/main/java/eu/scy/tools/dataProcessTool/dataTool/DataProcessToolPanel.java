@@ -209,7 +209,6 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
       CopexReturn cr = this.controller.load();
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-          System.out.println("erreur chargement des donnees ....");
           displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
       }
       logStartTool();
