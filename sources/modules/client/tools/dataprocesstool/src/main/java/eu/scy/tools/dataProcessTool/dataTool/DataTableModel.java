@@ -234,7 +234,6 @@ public class DataTableModel extends AbstractTableModel {
                         owner.updateData(dataset, null, rowIndex-1, columnIndex-1);
                     }
                 }catch(NumberFormatException e){
-                    System.out.println("excep : "+e);
                     owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_DOUBLE_VALUE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                     setValueAt(oldValue, rowIndex, columnIndex);
                     table.setValueAt(oldValue, rowIndex, columnIndex);
