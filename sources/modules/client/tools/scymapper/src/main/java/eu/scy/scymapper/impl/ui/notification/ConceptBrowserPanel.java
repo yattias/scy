@@ -36,6 +36,10 @@ public class ConceptBrowserPanel extends JPanel {
     
     private JPanel navigationPanel;
 
+    private JButton previousBtn;
+    
+    private JButton nextBtn;
+
     private JPanel compound;
     
     private List<String> lexicon;
@@ -70,14 +74,10 @@ public class ConceptBrowserPanel extends JPanel {
         lexiconPanel = new JPanel();
         lexiconPanel.setLayout(new GridLayout(VISIBLE_ENTRIES, 1));
         lexiconPanel.setBackground(Color.WHITE);
-
-        navigationPanel = new JPanel(new GridLayout(1, 2));
-        navigationPanel.setBackground(Color.WHITE);
         
-        JButton previosBtn = new JButton(Localization.getString("Mainframe.Lexicon.PreviousEntries"));
-        JButton nextBtn = new JButton(Localization.getString("Mainframe.Lexicon.NextEntries"));
-
-        previosBtn.addActionListener(new ActionListener() {
+        previousBtn = new JButton(Localization.getString("Mainframe.Lexicon.PreviousEntries"));
+        previousBtn.setEnabled(false);
+        previousBtn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,6 +85,7 @@ public class ConceptBrowserPanel extends JPanel {
             }
         });
 
+        nextBtn = new JButton(Localization.getString("Mainframe.Lexicon.NextEntries"));
         nextBtn.addActionListener(new ActionListener() {
         	
         	@Override
@@ -93,7 +94,9 @@ public class ConceptBrowserPanel extends JPanel {
         	}
         });
         
-        navigationPanel.add(previosBtn);
+        navigationPanel = new JPanel(new GridLayout(1, 2));
+        navigationPanel.setBackground(Color.WHITE);
+        navigationPanel.add(previousBtn);
         navigationPanel.add(nextBtn);
         
         compound = new JPanel(new BorderLayout());
@@ -105,19 +108,9 @@ public class ConceptBrowserPanel extends JPanel {
         add(compound, BorderLayout.CENTER);
     }
     
-    private List<String> readLexicon() {
-    	List<String> entries = SCYMapperStandaloneConfig.getInstance().getLexicon();
-		if(entries.size() > VISIBLE_ENTRIES) {
-			Collections.shuffle(entries);
-		}
-		return entries;
-    	
-    }
-
     public void showFirstEntries() {
         String text = null;
 
-//    	lexicon = SCYMapperStandaloneConfig.getInstance().getLexicon();
     	if(lexicon == null || lexicon.size() == 0 || (lexicon.size() == 1 && lexicon.get(0).equals(""))) {
             text = Localization.getString("Mainframe.Lexicon.NoEntry") + "\n";
     	} else {
@@ -153,13 +146,25 @@ public class ConceptBrowserPanel extends JPanel {
     	}
     }
     
+    private List<String> readLexicon() {
+    	List<String> entries = SCYMapperStandaloneConfig.getInstance().getLexicon();
+    	if(entries == null) {
+    		return null;
+    	}
+    	
+    	if(entries.size() > VISIBLE_ENTRIES) {
+    		Collections.shuffle(entries);
+    	}
+    	return entries;
+    }
+    
     private void showNextEntries() {
     	if(lexicon == null || lexicon.size() <= VISIBLE_ENTRIES || currentEntry + VISIBLE_ENTRIES >= lexicon.size()) {
     		return;
     	}
     	int x;
-    	if(currentEntry + 2 * VISIBLE_ENTRIES >= lexicon.size()) {
-    		// number of next entries will exceed the lexicon
+    	if(currentEntry + 2 * VISIBLE_ENTRIES > lexicon.size()) {
+    		// last page may contain less then VISIBLE_ENTRIES entries
     		x = lexicon.size();
     	} else {
     		x = currentEntry + 2 * VISIBLE_ENTRIES;
@@ -168,9 +173,15 @@ public class ConceptBrowserPanel extends JPanel {
     	for(int i = currentEntry + VISIBLE_ENTRIES; i < x; i++) {
     		lexiconPanel.add(new JLabel(lexicon.get(i)));
     	}
-    	lexiconPanel.validate();
-		currentEntry = currentEntry + VISIBLE_ENTRIES ;
+    	
+//		lexiconPanel.validate();
 		lexiconPanel.updateUI();
+		currentEntry = currentEntry + VISIBLE_ENTRIES;
+
+		if(lexicon.size() - currentEntry <= VISIBLE_ENTRIES) {
+    		nextBtn.setEnabled(false);    		
+    	}
+		previousBtn.setEnabled(true);
     }
     
     private void showPreviousEntries() {
@@ -182,7 +193,13 @@ public class ConceptBrowserPanel extends JPanel {
     	for(int i = currentEntry - VISIBLE_ENTRIES; i < x; i++) {
     		lexiconPanel.add(new JLabel(lexicon.get(i)));
     	}
-    	lexiconPanel.validate();
+    	
+		lexiconPanel.validate();
 		currentEntry = currentEntry - VISIBLE_ENTRIES;
+
+    	if(currentEntry == 0) {
+    		previousBtn.setEnabled(false);
+    	}
+		nextBtn.setEnabled(true);
     }
 }
