@@ -76,7 +76,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
     }
 
     private void sendFeeback(String id, String elouri, String user, String mission, String session, String type, String... proposals) throws TupleSpaceException {
-        Tuple notificationTuple = new Tuple("notification", id, user, "scymapper", "cmenricher agent", mission, session);
+        Tuple notificationTuple = new Tuple("notification", id, user, "scymapper", "cmenricher agent", mission, session, "proposal_type=" + type);
         for (String proposal : proposals) {
             if (proposal.startsWith(type)) {
                 notificationTuple.add(proposal);

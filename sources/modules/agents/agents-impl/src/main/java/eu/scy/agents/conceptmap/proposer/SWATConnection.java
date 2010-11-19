@@ -11,6 +11,7 @@ import info.collide.swat.model.DatatypeAnnotation;
 import info.collide.swat.model.DatatypeAnnotation.Type;
 import info.collide.swat.model.Entity;
 import info.collide.swat.model.Instance;
+import info.collide.swat.model.NamedClass;
 import info.collide.swat.model.OWLType;
 import info.collide.swat.model.ObjectProperty;
 import info.collide.swat.model.Property;
@@ -39,7 +40,32 @@ public class SWATConnection implements OntologyConnection {
             this.language = language;
             this.ontologyNamespace = ontologyNamespace;
             this.sc = new SWATClient(ontologyNamespace, "localhost", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
+            System.out.println("Initializing SWAT connection ...");
+            // build up cache
+            NamedClass[] classes = sc.getOntology().listNamedClasses();
+            for (NamedClass nc : classes) {
+                nc.getAllSuperClasses();
+                nc.getAllSubClasses();
+                nc.getAllProperties();
+                nc.getLabels();
+            }
+            Property[] properties = sc.getOntology().listAllProperties();
+            for (Property p : properties) {
+                p.getDomain();
+                p.getRange();
+                p.getLabels();
+            }
+            Instance[] instances = sc.getOntology().listInstances();
+            for (Instance i : instances) {
+                i.getLabels();
+                i.getPropertyValues();
+            }
+            System.out.println(" Finished!");
+            sc.saveCache();
+            
         } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        } catch (SWATException e) {
             e.printStackTrace();
         }
     }
@@ -280,10 +306,14 @@ public class SWATConnection implements OntologyConnection {
                         subProperties.add(Relation.valueOf(p.getName()).getLabel(language));
                     }
                 }
+                if (op.getDirectSuperProperties().length == 0) {
+                    subProperties.add(Relation.isA.getLabel(language));
+                }
                 if (Relation.isKnown(op.getName())) {
                     m.put(Relation.valueOf(op.getName()).getLabel(language), subProperties);
                 }
             }
+            m.put(Relation.isA.getLabel(language), new HashSet<String>());
         } catch (SWATException e) {
             e.printStackTrace();
         }

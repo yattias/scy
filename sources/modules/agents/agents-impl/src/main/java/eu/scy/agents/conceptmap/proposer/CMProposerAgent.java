@@ -78,8 +78,8 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         
     }
     
-    private static final String TEXT = "Als globale Erwärmung bezeichnet man den in den vergangenen Jahrzehnten beobachteten Anstieg der Durchschnittstemperatur der erdnahen Atmosphäre und der Meere sowie deren künftig erwartete Erwärmung. Zwischen 1906 und 2005 hat sich die durchschnittliche Außentemperatur in Bodennähe um 0,74 °C (+/- 0,18 °C) erhöht. Das Jahrzehnt von 2000 bis 2009 war mit Abstand das wärmste je gemessene, gefolgt von den 1990er Jahren, die wiederum wärmer waren als die 1980er Jahre. Nach gegenwärtigem wissenschaftlichen Verständnis ist hierfür \"sehr wahrscheinlich\" die Verstärkung des natürlichen Treibhauseffektes durch menschliches Einwirken ursächlich. Die menschengemachte Erwärmung entsteht durch Verbrennen fossiler Brennstoffe, durch weltumfassende Entwaldung sowie Land- und Viehwirtschaft. Dadurch wird das Treibhausgas Kohlendioxid (CO2) sowie weitere Treibhausgase wie Methan und Lachgas in der Erdatmosphäre angereichert. Diese CO2-Emissionen führen dazu, dass weniger Energie der Sonneneinstrahlung von der Erdoberfläche in das Weltall abgestrahlt werden kann. Bis zum Jahr 2100 wird, abhängig vom künftigen Treibhausgasausstoß und der tatsächlichen Reaktion des Klimasystems darauf (=Klimasensitivität), eine Erwärmung um 1,1 bis 6,4 °C erwartet. Dies hätte eine Reihe von Folgen: Verstärkte Gletscherschmelze, steigende Meeresspiegel, veränderte Niederschlagsmuster, zunehmende Wetterextreme, u.a. Die Vielzahl der Konsequenzen, die sich je nach Ausmaß der Veränderung des Klimas ergeben, ist jedoch kaum abschätzbar. Nationale und internationale Klimapolitik (siehe Kyoto-Protokoll) zielt sowohl auf die Vermeidung des Klimawandels wie auch auf die Anpassung an die zu erwartende Erwärmung ab. Der wissenschaftliche Erkenntnisstand zur globalen Erwärmung wird durch den Intergovernmental Panel on Climate Change (IPCC, im Deutschen oft als \"Weltklimarat\" bezeichnet) diskutiert und zusammengefasst. Die Analysen des IPCC, dessen Vierter Sachstandsbericht 2007 veröffentlicht wurde, bilden den Forschungsstand über menschliche Einflussnahmen auf das Klimasystem der Erde ab. Sie sind eine Hauptgrundlage der politischen und wissenschaftlichen Diskussion des Themas wie auch der Aussagen dazu in diesem Artikel. Die IPCC-Darstellung und die daraus zu ziehenden Folgerungen stehen zugleich im Mittelpunkt der Kontroverse um die globale Erwärmung.";
-
+    private static final String TEXT = "Als globale Erwärmung bezeichnet man den in den vergangenen Jahrzehnten beobachteten Anstieg der Durchschnittstemperatur der erdnahen Atmosphäre und der Meere sowie deren künftig erwartete Erwärmung. Zwischen 1906 und 2005 hat sich die Durchschnittstemperatur in Bodennähe um 0,74 °C (+/- 0,18 °C) erhöht. Das Jahrzehnt von 2000 bis 2009 war mit Abstand das wärmste je gemessene, gefolgt von den 1990er Jahren, die wiederum wärmer waren als die 1980er Jahre.\n\nNach gegenwärtigem wissenschaftlichen Verständnis ist hierfür 'sehr wahrscheinlich' die Verstärkung des natürlichen Treibhauseffektes durch menschliches Einwirken ursächlich. Die menschengemachte Erwärmung entsteht durch Verbrennen fossiler Brennstoffe, durch weltumfassende Abholzung sowie Land- und Viehwirtschaft. Dadurch wird das Treibhausgas Kohlendioxid (CO2) sowie weitere Treibhausgase wie Methan und Lachgas in der Erdatmosphäre angereichert, so dass weniger Wärmestrahlung von der Erdoberfläche in das Weltall abgestrahlt werden kann.\n\nDer mit Abstand größte Teil der abgelaufenen wie auch der erwarteten anthropogenen Erwärmung ist auf den bisherigen und bis heute zunehmenden Anstieg des Treibhausgases Kohlendioxid zurückzuführen. Durch starke Rückkopplungsprozesse ist die direkte Wärmewirkung des Kohlendioxids jedoch mit hoher Wahrscheinlichkeit deutlich kleiner als die erwarteten, aus der Erwärmung resultierenden, ebenfalls wärmenden Sekundäreffekte.\n\nBis zum Jahr 2100 wird, abhängig von künftigen CO2-Emissionen und der tatsächlichen Reaktion des Klimasystems darauf, eine Erwärmung um 1,1 bis 6,4 °C erwartet. Dies hätte eine Reihe von Folgen: Verstärkte Gletscherschmelze, Anstieg des Meeresspiegels, Versauerung der Ozeane, veränderte Niederschlagsmuster, mehr extreme Wetterereignisse, u.a.\n\nHinsichtlich des projizierten Anstiegs des Meeresspiegels sind noch viele Fragen offen. Die ermittelte Bandbreite des Anstiegs der Meeresspiegels bis zum Ende des 21. Jahrhunderts beträgt je nach Szenario 18 bis 59 Zentimeter. Die Szenarios berücksichtigen allerdings noch nicht die polare Eisdynamik (beispielsweise das Abbrechen großer Eismassen in der Antarktis) und Unsicherheiten in den Klima-Kohlenstoffkreislauf-Rückkopplungen: In einem wärmeren Klima reduziert sich die Aufnahmefähigkeit der Ozeane und der Landoberfläche für vom Menschen verursachtes CO2, weil in wärmerem Wasser weniger Gas gelöst wird und die Böden bei höheren Temperaturen mehr Biomasse abbauen. Damit würden die atmosphärischen CO2-Konzentrationen stärker steigen als ohne diesen Rückkopplungsmechanismus. Ein besseres Verständnis dieser Prozesse und deren Berücksichtigung in künftigen Modellsimulationen könnten zur Projektion höherer Meeresspiegelanstiege bis zum Ende des 21. Jahrhunderts führen.\n\nFolge der erhöhten CO2-Emissionen ist auch eine zunehmende Versauerung der Ozeane. Die Meere nahmen bisher etwa ein Drittel der vom Menschen verursachten CO2-Emissionen auf, was bereits zu einer signifikanten Versauerung des Meerwassers führte. Eine ungebremste Fortsetzung dieses Trends würde erhebliche Gefahren für das Leben im Meer bergen. Saures Wasser behindert die Kalkbildung, das heißt den Knochen- und Schalenaufbau der Meeresbewohner. Korallenriffe, die ohnehin im wärmeren Wasser unter Stress stehen und alle davon abhängigen Arten sind in ihrer Existenz gefährdet. Das könnte negative Auswirkungen für die gesamte Nahrungskette im Meer haben und damit auch für die menschliche Ernährung.\n\nDie größte Erwärmung zeigen die Klimaprojektionen über dem Festland und in nördlichen Breiten. Mit der geringsten Erwärmung ist über dem südlichen Ozean und Teilen des Nordatlantiks zu rechnen. Die Modelle ergeben für alle Emissionsszenarios einen Rückgang des Meereises sowohl in der Arktis als auch in der Antarktis. In einigen Projektionen verschwindet in der zweiten Hälfte des 21. Jahrhunderts das Meereis in der Arktis im Sommer fast völlig.\n\nDie Niederschlagsmengen werden in höheren Breiten sehr wahrscheinlich zunehmen, während sie über den meisten subtropischen Landregionen wahrscheinlich abnehmen.\n\nExtreme Wetterereignisse - wie Hitzewellen und starke Niederschläge - werden sehr wahrscheinlich weiterhin zunehmen. Darüber hinaus ist es wahrscheinlich (Eintrittswahrscheinlichkeit > 66 Prozent), dass tropische Wirbelstürme künftig intensiver werden und höhere Spitzenwindgeschwindigkeiten sowie mehr starke Niederschläge mit sich bringen werden.\n\nNach gegenwärtigen Erkenntnissen wird das Abschmelzen des Grönländischen Eisschildes nach 2100 weiterhin zum Anstieg des Meeresspiegels beitragen. Es besteht die Gefahr, dass bei einer Zunahme der globalen Durchschnittstemperatur von mehr als 2°C gegenüber dem vorindustriellen Wert das Grönländische Eisschild über Jahrhunderte hinweg vollständig abschmilzt und langfristig zu einem Anstieg des Meeresspiegels von etwa sieben Metern führt. Die Antarktis ist - nach gegenwärtigem Kenntnisstand - hingegen zu kalt für ein verbreitetes Abschmelzen des Festlandeises.\n\nDie Vielzahl der Auswirkungen, die sich je nach Ausmaß der Erwärmung ergeben, ist jedoch kaum abschätzbar. Die große Schwankungsbreite der Temperaturprognosen ist dabei weniger auf ein fehlendes Verständnis der natürlichen Faktoren, als viel mehr der unbekannten Reaktion der Menschheit auf die sich verändernden Bedingungen zuzurechnen. Die menschlich beschleunigte Erwärmung und der Anstieg des Meeresspiegels würden sich über Jahrhunderte fortsetzen, selbst falls es gelänge, die Konzentration der Treibhausgase zu stabilisieren. Dies liegt an der langen, mit Klimaprozessen und Rückkopplungen im Klimasystem verbundenen Zeitskala.\n\nDie Vermeidung dieser Phänomene wie auch die Anpassung an die zu erwartende Erwärmung, sind Ziele nationaler und internationaler Klimapolitik. Der wissenschaftliche Erkenntnisstand zur globalen Erwärmung wird durch den Intergovernmental Panel on Climate Change (IPCC, im Deutschen oft als Weltklimarat bezeichnet) diskutiert und zusammengefasst. Die Analysen des Weltklimarates, dessen Vierter Sachstandsbericht 2007 veröffentlicht wurde, bilden den Forschungsstand über menschliche Einflussnahmen auf das Klimasystem der Erde ab. Sie sind eine Hauptgrundlage der politischen und wissenschaftlichen Diskussion des Themas wie auch der Aussagen dazu in diesem Artikel. Die Darstellung des Weltklimarates und die daraus zu ziehenden Folgerungen stehen zugleich im Mittelpunkt der Kontroverse um die globale Erwärmung.\n\nAusgehend von dem Bericht des Weltklimarates, stellt die Klimapolitik der Europäischen Union ausdrücklich das sogenannte Zwei-Grad-Ziel in den Mittelpunkt und versucht, einen Beitrag dazu zu leisten, dass der Anstieg der globalen Durchschnittstemperatur nicht über 2 Grad Celsius hinausgeht.\n\nDer Gesamtausstoß an Treibhausgasen in der EU soll nach geltender Rechtslage bis 2020 um 20 Prozent gegenüber dem Basisjahr 1990 gesenkt werden. Derzeit diskutiert die EU, ihr Reduktionsziel für 2020 auf 30 Prozent zu erhöhen, auch ohne vergleichbare Selbstverpflichtungen weiterer Industrie- und Schwellenländer.\n\nDas im Dezember 2008 verabschiedete Klimapaket sieht Maßnahmen zur Intensivierung des europäischen Emissionshandels vor. Von 2013 an gilt ein gemeinsames CO2-Budget für alle Mitgliedstaaten. Während die (westeuropäische) Energiewirtschaft die CO2-Zertifikate von 2013 an bereits vollständig ersteigern muss, werden Raffinerien, Chemieindustrie und Fluglinien noch bis 2020 teilweise kostenlos Zertifikate zugeteilt bekommen.\n\nErstmals wurden für die nicht in den Emissionshandel einbezogenen Emissionen (Heizungen und Klimaanlagen, Verkehr, kleine Industrieanlagen, die Dienstleistungsbranche sowie die Landwirtschaft) für jedes Land festgelegte Emissionskontingente festgelegt.\n\nAuf Initiative der Europäischen Kommission wurde auch der Konvent der Bürgermeister/innen gegründet. Die in dem Konvent zusammengeschlossenen Kommunen haben sich das Ziel gesetzt, die CO2-Emissionen in ihrem eigenen Zuständigkeitsbereich um 20% zu senken.";
+    
     private OntologyConnection con;
 
     private EnrichmentStrategy[] strategies = new EnrichmentStrategy[] { EnrichmentStrategy.SUPER, EnrichmentStrategy.RELATIONS, EnrichmentStrategy.SIBLING };
@@ -88,13 +88,37 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
     private CMProposerObserver observer;
 
-    public static void main(String[] args) throws AgentLifecycleException {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put(AgentProtocol.PARAM_AGENT_ID, "proposer id");
-        map.put(AgentProtocol.TS_HOST, "localhost");
-        map.put(AgentProtocol.TS_PORT, 2525);
-        CMProposerAgent agent = new CMProposerAgent(map);
-        agent.start();
+    public static void main(String[] args) throws Exception {
+        TupleSpace ts = new TupleSpace("http://www.scy.eu/co2house#");
+        Tuple[] tuples = ts.readAll(new Tuple(Field.createWildCardField(), Field.createSemiformalField("*http://www.w3.org/2001/XMLSchema#string^^http://www.w3.org/2001/XMLSchema#string")));
+        for (Tuple t : tuples) {
+            String s = t.getField(3).getValue().toString();
+            s = s.substring(0, s.length() - "^^http://www.w3.org/2001/XMLSchema#string".length());
+            System.out.println(s);
+            t.getField(3).setValue(s);
+            ts.update(t.getTupleID(), t);
+        }
+        tuples = ts.readAll(new Tuple(Field.createWildCardField(), Field.createSemiformalField("*^^http://www.w3.org/2001/XMLSchema#string")));
+        for (Tuple t : tuples) {
+            String s = t.getField(3).getValue().toString();
+            if (!s.startsWith("\"")) {
+                s = "\"" + s.substring(0, s.length() - "^^http://www.w3.org/2001/XMLSchema#string".length()) + "\"^^http://www.w3.org/2001/XMLSchema#string";
+                System.out.println(s);
+                t.getField(3).setValue(s);
+                ts.update(t.getTupleID(), t);
+            }
+        }
+        tuples = ts.readAll(new Tuple(Field.createWildCardField(), Field.createSemiformalField("*de")));
+        for (Tuple t : tuples) {
+            System.out.println(t);
+        }
+        ts.disconnect();
+//        HashMap<String, Object> map = new HashMap<String, Object>();
+//        map.put(AgentProtocol.PARAM_AGENT_ID, "proposer id");
+//        map.put(AgentProtocol.TS_HOST, "localhost");
+//        map.put(AgentProtocol.TS_PORT, 2525);
+//        CMProposerAgent agent = new CMProposerAgent(map);
+//        agent.start();
     }
 
     public CMProposerAgent(Map<String, Object> map) {
@@ -291,8 +315,14 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             String eid = new VMID().toString();
             commandSpace.write(new Tuple(nid, "userconceptmapagent", "conceptmap", user, elouri, "nodes"));
             commandSpace.write(new Tuple(eid, "userconceptmapagent", "conceptmap", user, elouri, "edges"));
-            Tuple userNodesTuple = commandSpace.waitToTake(new Tuple(nid, "response", Field.createWildCardField()));
-            Tuple userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()));
+            Tuple userNodesTuple = null;
+            Tuple userEdgesTuple = null;
+            for (int i = 0; userNodesTuple == null && i < 30; i++) {
+                userNodesTuple = commandSpace.waitToTake(new Tuple(nid, "response", Field.createWildCardField()), 1000);
+            }
+            for (int i = 0; userEdgesTuple == null && i < 30; i++) {
+                userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()), 1000);
+            }
             Field[] nodeFields = new Field[userNodesTuple.getNumberOfFields() - 2];
             System.arraycopy(userNodesTuple.getFields(), 2, nodeFields, 0, nodeFields.length);
             Field[] edgesFields = new Field[userEdgesTuple.getNumberOfFields() - 2];
@@ -390,9 +420,9 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         for (String term : terms) {
             try {
                 String category = con.lookupEntityType(term, namespace);
-                if (category.equals("individual")) {
+                if ("individual".equals(category)) {
                     findConceptsOfInstance(term.toLowerCase(), g, terms, namespace);
-                } else if (category.equals("class")) {
+                } else if ("class".equals(category)) {
                     findConceptsOfClass(term.toLowerCase(), g, terms, namespace);
                 }
             } catch (TupleSpaceException e) {
