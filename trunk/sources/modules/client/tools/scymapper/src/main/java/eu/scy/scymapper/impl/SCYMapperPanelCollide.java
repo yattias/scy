@@ -266,11 +266,11 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     public void showLexicon() {
 
         conceptBrowserPanel = new ConceptBrowserPanel();
-        conceptBrowserPanel.readLexicon();
+        conceptBrowserPanel.showFirstEntries();
 
-        conceptBrowserPanel.setSize(250, 250);
-        conceptBrowserPanel.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
-        conceptBrowserPanel.setBackground(Color.WHITE);
+    	conceptBrowserPanel.setSize(250, 300);
+    	conceptBrowserPanel.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
+    	conceptBrowserPanel.setBackground(Color.WHITE);
 
         if (lexiconNotificator != null) {
             lexiconNotificator.hide();
