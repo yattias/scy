@@ -10,6 +10,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.mission.MissionRuntimeModel;
 
 /**
  * @author SikkenJ
@@ -17,6 +18,7 @@ import eu.scy.common.mission.RuntimeSettingsElo;
 public class MissionRunConfigs {
 
    public-init var tbi: ToolBrokerAPI;
+   public-init var missionRuntimeModel: MissionRuntimeModel;
    public-init var missionRuntimeElo: MissionRuntimeElo;
    public-init var missionMapModel: MissionModelFX;
    public-init var eloToolConfigsElo: EloToolConfigsElo;

@@ -26,12 +26,12 @@ import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
-import eu.scy.common.mission.MissionEloType;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleSaveAsNodeDesign;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMixin;
 import eu.scy.common.mission.MissionModelElo;
+import eu.scy.common.mission.MissionRuntimeModel;
 
 /**
  * @author SikkenJ
@@ -91,6 +91,39 @@ public class MissionLocator {
    }
 
    function startNewMission(missionSpecificationElo: MissionSpecificationElo) {
+      var missionRuntimeModel: MissionRuntimeModel;
+      var missionRuntimeElo: MissionRuntimeElo;
+      def missionManagement = missionSpecificationElo.getMissionManagement();
+      if (not initializer.dontUseMissionRuntimeElos) {
+         // this is the normal way
+         logger.info("prepare new mission runtime for {missionSpecificationElo.getUri()}");
+         missionRuntimeModel = missionManagement.createMissionRuntimeModelElos(userName);
+      } else {
+         // this is a special way, try not to change the elos while running,
+         // this is meant for when an author is checking the entered mission
+         // try to use the specificatins elos directly
+         // or do not save new elos
+         logger.info("starting mission (without runtime elos) from {missionSpecificationElo.getUri()}");
+         missionRuntimeModel = missionManagement.getMissionRuntimeModelElosOnSpecifiaction(userName);
+      }
+      def missionModel = missionRuntimeModel.getMissionModel();
+      missionModel.loadMetadata(tbi);
+      missionMapModel = MissionModelFX {
+            missionModel: missionModel
+            saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
+         }
+      startMission(MissionRunConfigs {
+         tbi: tbi
+         missionRuntimeModel: missionRuntimeModel
+         missionRuntimeElo: missionRuntimeElo
+         eloToolConfigsElo: missionRuntimeModel.getEloToolConfigsElo()
+         missionMapModel: missionMapModel
+         templateElosElo: missionRuntimeModel.getTemplateElosElo()
+         runtimeSettingsElo: missionRuntimeModel.getRuntimeSettingsElo()
+      });
+   }
+
+   function XXXstartNewMission(missionSpecificationElo: MissionSpecificationElo) {
       if (not initializer.dontUseMissionRuntimeElos) {
          // this is the normal way
          logger.info("prepare new mission runtime for {missionSpecificationElo.getUri()}");
