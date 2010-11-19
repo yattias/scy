@@ -67,7 +67,9 @@ public class ScyElo
    {
       assert metadata != null;
       assert rooloServices != null;
+      assert rooloServices.getELOFactory() != null;
       assert rooloServices.getMetaDataTypeManager() != null;
+      assert rooloServices.getRepository() != null;
       this.elo = elo;
       this.metadata = metadata;
       this.rooloServices = rooloServices;
@@ -164,6 +166,11 @@ public class ScyElo
    {
       return rooloServices.getMetaDataTypeManager().getMetadataKey(
                CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+   }
+
+   protected RooloServices getRooloServices()
+   {
+      return rooloServices;
    }
 
    @Override
@@ -298,7 +305,7 @@ public class ScyElo
 
    protected void verifyTechnicalFormat()
    {
-      
+
    }
 
    public String getTitle()
@@ -468,6 +475,23 @@ public class ScyElo
       // /elo/metadata/lom/lifecycle/contribution/data = dataTime (see lom specification)
       getMetadataValueContainer(authorKey).addValue(
                new Contribute(authorID, System.currentTimeMillis()));
+   }
+
+   public void setAuthors(List<String> authorIds)
+   {
+      List<Contribute> authors = new ArrayList<Contribute>();
+      for (String authorId : authorIds)
+      {
+         authors.add(new Contribute(authorId, System.currentTimeMillis()));
+      }
+      getMetadataValueContainer(authorKey).setValueList(authors);
+   }
+
+   public void setAuthor(String authorId)
+   {
+      List<String> authorIds = new ArrayList<String>();
+      authorIds.add(authorId);
+      setAuthors(authorIds);
    }
 
    @SuppressWarnings("unchecked")
