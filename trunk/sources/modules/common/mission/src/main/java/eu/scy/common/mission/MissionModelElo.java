@@ -77,7 +77,7 @@ public class MissionModelElo extends ContentTypedScyElo<MissionModelEloContent>
    {
       IELO elo = rooloServices.getELOFactory().createELO();
       elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
-               .setValue(MissionEloType.MISSION_SPECIFICATIOM.getType());
+               .setValue(MissionEloType.MISSION_MAP_MODEL.getType());
       MissionModelElo scyElo = new MissionModelElo(elo, rooloServices);
       return scyElo;
    }
