@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.sql.*;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 
 /**
@@ -25,6 +27,8 @@ import org.jdom.Element;
  * @author MBO
  */
 public class ExperimentalProcedureFromDB {
+    private static final Logger logger = Logger.getLogger(ExperimentalProcedureFromDB.class.getName());
+
     /* chargement des protocoles lie a une mission et un utilisateur
      * MBO le 27/02/09 : proc lockes
      en v[0] : la liste des proc
@@ -653,7 +657,7 @@ public class ExperimentalProcedureFromDB {
                 String paramName = rs2.getColumnData("I."+lib2);
                 InitialParamData d = new InitialParamData(dbKeyParamD, CopexUtilities.getLocalText(paramName, locale)) ;
                 if (id >= tabParam.length){
-                    System.out.println("param data : depassement nbParam");
+                    logger.log(Level.SEVERE, ("param data : depassement nbParam"));
                     return new CopexReturn("ERROR LOAD ACTION PARAM", false);
                 }
                 tabParam[id] = d;
@@ -689,7 +693,7 @@ public class ExperimentalProcedureFromDB {
                 String paramName = rs2.getColumnData("I."+lib2);
                 InitialParamQuantity p = new InitialParamQuantity(dbKeyParamQ, CopexUtilities.getLocalText(paramName, locale), physQ, CopexUtilities.getLocalText(qName, locale));
                 if (id >= tabParam.length){
-                    System.out.println("param quantity : depassement nbParam");
+                    logger.log(Level.SEVERE, ("param quantity : depassement nbParam"));
                     return new CopexReturn("ERROR LOAD ACTION PARAM", false);
                 }
                 tabParam[id] = p;
@@ -724,7 +728,7 @@ public class ExperimentalProcedureFromDB {
                         long dbKeyMat = Long.parseLong(s);
                         typeMat = getTypeMaterial(dbKeyMat, listTypeMaterial);
                         if (typeMat == null){
-                            System.out.println("Erreur sur le type de material ");
+                            logger.log(Level.SEVERE, ("Erreur sur le type de material "));
                             return new CopexReturn("ERROR LOAD ACTION PARAM", false);
                         }
                     }catch(NumberFormatException e){
@@ -765,13 +769,13 @@ public class ExperimentalProcedureFromDB {
                     long dbKeyPQuant = Long.parseLong(s);
                     paramQ = getInitialParamQuantity(dbKeyPQuant, tabParam);
                     if (paramQ == null){
-                        System.out.println("Erreur sur les liens entre param qtt et mat");
+                        logger.log(Level.SEVERE, ("Erreur sur les liens entre param qtt et mat"));
                         return new CopexReturn("ERROR LOAD ACTION PARAM", false);
                     }
                 }
                 InitialParamMaterial p = new InitialParamMaterial(dbKeyParamM, CopexUtilities.getLocalText(paramName, locale), typeMat,typeMat2, andTypes,paramQ, allType);
                 if (id >= tabParam.length){
-                    System.out.println("param material : depassement nbParam");
+                    logger.log(Level.SEVERE, ("param material : depassement nbParam"));
                     return new CopexReturn("ERROR LOAD ACTION PARAM", false);
                 }
                 tabParam[id] = p;
@@ -1492,10 +1496,14 @@ public class ExperimentalProcedureFromDB {
             String description = rs.getColumnData("M.DESCRIPTION");
             if (description == null)
                 continue;
-            
-            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale));
-            // on recupere les parametres
             ArrayList v4 = new ArrayList();
+            cr  = getMaterialSource(dbC, idMat, v4);
+            if(cr.isError())
+                return cr;
+            MaterialSource materialSource = (MaterialSource)v4.get(0);
+            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale), materialSource);
+            // on recupere les parametres
+            v4 = new ArrayList();
             cr = getMaterialParametersFromDB(dbC, locale,idMat, listPhysicalQuantity, v4);
             if (cr.isError())
                 return cr;
@@ -1577,9 +1585,14 @@ public class ExperimentalProcedureFromDB {
             if (description == null)
                 continue;
 
-            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale));
-            // on recupere les parametres
             ArrayList v4 = new ArrayList();
+            cr  = getMaterialSource(dbC, idMat, v4);
+            if(cr.isError())
+                return cr;
+            MaterialSource materialSource = (MaterialSource)v4.get(0);
+            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale), materialSource);
+            // on recupere les parametres
+            v4 = new ArrayList();
             cr = getMaterialParametersFromDB(dbC, locale,idMat, listPhysicalQuantity, v4);
             if (cr.isError())
                 return cr;
@@ -2226,7 +2239,6 @@ public class ExperimentalProcedureFromDB {
             boolean matUsed = s.equals("1");
             // mat est il dans la liste?
             Material material = null;
-            boolean userMaterial = false;
             for (int j=0;j<nbMat; j++){
                 if(listMaterial.get(j).getDbKey() == dbKey){
                     material = listMaterial.get(j);
@@ -2237,12 +2249,11 @@ public class ExperimentalProcedureFromDB {
                 for (int j=0;j<nbMatP; j++){
                 if(listMaterialProc.get(j).getDbKey() == dbKey){
                     material = listMaterialProc.get(j);
-                    userMaterial = true;
                     break;
                 }
                 }
             }
-            MaterialUsed mUsed = new MaterialUsed(material, CopexUtilities.getLocalText(comments, locale), matUsed, userMaterial);
+            MaterialUsed mUsed = new MaterialUsed(material, CopexUtilities.getLocalText(comments, locale), matUsed);
             listMaterialUsed.add(mUsed);
         }
         v.add(listMaterialUsed);
@@ -2306,7 +2317,7 @@ public class ExperimentalProcedureFromDB {
         return cr;
     }
 
-    public static CopexReturn createMaterialInDB(DataBaseCommunication dbC,Locale locale, Material material, ArrayList v){
+    public static CopexReturn createMaterialInDB(DataBaseCommunication dbC,Locale locale, Material material, long idProc,ArrayList v){
         String name = material.getName(locale) ;
         name =  AccesDB.replace("\'",name,"''") ;
         String description  = material.getDescription(locale);
@@ -2319,6 +2330,10 @@ public class ExperimentalProcedureFromDB {
             return cr;
         long dbKey = (Long)v2.get(0);
         material.setDbKey(dbKey);
+        // creation source
+        cr = createMaterialSourceInDB(dbC,  material, idProc);
+        if(cr.isError())
+            return cr;
         // creation du type
         int nbT = material.getListType().size() ;
         String[] querys = new String[nbT];
@@ -2362,6 +2377,23 @@ public class ExperimentalProcedureFromDB {
             material.getListParameters().get(j).setDbKey(dbKeyQ);
         }
         v.add(material);
+        return new CopexReturn();
+    }
+
+    public static CopexReturn createMaterialSourceInDB(DataBaseCommunication dbC,Material material, long idProc){
+        if(material.isUserMaterial()){
+            String query = "INSERT INTO MATERIAL_CREATED_BY_USER (ID_MATERIAL, ID_PROC) VALUES ("+material.getDbKey()+", "+idProc+");";
+            CopexReturn cr=  dbC.executeQuery(query);
+            if(cr.isError())
+                return cr;
+            return new CopexReturn();
+        }else if(material.isTeacherMaterial()){
+            String query = "INSERT INTO LINK_TEACHER_MATERIAL(ID_TEACHER, ID_MATERIAL) VALUES ("+((MaterialSourceTeacher)(material.getMaterialSource())).getIdTeacher()+", "+material.getDbKey()+");";
+            CopexReturn cr = dbC.executeQuery(query);
+            if(cr.isError())
+                return cr;
+            return new CopexReturn();
+        }
         return new CopexReturn();
     }
 
@@ -2410,6 +2442,54 @@ public class ExperimentalProcedureFromDB {
             return cr;
         }
         dbC.updateDb(MyConstants.DB_LABBOOK_COPEX);
+        return new CopexReturn();
+    }
+
+    public static CopexReturn getMaterialSource(DataBaseCommunication dbC, long dbKeyMaterial, ArrayList v){
+        String queryAction = "SELECT ID_ACTION FROM MATERIAL_PRODUCE ACTION_PRODUCE_MATERIAL WHERE ID_MATERIAL = "+dbKeyMaterial+";";
+        String queryUser = "SELECT ID_MATERIAL FROM MATERIAL_CREATED_BY_USER WHERE ID_MATERIAL = "+dbKeyMaterial+";";
+        String queryTeacher = "SELECT ID_TEACHER FROM LINK_TEACHER_MATERIAL WHERE ID_MATERIAL = "+dbKeyMaterial+" ;";
+        MaterialSource materialSource = new MaterialSourceCopex();
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.sendQuery(queryAction,  v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            long idAction = -1;
+            try{
+                idAction = Long.parseLong(rs.getColumnData("ID_ACTION"));
+            }catch(NumberFormatException e){
+
+            }
+            materialSource = new MaterialSourceAction(idAction);
+        }
+        v2 = new ArrayList();
+        cr = dbC.sendQuery(queryUser,  v2);
+        if (cr.isError())
+            return cr;
+        nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            materialSource = new MaterialSourceUser();
+        }
+        v2 = new ArrayList();
+        cr = dbC.sendQuery(queryTeacher,  v2);
+        if (cr.isError())
+            return cr;
+        nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            long idTeacher = -1;
+            try{
+                idTeacher = Long.parseLong(rs.getColumnData("ID_TEACHER"));
+            }catch(NumberFormatException e){
+
+            }
+            materialSource = new MaterialSourceTeacher(idTeacher);
+        }
+        v.add(materialSource);
         return new CopexReturn();
     }
 }

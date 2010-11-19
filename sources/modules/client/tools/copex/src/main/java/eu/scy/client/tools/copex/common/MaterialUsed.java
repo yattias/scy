@@ -32,43 +32,44 @@ public class MaterialUsed implements Cloneable{
     private List<LocalText> listComments;
     /* used or not */
     private boolean used;
-    /* provient de l'utilisateur */
-    private boolean userMaterial;
-    /* canbe remove : si materiel de l'etudiant et que aucune tache n'est liee a ce materiel */
+   /* canbe remove : si materiel de l'etudiant et que aucune tache n'est liee a ce materiel */
     private boolean canBeRemove;
     /* use automatically by copex (=> used=true)*/
     private boolean autoUsed;
 
     // CONSTRUCTEURS
-    public MaterialUsed(Material material, List<LocalText> listComments, boolean used, boolean userMaterial) {
+    public MaterialUsed(Material material, List<LocalText> listComments, boolean used) {
         this.material = material;
         this.listComments = listComments;
         this.used = used;
-        this.userMaterial = userMaterial;
-        this.canBeRemove = userMaterial;
+        this.canBeRemove = material.isUserMaterial();
         this.autoUsed = false;
     }
 
 
-    public MaterialUsed(Material material, LocalText comment, boolean used, boolean userMaterial) {
+    public MaterialUsed(Material material, LocalText comment, boolean used) {
         this.material = material;
         this.listComments = new LinkedList();
         this.listComments.add(comment);
         this.used = used;
-        this.userMaterial = userMaterial;
-        this.canBeRemove = userMaterial;
+        this.canBeRemove = material.isUserMaterial();
         this.autoUsed = false;
     }
 
     public MaterialUsed(Element xmlElem, List<Material> listMaterial, long idMaterial, List<TypeMaterial> listTypeMaterial, List<PhysicalQuantity> listPhysicalQuantity, long idQuantity) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_MATERIAL_USED)) {
+	if (xmlElem.getName().equals(TAG_MATERIAL_USED)) {
             if(xmlElem.getChild(Material.TAG_MATERIAL) != null)
                 material = new Material(xmlElem.getChild(Material.TAG_MATERIAL), idMaterial, listTypeMaterial, listPhysicalQuantity, idQuantity);
             else if(xmlElem.getChild(Material.TAG_MATERIAL_REF) != null){
                 material = new Material(xmlElem.getChild(Material.TAG_MATERIAL_REF), listMaterial);
             }
             used = xmlElem.getChild(TAG_MATERIAL_USED_USED).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-            userMaterial = xmlElem.getChild(TAG_MATERIAL_USED_USERMATERIAL).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            boolean userMat = false;
+            if(xmlElem.getChild(TAG_MATERIAL_USED_USERMATERIAL) != null ){
+                userMat = xmlElem.getChild(TAG_MATERIAL_USED_USERMATERIAL).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            }
+            if(userMat)
+                material.setMaterialSource(new MaterialSourceUser());
             listComments = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_MATERIAL_USED_COMMENT).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -76,12 +77,11 @@ public class MaterialUsed implements Cloneable{
                 listComments.add(new LocalText(e.getText(), l));
             }
             this.autoUsed = false;
-		} else {
-			throw(new JDOMException("Material used expects <"+TAG_MATERIAL_USED+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Material used expects <"+TAG_MATERIAL_USED+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
-    // GETTER AND SETTER
     public Material getMaterial() {
         return material;
     }
@@ -110,14 +110,7 @@ public class MaterialUsed implements Cloneable{
         this.used = used;
     }
 
-    public boolean isUserMaterial() {
-        return userMaterial;
-    }
-
-    public void setUserMaterial(boolean userMaterial) {
-        this.userMaterial = userMaterial;
-    }
-
+    
     public boolean isCanBeRemove() {
         return canBeRemove;
     }
@@ -162,7 +155,6 @@ public class MaterialUsed implements Cloneable{
             mUsed.setListComments(listCommentC);
             mUsed.setMaterial(m);
             mUsed.setUsed(new Boolean(used));
-            mUsed.setUserMaterial(new Boolean(userMaterial));
             mUsed.setCanBeRemove(new Boolean (canBeRemove));
             mUsed.setAutoUsed(new Boolean(autoUsed));
             return mUsed;
@@ -175,12 +167,12 @@ public class MaterialUsed implements Cloneable{
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_MATERIAL_USED);
-        if(userMaterial)
+        if(material.isUserMaterial())
             element.addContent(material.toXML());
         else
             element.addContent(material.toXMLRef());
         element.addContent(new Element(TAG_MATERIAL_USED_USED).setText(used ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
-        element.addContent(new Element(TAG_MATERIAL_USED_USERMATERIAL).setText(userMaterial ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
+        //element.addContent(new Element(TAG_MATERIAL_USED_USERMATERIAL).setText(userMaterial ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
         if(listComments != null && listComments.size() > 0){
             for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -197,5 +189,9 @@ public class MaterialUsed implements Cloneable{
         if(b || (!b && this.autoUsed))
             this.setUsed(b);
         this.setAutoUsed(b);
+    }
+
+    public boolean isUserMaterial(){
+        return material.isUserMaterial();
     }
 }

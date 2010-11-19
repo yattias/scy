@@ -123,10 +123,10 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             try {
                 copexURL = new URL("http://localhost/LabBook/pages/");
                 idUser = "2";
-                mission= "2";
+                mission= "1";
                 group = "1";
-                labDoc = "68";
-                labDocName = "Thermostat setting";
+                labDoc = "137";
+                labDocName = "Mon protocole";
             } catch (MalformedURLException ex) {
 
             }

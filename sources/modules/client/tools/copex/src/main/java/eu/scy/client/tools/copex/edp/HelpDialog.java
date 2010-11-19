@@ -153,7 +153,7 @@ public class HelpDialog extends javax.swing.JDialog {
             buttonClose.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                     dispose();
+                     closeHelpProc();
                 }
             });
         }
@@ -164,6 +164,11 @@ public class HelpDialog extends javax.swing.JDialog {
     // ouverture du proc d'aide 
     private void openHelpProc(){
         edP.displayHelpProc();
+        this.dispose();
+    }
+
+    private void closeHelpProc(){
+        edP.closeHelpDialog();
         this.dispose();
     }
 

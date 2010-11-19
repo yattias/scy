@@ -860,7 +860,7 @@ public class CopexControllerAuth implements ControllerInterface{
         for (int i=0; i<nbMat; i++){
             if(dbMode){
                 ArrayList v2 = new ArrayList();
-                CopexReturn cr = ExperimentalProcedureFromDB.createMaterialInDB(dbC,getLocale(), listMaterialToCreate.get(i).getMaterial(), v2);
+                CopexReturn cr = ExperimentalProcedureFromDB.createMaterialInDB(dbC,getLocale(), listMaterialToCreate.get(i).getMaterial(), proc.getDbKey(), v2);
                 if(cr.isError()){
                     return cr;
                 }
@@ -939,25 +939,25 @@ public class CopexControllerAuth implements ControllerInterface{
         TypeMaterial typeIngredient = new TypeMaterial(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"), getLocale()));
         // material
         listHelpMaterial = new ArrayList();
-        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(3,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()),  CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(3,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(4,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()),   CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(4,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()),   CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()),  CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()),  CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
         initP.setListMaterial(listHelpMaterial);
@@ -1019,7 +1019,7 @@ public class CopexControllerAuth implements ControllerInterface{
         ArrayList<Material> listMaterialProc = proc.getInitialProc().getListMaterial();
         int nbMat = listMaterialProc.size();
         for (int k=0; k<nbMat; k++){
-            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial(), false);
+            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial());
             listMaterialUsed.add(matUsed);
         }
         return listMaterialUsed;

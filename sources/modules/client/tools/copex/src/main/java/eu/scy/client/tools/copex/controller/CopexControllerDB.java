@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 
 /**
@@ -77,6 +79,8 @@ public class CopexControllerDB implements ControllerInterface {
     private TypeMaterial defaultTypeMaterial;
 
     private CopexHTML copexHtml;
+
+    private static final Logger logger = Logger.getLogger(CopexControllerDB.class.getName());
 
     
     public CopexControllerDB(CopexPanel copex, URL copexURL) {
@@ -425,18 +429,7 @@ public class CopexControllerDB implements ControllerInterface {
         // on recupere les nouveaux id des taches
         ArrayList<CopexTask> listT = (ArrayList<CopexTask>)v.get(0);
         expProc.addTasks(listT);
-        // mise a jour date de modif 
-        cr = db.updateDateProc(expProc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = exportHTML(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = updateLabdocStatus();
-        if(cr.isError())
-            return cr;
+        
         // on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee
         CopexTask taskBranch = listT.get(0);
         CopexTask lastTaskBranch = listT.get(subTree.getIdLastTask());
@@ -500,6 +493,18 @@ public class CopexControllerDB implements ControllerInterface {
             listTC.add((CopexTask)listT.get(k).clone());
         }
         copex.paste((LearnerProcedure)proc.clone(), listTC, ts, undoRedo);
+        // mise a jour date de modif
+        cr = db.updateDateProc(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = exportHTML(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         v2.add(listTC);
         return new CopexReturn();
     }
@@ -533,19 +538,7 @@ public class CopexControllerDB implements ControllerInterface {
         CopexReturn cr = db.deleteTasksFromDB(expProc.getDbKey(), listTask);
         if (cr.isError())
             return cr;
-        // mise a jour date de modif 
-        cr = db.updateDateProc(expProc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = exportHTML(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = updateLabdocStatus();
-        if(cr.isError())
-            return cr;
-        List<TaskTreePosition> listPositionTask = getTaskPosition(proc, listTask);
+        List<TaskTreePosition> listPositionTask = getTaskPosition(expProc, listTask);
         Profiler.end("supprBD");
         Profiler.start("supprMem");
         // suppression des liens en memoire
@@ -602,16 +595,16 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError())
             return cr;
         Profiler.end("majLienBD");
-         Profiler.start("trace");
-         updateQuestion(proc);
-         updateDatasheetProd(expProc);
-         expProc.lockMaterialUsed();
+        Profiler.start("trace");
+        updateQuestion(proc);
         
         // mise a jour des donnees
         boolean isOk = expProc.deleteTasks(listTask);
         if (!isOk){
             return new CopexReturn(copex.getBundleString("MSG_ERROR_DELETE_TASK"), false);
         }
+        updateDatasheetProd(expProc);
+        expProc.lockMaterialUsed();
         // trace 
         if (setTrace()){
             if (undoRedo == MyConstants.NOT_UNDOREDO && suppr)
@@ -626,12 +619,24 @@ public class CopexControllerDB implements ControllerInterface {
                 copex.logRedoDeleteTask(proc, listTask, listPositionTask);
             }
         }
+        // mise a jour date de modif
+        cr = db.updateDateProc(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = exportHTML(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         Profiler.end("trace");
-         Profiler.end("suppr");
-         System.out.println("Resultat :\n"+Profiler.display());
+        Profiler.end("suppr");
+        System.out.println("Resultat :\n"+Profiler.display());
         System.out.println("\nStats  :\n"+Profiler.getStats());
         Profiler.reset();
-         printRecap(expProc);
+        printRecap(expProc);
         v.add(expProc.clone());
         return new CopexReturn();
     }
@@ -873,18 +878,7 @@ public class CopexControllerDB implements ControllerInterface {
         }
         if (cr.isError())
             return cr;
-       // mise a jour date de modif 
-        cr = db.updateDateProc(expProc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = exportHTML(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = updateLabdocStatus();
-        if(cr.isError())
-            return cr;
+       
         long newDbKey = (Long)v2.get(0);
         // mise a jour des donnees 
         task.setDbKey(newDbKey);
@@ -934,6 +928,18 @@ public class CopexControllerDB implements ControllerInterface {
         }
          updateDatasheetProd(expProc);
          expProc.lockMaterialUsed();
+         // mise a jour date de modif
+        cr = db.updateDateProc(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = exportHTML(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en v[0] le  protocole mis a jour
         v.add((LearnerProcedure)expProc.clone());
         if (setTrace()){
@@ -1034,20 +1040,7 @@ public class CopexControllerDB implements ControllerInterface {
                 newRepeat = (TaskRepeat)v2.get(0);
             }
         }
-         updateDatasheetProd(expProc);
-         expProc.lockMaterialUsed();
-        // mise a jour date de modif 
-        cr = db.updateDateProc(expProc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = exportHTML(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        cr = updateLabdocStatus();
-        if(cr.isError())
-            return cr;
+         
         // mise a jour en memoire 
         //oldTask.setComments(newTask.getComments());
         //oldTask.setDescription(newTask.getDescription());
@@ -1080,7 +1073,20 @@ public class CopexControllerDB implements ControllerInterface {
             expProc.getQuestion().setListDescription(newTask.getListDescription());
             expProc.getQuestion().setListComments(newTask.getListComments());
         }
-        
+        updateDatasheetProd(expProc);
+         expProc.lockMaterialUsed();
+        // mise a jour date de modif
+        cr = db.updateDateProc(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = exportHTML(expProc);
+        if (cr.isError()){
+            return cr;
+        }
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en v[0] le protocole mis a jour 
         v.add((LearnerProcedure)expProc.clone());
         return new CopexReturn();
@@ -1364,7 +1370,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
-        cr = exportHTML(proc);
+        cr = exportHTML(procC);
         if (cr.isError()){
             return cr;
         }
@@ -1603,7 +1609,7 @@ public class CopexControllerDB implements ControllerInterface {
         subTree.setLastBrother(lastTaskBranch.getDbKeyBrother());
         updateDatasheetProd(expProc);
         expProc.lockMaterialUsed();
-        cr = exportHTML(proc);
+        cr = exportHTML(expProc);
         if (cr.isError()){
             return cr;
         }
@@ -1638,7 +1644,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (idP == -1)
             return new CopexReturn(copex.getBundleString("MSG_ERROR_DRAG_AND_DROP"), false);
         
-        copex.updateProc((LearnerProcedure)listProc.get(idP).clone());
+        copex.updateProc((LearnerProcedure)listProc.get(idP).clone(), false);
         return new CopexReturn();
     }
     
@@ -1664,7 +1670,7 @@ public class CopexControllerDB implements ControllerInterface {
             //   return cr;
             return new CopexReturn();
         }catch(Exception e){
-            System.out.println("stopEdp : "+e);
+            logger.log(Level.SEVERE, ("stopEdp : "+e));
             return new CopexReturn();
         }
     }
@@ -1749,25 +1755,25 @@ public class CopexControllerDB implements ControllerInterface {
         TypeMaterial typeIngredient = new TypeMaterial(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"), getLocale()));
         // material
         listHelpMaterial = new ArrayList();
-        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(3,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()),  CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(3,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(4,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()),   CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(4,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()),   CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()),  CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeIngredient);
         listHelpMaterial.add(m);
-        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()),  CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
-        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()), new MaterialSourceCopex());
         m.addType(typeUstensil);
         listHelpMaterial.add(m);
         initProc.setListMaterial(listHelpMaterial);
@@ -2143,7 +2149,7 @@ public class CopexControllerDB implements ControllerInterface {
         ArrayList<Material> listMaterialProc = proc.getInitialProc().getListMaterial();
         int nbMat = listMaterialProc.size();
         for (int k=0; k<nbMat; k++){
-            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial(), false);
+            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial());
             listMaterialUsed.add(matUsed);
         }
         return listMaterialUsed;
@@ -2160,7 +2166,7 @@ public class CopexControllerDB implements ControllerInterface {
         int nbMat = listMaterialToCreate.size();
         for (int i=0; i<nbMat; i++){
             ArrayList v2 = new ArrayList();
-            CopexReturn cr = ExperimentalProcedureFromDB.createMaterialInDB(db.getDbC(),getLocale(), listMaterialToCreate.get(i).getMaterial(), v2);
+            CopexReturn cr = ExperimentalProcedureFromDB.createMaterialInDB(db.getDbC(),getLocale(), listMaterialToCreate.get(i).getMaterial(), proc.getDbKey(), v2);
             if(cr.isError()){
                 return cr;
             }

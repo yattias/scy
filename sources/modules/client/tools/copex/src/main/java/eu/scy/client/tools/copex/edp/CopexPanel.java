@@ -247,7 +247,7 @@ public class CopexPanel extends JPanel {
       CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission,dbKeyGroup, dbKeyLabDoc, labDocName, fileMission);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-          System.out.println("erreur chargement des donnees ....");
+          //System.out.println("erreur chargement des donnees ....");
           displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
           this.stop();
       }
