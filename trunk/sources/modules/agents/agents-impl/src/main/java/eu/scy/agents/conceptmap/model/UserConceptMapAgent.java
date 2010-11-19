@@ -61,7 +61,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     private static final String TYPE_LINK_RENAMED = "link_renamed";
 
     private static final String TYPE_LINK_REMOVED = "link_removed";
-    
+
     private static final String TYPE_LINK_FLIPPED = "link_flipped";
 
     private static final String TYPE_ELOLOAD = "elo_load";
@@ -86,7 +86,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
         UserConceptMapAgent agent = new UserConceptMapAgent(map);
         agent.start();
     }
-    
+
     public UserConceptMapAgent(Map<String, Object> map) {
         super(UserConceptMapAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         userBlockingQueue = new Hashtable<String, BlockingQueue<Tuple>>();
@@ -241,7 +241,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
         } else if (type.equals(TYPE_NODE_RENAMED) || type.equals(TYPE_LINK_RENAMED)) {
             model.labelChanged(props);
         } else if (type.equals(TYPE_LINK_FLIPPED)) {
-        	model.edgeFlipped(props);
+            model.edgeFlipped(props);
         }
     }
 
@@ -254,12 +254,17 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
         String userName = requestTuple.getField(3).getValue().toString();
         String eloUri = requestTuple.getField(4).getValue().toString();
 
-        if (requestTuple.getField(5).getValue().toString().equals(REQUEST_NODES)) {
-            nodesOrEdges = users.get(userName).getModel(eloUri).getGraph().getNodesAsFields();
-        } else if (requestTuple.getField(5).getValue().toString().equals(REQUEST_EDGES)) {
-            nodesOrEdges = users.get(userName).getModel(eloUri).getGraph().getEdgesAsFields();
-        } else {
-            throw new AgentLifecycleException("Unknown RequestType");
+        try {
+            myLock.lock();
+            if (requestTuple.getField(5).getValue().toString().equals(REQUEST_NODES)) {
+                nodesOrEdges = users.get(userName).getModel(eloUri).getGraph().getNodesAsFields();
+            } else if (requestTuple.getField(5).getValue().toString().equals(REQUEST_EDGES)) {
+                nodesOrEdges = users.get(userName).getModel(eloUri).getGraph().getEdgesAsFields();
+            } else {
+                throw new AgentLifecycleException("Unknown RequestType");
+            }
+        } finally {
+            myLock.unlock();
         }
 
         // ResponseTuple: (<ID>:String, "response":String, <NodesOrEdges> ...)
@@ -333,9 +338,9 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
         // }
         //
         // String eloAsXML = responseTuple.getField(2).toString();
-//        String eloAsXML = TestingEnvironment.getExampleXml();
-//        SCYMapperAdapter adapter = new SCYMapperAdapter();
-//        return new ConceptMapModel(eloUri, adapter.transformToGraph(eloAsXML));
+        // String eloAsXML = TestingEnvironment.getExampleXml();
+        // SCYMapperAdapter adapter = new SCYMapperAdapter();
+        // return new ConceptMapModel(eloUri, adapter.transformToGraph(eloAsXML));
         return new ConceptMapModel(eloUri, new Graph());
     }
 
