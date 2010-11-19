@@ -8,6 +8,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
+import java.net.URI;
 
 /**
  * This is the interface of the Tool-Broker-API. The Tool-Broker-API can return
@@ -103,13 +104,13 @@ public interface ToolBrokerAPI extends RooloServices {
      * See also (@link getMissionSpecificationURI()).
      * @return the missionRuntimeURI
      */
-    public String getMissionRuntimeURI();
+    public URI getMissionRuntimeURI();
 
     /**
      * Returns the URI of the currently used mission specification.
      * @return the missionSpecificationURI
      */
-    public String getMissionSpecificationURI();
+    public URI getMissionSpecificationURI();
 
     /**
      * Returns the name, with which the user logged in.
