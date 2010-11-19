@@ -92,10 +92,24 @@ public interface ToolBrokerAPI extends RooloServices {
 
     /**
      * Returns the name of the mission the user is currently working on.
-     *
+     * @deprecated Use (@link getMissionRuntimeURI()) or (@getMissionSpecificationURI()) instead.
      * @return the mission
      */
+    @Deprecated
     public String getMission();
+
+    /**
+     * Returns the current user's "personal" missionRuntimeURI
+     * See also (@link getMissionSpecificationURI()).
+     * @return the missionRuntimeURI
+     */
+    public String getMissionRuntimeURI();
+
+    /**
+     * Returns the URI of the currently used mission specification.
+     * @return the missionSpecificationURI
+     */
+    public String getMissionSpecificationURI();
 
     /**
      * Returns the name, with which the user logged in.

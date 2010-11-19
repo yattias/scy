@@ -1,15 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package eu.scy.toolbrokerapi;
 
 /**
  *
- * @author sikken
+ * @author sikken, bollen
  */
 public interface ToolBrokerAPIRuntimeSetting {
 
-   public void setMissionId(String missionId);
+   //@Deprecated
+   //public void setMissionId(String missionId);
+
+   public void setMissionRuntimeURI(String missionRuntimeURI);
+   
+   public void setMissionSpecificationURI(String missionSpecificationURI);
 }

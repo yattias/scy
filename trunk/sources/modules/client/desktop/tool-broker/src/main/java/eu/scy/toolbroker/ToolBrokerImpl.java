@@ -90,9 +90,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 	private String password;
 
-	private String mission;
-	
-	private List<ConnectionListener> connectionListeners;
+	private String missionSpecificationURI = "not set";
+
+        private String missionRuntimeURI = "not set";
+
+        private List<ConnectionListener> connectionListeners;
 
 	private Map<String, BlockingQueue<INotification>> collaborationAnswers;
 
@@ -461,7 +463,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		requestCollaborationAction.setUser(xmppConnection.getUser());
 		requestCollaborationAction.setType("collaboration_request");
 		requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
-		requestCollaborationAction.addContext(ContextConstants.mission, mission);
+		requestCollaborationAction.addContext(ContextConstants.mission, missionSpecificationURI);
 		// TODO replace with real session
 		requestCollaborationAction.addContext(ContextConstants.session, "mysession");
 		requestCollaborationAction.addAttribute("proposed_user", proposedUser);
@@ -498,7 +500,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		collaborationResponseAction.setUser(xmppConnection.getUser());
 		collaborationResponseAction.setType("collaboration_response");
 		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
-		collaborationResponseAction.addContext(ContextConstants.mission, mission);
+		collaborationResponseAction.addContext(ContextConstants.mission, missionSpecificationURI);
 		// TODO replace with real session
 		collaborationResponseAction.addContext(ContextConstants.session, "mysession");
 		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
@@ -519,19 +521,32 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		}
 	}
 
-	public void setMission(String mission) {
-		this.mission = mission;
-	}
-
 	@Override
-	public String getMission() {
-		return mission;
-	}
+   public String getMissionRuntimeURI()
+   {
+      return missionRuntimeURI;
+   }
 
-	@Override
-	public void setMissionId(String missionId) {
-		mission = missionId;
-	}
+   @Override
+   public void setMissionRuntimeURI(String missionRuntimeURI)
+   {
+      this.missionRuntimeURI = missionRuntimeURI;
+   }
+
+   @Override
+   public String getMissionSpecificationURI() {
+       return missionSpecificationURI;
+   }
+
+   @Override
+   public void setMissionSpecificationURI(String missionSpecificationURI) {
+       this.missionSpecificationURI = missionSpecificationURI;
+   }
+
+   @Deprecated
+   public String getMission() {
+       return "ToolBrokerAPI.getMission() is deprecated";
+   }
 
 	@Override
 	public String getLoginUserName() {

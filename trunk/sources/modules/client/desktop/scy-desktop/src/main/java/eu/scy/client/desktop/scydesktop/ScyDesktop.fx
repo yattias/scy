@@ -172,6 +172,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //      }
    def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
    var backgroundUpdater: BackgroundUpdater;
+   def missionId = "missionId is deprecated";
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -360,7 +361,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             action: function(): Void {
 
                var userName = config.getToolBrokerAPI().getLoginUserName();
-               var missionId = config.getToolBrokerAPI().getMission();
+               var missionSpecificationURI = config.getToolBrokerAPI().getMissionSpecificationURI();
                var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool");
                var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName);
                var andQuery = new AndQuery(typeQuery, titleQuery);
