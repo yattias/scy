@@ -32,6 +32,8 @@ import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.LoginType;
 import eu.scy.client.desktop.scydesktop.mission.Missions;
+import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
+import java.net.URI;
 
 /**
  * @author sikken
@@ -234,8 +236,16 @@ public class LoginDialog extends CustomNode, TbiReady {
          var stage = scene.stage;
          var stageTitle = stage.title;
          stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionRuntimeElo.getTitle()}";
-         var scyDesktop = placeScyDescktop(missionRunConfigs);
+         FX.deferAction(function():Void{
+               finishTbi(missionRunConfigs);
+               var scyDesktop = placeScyDescktop(missionRunConfigs);
+            });
       });
+   }
+
+   function finishTbi(missionRunConfigs: MissionRunConfigs): Void {
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionRuntimeURI",missionRunConfigs.missionRuntimeElo.getUriFirstVersion());
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionSpecificationURI",missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
    }
 
    function placeScyDescktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
