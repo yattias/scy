@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import roolo.elo.api.IELO;
+import eu.scy.common.mission.impl.BasicMissionManagement;
 import eu.scy.common.mission.impl.BasicMissionSpecificationEloContent;
 import eu.scy.common.mission.impl.jdom.MissionSpecificationEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
@@ -89,5 +90,10 @@ public class MissionSpecificationElo extends ContentTypedScyElo<MissionSpecifica
                .setValue(MissionEloType.MISSION_SPECIFICATIOM.getType());
       MissionSpecificationElo scyElo = new MissionSpecificationElo(elo, rooloServices);
       return scyElo;
+   }
+
+   public MissionManagement getMissionManagement()
+   {
+      return new BasicMissionManagement(this, getRooloServices());
    }
 }
