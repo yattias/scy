@@ -318,11 +318,11 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
    
    public override function getMinHeight() : Number{
-      return 270;
+      return 320;
    }
 
    public override function getMinWidth() : Number{
-      return 460;
+      return 550;
    }
 
    public function getBundleString(key:String) : String{
