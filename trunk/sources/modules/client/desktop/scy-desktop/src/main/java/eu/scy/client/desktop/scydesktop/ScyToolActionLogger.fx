@@ -46,7 +46,7 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     def TOOL_QUIT = "tool_quit";
     def ELO_LOADED = "elo_loaded";
     def ELO_SAVED = "elo_saved";
-    def ELO_ADDTOPORTFOLIO = "elo_add_to_portfolio";
+    def ELO_ADDTOPORTFOLIO = "elo_added_to_portfolio";
 
     public function getURI(): String {
         if (window.eloUri == null) {
