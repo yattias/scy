@@ -3,12 +3,12 @@ package eu.scy.scymapper.impl.ui.notification;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -34,11 +34,20 @@ public class ConceptBrowserPanel extends JPanel {
 
     private JPanel lexiconPanel;
     
+    private JPanel navigationPanel;
+
+    private JPanel compound;
+    
+    private List<String> lexicon;
+    
+    private int currentEntry;
+    
     public ConceptBrowserPanel() {
         this(true);
     }
 
     public ConceptBrowserPanel(boolean init) {
+        lexicon = readLexicon();
         if (init) {
             initComponents();
         }
@@ -61,8 +70,33 @@ public class ConceptBrowserPanel extends JPanel {
         lexiconPanel = new JPanel();
         lexiconPanel.setLayout(new GridLayout(VISIBLE_ENTRIES, 1));
         lexiconPanel.setBackground(Color.WHITE);
+
+        navigationPanel = new JPanel(new GridLayout(1, 2));
+        navigationPanel.setBackground(Color.WHITE);
         
-        JPanel compound = new JPanel(new BorderLayout());
+        JButton previosBtn = new JButton(Localization.getString("Mainframe.Lexicon.PreviousEntries"));
+        JButton nextBtn = new JButton(Localization.getString("Mainframe.Lexicon.NextEntries"));
+
+        previosBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	showPreviousEntries();
+            }
+        });
+
+        nextBtn.addActionListener(new ActionListener() {
+        	
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		showNextEntries();
+        	}
+        });
+        
+        navigationPanel.add(previosBtn);
+        navigationPanel.add(nextBtn);
+        
+        compound = new JPanel(new BorderLayout());
         compound.setBackground(Color.WHITE);
         compound.setBorder(new EmptyBorder(5, 5, 5, 5));
         compound.add(descriptionLabel, BorderLayout.NORTH);
@@ -71,27 +105,37 @@ public class ConceptBrowserPanel extends JPanel {
         add(compound, BorderLayout.CENTER);
     }
     
-    public void readLexicon() {
+    private List<String> readLexicon() {
+    	List<String> entries = SCYMapperStandaloneConfig.getInstance().getLexicon();
+		if(entries.size() > VISIBLE_ENTRIES) {
+			Collections.shuffle(entries);
+		}
+		return entries;
+    	
+    }
+
+    public void showFirstEntries() {
         String text = null;
 
-    	List<String> lexicon = SCYMapperStandaloneConfig.getInstance().getLexicon();
-    	if(lexicon == null || lexicon.size() == 0) {
+//    	lexicon = SCYMapperStandaloneConfig.getInstance().getLexicon();
+    	if(lexicon == null || lexicon.size() == 0 || (lexicon.size() == 1 && lexicon.get(0).equals(""))) {
             text = Localization.getString("Mainframe.Lexicon.NoEntry") + "\n";
     	} else {
+    		if(lexicon.size() > VISIBLE_ENTRIES) {
+    			compound.add(navigationPanel, BorderLayout.SOUTH);
+    		}
             text = Localization.getString("Mainframe.Lexicon.EntryTitle") + "\n";
+            currentEntry = 0;
 
             if (lexicon.size() <= VISIBLE_ENTRIES) {
     			for (String entry : lexicon) {
     				lexiconPanel.add(new JLabel(entry));
     			}
     		} else {
-    			Random rndGenerator = new Random();
     			for(int i = 0; i < VISIBLE_ENTRIES; i++) {
-    				int rnd = rndGenerator.nextInt(lexicon.size());
-    				lexiconPanel.add(new JLabel(lexicon.get(rnd)));
-    				lexicon.remove(rnd);
+    				lexiconPanel.add(new JLabel(lexicon.get(i)));
     			}
-    		}            
+    		} 
     	}
     	
     	StyledDocument doc = descriptionLabel.getStyledDocument();
@@ -107,5 +151,38 @@ public class ConceptBrowserPanel extends JPanel {
     	} catch (BadLocationException e) {
     		e.printStackTrace();
     	}
+    }
+    
+    private void showNextEntries() {
+    	if(lexicon == null || lexicon.size() <= VISIBLE_ENTRIES || currentEntry + VISIBLE_ENTRIES >= lexicon.size()) {
+    		return;
+    	}
+    	int x;
+    	if(currentEntry + 2 * VISIBLE_ENTRIES >= lexicon.size()) {
+    		// number of next entries will exceed the lexicon
+    		x = lexicon.size();
+    	} else {
+    		x = currentEntry + 2 * VISIBLE_ENTRIES;
+    	}
+		lexiconPanel.removeAll();
+    	for(int i = currentEntry + VISIBLE_ENTRIES; i < x; i++) {
+    		lexiconPanel.add(new JLabel(lexicon.get(i)));
+    	}
+    	lexiconPanel.validate();
+		currentEntry = currentEntry + VISIBLE_ENTRIES ;
+		lexiconPanel.updateUI();
+    }
+    
+    private void showPreviousEntries() {
+    	if(lexicon == null || lexicon.size() <= VISIBLE_ENTRIES || currentEntry < VISIBLE_ENTRIES) {
+    		return;
+    	}
+		lexiconPanel.removeAll();
+		int x = currentEntry;
+    	for(int i = currentEntry - VISIBLE_ENTRIES; i < x; i++) {
+    		lexiconPanel.add(new JLabel(lexicon.get(i)));
+    	}
+    	lexiconPanel.validate();
+		currentEntry = currentEntry - VISIBLE_ENTRIES;
     }
 }
