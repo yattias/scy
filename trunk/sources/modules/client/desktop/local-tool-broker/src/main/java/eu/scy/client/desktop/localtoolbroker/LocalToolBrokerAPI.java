@@ -18,6 +18,7 @@ import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ConnectionListener;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
+import java.net.URI;
 import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -43,8 +44,8 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    private StudentPedagogicalPlanService studentPedagogicalPlanService;
 
    private String userName = "not set";
-   private String missionSpecificationURI = "not set";
-   private String missionRuntimeURI = "not set";
+   private URI missionSpecificationURI;
+   private URI missionRuntimeURI;
 
    @Override
    public void close()
@@ -180,30 +181,37 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    }
 
    @Override
-   public String getMissionRuntimeURI()
+   public URI getMissionRuntimeURI()
    {
       return missionRuntimeURI;
    }
 
    @Override
-   public void setMissionRuntimeURI(String missionRuntimeURI)
+   public void setMissionRuntimeURI(URI missionRuntimeURI)
    {
       this.missionRuntimeURI = missionRuntimeURI;
    }
 
    @Override
-   public String getMissionSpecificationURI() {
+   public URI getMissionSpecificationURI() {
        return missionSpecificationURI;
    }
 
    @Override
-   public void setMissionSpecificationURI(String missionSpecificationURI) {
+   public void setMissionSpecificationURI(URI missionSpecificationURI) {
        this.missionSpecificationURI = missionSpecificationURI;
    }
 
    @Deprecated
+   @Override
    public String getMission() {
        return "ToolBrokerAPI.getMission() is deprecated";
+   }
+
+   @Deprecated
+   @Override
+   public void setMissionId(String missionId) {
+       // do nothing, deprecated
    }
 
    @Override

@@ -44,6 +44,7 @@ import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
+import java.net.URI;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -90,9 +91,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 	private String password;
 
-	private String missionSpecificationURI = "not set";
+	private URI missionSpecificationURI;
 
-        private String missionRuntimeURI = "not set";
+        private URI missionRuntimeURI;
 
         private List<ConnectionListener> connectionListeners;
 
@@ -463,7 +464,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		requestCollaborationAction.setUser(xmppConnection.getUser());
 		requestCollaborationAction.setType("collaboration_request");
 		requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
-		requestCollaborationAction.addContext(ContextConstants.mission, missionSpecificationURI);
+		requestCollaborationAction.addContext(ContextConstants.mission, missionSpecificationURI.toString());
 		// TODO replace with real session
 		requestCollaborationAction.addContext(ContextConstants.session, "mysession");
 		requestCollaborationAction.addAttribute("proposed_user", proposedUser);
@@ -500,7 +501,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		collaborationResponseAction.setUser(xmppConnection.getUser());
 		collaborationResponseAction.setType("collaboration_response");
 		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
-		collaborationResponseAction.addContext(ContextConstants.mission, missionSpecificationURI);
+		collaborationResponseAction.addContext(ContextConstants.mission, missionSpecificationURI.toString());
 		// TODO replace with real session
 		collaborationResponseAction.addContext(ContextConstants.session, "mysession");
 		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
@@ -522,24 +523,24 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	}
 
 	@Override
-   public String getMissionRuntimeURI()
+   public URI getMissionRuntimeURI()
    {
       return missionRuntimeURI;
    }
 
    @Override
-   public void setMissionRuntimeURI(String missionRuntimeURI)
+   public void setMissionRuntimeURI(URI missionRuntimeURI)
    {
       this.missionRuntimeURI = missionRuntimeURI;
    }
 
    @Override
-   public String getMissionSpecificationURI() {
+   public URI getMissionSpecificationURI() {
        return missionSpecificationURI;
    }
 
    @Override
-   public void setMissionSpecificationURI(String missionSpecificationURI) {
+   public void setMissionSpecificationURI(URI missionSpecificationURI) {
        this.missionSpecificationURI = missionSpecificationURI;
    }
 
@@ -548,17 +549,24 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
        return "ToolBrokerAPI.getMission() is deprecated";
    }
 
-	@Override
-	public String getLoginUserName() {
-		return userName;
-	}
+   @Deprecated
+   @Override
+   public void setMissionId(String missionId) {
+       // do nothing, deprecated
+   }
 
-	public void setStudentPedagogicalPlanService(StudentPedagogicalPlanService studentPedagogicalPlanService) {
-		this.studentPedagogicalPlanService = studentPedagogicalPlanService;
-	}
+    @Override
+    public String getLoginUserName() {
+            return userName;
+    }
 
-	@Override
-	public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
-		return studentPedagogicalPlanService;
-	}
+    public void setStudentPedagogicalPlanService(StudentPedagogicalPlanService studentPedagogicalPlanService) {
+            this.studentPedagogicalPlanService = studentPedagogicalPlanService;
+    }
+
+    @Override
+    public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
+            return studentPedagogicalPlanService;
+    }
+    
 }
