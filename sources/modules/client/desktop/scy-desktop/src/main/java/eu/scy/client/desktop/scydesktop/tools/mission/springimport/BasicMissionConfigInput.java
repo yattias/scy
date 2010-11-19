@@ -47,7 +47,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
       {
          if (templateEloUriSet.contains(uri))
          {
-            logger.error(addError("duplicate template ELO uri: " + uri));
+            logger.error(addError("Duplicate template ELO uri: " + uri));
          }
          else
          {
@@ -96,7 +96,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
             else
             {
-               logger.error(addError("The basicMissionAnchor with id " + missionAnchor.getId() + " has no uri defined"));
+               logger.error(addError("The basicMissionAnchor with id '" + missionAnchor.getId() + "' has no uri defined"));
             }
          }
       }
@@ -151,7 +151,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          }
          else
          {
-            logger.error(addError("cannot find initial active las with id: " + initialActiveLasId));
+            logger.error(addError("Cannot find initial active las with id: '" + initialActiveLasId + "'"));
          }
       }
 //      missionModel.findPreviousLasLinks();
@@ -179,7 +179,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          }
          else
          {
-            logger.error(addError("duplicate las id: " + las.getId()));
+            logger.error(addError("Duplicate las id: '" + las.getId() + "'"));
          }
       }
       // fix the next las links
@@ -196,7 +196,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
             else
             {
-               logger.error(addError("cannot find nextLas id: " + lasId + ", in las " + las.getId()));
+               logger.error(addError("Cannot find nextLas with id '" + lasId + "', in las with id '" + las.getId() + "'"));
             }
          }
          las.setNextLasses(nextLasses);
@@ -224,7 +224,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          }
          else
          {
-            logger.error(addError("duplicate mission anchor id: " + basicMissionAnchor.getId()));
+            logger.error(addError("Duplicate mission anchor id: '" + basicMissionAnchor.getId() + "'"));
          }
       }
       // fill in the input mission anchors
@@ -241,7 +241,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
             else
             {
-               logger.error(addError("cannot find next mission anchor id " + missionAnchorId + " for mission anchor id " + basicMissionAnchor.getId()));
+               logger.error(addError("Cannot find next mission anchor with id '" + missionAnchorId + "' for mission anchor with id '" + basicMissionAnchor.getId() + "'"));
             }
          }
          missionAnchor.setInputMissionAnchors(inputMissionAnchors);
@@ -257,7 +257,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          }
          else
          {
-            logger.error(addError("cannot find mission anchor id " + basicLas.getAnchorEloId() + " for las id " + basicLas.getId()));
+            logger.error(addError("Cannot find mission anchor with id '" + basicLas.getAnchorEloId() + "' for las with id '" + basicLas.getId() + "'"));
          }
          List<MissionAnchor> intermediateAnchors = new ArrayList<MissionAnchor>();
          for (String intermediateAnhorId : basicLas.getIntermediateEloIds())
@@ -269,7 +269,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
             else
             {
-               logger.error(addError("cannot find intermediate mission anchor id " + intermediateAnhorId + " for las id " + basicLas.getId()));
+               logger.error(addError("Cannot find intermediate mission anchor with id '" + intermediateAnhorId + "' for las with id '" + basicLas.getId() + "'"));
             }
          }
          las.setIntermediateAnchors(intermediateAnchors);
