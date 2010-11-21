@@ -42,10 +42,8 @@ public class DataFormElementController {
                         time = new Time();
                         time.setToNow();
                         dfeem.addStoredData((prettyTimeDate(time.hour) + ":" + prettyTimeDate(time.minute) + ":" + prettyTimeDate(time.second)).getBytes());
-
                         break;
                     case GPS:
-
                         final LocationManager lm = (LocationManager) _activity.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
                         lm.getProvider("gps");
 
@@ -60,15 +58,12 @@ public class DataFormElementController {
                             }
 
                             public void onProviderDisabled(String provider) {
-                            // TODO Auto-generated method stub
                             }
 
                             public void onProviderEnabled(String provider) {
-                            // TODO Auto-generated method stub
                             }
 
                             public void onStatusChanged(String provider, int status, Bundle extras) {
-                            // TODO Auto-generated method stub
                             }
                         });
 
@@ -90,6 +85,5 @@ public class DataFormElementController {
         tki.putExtra("dfem", _dfem);
         tki.putExtra("elementpos", id);
         application.startActivityForResult(tki, id);
-
     }
 }
