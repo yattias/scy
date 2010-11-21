@@ -12,8 +12,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 public class DataCollectorFormController {
@@ -22,63 +20,17 @@ public class DataCollectorFormController {
 
     private DataCollectorFormModel dcfm;
 
-    private DataCollectorFormView _dcfv;
-
-    // private String tunePath(String path) {
-    // if (!path.startsWith("/")) {
-    // path = "/" + path;
-    // }
-    // if (!path.contains(".")) {
-    // ;
-    // }
-    // return Environment.getExternalStorageDirectory().getAbsolutePath()
-    // + path;
-    // }
 
     public DataCollectorFormController(DataCollectorFormModel dcfm, final DataCollectorFormView dcfv, final DataCollectorFormActivity application) {
         this.application = application;
         this.dcfm = dcfm;
-        _dcfv = dcfv;
 
         Bundle extras = application.getIntent().getExtras();
         Long formid = extras.getLong("dataform");
 
         DataCollectorContentProvider dccp = new DataCollectorContentProvider();
         dccp.getDCFM(application, formid, dcfm);
-        // dccp.close();
         dcfv.update(null, null);
-
-        // FROM FILE
-        // try {
-        // dcfm.fromFile(tunePath("test.xml"));
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } catch (ClassNotFoundException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // dcfv.update(null, null);
-        // DataCollectorWebServicesController dcwc = new
-        // DataCollectorWebServicesController(application);
-        // dcwc.postFormJSON( dcfm)
-    }
-
-    private class btnFertigListener implements OnClickListener {
-
-        // TODO einbinden in view
-        public void onClick(View v) {
-        // DataCollectorWebServicesController dcc = new
-        // DataCollectorWebServicesController(application);
-
-        // DataCollectorConfiguration dcc = new DataCollectorConfiguration(
-        // application);
-        //
-        // DataCollectorContentProvider dccp = new DataCollectorContentProvider();
-        // dccp.updateForm(dcfm, dcc.getUserName());
-        // application.finish();
-        }
-
     }
 
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
@@ -137,11 +89,8 @@ public class DataCollectorFormController {
                     }
                     DataFormElementController dfec = new DataFormElementController(elements.get(requestCode), application);
                     dfec.events(DataFormElementEventTypes.ONAFTER);
-
                 }
-
             }
         }
     }
-
 }

@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -209,7 +210,7 @@ public class DataCollectorFormViewDetailsActivity extends Activity implements Ob
                 _viewPos = _dfem.getDataList().size() - 1;
 
             TextView tvLabelData = new TextView(_thisView);
-            tvLabelData.setText(_dfem.getTitle() + ":");
+            tvLabelData.setText(_dfem.getTitle() + ": ");
             table.addView(tvLabelData);
             switch (_dfem.getType()) {
                 case IMAGE:
@@ -231,11 +232,16 @@ public class DataCollectorFormViewDetailsActivity extends Activity implements Ob
                     String tmpDataString = new String(_dfem.getStoredData(_viewPos));
                     tvDate.setText(tmpDataString);
                     table.addView(tvDate);
-
+                case TIME:
+                    TextView tvTime = new TextView(_thisView);
+                    String tmpTimeString = new String(_dfem.getStoredData(_viewPos));
+                    tvTime.setText(tmpTimeString);
+                    table.addView(tvTime);
                     break;
                 case TEXT:
                     final EditText etText = new EditText(_thisView);
                     String tmpTextString = new String(_dfem.getStoredData(_viewPos));
+                    Log.d("DetailsView", tmpTextString);
                     etText.setText(tmpTextString);
                     // tvText.set
                     Display display = getWindowManager().getDefaultDisplay();

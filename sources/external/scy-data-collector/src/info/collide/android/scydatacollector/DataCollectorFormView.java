@@ -23,22 +23,21 @@ public class DataCollectorFormView implements Observer {
 
     private static ImageButton btnFertig;
 
-    private static DataCollectorFormActivity application;
+    private final DataCollectorFormActivity application;
 
-    private static DataCollectorFormModel dcfm;
+    private final DataCollectorFormModel dcfm;
 
     ProgressDialog mypd;
 
     public DataCollectorFormView(DataCollectorFormModel dcfm, DataCollectorFormActivity application) {
-
         this.application = application;
         this.dcfm = dcfm;
         dcfm.addObserver(this);
-        // update(null, null); // create Button for Controller
     }
 
-    public static LinearLayout createLastRow(String caption, final Context activity) {
+    public LinearLayout createLastRow(String caption, final Context activity) {
         LinearLayout ll = new LinearLayout(activity);
+        
         btnFertig = new ImageButton(activity);
         // btnFertig.setText(caption);
         btnFertig.setImageResource(R.drawable.check);
@@ -54,9 +53,7 @@ public class DataCollectorFormView implements Observer {
                     e.printStackTrace();
                 }
                 Uri uri = Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms");
-
                 updateDCFM(cv, uri);
-
             }
 
             /**
@@ -68,15 +65,12 @@ public class DataCollectorFormView implements Observer {
                 Thread t = new Thread() {
 
                     public void run() {
-
                         application.getContentResolver().update(uri, cv, null, null);
-
                         Message message = new Message();
                         message.what = application.GUIUPDATEIDENTIFIER;
                         application.myGUIUpdateHandler.sendMessage(message);
                     }
                 };
-
                 t.start();
             }
         });
@@ -94,9 +88,9 @@ public class DataCollectorFormView implements Observer {
     }
 
     public void update(Observable observable, Object data) {
-        this.application.setTitle(application.getResources().getString(R.string.formular) + dcfm.getTitle());
+        this.application.setTitle(application.getResources().getString(R.string.formular) + " " + dcfm.getTitle());
 
-        TableLayout table = (TableLayout) application.findViewById(R.id.TableLayout01);
+        TableLayout table = (TableLayout) application.findViewById(R.id.formtable);
 
         // TODO EXCEPTION beim 2ten aufruf wenn ich immer nur das eine Object
         // aktualisiere
@@ -116,26 +110,15 @@ public class DataCollectorFormView implements Observer {
             // int i = 0;
             table.removeAllViews();
             for (DataFormElementModel el : dcfm.getDfElements()) {
-
-                // table.removeViewAt(i);
                 table.addView(new DataFormElement(el, application, table.getChildCount()).getView());
             }
-
             table.addView(createLastRow(application.getResources().getString(R.string.btnDone), application));
         }
-        // if
-        // (table.getChildAt(table.getChildCount()).equals(createLastRow("fertig",
-        // application))){
-        //			
-        // } else
-        // 
-
     }
 
     public void invalidate() {
         if (mypd != null)
             mypd.dismiss();
         application.finish();
-
     }
 }
