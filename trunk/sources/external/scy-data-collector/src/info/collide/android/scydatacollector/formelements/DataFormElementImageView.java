@@ -19,10 +19,9 @@ public class DataFormElementImageView extends DataFormElementView {
 
         inflate(getApplication(), R.layout.pictureformelement, this);
         
-        TextView label = (TextView) findViewById(R.id.picutureformelement_label);
+        TextView label = (TextView) findViewById(R.id.pictureformelement_label);
         label.setWidth(super.Column1width);
-        label.setText(dfem.getTitle() + " Test");
-
+        label.setText(dfem.getTitle());
 
         ImageButton btnTakeImage = (ImageButton) findViewById(R.id.pictureformelement_take_picture);
         btnTakeImage.setMinimumWidth(super.Column2width);

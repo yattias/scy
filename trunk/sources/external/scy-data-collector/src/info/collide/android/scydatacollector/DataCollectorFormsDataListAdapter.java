@@ -99,6 +99,8 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
         // update the cell renderer, and handle selection state
         cellRendererView.display(index, _selectedIndex == index);
 
+        cellRendererView.setBackgroundResource(R.drawable.gradient);
+        
         return cellRendererView;
 
     }

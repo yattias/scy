@@ -17,56 +17,48 @@ public class DataFormElementCounterView extends DataFormElementView {
     public DataFormElementCounterView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
         super(dfem, application, dfec);
 
-        TextView label = new TextView(getApplication());
+        inflate(getApplication(), R.layout.counterformelement, this);
+        
+        TextView label = (TextView) findViewById(R.id.counterformelement_label);
         label.setWidth(super.Column1width);
-        final EditText txt = new EditText(getApplication());
-
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
-            String tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
-            txt.setText(tmp);
-        } else
-            txt.setText("0");
+        label.setText(dfem.getTitle());
+        
+        EditText txt = (EditText) findViewById(R.id.counterformelement_counter_field);
         txt.setInputType(InputType.TYPE_CLASS_NUMBER);
         txt.setWidth(Column2width);
         txt.setMinimumWidth(Column2width);
         txt.setMaxHeight(RowMaxHeight);
-        // label.setGravity(48);
-        // this.setGravity(48);
 
-        ImageButton btnInc = new ImageButton(getApplication());
-        ImageButton btnDec = new ImageButton(getApplication());
-        label.setText(dfem.getTitle());
-        // btnInc.setText("+");
-        // btnDec.setText("-");
-        btnInc.setImageResource(R.drawable.add);
-        btnDec.setImageResource(R.drawable.remove_minus_sign);
-        ImageButton _btnDetails = new ImageButton(application);
-        // _btnDetails.setText("Details");
-        _btnDetails.setImageResource(R.drawable.ic_menu_info_details);
-        _btnDetails.setMaxHeight(RowMaxHeight);
-        _btnDetails.setId(id);
+        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
+            String tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
+            txt.setText(tmp);
+        } else {
+            txt.setText("0");
+        }
 
-        _btnDetails.setMinimumWidth(Column5width);
+        ImageButton buttonInc = (ImageButton) findViewById(R.id.counterformelement_increase);
+        buttonInc.setMinimumWidth(Column3width);
+        
+        ImageButton buttonDec = (ImageButton) findViewById(R.id.counterformelement_decrease);
+        buttonDec.setMinimumWidth(Column4width);
 
-        // _btnDetails.setIm
-        // _btnDetails.set
-        _btnDetails.setId(id);
+        ImageButton buttonDetails = new ImageButton(application);
+        buttonDetails.setId(id);
+        buttonDetails.setMinimumWidth(Column5width);
+        
         if (dfem.getDataList().size() < 1) {
-            _btnDetails.setVisibility(INVISIBLE);
-        } else
-            _btnDetails.setVisibility(VISIBLE);
-        _btnDetails.setOnClickListener(new OnClickListener() {
-
+            buttonDetails.setVisibility(INVISIBLE);
+        } else {
+            buttonDetails.setVisibility(VISIBLE);
+        }
+        
+        buttonDetails.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 dfec.openDetail(application, id);
             }
         });
 
-        btnInc.setMinimumWidth(Column3width);
-        btnDec.setMinimumWidth(Column4width);
-
-        btnInc.setOnClickListener(new OnClickListener() {
-
+        buttonInc.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
                 // try {
@@ -84,19 +76,12 @@ public class DataFormElementCounterView extends DataFormElementView {
                 dfem.addStoredData((String.valueOf(counter)).getBytes());
                 vibrate(25);
                 dfec.events(DataFormElementEventTypes.ONAFTER);
-
-                // } catch (Exception e) {
-                // txt.setText("0");
-                // }
-
             }
 
         });
-        btnDec.setOnClickListener(new OnClickListener() {
+        buttonDec.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-
-                // try {
                 String tmp = "0";
                 if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
                     tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
@@ -108,28 +93,12 @@ public class DataFormElementCounterView extends DataFormElementView {
                 dfem.addStoredData((String.valueOf(counter)).getBytes());
                 vibrate(25);
                 dfec.events(DataFormElementEventTypes.ONAFTER);
-
-                // } (Exception e) {
-                // txt.setText("0");
-                // }
-
             }
         });
-
-        addView(label);
-        addView(txt);
-        addView(btnInc);
-        addView(btnDec);
-        addView(_btnDetails);
-
     }
 
     private static void vibrate(int i) {
-        // TODO Auto-generated method stub
         Vibrator vib = (Vibrator) getApplication().getSystemService(Context.VIBRATOR_SERVICE);
-
-        // long milliseconds = i;
-
         vib.vibrate(i);
     }
 

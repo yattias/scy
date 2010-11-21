@@ -46,19 +46,6 @@ public class DataCollectorFormActivity extends Activity {
         setContentView(R.layout.form);
 
         dcfm = new DataCollectorFormModel();
-        // if (savedInstanceState!=null)
-        // try {
-        // dcfm.fromByteArray(savedInstanceState.getByteArray(DCFM_TITLE));
-        // } catch (StreamCorruptedException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } catch (ClassNotFoundException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
         dcfv = new DataCollectorFormView(dcfm, this);
 
         dcc = new DataCollectorFormController(dcfm, dcfv, this);

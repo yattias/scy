@@ -16,8 +16,6 @@ public class DataFormElementView extends LinearLayout {
 
     private static DataCollectorFormActivity application;
 
-    private DataFormElementController _dfec;
-
     public int Column1width = 80;
 
     public int Column2width = 55;
@@ -30,8 +28,6 @@ public class DataFormElementView extends LinearLayout {
 
     public int RowMaxHeight = 50;
 
-    private String _formTitle;
-
     public DataFormElementView(DataFormElementModel dfem, DataCollectorFormActivity application, DataFormElementController dfec) {
         super(application);
 
@@ -43,7 +39,6 @@ public class DataFormElementView extends LinearLayout {
             Column3width = 55;
             Column4width = 55;
             Column5width = 70;
-            // RowMaxHeight = 50;
         }
         if (width > 320) {
             Column1width = (int) (80 * 1.5);
@@ -51,12 +46,9 @@ public class DataFormElementView extends LinearLayout {
             Column3width = (int) (55 * 1.5);
             Column4width = (int) (55 * 1.5);
             Column5width = (int) (70 * 1.5);
-            // RowMaxHeight = (int) (50 * 1.5);
         }
         DataFormElementView.setApplication(application);
-        _dfec = dfec;
         this.setDfem(dfem);
-        // _formTitle = formTitle;
     }
 
     public static void setApplication(DataCollectorFormActivity application) {
