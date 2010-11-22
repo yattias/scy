@@ -361,7 +361,7 @@
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
 	<bean name="thumbnailKey" class="roolo.elo.metadata.keys.BinaryKey">
-		<constructor-arg index="0" value='thumbnailKey' />
+		<constructor-arg index="0" value='thumbnail' />
 		<constructor-arg index="1" value='/thumbnail' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
