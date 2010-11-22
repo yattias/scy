@@ -48,6 +48,8 @@
 				<ref bean="thumbnailKey" />
 				<ref bean="socialTagsKey" />
 				<ref bean="keywordsKey" />
+				<ref bean="assignmentUriKey" />
+				<ref bean="resourcesUriKey" />
 				<ref bean="testStringListKey" />
 			</list>
 		</property>
@@ -367,7 +369,24 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
 	</bean>
-	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
+
+	<bean name="assignmentUriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+		<constructor-arg index="0" value="assignmentUri" />
+		<constructor-arg index="1" value="/lom/resource/assignmentUri" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultUriValidator" />
+	</bean>
+
+	<bean name="resourcesUriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+		<constructor-arg index="0" value="resourcesUri" />
+		<constructor-arg index="1" value="/lom/resource/resourcesUri" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultUriValidator" />
+	</bean>
+
+   <bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
 	<bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
 	<bean name="defaultUriValidator" class="roolo.elo.metadata.value.validators.UriValidator"></bean>
 	<bean name="defaultContributeValidator"

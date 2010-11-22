@@ -41,6 +41,7 @@ import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.geometry.Insets;
 import javafx.util.Math;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikken
@@ -66,6 +67,8 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
    var uri = "?????";
    var location = "?";
+   var assignmentUri:URI;
+   var resourcesUri:URI;
    def spacing = 5.0;
    def dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
    def minimumWidth = 250;
@@ -106,7 +109,23 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
                }
                x: 0,
                y: 0
-               content: bind "uri - {uri}"
+               content: bind "EU - {uri}"
+            }
+            Text {
+               font: Font {
+                  size: 12
+               }
+               x: 0,
+               y: 0
+               content: bind "A - {assignmentUri}"
+            }
+            Text {
+               font: Font {
+                  size: 12
+               }
+               x: 0,
+               y: 0
+               content: bind "R - {resourcesUri}"
             }
             Text {
                font: Font {
@@ -154,11 +173,20 @@ public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
    public override function loadElo(eloUri:URI):Void{
       addMessage("loadElo {eloUri}");
-      uri = "{eloUri}";
+      setEloInfo(eloUri);
    }
+
+   function setEloInfo(eloUri:URI):Void{
+      def scyElo = ScyElo.loadElo(eloUri, toolBrokerAPI);
+      uri = "{eloUri}";
+      assignmentUri = scyElo.getAssignmentUri();
+      resourcesUri = scyElo.getResourcesUri();
+   }
+
 
    public override function loadedEloChanged(eloUri:URI):Void{
       addMessage("loadedEloChanged({eloUri})");
+      setEloInfo(eloUri);
    }
 
    public override function onGotFocus():Void{
