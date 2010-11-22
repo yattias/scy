@@ -95,6 +95,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettings
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.mission.MissionModelElo;
+import eu.scy.common.mission.RuntimeSettingsManager;
 
 /**
  * @author sikkenj
@@ -162,7 +163,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    var backgroundImageView: ImageView;
    public-read var lowDebugGroup = Group {};
    public-read var highDebugGroup = Group {};
-   var missionRuntimeSettingsManager: MissionRuntimeSettingsManager;
+   var missionRuntimeSettingsManager: RuntimeSettingsManager;
    def cornerToolEffect: Effect = null;
 //    def cornerToolEffect = DropShadow {
 //         offsetX: 5
@@ -194,7 +195,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             }
          repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
          repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
-         repositoryWrapper.setMissionRuntimeEloUri(missionRunConfigs.missionRuntimeElo.getUriFirstVersion());
+         repositoryWrapper.setMissionRuntimeEloUri(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
       }
       FX.addShutdownAction(scyDesktopShutdownAction);
@@ -267,22 +268,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             initializer: initializer
             newTitleGenerator: newTitleGenerator;
          }
-      var specificationRuntimeSettingsElo:RuntimeSettingsElo = null;
-      var specificationMissionMapModelEloUriSet = new HashSet();
-      def missionSpecificationEloUri = missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
-      if (missionSpecificationEloUri != null) {
-         def missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationEloUri, missionRunConfigs.tbi);
-         def specificationRuntimeSettingsEloUri = missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri();
-         if (specificationRuntimeSettingsEloUri != null) {
-            specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(specificationRuntimeSettingsEloUri, missionRunConfigs.tbi);
-         }
-         if (missionSpecificationElo.getTypedContent().getMissionMapModelEloUri() != null) {
-            def specificationMissionMapModelElo = MissionModelElo.loadElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), missionRunConfigs.tbi);
-            specificationMissionMapModelEloUriSet.addAll(specificationMissionMapModelElo.getMissionModel().getEloUris(true));
-         }
-      }
-
-      missionRuntimeSettingsManager = new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo, missionRunConfigs.runtimeSettingsElo, specificationMissionMapModelEloUriSet, missionRunConfigs.tbi);
+      missionRuntimeSettingsManager = missionRunConfigs.missionRuntimeModel.getRuntimeSettingsManager();
       //      windowContentFactory = WindowContentFactory{
       //         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
       //         config:config;
@@ -599,7 +585,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       scyToolsList.actionLoggerTool = ScyToolActionLogger {
             window: window;
             config: config
-            missionRuntimeEloUri: missionRunConfigs.missionRuntimeElo.getUri()
+            missionRuntimeEloUri: missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()
          };
       if (not collaboration and eloConfig.isContentCollaboration()) {
          // currently, the content tool must be created on the first call, which is with collaboration false

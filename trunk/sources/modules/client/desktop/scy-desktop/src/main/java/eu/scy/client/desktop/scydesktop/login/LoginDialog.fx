@@ -235,7 +235,7 @@ public class LoginDialog extends CustomNode, TbiReady {
             }
          var stage = scene.stage;
          var stageTitle = stage.title;
-         stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionRuntimeElo.getTitle()}";
+         stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}";
          FX.deferAction(function():Void{
                finishTbi(missionRunConfigs);
                var scyDesktop = placeScyDescktop(missionRunConfigs);
@@ -244,8 +244,8 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function finishTbi(missionRunConfigs: MissionRunConfigs): Void {
-      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionRuntimeURI",missionRunConfigs.missionRuntimeElo.getUriFirstVersion());
-      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionSpecificationURI",missionRunConfigs.missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionRuntimeURI",missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionSpecificationURI",missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri());
    }
 
    function placeScyDescktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
