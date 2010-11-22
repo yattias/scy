@@ -62,7 +62,7 @@ public class Initializer {
    public-init var loggingDirectoryName = "logging";
    public-init var redirectSystemStream = false;
    public-init var writeJavaLoggingToFile = true;
-   public-init var lookAndFeel = "nimbus";
+   public-init var lookAndFeel = "metal";
    public-init var loginType = "local";
    public-init var localPasswordCheckMethod = "same";
    public-init var localToolBrokerLoginConfigFile: String = "/config/localScyServices.xml";
