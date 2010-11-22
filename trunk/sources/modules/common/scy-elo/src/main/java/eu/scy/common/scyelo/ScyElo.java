@@ -61,6 +61,8 @@ public class ScyElo {
     private final IMetadataKey missionRuntimeKey;
     private final IMetadataKey lasKey;
     private final IMetadataKey iconTypeKey;
+    private final IMetadataKey assignmentUriKey;
+    private final IMetadataKey resourcesUriKey;
     private static final String thumbnailResourceName = "thumbnail";
     private final static String thumbnailPngType = "png";
     private final static String thumbnailScyPngType = "scy/png";
@@ -96,6 +98,8 @@ public class ScyElo {
         keywordsKey = findMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
         socialTagsKey = findMetadataKey(CoreRooloMetadataKeyIds.SOCIAL_TAGS);
         thumbnailKey = findMetadataKey(CoreRooloMetadataKeyIds.THUMBNAIL);
+        assignmentUriKey = findMetadataKey(ScyRooloMetadataKeyIds.ASSIGNMENT_URI);
+        resourcesUriKey = findMetadataKey(ScyRooloMetadataKeyIds.RESOURCES_URI);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -554,4 +558,21 @@ public class ScyElo {
     public void setIconType(String iconType) {
         getMetadataValueContainer(iconTypeKey).setValue(iconType);
     }
+    
+    public URI getAssignmentUri() {
+       return (URI) getMetadataValueContainer(assignmentUriKey).getValue();
+   }
+
+   public void setAssignmentUri(URI assignmentUri) {
+       getMetadataValueContainer(assignmentUriKey).setValue(assignmentUri);
+   }
+
+   public URI getResourcesUri() {
+      return (URI) getMetadataValueContainer(resourcesUriKey).getValue();
+   }
+
+   public void setResourcesUri(URI resourcesUri) {
+      getMetadataValueContainer(resourcesUriKey).setValue(resourcesUri);
+   }
+
 }
