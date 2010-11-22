@@ -12,6 +12,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.MetadataValueCount;
+import roolo.elo.metadata.keys.BinaryKey;
 import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.keys.LongMetadataKey;
 import roolo.elo.metadata.keys.RelationMetadataKey;
@@ -100,7 +101,10 @@ public class RooloServicesCreator
                CoreRooloMetadataKeyIds.AUTHOR.getId(), "/lom/lifecycle/contribute/[kind=\"author\"]",
                I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
       IMetadataKey keywordsKey = new StringMetadataKey(
-               ScyRooloMetadataKeyIds.KEYWORDS.getId(), "/lom/general/keyword",
+               CoreRooloMetadataKeyIds.KEYWORDS.getId(), "/keywords",
+               I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
+      IMetadataKey socialTagsKey = new StringMetadataKey(
+               CoreRooloMetadataKeyIds.SOCIAL_TAGS.getId(), "/socialTags",
                I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
       IMetadataKey learningActivityKey = new StringMetadataKey(
                ScyRooloMetadataKeyIds.LEARNING_ACTIVITY.getId(), "/lom/educational/context",
@@ -116,6 +120,9 @@ public class RooloServicesCreator
                "/lom/general/las", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
       IMetadataKey iconTypeKey = new roolo.elo.metadata.keys.IconTypeAnnotationKey(ScyRooloMetadataKeyIds.ICON_TYPE.getId(),
                "/lom/annotation/[entity=\"icon\"]", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey thumbnailKey = new BinaryKey(
+               CoreRooloMetadataKeyIds.THUMBNAIL.getId(), "/thumbnail",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 
       metadataTypeManager.registerMetadataKey(identifierKey);
       metadataTypeManager.registerMetadataKey(titleKey);
@@ -132,11 +139,13 @@ public class RooloServicesCreator
       metadataTypeManager.registerMetadataKey(functionalRoleKey);
       metadataTypeManager.registerMetadataKey(authorKey);
       metadataTypeManager.registerMetadataKey(keywordsKey);
+      metadataTypeManager.registerMetadataKey(socialTagsKey);
       metadataTypeManager.registerMetadataKey(learningActivityKey);
       metadataTypeManager.registerMetadataKey(accessKey);
       metadataTypeManager.registerMetadataKey(missionRuntimeKey);
       metadataTypeManager.registerMetadataKey(lasKey);
       metadataTypeManager.registerMetadataKey(iconTypeKey);
+      metadataTypeManager.registerMetadataKey(thumbnailKey);
 
       MockRepository repository = new MockRepository();
       MockExtensionManager extensionManager = new MockExtensionManager();
