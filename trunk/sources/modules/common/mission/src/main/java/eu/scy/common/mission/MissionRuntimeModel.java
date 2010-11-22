@@ -1,5 +1,7 @@
 package eu.scy.common.mission;
 
+import java.net.URISyntaxException;
+
 public interface MissionRuntimeModel
 {
    public MissionRuntimeElo getMissionRuntimeElo();
@@ -14,5 +16,5 @@ public interface MissionRuntimeModel
    
    public MissionModel getMissionModel();
    
-   public RuntimeSettingsManager getRuntimeSettingsManager();
+   public RuntimeSettingsManager getRuntimeSettingsManager() throws URISyntaxException;
 }

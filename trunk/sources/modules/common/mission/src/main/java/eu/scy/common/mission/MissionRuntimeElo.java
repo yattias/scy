@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import eu.scy.common.mission.impl.BasicMissionRuntimeEloContent;
+import eu.scy.common.mission.impl.BasicMissionRuntimeModel;
 import eu.scy.common.mission.impl.jdom.MissionRuntimeEloContentXmlUtils;
 import eu.scy.common.scyelo.ContentTypedScyElo;
 import eu.scy.common.scyelo.RooloServices;
@@ -115,4 +116,42 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
    {
       return (URI) getMetadata().getMetadataValueContainer(missionSpecificationEloKey).getValue();
    }
+
+   public MissionRuntimeModel getMissionRuntimeModel()
+   {
+      MissionRuntimeEloContent missionRuntime = getTypedContent();
+      MissionSpecificationElo missionSpecificationElo = null;
+      if (missionRuntime.getMissionSpecificationEloUri() != null)
+      {
+         missionSpecificationElo = MissionSpecificationElo.loadElo(missionRuntime
+                  .getMissionSpecificationEloUri(), getRooloServices());
+      }
+      MissionModelElo missionModelElo = null;
+      if (missionRuntime.getMissionMapModelEloUri() != null)
+      {
+         missionModelElo = MissionModelElo.loadLastVersionElo(missionRuntime.getMissionMapModelEloUri(),
+                  getRooloServices());
+      }
+      EloToolConfigsElo eloToolConfigsElo = null;
+      if (missionRuntime.getEloToolConfigsEloUri() != null)
+      {
+         eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntime.getEloToolConfigsEloUri(),
+                  getRooloServices());
+      }
+      TemplateElosElo templateElosElo = null;
+      if (missionRuntime.getTemplateElosEloUri() != null)
+      {
+         templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntime.getTemplateElosEloUri(),
+                  getRooloServices());
+      }
+      RuntimeSettingsElo runtimeSettingsElo = null;
+      if (missionRuntime.getRuntimeSettingsEloUri() != null)
+      {
+         runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntime.getRuntimeSettingsEloUri(),
+                  getRooloServices());
+      }
+      return new BasicMissionRuntimeModel(this, missionSpecificationElo, getRooloServices(),
+               missionModelElo, eloToolConfigsElo, templateElosElo, runtimeSettingsElo);
+   }
+
 }

@@ -165,9 +165,9 @@ public class BasicMissionManagement implements MissionManagement
          {
             missionRuntimeElo.updateElo();
          }
-         missionRuntimeModel = new BasicMissionRuntimeModel(missionRuntimeElo, rooloServices,
-                  personalMissionMapModelElo, eloToolConfigsElo, templateElosElo,
-                  runtimeSettingsElo);
+         missionRuntimeModel = new BasicMissionRuntimeModel(missionRuntimeElo,
+                  missionSpecificationElo, rooloServices, personalMissionMapModelElo,
+                  eloToolConfigsElo, templateElosElo, runtimeSettingsElo);
       }
       return missionRuntimeModel;
    }
@@ -265,7 +265,8 @@ public class BasicMissionManagement implements MissionManagement
             if (missionSpecificationElo.getUri().equals(
                      missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri()))
             {
-               return new BasicMissionRuntimeModel(missionRuntimeElo, rooloServices);
+               return new BasicMissionRuntimeModel(missionRuntimeElo, missionSpecificationElo,
+                        rooloServices);
             }
          }
       }

@@ -1,11 +1,17 @@
 package eu.scy.common.mission.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.Set;
+
 import eu.scy.common.mission.EloToolConfigsElo;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionRuntimeEloContent;
 import eu.scy.common.mission.MissionRuntimeModel;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsManager;
 import eu.scy.common.mission.TemplateElosElo;
@@ -20,29 +26,34 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
    private final TemplateElosElo templateElosElo;
    private final RuntimeSettingsElo runtimeSettingsElo;
 
-   public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo, RooloServices rooloServices)
+   private final MissionSpecificationElo missionSpecificationElo;
+
+   public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
+            MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices)
    {
       super();
       this.missionRuntimeElo = missionRuntimeElo;
+      this.missionSpecificationElo = missionSpecificationElo;
       this.rooloServices = rooloServices;
       final MissionRuntimeEloContent missionRuntimeEloContent = missionRuntimeElo.getTypedContent();
       missionModelElo = MissionModelElo.loadLastVersionElo(missionRuntimeEloContent
                .getMissionMapModelEloUri(), rooloServices);
-      eloToolConfigsElo = EloToolConfigsElo.loadElo(missionRuntimeEloContent
+      eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntimeEloContent
                .getEloToolConfigsEloUri(), rooloServices);
-      templateElosElo = TemplateElosElo.loadElo(missionRuntimeEloContent.getTemplateElosEloUri(),
+      templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntimeEloContent.getTemplateElosEloUri(),
                rooloServices);
-      runtimeSettingsElo = RuntimeSettingsElo.loadElo(missionRuntimeEloContent
+      runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeEloContent
                .getRuntimeSettingsEloUri(), rooloServices);
    }
 
    public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
-            RooloServices rooloServices, MissionModelElo missionModelElo,
-            EloToolConfigsElo eloToolConfigsElo, TemplateElosElo templateElosElo,
-            RuntimeSettingsElo runtimeSettingsElo)
+            MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices,
+            MissionModelElo missionModelElo, EloToolConfigsElo eloToolConfigsElo,
+            TemplateElosElo templateElosElo, RuntimeSettingsElo runtimeSettingsElo)
    {
       super();
       this.missionRuntimeElo = missionRuntimeElo;
+      this.missionSpecificationElo = missionSpecificationElo;
       this.rooloServices = rooloServices;
       this.missionModelElo = missionModelElo;
       this.eloToolConfigsElo = eloToolConfigsElo;
@@ -87,10 +98,33 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
    }
 
    @Override
-   public RuntimeSettingsManager getRuntimeSettingsManager()
+   public RuntimeSettingsManager getRuntimeSettingsManager() throws URISyntaxException
    {
-      // TODO Auto-generated method stub
-      return null;
+      Set<URI> specificationMissionMapModelEloUriSet = new HashSet<URI>();
+      RuntimeSettingsElo specificationRuntimeSettingsElo = null;
+      if (missionSpecificationElo != null)
+      {
+         if (missionSpecificationElo.getTypedContent().getMissionMapModelEloUri() != null)
+         {
+            MissionModelElo specificationMissionModelElo = MissionModelElo.loadElo(
+                     missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(),
+                     rooloServices);
+            if (specificationMissionModelElo != null)
+            {
+               specificationMissionMapModelEloUriSet.addAll(specificationMissionModelElo
+                        .getMissionModel().getEloUris(true));
+            }
+         }
+
+         if (missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri() != null)
+         {
+            specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo
+                     .getTypedContent().getRuntimeSettingsEloUri(), rooloServices);
+         }
+      }
+
+      return new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo, runtimeSettingsElo,
+               specificationMissionMapModelEloUriSet, rooloServices);
    }
 
 }
