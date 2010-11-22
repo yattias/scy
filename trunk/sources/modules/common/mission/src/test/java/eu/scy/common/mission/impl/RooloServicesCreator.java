@@ -123,6 +123,12 @@ public class RooloServicesCreator
       IMetadataKey thumbnailKey = new BinaryKey(
                CoreRooloMetadataKeyIds.THUMBNAIL.getId(), "/thumbnail",
                I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey assignmentUriKey = new UriMetadataKey(
+               ScyRooloMetadataKeyIds.ASSIGNMENT_URI.getId(), "/lom/resource/assignmentUri",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey resourcesUriKey = new UriMetadataKey(
+               ScyRooloMetadataKeyIds.RESOURCES_URI.getId(), "/lom/resource/resourcesUri",
+               I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 
       metadataTypeManager.registerMetadataKey(identifierKey);
       metadataTypeManager.registerMetadataKey(titleKey);
@@ -146,6 +152,8 @@ public class RooloServicesCreator
       metadataTypeManager.registerMetadataKey(lasKey);
       metadataTypeManager.registerMetadataKey(iconTypeKey);
       metadataTypeManager.registerMetadataKey(thumbnailKey);
+      metadataTypeManager.registerMetadataKey(assignmentUriKey);
+      metadataTypeManager.registerMetadataKey(resourcesUriKey);
 
       MockRepository repository = new MockRepository();
       MockExtensionManager extensionManager = new MockExtensionManager();
