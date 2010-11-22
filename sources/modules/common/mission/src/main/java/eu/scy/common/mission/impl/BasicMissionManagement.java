@@ -1,6 +1,7 @@
 package eu.scy.common.mission.impl;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import roolo.api.search.AndQuery;
@@ -37,6 +38,8 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 public class BasicMissionManagement implements MissionManagement
 {
    private final static Logger logger = Logger.getLogger(BasicMissionManagement.class);
+
+   private final static String urlTechnicalFormat = "scy/url";
 
    private final MissionSpecificationElo missionSpecificationElo;
    private final RooloServices rooloServices;
@@ -216,6 +219,38 @@ public class BasicMissionManagement implements MissionManagement
             {
                missionAnchor.getScyElo().getMetadata().getMetadataValueContainer(
                         containsAssignmentEloKey).setValue(assignmentEloUri);
+            }
+            if (missionAnchor.getAssignmentUri() != null)
+            {
+               missionAnchor.getScyElo().setAssignmentUri(missionAnchor.getAssignmentUri());
+            }
+            else if (assignmentEloUri != null)
+            {
+               // use the content of assignment elo as assignmentUri
+               ScyElo scyElo = ScyElo.loadElo(assignmentEloUri, rooloServices);
+               if (urlTechnicalFormat.equals(scyElo.getTechnicalFormat()))
+               {
+                  String content = scyElo.getContent().getXmlString();
+                  try
+                  {
+                     String uriString = content.substring("<url>".length(), content.length()
+                              - "</url>".length());
+                     URI uri = new URI(uriString);
+                     missionAnchor.getScyElo().setAssignmentUri(uri);
+                     logger.debug("found elo (" + assignmentEloUri
+                              + ") to be used as assignment source (" + uri + ") for anchor "
+                              + missionAnchor.getEloUri());
+                  }
+                  catch (Exception e)
+                  {
+                     logger.warn("problems with extracting url from content: " + content
+                              + "\nError: " + e.getMessage());
+                  }
+               }
+            }
+            if (missionAnchor.getResourcesUri() != null)
+            {
+               missionAnchor.getScyElo().setResourcesUri(missionAnchor.getResourcesUri());
             }
             missionAnchor.getScyElo().setAuthor(userName);
             missionAnchor.getScyElo().setMissionRuntimeEloUri(missionRuntimeEloUri);
