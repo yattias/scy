@@ -9,6 +9,9 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -40,6 +43,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    private static final String urlTagName = "url";
    private static final String scyUrlType = "scy/url";
    private JDomStringConversion jdomStringConversion = new JDomStringConversion();
+   private ToolBrokerAPI toolBrokerAPI;
    private IRepository repository;
    private IELOFactory eloFactory;
    private IMetadataTypeManager metadataTypeManager;
@@ -48,6 +52,18 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    private EloSaver eloSaver;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
    private UriLocalizer uriLocalizer = new UriLocalizer();
+   private UrlSource urlSource;
+
+   public EloFlyingSaucerPanel(UrlSource urlSource)
+   {
+      super();
+      this.urlSource = urlSource;
+      if (UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource)
+      {
+         Dimension preferredSize = new Dimension(200, getPreferredSize().height);
+         this.setPreferredSize(preferredSize);
+      }
+   }
 
    public void addEloSavedListener(EloSavedListener eloSavedListener)
    {
@@ -72,6 +88,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
       {
          eloSavedListener.eloSaved(eloSavedEvent);
       }
+   }
+
+   public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI)
+   {
+      this.toolBrokerAPI = toolBrokerAPI;
    }
 
    public void setRepository(IRepository repository)
@@ -100,26 +121,46 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    {
       this.eloSaver = eloSaver;
    }
-   
-   @Override
-   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever){
 
+   @Override
+   public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever)
+   {
    }
 
    public void setHomeElo(URI uri)
    {
-      IELO elo = repository.retrieveELO(uri);
-      if (elo == null)
+      ScyElo scyElo = ScyElo.loadElo(uri, toolBrokerAPI);
+      if (scyElo == null)
       {
          logger.error("the home elo does not exists: " + uri);
          return;
       }
-      String homeUrl = getUrlFromContent(elo.getContent());
-      String localizedHomeUrl = getLocalizedUri(homeUrl);
-      setHomeUrl(localizedHomeUrl);
+      String homeUrl = null;
+      URI homeUri = null;
+      switch (urlSource)
+      {
+         case ASSIGNMENT:
+            homeUri = scyElo.getAssignmentUri();
+            break;
+         case RESOURCES:
+            homeUri = scyElo.getResourcesUri();
+            break;
+         default:
+            homeUrl = getUrlFromContent(scyElo.getContent());
+      }
+      if (homeUrl == null && homeUri != null)
+      {
+         homeUrl = homeUri.toString();
+      }
+      if (homeUrl != null)
+      {
+         String localizedHomeUrl = getLocalizedUri(homeUrl);
+         setHomeUrl(localizedHomeUrl);
+      }
    }
 
-   private String getLocalizedUri(String urlString){
+   private String getLocalizedUri(String urlString)
+   {
       try
       {
          URL url = uriLocalizer.localizeUrlwithChecking(new URL(urlString));
@@ -143,7 +184,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
          setUrlInContent(newHomeElo.getContent(), url.toString());
          if (eloSaver != null)
          {
-            eloSaver.eloSaveAs(newHomeElo,null);
+            eloSaver.eloSaveAs(newHomeElo, null);
          }
          else
          {
