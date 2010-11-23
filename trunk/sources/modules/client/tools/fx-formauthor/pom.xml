@@ -91,7 +91,16 @@
     </repositories>
     
     <dependencies>
-
+<dependency>
+    <groupId>org.swinglabs</groupId>
+    <artifactId>swingx-ws</artifactId>
+    <version>2008_01_06</version>
+</dependency>
+<dependency>
+    <groupId>org.swinglabs</groupId>
+    <artifactId>swingx</artifactId>
+    <version>0.9</version>
+</dependency>
         <dependency>
             <groupId>info.collide</groupId>
             <artifactId>javafx-deps</artifactId>
