@@ -102,7 +102,9 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		labelTextarea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.isControlDown() && e.getKeyCode() == 10) ConceptLinkView.this.requestFocus();
+				if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+					requestFocus();
+				}
 			}
 
 			@Override
