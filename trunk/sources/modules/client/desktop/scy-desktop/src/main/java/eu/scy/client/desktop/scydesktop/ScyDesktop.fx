@@ -612,8 +612,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       // now do the ScyTool initialisation
       def myEloChanged = SimpleMyEloChanged {
             window: window;
-            titleKey: config.getTitleKey()
-            technicalFormatKey: config.getTechnicalFormatKey();
          }
       var functionalRoles: EloFunctionalRole[];
       if (eloConfig.getEloFunctionalRoles() != null) {

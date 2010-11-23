@@ -18,6 +18,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 import javafx.util.Sequences;
 import java.lang.Void;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikken
@@ -264,6 +265,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function createScyWindow(eloUri: URI): ScyWindow {
       var scyWindow = StandardScyWindow {
             eloUri: eloUri;
+            scyElo: ScyElo.loadElo(eloUri, tbi)
             eloType: eloInfoControl.getEloType(eloUri);
             title: eloInfoControl.getEloTitle(eloUri)
             windowColorScheme:windowStyler.getWindowColorScheme(eloUri)
