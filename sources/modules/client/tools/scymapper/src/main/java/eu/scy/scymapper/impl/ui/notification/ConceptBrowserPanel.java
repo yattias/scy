@@ -5,13 +5,18 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
@@ -30,6 +35,10 @@ public class ConceptBrowserPanel extends JPanel {
 	
 	private static final int VISIBLE_ENTRIES = 5;
 	
+	private static final String ARROW_LEFT_ICON = "arrow_left.png";
+
+	private static final String ARROW_RIGHT_ICON = "arrow_right.png";
+	
     private JTextPane descriptionLabel;
 
     private JPanel lexiconPanel;
@@ -39,6 +48,8 @@ public class ConceptBrowserPanel extends JPanel {
     private JButton previousBtn;
     
     private JButton nextBtn;
+    
+    private JLabel indexLabel;
 
     private JPanel compound;
     
@@ -74,10 +85,24 @@ public class ConceptBrowserPanel extends JPanel {
         lexiconPanel = new JPanel();
         lexiconPanel.setLayout(new GridLayout(VISIBLE_ENTRIES, 1));
         lexiconPanel.setBackground(Color.WHITE);
+
+        indexLabel = new JLabel("");
+        indexLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
-        previousBtn = new JButton(Localization.getString("Mainframe.Lexicon.PreviousEntries"));
-        previousBtn.setEnabled(false);
-        previousBtn.addActionListener(new ActionListener() {
+        try {
+            previousBtn = new IconButton(new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ARROW_LEFT_ICON))));
+            nextBtn = new IconButton(new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ARROW_RIGHT_ICON))));
+        } catch(IllegalArgumentException e) {
+            previousBtn = new JButton(Localization.getString("Mainframe.Lexicon.PreviousEntries"));
+            nextBtn = new JButton(Localization.getString("Mainframe.Lexicon.NextEntries"));
+    	} catch(IOException e) {
+            previousBtn = new JButton(Localization.getString("Mainframe.Lexicon.PreviousEntries"));
+            nextBtn = new JButton(Localization.getString("Mainframe.Lexicon.NextEntries"));
+        }
+
+    	previousBtn.setEnabled(false);
+
+    	previousBtn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,7 +110,6 @@ public class ConceptBrowserPanel extends JPanel {
             }
         });
 
-        nextBtn = new JButton(Localization.getString("Mainframe.Lexicon.NextEntries"));
         nextBtn.addActionListener(new ActionListener() {
         	
         	@Override
@@ -94,10 +118,11 @@ public class ConceptBrowserPanel extends JPanel {
         	}
         });
         
-        navigationPanel = new JPanel(new GridLayout(1, 2));
+        navigationPanel = new JPanel(new BorderLayout());
         navigationPanel.setBackground(Color.WHITE);
-        navigationPanel.add(previousBtn);
-        navigationPanel.add(nextBtn);
+        navigationPanel.add(previousBtn, BorderLayout.WEST);
+        navigationPanel.add(indexLabel, BorderLayout.CENTER);
+        navigationPanel.add(nextBtn, BorderLayout.EAST);
         
         compound = new JPanel(new BorderLayout());
         compound.setBackground(Color.WHITE);
@@ -116,6 +141,7 @@ public class ConceptBrowserPanel extends JPanel {
     	} else {
     		if(lexicon.size() > VISIBLE_ENTRIES) {
     			compound.add(navigationPanel, BorderLayout.SOUTH);
+    			indexLabel.setText("1 / " + (lexicon.size() / VISIBLE_ENTRIES));
     		}
             text = Localization.getString("Mainframe.Lexicon.EntryTitle") + "\n";
             currentEntry = 0;
@@ -173,15 +199,15 @@ public class ConceptBrowserPanel extends JPanel {
     	for(int i = currentEntry + VISIBLE_ENTRIES; i < x; i++) {
     		lexiconPanel.add(new JLabel(lexicon.get(i)));
     	}
-    	
-//		lexiconPanel.validate();
-		lexiconPanel.updateUI();
 		currentEntry = currentEntry + VISIBLE_ENTRIES;
 
 		if(lexicon.size() - currentEntry <= VISIBLE_ENTRIES) {
     		nextBtn.setEnabled(false);    		
     	}
+		indexLabel.setText(1 + (currentEntry / VISIBLE_ENTRIES) + " / " + (lexicon.size() / VISIBLE_ENTRIES));
 		previousBtn.setEnabled(true);
+
+		lexiconPanel.updateUI();
     }
     
     private void showPreviousEntries() {
@@ -193,13 +219,24 @@ public class ConceptBrowserPanel extends JPanel {
     	for(int i = currentEntry - VISIBLE_ENTRIES; i < x; i++) {
     		lexiconPanel.add(new JLabel(lexicon.get(i)));
     	}
-    	
-		lexiconPanel.validate();
-		currentEntry = currentEntry - VISIBLE_ENTRIES;
+ 		currentEntry = currentEntry - VISIBLE_ENTRIES;
 
     	if(currentEntry == 0) {
     		previousBtn.setEnabled(false);
     	}
+		indexLabel.setText(1 + (currentEntry / VISIBLE_ENTRIES) + " / " + (lexicon.size() / VISIBLE_ENTRIES));
 		nextBtn.setEnabled(true);
+
+		lexiconPanel.validate();
     }
+    
+    class IconButton extends JButton {
+    	IconButton(Icon icon){
+    		super(icon);
+    		setContentAreaFilled(false);
+    		setBorderPainted(false);
+    		setFocusPainted(false);    		
+    	}    	
+    }
+    
 }
