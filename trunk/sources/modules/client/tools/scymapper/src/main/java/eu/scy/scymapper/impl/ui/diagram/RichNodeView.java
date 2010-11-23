@@ -103,7 +103,9 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 		labelTextarea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.isControlDown() && e.getKeyCode() == 10) RichNodeView.this.requestFocus();
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					requestFocus();
+				}
 			}
 
 			@Override
