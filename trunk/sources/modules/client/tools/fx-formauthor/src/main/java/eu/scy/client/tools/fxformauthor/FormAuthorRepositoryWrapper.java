@@ -58,7 +58,8 @@ public class FormAuthorRepositoryWrapper {
     public void setEloFactory(IELOFactory eloFactory) {
         this.eloFactory = eloFactory;
     }
-        public void setDocName(String docName)
+
+    public void setDocName(String docName)
     {
         this.docName = docName;
         String windowTitle = "WebRessource: ";
@@ -172,6 +173,7 @@ public class FormAuthorRepositoryWrapper {
             eloFactory.updateELOWithResult(elo, resultMetadata);
             //sendEloLoadedChangedListener();
         }
+        target.setTitle(webName);
     }
 
 }

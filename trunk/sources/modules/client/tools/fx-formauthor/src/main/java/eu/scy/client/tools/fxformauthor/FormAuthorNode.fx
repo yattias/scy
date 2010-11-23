@@ -35,9 +35,10 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     var formList:FormList = FormList{formNode: this};
     var viewer:FormViewer;
 
+    public var windowTitle:String;
+
     postinit {
         insert formList into nodes;
-
     }
 
     public function loadViewer():Void {
@@ -79,8 +80,15 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
     function setScyWindowTitle():Void {
+        scyWindow.title = "FormAuthor: {windowTitle}";
 
     }
+
+   override function setTitle(title:String):Void {
+       windowTitle = title;
+       setScyWindowTitle();
+   }
+
 
 
     public function setFormAuthorRepositoryWrapper(wrapper:FormAuthorRepositoryWrapper):Void {
