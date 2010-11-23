@@ -19,7 +19,7 @@ import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig;
 import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig.Help;
-import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
+import eu.scy.scymapper.impl.logging.ConceptMapActionLoggerCollide;
 import eu.scy.scymapper.impl.ui.FadeNotificator;
 import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.Notificator;
@@ -64,7 +64,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
         super(cmap, configuration);
-        actionLogger = new ConceptMapActionLogger(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid);
+        actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid, getConceptMap());
     }
 
     @Override
