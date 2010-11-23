@@ -788,6 +788,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       if (leftDrawerTool!=null){
          leftDrawer = LeftDrawer{
+            visible: bind scyElo.getAssignmentUri()!=null
             windowColorScheme:windowColorScheme
 //            color:bind drawerColor;
 //            highliteColor:controlColor;

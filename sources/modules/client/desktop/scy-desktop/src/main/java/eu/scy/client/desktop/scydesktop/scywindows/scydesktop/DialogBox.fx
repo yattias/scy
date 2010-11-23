@@ -235,6 +235,7 @@ public class DialogBox extends CustomNode {
     public override function create(): Node {
         dialogWindow = StandardScyWindow {
             eloUri:null;
+            scyElo:null;
             eloType:null;
             scyContent: bind content;
             title: title

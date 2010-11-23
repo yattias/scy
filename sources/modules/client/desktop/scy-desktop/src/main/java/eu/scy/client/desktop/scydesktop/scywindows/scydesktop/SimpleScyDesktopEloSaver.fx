@@ -157,7 +157,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          scyElo.saveAsNewElo();
       }
       if (eloSaveAsPanel.myElo) {
-         myEloChanged.myEloChanged(elo);
+         myEloChanged.myEloChanged(scyElo);
       }
       eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
       scyToolActionLogger.eloSaved(elo);
@@ -180,7 +180,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             // it is not my elo, make a fork of it
             scyElo.saveAsForkedElo();
          }
-         myEloChanged.myEloChanged(elo);
+         myEloChanged.myEloChanged(scyElo);
       } else {
          eloSaveAs(elo, eloSaverCallBack);
       }

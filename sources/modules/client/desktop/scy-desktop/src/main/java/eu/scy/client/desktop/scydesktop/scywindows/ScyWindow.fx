@@ -23,6 +23,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author sikkenj
@@ -32,6 +33,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
    public var title = "???";
 	public var eloType = "?123";
    public var eloUri:URI;
+   public var scyElo:ScyElo;
    public var eloIcon:EloIcon;
 //   public var iconCharacter = "?";
 //	public var color = Color.GREEN;
