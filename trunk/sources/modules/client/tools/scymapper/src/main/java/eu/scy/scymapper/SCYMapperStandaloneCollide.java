@@ -1,12 +1,22 @@
 package eu.scy.scymapper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import roolo.elo.EloURINonModifiableException;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.impl.SCYMapperPanel;
@@ -47,10 +57,17 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     @Override
     void init() {
-        this.userid = new VMID().toString();
+        userid = "";
+        while (userid.trim().length() == 0) {
+            userid = JOptionPane.showInputDialog(this, "Bitte geben Sie Ihren Namen ein:", "Login", JOptionPane.QUESTION_MESSAGE);
+            if (userid == null) {
+                System.exit(0);
+            }
+        }
+
         super.init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
         try {
-            commandSpace = new TupleSpace(new User("SCYMapper"), SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(),  SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), "command");
+            commandSpace = new TupleSpace(new User("SCYMapper"), SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), "command");
             Callback cb = new Callback() {
 
                 @Override
@@ -77,7 +94,34 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
     @Override
     protected SCYMapperPanel createScyMapperPanel(IConceptMap cmap) {
+        String eloUri = new VMID().toString();
+        File userDir  = new File(System.getProperty("user.home"));
+        final String namePrefix = "scymapper_"+userid + "_";
+        String[] files = userDir.list(new FilenameFilter() {
+            
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.matches(namePrefix + ".*\\.xml");
+            }
+        });
+        
+        if (files != null && files.length > 0) {
+            try {
+                FileReader fr = new FileReader(userDir.getAbsolutePath() + File.separator + files[0]);
+                XStream xstream = new XStream(new DomDriver());
+                cmap = (IConceptMap) xstream.fromXML(fr);
+                fr.close();
+                eloUri = files[0].substring(namePrefix.length(), files[0].length() - 4); 
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
+
         scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), userid);
+        scyMapperPanel.setEloURI(eloUri);
         currentConceptMap = cmap;
         return scyMapperPanel;
     }
