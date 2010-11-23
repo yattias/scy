@@ -62,13 +62,13 @@ public class FormElement extends CustomNode {
         selectOnFocus: true;
         text: bind caption with inverse
     }
-    def cardinalityBox:TextBox = TextBox { columns: 3; selectOnFocus: true; text: bind cardinality with inverse }
+    def cardinalityBox:TextBox = TextBox {  columns: 3; selectOnFocus: true; text: bind cardinality with inverse }
     public var typeChoice:ChoiceBox = ChoiceBox {
         items: ["TEXT", "IMAGE", "VOICE", "COUNTER", "NUMBER", "GPS", "DATE", "TIME"]
     }
 
     public-init var caption:String = "";
-    public-init var cardinality:String = "";
+    public-init var cardinality:String = "0";
     var eventButton:Button = Button {
         graphic: ImageView{ image: Image { url: "{__DIR__}resources/note.png" } }
         tooltip: Tooltip { text: "view events" }
