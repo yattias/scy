@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.scymapper.api.IConceptMap;
@@ -92,10 +93,12 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     @Override
     protected void initComponents() {
+        super.initComponents();
+        
         standaloneConfig = SCYMapperStandaloneConfig.getInstance();
         this.helpMode = standaloneConfig.getHelpMode();
         this.helpInterval = standaloneConfig.getContinuousHelpInterval();
-        super.initComponents();
+
         switch (helpMode) {
             case VOLUNTARY:
                 // Provide voluntary help
@@ -276,7 +279,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             lexiconNotificator.hide();
         }
 
-        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, cmapPanel.getX(), cmapPanel.getY() - 8);
+        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, 0, SwingUtilities.getRootPane(this).getY());
 
         JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
         close.addActionListener(new ActionListener() {
@@ -288,7 +291,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             }
         });
         conceptBrowserPanel.add(BorderLayout.SOUTH, close);
-
+                        
         lexiconNotificator.show();
     }
 

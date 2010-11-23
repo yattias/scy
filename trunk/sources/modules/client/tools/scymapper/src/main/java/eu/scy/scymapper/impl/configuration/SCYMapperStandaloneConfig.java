@@ -46,7 +46,7 @@ public class SCYMapperStandaloneConfig {
     private static final String KEY_CON_HELP_WAIT_CONCEPT_NR = "ContinuousHelpWaitConceptNumber";
     
     private static final int DEFAULT_CON_HELP_WAIT_CONCEPT_NR = 5;
-
+    
     private static final String KEY_RELATIONS = "Relations";
 
     private static final String KEY_LEXICON = "Lexicon";
@@ -87,11 +87,13 @@ public class SCYMapperStandaloneConfig {
 
         props.setProperty(KEY_CON_HELP_WAIT_TIME, String.valueOf(DEFAULT_CON_HELP_WAIT_TIME));
 
+        props.setProperty(KEY_CON_HELP_INTERVAL, String.valueOf(DEFAULT_CON_HELP_INTERVAL));
+        
+        props.setProperty(KEY_CON_HELP_WAIT_CONCEPT_NR, String.valueOf(DEFAULT_CON_HELP_WAIT_CONCEPT_NR));
+        
         props.setProperty(KEY_SQLSPACES_HOST, DEFAULT_SQLSPACES_HOST);
 
         props.setProperty(KEY_SQLSPACES_PORT, String.valueOf(DEFAULT_SQLSPACES_PORT));
-        
-        props.setProperty(KEY_CON_HELP_WAIT_CONCEPT_NR, String.valueOf(DEFAULT_CON_HELP_WAIT_CONCEPT_NR));
     }
 
     public static SCYMapperStandaloneConfig getInstance() {
@@ -156,10 +158,6 @@ public class SCYMapperStandaloneConfig {
         }
     }
 
-    public void setContinuousHelpWaitTime(int time) {
-    	config.setProperty(KEY_CON_HELP_WAIT_TIME, Integer.toString(time));
-    }
-    
     public long getContinuousHelpInterval() {
         try {
             return Long.parseLong(config.getProperty(KEY_CON_HELP_INTERVAL));
@@ -179,6 +177,7 @@ public class SCYMapperStandaloneConfig {
     public String getSQLSpacesHost() {
     	return config.getProperty(KEY_SQLSPACES_HOST);
     }
+    
     public int getSQLSpacesPort() {
     	try {
     		return Integer.parseInt(config.getProperty(KEY_SQLSPACES_PORT));
