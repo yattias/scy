@@ -1,37 +1,16 @@
 package eu.scy.scymapper;
 
-import com.jgoodies.looks.windows.WindowsLookAndFeel;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import eu.scy.client.common.datasync.DataSyncException;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.client.common.datasync.ISyncListener;
-import eu.scy.client.common.datasync.ISyncSession;
-import eu.scy.common.configuration.Configuration;
-import eu.scy.common.datasync.ISyncObject;
-import eu.scy.scymapper.api.IConceptMap;
-import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
-import eu.scy.scymapper.api.diagram.model.IDiagramModel;
-import eu.scy.scymapper.impl.DiagramModel;
-import eu.scy.scymapper.impl.SCYMapperPanel;
-import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
-import eu.scy.scymapper.impl.model.DefaultConceptMap;
-import eu.scy.scymapper.impl.ui.Localization;
-import eu.scy.toolbroker.ToolBrokerImpl;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.exceptions.ResourceException;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.Contribute;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -53,17 +32,40 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.Locale;
+
+import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.exceptions.ResourceException;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.Contribute;
+
+import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.common.configuration.Configuration;
+import eu.scy.common.datasync.ISyncObject;
+import eu.scy.scymapper.api.IConceptMap;
+import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.impl.DiagramModel;
+import eu.scy.scymapper.impl.SCYMapperPanel;
+import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
+import eu.scy.scymapper.impl.model.DefaultConceptMap;
+import eu.scy.scymapper.impl.ui.Localization;
+import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * User: Bjoerge Naess
@@ -202,7 +204,7 @@ public class SCYMapperStandalone extends JFrame {
 		return createScyMapperPanel(currentConceptMap);
 	}
 
-	private void initMenuBar() {
+	protected void initMenuBar() {
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu(Localization.getString("Mainframe.Menubar.File")); 
