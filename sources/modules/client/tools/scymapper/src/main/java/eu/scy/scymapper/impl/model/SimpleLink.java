@@ -30,7 +30,6 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 	private String id = UUID.randomUUID().toString();
 
 	private Object readResolve() {
-		label = "";
 		listeners = new ArrayList<ILinkModelListener>();
 		return this;
 	}
