@@ -25,14 +25,15 @@ public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
     @Override
     public void log(IAction action) {
         super.log(action);
-        String userdir = System.getProperty("user.home");
         try {
-            File f = new File(userdir + File.separator + "scymapper_" + username + "_" + eloURI + ".xml.1");
-            FileWriter fw = new FileWriter(f);
+            File newFile = new File("." + File.separator + "scymapper_" + username + "_" + eloURI + ".xml.1");
+            File oldFile = new File("." + File.separator + "scymapper_" + username + "_" + eloURI + ".xml");
+            FileWriter fw = new FileWriter(newFile);
             XStream xstream = new XStream(new DomDriver());
             xstream.toXML(conceptMap, fw);
             fw.close();
-            boolean success = f.renameTo(new File(userdir + File.separator + "scymapper_" + username + "_" + eloURI + ".xml"));
+            oldFile.delete();
+            boolean success = newFile.renameTo(oldFile);
             if (success) {
                 return;
             }
