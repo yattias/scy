@@ -93,11 +93,11 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     @Override
     protected void initComponents() {
-        super.initComponents();
-        
         standaloneConfig = SCYMapperStandaloneConfig.getInstance();
         this.helpMode = standaloneConfig.getHelpMode();
         this.helpInterval = standaloneConfig.getContinuousHelpInterval();
+        super.initComponents();
+
 
         switch (helpMode) {
             case VOLUNTARY:
@@ -291,7 +291,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             }
         });
         conceptBrowserPanel.add(BorderLayout.SOUTH, close);
-                        
+
         lexiconNotificator.show();
     }
 
