@@ -94,6 +94,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 			@Override
 			public void focusLost(FocusEvent e) {
 				setLabelEditable(false);
+				labelTextarea.setText(labelTextarea.getText().trim());
 				if (!labelTextarea.getText().equals(getModel().getLabel())) {
 					getController().setLabel(labelTextarea.getText());
 				}
@@ -103,9 +104,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 		labelTextarea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					requestFocus();
-				}
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) RichNodeView.this.requestFocus();
 			}
 
 			@Override
