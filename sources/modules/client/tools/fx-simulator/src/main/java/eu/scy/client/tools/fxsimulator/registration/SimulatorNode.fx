@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
-import java.awt.BorderLayout;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -236,7 +235,6 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             JOptionPane.INFORMATION_MESSAGE,
             icon);
     }
-
 
     public override function initialize(windowContent: Boolean): Void {
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);

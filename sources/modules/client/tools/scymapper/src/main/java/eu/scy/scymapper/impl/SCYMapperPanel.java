@@ -107,6 +107,10 @@ public class SCYMapperPanel extends JPanel {
         return conceptDiagramView;
     }
 
+    public ConceptMapActionLogger getConceptMapActionLogger() {
+        return actionLogger;
+    }
+
     public void setToolBroker(ToolBrokerAPI tbi, String username) {
         toolBroker = tbi;
         if (toolBroker != null) {
