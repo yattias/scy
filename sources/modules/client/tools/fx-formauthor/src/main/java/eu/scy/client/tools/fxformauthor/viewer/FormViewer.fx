@@ -278,4 +278,9 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     public function saveElo():Void {
         formAuthorRepositoryWrapper.saveFormAction();
     }
+
+    override function setTitle(title:String) {
+        this.title = title;
+    }
+
 }
