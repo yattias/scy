@@ -184,6 +184,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       } else {
          eloSaveAs(elo, eloSaverCallBack);
       }
+      scyToolActionLogger.eloSaved(elo);
    }
 
    public override function otherEloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
