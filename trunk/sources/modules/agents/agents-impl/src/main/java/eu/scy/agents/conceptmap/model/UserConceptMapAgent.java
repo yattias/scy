@@ -18,14 +18,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import java.util.logging.Logger;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.conceptmap.Graph;
-import eu.scy.agents.conceptmap.proposer.CMProposerAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -104,8 +101,8 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
-            // sendAliveUpdate();
-            Tuple returnTuple = commandSpace.waitToTake(TEMPLATE_FOR_REQUEST_CONCEPT_MAP, 5000);
+            sendAliveUpdate();
+            Tuple returnTuple = commandSpace.waitToTake(TEMPLATE_FOR_REQUEST_CONCEPT_MAP, AgentProtocol.COMMAND_EXPIRATION);
             if (returnTuple != null) {
                 commandSpace.write(generateResponse(returnTuple));
             }
@@ -163,25 +160,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
                 // no local model - search in Roolo
                 myLock.lock();
                 userBlockingQueue.put(eloUri, new LinkedBlockingQueue<Tuple>());
-                currentModel = reconstructConceptMapModel(eloUri);
-
-                if (currentModel == null) {
-                    throw new MissingModelException();
-                }
-
-                // model loaded, but there may be tuples in the blocking queue
-                BlockingQueue<Tuple> actionQueue = userBlockingQueue.get(eloUri);
-                while (!actionQueue.isEmpty()) {
-                    Tuple remove = actionQueue.remove();
-                    handleAction(remove);
-                }
-
-                // last check
-                actionQueue = userBlockingQueue.remove(eloUri);
-                while (!actionQueue.isEmpty()) {
-                    handleAction(actionQueue.remove());
-                }
-                currentUser.addConceptMapModel(currentModel);
+                currentModel = reconstructConceptMapModel(currentUser, eloUri);
             }
 
             if (graphChanges(type)) {
@@ -276,7 +255,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
         return new Tuple(responseFields);
     }
 
-    private ConceptMapModel reconstructConceptMapModel(String eloUri) throws TupleSpaceException {
+    private ConceptMapModel reconstructConceptMapModel(ConceptMapUser user, String eloUri) throws TupleSpaceException, MissingModelException {
         // Generates a model of the ELO with the given EloURI.
         ConceptMapModel currentModel;
         long latestTimestamp = 0;
@@ -284,9 +263,24 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 
         currentModel = loadELO(eloUri);
         if (currentModel == null) {
-            return null;
+            throw new MissingModelException();
         }
 
+        // model loaded, but there may be tuples in the blocking queue
+        BlockingQueue<Tuple> actionQueue = userBlockingQueue.get(eloUri);
+        while (!actionQueue.isEmpty()) {
+            Tuple remove = actionQueue.remove();
+            handleAction(remove);
+        }
+
+        // last check
+        actionQueue = userBlockingQueue.remove(eloUri);
+        while (!actionQueue.isEmpty()) {
+            handleAction(actionQueue.remove());
+        }
+        
+        user.addConceptMapModel(currentModel);
+        
         // TODO TupleSpace server does not respond
         // Search timestamp of the latest eloload
         for (Tuple tuple : actionSpace.readAll(eloloadTemplate)) {
@@ -298,8 +292,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
         // regard possible changes on the model since load
         Field timeField = new Field(Long.class);
         timeField.setLowerBound(latestTimestamp + 1);
-        Tuple actionTemplate = new Tuple("action", String.class, timeField, TYPE_ELOLOAD, eloUri, TOOL, Field.createWildCardField());
-
+        Tuple actionTemplate = new Tuple("action", String.class, timeField, String.class, String.class, TOOL, String.class, String.class, eloUri, Field.createWildCardField());
         Tuple[] latestTuplesArray = actionSpace.readAll(actionTemplate);
         List<Tuple> latestTuples = new ArrayList<Tuple>(Arrays.asList(latestTuplesArray));
 

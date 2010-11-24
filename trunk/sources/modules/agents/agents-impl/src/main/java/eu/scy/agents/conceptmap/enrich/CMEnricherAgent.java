@@ -51,7 +51,14 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected void doStop() throws AgentLifecycleException {}
+    protected void doStop() throws AgentLifecycleException {
+        try {
+            commandSpace.disconnect();
+            actionSpace.disconnect();
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean isStopped() {
