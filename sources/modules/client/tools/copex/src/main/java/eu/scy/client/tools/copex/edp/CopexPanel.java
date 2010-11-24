@@ -711,18 +711,21 @@ public class CopexPanel extends JPanel {
      /* log: open proc */
     public void logOpenProc(LearnerProcedure proc, long dbKeyMission, String missionCode){
         List<CopexProperty> attribute = CopexLog.logOpenProc(locale,proc, dbKeyMission, missionCode);
-        actionCopex.logAction(MyConstants.LOG_TYPE_OPEN_PROC, attribute);
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_OPEN_PROC, attribute);
     }
 
     /* log : save proc */
     public void logSaveProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
-        actionCopex.logAction(MyConstants.LOG_TYPE_SAVE_PROC, attribute);
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_SAVE_PROC, attribute);
     }
     /* log: delete proc */
     public void logDeleteProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
-        actionCopex.logAction(MyConstants.LOG_TYPE_DELETE_PROC, attribute);
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_DELETE_PROC, attribute);
     }
 
     /* log: rename proc */
@@ -740,7 +743,8 @@ public class CopexPanel extends JPanel {
     /* log: create proc */
     public void logCreateProc(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
-        actionCopex.logAction(MyConstants.LOG_TYPE_CREATE_PROC, attribute);
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_CREATE_PROC, attribute);
     }
     /* log: copy proc */
     public void logCopyProc(LearnerProcedure proc, LearnerProcedure procToCopy){
@@ -971,12 +975,14 @@ public class CopexPanel extends JPanel {
     /* log : load new elo */
     public void logLoadELO(ExperimentalProcedure proc){
         List<CopexProperty> attribute = CopexLog.logProc(locale, proc);
-        actionCopex.logAction(MyConstants.LOG_TYPE_LOAD_ELO, attribute);
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_LOAD_ELO, attribute);
     }
 
     /* log : new elo */
     public void logNewELO(){
-        actionCopex.logAction(MyConstants.LOG_TYPE_NEW_ELO, new LinkedList());
+        if(!scyMode)
+            actionCopex.logAction(MyConstants.LOG_TYPE_NEW_ELO, new LinkedList());
     }
 
     public void logActionInDB(String type, List<CopexProperty> attribute){
