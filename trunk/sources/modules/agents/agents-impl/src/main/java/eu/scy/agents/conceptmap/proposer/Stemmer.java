@@ -12,17 +12,17 @@ public class Stemmer {
         stemmer = new englishStemmer();
     }
 
-    public static String stem(String string) {
+    public synchronized static String stem(String string) {
         stemmer.setCurrent(string.toLowerCase());
         stemmer.stem();
         return stemmer.getCurrent();
     }
 
-    public static boolean equalStem(String s1, String s2) {
+    public synchronized static boolean equalStem(String s1, String s2) {
         return stemWordWise(s1).equals(stemWordWise(s2));
     }
     
-    public static String stemWordWise(String string) {
+    public synchronized static String stemWordWise(String string) {
         String temp = "";
         // no stringbuilder, because there will be rarely any terms with words > 2
         for (String l : string.toLowerCase().split(" ")) {
