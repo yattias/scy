@@ -238,6 +238,7 @@ public class CopexControllerDB implements ControllerInterface {
             if (cr.isError())
                 return cr;
             listProc.get(k).setName(labDocName);
+            listProc.get(k).lockMaterialUsed();
         }
         if (listInitialProc == null || listInitialProc.isEmpty())
             return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_DATA"), false);

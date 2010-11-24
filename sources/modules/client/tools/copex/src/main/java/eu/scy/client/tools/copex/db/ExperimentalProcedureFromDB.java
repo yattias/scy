@@ -721,7 +721,7 @@ public class ExperimentalProcedureFromDB {
                 s = rs2.getColumnData("M.ID_TYPE_MATERIAL");
                 boolean allType = false;
                 TypeMaterial typeMat = null;
-                if(s== null)
+                if(s== null || s.length() == 0)
                     allType =true;
                 else{
                     try{

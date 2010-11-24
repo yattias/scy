@@ -60,7 +60,9 @@ public class InitialParamMaterial extends InitialActionParam {
             }
             andTypes = xmlElem.getChild(TAG_INITIAL_PARAM_MATERIAL_ANDTYPE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             allType = xmlElem.getChild(TAG_INITIAL_PARAM_MATERIAL_ALLTYPE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-            typeMaterial = new TypeMaterial(xmlElem.getChild(TypeMaterial.TAG_TYPE_REF), listTypeMaterial);
+            typeMaterial = null;
+            if(xmlElem.getChild(TypeMaterial.TAG_TYPE_REF) != null)
+                typeMaterial = new TypeMaterial(xmlElem.getChild(TypeMaterial.TAG_TYPE_REF), listTypeMaterial);
             if(xmlElem.getChild(TAG_INITIAL_PARAM_MATERIAL_MAT2) != null){
                 typeMaterial2 = new TypeMaterial(xmlElem.getChild(TAG_INITIAL_PARAM_MATERIAL_MAT2).getChild(TypeMaterial.TAG_TYPE_REF), listTypeMaterial);
             }
@@ -90,8 +92,8 @@ public class InitialParamMaterial extends InitialActionParam {
                 }
             }
         }else {
-			throw(new JDOMException("Initial action param quantity expects <"+TAG_INITIAL_PARAM_MATERIAL_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action param quantity expects <"+TAG_INITIAL_PARAM_MATERIAL_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     // GETTER AND SETTER
@@ -180,7 +182,8 @@ public class InitialParamMaterial extends InitialActionParam {
         Element element  = super.toXML(el);
         element.addContent(new Element(TAG_INITIAL_PARAM_MATERIAL_ANDTYPE).setText(andTypes ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
         element.addContent(new Element(TAG_INITIAL_PARAM_MATERIAL_ALLTYPE).setText(allType ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
-        element.addContent(typeMaterial.toXMLRef());
+        if(typeMaterial != null)
+            element.addContent(typeMaterial.toXMLRef());
         if(typeMaterial2 != null){
             Element e = new Element(TAG_INITIAL_PARAM_MATERIAL_MAT2);
             e.addContent(typeMaterial2.toXMLRef());
