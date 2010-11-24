@@ -96,8 +96,16 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
 
             }
         });
+        String modelLabel = model.getLabel();
+        String selectedOption = null;
         for (String option : model.getOptions()) {
             comboBox.addItem(option);
+            if (option.equals(modelLabel)) {
+                selectedOption = option;
+            }
+        }
+        if (selectedOption != null) {
+            comboBox.setSelectedItem(selectedOption);
         }
         switchButton = new JButton("<>");
         switchButton.setVisible(false);
