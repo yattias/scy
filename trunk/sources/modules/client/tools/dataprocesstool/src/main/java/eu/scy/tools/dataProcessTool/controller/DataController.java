@@ -17,6 +17,7 @@ import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
 import eu.scy.tools.dataProcessTool.gmbl.GmblColumn;
 import eu.scy.tools.dataProcessTool.gmbl.GmblDataset;
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.IgnoredData;
@@ -2028,6 +2029,12 @@ public class DataController implements ControllerInterface{
         }catch(JDOMException e2){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+" "+e2, false);
         }
+        return new CopexReturn();
+    }
+
+     /** log a user action in the db*/
+    @Override
+    public CopexReturn logUserActionInDB(String type, List<FitexProperty> attribute) {
         return new CopexReturn();
     }
 }

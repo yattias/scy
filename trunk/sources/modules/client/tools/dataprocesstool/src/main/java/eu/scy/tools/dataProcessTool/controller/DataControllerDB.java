@@ -20,6 +20,7 @@ import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.db.*;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.IgnoredData;
@@ -94,7 +95,7 @@ public class DataControllerDB implements ControllerInterface{
     private ArrayList<ArrayList<Dataset>> listUserDatasetMission;
 
     private FitexHTML fitexHtml;
-
+    private long dbKeyTrace = -1;
 
     /* locker */
     private Locker locker;
@@ -134,6 +135,12 @@ public class DataControllerDB implements ControllerInterface{
         if(group == null || mission == null){
             return  new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false);
         }
+        // chargement trace
+        v = new ArrayList();
+        cr = TraceFromDB.getIdTrace(dbC, dbKeyMission, dbKeyUser, v);
+        if(cr.isError())
+            return cr;
+        dbKeyTrace = (Long)v.get(0);
         // LOCKER
         DataBaseCommunication dbLabBook = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK, dbKeyMission, ""+dbKeyUser);
         this.locker = new Locker(dataToolPanel, dbLabBook, dbKeyUser);
@@ -2530,5 +2537,11 @@ public class DataControllerDB implements ControllerInterface{
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_GMBL"), false);
         }
         return new CopexReturn();
+    }
+
+     /** log a user action in the db*/
+    @Override
+    public CopexReturn logUserActionInDB(String type, List<FitexProperty> attribute) {
+        return TraceFromDB.logUserActionInDB(dbC, mission.getDbKey(), dbKeyUser, dbKeyTrace, type, attribute);
     }
 }

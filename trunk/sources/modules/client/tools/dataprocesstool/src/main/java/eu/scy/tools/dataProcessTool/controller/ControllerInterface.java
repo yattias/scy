@@ -14,11 +14,13 @@ import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import java.util.ArrayList;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.fitex.analyseFn.Function;
 import java.awt.Color;
 import java.io.File;
+import java.util.List;
 import java.util.Vector;
 import org.jdom.Element;
 
@@ -99,4 +101,6 @@ public interface ControllerInterface {
     public CopexReturn stopFitex();
     /** return true in v[0] if the specified dataset is the dataset from the labdoc */
     public CopexReturn isLabDocDataset(Dataset ds, ArrayList v);
+    /** log a user action in the db*/
+    public CopexReturn logUserActionInDB(String type, List<FitexProperty> attribute);
 }

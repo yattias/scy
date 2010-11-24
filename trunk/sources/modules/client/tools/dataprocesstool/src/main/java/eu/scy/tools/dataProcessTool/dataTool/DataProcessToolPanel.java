@@ -561,7 +561,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }
         Dataset ds = (Dataset)v.get(0) ;
         this.setDataset(ds, false);
-        logNewElo();
+        //logNewElo();
     }
     // nouvel elo non scy, multi onglets
     @Override
@@ -592,7 +592,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }else if(cr.isWarning()){
             displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
         }
-        logOpenDataset(activFitex.getDataset());
+        if(!scyMode){
+            logOpenDataset(activFitex.getDataset());
+        }
     }
 
     // load/open ELO SCY ou non
@@ -968,7 +970,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     
     /* log an action in db*/
     public void logAction(String type, List<FitexProperty> attribute){
-        
+        CopexReturn cr = this.controller.logUserActionInDB(type, attribute);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
     public Function getFunction(String formulaValue){
