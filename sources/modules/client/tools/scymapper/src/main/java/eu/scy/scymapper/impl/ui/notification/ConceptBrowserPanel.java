@@ -56,6 +56,8 @@ public class ConceptBrowserPanel extends JPanel {
     private List<String> lexicon;
     
     private int currentEntry;
+
+    private static List<String> entries;
     
     public ConceptBrowserPanel() {
         this(true);
@@ -173,13 +175,9 @@ public class ConceptBrowserPanel extends JPanel {
     }
     
     private List<String> readLexicon() {
-    	List<String> entries = SCYMapperStandaloneConfig.getInstance().getLexicon();
-    	if(entries == null) {
-    		return null;
-    	}
-    	
-    	if(entries.size() > VISIBLE_ENTRIES) {
-    		Collections.shuffle(entries);
+        if(entries == null) {
+                entries = SCYMapperStandaloneConfig.getInstance().getLexicon();
+                Collections.shuffle(entries);
     	}
     	return entries;
     }
