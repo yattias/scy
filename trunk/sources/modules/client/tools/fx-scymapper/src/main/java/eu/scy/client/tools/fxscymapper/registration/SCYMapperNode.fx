@@ -28,6 +28,7 @@ import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
@@ -46,6 +47,11 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
     public override function create(): Node {
         wrappedScyMapperPanel = ScySwingWrapper.wrap(scyMapperPanel);
+        if (currentELO.getUri() == null) {
+            scyMapperPanel.getConceptMapActionLogger().setEloURI((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+        } else {
+            scyMapperPanel.getConceptMapActionLogger().setEloURI(currentELO.getUri().toString());
+        }
         return Group {
                     blocksMouse: true;
                     content: [
@@ -173,6 +179,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
 
     override public function eloSaved(elo: IELO): Void {
         this.currentELO = elo;
+        scyMapperPanel.getConceptMapActionLogger().setEloURI(currentELO.getUri().toString());
         println("ELO SUCCESSFULLY SAVED");
     }
 
@@ -192,6 +199,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
         logger.debug("loading{uri.toString()}");
         if (uri != null) {
             currentELO = repositoryWrapper.loadELO(uri);
+            scyMapperPanel.getConceptMapActionLogger().setEloURI(currentELO.getUri().toString());
             var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
             scyMapperPanel.setConceptMap(conceptMap);
             scyMapperPanel.setEloURI(uri.toString());
@@ -201,6 +209,7 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
     public override function newElo(): Void {
         logger.debug("loading new elo");
         currentELO = repositoryWrapper.createELO();
+        scyMapperPanel.getConceptMapActionLogger().setEloURI(currentELO.getUri().toString());
         var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
         scyMapperPanel.setConceptMap(conceptMap);
     }
