@@ -6,6 +6,8 @@
 package eu.scy.client.tools.fxcopex.registration;
 
 import eu.scy.notification.api.INotification;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,17 +16,31 @@ import eu.scy.notification.api.INotification;
 public class CopexNotificationManager {
 
     private String message = "";
+    private String toolId;
+    private static final Logger logger = Logger.getLogger(CopexNotificationManager.class.getName());
+    private final static String keyMessage = "message";
     
-    public CopexNotificationManager() {
+    public CopexNotificationManager(String toolId) {
+        this.toolId = toolId;
     }
 
     public void processNotification(INotification notification) {
-        this.message = notification.getFirstProperty("message");
-        // waiting for the format....
+        if(notification != null && notification.getToolId() != null && notification.getToolId().equals(toolId)){
+            logger.log(Level.INFO, "notification from {0}", notification.getSender());
+            if(!message.equals(""))
+                message +="\n";
+            this.message += notification.getFirstProperty(keyMessage);
+        }
     }
 
     public String getNotification(){
         return message;
+    }
+
+    public void keepNotification(boolean keep){
+        if(!keep){
+            message = "";
+        }
     }
 
 }

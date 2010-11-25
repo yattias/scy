@@ -48,7 +48,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     public ScyCopexPanel(String toolName) {
         super();
         this.toolName = toolName;
-        this.copexNotificationManager = new CopexNotificationManager();
+        this.copexNotificationManager = new CopexNotificationManager(toolName);
         logger = Logger.getLogger(ScyCopexPanel.class.getName());
         this.setLayout(new BorderLayout());
         
@@ -117,7 +117,8 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         if(tbi != null){
             action.setUser(tbi.getLoginUserName());
             action.addContext(ContextConstants.tool, this.toolName);
-            action.addContext(ContextConstants.mission, tbi.getMissionSpecificationURI().toString());
+            // generic way now
+            //action.addContext(ContextConstants.mission, tbi.getMissionSpecificationURI().toString());
             action.addContext(ContextConstants.session, session_name);
             action.addContext(ContextConstants.eloURI, eloUri);
         }
@@ -150,6 +151,10 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
 
     public String getNotification(){
         return this.copexNotificationManager.getNotification();
+    }
+
+    public void keepNotification(boolean keep){
+        this.copexNotificationManager.keepNotification(keep);
     }
 
 }
