@@ -73,7 +73,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 
     private Map<String, BlockingQueue<Tuple>> userBlockingQueue;
 
-    private final ReentrantLock myLock = new ReentrantLock();
+    private final ReentrantLock myLock = new ReentrantLock(true);
 
     public static void main(String[] args) throws AgentLifecycleException {
         HashMap<String, Object> map = new HashMap<String, Object>();
