@@ -10,15 +10,24 @@ import eu.scy.actionlogging.api.IActionLogger;
  */
 public class DevNullActionLogger implements IActionLogger {
 
-	@Override
-	public void log(IAction action) {
-		// doing absolutely nothing here		
-	}
+    @Override
+    public void log(IAction action) {
+        // doing absolutely nothing here
+    }
 
-	@Override
-	@Deprecated
-	public void log(String username, String source, IAction action) {
-		log(action);
-	}
-	
+    @Override
+    @Deprecated
+    public void log(String username, String source, IAction action) {
+        log(action);
+    }
+
+    @Override
+    public void setMissionRuntimeURI(String missionRuntimeURI) {
+        // doing absolutely nothing here
+    }
+
+    @Override
+    public String getMissionRuntimeURI() {
+        return null;
+    }
 }

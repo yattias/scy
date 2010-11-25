@@ -1,5 +1,6 @@
 package eu.scy.actionlogging;
 
+import eu.scy.actionlogging.api.ContextConstants;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -17,33 +18,46 @@ import eu.scy.actionlogging.api.IActionLogger;
  *
  */
 public class SystemOutActionLogger implements IActionLogger {
-	
-	private OutputFormat format;
-	private XMLWriter writer;
 
-	public SystemOutActionLogger() {
-		this.format = OutputFormat.createPrettyPrint();
-		try {
-			writer = new XMLWriter (System.out, format);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void log(IAction action) {
-		// logging to the console
-		try {
-			writer.write(new ActionXMLTransformer(action).getActionAsElement());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    private OutputFormat format;
+    private XMLWriter writer;
+    private String missionRuntimeURI;
 
-	@Override
-	@Deprecated
-	public void log(String username, String source, IAction action) {
-		log(action);
-	}
-	
+    public SystemOutActionLogger() {
+        this.format = OutputFormat.createPrettyPrint();
+        try {
+            writer = new XMLWriter(System.out, format);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void log(IAction action) {
+        // logging to the console
+        try {
+            if (missionRuntimeURI != null) {
+                action.addContext(ContextConstants.mission, missionRuntimeURI);
+            }
+            writer.write(new ActionXMLTransformer(action).getActionAsElement());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    @Deprecated
+    public void log(String username, String source, IAction action) {
+        log(action);
+    }
+
+    @Override
+    public void setMissionRuntimeURI(String missionRuntimeURI) {
+        this.missionRuntimeURI = missionRuntimeURI;
+    }
+
+    @Override
+    public String getMissionRuntimeURI() {
+        return this.missionRuntimeURI;
+    }
 }
