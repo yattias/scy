@@ -36,7 +36,7 @@ public class LinkView extends LinkViewComponent implements ILinkModelListener {
 			selectionBorder = new SelectionBorder(new Insets(100, 100, 100, 100));
 		}
 		setBorder(link.isSelected() ? selectionBorder : BorderFactory.createEmptyBorder());
-		if (link.isSelected()) requestFocus();
+//		if (link.isSelected()) requestFocus();
 	}
 
 	@Override

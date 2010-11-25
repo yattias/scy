@@ -14,8 +14,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import org.apache.log4j.Logger;
 
@@ -84,9 +88,9 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     }
 
     public void setMode(IDiagramMode mode) {
-        if ( mode instanceof ConnectMode){
+        if (mode instanceof ConnectMode) {
             setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-        }else{
+        } else {
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
         }
@@ -168,13 +172,27 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
             view.repaint();
         } else if (link instanceof ComboNodeLinkModel) {
             final ComboConceptLinkView view = new ComboConceptLinkView(elementControllerFactory.createLinkController(link), (ComboNodeLinkModel) link);
-            view.addMouseListener(new MouseAdapter() {
+            final JComboBox comboBox = view.getComboBox();
+            comboBox.addPopupMenuListener(new PopupMenuListener() {
 
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (!e.isControlDown())
+                public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                    if (!view.getModel().isSelected()) {
                         selectionModel.clearSelection();
-                    selectionModel.select(view.getModel());
+                        selectionModel.select(view.getModel());
+                        comboBox.setPopupVisible(true);
+                    }
+                }
+
+                @Override
+                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                    System.out.println(3);
+                }
+
+                @Override
+                public void popupMenuCanceled(PopupMenuEvent e) {
+                    // TODO Auto-generated method stub
+
                 }
             });
 
@@ -196,7 +214,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     }
 
     public int getNodeCount() {
-    	return nodeCount;
+        return nodeCount;
     }
 
     public Dimension getPreferredSize() {
