@@ -189,7 +189,9 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    @Override
    public void setMissionRuntimeURI(URI missionRuntimeURI)
    {
+      logger.info("setMissionRuntimeURI: "+missionRuntimeURI.toString());
       this.missionRuntimeURI = missionRuntimeURI;
+      actionLogger.setMissionRuntimeURI(missionRuntimeURI.toString());
    }
 
    @Override
@@ -249,9 +251,5 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    public void removeConnectionListener(ConnectionListener connectionListener)
    {
    }
-
-
-   
-
 
 }
