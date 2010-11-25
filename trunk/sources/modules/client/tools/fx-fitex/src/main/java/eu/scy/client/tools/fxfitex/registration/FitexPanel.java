@@ -258,7 +258,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         if(tbi != null){
             action.setUser(tbi.getLoginUserName());
             action.addContext(ContextConstants.tool, this.toolName);
-            action.addContext(ContextConstants.mission, tbi.getMissionSpecificationURI().toString());
+            // generic way now
+            //action.addContext(ContextConstants.mission, tbi.getMissionSpecificationURI().toString());
             action.addContext(ContextConstants.session, session_name);
             action.addContext(ContextConstants.eloURI, eloUri);
         }
