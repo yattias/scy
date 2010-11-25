@@ -44,11 +44,18 @@ public class SQLSpacesActionLogger implements IActionLogger {
     private int port;
 
     private String ip;
+	
+	private String missionRuntimeURI = null;
 
-    public SQLSpacesActionLogger(String ip, int port, String space) {
+	public SQLSpacesActionLogger(String ip, int port, String space) {
+        this(ip, port, space, null);
+    }
+
+    public SQLSpacesActionLogger(String ip, int port, String space, String missionRuntimeURI) {
         this.ip = ip;
         this.port = port;
         this.space = space;
+		this.missionRuntimeURI = missionRuntimeURI;
         queue = new ArrayList<IAction>();
         // creating / connecting to a space
         try {
@@ -68,6 +75,9 @@ public class SQLSpacesActionLogger implements IActionLogger {
 
     @Override
     public void log(String username, String source, IAction action) {
+		if (missionRuntimeURI != null) {
+            action.addContext(ContextConstants.mission, missionRuntimeURI);
+        }
         boolean success = writeToTs(action);
         if (!success) {
             queue.add(action);
@@ -122,5 +132,15 @@ public class SQLSpacesActionLogger implements IActionLogger {
     public void log(IAction action) {
         // The username and source aren't used any more, therefore -> null
         log(null, null, action);
+    }
+	
+	@Override
+    public void setMissionRuntimeURI(String missionRuntimeURI) {
+        this.missionRuntimeURI = missionRuntimeURI;
+    }
+
+    @Override
+    public String getMissionRuntimeURI() {
+        return this.missionRuntimeURI;
     }
 }
