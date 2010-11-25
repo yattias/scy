@@ -61,6 +61,13 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
             if (userid == null) {
                 System.exit(0);
             }
+            for (char c : userid.toCharArray()) {
+                if (!Character.isLetterOrDigit(c)) {
+                    JOptionPane.showMessageDialog(this, "Ihr Name beinhaltet nicht gültige Zeichen. Es sind nur Zahlen und Buchstaben erlaubt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    userid = "";
+                    break;
+                }
+            }
         }
 
         super.init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
