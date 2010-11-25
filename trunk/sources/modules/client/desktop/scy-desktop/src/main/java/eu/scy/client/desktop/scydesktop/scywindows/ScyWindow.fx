@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.mission.EloToolConfig;
 
 /**
  * @author sikkenj
@@ -35,6 +36,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
    public var eloUri:URI;
    public var scyElo:ScyElo;
    public var eloIcon:EloIcon;
+   public var eloToolConfig : EloToolConfig;
 //   public var iconCharacter = "?";
 //	public var color = Color.GREEN;
 //	public var drawerColor = Color.LIGHTGREEN;

@@ -263,10 +263,13 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    function createScyWindow(eloUri: URI): ScyWindow {
+      def eloType = eloInfoControl.getEloType(eloUri);
+      def eloToolConfig =  eloConfigManager.getEloToolConfig(eloType);
       var scyWindow = StandardScyWindow {
             eloUri: eloUri;
             scyElo: ScyElo.loadElo(eloUri, tbi)
-            eloType: eloInfoControl.getEloType(eloUri);
+            eloType: eloType
+            eloToolConfig: eloConfigManager.getEloToolConfig(eloType)
             title: eloInfoControl.getEloTitle(eloUri)
             windowColorScheme:windowStyler.getWindowColorScheme(eloUri)
             eloIcon:windowStyler.getScyEloIcon(eloUri)
@@ -301,6 +304,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function createScyWindow(eloType: String): ScyWindow {
       var scyWindow = StandardScyWindow {
             eloType: eloType;
+            eloToolConfig: eloConfigManager.getEloToolConfig(eloType)
             windowColorScheme:windowStyler.getWindowColorScheme(eloType)
             eloIcon:windowStyler.getScyEloIcon(eloType)
             setScyContent: setScyContent;

@@ -441,6 +441,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             dragAndDropManager: dragAndDropManager
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
             showEloInfoDisplay: initializer.debugMode
+            eloConfigManager: eloConfigManager
          }
       backgroundUpdater = BackgroundUpdater {
             eloDisplayTypeControl: eloDisplayTypeControl
@@ -573,7 +574,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //    }
    function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
       logger.info("realFillNewScyWindow2({window.eloUri},{collaboration})");
-      def eloConfig = eloConfigManager.getEloToolConfig(window.eloType);
+//      def eloConfig = eloConfigManager.getEloToolConfig(window.eloType);
+      def eloConfig = window.eloToolConfig;
       if (eloConfig == null) {
          logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
          return;
