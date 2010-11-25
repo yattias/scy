@@ -2,6 +2,7 @@ package eu.scy.scymapper.impl.ui.diagram;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -31,6 +32,7 @@ import eu.scy.scymapper.impl.model.ComboNodeLinkModel;
 import eu.scy.scymapper.impl.model.ConnectorModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.ui.Localization;
+import eu.scy.scymapper.impl.ui.diagram.modes.ConnectMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
@@ -52,7 +54,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     private KeyListener deleteKeyListener = new DeleteKeyListener();
 
     private int nodeCount = 0;
-    
+
     private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
 
     public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
@@ -82,6 +84,12 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     }
 
     public void setMode(IDiagramMode mode) {
+        if ( mode instanceof ConnectMode){
+            setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        }else{
+            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+        }
         this.mode = mode;
     }
 
@@ -190,7 +198,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     public int getNodeCount() {
     	return nodeCount;
     }
-    
+
     public Dimension getPreferredSize() {
         return new Dimension(getComponentsWidth(), getComponentsHeight());
     }
