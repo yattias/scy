@@ -298,12 +298,18 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         notificationDialog.modalDialogBox.close();
         notificationAnim.stop();
         notificationButton.text = "!";
+        FX.deferAction(function () {
+            scyCopexPanel.keepNotification(true);
+        })
     }
 
     function okayNotificationDialog(): Void {
         notificationDialog.modalDialogBox.close();
         notificationButton.visible = false;
         notificationAnim.stop();
+        FX.deferAction(function () {
+            scyCopexPanel.keepNotification(false);
+        })
     }
 
     function getNotification(): String{
