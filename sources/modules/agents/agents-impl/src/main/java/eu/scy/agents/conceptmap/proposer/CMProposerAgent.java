@@ -46,7 +46,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         decreases,
         increases,
         includes;
-        
+
         public String getLabel(@SuppressWarnings("unused") String language) {
             switch (this) {
                 case isA:
@@ -66,7 +66,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             }
             return "";
         }
-        
+
         public static boolean isKnown(String relation) {
             for (Relation r : Relation.values()) {
                 if (r.name().equalsIgnoreCase(relation)) {
@@ -75,10 +75,10 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             }
             return false;
         }
-        
+
     }
-    
-    private static final String TEXT = "Als globale Erwärmung bezeichnet man den in den vergangenen Jahrzehnten beobachteten Anstieg der Durchschnittstemperatur der erdnahen Atmosphäre und der Meere sowie deren künftig erwartete Erwärmung. Zwischen 1906 und 2005 hat sich die Durchschnittstemperatur in Bodennähe um 0,74 °C (+/- 0,18 °C) erhöht. Das Jahrzehnt von 2000 bis 2009 war mit Abstand das wärmste je gemessene, gefolgt von den 1990er Jahren, die wiederum wärmer waren als die 1980er Jahre.\nNach gegenwärtigem wissenschaftlichen Verständnis ist hierfür 'sehr wahrscheinlich' die Verstärkung des natürlichen Treibhauseffektes durch menschliches Einwirken ursächlich. Die menschengemachte Erwärmung entsteht durch Verbrennen fossiler Brennstoffe, durch weltumfassende Abholzung sowie Land- und Viehwirtschaft. Dadurch wird das Treibhausgas Kohlendioxid (CO2) sowie weitere Treibhausgase wie Methan und Lachgas in der Erdatmosphäre angereichert, so dass weniger Wärmestrahlung von der Erdoberfläche in das Weltall abgestrahlt werden kann.\nDer mit Abstand größte Teil der abgelaufenen wie auch der erwarteten anthropogenen Erwärmung ist auf den bisherigen und bis heute zunehmenden Anstieg des Treibhausgases Kohlendioxid zurückzuführen. Durch starke Rückkopplungsprozesse ist die direkte Wärmewirkung des Kohlendioxids jedoch mit hoher Wahrscheinlichkeit deutlich kleiner als die erwarteten, aus der Erwärmung resultierenden, ebenfalls wärmenden Sekundäreffekte.\nBis zum Jahr 2100 wird, abhängig von künftigen CO2-Emissionen und der tatsächlichen Reaktion des Klimasystems darauf, eine Erwärmung um 1,1 bis 6,4 °C erwartet. Dies hätte eine Reihe von Folgen: Verstärkte Gletscherschmelze, Anstieg des Meeresspiegels, Versauerung der Ozeane, veränderte Niederschlagsmuster, mehr extreme Wetterereignisse, u.a.\nHinsichtlich des projizierten Anstiegs des Meeresspiegels sind noch viele Fragen offen. Die ermittelte Bandbreite des Anstiegs der Meeresspiegel bis zum Ende des 21. Jahrhunderts beträgt je nach Szenario 18 bis 59 Zentimeter. Die Szenarios berücksichtigen allerdings noch nicht die polare Eisdynamik (beispielsweise das Abbrechen großer Eismassen in der Antarktis) und Unsicherheiten in den Klima-Kohlenstoffkreislauf-Rückkopplungen: In einem wärmeren Klima reduziert sich die Aufnahmefähigkeit der Ozeane und der Landoberfläche für vom Menschen verursachtes CO2, weil in wärmerem Wasser weniger Gas gelöst wird und die Böden bei höheren Temperaturen mehr Biomasse abbauen. Damit würden die atmosphärischen CO2-Konzentrationen stärker steigen als ohne diesen Rückkopplungsmechanismus. Ein besseres Verständnis dieser Prozesse und deren Berücksichtigung in künftigen Modellsimulationen könnten zur Projektion höherer Meeresspiegelanstiege bis zum Ende des 21. Jahrhunderts führen.\nFolge der erhöhten CO2-Emissionen ist auch eine zunehmende Versauerung der Ozeane. Die Meere nahmen bisher etwa ein Drittel der vom Menschen verursachten CO2-Emissionen auf, was bereits zu einer signifikanten Versauerung des Meerwassers führte. Eine ungebremste Fortsetzung dieses Trends würde erhebliche Gefahren für das Leben im Meer bergen. Saures Wasser behindert die Kalkbildung, das heißt den Knochen- und Schalenaufbau der Meeresbewohner. Korallenriffe, die ohnehin im wärmeren Wasser unter Stress stehen und alle davon abhängigen Arten sind in ihrer Existenz gefährdet. Das könnte negative Auswirkungen für die gesamte Nahrungskette im Meer haben und damit auch für die menschliche Ernährung.\nDie größte Erwärmung zeigen die Klimaprojektionen über dem Festland und in nördlichen Breiten. Mit der geringsten Erwärmung ist über dem südlichen Ozean und Teilen des Nordatlantiks zu rechnen. Die Modelle ergeben für alle Emissionsszenarios einen Rückgang des Meereises sowohl in der Arktis als auch in der Antarktis. In einigen Projektionen verschwindet in der zweiten Hälfte des 21. Jahrhunderts das Meereis in der Arktis im Sommer fast völlig.\nExtreme Wetterereignisse - wie Hitzewellen und starke Niederschläge - werden sehr wahrscheinlich weiterhin zunehmen. Darüber hinaus ist es wahrscheinlich (Eintrittswahrscheinlichkeit > 66 Prozent), dass tropische Wirbelstürme künftig intensiver werden und höhere Spitzenwindgeschwindigkeiten sowie mehr starke Niederschläge mit sich bringen werden.\nNach gegenwärtigen Erkenntnissen wird das Abschmelzen des Grönländischen Eisschildes nach 2100 weiterhin zum Anstieg des Meeresspiegels beitragen. Es besteht die Gefahr, dass bei einer Zunahme der globalen Durchschnittstemperatur von mehr als 2°C gegenüber dem vorindustriellen Wert das Grönländische Eisschild über Jahrhunderte hinweg vollständig abschmilzt und langfristig zu einem Anstieg des Meeresspiegels von etwa sieben Metern führt. Die Antarktis ist - nach gegenwärtigem Kenntnisstand - hingegen zu kalt für ein verbreitetes Abschmelzen des Festlandeises.\nDie Vielzahl der Auswirkungen, die sich je nach Ausmaß der Erwärmung ergeben, ist jedoch kaum abschätzbar. Die große Schwankungsbreite der Temperaturprognosen ist dabei weniger auf ein fehlendes Verständnis der natürlichen Faktoren, als viel mehr der unbekannten Reaktion der Menschheit auf die sich verändernden Bedingungen zuzurechnen. Die menschlich beschleunigte Erwärmung und der Anstieg des Meeresspiegels würden sich über Jahrhunderte fortsetzen, selbst falls es gelänge, die Konzentration der Treibhausgase zu stabilisieren. Dies liegt an der langen, mit Klimaprozessen und Rückkopplungen im Klimasystem verbundenen Zeitskala.\nDie Vermeidung dieser Phänomene wie auch die Anpassung an die zu erwartende Erwärmung, sind Ziele nationaler und internationaler Klimapolitik. Der wissenschaftliche Erkenntnisstand zur globalen Erwärmung wird durch den Intergovernmental Panel on Climate Change (IPCC, im Deutschen oft als Weltklimarat bezeichnet) diskutiert und zusammengefasst. Die Analysen des Weltklimarates, dessen Vierter Sachstandsbericht 2007 veröffentlicht wurde, bilden den Forschungsstand über menschliche Einflussnahmen auf das Klimasystem der Erde ab. Sie sind eine Hauptgrundlage der politischen und wissenschaftlichen Diskussion des Themas wie auch der Aussagen dazu in diesem Artikel. Die Darstellung des Weltklimarates und die daraus zu ziehenden Folgerungen stehen zugleich im Mittelpunkt der Kontroverse um die globale Erwärmung.\nAusgehend von dem Bericht des Weltklimarates, stellt die Klimapolitik der Europäischen Union ausdrücklich das sog. Zwei-Grad-Ziel in den Mittelpunkt und versucht, einen Beitrag dazu zu leisten, dass der Anstieg der globalen Durchschnittstemperatur nicht über 2 Grad Celsius hinausgeht.\nDer Gesamtausstoß an Treibhausgasen in der EU soll nach geltender Rechtslage bis 2020 um 20 Prozent gegenüber dem Basisjahr 1990 gesenkt werden. Derzeit diskutiert die EU, ihr Reduktionsziel für 2020 auf 30 Prozent zu erhöhen, auch ohne vergleichbare Selbstverpflichtungen weiterer Industrie- und Schwellenländer.\nDas im Dezember 2008 verabschiedete Klimapaket sieht Maßnahmen zur Intensivierung des europäischen Emissionshandels vor. Von 2013 an gilt ein gemeinsames CO2-Budget für alle Mitgliedstaaten. Während die (westeuropäische) Energiewirtschaft die CO2-Zertifikate von 2013 an bereits vollständig ersteigern muss, werden Raffinerien, Chemieindustrie und Fluglinien noch bis 2020 teilweise kostenlos Zertifikate zugeteilt bekommen.";    
+
+    private static final String TEXT = "Als globale Erwärmung bezeichnet man den in den vergangenen Jahrzehnten beobachteten Anstieg der Durchschnittstemperatur der erdnahen Atmosphäre und der Meere sowie deren künftig erwartete Erwärmung. Zwischen 1906 und 2005 hat sich die Durchschnittstemperatur in Bodennähe um 0,74 °C (+/- 0,18 °C) erhöht. Das Jahrzehnt von 2000 bis 2009 war mit Abstand das wärmste je gemessene, gefolgt von den 1990er Jahren, die wiederum wärmer waren als die 1980er Jahre.\nNach gegenwärtigem wissenschaftlichen Verständnis ist hierfür 'sehr wahrscheinlich' die Verstärkung des natürlichen Treibhauseffektes durch menschliches Einwirken ursächlich. Die menschengemachte Erwärmung entsteht durch Verbrennen fossiler Brennstoffe, durch weltumfassende Abholzung sowie Land- und Viehwirtschaft. Dadurch wird das Treibhausgas Kohlendioxid (CO2) sowie weitere Treibhausgase wie Methan und Lachgas in der Erdatmosphäre angereichert, so dass weniger Wärmestrahlung von der Erdoberfläche in das Weltall abgestrahlt werden kann.\nDer mit Abstand größte Teil der abgelaufenen wie auch der erwarteten anthropogenen Erwärmung ist auf den bisherigen und bis heute zunehmenden Anstieg des Treibhausgases Kohlendioxid zurückzuführen. Durch starke Rückkopplungsprozesse ist die direkte Wärmewirkung des Kohlendioxids jedoch mit hoher Wahrscheinlichkeit deutlich kleiner als die erwarteten, aus der Erwärmung resultierenden, ebenfalls wärmenden Sekundäreffekte.\nBis zum Jahr 2100 wird, abhängig von künftigen CO2-Emissionen und der tatsächlichen Reaktion des Klimasystems darauf, eine Erwärmung um 1,1 bis 6,4 °C erwartet. Dies hätte eine Reihe von Folgen: Verstärkte Gletscherschmelze, Anstieg des Meeresspiegels, Versauerung der Ozeane, veränderte Niederschlagsmuster, mehr extreme Wetterereignisse, u.a.\nHinsichtlich des projizierten Anstiegs des Meeresspiegels sind noch viele Fragen offen. Die ermittelte Bandbreite des Anstiegs der Meeresspiegel bis zum Ende des 21. Jahrhunderts beträgt je nach Szenario 18 bis 59 Zentimeter. Die Szenarios berücksichtigen allerdings noch nicht die polare Eisdynamik (beispielsweise das Abbrechen großer Eismassen in der Antarktis) und Unsicherheiten in den Klima-Kohlenstoffkreislauf-Rückkopplungen: In einem wärmeren Klima reduziert sich die Aufnahmefähigkeit der Ozeane und der Landoberfläche für vom Menschen verursachtes CO2, weil in wärmerem Wasser weniger Gas gelöst wird und die Böden bei höheren Temperaturen mehr Biomasse abbauen. Damit würden die atmosphärischen CO2-Konzentrationen stärker steigen als ohne diesen Rückkopplungsmechanismus. Ein besseres Verständnis dieser Prozesse und deren Berücksichtigung in künftigen Modellsimulationen könnten zur Projektion höherer Meeresspiegelanstiege bis zum Ende des 21. Jahrhunderts führen.\nFolge der erhöhten CO2-Emissionen ist auch eine zunehmende Versauerung der Ozeane. Die Meere nahmen bisher etwa ein Drittel der vom Menschen verursachten CO2-Emissionen auf, was bereits zu einer signifikanten Versauerung des Meerwassers führte. Eine ungebremste Fortsetzung dieses Trends würde erhebliche Gefahren für das Leben im Meer bergen. Saures Wasser behindert die Kalkbildung, das heißt den Knochen- und Schalenaufbau der Meeresbewohner. Korallenriffe, die ohnehin im wärmeren Wasser unter Stress stehen und alle davon abhängigen Arten sind in ihrer Existenz gefährdet. Das könnte negative Auswirkungen für die gesamte Nahrungskette im Meer haben und damit auch für die menschliche Ernährung.\nDie größte Erwärmung zeigen die Klimaprojektionen über dem Festland und in nördlichen Breiten. Mit der geringsten Erwärmung ist über dem südlichen Ozean und Teilen des Nordatlantiks zu rechnen. Die Modelle ergeben für alle Emissionsszenarios einen Rückgang des Meereises sowohl in der Arktis als auch in der Antarktis. In einigen Projektionen verschwindet in der zweiten Hälfte des 21. Jahrhunderts das Meereis in der Arktis im Sommer fast völlig.\nExtreme Wetterereignisse - wie Hitzewellen und starke Niederschläge - werden sehr wahrscheinlich weiterhin zunehmen. Darüber hinaus ist es wahrscheinlich (Eintrittswahrscheinlichkeit > 66 Prozent), dass tropische Wirbelstürme künftig intensiver werden und höhere Spitzenwindgeschwindigkeiten sowie mehr starke Niederschläge mit sich bringen werden.\nNach gegenwärtigen Erkenntnissen wird das Abschmelzen des Grönländischen Eisschildes nach 2100 weiterhin zum Anstieg des Meeresspiegels beitragen. Es besteht die Gefahr, dass bei einer Zunahme der globalen Durchschnittstemperatur von mehr als 2°C gegenüber dem vorindustriellen Wert das Grönländische Eisschild über Jahrhunderte hinweg vollständig abschmilzt und langfristig zu einem Anstieg des Meeresspiegels von etwa sieben Metern führt. Die Antarktis ist - nach gegenwärtigem Kenntnisstand - hingegen zu kalt für ein verbreitetes Abschmelzen des Festlandeises.\nDie Vielzahl der Auswirkungen, die sich je nach Ausmaß der Erwärmung ergeben, ist jedoch kaum abschätzbar. Die große Schwankungsbreite der Temperaturprognosen ist dabei weniger auf ein fehlendes Verständnis der natürlichen Faktoren, als viel mehr der unbekannten Reaktion der Menschheit auf die sich verändernden Bedingungen zuzurechnen. Die menschlich beschleunigte Erwärmung und der Anstieg des Meeresspiegels würden sich über Jahrhunderte fortsetzen, selbst falls es gelänge, die Konzentration der Treibhausgase zu stabilisieren. Dies liegt an der langen, mit Klimaprozessen und Rückkopplungen im Klimasystem verbundenen Zeitskala.\nDie Vermeidung dieser Phänomene wie auch die Anpassung an die zu erwartende Erwärmung, sind Ziele nationaler und internationaler Klimapolitik. Der wissenschaftliche Erkenntnisstand zur globalen Erwärmung wird durch den Intergovernmental Panel on Climate Change (IPCC, im Deutschen oft als Weltklimarat bezeichnet) diskutiert und zusammengefasst. Die Analysen des Weltklimarates, dessen Vierter Sachstandsbericht 2007 veröffentlicht wurde, bilden den Forschungsstand über menschliche Einflussnahmen auf das Klimasystem der Erde ab. Sie sind eine Hauptgrundlage der politischen und wissenschaftlichen Diskussion des Themas wie auch der Aussagen dazu in diesem Artikel. Die Darstellung des Weltklimarates und die daraus zu ziehenden Folgerungen stehen zugleich im Mittelpunkt der Kontroverse um die globale Erwärmung.\nAusgehend von dem Bericht des Weltklimarates, stellt die Klimapolitik der Europäischen Union ausdrücklich das sog. Zwei-Grad-Ziel in den Mittelpunkt und versucht, einen Beitrag dazu zu leisten, dass der Anstieg der globalen Durchschnittstemperatur nicht über 2 Grad Celsius hinausgeht.\nDer Gesamtausstoß an Treibhausgasen in der EU soll nach geltender Rechtslage bis 2020 um 20 Prozent gegenüber dem Basisjahr 1990 gesenkt werden. Derzeit diskutiert die EU, ihr Reduktionsziel für 2020 auf 30 Prozent zu erhöhen, auch ohne vergleichbare Selbstverpflichtungen weiterer Industrie- und Schwellenländer.\nDas im Dezember 2008 verabschiedete Klimapaket sieht Maßnahmen zur Intensivierung des europäischen Emissionshandels vor. Von 2013 an gilt ein gemeinsames CO2-Budget für alle Mitgliedstaaten. Während die (westeuropäische) Energiewirtschaft die CO2-Zertifikate von 2013 an bereits vollständig ersteigern muss, werden Raffinerien, Chemieindustrie und Fluglinien noch bis 2020 teilweise kostenlos Zertifikate zugeteilt bekommen.";
 
     private OntologyConnection con;
 
@@ -113,12 +113,12 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             System.out.println(t);
         }
         ts.disconnect();
-//        HashMap<String, Object> map = new HashMap<String, Object>();
-//        map.put(AgentProtocol.PARAM_AGENT_ID, "proposer id");
-//        map.put(AgentProtocol.TS_HOST, "localhost");
-//        map.put(AgentProtocol.TS_PORT, 2525);
-//        CMProposerAgent agent = new CMProposerAgent(map);
-//        agent.start();
+        // HashMap<String, Object> map = new HashMap<String, Object>();
+        // map.put(AgentProtocol.PARAM_AGENT_ID, "proposer id");
+        // map.put(AgentProtocol.TS_HOST, "localhost");
+        // map.put(AgentProtocol.TS_PORT, 2525);
+        // CMProposerAgent agent = new CMProposerAgent(map);
+        // agent.start();
     }
 
     public CMProposerAgent(Map<String, Object> map) {
@@ -142,10 +142,14 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+    protected void doRun() throws TupleSpaceException {
         while (status == Status.Running) {
             observer.setStatusText("Agent running");
-            sendAliveUpdate();
+            try {
+                sendAliveUpdate();
+            } catch (TupleSpaceException e1) {
+                e1.printStackTrace();
+            }
             Tuple returnTuple = commandSpace.waitToTake(new Tuple(String.class, "CMProposer", "cm proposal", String.class, String.class, Integer.class, String.class), AgentProtocol.COMMAND_EXPIRATION);
             if (returnTuple != null) {
                 observer.clearState();
@@ -401,14 +405,14 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (ontologyClouds.containsKey(stemmed)) {
                 for (String keyword : ontologyClouds.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.2);
-//                    System.out.println("cloud: " + keyword);
+                    // System.out.println("cloud: " + keyword);
                     observer.foundTextKeyword(term);
                 }
             }
             if (ontologySingleTerms.containsKey(stemmed)) {
                 for (String keyword : ontologySingleTerms.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.6);
-//                    System.out.println("ontology-stemmed: " + keyword);
+                    // System.out.println("ontology-stemmed: " + keyword);
                 }
                 observer.foundTextKeyword(term);
             }
@@ -417,11 +421,10 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (text.toLowerCase().contains(oTerm.toLowerCase())) {
                 keywords.put(oTerm.toLowerCase(), 1.0);
                 observer.foundTextKeyword(oTerm.toLowerCase());
-//                System.out.println("ontology-full: " + oTerm);
+                // System.out.println("ontology-full: " + oTerm);
             }
         }
-        
-        
+
         return keywords;
     }
 
@@ -527,16 +530,16 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                         }
                     }
                 }
-//                if (Arrays.binarySearch(strategies, EnrichmentStrategy.SUB) >= 0) {
-//                    String[] subClasses = con.getSubclassesOfClass(clazz, ontologyNamespace);
-//                    if (subClasses.length > 0 && subClasses[0].length() > 0) {
-//                        for (String sc : subClasses) {
-//                            if (terms.contains(sc.toLowerCase())) {
-//                                g.addNodeAndEdges(entity, "hasSubSibling", sc.toLowerCase());
-//                            }
-//                        }
-//                    }
-//                }
+                // if (Arrays.binarySearch(strategies, EnrichmentStrategy.SUB) >= 0) {
+                // String[] subClasses = con.getSubclassesOfClass(clazz, ontologyNamespace);
+                // if (subClasses.length > 0 && subClasses[0].length() > 0) {
+                // for (String sc : subClasses) {
+                // if (terms.contains(sc.toLowerCase())) {
+                // g.addNodeAndEdges(entity, "hasSubSibling", sc.toLowerCase());
+                // }
+                // }
+                // }
+                // }
             }
         }
     }
@@ -573,21 +576,21 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                 }
             }
         }
-//        if (Arrays.binarySearch(strategies, EnrichmentStrategy.RELATIONS) >= 0) {
-//            if (instances == null) {
-//                instances = con.getInstancesOfClass(entity, ontologyNamespace);
-//            }
-//            if (instances.length > 0 && instances[0].length() > 0) {
-//                for (String i : instances) {
-//                    String[][] propValues = con.getPropValuesOfInstance(i, ontologyNamespace);
-//                    for (String[] pv : propValues) {
-//                        if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
-//                            g.addNodeAndEdges(entity, "maybe " + pv[0], pv[1].toLowerCase());
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        // if (Arrays.binarySearch(strategies, EnrichmentStrategy.RELATIONS) >= 0) {
+        // if (instances == null) {
+        // instances = con.getInstancesOfClass(entity, ontologyNamespace);
+        // }
+        // if (instances.length > 0 && instances[0].length() > 0) {
+        // for (String i : instances) {
+        // String[][] propValues = con.getPropValuesOfInstance(i, ontologyNamespace);
+        // for (String[] pv : propValues) {
+        // if (pv != null && pv.length == 2 && terms.contains(pv[1].toLowerCase())) {
+        // g.addNodeAndEdges(entity, "maybe " + pv[0], pv[1].toLowerCase());
+        // }
+        // }
+        // }
+        // }
+        // }
         if (Arrays.binarySearch(strategies, EnrichmentStrategy.SIBLING) >= 0) {
             if (superClasses.length > 0 && superClasses[0].length() > 0) {
                 for (String sc : superClasses) {

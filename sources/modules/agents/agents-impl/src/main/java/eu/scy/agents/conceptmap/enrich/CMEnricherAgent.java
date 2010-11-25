@@ -43,10 +43,16 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+    protected void doRun(){
         while (status == Status.Running) {
-            sendAliveUpdate();
-            Thread.sleep(5000);
+            try {
+                Thread.sleep(5000);
+                sendAliveUpdate();
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
