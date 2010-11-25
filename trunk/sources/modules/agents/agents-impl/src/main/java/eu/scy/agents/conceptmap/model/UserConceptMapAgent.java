@@ -99,9 +99,13 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+    protected void doRun() throws TupleSpaceException, AgentLifecycleException {
         while (status == Status.Running) {
-            sendAliveUpdate();
+            try {
+                sendAliveUpdate();
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
             Tuple returnTuple = commandSpace.waitToTake(TEMPLATE_FOR_REQUEST_CONCEPT_MAP, AgentProtocol.COMMAND_EXPIRATION);
             if (returnTuple != null) {
                 commandSpace.write(generateResponse(returnTuple));
