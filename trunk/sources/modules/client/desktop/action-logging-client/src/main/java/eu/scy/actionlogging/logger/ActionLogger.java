@@ -13,73 +13,91 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.common.smack.SmacketExtension;
 import org.apache.log4j.Logger;
 
-public class ActionLogger /* extends ScyBaseDAOHibernate */implements
-		IActionLogger {
+public class ActionLogger implements IActionLogger {
 
-	private XMPPConnection connection;
-        private static Logger debugLogger = Logger.getLogger(ActionLogger.class.getName());
+    private XMPPConnection connection;
+    private static Logger debugLogger = Logger.getLogger(ActionLogger.class.getName());
+    private String missionRuntimeURI = null;
 
-	/**
-	 * simple constructor for an actionlogger
-	 * 
-	 * @param user
-	 *            user throwing actions (NOT! the tool)
-	 */
-	public ActionLogger() {
-		
-	}
+    /**
+     * simple constructor for an actionlogger
+     */
+    public ActionLogger() {
+    }
 
-	/**
-	 * logs an action
-	 * 
-	 * @param tool
-	 *            the tool throwing the action
-	 * @param action
-	 *            IAction thrown
-	 */
-	public void log(final IAction action) {
+    /**
+     * constructor for an actionlogger, setting the missionRuntimeURI
+     *
+     * @param missionRuntimeURI as string
+     */
+    public ActionLogger(String missionRuntimeURI) {
+        this.missionRuntimeURI = missionRuntimeURI;
+    }
 
-	    Runnable r = new Runnable() {
-                
-                @Override
-                public void run() {
-                    debugLogger.debug("logging "+action.getType()+"-action for tool "+action.getContext(ContextConstants.tool));
+    /**
+     * logs an action
+     *
+     * @param tool
+     *            the tool throwing the action
+     * @param action
+     *            IAction thrown
+     */
+    @Override
+    public void log(final IAction action) {
 
-                    Message packet = new Message();
+        Runnable r = new Runnable() {
 
-                    packet.setFrom(connection.getUser());
-                    packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+            @Override
+            public void run() {
+                debugLogger.debug("logging " + action.getType() + "-action for tool " + action.getContext(ContextConstants.tool));
 
-                    action.setUser(connection.getUser());
-                    // creating new instances of transformer instead of reusing because of racing conditions
-                    ActionPacketTransformer transformer = new ActionPacketTransformer();
-                    transformer.setObject(action);
+                Message packet = new Message();
 
-                    packet.addExtension(new SmacketExtension(transformer));
-                    connection.sendPacket(packet);
+                packet.setFrom(connection.getUser());
+                packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+                if (missionRuntimeURI != null) {
+                    action.addContext(ContextConstants.mission, missionRuntimeURI);
                 }
-            };
-            if (SwingUtilities.isEventDispatchThread()) {
-                Thread t = new Thread(r);
-                t.setDaemon(true);
-                t.start();
-	    } else {
-	        r.run();
-	    }
-	}
+                action.setUser(connection.getUser());
+                // creating new instances of transformer instead of reusing because of racing conditions
+                ActionPacketTransformer transformer = new ActionPacketTransformer();
+                transformer.setObject(action);
 
-	public void init(XMPPConnection connection) {
-		this.connection = connection;
-	}
+                packet.addExtension(new SmacketExtension(transformer));
+                connection.sendPacket(packet);
+            }
+        };
+        if (SwingUtilities.isEventDispatchThread()) {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.start();
+        } else {
+            r.run();
+        }
+    }
 
-	@Override
-	@Deprecated
-	public void log(String username, String source, IAction action) {
-		log(action);
-	}
-	
-	public String toString() {
-		return "eu.scy.actionlogging.logger.ActionLogger connected via XMPP to "+connection.getHost()+":"+connection.getPort();
-	}
+    public void init(XMPPConnection connection) {
+        this.connection = connection;
+    }
 
+    @Override
+    @Deprecated
+    public void log(String username, String source, IAction action) {
+        log(action);
+    }
+
+    @Override
+    public String toString() {
+        return "eu.scy.actionlogging.logger.ActionLogger connected via XMPP to " + connection.getHost() + ":" + connection.getPort();
+    }
+
+    @Override
+    public void setMissionRuntimeURI(String missionRuntimeURI) {
+        this.missionRuntimeURI = missionRuntimeURI;
+    }
+
+    @Override
+    public String getMissionRuntimeURI() {
+        return this.missionRuntimeURI;
+    }
 }

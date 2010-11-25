@@ -39,6 +39,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloToolConfigManage
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikkenj
@@ -149,6 +150,7 @@ public class ScyDesktopCreator {
          var basicConfig = springConfigFactory.getConfig() as BasicConfig;
          if (toolBrokerAPI != null) {
             basicConfig.setToolBrokerAPI(toolBrokerAPI);
+            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
          }
          config = basicConfig;
       }

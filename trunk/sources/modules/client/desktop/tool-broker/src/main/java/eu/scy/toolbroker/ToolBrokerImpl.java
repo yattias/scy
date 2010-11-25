@@ -207,6 +207,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		// ActionLogger
 		actionLogger = (IActionLogger) context.getBean("actionlogger");
 		((ActionLogger) actionLogger).init(xmppConnection);
+                actionLogger.setMissionRuntimeURI(this.missionRuntimeURI.toString());
+
 
 		// SessionManager (Up-to-date?)
 		sessionManager = (SessionManager) context.getBean("sessionManager");
@@ -531,7 +533,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
    @Override
    public void setMissionRuntimeURI(URI missionRuntimeURI)
    {
+      logger.info("setMissionRuntimeURI: "+missionRuntimeURI.toString());
       this.missionRuntimeURI = missionRuntimeURI;
+      actionLogger.setMissionRuntimeURI(missionRuntimeURI.toString());
    }
 
    @Override
