@@ -19,6 +19,7 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 
 
 /**
@@ -41,6 +42,7 @@ public mixin class ScyWindowControl {
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;
    public var repositoryWrapper:RepositoryWrapper;
+   public var eloConfigManager: EloConfigManager;
 
    protected def metadataTypeManager = tbi.getMetaDataTypeManager();
    protected def extensionManager = tbi.getExtensionManager();

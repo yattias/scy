@@ -35,10 +35,11 @@ public abstract class Drawer extends CustomNode {
    public var content: Node;
    public var activated = false; // TODO, make only changeable from (sub) package
    public var activate: function(): Void;
+   public var handleNumber = 0;
    def sideContentBorder = 5.0;
    def topContentBorder = 5.0;
    def bottomContentBorder = 5.0;
-   protected def handleOffset = topContentBorder + 2;
+   protected def handleOffset = topContentBorder + 2 + handleNumber*(closedSize+5);
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
    protected def closeControlSize = 10.0;
