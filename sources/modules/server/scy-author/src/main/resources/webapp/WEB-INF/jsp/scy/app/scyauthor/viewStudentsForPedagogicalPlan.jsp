@@ -4,7 +4,7 @@
 
         <h1>Assigned students for ${pedagogicalPlan.name}</h1>
 
-        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select students" extraParameters="id=${pedagogicalPlan.id}"/>
+        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select students" extraParameters="eloURI=${eloURI}"/>
 
         <c:choose>
             <c:when test="${fn:length(assignedPedagogicalPlans) > 0}">

@@ -12,6 +12,9 @@
                         <td>
                             ${las.toolTip}
                         </td>
+                        <td>
+                            ${las.missionAnchor}
+                        </td>
                     </tr>
 
                 </c:forEach>

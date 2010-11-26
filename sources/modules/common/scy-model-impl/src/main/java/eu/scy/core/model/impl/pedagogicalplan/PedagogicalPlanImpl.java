@@ -29,6 +29,7 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     private String overallSCYLabScaffoldingLevel= null;
     private String overallMissionContentScaffoldingLevel = null;
+    private String missionURI;
     private List anchorELOsToBePeerAssessed;
     private ImageRef assessmentScoreIcon;
 
@@ -116,5 +117,19 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
     @Override
     public void setAssessmentScoreIcon(ImageRef assessmentScoreIcon) {
         this.assessmentScoreIcon = assessmentScoreIcon;
+    }
+
+    /**
+     * the uri of the mission elo this plan is related to
+     * @return
+     */
+    @Override
+    public String getMissionURI() {
+        return missionURI;
+    }
+
+    @Override
+    public void setMissionURI(String missionURI) {
+        this.missionURI = missionURI;
     }
 }

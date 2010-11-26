@@ -33,4 +33,7 @@ public interface PedagogicalPlanPersistenceDAO extends SCYBaseDAO {
     public void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO);
 
     public List getAnchorELOs(PedagogicalPlan pedagogicalPlan);
+
+    PedagogicalPlan getOrCreatePedagogicalPlanFromURI(String missionURI);
+
 }

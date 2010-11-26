@@ -89,27 +89,17 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
     public void setGlobalMissionScaffoldingLevel(ScyElo scyElo, Object value) {
         if(value instanceof String ) value = Integer.valueOf((String) value);
         Integer scaffoldingLevel = (Integer) value;
+
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
         RuntimeSettingsElo runtimeSettingsElo = getRuntimeSettingsElo(missionSpecificationElo);
-        runtimeSettingsElo.getTypedContent().addSetting(globalMissionScaffoldingLevelKey, String.valueOf(scaffoldingLevel));
-        runtimeSettingsElo.updateElo();
+        ((RuntimeSettingsHelper)runtimeSettingsElo.getPropertyAccessor()).setScaffoldingLevel(scaffoldingLevel);
     }
 
     @Override
     public Integer getGlobalMissionScaffoldingLevel(ScyElo scyElo) {
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
         RuntimeSettingsElo elo = getRuntimeSettingsElo(missionSpecificationElo);
-        List <RuntimeSetting> settings = elo.getTypedContent().getAllSettings();
-        String stringLevel = null;
-        for (int i = 0; i < settings.size(); i++) {
-            RuntimeSetting runtimeSetting = settings.get(i);
-            log.info("---> " + runtimeSetting.getKey().getName() + "::: " + runtimeSetting.getValue());
-            if(runtimeSetting.getKey().getName().equals(GLOBAL_MISSION_SCAFFOLDING_LEVEL)) stringLevel = runtimeSetting.getValue();
-        }
-
-        if(stringLevel == null) return 0;
-
-        return new Integer(stringLevel);
+        return ((RuntimeSettingsHelper)elo.getPropertyAccessor()).getScaffoldingLevel();
     }
 
     @Override
@@ -130,9 +120,11 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
     }
 
     public List getMissionSpecificationsByAuthor(String author) {
-        final IMetadataKey authorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        return getMissionSpecifications();
+        /*final IMetadataKey authorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
         IQuery missionSpecificationQuery = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, author);
         return getELOs(missionSpecificationQuery);
+        */
     }
 
     public IMetadataKey getAuthorKey() {

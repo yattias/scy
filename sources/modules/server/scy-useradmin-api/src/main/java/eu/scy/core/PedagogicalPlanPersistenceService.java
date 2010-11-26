@@ -45,4 +45,6 @@ public interface PedagogicalPlanPersistenceService extends BaseService{
     void addAnchorEloToPedagogicalPlan(PedagogicalPlan pedagogicalPlan, AnchorELO anchorELO);
 
     public <AnchorELO> List getAnchorELOs(PedagogicalPlan pedagogicalPlan);
+
+    PedagogicalPlan getOrCreatePedagogicalPlanFromURI(String missionURI);
 }

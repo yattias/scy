@@ -7,6 +7,7 @@ package eu.scy.common.mission.impl;
 import java.net.URI;
 
 import eu.scy.common.mission.MissionRuntimeEloContent;
+import eu.scy.common.mission.RuntimeSettingsElo;
 
 /**
  * 
@@ -90,4 +91,6 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
    {
       this.runtimeSettingsEloUri = runtimeSettingsEloUri;
    }
+
+
 }

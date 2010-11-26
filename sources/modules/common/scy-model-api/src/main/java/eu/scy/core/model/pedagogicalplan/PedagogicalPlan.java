@@ -42,4 +42,8 @@ public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
     ImageRef getAssessmentScoreIcon();
 
     void setAssessmentScoreIcon(ImageRef assessmentScoreIcon);
+
+    String getMissionURI();
+
+    void setMissionURI(String missionURI);
 }
