@@ -36,10 +36,11 @@ public abstract class Drawer extends CustomNode {
    public var activated = false; // TODO, make only changeable from (sub) package
    public var activate: function(): Void;
    public var handleNumber = 0;
+   public var otherDrawers:Drawer[];
    def sideContentBorder = 5.0;
    def topContentBorder = 5.0;
    def bottomContentBorder = 5.0;
-   protected def handleOffset = topContentBorder + 2 + handleNumber*(closedSize+5);
+   protected def handleOffset = topContentBorder + 2 + handleNumber*(closedSize+3*borderSize+0);
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
    protected def closeControlSize = 10.0;
@@ -207,6 +208,13 @@ public abstract class Drawer extends CustomNode {
       var openFactor = 0.0;
       var animationInterpolation = Interpolator.EASEBOTH;
       if (opened) {
+         this.toBack();
+         for (otherDrawer in otherDrawers){
+            if (otherDrawer!=this){
+               otherDrawer.opened = false;
+            }
+         }
+
          contentContainer.content = contentGroup;
          // after the first show of the content, fx content resizes to a "smaller content"
          // give it back the original size

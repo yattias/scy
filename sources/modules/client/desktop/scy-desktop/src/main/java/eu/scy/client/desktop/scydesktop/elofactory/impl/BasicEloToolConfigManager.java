@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class BasicEloToolConfigManager implements EloConfigManager {
 
-   private EloToolConfigsEloContent eloToolConfigsEloContent;
+   private final EloToolConfigsEloContent eloToolConfigsEloContent;
    private Set<String> debugCreatorIds = new HashSet<String>();
    private boolean debug = false;
 
@@ -72,4 +72,5 @@ public class BasicEloToolConfigManager implements EloConfigManager {
    {
       this.debug = debug;
    }
+
 }

@@ -68,7 +68,7 @@ var openWindow = CombinedWindowElements{
    bottomDrawerTool:ResizableRulerRectangle {
       preferredWidth: 100, preferredHeight: 120
    }
-   leftDrawerTool:ResizableRulerRectangle {
+   leftDrawerTools:ResizableRulerRectangle {
       preferredWidth: 100, preferredHeight: 100
    }
    layoutX: 150

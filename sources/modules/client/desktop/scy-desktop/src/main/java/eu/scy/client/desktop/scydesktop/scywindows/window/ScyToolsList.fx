@@ -28,7 +28,7 @@ public class ScyToolsList extends ScyTool {
    public var topDrawerTool: Node on replace { buildToolList() };
    public var rightDrawerTool: Node on replace { buildToolList() };
    public var bottomDrawerTool: Node on replace { buildToolList() };
-   public var leftDrawerTool: Node on replace { buildToolList() };
+   public var leftDrawerTools: Node[] on replace { buildToolList() };
    public var actionLoggerTool: Node on replace { buildToolList() };
    var scyToolList: ScyTool[];
 
@@ -38,10 +38,17 @@ public class ScyToolsList extends ScyTool {
       insertIfScyTool(topDrawerTool);
       insertIfScyTool(rightDrawerTool);
       insertIfScyTool(bottomDrawerTool);
-      insertIfScyTool(leftDrawerTool);
+      insertIfScyTool(leftDrawerTools);
       insertIfScyTool(actionLoggerTool);
    //      logger.info("nr of scyTools {sizeof scyToolList}");
    }
+
+   function insertIfScyTool(nodes: Node[]): Void {
+      for (node in nodes){
+         insertIfScyTool(node)
+      }
+   }
+
 
    function insertIfScyTool(node: Node): Void {
       //      logger.info("insertIfScyTool({node.getClass()})");

@@ -53,6 +53,22 @@
 <content languageIndependent="true" contentType="xml">
 <eloToolConfigs>
   <eloToolConfig>
+    <eloType>defaultEloToolConfig</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
+    <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer xmlViewer</leftDrawerCreatorId>
+    <isContentCollaboration>false</isContentCollaboration>
+    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
+    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
+    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
+    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
+    <isContentStatic>false</isContentStatic>
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/test</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>test</contentCreatorId>
@@ -107,15 +123,6 @@
     <eloType>scy/text</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>text</contentCreatorId>
-    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
-    <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
     <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>structuredText</eloLogicalRole>

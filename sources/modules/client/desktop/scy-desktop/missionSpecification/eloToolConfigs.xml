@@ -9,6 +9,13 @@
       <constructor-arg>
          <list value-type="eu.scy.common.mission.EloToolConfig">
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="defaultEloToolConfig"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/test"/>
                <property name="contentCreatorId" value="test"/>
                <property name="topDrawerCreatorId" value="xmlViewer"/>
@@ -30,11 +37,7 @@
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/text"/>
                <property name="contentCreatorId" value="text"/>
-               <property name="topDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
-               <property name="eloLogicalRoleValues">
+                <property name="eloLogicalRoleValues">
                   <list>
                      <value>structured_Text</value>
                      <value>rich_Text</value>

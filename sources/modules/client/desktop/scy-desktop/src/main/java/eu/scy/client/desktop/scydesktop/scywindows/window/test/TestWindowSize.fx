@@ -60,7 +60,7 @@ var window1 = StandardScyWindow{
       xSize: 100
       ySize: 100
    }
-   leftDrawerTool:RulerRectangle {
+   leftDrawerTools:RulerRectangle {
       xSize: 100
       ySize: 100
    }
@@ -99,7 +99,7 @@ var window2 = StandardScyWindow{
       minimumWidth:100
       minimumHeight:70
    }
-   leftDrawerTool:ResizableRulerRectangle{
+   leftDrawerTools:ResizableRulerRectangle{
       preferredWidth:preferredDrawerWidth
       preferredHeight:preferredDrawerHeight
       minimumWidth:100

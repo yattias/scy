@@ -55,6 +55,7 @@
   <missionMapModelEloUri>roolo://memory/5/0/testMission1.scymissionmapmodel</missionMapModelEloUri>
   <eloToolConfigsEloUri>roolo://memory/6/0/testMission1.scyelotoolconfiguration</eloToolConfigsEloUri>
   <templateElosEloUri>roolo://memory/7/0/testMission1.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/9/0/Lege+missie.runtimesettings</runtimeSettingsEloUri>
 </missionSpeicification>
 </content>
 <resources>
