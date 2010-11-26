@@ -66,7 +66,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		}
 	}
 
-	private static final Logger logger = Logger
+	private static final Logger LOGGER = Logger
 			.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
 
 	static final String NAME = ExtractKeywordsDecisionMakerAgent.class
@@ -141,7 +141,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			this.getActionSpace().eventDeRegister(this.listenerId);
 			this.listenerId = -1;
 		} catch (TupleSpaceException e) {
-			logger.fatal("Could not deregister tuple space listener: "
+			LOGGER.fatal("Could not deregister tuple space listener: "
 					+ e.getMessage());
 		}
 	}
@@ -156,7 +156,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	public void call(Command command, int seq, Tuple afterTuple,
 			Tuple beforeTuple) {
 		if (this.listenerId != seq) {
-			logger.debug("Callback passed to Superclass.");
+			LOGGER.debug("Callback passed to Superclass.");
 			super.call(command, seq, afterTuple, beforeTuple);
 			return;
 		} else {
@@ -183,13 +183,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 	private void handleELOLoaded(IAction action) {
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(WEBRESOURCER + " elo loaded "
+			LOGGER.debug(WEBRESOURCER + " elo loaded "
 					+ action.getContext(ContextConstants.eloURI));
 			ContextInformation contextInfo = this.getContextInformation(action);
 			contextInfo.lastAction = action.getTimeInMillis();
 			String eloUri = action.getContext(ContextConstants.eloURI);
 			if (eloUri.startsWith(UNSAVED_ELO)) {
-				logger.warn("eloUri not present");
+				LOGGER.warn("eloUri not present");
 				contextInfo.webresourcerELO = null;
 			} else {
 				try {
@@ -203,13 +203,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	}
 
 	private void handleNodeRemoved(IAction action) {
-		logger.info("node_removed");
+		LOGGER.debug("node_removed");
 		ContextInformation contextInfo = this.getContextInformation(action);
 		contextInfo.numberOfConcepts--;
 	}
 
 	private void handleNodeAdded(IAction action) {
-		logger.info("node_added");
+		LOGGER.debug("node_added");
 		ContextInformation contextInfo = this.getContextInformation(action);
 		contextInfo.numberOfConcepts++;
 		contextInfo.lastAction = action.getTimeInMillis();
@@ -218,11 +218,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	private void handleToolStopped(IAction action) {
 		ContextInformation contextInfo = this.getContextInformation(action);
 		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(CONCEPTMAP + " stopped");
+			LOGGER.debug(CONCEPTMAP + " stopped");
 			contextInfo.scyMapperStarted = false;
 		}
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(WEBRESOURCER + " stopped");
+			LOGGER.debug(WEBRESOURCER + " stopped");
 			contextInfo.webresourcerStarted = false;
 		}
 		contextInfo.lastAction = action.getTimeInMillis();
@@ -231,12 +231,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	private void handleToolStarted(IAction action) {
 		ContextInformation contextInfo = this.getContextInformation(action);
 		if (CONCEPTMAP.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(CONCEPTMAP + " started by " + action.getUser()
+			LOGGER.debug(CONCEPTMAP + " started by " + action.getUser()
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
 			contextInfo.scyMapperStarted = true;
 		}
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
-			logger.info(WEBRESOURCER + " started  by " + action.getUser()
+			LOGGER.debug(WEBRESOURCER + " started  by " + action.getUser()
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
 			try {
 				contextInfo.webresourcerELO = new URI(action
@@ -275,7 +275,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				for (String user : users) {
 					ContextInformation contextInformation = this.user2Context
 							.get(user);
-					logger.info(contextInformation);
+					LOGGER.debug(contextInformation);
 					if (this.userNeedsToBeNotified(currentTime,
 							contextInformation)) {
 						this.notifyUser(currentTime, user, contextInformation);
@@ -288,22 +288,18 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				for (String user : toRemove) {
 					this.user2Context.remove(user);
 				}
-				logger.debug("Sending Alive-Tuple");
+				LOGGER.debug("Sending Alive-Tuple");
 				this.sendAliveUpdate();
+				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
 			}
 		} catch (Exception e) {
-			logger.fatal("*************** " + e.getMessage());
+			LOGGER.fatal("*************** " + e.getMessage());
 			e.printStackTrace();
 			throw new AgentLifecycleException(e.getMessage(), e);
 		}
 		if (this.status != Status.Stopping) {
-			logger
+			LOGGER
 					.warn("************** Agent not stopped but run loop terminated *****************1");
-		}
-		try {
-			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -322,16 +318,16 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 			@Override
 			public void run() {
-				logger.info("Notifiying " + user);
+				LOGGER.debug("Notifiying " + user);
 				IELO elo = getELO(contextInformation);
 				if (elo == null) {
-					logger.fatal("ELO " + contextInformation.webresourcerELO
+					LOGGER.fatal("ELO " + contextInformation.webresourcerELO
 							+ " was null");
 					return;
 				}
 				List<String> keywords = extractor.getKeywords(elo);
 
-				logger.info("found keywords to send to " + user + ": "
+				LOGGER.debug("found keywords to send to " + user + ": "
 						+ keywords);
 				ExtractKeywordsDecisionMakerAgent.this.sendNotification(
 						contextInformation, keywords);
@@ -339,10 +335,10 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			}
 
 			private IELO getELO(final ContextInformation contextInformation) {
-				logger.info("Getting elo: "
+				LOGGER.debug("Getting elo: "
 						+ contextInformation.webresourcerELO);
 				if (ExtractKeywordsDecisionMakerAgent.this.repository == null) {
-					logger.fatal("repository is null");
+					LOGGER.fatal("repository is null");
 					return null;
 				}
 				IELO elo = ExtractKeywordsDecisionMakerAgent.this.repository
@@ -367,7 +363,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				contextInformation.mission, contextInformation.user,
 				MINIMUM_NUMBER_OF_CONCEPTS);
 
-		logger.debug(timeSinceLastAction + " : " + idleTimeInMS);
+		LOGGER.debug(timeSinceLastAction + " : " + idleTimeInMS);
 		userNeedsToBeNotified &= timeSinceLastAction > idleTimeInMS;
 		userNeedsToBeNotified &= contextInformation.numberOfConcepts < minimumNumberOfConcepts;
 		userNeedsToBeNotified &= contextInformation.webresourcerELO != null;
@@ -424,7 +420,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 	@Override
 	public void setRepository(IRepository rep) {
-		logger.debug("Setting repository ");
+		LOGGER.debug("Setting repository ");
 		this.repository = rep;
 	}
 }
