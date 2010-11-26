@@ -1,41 +1,20 @@
-package eu.scy.agents.groupformation.strategies;
+package eu.scy.agents.groupformation.strategies.features;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.rmi.dgc.VMID;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
-import roolo.elo.api.IELO;
-import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class SameLanguageStrategy implements GroupFormationStrategy {
+public class LanguageFeatureExtractor implements FeatureExtractor {
 
 	private TupleSpace commandSpace;
-
-	@Override
-	public List<String> formGroup(IELO elo, String mission, String user) {
-		String language = getLanguage(mission, user);
-		List<String> availableUsers = getAvailableUsers(mission);
-
-		List<String> result = new ArrayList<String>();
-		for (String availableUser : availableUsers) {
-			String languageOfOtherUsers = getLanguage(mission, availableUser);
-			if (language.equals(languageOfOtherUsers)) {
-				result.add(availableUser);
-			}
-		}
-		return result;
-	}
-
-	// TODO implement
-	private List<String> getAvailableUsers(String mission) {
-		return Collections.emptyList();
-	}
 
 	private String getLanguage(String mission, String user) {
 		String queryId = new VMID().toString();
@@ -55,6 +34,21 @@ public class SameLanguageStrategy implements GroupFormationStrategy {
 	}
 
 	@Override
+	public Map<String, Double> getFeatures(Set<String> availableUsers,
+			String mission) {
+		Map<String, Integer> languageAlphabet = new HashMap<String, Integer>();
+		Map<String, Double> results = new LinkedHashMap<String, Double>();
+		for (String user : availableUsers) {
+			String language = getLanguage(mission, user);
+			if (!languageAlphabet.containsKey(language)) {
+				languageAlphabet.put(language, languageAlphabet.size());
+			}
+			results.put(user, (double) languageAlphabet.get(language));
+		}
+		return results;
+	}
+
+	@Override
 	public TupleSpace getCommandSpace() {
 		return commandSpace;
 	}
@@ -63,4 +57,5 @@ public class SameLanguageStrategy implements GroupFormationStrategy {
 	public void setCommandSpace(TupleSpace commandSpace) {
 		this.commandSpace = commandSpace;
 	}
+
 }
