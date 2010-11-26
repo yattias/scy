@@ -2,16 +2,25 @@ package eu.scy.agents.groupformation;
 
 import info.collide.sqlspaces.client.TupleSpace;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 import roolo.elo.api.IELO;
 
 public interface GroupFormationStrategy {
 
-	public List<String> formGroup(IELO elo, String mission, String user);
+	public Collection<Set<String>> formGroup(IELO elo);
 
 	public void setCommandSpace(TupleSpace commandSpace);
 
-	public TupleSpace getCommandSpace();
+	public void setGroupFormationCache(GroupFormationCache groupFormationCache);
+
+	public void setScope(String scope);
+
+	public void setMission(String mission);
+
+	public void setMinimumGroupSize(int minGroupSize);
+
+	public void setMaximumGroupSize(int maxGroupSize);
 
 }
