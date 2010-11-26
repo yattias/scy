@@ -183,8 +183,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 	private void handleELOLoaded(IAction action) {
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
-			LOGGER.debug(WEBRESOURCER + " elo loaded "
-					+ action.getContext(ContextConstants.eloURI));
 			ContextInformation contextInfo = this.getContextInformation(action);
 			contextInfo.lastAction = action.getTimeInMillis();
 			String eloUri = action.getContext(ContextConstants.eloURI);
@@ -275,7 +273,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				for (String user : users) {
 					ContextInformation contextInformation = this.user2Context
 							.get(user);
-					LOGGER.debug(contextInformation);
 					if (this.userNeedsToBeNotified(currentTime,
 							contextInformation)) {
 						this.notifyUser(currentTime, user, contextInformation);
@@ -288,7 +285,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				for (String user : toRemove) {
 					this.user2Context.remove(user);
 				}
-				LOGGER.debug("Sending Alive-Tuple");
 				this.sendAliveUpdate();
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
 			}
@@ -335,8 +331,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			}
 
 			private IELO getELO(final ContextInformation contextInformation) {
-				LOGGER.debug("Getting elo: "
-						+ contextInformation.webresourcerELO);
 				if (ExtractKeywordsDecisionMakerAgent.this.repository == null) {
 					LOGGER.fatal("repository is null");
 					return null;
