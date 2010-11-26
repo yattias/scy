@@ -141,6 +141,7 @@ CREATE TABLE `pedagogicalplan` (
 	`pedtype` varchar(250) default NULL,
 	`overallSCYLabScaffoldingLevel` varchar(250) default '1',
 	`overallMissionContentScaffoldingLevel` varchar(250) default '1',	
+	`missionURI` varchar(250) default NULL,	
 	`description` text,
 	`published` tinyint(1) default 0,
 	`maximumNumberOfAnchorELOsInPortfolio` tinyint(2) default 0,
