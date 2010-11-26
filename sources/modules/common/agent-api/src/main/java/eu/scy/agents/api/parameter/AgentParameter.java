@@ -8,6 +8,7 @@ public class AgentParameter {
 	private String user;
 	private String parameterName;
 	private Object parameterValue;
+
 	private String las;
 	private URI eloUri;
 
@@ -16,6 +17,20 @@ public class AgentParameter {
 		user = null;
 		parameterName = null;
 		parameterValue = null;
+	}
+
+	public AgentParameter(String mission, String parameterName) {
+		this.mission = mission;
+		this.user = null;
+		this.parameterName = parameterName;
+		this.parameterValue = null;
+	}
+
+	public AgentParameter(String mission, String user, String parameterName) {
+		this.mission = mission;
+		this.user = user;
+		this.parameterName = parameterName;
+		this.parameterValue = null;
 	}
 
 	public String getMission() {

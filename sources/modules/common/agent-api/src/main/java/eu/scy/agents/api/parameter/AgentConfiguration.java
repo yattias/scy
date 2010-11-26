@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * specific parameter is returned and so on. So every agent should have default
  * parameters.
  * 
- * This class should be thread safe but it wasn't thoroughly tested.
  * 
  * @author Florian Schulz
  * 
@@ -274,14 +273,14 @@ public class AgentConfiguration {
 	public <T> T getParameter(AgentParameter parameter) {
 		if (parameter.getMission() != null) {
 			if (parameter.getUser() != null) {
-				return (T) getParameter(parameter.getMission(),
-						parameter.getUser(), parameter.getParameterName());
+				return (T) getParameter(parameter.getMission(), parameter
+						.getUser(), parameter.getParameterName());
 			} else {
-				return (T)getParameter(parameter.getMission(), parameter
+				return (T) getParameter(parameter.getMission(), parameter
 						.getParameterName());
 			}
 		} else {
-			return (T)getParameter(parameter.getParameterName());
+			return (T) getParameter(parameter.getParameterName());
 		}
 	}
 }
