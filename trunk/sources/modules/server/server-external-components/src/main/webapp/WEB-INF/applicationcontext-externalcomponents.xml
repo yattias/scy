@@ -77,6 +77,8 @@
 				<ref bean="keywordsDecisionMaker" />
 				<ref bean="addKeywordsToMetadataAgent" />
 				<ref bean="notifyUserAgent" />
+				<ref bean="hypothesisDecisionAgent" />
+				<ref bean="hypothesisEvalAgent" />
 			</set>
 		</property>
 		<property name="repository">
