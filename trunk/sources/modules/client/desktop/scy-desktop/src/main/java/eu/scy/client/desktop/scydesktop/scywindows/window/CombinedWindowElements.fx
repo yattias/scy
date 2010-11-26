@@ -75,7 +75,7 @@ public class CombinedWindowElements  extends ScyWindow {
    public override var topDrawerTool on replace {setTopDrawer()};
    public override var rightDrawerTool on replace {setRightDrawer()};
    public override var bottomDrawerTool on replace {setBottomDrawer()};
-   public override var leftDrawerTool on replace {setLeftDrawer()};
+   public override var leftDrawerTools on replace {setLeftDrawer()};
 
    var emptyWindow:EmptyWindow;
    var contentElement: WindowContent;
@@ -215,14 +215,14 @@ public class CombinedWindowElements  extends ScyWindow {
          delete leftDrawer from drawerGroup.content;
          leftDrawer = null;
       }
-      if (leftDrawerTool!=null){
+      if (sizeof leftDrawerTools>0){
          leftDrawer = LeftDrawer{
             windowColorScheme:windowColorScheme
 //            color:bind drawerColor;
 //            highliteColor:controlColor;
 //            closedStrokeWidth:controlStrokeWidth;
 //            closedSize:bind height-2*drawerCornerOffset;
-            content:leftDrawerTool;
+            content:leftDrawerTools[0];
             activated:bind activated;
 //            activate: activate;
             layoutX:0;

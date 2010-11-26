@@ -88,14 +88,10 @@ import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
-import eu.scy.common.mission.RuntimeSettingsElo;
-import eu.scy.common.mission.impl.MissionRuntimeSettingsManager;
-import java.util.HashSet;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettingsRetriever;
-import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.EloFunctionalRole;
-import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.RuntimeSettingsManager;
+import java.util.StringTokenizer;
 
 /**
  * @author sikkenj
@@ -574,7 +570,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //    }
    function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
       logger.info("realFillNewScyWindow2({window.eloUri},{collaboration})");
-//      def eloConfig = eloConfigManager.getEloToolConfig(window.eloType);
+      //      def eloConfig = eloConfigManager.getEloToolConfig(window.eloType);
       def eloConfig = window.eloToolConfig;
       if (eloConfig == null) {
          logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
@@ -607,7 +603,13 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
       }
       if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
-         scyToolsList.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         if (eloConfig.getLeftDrawerCreatorId() != null) {
+            def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
+            while (creatorTokenizer.hasMoreTokens()) {
+               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
+
+            };
+         }
       }
 
       // all tools are created and placed in the window
@@ -673,8 +675,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             window.openDrawer("bottom");
          }
       }
-      if (scyToolsList.leftDrawerTool != null) {
-         window.leftDrawerTool = scyToolsList.leftDrawerTool;
+      if (scyToolsList.leftDrawerTools != null) {
+         window.leftDrawerTools = scyToolsList.leftDrawerTools;
          if (collaboration) {
             window.openDrawer("left");
          }

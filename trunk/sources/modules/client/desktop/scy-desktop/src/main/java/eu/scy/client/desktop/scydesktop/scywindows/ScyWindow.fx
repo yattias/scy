@@ -75,7 +75,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
    public var topDrawerTool:Node;
    public var rightDrawerTool:Node;
    public var bottomDrawerTool:Node;
-   public var leftDrawerTool:Node;
+   public var leftDrawerTools:Node[];
 
    public var scyToolsList: ScyToolsList;
 
