@@ -3,6 +3,7 @@ package eu.scy.common.mission;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import eu.scy.common.mission.impl.RuntimeSettingsHelperImpl;
 import roolo.elo.api.IELO;
 import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
 import eu.scy.common.mission.impl.jdom.RuntimeSettingsEloContentXmlUtils;
@@ -11,7 +12,7 @@ import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyEloContentCreator;
 
-public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloContent>
+public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloContent> implements PropertyAccessorProvider
 {
 
    private static class RuntimeSettingsEloContentCreator implements
@@ -44,6 +45,10 @@ public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloCon
                   RuntimeSettingsEloContentXmlUtils.runtimeSettingsToXml(scyElo.getTypedContent()));
       }
    }
+
+    public PropertyAccessor getPropertyAccessor() {
+        return new RuntimeSettingsHelperImpl(getTypedContent(), this);    
+    }
 
    private static final RuntimeSettingsEloContentCreator runtimeSettingsEloContentCreator = new RuntimeSettingsEloContentCreator();
 

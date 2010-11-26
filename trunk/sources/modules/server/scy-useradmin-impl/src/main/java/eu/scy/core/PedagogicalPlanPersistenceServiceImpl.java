@@ -85,4 +85,10 @@ public class PedagogicalPlanPersistenceServiceImpl extends BaseServiceImpl imple
     public <AnchorELO> List getAnchorELOs(PedagogicalPlan pedagogicalPlan) {
         return getPedagogicalPlanPersistenceDAO().getAnchorELOs(pedagogicalPlan);
     }
+
+    @Override
+    @Transactional
+    public PedagogicalPlan getOrCreatePedagogicalPlanFromURI(String missionURI) {
+        return getPedagogicalPlanPersistenceDAO().getOrCreatePedagogicalPlanFromURI(missionURI);
+    }
 }

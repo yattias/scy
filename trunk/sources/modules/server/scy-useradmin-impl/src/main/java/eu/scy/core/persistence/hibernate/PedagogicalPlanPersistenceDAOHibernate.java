@@ -4,7 +4,7 @@ import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanAnchorEloConnection
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -118,6 +118,23 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
         return getSession().createQuery("select connection.anchorELO from PedagogicalPlanAnchorEloConnectionImpl as connection where connection.pedagogicalPlan = :pedagogicalPlan")
                 .setEntity("pedagogicalPlan", pedagogicalPlan)
                 .list();
+    }
+
+    @Override
+    public PedagogicalPlan getOrCreatePedagogicalPlanFromURI(String missionURI) {
+        PedagogicalPlan pedPlan = (PedagogicalPlan) getSession().createQuery("from PedagogicalPlanImpl where missionURI like :missionURI")
+                .setString("missionURI", missionURI)
+                .uniqueResult();
+
+        if(pedPlan  == null) {
+            logger.info("DID NOT FIND A PLAN - CREATING ONE!!!");
+            pedPlan = new PedagogicalPlanImpl();
+            pedPlan.setMissionURI(missionURI);
+            save(pedPlan);
+        }
+
+        return pedPlan;
+
     }
 
 }
