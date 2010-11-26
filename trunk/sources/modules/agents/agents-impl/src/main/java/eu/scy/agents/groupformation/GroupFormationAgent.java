@@ -120,10 +120,12 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 					.getActionFromTuple(afterTuple);
 			String mission = action.getContext(ContextConstants.mission);
 
-			int minGroupSize = configuration.getParameter(new AgentParameter(
-					mission, MIN_GROUP_SIZE_PARAMETER));
-			int maxGroupSize = configuration.getParameter(new AgentParameter(
-					mission, MAX_GROUP_SIZE_PARAMETER));
+			int minGroupSize = (Integer) configuration
+					.getParameter(new AgentParameter(mission,
+							MIN_GROUP_SIZE_PARAMETER));
+			int maxGroupSize = (Integer) configuration
+					.getParameter(new AgentParameter(mission,
+							MAX_GROUP_SIZE_PARAMETER));
 
 			String eloUri = action.getContext(ContextConstants.eloURI);
 			IELO elo = getElo(eloUri);
