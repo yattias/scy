@@ -2,6 +2,7 @@ package eu.scy.common.mission.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import roolo.api.search.AndQuery;
@@ -46,6 +47,7 @@ public class BasicMissionManagement implements MissionManagement
    private final IMetadataKey technicalFormatKey;
    private final IMetadataKey missionRunningKey;
    private final IMetadataKey containsAssignmentEloKey;
+   private final IMetadataKey missionSpecificationEloKey;
 
    public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
             RooloServices rooloServices)
@@ -56,6 +58,7 @@ public class BasicMissionManagement implements MissionManagement
       technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
       containsAssignmentEloKey = findMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO);
+      missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
    }
 
    private final IMetadataKey findMetadataKey(IMetadataKeyIdDefinition id)
@@ -306,6 +309,27 @@ public class BasicMissionManagement implements MissionManagement
          }
       }
       return null;
+   }
+
+   @Override
+   public List<MissionRuntimeModel> getAllMissionRuntimeModels()
+   {
+      IQuery missionRuntimeQuery = new BasicMetadataQuery(technicalFormatKey,
+               BasicSearchOperations.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
+      IQuery missionSpecifiactionQuery = new BasicMetadataQuery(missionSpecificationEloKey,
+               BasicSearchOperations.EQUALS, missionSpecificationElo.getUri());
+      IQuery allMissionRuntimesQuery = new AndQuery(missionRuntimeQuery, missionSpecifiactionQuery);
+      List<ISearchResult> missionRuntimeResults = rooloServices.getRepository().search(
+               allMissionRuntimesQuery);
+      List<MissionRuntimeModel> allMissionRuntimeModels = new ArrayList<MissionRuntimeModel>();
+      for (ISearchResult searchResult : missionRuntimeResults)
+      {
+         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(searchResult.getUri(),
+                  rooloServices);
+         allMissionRuntimeModels.add(new BasicMissionRuntimeModel(missionRuntimeElo,
+                  missionSpecificationElo, rooloServices));
+      }
+      return allMissionRuntimeModels;
    }
 
 }
