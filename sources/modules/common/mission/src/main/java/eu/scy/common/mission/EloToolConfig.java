@@ -26,13 +26,13 @@ public interface EloToolConfig {
    public String getBottomDrawerCreatorId();
    public String getLeftDrawerCreatorId();
 
-   public boolean isContentCollaboration();
-   public boolean isTopDrawerCollaboration();
-   public boolean isRightDrawerCollaboration();
-   public boolean isBottomDrawerCollaboration();
-   public boolean isLeftDrawerCollaboration();
+   public Boolean isContentCollaboration();
+   public Boolean isTopDrawerCollaboration();
+   public Boolean isRightDrawerCollaboration();
+   public Boolean isBottomDrawerCollaboration();
+   public Boolean isLeftDrawerCollaboration();
 
-   public boolean isContentStatic();
+   public Boolean isContentStatic();
 
    public List<EloLogicalRole> getEloLogicalRoles();
    public List<EloFunctionalRole> getEloFunctionalRoles();

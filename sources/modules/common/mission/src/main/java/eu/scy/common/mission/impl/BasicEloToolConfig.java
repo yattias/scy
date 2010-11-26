@@ -27,12 +27,12 @@ public class BasicEloToolConfig implements EloToolConfig {
    private String rightDrawerCreatorId;
    private String bottomDrawerCreatorId;
    private String leftDrawerCreatorId;
-   private boolean contentCollaboration = false;
-   private boolean topDrawerCollaboration = false;
-   private boolean rightDrawerCollaboration = false;
-   private boolean bottomDrawerCollaboration = false;
-   private boolean leftDrawerCollaboration = false;
-   private boolean contentStatic = false;
+   private Boolean contentCollaboration;
+   private Boolean topDrawerCollaboration;
+   private Boolean rightDrawerCollaboration;
+   private Boolean bottomDrawerCollaboration;
+   private Boolean leftDrawerCollaboration;
+   private Boolean contentStatic;
    private List<EloLogicalRole> eloLogicalRoles;
    private List<EloFunctionalRole> eloFunctionalRoles;
 
@@ -166,56 +166,56 @@ public class BasicEloToolConfig implements EloToolConfig {
    }
 
    @Override
-   public boolean isBottomDrawerCollaboration()
+   public Boolean isBottomDrawerCollaboration()
    {
       return bottomDrawerCollaboration;
    }
 
-   public void setBottomDrawerCollaboration(boolean bottomDrawerCollaboration)
+   public void setBottomDrawerCollaboration(Boolean bottomDrawerCollaboration)
    {
       this.bottomDrawerCollaboration = bottomDrawerCollaboration;
    }
 
    @Override
-   public boolean isContentCollaboration()
+   public Boolean isContentCollaboration()
    {
       return contentCollaboration;
    }
 
-   public void setContentCollaboration(boolean contentCollaboration)
+   public void setContentCollaboration(Boolean contentCollaboration)
    {
       this.contentCollaboration = contentCollaboration;
    }
 
    @Override
-   public boolean isLeftDrawerCollaboration()
+   public Boolean isLeftDrawerCollaboration()
    {
       return leftDrawerCollaboration;
    }
 
-   public void setLeftDrawerCollaboration(boolean leftDrawerCollaboration)
+   public void setLeftDrawerCollaboration(Boolean leftDrawerCollaboration)
    {
       this.leftDrawerCollaboration = leftDrawerCollaboration;
    }
 
    @Override
-   public boolean isRightDrawerCollaboration()
+   public Boolean isRightDrawerCollaboration()
    {
       return rightDrawerCollaboration;
    }
 
-   public void setRightDrawerCollaboration(boolean rightDrawerCollaboration)
+   public void setRightDrawerCollaboration(Boolean rightDrawerCollaboration)
    {
       this.rightDrawerCollaboration = rightDrawerCollaboration;
    }
 
    @Override
-   public boolean isTopDrawerCollaboration()
+   public Boolean isTopDrawerCollaboration()
    {
       return topDrawerCollaboration;
    }
 
-   public void setTopDrawerCollaboration(boolean topDrawerCollaboration)
+   public void setTopDrawerCollaboration(Boolean topDrawerCollaboration)
    {
       this.topDrawerCollaboration = topDrawerCollaboration;
    }
@@ -252,13 +252,13 @@ public class BasicEloToolConfig implements EloToolConfig {
       this.eloFunctionalRoles = JDomConversionUtils.convertToEnums(EloFunctionalRole.class, eloFunctionalRoles);
    }
 
-   public void setContentStatic(boolean contentStatic)
+   public void setContentStatic(Boolean contentStatic)
    {
       this.contentStatic = contentStatic;
    }
 
    @Override
-   public boolean isContentStatic()
+   public Boolean isContentStatic()
    {
       return contentStatic;
    }
