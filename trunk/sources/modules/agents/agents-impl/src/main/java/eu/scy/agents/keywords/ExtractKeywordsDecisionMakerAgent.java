@@ -290,9 +290,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				}
 				logger.debug("Sending Alive-Tuple");
 				this.sendAliveUpdate();
-				
 			}
-			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 		} catch (Exception e) {
 			logger.fatal("*************** " + e.getMessage());
 			e.printStackTrace();
@@ -302,7 +300,11 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			logger
 					.warn("************** Agent not stopped but run loop terminated *****************1");
 		}
-		
+		try {
+			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean userIsIdleForTooLongTime(long currentTime,
