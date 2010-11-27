@@ -17,7 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,11 +41,44 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         logger.info("VIEW STUDENTS!");
 
         PedagogicalPlan pedagogicalPlan = null;
+        String missionURI = request.getParameter("eloURI");
         try {
-            String missionURI = request.getParameter("eloURI");
-            logger.info("MissionURL: " + missionURI);
+
             if (missionURI != null) missionURI = URLDecoder.decode(missionURI, "UTF-8");
 
+
+            URI uri = null;
+
+            try {
+                uri = new URI(missionURI);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
+
+            if (missionSpecificationElo != null) {
+                List<MissionRuntimeModel> runtimeModels = missionSpecificationElo.getMissionManagement().getAllMissionRuntimeModels();
+                for (int i = 0; i < runtimeModels.size(); i++) {
+                    MissionRuntimeModel missionRuntimeModel = runtimeModels.get(i);
+                    logger.info("MISSION RUNTIME MODEL :" + missionRuntimeModel.getRuntimeSettingsElo().getTitle());
+                }
+            }
+
+
+            if (!missionURI.contains("#")) {
+                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
+                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
+                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
+                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
+                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
+                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
+                missionURI += "#2";
+            }
+
+            logger.info("MissionURL: " + missionURI);
+            modelAndView.addObject("eloURI", URLEncoder.encode(missionURI, "UTF-8"));
+
+            logger.info("DECODED URI: " + missionURI);
             if (missionURI != null && missionURI.length() > 0) {
                 pedagogicalPlan = pedagogicalPlanPersistenceService.getOrCreatePedagogicalPlanFromURI(missionURI);
             } else {
@@ -58,7 +94,8 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             String action = request.getParameter("action");
             if (action != null) {
                 if (action.equals("addStudent")) {
-                    addStudent(request, modelAndView, pedagogicalPlan);
+                    String username = request.getParameter("username");
+                    addStudent(missionURI, username, modelAndView, pedagogicalPlan);
                 } else if (action.equals("removeStudent")) {
                     removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
                 }
@@ -73,23 +110,21 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         getAssignedPedagogicalPlanService().removeAssignedAssessment(user, plan);
     }
 
-    private void addStudent(HttpServletRequest request, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
+    private void addStudent(String missionURIString, String username, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
         try {
-            String muri = request.getParameter("eloURI");
-            if (muri != null) {
-                muri = URLDecoder.decode(muri, "UTF-8");
-                URI missionURI = new URI(muri);
-                MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionURI, getMissionELOService());
-                String username = request.getParameter("username");
+            logger.info("LOADING URI: " + missionURIString);
+            URI missionURI = new URI(missionURIString);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionURI, getMissionELOService());
 
-                User user = getUserService().getUser(username);
-                StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
-                MissionRuntimeModel missionRuntimeModel = missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
+            // /String username = request.getParameter("username");
 
-                logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
+            User user = getUserService().getUser(username);
+            StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
+            MissionRuntimeModel missionRuntimeModel = missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
 
-                //getAssignedPedagogicalPlanService().assignPedagogicalPlanToUser(pedagogicalPlan, user);
-            }
+            logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
+
+            //getAssignedPedagogicalPlanService().assignPedagogicalPlanToUser(pedagogicalPlan, user);
 
 
         } catch (Exception e) {
