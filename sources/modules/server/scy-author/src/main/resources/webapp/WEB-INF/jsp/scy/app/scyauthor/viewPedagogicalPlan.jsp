@@ -5,7 +5,6 @@
         <c:choose>
         <c:when test="${author}">
 
-            AUTHOR
             <h1>Mission name: ${missionSpecificationTransporter.elo.title}</h1>
 
 
@@ -16,7 +15,7 @@
                 <tr class="${oddEven.oddEven}">
                     <td>
                         <strong>Mission name</strong>
-                    </td>                   '
+                    </td>                   
                     <td>
                         <s:ajaxELOTextField property="title" eloURI="${missionSpecificationTransporter.uri}" rooloServices="${rooloServices}"/>
                     </td>
@@ -24,7 +23,7 @@
                 <tr class="${oddEven.oddEven}">
                     <td>
                         <strong>Assigned students</strong>
-                    </td>                   '
+                    </td>
                     <td>
                         <a href="viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" >click</a>
                     </td>
@@ -32,7 +31,7 @@
                 <tr class="${oddEven.oddEven}">
                     <td>
                         <strong>Scaffolding level</strong>
-                    </td>                   '
+                    </td>
                     <td>
                         <s:ajaxELOSlider sliderValues="${agentLevels}" defaultValue="${scaffoldingLevel}" eloURI="${missionSpecificationTransporter.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/>
                     </td>

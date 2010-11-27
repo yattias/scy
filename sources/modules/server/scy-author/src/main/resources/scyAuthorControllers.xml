@@ -102,6 +102,7 @@
         <property name="userService" ref="userService"/>
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="viewGroupsForPedagogicalPlanController" class="eu.scy.server.controllers.ViewGroupsForPedagogicalPlanController">

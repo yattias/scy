@@ -6,7 +6,7 @@
             <table>
                 <tr>
                     <td colspan="2">
-                        <h2>Step 2: Select Scenario for  ${model.name}</h2>
+                        <h2>Step 2: Select which mission to base the new mission on
                     </td>
                 </tr>
 

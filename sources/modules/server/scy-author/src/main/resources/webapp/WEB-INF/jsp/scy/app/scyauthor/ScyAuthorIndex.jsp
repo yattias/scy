@@ -10,24 +10,16 @@
                     <th>
                         Name
                     </th>
-                    <th>
-                        Description
-                    </th>
-                    <th>
-                        Published
-                    </th>
                 </tr>
                 <c:forEach var="missionTransporter" items="${missionTransporters}">
                     <tr class="${oddEven.oddEven}">
                         <td>
                             <a href="viewPedagogicalPlan.html?uri=${missionTransporter.uri}">${missionTransporter.elo.title}</a>
                         </td>
-                        <td>${missionTransporter.elo.description}</td>
-                        <td></td>
                     </tr>
                 </c:forEach>
             </table>
-
+            <br/>
             <div class="createNewPedPlan">
                 <a href="createnewPedplansteps/PedPlanNameController.html">Create new pedagogical plan</a>
             </div>

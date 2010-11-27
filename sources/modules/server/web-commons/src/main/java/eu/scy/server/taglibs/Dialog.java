@@ -2,6 +2,9 @@ package eu.scy.server.taglibs;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +14,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  * To change this template use File | Settings | File Templates.
  */
 public class Dialog extends TagSupport {
+
+    private static Logger log = Logger.getLogger("Dialog.class");
 
     private String url;
     private String title;
@@ -31,7 +36,13 @@ public class Dialog extends TagSupport {
 
     public String getUrl() {
         if(getExtraParameters() != null && getExtraParameters().length() > 0) {
-            url = url + "?" + getExtraParameters();
+
+            try {
+                url = url + "?" + URLEncoder.encode(getExtraParameters(), "UTF-8");
+                log.info("URL WILL BE: " + url);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
         return url;
     }
