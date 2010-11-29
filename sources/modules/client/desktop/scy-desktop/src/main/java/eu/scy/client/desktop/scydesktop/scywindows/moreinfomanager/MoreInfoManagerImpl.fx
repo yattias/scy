@@ -13,6 +13,9 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoToolFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowInfoUrl;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author SikkenJ
@@ -36,13 +39,29 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
          closeAction: hideInstructionWindow
-//         content: Rectangle {
-//            width: 1000
-//            height: 1000
-//            fill: Color.YELLOW
-//         }
+      //         content: Rectangle {
+      //            width: 1000
+      //            height: 1000
+      //            fill: Color.YELLOW
+      //         }
       }
-   var instructionTool:ShowInfoUrl;
+   def modalLayer = Rectangle {
+         blocksMouse: true
+         x: 0, y: 0
+         width: bind scene.width, height: bind scene.height
+         fill: Color.color(1.0, 1.0, 1.0, 0.5)
+         onKeyPressed: function(e: KeyEvent): Void {
+         }
+         onKeyReleased: function(e: KeyEvent): Void {
+         }
+         onKeyTyped: function(e: KeyEvent): Void {
+         }
+      }
+   var instructionTool: ShowInfoUrl;
+
+   init {
+      activeLasChanged();
+   }
 
    public override function getControlNode(): Node {
       return moreInfoControl
@@ -65,17 +84,19 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionWindow.layoutY = 0.0;
       instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
       instructionTool.showInfoUrl(activeLas.instructionUri.toURL());
+      insert modalLayer into scene.content;
       insert instructionWindow into scene.content;
    }
 
    function hideInstructionWindow(): Void {
+      delete modalLayer from scene.content;
       delete instructionWindow from scene.content;
    }
 
-   function initInstructionWindow():Void{
-      if (instructionWindow.content==null){
+   function initInstructionWindow(): Void {
+      if (instructionWindow.content == null) {
          instructionWindow.content = moreInfoToolFactory.createMoreInfoTool();
-         if (instructionWindow.content instanceof ShowInfoUrl){
+         if (instructionWindow.content instanceof ShowInfoUrl) {
             instructionTool = instructionWindow.content as ShowInfoUrl
          }
       }
