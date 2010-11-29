@@ -1,0 +1,44 @@
+Päikesepaneele saab ehitada ise
+
+TTÜ säästva arengu klubi noormehed ja neiud otsustasid proovida, kas on
+võimalik ise ehitada valmis päikesepaneel, mis annab elektrit
+sülearvutile. Kui füüsika algtõed pole meelest läinud ning oskuslikke
+töökäsi leiab, on paneelide valmistamine kodustes Eesti tingimustes
+võimalik.
+
+Säästva arengu klubi entusiastid võtsid eesmärgiks tutvustada, et
+päikese-energeetika seadme valmistamine on jõukohane ülesanne tudengitele
+ning et päriselt ka on võimalik päikese-energiaga igapäevaseid asju
+laadida, nt sülearvutit. Isegi talviste pimedate pööripäevade ajal.
+
+Tehnikaüliõpilastele kohaselt tehti eelnevalt arvutused, kui suurt pindala
+päikesepaneele on vaja, et ära laadida vähemalt ühte laptop arvutit Eesti
+kõige pimedamas kuus - detsembris, kui päikest peaaegu üldse ei
+ole. Selleks läheb vaja 1 m x 1,3 m suuruseid paneele neli tükki. Suvisel
+ajal ühe arvuti laadimiseks piisab ca meeter korda meeter suurusega
+paneelist.
+
+Kõige aluseks on päike
+
+Päikeselt tuleva kiirguse muundamiseks elektrienergiaks on vaja
+fotoelemente (photovoltaic cells). Päikeselt tulev footonite voog paneb
+ränikristallist fotoelementides istuvad elektronid kibekiirelt jooksma -
+see on nende üldine tööpõhimõte.
+
+Arvuti laadimine
+
+Üks päikesepaneel koosneb 54 fotoelemendist, andes 24 volti
+alalisvoolu. Kuna arvutid vajavad 220-voldist vahelduvvoolu, teeb pinge
+muundamise töö ära inverter, mida saab Eesti elektroonikapoodidest.
+
+Päikese-energiat on võimalik kasutada ka öisel ajal, selleks tuleb päevasel
+ajal ülejäävat päikese-energiat salvestada akudesse.
+
+Päikesepaneeli saamiseks asetatakse fotoelemendid plastikaat-alusele ning
+kaetakse karastatud klaasiga. Peamisteks töövahendiks on jootekolb, saag,
+viil ja vaja läheb ka elementraaseid kinnitusvahendeid (liim, mutrid,
+poldid).
+
+Säästva arengu klubil läks vaja 200 fotoelementi, et ehitada kolm 130
+vatist päikesepaneeli. Osad fotoelemendid purunevad töö käigus - tark on
+varuda ehitamiseks rohkem fotoelemente.

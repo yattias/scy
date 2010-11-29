@@ -17,6 +17,9 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -149,10 +152,11 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
   }
 
   public ContextInformation getContextInformation(Tuple beforeTuple) {
+    IAction action = ActionTupleTransformer.getActionFromTuple(beforeTuple);
     ContextInformation result = new ContextInformation();
-    result.user = beforeTuple.getField(2).toString();
-    result.mission = beforeTuple.getField(3).toString();
-    result.session = beforeTuple.getField(4).toString();
+    result.user = action.getUser();
+    result.mission = action.getContext(ContextConstants.mission);
+    result.session = action.getContext(ContextConstants.session);
     return result;
   }
 

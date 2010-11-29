@@ -100,10 +100,10 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
             }
             URI eloURI = new URI(eloUri);
             IELO elo = repository.retrieveELO(eloURI);
-            IMetadataKey metadataKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
+            IMetadataKey metadataKeywordsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
             IMetadata metadata = elo.getMetadata();
             List<String> keywords = new ArrayList<String>();
-            if (!metadata.metadataKeyExists(metadataKey)) {
+            if (!metadata.metadataKeyExists(metadataKeywordsKey)) {
                 // get keywords extracted and store them in ELO meta data section!
                 KeywordExtractorFactory factory = new KeywordExtractorFactory();
                 KeywordExtractor keywordExtractor = factory.getKeywordExtractor(eloType);
@@ -117,7 +117,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 
             // if keywords exist in ELO, we can go on extracting them and the hypothesis text:
             metadata = elo.getMetadata();
-            IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(metadataKey);
+            IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(metadataKeywordsKey);
             List<String> tmpKeywords = (List<String>) metadataValueContainer.getValueList();
             if (!tmpKeywords.isEmpty()) {
                 keywords = tmpKeywords;

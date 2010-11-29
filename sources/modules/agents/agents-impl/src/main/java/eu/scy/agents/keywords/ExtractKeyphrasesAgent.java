@@ -67,7 +67,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 
     Properties workflowProperties = new Properties();
     workflowProperties.setProperty(WikiParameters.DIRECTORY,
-                                   "CO2background");
+                                   "mission1_texts/English");
 
     /* PROPERTIES ------------------------ */
 
