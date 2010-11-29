@@ -4,12 +4,12 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.server</groupId>
-        <version>25-SNAPSHOT</version>
+        <version>25_UT1010-SNAPSHOT</version>
     </parent>
     <groupId>eu.scy.server</groupId>
     <artifactId>server-external-components</artifactId>
     <packaging>war</packaging>
-    <version>25-SNAPSHOT</version>
+    <version>25_UT1010-SNAPSHOT</version>
     <name>server-external-components</name>
     <url>http://maven.apache.org</url>
     <dependencies>

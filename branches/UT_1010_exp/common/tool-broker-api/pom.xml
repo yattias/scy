@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.common</groupId>
 	<artifactId>tool-broker-api</artifactId>
-	<version>25-SNAPSHOT</version>
+	<version>25_UT1010-SNAPSHOT</version>
 	<name>tool-broker-api</name>
 	<packaging>jar</packaging>
 	
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>25-SNAPSHOT</version>
+		<version>25_UT1010-SNAPSHOT</version>
 	</parent> 	
 	
 	<dependencies>
