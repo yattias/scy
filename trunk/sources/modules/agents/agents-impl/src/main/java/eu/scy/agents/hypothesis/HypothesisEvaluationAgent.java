@@ -178,7 +178,8 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
             entry.setValue("" + histogram.get(keywordFrequency));
             keywordSentenceHistogramContainer.addValue(entry);
         }
-        repository.updateELO(elo);
+//        repository.updateELO(elo); //XXX this is important because an update would change the version number of the elo, which will also change the URI
+    repository.addMetadata(elo.getUri(), elo.getMetadata());
     }
 
     private IMetadata addKeywordsToMetadata(IELO elo, List<String> keywords) {
@@ -194,7 +195,10 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
         IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(keywordKey);
         agentKeywordsContainer.setValueList(keywordsWithBoost);
 
-        IMetadata updateELO = repository.updateELO(elo);
-        return updateELO;
+//        IMetadata updateELO = repository.updateELO(elo);
+//        return updateELO;
+        //XXX this is important because an update would change the version number of the elo, which will also change the URI
+        repository.addMetadata(elo.getUri(), elo.getMetadata());
+        return elo.getMetadata();
     }
 }
