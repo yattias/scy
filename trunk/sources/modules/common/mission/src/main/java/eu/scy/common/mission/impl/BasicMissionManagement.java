@@ -10,8 +10,9 @@ import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 
 import org.apache.log4j.Logger;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
+
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
