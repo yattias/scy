@@ -24,7 +24,7 @@ import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import org.roolo.search.BasicMetadataQuery;
-import org.roolo.BasicSearchOperations;
+import org.roolo.search.BasicSearchOperations;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
