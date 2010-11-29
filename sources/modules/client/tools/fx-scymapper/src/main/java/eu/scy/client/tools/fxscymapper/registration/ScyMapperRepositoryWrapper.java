@@ -22,8 +22,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
 
 public class ScyMapperRepositoryWrapper {
 
