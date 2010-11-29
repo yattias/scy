@@ -715,12 +715,15 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         }
         // if the window content tool is defined, meaning a new or existing elo is loaded, report this
         if (window.scyContent != null) {
-            if (window.eloUri != null) {
-                scyToolsList.loadElo(window.eloUri);
-            } else {
-                scyToolsList.newElo();
-            }
-            scyToolsList.loadedEloChanged(window.eloUri);
+         // make sure that the tool itself in the scene graph
+         FX.deferAction(function():Void{
+               if (window.eloUri != null) {
+                  scyToolsList.loadElo(window.eloUri);
+               } else {
+                  scyToolsList.newElo();
+               }
+               scyToolsList.loadedEloChanged(window.eloUri);
+            });
         }
     }
 
