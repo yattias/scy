@@ -16,6 +16,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.ShowInfoUrl;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import java.net.URI;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 
 /**
  * @author SikkenJ
@@ -39,12 +41,13 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
          closeAction: hideInstructionWindow
-      //         content: Rectangle {
-      //            width: 1000
-      //            height: 1000
-      //            fill: Color.YELLOW
-      //         }
       }
+   var instructionTool: ShowInfoUrl;
+   def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
+         title: "More info"
+         closeAction: hideMoreInfoWindow
+      }
+   var moreInfoTool: ShowInfoUrl;
    def modalLayer = Rectangle {
          blocksMouse: true
          x: 0, y: 0
@@ -57,7 +60,6 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          onKeyTyped: function(e: KeyEvent): Void {
          }
       }
-   var instructionTool: ShowInfoUrl;
 
    init {
       activeLasChanged();
@@ -81,8 +83,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionWindow.windowColorScheme = colorScheme;
       instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
       instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
-      instructionWindow.layoutY = 0.0;
       instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
+      instructionWindow.layoutY = 0.0;
       instructionTool.showInfoUrl(activeLas.instructionUri.toURL());
       insert modalLayer into scene.content;
       insert instructionWindow into scene.content;
@@ -101,5 +103,49 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          }
       }
    }
+
+   public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, eloUri: URI): Void {
+      def moreInfoColorScheme = windowStyler.getWindowColorScheme(eloUri);
+      def title = getMoreInfoTitle(type);
+      showMoreInfoWindow(infoUri,title,moreInfoColorScheme);
+   }
+
+   function getMoreInfoTitle(type: MoreInfoTypes):String{
+      if (MoreInfoTypes.ASSIGNMENT==type){
+         return ##"Assignment"
+      }
+      if (MoreInfoTypes.RESOURCES==type){
+         return ##"Resources"
+      }
+      return ##"Unknonw type"
+   }
+
+   function showMoreInfoWindow(infoUri: URI, title: String, moreInfoColorScheme: WindowColorScheme): Void {
+      initMoreInfoWindow();
+      moreInfoWindow.title = title;
+      moreInfoWindow.windowColorScheme = moreInfoColorScheme;
+      moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
+      moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
+      moreInfoWindow.layoutX = relativeWindowScreenBoder * scene.width;
+      moreInfoWindow.layoutY = relativeWindowScreenBoder * scene.height;
+      moreInfoTool.showInfoUrl(infoUri.toURL());
+      insert modalLayer into scene.content;
+      insert moreInfoWindow into scene.content;
+   }
+
+   function hideMoreInfoWindow(): Void {
+      delete modalLayer from scene.content;
+      delete moreInfoWindow from scene.content;
+   }
+
+   function initMoreInfoWindow(): Void {
+      if (moreInfoWindow.content == null) {
+         moreInfoWindow.content = moreInfoToolFactory.createMoreInfoTool();
+         if (moreInfoWindow.content instanceof ShowInfoUrl) {
+            moreInfoTool = moreInfoWindow.content as ShowInfoUrl
+         }
+      }
+   }
+
 
 }
