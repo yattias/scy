@@ -6,7 +6,6 @@ package eu.scy.client.desktop.scydesktop.tools.content.eloImporter;
 
 import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import java.net.URI;
-import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 
@@ -14,18 +13,12 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**

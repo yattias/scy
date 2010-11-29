@@ -4,7 +4,7 @@
  * Created on 10-mei-2010, 15:51:30
  */
 
-package eu.scy.client.desktop.scydesktop.login;
+package eu.scy.client.desktop.scydesktop.art.javafx;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;

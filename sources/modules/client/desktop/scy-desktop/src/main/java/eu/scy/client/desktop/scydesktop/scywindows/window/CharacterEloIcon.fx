@@ -29,7 +29,8 @@ public class CharacterEloIcon extends EloIcon {
    public var backgroundColor = Color.WHITE;
    public var iconSize = 16.0;
    public var iconGap = 2.0;
-   public var iconFont = Font.font("Verdana", FontWeight.BOLD, 14);
+   public var fontSize = 14;
+   public var iconFont = Font.font("Verdana", FontWeight.BOLD, fontSize);
 
    def mainColor = bind if (not selected) color else backgroundColor;
    def bgColor = bind if (not selected) backgroundColor else color;

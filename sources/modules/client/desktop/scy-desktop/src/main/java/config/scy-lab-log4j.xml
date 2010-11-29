@@ -18,12 +18,16 @@
 		<level value="debug" />
 	</logger>
 
-	<logger name="eu.scy.client.desktop.elofactory.ServicesInjector">
+	<logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
 		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows">
 		<level value="error" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager">
+		<level value="debug" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
