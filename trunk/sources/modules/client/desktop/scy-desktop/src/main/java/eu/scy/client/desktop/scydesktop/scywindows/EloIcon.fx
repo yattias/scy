@@ -7,8 +7,6 @@
 package eu.scy.client.desktop.scydesktop.scywindows;
 
 import javafx.scene.CustomNode;
-import javafx.scene.Group;
-import javafx.scene.Node;
 
 /**
  * @author sikken

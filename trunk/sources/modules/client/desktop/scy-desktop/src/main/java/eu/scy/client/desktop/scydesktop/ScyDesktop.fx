@@ -82,8 +82,6 @@ import java.lang.String;
 import org.jdom.Element;
 import roolo.api.search.AndQuery;
 import roolo.api.search.ISearchResult;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
@@ -92,6 +90,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloRuntimeSettings
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.mission.RuntimeSettingsManager;
 import java.util.StringTokenizer;
+import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoManagerImpl;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
+import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoToolFactory;
 
 /**
  * @author sikkenj
@@ -170,6 +172,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
    var backgroundUpdater: BackgroundUpdater;
    def missionId = "missionId is deprecated";
+
+   def moreInfoManager = MoreInfoManagerImpl{
+      scene: scene
+      windowStyler:windowStyler
+      moreInfoToolFactory: TestMoreInfoToolFactory{}
+      activeLas:bind missionModelFX.activeLas
+   }
+
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -505,6 +515,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             topRightCorner,
             bottomRightCorner,
             bottomLeftCorner,
+            moreInfoManager.getControlNode(),
             highDebugGroup,
          //                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
          /*
@@ -623,6 +634,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                object as EloFunctionalRole
             }
       }
+      else{
+         functionalRoles = EloFunctionalRole.values()
+      }
 
       def myEloSaver = SimpleScyDesktopEloSaver {
             config: config
@@ -683,12 +697,15 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
       // if the window content tool is defined, meaning a new or existing elo is loaded, report this
       if (window.scyContent != null) {
-         if (window.eloUri != null) {
-            scyToolsList.loadElo(window.eloUri);
-         } else {
-            scyToolsList.newElo();
-         }
-         scyToolsList.loadedEloChanged(window.eloUri);
+         // make sure that the tool itself in the scene graph
+         FX.deferAction(function():Void{
+               if (window.eloUri != null) {
+                  scyToolsList.loadElo(window.eloUri);
+               } else {
+                  scyToolsList.newElo();
+               }
+               scyToolsList.loadedEloChanged(window.eloUri);
+            });
       }
    }
 

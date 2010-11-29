@@ -15,9 +15,6 @@ import javax.swing.JOptionPane;
 
 import javafx.scene.layout.VBox;
 
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
@@ -35,6 +32,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import javafx.scene.control.Button;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
 
 /**
  * @author sikkenj

@@ -23,8 +23,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.api.search.IQuery;
 import roolo.api.search.AndQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
@@ -41,6 +39,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTech
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
 import java.util.List;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.FindNothingSearcher;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
 
 /**
  * @author sikken

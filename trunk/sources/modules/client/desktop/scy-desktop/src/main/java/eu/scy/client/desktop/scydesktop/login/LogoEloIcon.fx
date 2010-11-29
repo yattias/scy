@@ -9,6 +9,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.art.javafx.SelectedLogo;
+import eu.scy.client.desktop.scydesktop.art.javafx.NotSelectedLogo;
 
 /**
  * @author SikkenJ
