@@ -2,11 +2,9 @@ package eu.scy.client.tools.drawing;
 
 import java.awt.GridLayout;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
@@ -18,8 +16,6 @@ import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -33,6 +29,8 @@ import roolo.elo.metadata.keys.Contribute;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
 import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedEvent;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
 
 public class EloDrawingPanel extends JPanel
 {
