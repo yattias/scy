@@ -42,8 +42,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-import org.roolo.rooloimpljpa.repository.search.BasicMetadataQuery;
-import org.roolo.rooloimpljpa.repository.search.BasicSearchOperations;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 
