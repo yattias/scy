@@ -23,6 +23,7 @@ import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 
 
 /**
@@ -34,6 +35,7 @@ public class ServicesInjector {
 
    public var config: Config;
    public var initializer:Initializer;
+   public var moreInfoManager: MoreInfoManager;
 
    public function injectServices(object: Object) {
       if (object != null) {
@@ -73,6 +75,7 @@ public class ServicesInjector {
             injectServiceIfWanted(object, IRepository.class, "repository", config.getRepository());
          }
          injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
+         injectServiceIfWanted(object,MoreInfoManager.class,"moreInfoManager",moreInfoManager);
       }
    }
 
