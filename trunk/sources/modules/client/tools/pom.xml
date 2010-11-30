@@ -3,7 +3,7 @@
 	
 	<parent>
 		<artifactId>parent</artifactId>
-		<groupId>eu.scy.client</groupId>
+		<groupId>eu.scy</groupId>
 		<version>28-SNAPSHOT</version>
 	</parent>
 
