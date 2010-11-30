@@ -6,7 +6,7 @@
     <groupId>eu.scy</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>27-SNAPSHOT</version>
+    <version>28-SNAPSHOT</version>
     <name>scy</name>
     <url>http://www.scy-lab.eu</url>
 
@@ -447,13 +447,14 @@
     <!--
          the modules may be commented out to avoid top-to-bottom dependencies
          in the pom hierarchy
-         -->
+         
     <modules>
         <module>common</module>
         <module>agents</module>
         <module>client</module>
         <module>server</module>
     </modules>
+	-->
 	
 
     <properties>
