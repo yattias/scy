@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoNodeCreator;
 
 /**
  * @author sikkenj
@@ -30,6 +31,7 @@ var initializer = Initializer {
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    def scyFlyingSaucerId = "flying-saucer";
+   def testMoreInfoId = "testMoreInfo";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -39,6 +41,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
@@ -49,6 +52,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
+   scyDesktop.moreInfoToolFactory = new FlyingSaucerMoreInfoToolFactory();
 
    return scyDesktop;
 }

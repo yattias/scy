@@ -15,6 +15,7 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="flying-saucer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="testMoreInfo"/>
             </bean>
          </list>
       </property>
