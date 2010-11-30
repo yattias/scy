@@ -34,6 +34,7 @@ import javafx.scene.layout.Priority;
 import javafx.geometry.Insets;
 import javafx.util.Math;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 
 /**
  * @author sikken
@@ -54,6 +55,7 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
    public var pedagogicalPlanService: PedagogicalPlanService on replace { serviceSet("pedagogicalPlanService", pedagogicalPlanService) };
    public var scyWindow: ScyWindow on replace { addMessage("scyWindow set ({scyWindow.title})") };
    public var authorMode: Boolean on replace { addMessage("authorMode set ({authorMode})") };
+   public var moreInfoManager: MoreInfoManager on replace { addMessage("moreInfoManager set ({moreInfoManager})") };
    var uri = "?????";
    var location = "?";
    var assignmentUri: URI;

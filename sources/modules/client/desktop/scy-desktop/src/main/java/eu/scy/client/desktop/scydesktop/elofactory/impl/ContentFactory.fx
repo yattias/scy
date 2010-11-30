@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.elofactory.impl;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import java.util.HashSet;
 import eu.scy.client.desktop.scydesktop.Initializer;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 
 /**
  * @author sikkenj
@@ -17,10 +18,12 @@ public class ContentFactory {
 
    public var config: Config;
    public var initializer: Initializer;
+   public var moreInfoManager: MoreInfoManager;
    def servicesInjectedSet = new HashSet();
    protected def servicesInjector = ServicesInjector {
          config: config
          initializer: initializer
+         moreInfoManager:moreInfoManager
       }
 
    protected function checkIfServicesInjected(object: Object) {
