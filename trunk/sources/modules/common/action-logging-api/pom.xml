@@ -8,7 +8,7 @@
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>27-SNAPSHOT</version>
+		<version>28-SNAPSHOT</version>
 	</parent>
 	
 	<!-- unused
