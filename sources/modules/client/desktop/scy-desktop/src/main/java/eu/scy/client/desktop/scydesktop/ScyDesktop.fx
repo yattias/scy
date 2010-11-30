@@ -94,6 +94,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoManag
 import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoToolFactory;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoToolFactory;
 
 /**
  * @author sikkenj
@@ -173,10 +174,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    var backgroundUpdater: BackgroundUpdater;
    def missionId = "missionId is deprecated";
 
+   public var moreInfoToolFactory:MoreInfoToolFactory = TestMoreInfoToolFactory{};
    def moreInfoManager = MoreInfoManagerImpl{
       scene: scene
       windowStyler:windowStyler
-      moreInfoToolFactory: TestMoreInfoToolFactory{}
+      moreInfoToolFactory: bind moreInfoToolFactory
       activeLas:bind missionModelFX.activeLas
    }
 

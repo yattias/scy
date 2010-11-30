@@ -29,13 +29,13 @@ public class TestMoreInfoNode extends CustomNode, ScyToolFX {
             Button {
                text: "More assignment"
                action: function() {
-                  moreInfoManager.showMoreInfo(new URI("http://www.scy-lab.eu/moreAssingment.html"), MoreInfoTypes.ASSIGNMENT, eloUri);
+                  moreInfoManager.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Build_design/Assignments/A_House_drawings.html"), MoreInfoTypes.ASSIGNMENT, eloUri);
                }
             }
             Button {
                text: "More resources"
                action: function() {
-                  moreInfoManager.showMoreInfo(new URI("http://www.scy-lab.eu/moreResources.html"), MoreInfoTypes.RESOURCES, eloUri);
+                  moreInfoManager.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Conceptualization_design/Resources/R_CO2_houses.html"), MoreInfoTypes.RESOURCES, eloUri);
                }
             }
          ]

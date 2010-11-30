@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
+import eu.scy.client.common.scyi18n.UriLocalizer;
 
 /**
  * @author SikkenJ
@@ -60,6 +61,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          onKeyTyped: function(e: KeyEvent): Void {
          }
       }
+   def uriLocalizer = new UriLocalizer();
 
    init {
       activeLasChanged();
@@ -85,7 +87,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
       instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
       instructionWindow.layoutY = 0.0;
-      instructionTool.showInfoUrl(activeLas.instructionUri.toURL());
+      instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       insert modalLayer into scene.content;
       insert instructionWindow into scene.content;
    }
@@ -128,7 +130,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
       moreInfoWindow.layoutX = relativeWindowScreenBoder * scene.width;
       moreInfoWindow.layoutY = relativeWindowScreenBoder * scene.height;
-      moreInfoTool.showInfoUrl(infoUri.toURL());
+      moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
       insert modalLayer into scene.content;
       insert moreInfoWindow into scene.content;
    }
