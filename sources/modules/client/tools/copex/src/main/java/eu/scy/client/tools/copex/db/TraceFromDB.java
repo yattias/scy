@@ -6,6 +6,7 @@
 package eu.scy.client.tools.copex.db;
 
 
+import eu.scy.client.tools.copex.logger.CopexLog;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.MyConstants;
@@ -38,7 +39,13 @@ public class TraceFromDB {
         // enregistrement des parametres
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
             CopexProperty prop = p.next();
-            String queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
+            String queryParam  = "";
+            String b =  AccesDB.replace("\'",prop.getValue(),"''") ;
+            if(prop.getName().equals(CopexLog.TAG_PROC_MODEL)){
+                queryParam ="INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE_BLOB) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+b+"') ;" ;
+            }else{
+                queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
+            }
             queryID = "SELECT max(last_insert_id(`ID_ATTRIBUTE`))   FROM ACTION_ATTRIBUTE ;";
             v2 = new ArrayList();
             cr = dbC.getNewIdInsertInDB(queryParam, queryID, v2);

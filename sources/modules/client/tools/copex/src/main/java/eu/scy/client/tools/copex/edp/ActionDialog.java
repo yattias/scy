@@ -1030,7 +1030,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
            Material material = getMaterialWithName(s, listType, listParameters);
            if (material == null){
                logger.log(Level.INFO, ("le materiel n'a pas ete trouve!!"));
-               material = new Material(CopexUtilities.getLocalText(s, edP.getLocale()),CopexUtilities.getLocalText("", edP.getLocale()), listType, listParameters, new MaterialSourceAction(action.getDbKey()));
+               material = new Material(CopexUtilities.getLocalText(s, edP.getLocale()),CopexUtilities.getLocalText("", edP.getLocale()), null, listType, listParameters, new MaterialSourceAction(action.getDbKey()));
                material.setDbKey(-1);
            }
            lm.add(material);

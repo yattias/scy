@@ -706,7 +706,7 @@ public class TaskFromDB {
     /* retourne en v[0] la liste du materiel d'une action */
     private static CopexReturn getMaterialProdFromDB(DataBaseCommunication dbC, Locale locale, long dbKey, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
         ArrayList<Material> listMaterial = new ArrayList();
-        String query = "SELECT L.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION " +
+        String query = "SELECT L.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION, M.URL_DESCRIPTION " +
                 "FROM LINK_ACTION_MATERIAL_PROD L, MATERIAL M " +
                 "WHERE L.ID_ACTION = "+dbKey+" AND L.ID_MATERIAL = M.ID_MATERIAL ; ";
         ArrayList v2 = new ArrayList();
@@ -714,6 +714,7 @@ public class TaskFromDB {
         listFields.add("L.ID_MATERIAL");
         listFields.add("M.MATERIAL_NAME");
         listFields.add("M.DESCRIPTION");
+        listFields.add("M.URL_DESCRIPTION");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -726,7 +727,8 @@ public class TaskFromDB {
             long dbKeyMat = Long.parseLong(s);
             String matName = rs.getColumnData("M.MATERIAL_NAME");
             String desc = rs.getColumnData("M.DESCRIPTION");
-            Material material = new Material(dbKeyMat,CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(desc, locale), new MaterialSourceAction(dbKey));
+            String urlDescription = rs.getColumnData("M.URL_DESCRIPTION");
+            Material material = new Material(dbKeyMat,CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(desc, locale), urlDescription, new MaterialSourceAction(dbKey));
             // type
             ArrayList<TypeMaterial> listT = new ArrayList();
             String query2 = "SELECT T.ID_TYPE, T.TYPE_NAME FROM MATERIAL_TYPE T, LINK_TYPE_MATERIAL L " +
@@ -2157,11 +2159,12 @@ public class TaskFromDB {
     /* charge un  materiel */
     private static CopexReturn loadMaterialFromDB(DataBaseCommunication dbC, Locale locale, long dbKeyMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
         Material m = null;
-        String query = "SELECT MATERIAL_NAME, DESCRIPTION FROM MATERIAL WHERE ID_MATERIAL = "+dbKeyMaterial+" ;";
+        String query = "SELECT MATERIAL_NAME, DESCRIPTION, URL_DESCRIPTION FROM MATERIAL WHERE ID_MATERIAL = "+dbKeyMaterial+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("MATERIAL_NAME");
         listFields.add("DESCRIPTION");
+        listFields.add("URL_DESCRIPTION");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -2170,12 +2173,13 @@ public class TaskFromDB {
             ResultSetXML rs = (ResultSetXML)v2.get(i);
             String name = rs.getColumnData("MATERIAL_NAME");
             String description = rs.getColumnData("DESCRIPTION");
+            String urlDescription = rs.getColumnData("URL_DESCRIPTION");
             ArrayList v4 = new ArrayList();
             cr  = ExperimentalProcedureFromDB.getMaterialSource(dbC, dbKeyMaterial, v4);
             if(cr.isError())
                 return cr;
             MaterialSource materialSource = (MaterialSource)v4.get(0);
-            m = new Material(dbKeyMaterial, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(description, locale), materialSource) ;
+            m = new Material(dbKeyMaterial, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(description, locale), urlDescription, materialSource) ;
              // on recupere les parametres
             v4 = new ArrayList();
             cr = ExperimentalProcedureFromDB.getMaterialParametersFromDB(dbC,locale, dbKeyMaterial, listPhysicalQuantity, v4);

@@ -12,6 +12,7 @@ import eu.scy.client.tools.copex.utilities.ActionMaterialDetail;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.MaterialDetailPanel;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -113,8 +114,16 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
         return list;
     }
 
+    @Override
     public void saveData(MaterialUsed mUsed){
         actionMaterial.saveData(mUsed);
+    }
+
+    public void resizeList(int width, int height){
+        setSize(width, height);
+        for(Iterator<MaterialDetailPanel> p = listPanel.iterator(); p.hasNext();){
+            p.next().resizePanelWidth(width);
+        }
     }
  
 }
