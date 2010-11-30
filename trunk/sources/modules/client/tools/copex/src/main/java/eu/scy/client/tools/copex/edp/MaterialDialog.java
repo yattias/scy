@@ -370,7 +370,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
     
     private void resizeMaterialDialog(){
         if(listMaterialPanel != null){
-            listMaterialPanel.setSize(getWidth()-30, listMaterialPanel.getHeight());
+            listMaterialPanel.resizeList(getWidth()-30, listMaterialPanel.getHeight());
         }
         if(this.panelButtons != null){
             if(buttonOk != null){

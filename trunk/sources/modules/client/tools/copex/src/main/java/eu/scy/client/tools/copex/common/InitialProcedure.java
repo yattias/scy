@@ -537,4 +537,10 @@ public class InitialProcedure extends ExperimentalProcedure {
         return e;
     }
 
+    public void addMaterialProc(ArrayList<Material> listToAdd){
+        for(Iterator<Material> m = listToAdd.iterator();m.hasNext();){
+            listMaterial.add(m.next());
+        }
+    }
+
 }

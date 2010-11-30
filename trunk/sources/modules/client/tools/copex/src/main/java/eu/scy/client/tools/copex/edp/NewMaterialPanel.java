@@ -11,8 +11,6 @@ import eu.scy.client.tools.copex.common.MaterialUsed;
 import eu.scy.client.tools.copex.common.Parameter;
 import eu.scy.client.tools.copex.common.TypeMaterial;
 import eu.scy.client.tools.copex.utilities.ActionAddMaterial;
-import eu.scy.client.tools.copex.utilities.ActionComment;
-import eu.scy.client.tools.copex.utilities.CommentsPanel;
 import eu.scy.client.tools.copex.utilities.CopexPanelHideShow;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
@@ -264,7 +262,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
         // liste des parametres
         List<Parameter> listParameters = new LinkedList();
         // creation du material
-        Material m = new Material(CopexUtilities.getLocalText(name, edP.getLocale()), CopexUtilities.getLocalText(description, edP.getLocale()), listType, listParameters, new MaterialSourceUser());
+        Material m = new Material(CopexUtilities.getLocalText(name, edP.getLocale()), CopexUtilities.getLocalText(description, edP.getLocale()), null, listType, listParameters, new MaterialSourceUser());
         // used
         boolean used = this.cboxUsed.isSelected();
         // comments

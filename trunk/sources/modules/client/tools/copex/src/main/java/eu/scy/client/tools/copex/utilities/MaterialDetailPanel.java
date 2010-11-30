@@ -10,8 +10,12 @@ import eu.scy.client.tools.copex.common.MaterialStrategy;
 import eu.scy.client.tools.copex.common.MaterialUsed;
 import eu.scy.client.tools.copex.edp.EdPPanel;
 import java.awt.Font;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,6 +45,9 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     private JLabel labelComments;
     private JScrollPane scrollPaneComments;
     private JTextArea areaComments;
+    private JLabel labelURLDescription;
+    private JScrollPane scrollPaneURLDescription;
+    private JEditorPane editorURLDescription;
 
     private ActionMaterialDetail action;
 
@@ -174,6 +181,43 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         return scrollPaneDescription;
     }
 
+    private JLabel getLabelURLDescription(){
+        if(labelURLDescription == null){
+            labelURLDescription = new JLabel();
+            labelURLDescription.setName("labelURLDescription");
+            labelURLDescription.setFont(new Font("Tahoma",Font.BOLD, 11));
+            labelURLDescription.setText(edP.getBundleString("LABEL_URL_DESCRIPTION"));
+            int w = CopexUtilities.lenghtOfString(this.labelURLDescription.getText(), getFontMetrics(this.labelURLDescription.getFont()));
+            int y =scrollPaneComments.getY()+scrollPaneComments.getHeight()+10;
+            labelURLDescription.setBounds(labelDescription.getX(), y, w, 14);
+        }
+        return labelURLDescription;
+    }
+
+    private JEditorPane getEditorURLDescription(){
+        if(editorURLDescription== null){
+            editorURLDescription = new JEditorPane();
+            editorURLDescription.setName("editorURLDescription");
+            editorURLDescription.setEditable(false);
+            try {
+                editorURLDescription.setPage(mUsed.getMaterial().getURLDescription());
+            } catch (IOException ex) {
+                Logger.getLogger(MaterialDetailPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return editorURLDescription;
+    }
+
+    private JScrollPane getScrollURLDescription(){
+        if(scrollPaneURLDescription == null){
+            scrollPaneURLDescription = new JScrollPane();
+            scrollPaneURLDescription.setName("scrollPaneURLDescription");
+            scrollPaneURLDescription.setBounds(labelURLDescription.getX()+labelURLDescription.getWidth()+10,labelURLDescription.getY(),300,300);
+            scrollPaneURLDescription.setViewportView(getEditorURLDescription());
+        }
+        return scrollPaneURLDescription;
+    }
+
     private JLabel getLabelComments(){
         if(labelComments == null){
             labelComments = new JLabel();
@@ -235,7 +279,16 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         }
         getPanelDetails().add(getLabelComments());
         getPanelDetails().add(getScrollComments());
+        int h = scrollPaneComments.getHeight()+scrollPaneComments.getY();
+        if(mUsed.getMaterial().hasMoreInfo()){
+            getPanelDetails().add(getLabelURLDescription());
+            getPanelDetails().add(getScrollURLDescription());
+            h = scrollPaneURLDescription.getHeight()+scrollPaneURLDescription.getY();
+        }
         int x = Math.max(scrollPaneDescription.getX(), scrollPaneComments.getX());
+        if(mUsed.getMaterial().hasMoreInfo()){
+            x = Math.max(x, scrollPaneURLDescription.getX());
+        }
         if(labelType2 != null){
             x = Math.max(x, labelType2.getX());
         }
@@ -244,17 +297,18 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         }
         scrollPaneDescription.setBounds(x, scrollPaneDescription.getY(), scrollPaneDescription.getWidth(), scrollPaneDescription.getHeight());
         scrollPaneComments.setBounds(x, scrollPaneComments.getY(), scrollPaneComments.getWidth(), scrollPaneComments.getHeight());
+        if(mUsed.getMaterial().hasMoreInfo()){
+            scrollPaneURLDescription.setBounds(x, scrollPaneURLDescription.getY(), scrollPaneURLDescription.getWidth(), scrollPaneURLDescription.getHeight());
+        }
         if(labelType2 != null){
             labelType2.setBounds(x, labelType2.getY(), labelType2.getWidth(), labelType2.getHeight());
         }
         if(scrollPaneParam != null){
             scrollPaneParam.setBounds(x, scrollPaneParam.getY(), scrollPaneParam.getWidth(), scrollPaneParam.getHeight());
         }
-        panelDetails.setSize(panelDetails.getWidth(), scrollPaneComments.getHeight()+scrollPaneComments.getY());
+        panelDetails.setSize(getPanelDetails().getWidth(), h);
         setSize(getWidth(),panelDetails.getHeight()+getPanelTitle().getHeight());
-        setPreferredSize(getSize());
-        revalidate();
-        repaint();
+        resizePanelWidth(getWidth());
         if(action != null)
             this.action.actionResize();
     }
@@ -270,6 +324,8 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         }
         scrollPaneDescription = null;
         areaDescription = null;
+        scrollPaneURLDescription = null;
+        editorURLDescription = null;
         setSize(getWidth(), getPanelTitle().getHeight());
         setPreferredSize(getSize());
         revalidate();
@@ -360,6 +416,30 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         if(materialStrategy.canChooseMaterial())
             mUsed.setUsed(cbUsed.isSelected());
         return mUsed;
+    }
+
+    public void resizePanelWidth(int width){
+        if(scrollPaneDescription != null){
+            int w = width - scrollPaneDescription.getX() - 10;
+            scrollPaneDescription.setSize(w, scrollPaneDescription.getHeight());
+        }
+        if(scrollPaneComments != null){
+            int w = width - scrollPaneComments.getX() - 10;
+            scrollPaneComments.setSize(w, scrollPaneComments.getHeight());
+        }
+        if(scrollPaneParam != null){
+            int w = width - scrollPaneParam.getX() - 10;
+            scrollPaneParam.setSize(w, scrollPaneParam.getHeight());
+        }
+        if(scrollPaneURLDescription != null){
+            int w = width - scrollPaneURLDescription.getX() - 10;
+            scrollPaneURLDescription.setSize(w, scrollPaneURLDescription.getHeight());
+        }
+        getPanelDetails().setSize(width, panelDetails.getHeight());
+        setSize(width,getHeight());
+        setPreferredSize(getSize());
+        revalidate();
+        repaint();
     }
 
 }

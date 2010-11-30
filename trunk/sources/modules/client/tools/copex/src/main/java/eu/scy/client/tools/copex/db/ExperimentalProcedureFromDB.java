@@ -1470,7 +1470,7 @@ public class ExperimentalProcedureFromDB {
        ArrayList<TypeMaterial> listTypeMat = (ArrayList<TypeMaterial>)v2.get(0);
        ArrayList<Material> listM = new ArrayList();
 
-        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION FROM " +
+        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION, M.URL_DESCRIPTION FROM " +
                "MATERIAL M, LINK_INIT_PROC_MATERIAL M2 WHERE " +
                "M2.ID_PROC = "+dbKey+" AND M2.ID_MATERIAL = M.ID_MATERIAL ORDER BY M.MATERIAL_NAME  ;" ;
 
@@ -1479,6 +1479,7 @@ public class ExperimentalProcedureFromDB {
         listFields.add("M.ID_MATERIAL");
         listFields.add("M.MATERIAL_NAME");
         listFields.add("M.DESCRIPTION");
+        listFields.add("M.URL_DESCRIPTION");
 
         cr = dbC.sendQuery(query, listFields, v3);
         if (cr.isError())
@@ -1496,12 +1497,13 @@ public class ExperimentalProcedureFromDB {
             String description = rs.getColumnData("M.DESCRIPTION");
             if (description == null)
                 continue;
+            String urlDescription = rs.getColumnData("M.URL_DESCRIPTION");
             ArrayList v4 = new ArrayList();
             cr  = getMaterialSource(dbC, idMat, v4);
             if(cr.isError())
                 return cr;
             MaterialSource materialSource = (MaterialSource)v4.get(0);
-            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale), materialSource);
+            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale), urlDescription, materialSource);
             // on recupere les parametres
             v4 = new ArrayList();
             cr = getMaterialParametersFromDB(dbC, locale,idMat, listPhysicalQuantity, v4);
@@ -1558,7 +1560,7 @@ public class ExperimentalProcedureFromDB {
        ArrayList<TypeMaterial> listTypeMat = (ArrayList<TypeMaterial>)v2.get(0);
        ArrayList<Material> listM = new ArrayList();
 
-        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION FROM " +
+        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION, M.URL_DESCRIPTION FROM " +
                "MATERIAL M, MATERIAL_USED M2 WHERE " +
                "M2.ID_PROC = "+dbKey+" AND M2.ID_MATERIAL = M.ID_MATERIAL ORDER BY M.MATERIAL_NAME  ;" ;
 
@@ -1567,6 +1569,7 @@ public class ExperimentalProcedureFromDB {
         listFields.add("M.ID_MATERIAL");
         listFields.add("M.MATERIAL_NAME");
         listFields.add("M.DESCRIPTION");
+        listFields.add("M.URL_DESCRIPTION");
 
         cr = dbC.sendQuery(query, listFields, v3);
         if (cr.isError())
@@ -1584,13 +1587,14 @@ public class ExperimentalProcedureFromDB {
             String description = rs.getColumnData("M.DESCRIPTION");
             if (description == null)
                 continue;
+            String urlDescription = rs.getColumnData("M.URL_DESCRIPTION");
 
             ArrayList v4 = new ArrayList();
             cr  = getMaterialSource(dbC, idMat, v4);
             if(cr.isError())
                 return cr;
             MaterialSource materialSource = (MaterialSource)v4.get(0);
-            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale), materialSource);
+            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale), urlDescription, materialSource);
             // on recupere les parametres
             v4 = new ArrayList();
             cr = getMaterialParametersFromDB(dbC, locale,idMat, listPhysicalQuantity, v4);

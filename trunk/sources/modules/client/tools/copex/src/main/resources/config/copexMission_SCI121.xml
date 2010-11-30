@@ -12,7 +12,7 @@
 
 <mission>
     <initial_proc>
-        <code>SCI131</code>
+        <code>SCI121</code>
         <name language="fr">Dosage du fer total</name>
         <name language="en">Dosage du fer total</name>
         <hypothesis_mode>M</hypothesis_mode>

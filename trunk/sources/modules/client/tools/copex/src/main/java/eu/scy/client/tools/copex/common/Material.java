@@ -32,6 +32,7 @@ public class Material implements Cloneable {
     private final static String TAG_MATERIAL_ID = "id";
     private final static String TAG_MATERIAL_NAME = "name";
     private final static String TAG_MATERIAL_DESCRIPTION = "info";
+    private final static String TAG_MATERIAL_URL_DESCRIPTION = "url_description";
     private final static String TAG_MATERIAL_SOURCE_COPEX = "material_source_copex";
     private final static String TAG_MATERIAL_SOURCE_TEACHER = "material_source_teacher";
     private final static String TAG_MATERIAL_SOURCE_ACTION = "material_source_action";
@@ -44,6 +45,8 @@ public class Material implements Cloneable {
     private List<LocalText> listName;
     /* description */
     private List<LocalText> listDescription;
+    /*url description */
+    private String URLDescription;
     /* types of the material */
     private List<TypeMaterial> listType;
     /* parameters */
@@ -52,31 +55,34 @@ public class Material implements Cloneable {
 
     
 
-    public Material(long dbKey, List<LocalText> listName, List<LocalText> listDescription, MaterialSource materialSource) {
+    public Material(long dbKey, List<LocalText> listName, List<LocalText> listDescription, String URLDescription, MaterialSource materialSource) {
         this.dbKey = dbKey;
         this.code = "";
         this.listName = listName;
         this.listDescription = listDescription;
+        this.URLDescription = URLDescription;
         this.listType = new ArrayList();
         this.listParameters = new ArrayList();
         this.materialSource = materialSource;
     }
 
-    public Material(long dbKey, String code, List<LocalText> listName, List<LocalText> listDescription, List<TypeMaterial> listType, List<Parameter> listParameters, MaterialSource materialSource) {
+    public Material(long dbKey, String code, List<LocalText> listName, List<LocalText> listDescription, String URLDescription, List<TypeMaterial> listType, List<Parameter> listParameters, MaterialSource materialSource) {
         this.dbKey = dbKey;
         this.code = code;
         this.listName = listName;
         this.listDescription = listDescription;
+        this.URLDescription = URLDescription;
         this.listType = listType;
         this.listParameters = listParameters;
         this.materialSource = materialSource;
     }
 
-    public Material(List<LocalText> listName, List<LocalText> listDescription, List<TypeMaterial> listType, List<Parameter> listParameters, MaterialSource materialSource){
+    public Material(List<LocalText> listName, List<LocalText> listDescription, String URLDescription, List<TypeMaterial> listType, List<Parameter> listParameters, MaterialSource materialSource){
         this.dbKey = -1;
         this.code = "";
         this.listName = listName;
         this.listDescription = listDescription;
+        this.URLDescription = URLDescription;
         this.listType = listType;
         this.listParameters = listParameters;
         this.materialSource = materialSource;
@@ -99,10 +105,14 @@ public class Material implements Cloneable {
                 Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
                 listDescription.add(new LocalText(e.getText(), l));
             }
+            URLDescription = null;
+            if(xmlElem.getChild(TAG_MATERIAL_URL_DESCRIPTION) != null){
+                URLDescription = xmlElem.getChild(TAG_MATERIAL_URL_DESCRIPTION).getText();
+            }
             listType = new LinkedList<TypeMaterial>();
-			for (Iterator<Element> variableElem = xmlElem.getChildren(TypeMaterial.TAG_TYPE_REF).iterator(); variableElem.hasNext();) {
-				listType.add(new TypeMaterial(variableElem.next(), listTypeMaterial));
-			}
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TypeMaterial.TAG_TYPE_REF).iterator(); variableElem.hasNext();) {
+                listType.add(new TypeMaterial(variableElem.next(), listTypeMaterial));
+            }
             listParameters = new LinkedList<Parameter>();
 			for (Iterator<Element> variableElem = xmlElem.getChildren(Parameter.TAG_PARAMETER).iterator(); variableElem.hasNext();) {
 				listParameters.add(new Parameter(variableElem.next(), idQuantity++, listPhysicalQuantity));
@@ -243,6 +253,14 @@ public class Material implements Cloneable {
         }
     }
 
+    public String getURLDescription() {
+        return URLDescription;
+    }
+
+    public void setURLDescription(String URLDescription) {
+        this.URLDescription = URLDescription;
+    }
+
     public String toDisplay(Locale locale){
         String s = CopexUtilities.getText(listName, locale);
         return s;
@@ -314,6 +332,11 @@ public class Material implements Cloneable {
                 listDescriptionC.add((LocalText)t.next().clone());
             }
             material.setListDescription(listDescriptionC);
+            String urlDescription = null;
+            if(this.URLDescription != null){
+                urlDescription = new String(this.URLDescription);
+            }
+            material.setURLDescription(urlDescription);
             ArrayList<TypeMaterial>  listT = null;
             if (this.listType != null){
                 listT = new ArrayList();
@@ -374,6 +397,9 @@ public class Material implements Cloneable {
                 element.addContent(e);
             }
         }
+        if(URLDescription != null){
+            element.addContent(new Element(TAG_MATERIAL_URL_DESCRIPTION).setText(URLDescription));
+        }
         for (Iterator<TypeMaterial> type = listType.iterator(); type.hasNext();) {
             element.addContent(type.next().toXMLRef());
 	}
@@ -413,6 +439,10 @@ public class Material implements Cloneable {
 
     public void setMaterialSource(MaterialSource materialSource) {
         this.materialSource = materialSource;
+    }
+
+    public boolean hasMoreInfo(){
+        return this.URLDescription != null && this.URLDescription.length() >0 ;
     }
     
 }
