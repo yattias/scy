@@ -17,11 +17,18 @@ public enum EloFunctionalRole
 {
 
    MAP_CONCEPT("mapConcept"), MAP_INITIAL_IDEAS("mapInitialIdeas"), MAP_KEY_IDEAS("mapKeyIdeas"),
-   DATASET_MANUAL("datasetManual"), DATASET_AUTOMATIC("datasetAutomatic"), DATASET_PROCESSED("datasetProcessed"),
+   DATASET("dataset","datasetManual","datasetAutomatic"),
+   /*DATASET_MANUAL("datasetManual"), DATASET_AUTOMATIC("datasetAutomatic"),*/ 
+   DATASET_PROCESSED("datasetProcessed"),
    EXPERIMENTAL_DESIGN("experimentalDesign"), EXPERIMENTAL_CONCLUSION("experimentalConclusion"),
    DRAWING_DESIGN("drawingDesign"),
+   ARTEFACT_DESIGNED("artefactDesigned"),
+   STATEMENT_PROBLEM("statementProblem"),
+   WEB_SUMMARY("webSummary"),
    HYPOTHESIS("hypothesis"),
+   DATA_ANALYSIS("dataAnalysis"),
    RESEARCH_QUESTION("researchQuestion"),
+   ARGUMENT("argument"),
    INTERVIEW("interview"),
    DOCUMENT_DESIGN("documentDesign"),DOCUMENT_REFLECTION("documentReflection"),
    REPORT_EVALUATION("reportEvaluation"), REPORT_FINAL("reportFinal"),
@@ -30,18 +37,23 @@ public enum EloFunctionalRole
    SOURCE_DATA("sourceData");
    
    private final String string;
+   private final String[] alternativeStrings;
    private static final Map<String,EloFunctionalRole> stringMap = new HashMap<String,EloFunctionalRole>();
    
    static{
       for (EloFunctionalRole value : EloFunctionalRole.values()){
          stringMap.put(value.string.toUpperCase(), value);
          stringMap.put(value.name().toUpperCase(), value);
+         for (String s: value.alternativeStrings){
+            stringMap.put(s.toUpperCase(), value);
+         }
       }
    }
    
-   private EloFunctionalRole(String string)
+   private EloFunctionalRole(String string, String...alternativeStrings)
    {
       this.string = string;
+      this.alternativeStrings = alternativeStrings;
    }
 
    protected static EloFunctionalRole myValueOf(String aString)
