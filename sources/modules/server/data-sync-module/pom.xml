@@ -48,7 +48,7 @@
   	</dependency>
 		
   	<dependency>
-  		<groupId>eu.scy.server</groupId>
+  		<groupId>eu.scy.common</groupId>
   		<artifactId>smacket-extension</artifactId>
   		<version>${project.version}</version>
   	</dependency>
@@ -60,7 +60,7 @@
   	</dependency>
 		
   	<dependency>
-  		<groupId>eu.scy.common</groupId>
+  		<groupId>eu.scy.server</groupId>
   		<artifactId>whacket-extension</artifactId>
   		<version>${project.version}</version>
   	</dependency>
