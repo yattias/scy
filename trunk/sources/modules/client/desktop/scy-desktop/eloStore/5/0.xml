@@ -66,6 +66,7 @@
       <xPos>0.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>A great small las top left</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</instructionUri>
       <loElos>
         <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
       </loElos>
@@ -82,6 +83,9 @@
           <anchor>roolo://memory/99/0/Mission_intro.text</anchor>
         </inputAnchors>
         <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</resourcesUri>
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
