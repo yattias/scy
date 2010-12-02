@@ -1,21 +1,17 @@
 package eu.scy.tools.math.shapes;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.LinearGradientPaint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
 import eu.scy.tools.math.ui.UIUtils;
-import eu.scy.tools.math.ui.paint.Colors;
 
 public class MathRectangle extends Rectangle implements IMathRectangle {
 
@@ -165,6 +161,16 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 		return points;
 	}
 
+	@Override
+	public double getHeight() {
+		return getRectangle().height;
+	}
+	
+	@Override
+	public double getWidth() {
+		return getRectangle().width;
+	}
+	
 	@Override
 	public void setId(String id) {
 		this.id = id;

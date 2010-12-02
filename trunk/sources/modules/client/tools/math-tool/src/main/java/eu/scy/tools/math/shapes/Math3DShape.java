@@ -6,17 +6,13 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
@@ -24,11 +20,12 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.ui.UIUtils;
+import eu.scy.tools.math.ui.border.DashBorder;
 
 
 public class Math3DShape extends JXPanel implements IMathShape, I3D{
 
-	public final static String SHAPE = "SHAPE";
+
 	protected static final int TEXTFIELD_LENGTH = 4;
 	private String id;
 	protected JXLabel surfaceAreaLabel;
@@ -42,6 +39,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel errorLabel;
 	private boolean hasError = false;
 	private List<Action> shapeListeners = new ArrayList<Action>();
+	
 	
 	public Math3DShape(int x, int y) {
 		setLayout(new BorderLayout(1, 1));
@@ -87,7 +85,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		errorLabel = new JXLabel("Needs a Number.");
 		errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
 		addButton = new JXButton("Add");
-		addButton.putClientProperty(SHAPE, this);
+		addButton.putClientProperty(UIUtils.SHAPE, this);
 		
 		buttonPanel.setOpaque(false);
 		buttonPanel.add(errorLabel);
@@ -174,6 +172,10 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 	@Override
 	public void setShowCornerPoints(boolean showCornerPoints) {
+		if( showCornerPoints )
+			this.setBorder(new DashBorder(UIUtils.SHAPE_3D_DASH_BORDER_COLOR));
+		else 
+			this.setBorder(null);
 	}
 
 	@Override

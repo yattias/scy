@@ -1,10 +1,7 @@
 package eu.scy.tools.math.shapes;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,7 +10,6 @@ import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
-import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
@@ -21,13 +17,11 @@ import org.jdesktop.swingx.JXTextField;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
 
-public class MathCylinder3D extends Math3DShape {
+public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	
 	private JXTextField radiusTextField;
 	private JXLabel radiusLabel;
-	private JXLabel surfaceAreaLabel;
 	private Component heightLabel;
-	private JXTextField heightTextField;
 	private JXLabel heightValueLabel;
 
 
@@ -40,7 +34,7 @@ public class MathCylinder3D extends Math3DShape {
 		JXPanel allPanel = new JXPanel(new BorderLayout(0, 0));
 
 		allPanel.setOpaque(false);
-		ImageIcon icon = (ImageIcon) Images.Cylinder3d.getIcon();
+		ImageIcon icon = (ImageIcon) Images.Cylinder3dLarge.getIcon();
 
 		JXLabel iconLabel = new JXLabel(icon);
 		// iconLabel.setSize(iconLabel.getSize());
@@ -104,7 +98,7 @@ public class MathCylinder3D extends Math3DShape {
 		}
 		
 		
-		if(checkForError = true) {
+		if(checkForError == true) {
 			setHasError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 		}
@@ -114,7 +108,23 @@ public class MathCylinder3D extends Math3DShape {
 
 	@Override
 	public String getType() {
-		return "Sphere 3D";
+		return "Cylinder";
+	}
+
+	@Override
+	public String getHeightValue() {
+		return heightValueLabel.getText();
+	}
+
+	@Override
+	public String getWidthValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRadiusValue() {
+		return radiusTextField.getText();
 	}
 	
 }

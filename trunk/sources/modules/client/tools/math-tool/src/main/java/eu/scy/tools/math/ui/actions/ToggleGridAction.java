@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JTabbedPane;
 
 import eu.scy.tools.math.ui.MathTool;
 import eu.scy.tools.math.ui.UIUtils;
@@ -27,8 +28,14 @@ public class ToggleGridAction extends AbstractAction {
 		MathTool mathTool = (MathTool) UIUtils.componentLookup
 				.get(UIUtils.MATH_TOOL_PANEL);
 
-		ShapeCanvas shapeCanvas = (ShapeCanvas) UIUtils.findComponent(
-				UIUtils.SHAPE_CANVAS, mathTool.getMainPanel());
+		JTabbedPane tabs = (JTabbedPane) UIUtils.findComponentFromRoot(
+				UIUtils.TABS, mathTool.getMainPanel());
+		
+		
+		int selectedIndex = tabs.getSelectedIndex();
+		Component tabComponentAt = tabs.getSelectedComponent();
+		ShapeCanvas shapeCanvas = (ShapeCanvas) UIUtils.findComponentAt(
+				UIUtils.SHAPE_CANVAS,tabComponentAt);
 
 		shapeCanvas.setShowGrid(!shapeCanvas.isShowGrid());
 		shapeCanvas.repaint();

@@ -1,20 +1,12 @@
 package eu.scy.tools.math.shapes;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
-import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
@@ -24,13 +16,8 @@ import eu.scy.tools.math.ui.images.Images;
 
 public class MathSphere3D extends Math3DShape {
 
-	
-
-	
-	
 	private JXTextField radiusTextField;
 	private JXLabel radiusLabel;
-	private JXLabel surfaceAreaLabel;
 
 	public MathSphere3D(int x, int y) {
 		super(x,y);
@@ -41,7 +28,7 @@ public class MathSphere3D extends Math3DShape {
 		JXPanel allPanel = new JXPanel(new BorderLayout(0, 0));
 
 		allPanel.setOpaque(false);
-		ImageIcon icon = (ImageIcon) Images.Sphere3d.getIcon();
+		ImageIcon icon = (ImageIcon) Images.Sphere3dLarge.getIcon();
 
 		JXLabel iconLabel = new JXLabel(icon);
 		// iconLabel.setSize(iconLabel.getSize());
@@ -101,7 +88,7 @@ public class MathSphere3D extends Math3DShape {
 
 	@Override
 	public String getType() {
-		return "Sphere 3D";
+		return "Sphere";
 	}
 
 }

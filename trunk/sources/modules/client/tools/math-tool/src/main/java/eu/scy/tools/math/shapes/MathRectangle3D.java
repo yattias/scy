@@ -1,17 +1,13 @@
 package eu.scy.tools.math.shapes;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
-import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
@@ -19,8 +15,9 @@ import org.jdesktop.swingx.JXTextField;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
 
-public class MathRectangle3D extends Math3DShape {
+public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	
+	private static final long serialVersionUID = 1L;
 	private JXLabel lengthLabel;
 	private JXTextField lengthTextField;
 	protected JXLabel heightLabel;
@@ -40,7 +37,7 @@ public class MathRectangle3D extends Math3DShape {
 		JXPanel allPanel = new JXPanel(new BorderLayout(0,0));
 		
 		allPanel.setOpaque(false);
-		ImageIcon icon = (ImageIcon) Images.Rectangle3d.getIcon();
+		ImageIcon icon = (ImageIcon) Images.Rectangle3dLarge.getIcon();
 		
 		JXLabel iconLabel = new JXLabel(icon);
 //		iconLabel.setSize(iconLabel.getSize());
@@ -104,7 +101,7 @@ public class MathRectangle3D extends Math3DShape {
 		}
 		
 		
-		if(checkForError = true) {
+		if(checkForError == true) {
 			setHasError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 		}
@@ -117,7 +114,18 @@ public class MathRectangle3D extends Math3DShape {
 
 	@Override
 	public String getType() {
-		return "3D Rectangle";
+		return "Rectangle";
 	}
+
+	@Override
+	public String getHeightValue() {
+		return heightValueLabel.getText();
+	}
+
+	@Override
+	public String getWidthValue() {
+		return widthValueLabel.getText();
+	}
+
 
 }

@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
 public class ComputationTableModel extends AbstractTableModel {
 

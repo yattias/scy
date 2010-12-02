@@ -2,13 +2,10 @@ package edu.scy.tools.math.test;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
-import eu.scy.tools.math.adapters.AdjustSizeAdapter;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
 import eu.scy.tools.math.shapes.MathEllipse;
 import eu.scy.tools.math.shapes.MathRectangle;
@@ -36,7 +33,7 @@ public class ShapesTest {
 
 		ShapeCanvas r = new ShapeCanvas(true);
 		
-		new ShapeMoverAdapter(r);
+//		new ShapeMoverAdapter(r);
 //		new AdjustSizeAdapter(r);
 //		r.addShape(me);
 //		r.addShape(mtr);

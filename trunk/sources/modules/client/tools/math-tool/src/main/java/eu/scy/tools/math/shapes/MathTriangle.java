@@ -17,9 +17,6 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
 import diva.canvas.CanvasUtilities;
-import diva.util.java2d.Polygon2D;
-import diva.util.java2d.ShapeUtilities;
-
 import eu.scy.tools.math.ui.UIUtils;
 
 public class MathTriangle extends Rectangle implements IMathTriangle {
@@ -33,7 +30,8 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	private Point pointQ;
 	private Point pointR;
 	private Polygon polygon;
-
+	private double triHeight;
+	private double triWidth;
 
 	public MathTriangle(int x, int y, int length) {
 		setPointP(new Point(x,y)); //top
@@ -162,9 +160,10 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 			   System.out.println("baseline " + baseLine);
 			   System.out.println("CenterLine " + centerLine);
 			   
-			   if( centerLine.intersectsLine(baseLine)) {
+//			   if( centerLine.intersectsLine(baseLine)) {
 				
-				
+			   double height = Math.abs((centerLine.getY1() - centerLine.getY2()));
+			   
 				Stroke oldStroke = g2.getStroke();
 				Stroke thindashed = new BasicStroke(1.0f, // line width
 						/* cap style */BasicStroke.CAP_BUTT,
@@ -179,34 +178,65 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				g2.setStroke(oldStroke);
 				
 				
-				 double height = Math.abs((centerLine.getY1() - centerLine.getY2()));
+				 
 				//text height
 				String s = "h = " + height;
-
+				
+				this.setHeight(height);
+				
 			    AttributedString widthText = new AttributedString(s);
 			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
 			    
-			    
-				
-				
-				FontMetrics metrics = g.getFontMetrics();
-				 
-				Rectangle2D rect = metrics.getStringBounds(s, g);
-				int sw = (int) rect.getWidth();
-				
-				
 			    Point2D centerPoint = CanvasUtilities.getCenterPoint(centerLine.getBounds2D());
 			    
 //			    System.out.println("------ new Point " + centerPoint);
 			    g2.setPaint(Color.black);
 			    g2.drawString(widthText.getIterator(), (int)centerPoint.getX() + 5,(int)centerPoint.getY());
+				
+				
+				FontMetrics metrics = g.getFontMetrics();
+				 
+				Rectangle2D rect = metrics.getStringBounds(s, g);
+				
+				double width = Math.abs((baseLine.getX1() - baseLine.getX2()));
+				
+				this.setWidth(width);
+				
+				String ws = "w = " + width;
+
+				    widthText = new AttributedString(ws);
+				    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
+			    
+//			    System.out.println("------ new Point " + centerPoint);
+			    g2.setPaint(Color.black);
+			     centerPoint = CanvasUtilities.getCenterPoint(baseLine.getBounds2D());
+
+			    g2.drawString(widthText.getIterator(), (int)centerPoint.getX() + 5,(int)centerPoint.getY() - 5);
 		
-		}
+//		}
 
 		
 			
 	}
 
+	@Override
+	public double getHeight() {
+		return triHeight;
+	}
+	
+	@Override
+	public double getWidth() {
+		return triWidth;
+	}
+	
+	public void setHeight(double triHeight) {
+		this.triHeight = triHeight;
+	}
+	
+	public void setWidth(double triWidth) {
+		this.triWidth = triWidth;
+	}
+	
 	@Override
 	public void setFillColor(Color fillColor) {
 		this.fillColor = fillColor;

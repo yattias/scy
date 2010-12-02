@@ -21,7 +21,6 @@ import org.jdesktop.swingx.painter.Painter;
 
 import eu.scy.tools.math.ui.paint.Colors;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
-import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class UIUtils {
 
@@ -29,10 +28,11 @@ public class UIUtils {
 	public static final String _3D = "3D"; //$NON-NLS-1$
 	public static final String _2D = "2D"; //$NON-NLS-1$
 	public static final String SHAPE_CANVAS = "SHAPE_CANVAS";
+	public static final String TABS = "TABS";
 	public static final String MATH_TOOL_PANEL = "MATH_TOOL_PANEL";
 	public static final int SHAPE_END_POINT_SIZE = 8;
 	public static final Font plainFont = new Font("Times New Roman", Font.PLAIN, 13);
-    public static final Color dottedShapeLine = Color.yellow;
+    public static final Color dottedShapeLine = Color.blue;
     public static final String CIRCLE = "CIRCLE";
 	public static final String TRIANGLE = "TRIANGLE";
 	public static final String RECTANGLE = "RECTANGLE";
@@ -40,7 +40,9 @@ public class UIUtils {
 	public static final String SPHERE3D = "SPHERE3D";
 	public static final Object CYLINDER3D = "CYLINDER3D";
 	public static final Color ERROR_SHAPE_COLOR = Color.red;
-	
+	public static final String TYPE = "TYPE";
+	public final static String SHAPE = "SHAPE";
+	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.blue;
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
@@ -57,7 +59,7 @@ public class UIUtils {
 		return compList;
 	}
 
-	public static Component findComponent(String name, Component c) {
+	public static Component findComponentFromRoot(String name, Component c) {
 		Container root = (Container) SwingUtilities.getRoot(c);
 
 		if( root == null ) {
@@ -74,6 +76,21 @@ public class UIUtils {
 		return null;
 
 	}
+	
+	public static Component findComponentAt(String name, Component root) {
+		
+		List<Component> allComponents = UIUtils.getAllComponents((Container) root);
+
+		for (Component component : allComponents) {
+			if (component.getName() != null && component.getName().equals(name)) {
+				return component;
+			}
+		}
+
+		return null;
+
+	}
+	
 
 	public static void setModTitlePanel(JXTitledPanel panel) {
 		panel.setBorder(new RoundedBorder(3));
@@ -133,7 +150,7 @@ public class UIUtils {
 
 	public static Painter getSymbolButtonPainter() {
 
-		MattePainter mp = new MattePainter(Colors.Black.alpha(0.5f));
+		MattePainter mp = new MattePainter(Colors.Black.alpha(0.9f));
 		GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
 				GlossPainter.GlossPosition.TOP);
 		// return (new CompoundPainter(mp, gp));

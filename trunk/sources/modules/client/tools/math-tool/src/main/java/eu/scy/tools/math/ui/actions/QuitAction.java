@@ -9,7 +9,7 @@ import eu.scy.tools.math.ui.Messages;
 public class QuitAction extends AbstractAction {
 
 	public QuitAction() {
-		super(Messages.getString("QuitAction.0")); //$NON-NLS-1$
+		super("Quit"); //$NON-NLS-1$
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

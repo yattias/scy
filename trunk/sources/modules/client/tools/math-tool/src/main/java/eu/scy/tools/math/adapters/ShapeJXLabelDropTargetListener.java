@@ -12,17 +12,24 @@ import java.io.IOException;
 
 import javax.swing.JLabel;
 
-import org.jdesktop.swingx.JXLabel;
-
+import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.dnd.DnDUtils;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class ShapeJXLabelDropTargetListener implements DropTargetListener {
 
 	private ShapeCanvas shapeCanvas;
+	private MathToolController mathToolController;
+	private String type;
 
-	public ShapeJXLabelDropTargetListener(ShapeCanvas studentPlanningTool) {
-		this.shapeCanvas = studentPlanningTool;
+	public ShapeJXLabelDropTargetListener(ShapeCanvas shapeCanvas) {
+		this.shapeCanvas = shapeCanvas;
+	}
+
+	public ShapeJXLabelDropTargetListener(
+			MathToolController mathToolController, String type) {
+		this.mathToolController = mathToolController;
+		this.type = type;
 	}
 
 	@Override
@@ -80,7 +87,7 @@ public class ShapeJXLabelDropTargetListener implements DropTargetListener {
 					+ o.getClass().getName());
 			
 			if( o instanceof JLabel) {
-				shapeCanvas.addShape((JLabel)o, dropPoint);
+				mathToolController.addShape((JLabel)o, dropPoint,type);
 			}
 			
 			
