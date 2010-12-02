@@ -1,24 +1,22 @@
 package eu.scy.tools.math.adapters;
 
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.HashMap;
 
-import javax.activation.MailcapCommandMap;
 import javax.swing.JComponent;
 
+import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.shapes.IMathEllipse;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.shapes.IMathTriangle;
-import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.panels.IShapeCanvas;
+import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class AdjustSizeAdapter extends MouseAdapter {
 
@@ -28,9 +26,18 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	private IMathShape foundShape;
 	private int x;
 	private int y;
+	private MathToolController mathToolController;
 	
 	public AdjustSizeAdapter(IShapeCanvas shapeCanvas) {
 		this.shapeCanvas = shapeCanvas;
+		((JComponent) this.shapeCanvas).addMouseListener(this);
+		((JComponent) this.shapeCanvas).addMouseMotionListener(this);
+	}
+
+	public AdjustSizeAdapter(MathToolController mathToolController, String type) {
+		this.mathToolController = mathToolController;
+		HashMap<String, ShapeCanvas> shapeCanvases = this.mathToolController.getShapeCanvases();
+		this.shapeCanvas = shapeCanvases.get(type);
 		((JComponent) this.shapeCanvas).addMouseListener(this);
 		((JComponent) this.shapeCanvas).addMouseMotionListener(this);
 	}
@@ -49,6 +56,7 @@ public class AdjustSizeAdapter extends MouseAdapter {
 					System.out.println("adjust contains found it!! "
 							+ foundShape);
 					foundShape = shape;
+					mathToolController.setSelectedMathShape(foundShape);
 					position = i;
 					return;
 			}

@@ -1,16 +1,13 @@
 package eu.scy.tools.math.ui.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -18,12 +15,9 @@ import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableModel;
@@ -41,10 +35,8 @@ import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import eu.scy.tools.math.dnd.JLabelSelection;
 import eu.scy.tools.math.ui.ComputationDataObject;
 import eu.scy.tools.math.ui.UIUtils;
-import eu.scy.tools.math.ui.images.Images;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
 
 
@@ -54,26 +46,27 @@ public class ControlPanel extends JXPanel {
 	private String type;
 	private DefaultTableModel twoDeeTableModel;
 	private JXTitledPanel tableAreaPanel;
-	private ArrayList<JXButton> symbolicButtons;
-	private ArrayList<JXButton> adderButtons;
-	private ArrayList<JXButton> numberButtons;
+
 	private JXButton removeAllButton;
 	private JXButton removeSelectedButton;
 	private JXTitledPanel tableArea;
 	private JXTitledPanel calcPanel;
 	private JXTitledPanel shapePanel;
 	private JXTable table;
+	private JXButton addToTableButton;
+	private JXLabel resultLabel;
+	private JXButton subtractResultButton;
+	private Calculator calculator;
 
-	public ControlPanel(String type, LayoutManager layout) {
-		super(layout);
+	public ControlPanel(String type) {
+		super(new GridLayout(2,1));
 		this.type = type;
 		init();
 	}
 
 	private void init() {
-		this.add(createShapesPanel(), "grow, wrap"); //$NON-NLS-1$
-		this.add(createCalculatorPanel(),"wrap"); //$NON-NLS-1$
-		this.add(createTableArea(),"grow, span"); //$NON-NLS-1$
+		this.add(createCalculatorPanel()); //$NON-NLS-1$
+		this.add(createTableArea()); //$NON-NLS-1$
 	}
 	
 	private JXTitledPanel createTableArea() {
@@ -81,7 +74,7 @@ public class ControlPanel extends JXPanel {
 		UIUtils.setModTitlePanel(tableAreaPanel);
 		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 0 0 0 0"));
 		
-		allPanel.add(createTable(), "grow");
+		allPanel.add(createTable(),"grow, span");
 		
 		tableAreaPanel.add(allPanel);
 		return tableAreaPanel;
@@ -177,60 +170,9 @@ public class ControlPanel extends JXPanel {
 		}
 		
 	};
-	private JXButton addToTableButton;
-	private JXLabel resultLabel;
-	private JXButton subtractResultButton;
-	
-	private JXTitledPanel createShapesPanel() {
-		shapePanel = new JXTitledPanel(type + " " +"Shapes");
-		UIUtils.setModTitlePanel(shapePanel);
-		
-		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset 3 3 3 3"));
-		allPanel.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 
-		List<Images> shapes = getShapes(type);
-		for (Images image : shapes) {
-			
-			JLabel label = new JLabel(image.getIcon());
-			label.setName(image.getName());
-			label.setTransferHandler(new JLabelSelection());
-			
-			label.addMouseListener(new MouseAdapter(){
-			      public void mousePressed(MouseEvent e){
-			    	 
-			        JComponent jc = (JComponent)e.getSource();
-			        TransferHandler th = jc.getTransferHandler();
-			        th.exportAsDrag(jc, e, TransferHandler.COPY);
-			      }
-			    });
-			allPanel.add(label, "grow");
-		}
-		
-		shapePanel.add(allPanel);
-		return shapePanel;
-	}
 	
-	private List<Images> getShapes(String type) {
-		
-		List<Images> shapeImages = new ArrayList<Images>();
-		
-		if( type.equals(UIUtils._2D)) {
-			
-			
-			shapeImages.add(Images.Circle);
-			
-			shapeImages.add(Images.Triangle);
-			
-			shapeImages.add(Images.Rectangle);
-		} else if( type.equals(UIUtils._3D)) {
-			shapeImages.add(Images.Rectangle3d);
-			shapeImages.add(Images.Sphere3d);
-			shapeImages.add(Images.Cylinder3d);
-		}
-		
-		return shapeImages;
-
-	}
+	
 
 
 	
@@ -241,123 +183,19 @@ public class ControlPanel extends JXPanel {
 		
 		JXPanel outerPanel = new JXPanel(new MigLayout("fill, inset 5 5 5 5"));
 		outerPanel.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
-		JXPanel calculator = new JXPanel(new MigLayout("fill, inset 5 5 5 5"));
-		calculator.setBorder(new RoundedBorder(5));
-		
-		JXTextField sumTextField = new JXTextField("Formula");
-		sumTextField.addActionListener(calcTextFieldListner);
-		sumTextField.setBackground(Color.WHITE);
-		sumTextField.setOpaque(true);
-		calculator.add(sumTextField,"growx, wrap");
-		
-		JXPanel buttonPanel = new JXPanel(new GridLayout(5,5,6,6));
-		
-		//symbolic
-		symbolicButtons = new ArrayList<JXButton>();
-		adderButtons = new ArrayList<JXButton>();
-		numberButtons = new ArrayList<JXButton>();
-		
-		symbolicButtons.add(new JXButton("¹"));
-		symbolicButtons.add(new JXButton("x2"));
-		symbolicButtons.add(new JXButton("x3"));
-		symbolicButtons.add(new JXButton("."));
-		symbolicButtons.add(new JXButton("C"));
-		symbolicButtons.add(new JXButton("("));
-		symbolicButtons.add(new JXButton(")"));
-		symbolicButtons.add(new JXButton("R"));
-		symbolicButtons.add(new JXButton("W"));
-		symbolicButtons.add(new JXButton("H"));
-		
-		adderButtons.add(new JXButton("*"));
-		adderButtons.add(new JXButton("-"));
-		adderButtons.add(new JXButton("/"));
-		adderButtons.add(new JXButton("+"));
-		adderButtons.add(new JXButton("="));
-		
 
-		numberButtons.add(new JXButton("4"));
-		numberButtons.add(new JXButton("5"));
-		numberButtons.add(new JXButton("3"));
-		numberButtons.add(new JXButton("9"));
-		numberButtons.add(new JXButton("1"));
-		numberButtons.add(new JXButton("2"));
-		numberButtons.add(new JXButton("8"));
-		numberButtons.add(new JXButton("6"));
-		numberButtons.add(new JXButton("0"));
-		numberButtons.add(new JXButton("7"));
 		
+		setCalculator(new Calculator(type));
 		
-		for (JXButton addButton : adderButtons) {
-			addButton.setOpaque(true);
-			if( addButton.getText().equals("=")) {
-				addButton.setBackgroundPainter(UIUtils.getEqualButtonPainter());
-			} else {
-				addButton.setBackgroundPainter(UIUtils.getAdderButtonPainter());
-			}
-			
-			addButton.setForeground(Color.BLACK);
-			addButton.setBorderPainted(true);
-			addButton.setBorder(new LineBorder(Color.WHITE, 1));
-		}
-		
-		for (JXButton symButton : symbolicButtons) {
-			symButton.setOpaque(true);
-			symButton.setBackgroundPainter(UIUtils.getSymbolButtonPainter());
-			symButton.setForeground(Color.WHITE);
-			symButton.setBorderPainted(true);
-			symButton.setBorder(new LineBorder(Color.WHITE, 1));
-			buttonPanel.add(symButton);
-		}
-
-		for (JXButton numButton : numberButtons) {
-			numButton.setBackgroundPainter(UIUtils.getNumButtonPainter());
-			numButton.setForeground(Color.WHITE);
-			numButton.setBorderPainted(true);
-			numButton.setBorder(new LineBorder(Color.WHITE, 1));
-			buttonPanel.add(numButton);
-			if( numButton.getText().equals("9"))
-				buttonPanel.add(adderButtons.get(0));
-			
-			if( numButton.getText().equals("6"))
-				buttonPanel.add(adderButtons.get(1));
-			
-			if( numButton.getText().equals("7")) {
-				buttonPanel.add(adderButtons.get(2));
-				buttonPanel.add(adderButtons.get(3));
-				buttonPanel.add(adderButtons.get(4));
-			}
-		}
-		
-		
-		
-		
-		
-		buttonPanel.setOpaque(false);
-		calculator.add(buttonPanel,"grow");
-		calculator.setBackgroundPainter(UIUtils.getCalcBackgroundPainter());
-		
-		outerPanel.add(calculator, "grow, wrap");
+	
+		outerPanel.add(getCalculator(), "grow, wrap");
 		
 		 
-	    JXPanel calcButtonPanel = new JXPanel(new MigLayout("fill,insets 5 5 5 5"));
-	    calcButtonPanel.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
-	    
-	    resultLabel = new JXLabel("0.00");
-	    this.modResultLabel(resultLabel);
-	    calcButtonPanel.add(resultLabel,"west");
-	    
-	    
-	    
-	    addToTableButton = new JXButton(addResultAction);
-	    addResultAction.putValue(Action.SHORT_DESCRIPTION, "Adds the calculation to the table.");
-	    subtractResultButton = new JXButton(subtractResultAction);
-	    subtractResultAction.putValue(Action.SHORT_DESCRIPTION, "Subtracts the calculation to the table.");
-	    calcButtonPanel.add(subtractResultButton, "east");
-	    calcButtonPanel.add(addToTableButton, "east");
+	   
 	    
 		
 		
-		outerPanel.add(calcButtonPanel, "grow");
+		outerPanel.add(getCalculator().getCalcButtonPanel(), "grow");
 
 		
 		calcPanel.add(outerPanel);
@@ -365,13 +203,6 @@ public class ControlPanel extends JXPanel {
 		
 		
 		return calcPanel;
-	}
-	
-	private void modResultLabel(JXLabel label) {
-		Font font = label.getFont();
-		Font bigFont = new FontUIResource(font.deriveFont(Font.BOLD, font.getSize2D() * 1.3f)); 
-		label.setFont(bigFont);
-		label.setForeground(Color.blue);
 	}
 	
 	public void setComputationTable(JXTable table) {
@@ -382,76 +213,13 @@ public class ControlPanel extends JXPanel {
 		return table;
 	}
 
-	Action addResultAction = new AbstractAction("Add") {
+	public void setCalculator(Calculator calculator) {
+		this.calculator = calculator;
+	}
 
-		
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			
-			String text = ControlPanel.this.resultLabel.getText();
-			float parseFloat = Float.parseFloat(text);
-			
-			DefaultTableModel model = (DefaultTableModel) ControlPanel.this.getComputationTable().getModel();
-			
-			if( model.getRowCount() == 0 ) {
-				model.addRow(new Object[]{new Integer(1), "test shape",new Float(text),new Float(text)});
-			} else {
-				
-				Vector data = model.getDataVector();
-				Vector lastElement = (Vector) data.lastElement();
-				ComputationDataObject c = new ComputationDataObject(lastElement,UIUtils._2D);
-//				
-				float sum = c.getSum() + parseFloat;
-				
-				model.addRow(new Object[]{new Integer(model.getRowCount() + 1), "test shape",new Float(text),new Float(sum)});
-//				
-			}
-			
-			
-			
-//			model.
-			
-		}
-		
-	};
-	
-	Action subtractResultAction = new AbstractAction("Subtract") {
+	public Calculator getCalculator() {
+		return calculator;
+	}
 
-		
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			
-			float parseFloat = Float.parseFloat(resultLabel.getText());
-			
-		}
-		
-	};
-	
-	ActionListener calcTextFieldListner = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			
-			JXTextField tf = (JXTextField) e.getSource();
-			
-			try {
-				Float.parseFloat(tf.getText());
-			} catch (NumberFormatException nfe) {
-				ErrorInfo info = new ErrorInfo("This is not a number!", "Numbers Only!", null,  "category", 
-						 nfe, Level.ALL, null);
-		         JXErrorPane.showDialog(ControlPanel.this, info);
-		         resultLabel.setText("0.00");
-		         return;
-			}
-			
-			
-			resultLabel.setText(tf.getText());
-			
-			System.out.println("calc fired");
-		}
-	};
 
 }

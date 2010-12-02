@@ -1,24 +1,24 @@
 package eu.scy.tools.math.adapters;
 
-import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import javax.swing.JComponent;
 
-import eu.scy.tools.math.shapes.I3D;
-import eu.scy.tools.math.shapes.IMathRectangle;
+import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.shapes.IMathTriangle;
 import eu.scy.tools.math.ui.panels.IShapeCanvas;
-import eu.scy.tools.math.ui.panels.TestPainter;
+import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class ShapeMoverAdapter extends MouseAdapter {
 
+	
 	int preX, preY;
 
 	boolean isFirstTime = true;
@@ -36,8 +36,18 @@ public class ShapeMoverAdapter extends MouseAdapter {
 	
 	private IMathShape foundShape;
 
+	private MathToolController mathToolController;
+
 	public ShapeMoverAdapter(IShapeCanvas shapeCanvas) {
 		this.shapeCanvas = shapeCanvas;
+		((JComponent) this.shapeCanvas).addMouseListener(this);
+		((JComponent) this.shapeCanvas).addMouseMotionListener(this);
+	}
+
+	public ShapeMoverAdapter(MathToolController mathToolController, String type) {
+		this.mathToolController = mathToolController;
+		HashMap<String, ShapeCanvas> shapeCanvases = this.mathToolController.getShapeCanvases();
+		this.shapeCanvas = shapeCanvases.get(type);
 		((JComponent) this.shapeCanvas).addMouseListener(this);
 		((JComponent) this.shapeCanvas).addMouseMotionListener(this);
 	}
@@ -60,6 +70,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 				System.out.println(shape.toString());
 				foundShape = shape;
 				foundShape.setShowCornerPoints(true);
+				mathToolController.setSelectedMathShape(foundShape);
 					if (hitOnEndPoints == -1) {
 						System.out.println("moving adapter found shape  off corner" +shape.toString());
 						

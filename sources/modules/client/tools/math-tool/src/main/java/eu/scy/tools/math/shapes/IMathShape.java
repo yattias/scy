@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import org.jdesktop.swingx.JXButton;
-
 public interface IMathShape {
 
 	public void repaint();

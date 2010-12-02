@@ -20,7 +20,7 @@ public class JLabelSelection extends TransferHandler implements Transferable {
 	private JComponent component;
 
 	public int getSourceActions(JComponent c) {
-		return TransferHandler.COPY;
+		return TransferHandler.COPY_OR_MOVE;
 	}
 
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {

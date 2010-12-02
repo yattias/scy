@@ -15,8 +15,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
-import org.jdesktop.swingx.JXButton;
-
 import eu.scy.tools.math.ui.UIUtils;
 
 public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
