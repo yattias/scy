@@ -48,4 +48,8 @@ public class CompletingActionLogger implements IActionLogger {
         }
     }
 
+    public IActionLogger getInternalLogger() {
+        return internalLogger;
+    }
+    
 }
