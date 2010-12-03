@@ -23,7 +23,10 @@ public class MultiActionLogger implements IActionLogger {
     private List<IActionLogger> loggers;
 
     public MultiActionLogger(IActionLogger... loggers) {
-        this.loggers = new ArrayList<IActionLogger>(Arrays.asList(loggers));
+        this(new ArrayList<IActionLogger>(Arrays.asList(loggers)));
+    }
+    public MultiActionLogger(List<IActionLogger> loggers) {
+        this.loggers = loggers;
         this.lock = new ReentrantLock();
     }
 
