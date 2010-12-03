@@ -21,13 +21,4 @@ public class DevNullActionLogger implements IActionLogger {
         log(action);
     }
 
-    @Override
-    public void setMissionRuntimeURI(String missionRuntimeURI) {
-        // doing absolutely nothing here
-    }
-
-    @Override
-    public String getMissionRuntimeURI() {
-        return null;
-    }
 }

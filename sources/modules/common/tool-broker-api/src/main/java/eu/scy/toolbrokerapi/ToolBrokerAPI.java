@@ -1,6 +1,7 @@
 package eu.scy.toolbrokerapi;
 
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.api.IContextService;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.common.scyelo.RooloServices;
@@ -32,6 +33,11 @@ public interface ToolBrokerAPI extends RooloServices {
      */
     public IActionLogger getActionLogger();
 
+    /**
+     * @return the context service
+     */
+    public IContextService getContextService();
+    
     /**
      * Registers the {@link INotifiable} for notifications
      */
