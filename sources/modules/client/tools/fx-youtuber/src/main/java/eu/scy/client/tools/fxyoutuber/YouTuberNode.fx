@@ -16,6 +16,11 @@ import java.lang.String;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import java.util.ArrayList;
+import javafx.scene.control.ScrollBarPolicy;
+import javafx.scene.control.ScrollView;
+import javafx.scene.layout.LayoutInfo;
+import javafx.scene.layout.VBox;
 
 /**
  * @author pg
@@ -30,12 +35,28 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         setScyWindowTitle();
     };
     public var spacing:Number on replace { requestLayout() }
-    var nodes:Node[];
-    override var children = bind [nodes, foreground];
-
     public var windowTitle:String;
 
+
+    var dataSets:ArrayList;
+    
+    var contentList:VBox = VBox{};
+
+    var sv:ScrollView = ScrollView {
+        node: contentList;
+        style: "-fx-background-color: transparent;"
+        vbarPolicy: ScrollBarPolicy.AS_NEEDED;
+        hbarPolicy: ScrollBarPolicy.NEVER;
+        layoutInfo: LayoutInfo{
+            height: bind scyWindow.height-60;
+            width: bind scyWindow.width+25;
+        }
+    }
+
+    var nodes:Node[];
     var foreground:Node[];
+    override var children = bind [nodes, foreground];
+    
 
     def addURLButton:Button = Button {
         text: "add YT URL"
@@ -54,43 +75,52 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
             ]
     }
 
+    var content:VBox = VBox {
+        content: [
+            menuBar,
+            sv]
+    }
+
 
     postinit {
-        //insert YouTubeDataEditor{} into nodes;
-
-        /*
-        println("asking fer yt url..");
-        var test:String = JOptionPane.showInputDialog(
-                null,
-                null,
-                "GIEV YOUTUBE URL",
-                JOptionPane.OK_OPTION);
-        println(test);
-        */
-        insert menuBar into nodes;
+        insert content into nodes;
+        dataSets = new ArrayList();
     }
 
     function getNewURL() {
         
     }
 
-    public function addDataSet(inputURL:String, title:String, text:String) {
-        var url = inputURL;
-        //Dataset type
-        //url kleinhacken
-        if(url.equalsIgnoreCase("")) {
-            url = "http://www.youtube.com/watch?v=spn-84Qe9i8";
-
+    public function updateDataSet(id:Integer, dataSet:YouTuberDataSet):Void {
+        if(id == -1) {
+            dataSets.add(dataSet);
         }
-        var ytid = YouTubeSplitter.split(url);
-
-        println(ytid);
-        println(title);
-        println(text);
-
+        else {
+            dataSets.set(id, dataSet);
+        }
+        //call refresh on GUI
+        refreshGUIList();
     }
 
 
+    function refreshGUIList():Void {
+        delete contentList.content;
+
+        for(i in [0..dataSets.size()-1]) {
+            var item = YouTuberItem {
+                dataSetID: i;
+                dataSet: (dataSets.get(i) as YouTuberDataSet);
+                ytNode: this;
+            }
+            insert item into contentList.content;
+
+        }
+
+        
+    }
+
+
+    
     public function closePopup(item:Node):Void {
         delete item from foreground;
     }

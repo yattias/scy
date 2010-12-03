@@ -9,7 +9,7 @@ package eu.scy.client.tools.fxyoutuber;
  *
  * @author pg
  */
-public class YouTubeDataSet {
+public class YouTuberDataSet {
     private String ytid;
     private String title;
     private String text;
