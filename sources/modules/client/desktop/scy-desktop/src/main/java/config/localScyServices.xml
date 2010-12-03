@@ -28,6 +28,8 @@
       <property name="enableLogging" value="${enableLocalLogging}"/>
    </bean>
 
+	<bean id="contextservice" class="eu.scy.actionlogging.ContextService"/>
+	
    <bean name="awarenessService" class="eu.scy.client.desktop.localtoolbroker.DummyAwarenessService">
    </bean>
 
