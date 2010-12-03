@@ -356,12 +356,6 @@ public class RepositoryWrapper implements IRepository
    }
 
    @Override
-   public String getIndexDirectory()
-   {
-      throw new UnsupportedOperationException("Not supported yet.");
-   }
-
-   @Override
    public List<IELO> retrieveAllELOs()
    {
       throw new UnsupportedOperationException("Not supported yet.");
