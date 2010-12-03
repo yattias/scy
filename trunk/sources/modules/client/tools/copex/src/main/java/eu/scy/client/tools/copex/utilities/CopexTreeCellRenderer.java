@@ -10,6 +10,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.Box;
@@ -307,6 +308,13 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         if(taskDrawElement != null && taskDrawElement.getChildren() != null && taskDrawElement.getChildren().size() > 0){
             panelNode.add(getDrawPanel()) ;
             drawPanel.getWhiteBoardPanel().setContentStatus(taskDrawElement);
+            Rectangle2D r = drawPanel.getWhiteBoardPanel().getEnclosingScreenRectangle();
+            int y = 0;
+            if(textNode != null)
+                y = textNode.getY()+textNode.getHeight();
+            if(commentNode != null)
+                y = commentNode.getY()+commentNode.getHeight();
+            drawPanel.setBounds(0, y, (int)(r.getBounds().getWidth()+r.getBounds().getX())+30, (int)(r.getBounds().getHeight()+r.getBounds().getY()) + 30);
         }else{
             if(drawPanel != null){
                 panelNode.remove(drawPanel);
@@ -434,7 +442,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     private MyWhiteBoardPanel getDrawPanel(){
         if (this.drawPanel == null){
             this.drawPanel = new MyWhiteBoardPanel();
-            this.drawPanel.setSize(100,100);
+            //this.drawPanel.setSize(100,100);
             this.drawPanel.setPreferredSize(getSize());
         }
         return drawPanel ;
@@ -473,6 +481,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
 
         int width = labelNodeD.width < commentNodeD.width ? commentNodeD.width : labelNodeD.width;
         width = width < taskImageD.width ? taskImageD.width : width ;
+        width = width < taskDrawD.width ? taskDrawD.width : width ;
         width = width < textNodeD.width ? textNodeD.width : width ;
         width = width < materialTableD.width ? materialTableD.width : width ;
         return new Dimension(width, height);

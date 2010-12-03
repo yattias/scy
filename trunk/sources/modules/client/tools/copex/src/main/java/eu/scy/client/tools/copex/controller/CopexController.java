@@ -27,6 +27,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import java.net.URL;
 
 /**
  * le 03/03/09 : plusieurs proc initiaux lies a une mission
@@ -910,7 +911,7 @@ public class CopexController implements ControllerInterface {
             if (isNewTaskActionNamed){
                newA = ((CopexActionNamed)newTask).getNamedAction() ;
            }
-            if(newA != null){
+            if(newA != null && newTask instanceof CopexActionParam){
                 Object[] newTabParam = ((CopexActionParam)newTask).getTabParam() ;
                 for (int i=0; i<newTabParam.length; i++){
                     if(newTabParam[i] instanceof ActionParam){
@@ -2254,5 +2255,9 @@ public class CopexController implements ControllerInterface {
         return new CopexReturn();
     }
 
-    
+    /** returns the copex url */
+    @Override
+    public URL getCopexURL(){
+        return null;
+    }
 }

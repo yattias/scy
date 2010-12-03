@@ -195,11 +195,19 @@ public class CopexHTML {
             taskTable += "</span></td>\n";
         taskTable += "</tr>\n";
         if(comments != null && comments.length() > 0){
-        taskTable += "<tr>\n";
+            taskTable += "<tr>\n";
             taskTable += "<td> <span class='comment'>\n";
-                taskTable += comments+"\n";
+            taskTable += comments+"\n";
             taskTable += "</span></td>\n";
-        taskTable += "</tr>\n";
+            taskTable += "</tr>\n";
+        }
+        if(task.getDraw() != null){
+            taskTable += "<tr>\n";
+            taskTable += "<td> <span class='task_draw'>\n";
+            String fileName = "labdoc-task-"+task.getDbKey()+".png";
+            taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\">\n";
+            taskTable += "</span></td>\n";
+            taskTable += "</tr>\n";
         }
         if(hasChildren){
         taskTable += "<tr>\n";

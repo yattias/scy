@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -30,7 +32,7 @@ public abstract  class CopexTask implements Cloneable {
     public final static String TAG_TASK_DESCRIPTION = "description";
     public final static String TAG_TASK_COMMENTS = "comments";
     public final static String TAG_TASK_IMAGE = "image";
-    public final static String TAG_TASK_DRAW="draw";
+    public final static String TAG_TASK_DRAW="task_draw";
 
 
 
@@ -444,14 +446,14 @@ public abstract  class CopexTask implements Cloneable {
             element.addContent(new Element(TAG_TASK_IMAGE).setText(taskImage));
         if(draw != null){
             Element e = new Element(TAG_TASK_DRAW) ;
-            e.addContent(draw);
+            e.addContent(draw.cloneContent());
             element.addContent(e);
         }
         element.addContent(taskRight.toXML());
         if(taskRepeat != null){
             element.addContent(taskRepeat.toXML());
         }
-		return element;
+        return element;
     }
 
     public List<Material> getAllMaterialProd(){

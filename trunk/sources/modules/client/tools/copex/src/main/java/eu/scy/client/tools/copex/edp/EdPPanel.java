@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.edp;
 
+import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.client.tools.copex.common.*;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.dnd.SubTree;
@@ -13,17 +14,28 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.IllegalComponentStateException;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.jdom.Element;
 import org.jdom.output.Format;
@@ -761,6 +773,44 @@ public class EdPPanel extends JPanel {
         updateMenu();
         procModif = true;
         return new CopexReturn();
+    }
+
+    public void createDrawTaskPreview(long dbKeyTask, WhiteboardPanel whiteboardPanel){
+        URL copexURL = this.controller.getCopexURL();
+        if(copexURL == null || whiteboardPanel == null)
+            return;
+        BufferedImage outImage=new BufferedImage(whiteboardPanel.getWidth(),whiteboardPanel.getHeight(),BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics=outImage.createGraphics();
+        whiteboardPanel.paint(graphics);
+
+        String fileName = "labdoc-task-"+dbKeyTask+".png";
+        URL imgURL;
+        try {
+            imgURL = new URL(copexURL, "../tools_utilities/InterfaceServer/writeObject.php");
+            HttpURLConnection urlCon = (HttpURLConnection)imgURL.openConnection();
+            urlCon.setDoOutput(true);
+            urlCon.setDoInput(true);
+            urlCon.setRequestMethod("POST");
+            urlCon.connect();
+            ObjectOutputStream out = new ObjectOutputStream(urlCon.getOutputStream());
+            out.writeObject(fileName);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(outImage, "png", baos);
+            byte[] bytesOut = baos.toByteArray();
+            out.writeObject(bytesOut);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), "utf8"));
+            String ligne;
+            while ((ligne = reader.readLine()) != null) {
+               System.out.println(ligne);
+            }
+            out.flush();
+            out.close();
+            urlCon.disconnect();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(EdPPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(IOException ioex){
+            Logger.getLogger(EdPPanel.class.getName()).log(Level.SEVERE, null, ioex);
+        }
     }
 
     /* ajout d'une nouvelle etape */
