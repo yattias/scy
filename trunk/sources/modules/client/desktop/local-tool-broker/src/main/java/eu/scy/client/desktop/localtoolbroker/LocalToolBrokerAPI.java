@@ -9,6 +9,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.api.IContextService;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.notification.api.INotifiable;
@@ -42,10 +43,12 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    private IDataSyncService dataSyncService;
    private PedagogicalPlanService pedagogicalPlanService;
    private StudentPedagogicalPlanService studentPedagogicalPlanService;
+   private IContextService contextService;
 
    private String userName = "not set";
    private URI missionSpecificationURI;
    private URI missionRuntimeURI;
+
 
    @Override
    public void close()
@@ -59,6 +62,7 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
       closeIfPossible(dataSyncService,"dataSyncService");
       closeIfPossible(pedagogicalPlanService,"pedagogicalPlanService");      
       closeIfPossible(studentPedagogicalPlanService,"studentPedagogicalPlanService");      
+      closeIfPossible(contextService,"contextService");      
    }
    
   public void setRepository(IRepository repository)
@@ -143,7 +147,16 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    {
       this.dataSyncService = dataSyncService;
    }
-
+   
+   public void setContextService(IContextService contextService) {
+       this.contextService = contextService;
+   }
+   
+   @Override
+    public IContextService getContextService() {
+        return contextService;
+    }
+   
    @Override
    public IDataSyncService getDataSyncService()
    {
@@ -191,7 +204,6 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    {
       logger.info("setMissionRuntimeURI: "+missionRuntimeURI.toString());
       this.missionRuntimeURI = missionRuntimeURI;
-      actionLogger.setMissionRuntimeURI(missionRuntimeURI.toString());
    }
 
    @Override
