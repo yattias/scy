@@ -54,8 +54,8 @@
                </property>
                <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>dataset_Manual</value>
-                     <value>dataset_Automatic</value>
+                     <value>dataset</value>
+                     <value>dataset</value>
                      <value>dataset_Processed</value>
                   </list>
                </property>
@@ -76,8 +76,8 @@
                </property>
                <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>dataset_Manual</value>
-                     <value>dataset_Automatic</value>
+                     <value>dataset</value>
+                     <value>dataset</value>
                      <value>dataset_Processed</value>
                   </list>
                </property>
