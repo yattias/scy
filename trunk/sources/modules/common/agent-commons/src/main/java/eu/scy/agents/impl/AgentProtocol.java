@@ -59,6 +59,9 @@ public final class AgentProtocol {
 	public static final String ACTION_TOOL_CLOSED = "tool_closed";
 	public static final String ACTION_NODE_ADDED = "node_added";
 	public static final String ACTION_NODE_REMOVED = "node_removed";
+	public static final String ACTION_LAS_CHANGED = "las_changed";
+	public static final String ACTION_LOG_IN = "log_in";
+	public static final Object ACTION_LOG_OUT = "log_out";
 
 	public static final String NOTIFICATION = "notification";
 
