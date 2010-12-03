@@ -17,21 +17,10 @@ public class ActionLogger implements IActionLogger {
 
     private XMPPConnection connection;
     private static Logger debugLogger = Logger.getLogger(ActionLogger.class.getName());
-    private String missionRuntimeURI = null;
-
     /**
      * simple constructor for an actionlogger
      */
     public ActionLogger() {
-    }
-
-    /**
-     * constructor for an actionlogger, setting the missionRuntimeURI
-     *
-     * @param missionRuntimeURI as string
-     */
-    public ActionLogger(String missionRuntimeURI) {
-        this.missionRuntimeURI = missionRuntimeURI;
     }
 
     /**
@@ -55,9 +44,6 @@ public class ActionLogger implements IActionLogger {
 
                 packet.setFrom(connection.getUser());
                 packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
-                if (missionRuntimeURI != null) {
-                    action.addContext(ContextConstants.mission, missionRuntimeURI);
-                }
                 action.setUser(connection.getUser());
                 // creating new instances of transformer instead of reusing because of racing conditions
                 ActionPacketTransformer transformer = new ActionPacketTransformer();
@@ -91,13 +77,4 @@ public class ActionLogger implements IActionLogger {
         return "eu.scy.actionlogging.logger.ActionLogger connected via XMPP to " + connection.getHost() + ":" + connection.getPort();
     }
 
-    @Override
-    public void setMissionRuntimeURI(String missionRuntimeURI) {
-        this.missionRuntimeURI = missionRuntimeURI;
-    }
-
-    @Override
-    public String getMissionRuntimeURI() {
-        return this.missionRuntimeURI;
-    }
 }

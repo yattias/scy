@@ -1,6 +1,5 @@
 package eu.scy.actionlogging;
 
-import eu.scy.actionlogging.api.ContextConstants;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -21,7 +20,6 @@ public class SystemOutActionLogger implements IActionLogger {
 
     private OutputFormat format;
     private XMLWriter writer;
-    private String missionRuntimeURI;
 
     public SystemOutActionLogger() {
         this.format = OutputFormat.createPrettyPrint();
@@ -36,9 +34,6 @@ public class SystemOutActionLogger implements IActionLogger {
     public void log(IAction action) {
         // logging to the console
         try {
-            if (missionRuntimeURI != null) {
-                action.addContext(ContextConstants.mission, missionRuntimeURI);
-            }
             writer.write(new ActionXMLTransformer(action).getActionAsElement());
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,13 +46,4 @@ public class SystemOutActionLogger implements IActionLogger {
         log(action);
     }
 
-    @Override
-    public void setMissionRuntimeURI(String missionRuntimeURI) {
-        this.missionRuntimeURI = missionRuntimeURI;
-    }
-
-    @Override
-    public String getMissionRuntimeURI() {
-        return this.missionRuntimeURI;
-    }
 }

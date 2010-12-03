@@ -1,6 +1,5 @@
 package eu.scy.actionlogging;
 
-import eu.scy.actionlogging.api.ContextConstants;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,13 +33,8 @@ public class FileLogger implements IActionLogger {
     protected final static int BUF_SIZE = 512;
     private OutputStreamWriter write;
     private Transformer trans;
-    private String missionRuntimeURI;
 
     public FileLogger(String filename) {
-        this(filename, null);
-    }
-
-    public FileLogger(String filename, String missionRuntimeURI) {
         logFile = new File(filename);
         try {
             trans = TransformerFactory.newInstance().newTransformer();
@@ -94,9 +88,6 @@ public class FileLogger implements IActionLogger {
     @Override
     public void log(IAction action) {
         try {
-            if (missionRuntimeURI != null) {
-                action.addContext(ContextConstants.mission, missionRuntimeURI);
-            }
             write.write(new ActionXMLTransformer(action).getActionAsString() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,13 +100,4 @@ public class FileLogger implements IActionLogger {
         log(action);
     }
 
-    @Override
-    public void setMissionRuntimeURI(String missionRuntimeURI) {
-        this.missionRuntimeURI = missionRuntimeURI;
-    }
-
-    @Override
-    public String getMissionRuntimeURI() {
-        return this.missionRuntimeURI;
-    }
 }

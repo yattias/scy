@@ -13,6 +13,9 @@ import javax.security.auth.login.LoginException;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -28,6 +31,7 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.api.IContextService;
 import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.DataSyncService;
@@ -70,6 +74,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	private IELOFactory eloFactory;
 
 	private IActionLogger actionLogger;
+
+	private IContextService contextService;
 
 	private SessionManager sessionManager;
 
@@ -209,9 +215,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		((ActionLogger) actionLogger).init(xmppConnection);
                 //actionLogger.setMissionRuntimeURI(this.missionRuntimeURI.toString());
 
+		// ContextService
+		contextService = (IContextService) context.getBean("contextservice");
+		
 		// SessionManager (Up-to-date?)
 		sessionManager = (SessionManager) context.getBean("sessionManager");
-
+		
 		// AwarenessService
 		awarenessService = (IAwarenessService) context.getBean("awarenessService");
 		awarenessService.init(xmppConnection);
@@ -353,7 +362,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	private XMPPConnection getConnection(String userName, String password) {
 		if (xmppConnection == null) {
 
-			this.userName = userName;
+			setUsername(userName);
 			this.password = password;
 
 			config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
@@ -438,7 +447,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		return xmppConnection;
 	}
 
-	@Override
+	private void setUsername(String userName) {
+                this.userName = userName;
+                contextService.setUsername(userName);
+        }
+
+    @Override
 	public PedagogicalPlanService getPedagogicalPlanService() {
 		return pedagogicalPlanService;
 	}
@@ -465,9 +479,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		requestCollaborationAction.setUser(xmppConnection.getUser());
 		requestCollaborationAction.setType("collaboration_request");
 		requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
-		requestCollaborationAction.addContext(ContextConstants.mission, missionSpecificationURI.toString());
-		// TODO replace with real session
-		requestCollaborationAction.addContext(ContextConstants.session, "mysession");
 		requestCollaborationAction.addAttribute("proposed_user", proposedUser);
 		requestCollaborationAction.addAttribute("proposed_elo", elouri);
 		if (mucid != null && !mucid.isEmpty()) {
@@ -502,9 +513,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		collaborationResponseAction.setUser(xmppConnection.getUser());
 		collaborationResponseAction.setType("collaboration_response");
 		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
-		collaborationResponseAction.addContext(ContextConstants.mission, missionSpecificationURI.toString());
-		// TODO replace with real session
-		collaborationResponseAction.addContext(ContextConstants.session, "mysession");
 		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
 		collaborationResponseAction.addAttribute("proposing_user", proposingUser);
 		collaborationResponseAction.addAttribute("proposed_elo", elouri);
@@ -534,7 +542,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
    {
       logger.info("setMissionRuntimeURI: "+missionRuntimeURI.toString());
       this.missionRuntimeURI = missionRuntimeURI;
-      actionLogger.setMissionRuntimeURI(missionRuntimeURI.toString());
    }
 
    @Override
@@ -570,6 +577,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     @Override
     public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
             return studentPedagogicalPlanService;
+    }
+
+    @Override
+    public IContextService getContextService() {
+        return contextService;
     }
     
 }

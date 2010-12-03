@@ -1,13 +1,11 @@
 package eu.scy.actionlogging;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.ArrayList;
 
-import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 
@@ -15,29 +13,7 @@ public class SQLSpacesActionLogger implements IActionLogger {
 
     private TupleSpace ts;
 
-    private Field idField;
-
-    private Field userField;
-
-    private Field typeField;
-
-    private Field timeField;
-
-    private Field toolField;
-
-    private Field missionField;
-
-    private Field sessionField;
-
-    private Field actionField;
-
-    private Field dataTypeField;
-
-    private Field dataField;
-
     private ArrayList<IAction> queue;
-
-    private Field eloURIField;
 
     private String space;
 
@@ -45,17 +21,10 @@ public class SQLSpacesActionLogger implements IActionLogger {
 
     private String ip;
 	
-	private String missionRuntimeURI = null;
-
 	public SQLSpacesActionLogger(String ip, int port, String space) {
-        this(ip, port, space, null);
-    }
-
-    public SQLSpacesActionLogger(String ip, int port, String space, String missionRuntimeURI) {
         this.ip = ip;
         this.port = port;
         this.space = space;
-		this.missionRuntimeURI = missionRuntimeURI;
         queue = new ArrayList<IAction>();
         // creating / connecting to a space
         try {
@@ -75,9 +44,6 @@ public class SQLSpacesActionLogger implements IActionLogger {
 
     @Override
     public void log(String username, String source, IAction action) {
-		if (missionRuntimeURI != null) {
-            action.addContext(ContextConstants.mission, missionRuntimeURI);
-        }
         boolean success = writeToTs(action);
         if (!success) {
             queue.add(action);
@@ -85,19 +51,7 @@ public class SQLSpacesActionLogger implements IActionLogger {
     }
 
     private boolean writeToTs(IAction action) {
-        actionField = new Field("action");
-        idField = new Field(action.getId());
-        // timeField = new Field(TimeFormatHelper.getInstance().getISO8601AsLong(action.getTime()));
-        timeField = new Field(action.getTimeInMillis());
-        typeField = new Field(action.getType());
-        userField = new Field(action.getUser());
-        toolField = new Field(action.getContext(ContextConstants.tool));
-        missionField = new Field(action.getContext(ContextConstants.mission));
-        sessionField = new Field(action.getContext(ContextConstants.session));
-        eloURIField = new Field(action.getContext(ContextConstants.eloURI));
-
         Tuple actionTuple = ActionTupleTransformer.getActionAsTuple(action);
-
         try {
             getTS().write(actionTuple);
             return true;
@@ -134,13 +88,4 @@ public class SQLSpacesActionLogger implements IActionLogger {
         log(null, null, action);
     }
 	
-	@Override
-    public void setMissionRuntimeURI(String missionRuntimeURI) {
-        this.missionRuntimeURI = missionRuntimeURI;
-    }
-
-    @Override
-    public String getMissionRuntimeURI() {
-        return this.missionRuntimeURI;
-    }
 }

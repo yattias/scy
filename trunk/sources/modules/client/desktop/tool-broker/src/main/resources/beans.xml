@@ -119,8 +119,24 @@
 			</property>
 		-->
 	</bean>
+	
+	<bean id="actionlogger" class="eu.scy.actionlogging.CompletingActionLogger">
+		<constructor-arg index="0">
+			<ref bean="contextservice" />
+		</constructor-arg>
+		<constructor-arg index="1">
+			<bean class="eu.scy.actionlogging.MultiActionLogger">
+				<constructor-arg index="0">
+					<bean class="eu.scy.actionlogging.logger.ActionLogger" />
+				</constructor-arg>
+				<constructor-arg index="1">
+					<ref bean="contextservice" />
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
 
-	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger"/>
+	<bean id="contextservice" class="eu.scy.actionlogging.ContextService"/>
 
 	<bean id="awarenessService" class="eu.scy.awareness.impl.AwarenessServiceXMPPImpl"/>
 
