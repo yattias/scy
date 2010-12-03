@@ -28,6 +28,8 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.utils.StringUtils;
 import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.CompletingActionLogger;
+import eu.scy.actionlogging.MultiActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -212,9 +214,15 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 		// ActionLogger
 		actionLogger = (IActionLogger) context.getBean("actionlogger");
-		((ActionLogger) actionLogger).init(xmppConnection);
-                //actionLogger.setMissionRuntimeURI(this.missionRuntimeURI.toString());
-
+		IActionLogger internalLogger = ((CompletingActionLogger) actionLogger).getInternalLogger();
+		List<IActionLogger> loggers = ((MultiActionLogger) internalLogger).getLoggers();
+		for (IActionLogger logger : loggers) {
+                    if (logger instanceof ActionLogger) {
+                        ((ActionLogger) logger).init(xmppConnection);
+                    }
+                }
+		
+		
 		// ContextService
 		contextService = (IContextService) context.getBean("contextservice");
                 contextService.setUsername(userName);
