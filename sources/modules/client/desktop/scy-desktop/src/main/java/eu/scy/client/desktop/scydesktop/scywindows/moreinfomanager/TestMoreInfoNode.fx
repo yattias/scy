@@ -6,19 +6,19 @@ package eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 
 /**
  * @author SikkenJ
  */
 public class TestMoreInfoNode extends CustomNode, ScyToolFX {
 
-   public var moreInfoManager: MoreInfoManager;
+   public var showMoreInfo: ShowMoreInfo;
    def spacing = 5.0;
    var eloUri: URI;
 
@@ -29,13 +29,13 @@ public class TestMoreInfoNode extends CustomNode, ScyToolFX {
             Button {
                text: "More assignment"
                action: function() {
-                  moreInfoManager.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Build_design/Assignments/A_House_drawings.html"), MoreInfoTypes.ASSIGNMENT, eloUri);
+                  showMoreInfo.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Build_design/Assignments/A_House_drawings.html"), MoreInfoTypes.ASSIGNMENT, eloUri);
                }
             }
             Button {
                text: "More resources"
                action: function() {
-                  moreInfoManager.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Conceptualization_design/Resources/R_CO2_houses.html"), MoreInfoTypes.RESOURCES, eloUri);
+                  showMoreInfo.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Conceptualization_design/Resources/R_CO2_houses.html"), MoreInfoTypes.RESOURCES, eloUri);
                }
             }
          ]

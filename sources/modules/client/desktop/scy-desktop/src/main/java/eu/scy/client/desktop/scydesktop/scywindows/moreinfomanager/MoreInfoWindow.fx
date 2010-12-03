@@ -84,8 +84,7 @@ public class MoreInfoWindow extends CustomNode {
          width: bind width - 2 * borderWidth - borderLineWidth
          height: bind height - topBorderWidth - borderWidth - borderLineWidth
          content: bind content;
-         //            activated: bind activated;
-         //            activate: activate
+         activated: true
          layoutX: borderWidth + borderLineWidth / 2.0;
          layoutY: topBorderWidth + borderLineWidth / 2.0;
       }

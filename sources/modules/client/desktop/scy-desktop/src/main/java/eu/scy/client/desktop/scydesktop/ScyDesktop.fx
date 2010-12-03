@@ -255,7 +255,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             config: config;
             initializer: initializer
             newTitleGenerator: newTitleGenerator;
-            moreInfoManager:moreInfoManager
+            showMoreInfo:moreInfoManager
          }
       missionRuntimeSettingsManager = missionRunConfigs.missionRuntimeModel.getRuntimeSettingsManager();
       //TODO remove contacts and connect to user management
