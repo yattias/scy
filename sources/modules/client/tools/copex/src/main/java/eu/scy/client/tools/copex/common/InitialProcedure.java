@@ -154,11 +154,6 @@ public class InitialProcedure extends ExperimentalProcedure {
                     listNamedAction.add(new InitialActionTreatment(variablElem.next(), listInitialNamedAction));
                 }
             }
-            if(xmlElem.getChild(InitialNamedAction.TAG_INITIAL_NAMED_ACTION) != null){
-                for (Iterator<Element> variablElem = xmlElem.getChildren(InitialNamedAction.TAG_INITIAL_NAMED_ACTION).iterator(); variablElem.hasNext();) {
-                    listNamedAction.add(new InitialNamedAction(variablElem.next(), idAction++, locale, idActionParam++, listPhysicalQuantity, listTypeMaterial));
-                }
-            }
             if(xmlElem.getChild(InitialActionChoice.TAG_INITIAL_ACTION_CHOICE) != null){
                 for (Iterator<Element> variablElem = xmlElem.getChildren(InitialActionChoice.TAG_INITIAL_ACTION_CHOICE).iterator(); variablElem.hasNext();) {
                     listNamedAction.add(new InitialActionChoice(variablElem.next(), idAction++, locale, idActionParam++, listPhysicalQuantity, listTypeMaterial, idOutput++));

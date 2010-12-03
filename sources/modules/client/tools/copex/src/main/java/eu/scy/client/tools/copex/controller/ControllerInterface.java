@@ -22,6 +22,7 @@ import eu.scy.client.tools.copex.dnd.SubTree;
 import eu.scy.client.tools.copex.edp.TaskSelected;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -121,4 +122,6 @@ public interface ControllerInterface {
     public CopexReturn logUserActionInDB(String type, List<CopexProperty> attribute);
     /** returns if a proc is the proc of the labdoc  */
     public CopexReturn isLabDocProc(ExperimentalProcedure p, ArrayList v);
+    /** returns the copex url */
+    public URL getCopexURL();
 }

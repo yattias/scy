@@ -23,6 +23,13 @@
         <strategy_ref>
             <code>S4</code>
         </strategy_ref>
+        <initial_named_action>
+            <id>TEST_ACTION_DRAW</id>
+            <libelle language="fr">Montage du schéma</libelle>
+            <is_setting>false</is_setting>
+            <draw>true</draw>
+            <repeat>false</repeat>
+        </initial_named_action>
         <question>
             <description language="fr"></description>
             <description language="en"></description>

@@ -445,7 +445,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             drawPanel = new MyWhiteBoardPanel();
             drawPanel.setName("whiteboardPanel");
             if(!modeAdd && taskDraw !=null ){
-//                drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
+                drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
             }
             int y = panelComments.getHeight()+panelComments.getY()+20 ;
             if(labelImage != null){
@@ -884,7 +884,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         }
         if(drawPanel != null){
             // sauvegarde du dessin
-           newAction.setDraw(drawPanel.getWhiteBoardPanel().getStatus());
+            newAction.setDraw(drawPanel.getWhiteBoardPanel().getStatus());
         }
 
         newAction.setTaskRepeat(taskRepeat);
@@ -905,6 +905,9 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
+        }
+        if(drawPanel != null){
+            edP.createDrawTaskPreview(newAction.getDbKey(), drawPanel.getWhiteBoardPanel());
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         this.closeDialog();

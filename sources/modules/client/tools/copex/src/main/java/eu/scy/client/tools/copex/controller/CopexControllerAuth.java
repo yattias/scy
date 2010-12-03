@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
+import java.net.URL;
 
 /**
  * copex controller for copex authoring
@@ -1025,4 +1026,9 @@ public class CopexControllerAuth implements ControllerInterface{
         return listMaterialUsed;
     }
 
+    /** returns the copex url */
+    @Override
+    public URL getCopexURL(){
+        return null;
+    }
 }

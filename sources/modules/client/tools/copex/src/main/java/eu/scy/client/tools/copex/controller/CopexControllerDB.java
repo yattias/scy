@@ -2257,5 +2257,10 @@ public class CopexControllerDB implements ControllerInterface {
         CopexReturn cr = MissionFromDB.updateLabdocStatusInDB(db.getDbC(), dbKeyLabDoc, dbKeyUser, dbKeyGroup);
         return cr;
     }
-    
+
+    /** returns the copex url */
+    @Override
+    public URL getCopexURL(){
+        return this.copexURL;
+    }
 }
