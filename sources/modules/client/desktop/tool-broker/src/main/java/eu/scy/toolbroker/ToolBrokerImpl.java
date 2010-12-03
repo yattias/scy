@@ -217,7 +217,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 		// ContextService
 		contextService = (IContextService) context.getBean("contextservice");
-		
+                contextService.setUsername(userName);
+                
 		// SessionManager (Up-to-date?)
 		sessionManager = (SessionManager) context.getBean("sessionManager");
 		
@@ -362,7 +363,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	private XMPPConnection getConnection(String userName, String password) {
 		if (xmppConnection == null) {
 
-			setUsername(userName);
+			this.userName = userName;
 			this.password = password;
 
 			config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
@@ -446,11 +447,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		}
 		return xmppConnection;
 	}
-
-	private void setUsername(String userName) {
-                this.userName = userName;
-                contextService.setUsername(userName);
-        }
 
     @Override
 	public PedagogicalPlanService getPedagogicalPlanService() {
