@@ -152,11 +152,10 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
   }
 
   public ContextInformation getContextInformation(Tuple beforeTuple) {
-    IAction action = ActionTupleTransformer.getActionFromTuple(beforeTuple);
     ContextInformation result = new ContextInformation();
-    result.user = action.getUser();
-    result.mission = action.getContext(ContextConstants.mission);
-    result.session = action.getContext(ContextConstants.session);
+    result.user = (String) beforeTuple.getField(1).getValue();
+    result.mission = (String) beforeTuple.getField(2).getValue();
+    result.session = (String) beforeTuple.getField(3).getValue();
     return result;
   }
 
