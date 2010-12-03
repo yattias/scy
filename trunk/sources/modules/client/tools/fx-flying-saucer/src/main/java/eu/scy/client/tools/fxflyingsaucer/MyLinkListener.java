@@ -4,6 +4,11 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,7 +25,21 @@ public class MyLinkListener extends LinkListener
 
    private final static Logger logger = Logger.getLogger(MyLinkListener.class);
    private final static String EXTERNAL_TARGET = "_external";
+   private final static String EXTERNAL_MORE_ASSIGNMENT = "_moreAssignment";
+   private final static String EXTERNAL_MORE_RESOURCES = "_moreResources";
    private final static String EXTERNAL_CSS = "external";
+   private ShowMoreInfo showMoreInfo;
+   private URI eloUri;
+
+   public void setShowMoreInfo(ShowMoreInfo showMoreInfo)
+   {
+      this.showMoreInfo = showMoreInfo;
+   }
+
+   public void setEloUri(URI eloUri)
+   {
+      this.eloUri = eloUri;
+   }
 
    @Override
    public void onMouseUp(BasicPanel panel, Box box)
@@ -64,20 +83,49 @@ public class MyLinkListener extends LinkListener
 
          if (uri != null)
          {
-            boolean useExternalBrowser = false;
-            String target = panel.getSharedContext().getNamespaceHandler().getAttributeValue((Element) node, "target");
-            logger.debug("link target: " + target);
-            if (EXTERNAL_TARGET.equalsIgnoreCase(target))
+            try
             {
-               useExternalBrowser = true;
+               URI realUri = new URI(uri);
+               String target = panel.getSharedContext().getNamespaceHandler().getAttributeValue((Element) node, "target");
+               logger.debug("link target: " + target);
+               if (EXTERNAL_TARGET.equalsIgnoreCase(target))
+               {
+                  logger.info("launch external browser for " + uri);
+                  BareBonesBrowserLaunch.openURL(uri);
+                  uri = null;
+               }
+               else if (EXTERNAL_MORE_ASSIGNMENT.equalsIgnoreCase(target))
+               {
+                  if (showMoreInfo != null)
+                  {
+                     logger.info("show more assignment with " + uri);
+                     showMoreInfo.showMoreInfo(realUri, MoreInfoTypes.ASSIGNMENT, eloUri);
+                  }
+                  else
+                  {
+                     logger.info("could not show more assignment (showMoreInfo==null) with " + uri);
+                  }
+                  uri = null;
+               }
+               else if (EXTERNAL_MORE_RESOURCES.equalsIgnoreCase(target))
+               {
+                  if (showMoreInfo != null)
+                  {
+                     logger.info("show more resources with " + uri);
+                     showMoreInfo.showMoreInfo(realUri, MoreInfoTypes.RESOURCES, eloUri);
+                  }
+                  else
+                  {
+                     logger.info("could not show more resources (showMoreInfo==null) with " + uri);
+                  }
+                  uri = null;
+               }
+               break;
             }
-            if (useExternalBrowser)
+            catch (URISyntaxException ex)
             {
-               logger.info("launch external browser for " + uri);
-               BareBonesBrowserLaunch.openURL(uri);
-               uri = null;
+               logger.error("error in uri", ex);
             }
-            break;
          }
       }
 
