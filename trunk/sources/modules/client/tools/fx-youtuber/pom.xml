@@ -5,7 +5,7 @@
      <parent>
                 <artifactId>parent</artifactId>
                 <groupId>eu.scy.client</groupId>
-                <version>27-SNAPSHOT</version>
+                <version>28-SNAPSHOT</version>
      </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -38,6 +38,11 @@
             <artifactId>scy-desktop</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        <dependency>
+          <groupId>eu.scy.client.tools</groupId>
+          <artifactId>fx-flying-saucer</artifactId>
+          <version>${pom.version}</version>
+      </dependency>
     </dependencies>
 
     <build>

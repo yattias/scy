@@ -23,11 +23,19 @@ import javafx.scene.input.MouseEvent;
  */
 
 public class YouTubeDataEditor extends CustomNode {
-    var nodes:Node[];
-    override var children = bind nodes;
+
     public-init var ytNode:YouTuberNode;
+    public-init var dataSetID:Integer = -1;
+    public-init var ytID:String;
+    public-init var title:String;
+    public-init var text:String;
+    public-init var dataSet:YouTuberDataSet = null;
+
+    var nodes:Node[];
     var oldX = this.translateX;
     var oldY = this.translateY;
+    override var children = bind nodes;
+
 
     var textLayout:LayoutInfo = LayoutInfo {
         hfill: false;
@@ -37,15 +45,17 @@ public class YouTubeDataEditor extends CustomNode {
     }
     
     var youTubeField:TextBox = TextBox {
+        text: bind ytID with inverse;
     }
 
     var titleField:TextBox = TextBox {
-        
+        text: bind title with inverse;
     }
 
     var textField:TextBox = TextBox {
         multiline: true;
         layoutInfo: textLayout;
+        text: bind text with inverse;
     }
     var standardLayout:LayoutInfo = LayoutInfo {
                     hfill: false;
@@ -65,45 +75,19 @@ public class YouTubeDataEditor extends CustomNode {
     var okButton:Button = Button {
         text: "ok"
         action:function():Void {
-            ytNode.addDataSet(youTubeField.text, titleField.text, textField.text);
+            this.dataSet = prepareDataSet(ytID, title, text);
+            ytNode.updateDataSet(dataSetID, dataSet);
             ytNode.closePopup(this);
         }
 
     }
-
-
-
-
-/*
-    var content = HBox {
-        content: [
-            VBox {
-                content: [
-                    Text {content: "YouTube URL:", layoutInfo: textLayout},
-                    Text { content: "Title:", layoutInfo: textLayout },
-                    Text { content: "Description:", layoutInfo: textLayout }
-                ]
-            },
-            VBox {
-                content: [
-                    youTubeField,
-                    titleField,
-                    textField
-                ]
-            }
-        ]
-        translateX: 10;
-        translateY: 10;
-    }
- }
-*/
 
     var content = Grid {
         rows: [
             GridRow { cells: [Text { content: "YouTube URL:" }, youTubeField]},
             GridRow { cells: [Text { content: "Title:" }, titleField]},
             GridRow { cells: [Text { content: "Description:" }, textField]},
-            GridRow { cells: [Text{}, HBox { content: [cancelButton, okButton] hpos: HPos.RIGHT }] }
+            GridRow { cells: [null, HBox { content: [cancelButton, okButton] hpos: HPos.RIGHT }] }
         ]
         translateX: 10;
         translateY: 10;
@@ -118,12 +102,16 @@ public class YouTubeDataEditor extends CustomNode {
         stroke: Color.BLACK;
     }
 
-
     postinit {
-         insert [backgroundRectangle, content] into nodes;
-         this.translateX = 15;
-         this.translateY = 15;
-         this.blocksMouse = true;
+        if(not (dataSet == null)) {
+            this.ytID = dataSet.getYtid();
+            this.title = dataSet.getTitle();
+            this.text = dataSet.getText();
+        }
+        insert [backgroundRectangle, content] into nodes;
+        this.translateX = 15;
+        this.translateY = 15;
+        this.blocksMouse = true;
     }
 
     override var onMousePressed = function(e:MouseEvent):Void {
@@ -136,12 +124,21 @@ public class YouTubeDataEditor extends CustomNode {
         this.translateY = oldY + e.dragY;
     }
 
-    /*
-    override var onMouseReleased = function(e:MouseEvent):Void {
-        oldX = this.translateX;
-        oldY = this.translateY;
-    }
-    */
 
+    function prepareDataSet(inputURL:String, title:String, text:String):YouTuberDataSet {
+        var url = inputURL;
+        if(url.equalsIgnoreCase("")) {
+            url = "http://www.youtube.com/watch?v=spn-84Qe9i8";
+        }
+        var ytid = YouTubeSplitter.split(url);
+        var dataSet:YouTuberDataSet = new YouTuberDataSet();
+
+        dataSet.setYtid(ytid);
+        dataSet.setText(title);
+        dataSet.setText(text);
+
+        return dataSet;
+
+    }
 
 }
