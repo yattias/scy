@@ -44,7 +44,7 @@ public class WindowContent extends CustomNode {
          x: 0, y: 0
          width: 140, height: 90
          fill: Color.TRANSPARENT
-         //      fill: bind if (activated) Color.rgb(92,255,92,0.15) else Color.rgb(255,92,92,0.15)
+//               fill: bind if (activated) Color.rgb(92,255,92,0.15) else Color.rgb(255,92,92,0.15)
          onMousePressed: function(e: MouseEvent): Void {
             if (not activated or swingInitMode) {
                activate();

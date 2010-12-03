@@ -12,12 +12,16 @@ import java.net.URL;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 
 /**
  * @author SikkenJ
  */
 public class TestMoreInfoTool extends CustomNode, ShowInfoUrl {
 
+   def spacing = 5.0;
    def infoUrlDisplay = Label {
          layoutX: 5.0
          layoutY: 5.0
@@ -32,7 +36,24 @@ public class TestMoreInfoTool extends CustomNode, ShowInfoUrl {
                height: 2000
                fill: Color.YELLOW
             }
-            infoUrlDisplay
+            VBox {
+               spacing: spacing
+               padding: Insets {
+                  top: spacing
+                  right: spacing
+                  bottom: spacing
+                  left: spacing
+               }
+               content: [
+                  infoUrlDisplay,
+                  Button {
+                     text: "test"
+                     action: function() {
+
+                     }
+                  }
+               ]
+            }
          ]
       }
    }
