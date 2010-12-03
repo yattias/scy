@@ -4,7 +4,9 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.extend.UserAgentCallback;
@@ -21,13 +23,24 @@ import org.xhtmlrenderer.swing.HoverListener;
 public class MyXhtmlPanel extends XHTMLPanel
 {
 
+   private MyLinkListener myLinkListener = new MyLinkListener();
+
+   public void setShowMoreInfo(ShowMoreInfo showMoreInfo)
+   {
+      myLinkListener.setShowMoreInfo(showMoreInfo);
+   }
+
+   public void setEloUri(URI eloUri){
+      myLinkListener.setEloUri(eloUri);
+   }
+
    public MyXhtmlPanel(UserAgentCallback uac, boolean addMouseTracking)
    {
       super(uac);
       if (addMouseTracking)
       {
          addMouseTrackingListener(new HoverListener());
-         addMouseTrackingListener(new MyLinkListener());
+         addMouseTrackingListener(myLinkListener);
          //addMouseTrackingListener(new LinkListener());
          addMouseTrackingListener(new CursorListener());
          setFormSubmissionListener(new FormSubmissionListener()
@@ -46,7 +59,6 @@ public class MyXhtmlPanel extends XHTMLPanel
    }
 
    // overrride some methods to prevent null pointer exceptions
-
    @Override
    protected Document loadDocument(String uri)
    {

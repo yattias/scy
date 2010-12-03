@@ -126,4 +126,9 @@ public class UriManager extends NaiveUserAgent
       historyIndex++;
       return history.get(historyIndex);
    }
+
+   public void clear(){
+      history.clear();
+      historyIndex = -1;
+   }
 }

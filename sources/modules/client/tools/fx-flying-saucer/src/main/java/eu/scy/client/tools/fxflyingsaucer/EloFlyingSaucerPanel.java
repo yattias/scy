@@ -5,6 +5,7 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import eu.scy.client.common.scyi18n.UriLocalizer;
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
@@ -135,6 +136,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
          logger.error("the home elo does not exists: " + uri);
          return;
       }
+      setEloUri(uri);
       String homeUrl = null;
       URI homeUri = null;
       switch (urlSource)

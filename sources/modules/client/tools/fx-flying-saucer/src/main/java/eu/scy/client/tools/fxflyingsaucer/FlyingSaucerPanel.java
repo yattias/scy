@@ -5,9 +5,11 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -18,7 +20,6 @@ import org.w3c.dom.Document;
 import org.xhtmlrenderer.event.DocumentListener;
 import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.simple.FSScrollPane;
-import org.xhtmlrenderer.simple.XHTMLPanel;
 import org.xhtmlrenderer.util.GeneralUtil;
 
 /**
@@ -220,7 +221,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    }
    // Variables declaration - do not modify
    private UriManager uriManager;
-   private XHTMLPanel browser;
+   private MyXhtmlPanel browser;
    private FSScrollPane browserScrollPane;
    private javax.swing.JButton previousButton;
    private javax.swing.JButton nextButton;
@@ -305,6 +306,19 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       }
       previousButton.setEnabled(uriManager.hasPrevious());
       nextButton.setEnabled(uriManager.hasNext());
+   }
+
+   public void clearHistory(){
+      uriManager.clear();
+   }
+
+   public void setShowMoreInfo(ShowMoreInfo showMoreInfo)
+   {
+      browser.setShowMoreInfo(showMoreInfo);
+   }
+
+   public void setEloUri(URI eloUri){
+      browser.setEloUri(eloUri);
    }
 
    private String getXhtmlErrorText(URL url, String errorMessage)

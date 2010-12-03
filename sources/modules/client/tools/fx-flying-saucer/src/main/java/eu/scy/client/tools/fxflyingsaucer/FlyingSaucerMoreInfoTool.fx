@@ -29,6 +29,7 @@ public class FlyingSaucerMoreInfoTool extends CustomNode, Resizable, ShowInfoUrl
 
    override public function showInfoUrl(url: URL): Void {
       if (url != null) {
+         flyingSaucerPanel.clearHistory();
          flyingSaucerPanel.loadUrl(url.toString());
       }
    }
