@@ -134,7 +134,7 @@ public class Calculator extends JXPanel {
 		adderButtons = new ArrayList<JXButton>();
 		numberButtons = new ArrayList<JXButton>();
 		
-		JXButton symButton = new JXButton("¹");
+		JXButton symButton = new JXButton("pi");
 		
 		buttonFont = symButton.getFont().deriveFont(Font.BOLD, 12f);
 		
