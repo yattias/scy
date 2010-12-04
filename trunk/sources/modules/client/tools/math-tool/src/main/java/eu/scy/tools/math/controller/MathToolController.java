@@ -62,20 +62,20 @@ import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class MathToolController {
 
-	private static Logger log = Logger.getLogger("MathToolController.class"); //$NON-NLS-1$
+	protected static Logger log = Logger.getLogger("MathToolController.class"); //$NON-NLS-1$
 
-	private HashMap<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
-	private HashMap<String, Calculator> calculators = new HashMap<String, Calculator>();
-	private HashMap<String, JXTable> computationTables = new HashMap<String, JXTable>();
-	private IMathShape mathShape;
+	protected HashMap<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
+	protected HashMap<String, Calculator> calculators = new HashMap<String, Calculator>();
+	protected HashMap<String, JXTable> computationTables = new HashMap<String, JXTable>();
+	protected IMathShape mathShape;
 
-	private XStream xstream;
+	protected XStream xstream;
 
 	public MathToolController() {
 		init();
 	}
 
-	private void init() {
+	protected void init() {
 		xstream = new XStream(new DomDriver());
 		xstream.alias("rectangle", MathRectangle.class);
 		xstream.alias("triangle", MathTriangle.class);
