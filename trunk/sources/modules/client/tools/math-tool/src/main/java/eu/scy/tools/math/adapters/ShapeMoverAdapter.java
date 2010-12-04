@@ -70,7 +70,10 @@ public class ShapeMoverAdapter extends MouseAdapter {
 				System.out.println(shape.toString());
 				foundShape = shape;
 				foundShape.setShowCornerPoints(true);
-				mathToolController.setSelectedMathShape(foundShape);
+				
+				if( mathToolController != null )
+					mathToolController.setSelectedMathShape(foundShape);
+				
 					if (hitOnEndPoints == -1) {
 						System.out.println("moving adapter found shape  off corner" +shape.toString());
 						

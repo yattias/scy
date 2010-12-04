@@ -1,12 +1,33 @@
 package edu.scy.tools.math.test;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.jdesktop.swingx.JXButton;
+import org.jdesktop.swingx.JXPanel;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import net.miginfocom.swing.MigLayout;
+import eu.scy.tools.math.adapters.AdjustSizeAdapter;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
+import eu.scy.tools.math.shapes.IMathRectangle;
+import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.shapes.MathEllipse;
 import eu.scy.tools.math.shapes.MathRectangle;
 import eu.scy.tools.math.shapes.MathRectangle3D;
@@ -16,8 +37,8 @@ import eu.scy.tools.math.ui.panels.ShapeCanvas;
 public class ShapesTest {
 	public static void main(String[] args) {
 		
-		JFrame frame = new JFrame("mathTool"); //$NON-NLS-1$
-		frame.setLayout(new MigLayout("fill")); //$NON-NLS-1$
+		final JFrame frame = new JFrame("mathTool"); //$NON-NLS-1$
+		frame.setLayout(new BorderLayout(1,1)); //$NON-NLS-1$
 		// JScrollPane scrollPane = new JScrollPane(doInit());
 		//				
 		// scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -27,11 +48,19 @@ public class ShapesTest {
 		int height = 800;
 		frame.setPreferredSize(new Dimension(width,height));
 		
-		MathTriangle t = new MathTriangle(200, 100,103);
-		MathRectangle mtr = new MathRectangle(20, 40, 100, 100);
-		MathEllipse me = new MathEllipse(200, 200, 200, 200);
+		final MathTriangle t = new MathTriangle(200, 100,103);
+		final MathRectangle mtr = new MathRectangle(20, 40, 100, 100);
+		final MathEllipse me = new MathEllipse(200, 200, 200, 200);
 
-		ShapeCanvas r = new ShapeCanvas(true);
+		final ShapeCanvas shapeCanvas = new ShapeCanvas(true);
+		
+		
+		new ShapeMoverAdapter(shapeCanvas);
+		new AdjustSizeAdapter(shapeCanvas);
+		
+//		shapeCanvas.addShape(t);
+//		shapeCanvas.addShape(mtr);
+//		shapeCanvas.addShape(me);
 		
 //		new ShapeMoverAdapter(r);
 //		new AdjustSizeAdapter(r);
@@ -45,11 +74,103 @@ public class ShapesTest {
 //		r.add(b);
 		
 		MathRectangle3D mr3 = new MathRectangle3D(100, 200);
-		r.addShape(mr3);
-		r.setBackground(Color.white);
+		shapeCanvas.addShape(mr3);
+//		r.setBackground(Color.white);
+		
+//		new ShapeMoverAdapter(r);
 //		r.add(mtr);
 		
-		frame.add(r,"grow");
+	      final XStream xs = new XStream(new DomDriver());
+      	xs.alias("rectangle", MathRectangle.class);
+			xs.alias("triangle", MathTriangle.class);
+			xs.alias("ellipse", MathEllipse.class);
+			xs.alias("rectange3d", MathRectangle3D.class);
+			
+		JXButton openButton = new JXButton("Open");
+		openButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser fc = new JFileChooser();
+			
+				 
+				 FileNameExtensionFilter filter = new FileNameExtensionFilter("XML", new String[] { "XML" });
+				 fc.setFileFilter(filter);
+				int returnVal = fc.showOpenDialog(frame);
+				
+				
+				 
+	            if (returnVal == JFileChooser.APPROVE_OPTION) {
+	          
+					
+	                File file = fc.getSelectedFile();
+	                String fts = null;
+					try {
+						fts = FileUtils.readFileToString(file);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+					ArrayList newJoe = (ArrayList)xs.fromXML(fts);
+					for (Object object : newJoe) {
+						shapeCanvas.addShape((IMathShape) object);
+					}
+					
+					shapeCanvas.repaint();
+					shapeCanvas.revalidate();
+					
+	            }
+				
+				
+			}});		
+		JXButton saveButton = new JXButton("Save");
+		JXPanel p = new JXPanel();
+		p.setLayout(new FlowLayout(FlowLayout.LEFT));
+		p.add(openButton);
+		p.add(saveButton);
+		saveButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser fc = new JFileChooser();
+			
+				 
+				fc.setSelectedFile(new File("mathToolSavedData.xml"));
+				 FileNameExtensionFilter filter = new FileNameExtensionFilter("XML", new String[] { "XML" });
+				 fc.setFileFilter(filter);
+				int returnVal = fc.showSaveDialog(frame);
+				
+				
+				 
+	            if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            	
+	                File file = fc.getSelectedFile();
+					
+					
+	                String xml = xs.toXML(shapeCanvas.getMathShapes());
+	                try {
+						FileUtils.writeStringToFile(file, xml);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+					shapeCanvas.getMathShapes().removeAll(shapeCanvas.getMathShapes());
+					shapeCanvas.repaint();
+					shapeCanvas.revalidate();
+	            }
+				
+				
+			}});		
+		
+		
+		frame.add(p,BorderLayout.NORTH);
+		frame.add(shapeCanvas,BorderLayout.CENTER);
 		// when you close the frame, the app exits
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

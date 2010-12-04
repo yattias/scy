@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 
-import diva.canvas.CanvasUtilities;
+import eu.scy.tools.math.ui.DrawingUtils;
 import eu.scy.tools.math.ui.UIUtils;
 
 public class MathTriangle extends Rectangle implements IMathTriangle {
@@ -187,7 +187,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 			    AttributedString widthText = new AttributedString(s);
 			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
 			    
-			    Point2D centerPoint = CanvasUtilities.getCenterPoint(centerLine.getBounds2D());
+			    Point2D centerPoint = DrawingUtils.getCenterPoint(centerLine.getBounds2D());
 			    
 //			    System.out.println("------ new Point " + centerPoint);
 			    g2.setPaint(Color.black);
@@ -209,7 +209,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 			    
 //			    System.out.println("------ new Point " + centerPoint);
 			    g2.setPaint(Color.black);
-			     centerPoint = CanvasUtilities.getCenterPoint(baseLine.getBounds2D());
+			     centerPoint = DrawingUtils.getCenterPoint(baseLine.getBounds2D());
 
 			    g2.drawString(widthText.getIterator(), (int)centerPoint.getX() + 5,(int)centerPoint.getY() - 5);
 		
