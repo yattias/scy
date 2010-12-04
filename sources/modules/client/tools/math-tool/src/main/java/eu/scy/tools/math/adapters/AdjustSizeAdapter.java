@@ -56,7 +56,10 @@ public class AdjustSizeAdapter extends MouseAdapter {
 					System.out.println("adjust contains found it!! "
 							+ foundShape);
 					foundShape = shape;
-					mathToolController.setSelectedMathShape(foundShape);
+					
+					if( mathToolController != null)
+						mathToolController.setSelectedMathShape(foundShape);
+					
 					position = i;
 					return;
 			}

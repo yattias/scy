@@ -1,17 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.client.tools</groupId>
         <version>26-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>math-tool</artifactId>
     <packaging>jar</packaging>
     <name>math-tool</name>
-
     <developers>
         <developer>
             <id>anthony</id>
@@ -25,12 +22,7 @@
             <timezone>+1</timezone>
         </developer>
     </developers>
-
     <dependencies>
-
-
-
-  
     	<dependency>
     		<groupId>org.swinglabs</groupId>
     		<artifactId>swingx</artifactId>
@@ -47,6 +39,20 @@
     		<version>3.7.3.1</version>
     		<classifier>swing</classifier>
     	</dependency>
+    	<dependency>
+    		<groupId>com.thoughtworks.xstream</groupId>
+    		<artifactId>xstream</artifactId>
+    		<version>1.4-SNAPSHOT</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>commons-io</groupId>
+    		<artifactId>commons-io</artifactId>
+    		<version>2.0</version>
+    	</dependency>
+	<dependency>
+		<groupId>net.sourceforge.jeval</groupId>
+		<artifactId>jeval</artifactId>
+		<version>0.9.4</version>
+	</dependency>
     </dependencies>
-
 </project>

@@ -217,7 +217,9 @@ public class Calculator extends JXPanel {
 		adderButton.addActionListener(buttonAction);
 		adderButtons.add(adderButton);
 
-		setEqualsButton(new JXButton("="));
+		JXButton eb = new JXButton("=");
+		eb.putClientProperty(UIUtils.TYPE, type);
+		setEqualsButton(eb);
 		adderButtons.add(getEqualsButton());
 		
 		JXButton numButton = new JXButton("4");
@@ -340,7 +342,6 @@ public class Calculator extends JXPanel {
 
 	public void setEqualsButton(JXButton equalsButton) {
 		this.equalsButton = equalsButton;
-		this.equalsButton.putClientProperty(UIUtils.TYPE, UIUtils._2D);
 	}
 
 

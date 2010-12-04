@@ -32,7 +32,9 @@ import org.jdesktop.swingx.JXTitledPanel;
 import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.dnd.JLabelSelection;
 import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
+import eu.scy.tools.math.ui.actions.OpenShapesAction;
 import eu.scy.tools.math.ui.actions.QuitAction;
+import eu.scy.tools.math.ui.actions.SaveShapesAction;
 import eu.scy.tools.math.ui.actions.ToggleGridAction;
 import eu.scy.tools.math.ui.images.Images;
 import eu.scy.tools.math.ui.panels.ControlPanel;
@@ -227,6 +229,8 @@ public class MathTool {
 	public JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File"); //$NON-NLS-1$
+		fileMenu.add(new SaveShapesAction(mathToolController));
+		fileMenu.add(new OpenShapesAction(mathToolController));
 		fileMenu.add(new QuitAction());
 		
 		menuBar.add(fileMenu);
