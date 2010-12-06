@@ -10,8 +10,8 @@
    </parent>
 
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>fx-interviewtool</artifactId>
-   <name>FX interviewtool</name>
+   <artifactId>fx-math-tool</artifactId>
+   <name>FX MathTool</name>
    <packaging>jar</packaging>
 
    <licenses>
@@ -57,6 +57,12 @@
         <dependency>
             <groupId>eu.scy.client.client-common</groupId>
             <artifactId>rich-text-editor</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>math-tool-scy-extensions</artifactId>
             <version>${pom.version}</version>
         </dependency>
 
