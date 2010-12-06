@@ -225,6 +225,7 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function startMission(missionRunConfigs: MissionRunConfigs): Void {
+      logger.info("start mission with {missionRunConfigs}");
       loginWindow.scyContent = WelcomeNode {
             name: missionRunConfigs.tbi.getLoginUserName();
          }

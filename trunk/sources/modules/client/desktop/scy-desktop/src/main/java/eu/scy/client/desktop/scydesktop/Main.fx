@@ -40,6 +40,7 @@ var initializer = Initializer{
    redirectSystemStream:false
    debugMode:true
    authorMode:true
+   dontUseMissionRuntimeElos:false
    missionMapNotSelectedImageScale:1.0
    missionMapSelectedImageScale:1.5
    missionMapPositionScale:1.0

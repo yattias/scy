@@ -16,4 +16,9 @@ public class MissionRunConfigs {
    public-init var tbi: ToolBrokerAPI;
    public-init var missionRuntimeModel: MissionRuntimeModel;
    public-init var missionMapModel: MissionModelFX;
+
+   public override function toString(): String {
+      "MissionRunConfigs\{tbi={tbi}, missionRuntimeModel={missionRuntimeModel}, missionMapModel={missionMapModel}\}"
+   }
+
 }
