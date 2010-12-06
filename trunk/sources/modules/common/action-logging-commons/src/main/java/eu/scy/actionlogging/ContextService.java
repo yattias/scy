@@ -1,6 +1,7 @@
 package eu.scy.actionlogging;
 
 import java.rmi.dgc.VMID;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class ContextService implements IActionLogger, IContextService {
 
     public ContextService() {
         this.session = new VMID().toString();
+        currentlyOpenedELOs = new HashMap<String, Set<String>>();
     }
 
     @Override
