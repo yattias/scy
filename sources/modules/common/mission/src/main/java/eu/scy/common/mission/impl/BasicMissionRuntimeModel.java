@@ -16,6 +16,7 @@ import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsManager;
 import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.scyelo.RooloServices;
+import eu.scy.common.scyelo.ScyElo;
 
 public class BasicMissionRuntimeModel implements MissionRuntimeModel
 {
@@ -40,8 +41,8 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
                .getMissionMapModelEloUri(), rooloServices);
       eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntimeEloContent
                .getEloToolConfigsEloUri(), rooloServices);
-      templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntimeEloContent.getTemplateElosEloUri(),
-               rooloServices);
+      templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntimeEloContent
+               .getTemplateElosEloUri(), rooloServices);
       runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeEloContent
                .getRuntimeSettingsEloUri(), rooloServices);
    }
@@ -59,6 +60,35 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
       this.eloToolConfigsElo = eloToolConfigsElo;
       this.templateElosElo = templateElosElo;
       this.runtimeSettingsElo = runtimeSettingsElo;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder builder = new StringBuilder();
+      builder.append(this.getClass().getName());
+      builder.append("{");
+      appendEloUri(builder, missionRuntimeElo, "missionRuntimeElo");
+      appendEloUri(builder, missionModelElo, ",missionModelElo");
+      appendEloUri(builder, eloToolConfigsElo, ",eloToolConfigsElo");
+      appendEloUri(builder, templateElosElo, ",templateElosElo");
+      appendEloUri(builder, runtimeSettingsElo, ",runtimeSettingsElo");
+      builder.append("}");
+      return builder.toString();
+   }
+
+   private void appendEloUri(StringBuilder builder, ScyElo scyElo, String label)
+   {
+      builder.append(label);
+      if (scyElo == null)
+      {
+         builder.append("=null");
+      }
+      else
+      {
+         builder.append(".uri=");
+         builder.append(scyElo.getUri());
+      }
    }
 
    @Override
