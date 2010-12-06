@@ -8,6 +8,7 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.impl.BasicEloToolConfig;
+import eu.scy.common.mission.impl.ApplyEloToolConfigDefaults;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,10 +22,12 @@ public class BasicEloConfigManager implements EloConfigManager
    private Config config;
    private Set<String> debugCreatorIds = new HashSet<String>();
    private boolean debug = false;
+   private final ApplyEloToolConfigDefaults applyEloToolConfigDefaults = new ApplyEloToolConfigDefaults();
 
    public BasicEloConfigManager(Config config)
    {
       this.config = config;
+      applyEloToolConfigDefaults.setDefaultEloToolConfig(config.getEloToolConfig(ApplyEloToolConfigDefaults.defaultEloToolConfigType));
    }
 
    @Override
@@ -39,7 +42,7 @@ public class BasicEloConfigManager implements EloConfigManager
          basicEloConfig.setRightDrawerCreatorId(getDebugCheckedCreatorId(eloConfig.getRightDrawerCreatorId()));
          basicEloConfig.setBottomDrawerCreatorId(getDebugCheckedCreatorId(eloConfig.getBottomDrawerCreatorId()));
          basicEloConfig.setLeftDrawerCreatorId(getDebugCheckedCreatorId(eloConfig.getLeftDrawerCreatorId()));
-         return basicEloConfig;
+         return applyEloToolConfigDefaults.applyDefaults(basicEloConfig);
       }
       return eloConfig;
    }

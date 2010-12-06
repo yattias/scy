@@ -39,8 +39,6 @@ import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloToolConfigManage
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.client.desktop.scydesktop.elofactory.impl.DefaultSettingEloConfigManager;
 
 /**
  * @author sikkenj
@@ -121,7 +119,6 @@ public class ScyDesktopCreator {
             eloConfigManager = new BasicEloConfigManager(config);
          }
       }
-      eloConfigManager = new DefaultSettingEloConfigManager(eloConfigManager);
 
       handleMissionRunConfigs();
 
