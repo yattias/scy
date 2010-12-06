@@ -147,7 +147,13 @@
 			<artifactId>fx-richtexteditor</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-		
+
+                <dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>fx-math-tool</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
 	</dependencies>
 	
 	<build>
