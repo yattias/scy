@@ -62,14 +62,28 @@ public class JDomConversionUtils
       return element;
    }
 
-   public static boolean getBooleanValue(Element element)
+   public static Boolean getBooleanValue(Element element)
    {
-      return Boolean.parseBoolean(element.getTextTrim());
+      if (element == null)
+      {
+         return null;
+      }
+      String value = element.getTextTrim();
+      if (isEmpty(value))
+      {
+         return null;
+      }
+      return Boolean.parseBoolean(value);
    }
 
-   public static boolean getBooleanValue(Element element, String childName)
+   public static Boolean getBooleanValue(Element element, String childName)
    {
-      return Boolean.parseBoolean(element.getChildTextTrim(childName));
+      return getBooleanValue(element.getChild(childName));
+   }
+
+   private static boolean isEmpty(String string)
+   {
+      return string == null || string.length() == 0;
    }
 
    public static URI getUriValue(Element element) throws URISyntaxException
@@ -98,7 +112,7 @@ public class JDomConversionUtils
 
    public static <T extends Enum<T>> T getEnumValue(Class<T> enumType, String value)
    {
-      if (value == null || value.length()==0)
+      if (value == null || value.length() == 0)
       {
          return null;
       }
