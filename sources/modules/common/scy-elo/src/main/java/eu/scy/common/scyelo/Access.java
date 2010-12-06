@@ -7,7 +7,7 @@ import java.util.Map;
 
 public enum Access
 {
-   DELETED("deleted"), PRIVATE("private"), CLASS("class"), WORLD("world");
+   DELETED("deleted"), PRIVATE("private")/*, CLASS("class")*/, WORLD("world");
    
    private final String string;
    private static final Map<String,Access> stringMap = new HashMap<String,Access>();

@@ -17,7 +17,7 @@ public enum EloFunctionalRole
 {
 
    MAP_CONCEPT("mapConcept"), MAP_INITIAL_IDEAS("mapInitialIdeas"), MAP_KEY_IDEAS("mapKeyIdeas"),
-   DATASET("dataset","datasetManual","datasetAutomatic"),
+   DATASET("dataset","datasetManual","dataset_manual","datasetAutomatic","dataset_automatic"),
    /*DATASET_MANUAL("datasetManual"), DATASET_AUTOMATIC("datasetAutomatic"),*/ 
    DATASET_PROCESSED("datasetProcessed"),
    EXPERIMENTAL_DESIGN("experimentalDesign"), EXPERIMENTAL_CONCLUSION("experimentalConclusion"),
