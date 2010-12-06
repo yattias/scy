@@ -55,10 +55,10 @@
       </dependency>
 
         <dependency>
-            <groupId>eu.scy.client.client-common</groupId>
-            <artifactId>rich-text-editor</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+    		<groupId>eu.scy.client.tools</groupId>
+    		<artifactId>math-tool</artifactId>
+    		<version>${pom.version}</version>
+    	</dependency>
 
         <dependency>
             <groupId>eu.scy.client.tools</groupId>
