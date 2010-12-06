@@ -2,18 +2,18 @@ package eu.scy.client.tools.fxmathtool.registration;
 
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
-import eu.scy.client.common.richtexteditor.RichTextEditor;
 import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.tools.math.ui.MathTool;
 import eu.scy.tools.math.controller.MathToolController;
+import javax.swing.JComponent;
 
 public class MathToolNode extends CustomNode, Resizable {
    protected def spacing = 5.0;
    protected var mathTool:MathTool;
-   protected var mathToolContronller:MathToolController;
+   protected var mathToolController:MathToolController;
    protected var wrappedMathTool:Node;
 
    protected function resizeContent(): Void{
@@ -22,9 +22,9 @@ public class MathToolNode extends CustomNode, Resizable {
 
    public override function create(): Node {
 
-      mathToolContronller = new MathToolController();
+      mathToolController = new MathToolController();
       mathTool = new MathTool(mathToolController);
-      wrappedMathTool = ScySwingWrapper.wrap(mathTool,true);
+      wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);
       resizeContent();
       FX.deferAction(resizeContent);
       return Group {
