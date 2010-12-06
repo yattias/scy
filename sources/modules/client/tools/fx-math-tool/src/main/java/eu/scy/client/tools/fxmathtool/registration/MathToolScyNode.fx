@@ -34,8 +34,6 @@ import javax.swing.JOptionPane;
 import java.util.List;
 import eu.scy.actionlogging.DevNullActionLogger;
 import org.jdom.Element;
-import eu.scy.client.common.richtexteditor.RichTextEditor;
-
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -46,6 +44,8 @@ import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
+import eu.scy.tools.math.ui.MathTool;
+import eu.scy.tools.math.controller.MathToolController;
 
 /**
  * @author kaido
@@ -76,13 +76,13 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    var openLabel = ##"Open ELO";
    var saveLabel = ##"Save ELO";
    var saveAsLabel = ##"Save ELO as";
-   def richTextTagName = "RichText";
+   def mathToolTagName = "MathToolTag";
 
    function setLoggerEloUri() {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
       if (myEloUri == null and scyWindow.eloUri != null)
          myEloUri = scyWindow.eloUri.toString();
-      mathTool.setEloUri(myEloUri);
+    //  mathTool.setEloUri(myEloUri);
    }
 
    public override function initialize(windowContent:Boolean):Void{
@@ -90,9 +90,9 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       if (actionLogger==null) {
          actionLogger = new DevNullActionLogger();
       }
-      mathTool.setRichTextEditorLogger(actionLogger,
-        toolBrokerAPI.getLoginUserName(), toolname, toolBrokerAPI.getMission(), "n/a",
-        "MathTool");
+      //mathTool.setRichTextEditorLogger(actionLogger,
+        //toolBrokerAPI.getLoginUserName(), toolname, toolBrokerAPI.getMission(), "n/a",
+       // "MathTool");
       setLoggerEloUri();
     }
 
@@ -104,7 +104,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
-         eloContentXmlToRichText(newElo.getContent().getXmlString());
+         //eloContentXmlToRichText(newElo.getContent().getXmlString());
          logger.info("elo mathtool loaded!");
          elo = newElo;
       }
@@ -126,8 +126,8 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    }
 
    function doSaveElo(){
-      elo.getContent().setXmlString(richTextToEloContentXml(mathTool.getRtfText()));
-      eloSaver.eloUpdate(getElo(),this);
+      //elo.getContent().setXmlString(richTextToEloContentXml(mathTool.getRtfText()));
+      //eloSaver.eloUpdate(getElo(),this);
    }
 
    function doSaveAsElo(){
@@ -147,28 +147,30 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyMathToolType);
       }
-      elo.getContent().setXmlString(richTextToEloContentXml(mathTool.getRtfText()));
+      //elo.getContent().setXmlString(richTextToEloContentXml(mathTool.getRtfText()));
       return elo;
    }
 
    function richTextToEloContentXml(text:String):String{
-      var textElement= new Element(richTextTagName);
+      var textElement= new Element(mathToolTagName);
       textElement.setText(text);
       return jdomStringConversion.xmlToString(textElement);
    }
 
    function eloContentXmlToRichText(text:String) {
       var richTextElement=jdomStringConversion.stringToXml(text);
-      if (richTextTagName != richTextElement.getName()){
-         logger.error("wrong tag name, expected {richTextTagName}, but got {richTextElement.getName()}");
+      if (mathToolTagName != richTextElement.getName()){
+         logger.error("wrong tag name, expected {mathToolTagName}, but got {richTextElement.getName()}");
       }
-      mathTool.setText(richTextElement.getText().trim());
+      //mathTool.setText(richTextElement.getText().trim());
     }
 
    public override function create(): Node {
-      mathTool = new RichTextEditor(false, authorMode);
-      mathTool.setTypingLogIntervalMs(typingLogIntervalMs);
-      wrappedMathTool = ScySwingWrapper.wrap(mathTool,true);
+      mathToolController = new MathToolController();
+      mathTool = new MathTool(mathToolController);
+     // mathTool.setTypingLogIntervalMs(typingLogIntervalMs);
+     wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);
+
       resizeContent();
       FX.deferAction(resizeContent);
       return Group {
@@ -215,12 +217,12 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    }
 
    public override function onQuit() {
-       mathTool.insertedTextToActionLog();
+      // mathTool.insertedTextToActionLog();
    }
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
       if (mathTool != null) {
-         return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(mathTool, mathTool.getSize(), new Dimension(width, height));
+         return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(mathTool.getMainPanel(), mathTool.getMainPanel().getSize(), new Dimension(width, height));
       } else {
          return null;
       }
