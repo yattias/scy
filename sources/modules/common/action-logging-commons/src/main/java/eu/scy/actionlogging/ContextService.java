@@ -61,7 +61,7 @@ public class ContextService implements IActionLogger, IContextService {
 
     @Override
     public void log(IAction action) {
-        if (action.getType().equals("las_change")) {
+        if (action.getType().equals("las_changed")) {
             currentLAS = action.getAttributes().get("newLasId");
             if (!currentlyOpenedELOs.containsKey(currentLAS)) {
                 currentlyOpenedELOs.put(currentLAS, new HashSet<String>());
