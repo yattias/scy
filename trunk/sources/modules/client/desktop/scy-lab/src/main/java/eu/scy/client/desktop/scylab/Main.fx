@@ -33,7 +33,6 @@ import eu.scy.client.tools.fxvideo.VideoContentCreator;
 import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.client.tools.fxrichtexteditor.registration.RichTextEditorContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
@@ -47,6 +46,9 @@ import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationEditor
 import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
 import eu.scy.client.tools.fxmathtool.registration.MathToolContentCreatorFX;
+import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoNodeCreator;
+import eu.scy.client.tools.fxflyingsaucer.FlyingSaucerMoreInfoToolFactory;
+import eu.scy.client.tools.fxflyingsaucer.UrlSource;
 
 /**
  * @author sikkenj
@@ -92,6 +94,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def missionRuntimeId = "missionRuntime";
    def templateElosId = "templateElos";
    def scyImageId = "image";
+   def scyFlyingSaucerAssignmentId = "assingmentInfo";
+   def scyFlyingSaucerResourcesId = "resourcesInfo";
+   def testMoreInfoId = "testMoreInfo";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -118,6 +123,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.ASSIGNMENT), scyFlyingSaucerAssignmentId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.RESOURCES), scyFlyingSaucerResourcesId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
@@ -156,9 +163,10 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TemplateElosEloEditorCreator{}, templateElosId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloXmlViewerCreatorFX{}, "xmlViewer");
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
+//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("xmlViewer");
-   scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
+//   scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();
@@ -188,6 +196,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
+   scyDesktop.moreInfoToolFactory = new FlyingSaucerMoreInfoToolFactory();
    return scyDesktop;
 }
 var scene: Scene;
