@@ -83,6 +83,7 @@ public class MissionMap extends CustomNode {
    postinit {
       if (missionModel.activeLas != null) {
          getAnchorDisplay(missionModel.activeLas).selected = true;
+         logLasChange("",missionModel.activeLas.id);
       }
    }
 
@@ -228,7 +229,7 @@ public class MissionMap extends CustomNode {
 
    function logLasChange(oldLasId:String, newLasId:String):Void{
         def action:IAction = new Action();
-        action.setType("las_change");
+        action.setType("las_changed");
         action.setUser(scyDesktop.config.getToolBrokerAPI().getLoginUserName());
         action.addContext(ContextConstants.tool, "scy-lab");
         action.addAttribute("oldLasId", oldLasId);
