@@ -46,6 +46,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import eu.scy.tools.math.ui.MathTool;
 import eu.scy.tools.math.controller.MathToolController;
+import eu.scy.tools.math.controller.SCYMathToolController;
 
 /**
  * @author kaido
@@ -166,7 +167,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
     }
 
    public override function create(): Node {
-      mathToolController = new MathToolController();
+      mathToolController = new SCYMathToolController();
       mathTool = new MathTool(mathToolController);
      // mathTool.setTypingLogIntervalMs(typingLogIntervalMs);
      wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);

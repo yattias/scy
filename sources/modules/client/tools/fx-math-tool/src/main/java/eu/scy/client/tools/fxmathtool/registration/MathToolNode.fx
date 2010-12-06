@@ -9,11 +9,12 @@ import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.tools.math.ui.MathTool;
 import eu.scy.tools.math.controller.MathToolController;
 import javax.swing.JComponent;
+import eu.scy.tools.math.controller.SCYMathToolController;
 
 public class MathToolNode extends CustomNode, Resizable {
    protected def spacing = 5.0;
    protected var mathTool:MathTool;
-   protected var mathToolController:MathToolController;
+   protected var mathToolController:SCYMathToolController;
    protected var wrappedMathTool:Node;
 
    protected function resizeContent(): Void{
@@ -22,7 +23,7 @@ public class MathToolNode extends CustomNode, Resizable {
 
    public override function create(): Node {
 
-      mathToolController = new MathToolController();
+      mathToolController = new SCYMathToolController();
       mathTool = new MathTool(mathToolController);
       wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);
       resizeContent();
