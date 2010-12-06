@@ -168,7 +168,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    public override function create(): Node {
       mathTool = new RichTextEditor(false, authorMode);
       mathTool.setTypingLogIntervalMs(typingLogIntervalMs);
-      wrappedRichTextEditor = ScySwingWrapper.wrap(mathTool,true);
+      wrappedMathTool = ScySwingWrapper.wrap(mathTool,true);
       resizeContent();
       FX.deferAction(resizeContent);
       return Group {
@@ -204,7 +204,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
                         }
                      ]
                   }
-                  wrappedRichTextEditor
+                  wrappedMathTool
                ]
             }
          ]
