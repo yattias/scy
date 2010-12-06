@@ -46,6 +46,7 @@ import eu.scy.client.desktop.scydesktop.tools.mission.MissionRuntimeEditorCreato
 import eu.scy.client.desktop.scydesktop.tools.mission.MissionSpecificationEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
+import eu.scy.client.tools.fxmathtool.registration.MathToolContentCreatorFX;
 
 /**
  * @author sikkenj
@@ -83,6 +84,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def sketchUpUploadId = "sketchUpUpload";
    def wordUploadId = "wordUpload";
    def scyRichTextId = "richtext";
+   def mathToolId = "mathtool";
    def speedTestPanelId = "speedTestPanel";
    def missionSpecificationId = "missionSpecification";
    def missionMapModelId = "missionMapModel";
@@ -97,7 +99,11 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
            }
 
 //   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
+   //scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
+
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {},scyStudentPlanningTool);
+
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(MathToolContentCreatorFX{},mathToolId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(DrawingToolCreatorFX{}, scyDrawingId);
 
@@ -116,6 +122,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(InterviewToolContentCreator{},scyInterviewId);
+
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
 
