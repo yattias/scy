@@ -35,16 +35,21 @@
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
          
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/drawing"/>
-               <property name="display" value="Drawing"/>
-               <property name="creatable" value="true"/>
-               <property name="contentCreatorId" value="drawing"/>
+               <property name="eloType" value="defaultEloToolConfig"/>
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="topDrawerCollaboration" value="true"/>
                <property name="rightDrawerCreatorId" value="chat"/>
                <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
+               <property name="bottomDrawerCollaboration" value="false"/>
+               <property name="leftDrawerCreatorId" value="assingmentInfo resourcesInfo testMoreInfo"/>
+               <property name="leftDrawerCollaboration" value="false"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/drawing"/>
+               <property name="display" value="Drawing"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="drawing"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>drawing</value>
@@ -61,24 +66,12 @@
                <property name="display" value="StudentPlanningTool"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="studentplanningtool"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/dataset"/>
                <property name="display" value="Dataset"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="fitex"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>dataset</value>
@@ -97,12 +90,6 @@
                <property name="display" value="Processed dataset"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="fitex"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>dataset</value>
@@ -121,12 +108,6 @@
                <property name="display" value="Experimental procedure"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="copex"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>structuredText</value>
@@ -143,12 +124,6 @@
                <property name="display" value="Simulator"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="simulator"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                   </list>
@@ -164,12 +139,6 @@
                <property name="display" value="Model"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="scy-dynamics"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                   </list>
@@ -185,12 +154,6 @@
                <property name="display" value="Web page"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="flying-saucer"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="contentStatic" value="true"/>
                <property name="logicalTypeNames">
                   <list>
@@ -210,12 +173,6 @@
                <property name="display" value="Concept Map"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="conceptmap"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>conceptMap</value>
@@ -234,12 +191,6 @@
                <property name="display" value="Plain text"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="text"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>plainText</value>
@@ -272,12 +223,6 @@
                <property name="display" value="Rich text"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="richtext"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>plainText</value>
@@ -298,12 +243,6 @@
                <property name="display" value="Interview"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="interview"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>structuredText</value>
@@ -320,12 +259,6 @@
                <property name="display" value="Video"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="video"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>information</value>
@@ -344,12 +277,6 @@
                <property name="display" value="Web resource"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="webresource"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
                <property name="logicalTypeNames">
                   <list>
                      <value>information</value>
@@ -368,48 +295,24 @@
                <property name="display" value="Presentation"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="presentationUpload"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/skp"/>
                <property name="display" value="Google SketchUp"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="sketchUpUpload"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/doc"/>
                <property name="display" value="Word"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="wordUpload"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/image"/>
                <property name="display" value="Image"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="image"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
-               <property name="rightDrawerCollaboration" value="true"/>
-               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/speedTest"/>
