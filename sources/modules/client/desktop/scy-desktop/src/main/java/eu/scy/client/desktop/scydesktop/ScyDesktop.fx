@@ -178,6 +178,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    def moreInfoManager = MoreInfoManagerImpl{
       scene: scene
       windowStyler:windowStyler
+      tbi: missionRunConfigs.tbi
       moreInfoToolFactory: bind moreInfoToolFactory
       activeLas:bind missionModelFX.activeLas
    }

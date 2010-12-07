@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -33,30 +34,24 @@ public class MoreInfoWindow extends CustomNode {
    public var width = 300.0;
    public var height = 200.0;
    public var title = "Title";
+   public var eloIcon: EloIcon on replace { eloIconChanged() };
+   public var infoTypeIcon: EloIcon;
    public var content: Node;
    public var closeAction: function(): Void;
+   public var environmentColor = Color.color(.90, .90, .90);
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
    def iconSize = 40.0;
+   def infoTypeIconOffset = iconSize - 12;
    def closeSize = 10.0;
    def topBorderWidth = 2 * borderWidth + iconSize;
    def titleHeight = 16.0;
    def textInset = 3.0;
-   def icon: EloIcon = CharacterEloIcon {
-         iconSize: iconSize;
-         fontSize: 32
-         iconGap: 7
-         color: bind windowColorScheme.mainColor
-         iconCharacter: bind title.substring(0, 1)
-         selected: true
-         layoutX: borderWidth
-         layoutY: borderWidth
-      }
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def titleBar = Group {
          layoutX: iconSize + 2 * borderWidth
-         layoutY: borderWidth + (iconSize - titleHeight)/2.0 + 3
+         layoutY: borderWidth + (iconSize - titleHeight) / 2.0 + 3
          content: [
             Rectangle {
                width: bind width - iconSize - 3 * borderWidth
@@ -77,7 +72,7 @@ public class MoreInfoWindow extends CustomNode {
          layoutY: borderWidth
          activated: false
          size: closeSize
-         closeAction:closeAction
+         closeAction: closeAction
       }
    def contentElement = WindowContent {
          windowColorScheme: bind windowColorScheme
@@ -92,6 +87,11 @@ public class MoreInfoWindow extends CustomNode {
    public override function create(): Node {
       Group {
          content: [
+            SteppedBorder {
+               width: bind width
+               height: bind height
+               color: environmentColor
+            }
             Rectangle {
                x: 0, y: 0
                width: bind width, height: bind height
@@ -99,7 +99,17 @@ public class MoreInfoWindow extends CustomNode {
                stroke: bind windowColorScheme.mainColor
                strokeWidth: borderLineWidth
             }
-            icon,
+            Group {
+               layoutX: borderWidth
+               layoutY: borderWidth
+               content: bind eloIcon
+            }
+            Group {
+               layoutX: borderWidth + infoTypeIconOffset
+               layoutY: borderWidth + infoTypeIconOffset
+               content: bind infoTypeIcon
+            }
+            //            icon,
             titleBar,
             windowClose,
             contentElement
@@ -107,14 +117,44 @@ public class MoreInfoWindow extends CustomNode {
       }
    }
 
+   function eloIconChanged() {
+      if (eloIcon != null) {
+         def eloIconWidth = eloIcon.boundsInParent.width;
+         var scaleFactor = iconSize / eloIconWidth;
+         //          scaleFactor = 2.5;
+         eloIcon.scaleX *= scaleFactor;
+         eloIcon.scaleY *= scaleFactor;
+         def scaleOffset = (scaleFactor - 1) * eloIconWidth / 2;
+         eloIcon.layoutX = scaleOffset;
+         eloIcon.layoutY = scaleOffset;
+      }
+
+   }
+
 }
 
 function run() {
    def spacing = 5.0;
+   def iconSize = 40.0;
+   def colorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue);
    def moreInfoWindow = MoreInfoWindow {
-         layoutX: 20
-         layoutY: 40
-         windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue)
+         layoutX: 40
+         layoutY: 60
+         windowColorScheme: colorScheme
+         eloIcon: CharacterEloIcon {
+            //            iconSize: iconSize;
+            //            fontSize: 32
+            //            iconGap: 7
+            color: colorScheme.mainColor
+            iconCharacter: "E"
+            selected: true
+         }
+         infoTypeIcon: CharacterEloIcon {
+            color: colorScheme.mainColor
+            iconCharacter: "T"
+            selected: false
+         }
+
          content: Rectangle {
             width: 500
             height: 500
@@ -128,6 +168,7 @@ function run() {
       scene: Scene {
          width: 400
          height: 400
+         fill: Color.LIGHTGRAY
          content: [
             moreInfoWindow,
             HBox {
