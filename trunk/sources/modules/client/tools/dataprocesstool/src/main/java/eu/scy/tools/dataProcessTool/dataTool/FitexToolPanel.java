@@ -581,7 +581,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         this.menuItemAvg.setEnabled(canEdit &&canOp);
         this.menuItemMin.setEnabled(canEdit &&canOp);
         this.menuItemMax.setEnabled(canEdit &&canOp);
-        boolean isData = isData() && dataset.getListDataHeaderDouble(true).length > 0;
+        //boolean isData = isData() && dataset.getListDataHeaderDouble(true).length > 0;
+        boolean isData = dataset.getListDataHeaderDouble(true).length > 0;
         this.menuItemAddGraph.setEnabled(canEdit &&isData);
         if(menuItemPrint != null)
             this.menuItemPrint.setEnabled(dataset != null);

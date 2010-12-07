@@ -62,7 +62,7 @@ public class FitexLog {
     private final static String TAG_COLOR_BLUE = "blue";
     private final static String TAG_SUBDATA = "subData";
     private final static String TAG_UNDO_REDO_ACTION = "undo_redo_action";
-    private final static String TAG_DATASET_MODEL = "model";
+    public final static String TAG_DATASET_MODEL = "model";
 
     
     private static String getModel(Dataset ds, Locale locale){
