@@ -19,6 +19,10 @@ import javafx.scene.shape.Rectangle;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.client.common.scyi18n.UriLocalizer;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author SikkenJ
@@ -30,6 +34,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public-init var scene: Scene;
    public var windowStyler: WindowStyler;
    public var moreInfoToolFactory: MoreInfoToolFactory;
+   public var tbi: ToolBrokerAPI;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
    def moreInfoControl = InstructionWindowControl {
@@ -72,7 +77,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    function activeLasChanged() {
-      logger.info("active las changed: {activeLas.id}");
+//      logger.info("active las changed: {activeLas.id}");
       if (activeLas == null) {
          colorScheme = noLasColorScheme;
       } else {
@@ -87,6 +92,13 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
       instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
       instructionWindow.layoutY = 0.0;
+      instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.eloUri);
+      instructionWindow.infoTypeIcon = CharacterEloIcon {
+            color: colorScheme.mainColor
+            iconCharacter: "I"
+            selected: false
+         }
+      instructionWindow.title = activeLas.mainAnchor.scyElo.getTitle();
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       insert modalLayer into scene.content;
       insert instructionWindow into scene.content;
@@ -107,24 +119,36 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, eloUri: URI): Void {
-      def moreInfoColorScheme = windowStyler.getWindowColorScheme(eloUri);
-      def title = getMoreInfoTitle(type);
-      showMoreInfoWindow(infoUri,title,moreInfoColorScheme);
+      showMoreInfo(infoUri, type, ScyElo.loadMetadata(eloUri, tbi));
    }
 
-   function getMoreInfoTitle(type: MoreInfoTypes):String{
-      if (MoreInfoTypes.ASSIGNMENT==type){
+   public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, scyElo: ScyElo): Void {
+      def moreInfoColorScheme = windowStyler.getWindowColorScheme(scyElo.getUri());
+      def title = scyElo.getTitle();
+      def eloIcon = windowStyler.getScyEloIcon(scyElo.getUri());
+      def infoTypeIcon = CharacterEloIcon {
+            color: colorScheme.mainColor
+            iconCharacter: getMoreInfoTitle(type).substring(0, 1)
+            selected: false
+         }
+      showMoreInfoWindow(infoUri, title, eloIcon, infoTypeIcon, moreInfoColorScheme);
+   }
+
+   function getMoreInfoTitle(type: MoreInfoTypes): String {
+      if (MoreInfoTypes.ASSIGNMENT == type) {
          return ##"Assignment"
       }
-      if (MoreInfoTypes.RESOURCES==type){
+      if (MoreInfoTypes.RESOURCES == type) {
          return ##"Resources"
       }
       return ##"Unknonw type"
    }
 
-   function showMoreInfoWindow(infoUri: URI, title: String, moreInfoColorScheme: WindowColorScheme): Void {
+   function showMoreInfoWindow(infoUri: URI, title: String, eloIcon: EloIcon, infoTypeIcon: EloIcon, moreInfoColorScheme: WindowColorScheme): Void {
       initMoreInfoWindow();
       moreInfoWindow.title = title;
+      moreInfoWindow.eloIcon = eloIcon;
+      moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
       moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
@@ -148,6 +172,5 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          }
       }
    }
-
 
 }
