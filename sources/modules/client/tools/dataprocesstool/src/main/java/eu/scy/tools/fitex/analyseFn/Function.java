@@ -69,7 +69,7 @@ public class Function
             /* on passe l'object fonction en parametre pour que l'analyseur ait
              * connaissance de la fonction : ainsi les parametres pourront s'enregistrer
              * dans la HashMap de la fonction prevue a cet effet */
-            expression = new Analyseur(owner, intitule, this).analyser() ;
+            expression = new Analyseur(owner, computeIntitule(intitule), this).analyser() ;
         } catch (ErreurDeSyntaxe e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -78,7 +78,7 @@ public class Function
             //System.out.println("La fonction n'a pas pu etre analysee - erreur autre que ErreurDeSyntaxe.");
         }
         
-        // riecupieration des anciennes valeurs des parametre dans la newMapDesParametres
+        // recuperation des anciennes valeurs des parametre dans la newMapDesParametres
         for (String key:newMapDesParametres.keySet()) {
             if (mapDesParametres.get(key) != null)
                 newMapDesParametres.get(key).setValeur(mapDesParametres.get(key).valeur()) ;
@@ -88,7 +88,21 @@ public class Function
         newMapDesParametres.clear() ;
         majRF() ;
     }
-    
+
+    private String computeIntitule(String s){
+        for(int i=0; i<s.length(); i++){
+            char current = s.charAt(i);
+            if(current == '-' && i > 0 && i<s.length()-1){
+                char c = s.charAt(i-1);
+                if(c!='+' && c!='-' && c!='*' && c!='/' && c!='E' && c!='^'){
+                    s = s.substring(0, i)+"+-"+s.substring(i+1);
+                    i++;
+                }
+            }
+        }
+        return s;
+    }
+
     /** calcule la distance de la courbe par rapport ie un tableau de valeurs passie en parametre */
     public void majRF() {
 //        try{

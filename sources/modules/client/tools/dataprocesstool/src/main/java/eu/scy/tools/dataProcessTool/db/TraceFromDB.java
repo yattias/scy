@@ -5,9 +5,11 @@
 
 package eu.scy.tools.dataProcessTool.db;
 
+import eu.scy.tools.dataProcessTool.logger.FitexLog;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +38,13 @@ public class TraceFromDB {
         // enregistrement des parametres
         for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){
             FitexProperty prop = p.next();
-            String queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
+            String queryParam  = "";
+            String b =  MyUtilities.replace("\'",prop.getValue(),"''") ;
+            if(prop.getName().equals(FitexLog.TAG_DATASET_MODEL)){
+                queryParam ="INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE_BLOB) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+b+"') ;" ;
+            }else{
+                queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
+            }
             queryID = "SELECT max(last_insert_id(`ID_ATTRIBUTE`))   FROM ACTION_ATTRIBUTE ;";
             v2 = new ArrayList();
             cr = dbC.getNewIdInsertInDB(queryParam, queryID, v2);

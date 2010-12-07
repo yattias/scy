@@ -36,10 +36,10 @@ public class Analyseur
         this.variable2 = "X";
             lexical = new StreamTokenizer(new StringReader(texte));
             lexical.ordinaryChar('/');
-            lexical.ordinaryChar('-');
+            //lexical.ordinaryChar('-');
             lexical.ordinaryChar('E');
             //lexical.ordinaryChar('x');
-            System.out.println("f(x) = "+texte);
+            //System.out.println("f(x) = "+texte);
     }
     
     /** autre constructeur qui passe la fonction dans laquelle va
@@ -108,7 +108,7 @@ public class Analyseur
         if (lexical.ttype != StreamTokenizer.TT_EOF) {
             throw new ErreurDeSyntaxe(err) ;
         }
-        System.out.println("Expression analysee  parenthesage aleatoire : f(x) = " + resultat);
+        //System.out.println("Expression analysee  parenthesage aleatoire : f(x) = " + resultat);
         return resultat;
     }
     
@@ -130,8 +130,9 @@ public class Analyseur
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_EXPR_ZERO"));
             if (estUneAddition)
                 resultat = new Addition(resultat, terme);
-            else
+            else{
                 resultat = new Soustraction(resultat, terme);
+            }
         }
         return resultat;   
     }
@@ -165,7 +166,13 @@ public class Analyseur
              if (termeDePow == null)
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_RIGHT_FACT_ZERO"));
              resultat = new Multiplication(resultat, termeDePow);
-        } 
+        }
+         while (resultat instanceof Constante && lexical.ttype == StreamTokenizer.TT_NUMBER) {
+             Expression terme = analyserTerme();
+             if (terme == null)
+		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_RIGHT_FACT_ZERO"));
+             resultat = new Addition(resultat, terme);
+        }
         return resultat;
     }
     
@@ -203,8 +210,8 @@ public class Analyseur
         
         if (lexical.ttype == StreamTokenizer.TT_NUMBER)
         {
-            resultat = new Constante(lexical.nval) ;
-            lexical.nextToken();
+           resultat = new Constante(lexical.nval) ;
+           lexical.nextToken();
         }
         else if (lexical.ttype == '(')
         {
@@ -216,7 +223,7 @@ public class Analyseur
         }
         else if (lexical.ttype == '-')
         {
-            // prise en charge des nombres niegatifs
+            // prise en charge des nombres negatifs
             Expression exp = null;
             lexical.nextToken();
             exp = analyserTerme();
