@@ -50,7 +50,7 @@ public class MathTool {
 	}
 	
 	public MathTool(MathToolController mathToolController) {
-		this.mathToolController = mathToolController;
+		this.setMathToolController(mathToolController);
 		this.init();
 	}
 	
@@ -134,8 +134,8 @@ public class MathTool {
 		JXPanel allPanel = new JXPanel(new BorderLayout(5, 5)); //$NON-NLS-1$
 
 		ControlPanel controlPanel = new ControlPanel(type);
-		mathToolController.addCalculator(type,controlPanel.getCalculator());
-		mathToolController.addComputationTable(type, controlPanel.getComputationTable());
+		getMathToolController().addCalculator(type,controlPanel.getCalculator());
+		getMathToolController().addComputationTable(type, controlPanel.getComputationTable());
 		//40 of the width
 		allPanel.add(createShapesPanel(type),BorderLayout.WEST);
 		allPanel.add(createWorkAreaPanel(type, controlPanel), BorderLayout.CENTER); //$NON-NLS-1$
@@ -217,7 +217,7 @@ public class MathTool {
 		shapeCanvas.setBackground(Color.WHITE);
 		
 		
-	mathToolController.addCanvas(type, shapeCanvas);
+	getMathToolController().addCanvas(type, shapeCanvas);
 		
 		workAreaPanel.add(shapeCanvas);
 		
@@ -229,8 +229,8 @@ public class MathTool {
 	public JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File"); //$NON-NLS-1$
-		fileMenu.add(new SaveShapesAction(mathToolController));
-		fileMenu.add(new OpenShapesAction(mathToolController));
+		fileMenu.add(new SaveShapesAction(getMathToolController()));
+		fileMenu.add(new OpenShapesAction(getMathToolController()));
 		fileMenu.add(new QuitAction());
 		
 		menuBar.add(fileMenu);
@@ -253,6 +253,14 @@ public class MathTool {
 
 	public JXPanel getMainPanel() {
 		return mainPanel;
+	}
+
+	public void setMathToolController(MathToolController mathToolController) {
+		this.mathToolController = mathToolController;
+	}
+
+	public MathToolController getMathToolController() {
+		return mathToolController;
 	}
 	
 	
