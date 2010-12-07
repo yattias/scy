@@ -368,7 +368,7 @@ public class MathToolController {
 		}
 	};
 
-	public void save() {
+	public String save() {
 		JFileChooser fc = new JFileChooser();
 
 		fc.setSelectedFile(new File("mt-saved-data.xml"));
@@ -391,14 +391,16 @@ public class MathToolController {
 //			    }
 			    	ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
 			      String xml = xstream.toXML(sc.getMathShapes());
+			       
 			try {
 				FileUtils.writeStringToFile(file, xml);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			return xml;
 
 		}
+		return null;
 	}
 
 	public void open() {
