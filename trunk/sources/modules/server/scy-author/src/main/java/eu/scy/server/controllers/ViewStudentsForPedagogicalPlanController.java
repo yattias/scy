@@ -58,6 +58,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
             if (missionSpecificationElo != null) {
                 List<MissionRuntimeModel> runtimeModels = missionSpecificationElo.getMissionManagement().getAllMissionRuntimeModels();
+                logger.info("***** *** **** LOADED " + runtimeModels.size() + " RUNTIME MODELS!");
                 for (int i = 0; i < runtimeModels.size(); i++) {
                     MissionRuntimeModel missionRuntimeModel = runtimeModels.get(i);
                     logger.info("MISSION RUNTIME MODEL :" + missionRuntimeModel.getRuntimeSettingsElo().getTitle());
@@ -90,19 +91,17 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         }
 
 
-        if (pedagogicalPlan != null) {
-            String action = request.getParameter("action");
-            if (action != null) {
-                if (action.equals("addStudent")) {
-                    String username = request.getParameter("username");
-                    addStudent(missionURI, username, modelAndView, pedagogicalPlan);
-                } else if (action.equals("removeStudent")) {
-                    removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
-                }
+        String action = request.getParameter("action");
+        if (action != null) {
+            if (action.equals("addStudent")) {
+                String username = request.getParameter("username");
+                addStudent(missionURI, username, modelAndView, pedagogicalPlan);
+            } else if (action.equals("removeStudent")) {
+                removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
             }
-
-            modelAndView.addObject("pedagogicalPlan", pedagogicalPlan);
         }
+
+        modelAndView.addObject("pedagogicalPlan", pedagogicalPlan);
     }
 
     private void removeStudent(String username, ModelAndView modelAndView, PedagogicalPlan plan) {
@@ -112,7 +111,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
     private void addStudent(String missionURIString, String username, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
         try {
-            logger.info("LOADING URI: " + missionURIString);
+            logger.info("LOADING URI: " + missionURIString + " ?????????? ADDING STUDENT!");
             URI missionURI = new URI(missionURIString);
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionURI, getMissionELOService());
 
