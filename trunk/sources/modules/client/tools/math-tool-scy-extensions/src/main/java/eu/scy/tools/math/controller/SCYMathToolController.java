@@ -25,7 +25,7 @@ public class SCYMathToolController extends MathToolController {
 	@Override
 	public void open(String xml) {
 		String removeStart = StringUtils.remove(xml, MATH_TOOL_START);
-		String removeEnd = StringUtils.remove(xml, MATH_TOOL_END);
+		String removeEnd = StringUtils.remove(removeStart, MATH_TOOL_END);
 		
 		super.open(removeEnd);
 	}
