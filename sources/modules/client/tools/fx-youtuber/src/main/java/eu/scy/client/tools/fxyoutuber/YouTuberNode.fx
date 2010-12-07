@@ -40,7 +40,9 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
     var dataSets:ArrayList;
     
-    var contentList:VBox = VBox{};
+    var contentList:VBox = VBox{
+        spacing: 2.0;
+    };
 
     var sv:ScrollView = ScrollView {
         node: contentList;
@@ -71,7 +73,28 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
     def menuBar:HBox = HBox {
         content: [
-            addURLButton
+            addURLButton,
+            Button {
+                text: "fill with random data"
+                action:function():Void {
+                    var set = new YouTuberDataSet();
+                    set.setYtid("HyAhVrNtlWA");
+                    set.setTitle("SCY Videoplayer: A great Tool");
+                    set.setText("The Videoplayer is a great player playing Videos. Because we know you like videos, we put the videoplayer playing a video on the youtube player. So you can watch a video while you watch a video!");
+                    updateDataSet(-1,set);
+                    set = new YouTuberDataSet();
+                    set.setYtid("GP0_MNj8f1Q");
+                    set.setTitle("Rammstein - Haifisch Video HD");
+                    set.setText("Haifisch, is the third single from the album 'Liebe ist für Alle da' For the video 'Haifisch' Rammstein have again worked with Joern Heitmann. The single due out in mid-May, we will know the exact date later.");
+                    updateDataSet(-1,set);
+                    set.setYtid("spn-84Qe9i8");
+                    set.setTitle("Frittenbude - Bilder mit Katze");
+                    set.setText("just great music.");
+                    updateDataSet(-1,set);
+                }
+
+            }
+
             ]
     }
 
