@@ -50,11 +50,11 @@ public final class AgentProtocol {
 	}
 
 	public static final String ACTION = "action";
-	public static final String ACTION_ELO_SAVED = "elo_save";
-	public static final String ACTION_ELO_LOADED = "elo_load";
+	public static final String ACTION_ELO_SAVED = "elo_saved";
+	public static final String ACTION_ELO_LOADED = "elo_loaded";
 	public static final String ACTIONLOG_ELO_TYPE = "type";
 	public static final String ACTIONLOG_ELO_URI = "elo_uri";
-	public static final String ACTION_TOOL_STARTED = "tool_start";
+	public static final String ACTION_TOOL_STARTED = "tool_started";
 	public static final String ACTION_TOOL_OPENED = "tool_opened";
 	public static final String ACTION_TOOL_CLOSED = "tool_closed";
 	public static final String ACTION_NODE_ADDED = "node_added";
