@@ -9,7 +9,6 @@ public class SCYMathToolController extends MathToolController {
 		super();
 	}
 
-	@Override
 	public String save() {
 		ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
 	      
