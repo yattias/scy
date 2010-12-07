@@ -52,12 +52,14 @@ public class YouTuberItem extends CustomNode {
 
     var textText:Text = Text {
         content: bind text;
+         wrappingWidth: ytNode.scyWindow.width - 50;
     }
 
     var launchButton:Button = Button {
         text: "watch on YouTube.com";
         action:function():Void {
             def url = "http://www.youtube.com/watch?v={ytID}";
+            println(url);
             BareBonesBrowserLaunch.openURL(url);
         }
     }
@@ -73,6 +75,7 @@ public class YouTuberItem extends CustomNode {
 
 
     var topLine:HBox = HBox {
+        spacing: 5.0;
         content: [titleText, launchButton]
     }
 

@@ -97,8 +97,8 @@ public class YouTubeDataEditor extends CustomNode {
         height: bind content.layoutBounds.height+20;
         width: bind content.layoutBounds.width+20;
         fill: Color.WHITE;
-        arcWidth: 8;
-        arcHeight: 8;
+        //arcWidth: 8;
+        //arcHeight: 8;
         stroke: Color.BLACK;
     }
 
@@ -132,11 +132,24 @@ public class YouTubeDataEditor extends CustomNode {
         }
         var ytid = YouTubeSplitter.split(url);
         var dataSet:YouTuberDataSet = new YouTuberDataSet();
-
-        dataSet.setYtid(ytid);
-        dataSet.setText(title);
-        dataSet.setText(text);
-
+        if(ytid.equals("")) {
+            dataSet.setYtid("spn-84Qe9i8");
+        }
+        else {
+            dataSet.setYtid(ytid);
+        }
+        if(title.equals("")) {
+            dataSet.setTitle("no title");
+        }
+        else {
+            dataSet.setTitle(title);
+        }
+        if(text.equals("")) {
+            dataSet.setText("no description");
+        }
+        else {
+            dataSet.setText(text);
+        }
         return dataSet;
 
     }
