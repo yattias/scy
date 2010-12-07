@@ -104,7 +104,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
-         mathToolController.open(newElo.getContent().getXmlString());
+         mathTool.getMathToolController().open(newElo.getContent().getXmlString());
          logger.info("elo mathtool loaded!");
          elo = newElo;
       }
@@ -126,7 +126,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    }
 
    function doSaveElo(){
-      elo.getContent().setXmlString(mathToolController.save());
+      elo.getContent().setXmlString(mathTool.getMathToolController().save());
       eloSaver.eloUpdate(getElo(),this);
    }
 
@@ -147,13 +147,12 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
          elo = eloFactory.createELO();
          elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyMathToolType);
       }
-      elo.getContent().setXmlString(mathToolController.save());
+      elo.getContent().setXmlString(mathTool.getMathToolController().save());
       return elo;
    }
 
    public override function create(): Node {
-      mathToolController = new SCYMathToolController();
-      mathTool = new MathTool(mathToolController);
+      mathTool = new MathTool(new SCYMathToolController());
      
      wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);
 

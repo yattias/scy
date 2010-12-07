@@ -14,7 +14,6 @@ import eu.scy.tools.math.controller.SCYMathToolController;
 public class MathToolNode extends CustomNode, Resizable {
    protected def spacing = 5.0;
    protected var mathTool:MathTool;
-   protected var mathToolController:SCYMathToolController;
    protected var wrappedMathTool:Node;
 
    protected function resizeContent(): Void{
@@ -22,9 +21,7 @@ public class MathToolNode extends CustomNode, Resizable {
    }
 
    public override function create(): Node {
-
-      mathToolController = new SCYMathToolController();
-      mathTool = new MathTool(mathToolController);
+      mathTool = new MathTool( new SCYMathToolController());
       wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);
       resizeContent();
       FX.deferAction(resizeContent);
