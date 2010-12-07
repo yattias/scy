@@ -14,6 +14,11 @@ public class SCYMathToolController extends MathToolController {
 	      
 		String xml = xstream.toXML(sc.getMathShapes());
 		
+		xml = "<MathTool>" + xml + "</MathTool>";
 		return xml;
+	}
+	
+	public void logAction(String actionLog) { 
+		
 	}
 }
