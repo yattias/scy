@@ -4,20 +4,21 @@ import java.awt.GridLayout;
 import java.util.Collection;
 
 import eu.scy.scymapper.api.INodeFactory;
+import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.Localization;
 
 
 public class DoubleKeywordSuggestionPanel extends KeywordSuggestionPanel {
-
+	
     private KeywordSuggestionPanel relationPanel;
     
-    private KeywordSuggestionPanel conceptPanel;
+    private KeywordSuggestionPanelCollide conceptPanel;
     
-    public DoubleKeywordSuggestionPanel() {
-        super(false);
+    public DoubleKeywordSuggestionPanel(ConceptMapActionLogger actionLogger) {
+        super(actionLogger, false);        
         setLayout(new GridLayout(2,1));
-        relationPanel = new KeywordSuggestionPanel();
-        conceptPanel = new KeywordSuggestionPanel();
+        relationPanel = new KeywordSuggestionPanel(actionLogger);
+        conceptPanel = new KeywordSuggestionPanelCollide(actionLogger);
         conceptPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.ConceptTitle"));
         relationPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.RelationTitle"));
         add(conceptPanel);

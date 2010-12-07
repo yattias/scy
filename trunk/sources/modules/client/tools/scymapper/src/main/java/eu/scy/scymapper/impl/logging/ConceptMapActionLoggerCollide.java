@@ -12,8 +12,11 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
+
+    private static final String SYNONYM_ADDED = "synonym_added";
 
     private IConceptMap conceptMap;
 
@@ -42,6 +45,23 @@ public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
         }
         JOptionPane.showMessageDialog(null, "Beim automatischen Speichern ist ein Fehler aufgetreten. Bitte melden Sie sich bei einem der Betreuer.", "Fehler", JOptionPane.ERROR_MESSAGE);
         System.exit(1);
+    }
+
+    /**
+     * Logs when the user added a synonym
+     *
+     * @param node The node model
+     */
+    public void logSynonymAdded(INodeModel node, String synonym) {
+        IAction a = createSCYMapperAction(SYNONYM_ADDED);
+        a.addAttribute("id", node.getId());
+        a.addAttribute("synonym", synonym);
+
+        XStream xstream = new XStream(new DomDriver());
+        String xml = xstream.toXML(diagram);
+        a.addAttribute("model", xml);
+
+        log(a);
     }
 
 }

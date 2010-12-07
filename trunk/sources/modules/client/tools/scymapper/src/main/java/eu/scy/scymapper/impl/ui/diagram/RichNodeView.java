@@ -198,6 +198,10 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 	void setLabelEditable(boolean editable) {
 		setLabelEditable(editable, false);
 	}
+	
+	public String getLabel() {
+		return this.labelTextarea.getText();
+	}
 
 	private JComponent createResizeHandle() {
 		if (resizeHandle == null) {

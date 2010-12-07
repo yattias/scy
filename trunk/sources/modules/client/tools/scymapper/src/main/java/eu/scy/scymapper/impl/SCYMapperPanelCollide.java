@@ -26,7 +26,7 @@ import eu.scy.scymapper.impl.ui.Notificator;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.notification.ConceptBrowserPanel;
 import eu.scy.scymapper.impl.ui.notification.DoubleKeywordSuggestionPanel;
-import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanel;
+import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanelCollide;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBarCollide;
 
@@ -61,7 +61,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     private long helpInterval;
 
     private TimerTask reEnableTask;
-
+    
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
         super(cmap, configuration);
         actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid, getConceptMap());
@@ -146,6 +146,8 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                             }
                         };
                         reenableButtonTimer.schedule(reEnableTask, REENABLE_BUTTONS_TIMER * 1000);
+                        
+                        
                     }
 
                 });
@@ -210,9 +212,9 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     @Override
     public void createKeywordSuggestionPanel() {
         if (helpMode == Help.CONTINUOUS) {
-            suggestionPanel = new DoubleKeywordSuggestionPanel();
+            suggestionPanel = new DoubleKeywordSuggestionPanel(actionLogger);
         } else {
-            suggestionPanel = new KeywordSuggestionPanel();
+            suggestionPanel = new KeywordSuggestionPanelCollide(actionLogger);
         }
         suggestionPanel.setVisible(false);
     }
@@ -223,7 +225,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
         if (helpMode == Help.VOLUNTARY) {
             requestConceptHelpButton.setEnabled(true);
             requestRelationHelpButton.setEnabled(true);
-            suggestionPanel = new KeywordSuggestionPanel();
+            suggestionPanel = new KeywordSuggestionPanelCollide(actionLogger);
             if (reenableButtonTimer != null) {
                 reEnableTask.cancel();
             }
@@ -240,7 +242,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
         if (helpMode == Help.VOLUNTARY) {
 
-            suggestionPanel.setSize(300, cmapPanel.getHeight() - 300);
+            suggestionPanel.setSize(300, cmapPanel.getHeight() - 250);
             suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1), BorderFactory.createRaisedBevelBorder()));
 
             if (notificator != null) {
