@@ -34,7 +34,7 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
 public class ConceptMapActionLogger extends DiagramElementAdapter {
 
     private IActionLogger logger;
-    private IDiagramModel diagram;
+    protected IDiagramModel diagram;
     private ISyncSession session;
     protected String username;
     private String mission = "mission1";

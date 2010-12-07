@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -138,7 +137,7 @@ public class SCYMapperPanel extends JPanel {
 
     public void suggestKeywords(String[] keywords, String[] category, String type) {
 
-    	suggestionPanel = new KeywordSuggestionPanel();
+    	suggestionPanel = new KeywordSuggestionPanel(actionLogger);
 
         if (keywords.length == 0) {
             return;
@@ -350,7 +349,7 @@ public class SCYMapperPanel extends JPanel {
     }
 
     public void createKeywordSuggestionPanel() {
-        suggestionPanel = new KeywordSuggestionPanel();
+        suggestionPanel = new KeywordSuggestionPanel(actionLogger);
         suggestionPanel.setVisible(false);
     }
 
