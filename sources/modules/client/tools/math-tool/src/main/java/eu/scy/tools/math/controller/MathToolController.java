@@ -414,31 +414,32 @@ public class MathToolController {
 		
 		 
        if (returnVal == JFileChooser.APPROVE_OPTION) {
-     
-			
            File file = fc.getSelectedFile();
            String fts = null;
 			try {
 				fts = FileUtils.readFileToString(file);
+				this.open(fts);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
-			ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
-			sc.getMathShapes().removeAll(sc.getMathShapes());
-			sc.repaint();
-			sc.revalidate();
-			ArrayList newJoe = (ArrayList)xstream.fromXML(fts);
-			for (Object object : newJoe) {
-				sc.addShape((IMathShape) object);
-			}
-			
-			sc.repaint();
-			sc.revalidate();
-			
        }
 		
+	}
+	
+	public void open(String xml) {
+		ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
+		sc.getMathShapes().removeAll(sc.getMathShapes());
+		sc.repaint();
+		sc.revalidate();
+		ArrayList newJoe = (ArrayList)xstream.fromXML(xml);
+		for (Object object : newJoe) {
+			sc.addShape((IMathShape) object);
+		}
+		
+		sc.repaint();
+		sc.revalidate();
 	}
 
 }
