@@ -13,6 +13,11 @@ import org.apache.log4j.Logger;
 import eu.scy.common.mission.MissionAnchor;
 import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.scyelo.RooloServices;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author SikkenJ
@@ -26,17 +31,18 @@ public class MissionModelFX extends MissionModel {
 
    def logger = Logger.getLogger(this.getClass());
    def missionUtils = MissionUtils {};
+   public var tbi: ToolBrokerAPI;
    public var missionModel: MissionModel on replace { newMissionModel() };
-   public var lasHistory: String[];
    public var loEloUris: URI[];
    public var lasses: LasFX[];
-   public-read var activeLas: LasFX on replace {
+   public-read var activeLas: LasFX on replace previousLas {
          logger.debug("new activeLas {activeLas}");
-         insert activeLas.getId() into lasHistory;
          missionModel.setSelectedLas(activeLas);
+         logLasChange(previousLas.id, activeLas.id);
          updateElo();
       }
    public var saveUpdatedModel = false;
+   public var scyDesktop: ScyDesktop;
 //   public var elo: IELO;
 //   public var repository: IRepository;
 //   public var eloFactory: IELOFactory;
@@ -93,6 +99,18 @@ public class MissionModelFX extends MissionModel {
       }
 
       updateElo();
+      scyDesktop.edgesManager.findLinks(null);
+   }
+
+   function logLasChange(oldLasId: String, newLasId: String): Void {
+      def action: IAction = new Action();
+      action.setType("las_changed");
+      action.setUser(tbi.getLoginUserName());
+      action.addContext(ContextConstants.tool, "scy-lab");
+      action.addAttribute("oldLasId", oldLasId);
+      action.addAttribute("newLasId", newLasId);
+      tbi.getActionLogger().log(action);
+      logger.info("logged LasChange-action: {action}");
    }
 
    public function removeElo(eloUri: URI): Void {

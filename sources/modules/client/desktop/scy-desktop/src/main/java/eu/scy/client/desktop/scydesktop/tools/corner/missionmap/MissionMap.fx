@@ -15,9 +15,6 @@ import java.net.URI;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.elo.api.IMetadataTypeManager;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.Action;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
@@ -42,7 +39,6 @@ public class MissionMap extends CustomNode {
    def positionScaleName = "missionMap.positionScale";
    def selectedScaleName = "missionMap.selectedScale";
    def notSelectedScaleName = "missionMap.notSelectedScale";
-
    public var missionModel: MissionModelFX;
    public var scyWindowControl: ScyWindowControl;
    public var tooltipManager: TooltipManager;
@@ -55,13 +51,9 @@ public class MissionMap extends CustomNode {
    public var selectedScale = 1.5;
    public var notSelectedScale = 1.0;
    public var positionScale = 2.0;
-
-   //public var lasHistory:String[];
-
-
    var maximumLasXpos = -1e6;
    var minimumLasYPos = 1e6;
-   var displayGroup = Group{};
+   var displayGroup = Group {};
    var anchorDisplays: AnchorDisplay[];
    var anchorMap = new HashMap();
    var anchorLinks: AnchorLink[];
@@ -69,65 +61,59 @@ public class MissionMap extends CustomNode {
          scyDesktop: scyDesktop
          metadataTypeManager: metadataTypeManager
       }
-   def selectedFxdImageLoader: FxdImageLoader = FxdImageLoader{
-      sourceName: ArtSource.selectedIconsPackage
-      backgroundLoading: false;
-      loadedAction:fillDisplayGroup
-   }
-   def notSelectedFxdImageLoader: FxdImageLoader = FxdImageLoader{
-      sourceName: ArtSource.notSelectedIconsPackage
-      backgroundLoading: false;
-      loadedAction:fillDisplayGroup
-   }
+   def selectedFxdImageLoader: FxdImageLoader = FxdImageLoader {
+         sourceName: ArtSource.selectedIconsPackage
+         backgroundLoading: false;
+         loadedAction: fillDisplayGroup
+      }
+   def notSelectedFxdImageLoader: FxdImageLoader = FxdImageLoader {
+         sourceName: ArtSource.notSelectedIconsPackage
+         backgroundLoading: false;
+         loadedAction: fillDisplayGroup
+      }
 
    postinit {
       if (missionModel.activeLas != null) {
          getAnchorDisplay(missionModel.activeLas).selected = true;
-         logLasChange("",missionModel.activeLas.id);
       }
    }
-
-//   function colorMissionAnchor(missionAnchor: MissionAnchorFX) {
-//      missionAnchor.color = scyDesktop.windowStyler.getScyColor(missionAnchor.eloUri);
-//   }
 
    public override function create(): Node {
       displayGroup
    }
 
-   function fillDisplayGroup():Void{
-      if (not selectedFxdImageLoader.loaded or not notSelectedFxdImageLoader.loaded){
+   function fillDisplayGroup(): Void {
+      if (not selectedFxdImageLoader.loaded or not notSelectedFxdImageLoader.loaded) {
          // one the image loaders is not ready
          return;
       }
 
       anchorDisplays = createAnchorDisplays();
       anchorLinks = createAnchorLinks();
-      var lasIdDisplay:Node;
-      if (showLasId){
+      var lasIdDisplay: Node;
+      if (showLasId) {
          lasIdDisplay = createLasIdDisplay();
       }
-      displayGroup.content = [lasIdDisplay,anchorLinks,anchorDisplays];
+      displayGroup.content = [lasIdDisplay, anchorLinks, anchorDisplays];
       if (missionModel.activeLas != null) {
          getAnchorDisplay(missionModel.activeLas).selected = true;
       }
    }
 
-
    function createLasIdDisplay(): Node {
       //println("maximumLasXpos: {maximumLasXpos}, minimumLasYPos: {minimumLasYPos}");
       var lasIdDisplay = Text {
-         font:Font.font("Verdana",FontWeight.BOLD ,12);
+            font: Font.font("Verdana", FontWeight.BOLD, 12);
 
-         x: maximumLasXpos,
-         y: minimumLasYPos-5
-         textOrigin:TextOrigin.BOTTOM
-//         textAlignment:TextAlignment.RIGHT
-         content: bind missionModel.activeLas.id
-//         content: "rtr trtreq ttqr trtqre trqtrtrtrtq"
+            x: maximumLasXpos,
+            y: minimumLasYPos - 5
+            textOrigin: TextOrigin.BOTTOM
+            //         textAlignment:TextAlignment.RIGHT
+            content: bind missionModel.activeLas.id
+         //         content: "rtr trtreq ttqr trtqre trqtrtrtrtq"
          // setting color, makes the characters look strange
          //stroke: bind missionModel.activeLas.color
-      }
+         }
       lasIdDisplay.x -= lasIdDisplay.layoutBounds.width - 20;
       // the las id can change and the width changes then also, until that is handled, give it a fixed x pos.
       lasIdDisplay.x = 0;
@@ -135,54 +121,54 @@ public class MissionMap extends CustomNode {
    }
 
    function createAnchorDisplays(): AnchorDisplay[] {
-      def realPositionScale:Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(positionScaleName),positionScale);
-      def realSelectedScale:Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(selectedScaleName),selectedScale);
-      def realNotSelectedScale:Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(notSelectedScaleName),notSelectedScale);
+      def realPositionScale: Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(positionScaleName), positionScale);
+      def realSelectedScale: Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(selectedScaleName), selectedScale);
+      def realNotSelectedScale: Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(notSelectedScaleName), notSelectedScale);
       for (las in missionModel.lasses) {
          las.xPos *= positionScale;
          las.yPos *= positionScale;
          var anchorDisplay = AnchorDisplay {
-               positionScale:realPositionScale
+               positionScale: realPositionScale
                las: las,
                selectionAction: anchorSelected;
                dragAndDropManager: dragAndDropManager
                windowStyler: scyDesktop.windowStyler
-               selectedFxdImageLoader:selectedFxdImageLoader
-               notSelectedFxdImageLoader:notSelectedFxdImageLoader
-               eloDisplayTypeControl:eloDisplayTypeControl
+               selectedFxdImageLoader: selectedFxdImageLoader
+               notSelectedFxdImageLoader: notSelectedFxdImageLoader
+               eloDisplayTypeControl: eloDisplayTypeControl
                selectedScale: realSelectedScale
-               notSelectedScale:realNotSelectedScale
-//               positionScale:positionScale
+               notSelectedScale: realNotSelectedScale
+            //               positionScale:positionScale
             }
          anchorMap.put(las, anchorDisplay);
          tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);
-         maximumLasXpos = Math.max(maximumLasXpos,las.xPos);
-         minimumLasYPos = Math.min(minimumLasYPos,las.yPos);
+         maximumLasXpos = Math.max(maximumLasXpos, las.xPos);
+         minimumLasYPos = Math.min(minimumLasYPos, las.yPos);
          anchorDisplay
       }
    }
 
    function createAnchorLinks(): AnchorLink[] {
-      var links:AnchorLink[];
-      var processedLasses:LasFX[];
+      var links: AnchorLink[];
+      var processedLasses: LasFX[];
       for (fromAnchor in anchorDisplays) {
          for (toLas in fromAnchor.las.nextLasses) {
             var addLink = true;
-            var bidirectional = Sequences.indexOf(toLas.nextLasses,fromAnchor.las)>=0;
-            if (bidirectional){
+            var bidirectional = Sequences.indexOf(toLas.nextLasses, fromAnchor.las) >= 0;
+            if (bidirectional) {
                // if the toLas is allready processed, then a bidirectional link as already added
-               addLink = Sequences.indexOf(processedLasses,toLas)<0;
+               addLink = Sequences.indexOf(processedLasses, toLas) < 0;
             }
-            if (addLink){
+            if (addLink) {
                var anchorLink = AnchorLink {
-                  fromAnchor: fromAnchor;
-                  toAnchor: getAnchorDisplay(toLas);
-                  bidirectional:bidirectional
-//                  positionScale:positionScale
-               }
+                     fromAnchor: fromAnchor;
+                     toAnchor: getAnchorDisplay(toLas);
+                     bidirectional: bidirectional
+                  //                  positionScale:positionScale
+                  }
                insert anchorLink into links;
             }
-            else{
+            else {
             }
          }
          insert fromAnchor.las into processedLasses;
@@ -195,49 +181,23 @@ public class MissionMap extends CustomNode {
    }
 
    public function anchorSelected(anchorDisplay: AnchorDisplay, anchor: MissionAnchorFX): Void {
-            println("***********anchorSelected*****************");
-            println("Lasid: {missionModel.activeLas.id}");
-            println("******************************************");
       if (missionModel.activeLas != null) {
          var selectedAnchorDisplay = getAnchorDisplay(missionModel.activeLas);
          if (selectedAnchorDisplay == anchorDisplay) {
             // correct anchorDisplay already selected
             if (missionModel.activeLas.selectedAnchor == anchor) {
                // the anchor is allready selected
-               return ;
+               return;
             }
             // an other anchor in the las is being selected
             missionModel.anchorSelected(anchorDisplay.las, anchor);
-            return ;
+            return;
          }
          selectedAnchorDisplay.selected = false;
       }
       anchorDisplay.selected = true;
       missionModel.anchorSelected(anchorDisplay.las, anchor);
-      println("===================================");
-      println("Lasid: {missionModel.lasHistory}");
-      println("===================================");
-      //insert missionModel.activeLas.id into lasHistory;
-      //println("LasHistory: {lasHistory}");
-      println("===================================");
-      //if ((sizeof lasHistory)>1){
-      if ((sizeof missionModel.lasHistory)>1){
-          logLasChange(missionModel.lasHistory[(sizeof missionModel.lasHistory)-2],missionModel.activeLas.id);
-      }
-      scyDesktop.edgesManager.findLinks(null);
    }
-
-   function logLasChange(oldLasId:String, newLasId:String):Void{
-        def action:IAction = new Action();
-        action.setType("las_changed");
-        action.setUser(scyDesktop.config.getToolBrokerAPI().getLoginUserName());
-        action.addContext(ContextConstants.tool, "scy-lab");
-        action.addAttribute("oldLasId", oldLasId);
-        action.addAttribute("newLasId", newLasId);
-        scyDesktop.config.getToolBrokerAPI().getActionLogger().log(action);
-        logger.info("logged LasChange-action: {action}");
-   }
-
 
    public function getAnchorAttribute(anchor: MissionAnchorFX): AnchorAttribute {
       AnchorAttribute {
@@ -303,8 +263,8 @@ function run() {
    //   anchor3.nextAnchors=[anchor2];
 
    var missionModel = MissionModelFX {
-         //      anchors: [anchor1,anchor2,anchor3,anchor4]
-         }
+      //      anchors: [anchor1,anchor2,anchor3,anchor4]
+      }
    //   var missionModelXml = MissionModelXml.convertToXml(missionModel);
    //   var newMissionModel = MissionModelXml.convertToMissionModel(missionModelXml);
    //   var newMissionModelXml = MissionModelXml.convertToXml(newMissionModel);

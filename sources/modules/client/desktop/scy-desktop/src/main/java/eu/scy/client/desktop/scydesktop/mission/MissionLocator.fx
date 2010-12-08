@@ -95,6 +95,7 @@ public class MissionLocator {
       def missionModel = missionRuntimeModel.getMissionModel();
       missionModel.loadMetadata(tbi);
       missionMapModel = MissionModelFX {
+            tbi: tbi
             missionModel: missionModel
             saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
          }
@@ -111,6 +112,7 @@ public class MissionLocator {
       def missionModel = missionRuntimeModel.getMissionModel();
       missionModel.loadMetadata(tbi);
       missionMapModel = MissionModelFX {
+            tbi: tbi
             missionModel: missionModel
             saveUpdatedModel: true
          }
@@ -156,6 +158,7 @@ public class MissionLocator {
 
       def missionMapModelElo = MissionModelElo.createElo(tbi);
       missionMapModel = MissionModelFX {
+            tbi: tbi
             missionModel: missionMapModelElo.getMissionModel()
          }
       missionMapModelElo.setTitle(missionRuntimeElo.getTitle());
