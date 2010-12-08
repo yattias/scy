@@ -33,4 +33,8 @@ public interface MissionELOService extends RooloAccessor{
     void setTitle(ScyElo scyElo, Object value);
 
     String getTitle(ScyElo scyElo);
+
+    List getRuntimeElos(MissionSpecificationElo missionSpecificationElo);
+
+    List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo);
 }

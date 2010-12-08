@@ -1,7 +1,10 @@
 package eu.scy.server.controllers;
 
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionRuntimeModel;
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.mission.RuntimeSettingKey;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AssignedPedagogicalPlanService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
@@ -20,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,14 +60,18 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             }
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
-            if (missionSpecificationElo != null) {
-                List<MissionRuntimeModel> runtimeModels = missionSpecificationElo.getMissionManagement().getAllMissionRuntimeModels();
-                logger.info("***** *** **** LOADED " + runtimeModels.size() + " RUNTIME MODELS!");
-                for (int i = 0; i < runtimeModels.size(); i++) {
-                    MissionRuntimeModel missionRuntimeModel = runtimeModels.get(i);
-                    logger.info("MISSION RUNTIME MODEL :" + missionRuntimeModel.getRuntimeSettingsElo().getTitle());
-                }
+            List userNames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
+
+
+            List users = new LinkedList();
+            for (int i = 0; i < userNames.size(); i++) {
+                String s = (String) userNames.get(i);
+                User user = getUserService().getUser(s);
+                users.add(user);
+
             }
+            modelAndView.addObject("users", users);
+            logger.info("ADDED " + users.size() + " USERS!");
 
 
             if (!missionURI.contains("#")) {
@@ -120,6 +128,10 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             User user = getUserService().getUser(username);
             StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
             MissionRuntimeModel missionRuntimeModel = missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
+            logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getDescription());
+            RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey("globalMissionScaffoldingLevel", null, null);
+            String scaffolding = missionRuntimeModel.getRuntimeSettingsElo().getTypedContent().getSetting(globalMissionScaffoldingLevelKey);
+            logger.info("SCAFFOLDING: " + scaffolding);
 
             logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
 
