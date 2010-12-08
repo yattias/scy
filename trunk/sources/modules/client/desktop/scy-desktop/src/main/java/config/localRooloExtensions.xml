@@ -171,6 +171,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/mathtool</value>
+               </key>
+               <value>.scymathtool</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/speedtest</value>
                </key>
                <value>.speedtest</value>
