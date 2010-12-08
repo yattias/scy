@@ -206,7 +206,7 @@ public class KeywordSuggestionPanel extends JPanel {
 
         for(int i = 0; i < keywords.length; i++) {
         	if (categories == null || categories[i].equals("concept_proposal")) {
-        		proposalList.addEntry(createProposalEntry(iconAddNode, keywords[i], "Already exists"));
+        		proposalList.addEntry(createProposalEntry(iconAddNode, keywords[i], Localization.getString("Mainframe.KeywordSuggestion.SynonymLink")));
         	} else if (categories[i].equals("relation_proposal")) {
         		proposalList.addEntry(createProposalEntry(iconAddEdge, keywords[i], null));
         	} else {
