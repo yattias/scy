@@ -718,6 +718,7 @@ public class Initializer {
          toolBrokerLogin = localToolBrokerLogin;
       } else if (loginTypeEnum.LOCAL_MULTI_USER == loginTypeEnum) {
          System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
+         System.setProperty(disableRooloVersioningKey, Boolean.toString(disableRooloVersioning));
          def localMultiUserToolBrokerLogin = new LocalMultiUserToolBrokerLogin();
          localMultiUserToolBrokerLogin.setPasswordChecker(localPasswordCheckMethod);
          localMultiUserToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
