@@ -12,6 +12,7 @@ public class ConceptMapModel {
 	private static final String PROP_TO = "to_node";
 	private static final String PROP_LABEL = "name";
 	private static final String PROP_NEW_LABEL = "new";
+	private static final String PROP_SYNONYM = "synonym";
 
 	private String eloURI;
 
@@ -49,6 +50,12 @@ public class ConceptMapModel {
 	public void nodeAdded(Properties props) {
 		graph
 				.addNode(props.getProperty(PROP_LABEL), props
+						.getProperty(PROP_ID));
+	}
+
+	public void synonymAdded(Properties props) {
+		graph
+				.addNode(props.getProperty(PROP_SYNONYM), props
 						.getProperty(PROP_ID));
 	}
 
