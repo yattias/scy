@@ -32,27 +32,8 @@ public class ToolURLProvider extends XMLStreamerController {
 
     @Override
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-        /*if(getRooloAccessor().getRepository() == null) logger.info("REPO IS NULL!");
 
-        List eloSearchResult =  getRooloAccessor().getELOSWithTechnicalFormat("scy/interview");
-        logger.info("FOUND :"  + eloSearchResult.size() + " ELOS!");
-        for (int i = 0; i < eloSearchResult.size(); i++) {
-            SearchResult searchResult = (SearchResult) eloSearchResult.get(i);
-            IELO elo = searchResult.getELO();
-            ScyElo scyELO = ScyElo.loadElo(elo.getUri(), rooloAccessor);
-            logger.info("SCYELO: " + scyELO.getTitle() + "--> ");
-            List <String> authors = scyELO.getAuthors();
-            for (int j = 0; j < authors.size(); j++) {
-                String author = authors.get(j);
-                logger.info("   " + author);
-                LearningActivity learningActivity = scyELO.getLearningActivity();
-                logger.info(learningActivity);
-                if(scyELO.getThumbnail() != null) logger.info("elo has thumbnail");
-                else logger.info("NO thumbnail present!");
-
-            }
-        } */
-        return new ToolURLContainer();
+        return new ToolURLContainer(getCurrentUserName(request));
     }
 
     public RooloAccessor getRooloAccessor() {

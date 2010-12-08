@@ -37,4 +37,6 @@ public interface MissionELOService extends RooloAccessor{
     List getRuntimeElos(MissionSpecificationElo missionSpecificationElo);
 
     List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo);
+
+    List getRuntimeElosForUser(String userName);
 }
