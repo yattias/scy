@@ -13,7 +13,15 @@ public class ToolURLContainer {
     private String curentMissionProgressOverview = "/webapp/app/eportfolio/xml/currentMissionProgressOverview.html";
     private String eportfolioELOSearch = "/webapp/app/eportfolio/xml/eportfolioELOSearch.html";
     private String obligatoryELOsInMission = "/webapp/app/eportfolio/xml/obligatoryELOsInMission.html";
+    private String runtimeElosList = "/webapp/app/eportfolio/xml/runtimeElosList.html";
     private String metaData = "We give a fuck in metadata!";
+
+    private String userName;
+
+    public ToolURLContainer(String userName) {
+        this.userName = userName;
+        setRuntimeElosList(getRuntimeElosList()+ "?username=" + userName);
+    }
 
     public String getUserInfoURL() {
         return userInfoURL;
@@ -45,5 +53,13 @@ public class ToolURLContainer {
 
     public void setObligatoryELOsInMission(String obligatoryELOsInMission) {
         this.obligatoryELOsInMission = obligatoryELOsInMission;
+    }
+
+    public String getRuntimeElosList() {
+        return runtimeElosList;
+    }
+
+    public void setRuntimeElosList(String runtimeElosList) {
+        this.runtimeElosList = runtimeElosList;
     }
 }

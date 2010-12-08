@@ -95,17 +95,13 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
     @Override
     public List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo) {
         List<ScyElo> runtimeModels = getRuntimeElos(missionSpecificationElo);
-        log.info("***** *** **** LOADED " + runtimeModels.size() + " RUNTIME MODELS!");
-
         List userNames = new LinkedList();
-
 
         for (int i = 0; i < runtimeModels.size(); i++) {
             MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
             if (missionRuntimeElo != null) {
                 if (missionRuntimeElo.getTitle().equals(missionSpecificationElo.getTitle())) {
                     String userName = missionRuntimeElo.getMissionRunning();
-                    log.info("FOUND USERNAME FOR MISSION: " + userName);
                     userNames.add(userName);
                 } else {
                     log.info("TITLE " + missionRuntimeElo.getTitle() + " DOES NOT EQUAL: " + missionSpecificationElo.getTitle());
@@ -118,6 +114,22 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
 
         return userNames;
 
+    }
+
+    @Override
+    public List getRuntimeElosForUser(String userName) {
+        List runtimeElos = new LinkedList();
+        List<ScyElo> runtimeModels = getRuntimeElos(null);
+        for (int i = 0; i < runtimeModels.size(); i++) {
+            MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
+            if (missionRuntimeElo != null) {
+                String missionRunningHAHAHA = missionRuntimeElo.getMissionRunning();
+                if (missionRunningHAHAHA != null && missionRunningHAHAHA.equals(userName)) {
+                    runtimeElos.add(missionRuntimeElo);
+                }
+            }
+        }
+        return runtimeElos;
     }
 
 
