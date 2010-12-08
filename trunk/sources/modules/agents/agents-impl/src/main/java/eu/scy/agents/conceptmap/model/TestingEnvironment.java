@@ -21,27 +21,41 @@ public class TestingEnvironment {
 //			commandSpace = new TupleSpace("127.0.0.1", 2525, AgentProtocol.COMMAND_SPACE_NAME);
 			actionSpace = new TupleSpace("127.0.0.1", 2525, AgentProtocol.ACTION_SPACE_NAME);
 			
+//			action	15c388fa-6d93-4f57-a9a2-e62ba3d7145e	1284460592362	node_added	chris	scymapper	mission1	N/A	n/a	id=eef7e751-9c83-4c20-b99f-b2b0366cb798	model=	name=New concept
+						
 			// Add nodes
 //			Tuple t1 = new Tuple(
-//					"action", "7143ff83-01e5-423a-bc90-07d75fad245a", 
-//					1284460436312L, "node_added", "chris", "scymapper", 
+//					"action", "15c388fa-6d93-4f57-a9a2-e62ba3d7145e", 
+//					1284460592362L, "node_added", "chris", "scymapper", 
 //					"mission1", "N/A",	"n/a", 
-//					"id=5849afc6-52a9-4a86-bab9-fbed51b700b5", 
+//					"id=eef7e751-9c83-4c20-b99f-b2b0366cb798",  "model="+getExampleXml(),
 //					"name=New concept");
+//			Tuple t2 = new Tuple(
+//					"action", "15c388fa-6d93-4f57-a9a2-e62ba3d7145e", 
+//					1284460592363L, "node_added", "chris", "scymapper", 
+//					"mission1", "N/A",	"n/a", 
+//					"id=eef7e751-9c83-4c20-b99f-b2b0366cb799",  "model="+getExampleXml(),
+//					"name=New concept2");
+//			Tuple t3 = new Tuple(
+//					"action", "15c388fa-6d93-4f57-a9a2-e62ba3d7145e", 
+//					1284460592364L, "node_added", "chris", "scymapper", 
+//					"mission1", "N/A",	"n/a", 
+//					"id=eef7e751-9c83-4c20-b99f-b2b0366cb790",  "model="+getExampleXml(),
+//					"name=New concept3");
 //			Tuple t2 = new Tuple(
 //					"action", "fc739328-26f1-4a41-83a0-945581595467", 
 //					1284460439337L, "node_added", "chris", "scymapper", 
 //					"mission1", "N/A",	"n/a", 
-//					"id=6c41c093-adde-470a-8727-87d69a9a1da8", 
+//					"id=6c41c093-adde-470a-8727-87d69a9a1da8", "model="+getExampleXml(), 
 //					"name=New concept");
 //			Tuple t3 = new Tuple(
 //					"action", "15c388fa-6d93-4f57-a9a2-e62ba3d7145e", 
 //					1284460592362L, "node_added", "chris", "scymapper", 
 //					"mission1", "N/A",	"n/a", 
-//					"id=eef7e751-9c83-4c20-b99f-b2b0366cb798", 
+//					"id=eef7e751-9c83-4c20-b99f-b2b0366cb798", "model="+getExampleXml(),
 //			"name=New concept");
 //			
-//			// Rename nodes
+//			// Rename nodes - Not working - format has changed
 //			Tuple t4 = new Tuple(
 //					"action", "63eebb4d-2c36-4f45-8811-c7cfe36b1831", 
 //					1284460444167L, "node_renamed", "chris", "scymapper", 
@@ -60,8 +74,9 @@ public class TestingEnvironment {
 //					"mission1", "N/A",	"n/a", 
 //					"id=eef7e751-9c83-4c20-b99f-b2b0366cb798", 
 //					"name=test");
+			
 //			
-//			// Add edge
+//			// Add edge - Not working - format has changed
 //			Tuple t7 = new Tuple(
 //					"action", "5d92b65c-f023-4077-9cc1-15cfec482cb8", 
 //					1285666299614L, "link_added", "chris", "scymapper", 
@@ -78,7 +93,19 @@ public class TestingEnvironment {
 //					"mission1", "N/A",	"n/a", 
 //					"id=25505b00-dc96-4ebf-aac5-30c944ba1f5e", 
 //					"new=Edge1");
-			
+
+//			Tuple t9 = new Tuple(
+//					"action", "15c388fa-6d93-4f57-a9a2-e62ba3d7145e", 
+//					1284460592369L, "synonym_added", "chris", "scymapper", 
+//					"mission1", "N/A",	"n/a", 
+//					"id=eef7e751-9c83-4c20-b99f-b2b0366cb798",  "model="+getExampleXml(),
+//					"synonym=syn");
+//
+//			Tuple printGraph = new Tuple(
+//					"action", "675d9656-ada6-4b45-abd0-ec0f460a6910", 
+//					12844605995100L, "print_graph", "chris", "scymapper", 
+//					"mission1", "N/A",	"n/a", 
+//			"id=eef7e751-9c83-4c20-b99f-b2b0366cb790");
 			
 			// These tuples were used for the example XML file  
 //			1	28.09.2010 09:56:07	28.09.2010 09:56:07	-	action	e3898655-004f-424e-8fdd-b50547a9147d	1285667767271	node_added	chris	scymapper	mission1	N/A	n/a	id=a8c2c72e-f397-40ac-9ab5-5c61a244e02f	name=New concept
@@ -97,13 +124,9 @@ public class TestingEnvironment {
 //			actionSpace.write(t6);
 //			actionSpace.write(t7);
 //			actionSpace.write(t8);
+//			actionSpace.write(t9);
 
-			Tuple printGraph = new Tuple(
-					"action", "675d9656-ada6-4b45-abd0-ec0f460a6910", 
-					12844605995100L, "print_graph", "chris", "scymapper", 
-					"mission1", "N/A",	"n/a", 
-					"id=eef7e751-9c83-4c20-b99f-b2b0366cb798");
-			actionSpace.write(printGraph);
+//			actionSpace.write(printGraph);
 
 		} catch (TupleSpaceException e) {
 			System.out.println("Error connecting to TupleSpace");

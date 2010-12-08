@@ -47,6 +47,8 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     private static final Tuple TEMPLATE_FOR_REQUEST_CONCEPT_MAP = new Tuple(String.class, AGENT_NAME, SERVICE_TYPE, String.class, String.class, String.class, Field.createWildCardField());
 
     // If you want to add new types, also update graphChanges() method
+    private static final String TYPE_SYNONYM_ADDED = "synonym_added";
+
     private static final String TYPE_NODE_ADDED = "node_added";
 
     private static final String TYPE_NODE_RENAMED = "node_renamed";
@@ -60,7 +62,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     private static final String TYPE_LINK_REMOVED = "link_removed";
 
     private static final String TYPE_LINK_FLIPPED = "link_flipped";
-
+    
     private static final String TYPE_ELOLOAD = "elo_load";
 
     private TupleSpace commandSpace;
@@ -215,6 +217,8 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     public void modifyGraph(ConceptMapModel model, String type, Properties props) {
         if (type.equals(TYPE_NODE_ADDED)) {
             model.nodeAdded(props);
+        } else if (type.equals(TYPE_SYNONYM_ADDED)) {
+        	model.synonymAdded(props);
         } else if (type.equals(TYPE_NODE_REMOVED)) {
             model.nodeRemoved(props);
         } else if (type.equals(TYPE_LINK_ADDED)) {
@@ -348,7 +352,7 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
      * @return
      */
     public static boolean graphChanges(String type) {
-        if (type.equals(TYPE_LINK_ADDED) || type.equals(TYPE_LINK_REMOVED) || type.equals(TYPE_LINK_RENAMED) || type.equals(TYPE_NODE_ADDED) || type.equals(TYPE_NODE_REMOVED) || type.equals(TYPE_NODE_RENAMED) || type.equals(TYPE_LINK_FLIPPED)) {
+        if (type.equals(TYPE_LINK_ADDED) || type.equals(TYPE_LINK_REMOVED) || type.equals(TYPE_LINK_RENAMED) || type.equals(TYPE_NODE_ADDED) || type.equals(TYPE_NODE_REMOVED) || type.equals(TYPE_NODE_RENAMED) || type.equals(TYPE_LINK_FLIPPED) || type.equals(TYPE_SYNONYM_ADDED)) {
             return true;
         }
         return false;
