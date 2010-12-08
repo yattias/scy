@@ -335,7 +335,7 @@ public class ScyDesktopCreator {
             eloConfigManager: eloConfigManager;
             templateEloUris: templateEloUris
          };
-
+      missionModelFX.scyDesktop = scyDesktop;
       //register for notifications
       logger.debug("****************registering scyDesktop for notifications***************************");
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop);
