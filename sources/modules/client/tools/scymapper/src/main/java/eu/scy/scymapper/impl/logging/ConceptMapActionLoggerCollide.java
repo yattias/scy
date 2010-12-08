@@ -3,8 +3,6 @@ package eu.scy.scymapper.impl.logging;
 import java.io.File;
 import java.io.FileWriter;
 
-import javax.swing.JOptionPane;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -36,15 +34,10 @@ public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
             xstream.toXML(conceptMap, fw);
             fw.close();
             oldFile.delete();
-            boolean success = newFile.renameTo(oldFile);
-            if (success) {
-                return;
-            }
+            newFile.renameTo(oldFile);
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        JOptionPane.showMessageDialog(null, "Beim automatischen Speichern ist ein Fehler aufgetreten. Bitte melden Sie sich bei einem der Betreuer.", "Fehler", JOptionPane.ERROR_MESSAGE);
-        System.exit(1);
     }
 
     /**
