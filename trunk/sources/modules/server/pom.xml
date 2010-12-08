@@ -53,6 +53,7 @@
 	    <module>pedagogical-plan-service-impl</module>
         <module>whacket-extension</module>
         <module>scy-hub</module>
+        <module>roolo-web-accessor</module>
         <module>scy-hub-commons</module>
         <module>scy-loginservice-webservice-impl</module>
         <module>scy-server</module>
