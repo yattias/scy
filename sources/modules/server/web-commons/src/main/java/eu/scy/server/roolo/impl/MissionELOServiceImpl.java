@@ -10,6 +10,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -64,7 +65,7 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
         missionSpecificationElo.addAuthor(authorUserName);
 
         RuntimeSettingsElo runtimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(), this);
-        runtimeSettingsElo.setTitle("runtime for " +missionSpecificationElo.getTitle());
+        runtimeSettingsElo.setTitle("runtime for " + missionSpecificationElo.getTitle());
         runtimeSettingsElo.saveAsForkedElo(); //new copy of runtime settings has been created
 
         missionSpecificationElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
@@ -84,22 +85,57 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
         return scyElo.getTitle();
     }
 
+    @Override
+    public List getRuntimeElos(MissionSpecificationElo missionSpecificationElo) {
+        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        IQuery missionRuntimeQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
+        return getELOs(missionRuntimeQuery);
+    }
+
+    @Override
+    public List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo) {
+        List<ScyElo> runtimeModels = getRuntimeElos(missionSpecificationElo);
+        log.info("***** *** **** LOADED " + runtimeModels.size() + " RUNTIME MODELS!");
+
+        List userNames = new LinkedList();
+
+
+        for (int i = 0; i < runtimeModels.size(); i++) {
+            MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
+            if (missionRuntimeElo != null) {
+                if (missionRuntimeElo.getTitle().equals(missionSpecificationElo.getTitle())) {
+                    String userName = missionRuntimeElo.getMissionRunning();
+                    log.info("FOUND USERNAME FOR MISSION: " + userName);
+                    userNames.add(userName);
+                } else {
+                    log.info("TITLE " + missionRuntimeElo.getTitle() + " DOES NOT EQUAL: " + missionSpecificationElo.getTitle());
+                    //HE HE : NOT MY PROUDEST MOMENT
+                }
+            }
+
+
+        }
+
+        return userNames;
+
+    }
+
 
     @Override
     public void setGlobalMissionScaffoldingLevel(ScyElo scyElo, Object value) {
-        if(value instanceof String ) value = Integer.valueOf((String) value);
+        if (value instanceof String) value = Integer.valueOf((String) value);
         Integer scaffoldingLevel = (Integer) value;
 
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
         RuntimeSettingsElo runtimeSettingsElo = getRuntimeSettingsElo(missionSpecificationElo);
-        ((RuntimeSettingsHelper)runtimeSettingsElo.getPropertyAccessor()).setScaffoldingLevel(scaffoldingLevel);
+        ((RuntimeSettingsHelper) runtimeSettingsElo.getPropertyAccessor()).setScaffoldingLevel(scaffoldingLevel);
     }
 
     @Override
     public Integer getGlobalMissionScaffoldingLevel(ScyElo scyElo) {
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
         RuntimeSettingsElo elo = getRuntimeSettingsElo(missionSpecificationElo);
-        return ((RuntimeSettingsHelper)elo.getPropertyAccessor()).getScaffoldingLevel();
+        return ((RuntimeSettingsHelper) elo.getPropertyAccessor()).getScaffoldingLevel();
     }
 
     @Override

@@ -36,6 +36,7 @@ public class RooloAccessorImpl implements RooloAccessor {
     public void findMissionSpecifications() {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQuery missionSpecificationQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, "scy/missionspecification");
+        List result = getELOs(missionSpecificationQuery);
     }
 
     @Override
