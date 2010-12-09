@@ -65,6 +65,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
         super(cmap, configuration);
         actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid, getConceptMap());
+        suggestionPanel.setActionLogger(actionLogger);
     }
 
     @Override

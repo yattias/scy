@@ -18,7 +18,7 @@ public class ProposalEntry extends JPanel {
 	
 	private JLabel textLabel = null;
 	
-	private KeywordLabel linkLabel = null;
+	private JLabel linkLabel = null;
 
 	public ProposalEntry(ImageIcon icon, JLabel textLabel) {
 		this(icon, textLabel, new JLabel());
@@ -26,7 +26,8 @@ public class ProposalEntry extends JPanel {
 
 	public ProposalEntry(ImageIcon icon, JLabel textLabel, JLabel linkLabel) {
 		this.setLayout(new BorderLayout());
-
+		this.linkLabel = linkLabel;
+		this.textLabel = textLabel;
 		compound = new JPanel(new GridLayout(2, 1));
 
 		if (icon != null) {

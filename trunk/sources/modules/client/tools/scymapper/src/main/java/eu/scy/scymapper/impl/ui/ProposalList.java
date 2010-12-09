@@ -1,59 +1,103 @@
 package eu.scy.scymapper.impl.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class ProposalList extends JPanel {
 
-	private ProposalEntry[] proposalList = null;
+	private List<ProposalEntry> proposalList = null;
 
 	private int proposalCount = 0;
+
+	private int maxLength;
 	
-	public ProposalList(int entries) {
-		this.proposalList = new ProposalEntry[entries];
-		this.setLayout(new GridLayout(entries, 1));
+	public ProposalList(int maxLength) {
+		this.proposalList = new ArrayList<ProposalEntry>();
+		this.maxLength = maxLength;
+		this.setLayout(new GridLayout(maxLength, 1));
 		this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 	}
 	
-	public boolean addEntry(ProposalEntry entry) {
-		if(proposalCount == proposalList.length) {
-			return false;
-		}
-
-		for(int i = 0; i < proposalList.length; i++) {
-			if(proposalList[i] == null) {
-				proposalList[i] = entry;
-				add(proposalList[i]);
-				proposalCount++;
-				return true;
-			}
-		}
-		return false;
+	public boolean addEntry(ProposalEntry entry, int index) {
+	    if (index >= maxLength) {
+	        return false;
+	    }
+	    ProposalEntry deletedEntry = null;
+	    if (index < proposalList.size()) {
+	        deletedEntry = proposalList.get(index);
+	    }
+	    if (deletedEntry != null) {
+	        remove(deletedEntry);
+	        proposalList.set(index, entry);
+	    } else {
+	        proposalCount++;
+	        proposalList.add(entry);
+	    }
+	    entry.setBorder(new LineBorder(Color.RED, 3));
+            add(entry, index);
+            validate();
+            return true;
 	}
 
+        public boolean removeEntry(ProposalEntry entry) {
+            boolean removed = proposalList.remove(entry);
+            if (removed) {
+                proposalCount--;
+                remove(entry);
+            }
+            return removed;
+        }
+	
 	public ProposalEntry getEntry(int i) {
-		return proposalList[i];
+		return proposalList.get(i);
 	}
 	
-	public ProposalEntry[] getEntries() {
+	public List<ProposalEntry> getEntries() {
 		return proposalList;
 	}
 	
 	public void clear() {
-		Arrays.fill(proposalList, null);
 		proposalCount = 0;
+		proposalList.clear();
+		removeAll();
 	}
+
+    public void addEntries(List<ProposalEntry> newEntries) {
+        ArrayList<Integer> remainingIndexes = new ArrayList<Integer>();
+        ArrayList<Integer> notInsertedIndexes = new ArrayList<Integer>();
+        for (int i = 0; i < proposalList.size(); i++) {
+            proposalList.get(i).setBorder(new EmptyBorder(3,3,3,3));
+            String proposalText = proposalList.get(i).getTextLabel().getText();
+            for (int j = 0; j < newEntries.size(); j++) {
+                if (proposalText.equals(newEntries.get(j).getTextLabel().getText())) {
+                    remainingIndexes.add(i);
+                    notInsertedIndexes.add(j);
+                    break;
+                }
+            }
+        }
+       for (int i = 0; i < newEntries.size(); i++) {
+           if (!notInsertedIndexes.contains(i)) {
+               ProposalEntry insertedEntry = newEntries.get(i);
+               int insertionIndex = -1;
+               for (int j = 0; j < maxLength; j++) {
+                   if (!remainingIndexes.contains(j)) {
+                       remainingIndexes.add(j);
+                       insertionIndex = j;
+                       break;
+                   }
+               }
+               if (insertionIndex != -1) {
+                   addEntry(insertedEntry, insertionIndex);
+               }
+           }
+       }
+    }
 }

@@ -26,6 +26,13 @@ public class DoubleKeywordSuggestionPanel extends KeywordSuggestionPanel {
     }
     
     @Override
+    public void setActionLogger(ConceptMapActionLogger actionLogger) {
+        super.setActionLogger(actionLogger);
+        conceptPanel.setActionLogger(actionLogger);
+        relationPanel.setActionLogger(actionLogger);
+    }
+    
+    @Override
     public void setSuggestions(String[] keywords, String[] categories, Collection<INodeFactory> nodeFactories, String type, boolean highlightChanged) {
         if (type.equals("concept")) {
             conceptPanel.setSuggestions(keywords, categories, nodeFactories, type, highlightChanged);
