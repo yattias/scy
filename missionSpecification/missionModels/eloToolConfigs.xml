@@ -24,6 +24,10 @@
                <property name="contentCreatorId" value="mathtool"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/formauthor"/>
+               <property name="contentCreatorId" value="formauthor"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/drawing"/>
                <property name="contentCreatorId" value="drawing"/>
                <property name="eloLogicalRoleValues">
