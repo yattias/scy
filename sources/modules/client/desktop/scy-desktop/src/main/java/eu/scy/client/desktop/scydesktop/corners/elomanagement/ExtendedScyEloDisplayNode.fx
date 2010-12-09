@@ -35,6 +35,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
    def typeDisplay = Label {};
    def roleDisplay = Label {};
    def dateDisplay = Label {};
+   def uriDisplay = Label {};
    def spacing = 5.0;
    def thumbnailBorder = 2.0;
    def thumbnailView = ImageView {
@@ -73,7 +74,8 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
                   authorDisplay,
                   typeDisplay,
 //                  roleDisplay,
-                  dateDisplay
+                  dateDisplay,
+                  uriDisplay
                ]
             }
          ]
@@ -86,6 +88,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       typeDisplay.text = "Format: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
 //      roleDisplay.text = "Role: {getRoleString(scyElo.getFunctionalRole())}";
       dateDisplay.text = "Date: created at {getDateString(scyElo.getDateCreated())}, last modified at {getDateString(scyElo.getDateLastModified())}";
+      uriDisplay.text = "URI: {scyElo.getUri()}";
       def thumbnailImage = scyElo.getThumbnail();
       if (thumbnailImage != null) {
          thumbnailView.image = SwingUtils.toFXImage(scyElo.getThumbnail());
