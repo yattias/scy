@@ -35,7 +35,7 @@ import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import eu.scy.tools.math.ui.ComputationDataObject;
+import eu.scy.tools.math.doa.ComputationDataObject;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
 

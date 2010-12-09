@@ -1,4 +1,4 @@
-package edu.scy.tools.math.test;
+package eu.scy.tools.math;
 
 import javax.swing.SwingUtilities;
 

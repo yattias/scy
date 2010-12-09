@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
 
+import eu.scy.tools.math.doa.ComputationDataObject;
+
 public class ComputationTableModel extends AbstractTableModel {
 
 	private HashMap<Point, ComputationDataObject> lookup;
