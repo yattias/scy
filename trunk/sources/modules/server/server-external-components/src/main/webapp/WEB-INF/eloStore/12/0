@@ -72,6 +72,11 @@
     <contentCreatorId>mathtool</contentCreatorId>
   </eloToolConfig>
   <eloToolConfig>
+    <eloType>scy/formauthor</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>formauthor</contentCreatorId>
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/drawing</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>drawing</contentCreatorId>
