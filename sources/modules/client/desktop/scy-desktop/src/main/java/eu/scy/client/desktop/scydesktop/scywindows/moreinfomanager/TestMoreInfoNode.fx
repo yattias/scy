@@ -47,18 +47,22 @@ public class TestMoreInfoNode extends CustomNode, ScyToolFX {
    }
 
    public override function loadElo(eloUri: URI): Void {
-      eloUriChanged( eloUri)
+      eloUriChanged(eloUri)
 
    }
 
    public override function loadedEloChanged(eloUri: URI): Void {
-      eloUriChanged( eloUri)
+      eloUriChanged(eloUri)
    }
 
-   function eloUriChanged(eloUri: URI){
+   function eloUriChanged(eloUri: URI) {
       this.eloUri = eloUri;
-      scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);
-   }
+      if (eloUri != null) {
+         scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);
+      } else {
+         scyElo = null;
+      }
 
+   }
 
 }
