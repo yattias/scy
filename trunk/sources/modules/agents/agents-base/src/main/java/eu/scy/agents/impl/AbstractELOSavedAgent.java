@@ -39,6 +39,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 
 	private void initTSListener() {
 		try {
+		        //Just for debug
+		        this.getActionSpace().write(new Tuple("Agent: "+id));
 			this.listenerId = this.getActionSpace().eventRegister(
 					Command.WRITE, this.eloSavedTupleTemplate, this, true);
 			logger.log(Level.INFO, "Callback registered");
