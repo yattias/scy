@@ -53,19 +53,28 @@
 <content languageIndependent="true" contentType="xml">
 <eloToolConfigs>
   <eloToolConfig>
-    <eloType>scy/drawing</eloType>
+    <eloType>defaultEloToolConfig</eloType>
     <eloSystemRole>USER</eloSystemRole>
-    <contentCreatorId>drawing</contentCreatorId>
     <topDrawerCreatorId>presence</topDrawerCreatorId>
     <rightDrawerCreatorId>chat</rightDrawerCreatorId>
     <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
+    <leftDrawerCreatorId>assingmentInfo resourcesInfo testMoreInfo</leftDrawerCreatorId>
     <isContentCollaboration>false</isContentCollaboration>
     <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
     <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
     <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
     <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
     <isContentStatic>false</isContentStatic>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/mathtool</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>mathtool</contentCreatorId>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/drawing</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>drawing</contentCreatorId>
     <eloLogicalRoles>
       <eloLogicalRole>drawing</eloLogicalRole>
     </eloLogicalRoles>
@@ -77,16 +86,6 @@
     <eloType>scy/studentplanningtool</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>studentplanningtool</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -94,16 +93,6 @@
     <eloType>scy/dataset</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>fitex</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>dataset</eloLogicalRole>
     </eloLogicalRoles>
@@ -117,16 +106,6 @@
     <eloType>scy/pds</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>fitex</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>dataset</eloLogicalRole>
     </eloLogicalRoles>
@@ -140,16 +119,6 @@
     <eloType>scy/xproc</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>copex</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>structuredText</eloLogicalRole>
     </eloLogicalRoles>
@@ -161,16 +130,6 @@
     <eloType>scy/simconfig</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>simulator</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles>
       <eloFunctionalRole>sourceData</eloFunctionalRole>
@@ -180,16 +139,6 @@
     <eloType>scy/model</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>scy-dynamics</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles>
       <eloFunctionalRole>sourceData</eloFunctionalRole>
@@ -199,15 +148,6 @@
     <eloType>scy/url</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>flying-saucer</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
     <isContentStatic>true</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>information</eloLogicalRole>
@@ -222,16 +162,6 @@
     <eloType>scy/mapping</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>conceptmap</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>conceptMap</eloLogicalRole>
     </eloLogicalRoles>
@@ -245,16 +175,6 @@
     <eloType>scy/text</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>text</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>plainText</eloLogicalRole>
     </eloLogicalRoles>
@@ -270,16 +190,6 @@
     <eloType>scy/rtf</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>richtext</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>plainText</eloLogicalRole>
     </eloLogicalRoles>
@@ -295,16 +205,6 @@
     <eloType>scy/interview</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>interview</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>structuredText</eloLogicalRole>
     </eloLogicalRoles>
@@ -316,16 +216,7 @@
     <eloType>scy/video</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>video</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
+    <isContentStatic>true</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>information</eloLogicalRole>
     </eloLogicalRoles>
@@ -339,16 +230,7 @@
     <eloType>scy/webresourcer</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>webresource</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
+    <isContentStatic>true</isContentStatic>
     <eloLogicalRoles>
       <eloLogicalRole>information</eloLogicalRole>
     </eloLogicalRoles>
@@ -362,16 +244,6 @@
     <eloType>scy/ppt</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>presentationUpload</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -379,16 +251,6 @@
     <eloType>scy/skp</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>sketchUpUpload</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -396,16 +258,6 @@
     <eloType>scy/doc</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>wordUpload</contentCreatorId>
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
-    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>progress</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -413,33 +265,15 @@
     <eloType>scy/image</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>image</contentCreatorId>
-    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
-    <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
-    <bottomDrawerCreatorId />
-    <leftDrawerCreatorId />
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
+    <isContentStatic>true</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
   <eloToolConfig>
     <eloType>scy/speedTest</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
+    <isContentStatic>true</isContentStatic>
     <contentCreatorId>speedTestPanel</contentCreatorId>
-    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
-    <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
-    <bottomDrawerCreatorId />
-    <leftDrawerCreatorId />
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -447,16 +281,6 @@
     <eloType>scy/missionspecification</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>missionSpecification</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -464,16 +288,6 @@
     <eloType>scy/missionmapmodel</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>missionMapModel</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -481,16 +295,6 @@
     <eloType>scy/elotoolconfiguration</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>eloToolConfiguration</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -498,16 +302,6 @@
     <eloType>scy/missionruntime</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>missionRuntime</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -515,16 +309,6 @@
     <eloType>scy/templateelos</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>templateElos</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
@@ -532,16 +316,6 @@
     <eloType>scy/runtimesettings</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>runtimeSettings</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
-    <isContentCollaboration>false</isContentCollaboration>
-    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
-    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
-    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
-    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
-    <isContentStatic>false</isContentStatic>
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
