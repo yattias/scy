@@ -14,7 +14,7 @@ import eu.scy.agents.api.parameter.AgentConfiguration;
  */
 public abstract class AbstractAgent implements IAgent {
 
-	private static final String DEFAULT_HOST = "localhost";
+	protected static final String DEFAULT_HOST = "localhost";
 
 	private TupleSpace tupleSpace;
 	private TupleSpace actionSpace;
@@ -107,8 +107,9 @@ public abstract class AbstractAgent implements IAgent {
 	public TupleSpace getCommandSpace() {
 		if (tupleSpace == null) {
 			try {
-				tupleSpace = new TupleSpace(new User(getSimpleName()), host, port,
-						runAutonomous, false, AgentProtocol.COMMAND_SPACE_NAME);
+				tupleSpace = new TupleSpace(new User(getSimpleName()), host,
+						port, runAutonomous, false,
+						AgentProtocol.COMMAND_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
@@ -124,8 +125,9 @@ public abstract class AbstractAgent implements IAgent {
 	public TupleSpace getActionSpace() {
 		if (actionSpace == null) {
 			try {
-				actionSpace = new TupleSpace(new User(getSimpleName()), host, port,
-						runAutonomous, false, AgentProtocol.ACTION_SPACE_NAME);
+				actionSpace = new TupleSpace(new User(getSimpleName()), host,
+						port, runAutonomous, false,
+						AgentProtocol.ACTION_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
