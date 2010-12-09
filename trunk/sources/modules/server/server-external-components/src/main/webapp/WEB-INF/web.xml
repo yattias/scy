@@ -103,28 +103,6 @@
         <welcome-file>t-app</welcome-file>
     </welcome-file-list>
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/errorpages/intError_500.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>503</error-code>
-        <location>/errorpages/intError_500.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>400</error-code>
-        <location>/</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/errorpages/forbidden_403.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/errorpages/notfound_404.jsp</location>
-    </error-page>
-
-
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/sail_database</res-ref-name>
