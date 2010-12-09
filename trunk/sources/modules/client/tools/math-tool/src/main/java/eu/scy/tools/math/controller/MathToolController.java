@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +22,10 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
@@ -40,6 +45,8 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import eu.scy.tools.math.adapters.AdjustSizeAdapter;
 import eu.scy.tools.math.adapters.ShapeJXLabelDropTargetListener;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
+import eu.scy.tools.math.doa.ComputationDataObject;
+import eu.scy.tools.math.doa.DataStoreObj;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.shapes.IMathEllipse;
@@ -47,14 +54,13 @@ import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathRectangle3D;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.shapes.IMathTriangle;
-import eu.scy.tools.math.shapes.Math3DShape;
-import eu.scy.tools.math.shapes.MathCylinder3D;
-import eu.scy.tools.math.shapes.MathEllipse;
-import eu.scy.tools.math.shapes.MathRectangle;
-import eu.scy.tools.math.shapes.MathRectangle3D;
-import eu.scy.tools.math.shapes.MathSphere3D;
-import eu.scy.tools.math.shapes.MathTriangle;
-import eu.scy.tools.math.ui.ComputationDataObject;
+import eu.scy.tools.math.shapes.impl.Math3DShape;
+import eu.scy.tools.math.shapes.impl.MathCylinder3D;
+import eu.scy.tools.math.shapes.impl.MathEllipse;
+import eu.scy.tools.math.shapes.impl.MathRectangle;
+import eu.scy.tools.math.shapes.impl.MathRectangle3D;
+import eu.scy.tools.math.shapes.impl.MathSphere3D;
+import eu.scy.tools.math.shapes.impl.MathTriangle;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.panels.Calculator;
 import eu.scy.tools.math.ui.panels.ControlPanel;
@@ -64,9 +70,9 @@ public class MathToolController {
 
 	protected static Logger log = Logger.getLogger("MathToolController.class"); //$NON-NLS-1$
 
-	protected HashMap<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
-	protected HashMap<String, Calculator> calculators = new HashMap<String, Calculator>();
-	protected HashMap<String, JXTable> computationTables = new HashMap<String, JXTable>();
+	protected Map<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
+	protected Map<String, Calculator> calculators = new HashMap<String, Calculator>();
+	protected Map<String, JXTable> computationTables = new HashMap<String, JXTable>();
 	protected IMathShape mathShape;
 
 	protected XStream xstream;
@@ -80,6 +86,8 @@ public class MathToolController {
 		xstream.alias("rectangle", MathRectangle.class);
 		xstream.alias("triangle", MathTriangle.class);
 		xstream.alias("ellipse", MathEllipse.class);
+		xstream.alias("tableObject", ComputationDataObject.class);
+		xstream.alias("DataStoreObject", DataStoreObj.class);
 	}
 
 	public void addCanvas(String type, ShapeCanvas shapeCanvas) {
@@ -204,7 +212,7 @@ public class MathToolController {
 		this.shapeCanvases = shapeCanvases;
 	}
 
-	public HashMap<String, ShapeCanvas> getShapeCanvases() {
+	public Map<String, ShapeCanvas> getShapeCanvases() {
 		return shapeCanvases;
 	}
 
@@ -291,7 +299,7 @@ public class MathToolController {
 		this.calculators = calculators;
 	}
 
-	public HashMap<String, Calculator> getCalculators() {
+	public Map<String, Calculator> getCalculators() {
 		return calculators;
 	}
 
@@ -299,7 +307,7 @@ public class MathToolController {
 		this.computationTables = computationTables;
 	}
 
-	public HashMap<String, JXTable> getComputationTables() {
+	public Map<String, JXTable> getComputationTables() {
 		return computationTables;
 	}
 
@@ -380,17 +388,7 @@ public class MathToolController {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 			File file = fc.getSelectedFile();
-			  Collection c = shapeCanvases.values();
-			  
-			    //obtain an Iterator for Collection
-			    Iterator itr = c.iterator();
-			 
-			    //iterate through HashMap values iterator
-//			    while(itr.hasNext()) {
-//			      ShapeCanvas  sc = (ShapeCanvas) itr.next();
-//			    }
-			    	ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
-			      String xml = xstream.toXML(sc.getMathShapes());
+			String xml = this.writeXML();
 			       
 			try {
 				FileUtils.writeStringToFile(file, xml);
@@ -402,7 +400,36 @@ public class MathToolController {
 		}
 		return null;
 	}
+	
+	protected String writeXML() {
+		Map<String, DataStoreObj> objHashMap = new HashMap<String, DataStoreObj>();
+		
+		 Set<String> keyset = shapeCanvases.keySet();
+		Iterator keySetIterator = keyset.iterator();
+		while(keySetIterator.hasNext()) {
+			String key = (String) keySetIterator.next();
+		
+			DataStoreObj doa = new DataStoreObj();
+			doa.setType(key);
+			doa.setMathShapes(this.getShapeCanvases().get(key).getMathShapes());
+			doa.setTablesObjects(getTableObjects(key));
+			objHashMap.put(key, doa);
+		}
+		
+		return xstream.toXML(objHashMap);
+	}
 
+	protected List<ComputationDataObject> getTableObjects(String key) {
+		JXTable jxTable = this.computationTables.get(key);
+		DefaultTableModel model = (DefaultTableModel) jxTable.getModel();
+		Vector<Vector> dataVector = model.getDataVector();
+		List<ComputationDataObject> cdos = new ArrayList<ComputationDataObject>();
+		for (Vector data : dataVector) {
+			cdos.add(new ComputationDataObject(data, key));
+		}
+		return cdos;
+		
+	}
 	public void open() {
 		JFileChooser fc = new JFileChooser();
 		
@@ -418,7 +445,7 @@ public class MathToolController {
            String fts = null;
 			try {
 				fts = FileUtils.readFileToString(file);
-				this.open(fts);
+				this.open(fts, true);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -428,18 +455,49 @@ public class MathToolController {
 		
 	}
 	
-	public void open(String xml) {
-		ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
-		sc.getMathShapes().removeAll(sc.getMathShapes());
-		sc.repaint();
-		sc.revalidate();
-		ArrayList newJoe = (ArrayList)xstream.fromXML(xml);
-		for (Object object : newJoe) {
-			sc.addShape((IMathShape) object);
+	public void open(String xml, boolean showNag) {
+		if(showNag) {
+			int reply = JOptionPane.showConfirmDialog(null, "Do you want to replace all your current work?", "?", JOptionPane.YES_NO_OPTION);
+		    if (reply == JOptionPane.YES_OPTION) {
+		      refresh(xml);
+		    }
+		    return;
+		} else {
+			refresh(xml);
 		}
-		
-		sc.repaint();
-		sc.revalidate();
 	}
 
+	protected void refresh(String xml) {
+		
+		Map<String, DataStoreObj> objHashMap =  (Map<String, DataStoreObj>) xstream.fromXML(xml);
+		
+		
+		 Set<String> keyset = shapeCanvases.keySet();
+			Iterator keySetIterator = keyset.iterator();
+			while(keySetIterator.hasNext()) {
+				String key = (String) keySetIterator.next();
+			
+				ShapeCanvas sc = shapeCanvases.get(key);
+				sc.getMathShapes().removeAll(sc.getMathShapes());
+				sc.repaint();
+				sc.revalidate();
+				
+				DataStoreObj dataStoreObj = objHashMap.get(key);
+				
+				List<IMathShape> mathShapes = dataStoreObj.getMathShapes();
+				for (IMathShape iMathShape : mathShapes) {
+					sc.addShape(iMathShape);
+				}
+				
+				sc.repaint();
+				sc.revalidate();
+				
+				List<ComputationDataObject> tablesObjects = dataStoreObj.getTablesObjects();
+				DefaultTableModel model = (DefaultTableModel) getComputationTables().get(key).getModel();
+				model.getDataVector().removeAllElements();
+				for (ComputationDataObject computationDataObject : tablesObjects) {
+					model.addRow(computationDataObject.toArray());
+				}
+			}
+	}
 }

@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComponent;
 
@@ -36,7 +37,7 @@ public class AdjustSizeAdapter extends MouseAdapter {
 
 	public AdjustSizeAdapter(MathToolController mathToolController, String type) {
 		this.mathToolController = mathToolController;
-		HashMap<String, ShapeCanvas> shapeCanvases = this.mathToolController.getShapeCanvases();
+		Map<String, ShapeCanvas> shapeCanvases = this.mathToolController.getShapeCanvases();
 		this.shapeCanvas = shapeCanvases.get(type);
 		((JComponent) this.shapeCanvas).addMouseListener(this);
 		((JComponent) this.shapeCanvas).addMouseMotionListener(this);

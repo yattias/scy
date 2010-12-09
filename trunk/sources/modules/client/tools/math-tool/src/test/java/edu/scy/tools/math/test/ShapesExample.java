@@ -28,10 +28,10 @@ import eu.scy.tools.math.adapters.AdjustSizeAdapter;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathShape;
-import eu.scy.tools.math.shapes.MathEllipse;
-import eu.scy.tools.math.shapes.MathRectangle;
-import eu.scy.tools.math.shapes.MathRectangle3D;
-import eu.scy.tools.math.shapes.MathTriangle;
+import eu.scy.tools.math.shapes.impl.MathEllipse;
+import eu.scy.tools.math.shapes.impl.MathRectangle;
+import eu.scy.tools.math.shapes.impl.MathRectangle3D;
+import eu.scy.tools.math.shapes.impl.MathTriangle;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class ShapesExample {

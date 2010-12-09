@@ -1,6 +1,8 @@
-package eu.scy.tools.math.ui;
+package eu.scy.tools.math.doa;
 
 import java.util.Vector;
+
+import eu.scy.tools.math.ui.UIUtils;
 
 public class ComputationDataObject {
 
@@ -19,11 +21,21 @@ public class ComputationDataObject {
 		this.setSum(sum);
 	}
 	
-	public ComputationDataObject(Object[] values) {
-		this.columnNumber = (Integer) values[0];
-		this.name = (String) values[1];
-		this.value = (Float) values[2];
-		this.sum = (Float) values[3];
+	public ComputationDataObject(Object[] values, String type) {
+		
+		if( type.equals(UIUtils._3D)) {
+			this.columnNumber  = (Integer)values[0];
+			this.name = (String)values[1];
+			this.setRatio((String)values[2]);
+			this.setSurfaceArea((String)values[3]);
+			this.setVolume((String)values[4]);
+		} else {
+			this.columnNumber = (Integer) values[0];
+			this.name = (String) values[1];
+			this.value = (Float) values[2];
+			this.sum = (Float) values[3];
+		}
+		
 	}
 	
 	public ComputationDataObject(Vector vector, String type) {
