@@ -20,8 +20,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -45,7 +47,6 @@ import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
-import eu.scy.scymapper.impl.ui.KeywordLabel;
 import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.ProposalEntry;
 import eu.scy.scymapper.impl.ui.ProposalList;
@@ -63,7 +64,7 @@ public class KeywordSuggestionPanel extends JPanel {
     private static final String SPECIFY_EDGE_ICON = "specify_edge.png";
 
     protected ConceptMapActionLogger actionLogger;
-    
+
     private JTextPane descriptionLabel;
 
     private JPanel conceptButtonPane;
@@ -74,13 +75,12 @@ public class KeywordSuggestionPanel extends JPanel {
 
     private String[] categories;
 
-
     public KeywordSuggestionPanel(ConceptMapActionLogger actionLogger) {
         this(actionLogger, true);
     }
 
     public KeywordSuggestionPanel(ConceptMapActionLogger actionLogger, boolean init) {
-    	this.actionLogger = actionLogger;
+        this.actionLogger = actionLogger;
         Icon icon = UIManager.getIcon("OptionPane.informationIcon");
         titleLabel = new JLabel("", icon, SwingConstants.LEFT);
         if (init) {
@@ -142,6 +142,10 @@ public class KeywordSuggestionPanel extends JPanel {
         }
     }
 
+    public void setActionLogger(ConceptMapActionLogger actionLogger) {
+        this.actionLogger = actionLogger;
+    }
+
     /**
      * Sets a new title for the keyword suggestion panel.
      * 
@@ -175,8 +179,9 @@ public class KeywordSuggestionPanel extends JPanel {
                 doc.remove(0, doc.getLength());
                 doc.insertString(doc.getLength(), text, doc.getStyle("regular"));
             }
-            
-            // following line is for broken Mac Java to have a correct layout in single mode, butt will demolish layout in double keyword suggestion mode... amazing
+
+            // following line is for broken Mac Java to have a correct layout in single mode, butt
+            // will demolish layout in double keyword suggestion mode... amazing
             if (System.getProperty("java.vm.vendor").startsWith("Apple")) {
                 descriptionLabel.getPreferredSize();
             }
@@ -184,39 +189,43 @@ public class KeywordSuggestionPanel extends JPanel {
             e.printStackTrace();
         }
         Arrays.sort(keywords);
-        
+
         ImageIcon iconAddNode = null;
         ImageIcon iconAddEdge = null;
         ImageIcon iconSpecifyEdge = null;
         try {
-        	iconAddNode = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ADD_NODE_ICON)));        	
-        	iconAddEdge = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ADD_EDGE_ICON)));        	
-        	iconSpecifyEdge = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + SPECIFY_EDGE_ICON)));        	
-    	} catch(IllegalArgumentException e) {
-    		iconAddNode = new ImageIcon();
-    		iconAddEdge = new ImageIcon();
-    		iconSpecifyEdge = new ImageIcon();
-    		e.printStackTrace();
-    	} catch(IOException e) {
-    		iconAddNode = new ImageIcon();
-    		iconAddEdge = new ImageIcon();
-    		iconSpecifyEdge = new ImageIcon();
-    		e.printStackTrace();
+            iconAddNode = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ADD_NODE_ICON)));
+            iconAddEdge = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + ADD_EDGE_ICON)));
+            iconSpecifyEdge = new ImageIcon(ImageIO.read(this.getClass().getResource("/" + SPECIFY_EDGE_ICON)));
+        } catch (IllegalArgumentException e) {
+            iconAddNode = new ImageIcon();
+            iconAddEdge = new ImageIcon();
+            iconSpecifyEdge = new ImageIcon();
+            e.printStackTrace();
+        } catch (IOException e) {
+            iconAddNode = new ImageIcon();
+            iconAddEdge = new ImageIcon();
+            iconSpecifyEdge = new ImageIcon();
+            e.printStackTrace();
         }
 
-        for(int i = 0; i < keywords.length; i++) {
-        	if (categories == null || categories[i].equals("concept_proposal")) {
-        		proposalList.addEntry(createProposalEntry(iconAddNode, keywords[i], Localization.getString("Mainframe.KeywordSuggestion.SynonymLink")));
-        	} else if (categories[i].equals("relation_proposal")) {
-        		proposalList.addEntry(createProposalEntry(iconAddEdge, keywords[i], null));
-        	} else {
-        		proposalList.addEntry(createProposalEntry(iconSpecifyEdge, keywords[i], null));
-        	}
+        List<ProposalEntry> pes = new ArrayList<ProposalEntry>();
+        for (int i = 0; i < keywords.length; i++) {
+            ProposalEntry pe;
+            if (categories == null || categories[i].equals("concept_proposal")) {
+                pe = createProposalEntry(iconAddNode, keywords[i], Localization.getString("Mainframe.KeywordSuggestion.SynonymLink"), Localization.getString("Mainframe.KeywordSuggestion.SynonymLink2"));
+            } else if (categories[i].equals("relation_proposal")) {
+                pe = createProposalEntry(iconAddEdge, keywords[i], null, null);
+            } else {
+                pe = createProposalEntry(iconSpecifyEdge, keywords[i], null, null);
+            }
+            pes.add(pe);
         }
+        proposalList.addEntries(pes);
     }
-    
-    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String link) {
-    	return new ProposalEntry(icon, new JLabel(keyword));
+
+    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String link, String secondLink) {
+        return new ProposalEntry(icon, new JLabel(keyword));
     }
 
     private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {

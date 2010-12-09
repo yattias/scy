@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
@@ -16,7 +17,9 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLoggerCollide;
 import eu.scy.scymapper.impl.ui.KeywordLabel;
+import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.ProposalEntry;
+import eu.scy.scymapper.impl.ui.ProposalList;
 import eu.scy.scymapper.impl.ui.diagram.RichNodeView;
 
 public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
@@ -36,17 +39,20 @@ public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
     }
 	
     @Override
-    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String link) {
+    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, final String link, final String secondLink) {
     	if(link == null) {
-    		return super.createProposalEntry(icon, keyword, link);
+    		return super.createProposalEntry(icon, keyword, link, secondLink);
     	}
-		KeywordLabel linkLabel = new KeywordLabel(link, keyword);
-
+		final KeywordLabel linkLabel = new KeywordLabel(link, keyword);
+		final ProposalEntry entry = new ProposalEntry(icon, new JLabel(keyword), linkLabel);
 		linkLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				KeywordLabel label = (KeywordLabel) e.getSource();
 				selectedKeyword = label.getKeyword();
+				linkLabel.setLink(secondLink);
+                                SwingUtilities.getRoot(label).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+                                setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 				label.requestFocusInWindow();
 			}
 
@@ -63,6 +69,9 @@ public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
 				if(!label.hasFocus()) {
 					SwingUtilities.getRoot(label).setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				} else {
+                                    SwingUtilities.getRoot(label).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+                                    setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 				}
 			}
 		});
@@ -74,11 +83,12 @@ public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
 				Component newFocusOwner = e.getOppositeComponent();
 				SwingUtilities.getRoot(newFocusOwner).setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				
-				if (newFocusOwner == null) {
-					return;
-				}
+				linkLabel.setLink(link);
 				INodeModel model = null;
+				if (newFocusOwner == null) {
+				    JOptionPane.showMessageDialog(null, Localization.getString("Mainframe.KeywordSuggestion.SynonymNodeNotFound"), "Problem", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
 				if (newFocusOwner instanceof RichNodeView) {
 					model = ((RichNodeView) newFocusOwner).getModel();
 				} else if (newFocusOwner instanceof JTextArea) {
@@ -90,11 +100,15 @@ public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
 				}
 				if (model != null) {
 					((ConceptMapActionLoggerCollide)actionLogger).logSynonymAdded(model, selectedKeyword);
+					ProposalList container = (ProposalList) entry.getParent();
+					container.removeEntry(entry);
+				} else {
+				    JOptionPane.showMessageDialog(null, Localization.getString("Mainframe.KeywordSuggestion.SynonymNodeNotFound"), "Problem", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 
-		return new ProposalEntry(icon, new JLabel(keyword), linkLabel);
+		return entry;
     }
 
 }
