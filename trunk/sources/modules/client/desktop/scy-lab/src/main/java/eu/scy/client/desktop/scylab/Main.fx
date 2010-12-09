@@ -49,6 +49,7 @@ import eu.scy.client.tools.fxmathtool.registration.MathToolContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoNodeCreator;
 import eu.scy.client.tools.fxflyingsaucer.FlyingSaucerMoreInfoToolFactory;
 import eu.scy.client.tools.fxflyingsaucer.UrlSource;
+import eu.scy.client.tools.fxformauthor.FormAuthorContentCreator;
 
 /**
  * @author sikkenj
@@ -97,6 +98,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyFlyingSaucerAssignmentId = "assingmentInfo";
    def scyFlyingSaucerResourcesId = "resourcesInfo";
    def testMoreInfoId = "testMoreInfo";
+   def scyFormAuthorId = "formauthor";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -153,6 +155,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 
