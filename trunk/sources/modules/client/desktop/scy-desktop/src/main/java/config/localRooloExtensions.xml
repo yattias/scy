@@ -177,6 +177,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/formauthor</value>
+               </key>
+               <value>.scyformauthor</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/speedtest</value>
                </key>
                <value>.speedtest</value>
