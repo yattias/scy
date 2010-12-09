@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SCYDynamics model</title>
+<link href="scyContent.css" rel="stylesheet" type="text/css" />
+</head>
+
+
+<body bgcolor="#FFFFFF">
+    <h1>Mathematical model</h1>
+    <p>The simple model has one stock: biomass (phytoplankton growth). Biomass increase depends on nitrate (NO<sub>3</sub><sup>-</sup>) and phosphate (PO<sub>4</sub><sup>3-</sup>) concentrations. Change in phytoplankton biomass B can be described as a function of growth (µ) and mortality (m) as:</p>
+    <img src="pictures/image070.png" alt="Growth and mortality"/>
+    <p>Where µ (effective growth rate) is defined as:</p>
+    <img src="pictures/image071.png" alt="Effective groth rate"/>
+    <p>Where [PO<sub>4</sub><sup>3-</sup>] and [NO<sub>3</sub><sup>-</sup>] denote concentrations of phosphate and nitrate in the water, and HPO<sub>4</sub> and HNO<sub>3</sub> are the half-saturation constants for phosphate and nitrate respectively. The half-saturation constant is an indication for the affinity of a phytoplankton species for a resource. A lower half-saturation constant indicates a higher affinity. This affinity depends, among others, on the amount of resourced needed for growth. Because phytoplankton cells contain ~16 times less P than N (according to the famous Redfield ratio), the half-saturation constant for PO<sub>4</sub><sup>3-</sup> is typically lower than for NO<sub>3</sub><sup>-</sup>. Also, biomass decreases at a constant (mortality) rate. Values that could be used:</p>
+<blockquote>
+    <p>m: 	0.59 	d<sup>-1</sup></p>
+    <p>µmax:	1.35	d<sup>-1</sup></p>
+    <p>HPO<sub>4</sub>: 	0.2 	µmol L<sup>-1</sup></p>
+    <p>HNO<sub>3</sub>: 	5.6 	µmol L<sup>-1</sup></p>
+</blockqoute>
+</blockquote>
+        
+    <h1>SCYDynamics model</h1>
+    <p>In this simple SCYDynamics model students can tweak the nitrate and phosphate concentrations (denoted as constants N and P). The affinity values and the maximum growth rate are biological constants that should not be changed. The model will behave as follows. When the concentration of a resource is higher than the half-saturation constant, the growth approaches µmax, whereas if the concentration of a resource is lower than the half-saturation constant, growth approaches 0. In this simple model, growth is always exponential. Thus, nitrate and phosphate concentrations influence the growth speed.</p>
+    <p><i>The influence of N and P on biomass</i></p>
+    <img src="pictures/image021.png" width="450" height="300" alt="The influence of N and P on biomass"/>
+    <p><i>Biomass growth (N = 15 µmol/L, P = 3 µmol/L)</i></p>
+    <img src="pictures/image023.png" width="450" height="300" alt="Biomass growth (N = 15 µmol/L, P = 3 µmol/L)"/>
+    <p><i>Amount of biomass after running the simulation for ten time steps (days) for different nitrate concentrations (N) and a phosphate concentration of 3 µmol/L.</i></p>
+    <img src="pictures/image025.png" width="450" height="300" alt="Amount of biomass after running the simulation for ten time steps (days) for different nitrate concentrations (N) and a phosphate concentration of 3 µmol/L."/>
+    <p><i>Amount of biomass after running the simulation for ten time steps (days) for different phosphate concentrations (P) and a nitrate concentration of 15 µmol/L.</i></p>
+    <img src="pictures/image027.png" width="450" height="300" alt="Amount of biomass after running the simulation for ten time steps (days) for different nitrate concentrations (N) and a phosphate concentration of 3 µmol/L."/>
+</body>
+</html>
