@@ -60,7 +60,19 @@ import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 
-public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
+public class SimulatorNode
+
+    extends
+    ISynchronizable  ,
+    CustomNode
+
+
+
+
+
+
+
+    , Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     var simquestViewer: SimQuestViewer;
     def logger = Logger.getLogger(this.getClass());
@@ -79,11 +91,11 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                 resizeContent()
             };
     def rotation = bind scyWindow.rotate on replace {
-                if (dataCollector != null) {
-                    //logger.info("setting rotation to {rotation}");
-                    dataCollector.setRotation(rotation);
-                }
-            };
+        if (dataCollector != null) {
+            //logger.info("setting rotation to {rotation}");
+            dataCollector.setRotation(rotation);
+        }
+    };
     var fixedDimension = new Dimension(575, 275);
     var displayComponent: JComponent;
     var wrappedSimquestPanel: Node;
@@ -101,7 +113,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     def lostPixels = 20.0;
     var split: JSplitPane;
     var scroller: JScrollPane;
-    def simulatorContent = Group{};
+    def simulatorContent = Group {};
 
     public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -128,23 +140,23 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     function cancelDialog(): Void {
-            acceptDialog.modalDialogBox.close();
+        acceptDialog.modalDialogBox.close();
     }
 
     function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
         Composer.localizeDesign(modalDialogNode.getContentNodes());
         modalDialogNode.modalDialogBox = ModalDialogBox {
-            content: EmptyBorderNode {
-                content: Group {
-                    content: modalDialogNode.getContentNodes();
+                    content: EmptyBorderNode {
+                        content: Group {
+                            content: modalDialogNode.getContentNodes();
+                        }
+                    }
+                    targetScene: scyWindow.windowManager.scyDesktop.scene
+                    title: title
+                    windowColorScheme: windowColorScheme
+                    closeAction: function(): Void {
+                    }
                 }
-            }
-            targetScene: scyWindow.windowManager.scyDesktop.scene
-            title: title
-            windowColorScheme: windowColorScheme
-            closeAction: function (): Void {
-            }
-        }
     }
 
     public function acceptDrop_(object: Object) {
@@ -156,11 +168,11 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             var yesNoOptions = [##"Yes", ##"No"];
             var n = -1;
             n = JOptionPane.showOptionDialog(null,
-            ##"Do you want to synchronise\nwith the Dataprocessing tool?", // question
-            ##"Synchronise?", // title
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE, // icon
-            null, yesNoOptions, yesNoOptions[0]);
+                    ##"Do you want to synchronise\nwith the Dataprocessing tool?", // question
+                    ##"Synchronise?", // title
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, // icon
+                    null, yesNoOptions, yesNoOptions[0]);
             if (n == 0) {
                 initializeDatasync(object as ISynchronizable);
             }
@@ -176,7 +188,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         }
     }
 
-    public function initializeDatasync(fitex: ISynchronizable):Void {
+    public function initializeDatasync(fitex: ISynchronizable): Void {
         datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
         fitex.join(datasyncsession.getId(), datasyncEdge as Object);
@@ -219,21 +231,21 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
-      if (simquestViewer != null) {
-        return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(simquestViewer.getInterfacePanel(), simquestViewer.getRealSize(), new Dimension(width, height));
-      } else {
-        return null;
-      }
+        if (simquestViewer != null) {
+            return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(simquestViewer.getInterfacePanel(), simquestViewer.getRealSize(), new Dimension(width, height));
+        } else {
+            return null;
+        }
     }
 
     public function testThumbnail(): Void {
         var thumbnail = getThumbnail(64, 64);
         var icon = new ImageIcon(thumbnail);
         JOptionPane.showMessageDialog(null,
-            "Look at this!",
-            "thumbnail test",
-            JOptionPane.INFORMATION_MESSAGE,
-            icon);
+        "Look at this!",
+        "thumbnail test",
+        JOptionPane.INFORMATION_MESSAGE,
+        icon);
     }
 
     public override function initialize(windowContent: Boolean): Void {
@@ -242,48 +254,50 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
 
     public override function newElo() {
         newSimulationPanel = new NewSimulationPanel(this);
-//        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
-         switchSwingDisplayComponent(newSimulationPanel);
+        //        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
+        switchSwingDisplayComponent(newSimulationPanel);
     }
 
     public override function actionPerformed(evt: ActionEvent) {
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
-//            newSimulationPanel.remove(newSimulationPanel.load);
-//            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
+            //            newSimulationPanel.remove(newSimulationPanel.load);
+            //            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             switchSwingDisplayComponent(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
-            FX.deferAction(function (): Void {
+            FX.deferAction(function(): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
             });
         }
     }
 
-    override public function processNotification(note: INotification): Boolean {
+    override public function processNotification(notification: INotification): Boolean {
         var success: Boolean = false;
-        if (dataCollector != null) {
-            logger.info("process notification, forwarding to DataCollector");
-            FX.deferAction(function (): Void {
-                success = dataCollector.processNotification(note);
-            })
-        } else {
-            logger.info("notification not processed, DataCollector == null");
-            success = false;
+        if ((notification.getFirstProperty("message")!=null) or
+         (notification.getFirstProperty("level")!=null and notification.getFirstProperty("type")!=null)) {
+            if (dataCollector != null) {
+                logger.info("process notification, forwarding to DataCollector");
+                success = true;
+                FX.deferAction(function (): Void {
+                    dataCollector.processNotification(notification);
+                })
+            } else {
+                logger.info("notification not processed, DataCollector == null");
+            }
         }
         return success;
     }
 
-    public override function loadElo(uri: URI) {
-        doLoadElo(uri);
-    }
+    public override function  loadElo(    uri :   URI) {   doLoadElo    ( uri   )
+                    ;
+                }    public override  function  create ( ): Node {
 
-    public override function create(): Node {
-        switchSwingDisplayComponent(simquestPanel);
-        return Group {
-                    blocksMouse: true;
-                    // cache: bind scyWindow.cache
-                    content: [
-                        VBox {
-                            translateY: spacing;
+            switchSwingDisplayComponent(simquestPanel);
+         return Group {
+        blocksMouse:true;
+        // cache: bind scyWindow.cache
+        content  : [
+         VBox {
+                    translateY:  spacing    ;
                             spacing: spacing;
                             content: [
                                 HBox {
@@ -292,28 +306,28 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                                     content: [
                                         Button {
                                             text: ##"Save Simconfig"
-                                            action: function () {
+                                            action: function() {
                                                 doSaveSimconfig();
                                             }
                                         }
                                         Button {
                                             text: ##"SaveAs Simconfig"
-                                            action: function () {
+                                            action: function() {
                                                 doSaveAsSimconfig();
                                             }
-                                        }  
+                                        }
                                         Button {
                                             text: ##"SaveAs Dataset"
-                                            action: function () {
+                                            action: function() {
                                                 doSaveAsDataset();
                                             }
                                         }
-                                        /*Button {
-                                            text: "test thumbnail"
-                                            action: function () {
-                                                testThumbnail();
-                                            }
-                                        }*/
+                                    /*Button {
+                                    text: "test thumbnail"
+                                    action: function () {
+                                    testThumbnail();
+                                    }
+                                    }*/
                                     ]
                                 }
                                 simulatorContent
@@ -323,11 +337,11 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                 };
     }
 
-    function switchSwingDisplayComponent(newComponent : JComponent):Void{
-      displayComponent = newComponent;
-      wrappedSimquestPanel = ScySwingWrapper.wrap(displayComponent);
-      simulatorContent.content = wrappedSimquestPanel;
-      resizeContent();
+    function switchSwingDisplayComponent(newComponent: JComponent): Void {
+        displayComponent = newComponent;
+        wrappedSimquestPanel = ScySwingWrapper.wrap(displayComponent);
+        simulatorContent.content = wrappedSimquestPanel;
+        resizeContent();
     }
 
     function doLoadElo(eloUri: URI) {
@@ -392,7 +406,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             fixedDimension.height = fixedDimension.height + 260;
             scyWindow.open();
             syncAttrib = DatasyncAttribute {
-                        scyWindow:scyWindow
+                        scyWindow: scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this };
             insert syncAttrib into scyWindow.scyWindowAttributes;
@@ -435,7 +449,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         if (eloDataset == null) {
             eloDataset = eloFactory.createELO();
             eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
-            //eloDataset.getMetadata().getMetadataValueContainer()
+        //eloDataset.getMetadata().getMetadataValueContainer()
         }
         eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
         return eloDataset;
@@ -454,7 +468,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     public override function onUnMinimized(): Void {
-         logger.info("onUnMinimized");
+        logger.info("onUnMinimized");
     }
 
     public override function onOpened(): Void {
@@ -465,7 +479,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
                     time: 0.01s
                     action: function(): Void {
                         split.setDividerLocation(0.75);
-          //                      split.setVisible(true);
+                    //                      split.setVisible(true);
                     }
                 }
             ];
@@ -474,31 +488,31 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
     }
 
     function resizeContent() {
-        Container.resizeNode(wrappedSimquestPanel,width,height-wrappedSimquestPanel.boundsInParent.minY-spacing-lostPixels);
+        Container.resizeNode(wrappedSimquestPanel, width, height - wrappedSimquestPanel.boundsInParent.minY - spacing - lostPixels);
     }
 
     public override function getPrefHeight(height: Number): Number {
-       return Container.getNodePrefHeight(wrappedSimquestPanel, height)+wrappedSimquestPanel.boundsInParent.minY+spacing+lostPixels;
+        return Container.getNodePrefHeight(wrappedSimquestPanel, height) + wrappedSimquestPanel.boundsInParent.minY + spacing + lostPixels;
     }
 
     public override function getPrefWidth(width: Number): Number {
-       Container.getNodePrefWidth(wrappedSimquestPanel, width);
+        Container.getNodePrefWidth(wrappedSimquestPanel, width);
     }
 
     public override function getMinWidth(): Number {
-       400;
+        400;
     }
 
     public override function getMinHeight(): Number {
-       500;
+        500;
     }
 
     public function getNodePrefWidth(): Number {
-       400;
+        400;
     }
 
     public function getNodePrefHeight(): Number {
-       500;
+        500;
     }
 
 }
