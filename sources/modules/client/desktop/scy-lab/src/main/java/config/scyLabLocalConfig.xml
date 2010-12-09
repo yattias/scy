@@ -206,7 +206,13 @@
                   </list>
                </property>
             </bean>
-             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/formauthor"/>
+               <property name="display" value="formauthor"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="formauthor"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/mathtool"/>
                <property name="display" value="mathtool"/>
                <property name="creatable" value="true"/>
