@@ -6,5 +6,5 @@ public interface INotifiable
 	 * method called by NotificationService if a Notification arrives
 	 * @param notification	Notification received by NotificationService
 	 */
-	public void processNotification(INotification notification);
+	public boolean processNotification(INotification notification);
 }
