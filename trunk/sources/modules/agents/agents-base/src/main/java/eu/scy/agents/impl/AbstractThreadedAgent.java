@@ -384,7 +384,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 		// If the agent is in a stopping-phase. It can't be started then.
 		if (Status.Stopping == status) {
 			throw new AgentLifecycleException(name
-					+ " is in Status.Stopping. Can't be startet here..");
+					+ " is in Status.Stopping. Can't be started here..");
 		}
 		// if the agent is already started
 		if (Status.Running == status) {
