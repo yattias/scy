@@ -67,6 +67,11 @@
     <isContentStatic>false</isContentStatic>
   </eloToolConfig>
   <eloToolConfig>
+    <eloType>scy/mathtool</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>mathtool</contentCreatorId>
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/drawing</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>drawing</contentCreatorId>
