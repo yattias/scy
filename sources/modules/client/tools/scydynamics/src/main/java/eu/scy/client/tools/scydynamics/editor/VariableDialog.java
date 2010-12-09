@@ -16,6 +16,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdLink;
+import colab.um.draw.JdNode;
+import colab.um.draw.JdRelation;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
@@ -233,6 +235,23 @@ public class VariableDialog extends javax.swing.JDialog implements
             props.put("label", newName);
             props.put("expr", express);
             props.put("unit", unit);
+            // test
+            //props.put("exprType",Integer.valueOf(JdNode.EXPR_QUALITATIVE));
+            //props.put("relType",1);
+            Vector<JdLink> links = editor.getModel().getLinks();
+            
+			for (JdLink link : links) {
+				try {
+			        if (link.getFigure2().getProperties().get("label").equals(this.label)) {
+			            if (link instanceof JdRelation){
+			            	System.out.println("got you!");
+			            	((JdRelation)link).setRelationType(4);
+			            }
+			        } 
+			    } catch (Exception e) {}
+			}
+			
+            // end test
             editor.setFigureProperties(oldName, props);
 
             if (!newColor.equals(editor.getModel().getObjectOfName((String) figure.getProperties().get("label")).getLabelColor()) || !oldName.equals(newName) || !oldExpr.equals(valueField.getText()) || !oldUnit.equals(unitsBox.getSelectedItem())) {

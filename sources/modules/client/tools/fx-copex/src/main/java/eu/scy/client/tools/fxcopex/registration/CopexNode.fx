@@ -105,7 +105,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       scyCopexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       scyCopexPanel.initActionLogger();
       scyCopexPanel.initCopex();
-      toolBrokerAPI.registerForNotifications(this as INotifiable);
+      //toolBrokerAPI.registerForNotifications(this as INotifiable);
       notificationAnim.play();
    }
 
@@ -255,16 +255,19 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       doSaveElo();
    }
 
-   override public function processNotification(note: INotification): Void {
+   override public function processNotification(note: INotification): Boolean {
         if (scyCopexPanel != null) {
             logger.info("process notification, forwarding to copex");
             notificationButton.visible = true;
             notificationAnim.play();
-            FX.deferAction(function () {
-                scyCopexPanel.processNotification(note);
-            })
+            var success: Boolean = false;
+            FX.deferAction(function (): Void {
+                success = scyCopexPanel.processNotification(note);
+            });
+            return success;
         } else {
             logger.info("notification not processed, copex == null");
+            return false;
         }
     }
 

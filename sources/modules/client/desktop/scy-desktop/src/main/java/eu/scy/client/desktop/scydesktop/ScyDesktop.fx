@@ -684,10 +684,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
    }
 
-   public override function processNotification(notification: INotification): Void {
-      FX.deferAction(function() {
-
-      });
+   public override function processNotification(notification: INotification): Boolean {
+      return false;
    }
 
    function scyDesktopShutdownAction(): Void {

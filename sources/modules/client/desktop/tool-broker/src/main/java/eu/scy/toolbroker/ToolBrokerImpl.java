@@ -257,7 +257,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		registerForNotifications(new INotifiable() {
 
 			@Override
-			public void processNotification(INotification notification) {
+			public boolean processNotification(INotification notification) {
 				if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type") != null && notification.getFirstProperty("type").equals("collaboration_response")) {
 					String proposingUser = notification.getFirstProperty("proposing_user");
 					String proposedUser = notification.getFirstProperty("proposed_user");
@@ -269,6 +269,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 						logger.warn("Received collaboration response that could not be mapped to a request, from user " + proposingUser + " to user " + proposedUser + ", elouri is " + elo);
 					}
 				}
+                                return true;
 			}
 		});
 	}

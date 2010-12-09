@@ -24,12 +24,15 @@ public class CopexNotificationManager {
         this.toolId = toolId;
     }
 
-    public void processNotification(INotification notification) {
+    public boolean processNotification(INotification notification) {
         if(notification != null && notification.getToolId() != null && notification.getToolId().equals(toolId)){
             logger.log(Level.INFO, "notification from {0}", notification.getSender());
             if(!message.equals(""))
                 message +="\n";
             this.message += notification.getFirstProperty(keyMessage);
+            return true;
+        } else {
+            return false;
         }
     }
 

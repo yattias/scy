@@ -37,11 +37,12 @@ public class RemoteCommandRegistryFX extends INotifiable {
        createBasicRegistry();
    }
 
-
-    public override function processNotification(notification: INotification): Void {
-        FX.deferAction(function () {
-            remoteCommandRegistry.processNotification(notification);
+    public override function processNotification(notification: INotification): Boolean {
+        var success: Boolean;
+        FX.deferAction(function (): Void {
+            success = remoteCommandRegistry.processNotification(notification);
         });
+        return success;
     }
 
 }

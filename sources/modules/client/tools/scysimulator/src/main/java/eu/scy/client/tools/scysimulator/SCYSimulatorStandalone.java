@@ -159,9 +159,8 @@ public class SCYSimulatorStandalone implements INotifiable {
     }
 
     @Override
-    public void processNotification(INotification notification) {
-        dataCollector.processNotification(notification);
-      
+    public boolean processNotification(INotification notification) {
+        return dataCollector.processNotification(notification);
     }
 
    

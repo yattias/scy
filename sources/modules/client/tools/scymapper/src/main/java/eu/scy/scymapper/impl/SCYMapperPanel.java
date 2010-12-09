@@ -51,7 +51,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 /**
  * User: Bjoerge Date: 27.aug.2009 Time: 13:29:56
  */
-public class SCYMapperPanel extends JPanel {
+public class SCYMapperPanel extends JPanel implements INotifiable {
 
     private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 
@@ -113,25 +113,25 @@ public class SCYMapperPanel extends JPanel {
     public void setToolBroker(ToolBrokerAPI tbi, String username) {
         toolBroker = tbi;
         if (toolBroker != null) {
-            toolBroker.registerForNotifications(new INotifiable() {
-
-                @Override
-                public void processNotification(INotification notification) {
-                    if (notification.getToolId().equals("scymapper")
-                            && notification.getFirstProperty("type").equals("concept_proposal")) {
-                        String[] keywords = notification.getPropertyArray("keyword");
-                        if (keywords != null) {
-                            List<String> keywordsAsList = new ArrayList<String>();
-                            for (String keyword : keywords) {
-                                keywordsAsList.add(keyword);
-                            }
-                            suggestKeywords(keywords, null, "concept");
-                        }
-                    }
-                }
-            });
             actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(),
                     username);
+        }
+    }
+
+    @Override
+    public boolean processNotification(INotification notification) {
+        if (notification.getFirstProperty("type").equals("concept_proposal")) {
+            String[] keywords = notification.getPropertyArray("keyword");
+            if (keywords != null) {
+                List<String> keywordsAsList = new ArrayList<String>();
+                for (String keyword : keywords) {
+                    keywordsAsList.add(keyword);
+                }
+                suggestKeywords(keywords, null, "concept");
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 

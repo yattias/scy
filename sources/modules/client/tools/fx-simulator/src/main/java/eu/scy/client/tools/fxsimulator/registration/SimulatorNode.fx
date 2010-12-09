@@ -258,15 +258,18 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
         }
     }
 
-    override public function processNotification(note: INotification): Void {
+    override public function processNotification(note: INotification): Boolean {
+        var success: Boolean = false;
         if (dataCollector != null) {
             logger.info("process notification, forwarding to DataCollector");
-            FX.deferAction(function () {
-                dataCollector.processNotification(note);
+            FX.deferAction(function (): Void {
+                success = dataCollector.processNotification(note);
             })
         } else {
             logger.info("notification not processed, DataCollector == null");
+            success = false;
         }
+        return success;
     }
 
     public override function loadElo(uri: URI) {
@@ -379,7 +382,7 @@ public class SimulatorNode extends ISynchronizable, CustomNode, Resizable, ScyTo
             // adding the splitcomponent to the simquestpanel
             split.setEnabled(true);
 
-            toolBrokerAPI.registerForNotifications(this as INotifiable);
+            //toolBrokerAPI.registerForNotifications(this as INotifiable);
             fixedDimension = simquestViewer.getRealSize();
             switchSwingDisplayComponent(split);
 

@@ -113,8 +113,9 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
 
    }
 
-   public override function processNotification(notification: INotification): Void {
+   public override function processNotification(notification: INotification): Boolean {
         def notificationType: String = notification.getFirstProperty("type");
+        var success: Boolean = false;
         if (not (notificationType == null)) {
             if (notificationType == "collaboration_response") {
                 def user: String = notification.getFirstProperty("proposing_user");
@@ -123,8 +124,10 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
                 println("ChatPresenceToolNode: receivedCollaborationResponse no2 with user: {userNickname}");
                 chatPresenceTool.removeTemporaryUser(userNickname);
                 tempUsers.removeElement(userNickname);
+                success = true;
             }
         }
+        return success;
      }
 
 }
