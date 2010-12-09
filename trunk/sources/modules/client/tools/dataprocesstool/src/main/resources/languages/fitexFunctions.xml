@@ -129,7 +129,7 @@
             <name language="en">titration of a weak monoprotic acid by a strong base</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vacid+Vwater)*(1E-14/1E-y-1E-y)+Cacid*Vacid/(1+1E-y/1E-pKa))/(1E-y+Cbase-1E-14/1E-y)</expression>
+            <expression>((Vacid+Vwater)*(1E-14/1E-y-1E-y)+Cacid*Vacid/(1+(1E-y)/1E-pKa))/(1E-y+Cbase-1E-14/1E-y)</expression>
         </function>
         <function>
             <name language="fr">dosage d'un diacide par une base forte</name>
@@ -143,7 +143,7 @@
             <name language="en">titration of a triprotic acid by a strong base</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vacid+Vwater)*(1E-14/1E-y-1E-y)+Cacid*Vacid*(1E(-2*y)+2*1E-pKa2*1E-y+3*1E-pKa2*1E-pKa3)/(1E-pKa2*1E-pKa3+1E-pKa2*1E-y+1E(-2*y)+1E(-3*y)/1E-pKa1))/(1E-y+Cbase-1E-14/1E-y)</expression>
+            <expression>(((Vacid+Vwater)*((1E-14/1E-y)-(1E-y)))+(Cacid*Vacid*((1E(-2*y))+2*(1E-pKa2)*(1E-y)+3*(1E-pKa2)*(1E-pKa3)))/(((1E-pKa2)*(1E-pKa3))+((1E-pKa2)*(1E-y))+(1E(-2*y))+((1E(-3*y))/(1E-pKa1))))/(1E-y+Cbase-(1E-14/1E-y))</expression>
         </function>
         <function>
             <name language="fr">dosage d'une monobase forte par un acide fort</name>
@@ -157,21 +157,21 @@
             <name language="en">titration of a weak monoprotic base by a strong acid</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vbase+Vwater)*(-1E-14/1E-y+1E-y)+Cbase*Vbase/(1+1E-pKa/1E-y))/(Cacid+1E-14/1E-y-1E-y)</expression>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/1E-y))+(Cbase*Vbase/(1+((1E-pKa)/(1E-y)))))/(Cacid+((1E-14)/(1E-y))-(1E-y))</expression>
         </function>
         <function>
             <name language="fr">dosage d'une dibase par un acide fort</name>
             <name language="en">titration of a diprotic base by a strong acid</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vbase+Vwater)*(-1E-14/1E-y+1E-y)+Cbase*Vbase*(1E-pKa1+2*1E-y)/(1E-pKa1*1E-pKa2/1E-y+1E-y+1E-pKa1))/(Cacid+1E-14/1E-y-1E-y)</expression>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/1E-y))+(Cbase*Vbase*((1E-pKa1)+2*(1E-y))/((1E-pKa1)*(1E-pKa2)/(1E-y)+(1E-y)+(1E-pKa1))))/(Cacid+(1E-14/1E-y)-1E-y)</expression>
         </function>
         <function>
             <name language="fr">dosage d'une tribase par un acide fort</name>
             <name language="en">titration of a triprotic base by a strong acid</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vbase+Vwater)*(-1E-14/1E-y+1E-y)+Cbase*Vbase*(1E-pKa1*1E-pKa2+2*1E-pKa1*1E-y+3*1E(-2*y))/(1E-pKa1*1E-pKa2*1E-pKa3/1E-y+1E-pKa1*1E-pKa2+1E-pKa1*1E-y+1E(-2*y)))/(Cacid+1E-14/1E-y-1E-y)</expression>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/1E-y))+(Cbase*Vbase*(((1E-pKa1)*(1E-pKa2))+(2*(1E-pKa1)*(1E-y))+(3*(1E(-2*y)))))/(((1E-pKa1)*(1E-pKa2)*((1E-pKa3)/(1E-y)))+((1E-pKa1)*(1E-pKa2))+((1E-pKa1)*(1E-y))+(1E(-2*y))))/(Cacid+(1E-14/1E-y)-(1E-y))</expression>
         </function>
     </function_class>
     <function_class>

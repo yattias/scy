@@ -1741,4 +1741,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public void openImportDialog(){
         dataProcessToolPanel.openDialogImport();
     }
+
+    public DataTableModel getDataTableModel(){
+        return this.datasetTable.getTableModel();
+    }
 }
