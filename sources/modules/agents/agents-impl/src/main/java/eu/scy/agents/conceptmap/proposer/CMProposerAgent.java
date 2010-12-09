@@ -358,7 +358,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         // TODO ask OntologyKeyword agent
         HashSet<String> stopwords = new HashSet<String>();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/german_stopWords.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/german_stopwords.txt")));
             String buffer = null;
             while ((buffer = br.readLine()) != null) {
                 try {

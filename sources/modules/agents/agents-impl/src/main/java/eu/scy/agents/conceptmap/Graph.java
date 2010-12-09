@@ -144,10 +144,18 @@ public class Graph {
     public void fillFromFields(Field[] edgeFields, Field[] nodeFields) {
         for (Field f : nodeFields) {
             String[] s = f.getValue().toString().split(EscapeUtils.SEPARATOR);
+            if (s.length == 1) {
+                // workaround for strange split
+                s = new String[] { s[0], "" };
+            }
             addNode(s[1], s[0]);
         }
         for (Field f : edgeFields) {
             String[] s = f.getValue().toString().split(EscapeUtils.SEPARATOR);
+            if (s.length == 1) {
+                // workaround for strange split
+                s = new String[] { s[0], "" };
+            }
             addEdge(s[2], s[3], s[1], s[0]);
         }
     }
@@ -206,59 +214,6 @@ public class Graph {
             }
             return;
         }
-    }
-
-    public static void main(String[] args) {
-        Graph g = new Graph();
-        g.addNode("stefan", "1");
-        g.addNode("barbara", "2");
-        g.addNode("andrea", "3");
-        g.addNode("thomas", "4");
-        g.addNode("ursula", "5");
-        g.addNode("norbert", "6");
-        g.addNode("gerd", "7");
-        g.addNode("marcus", "8");
-        g.addNode("franz", "9");
-        g.addNode("wolfgang", "A");
-        g.addNode("felix", "B");
-        g.addNode("joris", "C");
-
-        g.addEdge("1", "5", "eltern", "1");
-        g.addEdge("2", "5", "eltern", "2");
-        g.addEdge("3", "5", "eltern", "3");
-        g.addEdge("4", "5", "eltern", "4");
-        g.addEdge("1", "6", "eltern", "5");
-        g.addEdge("2", "6", "eltern", "6");
-        g.addEdge("3", "6", "eltern", "7");
-        g.addEdge("4", "6", "eltern", "8");
-        g.addEdge("5", "9", "eltern", "9");
-        g.addEdge("5", "6", "heirat", "A");
-        g.addEdge("2", "7", "heirat", "B");
-        g.addEdge("3", "8", "heirat", "C");
-        g.addEdge("A", "9", "eltern", "D");
-        g.addEdge("B", "A", "eltern", "E");
-        g.addEdge("C", "2", "eltern", "F");
-        g.addEdge("C", "7", "eltern", "G");
-
-        // Node n1 = g.getNode("1");
-        // Node n2 = g.getNode("C");
-        // int d = n1.getDistance(n2);
-
-        Map<Double, Set<Node>> degreeMap = g.getNodeDegree();
-        for (double i : degreeMap.keySet()) {
-            System.out.println(i + ": " + degreeMap.get(i));
-        }
-
-        // Map<Double, Set<Node>> eccentricityMap = g.getNodeEccentricity();
-        // for (double i : eccentricityMap.keySet()) {
-        // System.out.println(i + ": " + eccentricityMap.get(i));
-        // }
-
-        // Map<Double, Set<Node>> closenessMap = g.getNodeCloseness();
-        // for (double i : closenessMap.keySet()) {
-        // System.out.println(i + ": " + closenessMap.get(i));
-        // }
-
     }
 
     public TreeMap<Double, Set<Node>> getNodeEccentricity() {
