@@ -149,7 +149,7 @@ public class ScyDesktopCreator {
          var basicConfig = springConfigFactory.getConfig() as BasicConfig;
          if (toolBrokerAPI != null) {
             basicConfig.setToolBrokerAPI(toolBrokerAPI);
-            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
+            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());   
          }
          config = basicConfig;
       }
@@ -341,6 +341,12 @@ public class ScyDesktopCreator {
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop);
       logger.debug("****************registering RemoteControlRegistry for notifications***************************");
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop.remoteCommandRegistryFX);
+      logger.debug("****************registering ScyDesktopNotificationRouter for notifications***************************");
+      def scyDesktopNotificationRouter: ScyDesktopNotificationRouter = ScyDesktopNotificationRouter {
+          scyDesktop: scyDesktop;
+      }
+      
+      scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktopNotificationRouter);
 
       return scyDesktop;
    }

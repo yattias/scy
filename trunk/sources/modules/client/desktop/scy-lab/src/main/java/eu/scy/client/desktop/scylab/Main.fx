@@ -56,12 +56,12 @@ import eu.scy.client.tools.fxflyingsaucer.UrlSource;
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
-           loginType:"remote"
+           loginType:"local"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:false
 //           enableLocalLogging:false
-//           authorMode:true
+           authorMode:true
 //           redirectSystemStream:true
 //           enableLocalLogging:true
         }

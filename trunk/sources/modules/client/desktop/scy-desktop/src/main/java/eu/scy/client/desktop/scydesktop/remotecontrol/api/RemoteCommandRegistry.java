@@ -49,15 +49,19 @@ public class RemoteCommandRegistry {
         }
     }
 
-    public void processNotification(INotification notification) {
+    public boolean processNotification(INotification notification) {
         String[] notificationTypes = notification.getPropertyArray("type");
+        boolean success = false;
         for (String notificationType : notificationTypes) {
             if (actionsToClasses.containsKey(notificationType)) {
                 actionsToClasses.get(notificationType).executeRemoteCommand(notification);
                 logger.debug("performed remote action for " + actionsToClasses.get(notificationType));
+                success = true;
             } else {
                 logger.debug("no remote action is registered for type " + notificationType);
+                success = false;
             }
         }
+        return success;
     }
 }

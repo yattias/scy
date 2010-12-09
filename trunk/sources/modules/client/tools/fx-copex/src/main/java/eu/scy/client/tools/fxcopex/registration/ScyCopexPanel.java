@@ -145,8 +145,8 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         return copex.getInterfacePanel().getSize();
     }
 
-    public void processNotification(INotification notification) {
-        this.copexNotificationManager.processNotification(notification);
+    public boolean processNotification(INotification notification) {
+        return this.copexNotificationManager.processNotification(notification);
     }
 
     public String getNotification(){

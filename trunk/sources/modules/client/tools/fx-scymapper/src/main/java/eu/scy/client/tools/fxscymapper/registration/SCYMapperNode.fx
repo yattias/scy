@@ -29,8 +29,10 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 
-public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
+public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
 
     var Dimension;
@@ -219,6 +221,10 @@ public class SCYMapperNode extends CustomNode, Resizable, ScyToolFX, EloSaverCal
             scyMapperPanel.joinSession(mucid);
             logger.debug("joined session, mucid: {mucid}");
         });
+    }
+
+    override public function processNotification (notification: INotification) : Boolean {
+        return scyMapperPanel.processNotification(notification);
     }
 
 }

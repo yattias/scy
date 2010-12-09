@@ -50,6 +50,7 @@ import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import javax.swing.JTable;
@@ -60,7 +61,7 @@ import javax.swing.JTable;
  * @author Lars Bollen
  * 
  */
-public class DataCollector extends JPanel implements ActionListener, IDataClient {
+public class DataCollector extends JPanel implements INotifiable, ActionListener, IDataClient {
 
     private ModelVariable rotationVariable = null;
 
@@ -450,7 +451,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         label.setFont(new Font("Serif", style, size));
     }
 
-    public void processNotification(INotification notification) {
+    public boolean processNotification(INotification notification) {
+        boolean success = false;
         String message = notification.getFirstProperty("message");
         String type = notification.getFirstProperty("type");
         String popup = notification.getFirstProperty("popup");
@@ -543,13 +545,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     startNotifyThread();
                 }
             }
+            success = true;
         } else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
             if (type.equals("scaffold")) {
                 if (notification.getFirstProperty("level").equals(SCAFFOLD.SHOWBUTTON.name())) {
                     notificationMessage = SCAFFOLD.SHOWBUTTON.name();
                     notifyButton.setVisible(true);
                 } else {
-
                     notificationMessage = notification.getFirstProperty("level");
                     if (SwingUtilities.isEventDispatchThread()) {
                         new Thread(new Runnable() {
@@ -563,10 +565,11 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
                     } else {
                         startNotifyThread();
                     }
-
                 }
+                success = true;
             }
         }
+        return success;
     }
 
     private void startNotifyThread() {
