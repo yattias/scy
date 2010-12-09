@@ -179,4 +179,11 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
     private Color getBgSelColor(){
         return UIManager.getColor("TabbedPane.highlight");
     }
+
+    public DataTableModel getDataTableModel(Dataset ds){
+        int id = getIdDataset(ds);
+        if(id==-1)
+            return null;
+        return listPanelFitex.get(id).getDataTableModel();
+    }
 }

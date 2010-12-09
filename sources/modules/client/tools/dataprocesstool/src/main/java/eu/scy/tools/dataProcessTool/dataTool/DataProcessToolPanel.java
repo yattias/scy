@@ -1076,4 +1076,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         logImportGMBLFile(file.getPath(), activFitex.getDataset());
         return elo;
     }
+
+    public DataTableModel getDataTableModel(Dataset ds){
+       return fitexTabbedPane.getDataTableModel(ds);
+    }
 }

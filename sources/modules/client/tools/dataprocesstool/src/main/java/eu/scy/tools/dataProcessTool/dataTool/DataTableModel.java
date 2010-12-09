@@ -258,7 +258,7 @@ public class DataTableModel extends AbstractTableModel {
     }
     
     /* retourne la liste des valeurs prises en compte pour le calcul dans la colonne donnee */
-    private ArrayList<String> getStringListValueCol(int idCol){
+    public ArrayList<String> getStringListValueCol(int idCol){
         ArrayList<String> listValue = new ArrayList();
         if(dataset.getDataHeader(idCol).isDouble()){
             for (int i=0; i<nbRowDs; i++){
@@ -272,7 +272,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
     /* retourne la liste des valeurs prises en compte pour le calcul dans la ligne donnee */
-    private ArrayList<String> getStringListValueRow(int idRow){
+    public ArrayList<String> getStringListValueRow(int idRow){
         ArrayList<String> listValue = new ArrayList();
         for (int j=0; j<nbColDs ; j++){
             if(dataset.getDataHeader(j).isDouble()){
@@ -356,7 +356,7 @@ public class DataTableModel extends AbstractTableModel {
     }
     
     
-    private String getOperationValue(DataOperation operation, int id,  ArrayList<String> numberList, String result){
+    public String getOperationValue(DataOperation operation, int id,  ArrayList<String> numberList, String result){
         if(operation.getTypeOperation().getCodeName().equals("SUM")){
             return FitexNumber.getSumValue(numberList, result, owner.getLocale());
         }else if (operation.getTypeOperation().getCodeName().equals("AVG")){

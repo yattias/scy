@@ -167,12 +167,12 @@ public class Analyseur
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_RIGHT_FACT_ZERO"));
              resultat = new Multiplication(resultat, termeDePow);
         }
-         while (resultat instanceof Constante && lexical.ttype == StreamTokenizer.TT_NUMBER) {
-             Expression terme = analyserTerme();
-             if (terme == null)
-		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_RIGHT_FACT_ZERO"));
-             resultat = new Addition(resultat, terme);
-        }
+//         while (resultat instanceof Constante && lexical.ttype == StreamTokenizer.TT_NUMBER) {
+//             Expression terme = analyserTerme();
+//             if (terme == null)
+//		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_RIGHT_FACT_ZERO"));
+//             resultat = new Addition(resultat, terme);
+//        }
         return resultat;
     }
     
@@ -228,7 +228,7 @@ public class Analyseur
             lexical.nextToken();
             exp = analyserTerme();
             resultat = new Soustraction(new Constante(0), exp);
-        } 
+        }
         else if (lexical.ttype == StreamTokenizer.TT_WORD)  
         {
 	    int expType = -1;

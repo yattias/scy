@@ -100,6 +100,7 @@ public class Function
                 }
             }
         }
+        //System.out.println("apres compute : "+s);
         return s;
     }
 

@@ -1222,7 +1222,6 @@ public class DataControllerDB implements ControllerInterface{
             tabDel[1] = listOpToDel;
             tabDel[2] = listVisToUpdate;
             tabDel[3] = listVisToDel;
-            tabDel[4] = listPlotsToRemove ;
             cr = OperationFromDB.deleteOperationFromDB(dbC, listOpToDel);
             if(cr.isError())
                 return cr;
@@ -2512,7 +2511,7 @@ public class DataControllerDB implements ControllerInterface{
     private CopexReturn exportHTML(Dataset ds ){
         ArrayList v = new ArrayList();
         ArrayList<Object> listGraph = dataToolPanel.getListGraph();
-        CopexReturn cr = fitexHtml.exportDatasetHTML(dataURL, ds, listGraph, dbKeyLabDoc, v);
+        CopexReturn cr = fitexHtml.exportDatasetHTML(dataURL, ds, dataToolPanel.getDataTableModel(ds), listGraph, dbKeyLabDoc, v);
         if(cr.isError())
             return cr;
         String s = (String)v.get(0);

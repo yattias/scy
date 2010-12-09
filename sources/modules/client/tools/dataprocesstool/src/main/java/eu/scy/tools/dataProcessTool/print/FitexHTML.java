@@ -17,6 +17,8 @@ import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.fitex.GUI.DrawPanel;
+import eu.scy.tools.dataProcessTool.controller.FitexNumber;
+import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -61,7 +63,7 @@ public class FitexHTML {
         fitexHtml += s+"\n";
     }
 
-    public  CopexReturn exportDatasetHTML(URL fitexURL, Dataset dataset,  ArrayList<Object> listGraph, long dbKeyLabDoc,  ArrayList v){
+    public  CopexReturn exportDatasetHTML(URL fitexURL, Dataset dataset,  DataTableModel dataTableModel, ArrayList<Object> listGraph, long dbKeyLabDoc,  ArrayList v){
         fitexHtml = "";
         this.fitexURL = fitexURL;
         this.listGraph = listGraph;
@@ -116,7 +118,7 @@ public class FitexHTML {
                     if(!tabHeader[t].isDouble()){
                         c = "headerText";
                     }
-                    addString("<span class='"+c+"'>"+h[0]+((h[1] == null || h[1].equals("")) ? "": " ("+h[1]+")")+"</span>");
+                    addString("<span class='"+c+"'>"+h[0]+((h[1] == null || h[1].equals("") || h[1].equals("null")) ? "": " ("+h[1]+")")+"</span>");
                     addString("</td>");
                 }
                 // => operations sur les lignes (donc en colonne)
@@ -138,7 +140,8 @@ public class FitexHTML {
                 for (int j=0; j<nbColDs; j++){
                     String s = "";
                     if(datas[i][j] != null && datas[i][j].isDoubleValue()){
-                        s = fitex.getNumberFormat().format(datas[i][j].getDoubleValue());
+                        s = FitexNumber.getFormat(datas[i][j].getValue(), dataset.isScientificNotation(j), dataset.getNbShownDecimals(j), dataset.getNbSignificantDigits(j), fitex.getLocale());
+                        //s = fitex.getNumberFormat().format(datas[i][j].getDoubleValue());
                         if(Double.isNaN(datas[i][j].getDoubleValue()))
                             s = "";
                     }else if (datas[i][j] != null){
@@ -155,7 +158,8 @@ public class FitexHTML {
                     int id = listNo.indexOf(i);
                     String o = "";
                     if (id != -1 && !isIgnoredRow(i)){
-                        o= fitex.getNumberFormat().format(dataset.getListOperationResult(listOperationsOnRows.get(j)).get(id));
+                        //o= fitex.getNumberFormat().format(dataset.getListOperationResult(listOperationsOnRows.get(j)).get(id));
+                        o= dataTableModel.getOperationValue(listOperationsOnRows.get(j), i, dataTableModel.getStringListValueCol(i), ""+dataset.getListOperationResult(listOperationsOnRows.get(j)).get(id));
                     }else{
                         o = "-";
                     }
@@ -177,7 +181,8 @@ public class FitexHTML {
                     int id = listNo.indexOf(j);
                     String o = "";
                     if (id != -1 && !isIgnoredRow(j)){
-                        o= fitex.getNumberFormat().format(dataset.getListOperationResult(listOperationsOnCols.get(i)).get(id));
+                        //o= fitex.getNumberFormat().format(dataset.getListOperationResult(listOperationsOnCols.get(i)).get(id));
+                        o= dataTableModel.getOperationValue(listOperationsOnCols.get(i), i, dataTableModel.getStringListValueRow(i), ""+dataset.getListOperationResult(listOperationsOnCols.get(i)).get(id));
                     }else{
                         o = "-";
                     }
