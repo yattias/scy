@@ -215,19 +215,20 @@ public class KeywordSuggestionPanel extends JPanel {
         for (int i = 0; i < keywords.length; i++) {
             ProposalEntry pe;
             if (categories == null || categories[i].equals("concept_proposal")) {
-                pe = createProposalEntry(iconAddNode, keywords[i], Localization.getString("Mainframe.KeywordSuggestion.SynonymLink"), Localization.getString("Mainframe.KeywordSuggestion.SynonymLink2"));
+                pe = createProposalEntry(iconAddNode, keywords[i], Localization.getString("Mainframe.KeywordSuggestion.SynonymLink"), Localization.getString("Mainframe.KeywordSuggestion.SynonymLink2"), true);
             } else if (categories[i].equals("relation_proposal")) {
-                pe = createProposalEntry(iconAddEdge, keywords[i], null, null);
+            	String[] relation = keywords[i].split(",", 2);
+                pe = createProposalEntry(iconAddEdge, relation[0] + ",", relation[1], null, false);
             } else {
-                pe = createProposalEntry(iconSpecifyEdge, keywords[i], null, null);
+                pe = createProposalEntry(iconSpecifyEdge, keywords[i], null, null, false);
             }
             pes.add(pe);
         }
         proposalList.addEntries(pes, SCYMapperStandaloneConfig.getInstance().getHelpMode() == Help.CONTINUOUS);
     }
 
-    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String link, String secondLink) {
-        return new ProposalEntry(icon, new JLabel(keyword));
+    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String text, String secondText, boolean isLink) {
+    	return new ProposalEntry(icon, new JLabel(keyword));
     }
 
     private Component createConceptButton(final INodeFactory factory, final String keyword, final ConceptMapPanel panel) {

@@ -15,18 +15,18 @@ public class ProposalEntry extends JPanel {
 	
 	private JLabel iconLabel = null;
 	
-	private JLabel textLabel = null;
+	private JLabel firstTextLabel = null;
 	
-	private JLabel linkLabel = null;
+	private JLabel secondTextLabel = null;
 
 	public ProposalEntry(ImageIcon icon, JLabel textLabel) {
 		this(icon, textLabel, new JLabel());
 	}
 
-	public ProposalEntry(ImageIcon icon, JLabel textLabel, JLabel linkLabel) {
+	public ProposalEntry(ImageIcon icon, JLabel firstLabel, JLabel secondLabel) {
 		this.setLayout(new BorderLayout());
-		this.linkLabel = linkLabel;
-		this.textLabel = textLabel;
+		this.secondTextLabel = secondLabel;
+		this.firstTextLabel = firstLabel;
 		compound = new JPanel(new GridLayout(2, 1));
 
 		if (icon != null) {
@@ -34,20 +34,19 @@ public class ProposalEntry extends JPanel {
 		} else {
 			iconLabel = new JLabel("+");
 		}
-		textLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+		firstLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		
-		linkLabel.setVerticalAlignment(SwingConstants.TOP);
-		linkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		secondLabel.setVerticalAlignment(SwingConstants.TOP);
 
-		compound.add(textLabel);
-		compound.add(linkLabel);
+		compound.add(firstLabel);
+		compound.add(secondLabel);
 
 		add(iconLabel, BorderLayout.WEST);
 		add(compound, BorderLayout.CENTER);
 		setBackground(Color.WHITE);
 		compound.setBackground(Color.WHITE);
-		textLabel.setBackground(Color.WHITE);
-		linkLabel.setBackground(Color.WHITE);
+		firstLabel.setBackground(Color.WHITE);
+		secondLabel.setBackground(Color.WHITE);
 	}
 
 	public JLabel getIconLabel() {
@@ -55,14 +54,14 @@ public class ProposalEntry extends JPanel {
 	}
 	
 	public JLabel getTextLabel() {
-		return textLabel;
+		return firstTextLabel;
 	}
 	
 	public JLabel getLinkLabel() {
-		return linkLabel;
+		return secondTextLabel;
 	}
 	
 	public boolean hasLinkLabel() {
-		return (linkLabel == null) ? false : true;
+		return (secondTextLabel == null) ? false : true;
 	}
 }
