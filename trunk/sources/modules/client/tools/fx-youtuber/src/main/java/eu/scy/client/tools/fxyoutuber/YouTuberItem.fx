@@ -10,9 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import eu.scy.client.tools.fxflyingsaucer.BareBonesBrowserLaunch;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import eu.scy.client.tools.fxflyingsaucer.BareBonesBrowserLaunch;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author frogbox-desktop
@@ -26,7 +29,7 @@ public class YouTuberItem extends CustomNode {
     var title:String;
     var text:String;
     var ytID:String;
-    
+
     var nodes:Node[];
 
     override var children = bind nodes;
@@ -48,35 +51,56 @@ public class YouTuberItem extends CustomNode {
 
     var titleText:Text = Text {
         content: bind title;
+        font: ytNode.titleFont;
+        wrappingWidth: bind ytNode.scyWindow.width - 250;
+        /*
+        layoutInfo: LayoutInfo {
+            maxWidth: bind ytNode.scyWindow.width - 200;
+        }
+        */
     }
 
     var textText:Text = Text {
         content: bind text;
-         wrappingWidth: ytNode.scyWindow.width - 50;
+        wrappingWidth: bind ytNode.scyWindow.width - 40;
+        font: ytNode.textFont;
     }
 
     var launchButton:Button = Button {
-        text: "watch on YouTube.com";
+        tooltip: Tooltip {text: "watch on YouTube.com"}
+        graphic: ImageView{ image: Image { url: "{__DIR__}resources/watchonYT.png"  } fitHeight: 16; preserveRatio: true;}
         action:function():Void {
             def url = "http://www.youtube.com/watch?v={ytID}";
-            println(url);
             BareBonesBrowserLaunch.openURL(url);
         }
     }
 
+    var editButton:Button = Button {
+        tooltip: Tooltip {text: "watch on YouTube.com"}
+        graphic: ImageView{ image: Image { url: "{__DIR__}resources/cog_edit.png"  } fitHeight: 16; preserveRatio: true;}
+        action:function():Void {
+            ytNode.showPopup(YouTubeDataEditor {
+                ytNode: this.ytNode;
+                dataSetID: this.dataSetID;
+            });
+        }
+
+    }
+
+
     var backgroundRectangle:Rectangle = Rectangle {
         height: bind content.layoutBounds.height+20;
-        width: bind content.layoutBounds.width+20;
+        width: bind ytNode.scyWindow.width - 19;
         fill: Color.WHITE;
-        arcWidth: 8;
-        arcHeight: 8;
+        //arcWidth: 8;
+        //arcHeight: 8;
         stroke: Color.BLACK;
     }
 
 
     var topLine:HBox = HBox {
-        spacing: 5.0;
-        content: [titleText, launchButton]
+        content: [titleText, launchButton, editButton]
+        spacing: 10.0;
     }
 
     var bottomLine:HBox = HBox {
@@ -85,6 +109,8 @@ public class YouTuberItem extends CustomNode {
 
     var content:VBox = VBox {
         content: [ topLine, bottomLine]
+        translateX: 10;
+        translateY: 10;
     }
 
 
@@ -92,11 +118,7 @@ public class YouTuberItem extends CustomNode {
         ytID = dataSet.getYtid();
         title = dataSet.getTitle();
         text = dataSet.getText();
-        
+
     }
-
-
-
-
 
 }
