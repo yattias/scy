@@ -256,19 +256,19 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    }
 
    override public function processNotification(note: INotification): Boolean {
-        if (scyCopexPanel != null) {
+        var success: Boolean = false;
+        if (scyCopexPanel != null and note.getFirstProperty(CopexNotificationManager.keyMessage) != null) {
+            success = true;
             logger.info("process notification, forwarding to copex");
             notificationButton.visible = true;
             notificationAnim.play();
-            var success: Boolean = false;
             FX.deferAction(function (): Void {
-                success = scyCopexPanel.processNotification(note);
+                scyCopexPanel.processNotification(note);
             });
-            return success;
         } else {
-            logger.info("notification not processed, copex == null");
-            return false;
+            logger.info("notification not processed, copex == null or notification-message == null");
         }
+        return success;
     }
 
     function doNotify(){
