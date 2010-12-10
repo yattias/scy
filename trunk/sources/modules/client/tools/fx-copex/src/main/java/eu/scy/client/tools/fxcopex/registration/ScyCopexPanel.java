@@ -48,7 +48,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     public ScyCopexPanel(String toolName) {
         super();
         this.toolName = toolName;
-        this.copexNotificationManager = new CopexNotificationManager(toolName);
+        this.copexNotificationManager = new CopexNotificationManager();
         logger = Logger.getLogger(ScyCopexPanel.class.getName());
         this.setLayout(new BorderLayout());
         

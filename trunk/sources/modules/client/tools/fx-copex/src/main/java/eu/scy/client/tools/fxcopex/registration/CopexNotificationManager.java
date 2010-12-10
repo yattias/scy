@@ -16,21 +16,17 @@ import java.util.logging.Logger;
 public class CopexNotificationManager {
 
     private String message = "";
-    private String toolId;
     private static final Logger logger = Logger.getLogger(CopexNotificationManager.class.getName());
     public final static String keyMessage = "message";
     
-    public CopexNotificationManager(String toolId) {
-        this.toolId = toolId;
+    public CopexNotificationManager() {
     }
 
     public boolean processNotification(INotification notification) {
         //if(notification != null && notification.getToolId() != null && notification.getToolId().equals(toolId)){
         if(notification != null) {
-            logger.log(Level.INFO, "notification from {0}", notification.getSender());
-            if(!message.equals(""))
-                message +="\n";
-            this.message += notification.getFirstProperty(keyMessage);
+            //logger.log(Level.INFO, "notification from {0}", notification.getSender());
+            this.message = notification.getFirstProperty(keyMessage);
             return true;
         } else {
             return false;
