@@ -17,6 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.geometry.HPos;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author pg
@@ -65,7 +68,8 @@ public class YouTubeDataEditor extends CustomNode {
                 }
 
     var cancelButton:Button = Button {
-        text: "cancel"
+        tooltip: Tooltip {text: "cancel"}
+        graphic: ImageView{ image: Image { url: "{__DIR__}resources/cancel.png" } }
         action: function():Void {
             ytNode.closePopup(this);
         }
@@ -73,7 +77,8 @@ public class YouTubeDataEditor extends CustomNode {
     }
 
     var okButton:Button = Button {
-        text: "ok"
+        tooltip: Tooltip {text: "ok"}
+        graphic: ImageView{ image: Image { url: "{__DIR__}resources/tick.png" } }
         action:function():Void {
             this.dataSet = prepareDataSet(ytID, title, text);
             ytNode.updateDataSet(dataSetID, dataSet);
@@ -84,10 +89,10 @@ public class YouTubeDataEditor extends CustomNode {
 
     var content = Grid {
         rows: [
-            GridRow { cells: [Text { content: "YouTube URL:" }, youTubeField]},
-            GridRow { cells: [Text { content: "Title:" }, titleField]},
-            GridRow { cells: [Text { content: "Description:" }, textField]},
-            GridRow { cells: [null, HBox { content: [cancelButton, okButton] hpos: HPos.RIGHT }] }
+            GridRow { cells: [Text { content: "YouTube URL:" font: ytNode.titleFont; }, youTubeField]},
+            GridRow { cells: [Text { content: "Title:" font: ytNode.titleFont;  }, titleField]},
+            GridRow { cells: [Text { content: "Description:" font: ytNode.titleFont;  }, textField]},
+            GridRow { cells: [Text{}, HBox { content: [cancelButton, okButton] hpos: HPos.RIGHT }] }
         ]
         translateX: 10;
         translateY: 10;
@@ -103,7 +108,8 @@ public class YouTubeDataEditor extends CustomNode {
     }
 
     postinit {
-        if(not (dataSet == null)) {
+        if(dataSetID > -1) {
+            dataSet = ytNode.getDataSet(dataSetID);
             this.ytID = dataSet.getYtid();
             this.title = dataSet.getTitle();
             this.text = dataSet.getText();

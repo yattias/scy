@@ -21,6 +21,10 @@ import javafx.scene.control.ScrollBarPolicy;
 import javafx.scene.control.ScrollView;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
 
 /**
  * @author pg
@@ -41,8 +45,21 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     var dataSets:ArrayList;
     
     var contentList:VBox = VBox{
-        spacing: 2.0;
+        spacing: 5.0;
+
     };
+
+    public-read var titleFont:Font = Font {
+        size: 15.0;
+        
+    }
+
+
+    public-read var textFont:Font = Font {
+        size: 12.0;
+
+    }
+
 
     var sv:ScrollView = ScrollView {
         node: contentList;
@@ -61,7 +78,8 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     
 
     def addURLButton:Button = Button {
-        text: "add YT URL"
+        tooltip: Tooltip {text: "add YouTube Video"}
+        graphic: ImageView{ image: Image { url: "{__DIR__}resources/television_add.png" } }
         action: function():Void {
             showPopup(YouTubeDataEditor{ ytNode: this });
             showPopup(Text { content: "foobar "});
@@ -91,17 +109,23 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
                     set.setTitle("Frittenbude - Bilder mit Katze");
                     set.setText("just great music.");
                     updateDataSet(-1,set);
+                    set = new YouTuberDataSet();
+                    set.setYtid("lOXA1iM2Bsk");
+                    set.setTitle("A Day To Remember - All Signs Point to Lauderdale");
+                    updateDataSet(-1, set);
                 }
 
             }
 
             ]
+            spacing: 5.0;
     }
 
     var content:VBox = VBox {
         content: [
             menuBar,
             sv]
+        spacing: 5.0;
     }
 
 
@@ -124,6 +148,11 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         //call refresh on GUI
         refreshGUIList();
     }
+
+    public function getDataSet(id:Integer):YouTuberDataSet {
+        return (dataSets.get(id) as YouTuberDataSet);
+    }
+
 
 
     function refreshGUIList():Void {
@@ -152,6 +181,8 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         insert item into foreground;
         println("inserting {item}");
     }
+
+
 
 
 
